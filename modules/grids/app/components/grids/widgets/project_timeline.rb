@@ -44,6 +44,8 @@ module Grids
       end
 
       def phases_data
+        return [].to_json unless view_project_phases_allowed?
+
         project.phases.active
                .eager_load(definition: :color)
                .order("project_phase_definitions.position")
@@ -62,14 +64,12 @@ module Grids
       end
 
       def render?
-        User.current.allowed_in_project?(:view_project_phases, project) || view_work_packages_allowed?
-      end
-
-      def view_work_packages_allowed?
-        @view_work_packages_allowed ||= User.current.allowed_in_project?(:view_work_packages, project)
+        view_project_phases_allowed? || view_work_packages_allowed?
       end
 
       def gantt_link
+        return unless view_work_packages_allowed?
+
         result = ::Gantt::DefaultQueryGeneratorService.new(with_project: project).call(query_key: :milestones)
         return unless result
 
@@ -84,8 +84,16 @@ module Grids
 
       private
 
+      def view_work_packages_allowed?
+        @view_work_packages_allowed ||= User.current.allowed_in_project?(:view_work_packages, project)
+      end
+
+      def view_project_phases_allowed?
+        @view_project_phases_allowed ||= User.current.allowed_in_project?(:view_project_phases, project)
+      end
+
       def any_phases?
-        project.phases.active.with_timeline_content.exists?
+        view_project_phases_allowed? && project.phases.active.with_timeline_content.exists?
       end
 
       def milestones_scope

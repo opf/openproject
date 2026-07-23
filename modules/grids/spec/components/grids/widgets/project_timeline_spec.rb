@@ -62,14 +62,26 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
       it { expect(component.any_content?).to be(false) }
     end
 
-    context "with an active phase" do
-      before { create(:project_phase, project:) }
+    context "with an active phase and view_project_phases permission" do
+      before do
+        create(:member, user:, project:, roles: [phases_role])
+        create(:project_phase, project:)
+      end
 
       it { expect(component.any_content?).to be(true) }
     end
 
+    context "with an active phase but without view_project_phases permission" do
+      before { create(:project_phase, project:) }
+
+      it { expect(component.any_content?).to be(false) }
+    end
+
     context "with only an inactive phase" do
-      before { create(:project_phase, :inactive, project:) }
+      before do
+        create(:member, user:, project:, roles: [phases_role])
+        create(:project_phase, :inactive, project:)
+      end
 
       it { expect(component.any_content?).to be(false) }
     end
@@ -92,33 +104,41 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
 
     subject(:data) { JSON.parse(component.phases_data) }
 
-    it "includes all required fields" do
-      expect(data.first).to include(
-        "id" => phase.id,
-        "definitionId" => definition.id,
-        "name" => definition.name,
-        "startDate" => phase.start_date.iso8601,
-        "endDate" => phase.finish_date.iso8601,
-        "startGate" => true,
-        "startGateName" => definition.start_gate_name,
-        "finishGate" => true,
-        "finishGateName" => definition.finish_gate_name
-      )
+    context "without view_project_phases permission" do
+      it { expect(data).to eq([]) }
     end
 
-    context "when the phase has only a start_date but no finish_date" do
-      let!(:phase) { create(:project_phase, project:, definition:, finish_date: nil) }
+    context "with view_project_phases permission" do
+      before { create(:member, user:, project:, roles: [phases_role]) }
 
-      it "does not include start or finish gates" do
-        expect(data.first).to include("startGate" => false, "finishGate" => false)
+      it "includes all required fields" do
+        expect(data.first).to include(
+          "id" => phase.id,
+          "definitionId" => definition.id,
+          "name" => definition.name,
+          "startDate" => phase.start_date.iso8601,
+          "endDate" => phase.finish_date.iso8601,
+          "startGate" => true,
+          "startGateName" => definition.start_gate_name,
+          "finishGate" => true,
+          "finishGateName" => definition.finish_gate_name
+        )
       end
-    end
 
-    context "with an additional inactive phase" do
-      before { create(:project_phase, :inactive, project:) }
+      context "when the phase has only a start_date but no finish_date" do
+        let!(:phase) { create(:project_phase, project:, definition:, finish_date: nil) }
 
-      it "excludes inactive phases" do
-        expect(data.size).to eq(1)
+        it "does not include start or finish gates" do
+          expect(data.first).to include("startGate" => false, "finishGate" => false)
+        end
+      end
+
+      context "with an additional inactive phase" do
+        before { create(:project_phase, :inactive, project:) }
+
+        it "excludes inactive phases" do
+          expect(data.size).to eq(1)
+        end
       end
     end
   end
@@ -159,28 +179,38 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
   describe "#gantt_link" do
     let(:milestone_type) { create(:type, is_milestone: true) }
 
-    context "when no milestone types are enabled in the project" do
+    context "without view_work_packages permission" do
+      before { project.types << milestone_type }
+
       it { expect(component.gantt_link).to be_nil }
     end
 
-    context "when milestone types are enabled in the project" do
-      before do
-        project.types << milestone_type
-        render_inline(component)
+    context "with view_work_packages permission" do
+      before { create(:member, user:, project:, roles: [wp_role]) }
+
+      context "when no milestone types are enabled in the project" do
+        it { expect(component.gantt_link).to be_nil }
       end
 
-      subject(:query_props) { JSON.parse(CGI.parse(URI.parse(component.gantt_link).query)["query_props"].first) }
+      context "when milestone types are enabled in the project" do
+        before do
+          project.types << milestone_type
+          render_inline(component)
+        end
 
-      it "includes the milestone type filter" do
-        expect(query_props["f"]).to include(include("n" => "type", "o" => "=", "v" => [milestone_type.id.to_s]))
-      end
+        subject(:query_props) { JSON.parse(CGI.parse(URI.parse(component.gantt_link).query)["query_props"].first) }
 
-      it "sets hi to false" do
-        expect(query_props["hi"]).to be(false)
-      end
+        it "includes the milestone type filter" do
+          expect(query_props["f"]).to include(include("n" => "type", "o" => "=", "v" => [milestone_type.id.to_s]))
+        end
 
-      it "enables the timeline view" do
-        expect(query_props["tv"]).to be(true)
+        it "sets hi to false" do
+          expect(query_props["hi"]).to be(false)
+        end
+
+        it "enables the timeline view" do
+          expect(query_props["tv"]).to be(true)
+        end
       end
     end
   end
@@ -221,13 +251,32 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
       end
     end
 
-    context "without view_work_packages permission" do
-      before { Member.find_by(user_id: user.id, project_id: project.id).update!(roles: [phases_role]) }
+    context "with only view_work_packages permission" do
+      let(:milestone_type) { create(:type, is_milestone: true) }
 
-      it "does not render the gantt footer link" do
+      before do
+        Member.find_by(user_id: user.id, project_id: project.id).update!(roles: [wp_role])
+        create(:project_phase, project:)
+        project.types << milestone_type
+        create(:work_package, project:, type: milestone_type, due_date: Time.zone.today)
         render_inline(component)
-        expect(page).to have_no_link(I18n.t("grids.widgets.project_timeline.gantt_link"))
       end
+
+      it { expect(page).to have_css("opce-project-timeline-graph") }
+      it { expect(page).to have_css("opce-project-timeline-graph[phases-data='[]']") }
+      it { expect(page).to have_link(I18n.t("grids.widgets.project_timeline.gantt_link")) }
+    end
+
+    context "with only view_project_phases permission" do
+      before do
+        Member.find_by(user_id: user.id, project_id: project.id).update!(roles: [phases_role])
+        create(:project_phase, project:)
+        render_inline(component)
+      end
+
+      it { expect(page).to have_css("opce-project-timeline-graph") }
+      it { expect(page).to have_css("opce-project-timeline-graph[milestones-data='[]']") }
+      it { expect(page).to have_no_link(I18n.t("grids.widgets.project_timeline.gantt_link")) }
     end
   end
 end

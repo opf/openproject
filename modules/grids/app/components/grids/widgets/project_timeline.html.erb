@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% blankslate.with_description { I18n.t("grids.widgets.empty") } %>
     <% end %>
   <% end %>
-  <% if view_work_packages_allowed? && (link = gantt_link) %>
+  <% if (link = gantt_link) %>
     <% container.with_footer do %>
       <%= render(Primer::Beta::Link.new(href: link)) { t("grids.widgets.project_timeline.gantt_link") } %>
     <% end %>
