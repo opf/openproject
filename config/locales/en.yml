@@ -1217,6 +1217,9 @@ en:
         label_testing: "Testing configuration..."
         test_configuration_caption: "You can test this configuration by [clicking here](test)"
       run:
+        actions:
+          button_edit: "Edit run"
+          button_open_history: "Open run history"
         blank:
           description: "Create an import run to start importing information from this Jira instance"
           title: "No import runs set up yet"

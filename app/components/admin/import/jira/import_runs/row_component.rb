@@ -34,15 +34,13 @@ module Admin::Import::Jira::ImportRuns
       render(
         Primer::Beta::Link.new(
           href: admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
-          font_weight: :bold
+          font_weight: :bold,
+          mr: 1
         )
       ) do
         "#{I18n.t('admin.jira.run.title')} ##{model.id}"
-      end
-    end
-
-    def status
-      render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.current_state))
+      end +
+        render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.current_state))
     end
 
     def last_changed
@@ -54,38 +52,29 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def button_links
-      [edit_button]
-      # buttons = []
-      # buttons.push(remove_button) if model.deletable?
-      # buttons.push(edit_button)
-      # buttons
+      [
+        action_menu
+      ]
     end
 
-    def edit_button
-      render(
-        Primer::Beta::IconButton.new(
-          icon: :pencil,
-          tag: :a,
-          href: admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
-          "aria-label": I18n.t(:button_edit)
+    def action_menu
+      render(Primer::Alpha::ActionMenu.new) do |menu|
+        menu.with_show_button(
+          scheme: :invisible,
+          size: :small,
+          icon: :"kebab-horizontal",
+          "aria-label": t(:button_actions),
+          tooltip_direction: :w
         )
-      )
-    end
-
-    def remove_button
-      render(
-        Primer::Beta::IconButton.new(
-          icon: :trash,
-          scheme: :danger,
-          tag: :a,
-          href: remove_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
-          "aria-label": I18n.t(:button_delete),
-          data: {
-            turbo_method: :delete,
-            turbo_confirm: I18n.t(:text_are_you_sure)
-          }
-        )
-      )
+        menu.with_item(scheme: :default, label: I18n.t(:"admin.jira.run.actions.button_edit"),
+                       content_arguments: { tag: :a, href: admin_import_jira_run_path(jira_id: model.jira.id, id: model.id) }) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+        menu.with_item(scheme: :default, label: I18n.t(:"admin.jira.run.actions.button_open_history"),
+                       content_arguments: { tag: :a, href: history_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id) }) do |item|
+          item.with_leading_visual_icon(icon: :history)
+        end
+      end
     end
   end
 end
