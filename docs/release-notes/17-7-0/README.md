@@ -36,7 +36,7 @@ Organizations using LDAP (Enterprise add-on) can automatically synchronize depar
 
 **Work-related user attributes**
 
-Under *Administration → Users and permissions → Users*, you can now set organization-specific [user attributes](../d..ocs/system-admin-guide/users-permissions/user-attributes/) such as job title, key skills, spoken languages, or employment information. Depending on their permissions, users can update these attributes for themselves or on behalf of others, making it easier to keep workforce information up to date.
+Under *Administration → Users and permissions → Users*, you can now set organization-specific [user attributes](../../system-admin-guide/users-permissions/user-attributes/) such as job title, key skills, spoken languages, or employment information. Depending on their permissions, users can update these attributes for themselves or on behalf of others, making it easier to keep workforce information up to date.
 
 ![OpenProject's user profile shows user attributes such as department, job title, spoken languages, and key skills.](openproject-resource-management-user-attributes.png)
 
