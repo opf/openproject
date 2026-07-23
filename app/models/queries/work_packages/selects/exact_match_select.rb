@@ -28,13 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Selects::TypeaheadSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+  # Constant fallback (always evaluates to 0, i.e. "no boost"). Deliberately a CASE
+  # expression, not a bare integer literal — Postgres treats a bare integer in ORDER BY
+  # as a positional column reference, which a literal like "0" would trigger.
+  NO_EXACT_MATCH_SQL = "CASE WHEN 1 = 0 THEN 1 ELSE 0 END"
+
   def self.instances(_context = nil)
-    new :typeahead,
+    new :exact_match,
         displayable: false,
-        # This is an ugly hack. When using the typeahead order, the work packages should always be ordered
-        # by their updated_at. But when asc is specified for typeahead, the updated_at property is to be used
-        # in desc order.
-        sortable: ->(_query = nil) { "#{WorkPackage.table_name}.updated_at DESC, #{WorkPackage.table_name}.updated_at" }
+        sortable: ->(query = nil) { exact_match_order_sql(query) }
+  end
+
+  # Ranks work packages whose numeric id or semantic identifier is an exact match for
+  # the query's active typeahead search term first when sorted "desc"; falls back to a
+  # constant (no reordering) when no typeahead filter is active, or its value isn't
+  # boostable.
+  def self.exact_match_order_sql(query)
+    typeahead_filter = query&.filters&.find { |filter| filter.field.to_s == "typeahead" }
+    return NO_EXACT_MATCH_SQL unless typeahead_filter
+
+    Queries::WorkPackages::Filter::TypeaheadFilter.exact_match_order_sql(typeahead_filter.values.join(" ")) ||
+      NO_EXACT_MATCH_SQL
   end
 end

@@ -97,4 +97,34 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
   def id_condition(string)
     "#{WorkPackage.table_name}.id::varchar(20) LIKE '%#{string}%'"
   end
+
+  # Returns a SQL fragment ("CASE WHEN <exact-match> THEN 1 ELSE 0 END") that evaluates to 1
+  # for work packages whose numeric id or semantic identifier exactly equals query_string,
+  # and 0 otherwise — sort this column "desc" to bring exact matches to the top (the
+  # conventional direction for a boolean-shaped flag, e.g. ORDER BY is_featured DESC).
+  # Returns nil when query_string is blank, multi-word (exact-match boosting only applies
+  # to the whole trimmed string), or matches neither shape.
+  def self.exact_match_order_sql(query_string)
+    stripped = query_string.to_s.strip
+    return nil if stripped.blank? || stripped.match?(/\s/)
+
+    numeric_candidate = stripped.delete_prefix("#") # mirrors id_condition's `#?` prefix
+
+    condition =
+      if numeric_candidate.match?(/\A\d+\z/)
+        OpenProject::SqlSanitization.sanitize(
+          "#{WorkPackage.table_name}.id::varchar(20) = ?", numeric_candidate
+        )
+      elsif stripped.match?(/\A#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}\z/i)
+        OpenProject::SqlSanitization.sanitize(
+          "#{WorkPackage.table_name}.id IN (SELECT work_package_id FROM " \
+          "#{WorkPackageSemanticAlias.table_name} WHERE lower(identifier) = lower(?))",
+          stripped
+        )
+      end
+
+    return nil unless condition
+
+    "CASE WHEN #{condition} THEN 1 ELSE 0 END"
+  end
 end
