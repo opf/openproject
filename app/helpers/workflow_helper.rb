@@ -48,9 +48,11 @@ module WorkflowHelper
       tab.merge(
         partial: "workflows/form",
         path: edit_type_workflow_tab_path(type, tab[:name], params.permit(role_ids: [])),
-        data: { "admin--workflow-checkbox-state-confirmation-trigger": "click",
-                turbo_frame: "workflow-table",
-                turbo_action: "advance" }
+        data: { controller: "admin--workflow-tab-select",
+                action: "click->admin--workflow-tab-select#select",
+                "admin--workflow-tab-select-tab-value": tab[:name],
+                "admin--workflow-tab-select-admin--workflow-checkbox-state-outlet":
+                  "##{Workflows::StatusMatrixFormComponent::FORM_ID}" }
       )
     end
   end

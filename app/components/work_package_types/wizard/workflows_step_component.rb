@@ -45,7 +45,7 @@ module WorkPackageTypes
         helpers.type_creation_wizard_path(model, step: :workflows)
       end
 
-      def current_tab = "always"
+      def current_tab = helpers.params[:tab].presence || "always"
 
       def roles
         Workflow.selected_roles(helpers.params[:role_ids])
