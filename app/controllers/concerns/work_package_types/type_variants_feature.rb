@@ -28,6 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Shared gating for the work package variants feature flag.
 module WorkPackageTypes
-  UpdateSettingsContract = CreateContract
+  module TypeVariantsFeature
+    extend ActiveSupport::Concern
+
+    private
+
+    def type_variants_enabled?
+      OpenProject::FeatureDecisions.type_variants_active?
+    end
+
+    def require_type_variants_feature
+      render_404 unless type_variants_enabled?
+    end
+  end
 end

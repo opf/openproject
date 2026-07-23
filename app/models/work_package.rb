@@ -492,7 +492,7 @@ class WorkPackage < ApplicationRecord
   def self.preload_available_custom_fields(work_packages)
     custom_fields = available_custom_fields_from_db(work_packages)
                     .select("array_agg(projects.id) available_project_ids",
-                            "array_agg(types.id) available_type_ids",
+                            "array_agg(wp_types.own_id) available_type_ids",
                             "custom_fields.*")
                     .group("custom_fields.id")
 
@@ -506,18 +506,29 @@ class WorkPackage < ApplicationRecord
   end
 
   def self.available_custom_fields_from_db(work_packages)
+    type_ids = work_packages.filter_map(&:type_id).uniq
+    return WorkPackageCustomField.none if type_ids.empty?
+
+    project_ids = work_packages.map(&:project_id).uniq
+
+    # Match custom fields on the type that owns the (possibly linked) form
+    # configuration, but keep the work package's own type id available so a batch
+    # preload can match it against each work package's own type_id.
+    type_join = "#{Type::EffectiveSourceSql.form_configuration_source_table(type_ids)} " \
+                "JOIN custom_fields_types cft " \
+                "ON cft.custom_field_id = custom_fields.id AND cft.type_id = wp_types.source_id"
+
     WorkPackageCustomField
-      .left_joins(:projects, :types)
-      .where(projects: { id: work_packages.map(&:project_id).uniq },
-             types: { id: work_packages.map(&:type_id).uniq })
+      .joins(type_join)
+      .left_joins(:projects)
+      .where(projects: { id: project_ids })
       .or(WorkPackageCustomField
-            .left_joins(:projects, :types)
-            .references(:projects, :types)
-            .where(is_for_all: true)
-            .where(types: { id: work_packages.map(&:type_id).uniq }))
+            .joins(type_join)
+            .left_joins(:projects)
+            .references(:projects)
+            .where(is_for_all: true))
       .distinct
   end
-
   private_class_method :available_custom_fields_from_db
 
   def self.available_custom_field_key(work_package)

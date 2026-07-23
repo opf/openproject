@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::SprintSharing do
+RSpec.describe Projects::SprintSettings do
   let(:sprint_sharing) { "no_sharing" }
   let(:active) { true }
   let!(:project) { create(:project, sprint_sharing:, active:) }

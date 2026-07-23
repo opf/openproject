@@ -1716,8 +1716,8 @@ RSpec.describe WorkPackages::BaseContract do
 
     shared_examples_for "new_statuses_allowed_to" do
       let(:base_scope) do
-        from_workflows = Workflow
-                        .from_status(current_status.id, type.id, [role.id], author, assignee)
+        from_workflows = type.workflows
+                        .from_status(current_status.id, [role.id], author:, assignee:)
                         .select(:new_status_id)
 
         Status.where(id: from_workflows)
@@ -1806,6 +1806,37 @@ RSpec.describe WorkPackages::BaseContract do
       it_behaves_like "new_statuses_allowed_to" do
         let(:author) { false }
         let(:assignee) { false }
+      end
+    end
+
+    context "when the type is linked to a source", with_flag: { type_variants: true } do
+      let(:role) { create(:project_role) }
+      let(:source) { create(:type) }
+      let(:type) { create(:type) }
+      let(:current_status) { create(:status) }
+      let(:target_status) { create(:status) }
+
+      before do
+        type.link!(Type::ConfigurationLink::WORKFLOWS, source:)
+        create(:workflow, role_id: role.id, type_id: source.id,
+                          old_status_id: current_status.id, new_status_id: target_status.id,
+                          author: false, assignee: false)
+      end
+
+      it "resolves allowed transitions through the linked source's workflows" do
+        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
+      end
+
+      it "resolves allowed transitions through a longer link chain" do
+        middle = create(:type)
+        middle.link!(Type::ConfigurationLink::WORKFLOWS, source:)
+        type.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+
+        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
+      end
+
+      it "ignores the link with the variants feature disabled", with_flag: { type_variants: false } do
+        expect(contract.assignable_statuses.pluck(:id)).not_to include(target_status.id)
       end
     end
   end

@@ -155,10 +155,10 @@ RSpec.describe "Sprint index", :js do
 
   context "when a sprint is shared from another project" do
     let(:source_project) do
-      create(:project, sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS)
+      create(:project, sprint_sharing: Projects::SprintSettings::SHARE_ALL_PROJECTS)
     end
     let(:receiving_project) do
-      create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED)
+      create(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED)
     end
     let(:sprints_page) { Pages::Sprints.new(receiving_project) }
     let!(:shared_sprint) do

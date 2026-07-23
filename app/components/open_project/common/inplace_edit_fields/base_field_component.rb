@@ -63,6 +63,36 @@ module OpenProject
                          rows: 5)
         end
 
+        def render_action_buttons(form)
+          form.group(layout: :horizontal, justify_content: :flex_end) do |button_group|
+            button_group.button(name: :cancel,
+                                label: I18n.t(:button_cancel),
+                                tag: :a,
+                                href: reset_url,
+                                scheme: :default,
+                                **cancel_button_options)
+            button_group.submit(name: :submit,
+                                label: I18n.t(:button_save),
+                                scheme: :primary,
+                                **submit_button_options)
+          end
+        end
+
+        def cancel_button_options
+          { data: { turbo_stream: true } }
+        end
+
+        def submit_button_options = {}
+
+        def reset_url
+          inplace_edit_field_reset_path(
+            model: model.class.name,
+            id: model.id,
+            attribute:,
+            system_arguments_json: @system_arguments.to_json
+          )
+        end
+
         def show_comment_field?
           custom_field? && custom_field&.has_comment?
         end

@@ -177,20 +177,132 @@ RSpec.describe Type do
         end
       end
     end
+
+    context "when linked to a source type" do
+      let(:role) { create(:project_role) }
+      let(:statuses) { create_list(:status, 2) }
+      let!(:source) { create(:type) }
+      let!(:type) { create(:type) }
+      let!(:workflow) do
+        create(:workflow, role_id: role.id,
+                          type_id: source.id,
+                          old_status_id: statuses[0].id,
+                          new_status_id: statuses[1].id,
+                          author: false,
+                          assignee: false)
+      end
+
+      before { type.link!(Type::ConfigurationLink::WORKFLOWS, source:) }
+
+      it "resolves the source's statuses", with_flag: { type_variants: true } do
+        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
+      end
+
+      it "ignores the link and resolves its own statuses with the feature disabled",
+         with_flag: { type_variants: false } do
+        expect(subject).to be_empty
+      end
+    end
+
+    context "when linked through a longer chain", with_flag: { type_variants: true } do
+      let(:role) { create(:project_role) }
+      let(:statuses) { create_list(:status, 2) }
+      let!(:owner) { create(:type) }
+      let!(:middle) { create(:type) }
+      let!(:type) { create(:type) }
+      let!(:workflow) do
+        create(:workflow, role_id: role.id,
+                          type_id: owner.id,
+                          old_status_id: statuses[0].id,
+                          new_status_id: statuses[1].id,
+                          author: false,
+                          assignee: false)
+      end
+
+      before do
+        middle.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+        type.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+      end
+
+      it "resolves statuses from the chain's owning type" do
+        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
+      end
+    end
   end
 
-  describe "#copy_from_type on workflows" do
+  describe "#copy_from_type on own_workflows" do
     before do
       allow(Workflow)
         .to receive(:copy)
     end
 
     it "calls the .copy method on Workflow" do
-      type.workflows.copy_from_type(type2)
+      type.own_workflows.copy_from_type(type2)
 
       expect(Workflow)
         .to have_received(:copy)
         .with(type2, nil, type, nil)
+    end
+  end
+
+  describe "#workflows", with_flag: { type_variants: true } do
+    let(:role) { create(:project_role) }
+    let(:statuses) { create_list(:status, 2) }
+    let!(:type) { create(:type) }
+    let!(:owner) { create(:type) }
+    let!(:owner_workflow) do
+      create(:workflow, type_id: owner.id, role_id: role.id,
+                        old_status_id: statuses[0].id, new_status_id: statuses[1].id)
+    end
+
+    it "returns its own workflows when unlinked" do
+      own = create(:workflow, type_id: type.id, role_id: role.id,
+                              old_status_id: statuses[1].id, new_status_id: statuses[0].id)
+
+      expect(type.workflows).to contain_exactly(own)
+    end
+
+    it "resolves a child to its linked parent's workflows" do
+      type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+
+      expect(type.workflows).to contain_exactly(owner_workflow)
+    end
+
+    it "resolves through a longer chain to the owning type's workflows" do
+      middle = create(:type)
+      middle.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+      type.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+
+      expect(type.workflows).to contain_exactly(owner_workflow)
+    end
+
+    it "reads the source's rows and not its own while linked" do
+      own = create(:workflow, type_id: type.id, role_id: role.id,
+                              old_status_id: statuses[1].id, new_status_id: statuses[0].id)
+      type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+
+      expect(type.workflows).to contain_exactly(owner_workflow)
+      expect(type.workflows).not_to include(own)
+    end
+
+    it "ignores the link and returns its own workflows with the feature disabled",
+       with_flag: { type_variants: false } do
+      own = create(:workflow, type_id: type.id, role_id: role.id,
+                              old_status_id: statuses[1].id, new_status_id: statuses[0].id)
+      type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+
+      expect(type.workflows).to contain_exactly(own)
+    end
+
+    it "writes through #own_workflows to its own rows while linked, leaving the source untouched" do
+      type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+      expect(type.own_workflows).to be_empty
+
+      type.own_workflows.copy_from_type(owner)
+
+      expect(type.own_workflows.sole)
+        .to have_attributes(old_status_id: statuses[0].id, new_status_id: statuses[1].id)
+      expect(owner.reload.own_workflows).to contain_exactly(owner_workflow)
     end
   end
 
@@ -280,8 +392,8 @@ RSpec.describe Type do
         expect(described_class.roots).not_to include(child)
       end
 
-      it ".subtypes returns only nested types" do
-        expect(described_class.subtypes).to contain_exactly(child)
+      it ".variants returns only nested types" do
+        expect(described_class.variants).to contain_exactly(child)
       end
 
       it ".global returns every type (all types are global until project-owned types exist)" do
@@ -405,10 +517,10 @@ RSpec.describe Type do
              is_default: false)
     end
 
-    describe "#subtype?" do
+    describe "#variant?" do
       it "is true for a child and false for a root" do
-        expect(child).to be_subtype
-        expect(parent).not_to be_subtype
+        expect(child).to be_variant
+        expect(parent).not_to be_variant
       end
     end
 
@@ -428,7 +540,7 @@ RSpec.describe Type do
         expect(parent.color).to eq(color)
       end
 
-      it "#composite_name prefixes the parent name for a sub-type" do
+      it "#composite_name prefixes the parent name for a variant" do
         expect(child.composite_name).to eq("Task: Bug")
         expect(parent.composite_name).to eq("Task")
       end
@@ -446,7 +558,7 @@ RSpec.describe Type do
         expect(child.is_default?).to be(true)
       end
 
-      it "keeps the sub-type's own name as the variant label" do
+      it "keeps the variant's own name as the variant label" do
         expect(child.own_name).to eq("Bug")
       end
 

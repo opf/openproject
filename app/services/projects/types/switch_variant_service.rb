@@ -30,19 +30,19 @@
 
 module Projects
   module Types
-    # Migrates a project from one subtype to another type of the same family
-    # (a sibling subtype or the shared parent). All work packages of the old
-    # subtype are switched to the target type before the old subtype is removed
+    # Migrates a project from one variant to another type of the same family
+    # (a sibling variant or the shared parent). All work packages of the old
+    # variant are switched to the target type before the old variant is removed
     # and the target type enabled, all within a single transaction.
-    class SwitchSubtypeService < BaseService
+    class SwitchVariantService < BaseService
       private
 
       def persist(service_call)
         source = params[:source]
         target = params[:target]
 
-        if !source.subtype?
-          return failure(:switch_source_not_a_subtype)
+        if !source.variant?
+          return failure(:switch_source_not_a_variant)
         elsif source == target
           return failure(:switch_target_identical)
         elsif source.root != target.root

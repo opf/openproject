@@ -290,6 +290,9 @@ ru:
     name: OpenProject бэклоги
   project_module_backlogs: Бэклоги
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

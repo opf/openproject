@@ -67,8 +67,8 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "sub-type default parent links" do
-    it "links the default aspects to the parent when a sub-type is created" do
+  describe "variant default parent links" do
+    it "links the default aspects to the parent when a variant is created" do
       parent = create(:type)
       child = create(:type, parent:)
 
@@ -111,7 +111,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "#effective_source_for", with_flag: { subtypes: true } do
+  describe "#effective_source_for", with_flag: { type_variants: true } do
     it "returns itself when Independent" do
       expect(type.effective_source_for(aspect)).to eq(type)
     end
@@ -139,7 +139,7 @@ RSpec.describe Type::ConfigurationLinkable do
   # Each aspect's readers are overridden so that plain `type.patterns` etc. is the
   # configuration in force. The own_* attributes below are what the type stores
   # itself, and must stay visible through read_attribute even while linked.
-  describe "resolved configuration readers", with_flag: { subtypes: true } do
+  describe "resolved configuration readers", with_flag: { type_variants: true } do
     let(:owner_attributes) do
       {
         patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
@@ -229,7 +229,7 @@ RSpec.describe Type::ConfigurationLinkable do
 
   # These read through the overridden attribute readers rather than resolving a
   # source themselves, so they are what proves the indirection actually pays off.
-  describe "consumers of the resolved readers", with_flag: { subtypes: true } do
+  describe "consumers of the resolved readers", with_flag: { type_variants: true } do
     let(:owner) do
       create(:type,
              patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
@@ -262,7 +262,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     # The templates object mutates whatever type it wraps, so it must never be the
-    # owner's — otherwise a linked sub-type would rewrite the source's configuration.
+    # owner's — otherwise a linked variant would rewrite the source's configuration.
     it "writes template changes to this type rather than the owner" do
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source: owner)
       type.pdf_export_templates.disable_all
@@ -274,7 +274,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "feature flag gating", with_flag: { subtypes: false } do
+  describe "feature flag gating", with_flag: { type_variants: false } do
     let(:owner) do
       create(:type,
              patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
@@ -293,6 +293,71 @@ RSpec.describe Type::ConfigurationLinkable do
       expect(type.description).to be_nil
       expect(type.artefact_export_mode).to eq(Type::ArtefactExport::DEFAULT)
       expect(type).not_to be_replacement_pattern_defined_for(:subject)
+    end
+  end
+
+  describe "form configuration resolution", with_flag: { type_variants: true } do
+    let(:form_aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
+    let(:source) do
+      create(:type).tap do |t|
+        t.attribute_groups = [["source_only_group", %w(assignee)]]
+        t.save!
+      end
+    end
+
+    before { type.update!(attribute_groups: [["own_group", %w(assignee)]]) }
+
+    it "reads attribute_groups from the linked owner" do
+      type.link!(form_aspect, source:)
+
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("source_only_group")
+      expect(keys).not_to include("own_group")
+    end
+
+    it "reads its own attribute_groups when Independent" do
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("own_group")
+      expect(keys).not_to include("source_only_group")
+    end
+
+    it "reads its own attribute_groups while an assignment is pending, even when linked" do
+      type.link!(form_aspect, source:)
+      type.attribute_groups = [["pending_group", %w(assignee)]]
+
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("pending_group")
+      expect(keys).not_to include("source_only_group")
+    end
+
+    it "reads custom_fields from the linked owner" do
+      cf = create(:integer_wp_custom_field)
+      source.custom_fields << cf
+      type.link!(form_aspect, source:)
+
+      expect(type.custom_fields).to include(cf)
+    end
+
+    it "still appends custom_fields to its own record when Independent" do
+      cf = create(:integer_wp_custom_field)
+      type.custom_fields << cf
+
+      expect(type.custom_fields).to include(cf)
+    end
+  end
+
+  describe "form configuration with the flag off", with_flag: { type_variants: false } do
+    it "ignores the link and reads its own attribute_groups" do
+      source = create(:type).tap do |t|
+        t.attribute_groups = [["source_only_group", %w(assignee)]]
+        t.save!
+      end
+      type.update!(attribute_groups: [["own_group", %w(assignee)]])
+      type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source:)
+
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("own_group")
+      expect(keys).not_to include("source_only_group")
     end
   end
 end

@@ -280,6 +280,9 @@ fi:
     name: OpenProject Backlogs
   project_module_backlogs: Työjonot
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

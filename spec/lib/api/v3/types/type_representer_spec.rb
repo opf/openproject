@@ -151,7 +151,7 @@ RSpec.describe API::V3::Types::TypeRepresenter do
       end
     end
 
-    context "for a sub-type" do
+    context "for a variant" do
       let(:parent) { build_stubbed(:type, name: "Task", color: build_stubbed(:color)) }
       let(:type) { build_stubbed(:type, name: "Bug", parent:) }
 

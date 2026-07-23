@@ -32,12 +32,12 @@ module WorkPackageTypes
   class TypesController < ApplicationController
     include PaginationHelper
     include OpTurbo::ComponentStream
-    include SubtypesFeature
+    include TypeVariantsFeature
 
     layout "admin"
 
     before_action :require_admin
-    before_action :require_subtypes_feature, only: %i[drop]
+    before_action :require_type_variants_feature, only: %i[drop]
     before_action :find_type, only: %i[move destroy drop]
 
     current_menu_item do
@@ -46,11 +46,11 @@ module WorkPackageTypes
 
     def index
       @types =
-        if subtypes_enabled?
+        if type_variants_enabled?
           root_types
         else
           ::Type
-            .includes(:workflows, :projects, :custom_fields, :color)
+            .includes(:own_workflows, :projects, :custom_fields, :color)
             .page(page_param)
             .per_page(per_page_param)
         end
@@ -66,17 +66,11 @@ module WorkPackageTypes
     end
 
     def create
-      additional_params = {}
-      value = params.dig(:type, :copy_workflow_from)
-      additional_params[:copy_workflow_from] = value if value.present?
-
-      service_call = WorkPackageTypes::CreateService
-                      .new(user: current_user)
-                      .call(permitted_type_params.merge(additional_params))
+      service_call = WorkPackageTypes::CreateService.new(user: current_user).call(create_params)
 
       @type = service_call.result
       if service_call.success?
-        redirect_to edit_type_settings_path(@type), notice: t(:notice_successful_create), status: :see_other
+        redirect_to edit_type_details_path(type_id: @type.id), notice: t(:notice_successful_create), status: :see_other
       else
         render action: :new, status: :unprocessable_entity
       end
@@ -94,7 +88,7 @@ module WorkPackageTypes
     def destroy
       # types cannot be deleted when they have work packages
       # or they are standard types
-      # or they have sub-types
+      # or they have variants
       if @type.is_standard? || @type.work_packages.any?
         flash[:error] = destroy_error_message
       elsif @type.destroy
@@ -123,8 +117,8 @@ module WorkPackageTypes
     def root_types
       ::Type
         .roots
-        .includes(:workflows, :projects, :custom_fields, :color,
-                  children: %i[workflows projects custom_fields color])
+        .includes(:own_workflows, :projects, :custom_fields, :color,
+                  children: %i[own_workflows projects custom_fields color])
         .page(page_param)
         .per_page(per_page_param)
     end
@@ -135,11 +129,20 @@ module WorkPackageTypes
       permitted_type_params
     end
 
+    # copy_workflow_from is a creation-time instruction rather than a type attribute,
+    # so it is read straight off the request and only passed on when one was chosen.
+    def create_params
+      copy_workflow_from = params.dig(:type, :copy_workflow_from)
+      return permitted_type_params if copy_workflow_from.blank?
+
+      permitted_type_params.merge(copy_workflow_from:)
+    end
+
     def permitted_type_params
       # having to call #to_unsafe_h as a query hash the attribute_groups
       # parameters would otherwise still be an ActiveSupport::Parameter
       params = permitted_params.type.to_unsafe_h
-      params = params.except(:parent_id) unless subtypes_enabled?
+      params = params.except(:parent_id) unless type_variants_enabled?
       params
     end
 

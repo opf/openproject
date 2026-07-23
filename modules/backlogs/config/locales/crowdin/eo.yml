@@ -280,6 +280,9 @@ eo:
     name: Farontaj taskoj de OpenProject
   project_module_backlogs: Listoj de farotaj taskoj
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

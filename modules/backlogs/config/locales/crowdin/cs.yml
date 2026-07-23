@@ -290,6 +290,9 @@ cs:
     name: OpenProject Backlogy
   project_module_backlogs: Backlogy
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

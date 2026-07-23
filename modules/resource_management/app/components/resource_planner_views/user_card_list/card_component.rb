@@ -53,14 +53,6 @@ module ResourcePlannerViews::UserCardList
       @user&.visible?(User.current)
     end
 
-    def status_label
-      helpers.full_user_status(@user)
-    end
-
-    def status_scheme
-      @user.active? ? :success : :attention
-    end
-
     def job_title
       return unless (custom_field = UserCustomField.for_semantic_key(:job_title))
 

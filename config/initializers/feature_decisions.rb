@@ -53,8 +53,8 @@ OpenProject::FeatureDecisions.add :wiki_enhancements,
                                   description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :subtypes,
-                                  description: "Enables work package subtypes."
+OpenProject::FeatureDecisions.add :type_variants,
+                                  description: "Enables work package type variants."
 
 OpenProject::FeatureDecisions.add :work_package_multiple_versions,
                                   description: "Enables assigning multiple (target) versions to a work package. " \

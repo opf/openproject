@@ -557,7 +557,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:title) { work_package.type.name }
       end
 
-      context "for a sub-type" do
+      context "for a variant" do
         let(:type) { build_stubbed(:type, name: "Bug", parent: build_stubbed(:type, name: "Task")) }
 
         it_behaves_like "has a titled link" do

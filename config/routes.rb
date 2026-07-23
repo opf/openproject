@@ -184,7 +184,7 @@ Rails.application.routes.draw do
       put :enable_all_of_section
       put :disable_all_of_section
     end
-    resource :settings, controller: "settings_tab", only: %i[update edit]
+    resource :details, controller: "details_tab", only: %i[update edit]
     resource :defaults, controller: "defaults_tab", only: %i[update edit]
 
     nested do

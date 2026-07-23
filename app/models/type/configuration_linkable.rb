@@ -46,9 +46,9 @@ class Type
                inverse_of: :source,
                dependent: :restrict_with_error
 
-      # A sub-type defaults to Linked-to-parent for the aspects whose linked
+      # A variant defaults to Linked-to-parent for the aspects whose linked
       # behaviour is implemented; see DEFAULT_PARENT_LINK_ASPECTS.
-      after_create :link_default_aspects_to_parent, if: :subtype?
+      after_create :link_default_aspects_to_parent, if: :variant?
     end
 
     def linked?(aspect)
@@ -67,10 +67,10 @@ class Type
     # The visited-set guard tolerates cyclic rows created before write-time cycle
     # prevention (FND-133) existed, keeping resolution terminating.
     #
-    # Guarded by the subtypes feature flag: with the flag off, links are ignored
+    # Guarded by the type_variants feature flag: with the flag off, links are ignored
     # and every type resolves to its own stored configuration.
     def effective_source_for(aspect)
-      return self unless OpenProject::FeatureDecisions.subtypes_active?
+      return self unless OpenProject::FeatureDecisions.type_variants_active?
 
       node = self
       seen = Set.new
@@ -78,10 +78,11 @@ class Type
       node
     end
 
-    # Readers of linked aspects resolve through the link, so plain `type.patterns`
-    # is always the configuration in force. Separate `effective_*` readers only stay
-    # correct while every caller remembers they exist, and a root type behaves the
-    # same either way — so a missed call site still passes its tests.
+    # Readers of linked aspects resolve through the link, so a plain `type.patterns`
+    # is always the configuration in force. Resolving in the reader rather than behind
+    # a separate opt-in method is deliberate: a caller can't silently read its own value
+    # by forgetting to opt in — a slip a root type would mask, since it reads the same
+    # either way.
     #
     # Writers stay untouched: assigning always writes this type's own row.
     def patterns
@@ -107,7 +108,7 @@ class Type
 
     # Resolved here rather than on #pdf_export_templates so that the object handed out
     # always wraps the receiving type: it is a mutator as much as a reader, and
-    # returning the source's would let a linked sub-type write the source's config.
+    # returning the source's would let a linked variant write the source's config.
     def export_templates_disabled
       source = linked_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
       return super if source.nil?
@@ -122,11 +123,32 @@ class Type
       source.export_templates_order
     end
 
+    # Follows the reader-override pattern above, but yields this type's own groups
+    # while a change is pending: the switch-to-Independent copy assigns groups and
+    # reads them back to sync active custom fields while the link still exists
+    # (CopyConfiguration::FormConfigurationService), and must see what it just set.
+    def attribute_groups
+      source = linked_configuration_source(Type::ConfigurationLink::FORM_CONFIGURATION)
+      return super if source.nil? || attribute_groups_changed?
+
+      source.attribute_groups
+    end
+
+    # custom_fields resolves through the form source. Beware of reader-driven mutation:
+    # currently, the only one is Jira import's `custom_fields <<`, but it runs on
+    # a FORM_CONFIGURATION-independent type, so it reaches super.
+    def custom_fields
+      source = linked_configuration_source(Type::ConfigurationLink::FORM_CONFIGURATION)
+      return super if source.nil?
+
+      source.custom_fields
+    end
+
     private
 
     # The type an aspect is linked to, or nil when this type owns it. The nil is
     # what keeps the readers above from recursing: effective_source_for returns self
-    # both for an unlinked aspect and while the subtypes flag is off.
+    # both for an unlinked aspect and while the variants flag is off.
     def linked_configuration_source(aspect)
       source = effective_source_for(aspect)
 

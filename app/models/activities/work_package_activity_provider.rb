@@ -44,7 +44,7 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
       activity_journal_projection_statement(:subject, "subject"),
       activity_journal_projection_statement(:project_id, "project_id"),
       projection_statement(statuses_table, :is_closed, "status_closed"),
-      # A sub-type shows its root's name
+      # A variant shows its root's name
       Arel::Nodes::NamedFunction.new("COALESCE", [parent_types_table[:name], types_table[:name]]).as("type_name"),
       projection_statement(activitied_table, :identifier, "identifier")
     ]

@@ -38,9 +38,13 @@ import {
   effect,
   inject,
   input,
+  signal,
 } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
@@ -82,6 +86,7 @@ const GROUP_LIFECYCLE = 'lifecycle';
   styleUrls: ['./project-timeline-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [OpenprojectContentLoaderModule],
 })
 export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
@@ -95,7 +100,12 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   private readonly i18n = inject(I18nService);
   private readonly timezone = inject(TimezoneService);
 
+  protected readonly ready = signal(false);
+
   private timeline:Timeline | null = null;
+  private destroyed = false;
+  private readyHandler:(() => void) | null = null;
+  private readonly destroyed$ = new Subject<void>();
 
   constructor() {
     effect(() => {
@@ -107,10 +117,18 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit():void {
-    this.initTimeline(this.phases());
+    requestAnimationFrame(() => {
+      if (!this.destroyed) {
+        this.initTimeline(this.phases());
+      }
+    });
   }
 
   ngOnDestroy():void {
+    this.destroyed = true;
+    this.destroyed$.next();
+    this.destroyed$.complete();
+    if (this.readyHandler) this.timeline?.off('changed', this.readyHandler);
     this.timeline?.destroy();
     this.timeline = null;
   }
@@ -199,12 +217,37 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         showMajorLabels: true,
         showMinorLabels: true,
         margin: { item: { horizontal: 0, vertical: 16 } },
+        showCurrentTime: false, // enabled after reveal; avoids periodic changed events interfering with the ready debounce
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
-        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
+        zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years days maximum zoom
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
         tooltip: { template: this.tooltipTemplate.bind(this) } as any,
       },
     );
+    this.revealWhenReady();
+  }
+
+  // Hides the skeleton once vis-timeline has stopped firing 'changed' events.
+  // Multiple render passes occur on an initial load, so we debounce
+  private revealWhenReady():void {
+    const changed$ = new Subject<void>();
+
+    this.readyHandler = () => changed$.next();
+    this.timeline!.on('changed', this.readyHandler);
+
+    changed$.pipe(
+      debounceTime(1000),
+      take(1),
+      takeUntil(this.destroyed$),
+    ).subscribe(() => {
+      this.timeline!.off('changed', this.readyHandler!);
+      this.readyHandler = null;
+      this.timeline!.setOptions({
+        showCurrentTime: true,
+        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
+      });
+      this.ready.set(true);
+    });
   }
 
   private tooltipTemplate(item:ProjectTimelineItem):HTMLElement | string {

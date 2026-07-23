@@ -44,16 +44,14 @@ module Projects
 
         attr_reader :project
 
-        def available?
-          return @available if defined?(@available)
+        def setting_available?
+          return @setting_available if defined?(@setting_available)
 
-          @available = project.not_sharing_sprints?
+          @setting_available = project.not_sharing_sprints?
         end
 
         def enabled?
-          return @enabled if defined?(@enabled)
-
-          @enabled = !too_many_active_sprints?
+          !too_many_active_sprints?
         end
 
         def checked?
@@ -65,7 +63,7 @@ module Projects
         def too_many_active_sprints?
           return @too_many_active_sprints if defined?(@too_many_active_sprints)
 
-          @too_many_active_sprints = checked? && project.sprints.active.many?
+          @too_many_active_sprints = checked? && project.many_active_sprints?
         end
       end
     end
