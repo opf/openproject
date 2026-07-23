@@ -36,9 +36,10 @@ module WorkPackageTypes
   # seeding result is aggregated with the severing, so a failed seed leaves the
   # link untouched.
   class SwitchToIndependentModeService
-    # The blank configuration written for the EMPTY mode, per aspect.
+    # Writes the blank configuration for the EMPTY mode, per aspect.
     EMPTY_CONFIGURATION = {
-      Type::ConfigurationLink::DEFAULTS => { patterns: {}, description: nil }
+      Type::ConfigurationLink::DEFAULTS => ->(type) { type.update!(patterns: {}, description: nil) },
+      Type::ConfigurationLink::PROJECT_ATTRIBUTES => ->(type) { type.own_project_custom_field_type_mappings.delete_all }
     }.freeze
 
     def initialize(type:, aspect:, user:)
@@ -76,7 +77,7 @@ module WorkPackageTypes
     end
 
     def empty_configuration
-      type.update!(EMPTY_CONFIGURATION.fetch(aspect))
+      EMPTY_CONFIGURATION.fetch(aspect).call(type)
 
       ServiceResult.success(result: type)
     rescue ActiveRecord::RecordInvalid
