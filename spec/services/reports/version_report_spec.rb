@@ -39,8 +39,8 @@ RSpec.describe Reports::VersionReport do
     context "with the multiple versions feature enabled",
             with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
-      it "labels the report as the target versions attribute" do
-        expect(report.title).to eq(WorkPackage.human_attribute_name(:target_versions))
+      it "labels the report with the singular target version attribute" do
+        expect(report.title).to eq(WorkPackage.human_attribute_name(:target_version))
       end
     end
 

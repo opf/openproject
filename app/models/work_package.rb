@@ -426,7 +426,7 @@ class WorkPackage < ApplicationRecord
          FROM #{WorkPackage.table_name} i
          INNER JOIN #{Status.table_name} s ON i.status_id = s.id
          INNER JOIN #{WorkPackageVersion.table_name} wpv
-            ON wpv.work_package_id = i.id AND wpv.kind = 'target'
+            ON wpv.work_package_id = i.id AND wpv.kind = '#{WorkPackageVersion.kinds[:target]}'
         WHERE i.project_id = #{project.id}
         GROUP BY s.id, s.is_closed, wpv.version_id"
     ).to_a

@@ -139,9 +139,9 @@ RSpec.describe "work package reports", :js do
         click_on "Summary"
       end
 
-      expect(page).to have_text "TARGET VERSIONS"
+      expect(page).to have_text "TARGET VERSION"
 
-      click_link "Further analyze: Target versions"
+      click_link "Further analyze: Target version"
 
       aggregate_failures do
         [version_a, version_b].each do |version|
