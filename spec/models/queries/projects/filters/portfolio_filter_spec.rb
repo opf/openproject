@@ -35,6 +35,7 @@ RSpec.describe Queries::Projects::Filters::PortfolioFilter do
     let(:class_key) { :portfolio }
     let(:type) { :list_optional }
     let(:name) { Project.human_attribute_name(:portfolio) }
+    let(:human_name) { I18n.t("portfolio.filters.name") }
   end
 
   describe "#allowed_values" do
