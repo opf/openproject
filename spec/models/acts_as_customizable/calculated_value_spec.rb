@@ -111,10 +111,10 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "1 + 2" => 3,
           "2 - 3" => -1,
           "3 * 4" => 12,
-          "5 / 4" => 5/4r,
-          "6 % 5" => 1,
+          "5 / 4" => BigDecimal("1.25"),
+          "6 % 5" => BigDecimal("1"),
           "2 ^ 10" => 1024,
-          "6 + 7%" => 607/100r,
+          "6 + 7%" => BigDecimal("6.07"),
           "2 * (1 + 2)" => 6
         }
       end
