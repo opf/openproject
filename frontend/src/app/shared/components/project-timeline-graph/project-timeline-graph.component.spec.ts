@@ -33,10 +33,13 @@ import { ProjectTimelineItem, ProjectTimelineGraphComponent } from './project-ti
 
 describe('ProjectTimelineGraphComponent', () => {
   const i18nStub = {
-    t(key:string):string {
+    t(key:string, options:Record<string, string> = {}):string {
       return {
         'js.grid.widgets.project_timeline.tooltip_type_phase': 'Phase',
         'js.grid.widgets.project_timeline.tooltip_type_gate': 'Gate',
+        'js.grid.widgets.project_timeline.accessible_phase': `Phase ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_gate': `Phase gate ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_date_range': `${options.start} to ${options.end}`,
       }[key] ?? key;
     },
   };
@@ -98,6 +101,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
   let buildData:(phases:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
   let tooltipTemplate:(item:ProjectTimelineItem) => HTMLElement|string;
+  let buildAccessibleItems:(phases:unknown[]) => { id:string; text:string }[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -119,6 +123,8 @@ describe('ProjectTimelineGraphComponent', () => {
     buildData = (component as any).buildData.bind(component);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
     tooltipTemplate = (component as any).tooltipTemplate.bind(component);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
+    buildAccessibleItems = (component as any).buildAccessibleItems.bind(component);
   });
 
   describe('buildData', () => {
@@ -361,6 +367,45 @@ describe('ProjectTimelineGraphComponent', () => {
         expect(formattedDates.length).toBe(2);
         expect(formattedDates[0].getTime()).toBeLessThan(formattedDates[1].getTime());
       });
+    });
+  });
+
+  describe('buildAccessibleItems', () => {
+    it('creates screen reader text for phases and gates', () => {
+      expect(buildAccessibleItems([phaseWithGates])).toEqual([
+        { id: 'phase-2', text: 'Phase Build: 2024-04-01 to 2024-06-30' },
+        { id: 'gate-start-2', text: 'Phase gate Build Start: 2024-04-01' },
+        { id: 'gate-finish-2', text: 'Phase gate Build End: 2024-06-30' },
+      ]);
+    });
+
+    it('uses a single date for one-day phases', () => {
+      expect(buildAccessibleItems([oneDayPhase])).toEqual([
+        { id: 'phase-4', text: 'Phase Kickoff: 2024-05-15' },
+      ]);
+    });
+
+    it('skips phases without dates', () => {
+      expect(buildAccessibleItems([phaseWithoutDates])).toEqual([]);
+    });
+  });
+
+  describe('template', () => {
+    it('does not render an empty screen reader list', () => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      expect(element.querySelector('ul.sr-only')).toBeNull();
+    });
+
+    it('renders screen reader text and hides the visual graph from assistive technology', () => {
+      fixture.componentRef.setInput('phasesData', JSON.stringify([phaseWithGates]));
+      fixture.detectChanges();
+
+      const element = fixture.nativeElement as HTMLElement;
+      expect(element.querySelector('.op-project-timeline-graph')?.getAttribute('aria-hidden')).toBe('true');
+      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase Build: 2024-04-01 to 2024-06-30');
+      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
+      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build End: 2024-06-30');
     });
   });
 });
