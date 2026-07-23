@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
-  shared_let(:bug_type) { create(:type, name: "Bug") }
+  shared_let(:bug_type) { create(:type, name: "Bug", color: create(:color)) }
 
   before { login_as(admin) }
 
