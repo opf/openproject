@@ -30,50 +30,38 @@
 
 module WorkPackageTypes
   module Wizard
-    class SidebarComponent < ApplicationComponent
+    # The project attributes wizard step: the reuse-mode banner over the project
+    # attribute toggles, shown read-only while the aspect is Linked. Mirrors the
+    # project attributes tab and PdfStepComponent.
+    class ProjectAttributesStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:)
+      def initialize(type:)
         super(type)
-
-        @current_step = current_step
       end
 
-      LEADING_ICONS = {
-        details: :info,
-        defaults: :"file-diff",
-        form_configuration: :"list-unordered",
-        project_attributes: :project,
-        workflows: :"git-branch",
-        automations: :zap,
-        projects: :table,
-        pdf: :file
-      }.freeze
+      def call
+        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
+          render(WorkPackageTypes::ReuseModeBannerComponent.new(
+                   type: model,
+                   aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES
+                 )) +
+            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
+                     type: model,
+                     project_custom_field_sections:,
+                     readonly: model.linked?(Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+                   ))
+        end
+      end
 
       private
 
-      attr_reader :current_step
-
-      def type = model
-
-      def steps = Steps.all
-
-      def leading_icon(step) = LEADING_ICONS.fetch(step)
-
-      def title(step) = Steps.title(step)
-
-      def current?(step) = step == current_step
-
-      # Steps ordered before the current one are considered done. Until the
-      # record is created (step 1) nothing is navigable or completed yet.
-      def completed?(step)
-        type.persisted? && Steps.index(step) < Steps.index(current_step)
+      def project_custom_field_sections
+        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
       end
 
-      # Only visited/creatable steps are navigable: before the record exists we
-      # cannot address a step by its type id.
-      def href_for(step)
-        type_creation_wizard_path(type, step:) if type.persisted?
+      def reload_url
+        helpers.type_creation_wizard_path(model, step: :project_attributes)
       end
     end
   end

@@ -6033,6 +6033,7 @@ en:
         details: "Details"
         form_configuration: "Form configuration"
         pdf: "PDF generation"
+        project_attributes: "Project attributes"
         projects: "Projects"
         workflows: "Workflows"
       success: "Variant created successfully."
