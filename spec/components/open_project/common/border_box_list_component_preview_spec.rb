@@ -98,29 +98,4 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
 
     expect(page).to have_css(".Box.Box--condensed.op-border-box-list_header-padding-default")
   end
-
-  it "renders the header action label preview" do
-    render_preview(:with_header_action_label, from: described_class)
-
-    expect(page).to have_css(".op-border-box-list-header--actions .Label", text: "Default")
-    expect(page).to have_no_css(".op-border-box-list-header--actions .Button")
-  end
-
-  it "renders the header action label preview alongside an action button" do
-    render_preview(
-      :with_header_action_label,
-      from: described_class,
-      params: { with_action_button: true }
-    )
-
-    expect(page).to have_css(".op-border-box-list-header--actions .Label", text: "Default")
-    expect(page).to have_css(".op-border-box-list-header--actions .Button", text: "Edit")
-  end
-
-  it "renders the collapsible header action label preview" do
-    render_preview(:with_collapsible_header_action_label, from: described_class)
-
-    expect(page).to have_css(".op-border-box-list-header_collapsible")
-    expect(page).to have_css(".op-border-box-list-header--actions .Label", text: "Default")
-  end
 end

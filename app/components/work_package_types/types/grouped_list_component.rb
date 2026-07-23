@@ -55,13 +55,11 @@ module WorkPackageTypes
 
       # A default variant is only visible once the group is expanded, so the
       # collapsed header names it instead.
-      def add_default_label(header, root)
+      def default_label(root)
         if root.is_default?
-          header.with_action_label { t("types.index.enabled_in_new_projects") }
+          { scheme: :default, text: t("types.index.enabled_in_new_projects") }
         elsif (variant = default_variant(root))
-          header.with_action_label(scheme: :secondary) do
-            t("types.index.variant_enabled_in_new_projects", name: variant.own_name)
-          end
+          { scheme: :secondary, text: t("types.index.variant_enabled_in_new_projects", name: variant.own_name) }
         end
       end
 
