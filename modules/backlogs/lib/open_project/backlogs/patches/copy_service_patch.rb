@@ -33,6 +33,17 @@ module OpenProject::Backlogs::Patches::CopyServicePatch
 
   included do
     prepend InstanceMethods
+    singleton_class.prepend ClassMethods
+  end
+
+  module ClassMethods
+    def copy_dependencies
+      # Sprints and backlog buckets must precede the `WorkPackagesDependentService`
+      # so their id maps are ready when the work packages are copied and their
+      # sprint/bucket ids remapped.
+      [::Projects::Copy::SprintsDependentService,
+       ::Projects::Copy::BacklogBucketsDependentService] + super
+    end
   end
 
   module InstanceMethods

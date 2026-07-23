@@ -503,6 +503,20 @@ pt-BR:
           name: Histórico de usuário
         item_6:
           name: Bug
+      global_queries:
+        item_0:
+          name: 'Epic children: User stories and bugs'
+        item_1:
+          name: 'User story children: Tasks'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: User stories and bugs
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Tasks
       welcome:
         title: Boas-vindas ao OpenProject!
         text: |

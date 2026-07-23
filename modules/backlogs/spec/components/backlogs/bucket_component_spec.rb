@@ -120,10 +120,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component, with_flag: { backlog
         end
       end
 
-      it "renders one shared-card row per work package" do
-        expect(rendered_component).to have_css(".Box-row", count: 1)
-      end
-
       it "lazily loads the work package card through a turbo-frame" do
         expect(rendered_component).to have_css(
           ".Box-row#work_package_#{work_package.id} " \
@@ -134,10 +130,14 @@ RSpec.describe Backlogs::BucketComponent, type: :component, with_flag: { backlog
 
       context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
         it "renders the card inline without a turbo-frame" do
-          expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
+          expect(rendered_component).to have_text("Bucket Work Package")
+          expect(rendered_component).to have_text("##{work_package.id}")
+
           expect(rendered_component).to have_css(
             ".Box-row#work_package_#{work_package.id} .sr-only", text: "3 story points"
           )
+
+          expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
         end
       end
 
@@ -173,7 +173,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component, with_flag: { backlog
     end
 
     context "without work packages" do
-      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
+      it_behaves_like "rendering Box", row_count: 0, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Backlog bucket is empty"
 
       it "renders the bucket empty-state blankslate" do

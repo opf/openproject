@@ -219,7 +219,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         margin: { item: { horizontal: 0, vertical: 16 } },
         showCurrentTime: false, // enabled after reveal; avoids periodic changed events interfering with the ready debounce
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
-        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
+        zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years days maximum zoom
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
         tooltip: { template: this.tooltipTemplate.bind(this) } as any,
       },
@@ -242,7 +242,10 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     ).subscribe(() => {
       this.timeline!.off('changed', this.readyHandler!);
       this.readyHandler = null;
-      this.timeline!.setOptions({ showCurrentTime: true });
+      this.timeline!.setOptions({
+        showCurrentTime: true,
+        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
+      });
       this.ready.set(true);
     });
   }

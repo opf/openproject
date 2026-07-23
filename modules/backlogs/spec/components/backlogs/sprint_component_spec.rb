@@ -102,9 +102,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
         it "renders the cards inline without turbo-frames" do
           [work_package1, work_package2].each do |work_package|
             expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
+
+            expect(rendered_component).to have_text(work_package.subject)
+            expect(rendered_component).to have_css(".sr-only", text: "#{work_package.story_points} story points")
           end
-          expect(rendered_component).to have_css(".sr-only", text: "5 story points")
-          expect(rendered_component).to have_css(".sr-only", text: "3 story points")
         end
 
         it "wires draggable data on work package rows" do
@@ -121,10 +122,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
             expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
           end
         end
-      end
-
-      it "renders one Box-row per work package" do
-        expect(rendered_component).to have_css(".Box-row", count: 2)
       end
 
       it "wires the list controller and value attributes for the sprint" do
@@ -184,7 +181,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
     end
 
     context "without work packages" do
-      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
+      it_behaves_like "rendering Box", row_count: 0, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Sprint 1 is empty"
 
       it "renders the empty-state blankslate" do

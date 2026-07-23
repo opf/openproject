@@ -285,6 +285,9 @@ lv:
     name: OpenProject Backlogs
   project_module_backlogs: Darbu krātuve
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

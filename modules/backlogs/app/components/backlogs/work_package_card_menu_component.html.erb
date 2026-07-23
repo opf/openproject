@@ -31,9 +31,10 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::Alpha::ActionMenu::List.new(menu_id:)) do |list|
     list.with_item(
       id: dom_target(work_package, :menu, :open_details),
-      tag: :button,
+      tag: :a,
       label: t(:"js.button_open_details"),
-      content_arguments: { data: { action: "backlogs--work-package#openSplitPane" } }
+      href: project_backlogs_backlog_details_path(project, work_package),
+      content_arguments: { data: { action: "backlogs--work-package#openSplitPane:prevent" } }
     ) do |item|
       item.with_leading_visual_icon(icon: :"op-view-split")
     end

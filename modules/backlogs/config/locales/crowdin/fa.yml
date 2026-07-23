@@ -280,6 +280,9 @@ fa:
     name: OpenProject Backlogs
   project_module_backlogs: وظایف
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

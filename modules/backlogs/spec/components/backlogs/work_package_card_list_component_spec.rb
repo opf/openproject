@@ -271,8 +271,8 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
         ]
       end
 
-      it "does not render the blankslate" do
-        expect(rendered_component).to have_no_css(".blankslate")
+      it "renders the blankslate in the DOM (hidden by CSS when items are present)" do
+        expect(rendered_component).to have_css(".blankslate")
       end
     end
   end
