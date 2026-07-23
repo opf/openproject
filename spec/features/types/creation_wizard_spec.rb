@@ -105,7 +105,9 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     click_on I18n.t(:button_continue)
     expect_step_saved(:projects)
 
-    # Step 7 - PDF generation
+    # Step 7 - PDF generation: linked to the parent on creation, so it renders read-only.
+    expect(page).to have_heading("PDF generation") # the main content, not the sidebar entry
+    expect(page).to have_text("Linked mode")
     click_on I18n.t("types.creation_wizard.finish")
 
     expect_flash(message: "Variant created successfully.")
