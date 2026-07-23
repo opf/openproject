@@ -28,24 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Reports::AuthorReport < Reports::Report
-  def self.report_type
-    "author"
+require "spec_helper"
+
+# Assignee and responsible can both be groups (see Principals::Scopes::PossibleAssignee),
+# so their reports list group members. Authors are always users, so the author report does not.
+RSpec.describe "Reports principal rows", type: :model do
+  shared_let(:project) { create(:project) }
+  shared_let(:role) { create(:project_role) }
+  shared_let(:user) { create(:user, member_with_roles: { project => role }) }
+  shared_let(:group) { create(:group, member_with_roles: { project => role }) }
+
+  describe Reports::AssigneeReport do
+    it "includes group members" do
+      expect(described_class.new(project).rows).to contain_exactly(user, group)
+    end
   end
 
-  def field
-    "author_id"
+  describe Reports::ResponsibleReport do
+    it "includes group members" do
+      expect(described_class.new(project).rows).to contain_exactly(user, group)
+    end
   end
 
-  def rows
-    @rows ||= @project.member_users.map(&:principal).sort
-  end
-
-  def data
-    @data ||= WorkPackage.by_author(@project)
-  end
-
-  def title
-    @title ||= WorkPackage.human_attribute_name(:author)
+  describe Reports::AuthorReport do
+    it "excludes groups, listing only user members" do
+      expect(described_class.new(project).rows).to contain_exactly(user)
+    end
   end
 end
