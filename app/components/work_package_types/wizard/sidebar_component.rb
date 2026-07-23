@@ -45,7 +45,6 @@ module WorkPackageTypes
         form_configuration: :"list-unordered",
         project_attributes: :project,
         workflows: :"git-branch",
-        automations: :zap,
         projects: :table,
         pdf: :file
       }.freeze

@@ -6028,7 +6028,6 @@ en:
       placeholder_description: "This step will be available soon."
       progress_label: "Step %{number} of %{total}"
       steps:
-        automations: "Automations"
         defaults: "Defaults"
         details: "Details"
         form_configuration: "Form configuration"
