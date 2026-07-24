@@ -147,31 +147,28 @@ class Type < ApplicationRecord
     includes(:projects).where(projects: { id: project })
   end
 
-  # Writers use #own_workflows; the flag-off branch also keeps it so an eager-loaded
-  # association (see TypesController) stays usable. When variants are on, the effective
-  # owner is resolved inside the query, avoiding a separate resolution round-trip.
+  # Writers use #own_workflows; reads resolve to the owning type through the link
+  # chain when variants are on. The fast path returns the association itself so it
+  # stays eager-loadable (see TypesController) while variants are off.
   def workflows
-    return own_workflows unless resolve_aspect_in_sql?
+    return own_workflows unless resolve_linked_aspect?
 
-    Workflow.where(Workflow.arel_table[:type_id].in(effective_source_id_ref(Type::ConfigurationLink::WORKFLOWS)))
+    Workflow.where(type_id: effective_source_id_for(Type::ConfigurationLink::WORKFLOWS))
   end
 
-  # Writers use #own_project_custom_field_type_mappings; the flag-off branch keeps it
-  # too. When variants are on, the effective owner is resolved inside the query,
-  # avoiding a separate resolution round-trip.
+  # Writers use #own_project_custom_field_type_mappings; reads resolve through the
+  # link chain when variants are on, with the same eager-loadable fast path.
   def project_custom_field_type_mappings
-    return own_project_custom_field_type_mappings unless resolve_aspect_in_sql?
+    return own_project_custom_field_type_mappings unless resolve_linked_aspect?
 
-    ProjectCustomFieldTypeMapping.where(
-      ProjectCustomFieldTypeMapping.arel_table[:type_id].in(effective_source_id_ref(Type::ConfigurationLink::PROJECT_ATTRIBUTES))
-    )
+    ProjectCustomFieldTypeMapping.where(type_id: effective_source_id_for(Type::ConfigurationLink::PROJECT_ATTRIBUTES))
   end
 
   def statuses(include_default: false, role: nil, tab: nil)
     return Status.none if new_record?
 
-    type_ref = resolve_aspect_in_sql? ? effective_source_id_ref(Type::ConfigurationLink::WORKFLOWS) : [id]
-    scope = self.class.statuses(type_ref, role:, tab:)
+    source_id = resolve_linked_aspect? ? effective_source_id_for(Type::ConfigurationLink::WORKFLOWS) : id
+    scope = self.class.statuses([source_id], role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
   end
 
