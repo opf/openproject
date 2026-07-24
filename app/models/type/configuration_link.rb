@@ -42,10 +42,6 @@ class Type
       PROJECT_ATTRIBUTES = "project_attributes"
     ].freeze
 
-    # Aspects a new variant links to its parent on creation. The remaining aspects
-    # start Independent until their linked behaviour is implemented.
-    DEFAULT_PARENT_LINK_ASPECTS = [PDF_EXPORT, DEFAULTS, PROJECT_ATTRIBUTES].freeze
-
     belongs_to :type, optional: false
     belongs_to :source, class_name: "Type", optional: false
 
