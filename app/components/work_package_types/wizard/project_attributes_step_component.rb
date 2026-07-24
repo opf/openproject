@@ -30,37 +30,38 @@
 
 module WorkPackageTypes
   module Wizard
-    # The steps of the variant creation wizard, in order. Every step submits its form
-    # through the wizard controller, which persists it and advances.
-    module Steps
-      ALL = %i[details defaults form_configuration project_attributes workflows projects pdf].freeze
+    # The project attributes wizard step: the reuse-mode banner over the project
+    # attribute toggles, shown read-only while the aspect is Linked. Mirrors the
+    # project attributes tab and PdfStepComponent.
+    class ProjectAttributesStepComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-      module_function
-
-      def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
-
-      def all = ALL
-
-      def first = ALL.first
-
-      def last = ALL.last
-
-      def for_key(key)
-        return nil if key.blank?
-
-        ALL.find { |step| step == key.to_sym }
+      def initialize(type:)
+        super(type)
       end
 
-      def index(step) = ALL.index(step)
-
-      def next_after(step)
-        idx = ALL.index(step)
-        ALL[idx + 1] if idx && idx + 1 < ALL.length
+      def call
+        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
+          render(WorkPackageTypes::ReuseModeBannerComponent.new(
+                   type: model,
+                   aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES
+                 )) +
+            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
+                     type: model,
+                     project_custom_field_sections:,
+                     readonly: model.linked?(Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+                   ))
+        end
       end
 
-      def previous_before(step)
-        idx = ALL.index(step)
-        ALL[idx - 1] if idx&.positive?
+      private
+
+      def project_custom_field_sections
+        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
+      end
+
+      def reload_url
+        helpers.type_creation_wizard_path(model, step: :project_attributes)
       end
     end
   end

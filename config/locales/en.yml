@@ -6028,11 +6028,11 @@ en:
       placeholder_description: "This step will be available soon."
       progress_label: "Step %{number} of %{total}"
       steps:
-        automations: "Automations"
         defaults: "Defaults"
         details: "Details"
         form_configuration: "Form configuration"
         pdf: "PDF generation"
+        project_attributes: "Project attributes"
         projects: "Projects"
         workflows: "Workflows"
       success: "Variant created successfully."

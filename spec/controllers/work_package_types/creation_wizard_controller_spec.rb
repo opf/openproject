@@ -127,14 +127,14 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
                                      type: { copy_workflow_from: workflow_source.id } }
           end.to change { variant.reload.workflows.count }.from(0).to(1)
 
-          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :automations))
+          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :projects))
         end
 
         it "advances without copying when no source is chosen" do
           patch :update, params: { type_id: variant.id, step: :workflows, type: { copy_workflow_from: "" } }
 
           expect(variant.reload.workflows).to be_empty
-          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :automations))
+          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :projects))
         end
       end
 

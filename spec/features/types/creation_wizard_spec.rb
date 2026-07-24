@@ -93,13 +93,15 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     click_on I18n.t(:button_continue)
     expect_step_saved(:form_configuration)
 
-    # Step 4 - Workflow
+    # Step 4 - Project attributes: linked to the parent on creation, so it renders read-only.
+    expect(page).to have_heading("Project attributes") # the main content, not the sidebar entry
+    expect(page).to have_text("Linked mode")
+    click_on I18n.t(:button_continue)
+    expect_step_saved(:project_attributes)
+
+    # Step 5 - Workflow
     click_on I18n.t(:button_continue)
     expect_step_saved(:workflows)
-
-    # Step 5 - Automations
-    click_on I18n.t(:button_continue)
-    expect_step_saved(:automations)
 
     # Step 6 - Projects
     click_on I18n.t(:button_continue)

@@ -42,10 +42,9 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
     # render through StepEditors and are covered by their editors' specs.
     {
       form_configuration: WorkPackageTypes::Wizard::FormConfigurationStepComponent,
+      project_attributes: WorkPackageTypes::Wizard::ProjectAttributesStepComponent,
       projects: WorkPackageTypes::ProjectsComponent,
-      pdf: WorkPackageTypes::Wizard::PdfStepComponent,
-      # A known step with no dedicated body yet falls back to the placeholder.
-      automations: WorkPackageTypes::Wizard::PlaceholderComponent
+      pdf: WorkPackageTypes::Wizard::PdfStepComponent
     }.each do |step, component|
       it "renders #{component} on the #{step} step" do
         stubbed = instance_double(component, render_in: "STUB[#{step}]")
