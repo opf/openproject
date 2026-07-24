@@ -122,6 +122,23 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
       it_behaves_like "handles operations"
     end
 
+    context "with arythmetic operations looking like date literals (#OP-19811)" do
+      let(:formulae_and_results) do
+        {
+          "10-1-1" => 8,
+          "10-01-01" => 8,
+          "10-10-10" => -10,
+          "10-20-30" => -40, # invalid date
+          "2010-1-1" => 2008,
+          "2010-01-01" => 2008,
+          "2010-10-10" => 1990,
+          "2010-20-30" => 1960 # invalid date
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
     context "with comparison operators" do
       let(:formulae_and_results) do
         {
