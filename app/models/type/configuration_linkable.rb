@@ -51,6 +51,35 @@ class Type
       after_create :link_default_aspects_to_parent, if: :variant?
     end
 
+    class_methods do
+      # SQL for the single owning (terminal) type id of the aspect's link chain
+      # starting at `type_id`. Recurses through type_configuration_links until a type
+      # that isn't linked for the aspect (the owner). The `path` array is a cycle
+      # guard tolerating rows that predate write-time cycle prevention (FND-133); a
+      # pure cycle owns nothing and yields no row.
+      #
+      # Fully sanitized, so it can be inlined as a scalar subquery: it lets a query
+      # resolve a linked type's effective owner without a separate round-trip.
+      def effective_source_id_subquery(type_id, aspect)
+        sanitize_sql_array([<<~SQL.squish, { type_id:, aspect: }])
+          WITH RECURSIVE link_chain(node_id, path) AS (
+            SELECT CAST(:type_id AS bigint), ARRAY[CAST(:type_id AS bigint)]
+            UNION ALL
+            SELECT l.source_id, cl.path || l.source_id
+            FROM link_chain cl
+            JOIN type_configuration_links l ON l.type_id = cl.node_id AND l.aspect = :aspect
+            WHERE NOT l.source_id = ANY(cl.path)
+          )
+          SELECT cl.node_id FROM link_chain cl
+          WHERE NOT EXISTS (
+            SELECT 1 FROM type_configuration_links l2
+            WHERE l2.type_id = cl.node_id AND l2.aspect = :aspect
+          )
+          LIMIT 1
+        SQL
+      end
+    end
+
     def linked?(aspect)
       configuration_links.exists?(aspect:)
     end
@@ -63,19 +92,25 @@ class Type
       configuration_links.find_or_initialize_by(aspect:).update!(source:)
     end
 
-    # Walks the link chain to the type that actually owns the aspect (Independent).
-    # The visited-set guard tolerates cyclic rows created before write-time cycle
-    # prevention (FND-133) existed, keeping resolution terminating.
+    # Resolves the link chain to the type that actually owns the aspect (Independent),
+    # in a single recursive query (see .effective_source_id_subquery). Returns `self`
+    # unchanged when this type owns the aspect, so callers keep object identity in the
+    # common case and avoid a reload.
     #
     # Guarded by the type_variants feature flag: with the flag off, links are ignored
-    # and every type resolves to its own stored configuration.
+    # and every type resolves to its own stored configuration. A new record has no
+    # persisted links, so it owns every aspect.
     def effective_source_for(aspect)
       return self unless OpenProject::FeatureDecisions.type_variants_active?
+      return self if new_record?
 
-      node = self
-      seen = Set.new
-      node = node.source_for(aspect) while node.linked?(aspect) && seen.add?(node.id)
-      node
+      terminal_id = self.class.connection.select_value(self.class.effective_source_id_subquery(id, aspect))
+      return self if terminal_id.blank?
+
+      terminal_id = terminal_id.to_i
+      return self if terminal_id == id
+
+      self.class.find(terminal_id)
     end
 
     # Readers of linked aspects resolve through the link, so a plain `type.patterns`
@@ -153,6 +188,19 @@ class Type
       source = effective_source_for(aspect)
 
       source unless source == self
+    end
+
+    # True when a lookup should resolve `aspect` through the link chain in SQL
+    # rather than reading this type's own rows: variants on and the type persisted.
+    def resolve_aspect_in_sql?
+      !new_record? && OpenProject::FeatureDecisions.type_variants_active?
+    end
+
+    # `aspect`'s owning type id as an inlinable subquery, for a lookup that filters
+    # on type_id (`type_id IN (…)`): it resolves a linked type's effective source in
+    # the same query instead of a preceding resolution round-trip.
+    def effective_source_id_ref(aspect)
+      Arel.sql("(#{self.class.effective_source_id_subquery(id, aspect)})")
     end
 
     def link_default_aspects_to_parent
