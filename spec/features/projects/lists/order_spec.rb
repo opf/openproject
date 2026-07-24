@@ -83,13 +83,15 @@ RSpec.describe "Projects lists ordering", :js, with_settings: { login_required?:
       projects_page.open_configure_view
       projects_page.switch_configure_view_tab(I18n.t("label_sort"))
 
-      # Initially we have the projects ordered by hierarchy
-      # When we sort by hierarchy, there is a special behavior that no other sorting is possible
-      # and the sort order is always ascending
+      # Initially we have the projects ordered by hierarchy. Hierarchy can be combined with
+      # other sorting criteria, so a second (still empty) sort field is already available.
       projects_page.within_sort_row(0) do
         projects_page.expect_sort_order(column_identifier: "lft", direction: "asc", direction_enabled: false)
       end
-      projects_page.expect_number_of_sort_fields(1)
+      projects_page.expect_number_of_sort_fields(2)
+      projects_page.within_sort_row(1) do
+        projects_page.expect_sort_order(column_identifier: "", direction: "")
+      end
 
       # Switch sorting order to Name descending
       # We now get a second sort field to add another sort order, but it has nothing selected
@@ -138,15 +140,47 @@ RSpec.describe "Projects lists ordering", :js, with_settings: { login_required?:
       projects_page.within_sort_row(1) { projects_page.expect_sort_order(column_identifier: :public, direction: :asc) }
       projects_page.within_sort_row(2) { projects_page.expect_sort_order(column_identifier: "", direction: "") }
 
-      # To roll back, we now select hierarchy as the third option, this will remove all other options
+      # Selecting hierarchy as the third option now swaps it into the first position instead of
+      # wiping the other criteria - the custom field criterion it swaps places with keeps
+      # applying, now as the third criterion; "public" in between is untouched.
       projects_page.within_sort_row(2) do
         projects_page.change_sort_order(column_identifier: :lft, direction: :asc)
       end
 
+      projects_page.expect_number_of_sort_fields(3)
       projects_page.within_sort_row(0) do
         projects_page.expect_sort_order(column_identifier: "lft", direction: "asc", direction_enabled: false)
       end
-      projects_page.expect_number_of_sort_fields(1)
+      projects_page.within_sort_row(1) do
+        projects_page.expect_sort_order(column_identifier: :public, direction: :asc)
+      end
+      projects_page.within_sort_row(2) do
+        projects_page.expect_sort_order(column_identifier: integer_custom_field.column_name, direction: :asc)
+      end
+    end
+
+    it "combines project hierarchy sort with a secondary sort criterion" do
+      projects_page.open_configure_view
+      projects_page.switch_configure_view_tab(I18n.t("label_sort"))
+
+      projects_page.within_sort_row(1) do
+        projects_page.change_sort_order(column_identifier: :created_at, direction: :asc)
+      end
+
+      projects_page.submit_config_view_dialog
+      wait_for_reload
+
+      # Projects stay grouped by hierarchy (parent before children), but siblings within each
+      # level are now ordered by creation date instead of always by name. "project"'s children
+      # were created in the order z, m, a - the reverse of their alphabetical name order - so
+      # this proves the secondary criterion, not name, now drives the sibling order.
+      projects_page
+        .expect_projects_in_order(project,
+                                  child_project_z,
+                                  child_project_m,
+                                  child_project_a,
+                                  public_project,
+                                  development_project)
     end
 
     it "resets the pagination when sorting (bug #55392)" do

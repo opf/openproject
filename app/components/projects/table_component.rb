@@ -188,10 +188,22 @@ module Projects
 
     def projects_with_levels_order_sensitive(projects, &)
       if sorted_by_lft?
-        Project.project_tree(projects, &)
+        Project.project_tree(projects, sibling_order: secondary_sibling_order(projects), &)
       else
         projects_with_level(projects, &)
       end
+    end
+
+    # Ranks projects by whatever sort criteria were selected in addition to "Project Hierarchy",
+    # so that Project.project_tree can order siblings by it instead of always by name.
+    # Returns nil when no secondary criterion is selected.
+    def secondary_sibling_order(projects)
+      secondary_orders = query.orders.drop(1).select(&:valid?)
+      return nil if secondary_orders.empty?
+
+      ids = projects.map(&:id)
+      scope = secondary_orders.inject(query.results.unscope(:order).where(id: ids)) { |s, o| o.apply_to(s) }
+      scope.pluck(:id).each_with_index.to_h
     end
 
     def projects_with_level(projects, &)
@@ -221,7 +233,10 @@ module Projects
     end
 
     def sorted_by_lft?
-      query.orders.first&.attribute == :lft
+      # orders parsed from request params carry a String attribute (e.g. "lft"), while
+      # orders built in Ruby (e.g. the default order) carry a Symbol (e.g. :lft) - compare
+      # as strings so both forms are recognized.
+      query.orders.first&.attribute.to_s == "lft"
     end
 
     def has_custom_field_column?

@@ -49,14 +49,16 @@ module Projects::Hierarchy
     #
     # if a project has no children the :children array is just empty
     #
-    def build_projects_hierarchy(projects) # rubocop:disable Metrics/AbcSize
+    # +sibling_order+ is an optional Hash of { project_id => rank } used to sort projects that
+    # share the same parent. When absent, siblings are sorted by name (the historic default).
+    def build_projects_hierarchy(projects, sibling_order: nil) # rubocop:disable Metrics/AbcSize
       ancestors = []
       result = []
 
       projects.sort_by(&:lft).each do |project|
         while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
-          # before we pop back one level, we sort the child projects by name
-          ancestors.last[:children] = sort_by_name(ancestors.last[:children])
+          # before we pop back one level, we sort the child projects
+          ancestors.last[:children] = sort_siblings(ancestors.last[:children], sibling_order)
           ancestors.pop
         end
 
@@ -70,11 +72,11 @@ module Projects::Hierarchy
       # When the last project is deeply nested, we need to sort
       # all layers we are in.
       ancestors.each do |level|
-        level[:children] = sort_by_name(level[:children])
+        level[:children] = sort_siblings(level[:children], sibling_order)
       end
       # we need one extra element to ensure sorting at the end
       # at the end the root level must be sorted as well
-      sort_by_name(result)
+      sort_siblings(result, sibling_order)
     end
 
     def project_tree_from_hierarchy(projects_hierarchy, level, &)
@@ -88,12 +90,18 @@ module Projects::Hierarchy
     end
 
     # Yields the given block for each project with its level in the tree
-    def project_tree(projects, &)
-      projects_hierarchy = build_projects_hierarchy(projects)
+    def project_tree(projects, sibling_order: nil, &)
+      projects_hierarchy = build_projects_hierarchy(projects, sibling_order:)
       project_tree_from_hierarchy(projects_hierarchy, 0, &)
     end
 
     private
+
+    def sort_siblings(project_hashes, sibling_order)
+      return sort_by_name(project_hashes) if sibling_order.blank?
+
+      project_hashes.sort_by { |h| sibling_order.fetch(h[:project].id, Float::INFINITY) }
+    end
 
     def sort_by_name(project_hashes)
       project_hashes.sort_by { |h| h[:project].name&.downcase }

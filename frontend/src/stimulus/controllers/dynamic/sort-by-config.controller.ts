@@ -37,8 +37,9 @@ export default class SortByConfigController extends Controller {
     'inputRowContainer',
   ];
 
-  // These fields can only be selected in isolation. When this field is selected, no other option is allowed to be selected
-  static onlySelectableInIsolation = ['lft'];
+  // This field defines the structural grouping the other sort criteria apply within, so it must
+  // always be the first (primary) sort criterion when selected.
+  static primaryOnlyField = 'lft';
 
   // For some fields we must enforce a fixed direction, those can be listed here
   static fixedDirections = new Map<string, string>([
@@ -154,24 +155,19 @@ export default class SortByConfigController extends Controller {
         this.toggleDirectionEnabled(row, true);
       }
 
-      // we have a field that can only be selected in isolation, we need to unset and remove all other fields
-      if (this.isIsolatedField(row)) {
-        this.inputRowTargets.forEach((otherRow) => {
-          if (otherRow !== row) {
-            this.hideRow(otherRow);
-            this.unsetField(otherRow);
-            this.unsetDirection(otherRow);
-            this.moveRowToBottom(otherRow);
-          }
-        });
+      // we have a field that must always be the primary sort criterion. Rather than moving this
+      // row's DOM node (which would disconnect/reconnect its custom elements, e.g. Primer's
+      // segmented-control, losing their internal state), swap field+direction values with the
+      // first row instead - the other rows keep applying as secondary/tertiary criteria.
+      if (selectedField === SortByConfigController.primaryOnlyField && row !== this.inputRowTargets[0]) {
+        this.swapFieldAndDirection(row, this.inputRowTargets[0]);
+        this.manageRow(this.inputRowTargets[0]);
+        this.manageRow(row);
       }
     }
   }
 
   displayNewFieldSelectorIfNeeded():void {
-    // If an isolated field is selected, we do not want to display a new field
-    if (this.anyIsolatedFieldSelected()) { return; }
-
     // If there is a visible field without a selected field, we do not want to display a new field
     if (this.anyRowVisibleWithoutSelectedField()) { return; }
 
@@ -182,17 +178,6 @@ export default class SortByConfigController extends Controller {
     if (nextHiddenRow) {
       this.showRow(nextHiddenRow);
     }
-  }
-
-  anyIsolatedFieldSelected():boolean {
-    return this.inputRowTargets.some((row) => this.isIsolatedField(row));
-  }
-
-  isIsolatedField(row:HTMLElement):boolean {
-    const selectedField = this.getSelectedField(row);
-    if (!selectedField) { return false; }
-
-    return SortByConfigController.onlySelectableInIsolation.includes(selectedField);
   }
 
   visibleFieldCount():number {
@@ -217,11 +202,28 @@ export default class SortByConfigController extends Controller {
     return selectedSegment?.getAttribute('data-direction') ?? null;
   }
 
-  unsetField(row:HTMLElement):void {
+  setField(row:HTMLElement, value:string|null):void {
     const select = row.querySelector<HTMLSelectElement>('select[name="sort_field"]');
     if (select) {
-      select.value = '';
+      select.value = value ?? '';
     }
+  }
+
+  unsetField(row:HTMLElement):void {
+    this.setField(row, null);
+  }
+
+  swapFieldAndDirection(rowA:HTMLElement, rowB:HTMLElement):void {
+    const fieldA = this.getSelectedField(rowA);
+    const directionA = this.getSelectedDirection(rowA);
+    const fieldB = this.getSelectedField(rowB);
+    const directionB = this.getSelectedDirection(rowB);
+
+    this.setField(rowA, fieldB);
+    this.setField(rowB, fieldA);
+
+    if (directionB) { this.setDirection(rowA, directionB); } else { this.unsetDirection(rowA); }
+    if (directionA) { this.setDirection(rowB, directionA); } else { this.unsetDirection(rowB); }
   }
 
   unsetDirection(row:HTMLElement):void {
