@@ -30,10 +30,11 @@
 
 module WikiPages
   class SidemenuTree
-    def initialize(wiki:, current_page:, query:)
+    def initialize(wiki:, current_page:, query:, href_resolver:)
       @wiki = wiki
       @current_page = current_page
       @query = query.to_s.strip
+      @href_resolver = href_resolver
     end
 
     def nodes
@@ -48,23 +49,23 @@ module WikiPages
 
     attr_reader :wiki,
                 :current_page,
-                :query
+                :query,
+                :href_resolver
 
     def sidemenu_nodes(pages)
       included_ids = included_sidemenu_page_ids(pages)
 
-      pages.index_by(&:id).transform_values do |wiki_page|
-        sidemenu_node(wiki_page)
-      end.slice(*included_ids)
+      pages.index_by(&:id).transform_values { |wiki_page| sidemenu_node(wiki_page) }.slice(*included_ids)
     end
 
     def sidemenu_node(wiki_page)
-      {
-        page: wiki_page,
-        children: [],
+      OpenProject::Sidemenu::TreeNode.new(
+        id: wiki_page.id,
+        label: wiki_page.title,
+        href: href_resolver.call(wiki_page),
         current: wiki_page.id == current_page&.id,
-        matches_query: query.blank? || wiki_page.title.downcase.include?(downcased_query)
-      }
+        disabled: !matches_query?(wiki_page)
+      )
     end
 
     def sidemenu_roots(pages, nodes)
@@ -72,7 +73,7 @@ module WikiPages
         next unless (node = nodes[wiki_page.id])
 
         if (parent = nodes[wiki_page.parent_id])
-          parent[:children] << node
+          parent.children << node
         else
           roots << node
         end
@@ -94,7 +95,7 @@ module WikiPages
       pages_by_id = pages.index_by(&:id)
 
       pages.each_with_object(Set.new) do |wiki_page, ids|
-        next unless wiki_page.title.downcase.include?(downcased_query)
+        next unless matches_query?(wiki_page)
 
         page = wiki_page
         while page
@@ -106,13 +107,17 @@ module WikiPages
 
     def expand_sidemenu_tree(nodes)
       nodes.each do |node|
-        node[:children] = expand_sidemenu_tree(node[:children])
-        node[:expanded] = query.present? || node[:current] || node[:children].any? { |child| child[:expanded] }
+        node.children = expand_sidemenu_tree(node.children)
+        node.expanded = query.present? || node.current? || node.children.any?(&:expanded?)
       end
     end
 
-    def downcased_query
-      @downcased_query ||= query.downcase
+    def matches_query?(wiki_page)
+      query_terms.empty? || query_terms.all? { |term| wiki_page.title.downcase.include?(term) }
+    end
+
+    def query_terms
+      @query_terms ||= query.downcase.split
     end
   end
 end

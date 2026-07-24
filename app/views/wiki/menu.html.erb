@@ -27,17 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::Alpha::TreeView.new(
-        node_variant: :anchor,
-        data: {
-          truncate_text: true,
-          target: "filterable-tree-view.treeViewList",
-          test_selector: "wiki-sidemenu-tree--list"
-        }
-      )
-    ) do |tree| %>
-  <% @tree.each do |node| %>
-    <%= render WikiPages::SidemenuTreeNodeComponent.new(component: tree, node:) %>
-  <% end %>
-<% end %>
+<%= render OpenProject::Sidemenu::TreeComponent.new(
+      nodes: @tree,
+      query_terms: @query_terms,
+      list_test_selector: "wiki-sidemenu-tree--list",
+      item_test_selector: "wiki-sidemenu-tree--item"
+    ) %>

@@ -161,7 +161,6 @@ $arrow-left-width: 36px
 // -------------------- CHILD menu items ---------------------------
 .main-menu--children
   display: none
-  padding: 10px 0
   width: 100%
 
   &.unattached
@@ -253,6 +252,7 @@ a.main-menu--parent-node:not(.Button)
         .main-menu--children
           display: block
           height: calc(100% - #{var(--main-menu-item-height)})
+          padding: 10px 0
           overflow: auto
 
           li
