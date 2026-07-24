@@ -97,7 +97,14 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.size).to eq(2)
     end
 
-    it "computes group_by Version, listing a work package under each target version" do
+    it "labels the group 'Version' while multiple versions is off" do
+      expect(CostQuery::GroupBy::VersionId.label).to eq("Version")
+    end
+
+    # While the feature is off a work package is single-version, so it is grouped
+    # under its primary target version only (target_versions.first) and the
+    # grouped total matches the ungrouped entry count.
+    it "computes group_by Version, listing a work package under its primary target version" do
       version1 = create(:version, project: project1)
       version2 = create(:version, project: project1)
       work_package = create(:work_package, project: project1, type:, version: version1)
@@ -106,17 +113,41 @@ RSpec.describe CostQuery, :reporting_query_helper do
 
       query.group_by :version_id
       # work_package1 / work_package2 entries have no target version (one group);
-      # the new work package is reported under both of its target versions.
-      expect(query.result.size).to eq(3)
+      # the new work package adds a single primary-version group.
+      expect(query.result.size).to eq(2)
 
-      # OPEN POINT FND-178: cost reports over-count totals when grouping or
-      # filtering by a multi-value attribute. The single time entry is counted
-      # once under each target-version group, so the grouped total exceeds the
-      # ungrouped entry count. This is accepted for now (team decision); the
-      # assertion pins the inflated total, not just the group count, so a later
-      # "fix" can't quietly change it without revisiting FND-178.
       total_count = query.result.each_direct_result.sum(&:count)
-      expect(total_count).to eq(Entry.count + 1)
+      expect(total_count).to eq(Entry.count)
+    end
+
+    context "with multiple target versions enabled",
+            with_flag: { work_package_multiple_versions: true },
+            with_settings: { work_package_multiple_versions: true } do
+      it "labels the group 'Target versions'" do
+        expect(CostQuery::GroupBy::VersionId.label).to eq("Target versions")
+      end
+
+      it "computes group_by Version, listing a work package under each target version" do
+        version1 = create(:version, project: project1)
+        version2 = create(:version, project: project1)
+        work_package = create(:work_package, project: project1, type:, version: version1)
+        work_package.work_package_versions.create!(version: version2, kind: "target")
+        create(:time_entry, entity: work_package, project: project1, spent_on: Date.new(2012, 1, 1))
+
+        query.group_by :version_id
+        # work_package1 / work_package2 entries have no target version (one group);
+        # the new work package is reported under both of its target versions.
+        expect(query.result.size).to eq(3)
+
+        # OPEN POINT FND-178: cost reports over-count totals when grouping or
+        # filtering by a multi-value attribute. The single time entry is counted
+        # once under each target-version group, so the grouped total exceeds the
+        # ungrouped entry count. This is accepted for now (team decision); the
+        # assertion pins the inflated total, not just the group count, so a later
+        # "fix" can't quietly change it without revisiting FND-178.
+        total_count = query.result.each_direct_result.sum(&:count)
+        expect(total_count).to eq(Entry.count + 1)
+      end
     end
 
     it "does not group a Meeting time entry under a same-id work package's target version" do

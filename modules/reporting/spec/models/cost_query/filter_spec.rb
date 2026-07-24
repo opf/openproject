@@ -291,30 +291,64 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(query.result.count).to eq(3)
       end
 
-      it "matches a work package through a non-primary target version" do
+      it "labels the filter 'Version' while multiple versions is off" do
+        expect(CostQuery::Filter::VersionId.label).to eq("Version")
+      end
+
+      # While the feature is off a work package is single-version, so the filter
+      # only sees its primary target version (target_versions.first).
+      it "matches a work package through its primary target version" do
+        primary_version = create(:version, project:)
+        secondary_version = create(:version, project:)
+        work_package = create_work_package_with_time_entry(version: primary_version)
+        work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+        query.filter :version_id, operator: "=", value: primary_version.id
+        expect(query.result.count).to eq(1)
+      end
+
+      it "ignores a non-primary target version while multiple versions is off" do
         primary_version = create(:version, project:)
         secondary_version = create(:version, project:)
         work_package = create_work_package_with_time_entry(version: primary_version)
         work_package.work_package_versions.create!(version: secondary_version, kind: "target")
 
         query.filter :version_id, operator: "=", value: secondary_version.id
-        expect(query.result.count).to eq(1)
+        expect(query.result.count).to eq(0)
       end
 
-      # OPEN POINT FND-178: cost reports over-count totals when grouping or
-      # filtering by a multi-value attribute. The target-version join is
-      # one-to-many, so a work package whose target versions both match the
-      # filter contributes one row per matching version. This double-count is
-      # accepted for now (team decision); the spec pins it so a later "fix"
-      # doesn't silently change the total without revisiting FND-178.
-      it "counts a work package once per matching target version (FND-178 over-count)" do
-        version1 = create(:version, project:)
-        version2 = create(:version, project:)
-        work_package = create_work_package_with_time_entry(version: version1)
-        work_package.work_package_versions.create!(version: version2, kind: "target")
+      context "with multiple target versions enabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        it "labels the filter 'Target versions'" do
+          expect(CostQuery::Filter::VersionId.label).to eq("Target versions")
+        end
 
-        query.filter :version_id, operator: "=", value: [version1.id, version2.id]
-        expect(query.result.count).to eq(2)
+        it "matches a work package through a non-primary target version" do
+          primary_version = create(:version, project:)
+          secondary_version = create(:version, project:)
+          work_package = create_work_package_with_time_entry(version: primary_version)
+          work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+          query.filter :version_id, operator: "=", value: secondary_version.id
+          expect(query.result.count).to eq(1)
+        end
+
+        # OPEN POINT FND-178: cost reports over-count totals when grouping or
+        # filtering by a multi-value attribute. The target-version join is
+        # one-to-many, so a work package whose target versions both match the
+        # filter contributes one row per matching version. This double-count is
+        # accepted for now (team decision); the spec pins it so a later "fix"
+        # doesn't silently change the total without revisiting FND-178.
+        it "counts a work package once per matching target version (FND-178 over-count)" do
+          version1 = create(:version, project:)
+          version2 = create(:version, project:)
+          work_package = create_work_package_with_time_entry(version: version1)
+          work_package.work_package_versions.create!(version: version2, kind: "target")
+
+          query.filter :version_id, operator: "=", value: [version1.id, version2.id]
+          expect(query.result.count).to eq(2)
+        end
       end
 
       it "filters subject" do
