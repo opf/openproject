@@ -36,17 +36,19 @@ RSpec.describe Types::EditPageHeaderComponent, type: :component do
   before { login_as(create(:admin)) }
 
   describe "breadcrumbs" do
-    it "links the parent the variant belongs to" do
-      render_inline(described_class.new(type: create(:type, parent:)))
+    it "links the parent and prefixes the variant leaf with 'Variant:'" do
+      render_inline(described_class.new(type: create(:type, parent:, name: "Milestone")))
 
       expect(page).to have_link("Phase",
                                 href: Rails.application.routes.url_helpers.edit_type_details_path(type_id: parent.id))
+      expect(page).to have_text("Variant: Milestone")
     end
 
-    it "omits the parent crumb for a root type" do
-      render_inline(described_class.new(type: create(:type)))
+    it "omits the parent crumb and the 'Variant:' prefix for a root type" do
+      render_inline(described_class.new(type: create(:type, name: "Milestone")))
 
       expect(page).to have_no_link("Phase")
+      expect(page).to have_no_text("Variant: Milestone")
     end
   end
 end

@@ -45,7 +45,7 @@ module Types
        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
        { href: types_path, text: t(:label_type_plural) },
        *parent_breadcrumb_item,
-       @type.own_name]
+       breadcrumb_leaf]
     end
 
     private
@@ -54,6 +54,12 @@ module Types
       return [] if @type.parent.nil?
 
       [{ href: edit_type_details_path(type_id: @type.parent_id), text: @type.parent.name }]
+    end
+
+    def breadcrumb_leaf
+      return @type.own_name unless @type.variant?
+
+      t("types.edit.breadcrumb_variant", name: @type.own_name)
     end
   end
 end
