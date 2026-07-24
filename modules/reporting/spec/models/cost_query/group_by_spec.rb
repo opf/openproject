@@ -97,6 +97,19 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.size).to eq(2)
     end
 
+    it "computes group_by Version, listing a work package under each target version" do
+      version1 = create(:version, project: project1)
+      version2 = create(:version, project: project1)
+      work_package = create(:work_package, project: project1, type:, version: version1)
+      work_package.work_package_versions.create!(version: version2, kind: "target")
+      create(:time_entry, entity: work_package, project: project1, spent_on: Date.new(2012, 1, 1))
+
+      query.group_by :version_id
+      # work_package1 / work_package2 entries have no target version (one group);
+      # the new work package is reported under both of its target versions.
+      expect(query.result.size).to eq(3)
+    end
+
     it "computes group_by CostType" do
       query.group_by :cost_type_id
       # type 'Labor' for time entries, 2 different cost types
