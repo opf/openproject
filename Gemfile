@@ -266,7 +266,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.6.0"
+  gem "test-prof", "~> 1.6.2"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
