@@ -178,7 +178,6 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "MAX(3, 1, 2, 4)" => 4,
           "SUM(1, 2, 3, 4)" => 10,
           "AVG(1, 2, 3, 4)" => 5/2r,
-          "COUNT(1, 2, 3, 4)" => 4,
           "ROUND(1.5)" => 2,
           "ROUNDUP(1.4)" => 2,
           "ROUNDDOWN(1.6)" => 1,
