@@ -35,7 +35,7 @@
       header.with_title do |title|
         if allowed_to_manage_documents?
           title.with_editable_form(
-            model:,
+            model: document,
             update_path: update_title_document_path(document),
             cancel_path: cancel_title_edit_document_path(document),
             label: Document.human_attribute_name(:title),

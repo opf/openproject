@@ -229,7 +229,7 @@ class DocumentsController < ApplicationController
 
   def update_header_component_via_turbo_stream(state: :show)
     update_via_turbo_stream(
-      component: Documents::ShowEditView::PageHeaderComponent.new(@document, project: @project, state:)
+      component: Documents::ShowEditView::PageHeaderComponent.new(document: @document, project: @project, state:)
     )
   end
 

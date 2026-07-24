@@ -50,7 +50,7 @@
     )
   ) do |layout|
     layout.with_header do
-      render Documents::ShowEditView::PageHeaderComponent.new(document, project:, state:)
+      render Documents::ShowEditView::PageHeaderComponent.new(document:, project:, state:)
     end
 
     layout.with_tab(name: I18n.t("activerecord.models.document"), show_left: true) do

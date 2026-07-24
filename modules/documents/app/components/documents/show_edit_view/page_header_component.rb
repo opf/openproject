@@ -34,10 +34,16 @@ module Documents
     class PageHeaderComponent < ApplicationComponent
       include OpTurbo::Streamable
 
-      alias_method :document, :model
+      STATES = %i[show edit].freeze
 
-      options :project
-      options state: :show
+      attr_reader :document, :project, :state
+
+      def initialize(document:, project:, state: :show)
+        super()
+        @document = document
+        @project = project
+        @state = state.to_sym.presence_in(STATES) || :show
+      end
 
       def page_header_attributes
         {
