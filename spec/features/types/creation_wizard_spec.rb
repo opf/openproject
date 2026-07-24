@@ -85,11 +85,9 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     expect(page).to have_no_button(I18n.t(:button_save))
     click_on I18n.t(:button_continue)
 
-    # Step 3 - Form configuration: independent on creation,
-    # so it renders the whole form and the footer drives submission.
+    # Step 3 - Form configuration: linked to the parent on creation, so it renders read-only.
     expect(page).to have_heading("Form configuration") # the main content, not the sidebar entry
-    expect(page).to have_text("Independent mode")
-    expect(page).to have_text("Inactive attributes")
+    expect(page).to have_text("Linked mode")
     click_on I18n.t(:button_continue)
     expect_step_saved(:form_configuration)
 
