@@ -102,8 +102,9 @@ RSpec.describe CostQuery, :reporting_query_helper do
     end
 
     # While the feature is off a work package is single-version, so it is grouped
-    # under its primary target version only (target_versions.first) and the
-    # grouped total matches the ungrouped entry count.
+    # under its primary target version only (the lowest version id, i.e. what
+    # target_versions.first returns) and the grouped total matches the ungrouped
+    # entry count.
     it "computes group_by Version, listing a work package under its primary target version" do
       version1 = create(:version, project: project1)
       version2 = create(:version, project: project1)

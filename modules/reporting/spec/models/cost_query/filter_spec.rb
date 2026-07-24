@@ -296,7 +296,8 @@ RSpec.describe CostQuery, :reporting_query_helper do
       end
 
       # While the feature is off a work package is single-version, so the filter
-      # only sees its primary target version (target_versions.first).
+      # only sees its primary target version (the lowest version id, i.e. what
+      # target_versions.first returns).
       it "matches a work package through its primary target version" do
         primary_version = create(:version, project:)
         secondary_version = create(:version, project:)
