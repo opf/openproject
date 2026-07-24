@@ -4303,7 +4303,6 @@ ko:
       oauth_code_not_present_explanation: '이 오류는 OAuth2 공급자에서 잘못된 response_type을 선택한 경우 나타납니다. Response_type은 ''code'' 또는 이와 유사해야 합니다.
 
         '
-      oauth_issue_contact_admin: OAuth2가 오류를 보고했습니다. 시스템 관리자에게 문의하세요.
       oauth_reported: 'OAuth2 공급자가 다음을 보고했습니다:'
       oauth_returned_error: OAuth2가 오류를 반환했습니다.
       oauth_returned_http_error: OAuth2가 네트워크 오류를 반환했습니다.
@@ -4596,6 +4595,8 @@ ko:
       one: 1개 포트폴리오
       other: "%{count}개 포트폴리오"
       zero: 0개 포트폴리오
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4619,6 +4620,8 @@ ko:
       one: 1개 프로그램
       other: "%{count}개 프로그램"
       zero: 0개 프로그램
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: 보관됨
@@ -5920,12 +5923,18 @@ ko:
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
+      type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         other: "%{count} variants"
-      type_label: Type
   unsupported_browser:
     close_warning: 이 경고를 무시하십시오.
     message: 이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다.

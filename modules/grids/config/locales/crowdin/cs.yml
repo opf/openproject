@@ -32,7 +32,8 @@ cs:
         no_results: Žádné novinky.
       not_available: Tento widget není k dispozici.
       project_timeline:
-        no_lifecycle_results: No life cycle phases
+        gantt_link: View milestones in Gantt
+        no_results_title: No project timeline content configured
         title: Project timeline
         title_portfolio: Portfolio timeline
         title_program: Program timeline

@@ -4345,7 +4345,6 @@ pt-PT:
       oauth_code_not_present_explanation: 'Este erro aparece se selecionou o parâmetro response_type errado no provedor OAuth2. A resposta _type deve ser ''code'' ou similar.
 
         '
-      oauth_issue_contact_admin: OAuth2 reportou um erro. Contacte a administração do sistema.
       oauth_reported: Provedor OAuth2 reportou
       oauth_returned_error: OAuth2 devolveu um erro
       oauth_returned_http_error: OAuth2 devolveu um erro de rede
@@ -4637,6 +4636,8 @@ pt-PT:
       one: 1 carteira
       other: "%{count} carteiras"
       zero: 0 carteiras
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4661,6 +4662,8 @@ pt-PT:
       one: 1 programa
       other: "%{count} programas"
       zero: 0 programas
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Arquivado
@@ -5964,13 +5967,19 @@ pt-PT:
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Crie um novo tipo
       no_results_title_text: Atualmente, não existem tipos.
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
+      type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         one: 1 variant
         other: "%{count} variants"
-      type_label: Type
   unsupported_browser:
     close_warning: Ignore este aviso.
     message: Pode encontrar erros e uma experiência degradada desta página.

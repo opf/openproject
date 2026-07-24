@@ -147,7 +147,7 @@ fr:
       blankslate_description: Les tâches en cours qui ne font pas partie d'un sprint ou d'un compartiment du backlog apparaissent automatiquement ici
       blankslate_title: La boîte de réception de backlog est vide
       drop_zone_label: Faites-y glisser cet article pour l'ajouter
-      label_actions: Inbox actions
+      label_actions: Actions de la boîte de réception
       show_more:
         one: Afficher un article supplémentaire
         other: Afficher %{count} articles supplémentaires
@@ -281,7 +281,7 @@ fr:
   project_module_backlogs: Backlogs
   projects:
     copy:
-      backlog_buckets: Backlog buckets
+      backlog_buckets: Buckets de backlog
       sprints: Sprints
     settings:
       backlog_sharing:
@@ -311,9 +311,9 @@ fr:
           cannot_turn_off: Plusieurs sprints sont actuellement actifs. Pour revenir en arrière pour ne permettre qu'un seul sprint actif à la fois, veuillez d'abord vous assurer qu'au maximum un sprint est actif.
           not_available_html: Il n'est pas possible d'avoir plusieurs sprints actifs lorsque <a href=%{sprint_sharing_url}>le partage de sprints</a> ou leur réception est activé.
         sharing_form_component:
-          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
+          disabled_due_to_multiple_active_sprints: Le partage de sprints n'est pas disponible lorsque plusieurs sprints actifs sont activés.
           sharing_description: Ce projet peut soit partager ses propres sprints, soit recevoir des sprints partagés, soit gérer les sprints de manière indépendante (sans partage).
           sharing_fallback_description: En l'absence d'un plan d'entreprise, les options de partage sont limitées aux sprints du projet. Le paramètre actuellement actif reste actif.
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: Boîte de réception du backlog
   remaining_hours: travail restant

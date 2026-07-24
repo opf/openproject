@@ -4287,7 +4287,6 @@ zh-CN:
       oauth_code_not_present_explanation: '如果您在 OAuth2 提供程序中选择了错误的 response_type，则会出现此错误。Response_type 应当为 ''code'' 或类似条目。
 
         '
-      oauth_issue_contact_admin: OAuth2 报告错误。请联系您的系统管理员。
       oauth_reported: OAuth2 提供程序报告
       oauth_returned_error: OAuth2 返回错误
       oauth_returned_http_error: OAuth2 返回网络错误
@@ -4577,6 +4576,8 @@ zh-CN:
       one: 1 个项目组合
       other: "%{count} 个项目组合"
       zero: 0 个项目组合
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4600,6 +4601,8 @@ zh-CN:
       one: 1 个项目群
       other: "%{count} 个项目群"
       zero: 0 个项目群
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: 已存档
@@ -5904,12 +5907,18 @@ zh-CN:
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: 创建新的类型
       no_results_title_text: 目前没有类型。
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
+      type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         other: "%{count} variants"
-      type_label: Type
   unsupported_browser:
     close_warning: 请忽略这个警告。
     message: 此页面可能会发生运行错误和不良用户体验。

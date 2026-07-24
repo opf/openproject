@@ -4486,7 +4486,6 @@ lt:
       oauth_code_not_present_explanation: 'Ši klaida pasirodo, jei jūs parinkote netinkamą OAuth2 tiekėjo response_type. Response_type privalo būti „code“ ar panašus.
 
         '
-      oauth_issue_contact_admin: OAuth2 grąžino klaidą. Prašome susisiekti su jūsų sistemos administratoriumi.
       oauth_reported: OAuth2 tiekėjas pranešė
       oauth_returned_error: OAuth2 grąžino klaidą
       oauth_returned_http_error: OAuth2 grąžino tinklo klaidą
@@ -4776,6 +4775,8 @@ lt:
       one: 1 portfolio
       other: "%{count} portfolios"
       zero: 0 portfolios
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4802,6 +4803,8 @@ lt:
       one: 1 program
       other: "%{count} programs"
       zero: 0 programs
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Suarchyvuotas
@@ -6112,15 +6115,21 @@ lt:
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Sukurti naują rūšį
       no_results_title_text: Nėra jokių rūšių.
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
+      type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         one: 1 variant
         few: "%{count} variants"
         many: "%{count} variants"
         other: "%{count} variants"
-      type_label: Type
   unsupported_browser:
     close_warning: Ignoruoti šį perspėjimą.
     message: Šiame puslapyje jums gali kilti problemų ar jis gali prastai veikti.

@@ -4480,7 +4480,6 @@ pl:
       oauth_code_not_present_explanation: 'Ten błąd pojawia się, jeśli wybrano niewłaściwy response_type u dostawcy OAuth2. Response_type powinien być ''code'' lub podobny.
 
         '
-      oauth_issue_contact_admin: OAuth2 zgłosił błąd. Skontaktuj się z administratorem systemu.
       oauth_reported: Dostawca OAuth2 zgłosił
       oauth_returned_error: OAuth2 zwrócił błąd
       oauth_returned_http_error: OAuth2 zwrócił błąd sieciowy
@@ -4772,6 +4771,8 @@ pl:
       one: 1 portfolio
       other: 'Liczba portfoliów: %{count}'
       zero: 0 portfoliów
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4798,6 +4799,8 @@ pl:
       one: 1 program
       other: 'Liczba programów: %{count}'
       zero: 0 programów
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Zarchiwizowano
@@ -6102,15 +6105,21 @@ pl:
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Utwórz nowy typ
       no_results_title_text: Nie ma jeszcze żadnych typów.
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
+      type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         one: 1 variant
         few: "%{count} variants"
         many: "%{count} variants"
         other: "%{count} variants"
-      type_label: Type
   unsupported_browser:
     close_warning: Zignoruj to ostrzeżenie.
     message: Na tej stronie mogą wystąpić błędy i pogorszenie działania.

@@ -342,7 +342,7 @@ fr:
         token_name: Nom du jeton
       type:
         attribute_groups: Configuration du formulaire
-        children: Variants
+        children: Variantes
         color: Couleur
         dependent_configuration_links: Types liés
         description: Texte par défaut pour la description
@@ -693,13 +693,13 @@ fr:
               must_start_with_letter: doit commencer par une lettre
               no_special_characters: ne peut contenir que des lettres majuscules, des chiffres et des traits de soulignement
             types:
-              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
-              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
+              cannot_assign_multiple_variants_of_parent: Une seule variante d'un type peut être activée dans le projet
+              cannot_assign_variant_and_parent: 'Impossible d''affecter une variante à son parent '
+              cannot_assign_variants_yet: Les variantes ne peuvent pas encore être activées au niveau d'un projet. Activez l'indicateur de fonctionnalité pour tester les variantes
               in_use_by_work_packages: 'toujours en cours d''utilisation par les lots de travaux : %{types}'
-              switch_source_not_a_variant: Can only switch away from a variant
-              switch_target_identical: The target Type must be different from the current variant
-              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
+              switch_source_not_a_variant: Vous ne pouvez quitter une variante que
+              switch_target_identical: Le type cible doit être différent de la variante actuelle
+              switch_target_not_in_family: Vous ne pouvez passer qu'à une autre variante du même type ou à son type parent
           cannot_be_assigned_to_artifact_work_package: L'utilisateur sélectionné ne peut pas être assigné à des lots de travaux.
           foreign_wps_reference_version: Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.
         project/phase:
@@ -813,7 +813,7 @@ fr:
             parent:
               cannot_be_self: ne peut pas être le type lui-même.
               cannot_change_with_work_packages: ne peut pas être modifié car des lots de travail de ce type existent déjà.
-              cannot_have_children: can't be set because this type already has variants.
+              cannot_have_children: ne peut pas être défini car ce type comporte déjà des variantes.
               must_be_a_root: doit être lui-même un type de niveau supérieur. Les types ne peuvent être imbriqués qu'à un seul niveau.
               standard_type_must_be_root: ne peut pas être défini pour le type standard.
             patterns:
@@ -821,7 +821,7 @@ fr:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: permettrait de relier ces configurations en boucle.
         user:
           attributes:
             base:
@@ -1524,7 +1524,7 @@ fr:
     workflows:
       blankslate:
         description: Ajouter des statuts pour commencer à configurer des flux de travail pour ce rôle
-        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        linked_description: Ce type réutilise les flux de travail de son type source associé, pour lequel aucune transition de statut n'est configurée
         title: Aucune transition de statut configurée
       leave_confirmation:
         description: Vous êtes sur le point de quitter cette page mais vous avez des modifications non enregistrées. Souhaitez-vous les enregistrer avant de continuer ?
@@ -2775,13 +2775,13 @@ fr:
       new_features:
         '17_7':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Nouveau module de gestion des ressources pour la planification des capacités et la gestion des effectifs (formule Premium).
+            line_1: Une meilleure gestion organisationnelle grâce aux services, aux attributs utilisateur tels que les intitulés de poste et aux horaires de travail.
+            line_2: Plusieurs sprints actifs sans partage (formule Basic).
+            line_3: Amélioration de la gestion du carnet de commandes et des sprints grâce à des filtres à sélection multiple, à une fonctionnalité de glisser-déposer optimisée et à la possibilité d'ajouter des lots de travail existants.
+            line_4: Exportation des artefacts PM²/PMflex et nouveau widget permettant d'avoir une vue d'ensemble des phases et des étapes clés du projet.
+            line_5: Index global des pages du wiki et navigation simplifiée entre les pages associées.
+          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que:
 
             '
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
@@ -4349,7 +4349,6 @@ fr:
       oauth_code_not_present_explanation: 'Cette erreur apparaît si vous avez sélectionné le mauvais response_type dans le fournisseur OAuth2. Response_type doit être « code » ou similaire.
 
         '
-      oauth_issue_contact_admin: OAuth2 a signalé une erreur. Veuillez contacter votre administrateur système.
       oauth_reported: Fournisseur OAuth2 signalé
       oauth_returned_error: OAuth2 a renvoyé une erreur
       oauth_returned_http_error: OAuth2 a renvoyé une erreur réseau
@@ -4641,6 +4640,8 @@ fr:
       one: 1 portefeuille
       other: "%{count} portefeuilles"
       zero: 0 portefeuille
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4665,6 +4666,8 @@ fr:
       one: 1 programme
       other: "%{count} programmes"
       zero: 0 programme
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archivé
@@ -5704,7 +5707,7 @@ fr:
     Vous êtes sur le point de retirer tout ou partie de vos permissions et ne pourrez peut-être plus modifier le projet par la suite.
     Voulez-vous vraiment continuer?
   text_permanent_delete_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée.
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée.
   text_plugin_assets_writable: Répertoire des « plugin assets » est accessible en écriture
   text_powered_by: Propulsé par %{link}
   text_project_custom_field_html: 'L''édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
@@ -5793,8 +5796,8 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      create_type: Create type
-      create_variant: Create variant
+      create_type: Créer un type
+      create_variant: Créer une variante
       fields:
         inherited_from_parent_html: Hérité du type parent <b>%{parent}</b>.
       finish: Terminer
@@ -5802,56 +5805,56 @@ fr:
       progress_label: Étape %{number} sur %{total}
       steps:
         automations: Automatisations
-        defaults: Defaults
+        defaults: Valeurs par défaut
         details: Détails
         form_configuration: Configuration du formulaire
         pdf: Génération de PDF
         projects: Projets
         workflows: Flux de travail
-      success: Variant created successfully.
+      success: La variante a été créée avec succès.
       workflows:
         copy_caption: Copiez la configuration du workflow à partir d'un type existant pour vous en servir de point de départ.
     edit:
       defaults:
         automatically_generated_subjects:
-          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
-          label: Automatically generated subjects
+          caption: Définissez un modèle utilisant des attributs et du texte référencés pour générer automatiquement des sujets de lots de travaux. Les utilisateurs ne pourront pas modifier manuellement les sujets.
+          label: Sujets générés automatiquement
         description:
-          caption: Add the text that will be added to the description field of all new work packages with this type.
-          label: Default description text
+          caption: Veuillez saisir le texte qui sera ajouté dans le champ « Description » de tous les nouveaux lots de travail de ce type.
+          label: Texte de description par défaut
         manually_editable_subjects:
-          caption: Users can manually enter and edit work package subjects without restrictions.
-          label: Manually editable subjects
+          caption: Les utilisateurs peuvent saisir et modifier manuellement les sujets des lots de travaux sans restrictions.
+          label: Sujets modifiables manuellement
         pattern:
-          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
-          insert_as_text: 'No attributes found. Add as text: "%{word}"'
-          label: Subject pattern
-        tab: Defaults
+          caption: Créez des modèles en ajoutant du texte ou saisissez « / » pour rechercher les [attributs pris en charge](attributes_url).
+          insert_as_text: 'Aucun attribut n''a été trouvé. Ajouter en tant que texte : « %{word} »'
+          label: Modèle de sujet
+        tab: Valeurs par défaut
         token:
           context:
             parent: Parent
-            project: Project
-            work_package: Work package
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+            project: Projet
+            work_package: Lot de travaux
+          label_with_context: "%{attribute_context} : %{attribute_label}"
       details:
-        tab: Details
-        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        tab: Détails
+        type_color_text: La couleur sélectionnée distingue les différents types dans les graphiques de Gantt ou les tableaux des lots de travaux. Il est donc recommandé d'utiliser une couleur forte.
       export_configuration:
         artefact_export:
           attachment:
-            caption: The generated PDF is saved as a file attachment on the work package.
-            label: Save as work package file attachment
+            caption: Le fichier PDF généré est enregistré en tant que pièce jointe dans le dossier du lot de travail.
+            label: Enregistrer en tant que pièce jointe au lot de travaux
           file_link:
-            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
-            label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+            caption: Le fichier PDF généré est téléchargé vers l'espace de stockage Nextcloud géré automatiquement du projet et un lien vers celui-ci est ajouté dans le lot de travail. Les lots de travail des projets ne disposant pas d'un tel espace de stockage sont ignorés.
+            label: Importer le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
+          intro: Générer automatiquement un fichier PDF correspondant à un lot de travail de ce type chaque fois que son statut change.
+          invalid_mode: Mode d'exportation d'artefacts non valide.
+          label: Exportation automatique des artefacts
           off_mode:
-            caption: No PDF is generated automatically.
-            label: 'Off'
-          section_title: Automatic artefact export
-          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
+            caption: Aucun fichier PDF n'est généré automatiquement.
+            label: Désactivé
+          section_title: Exportation automatique des artefacts
+          unavailable: indisponible, aucun espace de stockage Nextcloud à gestion automatique n'est configuré
         intro: Sélectionnez les modèles disponibles que vous souhaitez activer pour ce type. Le modèle détermine la conception et les attributs visibles dans le fichier PDF exporté d'un lot de travaux utilisant ce type. Le premier modèle de la liste est sélectionné par défaut.
         pdf_export_templates:
           actions:
@@ -5910,77 +5913,83 @@ fr:
       reuse_mode:
         copy:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-            title: Copy configuration?
+            check_box: Je comprends que cela remplacera les paramètres actuels
+            description_html: En copiant les données depuis %{source_name} , vous écraserez les paramètres actuels et risquez d'altérer les informations existantes concernant les lots de travail de ce type.
+            title: Copier la configuration ?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
-            source_label: Copy source
-            source_placeholder: Select a type or variant
-            submit: Save and copy
-            title: Copy configuration
-          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
-          success: The configuration was copied.
+            description: Copiez la configuration d'un type source et utilisez-la comme base ponctuelle. Cela ne crée pas de lien permanent entre les deux types.
+            source_label: Copier la source
+            source_placeholder: Sélectionnez un type ou une variante
+            submit: Enregistrer et copier
+            title: Copier la configuration
+          invalid_source: La configuration ne peut pas être copiée à partir du type sélectionné. Veuillez sélectionner un autre type de source.
+          success: La configuration a été copiée.
         independent:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            title: Switch configuration mode?
-          copy_from_type: Copy from type
-          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+            check_box: Je comprends que cela remplacera les paramètres actuels
+            description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient avoir une incidence sur les informations existantes concernant les lots de travail de ce type.
+            title: Passer en mode de configuration ?
+          copy_from_type: Copier à partir du type
+          description: Aucun paramètre n'est hérité. Si vous le souhaitez, vous pouvez toutefois copier ponctuellement les paramètres d'un autre type.
           dialog:
-            submit: Switch
-            title: Independent mode
-          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+            submit: Interrupteur (switch)
+            title: Mode autonome
+          invalid_mode: Le mode sélectionné n'est pas disponible pour cette configuration. Veuillez choisir un autre mode.
           modes:
             copy:
-              caption: Start with a one-time copy of the current settings set in the linked mode.
-              label: Copy from linked
+              caption: Commencez par effectuer une copie ponctuelle des paramètres actuels définis en mode lié.
+              label: Copier à partir du lien
             default:
-              caption: Use the default settings for new types.
-              label: Default settings
+              caption: Utilisez les paramètres par défaut pour les nouveaux types.
+              label: Paramètres par défaut
             empty:
-              caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
-          success: The configuration mode was switched.
-          switch_to_linked: Switch to linked mode
-          title: Independent mode
+              caption: Configurez tout à partir de zéro, en partant d'une configuration vierge.
+              label: Vide
+          success: Le mode de configuration a été modifié.
+          switch_to_linked: Passer en mode « lié »
+          title: Mode autonome
         linked:
-          change_source: Change source type
+          change_source: Modifier le type de source
           confirm_dialog:
             change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              title: Change source type?
-            check_box: I understand that this will override the current settings
+              description_html: En modifiant le type de source pour « %{source_name} », vous écraserez les paramètres actuels, ce qui pourrait avoir une incidence sur les informations existantes concernant les lots de travail de ce type.
+              title: Modifier le type de source ?
+            check_box: Je comprends que cela remplacera les paramètres actuels
             from_independent:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              title: Switch configuration mode?
-          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+              description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient avoir une incidence sur les informations existantes concernant les lots de travail de ce type.
+              title: Passer en mode de configuration ?
+          description: Cette configuration est liée au type source [%{source_name}](source_url)%{source_suffix} et en hérite les paramètres.
           dialog:
-            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
-            source_label: Linked source
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Linked mode
-          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          switch_to_independent: Switch to independent mode
-          title: Linked mode
+            description: Copiez et reprenez ces paramètres depuis une source. Toute nouvelle configuration ajoutée à la source sera également ajoutée ici.
+            source_label: Source associée
+            source_placeholder: Sélectionnez un type ou une variante
+            submit: Interrupteur (switch)
+            title: Mode lié
+          invalid_source: La configuration ne peut pas être associée au type sélectionné. Veuillez sélectionner un autre type de source.
+          success: Le mode de configuration a été modifié.
+          switch_to_independent: Passer en mode autonome
+          title: Mode lié
         parent_suffix: " (parent)"
       workflow:
-        tab: Workflows
+        tab: Flux de travail
     index:
-      add_variant: Add variant to %{name}
-      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Ajouter une variante à %{name}
+      description: 'Chaque zone de configuration au sein des types et des variantes peut être configurée de manière indépendante, limitée par rapport à un autre type ou entièrement liée à une source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
-      variant_label: Variant
-      variants_count:
-        one: 1 variant
-        other: "%{count} variants"
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
       type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
+      variant_label: Variante
+      variants_count:
+        one: 1 variante
+        other: "%{count} variantes"
   unsupported_browser:
     close_warning: Ignorer cet avertissement.
     message: Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page.
@@ -6020,7 +6029,7 @@ fr:
     status_change: Changement de statut
     status_user_and_brute_force: "%{user} et %{brute_force}"
     text_change_disabled_for_provider_login: Le nom et l'adresse e-mail sont définis par votre fournisseur d'accès et ne peuvent donc pas être modifiés.
-    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
+    text_change_mail_disabled_by_administrator: La modification de votre adresse e-mail a été désactivée par l'administrateur.
     unlock: Déverrouiller
     unlock_and_reset_failed_logins: Déverrouiller et réinitialiser les échecs de connexion
   user_preferences:

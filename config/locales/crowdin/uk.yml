@@ -4484,7 +4484,6 @@ uk:
       oauth_code_not_present_explanation: 'Ця помилка з’являється, якщо вибрати неправильне значення response_type для постачальника OAuth2. Поле Response_type може мати значення ''code'' або подібне.
 
         '
-      oauth_issue_contact_admin: Клієнт OAuth2 повідомив про помилку. Зверніться до системного адміністратора.
       oauth_reported: 'Постачальник OAuth2 повідомив:'
       oauth_returned_error: Клієнт OAuth2 повернув помилку
       oauth_returned_http_error: Клієнт OAuth2 повернув помилку мережі
@@ -4776,6 +4775,8 @@ uk:
       one: 1 портфель
       other: "%{count} портфелі(-ів)"
       zero: 0 портфелів
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4802,6 +4803,8 @@ uk:
       one: 1 програма
       other: "%{count} програм(-и)"
       zero: 0 програм
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Архівований
@@ -6117,15 +6120,21 @@ uk:
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Створіть новий тип
       no_results_title_text: Наразі немає типів.
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
+      type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         one: 1 variant
         few: "%{count} variants"
         many: "%{count} variants"
         other: "%{count} variants"
-      type_label: Type
   unsupported_browser:
     close_warning: Ігнорувати це попередження.
     message: Ви можете зіткнутися з помилками та погіршити досвід роботи на цій сторінці.
