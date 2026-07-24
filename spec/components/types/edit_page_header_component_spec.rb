@@ -28,32 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Types
-  class EditPageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ApplicationHelper
-    include TabsHelper
+require "rails_helper"
 
-    def initialize(type:, tabs: nil)
-      super
-      @type = type
-      @tabs = tabs
+RSpec.describe Types::EditPageHeaderComponent, type: :component do
+  let(:parent) { create(:type, name: "Phase") }
+
+  before { login_as(create(:admin)) }
+
+  describe "breadcrumbs" do
+    it "links the parent the variant belongs to" do
+      render_inline(described_class.new(type: create(:type, parent:)))
+
+      expect(page).to have_link("Phase",
+                                href: Rails.application.routes.url_helpers.edit_type_details_path(type_id: parent.id))
     end
 
-    def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-       { href: types_path, text: t(:label_type_plural) },
-       *parent_breadcrumb_item,
-       @type.own_name]
-    end
+    it "omits the parent crumb for a root type" do
+      render_inline(described_class.new(type: create(:type)))
 
-    private
-
-    def parent_breadcrumb_item
-      return [] if @type.parent.nil?
-
-      [{ href: edit_type_details_path(type_id: @type.parent_id), text: @type.parent.name }]
+      expect(page).to have_no_link("Phase")
     end
   end
 end
