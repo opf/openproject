@@ -28,38 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Types
-  class EditPageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ApplicationHelper
-    include TabsHelper
+require "rails_helper"
 
-    def initialize(type:, tabs: nil)
-      super
-      @type = type
-      @tabs = tabs
+RSpec.describe Types::EditPageHeaderComponent, type: :component do
+  let(:parent) { create(:type, name: "Phase") }
+
+  before { login_as(create(:admin)) }
+
+  describe "breadcrumbs" do
+    it "links the parent and prefixes the variant leaf with 'Variant:'" do
+      render_inline(described_class.new(type: create(:type, parent:, name: "Milestone")))
+
+      expect(page).to have_link("Phase",
+                                href: Rails.application.routes.url_helpers.edit_type_details_path(type_id: parent.id))
+      expect(page).to have_text("Variant: Milestone")
     end
 
-    def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-       { href: types_path, text: t(:label_type_plural) },
-       *parent_breadcrumb_item,
-       breadcrumb_leaf]
-    end
+    it "omits the parent crumb and the 'Variant:' prefix for a root type" do
+      render_inline(described_class.new(type: create(:type, name: "Milestone")))
 
-    private
-
-    def parent_breadcrumb_item
-      return [] if @type.parent.nil?
-
-      [{ href: edit_type_details_path(type_id: @type.parent_id), text: @type.parent.name }]
-    end
-
-    def breadcrumb_leaf
-      return @type.own_name unless @type.variant?
-
-      t("types.edit.breadcrumb_variant", name: @type.own_name)
+      expect(page).to have_no_link("Phase")
+      expect(page).to have_no_text("Variant: Milestone")
     end
   end
 end

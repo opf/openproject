@@ -6039,6 +6039,7 @@ en:
       workflows:
         copy_caption: "Copy the workflow configuration from an existing type as a starting point."
     edit:
+      breadcrumb_variant: "Variant: %{name}"
       defaults:
         automatically_generated_subjects:
           caption: "Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects."
