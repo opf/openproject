@@ -48,6 +48,9 @@ export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
 }
 
 @Component({
+  // Pre-existing name, referenced in several places so renaming is a
+  // separate, broader change than this component's own logic.
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-autocomplete',
   templateUrl: '../../../../../../shared/components/autocompleter/op-autocompleter/op-autocompleter.component.html',
   styleUrls: ['../../../../../../shared/components/autocompleter/op-autocompleter/op-autocompleter.component.sass'],
@@ -102,11 +105,15 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
     }
 
     return from(
+      // availableRelationCandidates is resolved dynamically through the generic HAL
+      // resource `_links` mechanism, which isn't typed on WorkPackageResource; a real fix
+      // belongs in the shared HAL resource typings, not this component.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       this.workPackage.availableRelationCandidates.$link.$fetch({
         query,
         filters: JSON.stringify(this.createFilters()),
         type: this.filterCandidatesFor || this.selectedRelationType,
-        sortBy: JSON.stringify([['updatedAt', 'desc']]),
+        sortBy: JSON.stringify([['exactMatch', 'desc'], ['updatedAt', 'desc']]),
       }) as Promise<WorkPackageCollectionResource>,
     )
       .pipe(

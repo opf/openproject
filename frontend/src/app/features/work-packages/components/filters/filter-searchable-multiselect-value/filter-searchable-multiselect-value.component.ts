@@ -62,12 +62,12 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   initialRequest$:Observable<CollectionResource>;
 
-  itemTracker = (item:HalResource):string => item.href || item.id || item.name;
+  itemTracker = (item:HalResource):string => item.href ?? item.id ?? item.name;
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;
     const project = item.definingProject as HalResource | undefined;
-    return project?.name || this.I18n.t('js.project.not_available');
+    return project?.name ?? this.I18n.t('js.project.not_available');
   };
 
   compareByHref = compareByHref;
@@ -143,10 +143,15 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   private loadCollection(matching:string):Observable<CollectionResource> {
     const filters:ApiV3FilterBuilder = this.createFilters(matching);
+    const params:Record<string, string> = { pageSize: `${MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE}` };
+
+    if (this.resourceType === 'work_packages') {
+      params.sortBy = '[["exactMatch","desc"],["updatedAt","desc"]]';
+    }
 
     return (this.apiV3Service.collectionFromString(this.allowedValuesLink) as
       ApiV3ResourceCollection<HalResource, ApiV3Resource>)
-      .filtered(filters, { pageSize: `${MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE}` })
+      .filtered(filters, params)
       .get();
   }
 
