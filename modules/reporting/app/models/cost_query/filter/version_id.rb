@@ -46,4 +46,33 @@ class CostQuery::Filter::VersionId < Report::Filter::Base
     versions = Version.where(project_id: Project.visible.map(&:id))
     versions.map { |a| ["#{a.project.name} - #{a.name}", a.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
   end
+
+  # The default "is not" operator negates row by row. With every target version
+  # joined that lets a work package slip through on a non-excluded row (targets
+  # [1, 2] would still match "is not 1" via the 2 row), so exclude on the work
+  # package as a whole with a NOT EXISTS subquery. The primary-only join is
+  # already one-to-one, so this only applies while multiple versions is on.
+  def apply_operator_to(query)
+    return super unless Setting::WorkPackageMultipleVersions.active? && operator.to_s == "!"
+
+    version_ids = sql_query_values(operator.arity).compact
+    return super if version_ids.empty?
+
+    query.where(sql_excluding_target_versions(version_ids))
+    query
+  end
+
+  private
+
+  def sql_excluding_target_versions(version_ids)
+    <<~SQL.squish
+      NOT EXISTS (
+        SELECT 1 FROM work_package_versions excluded
+        WHERE excluded.work_package_id = entries.entity_id
+          AND entries.entity_type = 'WorkPackage'
+          AND excluded.kind = 'target'
+          AND excluded.version_id IN #{collection(*version_ids)}
+      )
+    SQL
+  end
 end

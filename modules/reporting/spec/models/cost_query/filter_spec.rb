@@ -349,6 +349,20 @@ RSpec.describe CostQuery, :reporting_query_helper do
           query.filter :version_id, operator: "=", value: [version1.id, version2.id]
           expect(query.result.count).to eq(2)
         end
+
+        it "excludes a work package that targets the version when filtering 'is not'" do
+          version1 = create(:version, project:)
+          version2 = create(:version, project:)
+          other_version = create(:version, project:)
+          multi = create_work_package_with_time_entry(version: version1)
+          multi.work_package_versions.create!(version: version2, kind: "target")
+          create_work_package_with_time_entry(version: other_version)
+
+          query.filter :version_id, operator: "!", value: [version1.id]
+          # `multi` targets version1, so "is not version1" must drop it even
+          # though it also targets version2; only the other work package remains.
+          expect(query.result.count).to eq(1)
+        end
       end
 
       it "filters subject" do
