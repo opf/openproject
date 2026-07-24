@@ -131,7 +131,8 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "1 >= 2" => false,
           "1 <> 2" => true,
           "1 != 2" => true,
-          "1 = 2" => false
+          "1 = 2" => false,
+          "1 == 2" => false
         }
       end
 

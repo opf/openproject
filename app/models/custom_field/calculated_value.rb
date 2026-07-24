@@ -37,7 +37,7 @@ module CustomField::CalculatedValue
   # AND and OR can be used both as operators and functions.
   FORMULA_OPERATORS = %w[
     + - * / % ^
-    < > <= >= <> != =
+    < > <= >= <> != = ==
     AND OR
   ].freeze
 

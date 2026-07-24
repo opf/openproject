@@ -638,6 +638,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       "1 <> 2",
       "1 != 2",
       "1 = 2",
+      "1 == 2",
       "1 <> 2 AND 2 <> 3",
       "1 <> 2 OR 2 <> 3",
       # functions
