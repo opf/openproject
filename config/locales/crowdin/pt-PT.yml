@@ -4338,7 +4338,6 @@ pt-PT:
       oauth_code_not_present_explanation: 'Este erro aparece se selecionou o parâmetro response_type errado no provedor OAuth2. A resposta _type deve ser ''code'' ou similar.
 
         '
-      oauth_issue_contact_admin: OAuth2 reportou um erro. Contacte a administração do sistema.
       oauth_reported: Provedor OAuth2 reportou
       oauth_returned_error: OAuth2 devolveu um erro
       oauth_returned_http_error: OAuth2 devolveu um erro de rede
@@ -4471,10 +4470,10 @@ pt-PT:
       templates:
         label: Modelo
         none_enabled: Nenhum modelo foi ativado para este tipo de pacote de trabalho
+      title: Gerar PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Gerar PDF
     page_nr_footer: Página %{page} de %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4630,6 +4629,8 @@ pt-PT:
       one: 1 carteira
       other: "%{count} carteiras"
       zero: 0 carteiras
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4654,6 +4655,8 @@ pt-PT:
       one: 1 programa
       other: "%{count} programas"
       zero: 0 programas
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Arquivado

@@ -4286,7 +4286,6 @@ vi:
       oauth_code_not_present_explanation: 'Lỗi này xuất hiện nếu bạn chọn sai loại phản hồi trong nhà cung cấp OAuth2. Response_type phải là ''code'' hoặc tương tự.
 
         '
-      oauth_issue_contact_admin: OAuth2 đã báo lỗi. Vui lòng liên hệ với quản trị viên hệ thống của bạn.
       oauth_reported: Đã báo cáo nhà cung cấp OAuth2
       oauth_returned_error: OAuth2 trả về lỗi
       oauth_returned_http_error: OAuth2 trả về lỗi mạng
@@ -4417,10 +4416,10 @@ vi:
       templates:
         label: mẫu
         none_enabled: Không có mẫu nào được bật cho loại gói công việc này
+      title: Tạo PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Tạo PDF
     page_nr_footer: Trang %{page} trong số %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4576,6 +4575,8 @@ vi:
       one: 1 danh mục đầu tư
       other: "%{count} danh mục đầu tư"
       zero: 0 danh mục đầu tư
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4599,6 +4600,8 @@ vi:
       one: 1 chương trình
       other: "%{count} chương trình"
       zero: 0 chương trình
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Đã lưu

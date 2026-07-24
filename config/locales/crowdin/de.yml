@@ -4343,7 +4343,6 @@ de:
       oauth_code_not_present_explanation: 'Dieser Fehler tritt auf, wenn Sie den falschen response_type im OAuth2-Provider ausgewählt haben. Response_type sollte ''code'' oder ähnlich sein.
 
         '
-      oauth_issue_contact_admin: OAuth2 meldet einen Fehler zurück. Bitte kontaktieren Sie den System-Administrator.
       oauth_reported: OAuth2-Anbieter meldete
       oauth_returned_error: OAuth2 hat einen Fehler zurückgemeldet
       oauth_returned_http_error: OAuth2 meldet einen Netzwerkfehler zurück
@@ -4476,10 +4475,10 @@ de:
       templates:
         label: Vorlage
         none_enabled: Für diesen Arbeitspakettyp ist keine Vorlage aktiv
+      title: PDF generieren
       toc:
         caption: Fügen Sie ein Inhaltsverzeichnis ein, in dem die Überschriften der Abschnitte aufgeführt sind.
         label: Inhaltsverzeichnis
-      title: PDF generieren
     page_nr_footer: Seite %{page} von %{total}
     template_artefact:
       caption: Details zum Arbeitspaket, dargestellt als PMflex-Artefakt.
@@ -4635,6 +4634,8 @@ de:
       one: Ein Portfolio
       other: "%{count} Portfolios"
       zero: Keine Portfolios
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4659,6 +4660,8 @@ de:
       one: 1 Programm
       other: "%{count} Programme"
       zero: 0 Programme
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archiviert

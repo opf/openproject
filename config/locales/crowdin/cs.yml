@@ -4476,7 +4476,6 @@ cs:
       oauth_code_not_present_explanation: 'This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be ''code'' or similar.
 
         '
-      oauth_issue_contact_admin: OAuth2 nahlásil chybu. Obraťte se na správce systému.
       oauth_reported: OAuth2 poskytovatel nahlášen
       oauth_returned_error: OAuth2 vrátil chybu
       oauth_returned_http_error: OAuth2 vrátil chybu sítě
@@ -4609,10 +4608,10 @@ cs:
       templates:
         label: Šablona
         none_enabled: No template has been enabled for this work package type
+      title: Generovat PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Generovat PDF
     page_nr_footer: Strana %{page} z %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4768,6 +4767,8 @@ cs:
       one: 1 portfolio
       other: "%{count} portfolií"
       zero: 0 portfolií
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4794,6 +4795,8 @@ cs:
       one: 1 program
       other: "%{count} programů"
       zero: 0 programů
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archivováno

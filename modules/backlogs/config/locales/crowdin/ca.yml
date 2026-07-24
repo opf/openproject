@@ -297,7 +297,7 @@ ca:
             caption: Sprints created in this project will be available to all projects in this instance. If you select this option, it will no longer be available to other projects.
             disabled_caption: Option not available since project "%{name}" is currently sharing with all projects and only one project can do this.
             disabled_caption_anonymous: Option not available since another project is currently sharing with all projects and only one project can do this.
-            label: All projects
+            label: Tots els projectes
           share_subprojects:
             caption: Sprints created in this project will be available to all subprojects of the current project.
             info: Sharing a sprint will share the name, status and the start and finish dates in all projects. These cannot be modified in projects that receive and use these sprints.

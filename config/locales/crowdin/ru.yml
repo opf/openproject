@@ -226,8 +226,8 @@ ru:
         identifier: Идентификатор
         latest_activity_at: Последние действия
         parent: Подпроект
-        portfolio: Portfolio
-        program: Program
+        portfolio: Портфолио
+        program: Программа
         project_creation_wizard_assignee_custom_field: Исполнитель при отправке
         project_creation_wizard_enabled: Запрос на инициализацию проекта
         project_creation_wizard_notification_text: Текст уведомления
@@ -344,21 +344,21 @@ ru:
         attribute_groups: Настройка форм
         children: Sub-types
         color: Цвет
-        dependent_configuration_links: Linked types
+        dependent_configuration_links: Связанные типы
         description: Текст для описания по умолчанию
         is_default: В новых проектах активируется по умолчанию
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_milestone: Это веха
-        parent: Parent type
+        parent: Родительский тип
         patterns: Шаблоны
       type/configuration_link:
-        source: Source type
+        source: Тип источника
       user:
         admin: Администратор
         auth_source: Источник аутентификации
         consented_at: Согласен с
         current_password: Текущий пароль
-        department: Department
+        department: Отдел
         failed_login_count: Неудачные попытки входа
         first_login: Первый вход в систему
         first_name: Имя
@@ -371,7 +371,7 @@ ru:
         new_password: Новый пароль
         password_confirmation: Подтверждение
       user_custom_field:
-        custom_field_section: Section
+        custom_field_section: Раздел
       user_non_working_time:
         end_date: Дата окончания
         start_date: Дата начала
@@ -3725,10 +3725,10 @@ ru:
     other: "%{count} элементов"
     zero: нет элементов
   label_x_items_selected:
-    one: One item selected
-    few: "%{count} items selected"
-    many: "%{count} items selected"
-    other: "%{count} items selected"
+    one: Один элемент выбран
+    few: "%{count} элемента выбрано"
+    many: "%{count} элементов выбрано"
+    other: "%{count} элементов выбрано"
   label_x_open_work_packages_abbr:
     one: 1 открыт
     other: "%{count} открыто"
@@ -4471,7 +4471,6 @@ ru:
       oauth_code_not_present_explanation: 'Эта ошибка появляется, если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть ''code'' или аналогичным.
 
         '
-      oauth_issue_contact_admin: OAuth2 сообщил об ошибке. Обратитесь к системному администратору.
       oauth_reported: Источник OAuth2 сообщил
       oauth_returned_error: OAuth2 вернул ошибку
       oauth_returned_http_error: OAuth2 вернул ошибку сети
@@ -4604,10 +4603,10 @@ ru:
       templates:
         label: Шаблон
         none_enabled: Для этого типа пакета работ не был определен шаблон
+      title: Создать PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Создать PDF
     page_nr_footer: Страница %{page} из %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4763,6 +4762,8 @@ ru:
       one: 1 портфолио
       other: "%{count} портфолио"
       zero: 0 портфолио
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4789,6 +4790,8 @@ ru:
       one: 1 программа
       other: "%{count} программ"
       zero: 0 программ
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Архивирован

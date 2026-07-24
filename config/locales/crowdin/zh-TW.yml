@@ -4285,7 +4285,6 @@ zh-TW:
       oauth_code_not_present_explanation: '如果您在 OAuth2 提供程序中選擇了錯誤的 response_type，則會出現此錯誤。Response_type 應當為 ''code'' 或類似條目。
 
         '
-      oauth_issue_contact_admin: OAuth2 報告錯誤。請聯繫您的系統管理員。
       oauth_reported: OAuth2 提供程序報告
       oauth_returned_error: OAuth2 回傳錯誤
       oauth_returned_http_error: OAuth2 回傳網路錯誤
@@ -4416,10 +4415,10 @@ zh-TW:
       templates:
         label: 範本
         none_enabled: 尚未啟用此工作套件類型範本
+      title: 產生PDF檔案
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: 產生PDF檔案
     page_nr_footer: 頁面 %{page} of %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4575,6 +4574,8 @@ zh-TW:
       one: 1 個組合
       other: "%{count} 組合"
       zero: 0 個組合
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4598,6 +4599,8 @@ zh-TW:
       one: 1 個方案
       other: "%{count} 個方案"
       zero: 0 個方案
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: 封存

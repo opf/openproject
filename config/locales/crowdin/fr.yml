@@ -2768,13 +2768,13 @@ fr:
       new_features:
         '17_7':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Nouveau module de gestion des ressources pour la planification des capacités et la gestion des effectifs (formule Premium).
+            line_1: Une meilleure gestion organisationnelle grâce aux services, aux attributs utilisateur tels que les intitulés de poste et aux horaires de travail.
+            line_2: Plusieurs sprints actifs sans partage (formule Basic).
+            line_3: Amélioration de la gestion du carnet de commandes et des sprints grâce à des filtres à sélection multiple, à une fonctionnalité de glisser-déposer optimisée et à la possibilité d'ajouter des lots de travail existants.
+            line_4: Exportation des artefacts PM²/PMflex et nouveau widget permettant d'avoir une vue d'ensemble des phases et des étapes clés du projet.
+            line_5: Index global des pages du wiki et navigation simplifiée entre les pages associées.
+          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que:
 
             '
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
@@ -4342,7 +4342,6 @@ fr:
       oauth_code_not_present_explanation: 'Cette erreur apparaît si vous avez sélectionné le mauvais response_type dans le fournisseur OAuth2. Response_type doit être « code » ou similaire.
 
         '
-      oauth_issue_contact_admin: OAuth2 a signalé une erreur. Veuillez contacter votre administrateur système.
       oauth_reported: Fournisseur OAuth2 signalé
       oauth_returned_error: OAuth2 a renvoyé une erreur
       oauth_returned_http_error: OAuth2 a renvoyé une erreur réseau
@@ -4475,10 +4474,10 @@ fr:
       templates:
         label: Modèle
         none_enabled: Aucun modèle n'a été activé pour ce type de lot de travaux
+      title: Générer un fichier PDF
       toc:
         caption: Ajoutez une table des matières répertoriant les titres des sections.
         label: Table des matières
-      title: Générer un fichier PDF
     page_nr_footer: Page %{page} sur %{total}
     template_artefact:
       caption: Détails du lot de travail présentés sous la forme d'un artefact PMflex.
@@ -4634,6 +4633,8 @@ fr:
       one: 1 portefeuille
       other: "%{count} portefeuilles"
       zero: 0 portefeuille
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4658,6 +4659,8 @@ fr:
       one: 1 programme
       other: "%{count} programmes"
       zero: 0 programme
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archivé
@@ -5697,7 +5700,7 @@ fr:
     Vous êtes sur le point de retirer tout ou partie de vos permissions et ne pourrez peut-être plus modifier le projet par la suite.
     Voulez-vous vraiment continuer?
   text_permanent_delete_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée.
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée.
   text_plugin_assets_writable: Répertoire des « plugin assets » est accessible en écriture
   text_powered_by: Propulsé par %{link}
   text_project_custom_field_html: 'L''édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
@@ -5808,29 +5811,29 @@ fr:
         independent:
           caption: Ces paramètres appartiennent à ce type et sont modifiés ici. Ils ne sont liés à aucun autre type.
           label: Indépendant
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+          warning: En sélectionnant « Indépendant », les paramètres actuels du type de source sélectionné sont copiés sur ce type, puis le lien est supprimé. Vous pourrez ensuite les modifier librement. Veuillez procéder avec prudence.
         linked:
           caption: Ces paramètres sont repris d'un type de source et restent synchronisés avec celui-ci. Pour les modifier, modifiez le type de source.
           label: Relié
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+          warning: La liaison remplace les paramètres propres à ce type par ceux du type source. Les paramètres actuels sont supprimés et les lots de travail de ce type peuvent être affectés. Veuillez procéder avec prudence.
         source:
           label: Type de source
       export_configuration:
         artefact_export:
           attachment:
-            caption: The generated PDF is saved as a file attachment on the work package.
-            label: Save as work package file attachment
+            caption: Le fichier PDF généré est enregistré en tant que pièce jointe dans le dossier du lot de travail.
+            label: Enregistrer en tant que pièce jointe au lot de travaux
           file_link:
-            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
-            label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+            caption: Le fichier PDF généré est téléchargé vers l'espace de stockage Nextcloud géré automatiquement du projet et un lien vers celui-ci est ajouté dans le lot de travail. Les lots de travail des projets ne disposant pas d'un tel espace de stockage sont ignorés.
+            label: Importer le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
+          intro: Générer automatiquement un fichier PDF correspondant à un lot de travail de ce type chaque fois que son statut change.
+          invalid_mode: Mode d'exportation d'artefacts non valide.
+          label: Exportation automatique des artefacts
           off_mode:
-            caption: No PDF is generated automatically.
-            label: 'Off'
-          section_title: Automatic artefact export
-          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
+            caption: Aucun fichier PDF n'est généré automatiquement.
+            label: Désactivé
+          section_title: Exportation automatique des artefacts
+          unavailable: indisponible, aucun espace de stockage Nextcloud à gestion automatique n'est configuré
         intro: Sélectionnez les modèles disponibles que vous souhaitez activer pour ce type. Le modèle détermine la conception et les attributs visibles dans le fichier PDF exporté d'un lot de travaux utilisant ce type. Le premier modèle de la liste est sélectionné par défaut.
         pdf_export_templates:
           actions:
@@ -5910,7 +5913,7 @@ fr:
           label_with_context: "%{attribute_context} : %{attribute_label}"
     index:
       add_subtype: Ajouter un sous-type à %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      description: 'Chaque domaine de configuration au sein des types et sous-types peut être configuré de manière indépendante, limité par rapport à un autre type ou entièrement lié à une source.
 
         '
       no_results_content_text: Créer un nouveau type
@@ -5918,7 +5921,7 @@ fr:
       subtype_label: Sous-type
       subtypes_count:
         one: 1 sous-type
-        other: "%{count} sub-types"
+        other: "%{count} sous-types"
       type_label: Type
   unsupported_browser:
     close_warning: Ignorer cet avertissement.
@@ -5959,7 +5962,7 @@ fr:
     status_change: Changement de statut
     status_user_and_brute_force: "%{user} et %{brute_force}"
     text_change_disabled_for_provider_login: Le nom et l'adresse e-mail sont définis par votre fournisseur d'accès et ne peuvent donc pas être modifiés.
-    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
+    text_change_mail_disabled_by_administrator: La modification de votre adresse e-mail a été désactivée par l'administrateur.
     unlock: Déverrouiller
     unlock_and_reset_failed_logins: Déverrouiller et réinitialiser les échecs de connexion
   user_preferences:

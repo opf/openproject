@@ -4340,7 +4340,6 @@ et:
       oauth_code_not_present_explanation: 'This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be ''code'' or similar.
 
         '
-      oauth_issue_contact_admin: OAuth2 reported an error. Please contact your system administrator.
       oauth_reported: OAuth2 provider reported
       oauth_returned_error: OAuth2 returned an error
       oauth_returned_http_error: OAuth2 returned a network error
@@ -4473,10 +4472,10 @@ et:
       templates:
         label: Template
         none_enabled: No template has been enabled for this work package type
+      title: Genereeri PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Genereeri PDF
     page_nr_footer: Page %{page} of %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4632,6 +4631,8 @@ et:
       one: 1 portfolio
       other: "%{count} portfolios"
       zero: 0 portfolios
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4656,6 +4657,8 @@ et:
       one: 1 program
       other: "%{count} programs"
       zero: 0 programs
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archived

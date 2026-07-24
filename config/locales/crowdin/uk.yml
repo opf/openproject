@@ -4477,7 +4477,6 @@ uk:
       oauth_code_not_present_explanation: 'Ця помилка з’являється, якщо вибрати неправильне значення response_type для постачальника OAuth2. Поле Response_type може мати значення ''code'' або подібне.
 
         '
-      oauth_issue_contact_admin: Клієнт OAuth2 повідомив про помилку. Зверніться до системного адміністратора.
       oauth_reported: 'Постачальник OAuth2 повідомив:'
       oauth_returned_error: Клієнт OAuth2 повернув помилку
       oauth_returned_http_error: Клієнт OAuth2 повернув помилку мережі
@@ -4610,10 +4609,10 @@ uk:
       templates:
         label: Шаблон
         none_enabled: Для цього типу пакета робіт не ввімкнено шаблон
+      title: Згенерувати PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Згенерувати PDF
     page_nr_footer: Сторінка %{page} з %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4769,6 +4768,8 @@ uk:
       one: 1 портфель
       other: "%{count} портфелі(-ів)"
       zero: 0 портфелів
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4795,6 +4796,8 @@ uk:
       one: 1 програма
       other: "%{count} програм(-и)"
       zero: 0 програм
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Архівований

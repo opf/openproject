@@ -4280,7 +4280,6 @@ zh-CN:
       oauth_code_not_present_explanation: '如果您在 OAuth2 提供程序中选择了错误的 response_type，则会出现此错误。Response_type 应当为 ''code'' 或类似条目。
 
         '
-      oauth_issue_contact_admin: OAuth2 报告错误。请联系您的系统管理员。
       oauth_reported: OAuth2 提供程序报告
       oauth_returned_error: OAuth2 返回错误
       oauth_returned_http_error: OAuth2 返回网络错误
@@ -4411,10 +4410,10 @@ zh-CN:
       templates:
         label: 模板
         none_enabled: 此工作包类型没有启用模板
+      title: 生成 PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: 生成 PDF
     page_nr_footer: 第 %{page} 页，共%{total} 页
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4570,6 +4569,8 @@ zh-CN:
       one: 1 个项目组合
       other: "%{count} 个项目组合"
       zero: 0 个项目组合
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4593,6 +4594,8 @@ zh-CN:
       one: 1 个项目群
       other: "%{count} 个项目群"
       zero: 0 个项目群
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: 已存档

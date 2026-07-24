@@ -4343,7 +4343,6 @@ it:
       oauth_code_not_present_explanation: 'Questo errore appare se hai selezionato response_type errato nel provider OAuth2. Response_type dovrebbe essere ''code'' o simile.
 
         '
-      oauth_issue_contact_admin: OAuth2 ha segnalato un errore. Contatta l'amministratore di sistema.
       oauth_reported: Provider OAuth2 segnalato
       oauth_returned_error: OAuth2 ha restituito un errore
       oauth_returned_http_error: OAuth2 ha restituito un errore di rete
@@ -4476,10 +4475,10 @@ it:
       templates:
         label: Modello
         none_enabled: Nessun modello è stato abilitato per questo tipo di macro-attività
+      title: Genera PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Genera PDF
     page_nr_footer: Pagina %{page} di %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4635,6 +4634,8 @@ it:
       one: 1 portfolio
       other: "%{count} portfolio"
       zero: 0 portfolio
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4659,6 +4660,8 @@ it:
       one: 1 programma
       other: "%{count} programmi"
       zero: 0 programmi
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archiviato

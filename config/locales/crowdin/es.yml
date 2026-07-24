@@ -4335,7 +4335,6 @@ es:
       oauth_code_not_present_explanation: 'Este error aparece si se ha seleccionado el response_type incorrecto en el proveedor OAuth2. El response_type debe ser ''Código'' o similar.
 
         '
-      oauth_issue_contact_admin: Hay un error en el OAuth2. Por favor, consulte con el administrador del sistema.
       oauth_reported: 'Proveedor reportado del OAuth2 '
       oauth_returned_error: 'Hay un error en el OAuth2 '
       oauth_returned_http_error: 'Hay un error de red en el OAuth2 '
@@ -4468,10 +4467,10 @@ es:
       templates:
         label: Plantilla
         none_enabled: No se ha habilitado ninguna plantilla para este tipo de paquete de trabajo
+      title: Generar PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Generar PDF
     page_nr_footer: Página %{page} de %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4627,6 +4626,8 @@ es:
       one: 1 cartera
       other: "%{count} carteras"
       zero: 0 carteras
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4651,6 +4652,8 @@ es:
       one: 1 programa
       other: "%{count} programas"
       zero: 0 programas
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archivado

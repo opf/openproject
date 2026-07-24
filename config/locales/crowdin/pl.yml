@@ -4473,7 +4473,6 @@ pl:
       oauth_code_not_present_explanation: 'Ten błąd pojawia się, jeśli wybrano niewłaściwy response_type u dostawcy OAuth2. Response_type powinien być ''code'' lub podobny.
 
         '
-      oauth_issue_contact_admin: OAuth2 zgłosił błąd. Skontaktuj się z administratorem systemu.
       oauth_reported: Dostawca OAuth2 zgłosił
       oauth_returned_error: OAuth2 zwrócił błąd
       oauth_returned_http_error: OAuth2 zwrócił błąd sieciowy
@@ -4606,10 +4605,10 @@ pl:
       templates:
         label: Szablon
         none_enabled: Dla tego typu pakietu roboczego nie włączono żadnego szablonu
+      title: Wygeneruj PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Wygeneruj PDF
     page_nr_footer: Strona %{page} z %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -4765,6 +4764,8 @@ pl:
       one: 1 portfolio
       other: 'Liczba portfoliów: %{count}'
       zero: 0 portfoliów
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4791,6 +4792,8 @@ pl:
       one: 1 program
       other: 'Liczba programów: %{count}'
       zero: 0 programów
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Zarchiwizowano

@@ -33,6 +33,9 @@ nl:
           on_track: Op schema
           title: Status
         project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
           tooltip_type_gate: Phase gate
           tooltip_type_phase: Phase
         subprojects:

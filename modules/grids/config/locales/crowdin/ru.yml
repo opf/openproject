@@ -32,10 +32,10 @@ ru:
         no_results: Ничего нового для отчета.
       not_available: Этот виджет недоступен.
       project_timeline:
-        no_lifecycle_results: No life cycle phases
-        title: Project timeline
-        title_portfolio: Portfolio timeline
-        title_program: Program timeline
+        no_lifecycle_results: Нет фаз жизненного цикла
+        title: График проекта
+        title_portfolio: График портфолио
+        title_program: График программы
       subitems:
         button_text: Подпроект
         no_results: Нет видимых потомков.

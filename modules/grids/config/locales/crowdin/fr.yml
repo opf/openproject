@@ -30,7 +30,7 @@ fr:
         no_results: Rien de nouveau à signaler.
       not_available: Ce widget n'est pas disponible.
       project_timeline:
-        no_lifecycle_results: No life cycle phases
+        no_lifecycle_results: Aucune phase du cycle de vie
         title: Chronologie du projet
         title_portfolio: Chronologie du portefeuille
         title_program: Chronologie du programme
