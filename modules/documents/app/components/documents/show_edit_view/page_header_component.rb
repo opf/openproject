@@ -34,6 +34,24 @@ module Documents
     class PageHeaderComponent < ApplicationComponent
       include LiveComponent::Base
 
+      # LiveComponent::Base::Overrides#render_in is prepended by `include
+      # LiveComponent::Base` above, and it unconditionally serializes the
+      # full props (document/project attributes included) into the
+      # `data-state` HTML attribute before ViewComponent's `render?` is ever
+      # consulted -- so a bare `render?` guard suppresses only the visible
+      # markup, not that serialized payload. Prepending a module *after* the
+      # include puts it above Overrides in the ancestor chain, so it runs
+      # first and can short-circuit the entire render -- including
+      # `data-state` -- before Overrides ever serializes anything.
+      module RenderGuard
+        def render_in(view_context, &)
+          return "".html_safe unless render?
+
+          super
+        end
+      end
+      prepend RenderGuard
+
       STATES = %i[show edit].freeze
       DOM_ID = "document-page-header-live"
 
@@ -49,6 +67,12 @@ module Documents
       attr_reader :document, :project, :state
 
       def self.__lc_controller = LC_IDENTIFIER
+
+      # The render endpoint (LiveComponentsController) performs no record-level
+      # authorization of its own and the client names the record to render, so
+      # the component must enforce read permission itself. See the controller's
+      # ALLOWED_COMPONENTS comment and DREAM-784.
+      def render? = User.current.allowed_in_project?(:view_documents, document.project)
 
       def initialize(document:, project:, state: :show)
         super()
@@ -89,10 +113,6 @@ module Documents
         }
       end
 
-      def render_title_edit_form
-        safe_join([title_edit_error_banner, title_edit_form])
-      end
-
       # Reflex: invoked from the client via SafeDispatcher before re-render
       # (see LiveComponent::RenderComponent#render_in). Public on purpose --
       # that is the dispatch contract, so this method authorizes itself
@@ -112,6 +132,10 @@ module Documents
       private
 
       def __lc_tag_name = LC_IDENTIFIER
+
+      def render_title_edit_form
+        safe_join([title_edit_error_banner, title_edit_form])
+      end
 
       def title_edit_error_banner
         return unless document.errors.any?

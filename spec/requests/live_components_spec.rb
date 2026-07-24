@@ -125,10 +125,12 @@ RSpec.describe "LiveComponents render endpoint", :skip_csrf do
       end
 
       it "leaves the document unchanged and re-renders in the edit state with the error" do
+        original_title = document.title
+
         post_render
 
         expect(response).to have_http_status(:ok)
-        expect(document.reload.title).not_to eq("")
+        expect(document.reload.title).to eq(original_title)
 
         html = decoded_response_html
         expect(html).to match(/can(?:&#39;|')t be blank/)
@@ -159,10 +161,12 @@ RSpec.describe "LiveComponents render endpoint", :skip_csrf do
     before { login_as(view_only_user) }
 
     it "does not update the document or render an edit affordance" do
+      original_title = document.title
+
       post_render
 
       expect(response).to have_http_status(:ok)
-      expect(document.reload.title).not_to eq("Attacker title")
+      expect(document.reload.title).to eq(original_title)
 
       html = decoded_response_html
       expect(html).to include(document.title)
@@ -172,37 +176,47 @@ RSpec.describe "LiveComponents render endpoint", :skip_csrf do
 
   context "when logged in without project permission" do
     # A user with no membership/permission at all on the project. The
-    # controller performs no authorization itself -- the component is
-    # expected to gate its own edit affordances based on User.current.
+    # controller performs no authorization itself -- PageHeaderComponent's
+    # `RenderGuard` (prepended above LiveComponent::Base::Overrides in the
+    # ancestor chain -- see the component) short-circuits render_in entirely
+    # when render? is false, so a request for a document the user cannot
+    # view yields a 200 with a genuinely empty body: no visible markup, no
+    # edit affordance, and no `data-state` attribute either. (An earlier
+    # version of this guard used a bare `render?` without the prepended
+    # short-circuit; that suppressed only the visible markup while
+    # `data-state` still leaked the document's full serialized attributes.
+    # RenderGuard closes that gap by never letting LiveComponent::Base's
+    # render_in wrapper run at all.)
     let(:unprivileged_user) { create(:user) }
 
     let(:state) { super().merge(props: Documents::ShowEditView::PageHeaderComponent.serialize_props(document:, project:, state: :show)) }
 
     before { login_as(unprivileged_user) }
 
-    it "renders the component without edit affordances" do
+    it "renders nothing at all -- not even data-state (component self-guards the read)" do
       post_render
 
       expect(response).to have_http_status(:ok)
       html = decoded_response_html
-      expect(html).to include(document.title)
-      expect(html).not_to include("Edit title")
+      expect(html).to eq("")
+      expect(html).not_to include(document.title)
+      expect(html).not_to include("document_title")
     end
 
-    # A client-forged request for state: :edit. PageHeaderComponent#display_state
-    # downgrades this to :show rather than raising (see the component), which
-    # is also what keeps Primer::OpenProject::PageHeader::Title#render? happy --
-    # it requires either show state or a populated editable_form slot, and this
-    # component never populates that slot.
+    # A client-forged request for state: :edit. Same as above: RenderGuard
+    # denies the read before PageHeaderComponent#display_state's
+    # :edit-downgrade logic (or any serialization) even runs, so the
+    # response is empty either way.
     context "and requesting edit state" do
       let(:state) { super().merge(props: Documents::ShowEditView::PageHeaderComponent.serialize_props(document:, project:, state: :edit)) }
 
-      it "still renders as show, without the edit form" do
+      it "still renders nothing, without the edit form" do
         post_render
 
         expect(response).to have_http_status(:ok)
         html = decoded_response_html
-        expect(html).to include(document.title)
+        expect(html).to eq("")
+        expect(html).not_to include(document.title)
         expect(html).not_to include("document_title")
       end
     end
