@@ -670,6 +670,20 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       end
     end
 
+    describe "when a formula looks like a date (#OP-19811)" do
+      context "when it looks like an invalid date" do
+        let(:formula) { "10-20-30" }
+
+        it_behaves_like "valid formula"
+      end
+
+      context "when it looks like a valid date" do
+        let(:formula) { "2026-04-03" }
+
+        it_behaves_like "valid formula"
+      end
+    end
+
     context "with a formula containing unexpected constant" do
       let(:formula) { "abc + 2" }
 
