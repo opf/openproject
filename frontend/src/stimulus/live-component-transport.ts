@@ -7,8 +7,9 @@ import { RenderRequest, Transport } from '@camertron/live-component';
 // Note: Transport#render returns Promise<string> (the decoded HTML), not
 // a RenderResponse object -- the package's public types export no such
 // type, and HTTPTransport itself just resolves/rejects a string. On a
-// non-2xx response we throw; LiveController's internal task queue
-// catches and logs it rather than crashing the app.
+// non-2xx response we throw; LiveController's internal task queue logs
+// the error but still re-rejects it, so callers of `render()` must
+// attach their own `.catch()` or the rejection is unhandled.
 export class OpLiveComponentTransport implements Transport {
   constructor(public url:string) {}
 

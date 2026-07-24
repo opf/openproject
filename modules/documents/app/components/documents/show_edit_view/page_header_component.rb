@@ -144,6 +144,11 @@ module Documents
       end
 
       def title_edit_form
+        # url: "#" is a harmless no-JS fallback (a GET to the current page) --
+        # submission is normally intercepted by the Stimulus #save action
+        # before it ever hits the network. There is no real route to point
+        # this at (saving goes through the reflex, not a controller action),
+        # so don't "fix" this into one.
         form_with(model: document, url: "#",
                   class: "d-flex",
                   data: { action: "#{self.class.__lc_controller}#save" }) do |f|
@@ -166,7 +171,7 @@ module Documents
 
       def title_edit_cancel_button
         cancel_action = "#{self.class.__lc_controller}#cancel"
-        render(Primer::Beta::Button.new(type: :button, ml: 2, data: { action: cancel_action })) { I18n.t(:button_cancel) }
+        render(Primer::Beta::Button.new(type: :button, ml: 2, data: { action: cancel_action })) { I18n.t("button_cancel") }
       end
 
       def breadcrumbs_items
