@@ -203,7 +203,7 @@ RSpec.describe "Document types admin", :js do
       expect(page).to have_no_button(I18n.t(:label_sort_higher))
       expect(page).to have_no_button(I18n.t(:label_sort_lower))
       expect(page).to have_no_button(I18n.t(:label_sort_lowest))
-      expect(page).to have_css("li[role='separator']", count: 1)
+      expect(page).to have_css("li.ActionList-sectionDivider", count: 1)
     end
   end
 
