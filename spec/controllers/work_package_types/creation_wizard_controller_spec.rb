@@ -119,7 +119,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
         it "advances to the next step" do
           patch :update, params: { type_id: variant.id, step: :workflows }
 
-          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :automations))
+          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :projects))
         end
       end
 
