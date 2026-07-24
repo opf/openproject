@@ -29,7 +29,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -44,6 +44,10 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 @Component({
+  // Pre-existing selector name, kept as-is: this component is only ever instantiated
+  // dynamically by class reference (see BoardInlineCreateService#referenceComponentClass),
+  // never matched against a template tag, so renaming it is out of scope here.
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-inline-add-autocompleter',
   templateUrl: './board-inline-add-autocompleter.html',
   // Allow styling the embedded ng-select
@@ -97,7 +101,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
       .apiV3Service
       .withOptionalProject(this.CurrentProject.id)
       .work_packages
-      .filtered(filters, { sortBy: '[["updatedAt","desc"]]' })
+      .filtered(filters, { sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]' })
       .get()
       .pipe(
         map((collection) => collection.elements),
@@ -117,8 +121,12 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
 
   @ViewChild(OpAutocompleterComponent) public ngSelectComponent:OpAutocompleterComponent;
 
+  // Pre-existing output names, kept as-is: renaming a dynamically-instantiated component's
+  // public output properties is out of scope for this change.
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onCancel = new EventEmitter<undefined>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onReferenced = new EventEmitter<WorkPackageResource>();
 
   ngAfterViewInit():void {
@@ -141,7 +149,8 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
         .then(() => {
           this.onReferenced.emit(workPackage);
           this.ngSelectComponent.closeSelect();
-        });
+        })
+        .catch((error:unknown) => this.notificationService.handleRawError(error));
     }
   }
 }
