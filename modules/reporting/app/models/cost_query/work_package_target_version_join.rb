@@ -33,9 +33,15 @@ module CostQuery::WorkPackageTargetVersionJoin
   # join is one-to-many, so a work package with several target versions is
   # reported under each of them. The filter and group-by must share the exact
   # same statement so the engine collapses it to a single join when both apply.
+  #
+  # entries.entity_id is polymorphic (a time entry can point at a Meeting whose
+  # id collides with a work package's), so the entity_type guard lives in the ON
+  # clause: it keeps LEFT semantics for the group-by (non-work-package entries
+  # stay, grouped under "no version") instead of dropping them via WHERE.
   JOIN = <<~SQL.squish
     LEFT OUTER JOIN work_package_versions
       ON work_package_versions.work_package_id = entries.entity_id
+     AND entries.entity_type = 'WorkPackage'
      AND work_package_versions.kind = 'target'
   SQL
 end
