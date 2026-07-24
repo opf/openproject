@@ -85,7 +85,7 @@ RSpec.describe WorkPackage, ".update_versions keeping target_versions consistent
     expect(target_version_ids(work_package)).to be_empty
   end
 
-  it "leaves systemwide-shared versions alone" do
+  it "excludes systemwide-shared versions" do
     shared_version.update!(sharing: "system")
     described_class.update_versions_from_sharing_change(shared_version)
 

@@ -96,7 +96,7 @@ module WorkPackage::Versions
     # non-systemwide version of another project
     def having_version_from_other_project
       joins(work_package_versions: :version)
-        .where.not(versions: { sharing: "system" })
+        .merge(Version.systemwide.invert_where)
         .where("#{Version.table_name}.project_id <> #{WorkPackage.table_name}.project_id")
         .distinct
     end
