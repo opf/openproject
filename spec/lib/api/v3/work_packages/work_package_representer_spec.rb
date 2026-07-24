@@ -717,6 +717,21 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
         end
       end
+
+      context "when multiple versions is active",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        let!(:version) { create(:version, project: workspace) }
+
+        before do
+          work_package.version = version
+        end
+
+        it "renders neither the deprecated version link nor the embedded resource" do
+          expect(subject).not_to have_json_path("_links/version")
+          expect(subject).not_to have_json_path("_embedded/version")
+        end
+      end
     end
 
     describe "targetVersions" do
