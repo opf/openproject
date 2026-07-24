@@ -137,6 +137,8 @@ module OpenProject::Backlogs
            before: :settings_storage
     end
 
+    assets %w(enterprise/multiple-active-sprints-light.png enterprise/multiple-active-sprints-dark.png)
+
     patches %i[PermittedParams
                WorkPackage
                Project]
