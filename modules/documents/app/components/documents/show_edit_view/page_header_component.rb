@@ -32,9 +32,13 @@
 module Documents
   module ShowEditView
     class PageHeaderComponent < ApplicationComponent
-      include OpTurbo::Streamable
+      include LiveComponent::Base
 
       STATES = %i[show edit].freeze
+      DOM_ID = "document-page-header-live"
+
+      serializes :document, with: :model_serializer, reload: true
+      serializes :project, with: :model_serializer, reload: true
 
       attr_reader :document, :project, :state
 

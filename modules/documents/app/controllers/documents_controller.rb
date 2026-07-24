@@ -88,7 +88,7 @@ class DocumentsController < ApplicationController
   end
 
   def edit_title
-    update_header_component_via_turbo_stream(state: :edit)
+    replace_header_via_turbo_stream(state: :edit)
 
     respond_with_turbo_streams
   end
@@ -102,7 +102,7 @@ class DocumentsController < ApplicationController
   end
 
   def cancel_title_edit
-    update_header_component_via_turbo_stream(state: :show)
+    replace_header_via_turbo_stream(state: :show)
 
     respond_with_turbo_streams
   end
@@ -127,7 +127,7 @@ class DocumentsController < ApplicationController
       .call(document_params.slice(:title))
 
     state = call.success? ? :show : :edit
-    update_header_component_via_turbo_stream(state:)
+    replace_header_via_turbo_stream(state:)
 
     respond_with_turbo_streams
   end
@@ -227,9 +227,13 @@ class DocumentsController < ApplicationController
     @token_expires_in_seconds = token_result.result[:expires_in_seconds]
   end
 
-  def update_header_component_via_turbo_stream(state: :show)
-    update_via_turbo_stream(
-      component: Documents::ShowEditView::PageHeaderComponent.new(document: @document, project: @project, state:)
+  def replace_header_via_turbo_stream(state: :show)
+    turbo_streams << turbo_stream.replace(
+      Documents::ShowEditView::PageHeaderComponent::DOM_ID,
+      Documents::ShowEditView::PageHeaderComponent.new(
+        document: @document, project: @project, state:,
+        __lc_attributes: { "id" => Documents::ShowEditView::PageHeaderComponent::DOM_ID }
+      )
     )
   end
 
