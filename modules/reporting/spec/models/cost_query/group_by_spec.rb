@@ -110,6 +110,20 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.size).to eq(3)
     end
 
+    it "does not group a Meeting time entry under a same-id work package's target version" do
+      version = create(:version, project: project1)
+      work_package = create(:work_package, project: project1, type:, version:)
+      # entries.entity_id is polymorphic; simulate a meeting time entry whose id
+      # collides with the versioned work package's id.
+      meeting_entry = create(:time_entry, entity: work_package, project: project1, spent_on: Date.new(2012, 1, 1))
+      meeting_entry.update_columns(entity_type: "Meeting")
+
+      query.group_by :version_id
+      # The meeting entry must stay in the no-version group with work_package1 /
+      # work_package2 rather than inheriting the work package's target version.
+      expect(query.result.size).to eq(1)
+    end
+
     it "computes group_by CostType" do
       query.group_by :cost_type_id
       # type 'Labor' for time entries, 2 different cost types
