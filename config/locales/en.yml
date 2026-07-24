@@ -3420,7 +3420,6 @@ en:
   label_other: "Other"
   label_overall_activity: "Overall activity"
   label_overview: "Overview"
-  label_page_title: "Page title"
   label_parent_group_caption: >
     Setting a parent group will make this group a subgroup of the selected parent group.
     This will also inherit all memberships, including permissions of the parent group.
