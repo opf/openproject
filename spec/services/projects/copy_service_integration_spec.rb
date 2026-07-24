@@ -582,11 +582,11 @@ RSpec.describe(
           expect(source.users).to include current_user
           expect(source.users).to include user
           expect(project_copy.groups).to include group
-          expect(source.member_principals.count).to eq 3
+          expect(source.members.count).to eq 3
 
           expect(subject).to be_success
 
-          expect(project_copy.member_principals.count).to eq 3
+          expect(project_copy.members.count).to eq 3
           expect(project_copy.groups).to include group
           expect(project_copy.users).to include current_user
           expect(project_copy.users).to include user
@@ -1345,11 +1345,11 @@ RSpec.describe(
           expect(source.users).to include current_user
           expect(source.users).to include user
           expect(project_copy.groups).to be_empty
-          expect(source.member_principals.count).to eq 4
+          expect(source.members.count).to eq 4
 
           expect(subject).to be_success
 
-          expect(project_copy.member_principals.count).to eq 1
+          expect(project_copy.members.count).to eq 1
           expect(project_copy.groups).to be_empty
           expect(project_copy.users).to contain_exactly current_user
 

@@ -55,20 +55,19 @@ class Project < ApplicationRecord
     portfolio: %i[]
   }.with_indifferent_access
 
-  has_many :members, -> {
-    # TODO: check whether this should
-    # remain to be limited to User only
+  # rubocop:disable Rails/HasManyOrHasOneDependent, Rails/InverseOf
+  has_many :members, -> { not_locked }
+
+  has_many :member_users, -> {
     includes(:principal, :roles)
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
-  }
+  }, class_name: "Member"
+  # rubocop:enable Rails/HasManyOrHasOneDependent, Rails/InverseOf
 
   has_many :memberships, class_name: "Member"
-  has_many :member_principals,
-           -> { not_locked },
-           class_name: "Member"
-  has_many :users, through: :members, source: :principal
-  has_many :principals, through: :member_principals, source: :principal
+  has_many :users, through: :member_users, source: :principal
+  has_many :principals, through: :members, source: :principal
   has_many :calculated_value_errors, dependent: :delete_all, as: :customized
 
   has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
