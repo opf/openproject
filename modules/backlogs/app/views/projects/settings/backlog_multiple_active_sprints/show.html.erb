@@ -45,6 +45,15 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(Projects::Settings::Backlogs::MultipleActiveSprintsComponent.new(project: @project)) %>
     </div>
   <% else %>
-    <%= render(EnterpriseEdition::BannerComponent.new(:multiple_active_sprints, variant: :inline)) %>
+    <%=
+      render(
+        EnterpriseEdition::BannerComponent.new(
+          :multiple_active_sprints,
+          variant: :large,
+          image: "enterprise/multiple-active-sprints-light.png",
+          dark_image: "enterprise/multiple-active-sprints-dark.png"
+        )
+      )
+    %>
   <% end %>
 <% end %>
