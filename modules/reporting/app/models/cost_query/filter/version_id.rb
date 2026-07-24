@@ -28,12 +28,18 @@
 
 class CostQuery::Filter::VersionId < Report::Filter::Base
   use :null_operators
-  join_table CostQuery::WorkPackageTargetVersionJoin::JOIN
   db_field "work_package_versions.version_id"
   applies_for :label_work_package_attributes
 
+  # Resolved per report-build rather than via the join_table DSL (which freezes
+  # the join at class load) so the multiple-versions feature flag can switch
+  # between all target versions and the primary one.
+  def self.table_joins
+    [[CostQuery::WorkPackageTargetVersionJoin.sql]]
+  end
+
   def self.label
-    WorkPackage.human_attribute_name(:version)
+    WorkPackage.human_attribute_name(Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version)
   end
 
   def self.available_values(*)

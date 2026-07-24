@@ -29,19 +29,39 @@
 #++
 
 module CostQuery::WorkPackageTargetVersionJoin
-  # Reaches a work package's target versions from the reporting entries. The
-  # join is one-to-many, so a work package with several target versions is
-  # reported under each of them. The filter and group-by must share the exact
-  # same statement so the engine collapses it to a single join when both apply.
+  # Reaches a work package's target versions from the reporting entries.
   #
   # entries.entity_id is polymorphic (a time entry can point at a Meeting whose
   # id collides with a work package's), so the entity_type guard lives in the ON
   # clause: it keeps LEFT semantics for the group-by (non-work-package entries
   # stay, grouped under "no version") instead of dropping them via WHERE.
-  JOIN = <<~SQL.squish
+  #
+  # With multiple target versions on, the join is one-to-many: a work package
+  # with several target versions is reported under each of them. With the
+  # feature off a work package is single-version, so the join is narrowed to the
+  # primary target version (the lowest version id, matching target_versions.first)
+  # and stays one-to-one.
+  JOIN_ALL = <<~SQL.squish
     LEFT OUTER JOIN work_package_versions
       ON work_package_versions.work_package_id = entries.entity_id
      AND entries.entity_type = 'WorkPackage'
      AND work_package_versions.kind = 'target'
   SQL
+
+  JOIN_PRIMARY = <<~SQL.squish
+    #{JOIN_ALL}
+     AND work_package_versions.version_id = (
+           SELECT MIN(primary_target.version_id)
+           FROM work_package_versions primary_target
+           WHERE primary_target.work_package_id = entries.entity_id
+             AND primary_target.kind = 'target'
+         )
+  SQL
+
+  # Read at report-build time so a feature-flag change takes effect without a
+  # restart. The filter and group-by must resolve to the exact same string so
+  # the engine collapses them into a single join.
+  def self.sql
+    Setting::WorkPackageMultipleVersions.active? ? JOIN_ALL : JOIN_PRIMARY
+  end
 end
