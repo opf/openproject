@@ -23,26 +23,26 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module WikiPages
+  # Lists the attachments of a wiki page next to the create/edit form.
+  class AttachmentsSidePanelComponent < ApplicationComponent
+    include AngularHelper
+    include AttachmentsHelper
+    include OpPrimer::ComponentHelpers
 
-RSpec.describe "Editing a new wiki page", :js do
-  let(:project) { create(:project, :with_internal_wiki) }
-  let(:user) { create(:admin) }
+    alias_method :page, :model
 
-  before do
-    login_as(user)
-  end
+    private
 
-  it "allows creating a wiki page from link" do
-    visit project_wiki_path(project, id: :foobar)
-    expect(page).to have_field "page_title", with: "Foobar"
-    click_on "Create"
-
-    expect_flash(message: "Successful creation.", wait: 10)
+    def attachments_resource
+      API::V3::WikiPages::WikiPageRepresenter.new(
+        page, current_user: User.current, embed_links: true
+      )
+    end
   end
 end
