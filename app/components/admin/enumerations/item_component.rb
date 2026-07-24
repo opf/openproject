@@ -55,18 +55,18 @@ module Admin
       end
 
       def build_enumeration_menu(menu)
-        edit_enumeration(menu)
-        menu.with_divider
-        if !first_item?
-          move_to_top_enumeration(menu)
-          move_up_enumeration(menu)
+        with_item_group(menu) { edit_enumeration(menu) }
+        with_item_group(menu) do
+          unless first_item?
+            move_to_top_enumeration(menu)
+            move_up_enumeration(menu)
+          end
+          unless last_item?
+            move_down_enumeration(menu)
+            move_to_bottom_enumeration(menu)
+          end
         end
-        if !last_item?
-          move_down_enumeration(menu)
-          move_to_bottom_enumeration(menu)
-        end
-        menu.with_divider
-        deletion_enumeration(menu)
+        with_item_group(menu) { deletion_enumeration(menu) }
       end
 
       def edit_enumeration(menu)
