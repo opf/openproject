@@ -108,6 +108,15 @@ RSpec.describe CostQuery, :reporting_query_helper do
       # work_package1 / work_package2 entries have no target version (one group);
       # the new work package is reported under both of its target versions.
       expect(query.result.size).to eq(3)
+
+      # OPEN POINT FND-178: cost reports over-count totals when grouping or
+      # filtering by a multi-value attribute. The single time entry is counted
+      # once under each target-version group, so the grouped total exceeds the
+      # ungrouped entry count. This is accepted for now (team decision); the
+      # assertion pins the inflated total, not just the group count, so a later
+      # "fix" can't quietly change it without revisiting FND-178.
+      total_count = query.result.each_direct_result.sum(&:count)
+      expect(total_count).to eq(Entry.count + 1)
     end
 
     it "does not group a Meeting time entry under a same-id work package's target version" do
