@@ -30,10 +30,13 @@
 
 module WikiPages
   class SidemenuTree
+    attr_reader :query_terms
+
     def initialize(wiki:, current_page:, query:, href_resolver:)
       @wiki = wiki
       @current_page = current_page
       @query = query.to_s.strip
+      @query_terms = @query.split
       @href_resolver = href_resolver
     end
 
@@ -85,7 +88,6 @@ module WikiPages
         .pages
         .visible
         .order(Arel.sql("LOWER(title)"))
-        .includes(:project)
         .to_a
     end
 
@@ -113,11 +115,7 @@ module WikiPages
     end
 
     def matches_query?(wiki_page)
-      query_terms.empty? || query_terms.all? { |term| wiki_page.title.downcase.include?(term) }
-    end
-
-    def query_terms
-      @query_terms ||= query.downcase.split
+      query_terms.empty? || query_terms.all? { |term| wiki_page.title.downcase.include?(term.downcase) }
     end
   end
 end
