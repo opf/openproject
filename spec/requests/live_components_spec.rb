@@ -91,17 +91,6 @@ RSpec.describe "LiveComponents render endpoint", :skip_csrf do
     # A user with no membership/permission at all on the project. The
     # controller performs no authorization itself -- the component is
     # expected to gate its own edit affordances based on User.current.
-    #
-    # NOTE: requesting state: :edit here (rather than :show) would raise
-    # inside Primer::OpenProject::PageHeader::Title#render?, because the
-    # editable_form slot is only populated when
-    # PageHeaderComponent#allowed_to_manage_documents? is true, and Title
-    # requires either show state or a populated editable_form. So an
-    # unprivileged client requesting the edit state is expected to never
-    # happen from the real UI (it doesn't offer the "Edit title" action in
-    # the first place); we exercise the realistic case here (show state)
-    # rather than the component's unhandled edge case, which is out of
-    # scope for this endpoint.
     let(:unprivileged_user) { create(:user) }
 
     let(:state) { super().merge(props: Documents::ShowEditView::PageHeaderComponent.serialize_props(document:, project:, state: :show)) }
@@ -115,6 +104,24 @@ RSpec.describe "LiveComponents render endpoint", :skip_csrf do
       html = decoded_response_html
       expect(html).to include(document.title)
       expect(html).not_to include("Edit title")
+    end
+
+    # A client-forged request for state: :edit. PageHeaderComponent#display_state
+    # downgrades this to :show rather than raising (see the component), which
+    # is also what keeps Primer::OpenProject::PageHeader::Title#render? happy --
+    # it requires either show state or a populated editable_form slot, and this
+    # component never populates that slot.
+    context "and requesting edit state" do
+      let(:state) { super().merge(props: Documents::ShowEditView::PageHeaderComponent.serialize_props(document:, project:, state: :edit)) }
+
+      it "still renders as show, without the edit form" do
+        post_render
+
+        expect(response).to have_http_status(:ok)
+        html = decoded_response_html
+        expect(html).to include(document.title)
+        expect(html).not_to include("document_title")
+      end
     end
   end
 

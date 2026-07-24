@@ -87,24 +87,12 @@ class DocumentsController < ApplicationController
     render_400 unless @document.classic?
   end
 
-  def edit_title
-    replace_header_via_turbo_stream(state: :edit)
-
-    respond_with_turbo_streams
-  end
-
   def create
     if document_params[:kind] == "classic"
       create_classic_document
     else
       create_collaborative_document
     end
-  end
-
-  def cancel_title_edit
-    replace_header_via_turbo_stream(state: :show)
-
-    respond_with_turbo_streams
   end
 
   def update

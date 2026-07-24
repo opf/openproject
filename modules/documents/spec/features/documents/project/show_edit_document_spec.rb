@@ -62,6 +62,13 @@ RSpec.describe "Show/Edit Document View",
     end
 
     aggregate_failures "can edit document title" do
+      # The Save turbo_stream.replace swaps the whole
+      # document-page-header custom element (LiveComponent's render
+      # boundary), detaching any within-node captured before it -- so
+      # each Save needs a fresh within_test_selector scope afterwards.
+      # Edit/Cancel are client-side Idiomorph morphs that preserve the
+      # node, so they're safe to chain with prior interactions in the
+      # same block; only a Save requires re-entering the scope.
       within_test_selector("document-page-header") do
         click_button accessible_name: "Document actions"
         expect(page).to have_selector :menuitem, "Edit title"
@@ -70,11 +77,16 @@ RSpec.describe "Show/Edit Document View",
 
         fill_in "document_title", with: ""
         click_on "Save"
+      end
+
+      within_test_selector("document-page-header") do
         expect(page).to have_content("Title can't be blank")
 
         fill_in "document_title", with: "Updated collaborative document"
         click_on "Save"
+      end
 
+      within_test_selector("document-page-header") do
         expect(page).to have_content("Updated collaborative document")
 
         click_button accessible_name: "Document actions"
