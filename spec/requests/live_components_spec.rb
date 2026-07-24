@@ -85,6 +85,89 @@ RSpec.describe "LiveComponents render endpoint", :skip_csrf do
       expect(html).to include("data-component=\"Documents::ShowEditView::PageHeaderComponent\"")
       expect(html).to include("document_title") # edit-state input rendered
     end
+
+    context "with an update_title reflex" do
+      let(:body) do
+        {
+          payload: LiveComponent::Payload.encode(
+            {
+              state:,
+              reflexes: [{ method_name: "update_title", props: { title: "Reflexed title" } }]
+            }.to_json,
+            compress: false
+          )
+        }.to_json
+      end
+
+      it "updates the document and re-renders in the show state" do
+        post_render
+
+        expect(response).to have_http_status(:ok)
+        expect(document.reload.title).to eq("Reflexed title")
+
+        html = decoded_response_html
+        expect(html).to include("Reflexed title")
+        expect(html).not_to include("document_title") # edit-state input gone
+      end
+    end
+
+    context "with an update_title reflex sending a blank title" do
+      let(:body) do
+        {
+          payload: LiveComponent::Payload.encode(
+            {
+              state:,
+              reflexes: [{ method_name: "update_title", props: { title: "" } }]
+            }.to_json,
+            compress: false
+          )
+        }.to_json
+      end
+
+      it "leaves the document unchanged and re-renders in the edit state with the error" do
+        post_render
+
+        expect(response).to have_http_status(:ok)
+        expect(document.reload.title).not_to eq("")
+
+        html = decoded_response_html
+        expect(html).to match(/can(?:&#39;|')t be blank/)
+        expect(html).to include("document_title") # still in edit state
+      end
+    end
+  end
+
+  context "when logged in without manage_documents permission" do
+    let(:view_only_user) do
+      create(:user, member_with_permissions: { project => %i[view_documents] })
+    end
+
+    let(:state) { super().merge(props: Documents::ShowEditView::PageHeaderComponent.serialize_props(document:, project:, state: :show)) }
+
+    let(:body) do
+      {
+        payload: LiveComponent::Payload.encode(
+          {
+            state:,
+            reflexes: [{ method_name: "update_title", props: { title: "Attacker title" } }]
+          }.to_json,
+          compress: false
+        )
+      }.to_json
+    end
+
+    before { login_as(view_only_user) }
+
+    it "does not update the document or render an edit affordance" do
+      post_render
+
+      expect(response).to have_http_status(:ok)
+      expect(document.reload.title).not_to eq("Attacker title")
+
+      html = decoded_response_html
+      expect(html).to include(document.title)
+      expect(html).not_to include("document_title")
+    end
   end
 
   context "when logged in without project permission" do

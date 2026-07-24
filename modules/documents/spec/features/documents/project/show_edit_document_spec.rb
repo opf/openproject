@@ -62,13 +62,14 @@ RSpec.describe "Show/Edit Document View",
     end
 
     aggregate_failures "can edit document title" do
-      # The Save turbo_stream.replace swaps the whole
-      # document-page-header custom element (LiveComponent's render
-      # boundary), detaching any within-node captured before it -- so
-      # each Save needs a fresh within_test_selector scope afterwards.
-      # Edit/Cancel are client-side Idiomorph morphs that preserve the
-      # node, so they're safe to chain with prior interactions in the
-      # same block; only a Save requires re-entering the scope.
+      # Edit/Cancel/Save all run through LiveComponent's client-side
+      # Idiomorph morph now (Save dispatches a reflex rather than
+      # posting to a controller action), which preserves the
+      # document-page-header custom element node across every
+      # transition -- a single within_test_selector scope would work.
+      # The split scoping below is kept anyway for robustness: it
+      # re-enters the scope after each Save so the spec doesn't
+      # depend on morph semantics never changing.
       within_test_selector("document-page-header") do
         click_button accessible_name: "Document actions"
         expect(page).to have_selector :menuitem, "Edit title"

@@ -16,6 +16,14 @@ export default class PageHeaderLiveController extends LiveController {
     void this.render((component) => { component.props.state = 'show'; });
   }
 
+  save(event:Event):void {
+    event.preventDefault();
+    const title = this.titleInputTarget.value;
+    void this.render((component) => {
+      component.call('update_title', { title });
+    });
+  }
+
   after_update():void {
     if (this.hasTitleInputTarget) {
       this.titleInputTarget.focus();

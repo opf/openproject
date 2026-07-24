@@ -109,17 +109,6 @@ class DocumentsController < ApplicationController
     end
   end
 
-  def update_title
-    call = Documents::UpdateService
-      .new(user: current_user, model: @document)
-      .call(document_params.slice(:title))
-
-    state = call.success? ? :show : :edit
-    replace_header_via_turbo_stream(state:)
-
-    respond_with_turbo_streams
-  end
-
   def update_type
     service_call = Documents::UpdateService
       .new(user: current_user, model: @document)
@@ -213,16 +202,6 @@ class DocumentsController < ApplicationController
     @resource_url = token_result.result[:resource_url]
     @readonly = token_result.result[:readonly]
     @token_expires_in_seconds = token_result.result[:expires_in_seconds]
-  end
-
-  def replace_header_via_turbo_stream(state: :show)
-    turbo_streams << turbo_stream.replace(
-      Documents::ShowEditView::PageHeaderComponent::DOM_ID,
-      Documents::ShowEditView::PageHeaderComponent.new(
-        document: @document, project: @project, state:,
-        __lc_attributes: { "id" => Documents::ShowEditView::PageHeaderComponent::DOM_ID }
-      )
-    )
   end
 
   def derive_show_edit_state_from_params

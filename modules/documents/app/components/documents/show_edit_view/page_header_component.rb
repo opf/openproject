@@ -93,6 +93,22 @@ module Documents
         safe_join([title_edit_error_banner, title_edit_form])
       end
 
+      # Reflex: invoked from the client via SafeDispatcher before re-render
+      # (see LiveComponent::RenderComponent#render_in). Public on purpose --
+      # that is the dispatch contract, so this method authorizes itself
+      # rather than relying on the render endpoint (which performs no
+      # authorization -- see LiveComponentsController).
+      def update_title(title:)
+        return unless allowed_to_manage_documents?
+
+        call = Documents::UpdateService
+          .new(user: User.current, model: document)
+          .call(title:)
+
+        @document = call.result
+        @state = call.success? ? :show : :edit
+      end
+
       private
 
       def __lc_tag_name = LC_IDENTIFIER
@@ -104,8 +120,9 @@ module Documents
       end
 
       def title_edit_form
-        form_with(model: document, url: update_title_document_path(document), method: :put,
-                  class: "d-flex") do |f|
+        form_with(model: document, url: "#",
+                  class: "d-flex",
+                  data: { action: "#{self.class.__lc_controller}#save" }) do |f|
           safe_join([title_edit_input(f), title_edit_save_button, title_edit_cancel_button])
         end
       end
