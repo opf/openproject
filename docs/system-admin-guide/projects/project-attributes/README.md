@@ -148,13 +148,100 @@ This numeric value is required and can be used in calculations — for example, 
 
 [feature: calculated_values ]
 
-**Calculated values** enable automatic computations based on formulas using numeric project attributes, including scores from Weighted item lists or even other calculated values. The computed result is displayed directly on the project overview and in the project list. It automatically updates whenever one of its source attributes (e.g., Benefit or Effort in the example below) is changed. This allows teams to calculate project scores and prioritize consistently across the portfolio.
+**Calculated values** enable automatic computations based on formulas using numeric and boolean project attributes, including scores from Weighted item lists or even other calculated values. The computed result is displayed directly on the project overview and in the project list. It automatically updates whenever one of its source attributes (e.g., Benefit or Effort in the example below) is changed. This allows teams to calculate project scores and prioritize consistently across the portfolio.
 
 To set up a project attribute of the **Calculated value** type, follow the same procedure as when adding a standard project attribute and select the _Calculated value_ option. Define the name, section it will appear in and the calculation formula.
 
 In the example below, a project attribute called **Initiative score (calculated)** is determined by this formula: `(Strategic fit * 0.4) + (User benefit * 0.4) - (Effort * 0.2)`.
 
 ![An example of a project attribute of type "Calculated value" in OpenProject administration](open_project_system_guide_project_attributes_calculated_value.png)
+
+#### Formula syntax reference
+
+Formulas support the literals, operators, functions and keywords listed below, and can reference other project attributes — integer, float, boolean, weighted item list scores and other calculated values.
+
+##### Literals
+
+Number and boolean literals are supported. Numbers can be either integer (`42`) or decimal (`3.14`, `.1`). Boolean literals are uppercase (`TRUE` and `FALSE`).
+
+##### Precedence
+
+Operators with higher precedence evaluate before those with lower. Operators with same precedence are evaluated left to right. Precedence can be changed using parentheses:
+
+* `5 + 3 * 2` => `11`
+* `(5 + 3) * 2` => `16`
+
+##### Math operators
+
+| Operator | Description    | Precedence | Examples                                  |
+|----------|----------------|:----------:|-------------------------------------------|
+| `+`      | Addition       |     10     | `1 + 2` => `3`                            |
+| `-`      | Subtraction    |     10     | `5 - 2` => `3`                            |
+| `-`      | Unary negation |     40     | `-x` negates `x`                          |
+| `*`      | Multiplication |     20     | `4 * 3` => `12`                           |
+| `/`      | Division       |     20     | `9 / 3` => `3.0`<br>`10 / 4` => `2.5`     |
+| `%`      | Modulo         |     20     | `7 % 3` => `1`                            |
+| `%`      | Percentage     |     30     | `7 + 1%` => `7.01`                        |
+| `^`      | Exponentiation |     30     | `9 ^ 0.5` => `3.0`<br>`2 ^ 3 ^ 2` => `64` |
+
+##### Numeric functions
+
+| Name        | Description                                     | Examples                                                                                  |
+|-------------|-------------------------------------------------|-------------------------------------------------------------------------------------------|
+| `ABS`       | Absolute value                                  | `ABS(-5)` => `5`<br>`ABS(5)` => `5`                                                       |
+| `AVG`       | Arithmetic mean of arguments                    | `AVG(1, 2)` => `1.5`                                                                      |
+| `MAX`       | Largest argument                                | `MAX(3, 1, 2)` => `3`                                                                     |
+| `MIN`       | Smallest argument                               | `MIN(3, 1, 2)` => `1`                                                                     |
+| `ROUND`     | Round to 0 or specified number of decimals      | `ROUND(1.5)` => `2`<br>`ROUND(-1.5)` => `-2`<br>`ROUND(3.14159, 3)` => `3.142`            |
+| `ROUNDDOWN` | Round down to 0 or specified number of decimals | `ROUNDDOWN(1.5)` => `1`<br>`ROUNDDOWN(-1.5)` => `-2`<br>`ROUNDDOWN(0.9999, 3)` => `0.999` |
+| `ROUNDUP`   | Round up to 0 or specified number of decimals   | `ROUNDUP(1.5)` => `2`<br>`ROUNDUP(-1.5)` => `-1`<br>`ROUNDUP(1.0001, 3)` => `1.001`       |
+| `SUM`       | Sum of arguments                                | `SUM(1, 2, 3)` => `6`                                                                     |
+
+##### Comparison operators
+
+| Operator     | Description           | Precedence | Examples                                  |
+|--------------|-----------------------|:----------:|-------------------------------------------|
+| `<`          | Less than             |     5      | `1 < 2` => `TRUE`<br>`2 < 2` => `FALSE`   |
+| `>`          | Greater than          |     5      | `2 > 1` => `TRUE`<br>`2 > 2` => `FALSE`   |
+| `<=`         | Less than or equal    |     5      | `2 <= 2` => `TRUE`<br>`3 <= 2` => `FALSE` |
+| `>=`         | Greater than or equal |     5      | `2 >= 2` => `TRUE`<br>`2 >= 3` => `FALSE` |
+| `<>` or `!=` | Not equal             |     5      | `1 != 2` => `TRUE`<br>`1 != 1` => `FALSE` |
+| `=` or `==`  | Equal                 |     5      | `2 = 2` => `TRUE`<br>`2 = 1` => `FALSE`   |
+
+##### Logical operators and functions
+
+`AND` and `OR` are available both as operators and functions. `XOR` and `NOT` are functions only. All arguments must be logical.
+
+When used as operators, `AND` and `OR` have the same lowest precedence `0`, lower than any other operator.
+
+| Name           | Description                                     | Examples                                                                                                        |
+|----------------|-------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| `AND` or `&&`  | True when all operands/arguments are `TRUE`     | `TRUE AND TRUE AND FALSE` => `FALSE`<br>`AND(TRUE, TRUE, TRUE)` => `TRUE`                                       |
+| `NOT`          | Logical negation                                | `NOT(TRUE)` => `FALSE`<br>`NOT(FALSE)` => `TRUE`                                                                |
+| `OR` or `\|\|` | True when any operand/argument is `TRUE`        | `FALSE OR FALSE OR TRUE` => `TRUE`<br>`OR(FALSE, FALSE, FALSE)` => `FALSE`                                      |
+| `XOR`          | True when an odd number of arguments are `TRUE` | `XOR(TRUE, FALSE, FALSE)` => `TRUE`<br>`XOR(TRUE, FALSE, TRUE)` => `FALSE`<br>`XOR(TRUE, TRUE, TRUE)` => `TRUE` |
+
+##### Conditional functions and case expression
+
+`IF(condition, when_true, when_false)` returns one of two branches based on a boolean condition:
+
+`IF(1 > 2, 123, 456)` => `456`
+
+`SWITCH(value, candidate1, result1, candidate2, result2, ..., default)` compares `value` against each candidate and returns the matching result, or the trailing `default` unless it is omitted:
+
+`SWITCH(200, 100, 1, 200, 2, 3)` => `2`
+
+`SWITCH(4, 1, TRUE, 2, FALSE, TRUE)` => `TRUE`
+
+`SWITCH(300, 100, 1, 200, 2)` => invalid
+
+`CASE` provides similar behaviour using keyword form. Invalid if no branch matches and there is no `ELSE`:
+
+`CASE 200 WHEN 100 THEN 1 WHEN 200 THEN 2 ELSE 3 END` => `2`
+
+`CASE 4 WHEN 1 THEN TRUE WHEN 2 THEN FALSE ELSE TRUE END` => `TRUE`
+
+`CASE 300 WHEN 100 THEN 1 WHEN 200 THEN 2 END` => invalid
 
 ## Modify project attributes
 

@@ -193,7 +193,13 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         {
           "IF(1 > 2, 3, 4)" => 4,
           "SWITCH(2, 1, 100, 2, 200, 3, 300, 400)" => 200,
-          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 200
+          "SWITCH(4, 1, 100, 2, 200, 3, 300, 400)" => 400,
+          "SWITCH(2, 1, 100, 2, 200, 3, 300)" => 200,
+          "SWITCH(4, 1, 100, 2, 200, 3, 300)" => nil,
+          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 200,
+          "CASE 4 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 400,
+          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 END" => 200,
+          "CASE 4 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 END" => nil
         }
       end
 
