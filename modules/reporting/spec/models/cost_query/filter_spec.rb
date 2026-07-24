@@ -318,6 +318,32 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(query.result.count).to eq(0)
       end
 
+      # Off-mode negation runs on the primary-only (one-to-one) join, so the
+      # default "is not" operator is already correct without the multi-version
+      # NOT EXISTS override.
+      it "negates on the primary target version while multiple versions is off" do
+        primary_version = create(:version, project:)
+        secondary_version = create(:version, project:)
+        work_package = create_work_package_with_time_entry(version: primary_version)
+        work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+        query.filter :version_id, operator: "!", value: [primary_version.id]
+        # Its primary version is primary_version, so "is not primary" drops it.
+        expect(query.result.count).to eq(0)
+      end
+
+      it "keeps a work package when negating a non-primary target version while off" do
+        primary_version = create(:version, project:)
+        secondary_version = create(:version, project:)
+        work_package = create_work_package_with_time_entry(version: primary_version)
+        work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+        query.filter :version_id, operator: "!", value: [secondary_version.id]
+        # Off-mode only sees the primary; "is not secondary" keeps it because its
+        # primary version is not the secondary one.
+        expect(query.result.count).to eq(1)
+      end
+
       context "with multiple target versions enabled",
               with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
