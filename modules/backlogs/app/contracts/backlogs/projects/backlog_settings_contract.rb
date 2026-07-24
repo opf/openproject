@@ -31,12 +31,17 @@
 module Backlogs::Projects
   class BacklogSettingsContract < ::ModelContract
     stored_attribute :sprint_sharing, store: :settings
+    stored_attribute :allow_multiple_active_sprints, store: :settings
 
     validate :validate_permissions
     validate :validate_global_sprint_sharer_uniqueness
     validates :sprint_sharing, presence: true
     validates :sprint_sharing, inclusion: { in: Project::SPRINT_SHARING_MODES }, allow_blank: true
     validate :validate_sprint_sharing_in_ee_token
+    validate :validate_multiple_active_sprints_in_ee_token
+    validate :validate_allow_multiple_active_sprints_requires_no_sharing
+    validate :validate_sprint_sharing_locked_when_multiple_active_sprints
+    validate :validate_multiple_active_sprints_setting_not_changeable_while_active
 
     def validate_model? = false
 
@@ -64,15 +69,43 @@ module Backlogs::Projects
     def validate_sprint_sharing_in_ee_token
       if !model.not_sharing_sprints? &&
          !EnterpriseToken.allows_to?(:sprint_sharing) &&
-         sprint_sharing_changed?
+         model.sprint_sharing_changed?
         errors.add :sprint_sharing,
                    :enterprise_plan_required,
                    plan_name: I18n.t("ee.upsell.plan_name", plan: OpenProject::Token.lowest_plan_for(:sprint_sharing))
       end
     end
 
-    def sprint_sharing_changed?
-      model.settings_change&.any? { it.key?("sprint_sharing") }
+    def validate_multiple_active_sprints_in_ee_token
+      return unless model.allow_multiple_active_sprints_changed?
+      return unless model.allow_multiple_active_sprints?
+      return if EnterpriseToken.allows_to?(:multiple_active_sprints)
+
+      errors.add :allow_multiple_active_sprints,
+                 :enterprise_plan_required,
+                 plan_name: I18n.t("ee.upsell.plan_name", plan: OpenProject::Token.lowest_plan_for(:multiple_active_sprints))
+    end
+
+    def validate_allow_multiple_active_sprints_requires_no_sharing
+      return unless model.allow_multiple_active_sprints_changed?
+      return unless model.allow_multiple_active_sprints?
+      return if model.not_sharing_sprints?
+
+      errors.add :allow_multiple_active_sprints, :requires_no_sharing
+    end
+
+    def validate_sprint_sharing_locked_when_multiple_active_sprints
+      return unless model.sprint_sharing_changed?
+      return unless model.allow_multiple_active_sprints?
+
+      errors.add :sprint_sharing, :locked_by_multiple_active_sprints
+    end
+
+    def validate_multiple_active_sprints_setting_not_changeable_while_active
+      return unless model.allow_multiple_active_sprints_changed?
+      return unless Sprint.for_project(model).active.many?
+
+      errors.add :allow_multiple_active_sprints, :locked_by_multiple_active_sprints
     end
   end
 end

@@ -48,14 +48,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<% if @burndown %>
-  <%= render partial: "burndown", locals: { burndown: @burndown } %>
-<% else %>
-  <%=
-    render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
-      blankslate.with_visual_icon(icon: :graph)
-      blankslate.with_heading(tag: :h2).with_content(t(".blankslate_title"))
-      blankslate.with_description_content(t(".blankslate_description"))
-    end
-  %>
-<% end %>
+<%= render(Backlogs::SprintReports::Widgets::BurndownChart.new(@sprint, @project)) %>

@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "project export", :js do
-  shared_let(:project) { create(:project) }
+  shared_let(:project) { create(:project, :with_internal_wiki).reload }
 
   let(:wiki_page1) do
     build(:wiki_page, title: "Some title!")

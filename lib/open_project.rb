@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -34,7 +36,7 @@ require "open_project/patches"
 require "open_project/mime_type"
 require "open_project/custom_styles/design"
 require "open_project/httpx_appsignal"
-require "open_project/httpx_ssrf_filter"
+require "open_project/httpx_ssrf_custom_error_message"
 require "redmine/plugin"
 
 require "csv"
@@ -63,7 +65,8 @@ module OpenProject
                 .with(headers: { "User-Agent" => "OpenProject #{OpenProject::VERSION.to_semver} HTTPX Client" })
                 .plugin(:auth)
                 .plugin(:webdav)
-                .plugin(HttpxSsrfFilter)
+                .plugin(:ssrf_filter, safe_private_ranges: OpenProject::Configuration.ssrf_protection_ip_allowlist)
+                .plugin(HttpxSsrfCustomErrorMessage)
                 .with(
                   timeout: {
                     connect_timeout: OpenProject::Configuration.httpx_connect_timeout,

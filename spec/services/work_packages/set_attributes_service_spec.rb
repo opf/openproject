@@ -520,6 +520,34 @@ RSpec.describe WorkPackages::SetAttributesService,
         expect(subject.errors).to be_empty
       end
     end
+
+    context "when moving to another project fails validation, with semantic identifiers",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:user) { build_stubbed(:admin) }
+      let(:source_project) { create(:project) }
+      let(:target_project) { create(:project) }
+      let(:outsider) { create(:user) }
+      let(:invalid_wp) do
+        create(:work_package, project: source_project, responsible: outsider).tap do |wp|
+          wp.update_columns(identifier: "SRC-1", sequence_number: 1)
+        end
+      end
+      let(:call_attributes) { { project_id: target_project.id } }
+
+      subject(:service_result) { instance.call(call_attributes) }
+
+      it "is unsuccessful and restores the semantic identifier on the returned work package", :aggregate_failures do
+        expect(service_result).not_to be_success
+        expect(invalid_wp.identifier).to eq("SRC-1")
+        expect(invalid_wp.sequence_number).to eq(1)
+        expect(invalid_wp.formatted_id).to eq("SRC-1")
+      end
+
+      it "does not persist the move" do
+        service_result
+        expect(invalid_wp.reload.project_id).to eq(source_project.id)
+      end
+    end
   end
 
   context "for start_date & due_date & duration" do

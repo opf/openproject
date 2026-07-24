@@ -45,7 +45,7 @@ class Workflows::CopiesController < ApplicationController
   private
 
   def set_source_type
-    @source_type = ::Type.find(params[:workflow_type_id])
+    @source_type = ::Type.find(params.expect(:type_id))
   end
 
   def set_source_role

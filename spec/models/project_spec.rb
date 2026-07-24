@@ -133,25 +133,6 @@ RSpec.describe Project do
     end
   end
 
-  context "when the wiki module is enabled" do
-    let(:project) { create(:project, disable_modules: "wiki") }
-
-    before do
-      project.enabled_module_names = project.enabled_module_names | ["wiki"]
-      project.save
-      project.reload
-    end
-
-    it "creates a wiki" do
-      expect(project.wiki).to be_present
-    end
-
-    it "creates a wiki menu item named like the default start page" do
-      expect(project.wiki.wiki_menu_items).to be_one
-      expect(project.wiki.wiki_menu_items.first.title).to eq(project.wiki.start_page)
-    end
-  end
-
   describe "#copy_allowed?" do
     let(:user) { build_stubbed(:user) }
     let(:project) { build_stubbed(:project) }

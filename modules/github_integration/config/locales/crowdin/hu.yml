@@ -48,8 +48,8 @@ hu:
   permission_introspection: Read running OpenProject core version and build SHA
   permission_show_github_content: GitHub tartalom mutatása
   plugin_openproject_github_integration:
-    description: Integrates OpenProject and GitHub for a better workflow
-    name: OpenProject GitHub Integration
+    description: Az OpenProject és a GitHub integrálásával biztosítja a hatékonyabb munkafolyamatot
+    name: Az OpenProject GitHub-integrációja
   project_module_github: GitHub
   text_deploy_target_api_key_info: 'An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
 
@@ -66,4 +66,4 @@ hu:
   text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
 
     '
-  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"
+  text_pull_request_deployed_to: "%{pr_link} telepítésre került %{deploy_target_link}"

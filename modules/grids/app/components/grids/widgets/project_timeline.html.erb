@@ -28,16 +28,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= widget_wrapper(test_selector: "op-overview-widget--project-timeline") do %>
-  <% if any_phases? %>
+<%= widget_wrapper(test_selector: "op-overview-widget--project-timeline") do |container| %>
+  <% if any_content? %>
     <%= helpers.angular_component_tag(
           "opce-project-timeline-graph",
-          "phases-data": phases_data
+          "phases-data": phases_data,
+          "milestones-data": milestones_data
         ) %>
   <% else %>
     <%= render(Primer::Beta::Blankslate.new(test_selector: "project-timeline-widget-empty")) do |blankslate| %>
-      <% blankslate.with_visual_icon(icon: :workflow) %>
-      <% blankslate.with_heading(tag: :h3) { t("grids.widgets.project_timeline.no_lifecycle_results") } %>
+      <% blankslate.with_visual_icon(icon: :"op-view-timeline") %>
+      <% blankslate.with_heading(tag: :h3) { t("grids.widgets.project_timeline.no_results_title") } %>
+      <% blankslate.with_description { I18n.t("grids.widgets.empty") } %>
+    <% end %>
+  <% end %>
+  <% if (link = gantt_link) %>
+    <% container.with_footer do %>
+      <%= render(Primer::Beta::Link.new(href: link)) { t("grids.widgets.project_timeline.gantt_link") } %>
     <% end %>
   <% end %>
 <% end %>

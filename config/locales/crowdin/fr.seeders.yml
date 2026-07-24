@@ -502,6 +502,20 @@ fr:
           name: User story
         item_6:
           name: Bug
+      global_queries:
+        item_0:
+          name: 'Des enfants exceptionnels : témoignages d''utilisateurs et bugs'
+        item_1:
+          name: 'Sous-éléments d''une user story : tâches'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: Cas d'utilisation et bogues
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Tâches
       welcome:
         title: Bienvenue sur OpenProject !
         text: |

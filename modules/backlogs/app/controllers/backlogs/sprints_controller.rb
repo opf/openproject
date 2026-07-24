@@ -109,6 +109,7 @@ module Backlogs
       if call.success?
         render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
         update_sprint_component_via_turbo_stream(sprint: call.result)
+        notify_sprint_updated(call.result)
       else
         update_sprint_form_component_via_turbo_stream(sprint: call.result, base_errors: call.errors[:base])
       end
@@ -144,6 +145,10 @@ module Backlogs
     end
 
     private
+
+    def notify_sprint_updated(sprint)
+      dispatch_event_via_turbo_stream("op-dispatched:backlogs:sprint-updated", detail: { sprint_id: sprint.id })
+    end
 
     def update_sprint_component_via_turbo_stream(sprint:)
       update_via_turbo_stream(

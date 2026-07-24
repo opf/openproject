@@ -37,10 +37,37 @@ module Wikis
 
     alias_method :page_links, :model
 
-    def initialize(model = nil, heading:, **)
+    def initialize(model = nil, heading:, linkable:, already_related_page_keys:, **)
       @heading = heading
+      @linkable = linkable
+      @already_related_page_keys = already_related_page_keys
 
       super(model, **)
+    end
+
+    private
+
+    attr_reader :linkable, :already_related_page_keys
+
+    def menu_actions_for(page_info_result)
+      page_info_result.either(
+        ->(page_info) do
+          can_manage_links? ? [add_to_relation_action(page_info:, already_related: already_related?(page_info))] : []
+        end,
+        ->(_failure) { [] }
+      )
+    end
+
+    def already_related?(page_info)
+      already_related_page_keys.include?([page_info.provider.id, page_info.identifier])
+    end
+
+    def add_to_relation_action(page_info:, already_related:)
+      PageLinkComponent::AddToRelatedAction.new(page_info:, linkable:, already_related:)
+    end
+
+    def can_manage_links?
+      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, linkable.project)
     end
   end
 end

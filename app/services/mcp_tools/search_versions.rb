@@ -55,17 +55,6 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("version_read_model")
-        }
-      }
-    )
-
     def call(page: nil, **filters)
       filtered = apply_filters(Version.visible, filters)
       versions = apply_pagination(filtered, page)

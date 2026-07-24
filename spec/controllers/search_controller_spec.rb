@@ -32,19 +32,15 @@ require "spec_helper"
 
 RSpec.describe SearchController do
   shared_let(:project) do
-    create(:project,
-           name: "eCookbook")
+    create(:project, :with_internal_wiki, name: "eCookbook").reload
   end
 
   shared_let(:other_project) do
-    create(:project,
-           name: "Other project")
+    create(:project, name: "Other project")
   end
 
   shared_let(:subproject) do
-    create(:project,
-           name: "Child project",
-           parent: project)
+    create(:project, name: "Child project", parent: project)
   end
 
   shared_let(:role) do

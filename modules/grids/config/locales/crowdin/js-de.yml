@@ -32,6 +32,13 @@ de:
           off_track: Unplanmäßig
           on_track: Planmäßig
           title: Status
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Phasen Gates
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
         subprojects:
           title: Unterelemente
         time_entries_current_user:

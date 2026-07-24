@@ -32,9 +32,11 @@ MCP.configure do |config|
   config.exception_reporter = lambda do |exception, server_context|
     cause = exception.cause
     message = "Unhandled exception occured during MCP request: #{exception}"
-    if cause
-      message += ", caused by #{cause} at #{cause.backtrace.first}"
-    end
+    message += if cause
+                 ", caused by #{cause} at #{cause.backtrace.first}"
+               else
+                 " at #{exception.backtrace.first}"
+               end
 
     Rails.logger.error message
     OpenProject::Appsignal.trace_exception(exception, server_context) if OpenProject::Appsignal.enabled?
@@ -43,7 +45,8 @@ MCP.configure do |config|
 end
 
 Rails.application.config.after_initialize do
-  McpTools.register McpTools::CurrentUser,
+  McpTools.register McpTools::CreateWorkPackage,
+                    McpTools::CurrentUser,
                     McpTools::ListStatuses,
                     McpTools::ListTypes,
                     McpTools::SearchPortfolios,
@@ -51,7 +54,8 @@ Rails.application.config.after_initialize do
                     McpTools::SearchProjects,
                     McpTools::SearchUsers,
                     McpTools::SearchVersions,
-                    McpTools::SearchWorkPackages
+                    McpTools::SearchWorkPackages,
+                    McpTools::UpdateWorkPackage
 
   McpResources.register McpResources::CurrentUser,
                         McpResources::Project,

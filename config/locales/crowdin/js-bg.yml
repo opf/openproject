@@ -120,6 +120,7 @@ bg:
     button_cancel: Отказ
     button_change_project: Move to another project
     button_check_all: Избери всички
+    button_clear: Clear
     button_close: Затворени
     button_close_details: Close details view
     button_collapse_all: Свиване на всички
@@ -204,8 +205,11 @@ bg:
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Избраният атрибут „%{name}“ не съществува.
-          macro_help_tooltip: Този текстов сегмент се визуализира динамично от макрос.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Заявеният ресурс не можа да бъде намерен
         child_pages:
@@ -800,6 +804,14 @@ bg:
       sorted_dsc: 'Descending sort applied, '
       sorted_no: 'No sort applied, '
       sorting_disabled: sorting is disabled
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal

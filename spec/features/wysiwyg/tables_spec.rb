@@ -34,7 +34,7 @@ RSpec.describe "Wysiwyg tables", :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki) }
   let(:editor) { Components::WysiwygEditor.new }
 
   before do

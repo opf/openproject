@@ -82,9 +82,10 @@ RSpec.describe "Wysiwyg attribute macros", :js do
   end
   shared_let(:project) do
     create(:project,
+           :with_internal_wiki,
            identifier: "some-project",
            types: [type_milestone, type_task],
-           enabled_module_names: %w[wiki work_package_tracking],
+           enabled_module_names: %w[work_package_tracking],
            parent: parent_project)
   end
   shared_let(:work_package) do

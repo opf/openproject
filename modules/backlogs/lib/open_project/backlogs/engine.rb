@@ -58,6 +58,7 @@ module OpenProject::Backlogs
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
                      "backlogs/sprints": :index,
+                     "backlogs/sprint_reports": :show,
                      "backlogs/taskboard": :show },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages show_board_views]
@@ -90,7 +91,8 @@ module OpenProject::Backlogs
                    dependencies: %i[view_sprints edit_work_packages]
 
         permission :share_sprint,
-                   { "projects/settings/backlog_sharings": %i[show update] },
+                   { "projects/settings/backlog_sharings": %i[show update],
+                     "projects/settings/backlog_multiple_active_sprints": %i[show toggle_multiple_active_sprints] },
                    permissible_on: :project,
                    require: :member,
                    dependencies: :create_sprints
@@ -146,7 +148,8 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :SetAttributesService
     patch_with_namespace :WorkPackages, :BaseContract
     patch_with_namespace :WorkPackages, :UpdateContract
-    patch_with_namespace :Projects, :CopyService
+    patch_with_namespace :Projects, :Copy, :WorkPackagesDependentService
+    patch_with_namespace :Queries, :Copy, :FiltersMapper
     patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 

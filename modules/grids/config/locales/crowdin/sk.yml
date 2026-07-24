@@ -31,6 +31,12 @@ sk:
       news:
         no_results: Nič nové pre nahlásenie.
       not_available: This widget is not available.
+      project_timeline:
+        gantt_link: View milestones in Gantt
+        no_results_title: No project timeline content configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
       subitems:
         button_text: Subitem
         no_results: There are no visible children.

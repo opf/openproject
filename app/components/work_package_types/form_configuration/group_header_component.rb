@@ -33,7 +33,7 @@ module WorkPackageTypes
     class GroupHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(group:, type:, ee_available:, first:, last:, edit_mode:, form_model: nil)
+      def initialize(group:, type:, ee_available:, first:, last:, edit_mode:, form_model: nil, readonly: false)
         super
         @group = group
         @type = type
@@ -42,10 +42,15 @@ module WorkPackageTypes
         @last = last
         @edit_mode = edit_mode
         @form_model = form_model
+        @readonly = readonly
       end
 
       def edit_mode?
         @edit_mode
+      end
+
+      def readonly?
+        @readonly
       end
 
       private

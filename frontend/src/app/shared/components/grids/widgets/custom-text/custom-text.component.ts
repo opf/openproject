@@ -63,8 +63,8 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public activate(event:MouseEvent) {
-    // Prevent opening the edit mode if a link was clicked
-    if (this.clickedElementIsLinkWithinDisplayContainer(event)) {
+    // Let interactive elements within the formatted text handle the click themselves.
+    if (this.clickedElementIsInteractiveWithinDisplayContainer(event)) {
       return;
     }
 
@@ -128,7 +128,24 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
     this.customText = this.sanitization.bypassSecurityTrustHtml(this.handler.htmlText);
   }
 
-  private clickedElementIsLinkWithinDisplayContainer(event:any) {
-    return this.displayContainer.nativeElement.contains(event.target.closest('a,macro'));
+  private clickedElementIsInteractiveWithinDisplayContainer(event:MouseEvent) {
+    const displayContainer = this.displayContainer.nativeElement;
+
+    // Pagination replaces the clicked button with the active-page span before
+    // this handler runs. The composed path retains the original button even
+    // after it has been detached from the DOM, unlike event.target.closest().
+    const eventPath = event.composedPath();
+    const displayContainerIndex = eventPath.indexOf(displayContainer);
+
+    if (displayContainerIndex === -1) {
+      return false;
+    }
+
+    const eventPathWithinDisplayContainer = eventPath.slice(0, displayContainerIndex);
+
+    return eventPathWithinDisplayContainer.some(
+      (target) => target instanceof Element
+        && target.matches('a, button, input, select, textarea, [role="button"], [role="link"]'),
+    );
   }
 }

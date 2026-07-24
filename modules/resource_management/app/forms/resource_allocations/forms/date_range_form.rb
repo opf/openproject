@@ -34,22 +34,14 @@ module ResourceAllocations
       REFRESH_ACTION = "change->refresh-on-form-changes#triggerTurboStream"
 
       form do |f|
-        f.group(layout: :horizontal) do |dates|
-          dates.single_date_picker(
-            name: :start_date,
-            label: ResourceAllocation.human_attribute_name(:start_date),
-            required: true,
-            value: model.start_date&.iso8601,
-            datepicker_options: { inDialog: @dialog_id, data: { action: REFRESH_ACTION } }
-          )
-          dates.single_date_picker(
-            name: :end_date,
-            label: ResourceAllocation.human_attribute_name(:end_date),
-            required: true,
-            value: model.end_date&.iso8601,
-            datepicker_options: { inDialog: @dialog_id, data: { action: REFRESH_ACTION } }
-          )
-        end
+        f.range_date_picker(
+          name: :date_range,
+          label: ResourceAllocation.human_attribute_name(:date_range),
+          required: true,
+          value: model.date_range,
+          validation_message: date_validation_message,
+          datepicker_options: { inDialog: @dialog_id, data: { action: REFRESH_ACTION } }
+        )
 
         f.html_content do
           render(ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation: model))
@@ -59,6 +51,16 @@ module ResourceAllocations
       def initialize(dialog_id:)
         super()
         @dialog_id = dialog_id
+      end
+
+      private
+
+      # The picker is a single input, so the errors both dates can carry have to
+      # be surfaced on it together.
+      def date_validation_message
+        (model.errors.full_messages_for(:start_date) + model.errors.full_messages_for(:end_date))
+          .to_sentence
+          .presence
       end
     end
   end

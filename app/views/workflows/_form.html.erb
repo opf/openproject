@@ -29,6 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% name = tab[:name] %>
 <% workflows = @workflows[name] %>
+<% read_only = workflow_linked?(@type) %>
 
 <%=
   if name == "assignee"
@@ -72,19 +73,21 @@ See COPYRIGHT and LICENSE files for more details.
                   <span class="flex-1">
                     <%= t(:label_new_statuses_allowed) %>
                   </span>
-                  <%=
-                    check_all_links "workflow_form_#{name}" do |links|
-                      links.with_check_all_button do |button|
-                        button.with_tooltip(text: t(".matrix_check_all_label"))
-                        t(:button_check_all)
-                      end
+                  <% unless read_only %>
+                    <%=
+                      check_all_links "workflow_form_#{name}" do |links|
+                        links.with_check_all_button do |button|
+                          button.with_tooltip(text: t(".matrix_check_all_label"))
+                          t(:button_check_all)
+                        end
 
-                      links.with_uncheck_all_button do |button|
-                        button.with_tooltip(text: t(".matrix_uncheck_all_label"))
-                        t(:button_uncheck_all)
+                        links.with_uncheck_all_button do |button|
+                          button.with_tooltip(text: t(".matrix_uncheck_all_label"))
+                          t(:button_uncheck_all)
+                        end
                       end
-                    end
-                  %>
+                    %>
+                  <% end %>
                 <% end %>
               </div>
             </div>
@@ -112,6 +115,7 @@ See COPYRIGHT and LICENSE files for more details.
                       scheme: :invisible,
                       size: :small,
                       icon: :check,
+                      disabled: read_only,
                       tooltip_direction: :sw,
                       aria: {
                         label: t(".matrix_check_uncheck_all_in_col_label_html", new_status: new_status.name)
@@ -152,6 +156,7 @@ See COPYRIGHT and LICENSE files for more details.
                       scheme: :invisible,
                       size: :small,
                       icon: :check,
+                      disabled: read_only,
                       tooltip_direction: :sw,
                       aria: {
                         label: t(".matrix_check_uncheck_all_in_row_label_html", old_status: old_status.name)
@@ -183,6 +188,7 @@ See COPYRIGHT and LICENSE files for more details.
                         name: "status[#{old_status.id}][#{new_status.id}]",
                         id: "status_#{old_status.id}_#{new_status.id}", # See BUG https://github.com/primer/view_components/issues/3811
                         value: name,
+                        disabled: read_only,
                         checked: !some_roles && (transition_role_ids.any? || newly_added_status),
                         label: t(".matrix_checkbox_label", old_status: old_status.name, new_status: new_status.name),
                         visually_hide_label: true,

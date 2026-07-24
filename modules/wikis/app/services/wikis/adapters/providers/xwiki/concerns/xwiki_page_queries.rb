@@ -39,6 +39,12 @@ module Wikis
                 Queries::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
               end
             end
+
+            def canonical_page_hierarchy(identifier:, auth_strategy:)
+              Input::PageHierarchy.build(identifier:).bind do |input_data|
+                Queries::CanonicalPageHierarchy.new(model: provider).call(input_data:, auth_strategy:)
+              end
+            end
           end
         end
       end

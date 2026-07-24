@@ -4,6 +4,7 @@ type: object
 required:
 - id
 - name
+- ownName
 - color
 - position
 - isDefault
@@ -18,7 +19,11 @@ properties:
     exclusiveMinimum: 0
   name:
     type: string
-    description: Type name
+    description: The name shown to users. For a variant this is its root type's name
+    readOnly: true
+  ownName:
+    type: string
+    description: The type's own name
     readOnly: true
   color:
     type:
@@ -60,6 +65,14 @@ properties:
 
             **Resource**: Type
           readOnly: true
+      parent:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The root type this type belongs to (if variant)
+
+            **Resource**: Type
+          readOnly: true
 example:
   _links:
     self:
@@ -67,6 +80,7 @@ example:
   _type: Type
   id: 1
   name: Bug
+  ownName: Bug
   color: "#ff0000"
   position: 1
   isDefault: true

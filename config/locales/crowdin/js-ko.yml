@@ -120,6 +120,7 @@ ko:
     button_cancel: 취소
     button_change_project: 다른 프로젝트로 이동
     button_check_all: 모두 선택
+    button_clear: Clear
     button_close: 닫기
     button_close_details: 디테일 닫기
     button_collapse_all: 모두 축소
@@ -204,8 +205,11 @@ ko:
       error_saving_failed: '다음 오류로 인해 문서를 저장하지 못했습니다: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: 선택한 특성 '%{name}'이(가) 없습니다.
-          macro_help_tooltip: 이 텍스트 세그먼트는 매크로에 의해 동적으로 렌더링되고 있습니다.
           nested_macro: 이 매크로는 %{model} %{id}을(를) 재귀적으로 참조하고 있습니다.
           not_found: 요청한 리소스를 찾을 수 없습니다.
         child_pages:
@@ -799,6 +803,14 @@ ko:
       sorted_dsc: '내림차순 정렬이 적용됨, '
       sorted_no: '정렬이 적용되지 않음, '
       sorting_disabled: 정렬이 불가능합니다
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: 모달 닫기

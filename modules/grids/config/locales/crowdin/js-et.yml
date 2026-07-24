@@ -32,6 +32,13 @@ et:
           off_track: Pole graafikus
           on_track: Graafikus
           title: Status
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
         subprojects:
           title: Subitems
         time_entries_current_user:

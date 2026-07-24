@@ -96,6 +96,7 @@ module Backlogs
 
     def move
       source_target = Backlogs::Target.for_work_package(@work_package)
+      source_position = @work_package.position
 
       call = ::Backlogs::WorkPackages::UpdateService
         .new(user: current_user, work_package: @work_package)
@@ -111,6 +112,10 @@ module Backlogs
           detail: { work_package_id: call.result.id }
         )
         return respond_with_turbo_streams(status: call)
+      end
+
+      if announce_move?(call, source_target, source_position)
+        render_move_announcement(call.result)
       end
 
       render_update_turbo_streams(call)
@@ -143,12 +148,56 @@ module Backlogs
     def render_invisible_after_move_flash(work_package)
       return unless work_package_invisible_after_move?(work_package)
 
-      backlog_name = work_package.sprint&.name ||
+      render_flash_message_via_turbo_stream(
+        message: I18n.t(:notice_work_package_invisible_after_move, backlog: target_list_name(work_package))
+      )
+    end
+
+    # A dialog move (never flagged optimistic) is announced by the server; the
+    # optimistic drag and menu paths announce client-side, and the flash
+    # covers moves whose result is no longer visible. Persisted no-ops
+    # (same target, same position) stay silent.
+    def announce_move?(call, source_target, source_position)
+      return false if optimistic_move? || call.failure?
+      return false if work_package_invisible_after_move?(call.result)
+
+      Backlogs::Target.for_work_package(call.result) != source_target ||
+        call.result.position != source_position
+    end
+
+    def render_move_announcement(work_package)
+      ids = announcement_list_scope(work_package).pluck(:id)
+      index = ids.index(work_package.id)
+      return if index.nil?
+
+      render_live_region_update_message(
+        message: t(
+          ".moved_announcement",
+          label: work_package.to_fs(:caption),
+          list: target_list_name(work_package),
+          position: index + 1,
+          total: ids.size
+        )
+      )
+    end
+
+    # The scopes the page renders, so the announced position matches what a
+    # sighted user sees: sprints are scoped to the project (shared sprints
+    # render only the project's items), buckets and the inbox go through the
+    # backlog scope with its excluded types and done statuses.
+    def announcement_list_scope(work_package)
+      if work_package.sprint
+        work_package.sprint.work_packages_for(@project)
+      else
+        WorkPackage.in_backlog_for(project: @project)
+          .where(backlog_bucket_id: work_package.backlog_bucket_id)
+      end
+    end
+
+    def target_list_name(work_package)
+      work_package.sprint&.name ||
         work_package.backlog_bucket&.name ||
         I18n.t(:label_inbox)
-      render_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
-      )
     end
 
     def load_work_package

@@ -120,6 +120,7 @@ tr:
     button_cancel: İptal et
     button_change_project: Başka projeye taşı
     button_check_all: Hepsini kontrol et
+    button_clear: Clear
     button_close: Kapat
     button_close_details: Ayrıntılar görünümünü kapat
     button_collapse_all: Tümünü daralt
@@ -204,8 +205,11 @@ tr:
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Seçilen '%{name}' özniteliği mevcut değil.
-          macro_help_tooltip: Bu metin parçası bir makro tarafından dinamik olarak işleniyor.
           nested_macro: Bu makro özyinelemeli olarak %{model} %{id}adresine referans verir.
           not_found: İstenen kaynak bulunamadı
         child_pages:
@@ -800,6 +804,14 @@ tr:
       sorted_dsc: 'Azalan sırılama uygulandı, '
       sorted_no: 'Sıralama uygulanmadı, '
       sorting_disabled: sıralama devre dışı
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Ekranı kapat

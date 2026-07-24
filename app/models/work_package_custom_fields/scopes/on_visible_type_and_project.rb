@@ -40,11 +40,17 @@ module WorkPackageCustomFields::Scopes
       # * on a project the user has access to
       # Both conditions need to be met on the same project.
       #
+      # A type whose form configuration is linked resolves to the type that
+      # actually owns that configuration, so its work packages surface the
+      # source type's fields.
+      #
       # Pass +project:+ to restrict the check to a single known project instead of
       # scanning all projects visible to the user.
       def on_visible_type_and_project(user = User.current, project: nil)
         visible_projects = Project.visible(user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
+
+        source_join, source_type_id = Type::EffectiveSourceSql.form_configuration_remap("pt.type_id")
 
         where(<<~SQL.squish)
           EXISTS (
@@ -52,8 +58,9 @@ module WorkPackageCustomFields::Scopes
             FROM (#{visible_projects.select(:id).to_sql}) vp
             JOIN projects_types pt
               ON pt.project_id = vp.id
+            #{source_join}
             JOIN custom_fields_types cft
-              ON cft.type_id = pt.type_id
+              ON cft.type_id = #{source_type_id}
              AND cft.custom_field_id = custom_fields.id
             LEFT JOIN custom_fields_projects cfp
               ON cfp.project_id = vp.id

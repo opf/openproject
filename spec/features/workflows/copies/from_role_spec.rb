@@ -54,25 +54,13 @@ RSpec.describe "Workflow copy from role", :js do
       click_button "Copy"
 
       expect(page).to have_css(".flash-success", text: "Successfully copied workflow to 2 roles.")
-      expect(page).to have_current_path(edit_workflow_path(type, role_id: roles.first.id))
+      expect(page).to have_current_path(edit_type_workflow_path(type, role_id: roles.first.id))
     end
   end
 
-  describe "from the workflows index page" do
+  describe "from the workflow tab" do
     before do
-      visit workflows_path
-      within "li", text: type.name do
-        find("button[aria-haspopup=true]").click
-        click_link "Copy"
-      end
-    end
-
-    it_behaves_like "a copy-to-other-roles dialog", with_source_role: false
-  end
-
-  describe "from the workflows edit page" do
-    before do
-      visit edit_workflow_path(type)
+      visit edit_type_workflow_path(type)
       click_link "Copy"
     end
 

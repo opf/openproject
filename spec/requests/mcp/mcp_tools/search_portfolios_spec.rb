@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe McpTools::SearchPortfolios do
-  subject do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "X-Authentication-Scheme", "Bearer"
     header "Content-Type", "application/json"
@@ -70,12 +70,12 @@ RSpec.describe McpTools::SearchPortfolios do
     it_behaves_like "MCP text tool"
 
     it "finds all portfolios without filters" do
-      subject
+      mcp_request
       expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
     end
 
     it "responds with properly formatted portfolios" do
-      subject
+      mcp_request
       parsed_results.dig("structuredContent", "items").each do |portfolio|
         expect(portfolio.to_json).to match_json_schema.from_docs("portfolio_model")
       end
@@ -85,7 +85,7 @@ RSpec.describe McpTools::SearchPortfolios do
       let(:call_args) { { identifier: "abc" } }
 
       it "finds the portfolio" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_present
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe McpTools::SearchPortfolios do
       let(:call_args) { { identifier: "Abc" } }
 
       it "does not find the portfolio" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_empty
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe McpTools::SearchPortfolios do
       let(:call_args) { { name: "The ABC Portfolio" } }
 
       it "finds the portfolio" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_present
       end
     end
@@ -126,7 +126,7 @@ RSpec.describe McpTools::SearchPortfolios do
       end
 
       it "returns only results up to the page size" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
       end
 
@@ -134,7 +134,7 @@ RSpec.describe McpTools::SearchPortfolios do
         let(:call_args) { { name: "Death Star", page: 2 } }
 
         it "returns the requested page" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_portfolios)
         end
       end
@@ -144,7 +144,7 @@ RSpec.describe McpTools::SearchPortfolios do
       let(:call_args) { { name: "The abc" } }
 
       it "finds the portfolio" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_present
       end
     end
@@ -153,7 +153,7 @@ RSpec.describe McpTools::SearchPortfolios do
       let(:call_args) { { status_code: "on_track" } }
 
       it "finds the portfolio" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_present
       end
 
@@ -161,7 +161,7 @@ RSpec.describe McpTools::SearchPortfolios do
         let(:call_args) { { status_code: "on_track", identifier: "abc" } }
 
         it "finds the portfolio" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items")).to be_present
         end
       end
@@ -170,7 +170,7 @@ RSpec.describe McpTools::SearchPortfolios do
         let(:call_args) { { status_code: "on_track", identifier: "def" } }
 
         it "does not find the portfolio" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items")).to be_empty
         end
       end
@@ -186,7 +186,7 @@ RSpec.describe McpTools::SearchPortfolios do
       let(:user) { create(:user) }
 
       it "does not find the portfolio" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items")).to be_empty
       end
     end
@@ -194,7 +194,7 @@ RSpec.describe McpTools::SearchPortfolios do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

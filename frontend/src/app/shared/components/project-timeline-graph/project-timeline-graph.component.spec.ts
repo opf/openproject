@@ -29,14 +29,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ProjectTimelineItem, ProjectTimelineGraphComponent } from './project-timeline-graph.component';
+import { ProjectTimelineItemBuilder } from './project-timeline-item.builder';
+import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
 
 describe('ProjectTimelineGraphComponent', () => {
   const i18nStub = {
-    t(key:string):string {
+    t(key:string, options:Record<string, string> = {}):string {
       return {
         'js.grid.widgets.project_timeline.tooltip_type_phase': 'Phase',
         'js.grid.widgets.project_timeline.tooltip_type_gate': 'Gate',
+        'js.grid.widgets.project_timeline.tooltip_type_milestone': 'Milestone',
+        'js.grid.widgets.project_timeline.accessible_phase': `Phase ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_gate': `Phase gate ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_date_range': `${options.start} to ${options.end}`,
       }[key] ?? key;
     },
   };
@@ -93,11 +100,20 @@ describe('ProjectTimelineGraphComponent', () => {
     finishGateName: null,
   };
 
+  const milestone = {
+    id: 10,
+    subject: 'Launch',
+    date: '2024-06-30',
+    typeId: 7,
+  };
+
   let fixture:ComponentFixture<ProjectTimelineGraphComponent>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let component:ProjectTimelineGraphComponent;
 
-  let buildData:(phases:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
+  let buildData:(phases:unknown[], milestones:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
   let tooltipTemplate:(item:ProjectTimelineItem) => HTMLElement|string;
+  let buildAccessibleItems:(phases:unknown[]) => { id:string; text:string }[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -105,42 +121,48 @@ describe('ProjectTimelineGraphComponent', () => {
       providers: [
         { provide: I18nService, useValue: i18nStub },
         { provide: TimezoneService, useValue: timezoneStub },
+        { provide: PathHelperService, useValue: { workPackagePath: (id:string) => `/work_packages/${id}` } },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProjectTimelineGraphComponent);
     component = fixture.componentInstance;
 
-    // Set required input before detectChanges triggers ngAfterViewInit
+    // Set required inputs before detectChanges triggers ngAfterViewInit
     fixture.componentRef.setInput('phasesData', '[]');
+    fixture.componentRef.setInput('milestonesData', '[]');
     fixture.detectChanges();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-    buildData = (component as any).buildData.bind(component);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-    tooltipTemplate = (component as any).tooltipTemplate.bind(component);
+    const injector = fixture.debugElement.injector;
+    const itemBuilder = injector.get(ProjectTimelineItemBuilder);
+    const tooltipBuilder = injector.get(ProjectTimelineTooltipBuilder);
+
+    buildData = itemBuilder.buildData.bind(itemBuilder);
+    tooltipTemplate = tooltipBuilder.tooltipTemplate.bind(tooltipBuilder);
+    buildAccessibleItems = itemBuilder.buildAccessibleItems.bind(itemBuilder);
   });
 
   describe('buildData', () => {
     it('creates a range item for a phase with dates', () => {
-      const { items } = buildData([phaseWithDates]);
+      const { items } = buildData([phaseWithDates], []);
       const item = items.find((i) => i.id === 'phase-1');
 
       expect(item).toBeDefined();
       expect(item!.type).toBe('range');
-      expect(item!.group).toBe('lifecycle');
+      expect(item!.group).toBe('phases');
       expect(item!.content).toBe('Design');
       expect(item!.className).toContain('__hl_background_project_phase_definition_3');
+      expect(item!.itemType).toBe('phase');
       expect(item!.definitionId).toBe(3);
     });
 
     it('skips a phase without dates', () => {
-      const { items } = buildData([phaseWithoutDates]);
+      const { items } = buildData([phaseWithoutDates], []);
       expect(items.find((i) => i.id === 'phase-3')).toBeUndefined();
     });
 
     it('creates start and finish gate items when configured', () => {
-      const { items } = buildData([phaseWithGates]);
+      const { items } = buildData([phaseWithGates], []);
 
       const startGate = items.find((i) => i.id === 'gate-start-2');
       expect(startGate).toBeDefined();
@@ -148,6 +170,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(startGate!.group).toBe('gates');
       expect(startGate!.title).toBe('Build Start');
       expect(startGate!.className).toContain('op-timeline-gate');
+      expect(startGate!.itemType).toBe('gate');
       expect(startGate!.content instanceof HTMLElement).toBe(true);
       expect((startGate!.content as HTMLElement).querySelector('.__hl_inline_project_phase_definition_5')).toBeTruthy();
 
@@ -157,7 +180,7 @@ describe('ProjectTimelineGraphComponent', () => {
     });
 
     it('does not create gate items when gates are disabled', () => {
-      const { items } = buildData([phaseWithDates]);
+      const { items } = buildData([phaseWithDates], []);
       expect(items.find((i) => i.id === 'gate-start-1')).toBeUndefined();
       expect(items.find((i) => i.id === 'gate-finish-1')).toBeUndefined();
     });
@@ -166,7 +189,7 @@ describe('ProjectTimelineGraphComponent', () => {
       let item:ProjectTimelineItem;
 
       beforeEach(() => {
-        ({ items: [item] } = buildData([oneDayPhase]));
+        ({ items: [item] } = buildData([oneDayPhase], []));
       });
 
       it('creates a range item', () => {
@@ -193,9 +216,22 @@ describe('ProjectTimelineGraphComponent', () => {
       });
     });
 
-    it('always creates gates and lifecycle groups', () => {
-      const { groups } = buildData([]);
-      expect(groups.map((g) => g.id)).toEqual(['gates', 'lifecycle']);
+    it('creates a milestone item', () => {
+      const { items } = buildData([], [milestone]);
+      const item = items.find((i) => i.id === 'milestone-10');
+
+      expect(item).toBeDefined();
+      expect(item!.type).toBe('point');
+      expect(item!.group).toBe('milestones');
+      expect(item!.title).toBe('Launch');
+      expect(item!.className).toContain('op-timeline-milestone');
+      expect(item!.className).toContain('__hl_background_type_7');
+      expect(item!.itemType).toBe('milestone');
+    });
+
+    it('always creates gates, lifecycle, and milestones groups', () => {
+      const { groups } = buildData([], []);
+      expect(groups.map((g) => g.id)).toEqual(['gates', 'phases', 'milestones']);
     });
   });
 
@@ -218,6 +254,7 @@ describe('ProjectTimelineGraphComponent', () => {
           content: 'Design',
           title: 'Design',
           className: '__hl_background_project_phase_definition_3',
+          itemType: 'phase',
           definitionId: 3,
         }) as HTMLElement;
       });
@@ -282,6 +319,7 @@ describe('ProjectTimelineGraphComponent', () => {
           content: document.createElement('i'),
           title: 'Build Start',
           className: 'op-timeline-gate __hl_background_project_phase_definition_5',
+          itemType: 'gate',
           definitionId: 5,
         }) as HTMLElement;
       });
@@ -304,6 +342,139 @@ describe('ProjectTimelineGraphComponent', () => {
       it('applies the highlight class', () => {
         expect(result.querySelector('.__hl_inline_project_phase_definition_5')).toBeTruthy();
       });
+    });
+
+    describe('for a milestone item', () => {
+      let result:HTMLElement;
+
+      beforeEach(() => {
+        result = tooltipTemplate({
+          id: 'milestone-10',
+          group: 'milestones',
+          type: 'point',
+          start: new Date('2024-06-30'),
+          content: '',
+          title: 'Launch',
+          className: 'op-timeline-milestone __hl_background_type_7',
+          itemType: 'milestone',
+          typeId: 7,
+        }) as HTMLElement;
+      });
+
+      it('shows "Milestone" as the type label', () => {
+        const meta = result.querySelector('.op-timeline-tooltip--meta-row');
+        expect(meta?.textContent).toContain('Milestone');
+      });
+
+      it('shows only a single date (no range)', () => {
+        const meta = result.querySelector('.op-timeline-tooltip--meta-row');
+        expect(meta?.textContent).not.toContain('–');
+      });
+
+      it('shows the milestone name', () => {
+        const name = result.querySelector('.op-timeline-tooltip--name');
+        expect(name?.textContent).toBe('Launch');
+      });
+
+      it('applies the type highlight class to the icon', () => {
+        expect(result.querySelector('.__hl_inline_type_7')).toBeTruthy();
+      });
+    });
+
+    describe('for a clustered gate item', () => {
+      const octoberGate:ProjectTimelineItem = {
+        id: 'gate-oct',
+        group: 'gates',
+        type: 'point',
+        start: new Date('2024-10-01'),
+        content: document.createElement('i'),
+        title: 'October Gate',
+        className: 'op-timeline-gate',
+      };
+      const novemberGate:ProjectTimelineItem = {
+        id: 'gate-nov',
+        group: 'gates',
+        type: 'point',
+        start: new Date('2024-11-01'),
+        content: document.createElement('i'),
+        title: 'November Gate',
+        className: 'op-timeline-gate',
+      };
+
+      const makeCluster = (items:ProjectTimelineItem[]):HTMLElement => tooltipTemplate({
+        id: 'cluster-1',
+        group: 'gates',
+        type: 'point',
+        start: new Date('2024-10-01'),
+        content: document.createElement('i'),
+        title: '',
+        className: 'op-timeline-gate',
+        isCluster: true,
+        items,
+      }) as HTMLElement;
+
+      it('shows "Gate" as the type label', () => {
+        const meta = makeCluster([octoberGate, novemberGate]).querySelector('.op-timeline-tooltip--meta-row');
+        expect(meta?.textContent).toContain('Gate');
+      });
+
+      it('lists all gate names', () => {
+        const name = makeCluster([octoberGate, novemberGate]).querySelector('.op-timeline-tooltip--name');
+        expect(name?.textContent).toBe('October Gate, November Gate');
+      });
+
+      it('sorts dates chronologically even when items arrive in reverse order', () => {
+        const formattedDates:Date[] = [];
+        vi.spyOn(timezoneStub, 'formattedDate').mockImplementation((d:unknown) => {
+          formattedDates.push(d as Date);
+          return String(d);
+        });
+
+        // Items intentionally in reverse order (November before October)
+        makeCluster([novemberGate, octoberGate]);
+
+        expect(formattedDates.length).toBe(2);
+        expect(formattedDates[0].getTime()).toBeLessThan(formattedDates[1].getTime());
+      });
+    });
+  });
+
+  describe('buildAccessibleItems', () => {
+    it('creates screen reader text for phases and gates', () => {
+      expect(buildAccessibleItems([phaseWithGates])).toEqual([
+        { id: 'phase-2', text: 'Phase Build: 2024-04-01 to 2024-06-30' },
+        { id: 'gate-start-2', text: 'Phase gate Build Start: 2024-04-01' },
+        { id: 'gate-finish-2', text: 'Phase gate Build End: 2024-06-30' },
+      ]);
+    });
+
+    it('uses a single date for one-day phases', () => {
+      expect(buildAccessibleItems([oneDayPhase])).toEqual([
+        { id: 'phase-4', text: 'Phase Kickoff: 2024-05-15' },
+      ]);
+    });
+
+    it('skips phases without dates', () => {
+      expect(buildAccessibleItems([phaseWithoutDates])).toEqual([]);
+    });
+  });
+
+  describe('template', () => {
+    it('does not render an empty screen reader list', () => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      expect(element.querySelector('ul.sr-only')).toBeNull();
+    });
+
+    it('renders screen reader text and hides the visual graph from assistive technology', () => {
+      fixture.componentRef.setInput('phasesData', JSON.stringify([phaseWithGates]));
+      fixture.detectChanges();
+
+      const element = fixture.nativeElement as HTMLElement;
+      expect(element.querySelector('.op-project-timeline-graph')?.getAttribute('aria-hidden')).toBe('true');
+      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase Build: 2024-04-01 to 2024-06-30');
+      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
+      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build End: 2024-06-30');
     });
   });
 });

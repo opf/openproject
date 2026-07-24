@@ -148,7 +148,7 @@ ru:
   label_agenda_item_add: Добавить пункт повестки
   label_agenda_item_add_notes: Добавить заметки
   label_agenda_item_add_outcome: Добавить итог
-  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_convert_to_work_package: Преобразовать в пакет работ
   label_agenda_item_deleted_wp: Ссылка на удалённый пакет работ
   label_agenda_item_duplicate: Дубликат
   label_agenda_item_duplicate_in_next: Продублировать в следующее совещание
@@ -574,8 +574,8 @@ ru:
       title: Удалить серию совещаний
     end_after:
       iterations: After a number of occurrences
-      never: Never
-      specific_date: After a specific date
+      never: Никогда
+      specific_date: После определенной даты
     end_series_dialog:
       title: Завершить серию совещаний
     ended_blankslate:
@@ -585,7 +585,7 @@ ru:
     frequency:
       every_weekday: Каждый %{day_of_the_week}
       monthly_day_of_month: День месяца
-      monthly_nth_weekday: Monthly on a weekday
+      monthly_nth_weekday: Ежемесячно в будние дни
       working_days: Каждый рабочий день
       x_daily:
         one: Каждый день
@@ -607,7 +607,7 @@ ru:
       frequency: "%{base} в %{time}"
       full: "%{base} в %{time}, заканчивается %{end_date}"
       full_past: "%{base} в %{time}, закончился %{end_date}"
-      monthly_day: Every month on the %{day}
+      monthly_day: Ежемесячно в %{day} день
       monthly_day_interval: Every %{interval} months on the %{day}
       monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
       monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}

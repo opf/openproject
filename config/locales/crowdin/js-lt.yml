@@ -120,6 +120,7 @@ lt:
     button_cancel: Nutraukti
     button_change_project: Move to another project
     button_check_all: Žymėti visus
+    button_clear: Clear
     button_close: Uždaryti
     button_close_details: Užverti detalų vaizdą
     button_collapse_all: Sutraukti visus
@@ -204,8 +205,11 @@ lt:
       error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Pasirinktas atributas „%{name}“ neegzistuoja.
-          macro_help_tooltip: Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Reikalaujamas resursas nerastas
         child_pages:
@@ -802,6 +806,14 @@ lt:
       sorted_dsc: 'Pritaikytas mažėjantis rikiavimas, '
       sorted_no: 'Rikiavimas nėra taikomas, '
       sorting_disabled: rikiavimas išjungtas
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal

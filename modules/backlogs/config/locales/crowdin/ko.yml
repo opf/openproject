@@ -24,6 +24,7 @@ ko:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: Allow multiple active sprints
         backlog_excluded_types: 제외된 작업 패키지 유형
         sprint_sharing: 스프린트 공유
         statuses_considered_closed: 마감됨으로 간주되는 상태
@@ -55,7 +56,11 @@ ko:
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: '- 프로젝트 "%{name}"이(가) 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다.'
               share_all_projects_already_taken_anonymous: "- 다른 프로젝트가 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다."
           receiving_sprints: "- 공유 스프린트를 받고 있습니다. 자체 스프린트는 생성할 수 없습니다."
@@ -109,8 +114,9 @@ ko:
         add_new_work_package: Add new work package
         delete_backlog_bucket: 백로그 버킷 삭제
         edit_backlog_bucket: 백로그 버킷 편집
-      blankslate_description: 항목을 여기로 드래그하여 추가합니다.
+      blankslate_description: Drag items here to add them
       blankslate_title: 백로그 버킷이 비어 있습니다.
+      drop_zone_label: Drop here to add this item
       label_actions: 백로그 버킷 작업
     bucket_destroy_modal_component:
       details: 백로그 버킷 '%{name}'이(가) 삭제되고 모든 작업 패키지가 백로그 받은 편지함으로 이동됩니다. 작업 패키지는 삭제되지 않습니다.
@@ -136,8 +142,9 @@ ko:
       action_menu:
         add_existing_work_package: Add existing work package
         add_new_work_package: Add new work package
-      blankslate_description: 이 프로젝트에서 열려 있는 모든 작업 패키지가 자동으로 여기에 표시됩니다.
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: 백로그 받은 편지함이 비어 있습니다
+      drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
         other: "%{count}개 항목 더 보기"
@@ -150,6 +157,7 @@ ko:
     move_to_sprint_dialog_component:
       label_sprint: 스프린트
       title: 스프린트로 이동
+    multiple_active_sprints: Multiple active sprints
     points_label:
       other: 포인트
     positions_could_not_be_rebuilt: 위치를 다시 빌드할 수 없습니다.
@@ -157,7 +165,7 @@ ko:
     rebuild: 다시 빌드
     rebuild_positions: 위치 다시 빌드
     remaining_hours: 남은 작업
-    sharing: 공유
+    sharing: Sprint sharing
     show_burndown_chart: 번다운 차트
     sprint_component:
       action_menu:
@@ -166,11 +174,13 @@ ko:
         edit_sprint: 스프린트 편집
       blankslate_description: 아직 계획된 항목이 없습니다. 항목을 추가하려면 여기로 드래그하세요.
       blankslate_title: "%{name}이(가) 비어 있습니다"
+      drop_zone_label: Drop here to add this item
       label_actions: 스프린트 작업
       label_complete_sprint: 스프린트 완료
       label_start_sprint: 스프린트 시작
       start_sprint_disabled_reason_active_sprint: 다른 스프린트가 이미 활성화되어 있습니다.
       start_sprint_disabled_reason_missing_dates: 스프린트를 시작하려면 시작 날짜와 종료 날짜가 필요합니다.
+      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: 이 스프린트 목표는 본 프로젝트에만 해당되며, 이 스프린트를 사용하는 다른 프로젝트와는 공유되지 않습니다.
       goal_for_this_project_label: "%{attribute}(이 프로젝트용)"
@@ -211,18 +221,21 @@ ko:
       add_existing_dialog:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: 스토리 포인트
     story_points_ideal: 스토리 포인트(적합함)
   ee:
     features:
+      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing: 스프린트 공유
     upsell:
+      multiple_active_sprints:
+        description: " "
       sprint_sharing:
         description: 프로젝트 간에 스프린트를 공유하여 팀을 조율하고 확장된 애자일 설정(SAFe)에서 작업을 조정합니다.
   label_all_sprints: 모든 스프린트
@@ -262,6 +275,9 @@ ko:
     name: OpenProject 백로그
   project_module_backlogs: 백로그
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:
@@ -283,7 +299,14 @@ ko:
             label: 하위 프로젝트
         sprint_sharing: 스프린트 공유
       backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Number of active sprints
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
           sharing_description: 이 프로젝트는 자체 스프린트를 공유하거나, 공유 스프린트를 받거나, 스프린트를 독립적으로 처리할 수 있습니다(공유 없음).
           sharing_fallback_description: 기업 엔터프라이즈 플랜이 없는 경우 공유 옵션은 프로젝트 고유한 스프린트로 제한됩니다. 현재 활성 설정이 활성 상태로 유지됩니다.
   query_fields:

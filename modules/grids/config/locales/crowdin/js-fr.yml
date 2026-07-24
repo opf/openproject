@@ -32,6 +32,13 @@ fr:
           off_track: Sur la mauvaise voie
           on_track: Sur la bonne voie
           title: Statut
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Porte de phase
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
         subprojects:
           title: Sous-éléments
         time_entries_current_user:

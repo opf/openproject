@@ -120,6 +120,7 @@ fr:
     button_cancel: Annuler
     button_change_project: Déplacer vers un autre projet
     button_check_all: Tout cocher
+    button_clear: Effacer
     button_close: Fermer
     button_close_details: Fermer la vue détaillée
     button_collapse_all: Tout replier
@@ -204,8 +205,11 @@ fr:
       error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur suivante : %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: Un attribut de projet dynamique inséré à l'aide d'une macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: Un attribut de lot de travail dynamique inséré à l'aide d'une macro.
+          aria_label_work_package_link: Un lien dynamique vers un lot de travail inséré à l'aide d'une macro.
           invalid_attribute: L'attribut « %{name} » n'existe pas.
-          macro_help_tooltip: Ce segment de texte est rendu dynamiquement par une macro.
           nested_macro: Cette macro fait référence de manière récursive à %{model} %{id}.
           not_found: La ressource demandée est introuvable
         child_pages:
@@ -800,6 +804,14 @@ fr:
       sorted_dsc: 'Tri par ordre décroissant appliqué, '
       sorted_no: 'Aucun tri appliqué, '
       sorting_disabled: le tri est désactivé
+    sortable_lists:
+      announcements:
+        fallback_item_label: Élément
+        fallback_list_name: une autre liste
+        move_failed_check_position: Le déplacement a échoué. Vérifiez la position actuelle de l'élément.
+        move_failed_rolled_back: Le déplacement a échoué. %{label} est revenu à sa position initiale.
+        moved: "%{label} a été transféré au poste %{position} de %{total}"
+        moved_to_list: "%{label} déplacé vers %{list}, à l'adresse %{position} de %{total}"
     spot:
       drop_modal:
         close: Fermer la fenêtre modale

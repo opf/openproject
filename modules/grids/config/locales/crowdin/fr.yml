@@ -29,6 +29,12 @@ fr:
       news:
         no_results: Rien de nouveau à signaler.
       not_available: Ce widget n'est pas disponible.
+      project_timeline:
+        gantt_link: View milestones in Gantt
+        no_results_title: No project timeline content configured
+        title: Chronologie du projet
+        title_portfolio: Chronologie du portefeuille
+        title_program: Chronologie du programme
       subitems:
         button_text: Sous-élément
         no_results: Il n'y a pas d'enfants visibles.

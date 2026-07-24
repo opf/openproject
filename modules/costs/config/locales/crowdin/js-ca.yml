@@ -26,7 +26,7 @@ ca:
     label_hour: hora
     label_hours: hores
     myTimeTracking:
-      noSpecificTime: No specific time
+      noSpecificTime: No hi ha temps específic
     text_are_you_sure: N'esteu segur?
     work_packages:
       properties:

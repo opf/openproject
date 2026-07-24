@@ -24,6 +24,7 @@ zh-CN:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: Allow multiple active sprints
         backlog_excluded_types: 排除的工作包类型
         sprint_sharing: 冲刺共享
         statuses_considered_closed: 被视为已关闭的状态
@@ -55,7 +56,11 @@ zh-CN:
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: 无法设置，因为项目“%{name}”已经与所有项目共享。
               share_all_projects_already_taken_anonymous: 无法设置，因为另一个项目已经与所有项目共享。
           receiving_sprints: 正在接收共享冲刺。无法创建自己的冲刺。
@@ -109,8 +114,9 @@ zh-CN:
         add_new_work_package: Add new work package
         delete_backlog_bucket: 删除积压工作存储桶
         edit_backlog_bucket: 编辑积压工作存储桶
-      blankslate_description: 将项目拖到此处添加。
+      blankslate_description: Drag items here to add them
       blankslate_title: 积压工作存储桶为空
+      drop_zone_label: Drop here to add this item
       label_actions: 积压工作存储桶操作
     bucket_destroy_modal_component:
       details: 积压工作存储桶“%{name}”将被删除，所有工作包将移至积压工作收件箱。不会删除任何工作包。
@@ -136,8 +142,9 @@ zh-CN:
       action_menu:
         add_existing_work_package: Add existing work package
         add_new_work_package: Add new work package
-      blankslate_description: 此项目中所有未完成的工作包都会自动出现在此处。
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: 积压工作收件箱为空
+      drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
         other: 显示其他 %{count} 个条目
@@ -150,6 +157,7 @@ zh-CN:
     move_to_sprint_dialog_component:
       label_sprint: 冲刺
       title: 移至冲刺
+    multiple_active_sprints: Multiple active sprints
     points_label:
       other: 点
     positions_could_not_be_rebuilt: 无法重建顺序
@@ -157,7 +165,7 @@ zh-CN:
     rebuild: 重建
     rebuild_positions: 重建顺序
     remaining_hours: 剩余工时
-    sharing: 共享
+    sharing: Sprint sharing
     show_burndown_chart: 燃尽图
     sprint_component:
       action_menu:
@@ -166,11 +174,13 @@ zh-CN:
         edit_sprint: 编辑冲刺
       blankslate_description: 尚未计划条目。请将条目拖到此处以添加。
       blankslate_title: "%{name} 为空"
+      drop_zone_label: Drop here to add this item
       label_actions: 冲刺行动
       label_complete_sprint: 完成冲刺
       label_start_sprint: 开始冲刺
       start_sprint_disabled_reason_active_sprint: 另一次冲刺已经开始。
       start_sprint_disabled_reason_missing_dates: 必须设置开始和结束日期才能开始冲刺。
+      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: 该冲刺目标仅适用于此项目，不会与同样使用此冲刺的其他项目共享。
       goal_for_this_project_label: "%{attribute}（针对此项目）"
@@ -211,18 +221,21 @@ zh-CN:
       add_existing_dialog:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: 故事点
     story_points_ideal: 故事点（理想）
   ee:
     features:
+      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing: 冲刺共享
     upsell:
+      multiple_active_sprints:
+        description: " "
       sprint_sharing:
         description: 跨项目共享冲刺，以便在规模化敏捷设置 (SAFe) 中调整团队和协调工作。
   label_all_sprints: 所有冲刺
@@ -262,6 +275,9 @@ zh-CN:
     name: OpenProject 待办清单
   project_module_backlogs: 待办清单
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:
@@ -283,7 +299,14 @@ zh-CN:
             label: 子项目
         sprint_sharing: 共享冲刺
       backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Number of active sprints
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
           sharing_description: 此项目可以共享自己的冲刺、接收共享的冲刺或独立处理冲刺（不共享）。
           sharing_fallback_description: 由于缺少公司企业计划，共享选项仅限于项目自身的冲刺。当前的有效设置将保持有效状态。
   query_fields:
