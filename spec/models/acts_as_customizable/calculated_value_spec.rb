@@ -468,9 +468,26 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
       end
     end
 
+    context "when using boolean fields" do
+      let(:cf_bool) { build_stubbed(:boolean_project_custom_field) }
+      let(:cf) { build_stubbed(:calculated_value_project_custom_field, formula: "IF(#{cf_bool}, 10, 20)") }
+
+      let(:enabled_custom_field_ids) { [cf_bool, cf].map(&:id) }
+      let(:custom_field_values) do
+        {
+          cf_bool => true
+        }.map { |custom_field, value| build_stubbed(:custom_value, custom_field:, value:) }
+      end
+
+      it "calculates values using the boolean value of the referenced field" do
+        instance.calculate_custom_fields([cf])
+        expect(instance).to have_received(:custom_field_values=).with(cf.id => 10).once
+      end
+    end
+
     context "when using weighted item lists" do
       let(:cf_list) { build_stubbed(:weighted_item_list_project_custom_field) }
-      let(:cf1) { build_stubbed(:calculated_value_project_custom_field) }
+      let(:cf1) { build_stubbed(:calculated_value_project_custom_field, formula: "#{cf_list} * 2") }
       let(:hierarchy_item) { create(:hierarchy_item, weight: 7) }
 
       let(:enabled_custom_field_ids) { [cf_list, cf1].map(&:id) }
@@ -480,18 +497,9 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         }.map { |custom_field, value| build_stubbed(:custom_value, custom_field:, value:) }
       end
 
-      before do
-        {
-          cf1 => "#{cf_list} * 2"
-        }.each do |cf, formula|
-          cf.formula = formula
-        end
-      end
-
       it "calculates values using the weight of the selected entry" do
         instance.calculate_custom_fields([cf1])
-        expect(instance).to have_received(:custom_field_values=)
-                              .with(cf1.id => 2 * 7).once
+        expect(instance).to have_received(:custom_field_values=).with(cf1.id => 2 * 7).once
       end
     end
   end

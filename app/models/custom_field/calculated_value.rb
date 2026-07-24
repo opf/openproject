@@ -76,7 +76,7 @@ module CustomField::CalculatedValue
   private_constant :FORMULA_SPLITTER, :FORMULA_TOKENS
 
   # Field formats that can be used within a formula.
-  FIELD_FORMATS_FOR_FORMULA = %w[int float calculated_value weighted_item_list].freeze
+  FIELD_FORMATS_FOR_FORMULA = %w[int float bool calculated_value weighted_item_list].freeze
 
   def self.calculator_instance
     Dentaku::Calculator.new(case_sensitive: true)
