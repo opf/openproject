@@ -154,7 +154,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
 
     # Reuse mode is no longer chosen in the wizard: a new variant simply defaults
     # to Linked-to-parent for the aspects it inherits (see Type::ConfigurationLinkable).
-    Type::ConfigurationLink::DEFAULT_PARENT_LINK_ASPECTS.each do |aspect|
+    Type::ConfigurationLink::ASPECTS.each do |aspect|
       expect(variant.source_for(aspect)).to eq(bug_type)
     end
   end

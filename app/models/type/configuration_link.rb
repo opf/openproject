@@ -36,8 +36,6 @@ class Type
       PDF_EXPORT = "pdf_export",
       DEFAULTS = "defaults",
       WORKFLOWS = "workflows",
-      AUTOMATIONS = "automations",
-      PROJECTS = "projects",
       FORM_CONFIGURATION = "form_configuration",
       PROJECT_ATTRIBUTES = "project_attributes"
     ].freeze
