@@ -33,7 +33,7 @@ module WikiPages
     form do |f|
       f.text_field(
         name: :title,
-        label: I18n.t(:label_page_title),
+        label: WikiPage.human_attribute_name(:title),
         required: true
       )
 
@@ -72,7 +72,6 @@ module WikiPages
         name: :journal_notes,
         label: I18n.t(:"attributes.comment"),
         caption: I18n.t(:text_wiki_page_comment_caption),
-        inset: true,
         autocomplete: :off,
         input_width: :large,
         placeholder: I18n.t(:text_wiki_page_comment_placeholder)
