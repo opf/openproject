@@ -2012,7 +2012,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
       context "for semantic identifier" do
         let(:work_package) do
-          build_stubbed(:work_package, project:, sequence_number: 7, identifier: "OLD-7")
+          build_stubbed(:work_package, project:, identifier: "OLD-7")
         end
 
         it "clears sequence_number" do
