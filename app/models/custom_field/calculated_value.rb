@@ -38,7 +38,7 @@ module CustomField::CalculatedValue
   FORMULA_OPERATORS = %w[
     + - * / % ^
     < > <= >= <> != = ==
-    AND OR
+    AND && OR ||
   ].freeze
 
   # Symbols for grouping and calling functions.
