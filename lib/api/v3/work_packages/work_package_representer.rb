@@ -577,9 +577,12 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
+        # Deprecated in favour of `targetVersions`
+        # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
-                            representer: ::API::V3::Versions::VersionRepresenter
+                            representer: ::API::V3::Versions::VersionRepresenter,
+                            skip_render: ->(*) { Setting::WorkPackageMultipleVersions.active? }
 
         associated_resources :target_versions,
                              v3_path: :version,

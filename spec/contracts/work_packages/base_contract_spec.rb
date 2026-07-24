@@ -1437,6 +1437,30 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
+    describe "legacy version_id writability" do
+      before do
+        work_package.version = assignable_version
+      end
+
+      context "when the multiple-versions feature is disabled" do
+        before { contract.validate }
+
+        it "allows writing the deprecated version_id" do
+          expect(contract.errors.symbols_for(:version_id)).to be_empty
+        end
+      end
+
+      context "when the multiple-versions feature is enabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        before { contract.validate }
+
+        it "rejects writing the deprecated version_id as read-only" do
+          expect(contract.errors.symbols_for(:version_id)).to include(:error_readonly)
+        end
+      end
+    end
+
     describe "target versions length" do
       let(:other_assignable_version) { build_stubbed(:version) }
 

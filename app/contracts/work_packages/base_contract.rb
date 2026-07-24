@@ -47,7 +47,8 @@ module WorkPackages
     attribute :priority_id
     attribute :category_id
     attribute :version_id,
-              permission: :assign_versions do
+              permission: :assign_versions,
+              writable: ->(*) { !Setting::WorkPackageMultipleVersions.active? } do
       validate_version_is_assignable
     end
     attribute :target_versions,
