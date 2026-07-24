@@ -74,6 +74,7 @@ RSpec.describe Type::ConfigurationLinkable do
 
       expect(child.source_for(Type::ConfigurationLink::PDF_EXPORT)).to eq(parent)
       expect(child.source_for(Type::ConfigurationLink::DEFAULTS)).to eq(parent)
+      expect(child.source_for(Type::ConfigurationLink::PROJECT_ATTRIBUTES)).to eq(parent)
     end
 
     it "leaves the not-yet-implemented aspects Independent" do
@@ -358,6 +359,62 @@ RSpec.describe Type::ConfigurationLinkable do
       keys = type.attribute_groups.map(&:key)
       expect(keys).to include("own_group")
       expect(keys).not_to include("source_only_group")
+    end
+  end
+
+  describe "project attributes resolution", with_flag: { type_variants: true } do
+    let(:project_attributes_aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
+    let(:owner_field) { create(:project_custom_field) }
+    let(:own_field) { create(:project_custom_field) }
+    let(:owner) { create(:type) }
+
+    before do
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: owner_field)
+      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: own_field)
+    end
+
+    it "reads its own mappings when Independent" do
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(own_field.id)
+    end
+
+    it "reads the owner's mappings when Linked" do
+      type.link!(project_attributes_aspect, source: owner)
+
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(owner_field.id)
+    end
+
+    it "resolves through a longer link chain to the owning type" do
+      middle = create(:type)
+      middle.link!(project_attributes_aspect, source: owner)
+      type.link!(project_attributes_aspect, source: middle)
+
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(owner_field.id)
+    end
+
+    it "keeps writing to its own mappings while Linked" do
+      type.link!(project_attributes_aspect, source: owner)
+      another_field = create(:project_custom_field)
+      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: another_field)
+
+      expect(type.own_project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(own_field.id, another_field.id)
+    end
+  end
+
+  describe "project attributes resolution with the flag off", with_flag: { type_variants: false } do
+    it "ignores the link and reads its own mappings" do
+      owner = create(:type)
+      owner_field = create(:project_custom_field)
+      own_field = create(:project_custom_field)
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: owner_field)
+      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: own_field)
+      type.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: owner)
+
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(own_field.id)
     end
   end
 end

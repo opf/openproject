@@ -29,24 +29,25 @@
 #++
 
 module WorkPackageTypes
-  # One-time copies of a configuration aspect from a source type ("Copy from
-  # type"), one service per aspect. Aspects not listed here don't support
-  # copying (yet).
   module CopyConfiguration
-    SERVICES = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::DEFAULTS => DefaultsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService,
-      Type::ConfigurationLink::WORKFLOWS => WorkflowsService,
-      Type::ConfigurationLink::PROJECT_ATTRIBUTES => ProjectAttributesService
-    }.freeze
+    class ProjectAttributesService < BaseService
+      private
 
-    def self.service_for(aspect)
-      SERVICES[aspect.to_s]
-    end
+      def aspect = Type::ConfigurationLink::PROJECT_ATTRIBUTES
 
-    def self.supported?(aspect)
-      SERVICES.key?(aspect.to_s)
+      def copy_from(source)
+        custom_field_ids = source.own_project_custom_field_type_mappings.pluck(:custom_field_id)
+
+        ProjectCustomFieldTypeMapping.transaction do
+          type.own_project_custom_field_type_mappings.delete_all
+          next if custom_field_ids.empty?
+
+          type.own_project_custom_field_type_mappings.insert_all(
+            custom_field_ids.map { |id| { custom_field_id: id } },
+            unique_by: %i[type_id custom_field_id]
+          )
+        end
+      end
     end
   end
 end
