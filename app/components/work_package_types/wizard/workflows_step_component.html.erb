@@ -26,18 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t(:label_type_plural), @type.name -%>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
+<%= render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:, reload_from_location: true)) do %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: Type::ConfigurationLink::WORKFLOWS)) %>
 
-<%= render(
-      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_workflow_path(type_id: @type.id)
-      )
-    ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::WORKFLOWS)) %>
-
-  <% if @type && @roles.any? %>
-    <%= turbo_frame_tag "workflow-table", class: "workflow-table--pinned-save-bar", src: edit_type_workflow_tab_path(@type, @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
+  <% if roles.any? %>
+    <%= helpers.turbo_frame_tag "workflow-table", src: helpers.edit_type_workflow_tab_path(type, current_tab, role_ids: roles.map(&:id)) %>
   <% end %>
 <% end %>

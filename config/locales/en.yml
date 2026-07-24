@@ -6036,8 +6036,6 @@ en:
         projects: "Projects"
         workflows: "Workflows"
       success: "Variant created successfully."
-      workflows:
-        copy_caption: "Copy the workflow configuration from an existing type as a starting point."
     edit:
       breadcrumb_variant: "Variant: %{name}"
       defaults:

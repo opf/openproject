@@ -75,6 +75,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
 
     describe "existing variant" do
       shared_let(:variant) { create(:type, name: "Critical", parent: parent_type) }
+      shared_let(:role) { create(:project_role) }
 
       describe "GET show" do
         before { get :show, params: { type_id: variant.id, step: :projects } }
@@ -114,26 +115,10 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
       end
 
       describe "PATCH update on the workflows step" do
-        shared_let(:workflow_source) { create(:type, name: "Task") }
-        shared_let(:status) { create(:status) }
-        shared_let(:role) { create(:project_role) }
-        shared_let(:workflow) do
-          create(:workflow, type: workflow_source, role:, old_status: status, new_status: status)
-        end
+        # The wizard step only advances as the matrix saves via its own turbo endpoint
+        it "advances to the next step" do
+          patch :update, params: { type_id: variant.id, step: :workflows }
 
-        it "copies workflows from the chosen source and advances" do
-          expect do
-            patch :update, params: { type_id: variant.id, step: :workflows,
-                                     type: { copy_workflow_from: workflow_source.id } }
-          end.to change { variant.reload.workflows.count }.from(0).to(1)
-
-          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :projects))
-        end
-
-        it "advances without copying when no source is chosen" do
-          patch :update, params: { type_id: variant.id, step: :workflows, type: { copy_workflow_from: "" } }
-
-          expect(variant.reload.workflows).to be_empty
           expect(response).to redirect_to(type_creation_wizard_path(variant, step: :projects))
         end
       end

@@ -141,4 +141,14 @@ class Workflow < ApplicationRecord
       roles
     end
   end
+
+  def self.ordered_eligible_roles
+    eligible_roles.order(:builtin, :position)
+  end
+
+  def self.selected_roles(role_ids)
+    ordered = ordered_eligible_roles
+    selected = ordered.where(id: role_ids)
+    selected.any? ? selected : [ordered.first].compact
+  end
 end

@@ -29,54 +29,32 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import type { SelectPanelElement } from '@primer/view-components/app/components/primer/alpha/select_panel_element';
-import WorkflowCheckboxStateController from './workflow-checkbox-state.controller';
+import type WorkflowCheckboxStateController from './workflow-checkbox-state.controller';
 import { navigateWorkflowFrame } from './navigate-workflow-frame';
 
 /**
- * When the panel closes, it navigates to the workflow edit page with the selected role IDs.
+ * Switches the workflow transition tab, keeping the tab in the host page's URL.
  * Delegates dirty-state confirmation to the workflow-checkbox-state controller via an outlet.
  */
-export default class WorkflowRoleSelectController extends Controller {
+export default class WorkflowTabSelectController extends Controller<HTMLAnchorElement> {
   static outlets = ['admin--workflow-checkbox-state'];
-  static values = { baseUrl: String, currentRoleIds: Array };
+  static values = { tab: String };
 
   declare readonly adminWorkflowCheckboxStateOutlet:WorkflowCheckboxStateController;
   declare readonly hasAdminWorkflowCheckboxStateOutlet:boolean;
-  declare baseUrlValue:string;
-  declare currentRoleIdsValue:unknown[];
+  declare tabValue:string;
 
-  apply() {
-    const panel = this.element as HTMLElement as SelectPanelElement;
-    const selectedIds = panel.items
-      .filter((item) => panel.isItemChecked(item))
-      .map((item) => item.getAttribute('data-item-id'))
-      .filter(Boolean) as string[];
+  select(event:Event) {
+    event.preventDefault();
 
-    // For when all roles are deselected
-    if (!selectedIds.length) {
-      this.navigate([]);
-      return;
-    }
+    const historyUrl = new URL(window.location.href);
+    historyUrl.searchParams.set('tab', this.tabValue);
 
-    if (selectedIds.slice().sort().join(',') === this.currentRoleIdsValue.slice().sort().join(',')) return;
-
-    this.navigate(selectedIds);
-  }
-
-  private navigate(roleIds:string[]) {
     navigateWorkflowFrame(
       this.element,
-      this.buildUrl(this.baseUrlValue, roleIds),
-      this.buildUrl(window.location.href, roleIds),
+      this.element.href,
+      historyUrl.toString(),
       this.hasAdminWorkflowCheckboxStateOutlet ? this.adminWorkflowCheckboxStateOutlet : null,
     );
-  }
-
-  private buildUrl(base:string, roleIds:string[]):string {
-    const url = new URL(base, window.location.origin);
-    url.searchParams.delete('role_ids[]');
-    roleIds.forEach((id) => url.searchParams.append('role_ids[]', id));
-    return url.toString();
   }
 }

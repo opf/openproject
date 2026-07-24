@@ -36,15 +36,7 @@ module WorkPackageTypes
 
     def edit
       @current_tab = params[:tab] || "always"
-      @roles = optional_roles
-    end
-
-    private
-
-    def optional_roles
-      ordered = Workflow.eligible_roles.order(:builtin, :position)
-      selected = ordered.where(id: params[:role_ids])
-      selected.any? ? selected : [ordered.first]
+      @roles = Workflow.selected_roles(params[:role_ids])
     end
   end
 end

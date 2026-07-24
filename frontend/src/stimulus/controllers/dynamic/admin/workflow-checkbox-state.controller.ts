@@ -309,41 +309,25 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
   // Trigger navigation with dirty-state confirmation.
   //
 
-  navigateTo(url:string) {
-    if (this.isDirtyValue) {
-      this.confirmThenNavigate(url);
-    } else {
-      this.frameNavigateTo(url);
+  confirmNavigation(navigate:() => void) {
+    if (!this.isDirtyValue) {
+      navigate();
+      return;
     }
-  }
 
-  private confirmThenNavigate(url:string) {
     this.openConfirmationDialog(
       () => {
         this.hasCheckboxChangesValue = false;
         this.hasStatusChangesValue = false;
         this.confirmationDialogTarget.close();
-        setTimeout(() => { this.frameNavigateTo(url); }, 0);
+        setTimeout(navigate, 0);
       },
       () => {
         this.element.requestSubmit();
         this.confirmationDialogTarget.close();
         // Delay to allow the flash message from the form submission to appear.
-        setTimeout(() => { this.frameNavigateTo(url); }, 1000);
+        setTimeout(navigate, 1000);
       },
     );
-  }
-
-  // This keeps the url in the /tabs/:tab/edit format consistently,
-  // rather than doing a Turbo.visit which changes the format.
-  // It also keeps history usable, similar to data-turbo-action="advance".
-  private frameNavigateTo(url:string) {
-    const turboFrame = this.element.closest('turbo-frame') as HTMLElement | null;
-    if (turboFrame) {
-      turboFrame.setAttribute('src', url);
-      history.pushState({}, '', url);
-    } else {
-      Turbo.visit(url);
-    }
   }
 }

@@ -122,6 +122,8 @@ module WorkPackageTypes
         case current_step
         when :form_configuration
           FormConfigurationStepComponent.new(type:)
+        when :workflows
+          WorkflowsStepComponent.new(type:)
         when :project_attributes
           ProjectAttributesStepComponent.new(type:)
         when :projects

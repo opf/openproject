@@ -39,7 +39,6 @@ module WorkPackageTypes
         case step
         when :details then Details.new(type)
         when :defaults then Defaults.new(type)
-        when :workflows then Workflows.new(type)
         end
       end
 
@@ -64,10 +63,6 @@ module WorkPackageTypes
 
       class Details < Base
         def form_class = WorkPackageTypes::DetailsForm
-      end
-
-      class Workflows < Base
-        def form_class = WorkflowsForm
       end
 
       class Defaults < Base

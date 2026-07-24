@@ -46,7 +46,7 @@ module WorkPackageTypes
       Type::ConfigurationLink::FORM_CONFIGURATION => [COPY, DEFAULT],
       Type::ConfigurationLink::DEFAULTS => [COPY, EMPTY],
       Type::ConfigurationLink::PDF_EXPORT => [COPY, DEFAULT],
-      Type::ConfigurationLink::WORKFLOWS => [COPY],
+      Type::ConfigurationLink::WORKFLOWS => [COPY, EMPTY],
       Type::ConfigurationLink::PROJECT_ATTRIBUTES => [COPY, EMPTY]
     }.freeze
 
