@@ -27,7 +27,10 @@
 #++
 
 class CostQuery::GroupBy::VersionId < Report::GroupBy::Base
-  join_table WorkPackage => [Entry, :entity]
+  join_table CostQuery::WorkPackageTargetVersionJoin::JOIN
+  # Keep the derived "version_id" field bare so it renders through the existing
+  # :version_id branch; the table name qualifies it for the SELECT and GROUP BY.
+  table_name "work_package_versions"
   applies_for :label_work_package_attributes
 
   def self.label

@@ -291,6 +291,16 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(query.result.count).to eq(3)
       end
 
+      it "matches a work package through a non-primary target version" do
+        primary_version = create(:version, project:)
+        secondary_version = create(:version, project:)
+        work_package = create_work_package_with_time_entry(version: primary_version)
+        work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+        query.filter :version_id, operator: "=", value: secondary_version.id
+        expect(query.result.count).to eq(1)
+      end
+
       it "filters subject" do
         matching_work_package = create_work_package_with_time_entry(subject: "matching subject")
         query.filter :subject, operator: "=", value: "matching subject"

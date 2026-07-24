@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,18 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CostQuery::Filter::VersionId < Report::Filter::Base
-  use :null_operators
-  join_table CostQuery::WorkPackageTargetVersionJoin::JOIN
-  db_field "work_package_versions.version_id"
-  applies_for :label_work_package_attributes
-
-  def self.label
-    WorkPackage.human_attribute_name(:version)
-  end
-
-  def self.available_values(*)
-    versions = Version.where(project_id: Project.visible.map(&:id))
-    versions.map { |a| ["#{a.project.name} - #{a.name}", a.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
-  end
+module CostQuery::WorkPackageTargetVersionJoin
+  # Reaches a work package's target versions from the reporting entries. The
+  # join is one-to-many, so a work package with several target versions is
+  # reported under each of them. The filter and group-by must share the exact
+  # same statement so the engine collapses it to a single join when both apply.
+  JOIN = <<~SQL.squish
+    LEFT OUTER JOIN work_package_versions
+      ON work_package_versions.work_package_id = entries.entity_id
+     AND work_package_versions.kind = 'target'
+  SQL
 end
