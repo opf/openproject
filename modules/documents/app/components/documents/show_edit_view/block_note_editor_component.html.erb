@@ -51,7 +51,7 @@
   ) do |layout|
     layout.with_header do
       render Documents::ShowEditView::PageHeaderComponent.new(
-        document:, project:, state:,
+        document:, state:,
         __lc_attributes: { "id" => Documents::ShowEditView::PageHeaderComponent::DOM_ID }
       )
     end

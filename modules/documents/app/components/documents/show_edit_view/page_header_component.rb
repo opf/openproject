@@ -36,13 +36,18 @@ module Documents
 
       # LiveComponent::Base::Overrides#render_in is prepended by `include
       # LiveComponent::Base` above, and it unconditionally serializes the
-      # full props (document/project attributes included) into the
-      # `data-state` HTML attribute before ViewComponent's `render?` is ever
-      # consulted -- so a bare `render?` guard suppresses only the visible
-      # markup, not that serialized payload. Prepending a module *after* the
-      # include puts it above Overrides in the ancestor chain, so it runs
-      # first and can short-circuit the entire render -- including
-      # `data-state` -- before Overrides ever serializes anything.
+      # full props (document attributes included) into the `data-state` HTML
+      # attribute before ViewComponent's `render?` is ever consulted -- so a
+      # bare `render?` guard suppresses only the visible markup, not that
+      # serialized payload. Prepending a module *after* the include puts it
+      # above Overrides in the ancestor chain, so it runs first and can
+      # short-circuit the entire render -- including `data-state` -- before
+      # Overrides ever serializes anything.
+      #
+      # IMPORTANT: this guards *rendering only*. LiveComponent::RenderComponent
+      # dispatches every client-named reflex BEFORE it calls
+      # `component.render_in` (see its #render_in), so RenderGuard cannot gate
+      # a reflex. Reflexes must authorize themselves -- see #update_title.
       module RenderGuard
         def render_in(view_context, &)
           return "".html_safe unless render?
@@ -61,24 +66,45 @@ module Documents
       # JS registration.
       LC_IDENTIFIER = "documents-showeditview-pageheadercomponent"
 
-      serializes :document, with: :model_serializer, reload: true
-      serializes :project, with: :model_serializer, reload: true
+      # `attributes: false` matters twice over: with `reload: true` the
+      # deserialized attribute hash is discarded anyway (ModelSerializer
+      # re-locates from the database), and the default `attributes: true`
+      # would dump every column of the record into the `data-state` attribute
+      # of the served page.
+      serializes :document, with: :model_serializer, reload: true, attributes: false
 
-      attr_reader :document, :project, :state
+      attr_reader :document, :state
 
       def self.__lc_controller = LC_IDENTIFIER
+
+      # Derived, never a prop. An independently deserialized `project:` would
+      # be authorized by nothing -- `render?` guards the document, so a
+      # mismatched (document, project) pair would leak the foreign project's
+      # name and identifier through the breadcrumbs and evaluate
+      # `manage_documents` against a project of the client's choosing.
+      delegate :project, to: :document
 
       # The render endpoint (LiveComponentsController) performs no record-level
       # authorization of its own and the client names the record to render, so
       # the component must enforce read permission itself. See the controller's
       # ALLOWED_COMPONENTS comment and DREAM-784.
-      def render? = User.current.allowed_in_project?(:view_documents, document.project)
+      #
+      # The type check is not redundant: a GlobalID names its own model class,
+      # so the client picks what `document` actually is. Several models answer
+      # `#project` and `#title`, and without this the render only fails later,
+      # by accident, at the first Document-specific method call.
+      def render?
+        document.is_a?(Document) &&
+          User.current.allowed_in_project?(:view_documents, document.project)
+      end
 
-      def initialize(document:, project:, state: :show)
+      def initialize(document:, state: :show)
         super()
         @document = document
-        @project = project
-        @state = state.to_sym.presence_in(STATES) || :show
+        # `to_s` first: `state` arrives from client-controlled props and is not
+        # necessarily a Symbol or String (`to_sym` on a Hash or Integer would
+        # raise NoMethodError and surface as a 500).
+        @state = state.to_s.to_sym.presence_in(STATES) || :show
       end
 
       # A client-requested :edit without manage_documents permission
@@ -118,8 +144,15 @@ module Documents
       # that is the dispatch contract, so this method authorizes itself
       # rather than relying on the render endpoint (which performs no
       # authorization -- see LiveComponentsController).
+      #
+      # `render?` is repeated here deliberately: reflexes are dispatched
+      # before RenderGuard runs, so a reflex is reachable on a document the
+      # caller may not even read. Authorizing the read here as well as the
+      # write keeps that from being the contract's problem to catch.
       def update_title(title:)
+        return unless render?
         return unless allowed_to_manage_documents?
+        return unless title.is_a?(String)
 
         call = Documents::UpdateService
           .new(user: User.current, model: document)
