@@ -3325,7 +3325,7 @@ pt-PT:
   label_password_rule_numeric: Carateres Numéricos
   label_password_rule_special: Carateres Especiais
   label_password_rule_uppercase: Maiúsculas
-  label_past: Past
+  label_past: Passado
   label_path_encoding: Codificação do caminho
   label_people: Pessoas
   label_per_page: 'Por página:'
@@ -5800,19 +5800,19 @@ pt-PT:
       configuration_link:
         independent:
           caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
+          label: Independente
           warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
         linked:
           caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
+          label: Ligado
           warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
         source:
-          label: Source type
+          label: Tipo de Origem
       export_configuration:
         artefact_export:
           attachment:
             caption: The generated PDF is saved as a file attachment on the work package.
-            label: Save as work package file attachment
+            label: Guardar como anexo do ficheiro do pacote de trabalho
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
@@ -5820,7 +5820,7 @@ pt-PT:
           invalid_mode: Invalid artefact export mode.
           label: Automatic artefact export
           off_mode:
-            caption: No PDF is generated automatically.
+            caption: Não é gerado automaticamente nenhum ficheiro PDF.
             label: 'Off'
           section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
@@ -5832,7 +5832,7 @@ pt-PT:
           label: Modelos de Exportação PDF
         tab: Gerar PDF
         templates:
-          section_title: PDF export templates
+          section_title: Modelos de Exportação PDF
       form_configuration:
         add_attribute_group: Secção
         add_query_group: Tabela de pacotes de trabalho relacionados
