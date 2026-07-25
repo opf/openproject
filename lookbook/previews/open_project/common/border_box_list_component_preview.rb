@@ -263,6 +263,8 @@ module OpenProject
 
       # @label With header action label
       # Header action area holding a status label, optionally next to an action button.
+      # Deprecated: `with_action_label` is slated for removal, do not add new call
+      # sites. Render the label from the `title` slot instead.
       # @param label_scheme [Symbol] select [default, primary, secondary, accent, success, attention, severe, danger]
       # @param with_action_button toggle
       # @param padding [Symbol] select [default, condensed, spacious]
@@ -286,6 +288,8 @@ module OpenProject
       # @label With collapsible header action label
       # The collapsible header renders through its own heading markup, so the action
       # label alignment is worth checking separately.
+      # Deprecated: `with_action_label` is slated for removal, do not add new call
+      # sites. Render the label from the `title` slot instead.
       # @param label_scheme [Symbol] select [default, primary, secondary, accent, success, attention, severe, danger]
       # @param with_action_button toggle
       # @param padding [Symbol] select [default, condensed, spacious]

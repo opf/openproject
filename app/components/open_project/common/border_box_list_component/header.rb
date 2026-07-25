@@ -99,6 +99,10 @@ module OpenProject
         #
         #   # Adds a label to the header actions area.
         #   #
+        #   # @deprecated Slated for removal, pending an internal decision on
+        #   #   where a status label belongs in a list header. Do not add new
+        #   #   call sites: render the label from the `title` slot instead.
+        #   #
         #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Label`.
         #   # @return [ViewComponent::Slot]
         #   def with_action_label(**system_arguments, &block)
@@ -110,6 +114,7 @@ module OpenProject
           icon_button: ->(**system_arguments) do
             Primer::Beta::IconButton.new(**system_arguments)
           end,
+          # @deprecated See the `with_action_label` note above.
           label: ->(**system_arguments) do
             Primer::Beta::Label.new(**system_arguments)
           end
