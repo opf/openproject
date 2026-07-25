@@ -3318,7 +3318,6 @@ pt-PT:
   label_other: Outro
   label_overall_activity: Atividade global
   label_overview: Sinopse
-  label_page_title: Título da página
   label_parent_group_caption: 'A definição de um grupo principal fará com que este grupo seja um subgrupo do grupo principal selecionado. Também herdará todos os membros, incluindo as permissões do grupo principal.
 
     '
@@ -3332,7 +3331,7 @@ pt-PT:
   label_password_rule_numeric: Carateres Numéricos
   label_password_rule_special: Carateres Especiais
   label_password_rule_uppercase: Maiúsculas
-  label_past: Past
+  label_past: Passado
   label_path_encoding: Codificação do caminho
   label_people: Pessoas
   label_per_page: 'Por página:'
@@ -5726,8 +5725,9 @@ pt-PT:
   text_user_invited: O utilizador foi convidado e está pendente de registo.
   text_user_wrote: "%{value} escreveu:"
   text_warn_on_leaving_unsaved: O pacote de trabalho contém texto não guardado que será perdido se sair desta página.
-  text_what_did_you_change_click_to_add_comment: O que mudou? Clique para adicionar comentário
   text_wiki_destroy_confirmation: Tem a certeza que deseja apagar esta wiki e todo o seu conteúdo?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Apagar as páginas subordinadas e todos os seus descendentes
   text_wiki_page_destroy_question: Esta página tem %{descendants} página(s) subordinada(s) e descendente(s). O que deseja fazer?
   text_wiki_page_nullify_children: Manter páginas subordinadas como páginas raíz
@@ -5794,17 +5794,16 @@ pt-PT:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
@@ -5833,7 +5832,7 @@ pt-PT:
         artefact_export:
           attachment:
             caption: The generated PDF is saved as a file attachment on the work package.
-            label: Save as work package file attachment
+            label: Guardar como anexo do ficheiro do pacote de trabalho
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
@@ -5841,7 +5840,7 @@ pt-PT:
           invalid_mode: Invalid artefact export mode.
           label: Automatic artefact export
           off_mode:
-            caption: No PDF is generated automatically.
+            caption: Não é gerado automaticamente nenhum ficheiro PDF.
             label: 'Off'
           section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
@@ -5853,7 +5852,7 @@ pt-PT:
           label: Modelos de Exportação PDF
         tab: Gerar PDF
         templates:
-          section_title: PDF export templates
+          section_title: Modelos de Exportação PDF
       form_configuration:
         add_attribute_group: Secção
         add_query_group: Tabela de pacotes de trabalho relacionados

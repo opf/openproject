@@ -3265,7 +3265,6 @@ vi:
   label_other: khác
   label_overall_activity: Tổng thể hoạt động
   label_overview: Tổng quan
-  label_page_title: Tiêu đề trang
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5683,8 +5682,9 @@ vi:
   text_user_invited: Người dùng đã được mời và đang chờ đăng ký.
   text_user_wrote: "%{value} đã viết:"
   text_warn_on_leaving_unsaved: Gói công việc chứa văn bản chưa được lưu sẽ bị mất nếu bạn rời khỏi trang này.
-  text_what_did_you_change_click_to_add_comment: Bạn đã thay đổi gì? Kích để thêm ghi chú
   text_wiki_destroy_confirmation: Bạn có chắc chắn muốn xóa wiki này và tất cả nội dung của nó không?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Xóa các trang con và tất cả các trang con của chúng
   text_wiki_page_destroy_question: Trang này có %{descendants} trang con và trang con. Bạn muốn làm gì?
   text_wiki_page_nullify_children: Giữ các trang con làm trang gốc
@@ -5751,17 +5751,16 @@ vi:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

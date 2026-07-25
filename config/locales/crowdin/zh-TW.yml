@@ -3269,7 +3269,6 @@ zh-TW:
   label_other: 其他
   label_overall_activity: 全部活動
   label_overview: 概要
-  label_page_title: 網頁標題
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5678,8 +5677,9 @@ zh-TW:
   text_user_invited: 這個使用者已經被邀請而且正在等待註冊。
   text_user_wrote: "%{value} 寫道："
   text_warn_on_leaving_unsaved: 若離開當前頁面，將遺失此工作套件未儲存的內容。
-  text_what_did_you_change_click_to_add_comment: 點擊這裡來說明變更了什麼
   text_wiki_destroy_confirmation: 您是否確定要刪除此 wiki 和它所有的內容？
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: 刪除子頁面和所有他們的派生頁面
   text_wiki_page_destroy_question: 此頁有 %{descendants} 子頁面和派生頁面。您想進行何種操作？
   text_wiki_page_nullify_children: 保持子頁面作為根頁面
@@ -5746,17 +5746,16 @@ zh-TW:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

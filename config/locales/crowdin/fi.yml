@@ -3316,7 +3316,6 @@ fi:
   label_other: Muut
   label_overall_activity: Kaikki tapahtumat
   label_overview: Yleiskatsaus
-  label_page_title: Page title
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5739,8 +5738,9 @@ fi:
   text_user_invited: Käyttäjä on kutsuttu ja on vireillä rekisteröinti.
   text_user_wrote: "%{value} kirjoitti:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be lost if you leave this page.
-  text_what_did_you_change_click_to_add_comment: Mitä muutit? Lisää kommentti klikkaamalla
   text_wiki_destroy_confirmation: Oletko varma että haluat poistaa tämän wiki:n ja kaikki sen sisältämän tiedon?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Poista alisivut ja kaikki niiden jälkeläiset
   text_wiki_page_destroy_question: Tällä sivulla on %{descendants} alisivua ja jälkeläistä. Mitä haluat tehdä?
   text_wiki_page_nullify_children: Muuta alisivut pääsivuiksi
@@ -5807,17 +5807,16 @@ fi:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

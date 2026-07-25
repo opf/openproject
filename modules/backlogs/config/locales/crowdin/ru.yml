@@ -161,6 +161,7 @@ ru:
     label_burndown_chart: Диаграмма выгорания
     label_is_done_status: Статус %{status_name} означает завершение,
     label_sprint_board: Доска для спринта
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Перенос в раздел бэклога
     move_to_sprint_dialog_component:
@@ -199,6 +200,15 @@ ru:
     sprint_form_component:
       shared_sprint_info_banner: Это общий спринт. Изменения будут отражены во всех проектах, использующих его.
       shared_sprint_warning_banner: Это общий спринт. У вас нет необходимых прав для его редактирования.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: Чтобы начать планировать свой спринт, создайте его здесь или перейдите на %{settings_link}, чтобы получить спринты из другого проекта.

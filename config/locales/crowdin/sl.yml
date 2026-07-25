@@ -3440,7 +3440,6 @@ sl:
   label_other: Drugo
   label_overall_activity: Celotna aktivnost
   label_overview: Pregled
-  label_page_title: Naslov strani
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5914,8 +5913,9 @@ sl:
   text_user_invited: Uporabnik je bil povabljen in čaka na registracijo.
   text_user_wrote: "%{value} je napisal(a):"
   text_warn_on_leaving_unsaved: Delovni paket vsebuje neshranjeno besedilo, ki bo izgubljeno, če zapustite to stran.
-  text_what_did_you_change_click_to_add_comment: Kaj ste spremenili? Kliknite, če želite dodati komentar
   text_wiki_destroy_confirmation: Ali ste prepričani da želite izbrisati to wiki stran in vso njeno vsebino?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Izbriši podstrani in vse njihove naslednike
   text_wiki_page_destroy_question: Ta stran ima %{descendants} podstran(i) in naslednik(ov). Kaj želite storiti?
   text_wiki_page_nullify_children: Obdrži podstrani kot glavne strani
@@ -5984,17 +5984,16 @@ sl:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

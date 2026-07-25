@@ -155,6 +155,7 @@ fr:
     label_burndown_chart: Graphique burndown
     label_is_done_status: Le statut %{status_name} signifie fait
     label_sprint_board: Tableau de sprint
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Déplacer vers un bucket de backlog
     move_to_sprint_dialog_component:
@@ -191,6 +192,15 @@ fr:
     sprint_form_component:
       shared_sprint_info_banner: Il s'agit d'un sprint partagé. Les modifications seront répercutées dans tous les projets qui l'utilisent.
       shared_sprint_warning_banner: Il s'agit d'un sprint partagé. Vous ne disposez pas des autorisations nécessaires pour le modifier.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: Pour commencer à planifier votre sprint, créez-en un ici ou rendez-vous sur %{settings_link} pour recevoir les sprints d'un autre projet.
