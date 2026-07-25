@@ -111,11 +111,28 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "1 + 2" => 3,
           "2 - 3" => -1,
           "3 * 4" => 12,
-          "5 / 4" => 5/4r,
-          "6 % 5" => 1,
+          "5 / 4" => BigDecimal("1.25"),
+          "6 % 5" => BigDecimal("1"),
           "2 ^ 10" => 1024,
-          "6 + 7%" => 607/100r,
+          "6 + 7%" => BigDecimal("6.07"),
           "2 * (1 + 2)" => 6
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
+    context "with arythmetic operations looking like date literals (#OP-19811)" do
+      let(:formulae_and_results) do
+        {
+          "10-1-1" => 8,
+          "10-01-01" => 8,
+          "10-10-10" => -10,
+          "10-20-30" => -40, # invalid date
+          "2010-1-1" => 2008,
+          "2010-01-01" => 2008,
+          "2010-10-10" => 1990,
+          "2010-20-30" => 1960 # invalid date
         }
       end
 
