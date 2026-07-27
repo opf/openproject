@@ -44,7 +44,7 @@ module Grids
       end
 
       def phases_data
-        project.phases.active
+        active_project_phases
                .eager_load(definition: :color)
                .order("project_phase_definitions.position")
                .map { |phase| phase_data(phase) }
@@ -52,11 +52,11 @@ module Grids
       end
 
       def any_phases?
-        project.phases.active.with_timeline_content.exists?
+        active_project_phases.with_timeline_content.exists?
       end
 
       def render?
-        User.current.allowed_in_project?(:view_project_phases, project)
+        User.current.allowed_in_project?(:view_project_phases, project) && active_project_phases.any?
       end
 
       def wrapper_arguments
@@ -77,6 +77,10 @@ module Grids
           finishGate: phase.definition.finish_gate && phase.date_range_set?,
           finishGateName: phase.definition.finish_gate_name
         }
+      end
+
+      def active_project_phases
+        @active_project_phases ||= project.phases.active
       end
     end
   end
