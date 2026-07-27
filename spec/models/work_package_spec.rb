@@ -307,6 +307,15 @@ RSpec.describe WorkPackage do
         expect(work_package.assignable_versions)
           .to contain_exactly(version_current, version_open)
       end
+
+      it "includes every persisted target version, even closed ones not in the project's open set" do
+        work_package.target_version_ids_replacements = [version_current.id, version_closed.id]
+        work_package.save!
+        work_package.reload
+
+        expect(work_package.assignable_versions)
+          .to contain_exactly(version_current, version_closed, version_open)
+      end
     end
   end
 
