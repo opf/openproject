@@ -1267,14 +1267,8 @@ en:
           groups:
             configuration:
               title: "Configure import"
-            confirming:
-              title: "Confirm and import"
-            fetch:
-              title: "Get base data"
-            groups_and_users:
-              title: "Groups and Users"
-            review:
-              title: "Review import"
+            run_and_review:
+              title: "Run and review import"
           import_dialog:
             confirm: "I understand and have a backup"
             confirm_button: "Start import"

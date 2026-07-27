@@ -35,17 +35,11 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |component|
       component.with_row(scheme: :neutral, color: :muted, align_items: :center) do
         render(Primer::Beta::Text.new(font_weight: :bold)) {
-          I18n.t(:"admin.jira.run.wizard.groups.fetch.title")
+          I18n.t(:"admin.jira.run.wizard.groups.configuration.title")
         }
       end
       component.with_row do
         render(Admin::Import::Jira::ImportRuns::WizardStepFetchDataComponent.new(model))
-      end
-
-      component.with_row(scheme: :neutral, color: :muted, align_items: :center) do
-        render(Primer::Beta::Text.new(font_weight: :bold)) {
-          I18n.t(:"admin.jira.run.wizard.groups.configuration.title")
-        }
       end
       component.with_row do
         render(Admin::Import::Jira::ImportRuns::WizardStepImportScopeComponent.new(model))
@@ -53,17 +47,11 @@ See COPYRIGHT and LICENSE files for more details.
 
       component.with_row(scheme: :neutral, color: :muted, align_items: :center) do
         render(Primer::Beta::Text.new(font_weight: :bold)) {
-          I18n.t(:"admin.jira.run.wizard.groups.confirming.title")
+          I18n.t(:"admin.jira.run.wizard.groups.run_and_review.title")
         }
       end
       component.with_row do
         render(Admin::Import::Jira::ImportRuns::WizardStepConfirmImportComponent.new(model))
-      end
-
-      component.with_row(scheme: :neutral, color: :muted, align_items: :center) do
-        render(Primer::Beta::Text.new(font_weight: :bold)) {
-          I18n.t(:"admin.jira.run.wizard.groups.review.title")
-        }
       end
       component.with_row do
         render(Admin::Import::Jira::ImportRuns::WizardStepReviewComponent.new(
