@@ -153,6 +153,7 @@ module Import
       update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
       priority = import_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
       raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
+
       import_work_package(jira_issue, project, type, status, priority, custom_field_registry)
     end
 

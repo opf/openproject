@@ -38,7 +38,6 @@ module Import
       raise AbortionError, "Job was aborted" if @aborted
     end
 
-
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       "Fetch issues for project '#{jira_project_name}'"
@@ -54,6 +53,7 @@ module Import
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
@@ -62,7 +62,6 @@ module Import
       @created_at = @updated_at
       @jira_client = jira.client
       jira_project = Import::JiraProject.find(jira_project_id)
-
 
       cursor ||= @jira_import.get_job_cursor(self)
       start_at = cursor&.dig("start_at") || 0
@@ -102,7 +101,7 @@ module Import
       jira_project = Import::JiraProject.find(jira_project_id)
 
       issues = issues_and_total["issues"]
-      total  = issues_and_total["total"]
+      issues_and_total["total"]
       issues_upsert_data = issues.map do |issue|
         {
           payload: issue,
@@ -116,6 +115,7 @@ module Import
       end
       Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_id jira_issue_id])
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 

@@ -103,8 +103,7 @@ module Import
         .where(job_class: active_job.class.to_s)
         .where("arguments = ?::jsonb",
                active_job.serialize["arguments"].to_json)
-        .pluck(:cursor)
-        .first
+        .pick(:cursor)
     end
   end
 end

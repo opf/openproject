@@ -38,7 +38,7 @@ module Import
 
     on_complete do
       raise AbortionError, "Job was aborted" if @aborted
-     end
+    end
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
@@ -50,13 +50,14 @@ module Import
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
         total = Import::JiraIssue.count
-        position = Import::JiraIssue.where("id <= ?", cursor).count
+        position = Import::JiraIssue.where(id: ..cursor).count
         (position.to_f / total * 100).round(2)
       else
         0
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
@@ -69,23 +70,23 @@ module Import
 
       @project = JiraOpenProjectReference.find_by!(
         jira_entity_id: jira_project.id,
-        jira_entity_class: jira_project.class.to_s,
+        jira_entity_class: jira_project.class.to_s
       ).op_leg
-
 
       cursor ||= @jira_import.get_job_cursor(self)
       enumerator_builder.active_record_on_records(
         Import::JiraIssue.where(jira_import_id:, jira_project_id:),
-        cursor: cursor,
+        cursor: cursor
       )
     end
+    # rubocop:enable Metrics/AbcSize
 
-    def each_iteration(jira_issue, jira_import_id, jira_project_id)
+    def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
           work_package = JiraOpenProjectReference.find_by!(
             jira_entity_id: jira_issue.id,
-            jira_entity_class: jira_issue.class.to_s,
+            jira_entity_class: jira_issue.class.to_s
           ).op_leg
           attachments = jira_issue.payload.dig("fields", "attachment") || []
           attachments.each do |attachment|
@@ -153,7 +154,5 @@ module Import
         raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

@@ -38,6 +38,7 @@ module Admin::Import::Jira::ImportRuns
       @active_job = job.active_job
     end
 
+    # rubocop:disable Metrics/AbcSize
     def call
       render(Primer::Box.new) do
         case @job.status
@@ -46,7 +47,7 @@ module Admin::Import::Jira::ImportRuns
         when :queued,
           :retried,
           :scheduled
-          concat(render(Primer::Beta::Octicon.new(icon: :"clock", color: :muted)))
+          concat(render(Primer::Beta::Octicon.new(icon: :clock, color: :muted)))
         when :succeeded
           concat(render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)))
         when :discarded
@@ -58,7 +59,7 @@ module Admin::Import::Jira::ImportRuns
             section.with_title { @job.error }
 
             section.with_collapsible_content do
-              @job.executions.order(created_at: :desc).limit(1).pluck(:error_backtrace).first.each do |backtrace_line|
+              @job.executions.order(created_at: :desc).limit(1).pick(:error_backtrace).each do |backtrace_line|
                 concat(render(Primer::Beta::Text.new(tag: :p)) { backtrace_line })
               end
             end
@@ -67,11 +68,12 @@ module Admin::Import::Jira::ImportRuns
         if @active_job.respond_to?(:percentage)
           concat(
             render(Primer::Beta::ProgressBar.new(size: :default)) do |component|
-            component.with_item(percentage: @job.status == :succeeded ? 100 : @active_job.percentage)
-          end
+              component.with_item(percentage: @job.status == :succeeded ? 100 : @active_job.percentage)
+            end
           )
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end

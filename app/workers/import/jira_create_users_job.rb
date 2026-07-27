@@ -42,7 +42,7 @@ module Import
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
         total = Import::JiraUser.count
-        position = Import::JiraUser.where("id <= ?", cursor).count
+        position = Import::JiraUser.where(id: ..cursor).count
         (position.to_f / total * 100).round(2)
       else
         0
@@ -55,11 +55,11 @@ module Import
       cursor ||= @jira_import.get_job_cursor(self)
       enumerator_builder.active_record_on_records(
         Import::JiraUser.where(jira_import_id:),
-        cursor: cursor,
+        cursor: cursor
       )
     end
 
-    def each_iteration(jira_user, jira_import_id)
+    def each_iteration(jira_user, _jira_import_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
           import_user(jira_user)
@@ -78,8 +78,6 @@ module Import
       super
     end
 
-    # rubocop:disable Metrics/PerceivedComplexity
-    # rubocop:disable Metrics/AbcSize
     def import_user(jira_user)
       user_attrs = jira_user.to_op_attributes
       call = Users::CreateService
@@ -101,8 +99,7 @@ module Import
       import_user_groups(jira_user)
     end
 
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def handle_create_user_failure(call, user_attrs, jira_user)
       taken_errors = call.errors.select { |error| error.type == :taken }
 
@@ -128,8 +125,7 @@ module Import
 
       raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
     end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
     # rubocop:disable Metrics/AbcSize
     def handle_referenced_user_mail_conflict(user_attrs, jira_user)
@@ -189,6 +185,7 @@ module Import
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def import_user_group(group_name, jira_user)
       call = Groups::CreateService
                .new(user: User.system, contract_class: EmptyContract)
@@ -214,6 +211,7 @@ module Import
         .new(group, current_user: User.system)
         .call(ids: [member_id], send_notifications: false)
     end
+    # rubocop:enable Metrics/AbcSize
 
     def handle_create_group_failure(call, group_name)
       if call.errors.find { |error| error.type == :taken }.blank?

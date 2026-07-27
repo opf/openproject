@@ -33,6 +33,6 @@ ActiveSupport.on_load(:good_job_application_controller) do
 
   before_action do
     user_setup
-    raise ActionController::RoutingError.new('Not Found') unless current_user.admin?
+    raise ActionController::RoutingError.new("Not Found") unless current_user.admin?
   end
 end

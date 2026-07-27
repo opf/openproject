@@ -46,7 +46,7 @@ module Import
     private
 
     def fetch_data(*)
-      raise NotImplementedError, "Subclasses must implement #fetch_data"
+      raise SubclassResponsibilityError, "Subclasses must implement #fetch_data"
     end
   end
 end

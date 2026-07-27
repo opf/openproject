@@ -898,7 +898,7 @@ Rails.application.routes.draw do
         member do
           delete :delete_token
         end
-        resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: [:new, :index] do
+        resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: %i[new index] do
           member do
             get :continue
             post :continue

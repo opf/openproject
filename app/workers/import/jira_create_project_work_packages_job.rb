@@ -57,13 +57,14 @@ module Import
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
         total = Import::JiraIssue.count
-        position = Import::JiraIssue.where("id <= ?", cursor).count
+        position = Import::JiraIssue.where(id: ..cursor).count
         (position.to_f / total * 100).round(2)
       else
         0
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
@@ -77,7 +78,7 @@ module Import
 
       @project = JiraOpenProjectReference.find_by!(
         jira_entity_id: jira_project.id,
-        jira_entity_class: jira_project.class.to_s,
+        jira_entity_class: jira_project.class.to_s
       ).op_leg
 
       update_custom_fields_in_project(@project, jira_project, @custom_field_registry)
@@ -85,11 +86,13 @@ module Import
       cursor ||= @jira_import.get_job_cursor(self)
       enumerator_builder.active_record_on_records(
         Import::JiraIssue.where(jira_import_id:, jira_project_id:),
-        cursor: cursor,
+        cursor: cursor
       )
     end
+    # rubocop:enable Metrics/AbcSize
 
-    def each_iteration(jira_issue, jira_import_id, jira_project_id)
+    # rubocop:disable Metrics/AbcSize
+    def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       sleep(3)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
@@ -101,13 +104,14 @@ module Import
             update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
             priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
             raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
+
             create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry)
             @jira_import.set_job_cursor(self, jira_issue.id)
           end
         end
       end
     end
-
+    # rubocop:enable Metrics/AbcSize
 
     private
 
@@ -154,6 +158,7 @@ module Import
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def update_custom_fields_in_project(project, jira_project, custom_field_registry)
       project_key = jira_project.payload["key"]
       applicable_cfs = custom_field_registry.flat_map do |entry|
@@ -165,7 +170,9 @@ module Import
       new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
       project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
+    # rubocop:enable Metrics/AbcSize
 
+    # rubocop:disable Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
       type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
@@ -186,6 +193,7 @@ module Import
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
     end
+    # rubocop:enable Metrics/AbcSize
 
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
@@ -223,7 +231,8 @@ module Import
       raise call.message if call.failure?
     end
 
-    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry) # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry)
       # required because otherwise project.types does not include type and then wp creation fails.
       project.reload
 
@@ -283,7 +292,9 @@ module Import
       create_work_package_history(work_package, jira_issue, project)
       work_package
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
+    # rubocop:disable Metrics/AbcSize
     def create_work_package_history(work_package, jira_issue, project)
       journal_service = Import::JiraImportJournals.new(work_package:)
 
@@ -302,6 +313,7 @@ module Import
 
       journal_service.call
     end
+    # rubocop:enable Metrics/AbcSize
 
     def create_member(project, member)
       service_call = Members::CreateService
@@ -337,7 +349,5 @@ module Import
         raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

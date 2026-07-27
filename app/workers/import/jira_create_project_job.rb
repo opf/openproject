@@ -49,7 +49,6 @@ module Import
           @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
           jira_project = Import::JiraProject.find(jira_project_id)
 
-
           @project_role = Role.find_by!(name: "JiraMember")
           custom_field_registry = build_custom_field_registry
 
@@ -60,9 +59,11 @@ module Import
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 
+    # rubocop:disable Metrics/AbcSize
     def create_project(jira_project)
       project_key = jira_project.payload.fetch("key")
       project_keys = jira_project.payload.fetch("projectKeys")
@@ -100,6 +101,7 @@ module Import
 
       raise service_call.message
     end
+    # rubocop:enable Metrics/AbcSize
 
     def import_issue(jira_issue, project, custom_field_registry)
       type = import_type(jira_issue, project)
@@ -109,9 +111,11 @@ module Import
       update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
       priority = import_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
       raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
+
       import_work_package(jira_issue, project, type, status, priority, custom_field_registry)
     end
 
+    # rubocop:disable Metrics/AbcSize
     def update_custom_fields_in_project(project, jira_project, custom_field_registry)
       project_key = jira_project.payload["key"]
       applicable_cfs = custom_field_registry.flat_map do |entry|
@@ -123,5 +127,6 @@ module Import
       new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
       project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end

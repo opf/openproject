@@ -37,10 +37,8 @@ module Import
       "Create custom fields"
     end
 
-    def perform(jira_import_id, jira_project_id)
-      custom_field_registry = build_custom_field_registry
+    def perform(_jira_import_id, _jira_project_id)
+      build_custom_field_registry
     end
-
-    private
   end
 end

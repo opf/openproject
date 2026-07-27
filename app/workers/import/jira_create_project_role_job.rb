@@ -36,7 +36,7 @@ module Import
       "Create 'JiraMember' project role"
     end
 
-    def perform(jira_import_id)
+    def perform(_jira_import_id)
       service_call = Roles::CreateService.new(user: User.system).call(
         name: "JiraMember",
         permissions: %i[add_work_packages

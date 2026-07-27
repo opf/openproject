@@ -31,8 +31,8 @@
 module Import
   module ProgressableJob
     def text
-      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.import_batch_jobs.#{to_s.demodulize.underscore}.title", default: to_s)
+      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.import_batch_jobs.#{to_s.demodulize.underscore}.title",
+             default: to_s)
     end
   end
 end
-

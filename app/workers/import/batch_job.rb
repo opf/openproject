@@ -1,3 +1,33 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module Import
   class BatchJob < ApplicationJob
     class FinishCallbackJob < ApplicationJob
@@ -23,6 +53,7 @@ module Import
       end
     end
 
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def perform(batch, context)
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
@@ -37,7 +68,8 @@ module Import
           end
         elsif batch.properties[:stage] == 1
           batch.enqueue(stage: 2) do
-            Import::JiraProject.where(jira_id: jira_import.jira_id, jira_project_id: jira_import.project_ids).pluck(:id).each do |jira_project_id|
+            Import::JiraProject.where(jira_id: jira_import.jira_id,
+                                      jira_project_id: jira_import.project_ids).pluck(:id).each do |jira_project_id|
               Import::JiraFetchProjectIssuesJob.perform_later(jira_import.id, jira_project_id)
             end
           end
@@ -80,5 +112,6 @@ module Import
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end
