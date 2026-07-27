@@ -186,5 +186,6 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
   <% else %>
     <%= render Workflows::BlankslateComponent.new(roles: @roles, type: @type, tab: @tab) %>
+    <%= form_tag(type_creation_wizard_path(@type, step: :workflows), id: form_id, method: :patch) do %><% end %>
   <% end %>
 <% end %>

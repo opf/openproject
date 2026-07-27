@@ -55,6 +55,27 @@ module WorkPackageTypes
 
       def last_step? = current_step == Steps.last
 
+      # The workflows step embeds the shared matrix form, which persists in place through
+      # its own endpoint. Continue submits that form with the next step, so the endpoint
+      # persists and then redirects to advance the wizard (see Workflows::TabsController).
+      # Escaping the matrix's turbo frame turns that redirect into a full navigation.
+      # Other steps submit the wizard form directly.
+      def primary_action_form
+        workflows_step? ? Workflows::StatusMatrixFormComponent::FORM_ID : FORM_IDENTIFIER
+      end
+
+      def primary_action_arguments
+        return {} unless workflows_step?
+
+        {
+          name: "advance_to_step",
+          value: Steps.next_after(current_step),
+          data: { turbo_frame: "_top" }
+        }
+      end
+
+      def workflows_step? = current_step == :workflows
+
       def current_number = Steps.index(current_step) + 1
 
       def total_steps = Steps.all.size

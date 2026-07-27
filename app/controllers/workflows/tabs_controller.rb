@@ -54,18 +54,10 @@ class Workflows::TabsController < ApplicationController
   end
 
   def update # rubocop:disable Metrics/AbcSize
-    success = false
-    Workflow.transaction do
-      success = true
-      base_params = permitted_status_params
-      indeterminate = permitted_indeterminate_params
-      @roles.each do |role|
-        role_params = indeterminate.empty? ? base_params : role_specific_params(base_params, indeterminate, role)
-        result = Workflows::BulkUpdateService.new(role:, type: @type, tab: @tab)
-                                             .call(role_params)
-        success = false unless result.success?
-      end
-      raise ActiveRecord::Rollback unless success
+    success = persist_matrix
+
+    if success && params[:advance_to_step].present?
+      return redirect_to type_creation_wizard_path(@type, step: params[:advance_to_step]), status: :see_other
     end
 
     if success
@@ -197,6 +189,27 @@ class Workflows::TabsController < ApplicationController
     @workflows["always"] = workflows.select { |w| !w.author && !w.assignee }
     @workflows["author"] = workflows.select(&:author)
     @workflows["assignee"] = workflows.select(&:assignee)
+  end
+
+  # A linked type reuses its source's transitions and must never have its own
+  # rewritten, so it persists nothing and simply reports success.
+  def persist_matrix
+    return true if @type.linked?(Type::ConfigurationLink::WORKFLOWS)
+
+    success = false
+    Workflow.transaction do
+      success = true
+      base_params = permitted_status_params
+      indeterminate = permitted_indeterminate_params
+      @roles.each do |role|
+        role_params = indeterminate.empty? ? base_params : role_specific_params(base_params, indeterminate, role)
+        result = Workflows::BulkUpdateService.new(role:, type: @type, tab: @tab)
+                                             .call(role_params)
+        success = false unless result.success?
+      end
+      raise ActiveRecord::Rollback unless success
+    end
+    success
   end
 
   def permitted_status_params

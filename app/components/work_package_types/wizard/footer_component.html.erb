@@ -30,8 +30,9 @@
     <%= render(
           Primer::Beta::Button.new(
             type: :submit,
-            form: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
-            scheme: :primary
+            form: primary_action_form,
+            scheme: :primary,
+            **primary_action_arguments
           )
         ) { primary_action_label } %>
   </div>

@@ -121,6 +121,8 @@ module WorkPackageTypes
         render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect))
       end
 
+      def step_submits_own_form? = current_step == :workflows
+
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step

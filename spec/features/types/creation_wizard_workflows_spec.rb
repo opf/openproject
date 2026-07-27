@@ -63,7 +63,7 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
     visit type_creation_wizard_path(type, **params)
   end
 
-  it "allows adding another workflow" do
+  it "persists the matrix and advances when clicking 'Continue'" do
     visit_workflow_wizard(roles: [role])
 
     expect(page).to have_field workflow_checkbox(1, 0), checked: false
@@ -71,13 +71,10 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
 
     check workflow_checkbox(1, 0)
 
-    click_button "Save"
+    expect(page).to have_no_button "Save"
+    click_on I18n.t(:button_continue)
 
-    expect_flash(message: "Successful update.")
-
-    expect(page).to have_field workflow_checkbox(0, 1), checked: true
-    expect(page).to have_field workflow_checkbox(1, 0), checked: true
-
+    expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
     expect(Workflow.where(type_id: type.id, role_id: role.id).count).to be 2
   end
 

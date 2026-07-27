@@ -33,6 +33,7 @@ require "spec_helper"
 RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug", color: create(:color)) }
+  shared_let(:project_role) { create(:project_role) }
 
   before { login_as(admin) }
 
@@ -98,6 +99,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     expect_step_saved(:project_attributes)
 
     # Step 5 - Workflow
+    expect(page).to have_css("#workflow_form", visible: :all)
     click_on I18n.t(:button_continue)
     expect_step_saved(:workflows)
 
