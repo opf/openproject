@@ -462,7 +462,7 @@ GEM
     commonmarker (2.8.3-x86_64-linux-musl)
     compare-xml (0.66)
       nokogiri (~> 1.8)
-    concurrent-ruby (1.3.7)
+    concurrent-ruby (1.3.8)
     connection_pool (3.0.2)
     cookiejar (0.3.4)
     cose (1.3.1)
@@ -558,7 +558,7 @@ GEM
       activemodel
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
-    erb (6.0.4)
+    erb (6.0.5)
     erb_lint (0.9.0)
       activesupport
       better_html (>= 2.0.1)
@@ -633,7 +633,7 @@ GEM
     glob (0.5.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    good_job (4.19.1)
+    good_job (4.19.2)
       activejob (>= 6.1.0)
       activerecord (>= 6.1.0)
       concurrent-ruby (>= 1.3.1)
@@ -1623,7 +1623,7 @@ DEPENDENCIES
   friendly_id (~> 5.7.0)
   fuubar (~> 2.5.0)
   globalid (~> 1.4)
-  good_job (~> 4.19.1)
+  good_job (~> 4.19.2)
   google-apis-gmail_v1
   googleauth
   grape (~> 3.3.2)
@@ -1864,7 +1864,7 @@ CHECKSUMS
   commonmarker (2.8.3-x86_64-linux) sha256=8b78d99ed454346a488988b2ac530e88a98b44f116fb9db19a5b2d5c46c67f83
   commonmarker (2.8.3-x86_64-linux-musl) sha256=0a42f71205697edf8a488b50b6209b9cee882c39f8b18ac0a323be83ff17b250
   compare-xml (0.66) sha256=e21aa5c0f69ef1177eced997c688fd4df989084e74a1b612257af32e1dd05319
-  concurrent-ruby (1.3.7) sha256=4412caec3a5ea2e5fdc52076724c071a81f2c0593d83b2ac8cbb8ca63b3151b0
+  concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   cookiejar (0.3.4) sha256=11b16acfc4baf7a0f463c21a6212005e04e25f5554d4d9f24d97f3492dfda0df
   cose (1.3.1) sha256=d5d4dbcd6b035d513edc4e1ab9bc10e9ce13b4011c96e3d1b8fe5e6413fd6de5
@@ -1903,7 +1903,7 @@ CHECKSUMS
   em-synchrony (1.0.6) sha256=6e7470a684d9bbc00d61d552911b65711540bd89e95c157156f5aacdd6f306ca
   email_validator (2.2.4) sha256=5ab238095bec7aef9389f230e9e0c64c5081cdf91f19d6c5cecee0a93af20604
   equivalent-xml (0.6.0) sha256=8919761efa848ad0846369ff8be1f646b17e5061698c4867b09829000cc3f487
-  erb (6.0.4) sha256=38e3803694be357fe2bfe312487c74beaf9fb4e5beb3e22498952fe1645b95d9
+  erb (6.0.5) sha256=858e63488cb796c9daba8b6e9ff4b3879c395022049be9a66a8e00980e612eac
   erb_lint (0.9.0) sha256=dfb5e40ad839e8d1f0d56ca85ec9a7ac4c9cd966ec281138282f35b323ca7c31
   erblint-github (1.0.1) sha256=9f28f7dc381a0dc68a0093ef7af3424ed9d2bb2b3e39bdc8e8cba86a0d31f2d0
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
@@ -1938,7 +1938,7 @@ CHECKSUMS
   fuubar (2.5.1) sha256=b272a7804b282661c7fab583a3764f92543cb482c365ae39c685cd218fdd4880
   glob (0.5.0) sha256=6397ae620b2f71b00424ec6c880c92d5ddcf6c44e6035c0b610a59efe16418fd
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
-  good_job (4.19.1) sha256=b188af401c45b4a2691fe1ecc551c82763a0bdb876d16608b39806027b89b3eb
+  good_job (4.19.2) sha256=73f4ea0595a29d28b9d9c0bf23361cc7434542b4d286f59b803819110c26e4b0
   google-apis-core (1.2.4) sha256=da9d12dbc7a3fbf3a68fc461e23e6f23245e57ab3b47eb71137d4dcf61a686b3
   google-apis-gmail_v1 (0.52.0) sha256=94efe9b6f323e5e5e58ba126fb2c0105642874906b3375cf7e887562398652ff
   google-cloud-env (2.4.0) sha256=01cb35ecee5d1c4d1cd4deaed8bb5bddc838e296bcc2a35c5d1ddd07ce40d28d
