@@ -165,8 +165,8 @@ fa:
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
-        name: Jira instance name
-        personal_access_token: Personal access token
+        name: نام نمونهٔ جیرا
+        personal_access_token: توکن دسترسی شخصی
         url: Jira instance URL
       import/jira_open_project_reference:
         jira: Jira
@@ -2475,7 +2475,7 @@ fa:
   enumeration_caption_order_changed: Order successfully changed.
   enumeration_could_not_be_moved: Enumeration could not be moved.
   enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
-  enumeration_reported_project_statuses: Reported status
+  enumeration_reported_project_statuses: وضعیت گزارش شده
   enumeration_work_package_priorities: Work package priorities
   error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   error_auth_source_sso_failed: مشکل در سامانه ورود مرکزی (SSO) برای کاربر '%{value}' به وجود آمد
