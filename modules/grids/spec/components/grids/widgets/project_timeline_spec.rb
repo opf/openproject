@@ -35,6 +35,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
   let(:user) { create(:user) }
   let(:phases_role) { create(:project_role, permissions: [:view_project_phases]) }
   let(:wp_role) { create(:project_role, permissions: [:view_work_packages]) }
+  let(:sprints_role) { create(:project_role, permissions: [:view_sprints]) }
   let(:component) { described_class.new(project) }
 
   before { login_as(user) }
@@ -50,6 +51,21 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
       before { create(:member, user:, project:, roles: [wp_role]) }
 
       it { expect(component.render?).to be(true) }
+    end
+
+    context "with view_sprints permission and backlogs module enabled" do
+      before { create(:member, user:, project:, roles: [sprints_role]) }
+
+      it { expect(component.render?).to be(true) }
+    end
+
+    context "with view_sprints permission but backlogs module disabled" do
+      before do
+        project.update!(enabled_module_names: project.enabled_module_names - ["backlogs"])
+        create(:member, user:, project:, roles: [sprints_role])
+      end
+
+      it { expect(component.render?).to be(false) }
     end
 
     context "without either permission" do
@@ -95,6 +111,31 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
       end
 
       it { expect(component.any_content?).to be(true) }
+    end
+
+    context "with a sprint, view_sprints permission and backlogs module enabled" do
+      before do
+        create(:member, user:, project:, roles: [sprints_role])
+        create(:sprint, project:)
+      end
+
+      it { expect(component.any_content?).to be(true) }
+    end
+
+    context "with a sprint but without view_sprints permission" do
+      before { create(:sprint, project:) }
+
+      it { expect(component.any_content?).to be(false) }
+    end
+
+    context "with a sprint and view_sprints permission but backlogs module disabled" do
+      before do
+        project.update!(enabled_module_names: project.enabled_module_names - ["backlogs"])
+        create(:member, user:, project:, roles: [sprints_role])
+        create(:sprint, project:)
+      end
+
+      it { expect(component.any_content?).to be(false) }
     end
   end
 
@@ -156,7 +197,8 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
         "id" => milestone.id,
         "subject" => milestone.subject,
         "date" => milestone.due_date.iso8601,
-        "typeId" => milestone_type.id
+        "typeId" => milestone_type.id,
+        "row" => 0
       )
     end
 
@@ -173,6 +215,109 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
     it "orders by due date" do
       earlier = create(:work_package, project:, type: milestone_type, due_date: Time.zone.today - 1)
       expect(data.pluck("id")).to eq([earlier.id, milestone.id])
+    end
+
+    it "assigns different rows to milestones on the same date" do
+      create(:work_package, project:, type: milestone_type, due_date: Time.zone.today)
+      expect(data.pluck("row")).to contain_exactly(0, 1)
+    end
+
+    it "assigns row 0 to milestones on different dates" do
+      create(:work_package, project:, type: milestone_type, due_date: Time.zone.today + 1)
+      expect(data.pluck("row")).to eq([0, 0])
+    end
+  end
+
+  describe "#sprints_data" do
+    let!(:sprint) { create(:sprint, project:, start_date: Time.zone.today, finish_date: Time.zone.today + 14.days) }
+
+    subject(:data) { JSON.parse(component.sprints_data) }
+
+    context "without view_sprints permission" do
+      it { expect(data).to eq([]) }
+    end
+
+    context "with view_sprints permission but backlogs module disabled" do
+      before do
+        project.update!(enabled_module_names: project.enabled_module_names - ["backlogs"])
+        create(:member, user:, project:, roles: [sprints_role])
+      end
+
+      it { expect(data).to eq([]) }
+    end
+
+    context "with view_sprints permission and backlogs module enabled" do
+      before { create(:member, user:, project:, roles: [sprints_role]) }
+
+      it "includes all required fields" do
+        expect(data.first).to include(
+          "id" => sprint.id,
+          "name" => sprint.name,
+          "startDate" => sprint.start_date.iso8601,
+          "endDate" => sprint.finish_date.iso8601,
+          "status" => sprint.status,
+          "row" => 0
+        )
+      end
+
+      it "excludes sprints without a start_date" do
+        create(:sprint, project:, start_date: nil)
+        expect(data.size).to eq(1)
+      end
+
+      it "excludes sprints without a finish_date" do
+        create(:sprint, project:, finish_date: nil)
+        expect(data.size).to eq(1)
+      end
+
+      it "orders by start_date" do
+        earlier = create(:sprint, project:, start_date: Time.zone.today - 7.days, finish_date: Time.zone.today - 1.day)
+        expect(data.pluck("id")).to eq([earlier.id, sprint.id])
+      end
+
+      it "assigns row 0 to non-overlapping sprints" do
+        create(:sprint, project:, start_date: Time.zone.today + 15.days, finish_date: Time.zone.today + 28.days)
+        expect(data.pluck("row")).to eq([0, 0])
+      end
+
+      it "assigns different rows to overlapping sprints" do
+        create(:sprint, project:, start_date: sprint.start_date, finish_date: sprint.finish_date)
+        expect(data.pluck("row")).to contain_exactly(0, 1)
+      end
+    end
+  end
+
+  describe "#sprints_link" do
+    context "without view_sprints permission" do
+      it { expect(component.sprints_link).to be_nil }
+    end
+
+    context "with view_sprints permission but backlogs module disabled" do
+      before do
+        project.update!(enabled_module_names: project.enabled_module_names - ["backlogs"])
+        create(:member, user:, project:, roles: [sprints_role])
+        create(:sprint, project:)
+        render_inline(component)
+      end
+
+      it { expect(component.sprints_link).to be_nil }
+    end
+
+    context "with view_sprints permission and backlogs module enabled" do
+      before { create(:member, user:, project:, roles: [sprints_role]) }
+
+      context "when there are no sprints" do
+        it { expect(component.sprints_link).to be_nil }
+      end
+
+      context "when sprints exist" do
+        before do
+          create(:sprint, project:)
+          render_inline(component)
+        end
+
+        it { expect(component.sprints_link).to include("backlogs/sprints") }
+      end
     end
   end
 
@@ -264,6 +409,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
 
       it { expect(page).to have_css("opce-project-timeline-graph") }
       it { expect(page).to have_css("opce-project-timeline-graph[phases-data='[]']") }
+      it { expect(page).to have_css("opce-project-timeline-graph[sprints-data='[]']") }
       it { expect(page).to have_link(I18n.t("grids.widgets.project_timeline.gantt_link")) }
     end
 
@@ -276,7 +422,36 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
 
       it { expect(page).to have_css("opce-project-timeline-graph") }
       it { expect(page).to have_css("opce-project-timeline-graph[milestones-data='[]']") }
+      it { expect(page).to have_css("opce-project-timeline-graph[sprints-data='[]']") }
       it { expect(page).to have_no_link(I18n.t("grids.widgets.project_timeline.gantt_link")) }
+    end
+
+    context "with only view_sprints permission and backlogs module enabled" do
+      before do
+        Member.find_by(user_id: user.id, project_id: project.id).update!(roles: [sprints_role])
+        create(:sprint, project:)
+        render_inline(component)
+      end
+
+      it { expect(page).to have_css("opce-project-timeline-graph") }
+      it { expect(page).to have_css("opce-project-timeline-graph[phases-data='[]']") }
+      it { expect(page).to have_css("opce-project-timeline-graph[milestones-data='[]']") }
+      it { expect(page).to have_link(I18n.t("grids.widgets.project_timeline.sprints_link")) }
+      it { expect(page).to have_no_link(I18n.t("grids.widgets.project_timeline.gantt_link")) }
+    end
+
+    context "with only view_sprints permission but backlogs module disabled" do
+      before do
+        project.update!(enabled_module_names: project.enabled_module_names - ["backlogs"])
+        Member.find_by(user_id: user.id, project_id: project.id).update!(roles: [sprints_role])
+        create(:sprint, project:)
+        render_inline(component)
+      end
+
+      it "does not render the component at all" do
+        expect(page).to have_no_css("opce-project-timeline-graph")
+        expect(page).to have_no_test_selector("project-timeline-widget-empty")
+      end
     end
   end
 end

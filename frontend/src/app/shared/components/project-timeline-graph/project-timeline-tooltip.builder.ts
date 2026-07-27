@@ -27,7 +27,7 @@
 //++
 
 import { Injectable, inject } from '@angular/core';
-import { diamondIconData, opGateIconData, opPhaseIconData } from '@openproject/octicons-angular';
+import { diamondIconData, opGateIconData, opPhaseIconData, zapIconData } from '@openproject/octicons-angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
@@ -93,12 +93,16 @@ export class ProjectTimelineTooltipBuilder {
   tooltipTypeLabel(itemType:ProjectTimelineItem['itemType']):string {
     if (itemType === 'milestone') return this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_milestone');
     if (itemType === 'gate') return this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_gate');
+    if (itemType === 'sprint') return this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_sprint');
     return this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_phase');
   }
 
   tooltipIcon(item:ProjectTimelineItem):HTMLElement {
     if (item.itemType === 'milestone') {
       return octiconElement(diamondIconData, 'xsmall', `octicon __hl_inline_type_${item.typeId!}`);
+    }
+    if (item.itemType === 'sprint') {
+      return octiconElement(zapIconData, 'small', 'octicon op-timeline-sprint-icon');
     }
     const iconData = item.itemType === 'gate' ? opGateIconData : opPhaseIconData;
     return octiconElement(iconData, 'small', `octicon __hl_inline_project_phase_definition_${item.definitionId!}`);
