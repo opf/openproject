@@ -207,6 +207,14 @@ describe('Sortable lists controller', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
 
+    // The synthetic drop input below carries fixed coordinates that bear no
+    // relation to where the fixture's rows actually lay out, so a real
+    // hit-test would report the source's own row for every drop and the
+    // "released over the source row" guard would swallow them all. Report
+    // nothing under the pointer by default; the tests that exercise that
+    // guard mock their own element stack.
+    vi.spyOn(document, 'elementsFromPoint').mockReturnValue([]);
+
     fetchMock = vi.fn(() => Promise.resolve(new Response('', { status: 200 })));
     renderStreamMessageMock = vi.fn(() => Promise.resolve());
     vi.stubGlobal('fetch', fetchMock);
@@ -275,6 +283,75 @@ describe('Sortable lists controller', () => {
 
     expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('ignores a list-only drop released over the source row itself', async () => {
+    const { sourceList } = renderFixture();
+    // A middle item: neither list boundary the configured drop position
+    // would resolve to, so a real (wrong) move would be observable if the
+    // guard that ignores a drop still over the source's own row failed to
+    // short-circuit it.
+    const middleSourceItem = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
+
+    vi.spyOn(document, 'elementsFromPoint').mockReturnValue([middleSourceItem]);
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(middleSourceItem, sourceList);
+
+    expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('still appends the first item dropped over its own list background', async () => {
+    const { sourceList, firstSourceItem } = renderFixture();
+    // Releasing the first row over the list's empty space below the last
+    // row hit-tests to the rows container, not an item row. Descending
+    // into the container would resolve its first item -- the dragged row
+    // itself -- and wrongly swallow a genuine send-to-bottom as a drop
+    // back onto the source row.
+    vi.spyOn(document, 'elementsFromPoint').mockReturnValue([sourceList]);
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, sourceList);
+
+    expect(itemIds(sourceList)).toEqual(['2', '3', '1']);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('sees past Pragmatic\'s honey-pot overlay to the source row underneath it', async () => {
+    const { sourceList } = renderFixture();
+    // A native drag can leave Pragmatic's own tracking overlay as the
+    // topmost element at the pointer; a raw hit-test that trusts it as-is
+    // would miss the source row underneath and wrongly move the item.
+    const middleSourceItem = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
+    const honeyPot = document.createElement('div');
+    honeyPot.setAttribute('data-pdnd-honey-pot', 'true');
+
+    vi.spyOn(document, 'elementsFromPoint').mockReturnValue([honeyPot, middleSourceItem]);
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(middleSourceItem, sourceList);
+
+    expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('moves a work package into an empty list despite its blankslate placeholder', async () => {
+    const { targetList, firstSourceItem } = renderFixture();
+    targetList.innerHTML = '';
+    const blankslate = document.createElement('li');
+    blankslate.setAttribute('data-empty-list-item', 'true');
+    targetList.append(blankslate);
+    // The element under the pointer at drop is the blankslate placeholder,
+    // not an item -- this must not be confused with dropping back onto the
+    // source's own row.
+    vi.spyOn(document, 'elementsFromPoint').mockReturnValue([blankslate]);
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    expect(itemIds(targetList)).toEqual(['1']);
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 
   it('ignores drops that belong to another sortable lists root', async () => {

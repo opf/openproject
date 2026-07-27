@@ -247,7 +247,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       sourceData: source.data,
     });
     if (!intent) {
-      debugLog('sortable-lists: ignoring drop, it did not resolve to a move (dropped outside a list)');
+      debugLog('sortable-lists: ignoring drop, it did not resolve to a move');
       return;
     }
 

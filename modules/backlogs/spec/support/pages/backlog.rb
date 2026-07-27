@@ -774,7 +774,7 @@ module Pages
     def pick_up_and_release_backlogs_item(source)
       install_backlogs_dnd_probe(source:, target: source, edge: nil)
 
-      scroll_to_element(source)
+      scroll_backlogs_source_into_view(source)
 
       page
         .driver
@@ -812,10 +812,24 @@ module Pages
       expect(drop_summary.fetch("dropTargetTypes")).not_to include("work_package")
     end
 
+    # `block: :nearest` (rather than scroll_to_element's default `:start`)
+    # scrolls the minimum distance needed to bring the row into view, and
+    # does nothing at all if it is already visible, unlike `:start`,
+    # which unconditionally forces the row to the viewport's top edge.
+    # That edge happens to sit inside Pragmatic's auto-scroll trigger zone
+    # (autoScrollForElements): starting the drag right there makes the
+    # (correctly working) auto-scroll feature scroll the list's header
+    # back into view under a stationary pointer, independently of the
+    # drag's own movement, so the drop lands wherever the header
+    # auto-scrolled to, not where the drag aimed.
+    def scroll_backlogs_source_into_view(source)
+      scroll_to_element(source, block: :nearest)
+    end
+
     def selenium_drag_backlogs_item(source:, target:, edge: nil)
       install_backlogs_dnd_probe(source:, target:, edge:)
 
-      scroll_to_element(source)
+      scroll_backlogs_source_into_view(source)
 
       source_rect = source.native.rect
       target_rect = target.native.rect
