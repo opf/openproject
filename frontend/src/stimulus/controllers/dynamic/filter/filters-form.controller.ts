@@ -33,6 +33,7 @@ import {
   hideElement,
   showElement,
 } from 'core-app/shared/helpers/dom-helpers';
+import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
 
 interface PrimerTextFieldElement extends HTMLElement {
@@ -543,7 +544,7 @@ export default class FiltersFormController extends Controller {
   }
 
   private buildFilterString(filter:InternalFilterValue) {
-    const valuesString = filter.value.length > 1 ? `[${filter.value.map((v) => `"${this.replaceDoubleQuotes(v)}"`).join(',')}]` : `"${this.replaceDoubleQuotes(filter.value[0])}"`;
+    const valuesString = filter.value.length > 1 ? `[${filter.value.map((v) => `"${escapeFilterValue(v)}"`).join(',')}]` : `"${escapeFilterValue(filter.value[0])}"`;
 
     return `${filter.name} ${filter.operator} ${valuesString}`;
   }
@@ -557,10 +558,6 @@ export default class FiltersFormController extends Controller {
       return JSON.stringify(filters.map((filter) => this.buildFilterJSON(filter)));
     }
     return filters.map((filter) => this.buildFilterString(filter)).join('&');
-  }
-
-  private replaceDoubleQuotes(value:string) {
-    return value && value.length > 0 ? value.replace(/"/g, '\\"') : '';
   }
 
   private readonly dateFilterTypes = ['datetime_past', 'date'];
