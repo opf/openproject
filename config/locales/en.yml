@@ -1367,10 +1367,13 @@ en:
               label_selected_data: "Selected data for import"
               label_supported_data: "Supported data"
               title: "Import scope"
-          select_dialog:
-            filter_projects: "Filter by text"
           select_projects:
-            title: "Select projects"
+            button_select: "Select"
+            button_select_all: "Select all"
+            button_unselect_all: "Unselect all"
+            filter_projects: "Filter by text"
+            info: "Only projects where the Jira token owner is member are selectable as import scope."
+            title: "Select projects to import"
       test:
         api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and API token."
         connection_error: "Connection error: %{message}"

@@ -1,12 +1,12 @@
 <%= component_wrapper do
-  flex_layout(align_items: :center, mt: 2, flex_wrap: :wrap) do |flex|
+  flex_layout(align_items: :center, mb: 2, flex_wrap: :wrap) do |flex|
     flex.with_column(flex: 1) do
       render(
         Primer::Alpha::TextField.new(
           name: :filter,
           value: filter,
-          label: I18n.t(:"admin.jira.run.wizard.select_dialog.filter_projects"),
-          placeholder: I18n.t(:"admin.jira.run.wizard.select_dialog.filter_projects"),
+          label: I18n.t(:"admin.jira.run.wizard.select_projects.filter_projects"),
+          placeholder: I18n.t(:"admin.jira.run.wizard.select_projects.filter_projects"),
           visually_hide_label: true,
           input_width: :large,
           style: "min-width: 250px;",
@@ -25,7 +25,7 @@
         )
       ) do |button|
         button.with_leading_visual_icon(icon: :"check-circle")
-        I18n.t(:button_check_all)
+        I18n.t(:"admin.jira.run.wizard.select_projects.button_select_all")
       end
     end
     flex.with_column do
@@ -38,7 +38,7 @@
         )
       ) do |button|
         button.with_leading_visual_icon(icon: :"x-circle")
-        I18n.t(:button_uncheck_all)
+        I18n.t(:"admin.jira.run.wizard.select_projects.button_unselect_all")
       end
     end
   end
