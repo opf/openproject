@@ -204,7 +204,7 @@ module WorkPackage::Versions
   def persisted_target_versions
     return [] unless persisted?
 
-    Version.where(id: target_versions.select(:version_id)).to_a
+    target_versions.to_a
   end
 
   def system_version_overrides
