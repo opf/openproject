@@ -31,6 +31,7 @@
 module Admin::Import::Jira::ImportRuns
   class TableComponent < OpPrimer::BorderBoxTableComponent
     columns :id, :creator, :projects, :last_changed
+    main_column :id
 
     def initialize(jira:, **)
       @jira = jira
