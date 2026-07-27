@@ -94,10 +94,11 @@ module McpTools
 
     def call(page: nil, **filters)
       filtered = apply_filters(WorkPackage.visible, filters)
-      work_packages = apply_pagination(filtered, page)
+      work_packages, total = apply_pagination(filtered, page)
 
       {
-        items: work_packages.map { |wp| API::V3::WorkPackages::WorkPackageRepresenter.create(wp, current_user:) }
+        items: work_packages.map { |wp| API::V3::WorkPackages::WorkPackageRepresenter.create(wp, current_user:) },
+        total:
       }
     end
   end

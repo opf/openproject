@@ -228,12 +228,13 @@ module McpTools
     end
 
     def apply_pagination(scope, page)
-      return scope unless self.class.pagination_enabled?
+      total = scope.count
+      return [scope, total] unless self.class.pagination_enabled?
 
       page_number = page || 1
       page_size = self.class.page_size
 
-      scope.offset((page_number - 1) * page_size).limit(page_size)
+      [scope.offset((page_number - 1) * page_size).limit(page_size), total]
     end
   end
 end
