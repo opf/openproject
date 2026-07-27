@@ -65,6 +65,9 @@ module WorkPackage::Versions
     # that the journal snapshot sees the current version sets in the database.
     after_save :persist_version_associations
 
+    # Store in memory values that will replace target/observed_in version values
+    # This is used by the contracts/services flow in order to do checks and validations
+    # before persisting any actual data to the database
     attr_accessor :target_version_ids_replacements,
                   :observed_in_version_ids_replacements
   end
@@ -161,6 +164,7 @@ module WorkPackage::Versions
   #   * actual written target_versions
   def effective_target_versions
     if target_version_ids_replacements.nil?
+      # TODO(COMMS-863)
       return version_id_changed? ? Array(version) : target_versions
     end
 
