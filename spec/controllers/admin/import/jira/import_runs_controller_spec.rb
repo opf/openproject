@@ -168,11 +168,28 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
     end
 
     context "when step is configure" do
-      before { transition_to_state(jira_import, "instance_meta_done") }
+      before do
+        transition_to_state(jira_import, "instance_meta_done")
+        jira_import.update!(available: { "projects" => [{ "id" => "10001", "name" => "Project One", "key" => "PROJ1" }] })
+      end
 
       it "transitions to configuring" do
         post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "configure" }, format: :turbo_stream
         expect(jira_import.current_state).to eq("configuring")
+      end
+
+      it "opens the select projects dialog in the same response" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "configure" }, format: :turbo_stream
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include(Admin::Import::Jira::ImportRuns::SelectProjects::ModalComponent::MODAL_ID)
+      end
+
+      it "initializes the select projects session" do
+        jira_import.update!(projects: [{ "id" => "10001", "name" => "Project One", "key" => "PROJ1" }])
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "configure" }, format: :turbo_stream
+        expect(session[:selected_ids]).to eq(%w[10001])
+        expect(session[:project_page]).to eq(1)
+        expect(session[:project_filter]).to be_nil
       end
     end
 
@@ -183,6 +200,11 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
         post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "fetch_projects_meta" }, format: :turbo_stream
         expect(jira_import.current_state).to eq("projects_meta_fetching")
         expect(Import::JiraProjectsMetaDataJob).to have_received(:perform_later).with(jira_import.id)
+      end
+
+      it "does not open the select projects dialog" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "fetch_projects_meta" }, format: :turbo_stream
+        expect(response.body).not_to include(Admin::Import::Jira::ImportRuns::SelectProjects::ModalComponent::MODAL_ID)
       end
     end
 
