@@ -28,6 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Used for sorting exact matches first in a search.
+# Should be combined with another sort order, e.g. `[["exactMatch","desc"],["updatedAt","desc"]]`.
+# Currently only typeahead searches are supported.
 class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::Selects::WorkPackageSelect
   # Constant fallback (always evaluates to 0, i.e. "no boost"). Deliberately a CASE
   # expression, not a bare integer literal — Postgres treats a bare integer in ORDER BY
@@ -36,6 +39,7 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
 
   def self.instances(_context = nil)
     new :exact_match,
+        default_order: "desc",
         displayable: false,
         sortable: ->(query = nil) { exact_match_order_sql(query) }
   end
@@ -48,31 +52,31 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
     typeahead_filter = query&.filters&.find { |filter| filter.field.to_s == "typeahead" }
     return NO_EXACT_MATCH_SQL unless typeahead_filter
 
-    condition_sql(typeahead_filter.values.join(" ")) || NO_EXACT_MATCH_SQL
+    exact_match_condition_sql(typeahead_filter.values.join(" ")) || NO_EXACT_MATCH_SQL
   end
 
   # Returns a SQL fragment ("CASE WHEN <exact-match> THEN 1 ELSE 0 END") that evaluates to 1
   # for work packages whose numeric id or semantic identifier exactly equals query_string,
-  # and 0 otherwise — sort this column "desc" to bring exact matches to the top (the
-  # conventional direction for a boolean-shaped flag, e.g. ORDER BY is_featured DESC).
+  # and 0 otherwise — sort this column "desc" to bring exact matches to the top.
   # Returns nil when query_string is blank, multi-word (exact-match boosting only applies
   # to the whole trimmed string), or matches neither shape.
-  def self.condition_sql(query_string)
+  def self.exact_match_condition_sql(query_string)
     stripped = query_string.to_s.strip
     return nil if stripped.blank? || stripped.match?(/\s/)
 
-    numeric_candidate = stripped.delete_prefix("#") # mirrors id_condition's `#?` prefix
-
+    candidate = stripped.delete_prefix("#")
     condition =
-      if numeric_candidate.match?(/\A\d+\z/)
+      if candidate.match?(/\A[1-9]\d*\z/)
         OpenProject::SqlSanitization.sanitize(
-          "#{WorkPackage.table_name}.id::varchar(20) = ?", numeric_candidate
+          "#{WorkPackage.table_name}.id::varchar(20) = ?", candidate
         )
       elsif stripped.match?(/\A#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}\z/i)
+        # So far, semantic identifier are always upper case.
+        # We can leverage this to match in a way that allows index usage.
         OpenProject::SqlSanitization.sanitize(
           "#{WorkPackage.table_name}.id IN (SELECT work_package_id FROM " \
-          "#{WorkPackageSemanticAlias.table_name} WHERE lower(identifier) = lower(?))",
-          stripped
+          "#{WorkPackageSemanticAlias.table_name} WHERE identifier = ?)",
+          stripped.upcase
         )
       end
 

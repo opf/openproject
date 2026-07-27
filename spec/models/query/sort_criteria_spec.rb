@@ -101,10 +101,10 @@ RSpec.describe Query::SortCriteria do
           end
         end
 
-        it "resolves to the exact-match CASE fragment" do
+        it "resolves to the exact-match CASE fragment for semantic identifiers" do
           expect(subject)
             .to eq [["CASE WHEN work_packages.id IN (SELECT work_package_id FROM " \
-                     "work_package_semantic_aliases WHERE lower(identifier) = lower('COM-5')) " \
+                     "work_package_semantic_aliases WHERE identifier = 'COM-5') " \
                      "THEN 1 ELSE 0 END DESC"], ["work_packages.id DESC"]]
         end
       end

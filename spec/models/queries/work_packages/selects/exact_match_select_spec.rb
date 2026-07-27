@@ -31,8 +31,8 @@
 require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
-  describe ".condition_sql" do
-    subject(:sql) { described_class.condition_sql(query_string) }
+  describe ".exact_match_condition_sql" do
+    subject(:sql) { described_class.exact_match_condition_sql(query_string) }
 
     def ranked_ids(ids)
       WorkPackage.where(id: ids).order(Arel.sql("#{sql} DESC"), id: :asc).pluck(:id)
@@ -83,9 +83,7 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
     context "when the query string is a leading-zero numeric string" do
       let(:query_string) { "007" }
 
-      it "does not raise" do
-        expect { sql }.not_to raise_error
-      end
+      it { is_expected.to be_nil }
     end
 
     context "when the query string is an exact semantic identifier" do
