@@ -29,29 +29,15 @@
 #++
 
 module Admin::Import::Jira::ImportRuns
-  module ComponentStreams
-    extend ActiveSupport::Concern
+  class SidePanelComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-    private
+    def initialize(jira_import)
+      super()
 
-    def stream_wizard
-      respond_to do |format|
-        format.turbo_stream do
-          yield if block_given?
-          update_via_turbo_stream(
-            component: ::Admin::Import::Jira::ImportRuns::WizardComponent.new(@jira_import),
-            method: "morph"
-          )
-          update_via_turbo_stream(
-            component: ::Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(@jira_import),
-            method: "morph"
-          )
-          render turbo_stream: resolve_turbo_streams
-        end
-        format.html do
-          redirect_to(admin_import_jira_run_path(jira_id: @jira.id, id: @jira_import.id))
-        end
-      end
+      @jira_import = jira_import
     end
   end
 end

@@ -1225,6 +1225,9 @@ en:
           description: "Create an import run to start importing information from this Jira instance"
           title: "No import runs set up yet"
         history: "History"
+        side_panel:
+          run_status: "Run status"
+          open_history: "Open the run history"
         import_blocked_error: "Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import."
         index:
           button_edit_configuration: "Edit configuration"

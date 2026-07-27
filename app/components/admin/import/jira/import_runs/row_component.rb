@@ -48,7 +48,15 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def last_changed
-      helpers.format_time(model.updated_at)
+      helpers.format_time(last_changed_date)
+    end
+
+    def last_changed_date
+      if model.last_transition
+        model.last_transition.created_at
+      else
+        model.updated_at
+      end
     end
 
     def projects
@@ -73,15 +81,27 @@ module Admin::Import::Jira::ImportRuns
           "aria-label": t(:button_actions),
           tooltip_direction: :w
         )
-        menu.with_item(scheme: :default, label: I18n.t(:"admin.jira.run.actions.button_edit"),
-                       content_arguments: { tag: :a, href: admin_import_jira_run_path(jira_id: model.jira.id, id: model.id) }) do |item|
-          item.with_leading_visual_icon(icon: :pencil)
-        end
-        menu.with_item(scheme: :default, label: I18n.t(:"admin.jira.run.actions.button_open_history"),
-                       content_arguments: { tag: :a, href: history_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id) }) do |item|
-          item.with_leading_visual_icon(icon: :history)
-        end
+        add_menu_item(menu, label: :"admin.jira.run.actions.button_edit", icon: :pencil, href: run_path)
+        add_menu_item(menu, label: :"admin.jira.run.actions.button_open_history", icon: :history, href: run_history_path)
       end
+    end
+
+    private
+
+    def add_menu_item(menu, label:, icon:, href:)
+      menu.with_item(scheme: :default,
+                     label: I18n.t(label),
+                     content_arguments: { tag: :a, href: }) do |item|
+        item.with_leading_visual_icon(icon:)
+      end
+    end
+
+    def run_path
+      admin_import_jira_run_path(jira_id: model.jira.id, id: model.id)
+    end
+
+    def run_history_path
+      history_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id)
     end
   end
 end
