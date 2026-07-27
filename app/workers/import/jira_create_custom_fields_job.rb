@@ -29,7 +29,7 @@
 #++
 
 module Import
-  class JiraCreateProjectRoleJob < ApplicationJob
+  class JiraCreateCustomFieldsJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectsJob::JiraImportCustomFields
 
