@@ -50,7 +50,8 @@ module WorkPackageCustomFields::Scopes
         visible_projects = Project.visible(user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
-        source_join, source_type_id = Type::EffectiveSourceSql.form_configuration_remap("pt.type_id")
+        source_join, source_type_id, excluded = Type::EffectiveSourceSql.form_configuration_remap("pt.type_id")
+        exclusion = Type::EffectiveSourceSql.excluded_element_condition("custom_fields.id", excluded)
 
         where(<<~SQL.squish)
           EXISTS (
@@ -62,6 +63,7 @@ module WorkPackageCustomFields::Scopes
             JOIN custom_fields_types cft
               ON cft.type_id = #{source_type_id}
              AND cft.custom_field_id = custom_fields.id
+             AND #{exclusion}
             LEFT JOIN custom_fields_projects cfp
               ON cfp.project_id = vp.id
              AND cfp.custom_field_id = custom_fields.id

@@ -62,7 +62,7 @@ class Type
       # resolve a linked type's effective owner without a separate round-trip.
       def effective_source_id_subquery(type_id, aspect)
         sanitize_sql_array([<<~SQL.squish, { type_id:, aspect: }])
-          #{link_chain_cte('CAST(:type_id AS bigint)')}
+          #{link_chain_cte(':type_id')}
           SELECT cl.node_id FROM link_chain cl
           WHERE #{terminal_node_condition}
           LIMIT 1
@@ -83,7 +83,7 @@ class Type
         sanitize_sql_array([<<~SQL.squish, { type_id:, aspect: }])
           SELECT DISTINCT element
           FROM (
-            #{link_chain_cte('CAST(:type_id AS bigint)')}
+            #{link_chain_cte(':type_id')}
             SELECT cl.excluded FROM link_chain cl
             WHERE #{terminal_node_condition}
             LIMIT 1
@@ -92,8 +92,45 @@ class Type
         SQL
       end
 
-      # Shared with Types::Scopes::WithEffectiveConfiguration, which calls these on Type
-      # itself when assembling its LATERAL join.
+      # Resolves the aspect's chain inline for whatever type id +type_id_expr+ yields at the
+      # call site, as [join_sql, source_id_expr, excluded_elements_expr].
+      #
+      # This is the reusable form of the walk: a LATERAL join correlates on the outer row, so
+      # a query can resolve links (and their exclusions) for a whole result set without a
+      # preceding round-trip and without inlining a precomputed mapping. +type_id_expr+ must
+      # name a column of a table joined before this fragment.
+      #
+      # The COALESCEs cover the two rows the lateral yields nothing for: a type owning the
+      # aspect resolves to itself, and so does one whose chain is a pure cycle.
+      def effective_configuration_lateral(type_id_expr, aspect, alias_name: nil)
+        aspect = validated_configuration_aspect(aspect)
+        alias_name ||= "effective_#{aspect}"
+
+        join = sanitize_sql_array([<<~SQL.squish, { aspect: }])
+          LEFT JOIN LATERAL (
+            #{link_chain_cte(type_id_expr)}
+            SELECT cl.node_id AS source_id, cl.excluded AS excluded
+            FROM link_chain cl
+            WHERE #{terminal_node_condition}
+            LIMIT 1
+          ) #{alias_name} ON TRUE
+        SQL
+
+        [join,
+         "COALESCE(#{alias_name}.source_id, #{type_id_expr})",
+         "COALESCE(#{alias_name}.excluded, '{}'::text[])"]
+      end
+
+      # Aspects reach SQL as column aliases and lateral alias names, so an unknown one must
+      # raise rather than be interpolated into an identifier.
+      def validated_configuration_aspect(aspect)
+        aspect.to_s.tap do |candidate|
+          unless Type::ConfigurationLink::ASPECTS.include?(candidate)
+            raise ArgumentError, "Unknown configuration aspect #{aspect.inspect}"
+          end
+        end
+      end
+
       private
 
       # Walks type_configuration_links upwards from `seed_type_id` until a type that
@@ -106,9 +143,13 @@ class Type
       # `types.id` of the row its LATERAL join is evaluated for. Interpolated rather than
       # bound because it is literal SQL; :aspect is sanitized by the caller.
       def link_chain_cte(seed_type_id)
+        # Cast rather than trust the seed: an integer literal from a VALUES list would
+        # otherwise clash with the bigint the recursive term yields.
+        seed = "CAST(#{seed_type_id} AS bigint)"
+
         <<~SQL.squish
           WITH RECURSIVE link_chain(node_id, path, excluded) AS (
-            SELECT #{seed_type_id}, ARRAY[#{seed_type_id}], '{}'::text[]
+            SELECT #{seed}, ARRAY[#{seed}], '{}'::text[]
             UNION ALL
             SELECT l.source_id, cl.path || l.source_id, cl.excluded || l.excluded_elements
             FROM link_chain cl

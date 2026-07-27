@@ -42,38 +42,13 @@ module Types::Scopes
       # must not answer for another, and the suffix makes that a fallback rather than a
       # wrong answer. Several aspects can therefore be preloaded in one query by chaining.
       def with_effective_configuration(aspect)
-        aspect = validated_aspect(aspect)
-        lateral_alias = "effective_#{aspect}"
+        aspect = validated_configuration_aspect(aspect)
+        join, source_id, excluded = effective_configuration_lateral("#{quoted_table_name}.id", aspect)
 
-        joins("LEFT JOIN LATERAL (#{effective_configuration_lateral(aspect)}) #{lateral_alias} ON TRUE")
+        joins(join)
           .select("#{quoted_table_name}.*")
-          .select("COALESCE(#{lateral_alias}.source_id, #{quoted_table_name}.id) AS effective_source_id_#{aspect}")
-          .select("COALESCE(#{lateral_alias}.excluded, '{}'::text[]) AS effective_excluded_elements_#{aspect}")
-      end
-
-      private
-
-      # The link chain seeded from the correlated `types.id` of the outer row. A type
-      # owning the aspect resolves to itself; a pure cycle yields no row at all, which is
-      # what the COALESCEs above turn back into "owns itself, excludes nothing".
-      def effective_configuration_lateral(aspect)
-        sanitize_sql_array([<<~SQL.squish, { aspect: }])
-          #{link_chain_cte("#{quoted_table_name}.id")}
-          SELECT cl.node_id AS source_id, cl.excluded AS excluded
-          FROM link_chain cl
-          WHERE #{terminal_node_condition}
-          LIMIT 1
-        SQL
-      end
-
-      # The aspect ends up in a column alias, so an unknown one must raise rather than be
-      # interpolated into an identifier.
-      def validated_aspect(aspect)
-        aspect.to_s.tap do |candidate|
-          unless Type::ConfigurationLink::ASPECTS.include?(candidate)
-            raise ArgumentError, "Unknown configuration aspect #{aspect.inspect}"
-          end
-        end
+          .select("#{source_id} AS effective_source_id_#{aspect}")
+          .select("#{excluded} AS effective_excluded_elements_#{aspect}")
       end
     end
   end
