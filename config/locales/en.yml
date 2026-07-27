@@ -1314,9 +1314,12 @@ en:
             fetch_data:
               button_fetch: "Check available data"
               caption_done: "Completed"
+              caption_done_description: "Meta data fetched from %{server_info}"
               description: "Check what data is available for import in the host Jira instance."
               label_progress: "Fetching data from Jira..."
               title: "Fetch instance meta data"
+              button_continue: "Continue to scope selection"
+              label_available_server_data: "Available data on %{server_info}"
             groups_and_users:
               title: "Groups and Users"
             import_result:
@@ -1353,7 +1356,6 @@ en:
                 sprints: "Sprint assignments"
                 users: "Involved users and groups"
                 workflows: "Project-level workflows"
-              label_available_server_data: "Available data on %{server_info}"
               label_coming_later: "Coming later"
               label_coming_soon: "Coming soon (Q3 2026)"
               label_import: "Select which projects you would like to import."
