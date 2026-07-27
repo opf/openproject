@@ -415,9 +415,23 @@ class WorkPackage < ApplicationRecord
   end
 
   def self.by_version(project)
-    count_and_group_by project:,
-                       field: "version_id",
-                       joins: Version.table_name
+    # Counts via the target version associations rather than the deprecated
+    # version_id column, so a work package assigned to several versions is
+    # counted under each of them.
+    sql = sanitize_sql_array(
+      ["SELECT s.id AS status_id,
+               s.is_closed AS closed,
+               wpv.version_id AS version_id,
+               COUNT(i.id) AS total
+          FROM #{WorkPackage.table_name} i
+          INNER JOIN #{Status.table_name} s ON i.status_id = s.id
+          INNER JOIN #{WorkPackageVersion.table_name} wpv
+             ON wpv.work_package_id = i.id AND wpv.kind = :kind
+         WHERE i.project_id = :project_id
+         GROUP BY s.id, s.is_closed, wpv.version_id",
+       { kind: WorkPackageVersion.kinds[:target], project_id: project.id }]
+    )
+    ActiveRecord::Base.connection.select_all(sql).to_a
   end
 
   def self.by_priority(project)

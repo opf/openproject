@@ -28,24 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Reports::SubprojectReport < Reports::Report
-  def self.report_type
-    "subproject"
-  end
+require "spec_helper"
 
-  def field
-    "project_id"
-  end
+RSpec.describe Reports::VersionReport do
+  let(:project) { create(:project) }
 
-  def rows
-    @project.descendants.visible
-  end
+  subject(:report) { described_class.new(project) }
 
-  def data
-    WorkPackage.by_subproject(@project) || []
-  end
+  describe "#title" do
+    context "with the multiple versions feature enabled",
+            with_flag: { work_package_multiple_versions: true },
+            with_settings: { work_package_multiple_versions: true } do
+      it "labels the report with the singular target version attribute" do
+        expect(report.title).to eq(WorkPackage.human_attribute_name(:target_version))
+      end
+    end
 
-  def title
-    I18n.t(:label_subproject)
+    context "with the multiple versions feature disabled",
+            with_flag: { work_package_multiple_versions: false } do
+      it "labels the report as the deprecated single version attribute" do
+        expect(report.title).to eq(WorkPackage.human_attribute_name(:version))
+      end
+    end
   end
 end
