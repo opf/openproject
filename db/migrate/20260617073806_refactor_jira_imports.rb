@@ -2,16 +2,19 @@
 
 class RefactorJiraImports < ActiveRecord::Migration[8.1]
   def change
-    remove_column :jira_imports, :status, :string
-    remove_column :jira_imports, :cursor, :jsonb
-    remove_column :jira_imports, :import_time_point, :timestamp
-    add_column :jira_imports, :import_batch_id, :string
+    change_table :jira_imports, bulk: true do |t|
+      t.remove :status, type: :string, if_exists: true
+      t.remove :cursor, type: :jsonb
+      t.remove :import_time_point, type: :timestamp
+      t.string :import_batch_id
+    end
 
     create_table(:jira_import_job_cursors) do |t|
       t.belongs_to :jira_import
       t.string   :job_class, null: false
       t.jsonb    :arguments, null: false
       t.jsonb    :cursor, null: false
+      t.timestamps
     end
 
     add_index :jira_import_job_cursors,
