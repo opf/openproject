@@ -149,10 +149,28 @@ class Type
     # and every type resolves to its own stored configuration. A new record has no
     # persisted links, so it owns every aspect.
     def effective_source_for(aspect)
+      preloaded = preloaded_effective_sources[aspect.to_s]
+      return preloaded if preloaded
+
       terminal_id = effective_source_id(aspect)
       return self if terminal_id == id
 
       self.class.find(terminal_id)
+    end
+
+    # Called by Types::Scopes::WithEffectiveSource once per relation, so #effective_source_for
+    # doesn't look the owning type up per record.
+    def assign_effective_source(aspect, source)
+      preloaded_effective_sources[aspect.to_s] = source
+    end
+
+    # Reloading re-selects the plain columns, dropping the aspect-suffixed ones that
+    # #effective_source_id and #effective_excluded_elements read. The assigned sources have
+    # to go with them, or they would answer from before the reload.
+    def reload(...)
+      @preloaded_effective_sources = nil
+
+      super
     end
 
     # The id of the type owning `aspect`. This type's own id when it owns the aspect, when
@@ -261,6 +279,10 @@ class Type
     end
 
     private
+
+    def preloaded_effective_sources
+      @preloaded_effective_sources ||= {}
+    end
 
     # The type an aspect is linked to, or nil when this type owns it. The nil is
     # what keeps the readers above from recursing: effective_source_for returns self
