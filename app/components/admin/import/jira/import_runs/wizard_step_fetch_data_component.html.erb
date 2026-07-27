@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     flex_layout do |row|
       row.with_column(flex: 1) do
         concat(content_tag(:div, class: "d-flex flex-items-center") do
-          concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+          concat(render(Primer::Beta::Text.new(font_weight: :bold)) {
             I18n.t(:"admin.jira.run.wizard.sections.fetch_data.title")
           })
           if model.status_equal_or_after?(:configuring)

@@ -29,16 +29,25 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= flex_layout do |box|
   box.with_row do
-    concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
-      I18n.t(:"admin.jira.run.wizard.sections.import_scope.title")
-    })
+
+    concat(content_tag(:div, class: "d-flex flex-items-center") do
+      concat(render(Primer::Beta::Text.new(font_weight: :bold)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.title")
+      })
+      if model.status_equal_or_after?(:projects_meta_done)
+        concat(render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, color: :success, ml: 1)) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done")
+        })
+      end
+    end)
+
     if model.status_before?(:configuring)
       concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
         I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption")
       })
     elsif model.status_equal_or_after?(:projects_meta_done)
       concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done")
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done_description", count: selected_projects_count)
       })
     end
   end
@@ -85,9 +94,20 @@ See COPYRIGHT and LICENSE files for more details.
     end
   elsif model.in_state?(:projects_meta_fetching)
     box.with_row(mt: 3) do
-      render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
+      concat(render(Primer::Beta::Button.new(
+        size: :medium,
+        disabled: true
+      )) do |component|
+        component.with_trailing_visual_counter(count: selected_projects_count)
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_select")
+      end)
+      concat(render(Primer::Beta::Button.new(
+        tag: :a,
+        size: :medium
+      )) do |button|
+        button.with_leading_visual_icon(icon: :sync, animation: :rotate)
         I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_progress")
-      ))
+      end)
     end
   end
 end
