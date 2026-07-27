@@ -156,6 +156,7 @@ module WorkPackageTypes
 
     # copy_workflow_from is a creation-time instruction rather than a type attribute,
     # so it is read straight off the request and only passed on when one was chosen.
+    # TODO: Remove with type_variants feature flag
     def create_params
       copy_workflow_from = params.dig(:type, :copy_workflow_from)
       return permitted_type_params if copy_workflow_from.blank?

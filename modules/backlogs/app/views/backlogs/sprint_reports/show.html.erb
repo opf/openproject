@@ -27,9 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%# locals: (burndown:) %>
+<% html_title t("backlogs.sprint_reports.page_header_component.title", sprint: @sprint.name) %>
 
-<%= angular_component_tag "opce-burndown-chart", "chart-data": {
-      labels: xaxis_labels(burndown),
-      datasets: dataseries(burndown)
-    }.to_json %>
+<%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
+
+<%= render(Grids::WidgetGridComponent.new) do |grid| %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
+<% end %>

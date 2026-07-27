@@ -297,7 +297,7 @@ module Import
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
-      _, sequence_number = identifier.split("-")
+      sequence_number = WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier)
       work_package.update_columns(sequence_number:, identifier:)
       work_package_id = work_package.id
       aliases_from_history = jira_issue

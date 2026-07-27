@@ -3428,7 +3428,6 @@ lt:
   label_other: Kita
   label_overall_activity: Visa veikla
   label_overview: Peržiūra
-  label_page_title: Puslapio antraštė
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5874,8 +5873,9 @@ lt:
   text_user_invited: Vartotojas yra pakviestas ir laukia registracijos.
   text_user_wrote: "%{value} parašė:"
   text_warn_on_leaving_unsaved: Darbų paketas turi neišsaugoto teksto, kuris bus prarastas, jei išeisite iš šio puslapio.
-  text_what_did_you_change_click_to_add_comment: Ką jūs pakeitėte? Spauskite, kad pridėtumėte komentarą
   text_wiki_destroy_confirmation: Ar esate įsitikinęs, jog norite pašalinti šį wiki puslapį ir visą jo turinį?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Pašalinti vaikų puslapius ir jų palikuonis
   text_wiki_page_destroy_question: Šis puslapis turi %{descendants} vaikų puslapį (-ių) arba išvestinių puslapių. Ką norite daryti?
   text_wiki_page_nullify_children: Palikti vaikų puslapius kaip pagrindinius puslapius
@@ -5942,17 +5942,16 @@ lt:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

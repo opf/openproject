@@ -3267,7 +3267,6 @@ zh-CN:
   label_other: 其他
   label_overall_activity: 总体活动
   label_overview: 概述
-  label_page_title: 页面标题
   label_parent_group_caption: '设置父群组将使此群组成为所选父群组的子群组。此群组也将继承父群组的所有成员资格，包括权限。
 
     '
@@ -5666,8 +5665,9 @@ zh-CN:
   text_user_invited: 用户已被邀请，正在等待注册。
   text_user_wrote: "%{value} 写道："
   text_warn_on_leaving_unsaved: 此工作包包含未保存的文本，如果您离开此页面未保存的文本将会丢失。
-  text_what_did_you_change_click_to_add_comment: 你做出了什么更改？点击添加注释
   text_wiki_destroy_confirmation: 确实要删除此维基和它的所有内容吗?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: 删除子页面和所有他们的派生页面
   text_wiki_page_destroy_question: 此页有 %{descendants} 子页面和派生页面。你想做什么？
   text_wiki_page_nullify_children: 保持子网页作为根页面
@@ -5734,17 +5734,16 @@ zh-CN:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

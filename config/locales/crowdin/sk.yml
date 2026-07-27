@@ -3422,7 +3422,6 @@ sk:
   label_other: Ostatné
   label_overall_activity: Celková aktivita
   label_overview: Prehľad
-  label_page_title: Názov stránky
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5875,8 +5874,9 @@ sk:
   text_user_invited: Používateľ bol pozvaný a čaká na registráciu.
   text_user_wrote: "%{value} napísal:"
   text_warn_on_leaving_unsaved: Pracovný balíček obsahuje neuložený text, ktorý sa stratí, ak opustíte túto stránku.
-  text_what_did_you_change_click_to_add_comment: Čo ste zmenili? Kliknutím pridáte komentár
   text_wiki_destroy_confirmation: Naozaj si želáte vymazať túto Wiki a celý jej obsah?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Odstrániť všetky podstránky
   text_wiki_page_destroy_question: Táto stránka má %{descendants} všetkých podstránok. Čo si želáte urobiť?
   text_wiki_page_nullify_children: Zachovať podstránky ako hlavné stránky
@@ -5943,17 +5943,16 @@ sk:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

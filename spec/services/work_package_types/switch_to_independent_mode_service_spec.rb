@@ -86,6 +86,65 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       end
     end
 
+    context "with the empty mode (workflows)", with_flag: { type_variants: true } do
+      let(:aspect) { Type::ConfigurationLink::WORKFLOWS }
+
+      it "removes all transitions and severs the link" do
+        source = create(:type)
+        source.own_workflows.create!(role: create(:project_role),
+                                     old_status: create(:status), new_status: create(:status),
+                                     author: false, assignee: false)
+        type.link!(aspect, source:)
+
+        # The type owns no transitions but sees the source's through the link
+        expect(type.own_workflows).to be_empty
+        expect(type.workflows).not_to be_empty
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::EMPTY)
+
+        expect(result).to be_success
+        expect(type.reload).not_to be_linked(aspect)
+        expect(type.own_workflows).to be_empty
+        expect(type.workflows).to be_empty
+      end
+    end
+
+    context "with the copy mode (project attributes)" do
+      let(:aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
+
+      it "copies the linked source's enabled attributes and severs the link" do
+        source = create(:type)
+        field = create(:project_custom_field)
+        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: field)
+        type.link!(aspect, source:)
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::COPY)
+
+        expect(result).to be_success
+        expect(type.reload).not_to be_linked(aspect)
+        expect(type.own_project_custom_field_type_mappings.map(&:custom_field_id)).to contain_exactly(field.id)
+      end
+    end
+
+    context "with the empty mode (project attributes)" do
+      let(:aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
+
+      it "clears the type's own enabled attributes and severs the link" do
+        source = create(:type)
+        field = create(:project_custom_field)
+        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: field)
+        stale = create(:project_custom_field)
+        ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: stale)
+        type.link!(aspect, source:)
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::EMPTY)
+
+        expect(result).to be_success
+        expect(type.reload).not_to be_linked(aspect)
+        expect(type.own_project_custom_field_type_mappings).to be_empty
+      end
+    end
+
     context "with the default mode (pdf export)" do
       let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
 

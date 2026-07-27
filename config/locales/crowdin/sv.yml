@@ -3318,7 +3318,6 @@ sv:
   label_other: Andra
   label_overall_activity: Total aktivitet
   label_overview: Översikt
-  label_page_title: Sidtitel
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5725,8 +5724,9 @@ sv:
   text_user_invited: Användaren har bjudits in och inväntar nu dennes registrering.
   text_user_wrote: "%{value} skrev:"
   text_warn_on_leaving_unsaved: Arbetspaketet innehåller osparad text som försvinner om du lämnar sidan.
-  text_what_did_you_change_click_to_add_comment: Vad ändrade du? Klicka för att lägga till kommentar
   text_wiki_destroy_confirmation: Är du säker du vill ta bort denna wiki och allt dess innehåll?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Ta bort underordnade sidor och alla deras ättlingar
   text_wiki_page_destroy_question: Denna sida har %{descendants} underordnade sidor och ättlingar. Vad vill du göra?
   text_wiki_page_nullify_children: Behåll underordnade sidor som sidrötter
@@ -5793,17 +5793,16 @@ sv:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

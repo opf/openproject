@@ -49,6 +49,16 @@ export interface ProjectMilestoneData {
   subject:string;
   date:string;
   typeId:number;
+  row:number;
+}
+
+export interface ProjectSprintData {
+  id:number;
+  name:string;
+  startDate:string;
+  endDate:string;
+  status:string;
+  row:number;
 }
 
 export interface ProjectTimelineItem {
@@ -61,7 +71,7 @@ export interface ProjectTimelineItem {
   title:string;
   type:'range'|'point'|'background';
   className:string;
-  itemType?:'phase'|'gate'|'milestone';
+  itemType?:'phase'|'gate'|'milestone'|'sprint';
   subgroup?:string;
   definitionId?:number;
   typeId?:number;
@@ -78,13 +88,14 @@ export interface AccessibleProjectTimelineItem {
 export const GROUP_GATES = 'gates';
 export const GROUP_PHASES = 'phases';
 export const GROUP_MILESTONES = 'milestones';
+export const GROUP_SPRINTS = 'sprints';
 
 @Injectable()
 export class ProjectTimelineItemBuilder {
   private readonly i18n = inject(I18nService);
   private readonly timezone = inject(TimezoneService);
 
-  buildData(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[]):{items:ProjectTimelineItem[]; groups:{id:string; content:string}[]} {
+  buildData(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):{items:ProjectTimelineItem[]; groups:{id:string; content:string}[]} {
     const items:ProjectTimelineItem[] = [];
 
     for (const phase of phases) {
@@ -99,17 +110,19 @@ export class ProjectTimelineItemBuilder {
       }
     }
 
-    const milestoneSubgroupIndex:Record<string, number> = {};
     for (const milestone of milestones) {
-      const subGroupIndex = milestoneSubgroupIndex[milestone.date] ?? 0;
-      milestoneSubgroupIndex[milestone.date] = subGroupIndex + 1;
-      items.push(this.buildMilestoneItem(milestone, subGroupIndex));
+      items.push(this.buildMilestoneItem(milestone));
+    }
+
+    for (const sprint of sprints) {
+      items.push(this.buildSprintItem(sprint));
     }
 
     const groups = [
       { id: GROUP_GATES, content: '' },
       { id: GROUP_PHASES, content: '' },
       { id: GROUP_MILESTONES, content: '' },
+      { id: GROUP_SPRINTS, content: '' },
     ];
 
     return { items, groups };
@@ -159,12 +172,12 @@ export class ProjectTimelineItemBuilder {
     };
   }
 
-  buildMilestoneItem(milestone:ProjectMilestoneData, subgroupIndex:number):ProjectTimelineItem {
+  buildMilestoneItem(milestone:ProjectMilestoneData):ProjectTimelineItem {
     const hlClass = `__hl_background_type_${milestone.typeId}`;
     return {
       id: `milestone-${milestone.id}`,
       group: GROUP_MILESTONES,
-      subgroup: String(subgroupIndex),
+      subgroup: String(milestone.row),
       start: milestone.date,
       content: '',
       title: milestone.subject,
@@ -173,6 +186,22 @@ export class ProjectTimelineItemBuilder {
       itemType: 'milestone',
       typeId: milestone.typeId,
       workPackageId: milestone.id,
+    };
+  }
+
+  buildSprintItem(sprint:ProjectSprintData):ProjectTimelineItem {
+    const isActive = sprint.status === 'active';
+    return {
+      id: `sprint-${sprint.id}`,
+      group: GROUP_SPRINTS,
+      subgroup: String(sprint.row),
+      start: sprint.startDate,
+      end: sprint.endDate,
+      content: sprint.name,
+      title: sprint.name,
+      type: 'range',
+      className: `op-timeline-sprint${isActive ? ' op-timeline-sprint--active' : ''}`,
+      itemType: 'sprint',
     };
   }
 

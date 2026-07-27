@@ -28,25 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  module BurndownChartHelper
-    def xaxis_labels(burndown)
-      # 14 entries (plus the axis label) have come along as the best value for a good optical result.
-      # Thus it is enough space between the entries.
-      entries_displayed = (burndown.days.length / 14.0).ceil
-      burndown.days.enum_for(:each_with_index).map do |d, i|
-        if (i % entries_displayed) == 0
-          ["#{::I18n.t('date.abbr_day_names')[d.wday % 7]} #{d.strftime('%d/%m')}"]
-        end
-      end
-    end
+module WorkPackageTypes
+  module CopyConfiguration
+    class ProjectAttributesService < BaseService
+      private
 
-    def dataseries(burndown)
-      burndown.series.map do |s|
-        {
-          label: I18n.t("burndown.#{s.first}"),
-          data: s.last.enum_for(:each)
-        }
+      def aspect = Type::ConfigurationLink::PROJECT_ATTRIBUTES
+
+      def copy_from(source)
+        custom_field_ids = source.own_project_custom_field_type_mappings.pluck(:custom_field_id)
+
+        ProjectCustomFieldTypeMapping.transaction do
+          type.own_project_custom_field_type_mappings.delete_all
+          next if custom_field_ids.empty?
+
+          type.own_project_custom_field_type_mappings.insert_all(
+            custom_field_ids.map { |id| { custom_field_id: id } },
+            unique_by: %i[type_id custom_field_id]
+          )
+        end
       end
     end
   end

@@ -39,10 +39,11 @@ module WorkPackageTypes
     FRAME_ID = "type-configuration-frame"
     RELOAD_EVENT_NAME = "op-dispatched:types:configuration-changed"
 
-    def initialize(reload_url:)
+    def initialize(reload_url:, reload_from_location: false)
       super()
 
       @reload_url = reload_url
+      @reload_from_location = reload_from_location
     end
 
     def call
@@ -55,7 +56,8 @@ module WorkPackageTypes
       {
         controller: "reload-frame-on-event",
         "reload-frame-on-event-event-name-value": RELOAD_EVENT_NAME,
-        "reload-frame-on-event-url-value": @reload_url
+        "reload-frame-on-event-url-value": @reload_url,
+        "reload-frame-on-event-reload-from-location-value": @reload_from_location
       }
     end
   end

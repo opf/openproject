@@ -37,7 +37,8 @@ module WorkPackageTypes
       Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
       Type::ConfigurationLink::DEFAULTS => DefaultsService,
       Type::ConfigurationLink::PDF_EXPORT => PdfExportService,
-      Type::ConfigurationLink::WORKFLOWS => WorkflowsService
+      Type::ConfigurationLink::WORKFLOWS => WorkflowsService,
+      Type::ConfigurationLink::PROJECT_ATTRIBUTES => ProjectAttributesService
     }.freeze
 
     def self.service_for(aspect)

@@ -73,6 +73,7 @@ module WorkPackageTypes
       @param_validations.update({ patterns: :is_invalid })
     end
 
+    # TODO: Remove with type_variants feature flag
     def check_copy_workflow(params)
       return unless params.key?(:copy_workflow_from)
 

@@ -3281,7 +3281,6 @@ ko:
   label_other: 기타
   label_overall_activity: 전체 작업
   label_overview: 요약
-  label_page_title: 페이지 제목
   label_parent_group_caption: '부모 그룹을 설정하면 선택한 부모 그룹의 하위 그룹으로 이 그룹이 지정됩니다. 또한 부모 그룹의 권한을 포함한 모든 멤버십이 상속됩니다.
 
     '
@@ -5682,8 +5681,9 @@ ko:
   text_user_invited: 사용자가 초대되었으며 등록 보류 중입니다.
   text_user_wrote: "%{value}이(가) 작성함:"
   text_warn_on_leaving_unsaved: 현재 페이지에는 저장되지 않은 텍스트가 있습니다. 이 페이지를 나가면 텍스트가 손실됩니다.
-  text_what_did_you_change_click_to_add_comment: 무엇을 변경하셨습니까? 댓글을 추가하려면 클릭하세요.
   text_wiki_destroy_confirmation: 이 위키와 모든 해당 콘텐츠를 삭제하시겠습니까?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: 자식 페이지 및 모든 하위 페이지 삭제
   text_wiki_page_destroy_question: 이 페이지에는 %{descendants}개의 자식 페이지와 하위 항목이 있습니다. 어떻게 하시겠습니까?
   text_wiki_page_nullify_children: 자식 페이지를 루트 페이지로 유지
@@ -5750,17 +5750,16 @@ ko:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

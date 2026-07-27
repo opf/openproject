@@ -77,7 +77,7 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
 
     click_button "Copy"
 
-    # Copying succeeds which results in the edit role having a workflow and the warning disappearing.
+    # Copying succeeds which results in the edit role having a workflow.
     expect(page)
       .to have_content "Successfully copied workflow"
 
@@ -87,6 +87,10 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
                           new_status_id: end_status.id,
                           author: false,
                           assignee: false).count).to eq(1)
+
+    # Copying to another role stays in place and only updates the matrix frame;
+    # the layout warning bar recomputes on the next page load.
+    page.refresh
 
     expect(page)
       .to have_no_css(".warning-bar--item")

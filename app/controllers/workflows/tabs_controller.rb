@@ -157,12 +157,11 @@ class Workflows::TabsController < ApplicationController
   end
 
   def set_eligible_roles
-    @eligible_roles = Workflow.eligible_roles.order(:builtin, :position)
+    @eligible_roles = Workflow.ordered_eligible_roles
   end
 
   def set_roles
-    @roles = @eligible_roles.where(id: params[:role_ids])
-    @roles = [@eligible_roles.first] if @roles.empty?
+    @roles = Workflow.selected_roles(params[:role_ids])
   end
 
   def statuses_for_form

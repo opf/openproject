@@ -1181,6 +1181,38 @@ RSpec.describe WorkPackages::BaseContract do
           expect(subject.errors).to be_empty
         end
       end
+
+      context "when the closed version is assigned through target_versions" do
+        before do
+          allow(work_package)
+            .to receive(:target_versions)
+            .and_return([assignable_version])
+        end
+
+        context "and reopening the work package" do
+          before do
+            allow(work_package)
+              .to receive(:reopened?)
+              .and_return(true)
+
+            subject.validate
+          end
+
+          it "is invalid" do
+            expect(subject.errors[:base]).to eql [I18n.t(:error_can_not_reopen_work_package_on_closed_version)]
+          end
+        end
+
+        context "and not reopening the work package" do
+          before do
+            subject.validate
+          end
+
+          it "is valid" do
+            expect(subject.errors).to be_empty
+          end
+        end
+      end
     end
   end
 

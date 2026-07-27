@@ -3420,7 +3420,6 @@ pl:
   label_other: Inne
   label_overall_activity: Ogólna aktywność
   label_overview: Przegląd
-  label_page_title: Tytuł strony
   label_parent_group_caption: 'Ustawienie grupy nadrzędnej spowoduje, że ta grupa stanie się podgrupą wybranej grupy nadrzędnej. Będzie ona również dziedziczyć wszystkie członkostwa, w tym uprawnienia grupy nadrzędnej.
 
     '
@@ -5864,8 +5863,9 @@ pl:
   text_user_invited: Użytkownik został zaproszony i oczekuje na rejestrację.
   text_user_wrote: "%{value} napisał:"
   text_warn_on_leaving_unsaved: Zadanie zawiera niezapisany tekst, który zostanie utracony, jeśli opuścisz tę stronę.
-  text_what_did_you_change_click_to_add_comment: Co zostało przez ciebie zmienione? Kliknij, aby dodać komentarz
   text_wiki_destroy_confirmation: Czy na pewno chcesz usunąć to wiki i całą jego zawartość?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Usuń stronę i wszystkie podrzędne
   text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_nullify_children: Ustaw podrzędne strony jako strony główne
@@ -5932,17 +5932,16 @@ pl:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

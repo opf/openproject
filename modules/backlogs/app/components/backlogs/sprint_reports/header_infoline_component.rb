@@ -28,29 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module Wizard
-    # Independent-mode workflows: optionally seed the variant's workflows by
-    # copying them from another type, otherwise start from an empty workflow.
-    class WorkflowsForm < ApplicationForm
-      form do |workflows_form|
-        workflows_form.select_list(
-          name: :copy_workflow_from,
-          input_width: :medium,
-          label: I18n.t(:label_copy_workflow_from),
-          caption: I18n.t("types.creation_wizard.workflows.copy_caption"),
-          include_blank: true
-        ) do |source_types|
-          copyable_types.each do |type|
-            source_types.option(value: type.id, label: type.name)
-          end
-        end
-      end
+module Backlogs
+  module SprintReports
+    class HeaderInfolineComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include Redmine::I18n
 
-      private
+      attr_reader :sprint
 
-      def copyable_types
-        Type.where.not(id: model.id).order(:position)
+      def initialize(sprint:)
+        super
+
+        @sprint = sprint
       end
     end
   end

@@ -3318,7 +3318,6 @@ fr:
   label_other: Autre
   label_overall_activity: Activité totale
   label_overview: Vue globale
-  label_page_title: Titre de la page
   label_parent_group_caption: 'La définition d''un groupe parent fera de ce groupe un sous-groupe du groupe parent sélectionné. Il héritera également de toutes les adhésions, y compris les autorisations du groupe parent.
 
     '
@@ -5736,8 +5735,9 @@ fr:
   text_user_invited: L'utilisateur a été invité et est en attente d'enregistrement.
   text_user_wrote: "%{value} écrit:"
   text_warn_on_leaving_unsaved: Le lot de travaux contient du texte non sauvegardé qui sera perdu si vous quittez cette page.
-  text_what_did_you_change_click_to_add_comment: Qu'avez-vous changé ? Cliquez ici pour ajouter un commentaire
   text_wiki_destroy_confirmation: Voulez-vous vraiment supprimer ce wiki et tout son contenu?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Supprimer les pages enfants et toute leur descendance
   text_wiki_page_destroy_question: Cette page possède %{descendants} page(s) enfant et descendant(s). Que voulez vous faire?
   text_wiki_page_nullify_children: Garder les pages enfants en tant que pages d'origine
@@ -5804,17 +5804,16 @@ fr:
       placeholder_description: Cette étape sera bientôt disponible.
       progress_label: Étape %{number} sur %{total}
       steps:
-        automations: Automatisations
         defaults: Valeurs par défaut
         details: Détails
         form_configuration: Configuration du formulaire
         pdf: Génération de PDF
+        project_attributes: Project attributes
         projects: Projets
         workflows: Flux de travail
       success: La variante a été créée avec succès.
-      workflows:
-        copy_caption: Copiez la configuration du workflow à partir d'un type existant pour vous en servir de point de départ.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Définissez un modèle utilisant des attributs et du texte référencés pour générer automatiquement des sujets de lots de travaux. Les utilisateurs ne pourront pas modifier manuellement les sujets.

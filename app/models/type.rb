@@ -48,8 +48,13 @@ class Type < ApplicationRecord
   belongs_to :color, optional: true, class_name: "Color"
 
   has_many :work_packages
-  has_many :project_custom_field_type_mappings, dependent: :destroy
-  has_many :project_custom_fields, through: :project_custom_field_type_mappings,
+  # The write target and the eager-loadable association.
+  # Reads go through #project_custom_field_type_mappings, which resolves the
+  # mappings based on the PROJECT_ATTRIBUTES linking mode.
+  has_many :own_project_custom_field_type_mappings,
+           class_name: "ProjectCustomFieldTypeMapping",
+           dependent: :destroy
+  has_many :project_custom_fields, through: :own_project_custom_field_type_mappings,
                                    class_name: "ProjectCustomField"
   # The write target and the eager-loadable association
   # Reads go through #workflows, which resolves workflows based on linking mode
@@ -142,19 +147,31 @@ class Type < ApplicationRecord
     includes(:projects).where(projects: { id: project })
   end
 
-  # Writers use #own_workflows, which is why the fallback is that association rather than `super`
+  # Writers use #own_workflows; the flag-off branch also keeps it so an eager-loaded
+  # association (see TypesController) stays usable. When variants are on, the effective
+  # owner is resolved inside the query, avoiding a separate resolution round-trip.
   def workflows
-    source = linked_configuration_source(Type::ConfigurationLink::WORKFLOWS)
-    return own_workflows if source.nil?
+    return own_workflows unless resolve_aspect_in_sql?
 
-    source.own_workflows
+    Workflow.where(Workflow.arel_table[:type_id].in(effective_source_id_ref(Type::ConfigurationLink::WORKFLOWS)))
+  end
+
+  # Writers use #own_project_custom_field_type_mappings; the flag-off branch keeps it
+  # too. When variants are on, the effective owner is resolved inside the query,
+  # avoiding a separate resolution round-trip.
+  def project_custom_field_type_mappings
+    return own_project_custom_field_type_mappings unless resolve_aspect_in_sql?
+
+    ProjectCustomFieldTypeMapping.where(
+      ProjectCustomFieldTypeMapping.arel_table[:type_id].in(effective_source_id_ref(Type::ConfigurationLink::PROJECT_ATTRIBUTES))
+    )
   end
 
   def statuses(include_default: false, role: nil, tab: nil)
     return Status.none if new_record?
 
-    source = linked_configuration_source(Type::ConfigurationLink::WORKFLOWS) || self
-    scope = self.class.statuses([source.id], role:, tab:)
+    type_ref = resolve_aspect_in_sql? ? effective_source_id_ref(Type::ConfigurationLink::WORKFLOWS) : [id]
+    scope = self.class.statuses(type_ref, role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
   end
 

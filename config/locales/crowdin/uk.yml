@@ -3430,7 +3430,6 @@ uk:
   label_other: Інше
   label_overall_activity: Загальна активність
   label_overview: Огляд
-  label_page_title: Заголовок сторінки
   label_parent_group_caption: 'Якщо вказати батьківську групу, ця група стане її підгрупою. Вона також успадкує всі дані про членство, зокрема дозволи батьківської групи.
 
     '
@@ -5879,8 +5878,9 @@ uk:
   text_user_invited: Користувача запрошено та очікує реєстрації.
   text_user_wrote: "%{value} написав:"
   text_warn_on_leaving_unsaved: Робочий пакет містить незбережений текст, який буде втрачено, якщо ви залишите цю сторінку.
-  text_what_did_you_change_click_to_add_comment: Що ви змінили? Натисніть, щоб додати коментар
   text_wiki_destroy_confirmation: Ви впевнені що хочете видалити цю Вікі і весь її вміст?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Видалення дочірніх сторінок і всі їх нащадки
   text_wiki_page_destroy_question: На цій сторінці є %{descendants} дочірні сторінки та нащадки. Що ти хочеш робити?
   text_wiki_page_nullify_children: Майте дочірні сторінки як кореневі сторінки
@@ -5947,17 +5947,16 @@ uk:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

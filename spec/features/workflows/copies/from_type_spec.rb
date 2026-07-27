@@ -63,4 +63,14 @@ RSpec.describe "Workflow copy from type", :js do
 
     it_behaves_like "a copy-to-another-type dialog", with_source_role: true
   end
+
+  # Copying to another type targets a different type, so it redirects there and leaves the wizard
+  describe "from the creation wizard", with_flag: { type_variants: true } do
+    before do
+      visit type_creation_wizard_path(type, step: :workflows)
+      within("#workflow-table") { click_link "Copy" }
+    end
+
+    it_behaves_like "a copy-to-another-type dialog", with_source_role: true
+  end
 end

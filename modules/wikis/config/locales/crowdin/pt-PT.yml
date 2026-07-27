@@ -42,7 +42,7 @@ pt-PT:
       external_wiki_providers: Fornecedores Wiki
       internal_wiki_provider: Wiki interna
       wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: Gerir ligações de páginas wiki
   project_module_wiki_internal: Project wiki
   project_module_wiki_platforms: Fornecedor de wiki
   projects_settings_wiki:

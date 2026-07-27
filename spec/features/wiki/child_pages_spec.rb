@@ -49,7 +49,7 @@ RSpec.describe "wiki child pages", :js, :selenium do
 
     find(".ck-content").set("The child page's content")
 
-    click_button "Save"
+    click_button "Create"
 
     # hierarchy displayed in the breadcrumb
     within('[data-test-selector="wiki-page-header-breadcrumbs"]') do

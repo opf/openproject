@@ -51,7 +51,7 @@ import {
   GROUP_GATES,
   ProjectTimelineItemBuilder,
 } from './project-timeline-item.builder';
-import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectTimelineItem } from './project-timeline-item.builder';
+import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectSprintData, ProjectTimelineItem } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
@@ -70,6 +70,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
   readonly phasesData = input.required<string>();
   readonly milestonesData = input.required<string>();
+  readonly sprintsData = input<string>('[]');
 
   readonly phases = computed<ProjectPhaseData[]>(
     () => JSON.parse(this.phasesData()) as ProjectPhaseData[],
@@ -77,6 +78,10 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
   readonly milestones = computed<ProjectMilestoneData[]>(
     () => JSON.parse(this.milestonesData()) as ProjectMilestoneData[],
+  );
+
+  readonly sprints = computed<ProjectSprintData[]>(
+    () => JSON.parse(this.sprintsData()) as ProjectSprintData[],
   );
 
   readonly accessibleItems = computed<AccessibleProjectTimelineItem[]>(
@@ -99,8 +104,9 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     effect(() => {
       const phases = this.phases();
       const milestones = this.milestones();
+      const sprints = this.sprints();
       if (this.timeline) {
-        this.updateTimeline(phases, milestones);
+        this.updateTimeline(phases, milestones, sprints);
       }
     });
   }
@@ -108,7 +114,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit():void {
     requestAnimationFrame(() => {
       if (!this.destroyed) {
-        this.initTimeline(this.phases(), this.milestones());
+        this.initTimeline(this.phases(), this.milestones(), this.sprints());
       }
     });
   }
@@ -123,8 +129,8 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     this.timeline = null;
   }
 
-  private initTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[]):void {
-    const { items, groups } = this.itemBuilder.buildData(phases, milestones);
+  private initTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
+    const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
     this.itemsDataset = new DataSet(items);
 
     this.timeline = new Timeline(
@@ -159,8 +165,8 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     this.revealWhenReady();
   }
 
-  private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[]):void {
-    const { items, groups } = this.itemBuilder.buildData(phases, milestones);
+  private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
+    const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
     this.itemsDataset = new DataSet(items);
     this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
   }

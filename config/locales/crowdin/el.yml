@@ -3318,7 +3318,6 @@ el:
   label_other: Άλλο
   label_overall_activity: Συνολική δραστηριότητα
   label_overview: Επισκόπηση
-  label_page_title: Τίτλος σελίδας
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5738,8 +5737,9 @@ el:
   text_user_invited: Ο χρήστης έχει προσκληθεί και εκκρεμεί η εγγραφή του.
   text_user_wrote: "%{value} έγραψε:"
   text_warn_on_leaving_unsaved: Το πακέτο εργασίας περιέχει μη αποθηκευμένο κείμενο το οποίο θα χαθεί αν φύγετε από αυτή τη σελίδα.
-  text_what_did_you_change_click_to_add_comment: Τι αλλαγές κάνατε; Κάντε κλικ για να προσθέσετε ένα σχόλιο
   text_wiki_destroy_confirmation: Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το wiki και όλα τα περιεχόμενα του;
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Διαγράψτε όλες τις σελίδες-παιδιά και όλους τους απογόνους τους
   text_wiki_page_destroy_question: Η σελίδα έχει %{descendants} σελίδες(-α)-παιδιά και απογόνους. Τι θέλετε να κάνετε;
   text_wiki_page_nullify_children: Διατηρήστε τις σελίδες-παιδιά ως σελίδες root
@@ -5806,17 +5806,16 @@ el:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

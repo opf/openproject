@@ -3316,7 +3316,6 @@ de:
   label_other: Andere
   label_overall_activity: Aktivität aller Projekte anzeigen
   label_overview: Übersicht
-  label_page_title: Seitentitel
   label_parent_group_caption: 'Wenn Sie eine übergeordnete Gruppe festlegen, wird diese Gruppe zu einer Untergruppe der ausgewählten Gruppe. Sie erbt auch alle Mitgliedschaften, einschließlich der Berechtigungen der übergeordneten Gruppe.
 
     '
@@ -5737,8 +5736,9 @@ de:
   text_user_invited: Der Nutzer ist eingeladen worden und wartet auf Registrierung.
   text_user_wrote: "%{value} schrieb:"
   text_warn_on_leaving_unsaved: Das Arbeitspaket enthält ungespeicherten Text, der verloren geht wenn Sie die Seite verlassen.
-  text_what_did_you_change_click_to_add_comment: Was haben Sie geändert? Klicken, um einen Kommentar hinzufügen
   text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Lösche alle Unterseiten
   text_wiki_page_destroy_question: Diese Seite hat %{descendants} Unterseite(n). Was möchten Sie tun?
   text_wiki_page_nullify_children: Verschiebe die Unterseiten auf die oberste Ebene
@@ -5805,17 +5805,16 @@ de:
       placeholder_description: Dieser Schritt wird in Kürze verfügbar sein.
       progress_label: Schritt %{number} von %{total}
       steps:
-        automations: Automatisierungen
         defaults: Defaults
         details: Details
         form_configuration: Formularkonfiguration
         pdf: PDF-Erstellung
+        project_attributes: Project attributes
         projects: Projekte
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Kopieren Sie die Workflow-Konfiguration eines vorhandenen Typs als Ausgangspunkt.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.

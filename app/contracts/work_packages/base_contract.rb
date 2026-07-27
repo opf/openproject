@@ -599,7 +599,9 @@ module WorkPackages
     end
 
     def validate_no_reopen_on_closed_version
-      if model.version_id && model.reopened? && model.version.closed?
+      return unless model.effective_target_versions.any?(&:closed?)
+
+      if model.reopened?
         errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version)
       end
     end

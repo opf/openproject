@@ -3316,7 +3316,6 @@ ca:
   label_other: Altres
   label_overall_activity: Activitat global
   label_overview: Visió general
-  label_page_title: Títol de pàgina
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -5730,8 +5729,9 @@ ca:
   text_user_invited: L'usuari ja ha estat convidat i està pendent de que es registri.
   text_user_wrote: "%{value} va escriure:"
   text_warn_on_leaving_unsaved: Aquest paquet de treball conté text sense desar que es perdrà si surt de la pàgina.
-  text_what_did_you_change_click_to_add_comment: Què has canviat? Fes clic per afegir un comentari
   text_wiki_destroy_confirmation: Segur que vols eliminar aquesta wiki i tot el seu contingut?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Suprimir les pàgines filles i tots els seus descendents
   text_wiki_page_destroy_question: Aquesta pàgina té %{descendants} pàgines fill(es) i descendent(s). Què vols fer?
   text_wiki_page_nullify_children: Deixar les pàgines filles com a pàgines arrel
@@ -5798,17 +5798,16 @@ ca:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
         defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
       success: Variant created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      breadcrumb_variant: 'Variant: %{name}'
       defaults:
         automatically_generated_subjects:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
