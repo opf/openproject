@@ -89,7 +89,6 @@ module Import
     end
 
     after_transition(to: :importing) do |jira_import, transition|
-      batch = nil
       if jira_import.import_batch_id.nil?
         batch = GoodJob::Batch.enqueue(on_success: Import::BatchJob,
                                        on_finish: Import::BatchJob::FinishCallbackJob,
