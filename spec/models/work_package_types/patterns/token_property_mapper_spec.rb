@@ -201,6 +201,84 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         expect(token.call(sub_work_package)).to eq("Task")
       end
     end
+
+    context "for versions" do
+      shared_let(:second_version) { create(:version, project:) }
+
+      before do
+        create(:work_package_version, work_package:, version: second_version, kind: :target)
+      end
+
+      context "when work package multiple versions is active",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        it "renders an array of values for target_version" do
+          enabled, = subject
+          token = detect(enabled, :target_versions)
+
+          expect(token.call(work_package)).to eq("#{version.name}, #{second_version.name}")
+        end
+
+        it "resolves the same value for version and target versions" do
+          enabled, = subject
+          version_token = detect(enabled, :version)
+          target_version_token = detect(enabled, :target_versions)
+
+          expect(version_token.call(work_package)).to eq(target_version_token.call(work_package))
+        end
+
+        it "resolves the same value for parent version and parent target versions" do
+          enabled, = subject
+          version_token = detect(enabled, :parent_version)
+          target_version_token = detect(enabled, :parent_target_versions)
+
+          expect(version_token.call(work_package)).to eq(target_version_token.call(work_package))
+        end
+
+        it "target_versions is enabled" do
+          enabled, = subject
+          expect(detect(enabled, :target_versions)).to be_present
+        end
+
+        it "parent_target_versions is enabled" do
+          enabled, = subject
+          expect(detect(enabled, :parent_target_versions)).to be_present
+        end
+
+        it "version is enabled" do
+          enabled, = subject
+          expect(detect(enabled, :version)).to be_present
+        end
+
+        it "parent_version is enabled" do
+          enabled, = subject
+          expect(detect(enabled, :parent_version)).to be_present
+        end
+      end
+
+      context "when work package multiple versions is not active",
+              with_settings: { work_package_multiple_versions: false } do
+        it "target_versions is not enabled" do
+          enabled, = subject
+          expect(detect(enabled, :target_versions)).not_to be_present
+        end
+
+        it "parent_target_versions is not enabled" do
+          enabled, = subject
+          expect(detect(enabled, :parent_target_versions)).not_to be_present
+        end
+
+        it "version is enabled" do
+          enabled, = subject
+          expect(detect(enabled, :version)).to be_present
+        end
+
+        it "parent_version is enabled" do
+          enabled, = subject
+          expect(detect(enabled, :parent_version)).to be_present
+        end
+      end
+    end
   end
 
   private

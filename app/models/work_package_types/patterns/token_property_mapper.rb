@@ -64,7 +64,7 @@ module WorkPackageTypes
         attribute(:parent_subject, -> { WorkPackage.human_attribute_name(:subject) }, ->(parent) { parent.subject }),
         attribute(:parent_status, -> { WorkPackage.human_attribute_name(:status) }, ->(parent) { parent.status }),
         attribute(:parent_type, -> { WorkPackage.human_attribute_name(:type) }, ->(parent) { parent.type }),
-        attribute(:parent_version, -> { WorkPackage.human_attribute_name(:version) }, ->(parent) { parent.version }),
+        attribute(:parent_version, -> { WorkPackage.human_attribute_name(:version) }, ->(parent) { parent.target_versions }, ARRAY),
         attribute(:priority, -> { WorkPackage.human_attribute_name(:priority) }, ->(wp) { wp.priority }),
         attribute(:project_id, -> { Project.human_attribute_name(:id) }, ->(project) { project.id }),
         attribute(:project_active, -> { Project.human_attribute_name(:active) }, ->(project) { project.active? }),
@@ -75,13 +75,19 @@ module WorkPackageTypes
         attribute(:start_date, -> { WorkPackage.human_attribute_name(:start_date) }, ->(wp) { wp.start_date }, DATE),
         attribute(:status, -> { WorkPackage.human_attribute_name(:status) }, ->(wp) { wp.status }),
         attribute(:type, -> { WorkPackage.human_attribute_name(:type) }, ->(wp) { wp.type }),
-        attribute(:version, -> { WorkPackage.human_attribute_name(:version) }, ->(wp) { wp.version })
+        attribute(:version, -> { WorkPackage.human_attribute_name(:version) }, ->(wp) { wp.target_versions }, ARRAY)
+      ].freeze
+
+      CONDITIONAL_VERSION_ATTRIBUTE_TOKENS = [
+        attribute(:parent_target_versions, -> { WorkPackage.human_attribute_name(:target_versions) }, ->(parent) { parent.target_versions }, ARRAY),
+        attribute(:target_versions, -> { WorkPackage.human_attribute_name(:target_versions) }, ->(wp) { wp.target_versions }, ARRAY)
       ].freeze
       # rubocop:enable Layout/LineLength
 
       def partitioned_tokens_for_type(type)
         enabled_tokens = [
           *BASE_ATTRIBUTE_TOKENS,
+          *version_tokens,
           *tokenize(work_package_cfs_for(type)),
           *tokenize(project_cfs, "project_"),
           *tokenize(all_work_package_cfs, "parent_")
@@ -95,6 +101,7 @@ module WorkPackageTypes
       def all_tokens
         [
           *BASE_ATTRIBUTE_TOKENS,
+          *version_tokens,
           *tokenize(all_work_package_cfs),
           *tokenize(project_cfs, "project_"),
           *tokenize(all_work_package_cfs, "parent_")
@@ -140,6 +147,12 @@ module WorkPackageTypes
             formatter
           )
         end
+      end
+
+      def version_tokens
+        return [] unless Setting::WorkPackageMultipleVersions.active?
+
+        CONDITIONAL_VERSION_ATTRIBUTE_TOKENS
       end
 
       def work_package_cfs_for(type)
