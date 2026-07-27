@@ -26,7 +26,7 @@ Under the **Branding** tab you can also [upload a custom desktop and/or mobile l
 
 ![More branding settings in OpenProject administration](openproject_system_guide_design_branding_additional.png)
 
-Under **Default colors** you can configure a set of predefined colors which you can use e.g. to [set colors for work package types](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types) or for attribute highlighting, e.g. for [status](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status).
+Under **Default colors** you can configure a set of predefined colors which you can use e.g. to [set colors for work package types](../manage-work-packages/work-package-types) or for attribute highlighting, e.g. for [status](../manage-work-packages/work-package-status).
 
 ![Default colors settings in OpenProject administration](openproject_system_guide_design_default_colors.png)
 
