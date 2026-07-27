@@ -68,6 +68,30 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
     end
   end
 
+  describe "cancel and close targets" do
+    let(:url_helpers) { Rails.application.routes.url_helpers }
+
+    context "when the type has not been created yet" do
+      it "points the close (X) and cancel actions to the type list" do
+        render_inline(described_class.new(type: build(:type), current_step: :details))
+
+        expect(page).to have_css("a.PageHeader-action[href='#{url_helpers.types_path}']")
+        expect(page).to have_css(".op-step-wizard-footer--actions-right a[href='#{url_helpers.types_path}']")
+      end
+    end
+
+    context "when the type has been created" do
+      it "points the close (X) and cancel actions to the type's edit page" do
+        edit_href = url_helpers.edit_type_details_path(type_id: type.id)
+
+        render_inline(described_class.new(type:, current_step: :defaults))
+
+        expect(page).to have_css("a.PageHeader-action[href='#{edit_href}']")
+        expect(page).to have_css(".op-step-wizard-footer--actions-right a[href='#{edit_href}']")
+      end
+    end
+  end
+
   describe "breadcrumbs" do
     it "links the parent the variant is being created under" do
       render_inline(described_class.new(type: build(:type, parent:), current_step: :details))
