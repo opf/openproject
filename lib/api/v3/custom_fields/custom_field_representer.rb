@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,20 +31,25 @@
 module API
   module V3
     module CustomFields
-      class CustomFieldsAPI < ::API::OpenProjectAPI
-        resource :custom_fields do
-          route_param :id, type: Integer, desc: "Custom Field ID" do
-            after_validation do
-              authorize_logged_in
+      class CustomFieldRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
 
-              @custom_field = CustomField.visible.find(params[:id])
-            end
-
-            get &API::V3::Utilities::Endpoints::Show.new(model: CustomField).mount
-
-            mount Hierarchy::ItemsAPI
-          end
+        def self_v3_path(*)
+          api_v3_paths.custom_field(represented.id)
         end
+
+        self_link title_getter: ->(*) { represented.name }
+
+        property :id
+        property :name
+        property :field_format
+
+        property :is_required
+        property :is_multi_value, getter: ->(*) { multi_value }
+
+        date_time_property :created_at
+        date_time_property :updated_at
       end
     end
   end

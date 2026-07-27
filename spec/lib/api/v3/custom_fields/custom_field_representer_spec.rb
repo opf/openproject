@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,29 +23,24 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module CustomFields
-      class CustomFieldsAPI < ::API::OpenProjectAPI
-        resource :custom_fields do
-          route_param :id, type: Integer, desc: "Custom Field ID" do
-            after_validation do
-              authorize_logged_in
+require "spec_helper"
 
-              @custom_field = CustomField.visible.find(params[:id])
-            end
+RSpec.describe API::V3::CustomFields::CustomFieldRepresenter do
+  subject(:generated) { representer.to_json }
 
-            get &API::V3::Utilities::Endpoints::Show.new(model: CustomField).mount
+  let(:representer) do
+    described_class.create(custom_field, current_user: user)
+  end
 
-            mount Hierarchy::ItemsAPI
-          end
-        end
-      end
-    end
+  let(:custom_field) { create(:custom_field) }
+  let(:user) { create(:user) }
+
+  it "fulfills the documented schema" do
+    expect(generated).to match_json_schema.from_docs("custom_field_model")
   end
 end

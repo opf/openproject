@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,23 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module CustomFields
-      class CustomFieldsAPI < ::API::OpenProjectAPI
-        resource :custom_fields do
-          route_param :id, type: Integer, desc: "Custom Field ID" do
-            after_validation do
-              authorize_logged_in
+require "spec_helper"
+require "rack/test"
 
-              @custom_field = CustomField.visible.find(params[:id])
-            end
+RSpec.describe "API v3 Custom field resource" do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-            get &API::V3::Utilities::Endpoints::Show.new(model: CustomField).mount
+  current_user { create(:user) }
 
-            mount Hierarchy::ItemsAPI
-          end
-        end
+  describe "custom_fields/:id" do
+    describe "#get" do
+      let!(:custom_field) { create(:user_custom_field) }
+      let(:get_path) { api_v3_paths.custom_field custom_field.id }
+
+      subject(:response) { last_response }
+
+      before do
+        allow(User).to receive(:current).and_return(current_user)
+
+        get get_path
+      end
+
+      context "with valid custom field id" do
+        it { expect(response).to have_http_status(:ok) }
+      end
+
+      context "with invalid custom field id" do
+        let(:get_path) { api_v3_paths.custom_field "bogus" }
+
+        it_behaves_like "not found"
       end
     end
   end
