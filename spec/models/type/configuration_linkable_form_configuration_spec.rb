@@ -133,6 +133,10 @@ RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
   context "with a query group in the owner's configuration" do
     let(:query) { create(:query) }
 
+    def query_group_of(type)
+      type.attribute_groups.detect { |group| group.group_type == :query }
+    end
+
     before do
       owner.attribute_groups = [
         ["details", [field_a.attribute_name, field_b.attribute_name]],
@@ -141,12 +145,37 @@ RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
       owner.save!
     end
 
-    it "passes the query group through untouched" do
-      query_group = leaf.attribute_groups.detect { |group| group.group_type == :query }
-
-      expect(query_group).to be_present
-      expect(query_group.query).to eq(query)
+    it "passes the query group through when it is not excluded" do
+      expect(query_group_of(leaf)).to be_present
+      expect(query_group_of(leaf).query).to eq(query)
       expect(groups_of(leaf)["details"]).to eq([field_b.attribute_name])
+    end
+
+    it "drops the whole section when the query is excluded on the type's own link" do
+      leaf.configuration_links
+          .find_by(aspect:)
+          .update!(excluded_elements: ["query_#{query.id}"])
+
+      expect(query_group_of(leaf)).to be_nil
+      expect(leaf.attribute_groups.map(&:key)).not_to include("Related work packages")
+    end
+
+    it "drops it for the leaf when an ancestor's link excludes the query" do
+      middle.configuration_links
+            .find_by(aspect:)
+            .update!(excluded_elements: [field_a.attribute_name, "query_#{query.id}"])
+
+      expect(query_group_of(middle)).to be_nil
+      expect(query_group_of(leaf)).to be_nil
+    end
+
+    it "leaves the owning type's query group in place" do
+      leaf.configuration_links
+          .find_by(aspect:)
+          .update!(excluded_elements: ["query_#{query.id}"])
+
+      expect(query_group_of(owner)).to be_present
+      expect(query_group_of(owner).query).to eq(query)
     end
   end
 
