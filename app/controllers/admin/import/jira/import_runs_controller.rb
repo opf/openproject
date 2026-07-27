@@ -102,17 +102,21 @@ module Admin::Import::Jira
     end
 
     def handle_error(error)
+      OpenProject.logger.error(error.backtrace)
       respond_to do |format|
-        OpenProject.logger.error(error.backtrace)
-        format.turbo_stream do
-          render_error_flash_message_via_turbo_stream(message: error.message.to_s)
-          respond_with_turbo_streams
-        end
-        format.html do
-          flash[:error] = error.message
-          redirect_to(admin_import_jira_run_path(jira_id: @jira.id, id: @jira_import.id))
-        end
+        format.turbo_stream { render_error_turbo_stream(error) }
+        format.html { redirect_after_error(error) }
       end
+    end
+
+    def render_error_turbo_stream(error)
+      render_error_flash_message_via_turbo_stream(message: error.message.to_s)
+      respond_with_turbo_streams
+    end
+
+    def redirect_after_error(error)
+      flash[:error] = error.message
+      redirect_to(admin_import_jira_run_path(jira_id: @jira.id, id: @jira_import.id))
     end
 
     def fetch_instance_meta

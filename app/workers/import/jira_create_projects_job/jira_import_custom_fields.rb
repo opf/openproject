@@ -224,7 +224,8 @@ module Import
         )
 
         jira_import = jira_field.jira_import
-        custom_field = OpenProject::Mutex.with_advisory_lock(jira_import, "jira_import_#{jira_import.id}_find_or_create_custom_field") do
+        lock_key = "jira_import_#{jira_import.id}_find_or_create_custom_field"
+        custom_field = OpenProject::Mutex.with_advisory_lock(jira_import, lock_key) do
           find_or_create_custom_field(jira_field, builder)
         end
         {

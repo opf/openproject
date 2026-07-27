@@ -34,15 +34,27 @@ module Admin::Import::Jira::ImportRuns
     include Admin::Import::Jira::ImportRunsHelper
 
     def imported_data
-      a = Import::JiraOpenProjectReference
+      entity_labels + summary_labels
+    end
+
+    def entity_labels
+      Import::JiraOpenProjectReference
         .where(jira_import: model)
         .where.not(op_entity_class: ["WorkPackage", "Project"])
         .order(:op_entity_class)
-        .map { |i| { label: "#{i.op_entity_class} #{i.op_leg}#{i.uses_existing ? ' REUSED' : ' CREATED'}" } }
-      a.push(
+        .map { |reference| { label: entity_label(reference) } }
+    end
+
+    def entity_label(reference)
+      state = reference.uses_existing ? " REUSED" : " CREATED"
+      "#{reference.op_entity_class} #{reference.op_leg}#{state}"
+    end
+
+    def summary_labels
+      [
         { label: projects_label(imported_projects.count), checked: true, url: imported_projects_url },
         { label: work_packages_label(imported_work_packages.count), checked: true, url: imported_work_packages_url }
-      )
+      ]
     end
 
     def imported_projects
