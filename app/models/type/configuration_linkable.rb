@@ -265,7 +265,7 @@ class Type
       source = linked_configuration_source(Type::ConfigurationLink::FORM_CONFIGURATION)
       return super if source.nil? || attribute_groups_changed?
 
-      source.attribute_groups
+      without_excluded_elements(source.attribute_groups)
     end
 
     # custom_fields resolves through the form source. Beware of reader-driven mutation:
@@ -275,13 +275,48 @@ class Type
       source = linked_configuration_source(Type::ConfigurationLink::FORM_CONFIGURATION)
       return super if source.nil?
 
-      source.custom_fields
+      excluded_ids = excluded_custom_field_ids(Type::ConfigurationLink::FORM_CONFIGURATION)
+      return source.custom_fields if excluded_ids.empty?
+
+      source.custom_fields.where.not(id: excluded_ids)
     end
 
     private
 
     def preloaded_effective_sources
       @preloaded_effective_sources ||= {}
+    end
+
+    # Applies the chain's exclusions to the owner's groups. A group left with no attributes
+    # is dropped rather than rendered empty, and query groups are passed through untouched
+    # because Type::QueryGroup#attributes is the query itself, not a list of attribute keys.
+    #
+    # Groups are duplicated before being narrowed: they are memoized on the owner as its
+    # attribute_groups_objects, so narrowing them in place would change what the owning type
+    # reads for itself.
+    def without_excluded_elements(groups)
+      excluded = effective_excluded_elements(Type::ConfigurationLink::FORM_CONFIGURATION)
+      return groups if excluded.empty?
+
+      groups.filter_map do |group|
+        next group unless group.group_type == :attribute
+
+        remaining = group.attributes - excluded
+        next if remaining.empty?
+        next group if remaining.length == group.attributes.length
+
+        group.dup.tap { |narrowed| narrowed.attributes = remaining }
+      end
+    end
+
+    # Custom fields appear in an element list under CustomField#attribute_name, alongside
+    # plain attribute keys like "assignee" that have no custom field to map to.
+    def excluded_custom_field_ids(aspect)
+      effective_excluded_elements(aspect).filter_map do |element|
+        next unless CustomField.custom_field_attribute?(element)
+
+        element.delete_prefix("custom_field_").to_i
+      end
     end
 
     # The type an aspect is linked to, or nil when this type owns it. The nil is
