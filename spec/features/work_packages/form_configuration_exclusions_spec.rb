@@ -182,6 +182,73 @@ RSpec.describe "Work package show with a linked form configuration", :js,
     end
   end
 
+  context "with a query group in the owning type's configuration" do
+    let(:embedded_query) { create(:query, project:, user: admin, name: "Embedded list") }
+
+    before do
+      owner.attribute_groups = [
+        ["Numbers", [kept_field.attribute_name]],
+        ["Related", [embedded_query]]
+      ]
+      owner.save!
+    end
+
+    # Paired with the exclusion example below on purpose: it proves the section renders at
+    # all, so the absence asserted there is the exclusion doing its job.
+    context "when the query is not excluded" do
+      before do
+        create(:type_configuration_link, type: leaf, source: owner, aspect:)
+      end
+
+      it "renders the query group section" do
+        wp_page.visit!
+        wp_page.ensure_page_loaded
+
+        wp_page.expect_group("Numbers")
+        wp_page.expect_group("Related")
+      end
+    end
+
+    context "when the link excludes the query" do
+      before do
+        create(:type_configuration_link, type: leaf, source: owner, aspect:,
+                                         excluded_elements: ["query_#{embedded_query.id}"])
+      end
+
+      it "drops the whole query group section" do
+        wp_page.visit!
+        wp_page.ensure_page_loaded
+
+        wp_page.expect_group("Numbers") do
+          expect_field(kept_field, "1")
+        end
+
+        expect_no_section("Related")
+      end
+    end
+
+    context "when an ancestor's link excludes the query" do
+      let(:middle) { create(:type) }
+
+      before do
+        create(:type_configuration_link, type: middle, source: owner, aspect:,
+                                         excluded_elements: ["query_#{embedded_query.id}"])
+        create(:type_configuration_link, type: leaf, source: middle, aspect:)
+      end
+
+      it "drops it for the leaf as well" do
+        wp_page.visit!
+        wp_page.ensure_page_loaded
+
+        wp_page.expect_group("Numbers") do
+          expect_field(kept_field, "1")
+        end
+
+        expect_no_section("Related")
+      end
+    end
+  end
+
   context "with the flag off", with_flag: { type_variants: false } do
     before do
       leaf.attribute_groups = [["Own", [kept_field.attribute_name]]]
