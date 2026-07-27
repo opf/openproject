@@ -42,7 +42,7 @@ hu:
         storage_url: Storage URL
         tenant: Directory (tenant) ID
       work_package:
-        file_links: File links
+        file_links: Fájl hivatkozások
     errors:
       messages:
         invalid_host_url: nem érvényes URL.
@@ -79,18 +79,18 @@ hu:
     errors:
       too_many_elements_created_at_once: Egyszerre túl sok elem létrehozása történt. Legfejlebb %{max} lehet, ténylegesen %{actual} volt.
   external_file_storages: External file storages
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_create_files: 'Automatikusan kezelt projektmappák: Fájlok létrehozása'
+  permission_create_files_explanation: Ez a jogosultság kizárólag a Nextcloud-tárolók esetében érhető el
+  permission_delete_files: 'Automatikusan kezelt projektmappák: Fájlok törlése'
+  permission_delete_files_explanation: Ez a jogosultság kizárólag a Nextcloud-tárolók esetében érhető el
   permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Fájl hivatkozások kezelése
   permission_manage_files_in_project: Manage files in project
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
+  permission_read_files: 'Automatikusan kezelt projektmappák: Fájlok olvasása'
+  permission_share_files: 'Automatikusan kezelt projektmappák: Fájlok megosztása'
+  permission_share_files_explanation: Ez a jogosultság kizárólag a Nextcloud-tárolók esetében érhető el
   permission_view_file_links: Fájl hivatkozások megtekintése
-  permission_write_files: 'Automatically managed project folders: Write files'
+  permission_write_files: 'Automatikusan kezelt projektmappák: Fájlok írása'
   project_module_storages: Fájlok
   project_storages:
     edit_project_folder:
@@ -158,7 +158,7 @@ hu:
               permission_not_set: could not set permissions on %{path}.
             remote_folders:
               not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
-              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
+              not_found: "%{group_folder} A mappa nem található. Kérjük, ellenőrizze a Nextcloud beállításait."
             remove_user_from_group:
               conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
               failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
@@ -169,11 +169,11 @@ hu:
             set_folders_permissions:
               permission_not_set: could not set permissions on %{path}.
           error: An unexpected error occurred. Please ensure that your Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} nem létezik. Ellenőrizze a Nextcloud-példány konfigurációját."
           insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
           not_allowed: Nextcloud block the request.
-          not_found: OpenProject could not find the file on the Nextcloud Storage Provider. Please check if it wasn't deleted.
-          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
+          not_found: Az OpenProject nem találta a fájlt a Nextcloud tárolási szolgáltatón. Kérjük, ellenőrizze, hogy nem törölték-e.
+          unauthorized: Az OpenProject nem tudott szinkronizálni a Nextclouddal. Kérjük, ellenőrizze a tárhelyét és a Nextcloud beállításait.
           user_does_not_exist: "%{user} does not exist in Nextcloud."
         one_drive_sync_service:
           attributes:
@@ -192,7 +192,7 @@ hu:
               permission_not_set: could not set permissions on %{path}.
           error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information.
           not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
-          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
+          unauthorized: Az OpenProject nem tudott szinkronizálni az OneDrive-val. Kérjük, ellenőrizze a tárhelyét és az Azure-alkalmazás beállításait.
           user_does_not_exist: "%{user} does not exist in Nextcloud."
         sharepoint_sync_service:
           attributes:
@@ -255,23 +255,23 @@ hu:
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
       access_management:
-        automatic_management: Enable automatically-managed access and folders
-        automatic_management_description: Each project will be able to decide, when a storage is added to it, whether they want the automatically-managed or the manual approach to folder and access management.
-        description: OpenProject can automatically create and manage project folders when a file storage is added to a project. This can result in a more organized folder structure and straightforward access management that guarantees access to all relevant users.
-        manual_management: Only allow manually-managed access and folders
-        manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
+        automatic_management: Az automatikusan kezelt hozzáférési jogok és mappák engedélyezése
+        automatic_management_description: Minden projekt esetében eldönthető lesz, hogy egy tárhely hozzáadásakor az automatikus vagy a kézi megközelítést választják-e a mappák és a hozzáférési jogok kezeléséhez.
+        description: Az OpenProject automatikusan létrehozhat és kezelhet projektmappákat, amikor egy fájltárolót hozzáadnak egy projekthez. Ez rendezettebb mappaszerkezetet és egyszerű hozzáférés-kezelést eredményezhet, amely garantálja a hozzáférést minden érintett felhasználó számára.
+        manual_management: Csak a kézzel kezelt hozzáférési jogokat és mappákat engedélyezze
+        manual_management_description: Az ezt a tárhelyet használó projektek esetében nem lesz elérhető az automatikus kezelés lehetősége. A mappákat és a hozzáférési jogosultságokat manuálisan kell kezelni.
         setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Folder and access management
+        subtitle: Mappa- és hozzáférés kezelés
       access_management_section: Access and project folders
       automatically_managed_folders: Automatically managed folders
       general_information: General information
       oauth_configuration: OAuth configuration
       one_drive:
         access_management:
-          automatic_management: Enable automatically-managed access and folders
-          automatic_management_description: Each project using this file storage will necessarily have to use the automatically-managed approach to folder and access management. They cannot do it manually.
-          manual_management: Only allow manually-managed access and folders
-          manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
+          automatic_management: Az automatikusan kezelt hozzáférési jogok és mappák engedélyezése
+          automatic_management_description: Minden olyan projektnek, amely ezt a fájltárolót használja, kötelezően az automatikusan kezelt módszert kell alkalmaznia a mappák és a hozzáférési jogok kezelésére. Ezt nem lehet manuálisan elvégezni.
+          manual_management: Csak a kézzel kezelt hozzáférési jogokat és mappákat engedélyezze
+          manual_management_description: Az ezt a tárhelyet használó projektek esetében nem lesz elérhető az automatikus kezelés lehetősége. A mappákat és a hozzáférési jogosultságokat manuálisan kell kezelni.
       one_drive_oauth: Azure OAuth
       openproject_oauth: OpenProject OAuth
       project_folders: Project folders
@@ -411,17 +411,17 @@ hu:
       not_logged_into_storage: To select a project folder, please first login
       oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
       one_drive:
-        application_link_text: Azure portal
+        application_link_text: Azure portál
         copy_redirect_uri: Copy redirect URI
         documentation_link_text: OneDrive file storages documentation
-        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        drive_id: Kérjük, másolja ki a kívánt meghajtó azonosítóját a %{drive_id_link_text} oldalon található lépések szerint.
         integration: OneDrive
         missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
         oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
-        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
-        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-        tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+        oauth_client_secret: Amennyiben nincs alkalmazás-kliens titkos kulcs a az ügyfél hitelesítő adatoknál, kérjük, hozzon létre egy újat.
+        oauth_configuration: Másolja át ezeket az értékeket a kívánt alkalmazásból ide %{application_link_text}.
+        provider_configuration: A telepítés megkezdése előtt kérjük, győződjön meg arról, hogy rendelkezik-e rendszergazdai jogosultságokkal a %{application_link_text} portálon, vagy vegye fel a kapcsolatot a Microsoft-rendszergazdájával. A portálon emellett regisztrálnia kell egy Azure-alkalmazást, vagy a hitelesítéshez egy meglévőt kell használnia.
+        tenant_id: Kérjük, másolja ki a kívánt alkalmazás és az alkalmazásregisztrációk könyvtár- (bérlő-) azonosítóját a %{application_link_text} oldalról.
         tenant_id_placeholder: Name or UUID
       setting_up_additional_storages: For setting up additional file storages, please visit
       setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File storages.
@@ -469,7 +469,7 @@ hu:
     member_connection_status:
       connected: Csatlakozva
       connected_no_permissions: User role has no storages permissions
-      not_connectable: Not connectable. The storage requires login through an SSO provider, but the user is not logging in through SSO.
+      not_connectable: Nem csatlakoztatható. A tárhelyhez SSO-szolgáltatón keresztül kell bejelentkezni, de a felhasználó nem SSO-n keresztül jelentkezik be.
       not_connected: Not connected. The user should login to the storage via the following %{link}.
       not_connected_sso: Not yet connected, SSO should automatically connect them, once looking at files.
     members_no_results: No members to display.
@@ -498,7 +498,7 @@ hu:
         title: Integration setup completed
       timeout:
         link_text: health status of the file storage setup
-        subtitle: OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check %{storages_health_link}.
+        subtitle: Az OpenProject nem tudta biztosítani Önnek a hozzáférést a projektmappához a várt időn belül. Kérjük, próbálja meg újra.<br><br> Ha a probléma továbbra is fennáll, kérjük, vegye fel a kapcsolatot az OpenProject rendszergazdájával, hogy ellenőrizze a %{storages_health_link} oldalt.
       waiting:
         subtitle: One moment please, this might take some time...
         title: We are setting up your permissions on the project folder.
@@ -521,7 +521,7 @@ hu:
         title: Members connection status
       project_storages:
         delete: Remove file storage from project?
-    permission_header_explanation: File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>file storage permissions</a> for more information.
+    permission_header_explanation: A külső tárolókon a fájlhozzáférési jogosultságok kizárólag az automatikusan kezelt projektmappákban található mappákra és fájlokra vonatkoznak. Felhívjuk a figyelmedet, hogy nem minden fájlhozzáférési jogosultságot támogatnak az összes tárolószolgáltatók. További információkért kérjük, olvass el a <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>fájltárolási jogosultságokról</a> szóló dokumentációt.
     provider_types:
       label: Szolgáltató típusa
       nextcloud:
@@ -550,11 +550,11 @@ hu:
         label: Use access token obtained during user log in
       manual:
         helptext: OpenProject will exchange a token with the identity provider for the given audience.
-        label: Manually specify audience for which to exchange access token (Recommended)
+        label: A hozzáférési token cseréjéhez szükséges célközönség kézi megadása (ajánlott)
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.
-    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
+    successful_storage_connection: A tárhely csatlakoztatása sikeresen megtörtént! Ne felejtsd el a „Projektek” fülön minden egyes kívánt projektnél aktiválni a tárhelyet, hogy használni tudd.
     upsell:
       one_drive:
         description: |-

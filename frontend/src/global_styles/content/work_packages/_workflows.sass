@@ -1,9 +1,12 @@
-.controller-workflows
-  #content-body
-    overflow-x: scroll
+// Only the transition table scrolls; the surrounding elements (banner, buttons) live outside this frame and stay put.
+// The outer configuration frame must be a block for the inner frame's width to stay bounded and scroll.
+turbo-frame#type-configuration-frame
+  display: block
 
-  turbo-frame#workflow-table
-    width: 100%
+turbo-frame#workflow-table
+  display: block
+  width: 100%
+  overflow-x: auto
 
   #workflows-status-matrix-form-component
     display: contents
@@ -74,13 +77,18 @@
   th:first-child
     z-index: 3
 
-.workflow-save-bar
-  position: fixed
-  bottom: 0
-  left: var(--main-menu-width)
-  right: 0
-  background: var(--body-background)
-  z-index: 100
+// Edit tab pins the save button; wizard step keeps it together to not mess with the footer
+.workflow-table--pinned-save-bar
+  // Clear the pinned save bar so the last rows aren't hidden behind it
+  padding-bottom: 72px // 16px (mt: 3) + 32px (button) + 24px (mb: 4)
+
+  .workflow-save-bar
+    position: fixed
+    bottom: 0
+    left: var(--main-menu-width)
+    right: 0
+    background: var(--body-background)
+    z-index: 100
 
 .workflow-status-dialog-body
   min-height: 480px

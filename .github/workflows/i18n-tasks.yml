@@ -6,15 +6,15 @@ on:
       - dev
       - release/*
     paths-ignore:
-      - 'docs/**'
-      - 'help/**'
+      - "docs/**"
+      - "help/**"
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore:
-      - 'docs/**'
-      - 'help/**'
-      - 'packaging/**'
-      - '.pkgr.yml'
+      - "docs/**"
+      - "help/**"
+      - "packaging/**"
+      - ".pkgr.yml"
 
 permissions:
   contents: read
@@ -33,7 +33,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1
+        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
 
       - name: Setup i18n-tasks
         run: |

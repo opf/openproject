@@ -78,8 +78,7 @@ RSpec.describe SharingMailer do
                       type: build_stubbed(:type_standard),
                       author: build_stubbed(:user),
                       project:,
-                      identifier: "PROJ-42",
-                      sequence_number: 42)
+                      identifier: "PROJ-42")
       end
 
       it "sets the subject with the semantic identifier without # prefix" do

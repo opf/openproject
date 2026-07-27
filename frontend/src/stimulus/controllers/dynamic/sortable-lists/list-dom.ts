@@ -40,6 +40,7 @@ export const sortableListsRootSelector = '[data-controller~="sortable-lists"]';
 export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
 export const sortableListSelector = '[data-controller~="sortable-lists--list"]';
 export const sortablePreviousItemIdAttribute = 'data-sortable-lists-prev-item-id';
+export const sortableOmittedCountAttribute = 'data-sortable-lists-omitted-count';
 
 // Rows are the direct children of the list's resolved rows container. The
 // rows container itself (a nested <ul>, the list element, ...) is decided by the list
@@ -213,6 +214,51 @@ export function isMoveDirection(value:unknown):value is MoveDirection {
 
 function isItemRow(row:Element|undefined):boolean {
   return !!row && resolveItemElement(row) !== null;
+}
+
+// Hidden items a non-item row stands in for (a truncation marker annotated
+// with the size of its collapsed block). Rows without the attribute, or with
+// a non-numeric or non-positive value, count nothing.
+function rowOmittedCount(row:Element):number {
+  const raw = row.getAttribute(sortableOmittedCountAttribute);
+  const count = raw === null ? NaN : parseInt(raw, 10);
+
+  return Number.isFinite(count) && count > 0 ? count : 0;
+}
+
+// The row's absolute 1-based position among the list's items and the item
+// total. Counting walks the live rows, so it is correct immediately after an
+// optimistic reorder; truncation markers contribute their hidden block to
+// both numbers, keeping positions absolute in sparse lists. Null when `row`
+// is not an item row of this container.
+export function resolveItemPosition({
+  row,
+  rowsContainer,
+}:{
+  row:HTMLElement;
+  rowsContainer:HTMLElement;
+}):{ position:number; total:number }|null {
+  let position = 0;
+  let total = 0;
+  let found = false;
+
+  for (const current of listRows(rowsContainer)) {
+    if (isItemRow(current)) {
+      total += 1;
+      if (current === row) {
+        found = true;
+        position = total;
+      }
+    } else {
+      total += rowOmittedCount(current);
+    }
+  }
+
+  return found ? { position, total } : null;
+}
+
+export function resolveItemLabel(row:Element):string|null {
+  return resolveItemElement(row)?.getAttribute('data-sortable-lists--item-label-value') ?? null;
 }
 
 // A row a predecessor id can be read from: an item row, or a non-item row

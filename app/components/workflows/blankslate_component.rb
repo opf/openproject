@@ -38,5 +38,13 @@ module Workflows
       @type = type
       @tab = tab
     end
+
+    private
+
+    def read_only? = helpers.workflow_linked?(@type)
+
+    def description_key
+      read_only? ? "admin.workflows.blankslate.linked_description" : "admin.workflows.blankslate.description"
+    end
   end
 end

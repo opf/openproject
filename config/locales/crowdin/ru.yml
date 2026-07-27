@@ -226,6 +226,8 @@ ru:
         identifier: Идентификатор
         latest_activity_at: Последние действия
         parent: Подпроект
+        portfolio: Портфолио
+        program: Программа
         project_creation_wizard_assignee_custom_field: Исполнитель при отправке
         project_creation_wizard_enabled: Запрос на инициализацию проекта
         project_creation_wizard_notification_text: Текст уведомления
@@ -340,23 +342,23 @@ ru:
         token_name: Имя токена
       type:
         attribute_groups: Настройка форм
-        children: Sub-types
+        children: Разновидности
         color: Цвет
-        dependent_configuration_links: Linked types
+        dependent_configuration_links: Связанные типы
         description: Текст для описания по умолчанию
         is_default: В новых проектах активируется по умолчанию
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_milestone: Это веха
-        parent: Parent type
+        parent: Родительский тип
         patterns: Шаблоны
       type/configuration_link:
-        source: Source type
+        source: Тип источника
       user:
         admin: Администратор
         auth_source: Источник аутентификации
         consented_at: Согласен с
         current_password: Текущий пароль
-        department: Department
+        department: Отдел
         failed_login_count: Неудачные попытки входа
         first_login: Первый вход в систему
         first_name: Имя
@@ -369,7 +371,7 @@ ru:
         new_password: Новый пароль
         password_confirmation: Подтверждение
       user_custom_field:
-        custom_field_section: Section
+        custom_field_section: Раздел
       user_non_working_time:
         end_date: Дата окончания
         start_date: Дата начала
@@ -589,7 +591,7 @@ ru:
               blank: Формула не может быть пустой.
               format: "%{message}"
               invalid: Формула неверна.
-              invalid_characters: Допускаются только числовые значения, математические операторы и атрибуты проекта типа integer, float, calculated value и weighted list.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: Атрибут %{custom_fields} не может быть использован, потому что это приводит к циклической ссылке, один атрибут зависит от другого.
             required:
               cannot_be_true: не может быть установлено в true.
@@ -693,13 +695,13 @@ ru:
               must_start_with_letter: должен начинаться с буквы
               no_special_characters: может содержать только заглавные буквы, цифры и символы подчеркивания
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
+              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
+              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'всё ещё используются в пакетах работ: %{types}'
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_source_not_a_variant: Can only switch away from a variant
+              switch_target_identical: The target Type must be different from the current variant
+              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: Выбранный пользователь не может быть назначен пакетам работ.
           foreign_wps_reference_version: Комплексы работ в проектах, не расположенных по убыванию, ссылаются на версии проекта или его производных.
         project/phase:
@@ -813,15 +815,15 @@ ru:
             parent:
               cannot_be_self: can't be the type itself.
               cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Один или несколько атрибутов внутри поля недействительны. Пожалуйста, исправьте атрибуты перед сохранением.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1182,7 +1184,6 @@ ru:
 
           '
         description: Этот мигратор Jira в настоящее время находится в бета-версии. В настоящее время мы поддерживаем только Jira Server/Data Center версии 10. и 11.x. Облачные экземпляры в данный момент не поддерживаются.
-        supported_versions: ''
         title: Бета-версия - попробовать!
       blank:
         description: Настройте хост Jira, чтобы начать импортировать элементы из Jira в этот экземпляр OpenProject.
@@ -1575,6 +1576,7 @@ ru:
     workflows:
       blankslate:
         description: Добавьте статусы, чтобы начать настройку рабочих процессов для этой роли
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: Переходы статуса не настроены
       leave_confirmation:
         description: Вы собираетесь покинуть эту страницу, но у вас есть несохраненные изменения. Вы хотите сохранить их перед продолжением?
@@ -1605,7 +1607,13 @@ ru:
           other: Удалить %{count} статусов?
         title: Удаление статусов
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Переходы по умолчанию
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: Пользователь является назначенным
         user_author: Пользователь является автором
   announcements:
@@ -2092,7 +2100,7 @@ ru:
       editable:
         all: Разрешить редактирование поля самими пользователями.
       formula:
-        project: Добавьте числовые значения или введите / для поиска атрибута или математического оператора.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Позволяет пользователю добавить комментарий, относящийся к атрибуту проекта, при выборе значения в обзоре проекта.
       is_filter:
@@ -2871,15 +2879,14 @@ ru:
     blocks:
       community: OpenProject сообщество
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: XWiki integration (Corporate plan).
-            line_1: Sprint goals.
-            line_2: "'All sprints' overview page."
-            line_3: Display backlog buckets in work packages and work package tables.
-            line_4: Improved support for project-based (semantic) identifiers.
-            line_5: Convert meeting agenda items into work packages.
-            line_6: Configure cost types per project.
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3034,6 +3041,8 @@ ru:
   label_blog: Блог
   label_board_plural: Доски
   label_boolean: Логическое значение
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Ветка
   label_browse: Обзор
   label_builtin: Встроенный
@@ -3080,6 +3089,7 @@ ru:
   label_configuration: Настройки
   label_confirmation: Подтверждение
   label_consent_settings: Согласие пользователя
+  label_constant_plural: Constants
   label_contains: содержит
   label_content: Содержание
   label_continued_from_previous_year: продолжился с предыдущего года
@@ -3217,6 +3227,7 @@ ru:
   label_forum_plural: Форумы
   label_forum_sticky: Прикреплено
   label_forums_locked: Заблокирован
+  label_function_plural: Functions
   label_gantt_chart: Диаграмма Ганта
   label_gantt_chart_plural: Диаграммы Ганта
   label_general: Общие
@@ -3316,7 +3327,6 @@ ru:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Управляемые %{vendor} репозиториев
   label_mapping_for: 'Привязки для: %{attribute}'
-  label_mathematical_operators: Математические операторы
   label_max_size: Максимальный размер
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
@@ -3407,13 +3417,13 @@ ru:
   label_operator_equals_all: И
   label_operator_equals_or: ИЛИ
   label_operator_none: пусто
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: любой
   label_optional_description: Описание
   label_options: Параметры
   label_other: Другие
   label_overall_activity: Общая деятельность
   label_overview: Обзор
-  label_page_title: Заголовок страницы
   label_parent_group_caption: 'Установка родительской группы сделает эту группу подгруппой выбранной родительской группы. Это также наследует все членства, включая права доступа родительской группы.
 
     '
@@ -3487,6 +3497,7 @@ ru:
   label_projects_disk_usage_information: "%{count} проектов, использующих %{used_disk_space} дискового пространства"
   label_projects_menu: Проекты
   label_public_projects: Проекты, доступные всем
+  label_punctuation: Punctuation
   label_query_new: Новый запрос
   label_query_plural: Пользовательские запросы
   label_read: Читать...
@@ -3694,7 +3705,7 @@ ru:
   label_workflow: Рабочий поток
   label_workflow_copy: Копировать рабочий поток
   label_workflow_plural: Рабочие потоки
-  label_workflow_summary: Сводка
+  label_workflow_summary: Workflow summary
   label_working_days: Рабочие дни
   label_working_days_and_hours: Рабочие дни и часы
   label_working_hours: График работы
@@ -3720,10 +3731,10 @@ ru:
     other: "%{count} элементов"
     zero: нет элементов
   label_x_items_selected:
-    one: One item selected
-    few: "%{count} items selected"
-    many: "%{count} items selected"
-    other: "%{count} items selected"
+    one: Один элемент выбран
+    few: "%{count} элемента выбрано"
+    many: "%{count} элементов выбрано"
+    other: "%{count} элементов выбрано"
   label_x_open_work_packages_abbr:
     one: 1 открыт
     other: "%{count} открыто"
@@ -4466,7 +4477,6 @@ ru:
       oauth_code_not_present_explanation: 'Эта ошибка появляется, если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть ''code'' или аналогичным.
 
         '
-      oauth_issue_contact_admin: OAuth2 сообщил об ошибке. Обратитесь к системному администратору.
       oauth_reported: Источник OAuth2 сообщил
       oauth_returned_error: OAuth2 вернул ошибку
       oauth_returned_http_error: OAuth2 вернул ошибку сети
@@ -4600,7 +4610,13 @@ ru:
         label: Шаблон
         none_enabled: Для этого типа пакета работ не был определен шаблон
       title: Создать PDF
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
     page_nr_footer: Страница %{page} из %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Все атрибуты, представленные в текущей форме настроек, используют шаблон по умолчанию.
       label: Атрибуты и описание
@@ -4752,6 +4768,8 @@ ru:
       one: 1 портфолио
       other: "%{count} портфолио"
       zero: 0 портфолио
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4778,6 +4796,8 @@ ru:
       one: 1 программа
       other: "%{count} программ"
       zero: 0 программ
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Архивирован
@@ -4889,11 +4909,11 @@ ru:
           no_status_when_submitted: Не удалось включить запрос на инициирование проекта, поскольку тип пакета работ %{type} требует наличия хотя бы одного связанного с ним статуса. Пожалуйста, включите хотя бы один рабочий процесс со статусом для этого типа пакета работ.
           no_work_package_type: Не удалось включить запрос на инициирование проекта, поскольку для этого требуется хотя бы один активный тип пакета работ, а в данном проекте его нет. Пожалуйста, добавьте хотя бы один тип пакета работ в этот проект.
         export:
-          description_attachment_export: Созданный артефакт будет сохранен в виде PDF-вложения к пакету работ.
-          description_file_link_export: Пакет работ будет содержать ссылку на файл PDF, хранящийся во внешнем файловом хранилище. Требуется рабочее файловое хранилище с автоматически управляемыми папками для данного проекта. На данный момент поддерживаются только файловые хранилища Nextcloud.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Выберите, какое из настроенных внешних файловых хранилищ должно использоваться.
           external_file_storage: Внешнее хранилище файлов
-          label_artifact_export: Экспорт артефакта
+          label_artifact_export: Artefact export
           label_attachment_export: Сохраните как вложение файла в пакете работ
           label_file_link_export: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
           pdf_file_storage: Хранилище файлов PDF
@@ -4984,13 +5004,13 @@ ru:
     status:
       button_edit: Редактировать статус
     wizard:
-      create_artifact_storage_error: Не удалось сохранить артефакт в файловом хранилище
-      create_artifact_work_package_error: Не удалось создать артефактный пакет работ
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
       sidebar_content_title: Содержимое
-      success: Атрибуты проекта сохранены и пакет работ успешно создан.
+      success: Project attributes saved and artefact work package created successfully.
       title: Запрос на инициализацию проекта
   queries:
     apply_filter: Применить ранее настроенный фильтр
@@ -5490,12 +5510,12 @@ ru:
         confirmation_message: Мастер запроса инициации больше не будет доступен для новых проектов, основанных на этом шаблоне. Менеджерам и руководителям проектов придется вручную настраивать и заполнять соответствующую информацию в обзоре проекта.
         heading: Отключить запрос на инициирование этого проекта?
         title: Отключить запрос на инициализацию проекта
-      header_description: 'OpenProject может создать пошаговый мастер, который поможет руководителям проектов заполнить запрос на инициацию проекта. Вы можете выбрать, какие атрибуты проекта должны быть включены, и в результате создать артефакт в формате PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Название артефакта
-        artifact_name_caption: Выберите для этого артефакта название, которое рекомендует Ваша система управления проектами.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Мастер создания проекта
           project_initiation_request: Запрос на инициализацию проекта
@@ -5515,8 +5535,8 @@ ru:
           Вы подали запрос на инициирование проекта **%{project_name}**. Сейчас он ожидает рассмотрения.
           Щелкните по ссылке ниже, чтобы получить доступ к пакету работ с Вашим запросом.
         confirmation_email_text: Текст письма подтверждения
-        description: Когда пользователь подает запрос на инициирование проекта, будет создан новый пакет работ с запросом, прикрепленным в виде PDF-файла. Настройки, приведенные ниже, определяют тип, статус и назначение этого нового рабочего пакета.
-        description_template: "**Этот рабочий пакет был автоматически создан по завершении рабочего процесса %{wizard_name} .** Артефакт в формате PDF, содержащий всю предоставленную информацию, был создан и прикреплен к этому рабочему пакету для справки и аудита. Если Вам необходимо обновить или повторно выполнить шаги инициации, Вы можете в любой момент снова открыть мастер, воспользовавшись приведенной ниже ссылкой:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Отправить подтверждение по электронной почте пользователю, подавшему запрос на инициирование проекта
         status_when_submitted: Статус на момент подачи
         status_when_submitted_caption: Статус, в который перейдет созданный пакет работ после отправки запроса.
@@ -5524,7 +5544,7 @@ ru:
         work_package_comment_caption: Выбранный выше адресат будет автоматически @указан в комментарии.
         work_package_comment_default: Запрос на инициализацию проекта **%{project_name}** был отправлен и ожидает рассмотрения.
         work_package_type: Тип пакета работ
-        work_package_type_caption: Тип пакета работ, который должен использоваться для хранения завершенного артефакта.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Открыть мастер создания проекта
         project_initiation_request: Открыть запрос на инициализацию проекта
@@ -5809,8 +5829,8 @@ ru:
     '
   text_notice_too_many_values_are_inperformant: 'Примечание: Отображение более чем 100 элементов на странице может увеличить время загрузки.'
   text_own_membership_delete_confirmation: Вы собираетесь удалить все или некоторые разрешения, доступные Вам. Вы не сможете редактировать проект после этого действия. Вы уверены?
-  text_permanent_delete_confirmation_checkbox_label: Я понимаю, что это удаление невозможно отменить
-  text_permanent_remove_confirmation_checkbox_label: Я понимаю, что это удаление не может быть отменено
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Папка активов дополнения(plugin) доступна для записи
   text_powered_by: С использованием %{link}
   text_project_custom_field_html: 'Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей проектов: <br> <ul> <li><b>Добавить пользовательские поля для проектов в ваш список проектов, чтобы создать представление портфолио проекта</b></li> </ul>
@@ -5837,8 +5857,9 @@ ru:
   text_user_invited: Пользователь был приглашен и подлежит регистрации.
   text_user_wrote: "%{value} написал:"
   text_warn_on_leaving_unsaved: Не сохраненный текст текущего пакета работ будет потерян, если вы покинете эту страницу.
-  text_what_did_you_change_click_to_add_comment: Что вы изменили? Кликните для добавления комментария
   text_wiki_destroy_confirmation: Вы уверены, что хотите удалить этот wiki и все его содержимое?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Удаление дочерних страниц и всех их потомков
   text_wiki_page_destroy_question: Эта страница имеет %{descendants} дочерних страниц и потомков. Что вы хотите сделать?
   text_wiki_page_nullify_children: Сохранить дочерние страницы как корневые
@@ -5897,37 +5918,64 @@ ru:
   total_progress: Общий прогресс
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      create_type: Create type
+      create_variant: Create variant
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
+        defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Sub-type created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+      success: Variant created successfully.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
+      breadcrumb_variant: 'Variant: %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
+          label: Automatically generated subjects
+        description:
+          caption: Add the text that will be added to the description field of all new work packages with this type.
+          label: Default description text
+        manually_editable_subjects:
+          caption: Users can manually enter and edit work package subjects without restrictions.
+          label: Manually editable subjects
+        pattern:
+          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          insert_as_text: 'No attributes found. Add as text: "%{word}"'
+          label: Subject pattern
+        tab: Defaults
+        token:
+          context:
+            parent: Parent
+            project: Project
+            work_package: Work package
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Details
+        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Выберите, какие шаблоны из имеющихся Вы хотите активировать для этого типа. Шаблон задаёт дизайн и атрибуты в экспортированном PDF-файле пакета работ этого типа. Первый шаблон из списка выбирается по умолчанию.
         pdf_export_templates:
           actions:
@@ -5935,6 +5983,8 @@ ru:
             label_enable_all: Включить всё
           label: Шаблоны экспорта в PDF
         tab: Создать PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -5981,44 +6031,88 @@ ru:
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
         tab: Проекты
-      settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
-        tab: Параметры
-        type_color_text: |-
-          Выбранный цвет выделяет разные типы
-          на диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Определите шаблон, используя атрибуты ссылок и текст, чтобы автоматически генерировать темы пакетов работ. Пользователи не смогут вручную редактировать темы.
-          label: Автоматически созданные темы
-        manually_editable_subjects:
-          caption: Пользователи могут вручную вводить и редактировать темы пакетов работ без ограничений.
-          label: Вручную редактируемые темы
-        pattern:
-          caption: Создать шаблоны, добавляя текст или наберите "/" для поиска [поддерживаемых атрибутов](attributes_url).
-          insert_as_text: 'Атрибуты не найдены. Добавить как текст: "%{word}"'
-          label: Шаблон темы
-        tab: Настройка темы
-        token:
-          context:
-            parent: Родитель
-            project: Проект
-            work_package: Пакет работ
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or variant
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            title: Switch configuration mode?
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          dialog:
+            submit: Switch
+            title: Independent mode
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the current settings set in the linked mode.
+              label: Copy from linked
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              title: Change source type?
+            check_box: I understand that this will override the current settings
+            from_independent:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              title: Switch configuration mode?
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          dialog:
+            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
+            source_label: Linked source
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Linked mode
+          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
+      workflow:
+        tab: Workflows
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Add variant to %{name}
+      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Создать новый тип
       no_results_title_text: В данный момент типы отсутствуют.
-      subtype_label: Sub-type
-      subtypes_count:
-        one: 1 sub-type
-        few: "%{count} sub-types"
-        many: "%{count} sub-types"
-        other: "%{count} sub-types"
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
       type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
+      variant_label: Variant
+      variants_count:
+        one: 1 variant
+        few: "%{count} variants"
+        many: "%{count} variants"
+        other: "%{count} variants"
   unsupported_browser:
     close_warning: Игнорировать это предупреждение.
     message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.

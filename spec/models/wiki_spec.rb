@@ -31,9 +31,9 @@
 require "spec_helper"
 
 RSpec.describe Wiki do
-  let(:project) { create(:project, disable_modules: "wiki") }
   let(:start_page) { "The wiki start page" }
-  let(:wiki) { project.create_wiki start_page: }
+  let(:project) { create(:project, :with_internal_wiki, start_page:) }
+  let(:wiki) { project.reload.wiki }
 
   describe "creation" do
     it_behaves_like "acts_as_watchable included" do

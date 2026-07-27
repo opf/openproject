@@ -116,7 +116,7 @@ cs:
     valid_from: Platné od
   button_add_activity: Aktivita
   button_add_rate: Přidat kurz
-  button_add_time_entry: Čas protokolu
+  button_add_time_entry: Vykázat čas
   button_log_costs: Logovat jednotkové náklady
   button_log_time: Log
   button_stop_timer: Zastavit časovač
@@ -124,7 +124,7 @@ cs:
   caption_default: Výchozí
   caption_default_rate_history_for: Výchozí historie sazeb  pro %{user}
   caption_locked_on: Uzamčeno
-  caption_log_time_dialog: Čas logu
+  caption_log_time_dialog: Vykázat čas
   caption_materials: Jednotky
   caption_rate_history: Historie sazeb
   caption_rate_history_for: Histgoprie kurzů pro %{user}
@@ -158,7 +158,7 @@ cs:
     widgets:
       actual_costs:
         blankslate:
-          action: Log time
+          action: Vykázat čas
           description: Získejte přehled o vašich nákladech a zalogovaném čase pro sledování průběhu vašeho projektu. Ujistěte se, že pracovní balíčky jsou přiřazeny ke správnému rozpočtu.
           heading: Začněte sledovat svůj čas a náklady
         title: Skutečné náklady podle měsíce

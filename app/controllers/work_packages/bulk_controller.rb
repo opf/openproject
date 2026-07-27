@@ -38,6 +38,7 @@ class WorkPackages::BulkController < ApplicationController
   include QueriesHelper
 
   include WorkPackages::BulkErrorMessage
+  include WorkPackages::TargetVersionNormalization
   include OpTurbo::ComponentStream
 
   def delete_dialog
@@ -138,15 +139,6 @@ class WorkPackages::BulkController < ApplicationController
     attributes = transform_attributes(attributes)
     attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
     attributes
-  end
-
-  # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
-  #   * blank selection  -> nil  (leave existing target_versions untouched)
-  #   * "none" selection -> []   (clear all target_versions)
-  #   * a version id      -> [id]
-  def normalized_target_version_ids(raw)
-    values = Array(raw).compact_blank
-    values == ["none"] ? [] : values.presence
   end
 
   def attributes_with_normalized_parent_id(attributes)

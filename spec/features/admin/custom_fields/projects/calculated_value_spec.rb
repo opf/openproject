@@ -165,6 +165,40 @@ RSpec.describe "Edit project custom field calculated value", :js, with_ee: %i[ca
             "#{integer_project_custom_field} * 2 + #{float_project_custom_field} / #{weighted_item_list_project_custom_field}"
           )
       end
+
+      it "offers autocompletion with grouped keywords" do
+        pattern_input = page.find(".op-pattern-input--text-field")
+        pattern_input.click
+        pattern_input.send_keys(" /")
+
+        within ".op-pattern-input--suggestions-dropdown" do
+          expect(page).to have_css("h2", text: "Custom fields")
+          expect(page).to have_css("h2", text: "Operators")
+          expect(page).to have_css("h2", text: "Punctuation")
+          expect(page).to have_css("h2", text: "Functions")
+          expect(page).to have_css("h2", text: "Keywords")
+          expect(page).to have_css("h2", text: "Constants")
+
+          expect(page).to have_css(".ActionListItem", text: integer_project_custom_field.name)
+          expect(page).to have_css(".ActionListItem", text: "+")
+          expect(page).to have_css(".ActionListItem", text: "(")
+          expect(page).to have_css(".ActionListItem", text: "ROUND()")
+          expect(page).to have_css(".ActionListItem", text: "CASE")
+          expect(page).to have_css(".ActionListItem", text: "TRUE")
+        end
+      end
+
+      it "inserts functions with an opening parenthesis so the caret lands on the arguments" do
+        pattern_input = page.find(".op-pattern-input--text-field")
+        pattern_input.click
+        pattern_input.send_keys(" /")
+
+        within ".op-pattern-input--suggestions-dropdown" do
+          click_on("ROUND()")
+        end
+
+        expect(find_field(id: "custom_field_formula", type: :hidden).value).to end_with("ROUND(")
+      end
     end
   end
 

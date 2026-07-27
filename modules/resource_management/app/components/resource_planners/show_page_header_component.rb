@@ -51,17 +51,13 @@ module ResourcePlanners
       manage_planner?
     end
 
+    # The timeframe is picked as a range, so it is either absent or complete.
     def timeframe_description
       start_date = @resource_planner.start_date
       end_date = @resource_planner.end_date
+      return if start_date.nil? || end_date.nil?
 
-      if start_date && end_date
-        t("resource_management.timeframe.full", start: helpers.format_date(start_date), end: helpers.format_date(end_date))
-      elsif start_date
-        t("resource_management.timeframe.start_only", start: helpers.format_date(start_date))
-      elsif end_date
-        t("resource_management.timeframe.end_only", end: helpers.format_date(end_date))
-      end
+      t("resource_management.timeframe.full", start: helpers.format_date(start_date), end: helpers.format_date(end_date))
     end
 
     def breadcrumb_items

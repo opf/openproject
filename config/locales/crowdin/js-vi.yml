@@ -120,6 +120,7 @@ vi:
     button_cancel: Hủy bỏ
     button_change_project: Chuyển sang dự án khác
     button_check_all: Kiểm tra tất cả
+    button_clear: Clear
     button_close: Đóng
     button_close_details: Đóng xem chi tiết
     button_collapse_all: Thu gọn tất cả
@@ -802,6 +803,14 @@ vi:
       sorted_dsc: Áp dụng sắp xếp giảm dần,
       sorted_no: Không áp dụng sắp xếp,
       sorting_disabled: sắp xếp bị vô hiệu hóa
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Đóng phương thức

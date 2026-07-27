@@ -1,6 +1,14 @@
 @import "vis-timeline/styles/vis-timeline-graph2d.css"
 @import "helpers"
 
+.op-project-timeline-graph--wrapper
+  position: relative
+  min-height: 7.5rem
+
+  &_loading
+    height: 7.5rem
+    overflow: hidden
+
 .op-project-timeline-graph
   width: 100%
 
@@ -90,5 +98,32 @@
     color: var(--fgColor-default)
     font-size: var(--text-body-size-small)
     font-weight: var(--base-text-weight-semibold)
-    cursor: pointer
+    cursor: default
     padding: 0 var(--base-size-6)
+
+  // Milestones: diamond shape via CSS rotate on the vis-dot
+  .vis-item.vis-point.op-timeline-milestone
+    background: none !important
+    border-color: transparent !important
+    cursor: pointer
+
+  .vis-item.vis-dot.op-timeline-milestone
+    width: 10px
+    height: 10px
+    border-width: 0
+    border-radius: 0
+    rotate: 45deg
+
+  .op-timeline-sprint-icon
+    color: var(--fgColor-accent)
+
+  // Sprints
+  .vis-item.vis-range.op-timeline-sprint
+    background-color: var(--bgColor-accent-muted)
+    color: var(--fgColor-accent)
+    border: 1px solid var(--borderColor-accent-muted)
+
+    &.op-timeline-sprint--active
+      background-color: var(--bgColor-accent-emphasis)
+      color: var(--fgColor-onEmphasis)
+      border-color: var(--bgColor-accent-emphasis)

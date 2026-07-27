@@ -86,6 +86,15 @@ module OpenProject
         )
       end
 
+      # Compares the two dark mode strategies for the `:medium` variant. This preview is forced
+      # into dark mode: the top banner has no `dark_image` and falls back to inverting the light
+      # image, while the bottom banner renders a dedicated `dark_image`.
+      # @display min_height 700px
+      # @display color_mode dark
+      def dark_image
+        render_with_template
+      end
+
       # @display min_height 350px
       def medium_dismissable
         render(

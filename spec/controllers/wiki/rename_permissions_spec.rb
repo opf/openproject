@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WikiController, "rename parameters", type: :controller do
-  shared_let(:project) { create(:project).tap(&:reload) }
+  shared_let(:project) { create(:project, :with_internal_wiki).tap(&:reload) }
   shared_let(:wiki) { project.wiki }
   shared_let(:existing_page) do
     create(:wiki_page, wiki:, title: "Original title", text: "Original body text")

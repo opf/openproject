@@ -56,6 +56,6 @@ module OpenProject::Patches::GrapeDslRouting
   end
 end
 
-OpenProject::Patches.patch_gem_version "grape", "3.3.2" do
+OpenProject::Patches.patch_gem_version "grape", "3.3.3" do
   Grape::DSL::Routing.include OpenProject::Patches::GrapeDslRouting
 end

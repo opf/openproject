@@ -120,6 +120,7 @@ zh-CN:
     button_cancel: 取消
     button_change_project: 移至另一个项目
     button_check_all: 全选
+    button_clear: Clear
     button_close: 关闭
     button_close_details: 关闭详情视图
     button_collapse_all: 全部折叠
@@ -802,6 +803,14 @@ zh-CN:
       sorted_dsc: '降序排列已应用， '
       sorted_no: '无序已应用， '
       sorting_disabled: 排序被禁用
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: 关闭模式

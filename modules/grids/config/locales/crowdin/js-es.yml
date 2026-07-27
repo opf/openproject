@@ -33,8 +33,12 @@ es:
           on_track: Según lo previsto
           title: Estado
         project_timeline:
-          tooltip_type_gate: Phase gate
-          tooltip_type_phase: Phase
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Hito de fase
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Fase
         subprojects:
           title: Subelementos
         time_entries_current_user:

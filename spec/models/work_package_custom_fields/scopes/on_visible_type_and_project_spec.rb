@@ -57,4 +57,87 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       end
     end
   end
+
+  describe ".on_visible_type_and_project with a linked form configuration" do
+    shared_let(:source_type) { create(:type) }
+    shared_let(:linked_type) { create(:type) }
+    shared_let(:linked_project) { create(:project, types: [linked_type]) }
+    shared_let(:linked_user) do
+      create(:user, member_with_permissions: { linked_project => [] })
+    end
+
+    # Activated on the SOURCE type and enabled in the linked type's project.
+    shared_let(:source_cf) do
+      create(:integer_wp_custom_field, projects: [linked_project], types: [source_type])
+    end
+    # Activated on the linked type itself (a leftover from before it was linked).
+    shared_let(:linked_own_cf) do
+      create(:integer_wp_custom_field, projects: [linked_project], types: [linked_type])
+    end
+
+    subject { WorkPackageCustomField.on_visible_type_and_project(linked_user) }
+
+    context "when the variants feature is enabled", with_flag: { type_variants: true } do
+      before do
+        create(:type_configuration_link,
+               type: linked_type,
+               source: source_type,
+               aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+      end
+
+      it "surfaces the source type's custom fields for the linked type's project" do
+        expect(subject).to include(source_cf)
+      end
+
+      it "replaces the linked type's own fields with the source's (not a union)" do
+        expect(subject).not_to include(linked_own_cf)
+      end
+    end
+
+    context "when the variants feature is disabled", with_flag: { type_variants: false } do
+      before do
+        create(:type_configuration_link,
+               type: linked_type,
+               source: source_type,
+               aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+      end
+
+      it "ignores the link and does not surface the source type's fields" do
+        expect(subject).not_to include(source_cf)
+      end
+    end
+
+    context "with a multi-hop link chain", with_flag: { type_variants: true } do
+      shared_let(:mid_type) { create(:type) }
+
+      before do
+        create(:type_configuration_link,
+               type: linked_type, source: mid_type,
+               aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+        create(:type_configuration_link,
+               type: mid_type, source: source_type,
+               aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+      end
+
+      it "resolves to the terminal source type's fields" do
+        expect(subject).to include(source_cf)
+      end
+    end
+
+    context "with cyclic link rows", with_flag: { type_variants: true } do
+      before do
+        create(:type_configuration_link,
+               type: linked_type, source: source_type,
+               aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+        reversed = build(:type_configuration_link,
+                         type: source_type, source: linked_type,
+                         aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+        reversed.save!(validate: false)
+      end
+
+      it "terminates without raising" do
+        expect { subject.to_a }.not_to raise_error
+      end
+    end
+  end
 end

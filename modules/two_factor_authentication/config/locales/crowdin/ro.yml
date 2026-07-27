@@ -126,7 +126,7 @@ ro:
     error_no_device: Nu s-a găsit niciun dispozitiv 2FA înregistrat pentru acest utilizator, deși este necesar pentru această instanță.
     error_no_matching_strategy: Nu este disponibilă nicio strategie 2FA corespunzătoare pentru acest utilizator. Vă rugăm să vă contactați administratorul.
     forced_registration:
-      required_to_add_device: O politică de securitate activă solicită să activezi autentificarea doi factori. Te rog să utilizezi următorul formular pentru a înregistra un dispozitiv.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Autentificare doi factori
     label_2fa_enabled: Autentificarea doi factori este activă
     label_default_device: Dispozitiv 2FA implicit

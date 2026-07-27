@@ -67,12 +67,12 @@ module ResourceManagement
       end
 
       def applicable?
-        OpenProject::FeatureDecisions.resource_management_active? && planner_config.present?
+        planner_config.present?
       end
 
       def not_applicable_message
         "Skipping resource planner for #{project.identifier}: " \
-          "resource_management is inactive or the project has no resource_planner seed data."
+          "the project has no resource_planner seed data."
       end
 
       private
@@ -95,16 +95,18 @@ module ResourceManagement
         ResourcePlanner.create!(
           name: planner_config.lookup("name"),
           project:, principal: owner, public: true,
-          start_date: planner_start_date, end_date: planner_end_date
+          **planner_dates
         )
       end
 
-      def planner_start_date
-        work_packages.values.compact.filter_map(&:start_date).min
-      end
+      # The timeframe is a range: it is either left empty or both of its ends are
+      # given, so a set of work packages dated only on one side yields no range.
+      def planner_dates
+        start_date = work_packages.values.compact.filter_map(&:start_date).min
+        end_date = work_packages.values.compact.filter_map(&:due_date).max
+        return {} if start_date.nil? || end_date.nil?
 
-      def planner_end_date
-        work_packages.values.compact.filter_map(&:due_date).max
+        { start_date:, end_date: }
       end
 
       def seed_views(planner)

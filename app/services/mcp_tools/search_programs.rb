@@ -53,17 +53,6 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("program_model")
-        }
-      }
-    )
-
     def call(page: nil, **filters)
       filtered = apply_filters(Project.program.visible, filters)
       programs = apply_pagination(filtered, page)

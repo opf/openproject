@@ -33,7 +33,7 @@ module Wikis
     def parse_identifier(wiki_page_selection)
       case wiki_page_selection
       in [selected_page]
-        MultiJSON.load(selected_page, symbolize_keys: true)[:value]
+        MultiJson.load(selected_page, symbolize_keys: true)[:nodeId]
       else
         nil
       end

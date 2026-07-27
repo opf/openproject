@@ -5,6 +5,7 @@ pt-BR:
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tempo alocado
+        date_range: Dates
         end_date: Data de término
         entity: Entidade
         filter_name: Nome do filtro de recursos
@@ -13,6 +14,7 @@ pt-BR:
         state: Estado
         user_filter: Filtro de usuários
       resource_planner:
+        date_range: Dates
         default_view_class_name: Visualização padrão
         end_date: Data de término
         favorite: Favorito
@@ -29,6 +31,9 @@ pt-BR:
           attributes:
             end_date:
               greater_than_start_date: deve ser após a data de início.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ pt-BR:
       resource_planner: Planejador de recursos
       resource_user_card: Cartões de usuário
       resource_work_package_list: Lista de Pacotes de trabalho
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Próximo
   label_resource_management: Resource management
   permission_allocate_user_resources: Alocar recursos do usuário
@@ -149,9 +161,7 @@ pt-BR:
       title: Staffing
     sub_views: Visualizações neste planejador de recursos
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day

@@ -69,14 +69,14 @@ hu:
         '
       client_id: This is the client ID given to you by your OpenID Connect provider
       client_secret: This is the client secret given to you by your OpenID Connect provider
-      display_name: The name of the provider. This will be displayed as the login button and in the list of providers.
+      display_name: A szolgáltató neve. Ez jelenik meg a bejelentkezés gombon és a szolgáltatók listájában.
       endpoint_url: The endpoint URL given to you by the OpenID Connect provider
       group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
       group_regexes_detail: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
       group_sync: Automatically extract and synchronise group membership information from the identity provider.
       groups_claim: Specify the name of the claim that's expected to indicate the group names that the user is a member of.
-      limit_self_registration: If enabled, users can only register using this provider if configuration on the provider's end allows it.
+      limit_self_registration: Ha ez be van kapcsolva, a felhasználók csak akkor regisztrálhatnak ezen szolgáltatón keresztül, ha a szolgáltató oldalán végzett beállítások ezt lehetővé teszik.
       mapping_admin: 'Provide a custom mapping in the userinfo response to be used for the admin status. It expects a boolean attribute to be returned.
 
         '
@@ -96,7 +96,7 @@ hu:
       metadata_url: I have a discovery endpoint URL
       oidc_information: These values are needed to configure the OpenID Connect provider.
       post_logout_redirect_uri: The URL the OpenID Connect provider should redirect to after a logout request.
-      scope: If you want to request custom scopes, you can add one or multiple scope values separated by spaces here. For more information, see the [OpenID Connect documentation](docs_url).
+      scope: Ha egyedi hatóköröket szeretnél kérni, itt szóközökkel elválasztva adhatsz meg egy vagy több hatókörértéket. További információkért lásd az [OpenID Connect dokumentációt](docs_url).
       tenant: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: OpenID szolgáltató
     providers:
@@ -121,7 +121,7 @@ hu:
       microsoft_entra:
         name: Microsoft Entra
       no_results_table: Nincs szolgáltató definiálva
-      notice_created: A new OpenID provider was successfully created.
+      notice_created: Egy új Saml-azonosító szolgáltató létrehozása sikeresen megtörtént.
       plural: OpenID szolgáltató
       section_texts:
         attribute_mapping: Configure the mapping of attributes between OpenProject and the OpenID Connect provider.
@@ -142,7 +142,7 @@ hu:
         description: Connect OpenProject to an OpenID connect identity provider
         title: Single Sign-On (SSO) with OpenID connect
     setting_instructions:
-      limit_self_registration: 'If enabled users can only register using this provider if the self registration setting allows for it.
+      limit_self_registration: 'Ha ez az opció engedélyezve van, a felhasználók csak akkor regisztrálhatnak ezen szolgáltatón keresztül, ha az önregisztrációs beállítás ezt lehetővé teszi.
 
         '
     settings:

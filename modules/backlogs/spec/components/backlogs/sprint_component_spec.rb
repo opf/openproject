@@ -96,7 +96,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
 
       it "renders one Box-row per work package" do
-        expect(rendered_component).to have_css(".Box-row", count: 2)
         expect(rendered_component).to have_text(work_package1.subject)
         expect(rendered_component).to have_text(work_package2.subject)
       end
@@ -173,7 +172,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
     end
 
     context "without work packages" do
-      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
+      it_behaves_like "rendering Box", row_count: 0, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Sprint 1 is empty"
 
       it "renders the empty-state blankslate" do
@@ -351,6 +350,33 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           # The three item groups are separated by presentation-only dividers.
           expect(page).to have_css('li[role="presentation"]:nth-child(2)')
           expect(page).to have_css('li[role="presentation"]:nth-child(5)')
+        end
+      end
+
+      context "with sprint_reports feature flag active", with_flag: :sprint_reports do
+        it "shows sprint report in the action menu instead of burndown chart" do
+          rendered_component
+
+          expect(menu_items).to eq(
+            [
+              "Edit sprint",
+              "Add new work package",
+              "Add existing work package",
+              "Sprint report"
+            ]
+          )
+        end
+
+        context "when the user lacks view_sprints permission" do
+          let(:role) { create(:project_role, permissions: %i[view_work_packages create_sprints]) }
+          let(:user) { create(:user, member_with_roles: { project => role }) }
+
+          it "hides both the sprint report and burndown chart menu items" do
+            rendered_component
+
+            expect(menu_items).not_to include("Sprint report")
+            expect(menu_items).not_to include("Burndown chart")
+          end
         end
       end
 

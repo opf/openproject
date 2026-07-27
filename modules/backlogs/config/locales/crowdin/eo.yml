@@ -24,6 +24,7 @@ eo:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: Allow multiple active sprints
         backlog_excluded_types: Excluded work package types
         sprint_sharing: Sprint sharing
         statuses_considered_closed: Statuses considered closed
@@ -55,7 +56,11 @@ eo:
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: cannot be set because project "%{name}" is already sharing with all projects.
               share_all_projects_already_taken_anonymous: cannot be set because another project is already sharing with all projects.
           receiving_sprints: is receiving shared sprints. Own sprints cannot be created.
@@ -150,11 +155,13 @@ eo:
     label_burndown_chart: Burndown-diagramo
     label_is_done_status: Stato %{status_name} signifas farita
     label_sprint_board: Sprint-tabulo
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Movu al la tasklista ujo
     move_to_sprint_dialog_component:
       label_sprint: Sprinto
       title: Movigu al sprinto
+    multiple_active_sprints: Multiple active sprints
     points_label:
       one: point
       other: poentoj
@@ -163,7 +170,7 @@ eo:
     rebuild: Rekonstrui
     rebuild_positions: Rekonstrui poziciojn
     remaining_hours: Restanta laboro
-    sharing: Sharing
+    sharing: Sprint sharing
     show_burndown_chart: Burndown-diagramo
     sprint_component:
       action_menu:
@@ -178,12 +185,22 @@ eo:
       label_start_sprint: Komencu sprinton
       start_sprint_disabled_reason_active_sprint: Alia sprinto jam estas aktiva.
       start_sprint_disabled_reason_missing_dates: Komencaj kaj finaj datoj estas bezonataj por komenci la sprinton.
+      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: La sprinta celo estas unika por ĉi tiu projekto kaj ne estas komuna kun aliaj projektoj, kiuj ankaŭ uzas ĉi tiun sprinton.
       goal_for_this_project_label: "%{attribute} (por ĉi tiu projekto)"
     sprint_form_component:
       shared_sprint_info_banner: Ĉi tio estas komuna sprinto. Modifoj estos reflektitaj en ĉiuj projektoj, kiuj uzas ĝin.
       shared_sprint_warning_banner: Ĉi tio estas komuna sprinto. Vi ne havas la necesajn permesojn por redakti ĝin.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: Por komenci plani vian sprinton, kreu ĝin ĉi tie aŭ iru al la %{settings_link} por ricevi sprintojn el alia projekto.
@@ -219,6 +236,8 @@ eo:
       add_existing_dialog:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
@@ -227,8 +246,11 @@ eo:
     story_points_ideal: Rakontaj poentoj (ideala)
   ee:
     features:
+      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing: Sprint sharing
     upsell:
+      multiple_active_sprints:
+        description: " "
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: Ĉiuj sprintoj
@@ -268,6 +290,9 @@ eo:
     name: Farontaj taskoj de OpenProject
   project_module_backlogs: Listoj de farotaj taskoj
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:
@@ -289,7 +314,14 @@ eo:
             label: Subprojektoj
         sprint_sharing: Share sprints
       backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Number of active sprints
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
   query_fields:

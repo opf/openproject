@@ -542,6 +542,25 @@ RSpec.describe WorkPackage do
       let(:groups) { described_class.by_version(project) }
 
       it_behaves_like "group by"
+
+      context "with a work package assigned to multiple target versions" do
+        shared_let(:multi_version_work_package) do
+          create(:work_package, project:, type:, version: version1)
+            .tap { |wp| wp.work_package_versions.create!(version: version2, kind: "target") }
+        end
+
+        def total_for(version)
+          groups.select { |row| row["version_id"].to_i == version.id }
+                .sum { |row| row["total"].to_i }
+        end
+
+        it "counts the work package under each of its target versions" do
+          # version1: work_package1 + multi_version_work_package
+          expect(total_for(version1)).to eq(2)
+          # version2: work_package2 + multi_version_work_package
+          expect(total_for(version2)).to eq(2)
+        end
+      end
     end
 
     describe "by priority" do
@@ -597,6 +616,41 @@ RSpec.describe WorkPackage do
       subject { described_class.recently_updated.limit(1).first }
 
       it { is_expected.to eq(work_package2) }
+    end
+  end
+
+  describe "target version scopes" do
+    shared_let(:project) { create(:project) }
+    shared_let(:version) { create(:version, project:) }
+    shared_let(:other_version) { create(:version, project:) }
+
+    # Targets `version` and, additionally, is observed in `other_version`. The
+    # observed_in row must not confuse either scope.
+    shared_let(:wp_targeting) do
+      create(:work_package, project:, version:).tap do |wp|
+        WorkPackageVersion.create!(work_package: wp, version: other_version, kind: "observed_in")
+      end
+    end
+    shared_let(:wp_without_target) { create(:work_package, project:, version: nil) }
+
+    describe ".with_target_version" do
+      it "returns only work packages targeting the given version" do
+        expect(described_class.with_target_version(version.id)).to contain_exactly(wp_targeting)
+      end
+
+      it "does not match on an observed_in version" do
+        expect(described_class.with_target_version(other_version.id)).to be_empty
+      end
+    end
+
+    describe ".without_target_version" do
+      it "returns only work packages without any target version" do
+        expect(described_class.without_target_version).to contain_exactly(wp_without_target)
+      end
+
+      it "excludes a work package that targets a version but is observed in another" do
+        expect(described_class.without_target_version).not_to include(wp_targeting)
+      end
     end
   end
 
@@ -991,6 +1045,22 @@ RSpec.describe WorkPackage do
           expect(standard_work_package.to_fs(:caption))
             .to eq("#{type.name}: Hello world (##{standard_work_package.id})")
         end
+      end
+    end
+
+    describe "for a variant" do
+      let(:root_type) { create(:type, name: "Task") }
+      let(:variant) { create(:type, name: "Bug", parent: root_type) }
+      let(:sub_work_package) { create(:work_package, project:, type: variant, subject: "Hello world") }
+
+      it "renders the root type's name in the :heading style" do
+        expect(sub_work_package.to_fs(:heading)).to include("Task")
+        expect(sub_work_package.to_fs(:heading)).not_to include("Bug")
+      end
+
+      it "renders the root type's name in the :caption style" do
+        expect(sub_work_package.to_fs(:caption)).to start_with("Task:")
+        expect(sub_work_package.to_fs(:caption)).not_to include("Bug")
       end
     end
 

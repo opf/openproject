@@ -390,7 +390,7 @@ module ::ResourceManagement
     def submitted_allocation_params
       params
         .fetch(:resource_allocation, {})
-        .permit(:principal_id, :filter_name, :start_date, :end_date, :allocated_hours, :entity_type, :entity_id)
+        .permit(:principal_id, :filter_name, :date_range, :allocated_hours, :entity_type, :entity_id)
         .to_h
     end
 
@@ -405,7 +405,7 @@ module ::ResourceManagement
 
     def allocation_params
       permitted = params
-                    .expect(resource_allocation: %i[principal_id filter_name start_date end_date allocated_hours
+                    .expect(resource_allocation: %i[principal_id filter_name date_range allocated_hours
                                                     entity_type entity_id])
                     .to_h
                     .symbolize_keys

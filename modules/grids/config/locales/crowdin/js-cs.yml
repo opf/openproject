@@ -21,7 +21,7 @@ cs:
         project_description:
           title: Popis
         project_favorites:
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          no_results: V současné době nemáte žádné oblíbené projekty. Přidejte si jeden nebo více projektů do oblíbených prostřednictvím jejich přehledu nebo v seznamu projektů.
           title: Oblíbené projekty
         project_status:
           at_risk: Riziko
@@ -33,7 +33,11 @@ cs:
           on_track: Dle plánu
           title: Stav
         project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
           tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
           tooltip_type_phase: Phase
         subprojects:
           title: Dílčí položky

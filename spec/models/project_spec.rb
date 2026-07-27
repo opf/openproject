@@ -133,25 +133,6 @@ RSpec.describe Project do
     end
   end
 
-  context "when the wiki module is enabled" do
-    let(:project) { create(:project, disable_modules: "wiki") }
-
-    before do
-      project.enabled_module_names = project.enabled_module_names | ["wiki"]
-      project.save
-      project.reload
-    end
-
-    it "creates a wiki" do
-      expect(project.wiki).to be_present
-    end
-
-    it "creates a wiki menu item named like the default start page" do
-      expect(project.wiki.wiki_menu_items).to be_one
-      expect(project.wiki.wiki_menu_items.first.title).to eq(project.wiki.start_page)
-    end
-  end
-
   describe "#copy_allowed?" do
     let(:user) { build_stubbed(:user) }
     let(:project) { build_stubbed(:project) }
@@ -248,12 +229,46 @@ RSpec.describe Project do
     let(:active_user) { create(:user) }
     let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
 
+    let(:group) { create(:group) }
+    let!(:group_member) { create(:member, project:, principal: group, roles: [role]) }
+
     let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
     let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
 
-    it "only includes active members" do
+    it "includes active members of any principal type but excludes locked ones" do
       expect(project.members)
+        .to contain_exactly(active_member, group_member)
+    end
+  end
+
+  describe "#member_users" do
+    let(:role) { create(:project_role) }
+    let(:active_user) { create(:user) }
+    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+
+    let(:group) { create(:group) }
+    let!(:group_member) { create(:member, project:, principal: group, roles: [role]) }
+
+    let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
+    let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
+
+    it "only includes active user members, excluding groups" do
+      expect(project.member_users)
         .to eq [active_member]
+    end
+  end
+
+  describe "#principals" do
+    let(:role) { create(:project_role) }
+    let(:active_user) { create(:user) }
+    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+
+    let(:group) { create(:group) }
+    let!(:group_member) { create(:member, project:, principal: group, roles: [role]) }
+
+    it "includes principals of any member type" do
+      expect(project.principals)
+        .to contain_exactly(active_user, group)
     end
   end
 

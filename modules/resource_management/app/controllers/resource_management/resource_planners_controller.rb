@@ -34,6 +34,8 @@ module ::ResourceManagement
 
     menu_item :resource_management
 
+    skip_before_action :ensure_resource_management_licensed, only: :index
+
     before_action :find_project_by_project_id
     before_action :authorize
     before_action -> { find_resource_planner(:id) }, only: %i[show edit update destroy toggle_public]
@@ -162,7 +164,7 @@ module ::ResourceManagement
     end
 
     def resource_planner_params(extra: [])
-      params.expect(resource_planner: %i[name start_date end_date] + extra)
+      params.expect(resource_planner: %i[name date_range] + extra)
     end
 
     def can_manage_public?

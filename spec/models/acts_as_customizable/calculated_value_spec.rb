@@ -87,38 +87,141 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
       end
     end
 
-    describe "operations" do
-      let(:by_op) do
-        {
-          add: build_stubbed(:calculated_value_project_custom_field, formula: "1 + 2"),
-          sub: build_stubbed(:calculated_value_project_custom_field, formula: "2 - 3"),
-          mul: build_stubbed(:calculated_value_project_custom_field, formula: "3 * 4"),
-          div: build_stubbed(:calculated_value_project_custom_field, formula: "5 / 4"),
-          mod: build_stubbed(:calculated_value_project_custom_field, formula: "6 % 5"),
-          percent: build_stubbed(:calculated_value_project_custom_field, formula: "6 + 7%"),
-          group: build_stubbed(:calculated_value_project_custom_field, formula: "2 * (1 + 2)")
-        }
+    shared_examples_for "handles operations" do
+      let(:custom_fields_and_results) do
+        formulae_and_results.transform_keys do |formula|
+          build_stubbed(:calculated_value_project_custom_field, formula:)
+        end
       end
-      let(:custom_fields) { by_op.values }
-      let(:ids) { by_op.transform_values(&:id) }
-
+      let(:custom_fields) { custom_fields_and_results.keys }
       let(:enabled_custom_field_ids) { custom_fields.map(&:id) }
       let(:custom_field_values) { [] }
 
-      it "handles all available operations" do
+      it "handles all" do
         instance.calculate_custom_fields(custom_fields)
 
         expect(instance).to have_received(:custom_field_values=)
-          .with(
-            ids[:add] => 3,
-            ids[:sub] => -1,
-            ids[:mul] => 12,
-            ids[:div] => 5/4r,
-            ids[:mod] => 1,
-            ids[:percent] => 607/100r,
-            ids[:group] => 6
-          )
+          .with(custom_fields_and_results.transform_keys(&:id))
       end
+    end
+
+    context "with math operators and grouping" do
+      let(:formulae_and_results) do
+        {
+          "1 + 2" => 3,
+          "2 - 3" => -1,
+          "3 * 4" => 12,
+          "5 / 4" => BigDecimal("1.25"),
+          "6 % 5" => BigDecimal("1"),
+          "2 ^ 10" => 1024,
+          "6 + 7%" => BigDecimal("6.07"),
+          "2 * (1 + 2)" => 6
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
+    context "with arythmetic operations looking like date literals (#OP-19811)" do
+      let(:formulae_and_results) do
+        {
+          "10-1-1" => 8,
+          "10-01-01" => 8,
+          "10-10-10" => -10,
+          "10-20-30" => -40, # invalid date
+          "2010-1-1" => 2008,
+          "2010-01-01" => 2008,
+          "2010-10-10" => 1990,
+          "2010-20-30" => 1960 # invalid date
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
+    context "with comparison operators" do
+      let(:formulae_and_results) do
+        {
+          "1 < 2" => true,
+          "1 > 2" => false,
+          "1 <= 2" => true,
+          "1 >= 2" => false,
+          "1 <> 2" => true,
+          "1 != 2" => true,
+          "1 = 2" => false
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
+    context "with logical operators and functions" do
+      let(:formulae_and_results) do
+        {
+          "1 <> 2 AND 2 <> 3" => true,
+          "TRUE AND TRUE AND TRUE" => true,
+          "TRUE AND TRUE AND FALSE" => false,
+          "1 = 2 OR 2 <> 3" => true,
+          "FALSE OR FALSE OR TRUE" => true,
+          "FALSE OR FALSE OR FALSE" => false,
+          "AND(1 <> 2, 2 <> 3)" => true,
+          "AND(TRUE, TRUE, TRUE)" => true,
+          "AND(TRUE, TRUE, FALSE)" => false,
+          "OR(1 = 2, 2 <> 3)" => true,
+          "OR(FALSE, FALSE, TRUE)" => true,
+          "OR(FALSE, FALSE, FALSE)" => false,
+          "XOR(1 <> 2, 2 = 3)" => true,
+          "XOR(TRUE, FALSE, FALSE)" => true,
+          "XOR(TRUE, TRUE, FALSE)" => false,
+          "XOR(TRUE, TRUE, TRUE)" => true, # see OP-19806
+          "NOT(1 = 2)" => true
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
+    context "with numeric functions" do
+      let(:formulae_and_results) do
+        {
+          "MIN(3, 1, 2, 4)" => 1,
+          "MAX(3, 1, 2, 4)" => 4,
+          "SUM(1, 2, 3, 4)" => 10,
+          "AVG(1, 2, 3, 4)" => 5/2r,
+          "COUNT(1, 2, 3, 4)" => 4,
+          "ROUND(1.5)" => 2,
+          "ROUNDUP(1.4)" => 2,
+          "ROUNDDOWN(1.6)" => 1,
+          "ABS(0 - 1)" => 1
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
+    context "with conditional expressions" do
+      let(:formulae_and_results) do
+        {
+          "IF(1 > 2, 3, 4)" => 4,
+          "SWITCH(2, 1, 100, 2, 200, 3, 300, 400)" => 200,
+          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 200
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
+    context "with boolean constants" do
+      let(:formulae_and_results) do
+        {
+          "TRUE" => true,
+          "FALSE" => false,
+          "IF(1 < 2, TRUE, FALSE)" => true,
+          "IF(1 > 2, TRUE, FALSE)" => false
+        }
+      end
+
+      it_behaves_like "handles operations"
     end
 
     describe "division by zero" do

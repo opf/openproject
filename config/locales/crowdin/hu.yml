@@ -167,9 +167,9 @@ hu:
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
-        name: Jira instance name
-        personal_access_token: Personal access token
-        url: Jira instance URL
+        name: A 'Jira' példány neve
+        personal_access_token: Személyes hozzáférési token
+        url: A Jira-példány URL-címe
       import/jira_open_project_reference:
         jira: Jira
         jira_import: Jira Migrator
@@ -192,9 +192,9 @@ hu:
         port: Port szám
         tls_certificate_string: LDAP server SSL certificate
       mcp_configuration:
-        description: Description
-        enabled: Enabled
-        title: Title
+        description: Leírás
+        enabled: Engedélyezett
+        title: Cím
       member:
         blocked: Blocked
         roles: Szerepkörök
@@ -228,6 +228,8 @@ hu:
         identifier: Azonosító
         latest_activity_at: Legújabb tevékenység ekkor
         parent: Alprojekt
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
         project_creation_wizard_enabled: Project initiation request
         project_creation_wizard_notification_text: Notification text
@@ -240,7 +242,7 @@ hu:
           title: Látható
           true: nyilvános
         queries: Lekérdezések
-        status_code: Status
+        status_code: Állapot
         status_codes:
           at_risk: Veszélyben
           discontinued: Megszakított
@@ -248,7 +250,7 @@ hu:
           not_started: El nem kezdett
           off_track: Kisiklott
           on_track: Terv szerint
-        status_explanation: Status description
+        status_explanation: Állapot leírása
         template: Template
         templated: Példa projekt
         templated_value:
@@ -342,7 +344,7 @@ hu:
         token_name: Token name
       type:
         attribute_groups: Űrlap konfiguráció
-        children: Sub-types
+        children: Variants
         color: Szín
         dependent_configuration_links: Linked types
         description: Alapértelmezett szöveg a leíráshoz
@@ -376,8 +378,8 @@ hu:
         end_date: End date
         start_date: Start date
       user_preference:
-        auto_hide_popups: Automatically hide success banners
-        auto_hide_popups_caption: When enabled, the green success banners will automatically disappear after 5 seconds.
+        auto_hide_popups: A sikeres műveletet jelző sávok automatikus elrejtése
+        auto_hide_popups_caption: Ha ez a beállítás engedélyezve van, a zöld sikerjelző sávok 5 másodperc elteltével automatikusan eltűnnek.
         button_update_alerts: Update alerts
         button_update_look_and_feel: Update look and feel
         button_update_user_information: Update profile
@@ -395,8 +397,8 @@ hu:
         increase_contrast: Increase contrast
         increase_contrast_caption: Enables high-contrast mode for the chosen colour mode.
         increase_theme_contrast: Increase theme contrast
-        mode_guideline: Some modes will overwrite custom theme colors for accessibility and legibility. Please select Light mode for full custom theme support.
-        theme: Color mode
+        mode_guideline: Egyes üzemmódok a hozzáférhetőség és az olvashatóság érdekében felülírják az egyéni téma színeit. A teljes körű egyéni téma-támogatáshoz kérjük, válassza a „Világos” üzemmódot.
+        theme: Színes mód engedélyezése
         time_zone: Idő zóna
         warn_on_leaving_unsaved: Figyelmeztess, ha úgy hagyom el a munkacsomagot, hogy nem mentett változások vannak rajta
         workdays: Munkanapok
@@ -437,8 +439,8 @@ hu:
         begin_insertion: Beillesztés kezdete
         children: Alelemek
         derived_done_ratio: Eddig befejezve %-ban
-        derived_remaining_hours: Total remaining work
-        derived_remaining_time: Total remaining work
+        derived_remaining_hours: Teljes hátralévő munka
+        derived_remaining_time: Teljes hátralévő munka
         done_ratio: "%-ban kész"
         duration: Időtartam
         end_deletion: Törlés vége
@@ -564,7 +566,7 @@ hu:
           '
         unknown_property_nested: ismeretlen '%{path}' elérési útvonal.
         unremovable: nem törölhető.
-        url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+        url_not_secure_context: 'nem biztosít „biztonságos környezetet”. Használjon HTTPS-t vagy egy loopback-címet, például a localhost-ot.
 
           '
         user_already_in_department: User %{user_id} is already a member of department %{department_id}.
@@ -576,7 +578,7 @@ hu:
             content_type:
               blank: A fájltípus nem lehet üres.
               format: "%{message}\n"
-              not_allowlisted: The file was rejected by an automatic filter. '%{value}' is not allowed for upload.
+              not_allowlisted: A fájlt egy automatikus szűrő elutasította. A „%{value}” fájl feltöltése nem megengedett.
         capability:
           context:
             global: Globális
@@ -601,11 +603,11 @@ hu:
               blank: Formula can't be blank.
               format: "%{message}"
               invalid: Formula is invalid.
-              invalid_characters: Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             required:
               cannot_be_true: cannot be set to true.
-          previous_custom_field_recalculation_unprocessed: The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes.
+          previous_custom_field_recalculation_unprocessed: Az adott egyéni mezőre vonatkozó korábbi módosítások újraszámítása még nem történt meg; kérjük, próbálja meg újra néhány perc múlva.
           referenced_in_other_fields_html:
             one: "%{name} is used in project attribute calculation %{links}."
             other: "%{name} is used in project attribute calculations: %{links}."
@@ -620,7 +622,7 @@ hu:
               fragment_present: nem tartalmazhat töredéket.
               invalid_uri: érvényes URI-nak kell lennie.
               relative_uri: abszolút URI-nak kell lennie.
-              secured_uri: is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+              secured_uri: nem biztosít „biztonságos környezetet”. Használjon HTTPS-t vagy egy loopback-címet, például a localhost-ot.
             scopes:
               not_match_configured: 'nem egyezik a rendelkezésre álló hatókörökkel.
 
@@ -717,13 +719,13 @@ hu:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
+              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
+              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'munkacsomagok használatban vannak: %{types}'
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_source_not_a_variant: Can only switch away from a variant
+              switch_target_identical: The target Type must be different from the current variant
+              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Munkacsomagok nem leszármazottak a projektekben, a projekt vagy annak leszármazottainak referenciaverziói.
         project/phase:
@@ -782,12 +784,12 @@ hu:
             from_id:
               error_not_found: could not be found.
               error_not_manageable: cannot be added because you do not have edit permissions for the selected work package.
-              error_readonly: cannot be changed for existing relations.
+              error_readonly: meglévő kapcsolatok esetében ez nem módosítható.
               format: The selected work package %{message}
             to_id:
               error_not_found: could not be found.
               error_not_manageable: cannot be added because you do not have edit permissions for the selected work package.
-              error_readonly: cannot be changed for existing relations.
+              error_readonly: meglévő kapcsolatok esetében ez nem módosítható.
               format: The selected work package %{message}
           typed_dag:
             circular_dependency: A kapcsolat körkörös függőséget hoz létre.
@@ -839,15 +841,15 @@ hu:
             parent:
               cannot_be_self: can't be the type itself.
               cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -905,7 +907,7 @@ hu:
         work_package:
           attributes:
             assigned_to:
-              format: "%{message}\n"
+              format: "%{message}"
             category:
               does_not_exist: A megadott kategória nem létezik.
               only_same_project_categories_allowed: A feladatcsoport kategóriájának azonos projektben kell lennie a munkacsomaggal.
@@ -927,11 +929,11 @@ hu:
             estimated_hours:
               cant_be_inferior_to_remaining_work: cannot be lower than Remaining work.
               must_be_set_when_remaining_work_and_percent_complete_are_set: required when Remaining work and % Complete are set.
-              not_a_number: is not a valid duration.
+              not_a_number: nem érvényes időtartam.
             id:
-              blank: ID can't be blank.
-              cannot_add_child_because_of_lack_of_permission: Cannot add child because you don't have permissions to edit the selected work package.
-              format: "%{message}\n"
+              blank: Az azonosító nem lehet üres.
+              cannot_add_child_because_of_lack_of_permission: Nem lehet al-elemet hozzáadni, mert nincs jogosultsága a kiválasztott munkacsomag szerkesztésére.
+              format: "%{message}"
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
@@ -950,9 +952,9 @@ hu:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- must be 0h when Work is set and % Complete is 100%."
               must_be_set_when_work_and_percent_complete_are_set: required when Work and % Complete are set.
               must_be_set_when_work_is_set: required when Work is set.
-              not_a_number: is not a valid duration.
+              not_a_number: nem érvényes időtartam.
             schedule_manually:
-              cannot_be_automatically_scheduled: cannot be set to false (automatically scheduled) as it has no predecessors or children.
+              cannot_be_automatically_scheduled: nem állítható „false”-ra (automatikus ütemezés), mivel nincsenek előzményei vagy utódjai.
             sequence_number:
               must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             start_date:
@@ -1024,7 +1026,7 @@ hu:
       status: Feladatcsoport állapot
       token/api:
         one: Hozzáférési token
-        other: Hozzáférési token
+        other: Hozzáférési tokenek
       token/rss:
         one: RSS token
         other: RSS tokens
@@ -1061,7 +1063,7 @@ hu:
         label_sort_asc: Newest at the bottom
         label_sort_desc: Newest on top
         label_submit_comment: Submit comment
-        label_type_to_comment: Add a comment. Type @ to notify people.
+        label_type_to_comment: Írj hozzászólást! Írd be az @ jelet, ha valakit értesíteni akarsz.
         label_who: Who?
         no_results_description_text: Choose "Show everything" to show all activity and comments
         no_results_title_text: No activity to display
@@ -1155,10 +1157,10 @@ hu:
         title: Enterprise token törlése
       enterprise_link: További információért kattintson ide.
       get_quote: Árajánlat kérése
-      order: On-premises vállalati verzió megrendelése
+      order: Saját telepítésű vállalati verzió megrendelése
       paste: Illessze be a Vállalati Verzió támogatási tokentjét
       replace_token: A jelenlegi támogatási token lecserélése
-      required_for_feature: Ez a bővítmény csak a Vállalati Verzió aktív támogatási tokenjével érhető el.
+      required_for_feature: Ez a bővítmény csak a Vállalati Verzió aktív támogatási zsetonjával érhető el.
       start_trial: Ingyenes próbaverzió kipróbálása
       status:
         expired: Expired
@@ -1176,12 +1178,11 @@ hu:
     jemalloc_allocator: Jemalloc memory allocator
     jira:
       banner:
-        contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
+        contribution_callout: 'Kérjük, segítsen nekünk a Jira Migrator fejlesztésében visszajelzéseivel és a magánadatok felajánlásával. Csatlakozhat a Jira Migrator [fejlesztői közösségéhez](link).
 
           '
-        description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
-        supported_versions: ''
-        title: Beta - Try it out!
+        description: Ez a Jira Migrator jelenleg béta verzióban van. Jelenleg kizárólag a Jira Server/Data Center 10.x és 11.x verzióit támogatjuk. A felhőalapú példányokat jelenleg nem támogatjuk.
+        title: Béta – Próbáld ki!
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
         title: No Jira hosts configured yet
@@ -1230,16 +1231,16 @@ hu:
         index:
           button_edit_configuration: Konfiguráció szerkesztése
           button_import_run: Importálás futtatása
-          description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
+          description: Minden importálási művelet során különböző adatkészleteket importálhat. Az importálási műveletet közvetlenül azután visszavonhatja az ellenőrzési módban, de a véglegesítés után már nem.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
         status:
           configuring: Select scope
-          finalizing: Finalizing
-          finalizing_done: Completed
-          finalizing_error: Error during finalizing
+          finalizing: Befejezés
+          finalizing_done: Kész
+          finalizing_error: Hiba a befejezés során
           import_error: Error during import
-          import_scope: Select scope
+          import_scope: Hatókör kiválasztása
           imported: Felülvizsgálati mód
           importing: Folyamatban
           initial: Indít
@@ -1249,8 +1250,8 @@ hu:
           projects_meta_done: Összegyűjtött adatok
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
+          revert_cancelled: A visszavonás törölve
+          revert_cancelling: A visszavonás visszavonása
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
@@ -1260,8 +1261,8 @@ hu:
           finalize_dialog:
             confirm: I understand that this action cannot be undone
             confirm_button: Understood
-            description: Once approved, this import can no longer be reverted. All imported data will become permanent.
-            title: Approve this import?
+            description: A jóváhagyás után ez az importálás már nem vonható vissza. Az összes importált adat véglegessé válik.
+            title: Jóváhagyja ezt az importot?
           groups:
             configuration:
               title: Configure import
@@ -1274,12 +1275,12 @@ hu:
             review:
               title: Review import
           import_dialog:
-            confirm: I understand and have a backup
-            confirm_button: Start import
-            description: 'Imports change your OpenProject configuration. After the import you will have the opportunity to review the changes. While in review, you have an option to revert or approve the import. After approving the import reverting will no longer be possible. Therefore, please, make sure that you have [a backup of your OpenProject instance](link) before proceeding.
+            confirm: Megértettem, és van biztonsági másolatom
+            confirm_button: Importálás indítása
+            description: 'Az importálás módosítja az OpenProject konfigurációját. Az importálás után lehetősége lesz áttekinteni a változásokat. Az áttekintés során dönthet úgy, hogy visszavonja vagy jóváhagyja az importálást. A jóváhagyás után a visszavonás már nem lehetséges. Ezért kérjük, győződjön meg arról, hogy rendelkezik [az OpenProject-példányáról készült biztonsági másolattal](link), mielőtt továbbhaladna.
 
               '
-            title: Please make sure you have a backup!
+            title: Kérjük, győződjön meg róla, hogy van biztonsági másolata!
           parts:
             issues:
               one: 1 issue
@@ -1301,7 +1302,7 @@ hu:
               other: "%{count} work packages"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
-            description: This will delete all imported objects (including whole projects).
+            description: Ezzel az összes importált objektum (beleértve a teljes projekteket is) törlődik.
             title: Permanently revert this import?
           sections:
             confirm_import:
@@ -1309,32 +1310,32 @@ hu:
               caption: Review your import settings and start the import
               caption_done: Completed
               description: You are about to start an import run with the following settings.
-              label_available_data: Data to be imported
+              label_available_data: Importálandó adatok
               label_import_data: Currently importing
               label_progress: Import in progress...
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
-              button_fetch: Check available data
+              button_fetch: Az elérhető adatok ellenőrzése
               caption_done: Completed
-              description: Check what data is available for import in the host Jira instance.
+              description: Ellenőrizze, hogy milyen adatok állnak rendelkezésre importálásra a fogadó "Jira" példányban.
               label_progress: Fetching data from Jira...
               title: Fetch instance meta data
             groups_and_users:
               title: Groups and Users
             import_result:
-              button_done: Approve import
+              button_done: Az import jóváhagyása
               button_revert: Revert import
               caption: Review import run or revert import
-              info: Import run was successful.
-              label_finalize_import: Approve import
-              label_finalizing: Approving import...
-              label_finalizing_done: Import approved.
+              info: Az importálás sikeresen lezajlott.
+              label_finalize_import: Az import jóváhagyása
+              label_finalizing: Az import jóváhagyása...
+              label_finalizing_done: Az importot jóváhagyták.
               label_results: Imported
               label_revert: Revert import
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              preview_description: Az importált adatok jelenleg felülvizsgálati módban vannak. Kattintson az „Import jóváhagyása” gombra az import véglegesítéséhez, vagy az „Import visszavonása” gombra az importálás során végrehajtott összes módosítás visszavonásához.
               title: Import run results
             import_scope:
               button_continue: Folytatás
@@ -1342,28 +1343,28 @@ hu:
               button_select_projects: Select projects to import
               caption: Choose what you want to import into OpenProject
               caption_done: Kész
-              description: Select what data you want to import from the available data fetched from the host Jira instance.
+              description: Válassza ki, hogy a gazda Jira-példányból letöltött rendelkezésre álló adatok közül melyeket szeretné importálni.
               elements:
-                custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
+                custom_fields: Az egyéni mezők egy részhalmaza
+                issue_details: A probléma leírása, előzményei, megjegyzések és mellékletek
                 issue_ids: Issue identifiers
-                issues: Issues
-                permissions: Permissions
-                project_ids: Project identifiers
-                projects: Projects
+                issues: Problémák
+                permissions: Jogosultságok
+                project_ids: Projektazonosítók
+                projects: Projektek
                 relations: Relations between issues
                 schemes: Schemas
-                sprints: Sprint assignments
-                users: Involved users and groups
-                workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
+                sprints: Sprint-feladatok
+                users: Érintett felhasználók és csoportok
+                workflows: Projektszintű munkafolyamatok
+              label_available_server_data: 'A következő témákról rendelkezésre álló adatok: %{server_info}'
               label_coming_later: Később érkezik
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Select which projects you would like to import.
-              label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
+              label_info: Felhívjuk figyelmét, hogy ez az importáló eszköz még béta verzióban van, és nem minden típusú adatot tud importálni. Az alábbiakban összefoglaljuk, hogy a gazda Jira-példány milyen importálási lehetőségeket kínál, és hogy az eszköz jelenleg milyen adatokat tud importálni.
               label_progress: Fetching data from Jira...
               label_selected_data: Selected data for import
-              label_supported_data: Supported data
+              label_supported_data: Támogatott adatok
               title: Import scope
           select_dialog:
             filter_projects: Filter by text
@@ -1376,7 +1377,7 @@ hu:
         failed: 'Connection failed: Unable to retrieve server information'
         invalid_url: Please provide a valid URL
         missing_credentials: Please provide both URL and Personal Access Token to test the connection
-        parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
+        parse_error: Nem sikerült feldolgozni a szerverről érkező választ. Lehetséges, hogy a szerver nem érvényes Jira-példány.
         success: Successfully connected to %{server} (version %{version})
         token_error: Invalid API token. Please check your credentials in the configuration.
       title: Jira Migrator
@@ -1389,17 +1390,17 @@ hu:
         '
     mcp_configurations:
       index:
-        description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
+        description: A modellkontextus-protokoll lehetővé teszi az AI-ügynökök számára, hogy felhasználóiknak az adott OpenProject-példány által elérhetővé tett eszközöket és erőforrásokat biztosítsák. Ez a funkció még béta állapotban van.
         resources_description: OpenProject implements the following resources. Each can be enabled, renamed and described as you want. For more information, please refer to the [documentation on MCP resources](docs_url).
-        resources_heading: Resources
-        resources_submit: Update resources
-        tools_description: OpenProject implements the following tools. Each can be enabled, renamed and described as you want. For more information, please refer to the [documentation on MCP tools](docs_url).
-        tools_heading: Tools
-        tools_submit: Update tools
+        resources_heading: Erőforrások
+        resources_submit: Források frissítése
+        tools_description: Az OpenProject a következő eszközöket támogatja. Mindegyiket tetszés szerint engedélyezheti, átnevezheti és leírhatja. További információkért kérjük, olvassa el az [MCP-eszközökről szóló dokumentációt](docs_url).
+        tools_heading: Eszközök
+        tools_submit: Frissítő eszközök
       multi_update:
-        success: MCP configurations were updated successfully.
+        success: Az MCP-konfigurációk frissítése sikeresen befejeződött.
       server_form:
-        description_caption: How the MCP server will be described to other applications who connect to it.
+        description_caption: Hogyan fogják leírni az MCP-kiszolgálót azoknak az alkalmazásoknak, amelyek csatlakoznak hozzá.
         title_caption: A short title shown to applications that connect to the MCP server.
         tool_response_format: Tool response format
         tool_response_format_content_only_caption: 'Choose this if MCP clients connecting to this instance do not support structured content. Tool responses will only contain plain text content and leave out the structured version.
@@ -1415,8 +1416,8 @@ hu:
           '
         tool_response_format_structured_only_label: Structured content only
       update:
-        failure: MCP configuration could not be updated.
-        success: MCP configuration was updated successfully.
+        failure: Nem tudta frissíteni az MCP beállításokat.
+        success: Az MCP-konfigurációk frissítése sikeresen befejeződött.
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -1452,7 +1453,7 @@ hu:
         one_time_hint: This is the only time you will see the client secret. Make sure to copy it now.
         title: Client credentials created
       created_token_dialog_component:
-        heading: A token has been generated
+        heading: Létrehozásra került egy token
         label_token: Token
         one_time_hint: This is the only time you will see this token. Make sure to copy it now.
         title: Token created
@@ -1542,7 +1543,7 @@ hu:
         dialog:
           checkbox_label: I understand that this will permanently change all work package IDs
           confirm_button: Change identifiers
-          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to work. This change will take some time to complete.
+          description: 'Ezzel az intézkedéssel az adott példányban található összes projekt összes munkacsomagjának azonosítója megváltozik. A korábbi azonosítók és URL-ek továbbra is működni fognak. A változás végrehajtása egy kis időt vesz igénybe.
 
             '
           heading: Enable project-based work package IDs?
@@ -1557,6 +1558,7 @@ hu:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -1583,7 +1585,13 @@ hu:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Default transitions
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: User is assignee
         user_author: User is author
   announcements:
@@ -1619,7 +1627,7 @@ hu:
       code_409: Nem sikerült frissíteni az erőforrást az ütköző módosítások miatt.
       code_429: Túl sok próbálkozás, próbáld meg később
       code_500: Belső hiba történt.
-      code_500_missing_enterprise_token: The request can not be handled due to invalid or missing Enterprise token.
+      code_500_missing_enterprise_token: A kérés nem dolgozható fel érvénytelen vagy hiányzó vállalati token miatt.
       code_500_outbound_request_failure: An outbound request to another resource has failed with status code %{status_code}.
       conflict:
         multiple_reminders_not_allowed: You can only set one reminder at a time for a work package. Please delete or update the existing reminder.
@@ -1675,7 +1683,7 @@ hu:
     add_new: Súgószöveg hozzáadása
     caption: This short version will be displayed as caption of the attribute.
     edit_field_name: Edit help text for %{attribute_field_name}
-    note_public: Any text and images you add to this field are publicly visible to all logged in users.
+    note_public: Az ehhez a mezőhöz hozzáadott szöveg és kép nyilvánosan látható minden bejelentkezett felhasználó számára.
     show_preview: Előnézet mutatása
     text_overview: Ebben a nézetben egyedi súgószövegeket hozhat létre az attribútumokhoz. Definiálást követően ezek a szövegek jelennek meg az attribútum Súgó ikonjára kattintást követően.
   attributes:
@@ -1717,7 +1725,7 @@ hu:
     entity_type: Entity
     estimated_hours: Munka
     estimated_time: Munka
-    expires_at: Expires on
+    expires_at: Lejár
     filter: Szűrő
     firstname: Keresztnév
     group: Csoport
@@ -1730,7 +1738,7 @@ hu:
     journal: Hírközlés
     journal_notes: Vélemény
     lastname: Vezetéknév
-    lock_version: Lezárt verzió
+    lock_version: Lezárt változat
     login: Felhasználónév
     mail: Email
     name: Név
@@ -1832,7 +1840,7 @@ hu:
   button_add_non_working_time: Time off
   button_add_sub_item: Add sub-item
   button_add_watcher: Megfigyelő hozzáadása
-  button_all_filters: All filters
+  button_all_filters: Minden szűrő
   button_annotate: Jegyzetekkel ellát
   button_apply: Alkalmaz
   button_apply_changes: Változások alkalmazása
@@ -1866,7 +1874,7 @@ hu:
   button_disable: Disable
   button_download: Letöltés
   button_duplicate: Másolás ide
-  button_duplicate_and_follow: Duplicate and follow
+  button_duplicate_and_follow: Másold le, majd kövesd az utasításokat
   button_edit: Szerkesztés
   button_edit_associated_wikipage: 'Edit associated wiki page: %{page_title}'
   button_edit_non_working_time: Edit time off
@@ -2074,7 +2082,7 @@ hu:
       editable:
         all: Allow the field to be editable by users themselves.
       formula:
-        project: Add numeric values or type / to search for an attribute or a mathematical operator.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -2086,7 +2094,7 @@ hu:
         project: Mark the attribute as available in all existing and new projects.
       is_required:
         all: Mark the custom field as required. This will make it mandatory to fill in the field when creating new resources. Existing resources will not require a value when being updated.
-        project: Required attributes need to be filled out by the user on project creation if the field is active ('For all projects' set or copying from a project/template in which the field is active). Existing projects will not require a value when being updated.
+        project: A kötelező mezőket a felhasználónak a projekt létrehozásakor kell kitöltenie, amennyiben a mező aktív (az „Minden projektre” beállítás esetén, vagy olyan projektből/sablonból történő másoláskor, amelyben a mező aktív). A már létező projektek frissítésekor nem szükséges értéket megadni.
       min_max:
         all: 0 means no restriction
         project: 0 means no restriction
@@ -2118,8 +2126,8 @@ hu:
 
       '
   danger_dialog:
-    confirmation_live_message_checked: The button to proceed is now active.
-    confirmation_live_message_unchecked: The button to proceed is now inactive. You need to tick the checkbox to continue.
+    confirmation_live_message_checked: A folytatás gombja már aktív.
+    confirmation_live_message_unchecked: A folytatás gomb jelenleg nem aktív. A folytatáshoz be kell jelölnie a jelölőnégyzetet.
   date:
     abbr_day_names:
     - V
@@ -2236,8 +2244,8 @@ hu:
         one: óra
         other: óra
       minute_abbreviated:
-        one: Perc
-        other: mins
+        one: perc
+        other: percek
   departments:
     add_department: Add department
     add_department_form:
@@ -2364,16 +2372,16 @@ hu:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Internal Comments
       ldap_groups: LDAP users and group sync
-      mcp_server: Model Context Protocol (MCP)
-      meeting_templates: Reusable meeting templates
+      mcp_server: Modellkontextus-protokoll (MCP)
+      meeting_templates: Újrafelhasználható értekezlet-sablonok
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
       placeholder_users: Placeholder Users
       portfolio_management: Portfolio management
-      project_creation_wizard: Project initiation request
+      project_creation_wizard: Projektindítási kérelem
       project_list_sharing: Project List Sharing
       readonly_work_packages: Readonly Work Packages
-      scim_api: SCIM server API
+      scim_api: SCIM-kiszolgáló API
       sso_auth_providers: Single Sign-On
       team_planner_view: Team Planner View
       virus_scanning: Antivirus Scanning
@@ -2446,9 +2454,9 @@ hu:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Add new attribute sections
+          groups: Új attribútumszakaszok hozzáadása
           related: Add a table of related work packages
-          rename: Rename attribute sections
+          rename: Az attribútumszakaszok átnevezése
       hide_banner: Hide this banner
       homescreen_description: 'Enterprise plans extend the Community edition of OpenProject with additional [Enterprise add-ons](enterprise_url) and professional support, ideal for organizations running OpenProject in a mission-critical environment.
 
@@ -2461,9 +2469,9 @@ hu:
         description: " "
         title: Write internal comments only a small group can see
       mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
+        description: Integrálja az OpenProjectet a mesterséges intelligencia-alapú munkafolyamataiba egy biztonságos MCP-kiszolgáló segítségével.
       meeting_templates:
-        description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
+        description: Határozzon meg olyan megbeszélés sablonokat, amelyeknek rögzített napirend szerkezete van, és időt takaríthat meg azzal, hogy új megbeszélések létrehozásakor újra felhasználja őket.
       nextcloud_sso:
         description: Enable seamless and secure authentication for your Nextcloud storage with Single Sign-On. Simplify access management and enhance user convenience.
         title: Single Sign-On for Nextcloud Storage
@@ -2479,13 +2487,13 @@ hu:
       portfolio_management:
         description: Align your projects to your strategic goals by organizing them into portfolios and programs.
       project_creation_wizard:
-        description: Generate a step-by-step wizard to help project managers fill out a project initiation request.
+        description: Készítsen egy lépésről lépésre haladó varázslót, amely segít a projekt menedzsereknek a projektindítási kérelem kitöltésében.
       project_list_sharing:
-        description: Share project lists with individual users.
+        description: A projektlisták megosztása egyes felhasználókkal.
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
       scim_api:
-        description: Automate user management in OpenProject by seamlessly integrating external identity services like Microsoft Entra or Keycloak through our SCIM Server API. Available starting with the Enterprise corporate plan.
+        description: Automatizálja a felhasználókezelést az OpenProjectben úgy, hogy a SCIM Server API-n keresztül zökkenőmentesen integrálja a külső identitáskezelő szolgáltatásokat, például a Microsoft Entrát vagy a Keycloakot. Az Enterprise vállalati csomagtól elérhető.
         title: SCIM clients
       sso_auth_providers:
         description: Enable users to log in via external SSO providers using SAML or OpenID Connect for seamless access and integration with existing identity systems.
@@ -2519,7 +2527,7 @@ hu:
   enumeration_caption_order_changed: Order successfully changed.
   enumeration_could_not_be_moved: Enumeration could not be moved.
   enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
-  enumeration_reported_project_statuses: Reported status
+  enumeration_reported_project_statuses: Jelentett állapot
   enumeration_work_package_priorities: Feladatcsoport fontosság
   error_attribute_not_highlightable: 'Tulajdonság(ok) nem kiemelhetők: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen
@@ -2545,7 +2553,7 @@ hu:
   error_custom_option_not_found: A beállítás nem létezik.
   error_enterprise_activation_user_limit: Fiókját nem lehet aktiválni (elérte a felhasználói korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez.
   error_enterprise_plan_needed: You need the %{plan} enterprise plan to perform this action.
-  error_enterprise_token_invalid_domain: The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected}).
+  error_enterprise_token_invalid_domain: Az Enterprise Edition nem aktív. Vállalati jogkivonata domainje (%{actual}) nem egyezik a rendszer gazdagépnevével (%{expected}).
   error_external_authentication_failed_message: 'An error occurred during external authentication: %{message}'
   error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
   error_in_dependent: 'Hiba a függő objektum módosítása során: %{dependent_class} # %{related_id} - %{related_subject}: %{error}
@@ -2780,10 +2788,10 @@ hu:
   gui_validation_error_plural: "%{count} hiba"
   header:
     project_select_component:
-      all_projects: All projects
+      all_projects: Összes projekt
       favorites: Favorites
       leave_project: Leave project
-      no_favorite_projects: You have no favorite projects.
+      no_favorite_projects: Nincs kedvenc projektje.
       title: Projects
   health_reports:
     common:
@@ -2821,15 +2829,14 @@ hu:
     blocks:
       community: OpenProject Közösség
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: XWiki integration (Corporate plan).
-            line_1: Sprint goals.
-            line_2: "'All sprints' overview page."
-            line_3: Display backlog buckets in work packages and work package tables.
-            line_4: Improved support for project-based (semantic) identifiers.
-            line_5: Convert meeting agenda items into work packages.
-            line_6: Configure cost types per project.
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2867,14 +2874,14 @@ hu:
   instructions_after_registration_link: You can sign in as soon as your account has been activated by clicking [here](signin_url).
   journals:
     cause_descriptions:
-      budget_deleted: Budget has been deleted
+      budget_deleted: A költségvetést törölték
       import:
         changed_with_diff: "%{field} changed (%{link})"
         deleted_with_diff: "%{field} deleted (%{link})"
         field_changed: "%{field} changed from %{old_value} to %{new_value}"
         field_removed: "%{field} removed"
         field_set: "%{field} set to %{value}"
-        field_updated: "%{field} updated"
+        field_updated: "%{field} frissítve"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
@@ -2907,7 +2914,7 @@ hu:
           non_working: "%{day} is now non-working"
           working: "%{day} is now working"
     caused_changes:
-      budget_deleted: Budget has been deleted
+      budget_deleted: A költségvetést törölték
       dates_changed: Dátum módosítva
       default_attribute_written: Read-only attributes written
       import: Imported
@@ -2954,7 +2961,7 @@ hu:
   label_api_access_key_created_on: 'APIhozzáférési kulcs készítette: %{value} ezelőtt'
   label_api_access_key_type: API
   label_api_doc: API dokumentáció
-  label_app_modules: "%{app_title} modules"
+  label_app_modules: "%{app_title} modulok"
   label_applied_status: Alkalmazott státusz
   label_archive_project: Projekt archiválása
   label_ascending: Növekvő
@@ -2984,6 +2991,8 @@ hu:
   label_blog: Blog
   label_board_plural: Táblák
   label_boolean: Logikai
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Branch
   label_browse: böngész
   label_builtin: Built-in
@@ -3030,6 +3039,7 @@ hu:
   label_configuration: Konfiguráció
   label_confirmation: Új jelszó újra
   label_consent_settings: Felhasználói jóváhagyás
+  label_constant_plural: Constants
   label_contains: tartalmaznak
   label_content: Tartalom
   label_continued_from_previous_year: continued from previous year
@@ -3127,7 +3137,7 @@ hu:
   label_end_to_start: végétől az elejéig
   label_enterprise: Vállalati
   label_enterprise_active_users: "%{current}/%{limit} foglalt aktív felhasználók"
-  label_enterprise_edition: Vállalati Verzió.
+  label_enterprise_edition: Vállalati változat
   label_enterprise_support: Enterprise support
   label_enumeration_new: Új felsorolási érték
   label_enumeration_value: Új felsorolási érték
@@ -3167,6 +3177,7 @@ hu:
   label_forum_plural: Fórumok
   label_forum_sticky: Kiemelt
   label_forums_locked: Zárolt
+  label_function_plural: Functions
   label_gantt_chart: Gantt-diagram
   label_gantt_chart_plural: Gantt-diagram
   label_general: Általános
@@ -3266,7 +3277,6 @@ hu:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Kezelt %{vendor} adattárak
   label_mapping_for: 'Mapping for: %{attribute}'
-  label_mathematical_operators: Mathematical operators
   label_max_size: Maximális mérete
   label_me: Nekem
   label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
@@ -3357,13 +3367,13 @@ hu:
   label_operator_equals_all: is (AND)
   label_operator_equals_or: is (OR)
   label_operator_none: is empty
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: bármely
   label_optional_description: Leírás
   label_options: Beállítások
   label_other: Egyéb
   label_overall_activity: Általános tevékenység
   label_overview: Áttekintés
-  label_page_title: Oldalcím
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -3377,7 +3387,7 @@ hu:
   label_password_rule_numeric: Numerikus karakterek
   label_password_rule_special: Különleges karakterek
   label_password_rule_uppercase: Nagybetű
-  label_past: Past
+  label_past: Múlt
   label_path_encoding: Elérési út kódolás
   label_people: Személyek
   label_per_page: 'Oldalanként:'
@@ -3437,6 +3447,7 @@ hu:
   label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_projects_menu: Projektek
   label_public_projects: Nyilvános projektek
+  label_punctuation: Punctuation
   label_query_new: Új lekérdezés
   label_query_plural: Egyéni lekérdezések
   label_read: Olvassa el...
@@ -3494,7 +3505,7 @@ hu:
   label_scroll_left: Scroll left
   label_scroll_right: Scroll right
   label_search: Keresés
-  label_search_by_name: Search by name
+  label_search_by_name: Keresés név szerint
   label_seeded_from_env_warning: This record has been created through a setting environment variable. It is not editable through UI.
   label_select_main_menu_item: Válasszon ki új fő menüpontot
   label_send_information: Send new credentials to the user
@@ -3568,7 +3579,7 @@ hu:
   label_type_new: Új típus
   label_type_plural: Típus
   label_ui: Felhasználói felület
-  label_upcoming: Upcoming
+  label_upcoming: Közelgő
   label_updated_time: Ezelőtt frissített %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Frissítve %{author} %{age} ezelőtt
@@ -3644,7 +3655,7 @@ hu:
   label_workflow: Munkafolyamat
   label_workflow_copy: Copy workflow
   label_workflow_plural: A munkafolyamatok
-  label_workflow_summary: Összegzés
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Working days and hours
   label_working_hours: Work schedule
@@ -3741,7 +3752,7 @@ hu:
       start_tls: STARTTLS
       start_tls_description: STARTTLS parancs küldése a szabványos LDAP-porthoz való csatlakozás után. Titkosított kapcsolatokhoz ajánlott.
     tls_options:
-      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string.
+      tls_certificate_description: Ha az LDAP-kiszolgáló tanúsítványa nem szerepel a rendszer megbízható forrásai között, itt manuálisan hozzáadhatja. Írja be a PEM X509 tanúsítvány karakterláncát.
       verify_peer: SSL tanúsítvány ellenőrzése
       verify_peer_description_html: 'Enables strict SSL verification of the certificate trusted chain. <br> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
 
@@ -3818,7 +3829,7 @@ hu:
     salutation_full_name: Full name
     sharing:
       work_packages:
-        allowed_actions_html: 'You have the following permissions on this work package: %{allowed_actions}. This can change depending on your project role and permissions.'
+        allowed_actions_html: 'A következő jogosultságokkal rendelkezik ehhez a munkacsomaghoz: %{allowed_actions}. Ez a projektben betöltött szerepétől és jogosultságaitól függően változhat.'
         create_account: To access this work package, you will need to create and activate an account on %{instance}.
         enterprise_text: Share work packages with users who are not members of the project.
         open_work_package: Open work package
@@ -3942,9 +3953,9 @@ hu:
         without_message: "%{user} frissítette a '%{project}' projektben betöltött szerepeit.\n"
     subject: "%{project} A szerepköreid frissítve lettek"
   mail_password_change_not_possible:
-    body: Your account at %{app_title} is connected to an external authentication provider (%{name}).
-    subtext: Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider.
-    title: Password change not possible
+    body: A %{app_title} webhelyen létrehozott fiókja egy külső hitelesítési szolgáltatóhoz (%{name}) van kapcsolva.
+    subtext: A külső fiókok jelszavait az alkalmazáson belül nem lehet megváltoztatni. Kérjük, használja a hitelesítési szolgáltatója jelszó-visszaállítási funkcióját.
+    title: A jelszó módosítása nem lehetséges
   mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
   mail_subject_backup_ready: A biztonsági mentés elkészült
   mail_subject_backup_token_reset: Biztonsági mentés token visszaállítás
@@ -3964,8 +3975,8 @@ hu:
     subject: A felhasználó aktiválási korlátját elérte
   mcp_configurations:
     server_url_component:
-      caption: The URL at which the OpenProject MCP server will be reachable. Required for setting up MCP clients.
-      label: Server URL
+      caption: Az az URL-cím, amelyen az OpenProject MCP-kiszolgáló elérhető lesz. Az MCP-kliensek beállításához szükséges.
+      label: Kiszolgáló webcíme
   members:
     columns:
       shared: Megosztva
@@ -4030,11 +4041,11 @@ hu:
   menus:
     admin:
       aggregation: Aggregálás
-      ai: Artificial Intelligence (AI)
+      ai: Mesterséges intelligencia (AI)
       api_and_webhooks: API és webhookok
       mail_notification: Email értesítés
       mails_and_notifications: Emails and notifications
-      mcp_configurations: Model Context Protocol (MCP)
+      mcp_configurations: Modellkontextus-protokoll (MCP)
     quick_add:
       label: Add…
   more_actions: További funkciók
@@ -4057,7 +4068,7 @@ hu:
       failed_to_reset_token: 'Hozzáférési token helyreállítása sikertelen: %{error}'
       failed_to_revoke_token: 'Failed to revoke access token: %{error}'
       no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
-      notice_api_token_revoked: The API token has been deleted. To create a new token please use the button in the API section.
+      notice_api_token_revoked: Az RSS-token törlésre került. Új token létrehozásához kérjük, használja az RSS szakaszban található linket.
       notice_ical_token_revoked: A "%{project_name}" projekt "%{calendar_name}" naptárához tartozó "%{token_name}" iCalendar token visszavonásra került. Az ezzel a tokennel rendelkező iCalendar URL mostantól érvénytelen.
       notice_reset_token: 'Egy új %{type} token létrehozva. A hozzáférési token:'
       notice_rss_token_revoked: Az RSS-token törlésre került. Új token létrehozásához kérjük, használja az RSS szakaszban található linket.
@@ -4120,7 +4131,7 @@ hu:
         text_hint: API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs.
         title: API
       token/rss:
-        add_button: RSS token
+        add_button: RSS-azonosító
         blank_description: There is no RSS token yet. You can create one using the button below.
         blank_title: No RSS token
         disabled_text: RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature.
@@ -4257,9 +4268,9 @@ hu:
   notice_locking_conflict: Az adatokat frissítette egy másik felhasználó időközben.
   notice_locking_conflict_action_button: Módosítások elvetése és újratöltés
   notice_locking_conflict_additional_information: A frissítést %{users} végezte el.
-  notice_locking_conflict_danger: Could not save your changes because of conflicting modifications. To not lose your edits, copy them locally and reload to view the updated version.
+  notice_locking_conflict_danger: A módosításokat összeférhetetlenség miatt nem sikerült elmenteni. Ha nem szeretnéd elveszíteni a szerkesztéseidet, másold át őket a helyi gépre, majd frissítsd az oldalt a frissített változat megtekintéséhez.
   notice_locking_conflict_reload_page: Töltse újra az oldalt, tekintse át a módosításokat, és a frissítse újra.
-  notice_locking_conflict_warning: This page has been updated by someone else. To not lose your edits, copy them locally and reload to view the updated version.
+  notice_locking_conflict_warning: Ezt az oldalt valaki más frissítette. Ha nem szeretnéd elveszíteni a szerkesztéseidet, másold le őket a számítógépedre, majd frissítsd az oldalt a frissített változat megtekintéséhez.
   notice_logged_out: Kijelentkeztél.
   notice_member_added: Hozzáadva %{name} projekthez.
   notice_member_deleted: "%{user} felhasználó el lett távolítva a projektből és törölve lett."
@@ -4278,7 +4289,7 @@ hu:
   notice_project_not_deleted: A projekt nem lett törölve.
   notice_project_not_found: Project not found.
   notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
-  notice_smtp_address_unsafe_env_hint: SMTP address %{address} is not safe. Please add it to the whitelist using the %{env_name} environment variable.
+  notice_smtp_address_unsafe_env_hint: Az %{address} SMTP-cím nem biztonságos. Kérjük, vegye fel a fehérlistára a %{env_name} környezeti változó segítségével.
   notice_successful_cancel: Successful cancellation.
   notice_successful_connection: Sikeresen létrejött a kapcsolat.
   notice_successful_create: Sikeres létrehozás.
@@ -4424,8 +4435,8 @@ hu:
     scopes:
       api_v3: Teljes API v3 hozzáférés
       api_v3_text: Az alkalmazás teljes olvasási és írási hozzáférést kap az OpenProject API v3 verzióhoz az Ön nevében végzett műveletek elvégzéséhez.
-      mcp: Access to MCP
-      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Hozzáférés az MCP-hez
+      mcp_text: Az alkalmazás hozzáférést kap az OpenProject MCP végpontokhoz. Ezek az APIv3 korlátozott részhalmaza, amelyet kifejezetten mesterséges intelligencia-ügynökökkel való használatra alakítottak ki.
   oauth_client:
     errors:
       oauth_authorization_code_grant_had_errors: OAuth2 Authorization grant unsuccessful
@@ -4437,7 +4448,6 @@ hu:
       oauth_code_not_present_explanation: 'This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be ''code'' or similar.
 
         '
-      oauth_issue_contact_admin: OAuth2 reported an error. Please contact your system administrator.
       oauth_reported: OAuth2 provider reported
       oauth_returned_error: OAuth2 returned an error
       oauth_returned_http_error: OAuth2 returned a network error
@@ -4485,7 +4495,7 @@ hu:
       defined: must not be defined.
       eql?: must be equal to %{left}.
       filled?: must be filled.
-      format?: is in invalid format.
+      format?: érvénytelen formátumú.
       greater_or_equal_zero: must be greater or equal to 0.
       gteq?: must be greater than or equal to %{num}.
       hash?: must be a hash.
@@ -4512,10 +4522,10 @@ hu:
         short:
           not_unique: must be unique within the same hierarchy level.
       str?: must be a string.
-      time?: must be a time.
+      time?: időpontnak kell lennie.
       type?: must be %{type}.
-      unexpected_key: is not allowed.
-      uri?: is not a valid URI.
+      unexpected_key: nem megengedett.
+      uri?: nem érvényes URL.
     or: vagy
     rules:
       blueprint: Pattern blueprint
@@ -4571,7 +4581,13 @@ hu:
         label: Sablon
         none_enabled: No template has been enabled for this work package type
       title: Generate PDF
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
     page_nr_footer: Page %{page} of %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form configuration using the default template.
       label: Attributes and description
@@ -4598,7 +4614,7 @@ hu:
   permission_commit_access: Olvasási és írási jog a tárolóhoz (commit)
   permission_copy_projects: Projekt másolása
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
-  permission_copy_work_packages: Duplicate work packages
+  permission_copy_work_packages: Ismétlődő munkacsomag
   permission_create_backup: Biztonsági mentés létrehozása
   permission_create_user: Create users
   permission_delete_messages: Üzenetek törlése
@@ -4628,7 +4644,7 @@ hu:
   permission_edit_work_packages: feladatcsoportok szerkesztése
   permission_export_projects: Export projects
   permission_export_work_packages: feladatcsoportok exportálása
-  permission_header_for_project_module_work_package_tracking: Munkcsomagok és Gantt ábrák
+  permission_header_for_project_module_work_package_tracking: Munkacsomagok és Gantt diagramok
   permission_invite_members_by_email: Invite members by email
   permission_invite_members_by_email_explanation: 'Allows users to invite new members by email. Invited users will receive an email with a link to set their password and activate their account. Depends on the permission to manage members
 
@@ -4714,15 +4730,17 @@ hu:
     templated_hint: Automatically generated through type %{type}
   plugin_openproject_auth_plugins:
     description: Integration of OmniAuth strategy providers for authentication in OpenProject.
-    name: OpenProject Auth Plugins
+    name: OpenProject hitelesítési bővítmények
   plugin_openproject_auth_saml:
-    description: Adds the OmniAuth SAML provider to OpenProject
-    name: OmniAuth SAML / Single-Sign On
+    description: Hozzáadja az OmniAuth SAML-szolgáltatót az OpenProjecthez
+    name: OmniAuth SAML / Egyszeri bejelentkezés
   portfolio:
     count:
       one: 1 portfolio
       other: "%{count} portfolios"
       zero: 0 portfolios
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4740,13 +4758,15 @@ hu:
   priorities:
     edit:
       priority_color_text: |
-        Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
-        Az állapot gomb látható és kiemelhető a feladatcsoport táblázatban.
+        Kattintson ide a prioritás színének a beállításához, vagy megváltoztatásához.
+        Ezzel kiemelhetők munkacsomagok a táblázatban.
   program:
     count:
       one: 1 program
       other: "%{count} programs"
       zero: 0 programs
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archiválva
@@ -4758,16 +4778,16 @@ hu:
       zero: 0 projects
     destroy:
       confirmation_message_for_subprojects_html:
-        one: 'You are about to permanently delete all data relating to project <strong>%{name}</strong> and this subproject:
+        one: 'Arra készül, hogy véglegesen törölje az összes, a következő projekthez kapcsolódó adatot <strong>%{name}</strong> és ehhez az alprojekthez kapcsolódó összes adatot véglegesen törölni készül:
 
           '
-        other: 'You are about to permanently delete all data relating to project <strong>%{name}</strong> and these subprojects:
+        other: 'Arra készül, hogy véglegesen törölje az összes, a projekthez kapcsolódó adatot <strong>%{name}</strong> és az alábbi alprojektekhez:
 
           '
-        zero: 'You are about to permanently delete all data relating to project <strong>%{name}</strong>.
+        zero: 'Arra készül, hogy véglegesen törölje az összes, a projekthez kapcsolódó adatot <strong>%{name}</strong>.
 
           '
-      heading: Permanently delete this project?
+      heading: Véglegesen törölni szeretné ezt a projektet?
       title: Projekt törlése
     filters:
       project_phase: 'Project phase: %{phase}'
@@ -4808,7 +4828,7 @@ hu:
     delete:
       completed: Deletion of project '%{name}' completed
       completed_text: A projekt%{name} törlése sikeres.
-      completed_text_children: 'Additionally, the following subprojects have been deleted:'
+      completed_text_children: 'Ezen felül a következő alprojektek törlésre kerültek:'
       failed: Deletion of project '%{name}' has failed
       failed_text: The request to delete project '%{name}' has failed. The project was left archived.
       schedule_failed: 'A projektet nem lehet törölni: %{errors}'
@@ -4851,20 +4871,20 @@ hu:
       change_identifier_dialog_title: Change project identifier
       change_identifier_format_hint_legacy: Only lowercase letters (a–z), numbers, dashes or underscores.
       change_identifier_format_hint_semantic: Only uppercase letters (A–Z), numbers or underscores. Max 10 characters. Must start with a letter.
-      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifiers and URLs will nevertheless continue to work.
+      change_identifier_warning: 'Ez véglegesen megváltoztatja a projektben szereplő összes munkacsomag azonosítóit és URL-jeit. A korábbi azonosítók és URL-ek azonban továbbra is működni fognak.
 
         '
       creation_wizard:
-        enabled_because_required_html: This project attribute cannot be disabled for this project initiation request since it is defined as required. This can be changed in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance.
+        enabled_because_required_html: Ez a projektattribútum nem kapcsolható ki ebben a projektindítási kérelemben, mivel kötelezőként van megadva. Ezt az <a href=%{admin_settings_url} target="_blank"></a> adminisztrációs beállításokban a példány rendszergazdája módosíthatja.
         errors:
-          no_status_when_submitted: Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type.
-          no_work_package_type: Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project.
+          no_status_when_submitted: A projektindítási kérelem engedélyezése nem sikerült, mivel a „ %{type} ” munkacsomag-típushoz legalább egy állapotot kell társítani. Kérjük, engedélyezzen legalább egy állapot-munkafolyamatot ehhez a munkacsomag-típushoz.
+          no_work_package_type: A projektindítási kérelem engedélyezése nem sikerült, mivel ahhoz legalább egy aktív munkacsomag-típusra van szükség, ennek a projektnek viszont nincs ilyenje. Kérjük, adjon hozzá legalább egy munkacsomag-típust ehhez a projekthez.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Select which of the configured external file storages should be used.
           external_file_storage: External file storage
-          label_artifact_export: Artifact export
+          label_artifact_export: Artefact export
           label_attachment_export: Save as work package file attachment
           label_file_link_export: Upload file to external file storage and add file link to work package
           pdf_file_storage: PDF file storage
@@ -4881,7 +4901,7 @@ hu:
       header_details: Basic details
       header_identifier: Identifier
       header_relations: Project relations
-      header_status: Status
+      header_status: Állapot
       life_cycle:
         filter:
           label: Search project phase
@@ -4903,7 +4923,7 @@ hu:
           label_disable_single: Inactive in this project, click to enable
           label_enable_single: Active in this project, click to disable
           remove_from_project: Eltávolítás a projektből
-        enabled_via_assignee_when_submitted_html: This project attribute cannot be disabled since it is set as <a href=%{pir_submission_url} target="_blank">assignee when submitted</a> for project initiation requests.
+        enabled_via_assignee_when_submitted_html: Ez a projektattribútum nem kapcsolható ki, mivel a projektindítási kérelmek benyújtásakor <a href=%{pir_submission_url} target="_blank">felelősnek van beállítva</a>.
         filter:
           label: Search project attribute
         header:
@@ -4935,14 +4955,14 @@ hu:
 
           '
       template:
-        enable_failed: Failed to enable template mode.
+        enable_failed: A sablonmód engedélyezése nem sikerült.
         members:
-          excluded_roles_caption: 'When creating a new project from this template, the roles selected above will be omitted. This allows you to select which members will be excluded based on their project roles. Users can then access the template for viewing purposes without being granted access to new projects created from it.
+          excluded_roles_caption: 'Ha ebből a sablonból új projektet hoz létre, a fent kiválasztott szerepkörök nem kerülnek beépítésre. Ez lehetővé teszi, hogy a projektbeli szerepkörök alapján kiválassza, mely tagokat kíván kizárni. A felhasználók így megtekintési célból hozzáférhetnek a sablonhoz anélkül, hogy hozzáférést kapnának az abból létrehozott új projektekhez.
 
             '
-          excluded_roles_label: Roles to exclude when template is applied
-        menu_title: Template
-        title: Template settings
+          excluded_roles_label: A sablon alkalmazásakor kizárandó szerepkörök
+        menu_title: Sablon
+        title: Sablon beállítások
       types:
         form:
           enable_type_in_project: Engedélyezett típus  "%{type}"
@@ -4955,15 +4975,15 @@ hu:
       work_package_priorities:
         new_label: New priority
     status:
-      button_edit: Edit status
+      button_edit: Állapot szerkesztése
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
       sidebar_content_title: Content
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Project initiation request
   queries:
     apply_filter: Előre beállított szűrő alkalmazása
@@ -5093,7 +5113,7 @@ hu:
       oauth_application_details_link_text: Menjen a beállítások oldalra
       setup_documentation_details: 'Ha segítségre van szüksége egy új fájltároló beállításához, kérjük, ellenőrizze a dokumentációt:'
       setup_documentation_details_link_text: File storages setup
-      show_warning_details: To use this file storage remember to activate the module and the specific storage in the project settings of each desired project.
+      show_warning_details: A fájltároló használatához ne felejtsd el aktiválni a modult és az adott tárolót az egyes kívánt projektek projektbeállításaiban.
       update_timeout: Tartsa meg az utolsó szükséges lemezterület-információt egy tárolóhoz N percig. Mivel egy tároló szükséges lemezterületének kiszámítása erőforrás igényes lehet, növelje ezt az értéket a teljesítmény növelésének érdekében.
     subversion:
       existing_introduction: Ha rendelkezik meglévő Subversion tárolóval, akkor az OpenProject segítségével kapcsolódhat hozzá az alkalmazáson belül.
@@ -5136,7 +5156,7 @@ hu:
 
     '
   setting_after_login_default_redirect_url: After login redirect
-  setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
+  setting_after_login_default_redirect_url_example_html: 'Állítson be egy alapértelmezett útvonalat, ahová a rendszer a bejelentkezés után átirányítja a felhasználókat, ha nem adtak meg visszalépési linket. Ha nincs beállítva, a rendszer a kezdőlapra irányítja át a felhasználót. <br/> Példa: %{example_code}
 
     '
   setting_allowed_link_protocols: Allowed link protocols
@@ -5160,7 +5180,7 @@ hu:
   setting_apiv3_docs_enabled_instructions_html: 'Ha a Dokumentumok oldal engedélyezve van, interaktív nézetet kaphat az APIv3 dokumentációjáról a <a href="%{link}" target="_blank">%{link} </a> alatt.
 
     '
-  setting_apiv3_docs_enabled_instructions_warning: 'Please be aware that enabling the API docs on a production system may expose sensitive information or result in accidental loss of data when not being careful. We recommend to only enable this setting for development purposes.
+  setting_apiv3_docs_enabled_instructions_warning: 'Kérjük, vegye figyelembe, hogy az API-dokumentáció engedélyezése egy éles rendszeren érzékeny információk nyilvánosságra kerülését vagy – óvatlanság esetén – véletlen adatvesztést okozhat. Javasoljuk, hogy ezt a beállítást kizárólag fejlesztési célokra engedélyezze.
 
     '
   setting_apiv3_max_page_size: Maximum API oldal méret
@@ -5364,7 +5384,7 @@ hu:
   setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
   setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
-  setting_work_packages_projects_export_limit: Work packages / Projects export limit
+  setting_work_packages_projects_export_limit: A munka csoportok / projektek exportjának a korlátozása
   setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
 
     '
@@ -5435,7 +5455,7 @@ hu:
         status: Teljes sor állapot szerint
         type: Teljes sor típus szerint
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Lehetővé teszi a megfelelő jogosultságokkal rendelkező felhasználók számára, hogy feliratkozzanak az OpenProject naptáraira, és külső naptárkezelő programon keresztül hozzáférjenek a munkacsomagok adataihoz. <strong>Megjegyzés:</strong> A funkció engedélyezése előtt kérjük, olvassa el <a href="%{link}" target="_blank">az iCalendar-feliratkozásokkal</a> kapcsolatos információkat, hogy megismerje az esetleges biztonsági kockázatokat.
     language_name_being_default: "%{language_name} (default)"
     notifications:
       delay_minutes_explanation: 'Az e -mailek küldése késleltethető, hogy az alkalmazások értesítésében beállított felhasználók megerősíthessék az értesítést az alkalmazáson belül, mielőtt levelet küldenek. Azok a felhasználók, akik elolvasták az értesítést az alkalmazáson belül, nem kapnak e -mailt a már olvasott értesítésről.
@@ -5481,12 +5501,12 @@ hu:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Project creation wizard
           project_initiation_request: Project initiation request
@@ -5499,15 +5519,15 @@ hu:
         submitted_description: Click the button below to go to the work package for the submission process.
       submission:
         assignee: Assignee when submitted
-        assignee_caption_html: The user or group assigned to this project attribute will also become the assignee of the new work package. This list includes active project attributes of type <i>User</i> only.
+        assignee_caption_html: A projekthez rendelt attribútumhoz hozzárendelt felhasználó vagy csoport az új munkacsomag felelősévé is válik. Ez a lista kizárólag a <i>„Felhasználó”</i> típusú aktív projekthez rendelt attribútumokat tartalmazza.
         confirmation_email_default: |-
           Hello,
 
           You submitted a project initiation request for **%{project_name}**. It is now awaiting review.
           Click the link below to access the work package with your request.
         confirmation_email_text: Confirmation email text
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Status when submitted
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -5515,7 +5535,7 @@ hu:
         work_package_comment_caption: The assignee selected above will automatically be @mentioned in the comment.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -5624,13 +5644,13 @@ hu:
       public_flag:
         caption: Everyone can view this project list. Those with global edit permissions can modify it.
         label: Share with everyone at %{instance_name}
-      publishing_denied: You do not have permission to make project lists public.
+      publishing_denied: Nincs jogosultsága a projektlisták nyilvánossá tételére.
       upsell:
         message: Sharing project lists with individual users is an enterprise add-on.
       user_details:
-        can_manage_public_lists: Can edit due to global permissions
-        can_view_because_public: Can already view because list is shared with everyone
-        owner: List owner
+        can_manage_public_lists: A globális jogosultságok miatt szerkesztheti
+        can_view_because_public: Már megtekinthető, mert a lista mindenki számára látható
+        owner: Projekt tulajdonosok listája
     remove: Eltávolítás
     share: Megosztás
     text_empty_search_description: There are no users with the current filter criteria.
@@ -5800,11 +5820,11 @@ hu:
     '
   text_notice_too_many_values_are_inperformant: 'Megjegyzés: Az oldalanként több mint 100 elem megjelenítésekor az oldal betöltési ideje  növekedhet.'
   text_own_membership_delete_confirmation: Értesítem arról, hogy eltávolít néhány vagy az összes jogosultságot, és ezt követően már nem lehet szerkeszteni ezt a projektet. Biztosan folytatni kívánja?
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Plugin eszközök könyvtára írható
   text_powered_by: Készítette %{link}
-  text_project_custom_field_html: 'The Enterprise edition will add these additional add-ons for projects'' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+  text_project_custom_field_html: 'Az Enterprise kiadás a következő kiegészítőket biztosítja a projektek egyéni mezőihez: <br> <ul> <li><b>Adjon hozzá egyéni mezőket a projektekhez a Projektlistában, hogy létrehozhasson egy projektportfólió-nézetet</b></li> </ul>
 
     '
   text_project_identifier_description: The project identifier is prepended to all work package IDs. If the identifier is "PROJ" for example, the work package identifier will be "PROJ-12" or "PROJ-246".
@@ -5828,8 +5848,9 @@ hu:
   text_user_invited: A felhasználót meghívták és a regisztráció folyamatban van.
   text_user_wrote: "%{value} írta:"
   text_warn_on_leaving_unsaved: A  feladatcsoport  nem mentett szöveget tartalmaz, ami elveszik ha elhagyod ezt az oldalt.
-  text_what_did_you_change_click_to_add_comment: Mit változtattál? Klikkelj egy megjegyzés hozzáadásához.
   text_wiki_destroy_confirmation: Biztosan törli ezt a wikit és annak tartalmát?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: A gyermek oldalak és azok aloldalainak törlése
   text_wiki_page_destroy_question: Ez az oldal  %{descendants} gyermek oldalakkal és aloldalakkal rendelkezik. Mit akarsz csinálni?
   text_wiki_page_nullify_children: Megtartani a gyermek oldalakat mint fő oldalakat
@@ -5850,7 +5871,7 @@ hu:
   themes:
     dark: Dark
     light: Világos
-    sync_with_os: Automatic (match OS color mode)
+    sync_with_os: Automatikus (az operációs rendszer színéhez igazodó mód)
   time:
     am: Délelött
     formats:
@@ -5888,37 +5909,64 @@ hu:
   total_progress: Teljes folyamat
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      create_type: Create type
+      create_variant: Create variant
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
+        defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Sub-type created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+      success: Variant created successfully.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
+      breadcrumb_variant: 'Variant: %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
+          label: Automatically generated subjects
+        description:
+          caption: Add the text that will be added to the description field of all new work packages with this type.
+          label: Default description text
+        manually_editable_subjects:
+          caption: Users can manually enter and edit work package subjects without restrictions.
+          label: Manually editable subjects
+        pattern:
+          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          insert_as_text: 'No attributes found. Add as text: "%{word}"'
+          label: Subject pattern
+        tab: Defaults
+        token:
+          context:
+            parent: Parent
+            project: Project
+            work_package: Work package
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Details
+        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: A létrehozott PDF-fájl a munkacsomag mellékletként kerül elmentésre.
+            label: Munkacsomag mentése fájl mellékletként
+          file_link:
+            caption: A létrehozott PDF-fájlt feltöltik a projekt automatikusan kezelt Nextcloud-tárolójába, és a munkacsomagból hivatkozással ellátják. Azoknál a projekteknél, amelyek nem rendelkeznek ilyen tárolóval, a munkacsomagokat kihagyják.
+            label: Töltsd fel a fájlt egy külső fájltárolóba, és add hozzá a fájl linkjét a munkacsomaghoz
+          intro: Az ilyen típusú munkacsomagokról automatikusan hozzon létre PDF-fájlt, valahányszor azok állapota megváltozik.
+          invalid_mode: Érvénytelen műtárgy exportálási mód.
+          label: Műtárgyak automatikus exportálása
+          off_mode:
+            caption: A rendszer nem hozott létre automatikusan PDF-fájlt.
+            label: Kikapcsolva
+          section_title: Műtárgyak automatikus exportálása
+          unavailable: nem elérhető, nincs beállítva automatikusan kezelt Nextcloud-tároló
         intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
         pdf_export_templates:
           actions:
@@ -5926,6 +5974,8 @@ hu:
             label_enable_all: Enable all
           label: PDF Export templates
         tab: Generate PDF
+        templates:
+          section_title: PDF-exportálási sablonok
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -5968,44 +6018,90 @@ hu:
         filter: Search by section or name
         tab: Project attributes
       projects:
-        enable_all: Enable for all projects
-        select_projects: Select projects
-        select_projects_description: Select the projects in which you would like to use this type.
+        enable_all: Alapértelmezett az összes projektnél
+        select_projects: Válasszon projektet
+        select_projects_description: Válassza ki azokat a projekteket, amelyekben ezt a típust szeretné használni.
         tab: Projektek
-      settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
-        tab: Beállítások
-        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
-          label: Automatically generated subjects
-        manually_editable_subjects:
-          caption: Users can manually enter and edit work package subjects without restrictions.
-          label: Manually editable subjects
-        pattern:
-          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
-          insert_as_text: 'No attributes found. Add as text: "%{word}"'
-          label: Subject pattern
-        tab: Subject configuration
-        token:
-          context:
-            parent: Szülő
-            project: Projekt
-            work_package: Feladatcsoport
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or variant
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            title: Switch configuration mode?
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          dialog:
+            submit: Switch
+            title: Independent mode
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the current settings set in the linked mode.
+              label: Copy from linked
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              title: Change source type?
+            check_box: I understand that this will override the current settings
+            from_independent:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              title: Switch configuration mode?
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          dialog:
+            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
+            source_label: Linked source
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Linked mode
+          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
+      workflow:
+        tab: Workflows
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Add variant to %{name}
+      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Új típus létrehozása
       no_results_title_text: Jelenleg nincsenek típusok.
-      subtype_label: Sub-type
-      subtypes_count:
-        one: 1 sub-type
-        other: "%{count} sub-types"
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects"
       type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
+      variant_label: Variant
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
   unsupported_browser:
     close_warning: Figyelmeztetés figyelmen kívül hagyása.
     message: Előfordulhat, hogy hibákba ütközik és romlik az élmény ezen az oldalon.
@@ -6030,7 +6126,7 @@ hu:
     deleted: Törölt felhasználó
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     error_admin_change_on_non_admin: Only administrators can change the status of administrator users.
-    error_cannot_delete_user: User cannot be deleted
+    error_cannot_delete_user: A felhasználó nem törölhető
     error_status_change_failed: 'A felhasználó állapotának a módosítása nem sikerült a következő hiba miatt: %{errors}'
     error_status_change_self: You cannot change your own user status.
     identity_url_text: The internal unique identifier provided by the authentication provider.
@@ -6055,7 +6151,7 @@ hu:
   users:
     autologins:
       prompt: Maradjon bejelentkezve %{num_days} napig.
-    force_password_change_hint: The user must set a new password on their next login. Automatically enabled when sending credentials via email.
+    force_password_change_hint: A felhasználónak a következő bejelentkezéskor új jelszót kell beállítania. Ez a beállítás automatikusan aktiválódik, ha a bejelentkezési adatokat e-mailben küldik el.
     groups:
       member_in_these_groups: 'A felhasználó a következő csoportoknak a tagja:'
       more: "%{count} more"
@@ -6065,7 +6161,7 @@ hu:
     invite_user_modal:
       invite: Meghívás
       message:
-        description: We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.
+        description: Küldünk egy e-mailt a felhasználónak, amelyhez itt hozzáadhat egy személyes üzenetet. Hasznos lehet a meghívás indoklása, vagy esetleg néhány információ a projektről, hogy megkönnyítse a kezdő lépéseket.
         label: Meghívó üzenet
       principal:
         create_new_placeholder: Új teszt felhasználó létrehozása
@@ -6127,12 +6223,12 @@ hu:
     memberships:
       no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
     open_profile: Open profile
-    send_information_hint: Emails the password in plain text. When checked, the user will be required to change their password on first login.
+    send_information_hint: A jelszót egyszerű szövegként elküldi e-mailben. Ha ez a jelölőnégyzet be van jelölve, a felhasználónak az első bejelentkezéskor meg kell változtatnia a jelszavát.
     sessions:
       browser: Böngésző
       browser_session: "(Browser session)"
       current: Current (this device)
-      deletion_warning: Are you sure you want to revoke this session? You will be logged out on this device.
+      deletion_warning: Biztosan vissza akarja vonni ezt a munkamenetet? Ekkor kijelentkezik erről az eszközről.
       device: Eszköz / Operációs rendszer
       expires: Lejár
       instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognise or from devices you do not control.
@@ -6214,10 +6310,10 @@ hu:
         '
       title: Hosztnév beállítási eltérés
     https_mismatch:
-      text_html: 'Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+      text_html: 'Az alkalmazás HTTPS-módban fut amelynek A beállítása <code>%{set_protocol}</code>, de a kérés <code>%{actual_protocol}</code> kérés. Ez hibákhoz vezet! Be kell állítania a következő konfigurációs értéket: <code>%{setting_value}</code>. A beállítás módjáról kérjük, olvassa el <a href="%{more_info_path}">a telepítési dokumentációt</a>.
 
         '
-      title: HTTPS mode setup mismatch
+      title: A HTTPS-mód beállításainak eltérése
   warning_imminent_user_limit_html: 'You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please [upgrade your plan](upgrade_url) or block existing users in order to allow invited and registered users to join.
 
     '
@@ -6231,7 +6327,7 @@ hu:
   warning_user_limit_reached_admin_html: 'Adding additional users will exceed the current limit. Please [upgrade your plan](upgrade_url) to be able to ensure external users are able to access this instance.
 
     '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Elérte a felhasználói limitet (%{current}/%{max} aktív felhasználók). Kérjük, forduljon a sales@openproject.com címhez az Enterprise Edition licenc frissítésért és további felhasználók hozzáadásához.
 
     '
   wiki:
@@ -6258,13 +6354,13 @@ hu:
     permissions:
       comment: Vélemény
       comment_description: Can view and comment this work package.
-      comment_verb: comment
+      comment_verb: hozzászólás
       edit: Szerkesztés
       edit_description: Can view, comment and edit this work package.
-      edit_verb: edit
+      edit_verb: szerkesztés
       view: Nézet
       view_description: Can view this work package.
-      view_verb: view
+      view_verb: nézet
     progress:
       derivation_hints:
         done_ratio:
@@ -6316,7 +6412,7 @@ hu:
       blocked_description: Ezt a munkacsomagot nem lehet lezárni, amíg a kapcsolódó munkacsomagot le nem zárják
       blocks_description: A kapcsolódó munkacsomag nem zárható le, amíg ezt a munkacsomagot nem zárják le először
       child: Gyermek
-      child_description: Meglévő munkacsomag csatolása az aktuális munkacsomag (szülő) alelemeként
+      child_description: A kapcsolódó munkacsomagot az aktuális munkacsomag (gyermek) szülőjévé teszi
       duplicated_by_description: A kapcsolódó munkacsomag, ennek a munkacsomagnak egy másolata
       duplicated_description: A kapcsolódó munkacsomag, ennek a munkacsomagnak egy másolata
       duplicates_description: Ez a munkacsomag, a kapcsolódó munkacsomag másolata
@@ -6448,9 +6544,9 @@ hu:
       unsupported_for_multiple_projects: Tömeges mozgatás/másolás nem támogatott a különböző projektekből származó feladatcsoportokhoz
     sharing:
       missing_workflow_warning:
-        link_message: Configure the workflows in the administration.
-        message: No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role.
-        title: Workflow missing for work package sharing
+        link_message: Állítsa be a munkafolyamatokat az adminisztrációs felületen.
+        message: 'A „Munkacsomag-szerkesztő” szerepkörhöz nincs beállítva munkafolyamat. Munkafolyamat hiányában a megosztott felhasználó nem módosíthatja a munkacsomag állapotát. A munkafolyamatok másolhatók. Válasszon ki egy forrás típust (pl.: „Feladat”) és egy forrás szerepkört (pl.: „Tag”). Ezután válassza ki a cél típusokat. Kezdetnek kiválaszthatja az összes típust célként. Végül válassza ki a „Munkacsomag-szerkesztő” szerepkört célként, majd nyomja meg a „Másolás” gombot. Miután így létrehozta az alapértelmezett beállításokat, finomítsa a munkafolyamatokat, ahogyan azt minden más szerepkör esetében is teszi.'
+        title: Hiányzik a munkacsomag-megosztáshoz szükséges munkafolyamat
     summary:
       reports:
         assigned_to:
@@ -6526,7 +6622,7 @@ hu:
       warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
 
         '
-    info: 'Days that are not selected are skipped when scheduling work packages and project life cycles (and not included in the day count). These can be overridden at a work-package level.
+    info: 'A munkacsomagok és a projekt életciklusok ütemezésekor a kiválasztásból kimaradt napokat a rendszer kihagyja (és nem veszi figyelembe a napok számításakor). Ezeket munkacsomag-szinten felül lehet írni.
 
       '
     instance_wide_info: 'Dates added to the list below are considered non-working and skipped when scheduling work packages.
@@ -6540,7 +6636,7 @@ hu:
       days:
         non_working: "%{day} is now non-working"
         working: "%{day} is now working"
-    warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+    warning: 'Ha megváltoztatja, hogy a hét mely napjai számítanak munkanapnak vagy nem munkanapnak, az ebben az esetben hatással lehet az összes projekt összes munkacsomagjának és életciklusának kezdő és befejező napjára.
 
       '
   you: te

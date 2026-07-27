@@ -85,7 +85,7 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
       end
 
       it "sets the version on duplicate and leaves a note" do
-        select version.name, from: "version_id"
+        select version.name, from: "target_version_ids"
         notes.set_markdown "A note on duplicate"
         click_on "Duplicate and follow"
 
@@ -107,7 +107,7 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
       context "when the limit to move in the frontend is reached",
               with_settings: { work_packages_bulk_request_limit: 1 } do
         it "copies them in the background and shows a status page" do
-          select version.name, from: "version_id"
+          select version.name, from: "target_version_ids"
           notes.set_markdown "A note on duplicate"
           click_on "Duplicate and follow"
 

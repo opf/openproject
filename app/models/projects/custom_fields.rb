@@ -51,9 +51,19 @@ module Projects::CustomFields
     end
 
     def available_custom_fields_for_type(type_id)
-      available_custom_fields
-        .joins(:project_custom_field_type_mappings)
-        .where(project_custom_field_type_mappings: { type_id: })
+      scope = available_custom_fields.joins(:project_custom_field_type_mappings)
+
+      # A type Linked for PROJECT_ATTRIBUTES has no own mappings; its enabled
+      # attributes are the source type's. The link chain is resolved inline via a
+      # subquery so no extra query is issued per call. The flag guard keeps that
+      # resolution out of the path while variants are off, where every type owns
+      # its own mappings.
+      unless type_id && OpenProject::FeatureDecisions.type_variants_active?
+        return scope.where(project_custom_field_type_mappings: { type_id: })
+      end
+
+      resolved_type_id = Type.effective_source_id_subquery(type_id, Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+      scope.where("project_custom_field_type_mappings.type_id = (#{resolved_type_id})")
     end
 
     # Note:

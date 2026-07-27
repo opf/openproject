@@ -53,8 +53,10 @@ class ResourcePlanner < PersistedView
             presence: true
 
   validate :end_date_after_start_date
+  validate :dates_set_together
 
   include ResourceManagement::Categorized
+  include ResourceManagement::DateRangeAttribute
 
   def visible?(user)
     return false if project.nil?
@@ -88,5 +90,17 @@ class ResourcePlanner < PersistedView
     return if end_date > start_date
 
     errors.add :end_date, :greater_than_start_date
+  end
+
+  # The timeframe is optional, but it is picked as a range: it is either left
+  # empty or both of its ends are given.
+  def dates_set_together
+    return if start_date.blank? == end_date.blank?
+
+    if start_date.blank?
+      errors.add :start_date, :required_with_end_date
+    else
+      errors.add :end_date, :required_with_start_date
+    end
   end
 end
