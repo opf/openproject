@@ -134,9 +134,11 @@ module Users
       # The field is editable by administrators only and disabled when the current
       # department is managed by LDAP, since LDAP owns that membership.
       def render_department(group)
+        # Department is optional, so the blank entry clears the assignment rather than
+        # prompting a choice; "(none)" reads as an empty value, not a "please select" hint.
         group.select_list(name: :department_id,
                           label: User.human_attribute_name(:department),
-                          include_blank: "--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                          include_blank: I18n.t(:label_none_parentheses),
                           input_width: :medium,
                           **department_editability) do |list|
           department_options.each do |department|
