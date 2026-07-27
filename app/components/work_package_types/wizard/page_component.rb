@@ -69,6 +69,10 @@ module WorkPackageTypes
         [{ href: edit_type_details_path(type_id: type.parent_id), text: type.parent.name }]
       end
 
+      def cancel_href
+        type.persisted? ? edit_type_details_path(type_id: type.id) : types_path
+      end
+
       def step_title = Steps.title(current_step)
 
       def step_url = type_creation_wizard_path(type, step: current_step)
