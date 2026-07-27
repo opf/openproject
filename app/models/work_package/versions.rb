@@ -65,6 +65,9 @@ module WorkPackage::Versions
     # that the journal snapshot sees the current version sets in the database.
     after_save :persist_version_associations
 
+    # Store in memory values that will replace target/observed_in version values
+    # This is used by the contracts/services flow in order to do checks and validations
+    # before persisting any actual data to the database
     attr_accessor :target_version_ids_replacements,
                   :observed_in_version_ids_replacements
   end
@@ -168,6 +171,23 @@ module WorkPackage::Versions
   # at all.
   def override_target_versions? = !target_version_ids_replacements.nil?
   def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
+
+  # List of target versions, but takes into account pending overrides that were
+  # not written yet
+  #
+  # By precedence:
+  #   * target_version_ids_replacements
+  #   * pending version_id change
+  #   * actual written target_versions
+  def effective_target_versions
+    if target_version_ids_replacements.nil?
+      # TODO(COMMS-863)
+      return version_id_changed? ? Array(version) : target_versions
+    end
+
+    versions_by_id = Version.where(id: target_version_ids_replacements).index_by(&:id)
+    target_version_ids_replacements.filter_map { |id| versions_by_id[id] }
+  end
 
   # An override can also originate from the system, e.g. when versions that are
   # not shared with the (new) project are cleared on a project change. Such
