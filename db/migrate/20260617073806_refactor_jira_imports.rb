@@ -3,7 +3,7 @@
 class RefactorJiraImports < ActiveRecord::Migration[8.1]
   def change
     change_table :jira_imports, bulk: true do |t|
-      t.remove :status, type: :string, if_exists: true
+      t.remove :status, type: :string if t.column_exists?(:jira_imports, :status)
       t.remove :cursor, type: :jsonb
       t.remove :import_time_point, type: :timestamp
       t.string :import_batch_id
