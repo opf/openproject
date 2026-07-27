@@ -29,7 +29,7 @@
 #++
 
 module Import
-  class JiraCreateProjectsJob
+  class JiraCreateProjectJob
     # Builds OpenProject custom field definition(s) from a Jira custom field
     # and an optional Jira "field context" group.
     class JiraImportCustomFieldBuilder

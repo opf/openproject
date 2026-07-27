@@ -31,7 +31,7 @@
 module Import
   class JiraCreateCustomFieldsJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
-    include ::Import::JiraCreateProjectsJob::JiraImportCustomFields
+    include ::Import::JiraCreateProjectJob::JiraImportCustomFields
 
     def text
       "Create custom fields"

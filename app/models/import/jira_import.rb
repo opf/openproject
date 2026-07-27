@@ -47,7 +47,7 @@ module Import
              dependent: :destroy
 
     def state_machine
-      @state_machine ||= Import::JiraImportStateMachine.new(
+      Import::JiraImportStateMachine.new(
         self,
         transition_class: Import::JiraImportTransition,
         association_name: :transitions

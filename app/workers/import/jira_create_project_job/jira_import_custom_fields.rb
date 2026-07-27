@@ -29,7 +29,7 @@
 #++
 
 module Import
-  class JiraCreateProjectsJob
+  class JiraCreateProjectJob
     module JiraImportCustomFields
       JIRA_IMPORT_GROUP_KEY = "Jira import"
 

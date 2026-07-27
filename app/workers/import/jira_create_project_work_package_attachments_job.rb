@@ -29,16 +29,9 @@
 #++
 
 module Import
-  class JiraCreateProjectWorkPackageAttachmentsJob < ApplicationJob
+  class JiraCreateProjectWorkPackageAttachmentsJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
-    include ::Import::JiraCreateProjectsJob::JiraImportCustomFields
-    include JobIteration::Iteration
-
-    class AbortionError < StandardError; end
-
-    on_complete do
-      raise AbortionError, "Job was aborted" if @aborted
-    end
+    include ::Import::JiraCreateProjectJob::JiraImportCustomFields
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
@@ -49,8 +42,10 @@ module Import
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
-        total = Import::JiraIssue.count
-        position = Import::JiraIssue.where(id: ..cursor).count
+        total = Import::JiraIssue.where(jira_import:).count
+        position = Import::JiraIssue
+                     .where(id: ..cursor, jira_import:)
+                     .count
         (position.to_f / total * 100).round(2)
       else
         0

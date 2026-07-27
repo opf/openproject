@@ -31,7 +31,7 @@
 module Import
   class JiraCreateProjectJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
-    include ::Import::JiraCreateProjectsJob::JiraImportCustomFields
+    include JiraImportCustomFields
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]

@@ -29,24 +29,14 @@
 #++
 
 module Import
-  class JiraFetchBaseJob < ApplicationJob
-    include ProgressableJob
-
-    def perform(jira_import_id, *)
+  module JiraJobUtils
+    def prepare_jira_import_ivars(jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
       @jira_id = jira.id
       @updated_at = Time.zone.now
       @created_at = @updated_at
       @jira_client = jira.client
-
-      fetch_data(*)
-    end
-
-    private
-
-    def fetch_data(*)
-      raise SubclassResponsibilityError, "Subclasses must implement #fetch_data"
     end
   end
 end

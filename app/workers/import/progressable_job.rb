@@ -29,10 +29,27 @@
 #++
 
 module Import
-  module ProgressableJob
-    def text
-      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.import_batch_jobs.#{to_s.demodulize.underscore}.title",
-             default: to_s)
+  class ProgressableJob < ApplicationJob
+    include JobIteration::Iteration
+
+    class AbortionError < StandardError; end
+
+    on_complete do
+      raise AbortionError, "Job was aborted" if @aborted
+    end
+
+    def percentage
+      raise "Must be implemented by the job itself"
+    end
+
+    private
+
+    def job_should_exit?
+      if @jira_import.reload.in_state?(:import_aborting)
+        @aborted = true
+        throw(:abort)
+      end
+      super
     end
   end
 end

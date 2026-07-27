@@ -29,9 +29,16 @@
 #++
 
 module Import
-  class JiraFetchIssueTypesJob < JiraFetchBaseJob
+  class JiraFetchIssueTypesJob < ApplicationJob
+    include JiraJobUtils
+
     def text
       "Fetch Issue Types"
+    end
+
+    def perform(jira_import_id)
+      prepare_jira_import_ivars(jira_import_id)
+      fetch_data
     end
 
     private

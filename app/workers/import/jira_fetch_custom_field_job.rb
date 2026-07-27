@@ -29,7 +29,8 @@
 #++
 
 module Import
-  class JiraFetchCustomFieldJob < JiraFetchBaseJob
+  class JiraFetchCustomFieldJob < ApplicationJob
+    include Import::JiraJobUtils
     # Jira custom-field types that carry per-context "Field context" allowedValues and therefore
     # require editmeta resolution to capture project-specific option lists.
     OPTION_BASED_CUSTOM_SUFFIXES = %w[select multiselect multicheckboxes radiobuttons cascadingselect].freeze
@@ -38,15 +39,17 @@ module Import
       "Fetch Custom Fields"
     end
 
-    private
+    def perform(jira_import_id)
+      prepare_jira_import_ivars(jira_import_id)
 
-    def fetch_data
       used_custom_field_ids = collect_used_custom_field_ids
       return unless used_custom_field_ids.any?
 
       upsert_custom_fields(used_custom_field_ids)
       sync_custom_field_options
     end
+
+    private
 
     def collect_used_custom_field_ids
       used_ids = Set.new

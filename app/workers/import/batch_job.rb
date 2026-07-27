@@ -36,8 +36,8 @@ module Import
 
         case context[:event]
         when :finish
-          if jira_import.in_state?(:import_cancelling)
-            jira_import.transition_to!(:import_cancelled)
+          if jira_import.in_state?(:import_aborting)
+            jira_import.transition_to!(:import_error)
           end
         end
       end
@@ -48,7 +48,7 @@ module Import
         jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
         case context[:event]
         when :discard
-          jira_import.transition_to!(:import_error) unless jira_import.in_state?(:import_cancelling)
+          jira_import.transition_to!(:import_error) unless jira_import.in_state?(:import_aborting, :import_error)
         end
       end
     end

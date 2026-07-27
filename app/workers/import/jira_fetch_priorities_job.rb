@@ -29,9 +29,16 @@
 #++
 
 module Import
-  class JiraFetchPrioritiesJob < JiraFetchBaseJob
+  class JiraFetchPrioritiesJob < ApplicationJob
+    include JiraJobUtils
+
     def text
       "Fetch Priorities"
+    end
+
+    def perform(jira_import_id)
+      prepare_jira_import_ivars(jira_import_id)
+      fetch_data
     end
 
     private

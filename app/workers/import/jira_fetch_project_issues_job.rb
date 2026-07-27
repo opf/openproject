@@ -29,14 +29,8 @@
 #++
 
 module Import
-  class JiraFetchProjectIssuesJob < ApplicationJob
-    include JobIteration::Iteration
-
-    class AbortionError < StandardError; end
-
-    on_complete do
-      raise AbortionError, "Job was aborted" if @aborted
-    end
+  class JiraFetchProjectIssuesJob < ProgressableJob
+    include JiraJobUtils
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
@@ -55,12 +49,7 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      jira = @jira_import.jira
-      @jira_id = jira.id
-      @updated_at = Time.zone.now
-      @created_at = @updated_at
-      @jira_client = jira.client
+      prepare_jira_import_ivars(jira_import_id)
       jira_project = Import::JiraProject.find(jira_project_id)
 
       cursor ||= @jira_import.get_job_cursor(self)
@@ -69,7 +58,7 @@ module Import
       Enumerator.new do |yielder|
         loop do
           jql = "project = '#{jira_project.payload['key']}' ORDER BY id ASC"
-          response = @jira_client.issues(jql:, start_at:, max_results: 1)
+          response = @jira_client.issues(jql:, start_at:, max_results: 50)
 
           issues = response["issues"]
           total  = response["total"]
@@ -92,21 +81,13 @@ module Import
     end
 
     def each_iteration(issues_and_total, jira_import_id, jira_project_id)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      jira = @jira_import.jira
-      @jira_id = jira.id
-      @updated_at = Time.zone.now
-      @created_at = @updated_at
-      @jira_client = jira.client
-      jira_project = Import::JiraProject.find(jira_project_id)
-
       issues = issues_and_total["issues"]
       issues_and_total["total"]
       issues_upsert_data = issues.map do |issue|
         {
           payload: issue,
           jira_id: @jira_id,
-          jira_project_id: jira_project.id,
+          jira_project_id: jira_project_id,
           jira_issue_id: issue.fetch("id"),
           jira_import_id: @jira_import.id,
           created_at: @created_at,
@@ -116,15 +97,5 @@ module Import
       Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_id jira_issue_id])
     end
     # rubocop:enable Metrics/AbcSize
-
-    private
-
-    def job_should_exit?
-      if @jira_import.reload.in_state?(:import_cancelling)
-        @aborted = true
-        throw(:abort)
-      end
-      super
-    end
   end
 end

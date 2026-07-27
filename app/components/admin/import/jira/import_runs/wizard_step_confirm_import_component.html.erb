@@ -101,29 +101,26 @@ See COPYRIGHT and LICENSE files for more details.
             end
           )
           concat(
-            render(
-              Primer::Beta::Button.new(
-                scheme: :danger,
-                tag: :a,
-                size: :medium,
-                href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "abort_import"),
-                data: { turbo_stream: true }
-              )
-            ) do
-              "Abort"
+            render(Primer::Beta::Button.new(
+              scheme: :danger,
+              tag: :a,
+              size: :medium,
+              href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "abort_import"),
+              data: { turbo_stream: true }
+            )) do
+            "Abort"
             end
           )
           concat(
-            render(
-              Primer::Beta::Button.new(
-                tag: :a,
-                size: :medium,
-                href: admin_import_jira_path(id: model.jira.id)
-              )
-            ) do
-              "Cancel"
+            render(Primer::Beta::Button.new(
+              tag: :a,
+              size: :medium,
+              href: admin_import_jira_path(id: model.jira.id)
+            )) do
+            "Cancel"
             end
           )
+
         end
       end
     elsif model.in_state?(:import_aborting)
@@ -138,41 +135,36 @@ See COPYRIGHT and LICENSE files for more details.
       box.with_row do
         render(Primer::Alpha::Stack.new(direction: :horizontal)) do
           concat(
-            render(
-              Primer::Beta::Button.new(
-                scheme: :primary,
-                href: continue_admin_import_jira_run_path(step: :import),
-                data: { turbo_stream: true },
-                disabled: true,
-                tag: :a
-              )
-            ) do |button|
+            render(Primer::Beta::Button.new(
+              scheme: :primary,
+              href: continue_admin_import_jira_run_path(step: :import),
+              data: { turbo_stream: true },
+              disabled: true,
+              tag: :a,
+            )) do |button|
               button.with_leading_visual_icon(icon: :sync)
               "Importing data"
             end
           )
           concat(
-            render(
-              Primer::Beta::Button.new(
-                scheme: :danger,
-                tag: :a,
-                size: :medium,
-                href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "abort_import"),
-                disabled: true,
-                data: { turbo_stream: true }
-              )
-            ) do
+            render(Primer::Beta::Button.new(
+              scheme: :danger,
+              tag: :a,
+              size: :medium,
+              href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: 'abort_import'),
+              disabled: true,
+              data: { turbo_stream: true }
+            )) do |button|
+              button.with_leading_visual_icon(icon: :sync, animation: :rotate)
               "Abort"
             end
           )
           concat(
-            render(
-              Primer::Beta::Button.new(
-                tag: :a,
-                size: :medium,
-                href: admin_import_jira_path(id: model.jira.id)
-              )
-            ) do
+            render(Primer::Beta::Button.new(
+              tag: :a,
+              size: :medium,
+              href: admin_import_jira_path(id: model.jira.id),
+            )) do
               "Cancel"
             end
           )

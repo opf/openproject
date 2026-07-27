@@ -29,16 +29,11 @@
 #++
 
 module Import
-  class JiraCreateProjectWorkPackagesJob < ApplicationJob
+  class JiraCreateProjectWorkPackagesJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
-    include ::Import::JiraCreateProjectsJob::JiraImportCustomFields
-    include JobIteration::Iteration
-
-    class AbortionError < StandardError; end
+    include ::Import::JiraCreateProjectJob::JiraImportCustomFields
 
     on_complete do
-      raise AbortionError, "Job was aborted" if @aborted
-
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
       # or 0 in case there are no work_packages in the project.
       Project
@@ -56,8 +51,10 @@ module Import
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
-        total = Import::JiraIssue.count
-        position = Import::JiraIssue.where(id: ..cursor).count
+        total = Import::JiraIssue.where(jira_import:).count
+        position = Import::JiraIssue
+                     .where(id: ..cursor, jira_import:)
+                     .count
         (position.to_f / total * 100).round(2)
       else
         0
@@ -93,7 +90,6 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
-      sleep(3)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
           ActiveRecord::Base.transaction do

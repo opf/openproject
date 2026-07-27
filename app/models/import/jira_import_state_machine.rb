@@ -47,8 +47,8 @@ module Import
 
     state :importing
     state :import_error
-    state :imported
     state :import_aborting
+    state :imported
 
     state :reverting
     state :revert_error
@@ -68,7 +68,7 @@ module Import
     transition from: PROJECTS_META_DONE,     to: [IMPORTING]
     transition from: IMPORTING,              to: [IMPORTED, IMPORT_ERROR, IMPORT_ABORTING]
     transition from: IMPORT_ABORTING,        to: [IMPORT_ERROR]
-    transition from: IMPORT_ERROR,           to: [IMPORTING]
+    transition from: IMPORT_ERROR,           to: [IMPORTING, REVERTING]
     transition from: IMPORTED,               to: [FINALIZING, REVERTING]
     transition from: FINALIZING,             to: [FINALIZING_ERROR, FINALIZING_DONE]
     transition from: FINALIZING_ERROR,       to: [FINALIZING]
@@ -119,11 +119,20 @@ module Import
       transition.save!
     end
 
-    # after_transition(to: :aborting) do |jira_import, transition|
-    #   from_state = transition.from_state
-    #   job = jira_import.state_machine.last_transition_to(from_state).actual_job
-    #   job.discard_job("Discarded because user clicked abort") unless job.finished?
-    # end
+    after_transition(to: :import_aborting) do |jira_import, transition|
+      jira_import
+        .state_machine
+        .last_transition_to(:importing)
+        .actual_batch
+        ._record
+        .jobs.each do |job|
+        begin
+          job.discard_job("Discarded because user clicked abort.") if job.status.in?([:queued, :retried, :scheduled])
+        rescue GoodJob::AdvisoryLockable::RecordAlreadyAdvisoryLockedError
+          next
+        end
+      end
+    end
 
     def status_running?
       [
