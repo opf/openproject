@@ -31,23 +31,15 @@
 module API
   module V3
     module MeetingAgendaItems
-      class MeetingAgendaItemsByWorkPackageAPI < ::API::OpenProjectAPI
-        resources :meeting_agenda_items do
-          get do
-            items = MeetingAgendaItem
-                      .visible_linked_to_work_package(current_user, @work_package)
-                      .includes(:author, :presenter, :work_package, :meeting_section, :outcomes)
-                      .eager_load(:meeting)
-                      .preload(meeting: ::API::V3::Meetings::MeetingRepresenter.to_eager_load)
-                      .reorder(Meeting.arel_table[:start_time].asc)
-
-            MeetingAgendaItemByWorkPackageCollectionRepresenter.new(
-              items,
-              self_link: api_v3_paths.meeting_agenda_items_by_work_package(@work_package.id),
-              current_user:
-            )
-          end
-        end
+      class MeetingAgendaItemByWorkPackageCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        collection :elements,
+                   getter: ->(*) {
+                     represented.map do |model|
+                       element_decorator.create(model, current_user:, embed_links: %i[section outcomes meeting])
+                     end
+                   },
+                   exec_context: :decorator,
+                   embedded: true
       end
     end
   end
