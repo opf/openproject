@@ -53,6 +53,18 @@ RSpec.describe Type::EffectiveSourceSql do
       expect(expr).to eq("COALESCE(effective.source_id, pt.type_id)")
     end
 
+    it "resolves every linked type without a query per type" do
+      owner = create(:type)
+      chain = create_list(:type, 4)
+      chain.each_with_index do |type, index|
+        type.link!(aspect, source: index.zero? ? owner : chain[index - 1])
+      end
+
+      # One query for the linked type ids, one for the scope resolving all of them. The
+      # count must not grow with the length of the chain.
+      expect { described_class.form_configuration_remap("pt.type_id") }.to have_a_query_limit(2)
+    end
+
     it "resolves multi-hop chains to the terminal owner" do
       owner = create(:type)
       middle = create(:type)

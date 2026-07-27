@@ -70,8 +70,9 @@ module Type::EffectiveSourceSql
     aspect = Type::ConfigurationLink::FORM_CONFIGURATION
     linked_type_ids = Type::ConfigurationLink.where(aspect:).distinct.pluck(:type_id)
 
-    Type.where(id: linked_type_ids)
-        .to_h { |type| [type.id, type.effective_source_for(aspect).id] }
+    Type.with_effective_configuration(aspect)
+        .where(id: linked_type_ids)
+        .to_h { |type| [type.id, type.effective_source_id(aspect)] }
         .reject { |own_id, source_id| own_id == source_id }
   end
   private_class_method :form_configuration_map

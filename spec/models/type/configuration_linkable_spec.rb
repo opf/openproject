@@ -404,6 +404,124 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
+  describe "#effective_excluded_elements", with_flag: { type_variants: true } do
+    let(:owner) { create(:type) }
+    let(:middle) { create(:type) }
+
+    it "excludes nothing when Independent" do
+      expect(type.effective_excluded_elements(aspect)).to eq([])
+    end
+
+    it "excludes nothing when Linked without exclusions" do
+      type.link!(aspect, source: owner)
+
+      expect(type.effective_excluded_elements(aspect)).to eq([])
+    end
+
+    it "returns the exclusions of a single link" do
+      create(:type_configuration_link, type:, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1 assignee])
+
+      expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1", "assignee")
+    end
+
+    it "unions the exclusions of every link along the chain" do
+      create(:type_configuration_link, type: middle, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      create(:type_configuration_link, type:, source: middle, aspect:,
+                                       excluded_elements: %w[custom_field_2])
+
+      expect(type.effective_excluded_elements(aspect))
+        .to contain_exactly("custom_field_1", "custom_field_2")
+    end
+
+    it "leaves an intermediate type unaffected by its descendants' exclusions" do
+      create(:type_configuration_link, type: middle, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      create(:type_configuration_link, type:, source: middle, aspect:,
+                                       excluded_elements: %w[custom_field_2])
+
+      expect(middle.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
+    end
+
+    it "reports an element excluded at two levels of the chain only once" do
+      create(:type_configuration_link, type: middle, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      create(:type_configuration_link, type:, source: middle, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+
+      expect(type.effective_excluded_elements(aspect)).to eq(["custom_field_1"])
+    end
+
+    it "keeps exclusions scoped to their own aspect" do
+      create(:type_configuration_link, type:, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      create(:type_configuration_link, type:, source: owner,
+                                       aspect: Type::ConfigurationLink::PDF_EXPORT,
+                                       excluded_elements: %w[custom_field_2])
+
+      expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
+    end
+
+    it "excludes nothing on a cyclic chain instead of raising" do
+      # Same legacy-data case as #effective_source_for: a pure cycle owns nothing, so the
+      # walk finds no terminal row to read exclusions from.
+      other = create(:type)
+      create(:type_configuration_link, type:, source: other, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      build(:type_configuration_link, type: other, source: type, aspect:,
+                                      excluded_elements: %w[custom_field_2]).save!(validate: false)
+
+      expect(type.effective_excluded_elements(aspect)).to eq([])
+    end
+
+    it "excludes nothing for a new record" do
+      expect(Type.new.effective_excluded_elements(aspect)).to eq([])
+    end
+
+    context "with the flag off", with_flag: { type_variants: false } do
+      it "ignores the link's exclusions" do
+        create(:type_configuration_link, type:, source: owner, aspect:,
+                                         excluded_elements: %w[custom_field_1])
+
+        expect(type.effective_excluded_elements(aspect)).to eq([])
+      end
+    end
+  end
+
+  # The call sites inline this as `<key> <> ALL (<subquery>)`, so the cases that matter
+  # are the ones where a mis-shaped subquery would silently invert the filter.
+  describe ".effective_excluded_elements_subquery", with_flag: { type_variants: true } do
+    def excluded_by_sql?(element)
+      subquery = Type.effective_excluded_elements_subquery(type.id, aspect)
+
+      Type.connection.select_value("SELECT 1 WHERE '#{element}' <> ALL (#{subquery})").nil?
+    end
+
+    it "excludes an element the chain excludes" do
+      create(:type_configuration_link, type:, source: create(:type), aspect:,
+                                       excluded_elements: %w[custom_field_1])
+
+      expect(excluded_by_sql?("custom_field_1")).to be(true)
+      expect(excluded_by_sql?("custom_field_2")).to be(false)
+    end
+
+    it "excludes nothing when the type owns the aspect" do
+      expect(excluded_by_sql?("custom_field_1")).to be(false)
+    end
+
+    it "excludes nothing when the chain is cyclic" do
+      # A pure cycle yields no rows, and `<> ALL` over no rows is TRUE. An array-scalar
+      # subquery would yield NULL here and exclude every candidate instead of none.
+      other = create(:type)
+      create(:type_configuration_link, type:, source: other, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      build(:type_configuration_link, type: other, source: type, aspect:).save!(validate: false)
+
+      expect(excluded_by_sql?("custom_field_1")).to be(false)
+    end
+  end
+
   describe "project attributes resolution with the flag off", with_flag: { type_variants: false } do
     it "ignores the link and reads its own mappings" do
       owner = create(:type)

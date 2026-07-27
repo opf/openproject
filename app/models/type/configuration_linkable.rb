@@ -62,20 +62,68 @@ class Type
       # resolve a linked type's effective owner without a separate round-trip.
       def effective_source_id_subquery(type_id, aspect)
         sanitize_sql_array([<<~SQL.squish, { type_id:, aspect: }])
-          WITH RECURSIVE link_chain(node_id, path) AS (
-            SELECT CAST(:type_id AS bigint), ARRAY[CAST(:type_id AS bigint)]
+          #{link_chain_cte('CAST(:type_id AS bigint)')}
+          SELECT cl.node_id FROM link_chain cl
+          WHERE #{terminal_node_condition}
+          LIMIT 1
+        SQL
+      end
+
+      # SQL for the elements excluded between `type_id` and the type owning the aspect:
+      # the union of `excluded_elements` over every link traversed. Union is
+      # order-independent, so it accumulates during the same upward walk as
+      # .effective_source_id_subquery rather than needing a second, ordered pass.
+      #
+      # Yields one row per element rather than a single array, so it can be inlined
+      # directly as `<key> <> ALL (<subquery>)`: that is empty-safe, where an array
+      # scalar would need a COALESCE to stop a cycle's NULL from excluding everything.
+      # A type that owns the aspect, or whose chain is a pure cycle, yields no rows and
+      # therefore excludes nothing.
+      def effective_excluded_elements_subquery(type_id, aspect)
+        sanitize_sql_array([<<~SQL.squish, { type_id:, aspect: }])
+          SELECT DISTINCT element
+          FROM (
+            #{link_chain_cte('CAST(:type_id AS bigint)')}
+            SELECT cl.excluded FROM link_chain cl
+            WHERE #{terminal_node_condition}
+            LIMIT 1
+          ) AS terminal, unnest(terminal.excluded) AS element
+          WHERE element IS NOT NULL
+        SQL
+      end
+
+      # Shared with Types::Scopes::WithEffectiveConfiguration, which calls these on Type
+      # itself when assembling its LATERAL join.
+      private
+
+      # Walks type_configuration_links upwards from `seed_type_id` until a type that
+      # isn't linked for :aspect (the owner), carrying two accumulators: `path` guards
+      # against cycles in rows that predate write-time cycle prevention (FND-133), and
+      # `excluded` unions each traversed link's excluded elements.
+      #
+      # `seed_type_id` is SQL, not a value: the subqueries above seed it from a bind,
+      # while Types::Scopes::WithEffectiveConfiguration seeds it from the correlated
+      # `types.id` of the row its LATERAL join is evaluated for. Interpolated rather than
+      # bound because it is literal SQL; :aspect is sanitized by the caller.
+      def link_chain_cte(seed_type_id)
+        <<~SQL.squish
+          WITH RECURSIVE link_chain(node_id, path, excluded) AS (
+            SELECT #{seed_type_id}, ARRAY[#{seed_type_id}], '{}'::text[]
             UNION ALL
-            SELECT l.source_id, cl.path || l.source_id
+            SELECT l.source_id, cl.path || l.source_id, cl.excluded || l.excluded_elements
             FROM link_chain cl
             JOIN type_configuration_links l ON l.type_id = cl.node_id AND l.aspect = :aspect
             WHERE NOT l.source_id = ANY(cl.path)
           )
-          SELECT cl.node_id FROM link_chain cl
-          WHERE NOT EXISTS (
+        SQL
+      end
+
+      def terminal_node_condition
+        <<~SQL.squish
+          NOT EXISTS (
             SELECT 1 FROM type_configuration_links l2
             WHERE l2.type_id = cl.node_id AND l2.aspect = :aspect
           )
-          LIMIT 1
         SQL
       end
     end
@@ -101,16 +149,49 @@ class Type
     # and every type resolves to its own stored configuration. A new record has no
     # persisted links, so it owns every aspect.
     def effective_source_for(aspect)
-      return self unless OpenProject::FeatureDecisions.type_variants_active?
-      return self if new_record?
-
-      terminal_id = self.class.connection.select_value(self.class.effective_source_id_subquery(id, aspect))
-      return self if terminal_id.blank?
-
-      terminal_id = terminal_id.to_i
+      terminal_id = effective_source_id(aspect)
       return self if terminal_id == id
 
       self.class.find(terminal_id)
+    end
+
+    # The id of the type owning `aspect`. This type's own id when it owns the aspect, when
+    # the variants flag is off, and when the chain is a pure cycle — the three cases where
+    # #effective_source_for hands back `self`.
+    #
+    # Reads the column .with_effective_configuration selected when the record came from
+    # that scope, which is what keeps a collection from running the recursive walk once
+    # per record. Note this resolves the id only: turning it into a Type is still a
+    # per-record lookup.
+    def effective_source_id(aspect)
+      return id unless resolve_aspect_in_sql?
+
+      preloaded = "effective_source_id_#{aspect}"
+      return self[preloaded].to_i if has_attribute?(preloaded)
+
+      terminal_id = self.class.connection.select_value(self.class.effective_source_id_subquery(id, aspect))
+      terminal_id.blank? ? id : terminal_id.to_i
+    end
+
+    # The elements this type does not inherit for `aspect`: the union of
+    # `excluded_elements` across every link between it and the type owning the aspect.
+    # Element keys are aspect-specific — the aspect's reader interprets them (custom
+    # fields use CustomField#attribute_name).
+    #
+    # Independent types exclude nothing, and so does every type while the variants flag
+    # is off, matching #effective_source_for resolving to `self` in both cases.
+    def effective_excluded_elements(aspect)
+      return [] unless resolve_aspect_in_sql?
+
+      preloaded = "effective_excluded_elements_#{aspect}"
+      # Uniq only on this branch: the scope selects the raw accumulated array, where the
+      # subquery below already applies DISTINCT. Excluding the same element at two levels
+      # of the chain is legal, so both paths have to agree.
+      return Array(self[preloaded]).uniq if has_attribute?(preloaded)
+
+      self.class.connection.select_values(
+        self.class.effective_excluded_elements_subquery(id, aspect)
+      )
     end
 
     # Readers of linked aspects resolve through the link, so a plain `type.patterns`

@@ -92,7 +92,8 @@ class Type < ApplicationRecord
   validate :standard_type_stays_root
   validate :parent_frozen_with_work_packages
 
-  scopes :milestone
+  scopes :milestone,
+         :with_effective_configuration
 
   default_scope { order("position ASC") }
 
