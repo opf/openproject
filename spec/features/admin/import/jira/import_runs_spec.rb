@@ -34,7 +34,12 @@ RSpec.describe "Jira import runs page", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:author) { create(:user, firstname: "Jane", lastname: "Doe") }
   let!(:jira) { create(:jira, name: "My Jira") }
-  let!(:jira_import) { create(:jira_import, jira:, author:) }
+  let!(:jira_import) do
+    create(:jira_import,
+           jira:,
+           author:,
+           projects: [{ "name" => "Project Alpha" }, { "name" => "Project Beta" }])
+  end
 
   current_user { admin }
 
@@ -57,6 +62,15 @@ RSpec.describe "Jira import runs page", :js do
       expect(page).to have_text("Creator")
       expect(page).to have_text("Jane Doe")
       expect(page).to have_css(".op-avatar")
+    end
+  end
+
+  describe "projects column" do
+    it "renders the project list inside an expandable text with an ellipsis expander" do
+      within "[data-controller='expandable-text']" do
+        expect(page).to have_text("Project Alpha, Project Beta")
+        expect(page).to have_button(class: "ellipsis-expander", visible: :all)
+      end
     end
   end
 end

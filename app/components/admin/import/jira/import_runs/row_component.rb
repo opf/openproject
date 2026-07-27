@@ -52,7 +52,10 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def projects
-      (model.projects || []).pluck("name").join(", ")
+      names = (model.projects || []).pluck("name").join(", ")
+      return names if names.blank?
+
+      render(OpPrimer::ExpandableTextComponent.new(flex: 1)) { names }
     end
 
     def button_links
