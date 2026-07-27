@@ -32,9 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title do
       render(Primer::BaseComponent.new(tag: :span, display: :flex, align_items: :center, style: "line-height: 1")) do
-        concat(render(Primer::Beta::Text.new(mr: 2)) {
-          "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}"
-        })
+        concat(render(Primer::Beta::Text.new(mr: 2)) { "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id}" })
         concat(render(Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(@jira_import.current_state)))
       end
     end
@@ -44,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
         { href: admin_import_path, text: t(:"admin.import.title") },
         { href: admin_import_jira_index_path, text: I18n.t(:"admin.jira.title") },
         { href: admin_import_jira_path(@jira), text: @jira.name || @jira.url },
-        "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}"
+        "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id}"
       ]
     )
     header.with_action_link(
