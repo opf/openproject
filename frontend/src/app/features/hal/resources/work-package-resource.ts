@@ -52,7 +52,6 @@ import { ICKEditorContext } from 'core-app/shared/components/editor/components/c
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 import { formatWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -192,8 +191,6 @@ export class WorkPackageBaseResource extends HalResource {
 
   @LazyInject() pathHelper:PathHelperService;
 
-  @LazyInject() configService:ConfigurationService;
-
   readonly attachmentsBackend = true;
 
   /**
@@ -244,13 +241,15 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
-    const wikiPageMacros = ['OpMacroWikiPageLinkAddExisting', 'OpMacroWikiPageLinkCreateNew'];
-    const macros:boolean|string[] = this.configService.wikisAvailable ? wikiPageMacros : false;
+    if (fieldName === 'description') {
+      return { type: 'full', macros: 'wiki' };
+    }
 
+    const isCustomField = fieldName.startsWith('customField');
     return {
-      type: fieldName === 'description' ? 'full' : 'constrained',
-      macros,
-      ...(fieldName.startsWith('customField') && { disabledMentions: ['user'] }),
+      type: 'constrained',
+      macros: isCustomField ? 'wiki' : false,
+      ...(isCustomField && { disabledMentions: ['user'] }),
     };
   }
 
