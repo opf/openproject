@@ -98,3 +98,38 @@ new values over to the corresponding XWiki forms.
 > reconnected.
 
 To learn how to link a wiki to a work package or create a new one, refer to [this user guide](../../../user-guide/work-packages/edit-work-package/#link-to-or-create-a-wiki-page).
+
+## Configuration using environment variables
+
+For some deployment scenarios, it might be desirable to configure a provider through environment variables. Those variables follow the
+rules defined in the [documentation about using environment variables](../../../installation-and-operations/configuration/environment/).
+
+The configuration `OPENPROJECT_WIKI__PROVIDERS` accepts an array of JSON objects to configure external wiki providers, such as XWiki.
+For each XWiki provider you can define the following attributes:
+
+* `type`: Must be set to `xwiki`
+* `name`: Defines the user-visible name of the wiki provider.
+* `url`: The wiki provider's base URL.
+* `uid` (optional): The XWiki installation id of the related XWiki instance. If not provided, this will be asynchronously fetched later.
+* `openproject_oauth`
+    * `client_id`: The client ID that XWiki will be able to use to authenticate towards OpenProject via OAuth.
+    * `client_secret`: The client secret that XWiki will be able to use to authenticate towards OpenProject via OAuth. Make sure to pick a strong password.
+* `xwiki_oauth`
+    * `client_id`: The client ID that OpenProject shall use to authenticate towards XWiki via OAuth.
+    * `client_secret`: The client secret that OpenProject shall use to authenticate towards XWiki via OAuth.
+
+The following is a configuration example for a single XWiki provider:
+
+```
+[{ "type": "xwiki", "name": "XWiki knowledge base", "url": "https://xwiki.example.com", "openproject_oauth": { "client_id": "xwiki", "client_secret": "secret" }, "xwiki_oauth": { "client_id": "openproject", "client_secret": "secret" } }]
+```
+
+### Applying the configuration
+
+To apply the configuration after changes, you need to run the `db:seed` rake task. In all installations, this command is run automatically when you upgrade or install your application. Use the following commands based on your installation method:
+
+- **Packaged installation**: `sudo openproject run bundle exec rake db:seed`
+- **Docker**: `docker exec -it <container of all-in-one or web> bundle exec rake db:seed`.
+
+Changes will also be applied to existing wiki providers this way. Existing wiki providers will be matched to the ones defined in environment variables preferably
+by their `uid` (if one was defined) and otherwise by their human-readable name.

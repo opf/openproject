@@ -38,6 +38,19 @@ Permissions for pages accessed through the internal wiki provider are determined
 
 ![OpenProject administration showing internal wiki settings](openproject_system_admin_wikis_internal_wiki.png)
 
+### Configuration using environment variables
+
+The internal wiki provider can also be configured through environment variables, should this be desirable for the own deployment scenario.
+It's configured via a JSON object passed to `OPENPROJECT_INTERNAL__WIKI__PROVIDER`. Right now there's only one option that can be configured:
+
+* `enabled`: A boolean indicating, whether the internal wiki provider should be enabled or not
+
+An example disabling it:
+
+```
+{ "enabled": false }
+```
+
 ## External wikis
 
 Under [Wiki providers](./wiki-providers) you can configure external wiki providers. External wiki providers manage their own user permissions, so each OpenProject user must be connected to a corresponding user account on the external wiki instance.

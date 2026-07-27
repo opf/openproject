@@ -105,3 +105,32 @@ The SCIM client must be able to obtain a JWT from the OpenID Connect provider (e
 3. The `scope` claim includes `scim_v2`.
 
 This could for example be achieved by performing a client credentials token request towards the identity provider. In the case of Keycloak as an IDP, the sub claim would then equal to the UUID of the service account that's associated to the client obtaining the token.
+
+## Configuration using environment variables
+
+For some deployment scenarios, it might be desirable to configure a SCIM client through environment variables. Those variables follow the
+rules defined in the [documentation about using environment variables](../../../installation-and-operations/configuration/environment/).
+
+The configuration `OPENPROJECT_SCIM__CLIENTS` accepts an array of JSON objects to configure SCIM clients.
+For each SCIM client you can define the following attributes:
+
+* `name`: Defines the user-visible name of the SCIM client.
+* `jwt_sub`: The sub claim that JWTs of the client can be identified with. For example, for Keycloak, this is the UUID of the service account  associated with the SCIM client.
+* `auth_provider_slug`: The slug of the OpenID Connect provider that shall be associated to the SCIM client. For example a provider configured via `OPENPROJECT_OPENID__CONNECT_KEYCLOAK` would use a slug of `keycloak`.
+
+Note that this only allows configuring SCIM clients that authenticate via JSON web tokens issued from an OpenID Connect provider.
+
+The following is a configuration example for a single SCIM client:
+
+```
+[{ "name": "My SCIM Client", "jwt_sub": "b7c8ed62-840d-451e-9ed2-6161310b4f22", "auth_provider_slug": "keycloak" }]
+```
+
+### Applying the configuration
+
+To apply the configuration after changes, you need to run the `db:seed` rake task. In all installations, this command is run automatically when you upgrade or install your application. Use the following commands based on your installation method:
+
+- **Packaged installation**: `sudo openproject run bundle exec rake db:seed`
+- **Docker**: `docker exec -it <container of all-in-one or web> bundle exec rake db:seed`.
+
+Changes will also be applied to existing SCIM clients this way. Existing SCIM clients will be matched to the ones defined in environment variables by their human-readable name.
