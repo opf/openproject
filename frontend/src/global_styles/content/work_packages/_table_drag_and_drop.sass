@@ -2,10 +2,9 @@
 // Drag & Drop styles for the table
 //
 
-// Drop indicator: an accent line on the top/bottom edge of the row or card the
-// dragged item would be inserted next to. Driven by the data-drop-position
-// attribute set by the pragmatic drop-indicator helper.
-.wp-table--row[data-drop-position],
+// Drop indicator: an accent line on the edge of the card the dragged item
+// would be inserted next to. Driven by the data-drop-position attribute set
+// by the pragmatic drop-indicator helper.
 wp-single-card[data-drop-position]
   position: relative
 
@@ -39,6 +38,22 @@ wp-single-card[data-drop-position]
   &[data-drop-position="right"]::after
     left: auto
     right: 0
+
+// The same line for table rows, painted into each cell's background rather
+// than drawn by a positioned pseudo-element: WebKit does not let a `<tr>` be
+// a containing block, so an absolute child escapes it and lands at the
+// table's own edge. Contiguous cells read as one line, and a background
+// costs no layout and needs nothing of the collapsed border model.
+.wp-table--row[data-drop-position] > td
+  background-image: linear-gradient(var(--fgColor-accent), var(--fgColor-accent))
+  background-repeat: no-repeat
+  background-size: 100% 2px
+
+.wp-table--row[data-drop-position="top"] > td
+  background-position: left top
+
+.wp-table--row[data-drop-position="bottom"] > td
+  background-position: left bottom
 
 // The drag preview is mounted in a detached container outside any table
 // context, so it carries its own chrome and layout.
