@@ -52,20 +52,39 @@
     <% dialog.with_additional_details(display: :block) do %>
       <% if cross_project_descendants? %>
         <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
-          <%= I18n.t("work_packages.delete_dialog.cross_project_warning", projects: all_project_names) %>
+          <%= helpers.t("work_packages.delete_dialog.cross_project_warning_html", projects: all_project_links) %>
         <% end %>
       <% end %>
-      <%= render(OpPrimer::InsetBoxComponent.new) do %>
-        <%= render(Primer::Beta::Text.new(font_size: :small, font_weight: :bold, display: :block, mb: 2)) do %>
-          <%= I18n.t("work_packages.bulk_delete_dialog.children_label") %>
+      <% if variant == :hidden %>
+        <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
+          <%= I18n.t("work_packages.delete_dialog.#{hidden_warning_key}", count: undeletable_count) %>
         <% end %>
-        <% descendants.each do |descendant| %>
-          <%= render WorkPackages::InfoLineComponent.new(pl:2,
-                                                         my: 1,
-                                                         work_package: descendant,
-                                                         show_subject: true,
-                                                         show_status: false,
-                                                         show_project: descendant.project != work_package.project) %>
+      <% end %>
+      <% if variant == :undeletable %>
+        <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
+          <%# helpers.t, not I18n.t: only the Rails helper honours the _html suffix %>
+          <%= helpers.t(
+                "work_packages.delete_dialog.#{undeletable_warning_key}",
+                count: undeletable_count,
+                projects: undeletable_project_links
+              ) %>
+        <% end %>
+      <% end %>
+      <% if deleted_descendants.any? %>
+        <%= render(OpPrimer::InsetBoxComponent.new) do %>
+          <%= render(Primer::Beta::Text.new(font_size: :small, font_weight: :bold, display: :block, mb: 2)) do %>
+            <%= I18n.t("work_packages.bulk_delete_dialog.children_label") %>
+          <% end %>
+          <% deleted_descendants.each do |descendant| %>
+            <%= render WorkPackages::InfoLineComponent.new(
+                  pl: 2,
+                  my: 1,
+                  work_package: descendant,
+                  show_subject: true,
+                  show_status: false,
+                  show_project: descendant.project != work_package.project
+                ) %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

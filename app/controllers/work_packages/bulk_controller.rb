@@ -83,20 +83,21 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
-    if WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
-      destroy_work_packages(@work_packages)
+    unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
+      return redirect_to(action: :reassign, ids: @work_packages.map(&:id), back_url: params[:back_url])
+    end
 
-      respond_to do |format|
-        format.html do
-          redirect_back_or_default(project_work_packages_path(@work_packages.first.project),
-                                   status: :see_other)
-        end
-        format.json do
-          head :ok
-        end
+    failures = destroy_work_packages(@work_packages)
+    flash[:error] = deletion_error_message(failures) if failures.any?
+
+    respond_to do |format|
+      format.html do
+        redirect_back_or_default(project_work_packages_path(@work_packages.first.project),
+                                 status: :see_other)
       end
-    else
-      redirect_to(action: :reassign, ids: @work_packages.map(&:id), back_url: params[:back_url])
+      format.json do
+        failures.any? ? head(:unprocessable_entity) : head(:ok)
+      end
     end
   end
 
@@ -113,16 +114,29 @@ class WorkPackages::BulkController < ApplicationController
       WorkPackageCustomField.joins(:types).where(types: @types)
   end
 
+  # Returns the failed calls. Deletion is not all or nothing: one work package
+  # may be deleted while another one fails.
   def destroy_work_packages(work_packages)
-    work_packages.each do |work_package|
-      WorkPackages::DeleteService
+    work_packages.filter_map do |work_package|
+      call = WorkPackages::DeleteService
         .new(user: current_user,
              model: work_package.reload)
         .call
+
+      call unless call.success?
     rescue ::ActiveRecord::RecordNotFound
       # raised by #reload if work package no longer exists
       # nothing to do, work package was already deleted (eg. by a parent)
+      nil
     end
+  end
+
+  def deletion_error_message(failures)
+    messages = failures.map do |call|
+      "#{call.result.formatted_id}: #{call.errors.full_messages.to_sentence}"
+    end
+
+    "#{t('work_packages.bulk.could_not_be_deleted')} #{messages.join(' ')}"
   end
 
   def attributes_for_update
