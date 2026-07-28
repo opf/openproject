@@ -28,10 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The transition matrix editor, scoped to the workflows aspect rather than to any one
-# page that shows it. Every action responds with the editor's own turbo frame, a turbo
-# stream patching one of its components, or a dialog — never a full page — so the
-# workflow tab and the variant creation wizard can both drive it unchanged.
+# All actions either update the workflow matrix editor's internal representation or render dialogs to ensure
+# that the editor can be modified regardless of the context it is used in
 class Workflows::MatrixController < ApplicationController
   include OpTurbo::ComponentStream
 
