@@ -35,169 +35,123 @@ class Workflows::TabsController < ApplicationController
 
   before_action :require_admin
 
-  before_action :set_type
-  before_action :set_tab
-  before_action :set_eligible_roles
-  before_action :set_roles
+  helper_method :matrix_context
 
   def edit
     unless turbo_frame_request?
-      redirect_to edit_type_workflow_path(@type, role_ids: params[:role_ids], tab: @tab)
-      return
-    end
-
-    statuses_for_form
-
-    if @type && @roles.any? && @statuses.any?
-      workflows_for_form
+      redirect_to edit_type_workflow_path(type, role_ids: params[:role_ids], tab: matrix_context.tab)
     end
   end
 
-  def update # rubocop:disable Metrics/AbcSize
-    success = persist_matrix.success?
+  def update
+    if persist_matrix.success?
+      return redirect_to_wizard_step if advance_to_wizard_step?
 
-    if success && params[:advance_to_step].present?
-      return redirect_to type_creation_wizard_path(@type, step: params[:advance_to_step]), status: :see_other
-    end
-
-    if success
-      render_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_successful_update),
-        scheme: :success
-      )
-      statuses = statuses_for_form
-      if statuses.empty?
-        # Need to replace with the blankslate.
-        update_via_turbo_stream(
-          component: Workflows::StatusMatrixFormComponent.new(
-            tab: @tab,
-            roles: @roles,
-            type: @type,
-            available_roles: @eligible_roles,
-            statuses:,
-            has_status_changes: @has_status_changes,
-            workflows: @workflows,
-            added_status_ids: @added_status_ids
-          )
-        )
-      end
+      render_matrix_saved
     else
-      render_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_unsuccessful_update),
-        scheme: :danger
-      )
-      @turbo_status = :unprocessable_entity
+      render_matrix_not_saved
     end
 
     respond_with_turbo_streams
   end
 
   def status_dialog
-    all_statuses = Status.order(:position)
-    current_statuses = if params[:status_ids].present?
-                         Status.where(id: params[:status_ids].map(&:to_i)).order(:position)
-                       elsif @type && @roles.any?
-                         statuses_for_roles_and_type
-                       else
-                         Status.none
-                       end
-
     respond_with_dialog Workflows::StatusDialogComponent.new(
-      all_statuses:,
-      current_statuses:,
-      roles: @roles,
-      type: @type,
-      tab: @tab
+      all_statuses: Status.order(:position),
+      current_statuses: dialog_statuses,
+      roles: matrix_context.roles,
+      type:,
+      tab: matrix_context.tab
     )
   end
 
-  def confirm_statuses # rubocop:disable Metrics/AbcSize
-    current_status_ids = Array(params[:status_ids]).flatten.map(&:to_i)
-    original_ids = Array(params[:original_status_ids]).flatten.map(&:to_i)
-    removed_count = (original_ids - current_status_ids).size
-
-    if removed_count > 0
+  def confirm_statuses
+    if removed_status_count.positive?
       respond_with_dialog Workflows::StatusRemovalDangerDialogComponent.new(
-        roles: @roles,
-        type: @type,
-        tab: @tab,
-        status_ids: current_status_ids,
-        removed_count: removed_count
+        roles: matrix_context.roles,
+        type:,
+        tab: matrix_context.tab,
+        status_ids: requested_status_ids,
+        removed_count: removed_status_count
       )
     else
-      statuses = statuses_for_form.tap { workflows_for_form }
-      update_via_turbo_stream(
-        component: Workflows::StatusMatrixFormComponent.new(
-          tab: @tab,
-          roles: @roles,
-          type: @type,
-          available_roles: @eligible_roles,
-          statuses:,
-          has_status_changes: @has_status_changes,
-          workflows: @workflows,
-          added_status_ids: @added_status_ids
-        )
-      )
+      update_via_turbo_stream(component: matrix_form_component)
       respond_with_turbo_streams
     end
   end
 
   private
 
-  def set_type
-    @type = ::Type.find(params.expect(:type_id))
+  def type
+    @type ||= ::Type.find(params.expect(:type_id))
   end
 
-  def set_tab
-    @tab = params[:tab]
+  def matrix_context
+    @matrix_context ||= build_matrix_context
   end
 
-  def set_eligible_roles
-    @eligible_roles = Workflow.ordered_eligible_roles
+  def build_matrix_context
+    Workflows::MatrixContext.new(
+      type:,
+      tab: params[:tab],
+      role_ids: params[:role_ids],
+      status_ids: params[:status_ids]
+    )
   end
 
-  def set_roles
-    @roles = Workflow.selected_roles(params[:role_ids])
-  end
-
-  def statuses_for_form
-    @added_status_ids = []
-    @has_status_changes = false
-    @statuses = if @type && params[:status_ids].present?
-                  statuses_from_params
-                elsif @type && @roles.any?
-                  statuses_for_roles_and_type
-                elsif @type
-                  @type.statuses
-                else
-                  Status.all
-                end
-  end
-
-  def statuses_from_params
-    status_ids = params[:status_ids].map(&:to_i)
-    saved_ids = statuses_for_roles_and_type.pluck(:id)
-    @added_status_ids = status_ids - saved_ids
-    @has_status_changes = @added_status_ids.any? || (saved_ids - status_ids).any?
-    Status.where(id: status_ids).order(:position)
-  end
-
-  def statuses_for_roles_and_type
-    status_ids = @roles.map { |role| @type.statuses(role:, tab: @tab).pluck(:id) }.flatten.uniq
-    Status.where(id: status_ids)
-  end
-
-  def workflows_for_form
-    workflows = @type.workflows.where(role_id: @roles.map(&:id))
-    @workflows = {}
-    @workflows["always"] = workflows.select { |w| !w.author && !w.assignee }
-    @workflows["author"] = workflows.select(&:author)
-    @workflows["assignee"] = workflows.select(&:assignee)
+  def matrix_form_component(context = matrix_context)
+    Workflows::StatusMatrixFormComponent.new(context:)
   end
 
   def persist_matrix
     Workflows::MatrixUpdateService
-      .new(type: @type, roles: @roles, tab: @tab)
+      .new(type:, roles: matrix_context.roles, tab: matrix_context.tab)
       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
+  end
+
+  def render_matrix_saved
+    render_flash_message_via_turbo_stream(
+      message: I18n.t(:notice_successful_update),
+      scheme: :success
+    )
+
+    # Resolved afresh: the write just changed which statuses have transitions, and with
+    # none left the matrix has to give way to the blankslate.
+    saved = build_matrix_context
+    update_via_turbo_stream(component: matrix_form_component(saved)) if saved.statuses.empty?
+  end
+
+  def render_matrix_not_saved
+    render_flash_message_via_turbo_stream(
+      message: I18n.t(:notice_unsuccessful_update),
+      scheme: :danger
+    )
+    @turbo_status = :unprocessable_entity
+  end
+
+  # Temporary: the wizard still submits the matrix through this endpoint and asks it to
+  # advance afterwards. Goes away once the wizard persists the step itself.
+  def advance_to_wizard_step? = params[:advance_to_step].present?
+
+  def redirect_to_wizard_step
+    redirect_to type_creation_wizard_path(type, step: params[:advance_to_step]), status: :see_other
+  end
+
+  def requested_status_ids
+    @requested_status_ids ||= Array(params[:status_ids]).flatten.map(&:to_i)
+  end
+
+  def removed_status_count
+    original_ids = Array(params[:original_status_ids]).flatten.map(&:to_i)
+
+    (original_ids - requested_status_ids).size
+  end
+
+  # The dialog opens on the pending selection when there is one, otherwise on what the
+  # selected roles have saved — and on nothing at all while no role is selected.
+  def dialog_statuses
+    return Status.none if requested_status_ids.blank? && matrix_context.roles.empty?
+
+    matrix_context.statuses
   end
 end

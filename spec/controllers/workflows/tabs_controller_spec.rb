@@ -138,8 +138,6 @@ RSpec.describe Workflows::TabsController do
 
     context "when no statuses were removed" do
       before do
-        allow(controller).to receive(:statuses_for_form).and_return([])
-        allow(controller).to receive(:workflows_for_form)
         allow(controller).to receive(:update_via_turbo_stream)
         allow(controller).to receive(:respond_with_turbo_streams)
 
@@ -195,9 +193,15 @@ RSpec.describe Workflows::TabsController do
       end
     end
 
+    # Statuses remain, so the response is the flash alone — the blankslate replacement is
+    # covered by the feature specs.
+    let(:matrix_context) do
+      instance_double(Workflows::MatrixContext, roles:, tab: "always", statuses: [build_stubbed(:status)])
+    end
+
     def submit_matrix
       service
-      allow(controller).to receive(:statuses_for_form).and_return([build_stubbed(:status)])
+      allow(controller).to receive(:build_matrix_context).and_return(matrix_context)
 
       post :update,
            params: {

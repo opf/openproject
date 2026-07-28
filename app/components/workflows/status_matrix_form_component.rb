@@ -35,47 +35,39 @@ module Workflows
 
     FORM_ID = "workflow_form"
 
-    def initialize(tab:, roles:, type:, available_roles:, statuses:, has_status_changes:,
-                   workflows: {}, added_status_ids: [])
+    def initialize(context:)
       super
-      @tab = tab
-      @roles = roles
-      @type = type
-      @available_roles = available_roles
-      @statuses = statuses
-      @has_status_changes = has_status_changes
-      @workflows = workflows || {}
-      @added_status_ids = added_status_ids || []
+      @context = context
     end
 
     private
 
+    attr_reader :context
+
+    delegate :type, :tab, :roles, :eligible_roles, :statuses, :readonly?, to: :context
+
     def form_id = FORM_ID
 
-    def read_only? = helpers.workflow_linked?(@type)
+    def transition_tabs = @transition_tabs ||= helpers.workflow_tabs(type)
 
-    def transition_tabs = @transition_tabs ||= helpers.workflow_tabs(@type)
-
-    # The transition tab that is actually on screen. Not necessarily @tab, which is the
-    # raw request param and is blank when the matrix is opened without one.
-    def current_transition_tab = @current_transition_tab ||= helpers.selected_tab(transition_tabs)
+    def current_transition_tab = transition_tabs.find { it[:name] == tab }
 
     def matrix_table
       MatrixTableComponent.new(
-        tab: current_transition_tab[:name],
-        statuses: @statuses,
-        workflows: @workflows.fetch(current_transition_tab[:name], []),
-        roles: @roles,
-        added_status_ids: @added_status_ids,
-        readonly: read_only?
+        tab:,
+        statuses:,
+        workflows: context.workflows,
+        roles:,
+        added_status_ids: context.added_status_ids,
+        readonly: readonly?
       )
     end
 
     def data_attributes
       {
         controller: "admin--workflow-role-select",
-        "admin--workflow-role-select-base-url-value": helpers.edit_type_workflow_tab_path(@type, @tab),
-        "admin--workflow-role-select-current-role-ids-value": @roles.map(&:id),
+        "admin--workflow-role-select-base-url-value": helpers.edit_type_workflow_tab_path(type, tab),
+        "admin--workflow-role-select-current-role-ids-value": roles.map(&:id),
         "admin--workflow-role-select-admin--workflow-checkbox-state-outlet": "##{form_id}"
       }
     end

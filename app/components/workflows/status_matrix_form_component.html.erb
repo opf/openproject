@@ -42,21 +42,21 @@ See COPYRIGHT and LICENSE files for more details.
                 helpers.tab_label(current_transition_tab)
               end
 
-              transition_tabs.each do |tab|
+              transition_tabs.each do |transition_tab|
                 menu.with_item(
-                  label: helpers.tab_label(tab),
+                  label: helpers.tab_label(transition_tab),
                   tag: :a,
-                  href: tab[:path],
-                  active: current_transition_tab == tab,
-                  content_arguments: { data: tab[:data] }
+                  href: transition_tab[:path],
+                  active: transition_tab[:name] == tab,
+                  content_arguments: { data: transition_tab[:data] }
                 ) do |item|
-                  item.with_description { tab[:description] }
+                  item.with_description { transition_tab[:description] }
                 end
               end
             end
           end
 
-          if @type && @available_roles.any?
+          if eligible_roles.any?
             flex.with_column(ml: 2) do
               render(
                 Primer::Alpha::SelectPanel.new(
@@ -68,18 +68,18 @@ See COPYRIGHT and LICENSE files for more details.
               ) do |panel|
                 panel.with_show_button(scheme: :secondary) do |button|
                   button.with_trailing_visual_icon(icon: :"triangle-down")
-                  if @roles.many?
-                    t("admin.workflows.role_selector.roles", count: @roles.size)
-                  elsif @roles.one?
-                    t("admin.workflows.role_selector.label", role: @roles.first.name)
+                  if roles.many?
+                    t("admin.workflows.role_selector.roles", count: roles.size)
+                  elsif roles.one?
+                    t("admin.workflows.role_selector.label", role: roles.first.name)
                   else
                     t("admin.workflows.role_selector.no_role")
                   end
                 end
-                @available_roles.each do |available_role|
+                eligible_roles.each do |available_role|
                   panel.with_item(
                     label: available_role.name,
-                    active: @roles.include?(available_role),
+                    active: roles.include?(available_role),
                     item_id: available_role.id
                   )
                 end
@@ -97,13 +97,13 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
 
-      unless read_only?
+      unless readonly?
         subheader.with_action_button(
           tag: :a,
           scheme: :secondary,
           leading_icon: :plus,
           label: t("admin.workflows.status_button"),
-          href: helpers.status_dialog_type_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id), status_ids: @statuses.pluck(:id).presence),
+          href: helpers.status_dialog_type_workflow_tab_path(type, tab, role_ids: roles.map(&:id), status_ids: statuses.pluck(:id).presence),
           data: { controller: "async-dialog" }
         ) do
           t("admin.workflows.status_button")
@@ -114,7 +114,7 @@ See COPYRIGHT and LICENSE files for more details.
           scheme: :secondary,
           leading_icon: :copy,
           label: t(:button_copy),
-          href: helpers.new_type_workflow_copy_path(@type, source_role_id: @roles.first&.id),
+          href: helpers.new_type_workflow_copy_path(type, source_role_id: roles.first&.id),
           aria: { label: t(:button_copy) },
           title: t(:button_copy),
           data: { controller: "async-dialog", "admin--workflow-checkbox-state-confirmation-trigger": "click" }
@@ -125,26 +125,26 @@ See COPYRIGHT and LICENSE files for more details.
     end
   %>
 
-  <% if @statuses.any? %>
+  <% if statuses.any? %>
     <%= form_tag(
-          type_workflow_tab_path(@type),
+          type_workflow_tab_path(type, tab),
           id: form_id,
           method: :patch,
           autocomplete: "off",
           data: {
             controller: "admin--workflow-checkbox-state",
-            "admin--workflow-checkbox-state-has-status-changes-value": @has_status_changes
+            "admin--workflow-checkbox-state-has-status-changes-value": context.status_changes?
           }
         ) do %>
-        <%= hidden_field_tag "type_id", @type.id %>
-        <% @roles.each do |role| %>
+        <%= hidden_field_tag "type_id", type.id %>
+        <% roles.each do |role| %>
           <%= hidden_field_tag "role_ids[]", role.id %>
         <% end %>
-        <%= hidden_field_tag "tab", @tab %>
+        <%= hidden_field_tag "tab", tab %>
 
         <%= render(matrix_table) %>
 
-        <% unless read_only? %>
+        <% unless readonly? %>
           <div class="workflow-save-bar">
             <%=
               render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do
@@ -183,7 +183,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       <% end %>
   <% else %>
-    <%= render Workflows::BlankslateComponent.new(roles: @roles, type: @type, tab: @tab) %>
-    <%= form_tag(type_creation_wizard_path(@type, step: :workflows), id: form_id, method: :patch) do %><% end %>
+    <%= render Workflows::BlankslateComponent.new(roles:, type:, tab:) %>
+    <%= form_tag(type_creation_wizard_path(type, step: :workflows), id: form_id, method: :patch) do %><% end %>
   <% end %>
 <% end %>
