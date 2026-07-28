@@ -28,6 +28,7 @@ jobs:
           bundler-cache: true
       - name: Setup danger
         run: |
+          gem install git -v '< 5.0'
           gem install danger
       - name: Run inconsistent translations check
         env:
