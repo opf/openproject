@@ -43,7 +43,7 @@ class CostQuery::Filter::VersionId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    versions = Version.where(project_id: Project.visible.map(&:id))
+    versions = Version.where(project_id: Project.visible.select(:id)).includes(:project)
     versions.map { |a| ["#{a.project.name} - #{a.name}", a.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
   end
 

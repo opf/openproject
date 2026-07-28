@@ -48,6 +48,15 @@ RSpec.describe Widget::Filters::Version do
     it "offers every version with a project-qualified label the autocompleter can filter" do
       expect(items).to include(id: version.id, name: "Demo project - 2.0.0")
     end
+
+    it "builds the items without a query per version" do
+      other_project = create(:project)
+      create(:version, project:)
+      create(:version, project: other_project)
+      widget
+
+      expect { widget.send(:available_versions) }.to have_a_query_limit(2)
+    end
   end
 
   describe "#selected_version_ids" do
