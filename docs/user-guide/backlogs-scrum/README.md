@@ -34,7 +34,7 @@ If defined, the **Sprint goal** is displayed in the sprint header below the spri
 Depending on the sprint status, either a **Start sprint** (for sprints in planning) or **Complete sprint** (for active sprints) button will be displayed.
 
 > [!NOTE]
-> The **Start sprint** button is disabled if another sprint is already active or if no sprint dates have been defined. The button might also not exist if you lack the permission to "Start/complete sprints".
+> The **Start sprint** button is disabled by default if another sprint is already active or if no sprint dates have been defined. The button might also not exist if you lack the permission to "Start/complete sprints". This can be changed in [project backlog settings ](../projects/project-settings/backlogs-settings)to allow multiple active sprints.
 
 ### Backlog buckets
 
@@ -181,7 +181,7 @@ When editing a shared sprint, OpenProject indicates which fields are shared acro
 Your sprint is set in motion by clicking the **Start sprint** button in the sprint header. Clicking it will open the sprint board. 
 
 > [!NOTE]
-> A sprint cannot be started if another sprint is already in progress. In this case, the button will be disabled.
+> If multiple active sprints are not activated in your project, you cannot start a new sprint while another sprint is already in progress. In this case, the **Start sprint** button will be disabled. See [project backlog settings](../projects/project-settings/backlogs-settings).
 
 ![Start sprint button in the Backlogs module interface](openproject_user_guide_backlogs_start_button_sprint.png)
 
