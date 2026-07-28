@@ -47,6 +47,14 @@ RSpec.describe WorkPackage, "legacy version_id mirror" do
     expect(work_package.version_id).to eq(work_package.target_versions.first.id)
   end
 
+  it "returns target versions in id order even when preloaded" do
+    work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
+    work_package.save!
+
+    preloaded = WorkPackage.where(id: work_package.id).includes(:target_versions).first
+    expect(preloaded.target_versions.map(&:id)).to eq([lower_version.id, higher_version.id])
+  end
+
   it "clears the mirror when all target versions are removed" do
     work_package.target_version_ids_replacements = [lower_version.id]
     work_package.save!
