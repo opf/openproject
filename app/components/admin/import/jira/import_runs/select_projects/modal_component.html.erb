@@ -14,9 +14,11 @@
   ) do |dialog|
     dialog.with_header(show_divider: true)
     dialog.with_body(classes: "Overlay-body_autocomplete_height") do
-      concat(render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) {
-        I18n.t(:"admin.jira.run.wizard.select_projects.info")
-      })
+      concat(
+        render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) do
+          I18n.t(:"admin.jira.run.wizard.select_projects.info")
+        end
+      )
       concat(render(list_header_component))
       concat(render(list_component))
     end
@@ -35,12 +37,14 @@
           I18n.t(:button_cancel)
         end
         modal_footer.with_component(
-          content_tag(:div, data: { "admin--jira-projects-target": "submitButton" }) {
-            render(Admin::Import::Jira::ImportRuns::SelectProjects::ModalSubmitComponent.new(
-              jira_import: @jira_import,
-              count: selected_count
-            ))
-          }
+          content_tag(:div, data: { "admin--jira-projects-target": "submitButton" }) do
+            render(
+              Admin::Import::Jira::ImportRuns::SelectProjects::ModalSubmitComponent.new(
+                jira_import: @jira_import,
+                count: selected_count
+              )
+            )
+          end
         )
         modal_footer.with_component(
           Primer::Beta::Button.new(
