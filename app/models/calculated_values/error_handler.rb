@@ -83,9 +83,12 @@ module CalculatedValues
       when Dentaku::ZeroDivisionError
         ErrorContext.new(custom_field_id:, error_code: "ERROR_MATHEMATICAL")
       when Dentaku::ArgumentError
-        ErrorContext.new(custom_field_id:,
-                         error_code: "ERROR_MISSING_VALUE",
-                         missing_custom_field_ids: find_missing_values_for_field(custom_field_id))
+        missing_custom_field_ids = find_missing_values_for_field(custom_field_id)
+        if missing_custom_field_ids.present?
+          ErrorContext.new(custom_field_id:, error_code: "ERROR_MISSING_VALUE", missing_custom_field_ids:)
+        else
+          ErrorContext.new(custom_field_id:, error_code: "ERROR_UNKNOWN")
+        end
       when Dentaku::UnboundVariableError
         ErrorContext.new(custom_field_id:,
                          error_code: "ERROR_DISABLED_VALUE",
