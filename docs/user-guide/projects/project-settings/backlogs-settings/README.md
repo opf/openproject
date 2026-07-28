@@ -77,7 +77,7 @@ Depending on the selected option, a project can either provide sprints to others
 
 ![Manage backlogs settings under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_sharing.png)
 
-Depending on your permissions, some shared sprint fields may be read-only. Project-specific fields, such as the sprint goal, can still be edited independently.
+Depending on your permissions, some shared sprint fields may be read-only. Project-specific fields, such as the sprint goal, can still be edited independently..
 
 ### What is shared
 
@@ -101,3 +101,13 @@ The following remain project-specific:
 Even when using shared sprints, each project keeps its own work items and configuration.
 
 Read more on [how to work with Backlogs in OpenProject](../../../backlogs-scrum/).
+
+## Multiple active sprints
+
+Multiple active sprints is a **project-level setting** that allows you to enable more than one active sprint within a project. To enable this setting, toggle the **Allow multiple active sprints** switch to **On**.
+
+> [!NOTE] 
+>
+> Having multiple active sprints is only possible when the project is neither sharing nor receiving sprints. To activate this setting, **Don't share** option in the sprint sharing tab must be selected. 
+
+![Activate multiple active sprints under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_allow_multiple_active_sprints.png)
