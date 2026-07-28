@@ -29,6 +29,8 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import { renderStreamMessage } from '@hotwired/turbo';
+import { useMeta } from 'stimulus-use';
 
 const PRISTINE_STATE_KEY = 'workflow-pristine-state';
 const STATUS_STATE_KEY = 'workflow-status-state';
@@ -62,12 +64,17 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
   static values = {
     hasStatusChanges: Boolean,
     hasCheckboxChanges: Boolean,
-    isDirty: Boolean
+    isDirty: Boolean,
+    saveUrl: String
   };
 
   declare hasStatusChangesValue:boolean;
   declare hasCheckboxChangesValue:boolean;
   declare isDirtyValue:boolean;
+  declare saveUrlValue:string;
+
+  static metaNames = ['csrf-token'];
+  declare readonly csrfToken:string;
 
   private initialCheckboxState:CheckboxesState = {};
 
@@ -77,6 +84,10 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
   private form:HTMLFormElement | null = null;
 
   connect() {
+    // Populates this.csrfToken from the page's meta tag; without it the background save
+    // is rejected as a forgery and the session is reset.
+    useMeta(this, { suffix: false });
+
     this.form = this.element.closest('form');
 
     this.element.addEventListener('change', this.onCheckboxChange);
@@ -116,12 +127,58 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
   }
 
   private onFormSubmit = () => {
+    this.markSaved();
+  };
+
+  private markSaved() {
     this.popState(STATUS_STATE_KEY);
     this.popState(PRISTINE_STATE_KEY);
     this.initialCheckboxState = this.captureState();
     this.hasCheckboxChangesValue = false;
     this.hasStatusChangesValue = false;
-  };
+  }
+
+  /**
+   * Persists the matrix against its own endpoint without navigating anywhere.
+   *
+   * Submitting the enclosing form is not an option here: it belongs to the host page, so
+   * it would advance the creation wizard instead of leaving the user on the editor they
+   * are still working in. Resolves to whether the matrix was stored.
+   */
+  private async save():Promise<boolean> {
+    if (!this.saveUrlValue) return false;
+
+    const response = await fetch(this.saveUrlValue, {
+      method: 'PATCH',
+      body: this.matrixFormData(),
+      headers: {
+        Accept: 'text/vnd.turbo-stream.html',
+        'X-CSRF-Token': this.csrfToken,
+      },
+    });
+
+    const html = await response.text();
+    if (html) renderStreamMessage(html);
+
+    if (!response.ok) return false;
+
+    this.markSaved();
+    return true;
+  }
+
+  // Mirrors what a real submit of these inputs would send: unchecked boxes are simply
+  // absent, which is how the server reads "transition not allowed".
+  private matrixFormData():FormData {
+    const data = new FormData();
+
+    this.element.querySelectorAll<HTMLInputElement>('input[name]').forEach((input) => {
+      if (input.type === 'checkbox' && !input.checked) return;
+
+      data.append(input.name, input.value);
+    });
+
+    return data;
+  }
 
   private get formKey():string {
     const typeId = this.formValue('type_id');
@@ -230,9 +287,11 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
 
   private onSaveChanges = (originalTarget:HTMLElement, originalEvent:Event) => {
     return () => {
-      this.form?.requestSubmit();
-
-      this.closeAndProceed(originalTarget, originalEvent);
+      void this.save().then((stored) => {
+        // Leave the dialog open on failure: the flash explains why, and the pending
+        // changes are still there to retry with.
+        if (stored) this.closeAndProceed(originalTarget, originalEvent);
+      });
     };
   };
 
@@ -334,10 +393,14 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
         setTimeout(navigate, 0);
       },
       () => {
-        this.form?.requestSubmit();
-        this.confirmationDialogTarget.close();
-        // Delay to allow the flash message from the form submission to appear.
-        setTimeout(navigate, 1000);
+        // Navigate only once the matrix is actually stored, so that switching tab or role
+        // cannot race the write and discard it. On failure the dialog stays open.
+        void this.save().then((stored) => {
+          if (!stored) return;
+
+          this.confirmationDialogTarget.close();
+          navigate();
+        });
       },
     );
   }

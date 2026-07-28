@@ -59,7 +59,11 @@ module Workflows
     def state_data
       {
         controller: "admin--workflow-checkbox-state",
-        "admin--workflow-checkbox-state-has-status-changes-value": context.status_changes?
+        "admin--workflow-checkbox-state-has-status-changes-value": context.status_changes?,
+        # Saving from the "unsaved changes" dialog has to persist without navigating, which
+        # the host's form cannot do — the wizard's would advance a step. So the editor
+        # offers its own endpoint for that.
+        "admin--workflow-checkbox-state-save-url-value": helpers.type_workflow_matrix_path(type, tab:)
       }
     end
 

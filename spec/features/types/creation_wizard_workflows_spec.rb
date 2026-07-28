@@ -97,6 +97,37 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
         expect(page).to have_no_field workflow_checkbox(0, 1)
       end
     end
+
+    # The wizard form advances a step, so saving from the dialog has to go through the
+    # matrix's own endpoint instead — otherwise the change is dropped or the user is
+    # thrown off the step (see MatrixEditorComponent).
+    it "stores pending changes and stays on the step when confirming the save" do
+      check workflow_checkbox(1, 0)
+
+      switch_transition_tab "User is author"
+
+      within_dialog "Save changes before continuing?" do
+        click_button "Save changes and continue"
+      end
+
+      expect(page).to have_css "#workflow_form_author"
+      expect(page).to have_current_path(/step=workflows/)
+
+      expect_transition(role, 1, 0, exist: true)
+    end
+
+    it "keeps the step and discards the change when ignoring" do
+      check workflow_checkbox(1, 0)
+
+      switch_transition_tab "User is author"
+
+      within_dialog "Save changes before continuing?" do
+        click_button "Ignore changes"
+      end
+
+      expect(page).to have_css "#workflow_form_author"
+      expect_transition(role, 1, 0, exist: false)
+    end
   end
 
   context "when switching roles" do
