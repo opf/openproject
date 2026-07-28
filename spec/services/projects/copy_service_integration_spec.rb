@@ -697,7 +697,7 @@ RSpec.describe(
           let!(:assigned_version) { create(:version, name: "Assigned Issues", project: source, status: "open") }
 
           before do
-            source_wp.update!(version: assigned_version)
+            source_wp.target_versions = [assigned_version]
             assigned_version.update!(status: "closed")
           end
 
@@ -705,9 +705,9 @@ RSpec.describe(
             expect(subject).to be_success
 
             wp = copy_of(source_wp)
-            expect(wp.version.name).to eq "Assigned Issues"
-            expect(wp.version).to be_closed
-            expect(wp.version.id).not_to eq assigned_version.id
+            expect(wp.target_versions.first.name).to eq "Assigned Issues"
+            expect(wp.target_versions.first).to be_closed
+            expect(wp.target_versions.first.id).not_to eq assigned_version.id
           end
         end
 
@@ -717,12 +717,7 @@ RSpec.describe(
           let(:version_two) { create(:version, name: "Target Two", project: source, status: "open") }
 
           before do
-            source_wp.work_package_versions.where(kind: "target").delete_all
-            # Contract validation rejects more than one target version, so we bypass it
-            # here to exercise the copy remapping of multiple target versions
-            [version_one, version_two].each do |v|
-              source_wp.work_package_versions.create!(version_id: v.id, kind: "target")
-            end
+            source_wp.target_versions = [version_one, version_two]
           end
 
           it "copies the target_versions remapped to the copied project's versions" do
@@ -744,10 +739,7 @@ RSpec.describe(
           let(:observed_two) { create(:version, name: "Observed Two", project: source, status: "open") }
 
           before do
-            source_wp.work_package_versions.where(kind: "observed_in").delete_all
-            [observed_one, observed_two].each do |v|
-              source_wp.work_package_versions.create!(version_id: v.id, kind: "observed_in")
-            end
+            source_wp.observed_in_versions = [observed_one, observed_two]
           end
 
           it "copies the observed_in_versions remapped to the copied project's versions" do
@@ -790,9 +782,8 @@ RSpec.describe(
 
           before do
             source_wp.work_package_versions.delete_all
-            # Saving the version also creates the target association
-            source_wp.update!(version: assigned_version)
-            source_wp.work_package_versions.create!(version_id: observed_version.id, kind: "observed_in")
+            source_wp.target_versions = [assigned_version]
+            source_wp.observed_in_versions = [observed_version]
           end
 
           it "copies the work package without any version assignments" do
@@ -800,7 +791,6 @@ RSpec.describe(
 
             wp = copy_of(source_wp)
             expect(wp).not_to be_nil
-            expect(wp.version).to be_nil
             expect(wp.target_versions).to be_empty
             expect(wp.observed_in_versions).to be_empty
           end
@@ -1042,26 +1032,6 @@ RSpec.describe(
             end
 
             it_behaves_like "does not sends share notification"
-          end
-        end
-
-        context "with versions" do
-          let(:version) { create(:version, project: source) }
-          let(:version2) { create(:version, project: source) }
-
-          let(:only_args) { %w[versions work_packages] }
-
-          before do
-            work_package.update!(version:)
-            work_package2.update!(version: version2)
-            work_package3
-          end
-
-          it "assigns the work packages to copies of the versions" do
-            expect(subject).to be_success
-            expect(copy_of(work_package).target_versions.map(&:name)).to eq [version.name]
-            expect(copy_of(work_package2).target_versions.map(&:name)).to eq [version2.name]
-            expect(copy_of(work_package3).target_versions).to be_empty
           end
         end
 
