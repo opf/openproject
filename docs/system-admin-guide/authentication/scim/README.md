@@ -115,7 +115,7 @@ The configuration `OPENPROJECT_SCIM__CLIENTS` accepts an array of JSON objects t
 For each SCIM client you can define the following attributes:
 
 * `name`: Defines the user-visible name of the SCIM client.
-* `jwt_sub`: The sub claim that JWTs of the client can be identified with. For example, for Keycloak, this is the UUID of the service account  associated with the SCIM client.
+* `jwt_sub`: The sub claim that JWTs of the client can be identified with. For example, for Keycloak, this is the UUID of the service account associated with the SCIM client.
 * `auth_provider_slug`: The slug of the OpenID Connect provider that shall be associated to the SCIM client. For example a provider configured via `OPENPROJECT_OPENID__CONNECT_KEYCLOAK` would use a slug of `keycloak`.
 
 Note that this only allows configuring SCIM clients that authenticate via JSON web tokens issued from an OpenID Connect provider.
