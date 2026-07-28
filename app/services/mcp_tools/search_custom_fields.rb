@@ -56,12 +56,13 @@ module McpTools
 
     def call(page: nil, **filters)
       custom_fields = apply_filters(CustomField.visible, filters)
-      custom_fields = apply_pagination(custom_fields, page)
+      custom_fields, total = apply_pagination(custom_fields, page)
 
       {
         items: custom_fields.map do |custom_field|
           ::API::V3::CustomFields::CustomFieldRepresenter.create(custom_field, current_user:)
-        end
+        end,
+        total:
       }
     end
   end
