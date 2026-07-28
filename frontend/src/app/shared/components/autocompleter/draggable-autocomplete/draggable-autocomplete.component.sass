@@ -29,10 +29,14 @@
     min-width: 50px
     border: 1px solid var(--borderColor-default)
     background: var(--button-default-bgColor-rest)
-    cursor: move
+    cursor: grab
+    user-select: none
     display: flex
     align-items: center
     justify-content: space-between
+
+    &:active
+      cursor: grabbing
 
     &[data-dragging]
       opacity: 0.4
@@ -56,13 +60,30 @@
     &[data-drop-position="right"]::after
       right: -4px
 
+  // Colors and the round hover target are borrowed from Primer's Token remove
+  // button, so the action reads as its own target rather than part of the
+  // chip's drag surface.
   &--remove-item
-    font-size: 8px
-    color: #999
-    padding: 0 0 0 5px
-    cursor: pointer
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    width: 16px
+    height: 16px
+    margin-inline-start: 5px
+    padding: 0
     border: none
+    border-radius: var(--borderRadius-full)
     background: transparent
+    color: var(--fgColor-muted)
+    cursor: pointer
+
+    &:hover,
+    &:focus-visible
+      background-color: var(--control-transparent-bgColor-hover)
+      color: var(--fgColor-default)
+
+    &:active
+      background-color: var(--control-transparent-bgColor-active)
 
 // Hack to allow the ng-select dropdown bound to this id to be positioned correctly.
 // The ng-select needs to be bound to the id because the component is currently used in a modal.

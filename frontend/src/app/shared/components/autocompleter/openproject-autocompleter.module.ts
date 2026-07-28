@@ -65,6 +65,7 @@ import {
   ProjectPhaseAutocompleterComponent,
 } from './project-phase-autocompleter/project-phase-autocompleter.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -99,6 +100,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     OpenprojectPrincipalRenderingModule,
     InviteUserButtonModule,
     IconModule,
+    DynamicIconDirective,
 
     OpSortableListsDirective,
     OpSortableListsItemDirective,

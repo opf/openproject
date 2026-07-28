@@ -49,9 +49,11 @@
               <button
                 type="button"
                 (click)="remove(item)"
-                class="op-draggable-autocomplete--remove-item icon-remove"
+                class="op-draggable-autocomplete--remove-item"
                 [attr.aria-label]="removeLabel(item)"
-              ></button>
+              >
+                <svg octicon icon="x" size="xsmall" aria-hidden="true"></svg>
+              </button>
             }
           </div>
         }
