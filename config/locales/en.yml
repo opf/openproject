@@ -6253,6 +6253,7 @@ en:
       variants_count:
         one: "1 variant"
         other: "%{count} variants"
+    milestone_indicator: "Milestone"
 
   unsupported_browser:
     close_warning: "Ignore this warning."
