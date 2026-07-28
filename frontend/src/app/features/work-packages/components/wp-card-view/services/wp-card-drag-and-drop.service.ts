@@ -107,6 +107,10 @@ export class WorkPackageCardDragAndDropService {
     this.workPackages = order
       .map((id) => this.states.workPackages.get(id).value)
       .filter((wp):wp is WorkPackageResource => !!wp);
+    // Selection (select-all, shift-range) reads its order from
+    // `tableRendered`, which the results path keeps in step with the cards.
+    // An optimistic apply has to do the same or selection lags a drag.
+    this.cardView.cardView.updateRenderedCardsValues(this.workPackages);
     this.cardView.cdRef.detectChanges();
   }
 
@@ -194,12 +198,11 @@ export class WorkPackageCardDragAndDropService {
           await this.reorderService
             .removePersisted(before, event.itemId)
             .catch((e) => {
-              // Failure is always reported; the refresh fallback only fires if
-              // nothing fresher (e.g. a results update) has landed meanwhile.
+              // Reported, but the optimistic removal stands: the target has
+              // already taken the card, and re-reading the upstream results
+              // here would render it in both lists until the next emission.
+              // What failed is this list's position entry, not membership.
               this.notificationService.handleRawError(e);
-              if (this.stillAt(revision, optimistic)) {
-                this.applyLocalOrder(this.reorderService.orderedWorkPackages().map((wp) => wp.id!));
-              }
             });
         } else if (this.stillAt(revision, optimistic)) {
           // Target rejected: restore, but only if nothing fresher (e.g. a

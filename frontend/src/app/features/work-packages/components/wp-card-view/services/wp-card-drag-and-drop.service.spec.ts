@@ -176,6 +176,7 @@ describe('WorkPackageCardDragAndDropService', () => {
   let apiV3ServiceStub:{ work_packages:{ id:ReturnType<typeof vi.fn> } };
   let cardView:{
     cdRef:{ detectChanges:ReturnType<typeof vi.fn> };
+    cardView:{ updateRenderedCardsValues:ReturnType<typeof vi.fn> };
     onMoved:{ emit:ReturnType<typeof vi.fn> };
     workPackageAddedHandler:ReturnType<typeof vi.fn>;
     resolvedListId:string;
@@ -214,6 +215,7 @@ describe('WorkPackageCardDragAndDropService', () => {
 
     cardView = {
       cdRef: { detectChanges: vi.fn() },
+      cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
       resolvedListId: LIST_ID,
@@ -765,6 +767,23 @@ describe('WorkPackageCardDragAndDropService', () => {
     });
   });
 
+  describe('selection model', () => {
+    beforeEach(() => {
+      seed('a', 'b', 'c');
+      service.workPackages = ['a', 'b', 'c'].map(buildWp);
+    });
+
+    it('keeps the rendered cards in step with an optimistic reorder', () => {
+      cardView.cardView.updateRenderedCardsValues.mockClear();
+
+      service.handleDrop(buildDropEvent({ sourceId: 'a', targetId: 'c', edge: 'bottom' }));
+
+      expect(cardView.cardView.updateRenderedCardsValues).toHaveBeenCalledTimes(1);
+      expect(idsOf(cardView.cardView.updateRenderedCardsValues.mock.lastCall![0] as WorkPackageResource[]))
+        .toEqual(['b', 'c', 'a']);
+    });
+  });
+
   describe('handleRemoved — source-side settlement', () => {
     beforeEach(() => {
       seed('a', 'b');
@@ -801,11 +820,13 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(finalize).toHaveBeenCalledTimes(1);
     });
 
-    it('notifies and refreshes from the order service when the persisted removal itself fails, without undoing the target', async () => {
+    it('keeps the card removed when the persisted removal fails, without undoing the target', async () => {
       const removeError = new Error('remove failed');
       reorderServiceStub.removePersisted.mockRejectedValue(removeError);
-      const refreshedWp = buildWp('b');
-      reorderServiceStub.orderedWorkPackages.mockReturnValue([refreshedWp]);
+      // The upstream results still hold the moved card: the target's
+      // membership PATCH has not refreshed them. Re-reading them here would
+      // show the card in both lists at once.
+      reorderServiceStub.orderedWorkPackages.mockReturnValue(['a', 'b'].map(buildWp));
       const finalize = vi.fn();
       const event = buildRemovedEvent({ itemId: 'a', completion: Promise.resolve(true), finalize });
 
@@ -813,24 +834,9 @@ describe('WorkPackageCardDragAndDropService', () => {
       await flush();
 
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(removeError);
+      expect(reorderServiceStub.orderedWorkPackages).not.toHaveBeenCalled();
       expect(idsOf(service.workPackages)).toEqual(['b']);
       expect(finalize).toHaveBeenCalledTimes(1);
-    });
-
-    it('skips the source-refresh fallback when a newer state already landed', async () => {
-      const removeError = new Error('remove failed');
-      reorderServiceStub.removePersisted.mockRejectedValue(removeError);
-      const event = buildRemovedEvent({ itemId: 'a', completion: Promise.resolve(true) });
-
-      service.handleRemoved(event);
-      // A fresher refresh landed before the target's completion promise (and
-      // thus the removePersisted rejection) resolved.
-      service.workPackages = ['x', 'y'].map(buildWp);
-
-      await flush();
-
-      expect(notificationStub.handleRawError).toHaveBeenCalledWith(removeError); // failure still reported
-      expect(idsOf(service.workPackages)).toEqual(['x', 'y']); // refresh not overwritten
     });
 
     it('restores the local order with no compensating API call when the target rejects', async () => {
@@ -1027,6 +1033,7 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
   function wireCardView(listHost:TestCardListHostComponent):void {
     listHost.dragDrop.init({
       cdRef: { detectChanges: () => { listHost.resync(); fixture.detectChanges(); } },
+      cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue(true),
       resolvedListId: listHost.listId(),
