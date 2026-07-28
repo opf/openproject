@@ -34,7 +34,8 @@ If defined, the **Sprint goal** is displayed in the sprint header below the spri
 Depending on the sprint status, either a **Start sprint** (for sprints in planning) or **Complete sprint** (for active sprints) button will be displayed.
 
 > [!NOTE]
-> The **Start sprint** button is disabled by default if another sprint is already active or if no sprint dates have been defined. The button might also not exist if you lack the permission to "Start/complete sprints". This can be changed in [project backlog settings ](../projects/project-settings/backlogs-settings)to allow multiple active sprints.
+> The **Start sprint** button is disabled by default if another sprint is already active or if no sprint dates have been defined. It might also not be available if you do not have the **Start/complete sprints** permission.
+> By default, only one sprint can be active at a time. If your project is configured to allow multiple active sprints in the [project backlog settings](../projects/project-settings/backlogs-settings)](../projects/project-settings/backlogs-settings), the **Start sprint** button remains available for additional sprints.
 
 ### Backlog buckets
 
