@@ -496,6 +496,7 @@ Rails.application.routes.draw do
         get :export
         get "/index" => "wiki#index"
         get :menu
+        get :menu_tree
       end
 
       member do
