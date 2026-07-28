@@ -224,6 +224,22 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     expect(page.body.index(alfa_variant.own_name)).to be < page.body.index(zeta_variant.own_name)
   end
 
+  it "offers 'Add variant' only on roots, linking to the creation wizard for that root" do
+    visit types_path
+
+    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+      expect(page).to have_link(
+        I18n.t("types.index.add_variant_action"),
+        href: new_creation_wizard_types_path(parent_id: bug_type.id),
+        visible: :all
+      )
+    end
+
+    within(".Box-row", text: alfa_variant.own_name, visible: :all) do
+      expect(page).to have_no_link(I18n.t("types.index.add_variant_action"), visible: :all)
+    end
+  end
+
   it "reorders root types via drag and drop", :selenium do
     visit types_path
 

@@ -6197,6 +6197,7 @@ en:
         tab: "Workflows"
     index:
       add_variant: "Add variant to %{name}"
+      add_variant_action: "Add variant"
       description: >
         Each configuration area inside types and variants can be independently configured, limited
         from another type, or fully linked to a source.
