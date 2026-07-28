@@ -108,17 +108,17 @@ This could for example be achieved by performing a client credentials token requ
 
 ## Configuration using environment variables
 
-For some deployment scenarios, it might be desirable to configure a SCIM client through environment variables. Those variables follow the
-rules defined in the [documentation about using environment variables](../../../installation-and-operations/configuration/environment/).
+For some deployment scenarios, it might be desirable to configure a SCIM client through environment variables. These variables follow the rules defined in the [documentation about using environment variables](../../../installation-and-operations/configuration/environment/).
 
 The configuration `OPENPROJECT_SCIM__CLIENTS` accepts an array of JSON objects to configure SCIM clients.
 For each SCIM client you can define the following attributes:
 
-* `name`: Defines the user-visible name of the SCIM client.
-* `jwt_sub`: The sub claim that JWTs of the client can be identified with. For example, for Keycloak, this is the UUID of the service account associated with the SCIM client.
-* `auth_provider_slug`: The slug of the OpenID Connect provider that shall be associated to the SCIM client. For example a provider configured via `OPENPROJECT_OPENID__CONNECT_KEYCLOAK` would use a slug of `keycloak`.
+- `name`: Defines the user-visible name of the SCIM client.
+- `jwt_sub`: The sub claim that JWTs of the client can be identified with. For example, for Keycloak, this is the UUID of the service account associated with the SCIM client.
+- `auth_provider_slug`: The slug of the OpenID Connect provider that shall be associated to the SCIM client. For example a provider configured via `OPENPROJECT_OPENID__CONNECT_KEYCLOAK` would use a slug of `keycloak`.
 
-Note that this only allows configuring SCIM clients that authenticate via JSON web tokens issued from an OpenID Connect provider.
+> [!NOTE]
+> This only allows configuring SCIM clients that authenticate via JSON web tokens issued from an OpenID Connect provider.
 
 The following is a configuration example for a single SCIM client:
 

@@ -40,12 +40,13 @@ Permissions for pages accessed through the internal wiki provider are determined
 
 ### Configuration using environment variables
 
-The internal wiki provider can also be configured through environment variables, should this be desirable for the own deployment scenario.
-It's configured via a JSON object passed to `OPENPROJECT_INTERNAL__WIKI__PROVIDER`. Right now there's only one option that can be configured:
+The internal wiki provider can also be configured using environment variables, if this better suits your deployment scenario.
 
-* `enabled`: A boolean indicating, whether the internal wiki provider should be enabled or not
+It is configured via a JSON object passed to `OPENPROJECT_INTERNAL__WIKI__PROVIDER`. At the moment there is only one option that can be configured:
 
-An example disabling it:
+- `enabled`: A boolean indicating, whether the internal wiki provider should be enabled or not
+
+This example shows how to disable it:
 
 ```
 { "enabled": false }

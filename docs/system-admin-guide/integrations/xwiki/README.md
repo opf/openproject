@@ -101,22 +101,21 @@ To learn how to link a wiki to a work package or create a new one, refer to [thi
 
 ## Configuration using environment variables
 
-For some deployment scenarios, it might be desirable to configure a provider through environment variables. Those variables follow the
-rules defined in the [documentation about using environment variables](../../../installation-and-operations/configuration/environment/).
+For some deployment scenarios, it might be desirable to configure a provider through environment variables. These variables follow the rules defined in the [documentation about using environment variables](../../../installation-and-operations/configuration/environment/).
 
 The configuration `OPENPROJECT_WIKI__PROVIDERS` accepts an array of JSON objects to configure external wiki providers, such as XWiki.
 For each XWiki provider you can define the following attributes:
 
-* `type`: Must be set to `xwiki`
-* `name`: Defines the user-visible name of the wiki provider.
-* `url`: The wiki provider's base URL.
-* `uid` (optional): The XWiki installation id of the related XWiki instance. If not provided, this will be asynchronously fetched later.
-* `openproject_oauth`
-    * `client_id`: The client ID that XWiki will be able to use to authenticate towards OpenProject via OAuth.
-    * `client_secret`: The client secret that XWiki will be able to use to authenticate towards OpenProject via OAuth. Make sure to pick a strong password.
-* `xwiki_oauth`
-    * `client_id`: The client ID that OpenProject shall use to authenticate towards XWiki via OAuth.
-    * `client_secret`: The client secret that OpenProject shall use to authenticate towards XWiki via OAuth.
+- `type`: Must be set to `xwiki`
+- `name`: Defines the user-visible name of the wiki provider.
+- `url`: The wiki provider's base URL.
+- `uid` (optional): The XWiki installation id of the related XWiki instance. If not provided, this will be asynchronously fetched later.
+- `openproject_oauth`
+    - `client_id`: The client ID that XWiki will be able to use to authenticate towards OpenProject via OAuth.
+    - `client_secret`: The client secret that XWiki will be able to use to authenticate towards OpenProject via OAuth. Make sure to pick a strong password.
+- `xwiki_oauth`
+    - `client_id`: The client ID that OpenProject shall use to authenticate towards XWiki via OAuth.
+   - `client_secret`: The client secret that OpenProject shall use to authenticate towards XWiki via OAuth.
 
 The following is a configuration example for a single XWiki provider:
 
