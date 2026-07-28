@@ -178,7 +178,9 @@ RSpec.describe WorkPackages::BaseContract do
       before do
         version = build_stubbed(:version, status: "closed")
 
-        work_package.version = version
+        allow(work_package)
+          .to receive(:effective_target_versions)
+          .and_return([version])
         allow(work_package.status)
           .to receive(:is_closed?)
           .and_return(true)
@@ -225,9 +227,7 @@ RSpec.describe WorkPackages::BaseContract do
         open_version = build_stubbed(:version)
 
         allow(work_package)
-          .to receive(:target_versions)
-          .and_return([closed_version])
-        work_package.version = open_version
+          .to receive_messages(target_versions: [closed_version], effective_target_versions: [open_version])
         allow(work_package.status)
           .to receive(:is_closed?)
           .and_return(true)
@@ -1170,7 +1170,7 @@ RSpec.describe WorkPackages::BaseContract do
 
     context "for assignable version" do
       before do
-        work_package.version = assignable_version
+        work_package.version_id = assignable_version.id
         subject.validate
       end
 
@@ -1181,7 +1181,7 @@ RSpec.describe WorkPackages::BaseContract do
 
     context "for non assignable version" do
       before do
-        work_package.version = invalid_version
+        work_package.version_id = invalid_version.id
         subject.validate
       end
 
@@ -1192,32 +1192,6 @@ RSpec.describe WorkPackages::BaseContract do
 
     context "for a closed version" do
       let(:assignable_version) { build_stubbed(:version, status: "closed") }
-
-      context "when reopening a work package" do
-        before do
-          allow(work_package)
-            .to receive(:reopened?)
-            .and_return(true)
-
-          work_package.version = assignable_version
-          subject.validate
-        end
-
-        it "is invalid" do
-          expect(subject.errors[:base]).to eql [I18n.t(:error_can_not_reopen_work_package_on_closed_version)]
-        end
-      end
-
-      context "when not reopening the work package" do
-        before do
-          work_package.version = assignable_version
-          subject.validate
-        end
-
-        it "is valid" do
-          expect(subject.errors).to be_empty
-        end
-      end
 
       context "when the closed version is assigned through target_versions" do
         before do
@@ -1319,7 +1293,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       context "when the user changes both version_id and target_version_ids to different versions" do
         before do
-          work_package.version = other_assignable_version
+          work_package.version_id = other_assignable_version.id
           work_package.target_version_ids_replacements = [assignable_version.id]
           contract.validate
         end
@@ -1335,12 +1309,12 @@ RSpec.describe WorkPackages::BaseContract do
         # service extends the model with ChangedBySystem before validation, so mirror
         # that here to distinguish the system-driven change from a user one.
         let(:work_package) do
-          build_stubbed(:work_package, type:, project:, version: other_assignable_version)
+          build_stubbed(:work_package, type:, project:, version_id: other_assignable_version.id)
             .extend(OpenProject::ChangedBySystem)
         end
 
         before do
-          work_package.change_by_system { work_package.version = nil }
+          work_package.change_by_system { work_package.version_id = nil }
           work_package.target_version_ids_replacements = [assignable_version.id]
           contract.validate
         end
@@ -1353,7 +1327,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       context "when both are set to the same version" do
         before do
-          work_package.version = assignable_version
+          work_package.version_id = assignable_version.id
           work_package.target_version_ids_replacements = [assignable_version.id]
           contract.validate
         end
@@ -1366,7 +1340,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       context "when only one type of version changed" do
         it "is valid for version" do
-          work_package.version = assignable_version
+          work_package.version_id = assignable_version.id
           contract.validate
           expect(contract.errors).to be_empty
         end
@@ -1439,7 +1413,7 @@ RSpec.describe WorkPackages::BaseContract do
 
     describe "legacy version_id writability" do
       before do
-        work_package.version = assignable_version
+        work_package.version_id = assignable_version.id
       end
 
       context "when the multiple-versions feature is disabled" do

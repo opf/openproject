@@ -700,10 +700,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context "when version is set" do
-        let!(:version) { create(:version, project: workspace) }
+        let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version = version
+          work_package.version_id = version.id
+          allow(work_package).to receive(:target_versions).and_return([version])
         end
 
         it_behaves_like "has a titled link" do
@@ -721,10 +722,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       context "when multiple versions is active",
               with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
-        let!(:version) { create(:version, project: workspace) }
+        let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version = version
+          work_package.version_id = version.id
+          allow(work_package).to receive(:target_versions).and_return([version])
         end
 
         it "renders neither the deprecated version link nor the embedded resource" do

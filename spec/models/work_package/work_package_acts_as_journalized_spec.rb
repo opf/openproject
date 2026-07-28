@@ -566,20 +566,6 @@ RSpec.describe WorkPackage do
         end
       end
 
-      # While the deprecated version_id column mirrors the target versions,
-      # every version change produces both a version_id and a target_versions
-      # diff. Only the target_versions representation is exposed.
-      context "when changing the version via the legacy version field" do
-        it "journals the change as target versions only" do
-          journable.update!(version:)
-
-          expect(journable.last_journal.details["target_versions"])
-            .to eq([nil, version.id.to_s])
-          expect(journable.last_journal.details)
-            .not_to have_key("version_id")
-        end
-      end
-
       context "when setting target versions via the replacements" do
         it "does not additionally journal the mirrored version_id" do
           set_target_versions([version])

@@ -125,26 +125,20 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
         end
 
         let(:instance) { described_class.new(work_package:, user: assign_versions_user) }
-        let(:version_one) { create(:version, project:, name: "Copy target 1") }
-        let(:version_two) { create(:version, project:, name: "Copy target 2") }
-        let(:observed_version) { create(:version, project:, name: "Copy observed") }
+        let(:version_one) { create(:version, project:, name: "Target 1") }
+        let(:version_two) { create(:version, project:, name: "Target 2") }
+        let(:observed_version) { create(:version, project:, name: "Observed") }
 
         current_user { assign_versions_user }
 
         before do
-          # bypassing the single-value contract validation to exercise copying
-          # of multiple target versions
-          [version_one, version_two].each do |version|
-            work_package.work_package_versions.create!(version:, kind: "target")
-          end
-          work_package.work_package_versions.create!(version: observed_version, kind: "observed_in")
-          work_package.update_columns(version_id: version_one.id)
+          work_package.target_versions = [version_one, version_two]
+          work_package.observed_in_versions = [observed_version]
         end
 
-        it "copies all target and observed_in versions, not only the mirrored first one" do
+        it "copies all target and observed_in versions" do
           expect(copy.target_versions).to contain_exactly(version_one, version_two)
           expect(copy.observed_in_versions).to contain_exactly(observed_version)
-          expect(copy.version_id).to eq(version_one.id)
         end
 
         context "when the copying user lacks the assign_versions permission" do
@@ -156,7 +150,6 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
             expect(service_result).to be_success
             expect(copy.target_versions).to be_empty
             expect(copy.observed_in_versions).to be_empty
-            expect(copy.version_id).to be_nil
           end
         end
       end

@@ -259,7 +259,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
 
       before do
-        work_package.update(version:)
+        work_package.target_versions = [version]
       end
 
       context "with an unshared version" do
@@ -297,7 +297,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "with an unshared observed in version" do
         before do
-          work_package.update(version: nil)
+          work_package.target_versions = []
           WorkPackageVersion.create!(work_package:, version:, kind: "observed_in")
         end
 
@@ -2283,8 +2283,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       subject(:service) { instance.call(version_id: version2.id, send_notifications: false) }
 
       before do
-        work_package.version = version1
-        work_package.save!
+        work_package.target_versions = [version1]
       end
 
       it { expect(service).to be_success }
@@ -2304,8 +2303,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       subject(:service) { instance.call(version_id: nil, send_notifications: false) }
 
       before do
-        work_package.version = nil
-        work_package.save!
+        work_package.target_versions = []
       end
 
       it { expect(service).to be_success }

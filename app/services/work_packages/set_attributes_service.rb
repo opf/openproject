@@ -275,7 +275,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return unless work_package.project_id_changed? && work_package.project_id
 
     model.change_by_system do
-      set_versions_to_nil
+      clear_unassignable_versions
       reassign_category
       set_parent_to_nil
       clear_semantic_identifier
@@ -367,15 +367,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     else
       DeriveProgressValuesWorkBased
     end
-  end
-
-  def set_versions_to_nil
-    if work_package.version &&
-       work_package.project&.shared_versions&.exclude?(work_package.version)
-      work_package.version = nil
-    end
-
-    clear_unassignable_versions
   end
 
   def clear_unassignable_versions
