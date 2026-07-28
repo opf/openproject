@@ -466,6 +466,7 @@ de:
         spent_hours: Aufgewendete Zeit
         spent_time: Aufgewendete Zeit
         subproject: Unterprojekt
+        target_version: Target version
         target_versions: Zielversionen
         time_entries: Zeit buchen
         type: Typ

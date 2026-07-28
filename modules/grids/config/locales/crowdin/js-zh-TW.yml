@@ -39,6 +39,7 @@ zh-TW:
           tooltip_type_gate: Phase gate
           tooltip_type_milestone: Milestone
           tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: 子項目
         time_entries_current_user:

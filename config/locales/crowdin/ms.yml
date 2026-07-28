@@ -468,6 +468,7 @@ ms:
         spent_hours: Masa yang dihabiskan
         spent_time: Masa yang dihabiskan
         subproject: Subprojek
+        target_version: Target version
         target_versions: Target versions
         time_entries: Masa log
         type: Jenis

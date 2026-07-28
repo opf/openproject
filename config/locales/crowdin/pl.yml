@@ -466,6 +466,7 @@ pl:
         spent_hours: Czas pracy
         spent_time: Czas pracy
         subproject: Podprojekt
+        target_version: Target version
         target_versions: Target versions
         time_entries: Rejestruj czas pracy
         type: Typ

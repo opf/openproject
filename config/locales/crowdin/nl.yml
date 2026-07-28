@@ -466,6 +466,7 @@ nl:
         spent_hours: Bestede tijd
         spent_time: Bestede tijd
         subproject: Subproject
+        target_version: Target version
         target_versions: Target versions
         time_entries: Gelogde tijd
         type: Type

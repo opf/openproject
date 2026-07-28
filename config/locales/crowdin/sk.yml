@@ -466,6 +466,7 @@ sk:
         spent_hours: Strávený čas
         spent_time: Strávený čas
         subproject: Podprojekt
+        target_version: Target version
         target_versions: Target versions
         time_entries: Zaprotokoluj čas
         type: Typ

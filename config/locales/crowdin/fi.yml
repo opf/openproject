@@ -466,6 +466,7 @@ fi:
         spent_hours: Käytetty aika
         spent_time: Käytetty aika
         subproject: Aliprojekti
+        target_version: Target version
         target_versions: Target versions
         time_entries: Kirjaa työaika
         type: Tyyppi

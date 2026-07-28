@@ -466,6 +466,7 @@ si:
         spent_hours: වැය කළ කාලය
         spent_time: වැය කළ කාලය
         subproject: උප ව්යාපෘතිය
+        target_version: Target version
         target_versions: Target versions
         time_entries: ලොග් වේලාව
         type: වර්ගය

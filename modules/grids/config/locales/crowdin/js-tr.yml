@@ -39,6 +39,7 @@ tr:
           tooltip_type_gate: Phase gate
           tooltip_type_milestone: Milestone
           tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Alt öğeler
         time_entries_current_user:

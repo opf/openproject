@@ -466,6 +466,7 @@ ru:
         spent_hours: Затраченное время
         spent_time: Затраченное время
         subproject: Подпроект
+        target_version: Target version
         target_versions: Target versions
         time_entries: Добавить трудозатраты
         type: Тип
@@ -1518,9 +1519,9 @@ ru:
         project_creation: Создание проекта
       project_custom_field_sections:
         destroy:
-          error: The section could not be deleted.
+          error: Этот раздел не может быть удален.
         drop:
-          error: The section could not be reordered.
+          error: Этот раздел не может быть отсортирован.
         move:
           error: The section could not be reordered.
       user_custom_field_sections:

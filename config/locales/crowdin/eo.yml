@@ -466,6 +466,7 @@ eo:
         spent_hours: Uzata tempo
         spent_time: Uzata tempo
         subproject: Subprojekto
+        target_version: Target version
         target_versions: Target versions
         time_entries: Tempoprotokolo
         type: Tipo

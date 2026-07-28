@@ -466,6 +466,7 @@ es:
         spent_hours: Tiempo invertido
         spent_time: Tiempo invertido
         subproject: Subproyecto
+        target_version: Target version
         target_versions: Versiones de destino
         time_entries: Registro de tiempo
         type: Tipo

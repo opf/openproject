@@ -466,6 +466,7 @@ uk:
         spent_hours: Витрачений час
         spent_time: Трудовитрати
         subproject: Підпроект
+        target_version: Target version
         target_versions: Target versions
         time_entries: Час журналу
         type: Тип

@@ -466,6 +466,7 @@ fr:
         spent_hours: Temps passé
         spent_time: Temps passé
         subproject: Sous-projet
+        target_version: Target version
         target_versions: Versions cibles
         time_entries: Consigner du temps
         type: Type

@@ -24,7 +24,7 @@ pl:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Zezwalaj na wiele aktywnych sprintów
         backlog_excluded_types: Wykluczone typy pakietów roboczych
         sprint_sharing: Udostępnianie sprintu
         statuses_considered_closed: Statusy uznane za zamknięte
@@ -43,7 +43,7 @@ pl:
         text: Cel sprintu
       work_package:
         backlog_bucket: Kategoria backlogu
-        backlog_inbox: Backlog inbox
+        backlog_inbox: Skrzynka odbiorcza backlogu
         backlogs_work_package_type: Typ backlogu
         position: Pozycja
         sprint: Sprint
@@ -57,10 +57,10 @@ pl:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: nie można zmienić, gdy uruchomionych jest wiele aktywnych sprintów.
+              requires_no_sharing: można włączyć tylko wtedy, gdy sprint ma ustawienie „Nie udostępniaj”.
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              locked_by_multiple_active_sprints: nie można zmienić, gdy włączonych jest wiele aktywnych sprintów.
               share_all_projects_already_taken: "— nie można ustawić, ponieważ projekt „%{name}” jest już udostępniony wszystkim projektom."
               share_all_projects_already_taken_anonymous: "— nie można ustawić, ponieważ inny projekt jest już udostępniony wszystkim projektom."
           receiving_sprints: otrzymuje udostępnione sprinty. Nie można tworzyć własnych sprintów.
@@ -98,7 +98,7 @@ pl:
         other: Sprinty
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title: Dodaj istniejący pakiet roboczy do %{name}
     administration_blankslate:
       text: Obecnie przeprojektowujemy moduł Backlogs. Ustawienia administratora dla sprintów i backlogów będą widoczne tutaj w najbliższej przyszłości. Ustawienia na poziomie projektu pozostają dostępne.
       title: Ustawienia administratora backlogu ewoluują
@@ -116,13 +116,13 @@ pl:
       select_panel_title: Wybierz elementy
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Dodaj istniejący pakiet roboczy
+        add_new_work_package: Dodaj nowy pakiet roboczy
         delete_backlog_bucket: Usuń kategorię backlogu
         edit_backlog_bucket: Edytuj kategorię backlogu
-      blankslate_description: Drag items here to add them
+      blankslate_description: Aby dodać elementy, przeciągnij je tutaj
       blankslate_title: Kategoria backlogu jest pusta
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Aby dodać ten element, upuść go tutaj
       label_actions: Działania kategorii backlogu
     bucket_destroy_modal_component:
       details: Kategoria backlogu „%{name}” zostanie usunięta, a wszystkie pakiety robocze zostaną przeniesione do skrzynki odbiorczej backlogu. Nie zostanie usunięty żaden pakiet roboczy.
@@ -146,8 +146,8 @@ pl:
       title: Są elementy będące w toku
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Dodaj istniejący pakiet roboczy
+        add_new_work_package: Dodaj nowy pakiet roboczy
       blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Skrzynka odbiorcza backlogu jest pusta
       drop_zone_label: Drop here to add this item

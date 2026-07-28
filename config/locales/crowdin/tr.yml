@@ -466,6 +466,7 @@ tr:
         spent_hours: Harcanan zaman
         spent_time: Harcanan zaman
         subproject: Alt proje
+        target_version: Target version
         target_versions: Target versions
         time_entries: Zaman kaydet
         type: Tür

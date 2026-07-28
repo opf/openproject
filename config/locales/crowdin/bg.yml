@@ -466,6 +466,7 @@ bg:
         spent_hours: Отработено време
         spent_time: Отработено време
         subproject: Подпроект
+        target_version: Target version
         target_versions: Target versions
         time_entries: Отчетено време
         type: Тип

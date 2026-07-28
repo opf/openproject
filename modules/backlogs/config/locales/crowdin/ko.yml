@@ -24,7 +24,7 @@ ko:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: 여러 활성 스프린트 허용
         backlog_excluded_types: 제외된 작업 패키지 유형
         sprint_sharing: 스프린트 공유
         statuses_considered_closed: 마감됨으로 간주되는 상태
@@ -43,7 +43,7 @@ ko:
         text: 스프린트 목표
       work_package:
         backlog_bucket: 백로그 버킷
-        backlog_inbox: Backlog inbox
+        backlog_inbox: 백로그 받은 편지함
         backlogs_work_package_type: 백로그 유형
         position: 위치
         sprint: 스프린트
@@ -57,7 +57,7 @@ ko:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              locked_by_multiple_active_sprints: "- 여러 활성 스프린트가 실행 중인 동안에는 변경할 수 없습니다."
               requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
               locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.

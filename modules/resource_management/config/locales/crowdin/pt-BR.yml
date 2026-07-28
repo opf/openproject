@@ -5,7 +5,7 @@ pt-BR:
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tempo alocado
-        date_range: Dates
+        date_range: Datas
         end_date: Data de término
         entity: Entidade
         filter_name: Nome do filtro de recursos
@@ -14,7 +14,7 @@ pt-BR:
         state: Estado
         user_filter: Filtro de usuários
       resource_planner:
-        date_range: Dates
+        date_range: Datas
         default_view_class_name: Visualização padrão
         end_date: Data de término
         favorite: Favorito
@@ -45,13 +45,13 @@ pt-BR:
       resource_work_package_list: Lista de Pacotes de trabalho
   ee:
     features:
-      resource_management: Resource management
+      resource_management: Gerenciamento de recursos
     upsell:
       resource_management:
         description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
-        title: Resource management
+        title: Gerenciamento de recursos
   button_next: Próximo
-  label_resource_management: Resource management
+  label_resource_management: Gerenciamento de recursos
   permission_allocate_user_resources: Alocar recursos do usuário
   permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
   permission_assign_users_to_generic_allocations: Assign users to generic allocations
@@ -102,15 +102,15 @@ pt-BR:
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      filter_criteria: Critérios de filtragem
       no_candidates:
         description: No project member matches this allocation's filter criteria.
         title: No matching members
       no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
       overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
-      requested_for: Requested for
+      requested_for: Solicitado para
       select_user: Please select a user to assign.
-      submit: Assign
+      submit: Atribuir
       title: Assign %{filter_name}
     blankslate:
       desc: Criar um planejador de recursos para iniciar o planejamento de capacidade deste projeto.
@@ -144,37 +144,37 @@ pt-BR:
       private: Privado
       public: Público
     staffing:
-      assign: Assign user
+      assign: Atribuir usuário
       blank:
         description: All generic allocations in this project have a user assigned.
         title: Nothing to staff
       columns:
-        dates: Dates
+        dates: Datas
         requested_time: Requested time
-        resource: Resource
-        work_package: Work package
-      context_menu_label: Allocation actions
+        resource: Recurso
+        work_package: Pacote de trabalho
+      context_menu_label: Ações de alocação
       delete_confirmation: Are you sure you want to delete this allocation?
-      menu_item: Staffing
+      menu_item: Pessoal
       starts_in_past: This allocation has already started and is still unassigned.
-      success_message: User assigned.
-      title: Staffing
+      success_message: Usuário atribuído.
+      title: Pessoal
     sub_views: Visualizações neste planejador de recursos
     timeframe:
-      full: From %{start} to %{end}
+      full: De %{start} até %{end}
     timeline:
       granularity:
-        day: Day
-        month: Month
-        week: Calendar week
+        day: Dia
+        month: Mês
+        week: Semana do calendário
       navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
+        next: Próximo período
+        previous: Período anterior
+        today: Hoje
       subheader:
-        add: Add
-        allocate: Allocate
-        settings: Configure view
+        add: Adicionar
+        allocate: Alocar
+        settings: Configurar exibição
     user_allocations_dialog:
       allocate_work_package: Alocar pacote de trabalho
       blank: Este usuário não possui pacotes de trabalho alocados.
@@ -190,7 +190,7 @@ pt-BR:
         manual_description: Ainda não há usuários adicionados a esta visualização.
         title: Nenhum usuário para exibir
       card:
-        multi_value_more: "+%{count} more"
+        multi_value_more: "+%{count} a mais"
         remove: Remover usuário
         remove_confirmation: Remover este usuário da visualização?
       fields:
@@ -210,24 +210,24 @@ pt-BR:
         schedule_change_compact: until %{date}, %{schedule}
     user_timeline:
       blank:
-        add_user: Add user
-        configure_view: Configure view
-        description: There are no users matching this view's filters yet.
+        add_user: Adicionar usuário
+        configure_view: Configurar visualização
+        description: Ainda não existem usuários que correspondam aos filtros desta visualização.
         manual_description: Add users to this view to see their allocation over time.
-        title: No users to display
+        title: Nenhum usuário para exibir
       no_work_schedule: No work schedule planned for this user
       overbooked: This user is over-allocated in the selected period.
       overbooked_tooltip:
         range: "%{dates}: %{scheduled} scheduled, %{available} available"
       subheader:
-        add_user: Add user
+        add_user: Adicionar usuário
     view_types:
       resource_user_card:
         caption: Criar uma visualização baseada em utilizadores e ver os seus detalhes e alocação numa lista de cartões de utilizador
         label: Lista de cartões de utilizadores
       resource_user_timeline:
         caption: Create a view based on users and see their allocations over time on a timeline
-        label: Users timeline
+        label: Timeline dos usuários
       resource_work_package_list:
         caption: Criar uma visualização baseada em pacotes de trabalho e ver os seus detalhes e alocação numa lista
         label: Lista de pacotes de trabalho
@@ -291,4 +291,4 @@ pt-BR:
         title: Não há pacotes de trabalho para exibir
       query_name: 'Linha do tempo de gerenciamento de recursos dos pacotes de trabalho: %{name}'
       subheader:
-        add_work_package: Add work package
+        add_work_package: Adicionar pacote de trabalho

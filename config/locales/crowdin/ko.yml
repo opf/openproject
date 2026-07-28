@@ -466,6 +466,7 @@ ko:
         spent_hours: 소비한 시간
         spent_time: 소비한 시간
         subproject: 하위 프로젝트
+        target_version: Target version
         target_versions: Target versions
         time_entries: 작업시간 기록
         type: 타입

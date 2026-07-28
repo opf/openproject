@@ -466,6 +466,7 @@ sr:
         spent_hours: Spent time
         spent_time: Spent time
         subproject: Potprojekat
+        target_version: Target version
         target_versions: Target versions
         time_entries: Log time
         type: Type

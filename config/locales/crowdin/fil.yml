@@ -466,6 +466,7 @@ fil:
         spent_hours: Nauubos na oras
         spent_time: Nauubos na oras
         subproject: Kahaliling proyekto
+        target_version: Target version
         target_versions: Target versions
         time_entries: Ang oras ng tala
         type: Uri

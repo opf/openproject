@@ -466,6 +466,7 @@ ka:
         spent_hours: დახარჯული დრო
         spent_time: დახარჯული დრო
         subproject: ქვეპროექტი
+        target_version: Target version
         target_versions: Target versions
         time_entries: ჟურნალში დროის ჩაწერა
         type: ტიპი

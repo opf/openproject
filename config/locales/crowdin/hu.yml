@@ -470,6 +470,7 @@ hu:
         spent_hours: Eltöltött idő
         spent_time: Eltöltött idő
         subproject: Alprojekt
+        target_version: Target version
         target_versions: Target versions
         time_entries: Eltöltött idő rögzítése
         type: Típus

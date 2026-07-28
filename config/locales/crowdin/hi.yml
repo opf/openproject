@@ -466,6 +466,7 @@ hi:
         spent_hours: समय बिताया
         spent_time: समय बिताया
         subproject: परियोजना की उपपरियोजना
+        target_version: Target version
         target_versions: Target versions
         time_entries: लॉग समय
         type: प्रकार

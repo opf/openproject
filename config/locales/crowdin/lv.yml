@@ -466,6 +466,7 @@ lv:
         spent_hours: Pavadīts laiks
         spent_time: Pavadīts laiks
         subproject: Subproject
+        target_version: Target version
         target_versions: Target versions
         time_entries: Log time
         type: Veids

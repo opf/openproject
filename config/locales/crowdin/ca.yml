@@ -466,6 +466,7 @@ ca:
         spent_hours: Temps invertit
         spent_time: Temps invertit
         subproject: Subprojecte
+        target_version: Target version
         target_versions: Target versions
         time_entries: Temps de registre
         type: Classe
