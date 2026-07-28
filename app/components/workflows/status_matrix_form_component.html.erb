@@ -28,8 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper do %>
-  <% transition_tabs = helpers.workflow_tabs(@type) %>
-  <% current_transition_tab = helpers.selected_tab(transition_tabs) %>
   <%=
     render Primer::OpenProject::SubHeader.new do |subheader|
       subheader.with_filter_component do
@@ -144,7 +142,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
         <%= hidden_field_tag "tab", @tab %>
 
-        <%= helpers.render_tabs helpers.workflow_tabs(@type) %>
+        <%= render(matrix_table) %>
 
         <% unless read_only? %>
           <div class="workflow-save-bar">

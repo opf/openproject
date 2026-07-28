@@ -35,7 +35,8 @@ module Workflows
 
     FORM_ID = "workflow_form"
 
-    def initialize(tab:, roles:, type:, available_roles:, statuses:, has_status_changes:)
+    def initialize(tab:, roles:, type:, available_roles:, statuses:, has_status_changes:,
+                   workflows: {}, added_status_ids: [])
       super
       @tab = tab
       @roles = roles
@@ -43,6 +44,8 @@ module Workflows
       @available_roles = available_roles
       @statuses = statuses
       @has_status_changes = has_status_changes
+      @workflows = workflows || {}
+      @added_status_ids = added_status_ids || []
     end
 
     private
@@ -50,6 +53,23 @@ module Workflows
     def form_id = FORM_ID
 
     def read_only? = helpers.workflow_linked?(@type)
+
+    def transition_tabs = @transition_tabs ||= helpers.workflow_tabs(@type)
+
+    # The transition tab that is actually on screen. Not necessarily @tab, which is the
+    # raw request param and is blank when the matrix is opened without one.
+    def current_transition_tab = @current_transition_tab ||= helpers.selected_tab(transition_tabs)
+
+    def matrix_table
+      MatrixTableComponent.new(
+        tab: current_transition_tab[:name],
+        statuses: @statuses,
+        workflows: @workflows.fetch(current_transition_tab[:name], []),
+        roles: @roles,
+        added_status_ids: @added_status_ids,
+        readonly: read_only?
+      )
+    end
 
     def data_attributes
       {

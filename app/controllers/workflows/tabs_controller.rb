@@ -75,7 +75,9 @@ class Workflows::TabsController < ApplicationController
             type: @type,
             available_roles: @eligible_roles,
             statuses:,
-            has_status_changes: @has_status_changes
+            has_status_changes: @has_status_changes,
+            workflows: @workflows,
+            added_status_ids: @added_status_ids
           )
         )
       end
@@ -131,7 +133,9 @@ class Workflows::TabsController < ApplicationController
           type: @type,
           available_roles: @eligible_roles,
           statuses:,
-          has_status_changes: @has_status_changes
+          has_status_changes: @has_status_changes,
+          workflows: @workflows,
+          added_status_ids: @added_status_ids
         )
       )
       respond_with_turbo_streams
