@@ -29,24 +29,25 @@
 #++
 
 module McpOutputFilters
-  class RemoveActivityActionLinks < HashFilter
-    BLOCKED_LINKS = %w[
-      update
-      addAttachment
-    ].to_set
+  class RemoveLinks < HashFilter
+    attr_reader :blocked_links
 
-    class << self
-      private
+    def initialize(blocked_links)
+      super()
 
-      def on_hash(hash) # rubocop:disable Naming/PredicateMethod
-        links = hash["_links"]
-        if links
-          links.delete_if { |key| BLOCKED_LINKS.include?(key) }
-          return false
-        end
+      @blocked_links = blocked_links.to_set
+    end
 
-        true
+    private
+
+    def on_hash(hash) # rubocop:disable Naming/PredicateMethod
+      links = hash["_links"]
+      if links
+        links.delete_if { |key| blocked_links.include?(key) }
+        return false
       end
+
+      true
     end
   end
 end

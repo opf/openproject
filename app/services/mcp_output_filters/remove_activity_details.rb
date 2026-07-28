@@ -30,18 +30,16 @@
 
 module McpOutputFilters
   class RemoveActivityDetails < HashFilter
-    class << self
-      private
+    private
 
-      def on_hash(hash) # rubocop:disable Naming/PredicateMethod
-        details = hash["details"]
-        if details.is_a?(Array)
-          hash["details"] = []
-          return false
-        end
-
-        true
+    def on_hash(hash) # rubocop:disable Naming/PredicateMethod
+      details = hash["details"]
+      if details.is_a?(Array)
+        hash["details"] = []
+        return false
       end
+
+      true
     end
   end
 end

@@ -47,9 +47,9 @@ module McpTools
       }
     )
 
-    output_filter McpOutputFilters::RemoveActivityDetails
-    output_filter McpOutputFilters::RemoveFormattableHtml
-    output_filter McpOutputFilters::RemoveActivityActionLinks
+    output_filter McpOutputFilters::RemoveActivityDetails.new
+    output_filter McpOutputFilters::RemoveFormattableHtml.new
+    output_filter McpOutputFilters::RemoveLinks.new(%w[update addAttachment])
 
     def call(work_package_id:, page: nil)
       work_package = WorkPackage.visible(current_user).find_by(id: work_package_id)
