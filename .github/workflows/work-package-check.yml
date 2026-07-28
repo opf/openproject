@@ -40,7 +40,7 @@ jobs:
 
       - name: Add comment if no work package is linked
         if: steps.work-package-check.outputs.no_ticket == 'true'
-        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: version-mismatch-comment
           message: |
@@ -52,7 +52,7 @@ jobs:
 
       - name: Add comment if versions differ
         if: steps.work-package-check.outputs.version_mismatch == 'true'
-        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: version-mismatch-comment
           message: |
@@ -71,7 +71,7 @@ jobs:
 
       - name: Add comment if Enterprise Plan is missing
         if: steps.work-package-check.outputs.enterprise_plan_missing == 'true'
-        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: enterprise-plan-missing-comment
           message: |
@@ -90,14 +90,14 @@ jobs:
         if: |
           steps.work-package-check.outputs.behind_feature_flag == 'true' ||
           (steps.work-package-check.outputs.version_mismatch != 'true' && steps.work-package-check.outputs.no_ticket != 'true')
-        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: version-mismatch-comment
           delete: true
 
       - name: Enterprise plan check passed
         if: steps.work-package-check.outputs.enterprise_plan_missing != 'true'
-        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: enterprise-plan-missing-comment
           delete: true
