@@ -121,6 +121,19 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(total_count).to eq(Entry.count)
     end
 
+    # Filter and group-by declare the same target-version join; the engine
+    # collapses it only while both emit an identical join statement. If they
+    # drift apart the combined query fails with a duplicate-table error.
+    it "combines the version filter and group-by on a single join" do
+      version = create(:version, project: project1)
+      work_package = create(:work_package, project: project1, type:, version:)
+      create(:time_entry, entity: work_package, project: project1, spent_on: Date.new(2012, 1, 1))
+
+      query.filter :version_id, operator: "=", value: version.id
+      query.group_by :version_id
+      expect(query.result.size).to eq(1)
+    end
+
     context "with multiple target versions enabled",
             with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
@@ -148,6 +161,20 @@ RSpec.describe CostQuery, :reporting_query_helper do
         # "fix" can't quietly change it without revisiting FND-178.
         total_count = query.result.each_direct_result.sum(&:count)
         expect(total_count).to eq(Entry.count + 1)
+      end
+
+      # Same duplicate-join guard as the off-mode spec, on the all-versions join.
+      it "combines the version filter and group-by on a single join" do
+        version1 = create(:version, project: project1)
+        version2 = create(:version, project: project1)
+        work_package = create(:work_package, project: project1, type:, version: version1)
+        work_package.work_package_versions.create!(version: version2, kind: "target")
+        create(:time_entry, entity: work_package, project: project1, spent_on: Date.new(2012, 1, 1))
+
+        query.filter :version_id, operator: "=", value: [version1.id, version2.id]
+        query.group_by :version_id
+        # One group per matching target version of the single work package.
+        expect(query.result.size).to eq(2)
       end
     end
 
