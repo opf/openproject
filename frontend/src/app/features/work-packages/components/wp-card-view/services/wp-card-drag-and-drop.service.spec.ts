@@ -179,6 +179,7 @@ describe('WorkPackageCardDragAndDropService', () => {
     cardView:{ updateRenderedCardsValues:ReturnType<typeof vi.fn> };
     onMoved:{ emit:ReturnType<typeof vi.fn> };
     workPackageAddedHandler:ReturnType<typeof vi.fn>;
+    orderIsMembership:boolean;
     resolvedListId:string;
   };
 
@@ -218,6 +219,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
+      orderIsMembership: false,
       resolvedListId: LIST_ID,
     };
     service.init(cardView as unknown as WorkPackageCardViewComponent);
@@ -820,7 +822,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(finalize).toHaveBeenCalledTimes(1);
     });
 
-    it('keeps the card removed when the persisted removal fails, without undoing the target', async () => {
+    it('keeps the card removed when the persisted removal fails and membership moved separately', async () => {
       const removeError = new Error('remove failed');
       reorderServiceStub.removePersisted.mockRejectedValue(removeError);
       // The upstream results still hold the moved card: the target's
@@ -837,6 +839,36 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(reorderServiceStub.orderedWorkPackages).not.toHaveBeenCalled();
       expect(idsOf(service.workPackages)).toEqual(['b']);
       expect(finalize).toHaveBeenCalledTimes(1);
+    });
+
+    it('restores the card when the order IS the membership and its removal fails', async () => {
+      // A free board: the failed removal left the card in both queries for
+      // real, so hiding it here would mask the server state.
+      cardView.orderIsMembership = true;
+      const removeError = new Error('remove failed');
+      reorderServiceStub.removePersisted.mockRejectedValue(removeError);
+      const finalize = vi.fn();
+      const event = buildRemovedEvent({ itemId: 'a', completion: Promise.resolve(true), finalize });
+
+      service.handleRemoved(event);
+      await flush();
+
+      expect(notificationStub.handleRawError).toHaveBeenCalledWith(removeError);
+      expect(idsOf(service.workPackages)).toEqual(['a', 'b']);
+      expect(finalize).toHaveBeenCalledTimes(1);
+    });
+
+    it('leaves a fresher order alone rather than restoring over it', async () => {
+      cardView.orderIsMembership = true;
+      reorderServiceStub.removePersisted.mockRejectedValue(new Error('remove failed'));
+      const event = buildRemovedEvent({ itemId: 'a', completion: Promise.resolve(true) });
+
+      service.handleRemoved(event);
+      // A results update lands before the rejection settles.
+      service.workPackages = ['x', 'y'].map(buildWp);
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['x', 'y']);
     });
 
     it('restores the local order with no compensating API call when the target rejects', async () => {

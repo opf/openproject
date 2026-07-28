@@ -198,11 +198,17 @@ export class WorkPackageCardDragAndDropService {
           await this.reorderService
             .removePersisted(before, event.itemId)
             .catch((e) => {
-              // Reported, but the optimistic removal stands: the target has
-              // already taken the card, and re-reading the upstream results
-              // here would render it in both lists until the next emission.
-              // What failed is this list's position entry, not membership.
               this.notificationService.handleRawError(e);
+
+              // Where the order IS the membership (a free board), the failure
+              // left the card in both queries — restore it rather than hide a
+              // server state the next refresh would resurrect anyway. Where
+              // membership moved by other means (an action board's attribute
+              // PATCH), only this list's position entry failed, so the
+              // optimistic removal stands.
+              if (this.cardView.orderIsMembership && this.stillAt(revision, optimistic)) {
+                this.applyLocalOrder(before);
+              }
             });
         } else if (this.stillAt(revision, optimistic)) {
           // Target rejected: restore, but only if nothing fresher (e.g. a

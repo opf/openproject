@@ -86,6 +86,13 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<WorkPackageAddedResult>;
 
+  /**
+   * Whether this list's order IS its membership, as on a free board. A failed
+   * order removal then leaves the card in both queries for real, so the source
+   * side must show that rather than keep its optimistic removal.
+   */
+  @Input() public orderIsMembership = false;
+
   @Input() public showStatusButton = true;
 
   @Input() public showInfoButton = false;
