@@ -54,7 +54,7 @@ class Workflows::TabsController < ApplicationController
   end
 
   def update # rubocop:disable Metrics/AbcSize
-    success = persist_matrix
+    success = persist_matrix.success?
 
     if success && params[:advance_to_step].present?
       return redirect_to type_creation_wizard_path(@type, step: params[:advance_to_step]), status: :see_other
@@ -191,62 +191,9 @@ class Workflows::TabsController < ApplicationController
     @workflows["assignee"] = workflows.select(&:assignee)
   end
 
-  # A linked type reuses its source's transitions and must never have its own
-  # rewritten, so it persists nothing and simply reports success.
   def persist_matrix
-    return true if @type.linked?(Type::ConfigurationLink::WORKFLOWS)
-
-    success = false
-    Workflow.transaction do
-      success = true
-      base_params = permitted_status_params
-      indeterminate = permitted_indeterminate_params
-      @roles.each do |role|
-        role_params = indeterminate.empty? ? base_params : role_specific_params(base_params, indeterminate, role)
-        result = Workflows::BulkUpdateService.new(role:, type: @type, tab: @tab)
-                                             .call(role_params)
-        success = false unless result.success?
-      end
-      raise ActiveRecord::Rollback unless success
-    end
-    success
-  end
-
-  def permitted_status_params
-    status_params("status")
-  end
-
-  def permitted_indeterminate_params
-    status_params("indeterminate_status")
-  end
-
-  def status_params(key)
-    return {} if params[key].blank?
-
-    params[key]
-      .to_unsafe_h
-      .select { |k, value| /\A\d+\z/.match?(k) && value.keys.all? { /\A\d+\z/.match?(it) } }
-  end
-
-  def role_specific_params(base_params, indeterminate, role)
-    params = base_params.deep_dup
-    indeterminate.each do |old_id, new_ids|
-      new_ids.each_key do |new_id|
-        # Restore from DB so that it isn't overwritten by indeterminate state (unchecked)
-        had_transition = Workflow.exists?(
-          role_id: role.id,
-          type_id: @type.id,
-          old_status_id: old_id.to_i,
-          new_status_id: new_id.to_i,
-          author: @tab == "author",
-          assignee: @tab == "assignee"
-        )
-        if had_transition
-          params[old_id] ||= {}
-          params[old_id][new_id] = "1"
-        end
-      end
-    end
-    params
+    Workflows::MatrixUpdateService
+      .new(type: @type, roles: @roles, tab: @tab)
+      .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
   end
 end

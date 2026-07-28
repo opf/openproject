@@ -184,71 +184,68 @@ RSpec.describe Workflows::TabsController do
   describe "#update" do
     let(:status_params) { { "1" => { "2" => ["always"] } } }
     let(:call_result) { ServiceResult.success }
+    let(:roles) { [role] }
 
-    context "with a single role" do
-      let(:service) do
-        instance_double(Workflows::BulkUpdateService).tap do |dbl|
-          allow(Workflows::BulkUpdateService)
-            .to receive(:new)
-                  .with(role: role, type: type, tab: "always")
-                  .and_return(dbl)
-        end
+    let(:service) do
+      instance_double(Workflows::MatrixUpdateService, call: call_result).tap do |dbl|
+        allow(Workflows::MatrixUpdateService)
+          .to receive(:new)
+                .with(type: type, roles: roles, tab: "always")
+                .and_return(dbl)
       end
+    end
 
-      before do
-        allow(service).to receive(:call).with(status_params).and_return(call_result)
-        allow(controller).to receive(:statuses_for_form).and_return([build_stubbed(:status)])
-        post :update,
-             params: { role_ids: [role.id.to_s], type_id: type.id, tab: "always", status: status_params },
-             format: :turbo_stream
-      end
+    def submit_matrix
+      service
+      allow(controller).to receive(:statuses_for_form).and_return([build_stubbed(:status)])
 
-      it "calls the service and renders a flash turbo stream" do
-        expect(service).to have_received(:call).with(status_params)
-        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
-      end
+      post :update,
+           params: {
+             role_ids: roles.map { it.id.to_s },
+             type_id: type.id,
+             tab: "always",
+             status: status_params
+           },
+           format: :turbo_stream
+    end
+
+    it "hands the submitted matrix to the service and renders a flash turbo stream" do
+      submit_matrix
+
+      expect(service).to have_received(:call).with(
+        status: satisfy { it.to_unsafe_h == status_params },
+        indeterminate_status: nil
+      )
+      expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
     end
 
     context "with multiple roles" do
       let(:role2) { build_stubbed(:project_role) }
-      let(:service1) do
-        instance_double(Workflows::BulkUpdateService).tap do |dbl|
-          allow(Workflows::BulkUpdateService)
-            .to receive(:new)
-                  .with(role: role, type: type, tab: "always")
-                  .and_return(dbl)
-        end
-      end
-      let(:service2) do
-        instance_double(Workflows::BulkUpdateService).tap do |dbl|
-          allow(Workflows::BulkUpdateService)
-            .to receive(:new)
-                  .with(role: role2, type: type, tab: "always")
-                  .and_return(dbl)
-        end
-      end
+      let(:roles) { [role, role2] }
 
       before do
         allow(role_scope)
           .to receive(:where)
                 .with(id: [role.id.to_s, role2.id.to_s])
-                .and_return([role, role2])
-        allow(service1).to receive(:call).with(status_params).and_return(call_result)
-        allow(service2).to receive(:call).with(status_params).and_return(call_result)
-        allow(controller).to receive(:statuses_for_form).and_return([build_stubbed(:status)])
-        post :update,
-             params: {
-               role_ids: [role.id.to_s, role2.id.to_s],
-               type_id: type.id,
-               tab: "always",
-               status: status_params
-             },
-             format: :turbo_stream
+                .and_return(roles)
       end
 
-      it "calls the service for each role and renders a flash turbo stream" do
-        expect(service1).to have_received(:call).with(status_params)
-        expect(service2).to have_received(:call).with(status_params)
+      it "passes every selected role to the service" do
+        submit_matrix
+
+        expect(Workflows::MatrixUpdateService)
+          .to have_received(:new).with(type: type, roles: roles, tab: "always")
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+      end
+    end
+
+    context "when the service fails" do
+      let(:call_result) { ServiceResult.failure }
+
+      it "responds unprocessable with a danger flash" do
+        submit_matrix
+
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
       end
     end
