@@ -67,10 +67,22 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
   /**
    * Move an item in the list
+   *
+   * Rejects an index it cannot honour before touching `order`: a negative
+   * `fromIndex` or `toIndex` would splice from the END of the list, silently
+   * displacing an unrelated work package and persisting a position for it.
    */
   public async move(order:string[], wpId:string, toIndex:number):Promise<string[]> {
     // Find index of the work package
     const fromIndex:number = order.findIndex((id) => id === wpId);
+
+    if (fromIndex === -1) {
+      throw new Error(`Cannot move work package ${wpId}: not in the current order.`);
+    }
+
+    if (!Number.isInteger(toIndex) || toIndex < 0 || toIndex >= order.length) {
+      throw new Error(`Cannot move work package ${wpId} to index ${toIndex}: out of bounds.`);
+    }
 
     order.splice(fromIndex, 1);
     order.splice(toIndex, 0, wpId);

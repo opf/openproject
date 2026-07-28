@@ -113,6 +113,46 @@ describe('WorkPackageViewOrderService', () => {
     });
   });
 
+  describe('move', () => {
+    it('rejects an id that is not in the order, without touching it', async () => {
+      const order = ['1', '2', '3'];
+
+      await expect(service.move(order, 'gone', 1)).rejects.toThrow('not in the current order');
+
+      expect(order).toEqual(['1', '2', '3']);
+      expect(mockUpdateFn).not.toHaveBeenCalled();
+    });
+
+    it('rejects an out-of-bounds target index, without touching the order', async () => {
+      const order = ['1', '2', '3'];
+
+      await expect(service.move(order, '2', -1)).rejects.toThrow('out of bounds');
+      await expect(service.move(order, '2', 3)).rejects.toThrow('out of bounds');
+
+      expect(order).toEqual(['1', '2', '3']);
+      expect(mockUpdateFn).not.toHaveBeenCalled();
+    });
+
+    it('rejects a target index that is not a whole number', async () => {
+      const order = ['1', '2', '3'];
+
+      await expect(service.move(order, '2', NaN)).rejects.toThrow('out of bounds');
+      await expect(service.move(order, '2', 1.5)).rejects.toThrow('out of bounds');
+
+      expect(order).toEqual(['1', '2', '3']);
+      expect(mockUpdateFn).not.toHaveBeenCalled();
+    });
+
+    it('moves the id and persists the new positions', async () => {
+      const order = ['1', '2', '3'];
+
+      const result = await service.move(order, '1', 2);
+
+      expect(result).toEqual(['2', '3', '1']);
+      expect(mockUpdateFn).toHaveBeenCalled();
+    });
+  });
+
   describe('removePersisted', () => {
     it('resolves with filtered order after update resolves', async () => {
       const order = ['1', '2', '3', '4'];

@@ -128,19 +128,35 @@ export class DragAndDropTransformer {
 
       try {
         const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
+
+        // Read the order only once the fetch has settled: a query refresh
+        // during it can drop the dragged row, and persisting against the
+        // pre-refresh order would write a position for a row that is gone.
+        const order = this.currentOrder;
+        if (!order.includes(wpId)) {
+          complete(false);
+          return;
+        }
+
         const { targetId, edge } = this.resolveEffectiveTarget(intent);
 
         const newOrder = reorderById({
-          list: this.currentOrder,
+          list: order,
           getId: (id) => id,
           sourceId: wpId,
           targetId,
           closestEdge: edge,
           axis: 'vertical',
         });
+        // Returned by identity when the target vanished too, or the drop
+        // changed nothing — either way there is nothing to persist.
+        if (newOrder === order) {
+          complete(true);
+          return;
+        }
         const rowIndex = newOrder.indexOf(wpId);
 
-        const persistedOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
+        const persistedOrder = await this.wpTableOrder.move([...order], wpId, rowIndex);
 
         const el = locateTableRow(wpId);
         await this.withRowAtTarget(el, newOrder[rowIndex + 1] ?? null, async () => {
@@ -195,7 +211,9 @@ export class DragAndDropTransformer {
     try {
       await fn();
     } catch (e) {
-      parentNode?.insertBefore(el, nextSibling);
+      // `fn` may have moved or removed the anchor; insertBefore throws on one
+      // that is no longer a child, so fall back to appending.
+      parentNode?.insertBefore(el, nextSibling?.parentNode === parentNode ? nextSibling : null);
       throw e;
     }
   }

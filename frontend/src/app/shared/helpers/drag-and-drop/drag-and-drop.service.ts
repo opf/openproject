@@ -115,6 +115,10 @@ export class DragAndDropService implements OnDestroy {
     this.bindings.set(member.dragContainer, binding);
 
     this.syncRows(binding);
+    // Direct children only. `syncRows` still FINDS rows nested in an
+    // intermediate wrapper (it queries the subtree), but later mutations
+    // inside that wrapper would never trigger a sync without `subtree: true`
+    // — which observes every descendant change in the table.
     binding.observer.observe(member.dragContainer, { childList: true });
 
     // The primary scroll container is wired via registerList above; any
