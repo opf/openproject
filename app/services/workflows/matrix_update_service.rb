@@ -41,8 +41,7 @@ module Workflows
       @tab = tab
     end
 
-    # A linked type reuses its source's transitions and must never have its own
-    # rewritten, so it persists nothing and simply reports success.
+    # A linked type reuses its source's transitions and must never have its own rewritten.
     def call(status: nil, indeterminate_status: nil)
       return ServiceResult.success if type.linked?(Type::ConfigurationLink::WORKFLOWS)
 

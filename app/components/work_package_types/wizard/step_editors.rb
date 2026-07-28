@@ -56,17 +56,12 @@ module WorkPackageTypes
 
         def model = type
 
-        # The component rendered inside the wizard form. Receives the form builder for
-        # editors expressible as a Primer form; ignored by those rendering their own inputs.
         def editor(_builder)
           raise SubclassResponsibilityError
         end
 
-        # Data attributes for the form element, e.g. Stimulus wiring.
         def form_data = {}
 
-        # Steps whose in-frame state lives in the page URL reload from the current
-        # location instead of the step's own path.
         def reload_from_location? = false
 
         def readonly? = linkable_aspect? && type.linked?(aspect)

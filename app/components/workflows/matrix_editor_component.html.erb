@@ -126,8 +126,8 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 
   <% if statuses.any? %>
-    <%# The matrix inputs and the state they are compared against. The enclosing form
-        belongs to the host page; this only groups what the dirty-state controller needs. %>
+    <%# The enclosing form belongs to the host page; this only groups what the dirty-state
+        controller needs. %>
     <%= tag.div(id: state_id, data: state_data) do %>
       <%= hidden_field_tag "type_id", type.id %>
       <% roles.each do |role| %>

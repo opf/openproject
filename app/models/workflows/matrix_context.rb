@@ -50,7 +50,6 @@ module Workflows
       @tab ||= TABS.include?(@requested_tab.to_s) ? @requested_tab.to_s : DEFAULT_TAB
     end
 
-    # A linked type shows its source's transitions and cannot edit them.
     def readonly? = type.linked?(Type::ConfigurationLink::WORKFLOWS)
 
     def eligible_roles
@@ -61,13 +60,11 @@ module Workflows
       @roles ||= Workflow.selected_roles(@requested_role_ids)
     end
 
-    # The selection the status dialog submitted, empty while the matrix shows what is saved.
     # The dialogs forward these verbatim, so they must stay the raw request and never fall
     # back to the saved statuses the way #statuses does.
     attr_reader :requested_status_ids
 
-    # The axes of the matrix: a pending selection if the status dialog submitted one,
-    # otherwise whatever the selected roles already have transitions for.
+    # The axes of the matrix.
     def statuses
       @statuses ||= if requested_status_ids.present?
                       Status.where(id: requested_status_ids).order(:position)
@@ -111,7 +108,6 @@ module Workflows
       added_status_ids.any? || removed_status_ids.any?
     end
 
-    # The existing transitions of the selected roles, narrowed to the tab on screen.
     def workflows
       @workflows ||= type
                        .workflows

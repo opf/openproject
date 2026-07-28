@@ -30,9 +30,8 @@
 
 module WorkPackageTypes
   module Wizard
-    # The workflows wizard step: the shared transition matrix in its frame. The matrix
-    # renders no form of its own, so its inputs are submitted by the wizard form that
-    # PageComponent wraps around this, and persisted by CreationWizardController.
+    # The matrix renders no form of its own, so its inputs are submitted by the wizard form
+    # that PageComponent wraps around this, and persisted by CreationWizardController.
     class WorkflowsStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 

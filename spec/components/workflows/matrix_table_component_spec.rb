@@ -45,7 +45,7 @@ RSpec.describe Workflows::MatrixTableComponent, type: :component do
   let(:tab) { "always" }
 
   # Stubbed rather than resolved from a persisted type: the matrix is a pure function of
-  # these five values, and MatrixContext's own resolution rules are specced separately.
+  # these values, and MatrixContext's own resolution rules are specced separately.
   let(:context) do
     instance_double(Workflows::MatrixContext, tab:, statuses:, workflows:, roles:, added_status_ids:, readonly?: readonly)
   end
