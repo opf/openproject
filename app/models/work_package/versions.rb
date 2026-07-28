@@ -244,11 +244,12 @@ module WorkPackage::Versions
     system_version_overrides.clear
   end
 
-  # Keeps the deprecated single version_id column in sync with the first
-  # target version, so code still reading version_id sees a sensible value.
+  # Keeps the deprecated single version_id column in sync with the primary
+  # target version (the lowest version id, i.e. what target_versions.first
+  # reads), so code still reading version_id sees the same version.
   # Can be dropped once the version_id column is removed.
   def update_legacy_version_field
-    new_version_id = target_version_ids_replacements.first
+    new_version_id = target_version_ids_replacements.min
 
     update_columns(version_id: new_version_id) unless version_id == new_version_id
   end
