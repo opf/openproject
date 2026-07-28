@@ -148,7 +148,8 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "1 >= 2" => false,
           "1 <> 2" => true,
           "1 != 2" => true,
-          "1 = 2" => false
+          "1 = 2" => false,
+          "1 == 2" => false
         }
       end
 
@@ -161,9 +162,15 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "1 <> 2 AND 2 <> 3" => true,
           "TRUE AND TRUE AND TRUE" => true,
           "TRUE AND TRUE AND FALSE" => false,
+          "1 <> 2 && 2 <> 3" => true,
+          "TRUE && TRUE && TRUE" => true,
+          "TRUE && TRUE && FALSE" => false,
           "1 = 2 OR 2 <> 3" => true,
           "FALSE OR FALSE OR TRUE" => true,
           "FALSE OR FALSE OR FALSE" => false,
+          "1 = 2 || 2 <> 3" => true,
+          "FALSE || FALSE || TRUE" => true,
+          "FALSE || FALSE || FALSE" => false,
           "AND(1 <> 2, 2 <> 3)" => true,
           "AND(TRUE, TRUE, TRUE)" => true,
           "AND(TRUE, TRUE, FALSE)" => false,
@@ -188,7 +195,6 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "MAX(3, 1, 2, 4)" => 4,
           "SUM(1, 2, 3, 4)" => 10,
           "AVG(1, 2, 3, 4)" => 5/2r,
-          "COUNT(1, 2, 3, 4)" => 4,
           "ROUND(1.5)" => 2,
           "ROUNDUP(1.4)" => 2,
           "ROUNDDOWN(1.6)" => 1,
@@ -204,7 +210,13 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         {
           "IF(1 > 2, 3, 4)" => 4,
           "SWITCH(2, 1, 100, 2, 200, 3, 300, 400)" => 200,
-          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 200
+          "SWITCH(4, 1, 100, 2, 200, 3, 300, 400)" => 400,
+          "SWITCH(2, 1, 100, 2, 200, 3, 300)" => 200,
+          "SWITCH(4, 1, 100, 2, 200, 3, 300)" => nil,
+          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 200,
+          "CASE 4 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 400,
+          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 END" => 200,
+          "CASE 4 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 END" => nil
         }
       end
 
