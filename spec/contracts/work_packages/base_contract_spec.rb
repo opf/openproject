@@ -1377,6 +1377,34 @@ RSpec.describe WorkPackages::BaseContract do
           expect(contract.errors).to be_empty
         end
       end
+
+      # With several target versions, version_id mirrors the primary target
+      # version (the lowest id), so agreement means naming that one - in any
+      # assignment order.
+      context "with multiple target versions enabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        let(:lower_version) { [assignable_version, other_assignable_version].min_by(&:id) }
+        let(:higher_version) { [assignable_version, other_assignable_version].max_by(&:id) }
+
+        it "is valid when version names the lowest target version" do
+          work_package.version = lower_version
+          work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
+          contract.validate
+
+          expect(contract.errors.symbols_for(:base))
+            .not_to include(:version_and_target_versions_mutually_exclusive)
+        end
+
+        it "is invalid when version names a non-lowest target version" do
+          work_package.version = higher_version
+          work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
+          contract.validate
+
+          expect(contract.errors.symbols_for(:base))
+            .to include(:version_and_target_versions_mutually_exclusive)
+        end
+      end
     end
 
     describe "target versions assignability" do

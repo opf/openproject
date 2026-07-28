@@ -449,7 +449,7 @@ module WorkPackages
       # target_versions override and must not be flagged here.
       return unless changed_by_user.include?("version_id")
 
-      if model.version_id != model.target_version_ids_replacements.first
+      if model.version_id != model.target_version_ids_replacements.min
         errors.add :base, :version_and_target_versions_mutually_exclusive
       end
     end
