@@ -44,7 +44,8 @@ class Widget::Filters::Version < Widget::Filters::Base
                                     items: available_versions,
                                     bindLabel: "name",
                                     bindValue: "id",
-                                    model: selected_version_ids
+                                    model: selected_version_ids,
+                                    labelForId: "#{filter_class.underscore_name}_arg_1_val"
                                   },
                                   id: "#{filter_class.underscore_name}_select_1",
                                   class: "filter-value advanced-filters--ng-select"
