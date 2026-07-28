@@ -32,27 +32,4 @@ module WorkflowHelper
   def workflow_linked?(type)
     type&.linked?(Type::ConfigurationLink::WORKFLOWS)
   end
-
-  def workflow_tabs(type)
-    [
-      { name: "always",
-        label: I18n.t(:"admin.workflows.tabs.default_transitions"),
-        description: I18n.t(:"admin.workflows.tabs.descriptions.default_transitions") },
-      { name: "author",
-        label: I18n.t(:"admin.workflows.tabs.user_author"),
-        description: I18n.t(:"admin.workflows.tabs.descriptions.user_author") },
-      { name: "assignee",
-        label: I18n.t(:"admin.workflows.tabs.user_assignee"),
-        description: I18n.t(:"admin.workflows.tabs.descriptions.user_assignee") }
-    ].map do |tab|
-      tab.merge(
-        path: type_workflow_matrix_path(type, tab: tab[:name], **params.permit(role_ids: []).to_h.symbolize_keys),
-        data: { controller: "admin--workflow-tab-select",
-                action: "click->admin--workflow-tab-select#select",
-                "admin--workflow-tab-select-tab-value": tab[:name],
-                "admin--workflow-tab-select-admin--workflow-checkbox-state-outlet":
-                  "##{Workflows::MatrixEditorComponent::STATE_ID}" }
-      )
-    end
-  end
 end

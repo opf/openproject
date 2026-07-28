@@ -67,9 +67,28 @@ module Workflows
       }
     end
 
-    def transition_tabs = @transition_tabs ||= helpers.workflow_tabs(type)
+    def transition_tabs
+      @transition_tabs ||= MatrixContext::TABS.map { transition_tab(it) }
+    end
 
-    def current_transition_tab = transition_tabs.find { it[:name] == tab }
+    def transition_tab(name)
+      {
+        name:,
+        label: I18n.t(:"admin.workflows.tabs.#{name}"),
+        description: I18n.t(:"admin.workflows.tabs.descriptions.#{name}"),
+        path: helpers.type_workflow_matrix_path(type, tab: name, role_ids: roles.map(&:id)),
+        data: {
+          controller: "admin--workflow-tab-select",
+          action: "click->admin--workflow-tab-select#select",
+          "admin--workflow-tab-select-tab-value": name,
+          "admin--workflow-tab-select-admin--workflow-checkbox-state-outlet": "##{STATE_ID}"
+        }
+      }
+    end
+
+    def current_transition_tab
+      transition_tabs.find { it[:name] == tab }
+    end
 
     def matrix_table
       MatrixTableComponent.new(
