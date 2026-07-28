@@ -78,6 +78,24 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     end
   end
 
+  context "when running with a relative_url_root and non-proxied frontend assets",
+          js: false,
+          with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => "1" } do
+    before do
+      allow(Rails.application.config).to receive(:relative_url_root).and_return("/openproject")
+    end
+
+    it "renders the BlockNote shadow-DOM stylesheet urls prefixed with the relative url root" do
+      visit document_path(document)
+
+      block_note_element = find("op-block-note", visible: false)
+      expect(block_note_element["blocknote-stylesheet-url"])
+        .to match(%r{\A/openproject/assets/frontend/blocknote(.*)\.css\z})
+      expect(block_note_element["shadow-dom-stylesheet-url"])
+        .to match(%r{\A/openproject/assets/frontend/styles(.*)\.css\z})
+    end
+  end
+
   describe "with op-blocknote-extensions" do
     it "renders the BlockNote editor with custom menu entries for work package linking" do
       visit document_path(document)

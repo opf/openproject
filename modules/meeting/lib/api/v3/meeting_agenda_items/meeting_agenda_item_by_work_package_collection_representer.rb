@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,49 +26,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Users
-  class IndexSubHeaderComponent < ApplicationComponent
-    include ApplicationHelper
-
-    def initialize(query:)
-      super
-      @query = query
-    end
-
-    def filter_input_value
-      @query.find_active_filter(:any_name_attribute)&.values&.first
-    end
-
-    def sub_header_data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-perform-turbo-requests-value": true,
-        "filter--filters-form-clear-button-id-value": clear_button_id,
-        "filter--filters-form-display-filters-value": filters_expanded?
-      }
-    end
-
-    def filter_input_data_attributes
-      {
-        "filter-name": "any_name_attribute",
-        "filter-type": "string",
-        "filter-operator": "~",
-        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
-      }
-    end
-
-    def clear_button_id
-      "user-filters-form-clear-button"
-    end
-
-    def collapsed_search?
-      filter_input_value.blank?
-    end
-
-    def filters_expanded?
-      params[:filters].present?
+module API
+  module V3
+    module MeetingAgendaItems
+      class MeetingAgendaItemByWorkPackageCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        collection :elements,
+                   getter: ->(*) {
+                     represented.map do |model|
+                       element_decorator.create(model, current_user:, embed_links: %i[section outcomes meeting])
+                     end
+                   },
+                   exec_context: :decorator,
+                   embedded: true
+      end
     end
   end
 end
