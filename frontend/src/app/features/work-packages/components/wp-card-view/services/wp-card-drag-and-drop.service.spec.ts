@@ -741,6 +741,30 @@ describe('WorkPackageCardDragAndDropService', () => {
     });
   });
 
+  describe('workPackages setter — with an inline-create card open', () => {
+    beforeEach(() => {
+      seed('a', 'b', 'c');
+      service.workPackages = ['a', 'b'].map(buildWp);
+      service.activeInlineCreateWp = buildWp('new');
+      service.workPackages = ['a', 'b'].map(buildWp);
+    });
+
+    it('applies the incoming order and keeps the synthetic card in its slot', () => {
+      service.workPackages = ['b', 'a', 'c'].map(buildWp);
+
+      expect(idsOf(service.workPackages)).toEqual(['new', 'b', 'a', 'c']);
+    });
+
+    it('reorders the cards on a drop rather than silently discarding it', () => {
+      const event = buildDropEvent({ sourceId: 'a', targetId: 'b', edge: 'bottom' });
+
+      service.handleDrop(event);
+
+      expect(idsOf(service.workPackages)).toEqual(['new', 'b', 'a']);
+      expect(reorderServiceStub.move).toHaveBeenCalledWith(['a', 'b'], 'a', 1);
+    });
+  });
+
   describe('handleRemoved — source-side settlement', () => {
     beforeEach(() => {
       seed('a', 'b');

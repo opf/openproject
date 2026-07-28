@@ -65,21 +65,21 @@ export class WorkPackageCardDragAndDropService {
   /**
    * Set work packages array,
    * remembering to keep the active inline-create
+   *
+   * Always rebuilt from `workPackages`: every optimistic apply, rollback and
+   * reconciliation goes through here, so an open inline-create card must not
+   * cost the incoming order.
    */
   public set workPackages(workPackages:WorkPackageResource[]) {
     this.orderRevision += 1;
 
     if (this.activeInlineCreateWp) {
-      const existingNewWp = this._workPackages.find((o) => isNewResource(o));
-
-      // If there is already a card for a new WP,
-      // we have to replace this one by the new activeInlineCreateWp
-      if (existingNewWp) {
-        const index = this._workPackages.indexOf(existingNewWp);
-        this._workPackages[index] = this.activeInlineCreateWp;
-      } else {
-        this._workPackages = [this.activeInlineCreateWp, ...workPackages];
-      }
+      // Kept at the slot it already holds — `onCardSaved` reads that index
+      // back to place the persisted resource.
+      const index = (this._workPackages ?? []).findIndex((wp) => isNewResource(wp));
+      const rebuilt = workPackages.filter((wp) => !isNewResource(wp));
+      rebuilt.splice(index === -1 ? 0 : index, 0, this.activeInlineCreateWp);
+      this._workPackages = rebuilt;
     } else {
       this._workPackages = [...workPackages];
     }
