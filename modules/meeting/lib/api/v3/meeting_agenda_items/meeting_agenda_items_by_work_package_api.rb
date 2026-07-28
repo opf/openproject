@@ -38,9 +38,10 @@ module API
                       .visible_linked_to_work_package(current_user, @work_package)
                       .includes(:author, :presenter, :work_package, :meeting_section, :outcomes)
                       .eager_load(:meeting)
+                      .preload(meeting: ::API::V3::Meetings::MeetingRepresenter.to_eager_load)
                       .reorder(Meeting.arel_table[:start_time].asc)
 
-            MeetingAgendaItemCollectionRepresenter.new(
+            MeetingAgendaItemByWorkPackageCollectionRepresenter.new(
               items,
               self_link: api_v3_paths.meeting_agenda_items_by_work_package(@work_package.id),
               current_user:

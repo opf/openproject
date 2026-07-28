@@ -178,8 +178,8 @@ pt-PT:
         one: 1 sub-page
         other: "%{count} sub-pages"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Adicionar página wiki existente
+      title_create: Criar nova página wiki
     instructions:
       xwiki:
         integration: Administração de XWiki

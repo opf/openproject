@@ -212,8 +212,18 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
         get "#{path}?filters=#{CGI.escape(filter.to_json)}"
       end
 
-      it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
-        let(:elements) { Wikis::PageLink.where(identifier: "shared_identifier").order(id: :desc).all }
+      context "when a link with the requested identifier exists" do
+        it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
+          let(:elements) { Wikis::PageLink.where(identifier: "shared_identifier").order(id: :desc).all }
+        end
+      end
+
+      context "when a page link with the requested identifier does not exist" do
+        let(:filter) { [{ identifier: { operator: "=", values: "non_existent_identifier" } }] }
+
+        it_behaves_like "API V3 collection response", 0, 0, "WikiPageLink", "WikiPageLinkCollection" do
+          let(:elements) { [] }
+        end
       end
     end
   end

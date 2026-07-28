@@ -23,21 +23,21 @@
 zh-CN:
   accessibility:
     macro:
-      aria_label_with_name: "%{name}: %{description}"
+      aria_label_with_name: "%{name}：%{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
-        commit: A dynamic link to a commit placed using a macro.
-        document: A dynamic link to a document placed using a macro.
-        export: A dynamic link to a source file export placed using a macro.
-        group: A dynamic link to a group placed using a macro.
-        meeting: A dynamic link to a meeting placed using a macro.
-        message: A dynamic link to a message placed using a macro.
-        project: A dynamic link to a project placed using a macro.
-        revision: A dynamic link to a revision placed using a macro.
-        source: A dynamic link to a source file placed using a macro.
-        user: A dynamic link to a user placed using a macro.
-        version: A dynamic link to a version placed using a macro.
-        view: A dynamic link to a view placed using a macro.
+        attachment: 通过宏生成的指向某个附件的动态链接。
+        commit: 通过宏生成的指向某个提交的动态链接。
+        document: 通过宏生成的指向某个文档的动态链接。
+        export: 通过宏生成的指向某个源文件导出的动态链接。
+        group: 通过宏生成的指向某个群组的动态链接。
+        meeting: 通过宏生成的指向某个会议的动态链接。
+        message: 通过宏生成的指向某条消息的动态链接。
+        project: 通过宏生成的指向某个项目的动态链接。
+        revision: 通过宏生成的指向某个修订版本的动态链接。
+        source: 通过宏生成的指向某个源文件的动态链接。
+        user: 通过宏生成的指向某个用户的动态链接。
+        version: 通过宏生成的指向某个版本的动态链接。
+        view: 通过宏生成的指向某个视图的动态链接。
         work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: 请以 <em>%{login}</em> 身份登录，以激活您的帐户。
@@ -2720,7 +2720,7 @@ zh-CN:
             line_0: New Resource management module for capacity planning and staffing (Premium plan).
             line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
             line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_3: 通过多选筛选器、更好的拖放功能以及添加现有工作包的功能，改进了积压工作和冲刺。
             line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
             line_5: Global wiki page index and easier navigation between related pages.
           new_features_title: 'The release contains various new features and improvements, such as:
@@ -4748,7 +4748,7 @@ zh-CN:
       project_custom_fields:
         actions:
           label_disable_single: 在此项目中未启用，点击启用
-          label_enable_single: 在此项目中处于活动状态，点击禁用
+          label_enable_single: 在此项目中处于有效状态，点击禁用
           remove_from_project: 从项目移除
         enabled_via_assignee_when_submitted_html: 无法禁用此项目特性，因为在<a href=%{pir_submission_url} target="_blank">提交项目启动请求时，它被设为受理人</a>。
         filter:

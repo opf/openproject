@@ -24,7 +24,7 @@ tr:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Birden fazla aktif sprint'e izin ver
         backlog_excluded_types: Hariç tutulan iş paketi türleri
         sprint_sharing: Koşu paylaşımı
         statuses_considered_closed: Kapatılmış sayılan durumlar
@@ -40,10 +40,10 @@ tr:
           in_planning: Planlanıyor
         work_packages: İş paketleri
       sprint_goal:
-        text: Sprint goal
+        text: Sprint hedefi
       work_package:
-        backlog_bucket: Backlog bucket
-        backlog_inbox: Backlog inbox
+        backlog_bucket: Backlog havuzu
+        backlog_inbox: Backlog gelen kutusu
         backlogs_work_package_type: Bekleme listesi türü
         position: Konum
         sprint: Koşu
@@ -57,10 +57,10 @@ tr:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: birden fazla aktif sprint çalışırken değiştirilemez.
+              requires_no_sharing: yalnızca sprint paylaşımı 'Paylaşma' olarak ayarlandığında etkinleştirilebilir.
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              locked_by_multiple_active_sprints: birden fazla aktif sprint etkinken değiştirilemez.
               share_all_projects_already_taken: '"%{name}" projesi zaten tüm projelerle paylaşıldığı için ayarlanamaz.'
               share_all_projects_already_taken_anonymous: halihazırda başka bir proje tüm projelerle paylaşıldığından bu ayar yapılamaz.
           receiving_sprints: paylaşılan sprintleri alıyor. Kendi sprintleriniz oluşturulamaz.
@@ -74,20 +74,20 @@ tr:
             status:
               not_active: etkin değil, bu yüzden kapatılamaz.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: bu sprint için zaten bir hedef belirlenmiş.
         work_package:
           attributes:
             backlog_bucket:
-              backlog_bucket_from_another_project: must belong to the same project as the work package.
+              backlog_bucket_from_another_project: iş paketi ile aynı projeye ait olmalıdır.
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: yalnızca geçerli sprintteki iş paketlerinin kimliklerini içerebilir.
               must_block_at_least_one_work_package: en az bir biletin kimliğini içermelidir.
             sprint:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
-              not_eligible_for_moving: is not an active sprint in the project which holds the sprint the work package is moved out of.
+              not_eligible_for_moving: iş paketinin taşındığı sprinti barındıran projede aktif bir sprint değildir.
             version_id:
               task_version_must_be_the_same_as_story_version: ana hikaye sürümüyle aynı olmalıdır.
-          backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
+          backlog_bucket_xor_sprint: ''
     models:
       sprint:
         one: Sprint

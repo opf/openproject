@@ -42,7 +42,7 @@ interface PrimerTextFieldElement extends HTMLElement {
   inputElement:HTMLInputElement;
 }
 
-interface InternalFilterValue {
+export interface InternalFilterValue {
   name:string;
   operator:string;
   value:string[];
@@ -392,6 +392,13 @@ export default class FiltersFormController extends Controller {
     if (this.liveUpdatesEnabled) {
       this.sendForm();
     }
+  }
+
+  // Serialize the current DOM filter selection in this form's output format,
+  // ignoring anything in except while adding additions.
+  serializedFiltersWith(additions:InternalFilterValue[] = [], { except }:{ except?:string } = {}):string {
+    const filters = this.parseFilters().filter((filter) => filter.name !== except);
+    return this.buildFiltersParam([...filters, ...additions]);
   }
 
   sendForm() {

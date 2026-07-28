@@ -79,6 +79,20 @@ RSpec.describe "API v3 meeting agenda items by work package", content_type: :jso
     expect(element_ids).to contain_exactly(directly_linked_item.id, outcome_linked_item.id)
   end
 
+  it "embeds the full meeting object on each item instead of only linking it" do
+    element = JSON.parse(last_response.body).dig("_embedded", "elements")
+                  .find { |e| e["id"] == directly_linked_item.id }
+
+    embedded_meeting = element.dig("_embedded", "meeting")
+
+    expect(embedded_meeting).to include(
+      "_type" => "Meeting",
+      "id" => meeting.id,
+      "title" => meeting.title
+    )
+    expect(element.dig("_links", "meeting", "href")).to eq(api_v3_paths.meeting(meeting.id))
+  end
+
   context "when an item is in a meeting the user cannot see" do
     let(:invisible_meeting) { create(:meeting, project: create(:project, enabled_module_names: %w[meetings])) }
     let!(:invisible_item) do
