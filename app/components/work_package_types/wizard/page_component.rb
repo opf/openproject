@@ -112,7 +112,13 @@ module WorkPackageTypes
       def within_step_frame(&)
         return capture(&) unless step_editor.linkable_aspect?
 
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url: step_url), &)
+        render(
+          WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+            reload_url: step_url,
+            reload_from_location: step_editor.reload_from_location?
+          ),
+          &
+        )
       end
 
       def reuse_mode_banner
@@ -121,15 +127,11 @@ module WorkPackageTypes
         render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect))
       end
 
-      def step_submits_own_form? = current_step == :workflows
-
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step
         when :form_configuration
           FormConfigurationStepComponent.new(type:)
-        when :workflows
-          WorkflowsStepComponent.new(type:)
         when :project_attributes
           ProjectAttributesStepComponent.new(type:)
         when :projects

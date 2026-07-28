@@ -126,64 +126,48 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 
   <% if statuses.any? %>
-    <%= form_tag(
-          type_workflow_matrix_path(type, tab:),
-          id: form_id,
-          method: :patch,
-          autocomplete: "off",
-          data: {
-            controller: "admin--workflow-checkbox-state",
-            "admin--workflow-checkbox-state-has-status-changes-value": context.status_changes?
-          }
-        ) do %>
-        <%= hidden_field_tag "type_id", type.id %>
-        <% roles.each do |role| %>
-          <%= hidden_field_tag "role_ids[]", role.id %>
-        <% end %>
-        <%= hidden_field_tag "tab", tab %>
+    <%# The matrix inputs and the state they are compared against. The enclosing form
+        belongs to the host page; this only groups what the dirty-state controller needs. %>
+    <%= tag.div(id: state_id, data: state_data) do %>
+      <%= hidden_field_tag "type_id", type.id %>
+      <% roles.each do |role| %>
+        <%= hidden_field_tag "role_ids[]", role.id %>
+      <% end %>
+      <%= hidden_field_tag "tab", tab %>
 
-        <%= render(matrix_table) %>
+      <%= render(matrix_table) %>
 
-        <% unless readonly? %>
-          <div class="workflow-save-bar">
-            <%=
-              render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do
-                t(:button_save)
-              end
-            %>
-          </div>
+      <% unless readonly? %>
+        <%=
+          render(
+            Primer::OpenProject::FeedbackDialog.new(
+              title: t("admin.workflows.leave_confirmation.title"),
+              data: {
+                "admin--workflow-checkbox-state-target": "confirmationDialog"
+              }
+            )
+          ) do |dialog|
+            dialog.with_feedback_message(icon_arguments: { icon: :none }) do |message|
+              message.with_heading(tag: :h2) { t("admin.workflows.leave_confirmation.title") }
+              message.with_description_content(t("admin.workflows.leave_confirmation.description"))
+            end
 
-          <%=
-            render(
-              Primer::OpenProject::FeedbackDialog.new(
-                title: t("admin.workflows.leave_confirmation.title"),
-                data: {
-                  "admin--workflow-checkbox-state-target": "confirmationDialog"
-                }
-              )
-            ) do |dialog|
-              dialog.with_feedback_message(icon_arguments: { icon: :none }) do |message|
-                message.with_heading(tag: :h2) { t("admin.workflows.leave_confirmation.title") }
-                message.with_description_content(t("admin.workflows.leave_confirmation.description"))
-              end
+            dialog.with_footer do
+              component_collection do |footer|
+                footer.with_component(
+                  Primer::Beta::Button.new(scheme: :danger, data: { "admin--workflow-checkbox-state-target": "ignoreButton" })
+                ) { t("admin.workflows.leave_confirmation.ignore") }
 
-              dialog.with_footer do
-                component_collection do |footer|
-                  footer.with_component(
-                    Primer::Beta::Button.new(scheme: :danger, data: { "admin--workflow-checkbox-state-target": "ignoreButton" })
-                  ) { t("admin.workflows.leave_confirmation.ignore") }
-
-                  footer.with_component(
-                    Primer::Beta::Button.new(scheme: :primary, data: { "admin--workflow-checkbox-state-target": "saveButton" })
-                  ) { t("admin.workflows.leave_confirmation.save") }
-                end
+                footer.with_component(
+                  Primer::Beta::Button.new(scheme: :primary, data: { "admin--workflow-checkbox-state-target": "saveButton" })
+                ) { t("admin.workflows.leave_confirmation.save") }
               end
             end
-          %>
-        <% end %>
+          end
+        %>
       <% end %>
+    <% end %>
   <% else %>
     <%= render Workflows::BlankslateComponent.new(roles:, type:, tab:) %>
-    <%= form_tag(type_creation_wizard_path(type, step: :workflows), id: form_id, method: :patch) do %><% end %>
   <% end %>
 <% end %>

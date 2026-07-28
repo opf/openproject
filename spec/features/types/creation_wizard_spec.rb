@@ -98,8 +98,9 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     click_on I18n.t(:button_continue)
     expect_step_saved(:project_attributes)
 
-    # Step 5 - Workflow
-    expect(page).to have_css("#workflow_form", visible: :all)
+    # Step 5 - Workflow: the matrix has no Save of its own, Continue persists it.
+    expect(page).to have_text("Linked mode")
+    expect(page).to have_no_button "Save"
     click_on I18n.t(:button_continue)
     expect_step_saved(:workflows)
 

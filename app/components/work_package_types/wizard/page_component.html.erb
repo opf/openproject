@@ -27,20 +27,19 @@
           <%= within_step_frame do %>
             <%= reuse_mode_banner %>
             <%= primer_form_with(**step_form_options) do |f| %>
-              <%= render(step_editor.form_class.new(f)) %>
+              <%= render(step_editor.form_class.new(f)) if step_editor.form_class %>
+              <%= render(step_editor.body) if step_editor.body %>
             <% end %>
           <% end %>
         <% else %>
+          <%# Self-persisting editor: this form only advances to the next step on submit. %>
           <%= render(step_body) %>
-          <% unless step_submits_own_form? %>
-            <%# Self-persisting editor: this form only advances to the next step on submit. %>
-            <%= primer_form_with(
-                  url: step_url,
-                  method: :patch,
-                  html: { id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER }
-                ) do %>
-              <%= tag.input(type: :hidden, name: :step, value: current_step) %>
-            <% end %>
+          <%= primer_form_with(
+                url: step_url,
+                method: :patch,
+                html: { id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER }
+              ) do %>
+            <%= tag.input(type: :hidden, name: :step, value: current_step) %>
           <% end %>
         <% end %>
       <% end %>

@@ -29,11 +29,19 @@
 # ++
 
 module Workflows
-  class StatusMatrixFormComponent < ApplicationComponent
+  # The transition matrix editor: the tab and role pickers, the matrix itself, and the
+  # dirty-state machinery that warns before navigating away from unsaved changes.
+  #
+  # Renders no form of its own and no save button. Whoever embeds the editor wraps it in
+  # a form and provides the control that submits it — the workflow tab has a pinned Save
+  # bar, the creation wizard has Continue in its footer — so the editor stays identical
+  # in both and needs nothing injected.
+  class MatrixEditorComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    FORM_ID = "workflow_form"
+    # The dirty-state controller's root. Other controllers reach it as a Stimulus outlet.
+    STATE_ID = "workflow_matrix"
 
     def initialize(context:)
       super
@@ -46,7 +54,14 @@ module Workflows
 
     delegate :type, :tab, :roles, :eligible_roles, :statuses, :readonly?, to: :context
 
-    def form_id = FORM_ID
+    def state_id = STATE_ID
+
+    def state_data
+      {
+        controller: "admin--workflow-checkbox-state",
+        "admin--workflow-checkbox-state-has-status-changes-value": context.status_changes?
+      }
+    end
 
     def transition_tabs = @transition_tabs ||= helpers.workflow_tabs(type)
 
@@ -68,7 +83,7 @@ module Workflows
         controller: "admin--workflow-role-select",
         "admin--workflow-role-select-base-url-value": helpers.type_workflow_matrix_path(type, tab:),
         "admin--workflow-role-select-current-role-ids-value": roles.map(&:id),
-        "admin--workflow-role-select-admin--workflow-checkbox-state-outlet": "##{form_id}"
+        "admin--workflow-role-select-admin--workflow-checkbox-state-outlet": "##{STATE_ID}"
       }
     end
   end

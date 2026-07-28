@@ -53,7 +53,7 @@ interface SavedState {
  *     via document-level event delegation, so it works even after the EditComponent
  *     is replaced by a turbo-stream after the frame content loads.
  */
-export default class WorkflowCheckboxStateController extends Controller<HTMLFormElement> {
+export default class WorkflowCheckboxStateController extends Controller<HTMLElement> {
   static targets = [ 'confirmationDialog', 'ignoreButton', 'saveButton' ];
   declare readonly confirmationDialogTarget:HTMLDialogElement;
   declare readonly ignoreButtonTarget:HTMLButtonElement;
@@ -71,9 +71,16 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
 
   private initialCheckboxState:CheckboxesState = {};
 
+  // The form belongs to the host page and encloses this element. Captured on connect
+  // because disconnect() runs once this element is already detached, where walking up
+  // to the form is no longer possible.
+  private form:HTMLFormElement | null = null;
+
   connect() {
+    this.form = this.element.closest('form');
+
     this.element.addEventListener('change', this.onCheckboxChange);
-    this.element.addEventListener('submit', this.onFormSubmit);
+    this.form?.addEventListener('submit', this.onFormSubmit);
 
     this.initialCheckboxState = this.popState(PRISTINE_STATE_KEY) ?? this.captureState();
     this.pushState(PRISTINE_STATE_KEY, this.initialCheckboxState);
@@ -103,8 +110,9 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
     }
 
     document.removeEventListener('click', this.onConfirmationTriggerClick, true);
-    this.element.removeEventListener('submit', this.onFormSubmit);
+    this.form?.removeEventListener('submit', this.onFormSubmit);
     this.element.removeEventListener('change', this.onCheckboxChange);
+    this.form = null;
   }
 
   private onFormSubmit = () => {
@@ -222,7 +230,7 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
 
   private onSaveChanges = (originalTarget:HTMLElement, originalEvent:Event) => {
     return () => {
-      this.element.requestSubmit();
+      this.form?.requestSubmit();
 
       this.closeAndProceed(originalTarget, originalEvent);
     };
@@ -326,7 +334,7 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
         setTimeout(navigate, 0);
       },
       () => {
-        this.element.requestSubmit();
+        this.form?.requestSubmit();
         this.confirmationDialogTarget.close();
         // Delay to allow the flash message from the form submission to appear.
         setTimeout(navigate, 1000);

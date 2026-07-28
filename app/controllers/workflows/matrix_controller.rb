@@ -49,8 +49,6 @@ class Workflows::MatrixController < ApplicationController
 
   def update
     if persist_matrix.success?
-      return redirect_to_wizard_step if advance_to_wizard_step?
-
       render_matrix_saved
     else
       render_matrix_not_saved
@@ -79,7 +77,7 @@ class Workflows::MatrixController < ApplicationController
         removed_count: removed_status_count
       )
     else
-      update_via_turbo_stream(component: matrix_form_component)
+      update_via_turbo_stream(component: matrix_editor_component)
       respond_with_turbo_streams
     end
   end
@@ -103,8 +101,8 @@ class Workflows::MatrixController < ApplicationController
     )
   end
 
-  def matrix_form_component(context = matrix_context)
-    Workflows::StatusMatrixFormComponent.new(context:)
+  def matrix_editor_component(context = matrix_context)
+    Workflows::MatrixEditorComponent.new(context:)
   end
 
   def persist_matrix
@@ -122,7 +120,7 @@ class Workflows::MatrixController < ApplicationController
     # Resolved afresh: the write just changed which statuses have transitions, and with
     # none left the matrix has to give way to the blankslate.
     saved = build_matrix_context
-    update_via_turbo_stream(component: matrix_form_component(saved)) if saved.statuses.empty?
+    update_via_turbo_stream(component: matrix_editor_component(saved)) if saved.statuses.empty?
   end
 
   def render_matrix_not_saved
@@ -131,14 +129,6 @@ class Workflows::MatrixController < ApplicationController
       scheme: :danger
     )
     @turbo_status = :unprocessable_entity
-  end
-
-  # Temporary: the wizard still submits the matrix through this endpoint and asks it to
-  # advance afterwards. Goes away once the wizard persists the step itself.
-  def advance_to_wizard_step? = params[:advance_to_step].present?
-
-  def redirect_to_wizard_step
-    redirect_to type_creation_wizard_path(type, step: params[:advance_to_step]), status: :see_other
   end
 
   def requested_status_ids

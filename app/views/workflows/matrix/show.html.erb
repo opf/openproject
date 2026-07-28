@@ -28,5 +28,5 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= turbo_frame_tag "workflow-table", data: { turbo_cache: false } do %>
-  <%= render Workflows::StatusMatrixFormComponent.new(context: matrix_context) %>
+  <%= render Workflows::MatrixEditorComponent.new(context: matrix_context) %>
 <% end %>

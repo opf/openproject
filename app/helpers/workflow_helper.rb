@@ -51,7 +51,7 @@ module WorkflowHelper
                 action: "click->admin--workflow-tab-select#select",
                 "admin--workflow-tab-select-tab-value": tab[:name],
                 "admin--workflow-tab-select-admin--workflow-checkbox-state-outlet":
-                  "##{Workflows::StatusMatrixFormComponent::FORM_ID}" }
+                  "##{Workflows::MatrixEditorComponent::STATE_ID}" }
       )
     end
   end
