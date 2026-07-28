@@ -164,9 +164,14 @@ class Type < ApplicationRecord
   def project_custom_field_type_mappings
     return own_project_custom_field_type_mappings unless resolve_aspect_in_sql?
 
-    ProjectCustomFieldTypeMapping.where(
-      ProjectCustomFieldTypeMapping.arel_table[:type_id].in(effective_source_id_ref(Type::ConfigurationLink::PROJECT_ATTRIBUTES))
+    aspect = Type::ConfigurationLink::PROJECT_ATTRIBUTES
+    mappings = ProjectCustomFieldTypeMapping.where(
+      ProjectCustomFieldTypeMapping.arel_table[:type_id].in(effective_source_id_ref(aspect))
     )
+    excluded_ids = excluded_custom_field_ids(aspect)
+    return mappings if excluded_ids.empty?
+
+    mappings.where.not(custom_field_id: excluded_ids)
   end
 
   def statuses(include_default: false, role: nil, tab: nil)

@@ -62,8 +62,14 @@ module Projects::CustomFields
         return scope.where(project_custom_field_type_mappings: { type_id: })
       end
 
-      resolved_type_id = Type.effective_source_id_subquery(type_id, Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+      aspect = Type::ConfigurationLink::PROJECT_ATTRIBUTES
+      resolved_type_id = Type.effective_source_id_subquery(type_id, aspect)
+      # The attributes the chain drops are subtracted in the same query. The subquery yields one
+      # element per row, so `<> ALL` is TRUE when nothing is excluded.
+      excluded = Type.effective_excluded_elements_subquery(type_id, aspect)
+
       scope.where("project_custom_field_type_mappings.type_id = (#{resolved_type_id})")
+           .where(Type.excluded_custom_field_condition("custom_fields.id", excluded))
     end
 
     # Note:

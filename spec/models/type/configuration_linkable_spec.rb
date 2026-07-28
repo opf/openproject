@@ -394,6 +394,49 @@ RSpec.describe Type::ConfigurationLinkable do
         .to contain_exactly(owner_field.id)
     end
 
+    it "drops an excluded attribute from the inherited mappings" do
+      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
+                                       excluded_elements: [owner_field.attribute_name])
+
+      expect(type.project_custom_field_type_mappings).to be_empty
+    end
+
+    it "keeps the attributes the chain does not exclude" do
+      kept_field = create(:project_custom_field)
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: kept_field)
+      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
+                                       excluded_elements: [owner_field.attribute_name])
+
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(kept_field.id)
+    end
+
+    it "accumulates exclusions over a chain" do
+      second_field = create(:project_custom_field)
+      third_field = create(:project_custom_field)
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: second_field)
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: third_field)
+
+      middle = create(:type)
+      create(:type_configuration_link, type: middle, source: owner, aspect: project_attributes_aspect,
+                                       excluded_elements: [owner_field.attribute_name])
+      create(:type_configuration_link, type:, source: middle, aspect: project_attributes_aspect,
+                                       excluded_elements: [second_field.attribute_name])
+
+      expect(middle.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(second_field.id, third_field.id)
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(third_field.id)
+    end
+
+    it "leaves the owning type's own mappings untouched" do
+      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
+                                       excluded_elements: [owner_field.attribute_name])
+
+      expect(owner.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(owner_field.id)
+    end
+
     it "keeps writing to its own mappings while Linked" do
       type.link!(project_attributes_aspect, source: owner)
       another_field = create(:project_custom_field)
@@ -519,6 +562,39 @@ RSpec.describe Type::ConfigurationLinkable do
       build(:type_configuration_link, type: other, source: type, aspect:).save!(validate: false)
 
       expect(excluded_by_sql?("custom_field_1")).to be(false)
+    end
+  end
+
+  describe ".excluded_custom_field_condition" do
+    def excluded?(custom_field_id, elements)
+      literal = elements.empty? ? "'{}'::text[]" : "ARRAY[#{elements.map { |e| "'#{e}'" }.join(', ')}]::text[]"
+      condition = Type.excluded_custom_field_condition(custom_field_id.to_s, literal)
+
+      Type.connection.select_value("SELECT 1 WHERE #{condition}").nil?
+    end
+
+    it "excludes a custom field listed under its attribute name" do
+      expect(excluded?(7, %w[custom_field_7])).to be(true)
+    end
+
+    it "keeps a custom field that is not listed" do
+      expect(excluded?(7, %w[custom_field_8 assignee])).to be(false)
+    end
+
+    it "keeps every custom field when nothing is excluded" do
+      expect(excluded?(7, [])).to be(false)
+    end
+
+    it "does not confuse a prefix of another id" do
+      expect(excluded?(7, %w[custom_field_77])).to be(false)
+    end
+
+    it "accepts a subquery yielding one element per row" do
+      type.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: source)
+      subquery = Type.effective_excluded_elements_subquery(type.id, Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+      condition = Type.excluded_custom_field_condition("7", subquery)
+
+      expect(Type.connection.select_value("SELECT 1 WHERE #{condition}")).to eq(1)
     end
   end
 

@@ -50,7 +50,7 @@ module Types::Scopes
       # themselves, so Type#effective_source_for needs no lookup of its own.
       #
       # Kept separate from .with_effective_configuration because resolving the ids is
-      # useful on its own — Type::EffectiveSourceSql only ever needs those, and should not
+      # useful on its own — Type::FormConfigurationSql only ever needs those, and should not
       # pay for instantiating types it will not touch.
       def with_effective_source(aspect)
         with_effective_configuration(aspect).extending(Preloading)

@@ -529,8 +529,8 @@ class WorkPackage < ApplicationRecord
   # the ones its link chain excludes, but keep the work package's own type id available so a
   # batch preload can match it against each work package's own type_id.
   def self.form_configuration_custom_fields_join(type_ids)
-    source_table, source_type_id, excluded = Type::EffectiveSourceSql.form_configuration_source_table(type_ids)
-    exclusion = Type::EffectiveSourceSql.excluded_element_condition("custom_fields.id", excluded)
+    source_table, source_type_id, excluded = Type::FormConfigurationSql.source_table(type_ids)
+    exclusion = Type.excluded_custom_field_condition("custom_fields.id", excluded)
 
     "#{source_table} " \
       "JOIN custom_fields_types cft " \

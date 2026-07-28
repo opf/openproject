@@ -36,6 +36,10 @@ class Type
   module ConfigurationLinkable
     extend ActiveSupport::Concern
 
+    # Custom fields appear in an aspect's element list under CustomField#attribute_name.
+    # Mirrors the prefix that method builds.
+    CUSTOM_FIELD_ELEMENT_PREFIX = "custom_field_"
+
     prepended do
       has_many :configuration_links,
                class_name: "Type::ConfigurationLink",
@@ -167,6 +171,19 @@ class Type
         [join,
          "COALESCE(#{alias_name}.source_id, #{type_id_expr})",
          "COALESCE(#{alias_name}.excluded, '{}'::text[])"]
+      end
+
+      # Condition keeping only custom fields an aspect's chain does not exclude. Custom fields
+      # are excluded under CustomField#attribute_name, so the id is keyed back into that form
+      # rather than compared numerically.
+      #
+      # +excluded_expr+ may be either an array expression (as the resolution builders above
+      # return) or a subquery yielding one element per row (as
+      # .effective_excluded_elements_subquery returns). `<> ALL` over an empty array or an
+      # empty row set is TRUE either way, so callers never have to branch on "excludes
+      # nothing".
+      def excluded_custom_field_condition(custom_field_id_expr, excluded_expr)
+        "('#{CUSTOM_FIELD_ELEMENT_PREFIX}' || #{custom_field_id_expr}) <> ALL (#{excluded_expr})"
       end
 
       # Aspects reach SQL as column aliases and lateral alias names, so an unknown one must
@@ -370,6 +387,17 @@ class Type
       source.custom_fields.where.not(id: excluded_ids)
     end
 
+    # The ids of the custom fields this type does not inherit for `aspect`. An element list can
+    # also carry plain attribute keys ("assignee") and query groups ("query_7"), which have no
+    # custom field to map to and are dropped here.
+    def excluded_custom_field_ids(aspect)
+      effective_excluded_elements(aspect).filter_map do |element|
+        next unless CustomField.custom_field_attribute?(element)
+
+        element.delete_prefix(CUSTOM_FIELD_ELEMENT_PREFIX).to_i
+      end
+    end
+
     private
 
     def preloaded_effective_sources
@@ -408,16 +436,6 @@ class Type
       return group if group.query.blank?
 
       group unless excluded.include?(group.query_attribute_name.to_s)
-    end
-
-    # Custom fields appear in an element list under CustomField#attribute_name, alongside
-    # plain attribute keys like "assignee" that have no custom field to map to.
-    def excluded_custom_field_ids(aspect)
-      effective_excluded_elements(aspect).filter_map do |element|
-        next unless CustomField.custom_field_attribute?(element)
-
-        element.delete_prefix("custom_field_").to_i
-      end
     end
 
     # The type an aspect is linked to, or nil when this type owns it. The nil is
