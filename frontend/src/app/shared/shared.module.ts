@@ -34,7 +34,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { NgOptionHighlightDirective } from '@ng-select/ng-option-highlight';
-import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
 import { UIRouterModule } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
@@ -111,7 +110,6 @@ export function bootstrapModule(injector:Injector):void {
     A11yModule,
     PortalModule,
     DragDropModule,
-    DragulaModule,
     CurrentUserModule,
     FormsModule,
     NgSelectModule,
