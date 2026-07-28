@@ -230,7 +230,7 @@ RSpec.shared_examples "work package contract" do
       context "having full access" do
         context "with an assignable_version" do
           before do
-            work_package.version = persisted_project_version
+            work_package.target_version_ids_replacements = [persisted_project_version.id]
           end
 
           it_behaves_like "contract is valid"
@@ -238,10 +238,10 @@ RSpec.shared_examples "work package contract" do
 
         context "with an unassignable_version" do
           before do
-            work_package.version = persisted_other_project_version
+            work_package.target_version_ids_replacements = [persisted_other_project_version.id]
           end
 
-          it_behaves_like "contract is invalid", version_id: :inclusion
+          it_behaves_like "contract is invalid", target_versions: :inclusion
         end
       end
 
@@ -249,10 +249,10 @@ RSpec.shared_examples "work package contract" do
         let(:permissions) { super() - %i[assign_versions] }
 
         before do
-          work_package.version = persisted_project_version
+          work_package.target_version_ids_replacements = [persisted_project_version.id]
         end
 
-        it_behaves_like "contract is invalid", version_id: :error_readonly
+        it_behaves_like "contract is invalid", target_versions: :error_readonly
       end
     end
 

@@ -431,12 +431,16 @@ RSpec.describe DemoData::WorkPackageSeeder do
         [work_package_data(subject: "multi", target_versions: %i[version_alpha version_beta])]
       end
 
-      it "creates one kind: 'target' row per resolved version and mirrors the first into the legacy version" do
+      it "creates one kind: 'target' row per resolved version" do
         wp = WorkPackage.find_by(subject: "multi")
         expect(wp.work_package_versions.pluck(:kind, :version_id))
           .to contain_exactly(["target", version_alpha.id], ["target", version_beta.id])
         expect(wp.target_versions).to contain_exactly(version_alpha, version_beta)
-        expect(wp.version).to eq(version_alpha)
+      end
+
+      it "raises an error when trying to access version and there are multiple versions" do
+        wp = WorkPackage.find_by(subject: "multi")
+        expect { wp.version }.to raise_error(/has multiple target versions and cannot be represented/)
       end
     end
   end

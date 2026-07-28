@@ -136,16 +136,13 @@ module Projects::Copy
     end
 
     def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
-      target_version_ids = work_package_target_version_ids(source_work_package)
+      target_version_ids = mapped_version_ids(source_work_package.target_versions)
 
       {
         project: target,
         parent_id:,
-        # TODO(COMMS-863): The legacy version_id has to agree with the first target
-        # version (contract validation) until the column is dropped.
-        version_id: target_version_ids&.first,
         target_version_ids:,
-        observed_in_version_ids: work_package_observed_in_version_ids(source_work_package),
+        observed_in_version_ids: mapped_version_ids(source_work_package.observed_in_versions),
         assigned_to_id: work_package_assigned_to_id(source_work_package),
         responsible_id: work_package_responsible_id(source_work_package),
         custom_field_values: custom_value_attributes(source_work_package, user_cf_ids),
@@ -154,20 +151,10 @@ module Projects::Copy
       }
     end
 
-    def work_package_target_version_ids(source_work_package)
-      lookup = state.version_id_lookup
-      return if lookup.nil?
+    def mapped_version_ids(versions)
+      lookup = state.version_id_lookup || {}
 
-      # `.presence` forces return nil instead of an empty array when the source has no target
-      # versions. This skips writing target versions unnecessarily and avoid conflicts with legacy version_id
-      source_work_package.target_versions.filter_map { |v| state.version_id_lookup[v.id] }.presence
-    end
-
-    def work_package_observed_in_version_ids(source_work_package)
-      lookup = state.version_id_lookup
-      return if lookup.nil?
-
-      source_work_package.observed_in_versions.filter_map { |v| state.version_id_lookup[v.id] }.presence
+      versions.filter_map { |version| lookup[version.id] }
     end
 
     def work_package_assigned_to_id(source_work_package)
