@@ -89,11 +89,12 @@ module WorkPackageTypes
         def form_data = readonly? ? {} : model.stimulus_data
       end
 
-      # The transition matrix renders its own inputs rather than a Primer form, and it
-      # supplies no save control of its own — the wizard's Continue submits it.
       class Workflows < Base
         def aspect = Type::ConfigurationLink::WORKFLOWS
 
+        # The workflow matrix editor is not using a primer form, thus it does not consume the builder
+        # It can internally switch what tab it is editing, those trigger a submit to its own controller action.
+        # The submit of the final page happens through the wizard's continue button
         def editor(_builder) = WorkflowsStepComponent.new(type:)
 
         # The matrix keeps the selected roles and transition tab in the page URL, which a
