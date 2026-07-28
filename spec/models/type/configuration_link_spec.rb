@@ -38,8 +38,6 @@ RSpec.describe Type::ConfigurationLink do
           pdf_export: "pdf_export",
           defaults: "defaults",
           workflows: "workflows",
-          automations: "automations",
-          projects: "projects",
           form_configuration: "form_configuration",
           project_attributes: "project_attributes"
         )
@@ -49,14 +47,7 @@ RSpec.describe Type::ConfigurationLink do
     it "exposes the aspect identifiers as constants" do
       expect(described_class::ASPECTS)
         .to contain_exactly(described_class::PDF_EXPORT, described_class::DEFAULTS,
-                            described_class::WORKFLOWS, described_class::AUTOMATIONS,
-                            described_class::PROJECTS, described_class::FORM_CONFIGURATION,
-                            described_class::PROJECT_ATTRIBUTES)
-    end
-
-    it "links only the aspects whose linked behaviour is implemented to the parent by default" do
-      expect(described_class::DEFAULT_PARENT_LINK_ASPECTS)
-        .to contain_exactly(described_class::PDF_EXPORT, described_class::DEFAULTS,
+                            described_class::WORKFLOWS, described_class::FORM_CONFIGURATION,
                             described_class::PROJECT_ATTRIBUTES)
     end
 
