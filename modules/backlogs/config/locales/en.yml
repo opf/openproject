@@ -210,6 +210,7 @@ en:
     remaining_hours: "Remaining work"
     sharing: "Sprint sharing"
     show_burndown_chart: "Burndown chart"
+    show_work_package_overview: "Work packages within the sprint"
 
     sprint_component:
       action_menu:
@@ -242,6 +243,8 @@ en:
       widgets:
         work_package_graph:
           title: "Work packages graph"
+        work_package_overview:
+          resolved_summary: "%{percentage}% (%{resolved} of %{total} work packages)"
 
     sprints:
       row_component:
