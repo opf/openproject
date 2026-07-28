@@ -104,8 +104,9 @@ module CalculatedValues
 
     # Returns a list of all custom field ids that could not compute a value.
     def cf_ids_with_missing_values
-      @cf_ids_with_missing_values ||= given_values.merge(calculation_errors)
-                                                  .filter_map { |k, v| to_id(k) unless v.is_a?(Numeric) }
+      @cf_ids_with_missing_values ||= given_values.merge(calculation_errors).filter_map do |k, v|
+        to_id(k) unless CustomField::CalculatedValue.computed_value?(v)
+      end
     end
 
     def create_error_records!(error_contexts)
