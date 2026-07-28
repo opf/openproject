@@ -1258,6 +1258,8 @@ en:
           reverting: "Reverting"
         title: "Import run"
         wizard:
+          button_abort: "Abort"
+          button_continue: "Continue"
           button_retry: "Retry"
           finalize_dialog:
             confirm: "I understand that this action cannot be undone"
@@ -1302,11 +1304,14 @@ en:
             title: "Permanently revert this import?"
           sections:
             confirm_import:
+              button_importing: "Importing data"
+              button_revert: "Revert import"
               button_start: "Start import"
               caption: "Review your import settings and start the import"
               caption_done: "Completed"
               caption_done_info: "All data has been imported"
               description: "You are about to start an import run with the following settings."
+              info_importing: "The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run."
               label_available_data: "Data to be imported"
               label_import_data: "Currently importing"
               label_progress: "Import in progress..."
@@ -1333,6 +1338,8 @@ en:
               label_finalizing_done: "Import approved."
               label_results: "Imported"
               label_revert: "Revert import"
+              label_revert_cancelled: "Revert cancelled."
+              label_revert_cancelling: "Cancelling revert..."
               label_revert_progress: "Reverting import..."
               label_reverted: "Import reverted."
               stats:

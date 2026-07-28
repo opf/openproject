@@ -62,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
       if model.in_state?(:import_error, :import_aborting, :importing)
         box.with_row(mb: 3) do
           render(Primer::Beta::Text.new) do
-            "The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run."
+            I18n.t(:"admin.jira.run.wizard.sections.confirm_import.info_importing")
           end
         end
         box.with_row(mb: 3) do
@@ -122,7 +122,7 @@ See COPYRIGHT and LICENSE files for more details.
                 )
               ) do |button|
                 button.with_leading_visual_icon(icon: :sync)
-                "Retry"
+                I18n.t(:"admin.jira.run.wizard.button_retry")
               end
             )
             concat(
@@ -135,7 +135,7 @@ See COPYRIGHT and LICENSE files for more details.
                   data: { turbo_stream: true }
                 )
               ) do
-                "Revert import"
+                I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_revert")
               end
             )
             concat(
@@ -165,7 +165,7 @@ See COPYRIGHT and LICENSE files for more details.
                 )
               ) do |button|
                 button.with_leading_visual_icon(icon: :sync)
-                "Importing data"
+                I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_importing")
               end
             )
             concat(
@@ -180,7 +180,7 @@ See COPYRIGHT and LICENSE files for more details.
                 )
               ) do |button|
                 button.with_leading_visual_icon(icon: :sync, animation: :rotate)
-                "Abort"
+                I18n.t(:"admin.jira.run.wizard.button_abort")
               end
             )
             concat(
@@ -207,7 +207,7 @@ See COPYRIGHT and LICENSE files for more details.
                 )
               ) do |button|
                 button.with_leading_visual_icon(icon: :sync, animation: :rotate)
-                "Importing data"
+                I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_importing")
               end
             )
             concat(
@@ -220,7 +220,7 @@ See COPYRIGHT and LICENSE files for more details.
                   data: { turbo_stream: true }
                 )
               ) do
-                "Abort"
+                I18n.t(:"admin.jira.run.wizard.button_abort")
               end
             )
             concat(
