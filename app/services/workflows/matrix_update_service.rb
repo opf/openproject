@@ -90,12 +90,17 @@ module Workflows
     end
 
     def transition_exists?(role, old_status_id, new_status_id)
-      Workflow.exists?(role_id: role.id,
-                       type_id: type.id,
-                       old_status_id: old_status_id.to_i,
-                       new_status_id: new_status_id.to_i,
-                       author: author?,
-                       assignee: assignee?)
+      saved_transitions.include?([role.id, old_status_id.to_i, new_status_id.to_i])
+    end
+
+    # Every indeterminate cell of every selected role is looked up against this, so it is
+    # read once up front rather than per cell. Safe to reuse across roles even as they are
+    # written: a role's write only ever touches its own rows.
+    def saved_transitions
+      @saved_transitions ||= Workflow
+                               .where(type_id: type.id, role_id: roles.map(&:id), author: author?, assignee: assignee?)
+                               .pluck(:role_id, :old_status_id, :new_status_id)
+                               .to_set
     end
 
     # The matrix names its checkboxes status[old_status_id][new_status_id], so anything
