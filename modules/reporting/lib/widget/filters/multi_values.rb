@@ -65,7 +65,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
       end
 
       content_tag(:span, class: "inline-label") do
-        @options[:single] ? label + box : label + box + plus
+        label + box + plus
       end
     end)
   end
