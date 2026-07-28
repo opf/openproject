@@ -123,6 +123,25 @@ function buildWrappingHorizontalList(items:string[], containerWidth:number):{ ro
   return { root, chips };
 }
 
+// The card view's production geometry: a CSS Grid of fixed tracks, offset
+// from the viewport origin. An incomplete last row leaves real empty tracks
+// rather than the ragged tail flex-wrap gives. The leading padding gives the
+// list blank space of its own to the left of every card, so a point there is
+// physically inside the root rather than merely dispatched at it.
+function buildCardGrid(items:string[], columns:number):{ root:HTMLElement; cards:HTMLElement[] } {
+  const root = document.createElement('div');
+  root.style.cssText = `display:grid; grid-template-columns:repeat(${columns}, 100px); gap:10px; margin:100px 0 0 100px; padding-left:60px; width:max-content;`;
+  const cards = items.map((id) => {
+    const card = document.createElement('div');
+    card.style.cssText = 'height:40px;';
+    card.textContent = id;
+    root.appendChild(card);
+    return card;
+  });
+  document.body.appendChild(root);
+  return { root, cards };
+}
+
 describe('createSortableRoot', () => {
   let cleanupFns:(() => void)[] = [];
 
@@ -850,6 +869,117 @@ describe('createSortableRoot', () => {
         edge: null,
         axis: 'horizontal',
       }]);
+    });
+
+    describe('card grid geometry', () => {
+      // 3 columns, 5 cards: 'a'/'b'/'c' fill row one, 'd'/'e' leave the third
+      // track of row two empty.
+      function setupGrid(items = ['a', 'b', 'c', 'd', 'e']) {
+        const { root, cards } = buildCardGrid(items, 3);
+        const intents:SortableDropIntent[] = [];
+        const sortableRoot = createSortableRoot({
+          element: root,
+          axis: 'horizontal',
+          onDrop: (transaction) => { intents.push(transaction.intent); transaction.complete(true); },
+        });
+        const listCleanup = sortableRoot.registerList({ element: root, listId: 'l1' });
+        const itemCleanups = cards.map((card, index) => sortableRoot.registerItem({
+          element: card,
+          itemId: items[index],
+          listId: 'l1',
+        }));
+        cleanupFns.push(listCleanup, ...itemCleanups, () => sortableRoot.destroy());
+
+        return { root, cards, intents };
+      }
+
+      it('appends on a drop in the empty trailing track of an incomplete row', async () => {
+        const { root, cards, intents } = setupGrid();
+        const simulation = new NativeDragSimulation(cards[0]);
+
+        await simulation.start();
+        await simulation.dragOver(cards[4], centerOf(cards[4]));
+        expect(cards[4].hasAttribute('data-drop-position')).toBe(true);
+
+        // Row two's third track: no card in it, but it sits inside the union
+        // of every card rect, which is what used to keep 'e' sticky here.
+        const emptyTrack = { x: centerOf(cards[2]).x, y: centerOf(cards[4]).y };
+        await simulation.dragOver(root, emptyTrack);
+
+        expect(cards[4].hasAttribute('data-drop-position')).toBe(false);
+        expect(root.getAttribute('data-drop-container')).toBe('active');
+
+        await simulation.drop(root, emptyTrack);
+
+        expect(intents).toEqual([{
+          sourceId: 'a',
+          sourceListId: 'l1',
+          targetListId: 'l1',
+          targetItemId: null,
+          edge: null,
+          axis: 'horizontal',
+        }]);
+      });
+
+      it('keeps the item sticky in the gap between two rows', async () => {
+        const { root, cards } = setupGrid();
+        const simulation = new NativeDragSimulation(cards[0]);
+        const gap = {
+          x: centerOf(cards[3]).x,
+          y: (cards[0].getBoundingClientRect().bottom + cards[3].getBoundingClientRect().top) / 2,
+        };
+
+        await simulation.start();
+        await simulation.dragOver(cards[3], centerOf(cards[3]));
+        expect(cards[3].hasAttribute('data-drop-position')).toBe(true);
+
+        await simulation.dragOver(root, gap);
+
+        expect(cards[3].hasAttribute('data-drop-position')).toBe(true);
+        expect(root.hasAttribute('data-drop-container')).toBe(false);
+
+        await simulation.cancel();
+      });
+
+      it('ignores a hidden card rather than stretching the span to the viewport origin', async () => {
+        const { root, cards } = setupGrid();
+        cards[4].style.display = 'none';
+        const simulation = new NativeDragSimulation(cards[0]);
+
+        await simulation.start();
+        await simulation.dragOver(cards[3], centerOf(cards[3]));
+        expect(cards[3].hasAttribute('data-drop-position')).toBe(true);
+
+        // Inside the list's own leading padding, left of every card. A 0×0
+        // rect at the viewport origin would pull the span's left edge to 0 and
+        // hold the item sticky here.
+        const leftOfCards = { x: root.getBoundingClientRect().left + 20, y: centerOf(cards[3]).y };
+        expect(leftOfCards.x).toBeLessThan(cards[3].getBoundingClientRect().left);
+        await simulation.dragOver(root, leftOfCards);
+
+        expect(cards[3].hasAttribute('data-drop-position')).toBe(false);
+        expect(root.getAttribute('data-drop-container')).toBe('active');
+
+        await simulation.cancel();
+      });
+
+      it('has no span at all when every registered card is hidden', async () => {
+        const { root, cards } = setupGrid();
+        const simulation = new NativeDragSimulation(cards[0]);
+        const point = centerOf(cards[3]);
+
+        await simulation.start();
+        await simulation.dragOver(cards[3], point);
+        expect(cards[3].hasAttribute('data-drop-position')).toBe(true);
+
+        cards.forEach((card) => { card.style.display = 'none'; });
+        await simulation.dragOver(root, point);
+
+        expect(cards[3].hasAttribute('data-drop-position')).toBe(false);
+        expect(root.getAttribute('data-drop-container')).toBe('active');
+
+        await simulation.cancel();
+      });
     });
 
     it('crossing a row boundary resolves a left/right edge on the target chip', async () => {

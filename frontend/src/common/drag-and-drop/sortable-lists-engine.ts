@@ -111,11 +111,18 @@ function allowedEdgesForAxis(axis:SortableAxis):Edge[] {
   return axis === 'horizontal' ? ['left', 'right'] : ['top', 'bottom'];
 }
 
-interface UnionRect {
+interface ItemsRow {
   left:number;
   right:number;
   top:number;
   bottom:number;
+}
+
+/** A list's vertical extent, plus the horizontal extent of each visual row within it. */
+interface ItemsSpan {
+  top:number;
+  bottom:number;
+  rows:ItemsRow[];
 }
 
 export function createSortableRoot(options:SortableRootOptions):SortableRoot {
@@ -125,8 +132,8 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
   const scope = createSortableItemPayloadScope();
   const listDataKey = Symbol('op-sortable-list');
   const lists = new Map<string, { element:HTMLElement; accepts?:(args:{ source:SortableSource }) => boolean }>();
-  // Registered item elements per list, for the bounded-stickiness union rect
-  // below. Insertion order is irrelevant — it's a geometric min/max.
+  // Registered item elements per list, for the bounded-stickiness row spans
+  // below. Insertion order is irrelevant — the rows are grouped geometrically.
   const listItems = new Map<string, Set<HTMLElement>>();
   let transactionCounter = 0;
   let destroyed = false;
@@ -234,59 +241,87 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
   ):boolean => !accepts || accepts({ source: sourceOf(data, element) });
 
   // Bounded stickiness (spec §item→list handoff): an item target holds
-  // selection via `getIsSticky` while the pointer is within the CURRENT union
-  // rect of its list's items, over BOTH axes — a root-axis-only bound would
-  // misread cross-axis blank space on a wrapped row (flex-wrap chips) as
-  // "within span". Recomputed geometrically, not by registration order (a
-  // stable `@for` track reorders DOM without re-running `ngOnInit`), and
-  // cached per animation frame.
+  // selection via `getIsSticky` while the pointer is within the CURRENT span
+  // of its list's items, over BOTH axes — a root-axis-only bound would
+  // misread cross-axis blank space on a wrapped row as "within span".
+  //
+  // The vertical bound is the whole list, so the gaps between wrapped rows
+  // stay covered; the horizontal bound belongs to the row the pointer is in,
+  // so the empty tail of an incomplete row (a grid track with no card in it)
+  // hands off to the list and appends. Recomputed geometrically, not by
+  // registration order (a stable `@for` track reorders DOM without re-running
+  // `ngOnInit`), and cached per animation frame.
   let frameCacheToken:number|null = null;
-  const unionRectCache = new Map<string, UnionRect|null>();
+  const spanCache = new Map<string, ItemsSpan|null>();
 
   const clearFrameCache = ():void => {
     frameCacheToken = null;
-    unionRectCache.clear();
+    spanCache.clear();
   };
 
-  const unionRectOfListItems = (listId:string):UnionRect|null => {
+  const itemsSpanOfList = (listId:string):ItemsSpan|null => {
     frameCacheToken ??= requestAnimationFrame(clearFrameCache);
-    if (unionRectCache.has(listId)) {
-      return unionRectCache.get(listId) ?? null;
+    if (spanCache.has(listId)) {
+      return spanCache.get(listId) ?? null;
     }
 
-    const items = listItems.get(listId);
-    if (!items || items.size === 0) {
-      unionRectCache.set(listId, null);
+    const rects:DOMRect[] = [];
+    listItems.get(listId)?.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      // A hidden item measures 0×0 at the viewport origin and would drag the
+      // span up there with it.
+      if (rect.width > 0 && rect.height > 0) {
+        rects.push(rect);
+      }
+    });
+
+    if (rects.length === 0) {
+      spanCache.set(listId, null);
       return null;
     }
 
-    let left = Infinity;
-    let right = -Infinity;
-    let top = Infinity;
-    let bottom = -Infinity;
-    items.forEach((element) => {
-      const rect = element.getBoundingClientRect();
-      left = Math.min(left, rect.left);
-      right = Math.max(right, rect.right);
-      top = Math.min(top, rect.top);
-      bottom = Math.max(bottom, rect.bottom);
+    // Rects that overlap vertically are one visual row. Sorting by top edge
+    // makes a single pass enough to group them.
+    rects.sort((a, b) => a.top - b.top);
+    const rows:ItemsRow[] = [];
+    rects.forEach((rect) => {
+      const row = rows[rows.length - 1];
+      if (row && rect.top < row.bottom) {
+        row.bottom = Math.max(row.bottom, rect.bottom);
+        row.left = Math.min(row.left, rect.left);
+        row.right = Math.max(row.right, rect.right);
+        return;
+      }
+
+      rows.push({
+        top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right,
+      });
     });
 
-    const unionRect:UnionRect = {
-      left, right, top, bottom,
+    const span:ItemsSpan = {
+      top: rows[0].top,
+      bottom: Math.max(...rows.map((row) => row.bottom)),
+      rows,
     };
-    unionRectCache.set(listId, unionRect);
-    return unionRect;
+    spanCache.set(listId, span);
+    return span;
   };
 
+  /** 0 while `clientY` is inside the row's band, otherwise the distance to it. */
+  const distanceToRow = (row:ItemsRow, clientY:number):number => Math.max(row.top - clientY, clientY - row.bottom, 0);
+
   const withinItemsSpan = (input:{ clientX:number; clientY:number }, listId:string):boolean => {
-    const rect = unionRectOfListItems(listId);
-    if (!rect) {
+    const span = itemsSpanOfList(listId);
+    if (!span || input.clientY < span.top || input.clientY > span.bottom) {
       return false;
     }
 
-    return input.clientX >= rect.left && input.clientX <= rect.right
-      && input.clientY >= rect.top && input.clientY <= rect.bottom;
+    // Nearest, not containing: between two rows the pointer is in neither.
+    const row = span.rows.reduce((closest, candidate) => (
+      distanceToRow(candidate, input.clientY) < distanceToRow(closest, input.clientY) ? candidate : closest
+    ));
+
+    return input.clientX >= row.left && input.clientX <= row.right;
   };
 
   const createTransaction = (intent:SortableDropIntent):SortableDropTransaction => {
