@@ -40,15 +40,36 @@ wp-single-card[data-drop-position]
     left: auto
     right: 0
 
-// The custom native drag preview is mounted in a detached container outside
-// any table/list context, so it carries its own card-like chrome.
+// The drag preview is mounted in a detached container outside any table
+// context, so it carries its own chrome and layout.
 .op-drag-preview
+  display: flex
+  align-items: center
+  min-height: var(--table-timeline--row-height)
+  max-width: 500px
   background: var(--overlay-bgColor)
   border: 1px solid var(--borderColor-default)
   border-radius: 5px
   box-shadow: var(--shadow-floating-small)
-  padding: 5px 10px
+  // Enough to clear the cursor: 20px of the row's own plus the 8px its
+  // subject cell contributed.
+  padding: 0 10px 0 28px
   overflow: hidden
+
+  // Firefox folds the box-shadow ink overflow into the native drag-image
+  // snapshot, shifting the snapshot origin off the border box so the grab
+  // offset no longer lines up under the pointer. Drop the lift shadow on
+  // Firefox only; other browsers snapshot the border box and are unaffected.
+  .-browser-firefox &
+    box-shadow: none
+
+  // `min-width` overrides the flex item's auto minimum, without which it
+  // never shrinks below its text and so never ellipsises.
+  > *
+    min-width: 0
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
 
 // Hide the context menu button outside mobile
 html:not(.-browser-mobile)

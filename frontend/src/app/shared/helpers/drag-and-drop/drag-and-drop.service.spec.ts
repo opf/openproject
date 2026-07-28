@@ -303,14 +303,14 @@ describe('DragAndDropService', () => {
   });
 
   describe('preview factory', () => {
-    it('invokes onPreviewRendered synchronously with the chrome class already present', async () => {
+    it('invokes renderPreview synchronously with the chrome class already present', async () => {
       const { container, rows } = buildContainer(['a0', 'a1']);
-      const onPreviewRendered = vi.fn();
+      const renderPreview = vi.fn();
       let previewAtDragStart:Element|null = null;
 
       service.register(buildMember(container, {
         onMoved: vi.fn(),
-        onPreviewRendered,
+        renderPreview,
         onDragStarted: vi.fn(() => {
           // The only observable window before Pragmatic tears the preview
           // down again — mirrors the engine spec's own preview test.
@@ -321,11 +321,58 @@ describe('DragAndDropService', () => {
       const simulation = new NativeDragSimulation(rows[0]);
       await simulation.start();
 
-      expect(onPreviewRendered).toHaveBeenCalledTimes(1);
-      const [previewRow, previewContainer] = onPreviewRendered.mock.calls[0] as [HTMLElement, HTMLElement];
+      expect(renderPreview).toHaveBeenCalledTimes(1);
+      const [previewRow, preview] = renderPreview.mock.calls[0] as [HTMLElement, HTMLElement];
       expect(previewRow).toBe(rows[0]);
-      expect(previewContainer.classList.contains('op-drag-preview')).toBe(true);
-      expect(previewAtDragStart).toBe(previewContainer);
+      expect(preview.classList.contains('op-drag-preview')).toBe(true);
+      expect(previewAtDragStart).toBe(preview);
+
+      // Never Pragmatic's own container: its popover reset is inline, so
+      // any chrome placed there is dead on arrival.
+      expect(preview.parentElement?.style.position).toBe('fixed');
+
+      await simulation.cancel();
+    });
+
+    it('leaves the preview container empty for renderPreview, without cloning the row', async () => {
+      const { container, rows } = buildContainer(['a0', 'a1']);
+      let childrenAtDragStart:string[] = [];
+
+      service.register(buildMember(container, {
+        onMoved: vi.fn(),
+        // A hook that renders nothing still means "no clone": the row's own
+        // markup must never reach the preview behind the consumer's back.
+        renderPreview: () => undefined,
+        onDragStarted: vi.fn(() => {
+          const preview = document.querySelector('.op-drag-preview');
+          childrenAtDragStart = Array.from(preview?.children ?? []).map((child) => child.outerHTML);
+        }),
+      }));
+
+      const simulation = new NativeDragSimulation(rows[0]);
+      await simulation.start();
+
+      expect(childrenAtDragStart).toEqual([]);
+
+      await simulation.cancel();
+    });
+
+    it('clones the source row when no renderPreview is supplied', async () => {
+      const { container, rows } = buildContainer(['a0', 'a1']);
+      let clonedIdAtDragStart:string|undefined;
+
+      service.register(buildMember(container, {
+        onMoved: vi.fn(),
+        onDragStarted: vi.fn(() => {
+          const clone = document.querySelector('.op-drag-preview')?.firstElementChild as HTMLElement|undefined;
+          clonedIdAtDragStart = clone?.dataset.workPackageId;
+        }),
+      }));
+
+      const simulation = new NativeDragSimulation(rows[0]);
+      await simulation.start();
+
+      expect(clonedIdAtDragStart).toBe('a0');
 
       await simulation.cancel();
     });

@@ -29,8 +29,13 @@ export interface DragMember {
   accepts():boolean;
   onDragStarted?(row:HTMLElement):void;
   onCancel?(row:HTMLElement):void;
-  /** Called synchronously while Pragmatic captures the native drag image. */
-  onPreviewRendered?(row:HTMLElement, container:HTMLElement):void;
+  /**
+   * Renders the native drag image's contents into `preview`, synchronously,
+   * while Pragmatic captures it. When omitted, the row is cloned as-is; supply
+   * this when the row only lays out correctly inside its own context (a table
+   * row).
+   */
+  renderPreview?(row:HTMLElement, preview:HTMLElement):void;
   /** `targetId` null means "append at the end". Must settle `complete`. */
   onMoved(intent:DragIntent, complete:(success:boolean) => void):void;
 }
@@ -71,9 +76,18 @@ export class DragAndDropService implements OnDestroy {
       element: member.dragContainer,
       axis: 'vertical',
       preview: ({ source, container }) => {
-        container.classList.add('op-drag-preview');
-        container.appendChild(source.element.cloneNode(true));
-        member.onPreviewRendered?.(source.element, container);
+        // Pragmatic inline-styles its own container to reset the popover
+        // user-agent defaults, which beats any stylesheet rule — so the
+        // chrome goes on an element we own.
+        const preview = document.createElement('div');
+        preview.classList.add('op-drag-preview');
+        container.appendChild(preview);
+
+        if (member.renderPreview) {
+          member.renderPreview(source.element, preview);
+        } else {
+          preview.appendChild(source.element.cloneNode(true));
+        }
       },
       onDragStarted: (source) => member.onDragStarted?.(source.element),
       onCancel: (source) => member.onCancel?.(source.element),

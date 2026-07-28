@@ -77,25 +77,21 @@ export class DragAndDropTransformer {
         const workPackage = this.states.workPackages.get(wpId).value;
         return !!workPackage && this.actionService.canPickup(workPackage);
       },
-      // Custom native preview: the row was cloned into `container` already;
-      // collapse it to a single subject cell, since a bare `<tr>` clone
-      // outside the table loses its column widths.
-      onPreviewRendered: (row, container) => {
+      // A detached `<tr>` clone loses its column widths and drags the row's
+      // selection background along with it, so the preview is built fresh.
+      renderPreview: (row, preview) => {
         const wpId:string = row.dataset.workPackageId!;
         const workPackage = this.states.workPackages.get(wpId).value;
-        const clone = container.firstElementChild as HTMLElement|null;
-        if (!workPackage || !clone) {
+        if (!workPackage) {
           return;
         }
 
-        const colspan = clone.children.length;
-        const td = document.createElement('td');
-        td.textContent = workPackage.subjectWithId();
-        td.colSpan = colspan;
-        td.classList.add('wp-table--cell-td', 'subject');
+        // Sized from the row, capped by the stylesheet's max-width.
+        preview.style.width = `${row.getBoundingClientRect().width}px`;
 
-        clone.style.maxWidth = '500px';
-        clone.innerHTML = td.outerHTML;
+        const label = document.createElement('span');
+        label.textContent = workPackage.subjectWithId();
+        preview.appendChild(label);
       },
       // Multi-select drag is not supported — the engine's payload is the
       // single picked-up row. Collapse the selection to that row so the
