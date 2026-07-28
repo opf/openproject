@@ -25,14 +25,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++# %>
 
-<% html_title t("backlogs.sprint_reports.page_header_component.title", sprint: @sprint.name) %>
+<%=
+  widget_wrapper do |container|
+    container.with_body do
+      flex_layout(align_items: :center) do |flex|
+        flex.with_column(w: :full, mr: 3) do
+          render(
+            Primer::Beta::ProgressBar.new(
+              size: :large,
+              bg: :danger_emphasis
+            )
+          ) do |bar|
+            bar.with_item(
+              percentage: resolved_percentage
+            # TODO: consider aria-label -> what to insert here?
+            )
+          end
+        end
 
-<%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
-
-<%= render(Grids::WidgetGridComponent.new) do |grid| %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::Goal, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageOverview, @sprint, @project) %>
-<% end %>
+        flex.with_column(w: :fit) do
+          render(Primer::Beta::Text.new) { resolved_summary_text }
+        end
+      end
+    end
+  end
+%>
