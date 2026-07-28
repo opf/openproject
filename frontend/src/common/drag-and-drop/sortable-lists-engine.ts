@@ -32,8 +32,10 @@ import {
   monitorForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
+import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
+import type { Input } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { registerAutoScroll, type AutoScrollAllowedAxis } from 'core-common/drag-and-drop/auto-scroll';
 import { clearDropIndicator, renderDropIndicator } from 'core-common/drag-and-drop/drop-indicator';
 import { createSortableItemPayloadScope, type SortableItemData } from 'core-common/drag-and-drop/payload';
@@ -474,13 +476,20 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         // Only wired when the consumer supplies a factory; 'native' (or the
         // unset default) leaves Pragmatic's own browser-native preview alone.
         ...(typeof options.preview === 'function' ? {
-          onGenerateDragPreview: ({ nativeSetDragImage, source }:{
+          onGenerateDragPreview: ({ nativeSetDragImage, source, location }:{
             nativeSetDragImage:DataTransfer['setDragImage']|null;
             source:{ element:Element; data:Record<string|symbol, unknown> };
+            location:{ current:{ input:Input } };
           }) => {
             const factory = options.preview as PreviewFactory;
             setCustomNativeDragPreview({
               nativeSetDragImage,
+              // Keep the pointer where it was pressed, rather than snapping
+              // the preview's top-left corner under it.
+              getOffset: preserveOffsetOnSource({
+                element: source.element as HTMLElement,
+                input: location.current.input,
+              }),
               render: ({ container }) => factory({
                 source: sourceOf(source.data as SortableItemData, source.element),
                 container,
