@@ -52,6 +52,27 @@ class Type
     end
 
     class_methods do
+      # Four ways to resolve an aspect's link chain in SQL. Which one is correct depends on
+      # what the rows you are resolving *are*:
+      #
+      #   rows are one known type id  → .effective_source_id_subquery
+      #                                 .effective_excluded_elements_subquery
+      #     Scalar subqueries, inlinable into a WHERE. Used by the instance readers.
+      #
+      #   rows are types              → .effective_configuration_lateral
+      #     Correlates per row, which is exactly one walk per type. This is what
+      #     Types::Scopes::WithEffectiveConfiguration selects.
+      #
+      #   rows are anything else      → .effective_configuration_join
+      #     (work packages, projects_types, …) Resolves once per type in a derived table and
+      #     hash-joins the result on.
+      #
+      # The last distinction is the one that bites. A correlated lateral re-executes the
+      # recursive walk for every driving row and PostgreSQL will not memoize it — a recursive
+      # CTE disqualifies the Memoize node — so joining 520k rows that span only 26 types costs
+      # 520k walks (measured: 980ms, versus 148ms resolving per type). Reach for the lateral
+      # only where the driving rows are types and that multiplication cannot happen.
+      #
       # SQL for the single owning (terminal) type id of the aspect's link chain
       # starting at `type_id`. Recurses through type_configuration_links until a type
       # that isn't linked for the aspect (the owner). The `path` array is a cycle
@@ -93,12 +114,12 @@ class Type
       end
 
       # Resolves the aspect's chain inline for whatever type id +type_id_expr+ yields at the
-      # call site, as [join_sql, source_id_expr, excluded_elements_expr].
-      #
-      # This is the reusable form of the walk: a LATERAL join correlates on the outer row, so
-      # a query can resolve links (and their exclusions) for a whole result set without a
-      # preceding round-trip and without inlining a precomputed mapping. +type_id_expr+ must
+      # call site, as [join_sql, source_id_expr, excluded_elements_expr]. +type_id_expr+ must
       # name a column of a table joined before this fragment.
+      #
+      # Correlates per driving row, so use it only where those rows are types; otherwise reach
+      # for .effective_configuration_join, which builds on this one. See the note above
+      # .effective_source_id_subquery.
       #
       # The COALESCEs cover the two rows the lateral yields nothing for: a type owning the
       # aspect resolves to itself, and so does one whose chain is a pure cycle.
@@ -114,6 +135,33 @@ class Type
             WHERE #{terminal_node_condition}
             LIMIT 1
           ) #{alias_name} ON TRUE
+        SQL
+
+        [join,
+         "COALESCE(#{alias_name}.source_id, #{type_id_expr})",
+         "COALESCE(#{alias_name}.excluded, '{}'::text[])"]
+      end
+
+      # [join_sql, source_id_expr, excluded_elements_expr] resolving the aspect once per type
+      # and joining the result onto +type_id_expr+. The default choice for joining anything
+      # that is not a type — see the note above .effective_source_id_subquery.
+      #
+      # +only_type_ids+ narrows the derived table when the caller already knows which types it
+      # needs, so a single-type lookup costs one walk rather than one per type in the install.
+      # Omit it to resolve every type.
+      def effective_configuration_join(type_id_expr, aspect, only_type_ids: nil, alias_name: nil)
+        aspect = validated_configuration_aspect(aspect)
+        alias_name ||= "resolved_#{aspect}"
+        lateral, source_id, excluded = effective_configuration_lateral("#{quoted_table_name}.id", aspect)
+        scope = only_type_ids ? "WHERE #{quoted_table_name}.id IN (#{only_type_ids.join(', ')})" : ""
+
+        join = <<~SQL.squish
+          LEFT JOIN (
+            SELECT #{quoted_table_name}.id AS type_id,
+                   #{source_id} AS source_id,
+                   #{excluded} AS excluded
+            FROM #{quoted_table_name} #{lateral} #{scope}
+          ) #{alias_name} ON #{alias_name}.type_id = #{type_id_expr}
         SQL
 
         [join,

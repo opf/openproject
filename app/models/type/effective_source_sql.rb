@@ -50,7 +50,7 @@ module Type::EffectiveSourceSql
   def form_configuration_remap(own_type_id_expr)
     return ["", own_type_id_expr, EMPTY_ELEMENTS] unless resolve_in_sql?
 
-    Type.effective_configuration_lateral(own_type_id_expr, form_configuration_aspect)
+    Type.effective_configuration_join(own_type_id_expr, form_configuration_aspect)
   end
 
   # [join_sql, type_id_expression, excluded_elements_expression] for a driving table over the
@@ -64,7 +64,8 @@ module Type::EffectiveSourceSql
     return [driving_table, "wp_types.own_id", EMPTY_ELEMENTS] unless resolve_in_sql?
 
     join, source_id, excluded =
-      Type.effective_configuration_lateral("wp_types.own_id", form_configuration_aspect)
+      Type.effective_configuration_join("wp_types.own_id", form_configuration_aspect,
+                                        only_type_ids: type_ids)
 
     ["#{driving_table} #{join}", source_id, excluded]
   end
