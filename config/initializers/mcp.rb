@@ -51,6 +51,7 @@ Rails.application.config.after_initialize do
                     McpTools::ListTypes,
                     McpTools::ListWorkPackageRelations,
                     McpTools::SearchCustomFields,
+                    McpTools::SearchCustomFieldItems,
                     McpTools::SearchPortfolios,
                     McpTools::SearchPrograms,
                     McpTools::SearchProjects,
