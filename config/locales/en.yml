@@ -1327,6 +1327,7 @@ en:
               button_done: "Approve import"
               button_revert: "Revert import"
               caption: "Review import run or revert import"
+              info: 'The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.'
               label_finalize_import: "Approve import"
               label_finalizing: "Approving import..."
               label_finalizing_done: "Import approved."
@@ -1334,7 +1335,6 @@ en:
               label_revert: "Revert import"
               label_revert_progress: "Reverting import..."
               label_reverted: "Import reverted."
-              preview_description: 'The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.'
               stats:
                 other_settings:
                   label: "Other settings"

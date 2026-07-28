@@ -80,5 +80,20 @@ module Admin::Import::Jira::ImportRuns
     def available_users_count
       model.available["total_users"]
     end
+
+    def job_status_icon
+      case model.state_machine.last_transition_to(:instance_meta_fetching).actual_job.status
+      when :running
+        { icon: :"kebab-horizontal", color: :muted }
+      when :queued,
+        :retried,
+        :scheduled
+        { icon: :clock, color: :muted }
+      when :succeeded
+        { icon: :"check-circle-fill", color: :success }
+      when :discarded
+        { icon: :"x-circle-fill", color: :danger }
+      end
+    end
   end
 end

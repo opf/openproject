@@ -119,18 +119,16 @@ module Import
       transition.save!
     end
 
-    after_transition(to: :import_aborting) do |jira_import, transition|
+    after_transition(to: :import_aborting) do |jira_import, _transition|
       jira_import
         .state_machine
         .last_transition_to(:importing)
         .actual_batch
         ._record
         .jobs.each do |job|
-        begin
-          job.discard_job("Discarded because user clicked abort.") if job.status.in?([:queued, :retried, :scheduled])
-        rescue GoodJob::AdvisoryLockable::RecordAlreadyAdvisoryLockedError
-          next
-        end
+        job.discard_job("Discarded because user clicked abort.") if job.status.in?(%i[queued retried scheduled])
+      rescue GoodJob::AdvisoryLockable::RecordAlreadyAdvisoryLockedError
+        next
       end
     end
 

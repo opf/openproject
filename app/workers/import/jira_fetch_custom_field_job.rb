@@ -31,6 +31,7 @@
 module Import
   class JiraFetchCustomFieldJob < ApplicationJob
     include Import::JiraJobUtils
+
     # Jira custom-field types that carry per-context "Field context" allowedValues and therefore
     # require editmeta resolution to capture project-specific option lists.
     OPTION_BASED_CUSTOM_SUFFIXES = %w[select multiselect multicheckboxes radiobuttons cascadingselect].freeze

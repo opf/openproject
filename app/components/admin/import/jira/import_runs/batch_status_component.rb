@@ -38,6 +38,8 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def call
+      return if @batch.blank?
+
       render(OpPrimer::InsetBoxComponent.new(border: false)) do
         flex_layout do |flex|
           @batch._record.jobs.order(:created_at).each do |job|

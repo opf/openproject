@@ -80,7 +80,7 @@ module Import
       end
     end
 
-    def each_iteration(issues_and_total, jira_import_id, jira_project_id)
+    def each_iteration(issues_and_total, _jira_import_id, jira_project_id)
       issues = issues_and_total["issues"]
       issues_and_total["total"]
       issues_upsert_data = issues.map do |issue|
