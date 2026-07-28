@@ -157,8 +157,8 @@ class WorkPackagesController < ApplicationController
   def load_and_validate_query_for_export
     if params[:query_id].present?
       # A saved query may be opened from a project other than the one it belongs to
-      query = Query.visible(current_user).find(params.expect(:query_id))
-      @query = retrieve_query(query.project)
+      saved_query = Query.visible(current_user).find(params.expect(:query_id))
+      @query = retrieve_query(saved_query.project)
     end
 
     load_and_validate_query
