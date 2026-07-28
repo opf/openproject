@@ -1312,14 +1312,14 @@ en:
               label_users_import_explanation: "Users that are involved in selected projects (group memberships included)"
               title: "Import data"
             fetch_data:
+              button_continue: "Continue to scope selection"
               button_fetch: "Check available data"
               caption_done: "Completed"
               caption_done_description: "Meta data fetched from %{server_info}"
               description: "Check what data is available for import in the host Jira instance."
+              label_available_server_data: "Available data on %{server_info}"
               label_progress: "Fetching data from Jira..."
               title: "Fetch instance meta data"
-              button_continue: "Continue to scope selection"
-              label_available_server_data: "Available data on %{server_info}"
             groups_and_users:
               title: "Groups and Users"
             import_result:
