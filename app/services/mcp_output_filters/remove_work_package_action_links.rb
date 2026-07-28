@@ -29,21 +29,43 @@
 #++
 
 module McpOutputFilters
-  class RemoveFormattableHtml < HashFilter
+  class RemoveWorkPackageActionLinks < HashFilter
+    BLOCKED_LINKS = %w[
+      update
+      updateImmediately
+      delete
+      logTime
+      move
+      copy
+      generate_pdf
+      configureForm
+      availableWatchers
+      watch
+      unwatch
+      addWatcher
+      removeWatcher
+      addRelation
+      addChild
+      changeParent
+      addComment
+      addAttachment
+      previewMarkup
+      timeEntries
+      showCosts
+      addFileLink
+    ].to_set
+
     class << self
       private
 
       def on_hash(hash) # rubocop:disable Naming/PredicateMethod
-        if formattable?(hash)
-          hash.delete("html")
+        links = hash["_links"]
+        if links
+          links.delete_if { |key| BLOCKED_LINKS.include?(key) }
           return false
         end
 
         true
-      end
-
-      def formattable?(hash)
-        hash.key?("format") && hash.key?("raw") && hash.key?("html")
       end
     end
   end
