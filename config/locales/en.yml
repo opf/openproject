@@ -1305,6 +1305,7 @@ en:
               button_start: "Start import"
               caption: "Review your import settings and start the import"
               caption_done: "Completed"
+              caption_done_info: "All data has been imported"
               description: "You are about to start an import run with the following settings."
               label_available_data: "Data to be imported"
               label_import_data: "Currently importing"

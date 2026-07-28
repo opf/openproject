@@ -30,8 +30,19 @@ See COPYRIGHT and LICENSE files for more details.
 <%= flex_layout do |box|
       box.with_row do
         concat(
-          render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) do
-            I18n.t(:"admin.jira.run.wizard.sections.confirm_import.title")
+          content_tag(:div, class: "d-flex flex-items-center") do
+            concat(
+              render(Primer::Beta::Text.new(font_weight: :bold)) do
+                I18n.t(:"admin.jira.run.wizard.sections.confirm_import.title")
+              end
+            )
+            if model.status_equal_or_after?(:imported)
+              concat(
+                render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, color: :success, ml: 1)) do
+                  I18n.t(:"admin.jira.run.wizard.sections.confirm_import.caption_done")
+                end
+              )
+            end
           end
         )
         if model.status_before?(:projects_meta_done)
@@ -43,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
         elsif model.status_equal_or_after?(:imported)
           concat(
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
-              I18n.t(:"admin.jira.run.wizard.sections.confirm_import.caption_done")
+              I18n.t(:"admin.jira.run.wizard.sections.confirm_import.caption_done_info")
             end
           )
         end
