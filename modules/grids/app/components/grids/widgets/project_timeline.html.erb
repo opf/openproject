@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% blankslate.with_description { I18n.t("grids.widgets.empty") } %>
     <% end %>
   <% end %>
-  <% if gantt_link || sprints_link %>
+  <% if show_footer? %>
     <% container.with_footer do %>
       <%= render(Primer::Alpha::ActionMenu.new) do |menu| %>
         <% menu.with_show_button(scheme: :invisible, "aria-label": t("grids.widgets.project_timeline.footer_actions_label")) do |button| %>

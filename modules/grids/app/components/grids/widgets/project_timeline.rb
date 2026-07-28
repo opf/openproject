@@ -71,11 +71,15 @@ module Grids
       end
 
       def any_content?
-        any_phases? || milestones_scope.exists? || any_sprints?
+        @any_content ||= any_phases? || milestones_scope.exists? || any_sprints?
       end
 
       def render?
         view_project_phases_allowed? || view_work_packages_allowed? || view_sprints_allowed?
+      end
+
+      def show_footer?
+        any_content? && (gantt_link || sprints_link)
       end
 
       def gantt_link
@@ -115,11 +119,11 @@ module Grids
       end
 
       def any_phases?
-        view_project_phases_allowed? && project.phases.active.with_timeline_content.exists?
+        @any_phases ||= view_project_phases_allowed? && project.phases.active.with_timeline_content.exists?
       end
 
       def any_sprints?
-        view_sprints_allowed? && sprints_scope.exists?
+        @any_sprints ||= view_sprints_allowed? && sprints_scope.exists?
       end
 
       def milestones_scope
