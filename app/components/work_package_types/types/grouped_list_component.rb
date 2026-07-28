@@ -78,10 +78,9 @@ module WorkPackageTypes
         default_action(menu, type)
         menu.with_divider
 
-        unless type.variant?
-          add_variant_action(menu, type)
-          menu.with_divider
-        end
+        add_variant_action(menu, type) unless type.variant?
+        duplicate_action(menu, type)
+        menu.with_divider
 
         if reorderable?(type)
           move_action(menu, type)
@@ -94,6 +93,16 @@ module WorkPackageTypes
       def add_variant_action(menu, type)
         menu.with_item(label: t("types.index.add_variant_action"), href: add_variant_path(type)) do |item|
           item.with_leading_visual_icon(icon: :plus)
+        end
+      end
+
+      def duplicate_action(menu, type)
+        menu.with_item(
+          label: t(:button_duplicate),
+          href: duplicate_type_path(type),
+          form_arguments: { method: :post }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :duplicate)
         end
       end
 
