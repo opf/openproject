@@ -135,7 +135,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <%= hidden_field_tag "tab", tab %>
 
-      <%= render(matrix_table) %>
+      <%= render(Workflows::MatrixTableComponent.new(context:)) %>
 
       <% unless readonly? %>
         <%=

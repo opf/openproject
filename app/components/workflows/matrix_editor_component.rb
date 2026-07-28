@@ -90,17 +90,6 @@ module Workflows
       transition_tabs.find { it[:name] == tab }
     end
 
-    def matrix_table
-      MatrixTableComponent.new(
-        tab:,
-        statuses:,
-        workflows: context.workflows,
-        roles:,
-        added_status_ids: context.added_status_ids,
-        readonly: readonly?
-      )
-    end
-
     def data_attributes
       {
         controller: "admin--workflow-role-select",

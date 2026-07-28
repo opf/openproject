@@ -44,11 +44,13 @@ RSpec.describe Workflows::MatrixTableComponent, type: :component do
   let(:readonly) { false }
   let(:tab) { "always" }
 
-  subject(:rendered_component) do
-    render_inline(
-      described_class.new(tab:, statuses:, workflows:, roles:, added_status_ids:, readonly:)
-    )
+  # Stubbed rather than resolved from a persisted type: the matrix is a pure function of
+  # these five values, and MatrixContext's own resolution rules are specced separately.
+  let(:context) do
+    instance_double(Workflows::MatrixContext, tab:, statuses:, workflows:, roles:, added_status_ids:, readonly?: readonly)
   end
+
+  subject(:rendered_component) { render_inline(described_class.new(context:)) }
 
   def transition(old_status:, new_status:, for_role: role)
     build_stubbed(:workflow, role_id: for_role.id, old_status_id: old_status.id, new_status_id: new_status.id)

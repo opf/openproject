@@ -37,22 +37,17 @@ module Workflows
   class MatrixTableComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(tab:, statuses:, workflows:, roles:, added_status_ids: [], readonly: false)
+    def initialize(context:)
       super()
 
-      @tab = tab
-      @statuses = statuses
-      @workflows = workflows
-      @roles = roles
-      @added_status_ids = added_status_ids
-      @readonly = readonly
+      @context = context
     end
 
     private
 
-    attr_reader :tab, :statuses, :roles, :added_status_ids
+    attr_reader :context
 
-    def readonly? = @readonly
+    delegate :tab, :statuses, :workflows, :roles, :added_status_ids, :readonly?, to: :context
 
     def dom_id = "workflow_form_#{tab}"
 
@@ -71,9 +66,6 @@ module Workflows
       t("workflows.form.matrix_checkbox_label", old_status: old_status.name, new_status: new_status.name)
     end
 
-    # The `_html` keys carry an <em> around the status name, so they must go through the
-    # ActionView translate helper that marks them safe — I18n.t alone would escape it into
-    # the button's accessible name.
     def column_toggle_label(new_status)
       t("workflows.form.matrix_check_uncheck_all_in_col_label_html", new_status: new_status.name)
     end
@@ -102,7 +94,7 @@ module Workflows
     end
 
     def role_ids_by_transition
-      @role_ids_by_transition ||= @workflows
+      @role_ids_by_transition ||= workflows
                                     .group_by { [it.old_status_id, it.new_status_id] }
                                     .transform_values { it.map(&:role_id).uniq }
     end
