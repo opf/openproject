@@ -28,16 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# SQL builders that key a custom_fields_types join through the type that owns a linked form
-# configuration, and drop the custom fields its link chain excludes. Both shapes resolve the
-# chain inside the caller's query via Type.effective_configuration_lateral — no preceding
-# round-trip, and no window in which a link could change between resolving and using it.
-# Two shapes are offered: one remaps an existing type-id column, the other emits a driving
-# table over a given set of type ids. This module only adds the form-configuration aspect and
-# the flag gate on top.
-module Type::EffectiveSourceSql
+# SQL builders for the FORM_CONFIGURATION aspect specifically: they key a custom_fields_types
+# join through the type that owns a linked form configuration, and drop the custom fields its
+# link chain excludes. Two shapes are offered — .remap rewrites an existing type-id column,
+# .source_table emits a driving table over a given set of type ids.
+#
+# The resolution itself is generic and lives on Type (see the note above
+# .effective_source_id_subquery in Type::ConfigurationLinkable); both shapes here delegate to
+# Type.effective_configuration_join, so the chain is resolved inside the caller's query with no
+# preceding round-trip and no window in which a link could change between resolving and using
+# it. All this module adds on top is the aspect and the feature-flag gate — an equivalent for
+# another aspect belongs in its own module rather than as a parameter here.
+module Type::FormConfigurationSql
   EMPTY_ELEMENTS = "'{}'::text[]"
-  CUSTOM_FIELD_ELEMENT_PREFIX = "custom_field_"
 
   module_function
 
@@ -47,43 +50,33 @@ module Type::EffectiveSourceSql
   #
   # With the variants feature off, ["", own_type_id_expr, EMPTY_ELEMENTS] so the original SQL
   # is emitted verbatim and the exclusion check is a no-op.
-  def form_configuration_remap(own_type_id_expr)
+  def remap(own_type_id_expr)
     return ["", own_type_id_expr, EMPTY_ELEMENTS] unless resolve_in_sql?
 
-    Type.effective_configuration_join(own_type_id_expr, form_configuration_aspect)
+    Type.effective_configuration_join(own_type_id_expr, aspect)
   end
 
   # [join_sql, type_id_expression, excluded_elements_expression] for a driving table over the
   # given type ids. Callers key their custom_fields_types join on the returned type-id
-  # expression, filter it with .excluded_element_condition, and may aggregate wp_types.own_id
-  # to recover each work package's own type id.
+  # expression, filter it with Type.excluded_custom_field_condition, and may aggregate
+  # wp_types.own_id to recover each work package's own type id.
   # +type_ids+ must be non-empty.
-  def form_configuration_source_table(type_ids)
+  def source_table(type_ids)
     values = type_ids.map { |id| "(#{id})" }.join(", ")
     driving_table = "JOIN (VALUES #{values}) AS wp_types(own_id) ON TRUE"
     return [driving_table, "wp_types.own_id", EMPTY_ELEMENTS] unless resolve_in_sql?
 
     join, source_id, excluded =
-      Type.effective_configuration_join("wp_types.own_id", form_configuration_aspect,
+      Type.effective_configuration_join("wp_types.own_id", aspect,
                                         only_type_ids: type_ids)
 
     ["#{driving_table} #{join}", source_id, excluded]
   end
 
-  # Condition keeping only custom fields the chain does not exclude. Custom fields are
-  # excluded under CustomField#attribute_name, so the id is keyed back into that form
-  # rather than compared numerically.
-  #
-  # `<> ALL` over an empty array is TRUE, which is what makes the flag-off case above a
-  # no-op instead of something callers have to branch on.
-  def excluded_element_condition(custom_field_id_expr, excluded_expr)
-    "('#{CUSTOM_FIELD_ELEMENT_PREFIX}' || #{custom_field_id_expr}) <> ALL (#{excluded_expr})"
-  end
-
-  def form_configuration_aspect
+  def aspect
     Type::ConfigurationLink::FORM_CONFIGURATION
   end
-  private_class_method :form_configuration_aspect
+  private_class_method :aspect
 
   def resolve_in_sql?
     OpenProject::FeatureDecisions.type_variants_active?

@@ -32,12 +32,12 @@ require "spec_helper"
 
 # These builders emit SQL fragments, so the specs execute them rather than matching their
 # text: the shape of the generated SQL is not the contract, the resolution it produces is.
-RSpec.describe Type::EffectiveSourceSql do
+RSpec.describe Type::FormConfigurationSql do
   let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
 
   # Runs the remap fragment over projects_types, keyed by each row's own type id.
   def remap_by_own_id
-    join, source_expr, excluded_expr = described_class.form_configuration_remap("pt.type_id")
+    join, source_expr, excluded_expr = described_class.remap("pt.type_id")
 
     rows(<<~SQL.squish)
       SELECT pt.type_id AS own_id,
@@ -50,7 +50,7 @@ RSpec.describe Type::EffectiveSourceSql do
 
   # Runs the driving-table fragment over the given type ids, keyed by own type id.
   def source_table_by_own_id(type_ids)
-    join, source_expr, excluded_expr = described_class.form_configuration_source_table(type_ids)
+    join, source_expr, excluded_expr = described_class.source_table(type_ids)
 
     rows(<<~SQL.squish)
       SELECT wp_types.own_id AS own_id,
@@ -65,7 +65,7 @@ RSpec.describe Type::EffectiveSourceSql do
     ActiveRecord::Base.connection.select_all(sql).to_a.index_by { |row| row["own_id"] }
   end
 
-  describe ".form_configuration_remap", with_flag: { type_variants: true } do
+  describe ".remap", with_flag: { type_variants: true } do
     let!(:owner) { create(:type) }
     let!(:linked) { create(:type) }
     let!(:project) { create(:project, types: [owner, linked]) }
@@ -117,11 +117,11 @@ RSpec.describe Type::EffectiveSourceSql do
 
       # The chain is resolved inside the caller's query now, so building the fragment
       # issues nothing at all.
-      expect { described_class.form_configuration_remap("pt.type_id") }.to have_a_query_limit(0)
+      expect { described_class.remap("pt.type_id") }.to have_a_query_limit(0)
     end
   end
 
-  describe ".form_configuration_source_table", with_flag: { type_variants: true } do
+  describe ".source_table", with_flag: { type_variants: true } do
     let!(:owner) { create(:type) }
     let!(:linked) { create(:type) }
 
@@ -154,33 +154,8 @@ RSpec.describe Type::EffectiveSourceSql do
     it "issues no query to build the SQL" do
       linked.link!(aspect, source: owner)
 
-      expect { described_class.form_configuration_source_table([linked.id]) }
+      expect { described_class.source_table([linked.id]) }
         .to have_a_query_limit(0)
-    end
-  end
-
-  describe ".excluded_element_condition" do
-    def excluded?(custom_field_id, elements)
-      literal = elements.empty? ? "'{}'::text[]" : "ARRAY[#{elements.map { |e| "'#{e}'" }.join(', ')}]::text[]"
-      condition = described_class.excluded_element_condition(custom_field_id.to_s, literal)
-
-      ActiveRecord::Base.connection.select_value("SELECT 1 WHERE #{condition}").nil?
-    end
-
-    it "excludes a custom field listed under its attribute name" do
-      expect(excluded?(7, %w[custom_field_7])).to be(true)
-    end
-
-    it "keeps a custom field that is not listed" do
-      expect(excluded?(7, %w[custom_field_8 assignee])).to be(false)
-    end
-
-    it "keeps every custom field when nothing is excluded" do
-      expect(excluded?(7, [])).to be(false)
-    end
-
-    it "does not confuse a prefix of another id" do
-      expect(excluded?(7, %w[custom_field_77])).to be(false)
     end
   end
 
@@ -192,7 +167,7 @@ RSpec.describe Type::EffectiveSourceSql do
     before { linked.link!(aspect, source: owner) }
 
     it "keys joins on the own type id without remapping" do
-      join, expr, excluded = described_class.form_configuration_remap("pt.type_id")
+      join, expr, excluded = described_class.remap("pt.type_id")
 
       expect(join).to eq("")
       expect(expr).to eq("pt.type_id")
@@ -211,7 +186,7 @@ RSpec.describe Type::EffectiveSourceSql do
     it "does not query configuration links" do
       allow(Type::ConfigurationLink).to receive(:where).and_call_original
 
-      described_class.form_configuration_remap("pt.type_id")
+      described_class.remap("pt.type_id")
 
       expect(Type::ConfigurationLink).not_to have_received(:where)
     end
