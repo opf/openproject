@@ -30,34 +30,16 @@
 
 module OpenProject
   module Sidemenu
-    class TreeNode
-      attr_reader :id,
-                  :label,
-                  :href,
-                  :data
-
-      attr_accessor :children
-
-      def initialize(id:, label:, href:, children: [], current: false, expanded: false, disabled: false, data: {})
-        @id = id
-        @label = label
-        @href = href
-        @children = children
-        @current = current
-        @expanded = expanded
-        @disabled = disabled
-        @data = data
+    TreeNode = Struct.new(:id, :label, :href, :children, :current, :expanded, :disabled, :data, keyword_init: true) do
+      def initialize(children: [], current: false, expanded: false, disabled: false, data: {}, **)
+        super
       end
 
-      def current? = @current
+      def current? = current
 
-      def expanded? = @expanded
+      def expanded? = expanded
 
-      def expanded=(expanded)
-        @expanded = expanded
-      end
-
-      def disabled? = @disabled
+      def disabled? = disabled
     end
   end
 end

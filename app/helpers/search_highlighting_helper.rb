@@ -30,6 +30,8 @@
 
 module SearchHighlightingHelper
   def highlight_text_by_terms(text, query_terms, css_class: "op-search-highlight")
+    return "".html_safe if text.blank?
+
     terms = query_terms.filter_map { |term| term.to_s.presence }
     ranges = find_highlight_ranges(text, terms)
     return h(text) if ranges.empty?

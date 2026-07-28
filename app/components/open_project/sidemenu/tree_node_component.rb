@@ -31,6 +31,8 @@
 module OpenProject
   module Sidemenu
     class TreeNodeComponent < ApplicationComponent
+      include OpPrimer::AttributesHelper
+
       def initialize(component:, node:, query_terms: [])
         super()
 
@@ -59,12 +61,10 @@ module OpenProject
       end
 
       def data
-        @node
-          .data
-          .merge(node_id: @node.id)
-          .tap do |data|
-            data[:controller] = [data[:controller], "scroll-into-view"].compact.join(" ") if @node.current?
-          end
+        data = @node.data.merge(node_id: @node.id)
+        return data unless @node.current?
+
+        merge_data({ data: }, data: { controller: "scroll-into-view" })
       end
     end
   end
