@@ -55,18 +55,15 @@ module Projects
             project_settings_work_packages_types_path(project)
           end
 
-          # COALESCE(parent_id, id) is the SQL form of Type#root, which is
-          # defined as `parent || self`.
+          # Roots are a single acts_as_list list, so their position order is
+          # meaningful; each family then contributes its members in display
+          # order via Type#family, shared with the admin family list.
           def addable_types
-            @addable_types ||= begin
-              scope = ::Type.global.order(:name)
+            @addable_types ||= addable_roots.flat_map(&:family)
+          end
 
-              if active_root_ids.any?
-                scope.where.not("COALESCE(types.parent_id, types.id) IN (?)", active_root_ids)
-              else
-                scope
-              end
-            end
+          def addable_roots
+            ::Type.global.roots.where.not(id: active_root_ids).includes(:children)
           end
 
           def active_root_ids

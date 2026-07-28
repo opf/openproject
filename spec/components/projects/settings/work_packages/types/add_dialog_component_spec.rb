@@ -77,6 +77,25 @@ RSpec.describe Projects::Settings::WorkPackages::Types::AddDialogComponent,
     end
   end
 
+  context "with several addable families" do
+    # Positions are pinned after creation because acts_as_list overrides any
+    # passed at creation time. Names are chosen so position order and
+    # alphabetical order disagree.
+    let!(:zeta) { create(:type, name: "Zeta").tap { |type| type.update_column(:position, 1) } }
+    let!(:alpha) { create(:type, name: "Alpha").tap { |type| type.update_column(:position, 2) } }
+    let!(:yankee) { create(:type, name: "Yankee", parent: zeta) }
+    let!(:bravo) { create(:type, name: "Bravo", parent: zeta) }
+
+    # Keeps the file-wide Epic and Bug families out of the offered list.
+    let(:project) { create(:project, types: [design, bug]) }
+
+    before { render_inline(component) }
+
+    it "orders families by root position, each parent ahead of its variants alphabetically" do
+      expect(offered_items.pluck("name")).to eq(["Zeta", "Zeta: Bravo", "Zeta: Yankee", "Alpha"])
+    end
+  end
+
   context "when every family already has an active member" do
     let(:project) { create(:project, types: [design, bug]) }
 

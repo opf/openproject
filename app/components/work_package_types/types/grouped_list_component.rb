@@ -175,11 +175,6 @@ module WorkPackageTypes
           "drop-url": drop_type_path(root)
         }
       end
-
-      # variants need to be displayed alphabetically sorted
-      def sorted_children(root)
-        root.children.sort_by { |child| child.own_name.downcase }
-      end
     end
   end
 end

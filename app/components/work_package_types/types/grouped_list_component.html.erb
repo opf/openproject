@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
           <% end %>
 
-          <% sorted_children(root).each do |child| %>
+          <% root.sorted_variants.each do |child| %>
             <% list.with_item do |item| %>
               <% item.with_menu do |menu| %>
                 <% type_actions(menu, child) %>
