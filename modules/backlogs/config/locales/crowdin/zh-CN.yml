@@ -24,7 +24,7 @@ zh-CN:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: 允许多个处于有效状态的冲刺
         backlog_excluded_types: 排除的工作包类型
         sprint_sharing: 冲刺共享
         statuses_considered_closed: 被视为已关闭的状态
@@ -43,7 +43,7 @@ zh-CN:
         text: 冲刺目标
       work_package:
         backlog_bucket: 积压工作存储桶
-        backlog_inbox: Backlog inbox
+        backlog_inbox: 积压工作收件箱
         backlogs_work_package_type: 待办清单类型
         position: 位置
         sprint: 冲刺
@@ -57,10 +57,10 @@ zh-CN:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: 在多个处于有效状态的冲刺正在运行时无法更改。
+              requires_no_sharing: 只有当冲刺共享设置为“不共享”时才能启用。
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              locked_by_multiple_active_sprints: 在启用了多个处于有效状态的冲刺时无法更改。
               share_all_projects_already_taken: 无法设置，因为项目“%{name}”已经与所有项目共享。
               share_all_projects_already_taken_anonymous: 无法设置，因为另一个项目已经与所有项目共享。
           receiving_sprints: 正在接收共享冲刺。无法创建自己的冲刺。
@@ -92,7 +92,7 @@ zh-CN:
         other: 冲刺
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title: 将现有工作包添加到 %{name}
     administration_blankslate:
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
       title: 积压工作管理设置不断演进
@@ -110,13 +110,13 @@ zh-CN:
       select_panel_title: 选择条目
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: 添加现有工作包
+        add_new_work_package: 添加新工作包
         delete_backlog_bucket: 删除积压工作存储桶
         edit_backlog_bucket: 编辑积压工作存储桶
-      blankslate_description: Drag items here to add them
+      blankslate_description: 将条目拖到此处进行添加
       blankslate_title: 积压工作存储桶为空
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: 拖放到此处以添加此条目
       label_actions: 积压工作存储桶操作
     bucket_destroy_modal_component:
       details: 积压工作存储桶“%{name}”将被删除，所有工作包将移至积压工作收件箱。不会删除任何工作包。
@@ -140,12 +140,12 @@ zh-CN:
       title: 有工作正在进行中的条目
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
-      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
+        add_existing_work_package: 添加现有工作包
+        add_new_work_package: 添加新工作包
+      blankslate_description: 不在冲刺或积压工作存储桶中的打开的工作包会自动显示在此处
       blankslate_title: 积压工作收件箱为空
-      drop_zone_label: Drop here to add this item
-      label_actions: Inbox actions
+      drop_zone_label: 拖放到此处以添加此条目
+      label_actions: 收件箱操作
       show_more:
         other: 显示其他 %{count} 个条目
       title: 收件箱
@@ -157,7 +157,7 @@ zh-CN:
     move_to_sprint_dialog_component:
       label_sprint: 冲刺
       title: 移至冲刺
-    multiple_active_sprints: Multiple active sprints
+    multiple_active_sprints: 多个处于有效状态的冲刺
     points_label:
       other: 点
     positions_could_not_be_rebuilt: 无法重建顺序
@@ -165,22 +165,22 @@ zh-CN:
     rebuild: 重建
     rebuild_positions: 重建顺序
     remaining_hours: 剩余工时
-    sharing: Sprint sharing
+    sharing: 冲刺共享
     show_burndown_chart: 燃尽图
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: 添加现有工作包
+        add_new_work_package: 添加新工作包
         edit_sprint: 编辑冲刺
       blankslate_description: 尚未计划条目。请将条目拖到此处以添加。
       blankslate_title: "%{name} 为空"
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: 拖放到此处以添加此条目
       label_actions: 冲刺行动
       label_complete_sprint: 完成冲刺
       label_start_sprint: 开始冲刺
       start_sprint_disabled_reason_active_sprint: 另一次冲刺已经开始。
       start_sprint_disabled_reason_missing_dates: 必须设置开始和结束日期才能开始冲刺。
-      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
+      start_sprint_disabled_reason_shared_sprint: 此冲刺来自另一个项目，该项目不支持多个处于有效状态的冲刺。
     sprint_form:
       goal_caption: 该冲刺目标仅适用于此项目，不会与同样使用此冲刺的其他项目共享。
       goal_for_this_project_label: "%{attribute}（针对此项目）"
@@ -219,19 +219,19 @@ zh-CN:
     work_package_is_closed: 工作包已完成，当
     work_packages:
       add_existing_dialog:
-        invalid_target: The target you are trying to add to is invalid.
-        target_not_found: The sprint or backlog you are trying to add to was not found.
+        invalid_target: 您尝试添加到的目标无效。
+        target_not_found: 您尝试添加到的冲刺或积压工作未找到。
       move:
-        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+        moved_announcement: "%{label} 已移至 %{list}，位置 %{position}，总计 %{total}"
       update_service:
-        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
-        missing_target: list_type or list_id must be present.
+        invalid_target_type: list_type 必须是下列一项：带有 list_id 的 backlog_bucket、带有 list_id 的 sprint，或者不带 list_id 的 inbox。
+        missing_target: list_type 或 list_id 必须存在。
   burndown:
     story_points: 故事点
     story_points_ideal: 故事点（理想）
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      multiple_active_sprints: 为项目中的不同团队并行运行多个冲刺，以获得更大的控制力和灵活性。
       sprint_sharing: 冲刺共享
     upsell:
       multiple_active_sprints:
@@ -276,8 +276,8 @@ zh-CN:
   project_module_backlogs: 待办清单
   projects:
     copy:
-      backlog_buckets: Backlog buckets
-      sprints: Sprints
+      backlog_buckets: 积压工作存储桶
+      sprints: 冲刺
     settings:
       backlog_sharing:
         options:
@@ -300,15 +300,15 @@ zh-CN:
         sprint_sharing: 共享冲刺
       backlogs:
         multiple_active_sprints:
-          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
-          heading: Number of active sprints
+          description: 默认情况下，每个项目中一次只能有一个冲刺处于有效状态。您可以更改此设置，使此项目中能够同时有多个冲刺处于有效状态。
+          heading: 活跃冲刺的数量
         multiple_active_sprints_component:
-          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
-          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
+          cannot_turn_off: 当前有多个冲刺处于有效状态。要切换回一次只允许一个处于有效状态的冲刺，请先确保最多只有一个冲刺处于有效状态。
+          not_available_html: 在启用了<a href=%{sprint_sharing_url}>冲刺共享</a>或接收时，无法同时具有多个处于有效状态的冲刺。
         sharing_form_component:
-          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
+          disabled_due_to_multiple_active_sprints: 在启用了多个处于有效状态的冲刺时，无法进行冲刺共享。
           sharing_description: 此项目可以共享自己的冲刺、接收共享的冲刺或独立处理冲刺（不共享）。
           sharing_fallback_description: 由于缺少公司企业计划，共享选项仅限于项目自身的冲刺。当前的有效设置将保持有效状态。
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: 积压工作收件箱
   remaining_hours: 剩余工时

@@ -173,8 +173,8 @@ fa:
     show_burndown_chart: Burndown chart
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: افزودن بسته کاری موجود
+        add_new_work_package: افزودن بسته کاری جدید
         edit_sprint: Edit sprint
       blankslate_description: No items planned yet. Drag items here to add them.
       blankslate_title: "%{name} is empty"
