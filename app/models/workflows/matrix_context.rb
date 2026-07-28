@@ -29,13 +29,6 @@
 #++
 
 module Workflows
-  # Resolves everything the transition matrix needs in order to render: which transition
-  # tab is on screen, the roles it covers, the statuses forming its axes and the
-  # transitions that already exist.
-  #
-  # Every host of the matrix builds one of these from its own request — the type's
-  # workflow tab, the variant creation wizard — so that none of them has to reproduce
-  # the resolution rules, and all of them agree on what is being edited.
   class MatrixContext
     TABS = %w[always author assignee].freeze
     DEFAULT_TAB = "always"
@@ -67,6 +60,13 @@ module Workflows
       @roles ||= Workflow.selected_roles(@requested_role_ids)
     end
 
+    # The selection the status dialog submitted, empty while the matrix shows what is saved.
+    # The dialogs forward these verbatim, so they must stay the raw request and never fall
+    # back to the saved statuses the way #statuses does.
+    def requested_status_ids
+      @requested_status_ids ||= Array(@status_ids).flatten.map(&:to_i)
+    end
+
     # The axes of the matrix: a pending selection if the status dialog submitted one,
     # otherwise whatever the selected roles already have transitions for.
     def statuses
@@ -87,12 +87,18 @@ module Workflows
       @added_status_ids ||= requested_status_ids - saved_status_ids
     end
 
+    # Statuses that saving the pending selection would drop from the type, deleting their
+    # transitions with them — which is what the removal dialog warns about.
+    def removed_status_ids
+      return [] if requested_status_ids.blank?
+
+      @removed_status_ids ||= saved_status_ids - requested_status_ids
+    end
+
     # Whether the pending selection differs from what is saved, which the matrix uses to
     # warn before navigating away.
     def status_changes?
-      return false if requested_status_ids.blank?
-
-      added_status_ids.any? || (saved_status_ids - requested_status_ids).any?
+      added_status_ids.any? || removed_status_ids.any?
     end
 
     # The existing transitions of the selected roles, narrowed to the tab on screen.
@@ -111,10 +117,6 @@ module Workflows
       when "assignee" then workflow.assignee
       else !workflow.author && !workflow.assignee
       end
-    end
-
-    def requested_status_ids
-      @requested_status_ids ||= Array(@status_ids).flatten.map(&:to_i)
     end
 
     # The baseline a pending selection is compared against: always what the selected roles

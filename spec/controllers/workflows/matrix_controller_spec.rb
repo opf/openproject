@@ -130,26 +130,41 @@ RSpec.describe Workflows::MatrixController do
   end
 
   describe "#confirm_statuses" do
-    before do
-      allow(controller)
-        .to receive(:respond_with_dialog)
-              .and_call_original
+    let(:status) { build_stubbed(:status) }
+
+    # What the pending selection would drop is the context's call, so the branch is driven
+    # through it rather than through a status_ids/saved-statuses fixture.
+    let(:matrix_context) do
+      instance_double(Workflows::MatrixContext,
+                      type:,
+                      tab: "always",
+                      roles: [role],
+                      requested_status_ids: [status.id],
+                      removed_status_ids:)
     end
 
-    context "when no statuses were removed" do
+    def submit_statuses
+      allow(controller).to receive(:respond_with_dialog).and_call_original
+      allow(controller).to receive(:build_matrix_context).and_return(matrix_context)
+
+      post :confirm_statuses,
+           params: {
+             role_ids: [role.id.to_s],
+             type_id: type.id.to_s,
+             status_ids: [status.id.to_s],
+             tab: "always"
+           },
+           as: :turbo_stream
+    end
+
+    context "when the pending selection drops no saved status" do
+      let(:removed_status_ids) { [] }
+
       before do
         allow(controller).to receive(:update_via_turbo_stream)
         allow(controller).to receive(:respond_with_turbo_streams)
 
-        post :confirm_statuses,
-             params: {
-               role_ids: [role.id.to_s],
-               type_id: type.id.to_s,
-               status_ids: ["1", "2"],
-               original_status_ids: ["1", "2"],
-               tab: "always"
-             },
-             as: :turbo_stream
+        submit_statuses
       end
 
       it "updates the status matrix via turbo stream" do
@@ -158,18 +173,10 @@ RSpec.describe Workflows::MatrixController do
       end
     end
 
-    context "when statuses were removed" do
-      before do
-        post :confirm_statuses,
-             params: {
-               role_ids: [role.id.to_s],
-               type_id: type.id.to_s,
-               status_ids: ["1"],
-               original_status_ids: ["1", "2"],
-               tab: "always"
-             },
-             as: :turbo_stream
-      end
+    context "when the pending selection drops a saved status" do
+      let(:removed_status_ids) { [build_stubbed(:status).id] }
+
+      before { submit_statuses }
 
       it "responds with the danger dialog" do
         expect(controller)

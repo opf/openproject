@@ -56,24 +56,12 @@ class Workflows::MatrixController < ApplicationController
   end
 
   def status_dialog
-    respond_with_dialog Workflows::StatusDialogComponent.new(
-      all_statuses: Status.order(:position),
-      current_statuses: dialog_statuses,
-      roles: matrix_context.roles,
-      type:,
-      tab: matrix_context.tab
-    )
+    respond_with_dialog Workflows::StatusDialogComponent.new(context: matrix_context)
   end
 
   def confirm_statuses
-    if removed_status_count.positive?
-      respond_with_dialog Workflows::StatusRemovalDangerDialogComponent.new(
-        roles: matrix_context.roles,
-        type:,
-        tab: matrix_context.tab,
-        status_ids: requested_status_ids,
-        removed_count: removed_status_count
-      )
+    if matrix_context.removed_status_ids.any?
+      respond_with_dialog Workflows::StatusRemovalDangerDialogComponent.new(context: matrix_context)
     else
       update_via_turbo_stream(component: matrix_editor_component)
       respond_with_turbo_streams
@@ -129,21 +117,4 @@ class Workflows::MatrixController < ApplicationController
     @turbo_status = :unprocessable_entity
   end
 
-  def requested_status_ids
-    @requested_status_ids ||= Array(params[:status_ids]).flatten.map(&:to_i)
-  end
-
-  def removed_status_count
-    original_ids = Array(params[:original_status_ids]).flatten.map(&:to_i)
-
-    (original_ids - requested_status_ids).size
-  end
-
-  # The dialog opens on the pending selection when there is one, otherwise on what the
-  # selected roles have saved — and on nothing at all while no role is selected.
-  def dialog_statuses
-    return Status.none if requested_status_ids.blank? && matrix_context.roles.empty?
-
-    matrix_context.statuses
-  end
 end
