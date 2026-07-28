@@ -27,7 +27,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-danger.import_dangerfile(path: ".github/dangerfiles/user_references/Dangerfile")
-danger.import_dangerfile(path: ".github/dangerfiles/release_migrations/Dangerfile")
-danger.import_dangerfile(path: ".github/dangerfiles/project_id_contract/Dangerfile")
-danger.import_dangerfile(path: ".github/dangerfiles/op_primer_changes/Dangerfile")
+
+OP_PRIMER_REGEX = %r{app/components/op_primer/}
+
+def modified_op_primer_files
+  (git.modified_files + git.added_files).grep(OP_PRIMER_REGEX)
+end
+
+changed_files = modified_op_primer_files
+
+if changed_files.any?
+  message_lines = [
+    "@opf/dream-team Files in `app/components/op_primer` were modified:",
+    ""
+  ]
+
+  changed_files.each do |file|
+    message_lines << "- #{file}"
+  end
+
+  message_lines << <<~EOS
+
+    Please review these changes to ensure they align with the design system guidelines.
+  EOS
+
+  warn message_lines.join("\n")
+end
