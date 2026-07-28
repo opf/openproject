@@ -51,7 +51,7 @@ RSpec.describe WorkPackage, "legacy version_id mirror" do
     work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
     work_package.save!
 
-    preloaded = WorkPackage.where(id: work_package.id).includes(:target_versions).first
+    preloaded = described_class.where(id: work_package.id).includes(:target_versions).first
     expect(preloaded.target_versions.map(&:id)).to eq([lower_version.id, higher_version.id])
   end
 
