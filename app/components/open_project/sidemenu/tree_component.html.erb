@@ -32,8 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
         node_variant: :anchor,
         data: {
           truncate_text: true,
-          target: "filterable-tree-view.treeViewList",
-          test_selector: @list_test_selector
+          target: "filterable-tree-view.treeViewList"
         }
       )
     ) do |tree| %>
@@ -41,7 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render OpenProject::Sidemenu::TreeNodeComponent.new(
           component: tree,
           node:,
-          item_test_selector: @item_test_selector,
           query_terms: @query_terms
         ) %>
   <% end %>

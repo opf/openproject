@@ -58,8 +58,8 @@ RSpec.describe "wiki child pages", :js, :selenium do
 
     # hierarchy displayed in the sidebar
     within_test_selector("wiki-sidemenu-tree") do
-      expect(page).to have_test_selector("wiki-sidemenu-tree--item", text: parent_page.title)
-      expect(page).to have_test_selector("wiki-sidemenu-tree--item", text: child_page_name)
+      expect(page).to have_link(parent_page.title)
+      expect(page).to have_link(child_page_name)
     end
 
     # on toc page

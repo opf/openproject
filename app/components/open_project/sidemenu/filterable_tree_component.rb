@@ -31,13 +31,11 @@
 module OpenProject
   module Sidemenu
     class FilterableTreeComponent < ApplicationComponent
-      def initialize(src:, test_selector:, search_test_selector:, no_results_test_selector: nil)
+      def initialize(src:, test_selector: nil)
         super()
 
         @src = src
         @test_selector = test_selector
-        @search_test_selector = search_test_selector
-        @no_results_test_selector = no_results_test_selector
       end
     end
   end

@@ -31,12 +31,11 @@
 module OpenProject
   module Sidemenu
     class TreeNodeComponent < ApplicationComponent
-      def initialize(component:, node:, item_test_selector:, query_terms: [])
+      def initialize(component:, node:, query_terms: [])
         super()
 
         @component = component
         @node = node
-        @item_test_selector = item_test_selector
         @query_terms = query_terms
       end
 
@@ -62,7 +61,7 @@ module OpenProject
       def data
         @node
           .data
-          .merge(node_id: @node.id, test_selector: @item_test_selector)
+          .merge(node_id: @node.id)
           .tap do |data|
             data[:controller] = [data[:controller], "scroll-into-view"].compact.join(" ") if @node.current?
           end

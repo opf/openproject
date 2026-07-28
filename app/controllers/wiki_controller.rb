@@ -120,6 +120,9 @@ class WikiController < ApplicationController
   def menu
     @page = @wiki.pages.find_by(id: params[:current_page_id])
     @query = params[:query].to_s.strip
+
+    return render layout: nil if turbo_frame_request?
+
     sidemenu_tree = WikiPages::SidemenuTree.new(
       wiki: @wiki,
       current_page: @page,

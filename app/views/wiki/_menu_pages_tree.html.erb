@@ -1,11 +1,6 @@
-<%= render OpenProject::Sidemenu::FilterableTreeComponent.new(
-      src: url_for(
-        controller: "/wiki",
-        action: :menu,
-        project_id: @project.identifier,
-        current_page_id: @page&.id
-      ),
-      test_selector: "wiki-sidemenu-tree",
-      search_test_selector: "wiki-sidemenu-tree--search",
-      no_results_test_selector: "wiki-sidemenu-tree--no-results"
-    ) %>
+<%= turbo_frame_tag "wiki_main_menu",
+                    src: url_for({ controller: "/wiki", action: :menu, project_id: @project.id, id: @page&.id }),
+                    target: "_top",
+                    data: { turbo: false },
+                    loading: :lazy do %>
+<% end %>

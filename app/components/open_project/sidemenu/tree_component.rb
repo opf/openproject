@@ -31,12 +31,10 @@
 module OpenProject
   module Sidemenu
     class TreeComponent < ApplicationComponent
-      def initialize(nodes:, list_test_selector:, item_test_selector:, query_terms: [])
+      def initialize(nodes:, query_terms: [])
         super()
 
         @nodes = nodes
-        @list_test_selector = list_test_selector
-        @item_test_selector = item_test_selector
         @query_terms = query_terms
       end
     end
