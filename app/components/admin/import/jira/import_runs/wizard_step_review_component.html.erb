@@ -91,19 +91,11 @@ See COPYRIGHT and LICENSE files for more details.
         })
       end
     end
-    if model.in_state?(:imported)
-      box.with_row(mt: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) {
-          I18n.t(:"admin.jira.run.wizard.sections.import_result.info")
-        }
-      end
-    end
     if model.in_state?(:imported, :finalizing_done)
       box.with_row(mt: 3, mb: 3) do
-        render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
-          title: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_results"),
-          list: imported_data,
-          show_icon: false
+        render(Admin::Import::Jira::ImportRuns::ImportedStatsBannerComponent.new(
+          title: I18n.t(:"admin.jira.run.wizard.sections.import_result.stats.title"),
+          stats: imported_stats
         ))
       end
     end
