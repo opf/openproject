@@ -116,5 +116,4 @@ class Workflows::MatrixController < ApplicationController
     )
     @turbo_status = :unprocessable_entity
   end
-
 end

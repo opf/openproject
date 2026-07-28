@@ -29,13 +29,6 @@
 # ++
 
 module Workflows
-  # The transition matrix editor: the tab and role pickers, the matrix itself, and the
-  # dirty-state machinery that warns before navigating away from unsaved changes.
-  #
-  # Renders no form of its own and no save button. Whoever embeds the editor wraps it in
-  # a form and provides the control that submits it — the workflow tab has a pinned Save
-  # bar, the creation wizard has Continue in its footer — so the editor stays identical
-  # in both and needs nothing injected.
   class MatrixEditorComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
@@ -60,9 +53,7 @@ module Workflows
       {
         controller: "admin--workflow-checkbox-state",
         "admin--workflow-checkbox-state-has-status-changes-value": context.status_changes?,
-        # Saving from the "unsaved changes" dialog has to persist without navigating, which
-        # the host's form cannot do — the wizard's would advance a step. So the editor
-        # offers its own endpoint for that.
+        # for saving the workflow when switching tabs
         "admin--workflow-checkbox-state-save-url-value": helpers.type_workflow_matrix_path(type, tab:)
       }
     end

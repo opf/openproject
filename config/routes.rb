@@ -208,14 +208,13 @@ Rails.application.routes.draw do
     end
 
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
-      # The transition matrix editor, shared by the workflow tab and the creation wizard.
-      # Which transition tab it shows is a filter like the roles and statuses, so it
-      # travels as a query param rather than being part of the route.
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
         get :status_dialog
         post :confirm_statuses
       end
+
       resource :copy, only: %i[new], controller: "/workflows/copies" do
         resource :from_type, only: %i[create], controller: "/workflows/copies/from_types"
         resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
