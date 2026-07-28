@@ -44,8 +44,8 @@ module Workflows
 
     attr_reader :context
 
-    delegate :type, :tab, :roles, :requested_status_ids, :removed_status_ids, to: :context
+    delegate :type, :tab, :roles, :requested_status_ids, :removed_displayed_status_ids, to: :context
 
-    def removed_count = removed_status_ids.size
+    def removed_count = removed_displayed_status_ids.size
   end
 end

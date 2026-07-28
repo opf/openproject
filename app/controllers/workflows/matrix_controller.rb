@@ -60,7 +60,7 @@ class Workflows::MatrixController < ApplicationController
   end
 
   def confirm_statuses
-    if matrix_context.removed_status_ids.any?
+    if matrix_context.removed_displayed_status_ids.any?
       respond_with_dialog Workflows::StatusRemovalDangerDialogComponent.new(context: matrix_context)
     else
       update_via_turbo_stream(component: matrix_editor_component)
@@ -83,7 +83,8 @@ class Workflows::MatrixController < ApplicationController
       type:,
       tab: params[:tab],
       role_ids: params[:role_ids],
-      status_ids: params[:status_ids]
+      status_ids: params[:status_ids],
+      displayed_status_ids: params[:displayed_status_ids]
     )
   end
 

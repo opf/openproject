@@ -35,11 +35,12 @@ module Workflows
 
     attr_reader :type
 
-    def initialize(type:, tab: nil, role_ids: nil, status_ids: nil)
+    def initialize(type:, tab: nil, role_ids: nil, status_ids: nil, displayed_status_ids: nil)
       @type = type
       @requested_tab = tab
       @requested_role_ids = role_ids
-      @status_ids = status_ids
+      @requested_status_ids = status_ids_from(status_ids)
+      @displayed_status_ids = status_ids_from(displayed_status_ids)
     end
 
     # Normalised, so that rendering, the status query and persistence cannot disagree
@@ -63,9 +64,7 @@ module Workflows
     # The selection the status dialog submitted, empty while the matrix shows what is saved.
     # The dialogs forward these verbatim, so they must stay the raw request and never fall
     # back to the saved statuses the way #statuses does.
-    def requested_status_ids
-      @requested_status_ids ||= Array(@status_ids).flatten.map(&:to_i)
-    end
+    attr_reader :requested_status_ids
 
     # The axes of the matrix: a pending selection if the status dialog submitted one,
     # otherwise whatever the selected roles already have transitions for.
@@ -88,11 +87,22 @@ module Workflows
     end
 
     # Statuses that saving the pending selection would drop from the type, deleting their
-    # transitions with them — which is what the removal dialog warns about.
+    # transitions along with them.
     def removed_status_ids
       return [] if requested_status_ids.blank?
 
       @removed_status_ids ||= saved_status_ids - requested_status_ids
+    end
+
+    # The removals of a single dialog turn, measured against the statuses the dialog was
+    # rendered with instead of against the database. This is what the removal dialog asks
+    # about: taking out a status that is not saved yet still counts, and a removal already
+    # confirmed is not counted a second time.
+    #
+    # Only the dialog's own submit carries that baseline; every other request leaves this
+    # empty, which is why #status_changes? compares against what is saved instead.
+    def removed_displayed_status_ids
+      @removed_displayed_status_ids ||= @displayed_status_ids - requested_status_ids
     end
 
     # Whether the pending selection differs from what is saved, which the matrix uses to
@@ -110,6 +120,10 @@ module Workflows
     end
 
     private
+
+    def status_ids_from(ids)
+      Array(ids).flatten.map(&:to_i)
+    end
 
     def belongs_to_tab?(workflow)
       case tab

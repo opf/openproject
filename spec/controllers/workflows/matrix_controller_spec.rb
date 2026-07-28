@@ -132,15 +132,15 @@ RSpec.describe Workflows::MatrixController do
   describe "#confirm_statuses" do
     let(:status) { build_stubbed(:status) }
 
-    # What the pending selection would drop is the context's call, so the branch is driven
-    # through it rather than through a status_ids/saved-statuses fixture.
+    # Which statuses the submit drops is the context's call, so the branch is driven through
+    # it rather than through a status_ids/displayed_status_ids fixture.
     let(:matrix_context) do
       instance_double(Workflows::MatrixContext,
                       type:,
                       tab: "always",
                       roles: [role],
                       requested_status_ids: [status.id],
-                      removed_status_ids:)
+                      removed_displayed_status_ids:)
     end
 
     def submit_statuses
@@ -157,8 +157,8 @@ RSpec.describe Workflows::MatrixController do
            as: :turbo_stream
     end
 
-    context "when the pending selection drops no saved status" do
-      let(:removed_status_ids) { [] }
+    context "when the pending selection drops nothing the dialog was showing" do
+      let(:removed_displayed_status_ids) { [] }
 
       before do
         allow(controller).to receive(:update_via_turbo_stream)
@@ -173,8 +173,8 @@ RSpec.describe Workflows::MatrixController do
       end
     end
 
-    context "when the pending selection drops a saved status" do
-      let(:removed_status_ids) { [build_stubbed(:status).id] }
+    context "when the pending selection drops a status the dialog was showing" do
+      let(:removed_displayed_status_ids) { [build_stubbed(:status).id] }
 
       before { submit_statuses }
 
