@@ -35,7 +35,14 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
   include Workflows::EditHelpers
 
   let(:parent_type) { create(:type) }
-  let(:type) { create(:type, parent: parent_type) }
+  # A variant links every aspect to its parent on creation; these specs exercise the
+  # editable workflow step, so start from an Independent workflows aspect. The linked-mode
+  # examples below re-establish the link explicitly.
+  let(:type) do
+    create(:type, parent: parent_type).tap do |variant|
+      variant.configuration_links.where(aspect: Type::ConfigurationLink::WORKFLOWS).destroy_all
+    end
+  end
   let(:role) { create(:project_role) }
   let(:role2) { create(:project_role) }
   let(:admin) { create(:admin) }

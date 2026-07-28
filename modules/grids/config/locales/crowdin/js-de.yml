@@ -39,6 +39,7 @@ de:
           tooltip_type_gate: Phasen Gates
           tooltip_type_milestone: Milestone
           tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Unterelemente
         time_entries_current_user:

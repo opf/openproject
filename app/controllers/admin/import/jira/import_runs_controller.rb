@@ -32,6 +32,7 @@ module Admin::Import::Jira
   class ImportRunsController < ApplicationController
     include OpTurbo::ComponentStream
     include ImportRuns::ComponentStreams
+    include ImportRuns::SelectProjectsDialog
 
     layout "admin"
 
@@ -61,8 +62,11 @@ module Admin::Import::Jira
     end
 
     def continue
-      change_step(params[:step])
-      stream_wizard
+      step = params[:step]
+      change_step(step)
+      stream_wizard do
+        open_select_projects_dialog if step.present? && step.to_sym == :configure && @jira_import.in_state?(:configuring)
+      end
     rescue StandardError => e
       handle_error(e)
     end
@@ -102,7 +106,6 @@ module Admin::Import::Jira
     end
 
     def handle_error(error)
-      OpenProject.logger.error(error.backtrace)
       respond_to do |format|
         format.turbo_stream { render_error_turbo_stream(error) }
         format.html { redirect_after_error(error) }

@@ -466,6 +466,7 @@ el:
         spent_hours: Χρόνος που δαπανήθηκε
         spent_time: Χρόνος που δαπανήθηκε
         subproject: Υποέργο
+        target_version: Target version
         target_versions: Target versions
         time_entries: Καταγραφή χρόνου
         type: Τύπος

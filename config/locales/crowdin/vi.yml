@@ -466,6 +466,7 @@ vi:
         spent_hours: dành thời gian
         spent_time: Thời gian
         subproject: Dự án con
+        target_version: Target version
         target_versions: Target versions
         time_entries: Thời gian truy cập
         type: loại

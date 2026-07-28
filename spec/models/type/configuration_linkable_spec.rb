@@ -68,22 +68,13 @@ RSpec.describe Type::ConfigurationLinkable do
   end
 
   describe "variant default parent links" do
-    it "links the default aspects to the parent when a variant is created" do
+    it "links every aspect to the parent when a variant is created" do
       parent = create(:type)
       child = create(:type, parent:)
 
-      expect(child.source_for(Type::ConfigurationLink::PDF_EXPORT)).to eq(parent)
-      expect(child.source_for(Type::ConfigurationLink::DEFAULTS)).to eq(parent)
-      expect(child.source_for(Type::ConfigurationLink::PROJECT_ATTRIBUTES)).to eq(parent)
-    end
-
-    it "leaves the not-yet-implemented aspects Independent" do
-      child = create(:type, parent: create(:type))
-
-      expect(child).not_to be_linked(Type::ConfigurationLink::WORKFLOWS)
-      expect(child).not_to be_linked(Type::ConfigurationLink::AUTOMATIONS)
-      expect(child).not_to be_linked(Type::ConfigurationLink::PROJECTS)
-      expect(child).not_to be_linked(Type::ConfigurationLink::FORM_CONFIGURATION)
+      Type::ConfigurationLink::ASPECTS.each do |aspect|
+        expect(child.source_for(aspect)).to eq(parent)
+      end
     end
 
     it "leaves a root type Independent for all aspects" do

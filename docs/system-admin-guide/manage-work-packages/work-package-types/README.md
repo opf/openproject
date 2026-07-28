@@ -25,7 +25,7 @@ Here, you will see a list of all existing work package types.
 Click the green **+ Type** button to add a new work package type in the system, e.g. Risk.
 
 1. Give the new work package type a **name** that easily identifies what kind of work should be tracked.
-2. Choose a **color** from the drop-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../colors).
+2. Choose a **color** from the drop-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../design/#set-a-new-color).
 3. You can **copy a [workflow](../work-package-workflows)** from an existing type.
 4. You can enter **default text for the work package description field**, which always be shown when creating new work package from this type. This way, you can easily create work package templates, e.g. for risk management or bug tracking, that already contain certain required information in the description.
 5. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.

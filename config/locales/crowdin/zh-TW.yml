@@ -466,6 +466,7 @@ zh-TW:
         spent_hours: 耗時
         spent_time: 耗時
         subproject: 子專案
+        target_version: Target version
         target_versions: Target versions
         time_entries: 工作紀錄
         type: 類型

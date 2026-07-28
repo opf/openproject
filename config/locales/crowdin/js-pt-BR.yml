@@ -120,7 +120,7 @@ pt-BR:
     button_cancel: Cancelar
     button_change_project: Mover para outro projeto
     button_check_all: Marcar todos
-    button_clear: Clear
+    button_clear: Remover
     button_close: Fechar
     button_close_details: Fechar visão detalhada
     button_collapse_all: Recolher todos
@@ -205,10 +205,10 @@ pt-BR:
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
       macro:
         attribute_reference:
-          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_project_attribute: Um atributo de projeto para um grupo inserido usando uma macro.
           aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
-          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
+          aria_label_work_package_attribute: Um atributo de pacote de trabalho para um grupo inserido usando uma macro.
+          aria_label_work_package_link: Um link dinâmico para um pacote de trabalho inserido usando uma macro.
           invalid_attribute: O atributo selecionado '%{name}' não existe.
           nested_macro: Esta macro está fazendo referência recursiva a %{model} %{id}.
           not_found: Não foi possível encontrar o recurso solicitado
@@ -807,11 +807,11 @@ pt-BR:
     sortable_lists:
       announcements:
         fallback_item_label: Item
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the item's current position.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
-        moved: "%{label} moved to position %{position} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+        fallback_list_name: outra lista
+        move_failed_check_position: Falha ao mover. Verifique a posição atual do item.
+        move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
+        moved: "%{label} foi movido para a posição %{position} de %{total}"
+        moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
     spot:
       drop_modal:
         close: Fechar o modal
@@ -1111,7 +1111,7 @@ pt-BR:
         activity: Atividade
         files: Arquivos
         overview: Visão geral
-        project_attributes: Project attributes
+        project_attributes: Atributos do projeto
         relations: Relações
         watchers: Observadores
       time_relative:

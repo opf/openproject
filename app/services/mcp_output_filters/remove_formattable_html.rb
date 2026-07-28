@@ -29,25 +29,17 @@
 #++
 
 module McpOutputFilters
-  class RemoveFormattableHtml
+  class RemoveFormattableHtml < HashFilter
     class << self
-      def filter(hash_or_array)
-        case hash_or_array
-        when Hash
-          filter_hash(hash_or_array)
-        when Array
-          hash_or_array.each { |value| filter(value) }
-        end
-      end
-
       private
 
-      def filter_hash(hash)
+      def on_hash(hash) # rubocop:disable Naming/PredicateMethod
         if formattable?(hash)
           hash.delete("html")
-        else
-          hash.each_value { |value| filter(value) }
+          return false
         end
+
+        true
       end
 
       def formattable?(hash)

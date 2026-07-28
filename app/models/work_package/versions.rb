@@ -153,10 +153,8 @@ module WorkPackage::Versions
   #   * for custom fields only_open: false can be used, if the CF is configured so
   def assignable_versions(only_open: true)
     if only_open
-      @assignable_versions ||= begin
-        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-        ((project&.assignable_versions || []) + [current_version]).compact.uniq
-      end
+      @assignable_versions ||=
+        ((project&.assignable_versions || []) + persisted_target_versions).compact.uniq
     else
       # The called method memoizes the result, no need to memoize it here.
       project&.assignable_versions(only_open: false)
@@ -202,6 +200,12 @@ module WorkPackage::Versions
   end
 
   private
+
+  def persisted_target_versions
+    return [] unless persisted?
+
+    target_versions.to_a
+  end
 
   def system_version_overrides
     @system_version_overrides ||= Set.new

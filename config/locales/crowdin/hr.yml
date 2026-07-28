@@ -466,6 +466,7 @@ hr:
         spent_hours: Utrošeno vrijeme
         spent_time: Utrošeno vrijeme
         subproject: Potprojekt
+        target_version: Target version
         target_versions: Target versions
         time_entries: Vrijeme pristupa
         type: Tip

@@ -466,6 +466,7 @@ he:
         spent_hours: זמן שבוזבז
         spent_time: זמן שבוזבז
         subproject: תת פרוייקט
+        target_version: Target version
         target_versions: Target versions
         time_entries: נרשם ביומן
         type: סוג

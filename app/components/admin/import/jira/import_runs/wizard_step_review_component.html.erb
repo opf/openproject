@@ -30,11 +30,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%= flex_layout do |box|
   if model.in_state?(:reverting, :reverted, :revert_cancelling, :revert_cancelled, :revert_error)
     box.with_row do
-      concat(
-        render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) do
-          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert")
-        end
-      )
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert")
+      })
     end
     case model.current_state.to_sym
     when :reverting
@@ -71,108 +69,101 @@ See COPYRIGHT and LICENSE files for more details.
       end
     when :reverted
       box.with_row(mt: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) do
+        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) {
           I18n.t(:"admin.jira.run.wizard.sections.import_result.label_reverted")
-        end
+        }
       end
     when :revert_error
       box.with_row(mt: 3) do
-        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, "revert"))
+        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, 'revert'))
       end
     end
   elsif model.in_state?(:finalizing, :finalizing_done, :finalizing_error)
     box.with_row do
-      concat(
-        render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) do
-          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalize_import")
-        end
-      )
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalize_import")
+      })
     end
     case model.current_state.to_sym
     when :finalizing
       box.with_row(mt: 3) do
-        render(
-          Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-            message: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing")
-          )
-        )
+        render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing")
+        ))
       end
     when :finalizing_done
       box.with_row(mt: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) do
+        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) {
           I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing_done")
-        end
+        }
       end
     when :finalizing_error
       box.with_row(mt: 3) do
-        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, "finalize"))
+        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, 'finalize'))
       end
     end
   else
     box.with_row do
-      concat(
-        render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) do
-          I18n.t(:"admin.jira.run.wizard.sections.import_result.title")
-        end
-      )
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_result.title")
+      })
       if model.status_before?(:imported)
-        concat(
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
-            I18n.t(:"admin.jira.run.wizard.sections.import_result.caption")
-          end
-        )
+        concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.caption")
+        })
       end
     end
     if model.in_state?(:imported)
       box.with_row(mt: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) do
+        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) {
           I18n.t(:"admin.jira.run.wizard.sections.import_result.info")
-        end
+        }
       end
     end
     if model.in_state?(:imported, :finalizing_done)
       box.with_row(mt: 3, mb: 3) do
         render(
-          Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
-            title: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_results"),
-            list: imported_data,
-            show_icon: false
+          Admin::Import::Jira::ImportRuns::ImportedStatsBannerComponent.new(
+            title: I18n.t(:"admin.jira.run.wizard.sections.import_result.stats.title"),
+            stats: imported_stats
           )
         )
       end
     end
     if model.in_state?(:imported)
       box.with_row(mb: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :default, icon: :info)) do
+        render(Primer::Alpha::Banner.new(scheme: :default, icon: :info)) {
           I18n.t(:"admin.jira.run.wizard.sections.import_result.preview_description")
-        end
+        }
       end
       box.with_row do
+        concat(render(Primer::Beta::Button.new(
+          tag: :a,
+          scheme: :primary,
+          size: :medium,
+          mr: 2,
+          href: finalize_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
+          data: { controller: "async-dialog" }
+        )) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_done") })
+        concat(render(Primer::Beta::Button.new(
+          scheme: :default,
+          tag: :a,
+          size: :medium,
+          href: revert_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
+          data: { controller: "async-dialog" }
+        )) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_revert") })
         concat(
           render(
             Primer::Beta::Button.new(
               tag: :a,
-              scheme: :primary,
               size: :medium,
-              mr: 2,
-              href: finalize_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
-              data: { controller: "async-dialog" }
+              href: admin_import_jira_path(model.jira)
             )
-          ) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_done") }
-        )
-        concat(
-          render(
-            Primer::Beta::Button.new(
-              scheme: :default,
-              tag: :a,
-              size: :medium,
-              href: revert_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
-              data: { controller: "async-dialog" }
-            )
-          ) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_revert") }
+          ) do
+            I18n.t(:button_cancel)
+          end
         )
       end
     end
   end
-end
-%>
+end %>

@@ -468,6 +468,7 @@ ja:
         spent_hours: 作業時間の記録
         spent_time: 作業時間の記録
         subproject: 子プロジェクト
+        target_version: Target version
         target_versions: Target versions
         time_entries: 時間を記録
         type: タイプ

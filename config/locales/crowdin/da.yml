@@ -466,6 +466,7 @@ da:
         spent_hours: Anvendt tid
         spent_time: Anvendt tid
         subproject: Underprojekt
+        target_version: Target version
         target_versions: Target versions
         time_entries: Tidsregistrering
         type: Type

@@ -46,7 +46,14 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def call
-      render(OpPrimer::InsetBoxComponent.new(border: false, **system_arguments)) do
+      render(
+        Primer::Box.new(
+          border: true,
+          border_radius: 2,
+          p: 4,
+          **system_arguments
+        )
+      ) do
         flex_layout do |flex|
           flex.with_row(mb: 1) do
             render(Primer::Beta::Text.new(font_weight: :bold)) { title }

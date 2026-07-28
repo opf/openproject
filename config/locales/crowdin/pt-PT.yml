@@ -466,6 +466,7 @@ pt-PT:
         spent_hours: Tempo usado
         spent_time: Tempo usado
         subproject: Sub-projecto
+        target_version: Target version
         target_versions: Target versions
         time_entries: Tempo de registro
         type: Tipo

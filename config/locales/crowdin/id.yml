@@ -466,6 +466,7 @@ id:
         spent_hours: Durasi
         spent_time: Durasi
         subproject: Sub-Project
+        target_version: Target version
         target_versions: Target versions
         time_entries: Catatan waktu
         type: Tipe

@@ -58,7 +58,7 @@ RSpec.describe WorkPackageTypes::IndependentMode do
     end
 
     it "returns no modes for an aspect without a switch flow" do
-      expect(described_class.available_for(Type::ConfigurationLink::AUTOMATIONS)).to eq([])
+      expect(described_class.available_for("unknown_aspect")).to eq([])
     end
   end
 

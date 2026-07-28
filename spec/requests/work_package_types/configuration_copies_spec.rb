@@ -67,7 +67,7 @@ RSpec.describe "Work package type configuration copies",
     end
 
     it "is not found for aspects without a copy service" do
-      get type_configuration_copy_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::AUTOMATIONS),
+      get type_configuration_copy_dialog_path(type_id: type.id, aspect: "unknown_aspect"),
           as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
@@ -134,7 +134,7 @@ RSpec.describe "Work package type configuration copies",
     end
 
     it "is not found for aspects without a copy service" do
-      post type_configuration_copy_copy_path(type_id: type.id, aspect: Type::ConfigurationLink::AUTOMATIONS),
+      post type_configuration_copy_copy_path(type_id: type.id, aspect: "unknown_aspect"),
            params: { source_id: source.id },
            as: :turbo_stream
 

@@ -85,6 +85,23 @@ module FrontendAssetHelper
     end
   end
 
+  ##
+  # Like variable_asset_path, but for callers that use the resulting URL directly
+  # (e.g. as a raw <link href> inside a shadow DOM, as BlockNote does) instead of
+  # passing it through stylesheet_link_tag/javascript_include_tag. Those tag helpers
+  # add relative_url_root automatically; direct consumers don't go through them, so
+  # it must be prepended here instead. Do NOT use variable_asset_path itself for this:
+  # it's shared with the tag-helper call sites, and prepending relative_url_root there
+  # too would cause it to be applied twice for those (Rails' own idempotency guard in
+  # compute_asset_path only catches an exact-prefix match, not one where relative_url_root
+  # has a trailing slash).
+  def raw_variable_asset_path(path)
+    base_path = variable_asset_path(path)
+    return base_path if FrontendAssetHelper.assets_proxied?
+
+    File.join(Rails.application.config.relative_url_root.to_s, base_path)
+  end
+
   private
 
   def lookup_frontend_asset(unhashed_file_name)

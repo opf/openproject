@@ -466,6 +466,7 @@ lt:
         spent_hours: Praleista laiko
         spent_time: Praleista laiko
         subproject: Sub-projektas
+        target_version: Target version
         target_versions: Target versions
         time_entries: Registruoti laiką
         type: Tipas

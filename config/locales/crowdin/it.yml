@@ -466,6 +466,7 @@ it:
         spent_hours: Tempo speso
         spent_time: Tempo speso
         subproject: Sottoprogetto
+        target_version: Target version
         target_versions: Versioni obiettivo
         time_entries: Registra l'orario effettuato
         type: Tipo

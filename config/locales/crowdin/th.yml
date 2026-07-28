@@ -466,6 +466,7 @@ th:
         spent_hours: เวลาที่ใช้
         spent_time: เวลาที่ใช้
         subproject: โครงการย่อย
+        target_version: Target version
         target_versions: Target versions
         time_entries: เวลาที่ถูกบันทึก
         type: ประเภท

@@ -466,6 +466,7 @@
         spent_hours: Tid brukt
         spent_time: Tid brukt
         subproject: Underprosjekt
+        target_version: Target version
         target_versions: Target versions
         time_entries: Logg tid
         type: Type

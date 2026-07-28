@@ -466,6 +466,7 @@ et:
         spent_hours: Kulutatud aeg
         spent_time: Kulutatud aeg
         subproject: Alamprojekt
+        target_version: Target version
         target_versions: Target versions
         time_entries: Ajakulu
         type: Tüüp

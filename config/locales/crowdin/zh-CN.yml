@@ -23,9 +23,9 @@
 zh-CN:
   accessibility:
     macro:
-      aria_label_with_name: "%{name}: %{description}"
+      aria_label_with_name: "%{name}：%{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
+        attachment: 使用宏放置的附件的动态链接。
         commit: A dynamic link to a commit placed using a macro.
         document: A dynamic link to a document placed using a macro.
         export: A dynamic link to a source file export placed using a macro.
@@ -466,6 +466,7 @@ zh-CN:
         spent_hours: 已耗工时
         spent_time: 已耗工时
         subproject: 子项目
+        target_version: Target version
         target_versions: Target versions
         time_entries: 记录时间
         type: 类型
@@ -2727,7 +2728,7 @@ zh-CN:
             line_0: New Resource management module for capacity planning and staffing (Premium plan).
             line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
             line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_3: 通过多选筛选器、更好的拖放功能以及添加现有工作包的功能，改进了积压工作和冲刺。
             line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
             line_5: Global wiki page index and easier navigation between related pages.
           new_features_title: 'The release contains various new features and improvements, such as:
@@ -4754,7 +4755,7 @@ zh-CN:
       project_custom_fields:
         actions:
           label_disable_single: 在此项目中未启用，点击启用
-          label_enable_single: 在此项目中处于活动状态，点击禁用
+          label_enable_single: 在此项目中处于有效状态，点击禁用
           remove_from_project: 从项目移除
         enabled_via_assignee_when_submitted_html: 无法禁用此项目特性，因为在<a href=%{pir_submission_url} target="_blank">提交项目启动请求时，它被设为受理人</a>。
         filter:
@@ -5749,7 +5750,7 @@ zh-CN:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
           label: Automatically generated subjects
         description:
-          caption: Add the text that will be added to the description field of all new work packages with this type.
+          caption: 添加文本，该文本将添加到所有此类型的新工作包的描述字段中。
           label: Default description text
         manually_editable_subjects:
           caption: Users can manually enter and edit work package subjects without restrictions.

@@ -466,6 +466,7 @@ ar:
         spent_hours: الوقت المستهلك
         spent_time: الوقت المستهلك
         subproject: مشروع فرعي
+        target_version: Target version
         target_versions: Target versions
         time_entries: وقت السجل
         type: النّوع

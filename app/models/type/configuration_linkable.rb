@@ -46,9 +46,8 @@ class Type
                inverse_of: :source,
                dependent: :restrict_with_error
 
-      # A variant defaults to Linked-to-parent for the aspects whose linked
-      # behaviour is implemented; see DEFAULT_PARENT_LINK_ASPECTS.
-      after_create :link_default_aspects_to_parent, if: :variant?
+      # A variant defaults to Linked-to-parent for every configuration aspect.
+      after_create :link_all_aspects_to_parent, if: :variant?
     end
 
     class_methods do
@@ -203,8 +202,8 @@ class Type
       Arel.sql("(#{self.class.effective_source_id_subquery(id, aspect)})")
     end
 
-    def link_default_aspects_to_parent
-      Type::ConfigurationLink::DEFAULT_PARENT_LINK_ASPECTS.each { |aspect| link!(aspect, source: parent) }
+    def link_all_aspects_to_parent
+      Type::ConfigurationLink::ASPECTS.each { |aspect| link!(aspect, source: parent) }
     end
   end
 end

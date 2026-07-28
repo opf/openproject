@@ -466,6 +466,7 @@ sv:
         spent_hours: Förbrukad tid
         spent_time: Förbrukad tid
         subproject: Delprojekt
+        target_version: Target version
         target_versions: Target versions
         time_entries: Logga tid
         type: Typ

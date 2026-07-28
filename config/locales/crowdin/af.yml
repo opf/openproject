@@ -466,6 +466,7 @@ af:
         spent_hours: Tyd gespandeer
         spent_time: Tyd gespandeer
         subproject: Sub-projek
+        target_version: Target version
         target_versions: Target versions
         time_entries: Log tyd
         type: Soort

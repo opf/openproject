@@ -30,8 +30,10 @@ fr:
         no_results: Rien de nouveau à signaler.
       not_available: Ce widget n'est pas disponible.
       project_timeline:
-        gantt_link: View milestones in Gantt
+        footer_actions_label: See more details
+        gantt_link: Milestones Gantt
         no_results_title: No project timeline content configured
+        sprints_link: Sprints overview
         title: Chronologie du projet
         title_portfolio: Chronologie du portefeuille
         title_program: Chronologie du programme
