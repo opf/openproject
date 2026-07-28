@@ -73,6 +73,6 @@ class Widget::Filters::Version < Widget::Filters::Base
   def selected_version_ids
     expand_comma_separated_values!
 
-    filter.values.map(&:to_i)
+    filter.values.compact_blank.map(&:to_i)
   end
 end

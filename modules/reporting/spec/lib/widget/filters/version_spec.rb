@@ -56,5 +56,15 @@ RSpec.describe Widget::Filters::Version do
     it "maps the filter values to integer ids the autocompleter matches against its items" do
       expect(ids).to eq([version.id])
     end
+
+    context "when a blank value slips in" do
+      let(:filter) do
+        CostQuery::Filter::VersionId.new.tap { |f| f.values = [version.id.to_s, ""] }
+      end
+
+      it "drops it instead of coercing it to a spurious id 0" do
+        expect(ids).to eq([version.id])
+      end
+    end
   end
 end
