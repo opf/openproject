@@ -56,30 +56,28 @@ module WorkPackageTypes
 
         def model = type
 
-        # A Primer form class whose fields the wizard form submits, or nil for editors
-        # that render their inputs themselves.
-        def form_class = nil
-
-        # A component rendered inside the wizard form, for editors that are not
-        # expressible as a Primer form.
-        def body = nil
+        # The component rendered inside the wizard form. Receives the form builder for
+        # editors expressible as a Primer form; ignored by those rendering their own inputs.
+        def editor(_builder)
+          raise SubclassResponsibilityError
+        end
 
         # Data attributes for the form element, e.g. Stimulus wiring.
         def form_data = {}
 
-        # Whether the step's frame reloads from the current location rather than from the
-        # step's own path, so that in-frame selections survive an out-of-band reload.
+        # Steps whose in-frame state lives in the page URL reload from the current
+        # location instead of the step's own path.
         def reload_from_location? = false
 
         def readonly? = linkable_aspect? && type.linked?(aspect)
       end
 
       class Details < Base
-        def form_class = WorkPackageTypes::DetailsForm
+        def editor(builder) = WorkPackageTypes::DetailsForm.new(builder)
       end
 
       class Defaults < Base
-        def form_class = WorkPackageTypes::DefaultsForm
+        def editor(builder) = WorkPackageTypes::DefaultsForm.new(builder)
 
         def aspect = Type::ConfigurationLink::DEFAULTS
 
@@ -96,7 +94,7 @@ module WorkPackageTypes
       class Workflows < Base
         def aspect = Type::ConfigurationLink::WORKFLOWS
 
-        def body = WorkflowsStepComponent.new(type:)
+        def editor(_builder) = WorkflowsStepComponent.new(type:)
 
         # The matrix keeps the selected roles and transition tab in the page URL, which a
         # reload from the step path would discard.
