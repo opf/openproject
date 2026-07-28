@@ -124,6 +124,17 @@ RSpec.describe Query::Results, "Grouping and sorting for version" do
       expect(query_results.work_packages.pluck(:id))
         .to match work_packages_asc.map(&:id)
     end
+
+    context "when no work package association matches the column" do
+      before do
+        allow(query_results).to receive(:find_association_for_group).and_return(nil)
+      end
+
+      it "still returns version records as group keys" do
+        expect(query_results.work_package_count_by_group)
+          .to eql(old_version => 1, no_date_version => 1, new_version => 1, nil => 1)
+      end
+    end
   end
 
   describe "sorting ASC by version" do
