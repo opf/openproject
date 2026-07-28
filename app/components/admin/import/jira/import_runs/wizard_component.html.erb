@@ -29,47 +29,38 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper do
-    render(border_box_container(
-             data: { "admin--jira-import-target": model.status_running? ? 'poll' : "finished" }
-           )
+    render(
+      border_box_container(
+        data: { "admin--jira-import-target": model.status_running? ? "poll" : "finished" }
+      )
     ) do |component|
       component.with_row(scheme: :neutral, color: :muted, align_items: :center) do
-        render(Primer::Beta::Text.new(font_weight: :bold)) {
-          I18n.t(:"admin.jira.run.wizard.groups.fetch.title")
-        }
+        render(Primer::Beta::Text.new(font_weight: :bold)) do
+          I18n.t(:"admin.jira.run.wizard.groups.configuration.title")
+        end
       end
       component.with_row do
         render(Admin::Import::Jira::ImportRuns::WizardStepFetchDataComponent.new(model))
-      end
-
-      component.with_row(scheme: :neutral, color: :muted, align_items: :center) do
-        render(Primer::Beta::Text.new(font_weight: :bold)) {
-          I18n.t(:"admin.jira.run.wizard.groups.configuration.title")
-        }
       end
       component.with_row do
         render(Admin::Import::Jira::ImportRuns::WizardStepImportScopeComponent.new(model))
       end
 
       component.with_row(scheme: :neutral, color: :muted, align_items: :center) do
-        render(Primer::Beta::Text.new(font_weight: :bold)) {
-          I18n.t(:"admin.jira.run.wizard.groups.confirming.title")
-        }
+        render(Primer::Beta::Text.new(font_weight: :bold)) do
+          I18n.t(:"admin.jira.run.wizard.groups.run_and_review.title")
+        end
       end
       component.with_row do
         render(Admin::Import::Jira::ImportRuns::WizardStepConfirmImportComponent.new(model))
       end
-
-      component.with_row(scheme: :neutral, color: :muted, align_items: :center) do
-        render(Primer::Beta::Text.new(font_weight: :bold)) {
-          I18n.t(:"admin.jira.run.wizard.groups.review.title")
-        }
-      end
       component.with_row do
-        render(Admin::Import::Jira::ImportRuns::WizardStepReviewComponent.new(
-          model,
-          import_selection: import_selection
-        ))
+        render(
+          Admin::Import::Jira::ImportRuns::WizardStepReviewComponent.new(
+            model,
+            import_selection: import_selection
+          )
+        )
       end
     end
   end

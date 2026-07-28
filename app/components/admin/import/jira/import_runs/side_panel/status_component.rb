@@ -29,12 +29,13 @@
 #++
 
 module Admin::Import::Jira::ImportRuns
-  class WizardStepImportScopeComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include Admin::Import::Jira::ImportRunsHelper
+  module SidePanel
+    class StatusComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-    def selected_projects_count
-      model.projects&.count || 0
+      alias_method :jira_import, :model
     end
   end
 end

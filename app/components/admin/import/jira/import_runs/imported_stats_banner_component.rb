@@ -29,12 +29,17 @@
 #++
 
 module Admin::Import::Jira::ImportRuns
-  class WizardStepImportScopeComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include Admin::Import::Jira::ImportRunsHelper
+  class ImportedStatsBannerComponent < ApplicationComponent
+    renders_one :action
 
-    def selected_projects_count
-      model.projects&.count || 0
+    attr_reader :title, :stats
+
+    # stats: an array of { label:, value:, subtitle:, url: } hashes, one per card.
+    # url is optional; when present the whole card links to it.
+    def initialize(title:, stats:, **)
+      super(nil, **)
+      @title = title
+      @stats = Array(stats)
     end
   end
 end

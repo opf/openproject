@@ -29,12 +29,15 @@
 #++
 
 module Admin::Import::Jira::ImportRuns
-  class WizardStepImportScopeComponent < ApplicationComponent
+  class SidePanelComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-    include Admin::Import::Jira::ImportRunsHelper
 
-    def selected_projects_count
-      model.projects&.count || 0
+    def initialize(jira_import)
+      super()
+
+      @jira_import = jira_import
     end
   end
 end
