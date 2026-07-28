@@ -42,8 +42,15 @@ See COPYRIGHT and LICENSE files for more details.
             <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { type.root.name } %>
           <% end %>
           <% if type.variant? %>
-            <% row.with_column do %>
+            <% row.with_column(mr: 2) do %>
               <%= render(Primer::Beta::Label.new(scheme: :secondary)) { type.own_name } %>
+            <% end %>
+          <% end %>
+          <% if type.is_in_roadmap? %>
+            <% row.with_column do %>
+              <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
+                <%= t("projects.settings.types.in_roadmap") %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

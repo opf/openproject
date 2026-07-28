@@ -5040,6 +5040,7 @@ en:
           title: "No types are active in this project"
         form:
           enable_type_in_project: 'Enable type "%{type}"'
+        in_roadmap: "In roadmap"
         no_results_title_text: There are currently no types available.
         remove_from_project: "Remove from project"
         type_not_found: "The selected type could not be found."

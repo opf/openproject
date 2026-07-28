@@ -86,6 +86,26 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
+  describe "the roadmap indicator" do
+    let(:project) { create(:project, types: [bug]) }
+
+    it "marks a type that is shown in the roadmap by default" do
+      render_inline(component)
+
+      expect(page).to have_text("In roadmap")
+    end
+
+    context "when the type is not shown in the roadmap" do
+      before { bug.update!(is_in_roadmap: false) }
+
+      it "says nothing rather than stating the negative" do
+        render_inline(component)
+
+        expect(page).to have_no_text("In roadmap")
+      end
+    end
+  end
+
   context "with several active families" do
     let(:project) { create(:project, types: [design, bug]) }
 
