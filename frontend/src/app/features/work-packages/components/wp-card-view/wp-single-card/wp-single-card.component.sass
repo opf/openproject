@@ -66,9 +66,12 @@
       flex-grow: 1
       @include text-shortener
 
-  // Style the source card as a placeholder while dragging
+  // Keep the picked-up card visible in place, dimmed, rather than leaving a
+  // dashed hole behind — matching the Backlogs list and the WP table row.
   wp-single-card:host([data-dragging='source']) &
-    @include modifying--placeholder
+    opacity: 0.4
+    background-color: var(--bgColor-inset)
+    pointer-events: none
 
   &--content
 
