@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Workflows::TabsController do
+RSpec.describe Workflows::MatrixController do
   let!(:role_scope) do
     role_scope = instance_double(ActiveRecord::Relation)
 
@@ -71,11 +71,11 @@ RSpec.describe Workflows::TabsController do
 
   current_user { build_stubbed(:admin) }
 
-  describe "#edit" do
+  describe "#show" do
     context "when not a turbo frame request" do
       context "with a single role" do
         it "redirects to the parent workflow edit path" do
-          get :edit,
+          get :show,
               params: {
                 role_ids: [role.id.to_s],
                 type_id: type.id.to_s,
@@ -88,7 +88,7 @@ RSpec.describe Workflows::TabsController do
         end
 
         it "does not forward status_ids to the redirect" do
-          get :edit,
+          get :show,
               params: {
                 role_ids: [role.id.to_s],
                 type_id: type.id.to_s,
@@ -114,7 +114,7 @@ RSpec.describe Workflows::TabsController do
         end
 
         it "redirects preserving all role ids" do
-          get :edit,
+          get :show,
               params: {
                 role_ids: [role.id.to_s, role2.id.to_s],
                 type_id: type.id.to_s,

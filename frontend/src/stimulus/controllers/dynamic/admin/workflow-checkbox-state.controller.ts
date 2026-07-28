@@ -203,9 +203,12 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
       sessionStorage.removeItem(STATUS_STATE_KEY);
 
       const src = turboFrame.getAttribute('src') ?? '';
-      const url = new URL(src);
-      // Reload only with original params
+      const url = new URL(src, window.location.origin);
+      // Reload the same view, dropping only the pending status selection. The transition
+      // tab travels as a query param, so it has to be carried over explicitly.
       const params = new URLSearchParams();
+      const tab = url.searchParams.get('tab');
+      if (tab) params.set('tab', tab);
       url.searchParams.getAll('role_ids[]').forEach((id) => params.append('role_ids[]', id));
       url.search = params.toString();
       turboFrame.setAttribute('src', url.toString());

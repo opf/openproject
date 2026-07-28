@@ -103,7 +103,7 @@ See COPYRIGHT and LICENSE files for more details.
           scheme: :secondary,
           leading_icon: :plus,
           label: t("admin.workflows.status_button"),
-          href: helpers.status_dialog_type_workflow_tab_path(type, tab, role_ids: roles.map(&:id), status_ids: statuses.pluck(:id).presence),
+          href: helpers.status_dialog_type_workflow_matrix_path(type, tab:, role_ids: roles.map(&:id), status_ids: statuses.pluck(:id).presence),
           data: { controller: "async-dialog" }
         ) do
           t("admin.workflows.status_button")
@@ -127,7 +127,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if statuses.any? %>
     <%= form_tag(
-          type_workflow_tab_path(type, tab),
+          type_workflow_matrix_path(type, tab:),
           id: form_id,
           method: :patch,
           autocomplete: "off",

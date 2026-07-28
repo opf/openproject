@@ -45,12 +45,12 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
   before { login_as admin }
 
   it "renders the matrix frame with the transition menu and posts to the type-nested path" do
-    get edit_type_workflow_tab_path(type, "always", role_ids: [role.id]),
+    get type_workflow_matrix_path(type, tab: "always", role_ids: [role.id]),
         headers: { "Turbo-Frame" => "workflow-table" }
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Default transitions")
-    expect(response.body).to include("action=\"#{type_workflow_tab_path(type)}\"")
+    expect(response.body).to include("action=\"#{type_workflow_matrix_path(type, tab: 'always')}\"")
   end
 
   it "renders the type edit page shell with the lazy workflow frame" do

@@ -28,7 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Workflows::TabsController < ApplicationController
+# The transition matrix editor, scoped to the workflows aspect rather than to any one
+# page that shows it. Every action responds with the editor's own turbo frame, a turbo
+# stream patching one of its components, or a dialog — never a full page — so the
+# workflow tab and the variant creation wizard can both drive it unchanged.
+class Workflows::MatrixController < ApplicationController
   include OpTurbo::ComponentStream
 
   layout false
@@ -37,7 +41,7 @@ class Workflows::TabsController < ApplicationController
 
   helper_method :matrix_context
 
-  def edit
+  def show
     unless turbo_frame_request?
       redirect_to edit_type_workflow_path(type, role_ids: params[:role_ids], tab: matrix_context.tab)
     end

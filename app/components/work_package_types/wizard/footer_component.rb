@@ -57,7 +57,7 @@ module WorkPackageTypes
 
       # The workflows step embeds the shared matrix form, which persists in place through
       # its own endpoint. Continue submits that form with the next step, so the endpoint
-      # persists and then redirects to advance the wizard (see Workflows::TabsController).
+      # persists and then redirects to advance the wizard (see Workflows::MatrixController).
       # Escaping the matrix's turbo frame turns that redirect into a full navigation.
       # Other steps submit the wizard form directly.
       def primary_action_form

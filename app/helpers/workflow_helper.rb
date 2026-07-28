@@ -46,7 +46,7 @@ module WorkflowHelper
         description: I18n.t(:"admin.workflows.tabs.descriptions.user_assignee") }
     ].map do |tab|
       tab.merge(
-        path: edit_type_workflow_tab_path(type, tab[:name], params.permit(role_ids: [])),
+        path: type_workflow_matrix_path(type, tab: tab[:name], **params.permit(role_ids: []).to_h.symbolize_keys),
         data: { controller: "admin--workflow-tab-select",
                 action: "click->admin--workflow-tab-select#select",
                 "admin--workflow-tab-select-tab-value": tab[:name],

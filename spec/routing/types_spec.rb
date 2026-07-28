@@ -44,23 +44,28 @@ RSpec.describe "types routes" do
     end
 
     it do
-      expect(get("/types/42/workflow/tabs/always/edit"))
-        .to route_to("workflows/tabs#edit", type_id: "42", tab: "always")
+      expect(get("/types/42/workflow/matrix"))
+        .to route_to("workflows/matrix#show", type_id: "42")
     end
 
     it do
-      expect(patch("/types/42/workflow/tabs/always"))
-        .to route_to("workflows/tabs#update", type_id: "42", tab: "always")
+      expect(patch("/types/42/workflow/matrix"))
+        .to route_to("workflows/matrix#update", type_id: "42")
     end
 
     it do
-      expect(get("/types/42/workflow/tabs/always/status_dialog"))
-        .to route_to("workflows/tabs#status_dialog", type_id: "42", tab: "always")
+      expect(get("/types/42/workflow/matrix/status_dialog"))
+        .to route_to("workflows/matrix#status_dialog", type_id: "42")
     end
 
     it do
-      expect(post("/types/42/workflow/tabs/always/confirm_statuses"))
-        .to route_to("workflows/tabs#confirm_statuses", type_id: "42", tab: "always")
+      expect(post("/types/42/workflow/matrix/confirm_statuses"))
+        .to route_to("workflows/matrix#confirm_statuses", type_id: "42")
+    end
+
+    it "carries the transition tab as a query param rather than a path segment" do
+      expect(get("/types/42/workflow/matrix?tab=author"))
+        .to route_to("workflows/matrix#show", type_id: "42", tab: "author")
     end
   end
 

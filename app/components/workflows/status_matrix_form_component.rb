@@ -66,7 +66,7 @@ module Workflows
     def data_attributes
       {
         controller: "admin--workflow-role-select",
-        "admin--workflow-role-select-base-url-value": helpers.edit_type_workflow_tab_path(type, tab),
+        "admin--workflow-role-select-base-url-value": helpers.type_workflow_matrix_path(type, tab:),
         "admin--workflow-role-select-current-role-ids-value": roles.map(&:id),
         "admin--workflow-role-select-admin--workflow-checkbox-state-outlet": "##{form_id}"
       }
