@@ -32,7 +32,7 @@ module WorkPackages
   class WorkflowJob < ApplicationJob
     def perform(journal, changes)
       work_package = journal.journable
-      return if journal.initial?
+      return unless status_transition?(changes)
 
       services = applicable_services(work_package, changes)
       return if services.empty?
@@ -48,6 +48,13 @@ module WorkPackages
     end
 
     private
+
+    def status_transition?(changes)
+      # journal.initial? can not be used here, because any change by the creating user is aggregated
+      # into the initial journal entry (for a user defined period of time).
+      # the services needs to be executed on every status change after creation
+      Array(changes["status_id"]).first.present?
+    end
 
     def applicable_services(work_package, changes)
       [
