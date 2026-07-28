@@ -2,6 +2,11 @@
 @import 'helpers'
 @import '../../app/spot/styles/sass/variables'
 
+// Without this the host is an inline box around block content, and its own
+// box collapses — taking the drop indicator and the drag image snapshot with it.
+:host
+  display: block
+
 .op-wp-single-card
   display: flex
   user-select: none
