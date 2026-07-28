@@ -77,7 +77,7 @@ Depending on the selected option, a project can either provide sprints to others
 
 ![Manage backlogs settings under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_sharing.png)
 
-Depending on your permissions, some shared sprint fields may be read-only. Project-specific fields, such as the sprint goal, can still be edited independently..
+Depending on your permissions, some shared sprint fields may be read-only. Project-specific fields, such as the sprint goal, can still be edited independently.
 
 ### What is shared
 
