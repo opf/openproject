@@ -74,7 +74,9 @@ module Backlogs
     def card_data
       data = {
         story: true,
-        controller: "backlogs--work-package",
+        # Non-movable cards opt in too: they have no move actions, but their
+        # singular menu is still worth reaching contextually.
+        controller: "backlogs--work-package contextual-action-menu",
         backlogs__work_package_id_value: work_package.id,
         backlogs__work_package_display_id_value: work_package.display_id,
         backlogs__work_package_split_url_value: split_url,
@@ -86,13 +88,14 @@ module Backlogs
       data.merge(sortable_lists__item_target: "preview handle")
     end
 
-    # @return [Hash] ARIA wiring announcing the card's Enter activation without
-    #   claiming button or draggable semantics. Lives in the subclass because
-    #   only here is the `backlogs--work-package` Enter handler attached; the
-    #   base card is focusable for styling alone and must not claim a shortcut.
+    # @return [Hash] ARIA wiring announcing the card's Enter activation and its
+    #   context-menu shortcut without claiming button or draggable semantics.
+    #   Shift+F10 is the conventional context-menu command in the WAI-ARIA APG
+    #   and is worth announcing; the dedicated Context Menu key is left out
+    #   because it needs no discovery — pressing it is its own affordance.
     def card_aria
       {
-        keyshortcuts: "Enter",
+        keyshortcuts: "Enter Shift+F10",
         label: work_package.to_fs(:caption)
       }
     end
