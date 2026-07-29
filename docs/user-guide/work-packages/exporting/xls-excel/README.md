@@ -10,9 +10,6 @@ keywords: work package exports, XLS, Excel, spreadsheet
 
 **XLS** is a plain sheet that matches the OpenProject work packages table with its columns and work packages as rows matching the selected filter(s).
 
-> [!TIP]
-> To open XLS exported files in Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with the wrong encoding under Microsoft Windows.
-
 OpenProject can export the table for Microsoft Excel with the following options:
 
 ![Work package export in Excel form in OpenProject](openproject_pdf_export_report_excel_options.png)
