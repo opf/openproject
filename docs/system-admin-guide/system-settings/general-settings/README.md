@@ -38,13 +38,14 @@ You can configure general system settings in OpenProject. Under System settings 
 
 8. Set **feed content limit**.
 
-9. **Work packages and projects export limit** defines the maximum items a structured export for work packages and projects can contain (i.e., lines of CSV, XLS etc.). Increasing this value allows you to export more items at once, but at the cost of higher RAM consumption. If you're experiencing errors exporting with a high value, try reducing this number first.
+9. **Max size of text files displayed inline** defines the maximum file size up to which different versions of a file are displayed next to each other when comparing (diff) two versions in a repository.
 
-10. **Max size of text files displayed inline** defines the maximum file size up to which different versions of a file are displayed next to each other when comparing (diff) two versions in a repository.
+10. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
 
-11. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
+11. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/home/). It is displayed to administrators only.
 
-12. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/home/). It is displayed to administrators only.
+> [!TIP]
+> The export limit for work packages and projects is configured in the [export settings](../exports/).
 
 > [!NOTE]
 > If enabled, this will display a badge with your installation status in the [Information](https://qa.openproject-edge.com/admin/info) administration panel, and on the home page. It is displayed to administrators only.
