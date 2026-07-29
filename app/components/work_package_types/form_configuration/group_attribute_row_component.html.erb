@@ -22,6 +22,12 @@
       end
     end
 
+    if render_exclusion_toggle?
+      row.with_column(py: 1, mr: 2) do
+        render(Primer::Alpha::ToggleSwitch.new(**exclusion_toggle_arguments))
+      end
+    end
+
     unless readonly?
       row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
         render(Primer::Alpha::ActionMenu.new) do |menu|

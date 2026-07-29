@@ -17,4 +17,29 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
     expect(page).to have_no_test_selector("type-form-configuration-query-actions-query-1")
     expect(page).to have_text("Related work packages table")
   end
+
+  describe "the exclusion toggle" do
+    let(:type) { create(:type) }
+    let(:exclusions) do
+      WorkPackageTypes::FormConfigurationComponent::ExclusionState.new(
+        type:, own: [], effective: [], source_name: "Bug"
+      )
+    end
+
+    it "excludes the whole section by its query key", :aggregate_failures do
+      render_inline(described_class.new(group: group.merge(element_key: "query_7"),
+                                        ee_available: false, readonly: true, exclusions:))
+
+      toggle = page.find("[data-test-selector='toggle-form-config-exclusion-query_7']")
+      expect(toggle["src"]).to eq("/types/#{type.id}/exclusions/form_configuration/toggle?element=query_7")
+      expect(toggle.find("button")["aria-label"]).to eq("Inherit section Related")
+    end
+
+    it "is omitted for a group whose query was deleted" do
+      render_inline(described_class.new(group: group.merge(element_key: nil),
+                                        ee_available: true, readonly: true, exclusions:))
+
+      expect(page).to have_no_css("toggle-switch")
+    end
+  end
 end

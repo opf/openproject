@@ -67,8 +67,15 @@ module WorkPackageTypes
 
       private
 
+      # Every exclusion for an aspect lives in one array column, so two switches toggled at once
+      # contend for the same row. The lock serialises them; the reload is what makes the read
+      # current, as #perform loaded the link before the lock was taken and `updated_elements`
+      # would otherwise recompute from a pre-lock array and drop the other write.
       def narrow(link)
-        link.update!(excluded_elements: updated_elements(link.excluded_elements, elements_param))
+        OpenProject::Mutex.with_advisory_lock_transaction(link, "excluded_elements") do
+          link.reload
+          link.update!(excluded_elements: updated_elements(link.excluded_elements, elements_param))
+        end
 
         ServiceResult.success(result: type)
       rescue ActiveRecord::RecordInvalid

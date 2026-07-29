@@ -35,6 +35,19 @@ module WorkPackageTypes
 
     ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
+    # What this type does not inherit, resolved once for the page. `own` is this type's own
+    # link, `effective` the union over the whole chain: an element in `effective` but not in
+    # `own` was excluded above this type, which cannot narrow an ancestor's link.
+    ExclusionState = Data.define(:type, :own, :effective, :source_name) do
+      def excluded?(key)
+        effective.include?(key.to_s)
+      end
+
+      def inherited?(key)
+        excluded?(key) && own.exclude?(key.to_s)
+      end
+    end
+
     def initialize(type:, form_attributes:, no_filter_query:)
       super(type)
       @type = type
@@ -48,6 +61,16 @@ module WorkPackageTypes
 
     def source
       @type.effective_source_for(ASPECT)
+    end
+
+    # Resolved once and handed to every row: #effective_excluded_elements is not memoized and
+    # runs a recursive query per call, so asking per row would cost one of those per attribute.
+    # nil outside read-only mode, which is what tells the rows to render no toggle.
+    def exclusion_state
+      return nil unless readonly?
+      return @exclusion_state if defined?(@exclusion_state)
+
+      @exclusion_state = build_exclusion_state
     end
 
     def ee_available?
@@ -98,7 +121,8 @@ module WorkPackageTypes
           ee_available: ee_available?,
           first: i == 0,
           last: i == groups.length - 1,
-          readonly: readonly?
+          readonly: readonly?,
+          exclusions: exclusion_state
         )
       end
 
@@ -107,6 +131,20 @@ module WorkPackageTypes
         group_components:,
         ee_available: ee_available?,
         readonly: readonly?
+      )
+    end
+
+    private
+
+    def build_exclusion_state
+      link = @type.configuration_links.find_by(aspect: ASPECT)
+      return nil unless link
+
+      ExclusionState.new(
+        type: @type,
+        own: link.excluded_elements.map(&:to_s),
+        effective: @type.effective_excluded_elements(ASPECT).map(&:to_s),
+        source_name: link.source.composite_name
       )
     end
   end

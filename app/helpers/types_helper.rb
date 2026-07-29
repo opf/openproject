@@ -138,6 +138,7 @@ module ::TypesHelper
     return nil unless group.group_type == :query
 
     query = group.attributes
+    return nil if query.blank?
 
     # Reduce the query to its valid subset to avoid errors loading the form
     query.valid_subset!
@@ -160,10 +161,20 @@ module ::TypesHelper
         key: group.key,
         type: group.group_type,
         name: group.translated_key,
+        element_key: exclusion_element_key(group),
         attributes: active_group_attributes_map(group, available, inactive),
         query: query_to_query_props(group)
       }
     end
+  end
+
+  # The key a query group is excluded by. Attribute groups have none: their rows carry
+  # their own keys. A group whose query was deleted has none either, since the key is
+  # derived from the query id.
+  def exclusion_element_key(group)
+    return nil unless group.group_type == :query && group.query.present?
+
+    group.query_attribute_name.to_s
   end
 
   def attr_form_map(key, represented)

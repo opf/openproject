@@ -205,6 +205,10 @@ Rails.application.routes.draw do
         post :confirm
         post :copy
       end
+
+      scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
+        post :toggle
+      end
     end
 
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]

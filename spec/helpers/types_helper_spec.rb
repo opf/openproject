@@ -87,6 +87,38 @@ RSpec.describe TypesHelper do
 
         expect(subject.first[:key]).to eq :details
       end
+
+      it "carries no exclusion element key for attribute groups" do
+        expect(subject.first[:element_key]).to be_nil
+      end
+
+      context "with a query group" do
+        let(:query) { create(:query) }
+
+        before do
+          allow(type)
+            .to receive(:attribute_groups)
+            .and_return [Type::QueryGroup.new(type, "Related", query)]
+        end
+
+        it "carries the query key the group is excluded by" do
+          expect(subject.first[:element_key]).to eq "query_#{query.id}"
+        end
+      end
+
+      context "with a query group whose query was deleted" do
+        before do
+          allow(type)
+            .to receive(:attribute_groups)
+            .and_return [Type::QueryGroup.new(type, "Related", nil)]
+        end
+
+        it "renders without a query or an element key", :aggregate_failures do
+          expect { subject }.not_to raise_error
+          expect(subject.first[:element_key]).to be_nil
+          expect(subject.first[:query]).to be_nil
+        end
+      end
     end
 
     describe "field_format_label" do
