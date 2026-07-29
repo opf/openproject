@@ -61,7 +61,7 @@ See [Work package PDF export](work-package-pdf) and [Work package Atom export](w
 
 ## PDF export
 
-OpenProject has multiple options for exporting work packages in PDF format: [PDF table](pdf-table), [PDF report](pdf-report) and [Gantt chart PDF](gantt-chart-pdf). The following applies to all of them.
+OpenProject has multiple options for exporting work packages in PDF format. The following applies to all of them.
 
 > [!TIP]
 >
@@ -73,6 +73,6 @@ OpenProject has multiple options for exporting work packages in PDF format: [PDF
 >
 > Rich text can be embedded using [Macros](../../wysiwyg/#attributes), such as descriptions of other work packages. This feature is supported as long as the embedding is not within table cells, or if it only contains basic text formatting.
 
-#### Page breaks
+### Page breaks
 
 If you used page breaks in work package descriptions, contents will be split into separate pages accordingly.
