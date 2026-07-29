@@ -71,8 +71,8 @@ module Import
     private
 
     def job_should_exit?
-      if @jira_import.reload.in_state?(:import_cancelling)
-        @jira_import.transition_to!(:import_cancelled)
+      if @jira_import.reload.in_state?(:import_aborting)
+        @jira_import.transition_to!(:import_error)
         throw(:abort)
       end
       super
