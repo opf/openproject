@@ -178,7 +178,9 @@ RSpec.describe WorkPackages::BaseContract do
       before do
         version = build_stubbed(:version, status: "closed")
 
-        work_package.version = version
+        allow(work_package)
+          .to receive(:target_versions)
+          .and_return([version])
         allow(work_package.status)
           .to receive(:is_closed?)
           .and_return(true)
@@ -1775,6 +1777,12 @@ RSpec.describe WorkPackages::BaseContract do
       context "if the current status is closed and the version is closed as well" do
         let(:version) { build_stubbed(:version, status: "closed") }
         let(:current_status) { build_stubbed(:status, is_closed: true) }
+
+        before do
+          allow(work_package)
+            .to receive(:target_versions)
+            .and_return([version])
+        end
 
         it "only allows the current status" do
           expect(contract.assignable_statuses.to_sql)

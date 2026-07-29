@@ -253,6 +253,14 @@ module WorkPackage::Versions
     update_columns(version_id: new_version_id) unless version_id == new_version_id
   end
 
+  # Resets any cached values. Necessary because we do insert_all.
+  def reset_version_associations
+    work_package_versions.reset
+    versions.reset
+    target_versions.reset
+    observed_in_versions.reset
+  end
+
   # Sets the work package's associations of the given kind to exactly the
   # given version_ids.
   def replace_versions(kind, version_ids)
@@ -261,9 +269,16 @@ module WorkPackage::Versions
     to_remove = existing - version_ids
     to_add    = version_ids - existing
 
-    # remove associations that are not present in the new list of versions
+    return if to_remove.empty? && to_add.empty?
+
+    apply_version_changes(kind, to_remove, to_add)
+    reset_version_associations
+  end
+
+  # remove associations that are not present in the new list of versions and
+  # add those that were not already there
+  def apply_version_changes(kind, to_remove, to_add)
     work_package_versions.where(kind:, version_id: to_remove).delete_all if to_remove.any?
-    # add new associations that were not already there
     work_package_versions.insert_all(to_add.map { |vid| { version_id: vid, kind: } }) if to_add.any?
   end
 end
