@@ -41,7 +41,9 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     visit types_path
 
     # The type's group is collapsed by default, hiding its "Add variant" footer link.
-    find("[role='button'][aria-expanded='false']", text: bug_type.name).click
+    find(".CollapsibleHeader", text: bug_type.name)
+      .find(:button, aria: { expanded: false })
+      .click
     click_on I18n.t("types.index.add_variant", name: bug_type.name)
   end
 
