@@ -109,6 +109,8 @@ while [ $? -eq 0 ]; do
     fi
   fi
 
+  SECONDS_SINCE_EPOCH=$(date +%s)
+
   echo -e "\nMigrating to OpenProject $OP_VERSION..."
 
   docker run --rm -e DATABASE_URL="postgresql://postgres:postgres@$DB_IP:5432/openproject" -i openproject/openproject:$OP_VERSION bundle exec rake db:migrate 2>&1 | tee $OUTPUT_BUFFER
@@ -119,6 +121,18 @@ while [ $? -eq 0 ]; do
     else
       >&2 echo -e "\nMigration to OpenProject $OP_VERSION failed (see error above)"
       exit 1
+    fi
+  else
+    echo -e "\nPerforming migration background jobs if any have been enqueued...\n"
+
+    # performing any new background jobs enqueued by the migration above
+    docker run --rm -e OPENPROJECT_DISABLE__SECRET_KEY_BASE__CHECK=true -e DATABASE_URL="postgresql://postgres:postgres@$DB_IP:5432/openproject" -i openproject/openproject:$OP_VERSION bundle exec rails runner "GoodJob::Job.where(performed_at: nil).where('created_at > ?', Time.zone.at($SECONDS_SINCE_EPOCH)).find_each { it.perform lock_id: 1 }" 2>&1 | tee $OUTPUT_BUFFER
+
+    if [ $? -gt 0 ]; then
+      >&2 echo -e "\The execution of some background jobs failed. See output above."
+      exit 1
+    else
+      echo -e "\nFinished background jobs. Moving on.\n"
     fi
   fi
 
