@@ -1,0 +1,40 @@
+@import "helpers"
+
+.op-data-table--responsive
+  .op-data-table--main-column
+    white-space: normal
+
+@media screen and (min-width: $breakpoint-md)
+  .op-data-table--responsive
+    // Mobile labels are inline in the cell contents; desktop has real headers.
+    .op-border-box-grid__row-label
+      display: none
+
+@media screen and (max-width: $breakpoint-md)
+  .Table.op-data-table--responsive
+    // Override the computed grid property, not --grid-template-columns: the
+    // custom property is set inline by DataTable and would win the cascade.
+    // Including .Table also makes this more specific than Primer's .Table rule.
+    grid-template-columns: 1fr auto
+
+    .TableHead
+      display: none
+
+    .TableCell,
+    .TableHeader
+      grid-column: 1
+
+      &.op-data-table--no-mobile
+        display: none
+
+    .TableCell.op-data-table--actions-column
+      // grid-row is as load-bearing as grid-column here. Every other cell is
+      // forced into column 1, so each takes a new implicit row; without an
+      // explicit row the actions cell lands below them all rather than beside
+      // the first. The BorderBox rule this replaces sets both for the same
+      // reason.
+      grid-column: 2
+      grid-row: 1
+
+    .op-data-table--main-column
+      font-weight: 600
