@@ -39,7 +39,7 @@ import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unha
 import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
-import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
+import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
   isItemFromRoot,
   sortableItemData,
@@ -296,7 +296,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     const dragHandle = this.hasHandleTarget ? this.handleTarget : this.element;
 
-    return closestInteractiveElement(target, dragHandle) == null;
+    return closestDragBlockingElement(target, dragHandle) == null;
   }
 
   // Stickiness bridges the gaps between rows so the drop indicator does not

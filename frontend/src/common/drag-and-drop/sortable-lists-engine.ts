@@ -32,8 +32,10 @@ import {
   monitorForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
+import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
+import type { Input } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { registerAutoScroll, type AutoScrollAllowedAxis } from 'core-common/drag-and-drop/auto-scroll';
 import { clearDropIndicator, renderDropIndicator } from 'core-common/drag-and-drop/drop-indicator';
 import { createSortableItemPayloadScope, type SortableItemData } from 'core-common/drag-and-drop/payload';
@@ -43,7 +45,7 @@ import {
   type Edge,
   type SortableAxis,
 } from 'core-common/drag-and-drop/reorder';
-import { closestInteractiveElement } from 'core-common/interactive-element-helper';
+import { closestDragBlockingElement } from 'core-common/interactive-element-helper';
 
 export type CleanupFn = () => void;
 
@@ -59,6 +61,7 @@ export interface SortableDropIntent {
   targetListId:string;
   targetItemId:string|null;   // null = container drop → append
   edge:Edge|null;
+  axis:SortableAxis;          // the root's placement axis, captured at creation
 }
 
 export interface SortableDropTransaction {
@@ -77,6 +80,10 @@ export type PreviewFactory = (args:{
 export interface SortableRootOptions {
   element:HTMLElement;
   axis?:SortableAxis;               // default 'vertical'
+  // Independent from the placement axis above: a wrapped-grid root can place
+  // items horizontally while still only auto-scrolling its vertical page
+  // scroller. Defaults to the placement axis when unset.
+  autoScrollAxis?:AutoScrollAllowedAxis;
   preview?:'native'|PreviewFactory; // default 'native'
   onDragStarted?:(source:SortableSource) => void;
   onCancel?:(source:SortableSource) => void;
@@ -104,25 +111,88 @@ function allowedEdgesForAxis(axis:SortableAxis):Edge[] {
   return axis === 'horizontal' ? ['left', 'right'] : ['top', 'bottom'];
 }
 
-interface UnionRect {
+interface ItemsRow {
   left:number;
   right:number;
   top:number;
   bottom:number;
 }
 
+/** A list's vertical extent, plus the horizontal extent of each visual row within it. */
+interface ItemsSpan {
+  top:number;
+  bottom:number;
+  rows:ItemsRow[];
+}
+
 export function createSortableRoot(options:SortableRootOptions):SortableRoot {
   const axis = options.axis ?? 'vertical';
   const allowedEdges = allowedEdgesForAxis(axis);
+  const autoScrollAxis = options.autoScrollAxis ?? axis;
   const scope = createSortableItemPayloadScope();
   const listDataKey = Symbol('op-sortable-list');
   const lists = new Map<string, { element:HTMLElement; accepts?:(args:{ source:SortableSource }) => boolean }>();
-  // Registered item elements per list, for the bounded-stickiness union rect
-  // below. Insertion order is irrelevant — it's a geometric min/max.
+  // Registered item elements per list, for the bounded-stickiness row spans
+  // below. Insertion order is irrelevant — the rows are grouped geometrically.
   const listItems = new Map<string, Set<HTMLElement>>();
   let transactionCounter = 0;
   let destroyed = false;
   const cleanups:CleanupFn[] = [];
+
+  // Autoscroll registrations of this root, deduplicated per element:
+  // Pragmatic's own registry is keyed by element and last-write-wins, so two
+  // live registrations on one element (e.g. a board container that is both
+  // the implicit list's closest scrollable ancestor and an explicit extra
+  // scroll container) would first warn, then silently lose autoscroll for
+  // the survivor once either side cleans up. Axes merge to 'all' when
+  // registrants disagree; a release never narrows the axis back down — a
+  // broader-than-needed allowance is harmless, a re-registration is not free.
+  const scrollRegistrations = new Map<Element, { axes:AutoScrollAllowedAxis[]; cleanup:CleanupFn }>();
+
+  const unionAxis = (axes:AutoScrollAllowedAxis[]):AutoScrollAllowedAxis => (
+    axes.every((a) => a === axes[0]) ? axes[0] : 'all'
+  );
+
+  const acquireAutoScroll = (element:Element, axis:AutoScrollAllowedAxis):CleanupFn => {
+    const register = (axes:AutoScrollAllowedAxis[]):CleanupFn => registerAutoScroll({
+      element,
+      canScroll: ({ source }) => scope.isItemData(source.data),
+      axis: unionAxis(axes),
+    });
+
+    const existing = scrollRegistrations.get(element);
+    if (existing) {
+      const axisBefore = unionAxis(existing.axes);
+      existing.axes.push(axis);
+      if (unionAxis(existing.axes) !== axisBefore) {
+        existing.cleanup();
+        existing.cleanup = register(existing.axes);
+      }
+    } else {
+      scrollRegistrations.set(element, { axes: [axis], cleanup: register([axis]) });
+    }
+
+    let released = false;
+    return () => {
+      if (released) {
+        return;
+      }
+      released = true;
+
+      const registration = scrollRegistrations.get(element);
+      if (!registration) {
+        return;
+      }
+      const index = registration.axes.indexOf(axis);
+      if (index !== -1) {
+        registration.axes.splice(index, 1);
+      }
+      if (registration.axes.length === 0) {
+        registration.cleanup();
+        scrollRegistrations.delete(element);
+      }
+    };
+  };
 
   // Registers `fn` for `destroy()`; the returned handle deregisters itself
   // too, so a caller-invoked cleanup never double-runs.
@@ -171,59 +241,87 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
   ):boolean => !accepts || accepts({ source: sourceOf(data, element) });
 
   // Bounded stickiness (spec §item→list handoff): an item target holds
-  // selection via `getIsSticky` while the pointer is within the CURRENT union
-  // rect of its list's items, over BOTH axes — a root-axis-only bound would
-  // misread cross-axis blank space on a wrapped row (flex-wrap chips) as
-  // "within span". Recomputed geometrically, not by registration order (a
-  // stable `@for` track reorders DOM without re-running `ngOnInit`), and
-  // cached per animation frame.
+  // selection via `getIsSticky` while the pointer is within the CURRENT span
+  // of its list's items, over BOTH axes — a root-axis-only bound would
+  // misread cross-axis blank space on a wrapped row as "within span".
+  //
+  // The vertical bound is the whole list, so the gaps between wrapped rows
+  // stay covered; the horizontal bound belongs to the row the pointer is in,
+  // so the empty tail of an incomplete row (a grid track with no card in it)
+  // hands off to the list and appends. Recomputed geometrically, not by
+  // registration order (a stable `@for` track reorders DOM without re-running
+  // `ngOnInit`), and cached per animation frame.
   let frameCacheToken:number|null = null;
-  const unionRectCache = new Map<string, UnionRect|null>();
+  const spanCache = new Map<string, ItemsSpan|null>();
 
   const clearFrameCache = ():void => {
     frameCacheToken = null;
-    unionRectCache.clear();
+    spanCache.clear();
   };
 
-  const unionRectOfListItems = (listId:string):UnionRect|null => {
+  const itemsSpanOfList = (listId:string):ItemsSpan|null => {
     frameCacheToken ??= requestAnimationFrame(clearFrameCache);
-    if (unionRectCache.has(listId)) {
-      return unionRectCache.get(listId) ?? null;
+    if (spanCache.has(listId)) {
+      return spanCache.get(listId) ?? null;
     }
 
-    const items = listItems.get(listId);
-    if (!items || items.size === 0) {
-      unionRectCache.set(listId, null);
+    const rects:DOMRect[] = [];
+    listItems.get(listId)?.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      // A hidden item measures 0×0 at the viewport origin and would drag the
+      // span up there with it.
+      if (rect.width > 0 && rect.height > 0) {
+        rects.push(rect);
+      }
+    });
+
+    if (rects.length === 0) {
+      spanCache.set(listId, null);
       return null;
     }
 
-    let left = Infinity;
-    let right = -Infinity;
-    let top = Infinity;
-    let bottom = -Infinity;
-    items.forEach((element) => {
-      const rect = element.getBoundingClientRect();
-      left = Math.min(left, rect.left);
-      right = Math.max(right, rect.right);
-      top = Math.min(top, rect.top);
-      bottom = Math.max(bottom, rect.bottom);
+    // Rects that overlap vertically are one visual row. Sorting by top edge
+    // makes a single pass enough to group them.
+    rects.sort((a, b) => a.top - b.top);
+    const rows:ItemsRow[] = [];
+    rects.forEach((rect) => {
+      const row = rows[rows.length - 1];
+      if (row && rect.top < row.bottom) {
+        row.bottom = Math.max(row.bottom, rect.bottom);
+        row.left = Math.min(row.left, rect.left);
+        row.right = Math.max(row.right, rect.right);
+        return;
+      }
+
+      rows.push({
+        top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right,
+      });
     });
 
-    const unionRect:UnionRect = {
-      left, right, top, bottom,
+    const span:ItemsSpan = {
+      top: rows[0].top,
+      bottom: Math.max(...rows.map((row) => row.bottom)),
+      rows,
     };
-    unionRectCache.set(listId, unionRect);
-    return unionRect;
+    spanCache.set(listId, span);
+    return span;
   };
 
+  /** 0 while `clientY` is inside the row's band, otherwise the distance to it. */
+  const distanceToRow = (row:ItemsRow, clientY:number):number => Math.max(row.top - clientY, clientY - row.bottom, 0);
+
   const withinItemsSpan = (input:{ clientX:number; clientY:number }, listId:string):boolean => {
-    const rect = unionRectOfListItems(listId);
-    if (!rect) {
+    const span = itemsSpanOfList(listId);
+    if (!span || input.clientY < span.top || input.clientY > span.bottom) {
       return false;
     }
 
-    return input.clientX >= rect.left && input.clientX <= rect.right
-      && input.clientY >= rect.top && input.clientY <= rect.bottom;
+    // Nearest, not containing: between two rows the pointer is in neither.
+    const row = span.rows.reduce((closest, candidate) => (
+      distanceToRow(candidate, input.clientY) < distanceToRow(closest, input.clientY) ? candidate : closest
+    ));
+
+    return input.clientX >= row.left && input.clientX <= row.right;
   };
 
   const createTransaction = (intent:SortableDropIntent):SortableDropTransaction => {
@@ -314,6 +412,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
           ?? (listTarget!.data as unknown as { listId:string }).listId,
         targetItemId: targetItemData?.itemId ?? null,
         edge: itemTarget ? extractClosestEdge(itemTarget.data) : null,
+        axis,
       };
       options.onDrop(createTransaction(intent));
     },
@@ -357,11 +456,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         onDrop: clearContainerIndicator,
       });
 
-      const autoScrollCleanup = registerAutoScroll({
-        element: scrollContainer ?? element,
-        canScroll: ({ source }) => scope.isItemData(source.data),
-        axis,
-      });
+      const autoScrollCleanup = acquireAutoScroll(scrollContainer ?? element, autoScrollAxis);
 
       return track(combine(dropTargetCleanup, autoScrollCleanup, () => {
         lists.delete(listId);
@@ -402,7 +497,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
           }
           const target = element.ownerDocument.elementFromPoint(input.clientX, input.clientY);
           if (target instanceof Element && element.contains(target)
-              && closestInteractiveElement(target, element) !== null) {
+              && closestDragBlockingElement(target, element) !== null) {
             return false;
           }
           return canDrag ? canDrag({ element, pointer: { clientX: input.clientX, clientY: input.clientY } }) : true;
@@ -416,13 +511,20 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         // Only wired when the consumer supplies a factory; 'native' (or the
         // unset default) leaves Pragmatic's own browser-native preview alone.
         ...(typeof options.preview === 'function' ? {
-          onGenerateDragPreview: ({ nativeSetDragImage, source }:{
+          onGenerateDragPreview: ({ nativeSetDragImage, source, location }:{
             nativeSetDragImage:DataTransfer['setDragImage']|null;
             source:{ element:Element; data:Record<string|symbol, unknown> };
+            location:{ current:{ input:Input } };
           }) => {
             const factory = options.preview as PreviewFactory;
             setCustomNativeDragPreview({
               nativeSetDragImage,
+              // Keep the pointer where it was pressed, rather than snapping
+              // the preview's top-left corner under it.
+              getOffset: preserveOffsetOnSource({
+                element: source.element as HTMLElement,
+                input: location.current.input,
+              }),
               render: ({ container }) => factory({
                 source: sourceOf(source.data as SortableItemData, source.element),
                 container,
@@ -475,11 +577,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         return () => undefined;
       }
 
-      return track(registerAutoScroll({
-        element,
-        canScroll: ({ source }) => scope.isItemData(source.data),
-        axis: scrollAxis,
-      }));
+      return track(acquireAutoScroll(element, scrollAxis));
     },
 
     destroy():void {
@@ -490,6 +588,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
       [...cleanups].forEach((fn) => fn());
       lists.clear();
       listItems.clear();
+      scrollRegistrations.clear();
       if (frameCacheToken !== null) {
         cancelAnimationFrame(frameCacheToken);
         clearFrameCache();

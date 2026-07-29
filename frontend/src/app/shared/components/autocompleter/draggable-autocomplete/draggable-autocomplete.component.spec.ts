@@ -53,6 +53,7 @@ function dropEvent(overrides:{ sourceId:string; targetId:string; edge:Edge }):So
   return {
     transactionId: 'test-transaction',
     sourceListId: 'test-list',
+    axis: 'vertical',
     complete: () => undefined,
     ...overrides,
   };
