@@ -71,7 +71,8 @@ module WorkPackageTypes
       attributes.merge(
         color_id: source.color_id,
         is_milestone: source.is_milestone,
-        is_in_roadmap: source.is_in_roadmap
+        is_in_roadmap: source.is_in_roadmap,
+        project_ids: source.project_ids
       )
     end
 

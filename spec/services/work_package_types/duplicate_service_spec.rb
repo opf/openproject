@@ -141,4 +141,35 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
       expect(copy).to be_is_milestone
     end
   end
+
+  context "with project assignments" do
+    shared_let(:project_a) { create(:project) }
+    shared_let(:project_b) { create(:project) }
+
+    context "when duplicating a root type" do
+      before do
+        source.projects = [project_a, project_b]
+        source.save!
+      end
+
+      it "copies the source's enabled projects exactly" do
+        copy = service_call.result.reload
+
+        expect(copy.project_ids).to contain_exactly(project_a.id, project_b.id)
+      end
+    end
+
+    context "when duplicating a variant" do
+      let(:root) { create(:type, name: "Task") }
+      let(:variant) { create(:type, name: "Urgent", parent: root, projects: [project_a, project_b]) }
+
+      subject(:service_call) { described_class.new(type: variant, user: admin).call }
+
+      it "leaves the copy with no enabled projects" do
+        copy = service_call.result.reload
+
+        expect(copy.project_ids).to be_empty
+      end
+    end
+  end
 end
