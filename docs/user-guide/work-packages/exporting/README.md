@@ -39,19 +39,17 @@ The export is then prepared in the background. A dialog shows the progress and o
 
 ### Save export settings
 
-Export settings can be saved for custom (all non-default) work package queries. This allows you to easily share export settings with your team and save time in the future.
+Export settings can be saved for [saved work package views](../work-package-table-configuration/#save-work-package-views). This allows you to easily share export settings with your team and save time in the future.
 
 To save export settings adjust the export to your liking and check the **Save setting** checkbox before triggering an export. Clicking the **Export** button will trigger the adjustments to a work package query. The checkbox will remain checked for the next export.
+
+The checkbox is not offered for default views or views you have not saved yet.
 
 ![Checkbox to save export settings in work packages export modal in OpenProject](openproject-user-guide-wp-export-settings-save-checkbox.png)
 
 > [!TIP]
 >
 > If the query is public, other users can edit it and save the export settings. If you want to prevent other users from adjusting the export settings, you need to create a private work package query.
-
-### Export format options
-
-OpenProject has multiple file format options for exporting work packages, including PDF, XLS and CSV. See the [PDF table](pdf-table), [PDF report](pdf-report), [Gantt chart PDF](gantt-chart-pdf), [XLS](xls-excel) and [CSV](csv) pages for what each format entails.
 
 ### PDF export
 
