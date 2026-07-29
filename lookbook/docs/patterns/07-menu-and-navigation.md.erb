@@ -34,7 +34,6 @@ MenuItem = Data.define(:title, :href, :selected, :favorited, :icon, :count, :sho
     end
 ```
 
-
 ### Data loading
 
 Since we moved away from Angular towards Turbo, we use turbo frames to render the submenu only once they are needed.
@@ -94,7 +93,6 @@ class Submenu
 end
 ```
 
-
 ## Filter-based sub menu
 
 Not all modules are based on queries with an attached `view` object to show in their submenu. Some use the generic `filters` to provide the elements. For those modules, basically the same architecture as above can be used. The only difference is that you cannot rely on the existing `base_query` of the parent class but have to define your own query. The following modules use such an approach (amongst others):
@@ -132,3 +130,22 @@ module Members
   end
 end
 ```
+
+## TreeView-based side menu
+
+Hierarchical side menus can use the reusable sidemenu TreeView components. They are useful when each entry is a link and the user needs to search within a hierarchy.
+
+The implementation uses two endpoints:
+
+* A lazy Turbo frame loads the filterable shell only when the sidemenu is opened.
+* The `FilterableTreeView` uses an async `src:` endpoint that returns only the `<tree-view>` fragment.
+
+This keeps the hierarchy out of the initial page response and leaves filtering and permission checks on the server.
+
+### Example
+
+The menu renders a search field and link-only tree nodes. Selection controls such as the segmented control and the "include sub-items" checkbox are hidden.
+
+<%= embed(OpenProject::Common::SidemenuTreePreview, :default, panels: %i[source]) %>
+
+Wiki pages use a tree builder in the Wikis module for page visibility, search matching, ancestor inclusion, and expansion state. Other hierarchical menus should provide their own builder and reuse the sidemenu components.
