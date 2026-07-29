@@ -14,8 +14,7 @@ If you select **Generate PDF** in the work package dropdown menu, a modal will o
 
 **Template** is a dropdown menu showing all of the options currently enabled. Each template produces a different document and offers its own options, which are described in the sections below.
 
-> [!TIP]
-> You can define which templates are enabled for specific work package types in the [administration settings](../../../../system-admin-guide/manage-work-packages/work-package-types/#activate-templates-for-pdf-exports). The first enabled template is preselected.
+Which templates you can choose from depends on the work package type. Administrators can [activate and deactivate the templates](../../../../system-admin-guide/manage-work-packages/work-package-types/#activate-templates-for-pdf-exports) for every work package type and change their order, which determines the template preselected in the dropdown menu.
 
 All templates have the following in common:
 
@@ -89,7 +88,7 @@ In addition to the options above, you can adjust the following:
 - **Table of contents** - if selected, a table of contents page indexing the section headers is added to the export. The entries are linked to the respective pages and list the project attribute sections and the work package attribute groups. This option is activated by default.
 
 > [!TIP]
-> Administrators can configure artefacts to be generated automatically once a work package reaches a defined status. The generated artefact is then either added to the work package as an attachment or uploaded to the connected Nextcloud folder of the project.
+> Administrators can configure [automatic artefact export](../../../../system-admin-guide/manage-work-packages/work-package-types/#automatic-artefact-export) for a work package type. The artefact is then generated whenever the status of a work package changes and either added to the work package as an attachment or uploaded to the connected Nextcloud folder of the project.
 
 ## Generate the export
 
