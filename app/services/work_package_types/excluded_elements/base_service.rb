@@ -67,10 +67,8 @@ module WorkPackageTypes
 
       private
 
-      # Every exclusion for an aspect lives in one array column, so two switches toggled at once
-      # contend for the same row. The lock serialises them; the reload is what makes the read
-      # current, as #perform loaded the link before the lock was taken and `updated_elements`
-      # would otherwise recompute from a pre-lock array and drop the other write.
+      # Excluded attributes are stored in an array of the link aspect.
+      # That's why we need to add a mutex for saving that array to prevent race conditions.
       def narrow(link)
         OpenProject::Mutex.with_advisory_lock_transaction(link, "excluded_elements") do
           link.reload

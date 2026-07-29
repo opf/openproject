@@ -29,9 +29,6 @@
 #++
 
 module WorkPackageTypes
-  # The exclusion switches on a type's read-only configuration tabs: one element at a time,
-  # driven by Primer's ToggleSwitch, which sends "value: 0 | 1" and keeps or reverts the switch
-  # based on the response status. Built to mirror ConfigurationLinksController.
   class ExcludedElementsController < BaseTabController
     include TypeVariantsFeature
 
@@ -42,7 +39,7 @@ module WorkPackageTypes
       :types
     end
 
-    # On means the type inherits the element, so switching on removes the exclusion.
+    # For clarification: If we toggle the element on, it means we remove the exclusion from the array.
     def toggle
       call = toggle_service
         .new(user: current_user, type: @type)

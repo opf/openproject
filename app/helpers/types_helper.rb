@@ -168,9 +168,8 @@ module ::TypesHelper
     end
   end
 
-  # The key a query group is excluded by. Attribute groups have none: their rows carry
-  # their own keys. A group whose query was deleted has none either, since the key is
-  # derived from the query id.
+  # The key a query group is excluded by. Attribute groups have none, their rows carry their own,
+  # and neither does a group whose query was deleted: the key is derived from the query id.
   def exclusion_element_key(group)
     return nil unless group.group_type == :query && group.query.present?
 
