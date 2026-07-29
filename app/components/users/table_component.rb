@@ -29,7 +29,7 @@
 #++
 
 module Users
-  class TableComponent < ::TableComponent
+  class TableComponent < OpPrimer::DataTableComponent
     columns :login, :firstname, :lastname, :mail, :admin, :created_at, :last_login_on
     options :current_user
 
