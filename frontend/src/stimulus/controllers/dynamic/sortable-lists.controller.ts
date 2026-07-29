@@ -52,6 +52,7 @@ import {
   resolveItemId,
   resolveItemLabel,
   resolveItemPosition,
+  resolveItemType,
   resolveMoveAvailability,
   restoreRowPositions,
   rowOf,
@@ -71,6 +72,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   static values = {
     moveUrlTemplate: String,
+    moveUrlTemplates: Object,
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
@@ -79,6 +81,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
+  declare readonly moveUrlTemplatesValue:Record<string, string>;
+  declare readonly hasMoveUrlTemplatesValue:boolean;
 
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
@@ -200,7 +204,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const moveUrl = this.resolveMoveUrl({ itemId });
+    const moveUrl = this.resolveMoveUrl({ itemId, type: resolveItemType(itemElement) });
     const sourceRow = rowOf(list.rowsContainer, itemElement);
     if (!moveUrl || !sourceRow) {
       return;
@@ -251,7 +255,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const moveUrl = this.resolveMoveUrl(source.data);
+    const moveUrl = this.resolveMoveUrl({ itemId: source.data.itemId, type: source.data.type });
     if (!moveUrl) {
       debugLog('sortable-lists: ignoring drop, no move URL for item', source.data.itemId);
       return;
@@ -352,12 +356,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // The template must expand to a same-origin relative URL: the expansion is
   // reduced to path + search + hash, so an absolute template's origin would
   // be dropped silently.
-  private resolveMoveUrl(data:{ itemId:string }):string|null {
-    if (!this.hasMoveUrlTemplateValue) {
+  private resolveMoveUrl({ itemId, type }:{ itemId:string; type:string|null }):string|null {
+    const template = this.moveUrlTemplateFor(type);
+    if (!template) {
       return null;
     }
 
-    const expanded = parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
+    const expanded = parseTemplate(template).expand({ id: itemId });
     const url = new URL(expanded, window.location.href);
     // Both drag and menu moves share this path and are flagged optimistic=true
     // (the move is already applied in the DOM), so the server skips the frame
@@ -365,6 +370,16 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     url.searchParams.set('optimistic', 'true');
 
     return `${url.pathname}${url.search}${url.hash}`;
+  }
+
+  // The dragged item's type keys the template: the move endpoint belongs to
+  // the item being moved, not to the destination list.
+  private moveUrlTemplateFor(type:string|null):string|null {
+    if (type !== null && this.hasMoveUrlTemplatesValue && this.moveUrlTemplatesValue[type]) {
+      return this.moveUrlTemplatesValue[type];
+    }
+
+    return this.hasMoveUrlTemplateValue ? this.moveUrlTemplateValue : null;
   }
 
   private async moveItem({

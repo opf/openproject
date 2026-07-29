@@ -143,13 +143,13 @@ describe('Sortable lists controller', () => {
     };
   }
 
-  async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement) {
+  async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement, type = 'work_package') {
     const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
 
     monitorOptions?.onDrop?.({
       source: sourcePayload(
         sourceElement,
-        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!),
+        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!, type),
       ),
       location: {
         initial: {
@@ -218,6 +218,41 @@ describe('Sortable lists controller', () => {
     row.setAttribute('data-sortable-lists--item-type-value', 'custom_field');
     row.setAttribute('data-sortable-lists--item-label-value', `Field ${id}`);
     return row;
+  }
+
+  function sectionRow(id:string):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-controller', 'sortable-lists--item');
+    row.setAttribute('data-sortable-lists--item-id-value', id);
+    row.setAttribute('data-sortable-lists--item-type-value', 'section');
+    row.setAttribute('data-sortable-lists--item-label-value', `Section ${id}`);
+    return row;
+  }
+
+  // A root serving two item types (sections and custom fields) with distinct
+  // move endpoints, each type's items living in their own list.
+  function renderTypeMapFixture({
+    moveUrlTemplates = '{"section":"/sections/{id}/drop","custom_field":"/fields/{id}/drop"}',
+    moveUrlTemplate,
+  }:{ moveUrlTemplates?:string|null; moveUrlTemplate?:string } = {}) {
+    fixture.innerHTML = `
+      <div
+        id="sortable-root"
+        data-controller="sortable-lists"
+        ${moveUrlTemplates ? `data-sortable-lists-move-url-templates-value='${moveUrlTemplates}'` : ''}
+        ${moveUrlTemplate ? `data-sortable-lists-move-url-template-value="${moveUrlTemplate}"` : ''}
+        data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
+      >
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="custom_field" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="custom_field" data-sortable-lists--list-name-value="Fields"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="section" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="section" data-sortable-lists--list-name-value="Sections"></ul>
+      </div>
+    `;
+    const root = fixture.querySelector<HTMLElement>('#sortable-root')!;
+    const fieldList = fixture.querySelector<HTMLElement>('[data-sortable-lists--list-type-value="custom_field"]')!;
+    const sectionList = fixture.querySelector<HTMLElement>('[data-sortable-lists--list-type-value="section"]')!;
+
+    return { root, fieldList, sectionList };
   }
 
   // A nested dual-role topology: the outer list's rows are section items
@@ -1097,6 +1132,69 @@ describe('Sortable lists controller', () => {
       const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
       expect(options.body.get('list_type')).toEqual('section');
       expect(options.body.get('list_id')).toEqual('1');
+    });
+  });
+
+  describe('per-type move URL map', () => {
+    it('resolves the drop move URL from the per-type template map', async () => {
+      const { fieldList, sectionList } = renderTypeMapFixture();
+      fieldList.append(fieldRow('42'), fieldRow('99'));
+      sectionList.append(sectionRow('3'), sectionRow('8'));
+
+      await ctx.nextFrame();
+
+      const fieldItem = fieldList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="42"]')!;
+      await dropCurrentItemOnList(fieldItem, fieldList, 'custom_field');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/fields\/42\/drop/),
+        expect.objectContaining({ method: 'PUT' }),
+      );
+
+      fetchMock.mockClear();
+
+      const sectionItem = sectionList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="3"]')!;
+      await dropCurrentItemOnList(sectionItem, sectionList, 'section');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/sections\/3\/drop/),
+        expect.objectContaining({ method: 'PUT' }),
+      );
+    });
+
+    it('falls back to the single template for an unmapped type', async () => {
+      const { fieldList } = renderTypeMapFixture({
+        moveUrlTemplates: '{"section":"/sections/{id}/drop"}',
+        moveUrlTemplate: '/move/{id}',
+      });
+      fieldList.append(fieldRow('7'), fieldRow('8'));
+
+      await ctx.nextFrame();
+
+      const fieldItem = fieldList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="7"]')!;
+      await dropCurrentItemOnList(fieldItem, fieldList, 'custom_field');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/move\/7/),
+        expect.objectContaining({ method: 'PUT' }),
+      );
+    });
+
+    it('resolves the menu move URL from the map', async () => {
+      const { root, fieldList } = renderTypeMapFixture();
+      fieldList.append(fieldRow('1'), fieldRow('2'));
+
+      await ctx.nextFrame();
+
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      const secondFieldItem = fieldList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
+      controller.moveInDirection(secondFieldItem, 'up');
+      await flushPromises();
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/fields\//),
+        expect.objectContaining({ method: 'PUT' }),
+      );
     });
   });
 });

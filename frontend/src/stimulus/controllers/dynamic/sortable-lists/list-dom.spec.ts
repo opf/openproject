@@ -34,6 +34,7 @@ import {
   resolveListAppendPreviousItemId,
   resolveItemPosition,
   resolveItemLabel,
+  resolveItemType,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
@@ -533,5 +534,20 @@ describe('resolveItemLabel', () => {
 
     expect(resolveItemLabel(labelled)).toEqual('Story one');
     expect(resolveItemLabel(bare)).toBeNull();
+  });
+});
+
+describe('resolveItemType', () => {
+  it('reads the item type value attribute', () => {
+    const el = document.createElement('div');
+    el.setAttribute('data-sortable-lists--item-type-value', 'custom_field');
+    expect(resolveItemType(el)).toBe('custom_field');
+  });
+
+  it('returns null when the attribute is absent or empty', () => {
+    const el = document.createElement('div');
+    expect(resolveItemType(el)).toBeNull();
+    el.setAttribute('data-sortable-lists--item-type-value', '');
+    expect(resolveItemType(el)).toBeNull();
   });
 });

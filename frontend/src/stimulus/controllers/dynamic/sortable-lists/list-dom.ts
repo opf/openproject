@@ -69,6 +69,14 @@ export function resolveItemId(element:Element):string|null {
   return element.getAttribute('data-sortable-lists--item-id-value');
 }
 
+export const sortableItemTypeAttribute = 'data-sortable-lists--item-type-value';
+
+export function resolveItemType(element:Element):string|null {
+  const type = element.getAttribute(sortableItemTypeAttribute);
+
+  return type === '' ? null : type;
+}
+
 export function resolveClosestItemElement(element:Element):HTMLElement|null {
   if (element instanceof HTMLElement && element.matches(sortableItemSelector)) {
     return element;
