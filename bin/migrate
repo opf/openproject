@@ -2,12 +2,15 @@
 
 ## Takes a given OpenProject database dump (>= OpenProject 10) and migrates it to the latest version.
 
+GREEN='\033[0;32m'
+NC='\033[0m'
+
 DUMP_FILE="$1"
 POSTGRES_CONTAINER=op-migrate-pg17
 OUTPUT_BUFFER=$(mktemp)
 
 if [ -z $DUMP_FILE ]; then
-  echo "Please provide a valid path to an OpenProject database dump file."
+  echo -e "${GREEN}Please provide a valid path to an OpenProject database dump file.${NC}"
 fi
 
 dump() {
@@ -29,7 +32,7 @@ cleanup() {
 trap cleanup EXIT
 
 echo "Starting database..."
-docker run --rm -d --name $POSTGRES_CONTAINER -e POSTGRES_PASSWORD=postgres -p 5017:5432 postgres:17 &>/dev/null
+docker run --rm -d --name $POSTGRES_CONTAINER -e POSTGRES_PASSWORD=postgres postgres:17 &>/dev/null
 
 SECONDS=0
 while ! docker logs --since 5m op-migrate-pg17 2>1 | grep 'database system is ready to accept connections' &> /dev/null; do
@@ -48,7 +51,12 @@ DB_IP=$(docker inspect $POSTGRES_CONTAINER | grep IPAddress | cut -d: -f2 | tr -
 
 echo "Database started under $DB_IP"
 
+# create database to import dump into
 docker exec -i $POSTGRES_CONTAINER su - postgres -c 'psql -c "CREATE DATABASE openproject;"'
+# create extensions used by OpenProject
+#   this may have to be updated when new extensions are added
+#   yes, the migrations SHOULD take care of it, and yet some fail if these are not already present when migrating dumps even as recent as v16
+docker exec -i $POSTGRES_CONTAINER su - postgres -c 'psql -d openproject -c "CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA pg_catalog; CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA pg_catalog; CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA pg_catalog;"'
 
 echo -e "\nRestoring dump"
 cat $DUMP_FILE | sed 's/OWNER TO openproject/OWNER TO postgres/g' | docker exec -u 999 -i $POSTGRES_CONTAINER bash -c 'psql -d openproject'
@@ -64,12 +72,14 @@ echo -e "\nImported database"
 
 OP_VERSION=15
 
-while [ $? -eq 0 ]; do
-  echo "Looking for next OpenProject version..."
+set -o pipefail # we want exit codes to make it through tee too
 
-  if ! docker pull openproject/openproject:$OP_VERSION &> $OUTPUT_BUFFER; then
+while [ $? -eq 0 ]; do
+  echo -e "Looking for next OpenProject version...\n"
+
+  if ! docker pull openproject/openproject:$OP_VERSION 2>&1 | tee $OUTPUT_BUFFER; then
     if cat $OUTPUT_BUFFER | grep "not found" &>/dev/null; then
-      echo "Migration complete." # no next OP image found, meaning we just migrated the latest version
+      echo -e "\nNo newer OpenProject version found. Migration complete." # no next OP image found, meaning we just migrated the latest version
 
       break
     else
@@ -81,11 +91,15 @@ while [ $? -eq 0 ]; do
 
   echo -e "\nMigrating to OpenProject $OP_VERSION..."
 
-  docker run --rm -e DATABASE_URL="postgresql://postgres:postgres@$DB_IP:5432/openproject" -i openproject/openproject:$OP_VERSION bundle exec rake db:migrate
+  docker run --rm -e DATABASE_URL="postgresql://postgres:postgres@$DB_IP:5432/openproject" -i openproject/openproject:$OP_VERSION bundle exec rake db:migrate 2>&1 | tee $OUTPUT_BUFFER
 
   if [ $? -gt 0 ]; then
-    >&2 echo "Migration to OpenProject $OP_VERSION failed (see error above)"
-    exit 1
+    if cat $OUTPUT_BUFFER | grep 'PG::DuplicateTable: ERROR:  relation "work_packages" already exists' &>/dev/null; then
+      >&2 echo -e "\nWarning: Migration to OpenProject $OP_VERSION failed likely because the dump is already beyond that version. Trying next version."
+    else
+      >&2 echo -e "\nMigration to OpenProject $OP_VERSION failed (see error above)"
+      exit 1
+    fi
   fi
 
   OP_VERSION=$((OP_VERSION + 1))
@@ -97,4 +111,4 @@ MIGRATED_FILE=$(echo $DUMP_FILE | sed -r 's/\.(sql|pgdump)/-migrated.sql/')
 
 docker exec -u 999 -i $POSTGRES_CONTAINER pg_dump -d openproject -x -O | gzip > $MIGRATED_FILE
 
-echo "Dump saved under $MIGRATED_FILE"
+echo -e "\n${GREEN}Dump saved under ${MIGRATED_FILE}${NC}\n"
