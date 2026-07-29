@@ -51,7 +51,7 @@ echo "Starting database..."
 docker run --rm -d --name $POSTGRES_CONTAINER -e POSTGRES_PASSWORD=postgres postgres:17 &>/dev/null
 
 SECONDS=0
-while ! docker logs --since 5m op-migrate-pg17 2>1 | grep 'database system is ready to accept connections' &> /dev/null; do
+while ! docker logs --since 5m op-migrate-pg17 2>&1 | grep 'database system is ready to accept connections' &> /dev/null; do
   echo "... waiting for database to start"
   sleep 3
 
