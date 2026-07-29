@@ -31,11 +31,24 @@
 ##
 # Abstract view component. Subclass this for a concrete table row.
 class RowComponent < ApplicationComponent
-  attr_reader :table
+  # Sentinel passed as +render_only+ to render the row's action links rather
+  # than one of its columns. Deliberately unlikely to collide with a column name.
+  ACTIONS_CELL = :__actions__
 
-  def initialize(row:, table:, **)
+  attr_reader :table, :render_only
+
+  def initialize(row:, table:, render_only: nil, **)
     super(row, **)
     @table = table
+    @render_only = render_only
+  end
+
+  def render_only?
+    !@render_only.nil?
+  end
+
+  def actions_cell?
+    @render_only == ACTIONS_CELL
   end
 
   delegate :columns, to: :table

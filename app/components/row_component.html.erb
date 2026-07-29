@@ -27,18 +27,25 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= content_tag(:tr,
-                id: row_css_id,
-                class: row_css_class
-    ) do %>
-  <% columns.each do |column| %>
-    <td class="<%= column_css_class(column) %>">
-      <%= column_value(column) %>
-    </td>
-  <% end %>
-  <td class="buttons">
+<% if render_only? %>
+  <% if actions_cell? %>
     <% button_links.each do |link| %>
       <%= link %>
     <% end %>
-  </td>
+  <% else %>
+    <%= column_value(render_only) %>
+  <% end %>
+<% else %>
+  <%= content_tag(:tr, id: row_css_id, class: row_css_class) do %>
+    <% columns.each do |column| %>
+      <td class="<%= column_css_class(column) %>">
+        <%= column_value(column) %>
+      </td>
+    <% end %>
+    <td class="buttons">
+      <% button_links.each do |link| %>
+        <%= link %>
+      <% end %>
+    </td>
+  <% end %>
 <% end %>
