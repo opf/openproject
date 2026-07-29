@@ -155,7 +155,7 @@ zh-CN:
         column_count: 列数
         page: 页
         row_count: 行数
-        widgets: 微件
+        widgets: 小部件
       group:
         group_users: 用户组
         identity_url: 身份 URL
@@ -342,7 +342,7 @@ zh-CN:
         token_name: 令牌名称
       type:
         attribute_groups: 表单配置
-        children: 子类型
+        children: 变体
         color: 颜色
         dependent_configuration_links: 关联的类型
         description: 默认描述文本
@@ -466,6 +466,7 @@ zh-CN:
         spent_hours: 已耗工时
         spent_time: 已耗工时
         subproject: 子项目
+        target_version: 目标版本
         target_versions: 目标版本
         time_entries: 记录时间
         type: 类型
@@ -692,13 +693,13 @@ zh-CN:
               must_start_with_letter: 必须以字母开头
               no_special_characters: 只能包含大写字母、数字和下划线
             types:
-              cannot_assign_multiple_subtypes_of_parent: 只能在项目上启用一个类型的单个子类型
-              cannot_assign_subtype_and_parent: 无法分配子类型及其父项
-              cannot_assign_subtypes_yet: 目前无法在项目上启用子类型。请启用测试版功能以试用子类型
+              cannot_assign_multiple_variants_of_parent: 只能在项目上启用一个类型的单个变体
+              cannot_assign_variant_and_parent: 无法分配变体及其父项
+              cannot_assign_variants_yet: 目前无法在项目上启用变体。请启用功能标志以试用变体
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
-              switch_source_not_a_subtype: 只能从一种子类型进行切换
-              switch_target_identical: 目标类型必须不同于当前子类型
-              switch_target_not_in_family: 只能切换到同一类型的另一个子类型，或切换到其父类型
+              switch_source_not_a_variant: 只能从一种变体进行切换
+              switch_target_identical: 目标类型必须不同于当前变体
+              switch_target_not_in_family: 只能切换到同一类型的另一个变体，或切换到其父类型
           cannot_be_assigned_to_artifact_work_package: 不允许将所选用户指定至工作包。
           foreign_wps_reference_version: 非子级项目中的工作包会引用此项目或其子级的版本。
         project/phase:
@@ -812,15 +813,15 @@ zh-CN:
             parent:
               cannot_be_self: 不能是类型本身。
               cannot_change_with_work_packages: 无法更改，因为此类型的工作包已存在。
-              cannot_have_children: 无法设置，因为此类型已有子类型。
+              cannot_have_children: 无法设置，因为此类型已有变体。
               must_be_a_root: 本身必须是顶层类型。类型只能嵌套一层深度。
               standard_type_must_be_root: 无法为标准类型设置。
             patterns:
               invalid_tokens: 字段内的一个或多个属性无效。请在保存前修正。
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: 不能是类型本身。
+            source_id:
+              would_create_cycle: 将在循环中链接这些配置。
         user:
           attributes:
             base:
@@ -1105,7 +1106,7 @@ zh-CN:
         title: 删除企业令牌
       enterprise_link: 如需了解详细信息，请单击此处。
       get_quote: 获取报价
-      order: 订购本地部署版的 Enterprise edition
+      order: 订购本地部署的 Enterprise edition
       paste: 粘贴您企业版的支持令牌
       replace_token: 替换您当前的支持令牌
       required_for_feature: 此功能仅限具激活的企业版支持令牌的订阅者使用。
@@ -1125,6 +1126,9 @@ zh-CN:
         '
     jemalloc_allocator: 使用 jemalloc 内存分配器
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: '请通过提供您的反馈和捐赠您的私有数据，帮助我们改进 Jira Migrator。您可以[加入 Jira Migrator 的开发社区](link)。
 
@@ -1146,9 +1150,11 @@ zh-CN:
         ssrf_blocked: 连接被阻止：Jira 主机解析到一个私有 IP 地址。如果 Jira 实例在内部网络上运行，请通过 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST 环境变量允许其 IP。
       columns:
         added: 已添加
+        creator: Creator
         label_ago: "%{amount}前"
         last_change: 上次更改
         projects: 项目
+        server_url: Server URL
       configuration:
         new: 新配置
         title: Jira 配置
@@ -1163,18 +1169,24 @@ zh-CN:
         button_add: 添加配置
         button_delete_token: 删除令牌
         button_save: 保存配置
-        button_test: 测试配置
         delete_token_confirm: 确定要删除令牌吗？这将禁用 Jira 连接。
         fields:
           name: 名称
           personal_access_token: 个人访问令牌
           url: Jira 服务器/数据中心 URL
         label_testing: 正在测试配置…
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: 创建导入运行，开始从此 Jira 实例中导入信息
           title: 尚未设置导入运行
         history: 历史记录
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: 另一个 Jira 导入运行当前正在执行或等待审核。请先完成或撤消当前运行，然后再开始新的导入。
         index:
           button_edit_configuration: 编辑配置
@@ -1214,14 +1226,8 @@ zh-CN:
           groups:
             configuration:
               title: 配置导入
-            confirming:
-              title: 确认并导入
-            fetch:
-              title: 获取基础数据
-            groups_and_users:
-              title: 群组和用户
-            review:
-              title: 审核导入
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: 我了解并已经备份
             confirm_button: 开始导入
@@ -1251,6 +1257,7 @@ zh-CN:
               button_start: 开始导入
               caption: 审核导入设置并开始导入
               caption_done: 已完成
+              caption_done_info: All data has been imported
               description: 您即将使用以下设置开始导入运行。
               label_available_data: 要导入的数据
               label_import_data: 当前正在导入
@@ -1258,9 +1265,12 @@ zh-CN:
               label_users_import_explanation: 参与所选项目的用户（包括群组成员资格）
               title: 导入数据
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: 检查可用数据
               caption_done: 已完成
+              caption_done_description: Meta data fetched from %{server_info}
               description: 检查主机 Jira 实例中有哪些数据可以导入。
+              label_available_server_data: Available data on %{server_info}
               label_progress: 正在从 Jira 获取数据…
               title: 获取实例元数据
             groups_and_users:
@@ -1269,7 +1279,6 @@ zh-CN:
               button_done: 批准导入
               button_revert: 撤消导入
               caption: 审核导入运行或撤消导入
-              info: 导入运行成功。
               label_finalize_import: 批准导入
               label_finalizing: 正在批准导入……
               label_finalizing_done: 导入已批准。
@@ -1278,6 +1287,20 @@ zh-CN:
               label_revert_progress: 正在撤消导入…
               label_reverted: 导入已撤消。
               preview_description: 导入的数据当前处于审核模式。点击“批准导入”可永久导入，点击“撤消导入”可撤消本次导入运行中的所有更改。
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: 导入运行结果
             import_scope:
               button_continue: 继续
@@ -1285,6 +1308,8 @@ zh-CN:
               button_select_projects: 选择要导入的项目
               caption: 选择要导入 OpenProject 的内容
               caption_done: 已完成
+              caption_done_description:
+                other: "%{count} projects selected as scope"
               description: 在从主机 Jira 实例获取的可用数据中选择要导入的数据。
               elements:
                 custom_fields: 自定义字段的子集
@@ -1299,19 +1324,21 @@ zh-CN:
                 sprints: 冲刺任务
                 users: 参与的用户和组
                 workflows: 项目级工作流
-              label_available_server_data: "%{server_info} 现有数据"
               label_coming_later: 稍后推出
               label_coming_soon: 即将推出（2026 年第三季度）
               label_import: 选择要导入的项目。
               label_info: 请注意，此导入工具仍处于测试阶段，不能导入所有类型的数据。以下是主机 Jira 实例提供的导入摘要，以及此工具目前能够导入的内容。
-              label_progress: 正在从 Jira 获取数据…
+              label_progress: Fetching data
               label_selected_data: 已选择要导入的数据
               label_supported_data: 支持的数据
               title: 导入范围
-          select_dialog:
-            filter_projects: 按文本筛选
           select_projects:
-            title: 选择项目
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API 返回错误状态 %{status}。请检查您的 Jira 实例 URL 和 API 令牌。
         connection_error: 连接错误：%{message}
@@ -1496,6 +1523,7 @@ zh-CN:
     workflows:
       blankslate:
         description: 添加状态，以开始为此角色配置工作流
+        linked_description: 此类型会重复使用其关联的源类型的工作流，而该工作流未配置任何状态过渡
         title: 未配置状态过渡
       leave_confirmation:
         description: 您即将离开本页面，但您有未保存的更改。是否要保存更改后再继续？
@@ -1524,7 +1552,13 @@ zh-CN:
           other: 是否移除 %{count} 种状态？
         title: 移除状态
       tabs:
+        aria_label: 工作流过渡
         default_transitions: 默认转换
+        descriptions:
+          default_transitions: 在所有情况下对所选角色可用的过渡。
+          user_assignee: 对工作包受理人可用的其他过渡。
+          user_author: 对工作包作者可用的其他过渡。
+        menu_label: 显示的过渡
         user_assignee: 用户是指派人
         user_author: 用户是作者
   announcements:
@@ -3260,7 +3294,6 @@ zh-CN:
   label_other: 其他
   label_overall_activity: 总体活动
   label_overview: 概述
-  label_page_title: 页面标题
   label_parent_group_caption: '设置父群组将使此群组成为所选父群组的子群组。此群组也将继承父群组的所有成员资格，包括权限。
 
     '
@@ -3377,7 +3410,7 @@ zh-CN:
   label_revision_plural: 修订
   label_roadmap: 路线图
   label_roadmap_due_in: "%{value} 到期"
-  label_roadmap_edit: 编辑路线图%{name}
+  label_roadmap_edit: 编辑路线图 %{name}
   label_roadmap_no_work_packages: 该版本没有工作包。
   label_roadmap_overdue: "%{value} 超时"
   label_role_and_permissions: 角色和权限
@@ -3542,7 +3575,7 @@ zh-CN:
   label_workflow: 工作流
   label_workflow_copy: 复制工作流
   label_workflow_plural: 工作流
-  label_workflow_summary: 摘要
+  label_workflow_summary: 工作流摘要
   label_working_days: 工作日
   label_working_days_and_hours: 工作日和工作小时
   label_working_hours: 工作时间表
@@ -4930,7 +4963,7 @@ zh-CN:
       setup_documentation_details: 如果您在配置新文件存储方面需要帮助，请查看文档：
       setup_documentation_details_link_text: 文件存储设置
       show_warning_details: 要使用此文件存储，请记得在每个所需项目的项目设置中激活模块和特定存储。
-      update_timeout: 在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
+      update_timeout: 在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
     subversion:
       existing_introduction: 如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。
       existing_title: 现有的 Subversion 存储库
@@ -5162,7 +5195,7 @@ zh-CN:
   setting_smtp_user_name: SMTP 用户名
   setting_start_of_week: 一周起始日
   setting_sys_api_description: 存储库管理网页服务提供了集成的，用户授权的存储库访问。
-  setting_sys_api_enabled: 启用存储库管理网页服务
+  setting_sys_api_enabled: 启用版本库管理 web 服务
   setting_time_format: 时间
   setting_total_percent_complete_mode: 计算 完成% 层次结构总数
   setting_total_percent_complete_mode_simple_average: 简单平均值
@@ -5659,8 +5692,9 @@ zh-CN:
   text_user_invited: 用户已被邀请，正在等待注册。
   text_user_wrote: "%{value} 写道："
   text_warn_on_leaving_unsaved: 此工作包包含未保存的文本，如果您离开此页面未保存的文本将会丢失。
-  text_what_did_you_change_click_to_add_comment: 你做出了什么更改？点击添加注释
   text_wiki_destroy_confirmation: 确实要删除此维基和它的所有内容吗?
+  text_wiki_page_comment_caption: 此内容只会显示在 Wiki 历史记录中。
+  text_wiki_page_comment_placeholder: 您做了什么更改吗？请添加注释
   text_wiki_page_destroy_children: 删除子页面和所有他们的派生页面
   text_wiki_page_destroy_question: 此页有 %{descendants} 子页面和派生页面。你想做什么？
   text_wiki_page_nullify_children: 保持子网页作为根页面
@@ -5719,35 +5753,48 @@ zh-CN:
   total_progress: 总进度
   types:
     creation_wizard:
-      configuration_link_error: 无法保存重用模式。请选择源类型。
-      create_subtype: 创建子类型
+      create_type: 创建类型
+      create_variant: 创建变体
       fields:
         inherited_from_parent_html: 继承自父类型 <b>%{parent}</b>。
       finish: 完成
       placeholder_description: 此步骤即将推出。
       progress_label: 第 %{number} 步，共 %{total} 步
       steps:
-        automations: 自动化
+        defaults: 默认值
         details: 详细信息
         form_configuration: 表单配置
         pdf: PDF 生成
+        project_attributes: 项目特性
         projects: 项目
         workflows: 工作流
-      success: 子类型创建成功。
-      workflows:
-        copy_caption: 首先，从现有类型复制工作流配置。
+      success: 变体创建成功。
     edit:
-      configuration_link:
-        independent:
-          caption: 这些设置属于此类型，并在此处进行编辑。它们不会与任何其他类型相关联。
-          label: 独立
-          warning: 切换到“独立”模式会将所选源类型的当前设置复制到此类型上，然后解除关联。随后，您便可以自由编辑这些设置。请谨慎操作。
-        linked:
-          caption: 这些设置会被重复使用，并与源类型保持同步。要更改它们，请编辑源类型。
-          label: 已关联
-          warning: 关联操作会将此类型的自有设置替换为源类型的设置。当前设置将被丢弃，并且此类型的工作包可能会受到影响。请谨慎操作。
-        source:
-          label: 源类型
+      breadcrumb_variant: 变体：%{name}
+      defaults:
+        automatically_generated_subjects:
+          caption: 使用引用的特性和文本定义模式，以自动生成工作包主题。用户将无法手动编辑主题。
+          label: 自动生成的主题
+        description:
+          caption: 添加文本，该文本将添加到所有此类型的新工作包的描述字段中。
+          label: 默认描述文本
+        manually_editable_subjects:
+          caption: 用户可以不受限制地手动输入和编辑工作包主题。
+          label: 可手动编辑的主题
+        pattern:
+          caption: 通过添加文本创建模式，或输入“/”以搜索[支持的特性](attributes_url)。
+          insert_as_text: 未找到特性。以文本形式添加：“%{word}”
+          label: 主题模式
+        tab: 默认值
+        token:
+          context:
+            parent: 父项
+            project: 项目
+            work_package: 工作包
+          label_with_context: "%{attribute_context}：%{attribute_label}"
+      details:
+        tab: 详细信息
+        type_color_text: 所选颜色可用于在甘特图或工作包表中区分不同类型。因此，建议使用浓烈的颜色。
       export_configuration:
         artefact_export:
           attachment:
@@ -5819,39 +5866,85 @@ zh-CN:
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
         tab: 项目
-      settings:
-        parent_type_text: 可以通过选择父类型，将此类型嵌套为子类型。
-        tab: 设置
-        type_color_text: 所选颜色用于在甘特图或工作包表中区分不同类型。因此建议使用鲜艳的颜色。
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: 使用引用属性和文本定义模式，自动生成工作包主题。用户将无法手动编辑主题。
-          label: 自动生成主题
-        manually_editable_subjects:
-          caption: 用户可以不受限制地手动输入和编辑工作包主题。
-          label: 可手动编辑的主题
-        pattern:
-          caption: 通过添加文本创建模式，或输入“/”搜索[支持的属性](attributes_url)。
-          insert_as_text: 未找到属性。以文本形式添加：“%{word}”
-          label: 主题模式
-        tab: 主题配置
-        token:
-          context:
-            parent: 父级
-            project: 项目
-            work_package: 工作包
-          label_with_context: "%{attribute_context}：%{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: 我明白，这会覆盖当前设置
+            description_html: 如果从 %{source_name} 复制数据，您将会覆盖当前设置，并可能影响有关此类型的工作包的现有信息。
+            title: 是否复制配置？
+          dialog:
+            description: 从源类型复制配置，并将其用作一次性基础。这并不会永久关联这两种类型。
+            source_label: 复制源类型
+            source_placeholder: 选择类型或变体
+            submit: 保存并复制
+            title: 复制配置
+          invalid_source: 无法从所选类型复制该配置。请选择其他源类型。
+          success: 配置已复制。
+        independent:
+          confirm_dialog:
+            check_box: 我明白，这会覆盖当前设置
+            description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
+            title: 是否切换配置模式？
+          copy_from_type: 从类型复制
+          description: 任何设置都不会继承。如果需要，您仍可从另一种类型中一次性复制设置。
+          dialog:
+            submit: 切换
+            title: 独立模式
+          invalid_mode: 所选模式对此配置不可用。请选择其他模式。
+          modes:
+            copy:
+              caption: 首先对关联模式下设定的当前设置进行一次性复制。
+              label: 从关联模式复制
+            default:
+              caption: 对新类型使用默认设置。
+              label: 默认设置
+            empty:
+              caption: 以空白配置为起点，从头开始设置所有内容。
+              label: 空
+          success: 配置模式已切换。
+          switch_to_linked: 切换为关联模式
+          title: 独立模式
+        linked:
+          change_source: 更改源类型
+          confirm_dialog:
+            change_source:
+              description_html: 如果将源类型更改为 %{source_name}，您将会覆盖当前设置，并可能影响有关此类型的工作包的现有信息。
+              title: 是否更改源类型？
+            check_box: 我明白，这会覆盖当前设置
+            from_independent:
+              description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
+              title: 是否切换配置模式？
+          description: 此配置已与源类型 [%{source_name}](source_url)%{source_suffix} 建立关联，并继承其设置。
+          dialog:
+            description: 从源类型中复制并继承此设置。源类型中添加的任何新配置也会添加到此处。
+            source_label: 关联的源类型
+            source_placeholder: 选择类型或变体
+            submit: 切换
+            title: 关联的模式
+          invalid_source: 无法将配置关联到所选类型。请选择其他源类型。
+          success: 配置模式已切换。
+          switch_to_independent: 切换为独立模式
+          title: 关联的模式
+        parent_suffix: "（父项）"
+      workflow:
+        tab: 工作流
     index:
-      add_subtype: 将子类型添加到 %{name}
-      description: '类型和子类型内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
+      add_variant: 将变体添加到 %{name}
+      description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
 
         '
+      enabled_in_new_projects: 在新项目中有效
+      make_default: 在新项目中激活
+      make_default_notice: "%{name} 现已在新项目中激活"
       no_results_content_text: 创建新的类型
       no_results_title_text: 目前没有类型。
-      subtype_label: 子类型
-      subtypes_count:
-        other: "%{count} 种子类型"
+      remove_default: 不在新项目中激活
+      remove_default_notice: "%{name} 不再在新项目中激活"
       type_label: 类型
+      variant_enabled_in_new_projects: 变体 %{name} 在新项目中处于有效状态
+      variant_label: 变体
+      variants_count:
+        other: "%{count} 个变体"
   unsupported_browser:
     close_warning: 请忽略这个警告。
     message: 此页面可能会发生运行错误和不良用户体验。
@@ -6065,7 +6158,7 @@ zh-CN:
   warning_user_limit_reached_admin_html: '添加额外的用户将超出当前限值。请[升级您的方案](upgrade_url)，以确保外部用户能够访问此实例。
 
     '
-  warning_user_limit_reached_instructions: '您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
 
     '
   wiki:

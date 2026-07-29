@@ -88,5 +88,5 @@ zh-CN:
       upsell:
         description: 利用同步的 LDAP 组来管理用户、更改其权限并促进跨组的用户管理。
   plugin_openproject_ldap_groups:
-    description: LDAP组成员同步。
+    description: LDAP 组成员同步。
     name: OpenProject LDAP 组

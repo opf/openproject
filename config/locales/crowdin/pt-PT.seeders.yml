@@ -504,6 +504,20 @@ pt-PT:
           name: História do utilizador
         item_6:
           name: Bug
+      global_queries:
+        item_0:
+          name: 'Filhos épicos: histórias de utilizadores e erros'
+        item_1:
+          name: 'Filhos da história de utilizador: Tarefas'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: Histórias de utilizador e erros
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Tarefas
       welcome:
         title: Damos-lhe as boas-vindas ao OpenProject!
         text: |
