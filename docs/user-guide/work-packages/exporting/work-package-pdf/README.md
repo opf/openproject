@@ -8,31 +8,44 @@ keywords: work package exports, single work package, PDF, contract template
 
 # Work package PDF export
 
-If you select **Generate PDF** in the work package dropdown menu, a modal will open, where you can adjust the following:
+If you select **Generate PDF** in the work package dropdown menu, a modal will open, where you can select a template and adjust its options.
 
-- **Template** is a dropdown menu showing all of the options currently enabled. At moment possible template options include:
+![PDF generation modal for export of single work packages in OpenProject](openproject_user_guide_work_package_export_pdf_modal.png)
 
-  - _Attributes and description_ - this template lists all the work package attributes [configured in the work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
-  - _Contract_ - this template includes work package details formatted to the standard German contract form.
-  - _PMflex Artefact_ - this template renders the work package details as a PMflex Artefact.
+## Template
+
+**Template** is a dropdown menu showing all of the options currently enabled. At moment possible template options include:
+
+- _Attributes and description_ - this template lists all the work package attributes [configured in the work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
+- _Contract_ - this template includes work package details formatted to the standard German contract form.
+- _PMflex Artefact_ - this template renders the work package details as a PMflex Artefact.
 
 > [!TIP]
 > You can define which templates are enabled for specific work package types in the [administration settings](../../../../system-admin-guide/manage-work-packages/work-package-types).
 
-- **Table of contents** - only offered for the _PMflex Artefact_ template. If selected, a table of contents page indexing the section headers is added to the export.
+Which of the following options are offered depends on the selected template.
 
-- **Hyphenation** - if selected, a break line will be included into the export between word for improved layout.
+## Options for all templates
 
-- **Language and hyphenation** - a dropdown menu showing languages to be used for hyphenation. The selection does not change the language used in the PDF export.
+- **Hyphenation** - if selected, a break line will be included into the export between word for improved layout. This option is deactivated by default.
 
-- **Footer text**, which is displayed in the PDF export. Footer position depends on the template. You can adjust the suggested footer text.
+- **Language and hyphenation** - a dropdown menu showing languages to be used for hyphenation. Your current language is preselected if hyphenation is available for it. The selection does not change the language used in the PDF export.
 
-  - If _Attributes and description_ template is selected, the project name will be suggested for the footer. This text will be placed at the center of the footer.
-  - If _Contract_ template is selected, the work package subject will be suggested as the footer text. This text will be placed at the right corner of the footer.
+## Options for _Attributes and description_
+
+- **Footer text**, which is displayed in the PDF export. The project name will be suggested for the footer, and the text will be placed at the center of the footer. You can adjust the suggested footer text.
 
 - **Page orientation**, which allows selecting _Portrait_ or _Landscape_ layout of the pages in the PDF.
 
-![PDF generation modal for export of single work packages in OpenProject](openproject_user_guide_work_package_export_pdf_modal.png)
+## Options for _Contract_
+
+- **Footer text**, which is displayed in the PDF export. The work package subject will be suggested as the footer text, and the text will be placed at the right corner of the footer. You can adjust the suggested footer text.
+
+## Options for _PMflex Artefact_
+
+- **Table of contents** - if selected, a table of contents page indexing the section headers is added to the export. This option is activated by default.
+
+## Generate the export
 
 Click the **Download** button to generate the PDF export.
 
