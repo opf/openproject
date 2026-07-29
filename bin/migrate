@@ -5,13 +5,17 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-DUMP_FILE="$1"
+DUMP_FILE=""
 NEW_SCHEMA_NAME=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -n|--change-schema-name)
       NEW_SCHEMA_NAME="$2"
+      shift 2
+      ;;
+    -f|--format)
+      DUMP_FORMAT="$2"
       shift 2
       ;;
     *)
@@ -24,8 +28,8 @@ done
 POSTGRES_CONTAINER=op-migrate-pg17
 OUTPUT_BUFFER=$(mktemp)
 
-if [ -z $DUMP_FILE ]; then
-  echo -e "Usage: bin/migrate [-n|--change-schema-name NAME] openproject.sql"
+if [ -z "$DUMP_FILE" ]; then
+  echo -e "Usage: bin/migrate [-n|--change-schema-name NAME] [-f|--format sql|pgdump] openproject.sql"
   exit 1
 fi
 
@@ -128,8 +132,12 @@ fi
 
 echo "Dumping migrated (OpenProject $((OP_VERSION - 1))) database..."
 
-MIGRATED_FILE=$(echo $DUMP_FILE | sed -r 's/\.(sql|pgdump)/-migrated.sql/')
-
-docker exec -u 999 -i $POSTGRES_CONTAINER pg_dump -d openproject -x -O | gzip > $MIGRATED_FILE
+if [ "$DUMP_FORMAT" = "pgdump" ]; then
+  MIGRATED_FILE=$(echo $DUMP_FILE | sed -r 's/\.(sql|pgdump)/-migrated.pgdump/')
+  docker exec -u 999 -i $POSTGRES_CONTAINER pg_dump -d openproject -Fc -x -O > $MIGRATED_FILE
+else
+  MIGRATED_FILE=$(echo $DUMP_FILE | sed -r 's/\.(sql|pgdump)/-migrated.sql.gz/')
+  docker exec -u 999 -i $POSTGRES_CONTAINER pg_dump -d openproject -x -O | gzip > $MIGRATED_FILE
+fi
 
 echo -e "\n${GREEN}Dump saved under ${MIGRATED_FILE}${NC}\n"
