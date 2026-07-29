@@ -32,7 +32,7 @@ If relations, such as _children_, _blocked by_, _followed by_, etc. are included
 
 ## PDF report with images
 
-If you select the **Include images** option, your PDF Report will include the images from the work package description. Supported formats include PNG, JPG, WebP. If an animated WebP or a GIF is used, the first frame will be included into the report.
+The **Include images** option is activated by default, so your PDF Report includes the images from the work package description. Deactivate it to reduce the size of the PDF export. Supported formats include PNG, JPG, WebP. If an animated WebP or a GIF is used, the first frame will be included into the report.
 
 ![Include images in OpenProject work packages export](openproject_wp_report_include_images_checked.png)
 
