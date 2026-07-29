@@ -73,6 +73,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   static values = {
     moveUrlTemplate: String,
     moveUrlTemplates: Object,
+    optimistic: { type: Boolean, default: false },
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
@@ -83,6 +84,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   declare readonly hasMoveUrlTemplateValue:boolean;
   declare readonly moveUrlTemplatesValue:Record<string, string>;
   declare readonly hasMoveUrlTemplatesValue:boolean;
+  declare readonly optimisticValue:boolean;
 
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
@@ -364,10 +366,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
     const expanded = parseTemplate(template).expand({ id: itemId });
     const url = new URL(expanded, window.location.href);
-    // Both drag and menu moves share this path and are flagged optimistic=true
-    // (the move is already applied in the DOM), so the server skips the frame
-    // reload for a same-list move.
-    url.searchParams.set('optimistic', 'true');
+    // Only consumers whose success response is event-only (Backlogs) opt in;
+    // morph-reconciled surfaces need the server to stream the canonical order.
+    if (this.optimisticValue) {
+      url.searchParams.set('optimistic', 'true');
+    }
 
     return `${url.pathname}${url.search}${url.hash}`;
   }

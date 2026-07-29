@@ -118,12 +118,14 @@ describe('Sortable lists controller', () => {
 
   function renderFixture({
     moveUrlTemplate = '/move/{id}',
-  }:{ moveUrlTemplate?:string|null } = {}) {
+    optimistic = false,
+  }:{ moveUrlTemplate?:string|null; optimistic?:boolean } = {}) {
     fixture.innerHTML = `
       <div
         id="sortable-root"
         data-controller="sortable-lists"
         ${moveUrlTemplate ? `data-sortable-lists-move-url-template-value="${moveUrlTemplate}"` : ''}
+        ${optimistic ? 'data-sortable-lists-optimistic-value="true"' : ''}
         data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
         data-sortable-lists-sortable-lists--scrollable-outlet="#sortable-root [data-controller~='sortable-lists--scrollable']"
@@ -537,6 +539,7 @@ describe('Sortable lists controller', () => {
   it('builds the move URL from the controller URI template', async () => {
     const { targetList, firstSourceItem } = renderFixture({
       moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+      optimistic: true,
     });
 
     await ctx.nextFrame();
@@ -551,6 +554,32 @@ describe('Sortable lists controller', () => {
   it('flags the move request as optimistic', async () => {
     const { targetList, firstSourceItem } = renderFixture({
       moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+      optimistic: true,
+    });
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    expect(new URL(calledUrl, 'http://localhost').searchParams.get('optimistic')).toBe('true');
+  });
+
+  it('omits the optimistic flag by default', async () => {
+    const { targetList, firstSourceItem } = renderFixture({
+      moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+    });
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    expect(new URL(calledUrl, 'http://localhost').searchParams.has('optimistic')).toBe(false);
+  });
+
+  it('appends optimistic=true when the root opts in', async () => {
+    const { targetList, firstSourceItem } = renderFixture({
+      moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+      optimistic: true,
     });
 
     await ctx.nextFrame();
@@ -570,6 +599,7 @@ describe('Sortable lists controller', () => {
         src="/projects/demo/backlogs/backlog?bucket_ids%5B%5D=1&bucket_ids%5B%5D=inbox&sprint_ids%5B%5D=2"
         data-controller="sortable-lists"
         data-sortable-lists-move-url-template-value="/projects/demo/backlogs/work_packages/{id}/move"
+        data-sortable-lists-optimistic-value="true"
         data-sortable-lists-sortable-lists--list-outlet="#backlogs-list [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#backlogs-list [data-controller~='sortable-lists--item']"
       >

@@ -49,6 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
                       class: "op-backlogs-page",
                       data: {
                         controller: "backlogs--list-refresh backlogs--split-view-sync sortable-lists",
+                        sortable_lists_optimistic_value: true,
                         action: "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
                         sortable_lists_move_url_template_value: backlogs_move_url_template(@project),
                         sortable_lists_sortable_lists__list_outlet: "#backlogs_container [data-controller~='sortable-lists--list']",
