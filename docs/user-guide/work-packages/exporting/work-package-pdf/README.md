@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Work package PDF export
   priority: 400
 description: How to export a single work package in PDF format in OpenProject
-keywords: work package exports, single work package, PDF, contract template
+keywords: work package exports, single work package, PDF, contract template, PMflex artefact
 ---
 
 # Work package PDF export
@@ -12,47 +12,87 @@ If you select **Generate PDF** in the work package dropdown menu, a modal will o
 
 ![PDF generation modal for export of single work packages in OpenProject](openproject_user_guide_work_package_export_pdf_modal.png)
 
-## Template
-
-**Template** is a dropdown menu showing all of the options currently enabled. At the moment possible template options include:
-
-- _Attributes and description_ - this template lists all the work package attributes [configured in the work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
-- _Contract_ - this template includes work package details formatted to the standard German contract form.
-- _PMflex Artefact_ - this template renders the work package details as a PMflex Artefact.
+**Template** is a dropdown menu showing all of the options currently enabled. Each template produces a different document and offers its own options, which are described in the sections below.
 
 > [!TIP]
-> You can define which templates are enabled for specific work package types in the [administration settings](../../../../system-admin-guide/manage-work-packages/work-package-types).
+> You can define which templates are enabled for specific work package types in the [administration settings](../../../../system-admin-guide/manage-work-packages/work-package-types/#activate-templates-for-pdf-exports). The first enabled template is preselected.
 
-Which of the following options are offered depends on the selected template.
+All templates have the following in common:
+
+- Images used in the description and in long text fields are embedded into the PDF.
+- [Embedded work package and project attributes](../../../wysiwyg/#attributes) are resolved to their current values.
+- The logo displayed in the export is taken from the [design settings](../../../../system-admin-guide/design/). If no export logo is configured, the OpenProject logo is used.
+- The name of the downloaded file is composed of project, work package type, ID and subject, followed by the date and time of the export.
 
 ## Options for all templates
+
+Regardless of the selected template, you can adjust the following:
 
 - **Hyphenation** - if selected, a break line will be included into the export between words for improved layout. This option is deactivated by default.
 
 - **Language and hyphenation** - a dropdown menu showing languages to be used for hyphenation. Your current language is preselected if hyphenation is available for it. The selection does not change the language used in the PDF export.
 
-## Options for _Attributes and description_
+## Attributes and description
 
-- **Footer text**, which is displayed at the center of the footer of every page, with the export date to the left and the page number to the right of it. The project name will be suggested as footer text. You can adjust the suggested footer text.
+This template exports the work package as a compact document containing all of its attributes and its description. It is the right choice if you need a printable snapshot of a single work package.
 
-- **Page orientation**, which allows selecting _Portrait_ or _Landscape_ layout of the pages in the PDF.
+The export contains:
 
-## Options for _Contract_
-
-- **Footer text**, which is displayed at the center of the footer of every page, with the export date to the left and the page number to the right of it. The work package subject will be suggested as footer text. You can adjust the suggested footer text.
-
-## Options for _PMflex Artefact_
-
-- **Table of contents** - if selected, a table of contents page indexing the section headers is added to the export. This option is activated by default.
-
-## Generate the export
-
-Click the **Download** button to generate the PDF export.
+- A heading with work package type, ID and subject, followed by the current status. The heading is linked to the work package in OpenProject.
+- All work package attributes, grouped and ordered exactly as in the form configuration of the work package type. Every group is introduced by its title. Attributes are also listed when they are empty, but attributes you are not allowed to see are left out.
+- Long text custom fields at the position defined in the form configuration, each with its name as a label.
+- The work package description.
+- Embedded work package tables from the form configuration, for example a table of children. If such a table contains no work packages, the export states this instead.
 
 > [!NOTE]
 >
 > Layout of the PDF export follows the [work package configuration form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) defined for specific work package types.
 
+In addition to the options above, you can adjust the following:
+
+- **Footer text**, which is displayed at the center of the footer of every page, with the export date to the left and the page number to the right of it. The project name will be suggested as footer text. You can adjust the suggested footer text.
+
+- **Page orientation**, which allows selecting _Portrait_ or _Landscape_ layout of the pages in the PDF. Portrait places two attributes next to each other, landscape four. Select _Landscape_ for work packages with many attributes or wide embedded tables.
+
 ![Example of a single work package PDF export in OpenProject](openproject-user-guide-single-pdf-export.png)
+
+## Contract
+
+This template exports the work package description only, formatted to the standard German contract form. Attributes are not included, which makes the work package description the full content of the document.
+
+The document uses a wide page margin, justified paragraphs and a bracketed numbering for lists, as it is common for contracts. The logo is placed in the upper left corner of every page.
+
+> [!TIP]
+> Since only the description is exported, you can prepare the contract wording as [default text for the description](../../../../system-admin-guide/manage-work-packages/work-package-types/) of a work package type and let [embedded attributes](../../../wysiwyg/#attributes) fill in values such as the contract partner or a date.
+
+In addition to the options above, you can adjust the following:
+
+- **Footer text**, which is displayed at the center of the footer of every page, with the export date to the left and the page number to the right of it. The work package subject will be suggested as footer text. You can adjust the suggested footer text.
+
+## PMflex Artefact
+
+This template renders the work package as a PMflex Artefact: a structured document that combines the context of the project with the content of the work package and its related work packages. 
+The [PM² Project Management Guide](../../../../project-management-guide/3-overview-pm2/#33-pm-phase-drivers-and-key-artefacts) describes the key artefacts of the methodology and the phases they belong to.
+
+The export contains:
+
+- A cover page with work package type, ID, subject and status, along with the instance name and the export date and time.
+- A table of contents, if the option below is activated.
+- The work package description.
+- All [project attributes](../../../projects/project-settings/project-attributes/) of the project, section by section. Empty sections are skipped.
+- All work package attributes, grouped as in the form configuration of the work package type.
+- Related work packages from embedded tables of the form configuration. Unlike the other templates, 
+  these are not listed as table rows but rendered with their attributes, their description and their long text custom fields, so the artefact is complete on its own.
+
+In addition to the options above, you can adjust the following:
+
+- **Table of contents** - if selected, a table of contents page indexing the section headers is added to the export. The entries are linked to the respective pages and list the project attribute sections and the work package attribute groups. This option is activated by default.
+
+> [!TIP]
+> Administrators can configure artefacts to be generated automatically once a work package reaches a defined status. The generated artefact is then either added to the work package as an attachment or uploaded to the connected Nextcloud folder of the project.
+
+## Generate the export
+
+Click the **Download** button to generate the PDF export.
 
 See [Export work packages](../#export-a-single-work-package) for how to trigger the export of a single work package.
