@@ -49,6 +49,14 @@ module WorkPackageTypes
         pdf: :file
       }.freeze
 
+      ASPECTS = {
+        defaults: Type::ConfigurationLink::DEFAULTS,
+        form_configuration: Type::ConfigurationLink::FORM_CONFIGURATION,
+        project_attributes: Type::ConfigurationLink::PROJECT_ATTRIBUTES,
+        workflows: Type::ConfigurationLink::WORKFLOWS,
+        pdf: Type::ConfigurationLink::PDF_EXPORT
+      }.freeze
+
       private
 
       attr_reader :current_step
@@ -67,6 +75,11 @@ module WorkPackageTypes
       # record is created (step 1) nothing is navigable or completed yet.
       def completed?(step)
         type.persisted? && Steps.index(step) < Steps.index(current_step)
+      end
+
+      def linked?(step)
+        aspect = ASPECTS[step]
+        aspect.present? && type.linked?(aspect)
       end
 
       # Only visited/creatable steps are navigable: before the record exists we

@@ -16,7 +16,7 @@
 
         <% row.with_column(ml: 2) do %>
           <% if completed?(step) %>
-            <%= render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)) %>
+            <%= render(Primer::Beta::Octicon.new(icon: linked?(step) ? :link : :pencil, color: :accent)) %>
           <% elsif current?(step) %>
             <%= render(Primer::Beta::Octicon.new(icon: :"dot-fill", color: :accent)) %>
           <% else %>

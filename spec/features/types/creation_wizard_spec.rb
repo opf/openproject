@@ -53,12 +53,13 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     )
   end
 
-  # There is no flash message; a step's sidebar marker turning into a success check is
-  # what tells us its submission was accepted. Asserting the completed step's own state
-  # (rather than the next step's content) keeps the specs correct if the order changes.
-  def expect_step_saved(step)
+  # There is no flash message; a step's sidebar marker resolving to its reuse-mode icon
+  # is what tells us its submission was accepted. A completed step shows the chain icon
+  # when its aspect is Linked and the pencil when Independent. Asserting the completed step's own
+  # state (rather than the next step's content) keeps the specs correct if the order changes.
+  def expect_step_saved(step, linked: true)
     within_test_selector("wizard-step-#{step}") do
-      expect(page).to have_css(".octicon-check-circle-fill")
+      expect(page).to have_css(linked ? ".octicon-link" : ".octicon-pencil")
     end
   end
 
@@ -66,7 +67,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
 
-    expect_step_saved(:details)
+    expect_step_saved(:details, linked: false)
 
     bug_type.children.find_by(name:).tap { |variant| expect(variant).to be_present }
   end
@@ -108,7 +109,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
 
     # Step 6 - Projects
     click_on I18n.t(:button_continue)
-    expect_step_saved(:projects)
+    expect_step_saved(:projects, linked: false)
 
     # Step 7 - PDF generation: linked to the parent on creation, so it renders read-only.
     expect(page).to have_heading("PDF generation") # the main content, not the sidebar entry
@@ -132,7 +133,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     check Type.human_attribute_name(:is_milestone)
     click_on I18n.t(:button_continue)
 
-    expect_step_saved(:details)
+    expect_step_saved(:details, linked: false)
     expect(Type.find_by(name: "Incident")).to have_attributes(parent: nil, is_milestone: true)
   end
 
@@ -147,7 +148,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     Components::WysiwygEditor.new.set_markdown("Reproduce the bug first")
     click_on I18n.t(:button_continue)
 
-    expect_step_saved(:defaults)
+    expect_step_saved(:defaults, linked: false)
     expect(variant.reload.description).to eq("Reproduce the bug first")
   end
 

@@ -59,12 +59,15 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
   end
 
   describe "sidebar step markers" do
-    it "distinguishes completed, current, and pending steps" do
-      render_inline(described_class.new(type:, current_step: :defaults))
+    it "marks the current and pending steps, and completed steps by reuse mode" do
+      type.link!(Type::ConfigurationLink::DEFAULTS, source: parent)
 
-      expect(find_test_selector("wizard-step-details")).to have_css(".octicon-check-circle-fill")
-      expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-dot-fill")
-      expect(find_test_selector("wizard-step-workflows")).to have_css(".octicon-circle")
+      render_inline(described_class.new(type:, current_step: :workflows))
+
+      expect(find_test_selector("wizard-step-details")).to have_css(".octicon-pencil")
+      expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-link")
+      expect(find_test_selector("wizard-step-workflows")).to have_css(".octicon-dot-fill")
+      expect(find_test_selector("wizard-step-pdf")).to have_css(".octicon-circle")
     end
   end
 
