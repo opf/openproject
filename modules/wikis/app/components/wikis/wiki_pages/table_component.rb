@@ -38,6 +38,10 @@ module Wikis
 
       main_column :title
 
+      # Keep the selected static query and filters when following page links,
+      # they are dropped from the default whitelist otherwise.
+      def pagination_params = { allowed_params: %w[query_id filters] }
+
       def mobile_title
         I18n.t("wikis.index.menu_title")
       end
