@@ -48,8 +48,7 @@ module WorkPackageTypes
 
       private
 
-      # A query group holds a single query, so excluding its key drops the whole group rather
-      # than a row. Nil for a group whose query was deleted: there is no id to build a key from.
+      # A query group holds a single query, so excluding its key drops the whole group rather than a row.
       def exclusion_element_key
         @group[:element_key]
       end

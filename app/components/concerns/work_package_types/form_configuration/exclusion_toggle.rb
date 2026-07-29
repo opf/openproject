@@ -30,11 +30,7 @@
 
 module WorkPackageTypes
   module FormConfiguration
-    # The switch a read-only row carries to stop inheriting its element. Rows keep rendering
-    # whatever the source configures, so the switch is the only thing that says whether this
-    # type takes the element over: On means inherited, Off means excluded.
-    #
-    # Including components implement #exclusion_element_key and #exclusion_toggle_label.
+    # Reusable module for rendering exclusion toggles for attributes and query group components
     module ExclusionToggle
       ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
@@ -48,8 +44,6 @@ module WorkPackageTypes
         raise SubclassResponsibilityError
       end
 
-      # The switch's accessible name. "Inherited" alone does not say what is inherited, and the
-      # row's own text is not associated with the switch.
       def exclusion_toggle_label
         raise SubclassResponsibilityError
       end
@@ -58,8 +52,8 @@ module WorkPackageTypes
         @exclusions.excluded?(exclusion_element_key)
       end
 
-      # Excluded by a link above this type. This type cannot narrow an ancestor's link, so the
-      # switch has nothing to write and is rendered disabled.
+      # A type cannot narrow an ancestor's link, so such a switch has nothing to write and is
+      # rendered disabled.
       def inherited_exclusion?
         @exclusions.inherited?(exclusion_element_key)
       end
@@ -80,9 +74,8 @@ module WorkPackageTypes
         t("types.edit.form_configuration.exclusions.excluded")
       end
 
-      # Names the link the exclusion arrives through rather than the type that set it: the
-      # chain's exclusions are unioned, so a grandparent's link can be the one responsible,
-      # and either way the element is already missing from what this source hands down.
+      # As we can chain linked form configurations, the reason why this field is disables
+      # may be anywhere in the linked chain. But it is useful to find out where it comes from.
       def exclusion_description
         return nil unless inherited_exclusion?
 

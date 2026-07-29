@@ -35,9 +35,8 @@ module WorkPackageTypes
 
     ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
-    # What this type does not inherit, resolved once for the page. `own` is this type's own
-    # link, `effective` the union over the whole chain: an element in `effective` but not in
-    # `own` was excluded above this type, which cannot narrow an ancestor's link.
+    # What this type does not inherit. `own` is this type's own link, `effective` the union over
+    # the whole chain, so an element in `effective` but not in `own` was excluded above this type.
     ExclusionState = Data.define(:type, :own, :effective, :source_name) do
       def excluded?(key)
         effective.include?(key.to_s)
@@ -63,9 +62,7 @@ module WorkPackageTypes
       @type.effective_source_for(ASPECT)
     end
 
-    # Resolved once and handed to every row: #effective_excluded_elements is not memoized and
-    # runs a recursive query per call, so asking per row would cost one of those per attribute.
-    # nil outside read-only mode, which is what tells the rows to render no toggle.
+    # We memoize the exclusion state here to avoid an n+1 query
     def exclusion_state
       return nil unless readonly?
       return @exclusion_state if defined?(@exclusion_state)

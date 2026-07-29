@@ -76,7 +76,7 @@ module WorkPackageTypes
       end
 
       def label_for(source)
-        return source.name unless parent?(source)
+        return source.composite_name unless parent?(source)
 
         "#{source.name}#{I18n.t('types.edit.reuse_mode.parent_suffix')}"
       end
