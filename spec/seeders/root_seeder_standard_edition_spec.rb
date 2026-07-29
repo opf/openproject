@@ -60,7 +60,7 @@ RSpec.describe RootSeeder,
       expect(View.where(type: "work_packages_table").count).to eq 5
       expect(View.where(type: "team_planner").count).to eq 1
       expect(View.where(type: "gantt").count).to eq 2
-      expect(Query.count).to eq 28
+      expect(Query.count).to eq 30
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
       expect(GlobalRole.count).to eq 2
@@ -260,6 +260,53 @@ RSpec.describe RootSeeder,
       )
     end
 
+    it "seeds the epic type with embedded query in its form configuration while keeping the default attribute groups" do
+      epic = root_seeder.seed_data.find_reference(:default_type_epic)
+      query_group = epic.attribute_groups[0]
+      default_groups = epic.attribute_groups[1..]
+
+      expect(query_group).to be_a Type::QueryGroup
+      expect(default_groups).to all(be_a Type::AttributeGroup)
+
+      # Filters on children (templated parent) that are user stories or bugs.
+      query = query_group.query
+      expect(query.column_names).to eq(%i[id subject status assigned_to story_points sprint])
+      expect(query.sort_criteria).to eq([["status", "desc"], ["sprint", "asc"], ["position", "asc"]])
+      expect(query.hidden).to be(true)
+      expect(query.find_active_filter(:parent)).to be_present
+      expect(query.find_active_filter(:parent).operator).to eql "="
+      expect(query.find_active_filter(:parent).values).to eql ["{id}"]
+      expect(query.find_active_filter(:type_id)).to be_present
+      expect(query.find_active_filter(:type_id).operator).to eql "="
+      expect(query.find_active_filter(:type_id).values)
+        .to eql [root_seeder.seed_data.find_reference(:default_type_user_story).id.to_s,
+                 root_seeder.seed_data.find_reference(:default_type_bug).id.to_s]
+
+      # The other attribute groups are kept
+      expect(default_groups.map { [it.key, it.attributes] }).to eql epic.default_attribute_groups
+    end
+
+    it "seeds the user story type with embedded query in its form configuration while keeping the default attribute groups" do
+      user_story = root_seeder.seed_data.find_reference(:default_type_user_story)
+      query_group = user_story.attribute_groups[0]
+      default_groups = user_story.attribute_groups[1..]
+
+      expect(query_group).to be_a Type::QueryGroup
+      expect(default_groups).to all(be_a Type::AttributeGroup)
+
+      # Filters on children (templated parent) that are user stories or bugs.
+      query = query_group.query
+      expect(query.column_names).to eq(%i[id subject type status assigned_to sprint])
+      expect(query.sort_criteria).to eq([["status", "desc"], ["id", "asc"]])
+      expect(query.hidden).to be(true)
+      expect(query.find_active_filter(:parent)).to be_present
+      expect(query.find_active_filter(:parent).operator).to eql "="
+      expect(query.find_active_filter(:parent).values).to eql ["{id}"]
+
+      # The other attribute groups are kept
+      expect(default_groups.map { [it.key, it.attributes] }).to eql user_story.default_attribute_groups
+    end
+
     include_examples "it creates records", model: Color, expected_count: 148
     include_examples "it creates records", model: DocumentType, expected_count: 6
     include_examples "it creates records", model: GlobalRole, expected_count: 2
@@ -306,7 +353,7 @@ RSpec.describe RootSeeder,
         expect(View.where(type: "work_packages_table").count).to eq 5
         expect(View.where(type: "team_planner").count).to eq 1
         expect(View.where(type: "gantt").count).to eq 2
-        expect(Query.count).to eq 28
+        expect(Query.count).to eq 30
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3
         expect(GlobalRole.count).to eq 2
@@ -351,6 +398,15 @@ RSpec.describe RootSeeder,
         expect(Project.count).to eq 2
         # but they're mostly empty because of the missing default statuses
         expect(WorkPackage.count).to eq 0
+      end
+
+      it "keeps the epic form configuration from the initial seeding" do
+        # The global queries embedded into the form configuration are not deleted, so the
+        # GlobalQuerySeeder is skipped on this re-seed and their references are not registered
+        # again. The TypeConfigurationSeeder therefore cannot re-apply the form configuration,
+        # but the type created initially still carries it (accepted limitation).
+        expect(Type.find_by(name: "Epic").attribute_groups)
+          .to include(an_instance_of(Type::QueryGroup))
       end
     end
   end

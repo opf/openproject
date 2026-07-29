@@ -99,7 +99,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_flash(message: "Successful creation.")
 
@@ -135,7 +135,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
           end
 
           # Save wiki page
-          click_on "Save"
+          click_on "Create"
 
           expect_and_dismiss_flash(message: "Successful creation.")
 

@@ -40,10 +40,10 @@ sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev 
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
 Ruby.
 You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `4.0.2`, which we also require.
+At the time of this writing, the latest stable version is `4.0.6`, which we also require.
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.2` and install that version.
+Read the first line e.g. `4.0.6` and install that version.
 
 #### Install rbenv and ruby-build
 
@@ -80,18 +80,18 @@ With both installed, we can now install ruby.
 You can check available ruby versions with `rbenv install --list`.
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.2` and install that version.
+Read the first line e.g. `4.0.6` and install that version.
 
 ```shell
 # Install the required version as read from the .ruby-version file
-rbenv install 4.0.2
+rbenv install 4.0.6
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to
 globally activate this version
 
 ```shell
-rbenv global 4.0.2
+rbenv global 4.0.6
 rbenv rehash
 ```
 
@@ -181,10 +181,10 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```shell
 ruby --version
-ruby 4.0.2 (2026-03-17 revision d3da9fec82) +PRISM [arm64-darwin25]
+ruby 4.0.6 (2026-07-14 revision 03b6d3f889) +PRISM [arm64-darwin25]
 
 bundler --version
-4.0.9
+4.0.16
 
 node --version
 v24.18.0

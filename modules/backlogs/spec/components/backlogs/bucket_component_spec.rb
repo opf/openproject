@@ -121,7 +121,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       end
 
       it "renders one shared-card row per work package" do
-        expect(rendered_component).to have_css(".Box-row", count: 1)
         expect(rendered_component).to have_text("Bucket Work Package")
         expect(rendered_component).to have_text("##{work_package.id}")
       end
@@ -170,7 +169,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
     end
 
     context "without work packages" do
-      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
+      it_behaves_like "rendering Box", row_count: 0, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Backlog bucket is empty"
 
       it "renders the bucket empty-state blankslate" do

@@ -1,5 +1,6 @@
 <%=
-  component_wrapper(tag: :span) do
-    render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(@status, **@system_arguments))
+  component_wrapper(class: "d-flex flex-items-center") do
+    concat(render(Primer::Beta::Text.new(mr: 2)) { helpers.format_time(last_changed_date) })
+    concat(render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(@jira_import.current_state, **@system_arguments)))
   end
 %>

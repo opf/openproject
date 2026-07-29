@@ -51,7 +51,7 @@ RSpec.describe "Wysiwyg escaping HTML entities (Regression #28906)", :js do
     end
 
     # Save wiki page
-    click_on "Save"
+    click_on "Create"
 
     expect_flash(message: "Successful creation.")
 

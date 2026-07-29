@@ -43,8 +43,8 @@ end
 
 # Shared expectations for an itemless Border Box List: the component renders
 # a single Blank Slate row in place of the list items.
-RSpec.shared_examples_for "rendering an empty Border Box List" do |heading:, icon: nil, row_count: 1, header: true|
-  it_behaves_like("rendering Box", row_count:, header:)
+RSpec.shared_examples_for "rendering an empty Border Box List" do |heading:, icon: nil, header: true|
+  it_behaves_like("rendering Box", row_count: 0, header:)
   it_behaves_like("rendering Blank Slate", heading:, icon:)
 end
 

@@ -43,10 +43,10 @@ module Admin::Import::Jira::ImportRuns
             method: "morph"
           )
           update_via_turbo_stream(
-            component: ::Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(@jira_import.current_state),
+            component: ::Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(@jira_import),
             method: "morph"
           )
-          render turbo_stream: turbo_streams
+          render turbo_stream: resolve_turbo_streams
         end
         format.html do
           redirect_to(admin_import_jira_run_path(jira_id: @jira.id, id: @jira_import.id))

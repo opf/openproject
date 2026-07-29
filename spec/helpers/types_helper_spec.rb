@@ -111,4 +111,29 @@ RSpec.describe TypesHelper do
       end
     end
   end
+
+  describe "#icon_for_type" do
+    subject(:icon) { helper.icon_for_type(type) }
+
+    context "with a milestone type" do
+      let(:type) { build_stubbed(:type, is_milestone: true) }
+
+      it "names the shape, which is otherwise the only milestone cue" do
+        expect(icon).to have_css("span.color--milestone-icon[role='img'][title='Milestone']", visible: :all)
+      end
+    end
+
+    context "with an ordinary type" do
+      let(:type) { build_stubbed(:type, is_milestone: false) }
+
+      it "stays decorative, since the type name follows in text" do
+        expect(icon).to have_css("span.color--phase-icon[aria-hidden='true']", visible: :all)
+        expect(icon).to have_no_css("span[title]", visible: :all)
+      end
+    end
+
+    it "renders nothing without a type" do
+      expect(helper.icon_for_type(nil)).to be_nil
+    end
+  end
 end

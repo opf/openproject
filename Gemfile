@@ -39,7 +39,7 @@ ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
 gem "activerecord-import", "~> 2.2.0"
-gem "activerecord-session_store", "~> 2.2.0"
+gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.3"
 gem "responders", "~> 3.2"
@@ -127,7 +127,7 @@ gem "bcrypt", "~> 3.1.22"
 gem "multi_json", "~> 1.21.0"
 
 gem "daemons"
-gem "good_job", "~> 4.19.1" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.2" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -144,7 +144,7 @@ gem "browser", "~> 6.2.0"
 gem "okcomputer", "~> 1.19.1"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.14.0"
+gem "lograge", "~> 0.15.0"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
@@ -161,7 +161,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.21.0"
+gem "mcp", "~> 0.24.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -206,7 +206,7 @@ gem "ssrf_filter", "~> 1.3"
 
 gem "aws-sdk-core", "~> 3.251"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.225"
+gem "aws-sdk-s3", "~> 1.227"
 
 gem "openproject-token", "~> 8.12.0"
 
@@ -214,7 +214,7 @@ gem "plaintext", "~> 0.3.7"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 5.3.0", require: false
+gem "mini_magick", "~> 5.3.2", require: false
 
 gem "validate_url"
 
@@ -251,7 +251,7 @@ gem "factory_bot", "~> 6.6.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.5.0", require: false
 
-gem "turbo_power", "~> 0.7.0"
+gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
 gem "httpx", "~> 1.8.0"
@@ -266,7 +266,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.6.0"
+  gem "test-prof", "~> 1.6.2"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
@@ -366,7 +366,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.35.5"
+  gem "rubocop-rails", "~> 2.36.0"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -385,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.2"
+gem "grape", "~> 3.3.3"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 
