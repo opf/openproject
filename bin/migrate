@@ -6,11 +6,27 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 DUMP_FILE="$1"
+NEW_SCHEMA_NAME=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -n|--change-schema-name)
+      NEW_SCHEMA_NAME="$2"
+      shift 2
+      ;;
+    *)
+      DUMP_FILE="$1"
+      shift
+      ;;
+  esac
+done
+
 POSTGRES_CONTAINER=op-migrate-pg17
 OUTPUT_BUFFER=$(mktemp)
 
 if [ -z $DUMP_FILE ]; then
-  echo -e "${GREEN}Please provide a valid path to an OpenProject database dump file.${NC}"
+  echo -e "Usage: bin/migrate [-n|--change-schema-name NAME] openproject.sql"
+  exit 1
 fi
 
 dump() {
@@ -104,6 +120,11 @@ while [ $? -eq 0 ]; do
 
   OP_VERSION=$((OP_VERSION + 1))
 done
+
+if [ -n "$NEW_SCHEMA_NAME" ]; then
+  echo -e "\nChanging schema name to '${NEW_SCHEMA_NAME}'...\n"
+  docker exec -i $POSTGRES_CONTAINER su - postgres -c "psql -d openproject -c 'ALTER SCHEMA public RENAME TO \"${NEW_SCHEMA_NAME}\"'"
+fi
 
 echo "Dumping migrated (OpenProject $((OP_VERSION - 1))) database..."
 
