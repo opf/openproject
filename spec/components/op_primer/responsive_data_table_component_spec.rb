@@ -105,6 +105,19 @@ RSpec.describe OpPrimer::ResponsiveDataTableComponent, type: :component do
     expect(rendered_component).to have_css(".op-border-box-grid__row-label")
   end
 
+  it "reuses one row component per row for metadata and responsive cell classes" do
+    allow(Admin::ScimClients::RowComponent).to receive(:new).and_call_original
+
+    rendered_component
+
+    scim_clients.each do |client|
+      expect(Admin::ScimClients::RowComponent)
+        .to have_received(:new)
+        .with(row: client, table: anything)
+        .once
+    end
+  end
+
   context "with no rows" do
     let(:scim_clients) { [] }
 

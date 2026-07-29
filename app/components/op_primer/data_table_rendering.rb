@@ -97,7 +97,7 @@ module OpPrimer
 
     # Proc supplying per-row CSS classes for a column's cell.
     def cell_classes_for(column)
-      ->(row) { row_class.new(row: row, table: self).column_css_class(column) }
+      ->(row) { row_instance_for(row).column_css_class(column) }
     end
 
     # Extra per-column arguments. Overridden by the responsive façade.
@@ -133,9 +133,14 @@ module OpPrimer
         sort_href_builder: (sort_href_builder if sortable?),
         initial_sort_column: initial_sort_column,
         initial_sort_direction: initial_sort_direction,
-        row_classes: ->(row) { row_class.new(row: row, table: self).row_css_class },
-        row_data: ->(row) { row_class.new(row: row, table: self).row_data }
+        row_classes: ->(row) { row_instance_for(row).row_css_class },
+        row_data: ->(row) { row_instance_for(row).row_data }
       )
+    end
+
+    def row_instance_for(row)
+      @row_instances ||= {}.compare_by_identity
+      @row_instances[row] ||= row_class.new(row: row, table: self)
     end
 
     def add_data_table_column(table, column, id, options)

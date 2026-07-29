@@ -83,6 +83,19 @@ RSpec.describe OpPrimer::DataTableComponent, type: :component do
     expect(rendered_component).to have_css("#poc-statuses-table-component")
   end
 
+  it "reuses one row component per row for metadata and cell classes" do
+    allow(Statuses::RowComponent).to receive(:new).and_call_original
+
+    rendered_component
+
+    statuses.each do |status|
+      expect(Statuses::RowComponent)
+        .to have_received(:new)
+        .with(row: status, table: anything)
+        .once
+    end
+  end
+
   context "with no rows" do
     let(:statuses) { [] }
 

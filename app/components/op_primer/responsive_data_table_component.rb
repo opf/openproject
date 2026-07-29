@@ -54,7 +54,7 @@ module OpPrimer
         "op-data-table--main-column": main_column?(column)
       )
 
-      ->(row) { class_names(static, row_class.new(row: row, table: self).column_css_class(column)) }
+      ->(row) { class_names(static, row_instance_for(row).column_css_class(column)) }
     end
 
     def data_table_classes
