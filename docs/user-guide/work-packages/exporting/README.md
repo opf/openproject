@@ -32,6 +32,8 @@ To export work packages to another format, visit the **Work packages** module an
 
 This will open a dialog where you can select the desired format. Click on one of the possible formats to start the export. The pages linked above detail what each format contains.
 
+The export is then prepared in the background. A dialog shows the progress and offers the download as soon as the file is ready. The generated file is only kept for a limited time, so a download link cannot be reused indefinitely.
+
 > [!NOTE]
 > You need the **Export work packages** permission in order to export a work package list. It can be assigned to a role in the [roles and permissions](../../../system-admin-guide/users-permissions/roles-permissions/) administration.
 
