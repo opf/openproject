@@ -14,9 +14,12 @@ If you select **Generate PDF** in the work package dropdown menu, a modal will o
 
   - _Attributes and description_ - this template lists all the work package attributes [configured in the work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
   - _Contract_ - this template includes work package details formatted to the standard German contract form.
+  - _PMflex Artefact_ - this template renders the work package details as a PMflex Artefact.
 
 > [!TIP]
 > You can define which templates are enabled for specific work package types in the [administration settings](../../../../system-admin-guide/manage-work-packages/work-package-types).
+
+- **Table of contents** - only offered for the _PMflex Artefact_ template. If selected, a table of contents page indexing the section headers is added to the export.
 
 - **Hyphenation** - if selected, a break line will be included into the export between word for improved layout.
 
