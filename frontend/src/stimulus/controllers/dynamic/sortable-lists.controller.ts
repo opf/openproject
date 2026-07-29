@@ -221,8 +221,18 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.ownerListOf(itemElement)?.element ?? null;
   }
 
+  // The owning list of an item is the innermost list outlet containing its
+  // element: in nested topologies (a section item hosting a field list) the
+  // item is contained by every ancestor list, and only the innermost one
+  // holds its row.
   private ownerListOf(itemElement:HTMLElement) {
-    return this.sortableListsListOutlets.find((list) => list.element.contains(itemElement)) ?? null;
+    const containing = this.sortableListsListOutlets.filter((list) => list.element.contains(itemElement));
+
+    return containing.find((list) => !containing.some((other) => other !== list && list.element.contains(other.element))) ?? null;
+  }
+
+  ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null {
+    return this.ownerListOf(itemElement)?.rowsContainer ?? null;
   }
 
   private async handleDrop({ location, source }:ElementDropPayload) {
@@ -257,12 +267,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    // The dragged source row is still resolved as an <li>, the one place the
-    // subsystem is not yet tag-agnostic: reaching its rows container structurally
-    // needs the source list (not the root) on the item payload. Backlogs rows are
-    // <li>, so this holds today; generalising it is a tracked follow-up.
-    const sourceRow = source.element.closest('li');
-    if (!(sourceRow instanceof HTMLElement)) {
+    const sourceList = this.ownerListOf(source.element);
+    const sourceRow = sourceList ? rowOf(sourceList.rowsContainer, source.element) : null;
+    if (!sourceRow) {
       debugLog('sortable-lists: ignoring drop, could not resolve the source row element');
       return;
     }

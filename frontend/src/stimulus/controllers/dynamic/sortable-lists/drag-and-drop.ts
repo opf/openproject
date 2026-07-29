@@ -98,6 +98,9 @@ export interface SortableListsRoot {
   // The element of the list an item currently belongs to; null outside any
   // registered list. Items carry no list reference, so the root resolves it.
   ownerListElementOf(itemElement:HTMLElement):HTMLElement|null;
+  // The rows container of the item's innermost owning list, or null when the
+  // item is not (yet) inside a list the root knows about.
+  ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can

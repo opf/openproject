@@ -73,6 +73,7 @@ describe('Sortable lists scrollable controller', () => {
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerListElementOf: vi.fn(() => null),
+      ownerRowsContainer: vi.fn(() => null),
     };
   }
 

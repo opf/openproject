@@ -204,6 +204,81 @@ describe('Sortable lists controller', () => {
       .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
   }
 
+  // Direct-child ids only: a section row can itself host a nested list of its
+  // own items, and querySelectorAll (used by itemIds above) would pick those
+  // up too, muddying assertions about the outer list's own row order.
+  function directItemIds(container:HTMLElement):(string|null)[] {
+    return Array.from(container.children).map((child) => child.getAttribute('data-sortable-lists--item-id-value'));
+  }
+
+  function fieldRow(id:string):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-controller', 'sortable-lists--item');
+    row.setAttribute('data-sortable-lists--item-id-value', id);
+    row.setAttribute('data-sortable-lists--item-type-value', 'custom_field');
+    row.setAttribute('data-sortable-lists--item-label-value', `Field ${id}`);
+    return row;
+  }
+
+  // A nested dual-role topology: the outer list's rows are section items
+  // (a <div>, not an <li>, hosting their own inner list of custom_field
+  // items). Sections and fields share one root, so a section item is
+  // contained by both the outer list (directly) and, for fields, by the
+  // outer list transitively through the section row.
+  function renderNestedFixture() {
+    fixture.innerHTML = `
+      <div
+        id="sortable-root"
+        data-controller="sortable-lists"
+        data-sortable-lists-move-url-template-value="/move/{id}"
+        data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
+      >
+        <ul
+          data-controller="sortable-lists--list"
+          data-sortable-lists--list-type-value="section"
+          data-sortable-lists--list-id-value="1"
+          data-sortable-lists--list-accepted-type-value="section"
+          data-sortable-lists--list-name-value="Sections"
+        >
+          <div
+            data-controller="sortable-lists--item"
+            data-sortable-lists--item-id-value="s1"
+            data-sortable-lists--item-type-value="section"
+            data-sortable-lists--item-label-value="Section 1"
+          >
+            <ul
+              data-controller="sortable-lists--list"
+              data-sortable-lists--list-type-value="custom_field"
+              data-sortable-lists--list-id-value="s1"
+              data-sortable-lists--list-accepted-type-value="custom_field"
+              data-sortable-lists--list-name-value="Fields"
+            ></ul>
+          </div>
+          <div
+            data-controller="sortable-lists--item"
+            data-sortable-lists--item-id-value="s2"
+            data-sortable-lists--item-type-value="section"
+            data-sortable-lists--item-label-value="Section 2"
+          ></div>
+        </ul>
+      </div>
+    `;
+    const root = fixture.querySelector<HTMLElement>('#sortable-root')!;
+    const sectionList = fixture.querySelector<HTMLElement>('[data-sortable-lists--list-type-value="section"]')!;
+    const sectionItem = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="s1"]')!;
+    const fieldList = fixture.querySelector<HTMLElement>('[data-sortable-lists--list-type-value="custom_field"]')!;
+    fieldList.append(fieldRow('cf1'), fieldRow('cf2'));
+
+    return {
+      root,
+      sectionList,
+      sectionItem,
+      fieldList,
+      firstFieldItem: fieldList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="cf1"]')!,
+    };
+  }
+
   beforeEach(async () => {
     vi.clearAllMocks();
 
@@ -987,5 +1062,41 @@ describe('Sortable lists controller', () => {
 
     expect(controller.ownerListElementOf(firstSourceItem)).toBe(sourceList);
     expect(controller.ownerListElementOf(document.createElement('li'))).toBeNull();
+  });
+
+  describe('nested list topology', () => {
+    it('resolves the source row of a nested item against its innermost list', async () => {
+      const { fieldList, firstFieldItem } = renderNestedFixture();
+
+      await ctx.nextFrame();
+      await dropCurrentItemOnList(firstFieldItem, fieldList);
+
+      // The dragged custom_field item's own row moved within its innermost
+      // (field) list; the outer section row it lives under is untouched.
+      expect(directItemIds(fieldList)).toEqual(['cf2', 'cf1']);
+
+      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      expect(options.body.get('list_type')).toEqual('custom_field');
+      expect(options.body.get('list_id')).toEqual('s1');
+    });
+
+    it('resolves a section row that is not an <li>', async () => {
+      const { sectionList, sectionItem } = renderNestedFixture();
+
+      await ctx.nextFrame();
+      // A list-only drop onto the section list's own default ('end')
+      // position: with two section rows this reorders them, so it is a real
+      // move rather than a same-position no-op.
+      await dropCurrentItemOnList(sectionItem, sectionList);
+
+      // closest('li') on a <div> row returns null and the drop would
+      // silently be ignored; a fired move proves the row resolved.
+      expect(fetchMock).toHaveBeenCalledOnce();
+      expect(directItemIds(sectionList)).toEqual(['s2', 's1']);
+
+      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      expect(options.body.get('list_type')).toEqual('section');
+      expect(options.body.get('list_id')).toEqual('1');
+    });
   });
 });
