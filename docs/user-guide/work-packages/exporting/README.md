@@ -30,7 +30,7 @@ To export work packages to another format, visit the **Work packages** module an
 
 ![Exporting from the table](openproject_export_wp.png)
 
-This will open a dialog where you can select the desired format. Click on one of the possible formats to start the export. The pages linked above detail what each format contains.
+This will open a dialog where you can select the desired format. For **PDF** you additionally select the export type: table, report or Gantt chart. Adjust the options offered for your selection and click the **Export** button to start the export. The pages linked above detail what each format contains.
 
 The export is then prepared in the background. A dialog shows the progress and offers the download as soon as the file is ready. The generated file is only kept for a limited time, so a download link cannot be reused indefinitely.
 
