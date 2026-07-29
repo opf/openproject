@@ -85,6 +85,7 @@ module Import
         elsif batch.properties[:stage] == 4
           batch.enqueue(stage: 5) do
             Import::JiraCreateProjectRoleJob.perform_later(jira_import.id)
+            Import::JiraCreateCustomFieldsJob.perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 5
           batch.enqueue(stage: 6) do

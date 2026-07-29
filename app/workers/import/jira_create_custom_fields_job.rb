@@ -37,7 +37,12 @@ module Import
       "Create custom fields"
     end
 
-    def perform(_jira_import_id, _jira_project_id)
+    # Creates the OP custom fields for the whole import run, before the per-project jobs fan out.
+    def perform(jira_import_id)
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      @jira_id = @jira_import.jira.id
+      @system_user = User.system
+
       build_custom_field_registry
     end
   end

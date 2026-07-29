@@ -220,7 +220,8 @@ module Import
           context_group:,
           option_value:,
           needs_disambiguation:,
-          jira_import: @jira_import
+          jira_import: @jira_import,
+          context_index: next_context_index(jira_field)
         )
 
         jira_import = jira_field.jira_import
@@ -234,6 +235,16 @@ module Import
           custom_field:,
           builder:
         }
+      end
+
+      # Position of a context group among all context groups built for a Jira field, in the order
+      # build_registry_entries_for_field produces them. Identifies which of the custom fields
+      # already created for that Jira field belongs to this context group.
+      def next_context_index(jira_field)
+        @context_indexes ||= Hash.new(0)
+        index = @context_indexes[jira_field.id]
+        @context_indexes[jira_field.id] = index + 1
+        index
       end
 
       def find_or_create_custom_field(jira_field, builder)
