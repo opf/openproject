@@ -201,6 +201,38 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         expect(token.call(sub_work_package)).to eq("Task")
       end
     end
+
+    context "for versions" do
+      shared_let(:second_version) { create(:version, project:) }
+
+      before do
+        create(:work_package_version, work_package:, version: second_version, kind: :target)
+      end
+
+      context "when work package multiple versions is active",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        it "renders an array of values" do
+          enabled, = subject
+          token = detect(enabled, :version)
+
+          expect(token.call(work_package)).to eq("#{version.name}, #{second_version.name}")
+        end
+
+        it "label is target versions" do
+          enabled, = subject
+          expect(detect(enabled, :version)&.label).to eq("Target versions")
+        end
+      end
+
+      context "when work package multiple versions is not active",
+              with_settings: { work_package_multiple_versions: false } do
+        it "label is version" do
+          enabled, = subject
+          expect(detect(enabled, :version)&.label).to eq("Version")
+        end
+      end
+    end
   end
 
   private
