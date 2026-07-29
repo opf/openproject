@@ -37,8 +37,8 @@ module WorkPackageTypes
     layout "admin"
 
     before_action :require_admin
-    before_action :require_type_variants_feature, only: %i[drop]
-    before_action :find_type, only: %i[move destroy drop make_default remove_default]
+    before_action :require_type_variants_feature, only: %i[drop duplicate]
+    before_action :find_type, only: %i[move destroy drop make_default remove_default duplicate]
 
     current_menu_item do
       :types
@@ -117,6 +117,18 @@ module WorkPackageTypes
 
       if service_call.success?
         flash[:notice] = t("types.index.remove_default_notice", name: @type.own_name)
+      else
+        flash[:error] = service_call.errors.full_messages
+      end
+
+      redirect_to types_path(expand: @type.parent_id), status: :see_other
+    end
+
+    def duplicate
+      service_call = WorkPackageTypes::DuplicateService.new(type: @type, user: current_user).call
+
+      if service_call.success?
+        flash[:notice] = t("types.index.duplicate_notice", name: @type.own_name)
       else
         flash[:error] = service_call.errors.full_messages
       end
