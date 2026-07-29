@@ -12,8 +12,10 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 
 ![Export work packages in CSV format in OpenProject](openproject_pdf_report_csv_options.png)
 
-> [!TIP]
-> To open CSV exported files in Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with the wrong encoding under Microsoft Windows.
+> [!NOTE]
+>
+> The exported file starts with a byte order mark, so Microsoft Excel and other spreadsheet applications should detect the UTF-8 encoding automatically and display special characters correctly.
+> If they do not, make sure you open the file with a UTF-8 encoding setting.
 
 ![OpenProject work package CSV export](openproject_export_csv.png)
 
