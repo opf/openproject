@@ -207,10 +207,11 @@ RSpec.describe WorkPackages::AutoCompletesController do
       let(:expected_values) { work_package1 }
       let(:json) { response.parsed_body }
       let(:entry) { json.find { |e| e["id"] == work_package1.id } }
+      let(:query) { work_package1.id }
 
       before do
         get :index,
-            params: { project_id: project.id, q: work_package1.id },
+            params: { project_id: project.id, q: query },
             format: :json
       end
 
@@ -224,6 +225,7 @@ RSpec.describe WorkPackages::AutoCompletesController do
       context "in semantic mode",
               with_settings: { work_packages_identifier: "semantic" } do
         let(:project) { create(:project, identifier: "MENTPROJ") }
+        let(:query) { "##{work_package1.id}" }
 
         before { work_package1.allocate_and_register_semantic_id }
 
