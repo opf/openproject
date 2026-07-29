@@ -12,8 +12,15 @@ PDF Table exports the work package table displaying work packages as single rows
 
 ![OpenProject PDF Table export](openproject_pdf_table_export.png)
 
-> [!TIP]
-> If ["display sums" is activated](../../work-package-table-configuration/) in the work package table, then the sum table is included at the bottom of the exported work package table.
+## Display sums
+
+If ["display sums" is activated](../../work-package-table-configuration/#display-sums-in-work-package-table) in the work package table, a sum row is added at the bottom of the exported work package table.
+
+## Grouped work package tables
+
+If the work package table is [grouped by an attribute](../../work-package-table-configuration/), the export contains one table per group. Each table is preceded by a heading with the group value.
+
+The attribute the table is grouped by is not repeated as a column, since its value is already displayed in the group heading. With activated sums, every group table gets its own sum row.
 
 ## Columns
 
