@@ -94,6 +94,22 @@ describe('sortable lists DOM helpers', () => {
 
       expect(resolveListAppendPreviousItemId({ sourceItemId: '1', rowsContainer: list })).toBeNull();
     });
+
+    it('returns null for an empty list nested inside an outer item, not the outer item\'s id', () => {
+      // Nested topology: a section item hosting its own field list. The only
+      // row is a non-item placeholder (no item id, no prev-item-id marker),
+      // and every ancestor up to the root belongs to the outer (section)
+      // item/list pair. Regression: resolving a "previous item" here must not
+      // climb past the list boundary and match the outer section's item id.
+      const outerItem = divItemRow('outer-section');
+      const list = listElement();
+      const placeholder = document.createElement('li');
+
+      list.append(placeholder);
+      outerItem.append(list);
+
+      expect(resolveListAppendPreviousItemId({ sourceItemId: 'field-1', rowsContainer: list })).toBeNull();
+    });
   });
 
   describe('reorderRows', () => {

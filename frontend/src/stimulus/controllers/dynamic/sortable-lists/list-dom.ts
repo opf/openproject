@@ -77,21 +77,33 @@ export function resolveItemType(element:Element):string|null {
   return type === '' ? null : type;
 }
 
-export function resolveClosestItemElement(element:Element):HTMLElement|null {
-  if (element instanceof HTMLElement && element.matches(sortableItemSelector)) {
-    return element;
+// Ancestor-or-self, but never past `boundary` (the rows container `element`
+// belongs to): `element` is typically a row, or something inside one, and in
+// a nested topology (a section item hosting a field list) every ancestor
+// above the rows container belongs to an outer list. An unbounded
+// `closest()` would match the outer item that happens to contain this row —
+// wrong list entirely — which is exactly what a non-item marker row (e.g. an
+// empty list's placeholder) would otherwise resolve to instead of "no item
+// here". `boundary.contains(match)` accepts a self-or-ancestor match found
+// inside the rows container and rejects one outside it. Only this ancestor
+// climb is bounded — resolveItemElement's querySelector fallback below
+// descends unbounded and can match an item belonging to a nested inner list.
+export function resolveClosestItemElement(element:Element, boundary:Element):HTMLElement|null {
+  if (!(element instanceof HTMLElement)) {
+    return null;
   }
 
-  return element.closest<HTMLElement>(sortableItemSelector);
+  const match = element.closest<HTMLElement>(sortableItemSelector);
+  return match && boundary.contains(match) ? match : null;
 }
 
-export function resolveItemElement(element:Element):HTMLElement|null {
-  return resolveClosestItemElement(element) ??
+export function resolveItemElement(element:Element, boundary:Element):HTMLElement|null {
+  return resolveClosestItemElement(element, boundary) ??
     element.querySelector<HTMLElement>(sortableItemSelector);
 }
 
-export function resolvePreviousItemId(element:Element):string|null {
-  const item = resolveItemElement(element);
+export function resolvePreviousItemId(element:Element, boundary:Element):string|null {
+  const item = resolveItemElement(element, boundary);
 
   // Non-item rows, such as truncated "show more" rows, can mark the last
   // omitted item so position resolution remains correct in sparse lists.
@@ -121,7 +133,7 @@ export function resolveListAppendPreviousItemId({
   const rows = listRows(rowsContainer).reverse();
 
   for (const row of rows) {
-    const itemId = resolvePreviousItemId(row);
+    const itemId = resolvePreviousItemId(row, rowsContainer);
     if (itemId && itemId !== sourceItemId) {
       return itemId;
     }
@@ -220,8 +232,8 @@ export function isMoveDirection(value:unknown):value is MoveDirection {
   return typeof value === 'string' && (moveDirections as readonly string[]).includes(value);
 }
 
-function isItemRow(row:Element|undefined):boolean {
-  return !!row && resolveItemElement(row) !== null;
+function isItemRow(row:Element|undefined, rowsContainer:Element):boolean {
+  return !!row && resolveItemElement(row, rowsContainer) !== null;
 }
 
 // Hidden items a non-item row stands in for (a truncation marker annotated
@@ -251,7 +263,7 @@ export function resolveItemPosition({
   let found = false;
 
   for (const current of listRows(rowsContainer)) {
-    if (isItemRow(current)) {
+    if (isItemRow(current, rowsContainer)) {
       total += 1;
       if (current === row) {
         found = true;
@@ -265,16 +277,24 @@ export function resolveItemPosition({
   return found ? { position, total } : null;
 }
 
+// Self only: unlike resolvePreviousItemId, the row passed here is always the
+// dragged item's own row (never a marker or an arbitrary drop target), so no
+// ancestor climb is needed. That matters mid cross-list move: the label is
+// read before the row is reparented into the target list's rows container,
+// so bounding this by that container (which does not yet contain the row)
+// would wrongly reject a legitimate self-match.
 export function resolveItemLabel(row:Element):string|null {
-  return resolveItemElement(row)?.getAttribute('data-sortable-lists--item-label-value') ?? null;
+  return row instanceof HTMLElement && row.matches(sortableItemSelector)
+    ? row.getAttribute('data-sortable-lists--item-label-value')
+    : null;
 }
 
 // A row a predecessor id can be read from: an item row, or a non-item row
 // annotated with the id of the last hidden item it stands in for (a
 // truncation marker). Unannotated non-item rows (a divider, a heading) give
 // no anchor, so a move over them cannot be expressed.
-function isAddressableRow(row:Element):boolean {
-  return isItemRow(row) || row.hasAttribute(sortablePreviousItemIdAttribute);
+function isAddressableRow(row:Element, rowsContainer:Element):boolean {
+  return isItemRow(row, rowsContainer) || row.hasAttribute(sortablePreviousItemIdAttribute);
 }
 
 // The previous item id to insert `itemElement` after for a directional move:
@@ -299,7 +319,7 @@ export function resolveDirectionalPreviousItemId({
 }):string|null|undefined {
   const context = resolveRowContext(itemElement, rowsContainer);
 
-  return context ? directionalPreviousItemIdIn(context, direction) : undefined;
+  return context ? directionalPreviousItemIdIn(context, direction, rowsContainer) : undefined;
 }
 
 export type MoveAvailability = Record<MoveDirection, boolean>;
@@ -320,10 +340,10 @@ export function resolveMoveAvailability({
   }
 
   return {
-    top: directionalPreviousItemIdIn(context, 'top') !== undefined,
-    up: directionalPreviousItemIdIn(context, 'up') !== undefined,
-    down: directionalPreviousItemIdIn(context, 'down') !== undefined,
-    bottom: directionalPreviousItemIdIn(context, 'bottom') !== undefined,
+    top: directionalPreviousItemIdIn(context, 'top', rowsContainer) !== undefined,
+    up: directionalPreviousItemIdIn(context, 'up', rowsContainer) !== undefined,
+    down: directionalPreviousItemIdIn(context, 'down', rowsContainer) !== undefined,
+    bottom: directionalPreviousItemIdIn(context, 'bottom', rowsContainer) !== undefined,
   };
 }
 
@@ -345,7 +365,7 @@ function resolveRowContext(itemElement:HTMLElement, rowsContainer:Element):RowCo
     return null;
   }
 
-  const itemRows = rows.filter((row) => resolveItemElement(row) !== null);
+  const itemRows = rows.filter((row) => resolveItemElement(row, rowsContainer) !== null);
 
   return { rows, rowIndex, itemRows, itemIndex: itemRows.indexOf(sourceRow!) };
 }
@@ -353,6 +373,7 @@ function resolveRowContext(itemElement:HTMLElement, rowsContainer:Element):RowCo
 function directionalPreviousItemIdIn(
   { rows, rowIndex, itemRows, itemIndex }:RowContext,
   direction:MoveDirection,
+  rowsContainer:Element,
 ):string|null|undefined {
   const isFirstItem = itemIndex === 0;
   const isLastItem = itemIndex === itemRows.length - 1;
@@ -362,26 +383,26 @@ function directionalPreviousItemIdIn(
       return isFirstItem ? undefined : null;
     case 'bottom':
       // After the last visible item; the server appends past the hidden block.
-      return isLastItem ? undefined : resolvePreviousItemId(itemRows[itemRows.length - 1]);
+      return isLastItem ? undefined : resolvePreviousItemId(itemRows[itemRows.length - 1], rowsContainer);
     case 'up': {
       if (isFirstItem) return undefined;
       // One slot up crosses a hidden block (marker row above) or an
       // uncrossable gap (unannotated row above) -- unavailable either way.
-      if (!isItemRow(rows[rowIndex - 1])) return undefined;
+      if (!isItemRow(rows[rowIndex - 1], rowsContainer)) return undefined;
       const anchor = rows[rowIndex - 2];
       // The row two above becomes the predecessor (its own id, or a marker's
       // hidden id); an unannotated row there means "before the item above but
       // after the gap", which cannot be expressed. No row means the top.
-      if (anchor && !isAddressableRow(anchor)) return undefined;
-      return anchor ? resolvePreviousItemId(anchor) : null;
+      if (anchor && !isAddressableRow(anchor, rowsContainer)) return undefined;
+      return anchor ? resolvePreviousItemId(anchor, rowsContainer) : null;
     }
     case 'down': {
       if (isLastItem) return undefined;
       const below = rows[rowIndex + 1];
       // One slot down needs the row below as predecessor: a marker row would
       // mean crossing its hidden block, an unannotated row gives no anchor.
-      if (!isItemRow(below)) return undefined;
-      return resolvePreviousItemId(below);
+      if (!isItemRow(below, rowsContainer)) return undefined;
+      return resolvePreviousItemId(below, rowsContainer);
     }
     default:
       return undefined;
