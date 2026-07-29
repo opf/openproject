@@ -178,9 +178,7 @@ RSpec.describe WorkPackages::BaseContract do
       before do
         version = build_stubbed(:version, status: "closed")
 
-        allow(work_package)
-          .to receive(:target_versions)
-          .and_return([version])
+        work_package.version = version
         allow(work_package.status)
           .to receive(:is_closed?)
           .and_return(true)
@@ -200,6 +198,43 @@ RSpec.describe WorkPackages::BaseContract do
         it "is writable" do
           expect(contract).to be_writable(:status)
         end
+      end
+    end
+
+    context "when work_package has multiple versions of which only one is closed" do
+      before do
+        open_version = build_stubbed(:version)
+        closed_version = build_stubbed(:version, status: "closed")
+
+        allow(work_package)
+          .to receive(:effective_target_versions)
+          .and_return([open_version, closed_version])
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
+      end
+
+      it "is not writable" do
+        expect(contract).not_to be_writable(:status)
+      end
+    end
+
+    context "when work_package is being moved out of a closed version while the status is closed" do
+      before do
+        closed_version = build_stubbed(:version, status: "closed")
+        open_version = build_stubbed(:version)
+
+        allow(work_package)
+          .to receive(:target_versions)
+          .and_return([closed_version])
+        work_package.version = open_version
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
+      end
+
+      it "is writable" do
+        expect(contract).to be_writable(:status)
       end
     end
 
