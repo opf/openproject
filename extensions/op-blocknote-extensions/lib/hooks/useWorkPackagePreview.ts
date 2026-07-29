@@ -7,6 +7,7 @@ import {
   type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
 } from 'react';
+import { supportsHover } from '../utils/device';
 
 const PREVIEW_OPEN_DELAY = 300;
 const PREVIEW_CLOSE_DELAY = 150;
@@ -49,13 +50,7 @@ interface WorkPackagePreview {
 // inline work package chip: open/close timing, touch long-press detection, and
 // the props to wire onto the chip and the preview card.
 export function useWorkPackagePreview({ enabled, suppressed }:UseWorkPackagePreviewOptions):WorkPackagePreview {
-  const canHover = useMemo(
-    () =>
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(hover: hover)').matches,
-    []
-  );
+  const canHover = useMemo(() => supportsHover(), []);
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const openTimer = useRef<number | undefined>(undefined);

@@ -22,6 +22,8 @@ export interface AnchoredPopoverOptions {
   placement:'above' | 'below';
   offset?:number;
   onClose:() => void;
+  // When false, a scroll repositions the popover instead of closing it.
+  closeOnScroll?:boolean;
 }
 
 export const useAnchoredPopover = ({
@@ -30,6 +32,7 @@ export const useAnchoredPopover = ({
   placement,
   offset = DEFAULT_ANCHOR_OFFSET,
   onClose,
+  closeOnScroll = true,
 }:AnchoredPopoverOptions) => {
   const [anchorRect, setAnchorRect] = useState<DOMRect | null>(
     () => (anchorEl ? getAnchorRect(anchorEl) : null)
@@ -38,16 +41,24 @@ export const useAnchoredPopover = ({
   useEffect(() => {
     if (!anchorEl) return;
     const update = () => setAnchorRect(getAnchorRect(anchorEl));
-    const handleScroll = () => onClose();
+
+    // Coalesce reposition work to one run per frame - scroll fires far faster.
+    let frame = 0;
+    const scheduleUpdate = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => { frame = 0; update(); });
+    };
+    const handleScroll = () => (closeOnScroll ? onClose() : scheduleUpdate());
 
     update();
     window.addEventListener('scroll', handleScroll, true);
-    window.addEventListener('resize', update);
+    window.addEventListener('resize', scheduleUpdate);
     return () => {
+      if (frame) cancelAnimationFrame(frame);
       window.removeEventListener('scroll', handleScroll, true);
-      window.removeEventListener('resize', update);
+      window.removeEventListener('resize', scheduleUpdate);
     };
-  }, [anchorEl, onClose]);
+  }, [anchorEl, onClose, closeOnScroll]);
 
   // Position before paint so the popover never flashes at its CSS fallback spot.
   useLayoutEffect(() => {

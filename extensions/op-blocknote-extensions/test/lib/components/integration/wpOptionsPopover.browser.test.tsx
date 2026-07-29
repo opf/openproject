@@ -7,13 +7,21 @@ import { renderEditor } from '../../../helpers/renderEditor';
 import {
   insertInlineWorkPackageViaSlashMenu,
   openInlineWorkPackagePopover,
-  convertToCompactCard,
   openBlockCardPopover,
+  convertToCompactCard,
 } from '../../../helpers/editorHelpers';
 
 afterEach(() => {
   cleanup();
 });
+
+// BlockNote leaves an empty display:none toolbar container in the DOM when
+// closed, so presence alone is not enough - only a rendered one counts.
+const formattingToolbarVisible = () =>
+  Array.from(document.querySelectorAll('[class*="formatting-toolbar"]')).some((el) => {
+    const he = el as HTMLElement;
+    return getComputedStyle(he).display !== 'none' && he.childElementCount > 0;
+  });
 
 function ChipWrapper({ initialSize, wpid = '123' }:{
   initialSize:string;
@@ -293,5 +301,50 @@ describe('Inline chip popover UX', () => {
     ]) {
       await expect.element(page.getByRole('button', { name: label, exact: true })).toBeVisible();
     }
+  });
+});
+
+describe('Options popover coexists with the editor', () => {
+  it('inline chip: opening the size menu summons no formatting toolbar', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+    await openInlineWorkPackagePopover();
+
+    await userEvent.click(page.getByTitle('Change size'));
+
+    await expect.element(page.getByTestId('size-menu')).toBeVisible();
+    expect(formattingToolbarVisible()).toBe(false);
+  });
+
+  it('inline chip: resizing summons no formatting toolbar', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+    await openInlineWorkPackagePopover();
+    await userEvent.click(page.getByTitle('Change size'));
+
+    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
+
+    expect(formattingToolbarVisible()).toBe(false);
+  });
+
+  it('inline chip: a scroll closes the popover on desktop', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+    await openInlineWorkPackagePopover();
+
+    window.dispatchEvent(new Event('scroll'));
+
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('block card: opening the popover summons no formatting toolbar', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+    await convertToCompactCard();
+
+    await openBlockCardPopover();
+    await expect.element(page.getByTestId('popover-content')).toBeVisible();
+
+    expect(formattingToolbarVisible()).toBe(false);
   });
 });
