@@ -5027,9 +5027,23 @@ en:
         menu_title: "Template"
         title: "Template settings"
       types:
+        add_dialog:
+          description: "The project uses one member of each type family. Pick the type or the variant this project should use."
+          none_addable: "All available types are already active in this project."
+          submit: "Add"
+          title: "Add type"
+          type_label: "Type"
+          type_placeholder: "Select a type"
+        add_type: "Add type"
+        empty_state:
+          description: "Add a type to let people create work packages of that type in this project."
+          title: "No types are active in this project"
         form:
           enable_type_in_project: 'Enable type "%{type}"'
+        in_roadmap: "In roadmap"
         no_results_title_text: There are currently no types available.
+        remove_from_project: "Remove from project"
+        type_not_found: "The selected type could not be found."
       versions:
         no_results_content_text: Create a new version
         no_results_title_text: There are currently no versions for the project.
@@ -6240,6 +6254,7 @@ en:
       variants_count:
         one: "1 variant"
         other: "%{count} variants"
+    milestone_indicator: "Milestone"
 
   unsupported_browser:
     close_warning: "Ignore this warning."

@@ -424,7 +424,9 @@ Rails.application.routes.draw do
         resource :work_packages, only: %i[show]
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
-          resource :types, only: %i[show update]
+          resources :types, only: %i[index new create destroy] do
+            patch :bulk_update, on: :collection
+          end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end

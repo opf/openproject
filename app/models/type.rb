@@ -187,8 +187,15 @@ class Type < ApplicationRecord
     parent_id.present?
   end
 
+  # A variant's acts_as_list position is append order and users cannot reorder
+  # variants, so position is not a display order for them; alphabetical is.
+  # Every screen that lists a family reads this, so the orders cannot drift.
+  def sorted_variants
+    children.sort_by { |variant| variant.own_name.downcase }
+  end
+
   def family
-    [root, *root.children]
+    [root, *root.sorted_variants]
   end
 
   def name

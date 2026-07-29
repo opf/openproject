@@ -411,10 +411,35 @@ RSpec.describe Type do
       end
     end
 
+    # Isolated from the shared parent/child so the factory's generated names
+    # cannot land between the names under test.
+    describe "#sorted_variants" do
+      let!(:family_root) { create(:type, name: "Family") }
+      let!(:yankee) { create(:type, name: "Yankee", parent: family_root) }
+      let!(:bravo) { create(:type, name: "Bravo", parent: family_root) }
+
+      it "orders variants alphabetically by their own name" do
+        expect(family_root.sorted_variants.map(&:own_name)).to eq(%w[Bravo Yankee])
+      end
+
+      it "does not fall back to position, which is append order" do
+        expect(family_root.children.map(&:own_name)).to eq(%w[Yankee Bravo])
+      end
+    end
+
     describe "#family" do
       it "returns the root followed by its children" do
         expect(child.family).to eq([parent, child])
         expect(parent.family).to eq([parent, child])
+      end
+
+      it "orders the variants the same way #sorted_variants does" do
+        family_root = create(:type, name: "Family")
+        create(:type, name: "Yankee", parent: family_root)
+        create(:type, name: "Bravo", parent: family_root)
+
+        expect(family_root.family).to eq([family_root, *family_root.sorted_variants])
+        expect(family_root.family.map(&:own_name)).to eq(%w[Family Bravo Yankee])
       end
     end
 

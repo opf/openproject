@@ -91,7 +91,18 @@ module ::TypesHelper
 
     content_tag(:span, " ",
                 class: css_class,
-                style: "background-color: #{color}")
+                style: "background-color: #{color}",
+                **accessible_type_icon_attributes(type))
+  end
+
+  # The diamond shape is the only thing distinguishing a milestone from an
+  # ordinary type, so it needs a text equivalent. role="img" is what lets the
+  # title count as the accessible name on an otherwise roleless span. Ordinary
+  # types say nothing: the type name follows in the adjacent text.
+  def accessible_type_icon_attributes(type)
+    return { aria: { hidden: true } } unless type.is_milestone?
+
+    { role: "img", title: I18n.t("types.milestone_indicator") }
   end
 
   ##
