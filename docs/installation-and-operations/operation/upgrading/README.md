@@ -276,7 +276,7 @@ For migrating database dumps from OpenProject version 10 or later to the current
 
 - Docker installed and running
 - Docker Hub access (to pull OpenProject images)
-- A database dump file from OpenProject 10.x or later (in `.sql` or `.pgdump` format)
+- A database dump file from OpenProject 10.x or later in `.sql` plain text format
 
 ### Usage
 
