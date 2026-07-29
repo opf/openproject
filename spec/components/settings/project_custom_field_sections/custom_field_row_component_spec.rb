@@ -40,4 +40,15 @@ RSpec.describe Settings::ProjectCustomFieldSections::CustomFieldRowComponent, ty
       "##{described_class.component_id(field)}"
     )
   end
+
+  it "wires its drag handle as the sortable-lists item handle target" do
+    # The sortable-lists--item controller itself lives on the enclosing
+    # BorderBox <li> rendered by ShowComponent, not on this row's own
+    # wrapper div; only the handle target is asserted here.
+    render_inline(described_class.new(project_custom_field: field, first: true, last: false))
+
+    expect(page).to have_css(
+      "##{described_class.component_id(field)} .handle[data-sortable-lists--item-target='handle']"
+    )
+  end
 end
