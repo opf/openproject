@@ -5937,6 +5937,7 @@ en:
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
