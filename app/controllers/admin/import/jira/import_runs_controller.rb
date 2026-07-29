@@ -143,7 +143,23 @@ module Admin::Import::Jira
     end
 
     def import
+      raise StandardError, semantic_identifiers_required_message unless Setting::WorkPackageIdentifier.semantic?
+
       @jira_import.transition_to!(:importing)
+    end
+
+    def semantic_identifiers_required_message
+      helpers.safe_join(
+        [
+          I18n.t(:"admin.jira.errors.semantic_identifiers_must_be_enabled.title"),
+          link_translate(
+            "admin.jira.errors.semantic_identifiers_must_be_enabled.description",
+            links: { link: admin_settings_work_packages_identifier_path },
+            external: true
+          )
+        ],
+        " "
+      )
     end
 
     def configure
