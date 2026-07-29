@@ -40,6 +40,18 @@ module CustomStyles
     queue_with_priority :low
 
     def perform(custom_style, key, url)
+      download(custom_style, key, url)
+
+      Rails.logger.info "Seeded design asset '#{key}' from #{url}."
+    rescue StandardError => e
+      Rails.logger.error "Failed to seed design asset '#{key}' from #{url} " \
+                         "on attempt #{executions}: #{e.message}"
+      raise
+    end
+
+    private
+
+    def download(custom_style, key, url)
       response = OpenProject.httpx.get(url)
       response.raise_for_status
 
@@ -48,8 +60,6 @@ module CustomStyles
         custom_style.save!
       end
     end
-
-    private
 
     def build_attachable_file(file_name, data)
       Tempfile.open(file_name) do |tempfile|

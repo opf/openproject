@@ -85,6 +85,8 @@ module EnvData
     end
 
     def seed_remote_url(custom_style, key, url)
+      print_status "      ↳ Downloading #{key} from #{url} in the background"
+
       CustomStyles::SeedRemoteAssetJob.perform_later(custom_style, key, url)
     end
 

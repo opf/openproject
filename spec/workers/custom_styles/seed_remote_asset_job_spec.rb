@@ -44,11 +44,14 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
     end
 
     it "stores it on the custom style" do
+      allow(Rails.logger).to receive(:info)
+
       perform
 
       expect(custom_style.reload.logo.file).to be_present
       expect(custom_style.logo.file.content_type).to eq "image/png"
       expect(custom_style.logo.file.filename).to eq "logo.png"
+      expect(Rails.logger).to have_received(:info).with("Seeded design asset 'logo' from #{url}.")
     end
 
     context "when it is an svg" do
@@ -73,9 +76,21 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
       stub_request(:get, url).to_return(status: 404)
     end
 
-    it "retries the job" do
-      expect { perform }.to have_enqueued_job(described_class)
+    it "swallows the error and reschedules itself instead" do
+      expect { perform }.not_to raise_error
+
+      expect(described_class).to have_been_enqueued.with(custom_style, :logo, url)
       expect(custom_style.reload.logo.file).to be_nil
+    end
+
+    it "logs the failed attempt" do
+      allow(Rails.logger).to receive(:error)
+
+      perform
+
+      expect(Rails.logger)
+        .to have_received(:error)
+        .with(a_string_starting_with("Failed to seed design asset 'logo' from #{url} on attempt 1: HTTP Error: 404"))
     end
   end
 
@@ -104,6 +119,17 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
     it "discards the job without downloading" do
       expect { perform }.not_to have_enqueued_job(described_class)
       expect(custom_style.reload.logo.file).to be_nil
+    end
+
+    it "logs why it was blocked" do
+      allow(Rails.logger).to receive(:error)
+
+      perform
+
+      expect(Rails.logger)
+        .to have_received(:error)
+        .with(a_string_including("resolves only to private IP addresses",
+                                 "OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST"))
     end
 
     context "when the IP address is on the SSRF allowlist", with_ssrf_ip_allowlist: %w[127.0.0.1] do
