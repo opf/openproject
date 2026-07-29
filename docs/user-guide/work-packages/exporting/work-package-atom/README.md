@@ -8,7 +8,9 @@ keywords: work package exports, single work package, Atom
 
 # Work package Atom export
 
-If you select **Download Atom** in the work package dropdown menu, the extracted file will download automatically. Atom Export includes a work package Title, Author, a link to the work package and work package activities.
+If you select **Download Atom** in the work package dropdown menu, the extracted file will download automatically.
+
+The Atom export contains one entry per activity of the work package. Every entry includes the work package title, composed of project, type, ID and subject, a link to the work package, the user who made the change, and the changed attributes together with the comment, if one was added.
 
 ## Limits
 
