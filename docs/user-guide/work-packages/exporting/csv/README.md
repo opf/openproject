@@ -19,6 +19,8 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 
 ![OpenProject work package CSV export](openproject_export_csv.png)
 
+## CSV with descriptions
+
 If you select the **Include descriptions** option, the work package description field will be included in the export.
 
 ![OpenProject work package CSV export with descriptions](openproject_export_csv_with_descriptions.png)
