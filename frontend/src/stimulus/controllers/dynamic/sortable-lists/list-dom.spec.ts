@@ -165,6 +165,25 @@ describe('sortable lists DOM helpers', () => {
       expect(itemIdOrder(list)).toEqual(['1', '3', '4', '2']);
     });
 
+    it('anchors on the outer list row, not a nested item with a colliding id', () => {
+      // Section and custom-field ids come from different tables, so a field
+      // nested inside section "1" may carry the same id as section "2".
+      // Resolving section "2" as the anchor must match the outer row, never
+      // descend into the nested field list.
+      const list = listElement();
+      const [sectionOne, sectionTwo, sectionThree] = ['1', '2', '3'].map(divItemRow);
+      const nestedList = listElement();
+      const collidingField = itemRow('2');
+
+      nestedList.append(collidingField);
+      sectionOne.append(nestedList);
+      list.append(sectionOne, sectionTwo, sectionThree);
+
+      reorderRows({ rows: [sectionThree], rowsContainer: list, previousItemId: '2' });
+
+      expect(Array.from(list.children)).toEqual([sectionOne, sectionTwo, sectionThree]);
+    });
+
     it('anchors on a truncation marker row when the previous item is hidden', () => {
       const list = listElement();
       const [one, two, three] = ['1', '2', '3'].map(itemRow);

@@ -116,11 +116,13 @@ export function resolvePreviousItemId(element:Element, boundary:Element):string|
 // Anchor on that marker so the row lands next to the collapsed block instead
 // of jumping to the top.
 function resolveAnchorRow(rowsContainer:HTMLElement, previousItemId:string):HTMLElement|null {
-  const escaped = CSS.escape(previousItemId);
-  const anchor = rowsContainer.querySelector(`[data-sortable-lists--item-id-value="${escaped}"]`)
-    ?? rowsContainer.querySelector(`[${sortablePreviousItemIdAttribute}="${escaped}"]`);
+  // Match against the list's own rows rather than querying descendants:
+  // ids of different item types come from different tables, so a nested
+  // inner list may contain an unrelated item with a colliding id.
+  const anchor = listRows(rowsContainer)
+    .find((row) => resolvePreviousItemId(row, rowsContainer) === previousItemId);
 
-  return anchor ? rowOf(rowsContainer, anchor) : null;
+  return (anchor as HTMLElement|undefined) ?? null;
 }
 
 export function resolveListAppendPreviousItemId({
