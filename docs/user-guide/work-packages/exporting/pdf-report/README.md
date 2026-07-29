@@ -16,6 +16,12 @@ For each work package, a table of attributes is included, where attributes corre
 
 The table of attributes is followed by the work package description and, if necessary, custom long text fields, which support [embedded work package and project attributes](../../../wysiwyg/#attributes).
 
+## Long text fields
+
+Below the attribute table, the report can display the work package description and all long text custom fields. Use the **Add long text fields** option to select which of them are included and drag them to change the order in which they appear in the report.
+
+All long text fields are selected by default. Remove a field from the selection to leave it out of the report.
+
 ## Display sums
 
 If ["display sums" is activated](../../work-package-table-configuration/) in the work package table, then the sum table is included between the table of contents and work packages description in an Overview section.
