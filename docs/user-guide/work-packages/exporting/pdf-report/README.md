@@ -34,11 +34,13 @@ If ["display sums" is activated](../../work-package-table-configuration/) in the
 
 If relations, such as _children_, _blocked by_, _followed by_, etc. are included in the report as columns, they will be included in dedicated blocks.
 
+Each block lists the related work packages in a table with the columns **ID**, **Type**, **Subject**, **Status**, **Start date** and **Finish date**.
+
 ![A pdf export of OpenProject work packages, displaying dedicated sections to existing work package relations](openproject_pdf_report_relations.png)
 
 ## PDF report with images
 
-The **Include images** option is activated by default, so your PDF Report includes the images from the work package description. Deactivate it to reduce the size of the PDF export. Supported formats include PNG, JPG, WebP. If an animated WebP or a GIF is used, the first frame will be included into the report.
+The **Include images** option is activated by default, so your PDF Report includes the images from the work package description. Deactivate it to reduce the size of the PDF export. Supported formats include PNG, JPG, GIF and WebP. If an animated WebP or a GIF is used, the first frame will be included into the report.
 
 ![Include images in OpenProject work packages export](openproject_wp_report_include_images_checked.png)
 
