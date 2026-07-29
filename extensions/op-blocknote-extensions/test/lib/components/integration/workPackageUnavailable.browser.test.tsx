@@ -34,7 +34,7 @@ async function insertUnavailableInlineWorkPackage() {
 }
 
 describe('Inline chip - unavailable work package', () => {
-  it('shows eye-closed icon and "Unavailable: No permission" on 404', async () => {
+  it('shows eye-closed icon and "Work package unavailable: no permission" on 404', async () => {
     worker.use(
       http.get('http://localhost:3000/api/v3/work_packages/999', () =>
         HttpResponse.json({ message: 'Not found' }, { status: 404 })
@@ -48,13 +48,13 @@ describe('Inline chip - unavailable work package', () => {
       />
     );
 
-    await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
-    const chip = page.getByText('Unavailable: No permission').element().closest('.op-bn-inline-wp');
+    await expect.element(page.getByText('Work package unavailable: no permission')).toBeVisible();
+    const chip = page.getByText('Work package unavailable: no permission').element().closest('.op-bn-inline-wp');
     expect(chip?.querySelector('.octicon-eye-closed')).not.toBeNull();
 
     expect(chip?.querySelector('.op-bn-work-package--id')?.textContent).toBe('#999');
     const link = chip?.querySelector('a');
-    expect(link?.textContent).toBe('Unavailable');
+    expect(link?.textContent).toBe('Work package unavailable: no permission');
     expect(link?.getAttribute('href')).toBe('http://localhost:3000/wp/999');
   });
 
@@ -99,7 +99,7 @@ describe('Inline chip - unavailable work package', () => {
     expect(chip?.textContent).toBe('');
     // The full message now lives in the hover/long-press preview, not a native tooltip.
     expect(chip?.getAttribute('title')).toBeNull();
-    expect(chip?.getAttribute('aria-label')).toBe('Unavailable: No permission');
+    expect(chip?.getAttribute('aria-label')).toBe('Work package unavailable: no permission');
   });
 
   it('shows the unavailable card in the preview on hover for size xxs', async () => {
@@ -131,7 +131,7 @@ describe('Inline chip - unavailable work package', () => {
 
     expect(header?.querySelector('.op-bn-work-package--id')?.textContent).toBe('#999');
     const link = header?.querySelector('a');
-    expect(link?.textContent).toBe('work package');
+    expect(link?.textContent).toBe('Linked work package unavailable');
     expect(link?.getAttribute('href')).toBe('http://localhost:3000/wp/999');
   });
 
@@ -145,8 +145,8 @@ describe('Inline chip - unavailable work package', () => {
     renderEditor();
     await insertUnavailableInlineWorkPackage();
 
-    await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
-    // click the identifier, not the label — its "Unavailable" word is a link
+    await expect.element(page.getByText('Work package unavailable: no permission')).toBeVisible();
+    // click the identifier, not the label — the whole label is a link
     await userEvent.click(page.getByText('#123'));
 
     await expect.poll(() => {
@@ -181,7 +181,7 @@ function UnavailableChipWrapper({ initialSize }:{ initialSize:string }) {
 }
 
 describe('Unavailable work package - options popover (BNE-112)', () => {
-  it('inline chip: opens the popover without the Open button and resizes', async () => {
+  it('inline chip: opens the popover with the Open button and resizes', async () => {
     worker.use(
       http.get('http://localhost:3000/api/v3/work_packages/999', () =>
         HttpResponse.json({ message: 'Not found' }, { status: 404 })
@@ -190,12 +190,12 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
 
     render(<UnavailableChipWrapper initialSize="s" />);
 
-    await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
-    // click the identifier, not the label — its "Unavailable" word is a link
+    await expect.element(page.getByText('Work package unavailable: no permission')).toBeVisible();
+    // click the identifier, not the label — the whole label is a link
     await userEvent.click(page.getByText('#999'));
 
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
-    await expect.element(page.getByTitle('Open in new tab')).not.toBeInTheDocument();
+    await expect.element(page.getByTitle('Open in new tab')).toBeVisible();
 
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
@@ -203,7 +203,7 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
 
     // xxs renders icon-only with the message exposed to assistive tech via aria-label
     await vi.waitFor(() => {
-      expect(document.querySelector('.op-bn-inline-wp')?.getAttribute('aria-label')).toBe('Unavailable: No permission');
+      expect(document.querySelector('.op-bn-inline-wp')?.getAttribute('aria-label')).toBe('Work package unavailable: no permission');
     });
   });
 
@@ -217,17 +217,17 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
     renderEditor();
     await insertUnavailableInlineWorkPackage();
 
-    await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
-    // click the identifier, not the label — its "Unavailable" word is a link
+    await expect.element(page.getByText('Work package unavailable: no permission')).toBeVisible();
+    // click the identifier, not the label — the whole label is a link
     await userEvent.click(page.getByText('#123'));
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
 
     await userEvent.click(page.getByTitle('Remove'));
 
-    await expect.element(page.getByText('Unavailable: No permission')).not.toBeInTheDocument();
+    await expect.element(page.getByText('Work package unavailable: no permission')).not.toBeInTheDocument();
   });
 
-  it('block card: opens the popover without the Open button and removes the block', async () => {
+  it('block card: opens the popover with the Open button and removes the block', async () => {
     worker.use(
       http.get('http://localhost:3000/api/v3/work_packages/123', () =>
         HttpResponse.json({ message: 'Not found' }, { status: 404 })
@@ -238,11 +238,11 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
     await insertBlockWorkPackageViaSlashMenu();
 
     await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
-    // click the message, not the header — its "work package" words are a link
+    // click the message, not the header — the whole header is a link
     await userEvent.click(page.getByText('You do not have permission to see this'));
 
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
-    await expect.element(page.getByTitle('Open in new tab')).not.toBeInTheDocument();
+    await expect.element(page.getByTitle('Open in new tab')).toBeVisible();
 
     await userEvent.click(page.getByTitle('Remove'));
 
@@ -268,7 +268,7 @@ describe('Block card - unavailable work package', () => {
 
     expect(header?.querySelector('.op-bn-work-package--id')?.textContent).toBe('#123');
     const link = header?.querySelector('a');
-    expect(link?.textContent).toBe('work package');
+    expect(link?.textContent).toBe('Linked work package unavailable');
     expect(link?.getAttribute('href')).toBe('http://localhost:3000/wp/123');
   });
 

@@ -141,6 +141,7 @@ export const BlockWorkPackageComponent = ({
   const optionsPopover = (
     <WpOptionsPopover
       wp={selectedWorkPackage ?? undefined}
+      displayId={displayId}
       currentSize={undefined}
       currentBlockSize={cardSize}
       // eslint-disable-next-line react-hooks/refs

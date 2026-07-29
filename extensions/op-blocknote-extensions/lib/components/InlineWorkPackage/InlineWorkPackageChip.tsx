@@ -73,6 +73,7 @@ const InlineChip = styled.span.attrs({
 export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updateInlineContent }:InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
   const rawWpid = inlineContent.props.wpid;
+  const displayId = inlineContent.props.displayId || rawWpid;
   const size = (inlineContent.props.size ?? 's') as InlineWpSize;
 
   const pendingCallbacks = getPendingCallbacks(rawWpid);
@@ -137,6 +138,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const optionsPopover = (
     <WpOptionsPopover
       wp={wp ?? undefined}
+      displayId={displayId}
       currentSize={size}
       // eslint-disable-next-line react-hooks/refs
       anchorEl={chipRef.current}
@@ -229,7 +231,6 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     const cardIcon = kind === 'unauthorized'
       ? <EyeClosedIcon size={16} />
       : <AlertIcon size={16} />;
-    const displayId = inlineContent.props.displayId || rawWpid;
     const shortMessageKey = `unavailableWorkPackage.${kind}.short_message`;
     const shortLabel = t(shortMessageKey).replace(/<\/?wplink>/g, '');
 

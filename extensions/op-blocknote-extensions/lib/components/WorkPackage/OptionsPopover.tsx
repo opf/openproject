@@ -16,6 +16,7 @@ import { supportsHover } from '../../utils/device';
 
 export interface WpOptionsProps {
   wp?:WorkPackage;
+  displayId?:string;
   currentSize?:InlineWpSize;
   currentBlockSize?:BlockWpSize;
   anchorEl?:HTMLElement | null;
@@ -148,6 +149,7 @@ const IcChevron = () => <ChevronDownIcon size={10} />;
 
 export const WpOptionsPopover = ({
   wp,
+  displayId,
   currentSize,
   currentBlockSize,
   anchorEl,
@@ -172,6 +174,8 @@ export const WpOptionsPopover = ({
 
   const isBlock = currentSize === undefined;
 
+  const openId = wp?.displayId ?? displayId;
+
   const displayedSizeKey = isBlock ? (currentBlockSize ?? 'm') : currentSize;
   const displayedSize = t(`sizes.${displayedSizeKey}.label`);
 
@@ -185,14 +189,14 @@ export const WpOptionsPopover = ({
     // Do NOT add preventDefault: on iOS it suppresses the first tap's click, so
     // every button then needs a priming tap.
     <Popover ref={popoverRef} onMouseDown={(e) => e.stopPropagation()}>
-      {wp && (
+      {openId && (
         <>
           <PopBtn
             title={t('options.openInNewTab')}
-            aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(wp.displayId) })}
+            aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(openId) })}
             onClick={(e) => {
               e.stopPropagation();
-              window.open(linkToWorkPackage(wp.displayId), '_blank', 'noopener,noreferrer');
+              window.open(linkToWorkPackage(openId), '_blank', 'noopener,noreferrer');
             }}
           >
             <IcOpen /> {t('options.open')}

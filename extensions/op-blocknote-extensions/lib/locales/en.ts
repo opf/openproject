@@ -15,22 +15,22 @@ export const en = {
       'placeholder': 'Search by work package ID or subject',
       'dropdownAriaLabel': 'Work package search results',
     },
-    // <wplink>...</wplink> wraps the words rendered as a link to the work package;
-    // every translation must keep the tag around the corresponding words.
+    // <wplink>...</wplink> wraps the text rendered as a link to the work package;
+    // every translation must keep the whole message wrapped so the entire line links.
     'unavailableWorkPackage': {
       'loading': {
         'header': 'Loading',
         'message': 'Please wait'
       },
       'unauthorized': {
-        'header': 'Linked <wplink>work package</wplink> unavailable',
+        'header': '<wplink>Linked work package unavailable</wplink>',
         'message': 'You do not have permission to see this',
-        'short_message': '<wplink>Unavailable</wplink>: No permission'
+        'short_message': '<wplink>Work package unavailable: no permission</wplink>'
       },
       'error': {
         'header': 'Error',
         'message': 'Could not load work package',
-        'short_message': '<wplink>Unavailable</wplink>: error'
+        'short_message': 'Unavailable: error'
       }
     },
     'options': {
