@@ -40,7 +40,9 @@ RSpec.describe Backlogs::MigrateVersionSprintJournalsJob, type: :model do
   shared_let(:wp2) { create(:work_package, project:, version: version_b, sprint: sprint_b) }
   shared_let(:wp_no_version) { create(:work_package, project:, sprint: sprint_a) }
 
-  subject(:perform) { described_class.new.perform }
+  subject(:perform) { job.perform }
+
+  let(:job) { described_class.new }
 
   describe "#perform" do
     context "when there are work packages associated with a sprint and a version" do
@@ -79,6 +81,38 @@ RSpec.describe Backlogs::MigrateVersionSprintJournalsJob, type: :model do
       it "does not create a system update journal entry" do
         perform
         expect(wp_no_version.reload.last_journal.cause_type).not_to eq("system_update")
+        expect(wp_no_version.reload.last_journal.cause_feature).not_to eq("sprint_migration")
+      end
+    end
+
+    context "when a work package has multiple target versions" do
+      shared_let(:wp_multi) do
+        create(:work_package, project:, version: version_b, sprint: sprint_a).tap do |wp|
+          create(:work_package_version, work_package: wp, version: version_a, kind: :target)
+        end
+      end
+
+      it "creates one journal entry naming the primary (lowest id) target version" do
+        perform
+        journals = wp_multi.reload.journals.select { it.cause_feature == "sprint_migration" }
+        expect(journals.size).to eq(1)
+        expect(journals.first.cause["version_name"]).to eq("Version A")
+      end
+    end
+
+    context "when the work_package_versions table does not exist yet" do
+      before do
+        allow(job).to receive(:work_package_versions_available?).and_return(false)
+      end
+
+      it "journals via the legacy version_id column" do
+        perform
+        expect(wp1.reload.last_journal.cause["version_name"]).to eq("Version A")
+        expect(wp2.reload.last_journal.cause["version_name"]).to eq("Version B")
+      end
+
+      it "does not create a system update journal entry for a work package without a version" do
+        perform
         expect(wp_no_version.reload.last_journal.cause_feature).not_to eq("sprint_migration")
       end
     end
