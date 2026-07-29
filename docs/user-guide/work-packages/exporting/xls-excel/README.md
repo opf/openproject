@@ -24,13 +24,15 @@ You can choose which columns will be displayed in the table (excluding long text
 
 ## XLS with descriptions
 
-If you activate the **Include descriptions** option, an additional column will be included in the report, showing work package descriptions.
+If you activate the **Include descriptions** option, an additional column will be included in the report, showing work package descriptions. The descriptions are exported as raw text with HTML tags removed, so formatting characters remain visible.
 
 ![OpenProject_work_package_export_excel_description](openproject_export_excel_with_descriptions.png)
 
 ## XLS with relations
 
-If you activate the **Include relations** option, additional columns to list each work package relation in a separate row will be included in the report. It will include the relation target and its ID and relation type.
+If you activate the **Include relations** option, each work package is repeated in a separate row for every relation it has. Work packages without relations are exported in a single row.
+
+Every row is extended by the columns **Relation type**, **Lag** and **Description** of the relation, followed by the selected columns of the related work package. Hierarchy relations are included as well and are labelled _parent of_ and _child of_.
 
 ![OpenProject_work_package_export_excel_relations](openproject_export_excel_with_relations.png)
 
@@ -43,6 +45,5 @@ All work packages included in the work package table in the currently selected v
 The OpenProject XLS export currently does not respect all options in the work package view being exported from:
 
 - The hierarchy of work packages as displayed in the work package view. The exported XLS is always in "flat" mode.
-- The description is exported in 'raw' format, so it may contain HTML tags.
 
 See [Export work packages](../) for how to trigger an export and adjust the general export options.
