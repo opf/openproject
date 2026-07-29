@@ -33,6 +33,10 @@ If you activate the **Include relations** option, additional columns to list eac
 
 ![OpenProject_work_package_export_excel_relations](openproject_export_excel_with_relations.png)
 
+## Export limit
+
+All work packages included in the work package table in the currently selected view will be exported, unless a certain export limit has been defined by the instance administrator. The limit can be changed in the [export settings](../../../../system-admin-guide/system-settings/exports/) in the system administration. Newly created instances have a maximum of 500 work packages set as a limit by default.
+
 ## Limitations
 
 The OpenProject XLS export currently does not respect all options in the work package view being exported from:

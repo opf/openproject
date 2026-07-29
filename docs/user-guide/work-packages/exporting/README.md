@@ -32,20 +32,10 @@ To export work packages to another format, visit the **Work packages** module an
 
 This will open a dialog where you can select the desired format. Click on one of the possible formats to start the export. The pages linked above detail what each format contains.
 
-### Export options
-
-All work packages included in the work package table in the currently selected view will be exported, unless a certain export limit has been defined by the instance administrator. The limit can be changed in the [work package settings](../../../system-admin-guide/system-settings/general-settings/#general-system-settings) in the system administration. Newly created instances have a maximum of 500 work packages set as a limit by default.
-
 > [!NOTE]
-> PDF export options include all of the work packages in the selected work package table, regardless of the limit. The possible export limit is relevant for XLS, CSV and Atom export options.
+> You need the **Export work packages** permission in order to export a work package list. It can be assigned to a role in the [roles and permissions](../../../system-admin-guide/users-permissions/roles-permissions/) administration.
 
-**Columns**
-
-You can choose which columns will be displayed in the table (excluding long text fields) and change their order. The pre-selected columns are the ones in the work package table query. Learn how to [save the work package view](../work-package-table-configuration/#save-work-package-views).
-
-Some formats such as PDF will limit the number of columns available due to limitations of the PDF rendering engine to avoid overflowing the available space.
-
-#### Save export format
+### Save export settings
 
 Export settings can be saved for custom (all non-default) work package queries. This allows you to easily share export settings with your team and save time in the future.
 

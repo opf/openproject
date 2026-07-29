@@ -21,6 +21,10 @@ If you select the **Include descriptions** option, the work package description 
 
 ![OpenProject work package CSV export with descriptions](openproject_export_csv_with_descriptions.png)
 
+## Export limit
+
+All work packages included in the work package table in the currently selected view will be exported, unless a certain export limit has been defined by the instance administrator. The limit can be changed in the [export settings](../../../../system-admin-guide/system-settings/exports/) in the system administration. Newly created instances have a maximum of 500 work packages set as a limit by default.
+
 ## Limitations
 
 The OpenProject CSV export currently does not respect all options in the work package view being exported from:
