@@ -21,6 +21,10 @@ In **XLS** format export, you can manage and reorder columns that should be incl
 
 ![OpenProject_work_package_export_excel](openproject_export_excel.png)
 
+## Columns
+
+You can choose which columns will be displayed in the table (excluding long text fields) and change their order. The pre-selected columns are the ones in the work package table query. Learn how to [save the work package view](../../work-package-table-configuration/#save-work-package-views).
+
 ## XLS with descriptions
 
 If you activate the **Include descriptions** option, an additional column will be included in the report, showing work package descriptions.
