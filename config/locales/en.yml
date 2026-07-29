@@ -1252,7 +1252,6 @@ en:
           projects_meta_error: "Error fetching project data"
           projects_meta_fetching: "Fetching project data"
           revert_cancelled: "Revert cancelled"
-          revert_cancelling: "Cancelling revert"
           revert_error: "Error during revert"
           reverted: "Reverted"
           reverting: "Reverting"
@@ -1338,8 +1337,6 @@ en:
               label_finalizing_done: "Import approved."
               label_results: "Imported"
               label_revert: "Revert import"
-              label_revert_cancelled: "Revert cancelled."
-              label_revert_cancelling: "Cancelling revert..."
               label_revert_progress: "Reverting import..."
               label_reverted: "Import reverted."
               stats:

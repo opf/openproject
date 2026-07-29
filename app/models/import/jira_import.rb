@@ -62,11 +62,11 @@ module Import
              :transition_to!,
              :transition_to,
              :in_state?,
-             :status_running?,
-             :status_equal_or_after?,
-             :status_equal_or_before?,
-             :status_after?,
-             :status_before?,
+             :running?,
+             :state_equal_or_after?,
+             :state_equal_or_before?,
+             :state_after?,
+             :state_before?,
              :deletable?,
              to: :state_machine
 

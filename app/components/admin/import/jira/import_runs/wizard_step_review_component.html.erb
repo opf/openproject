@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= flex_layout do |box|
-      if model.in_state?(:reverting, :reverted, :revert_cancelling, :revert_cancelled, :revert_error)
+      if model.in_state?(:reverting, :reverted, :revert_error)
         box.with_row do
           concat(
             render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) do
@@ -40,34 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
         when :reverting
           box.with_row(mt: 3) do
             render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job: model.state_machine.last_transition_to(:reverting).actual_job))
-          end
-        when :revert_cancelling
-          box.with_row(mt: 3) do
-            render(
-              Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-                message: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert_cancelling")
-              )
-            )
-          end
-        when :revert_cancelled
-          box.with_row(mt: 3) do
-            concat(
-              render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) do
-                I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert_cancelled")
-              end
-            )
-            concat(
-              render(
-                Primer::Beta::Button.new(
-                  scheme: :link,
-                  block: false,
-                  href: continue_admin_import_jira_run_path(step: :revert),
-                  color: :accent,
-                  data: { turbo_stream: true },
-                  tag: :a
-                )
-              ) { I18n.t(:"admin.jira.run.wizard.button_continue") }
-            )
           end
         when :reverted
           box.with_row(mt: 3) do
@@ -115,7 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
               I18n.t(:"admin.jira.run.wizard.sections.import_result.title")
             end
           )
-          if model.status_before?(:imported)
+          if model.state_before?(:imported)
             concat(
               render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
                 I18n.t(:"admin.jira.run.wizard.sections.import_result.caption")

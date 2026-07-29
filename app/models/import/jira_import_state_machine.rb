@@ -132,7 +132,23 @@ module Import
       end
     end
 
-    def status_running?
+    def state_equal_or_after?(check_status)
+      JiraImportStateMachine.states.index(current_state.to_s) >= JiraImportStateMachine.states.index(check_status.to_s)
+    end
+
+    def state_equal_or_before?(check_status)
+      JiraImportStateMachine.states.index(current_state.to_s) <= JiraImportStateMachine.states.index(check_status.to_s)
+    end
+
+    def state_before?(check_status)
+      JiraImportStateMachine.states.index(current_state.to_s) < JiraImportStateMachine.states.index(check_status.to_s)
+    end
+
+    def state_after?(check_status)
+      JiraImportStateMachine.states.index(current_state.to_s) > JiraImportStateMachine.states.index(check_status.to_s)
+    end
+
+    def running?
       [
         INSTANCE_META_FETCHING,
         PROJECTS_META_FETCHING,
@@ -143,7 +159,7 @@ module Import
       ].include?(current_state)
     end
 
-    def status_error?
+    def error?
       [
         INSTANCE_META_ERROR,
         PROJECTS_META_ERROR,
@@ -153,24 +169,8 @@ module Import
       ].include?(current_state)
     end
 
-    def status_equal_or_after?(check_status)
-      JiraImportStateMachine.states.index(current_state.to_s) >= JiraImportStateMachine.states.index(check_status.to_s)
-    end
-
-    def status_equal_or_before?(check_status)
-      JiraImportStateMachine.states.index(current_state.to_s) <= JiraImportStateMachine.states.index(check_status.to_s)
-    end
-
-    def status_before?(check_status)
-      JiraImportStateMachine.states.index(current_state.to_s) < JiraImportStateMachine.states.index(check_status.to_s)
-    end
-
-    def status_after?(check_status)
-      JiraImportStateMachine.states.index(current_state.to_s) > JiraImportStateMachine.states.index(check_status.to_s)
-    end
-
     def deletable?
-      !status_running? && !in_state?(IMPORTED, IMPORT_ERROR, REVERT_ERROR)
+      !running? && !in_state?(IMPORTED, IMPORT_ERROR, REVERT_ERROR)
     end
   end
 end

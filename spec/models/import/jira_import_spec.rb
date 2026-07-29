@@ -62,11 +62,11 @@ RSpec.describe Import::JiraImport do
     it { is_expected.to delegate_method(:transition_to!).to(:state_machine) }
     it { is_expected.to delegate_method(:transition_to).to(:state_machine) }
     it { is_expected.to delegate_method(:in_state?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_running?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_equal_or_after?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_equal_or_before?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_after?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_before?).to(:state_machine) }
+    it { is_expected.to delegate_method(:running?).to(:state_machine) }
+    it { is_expected.to delegate_method(:state_equal_or_after?).to(:state_machine) }
+    it { is_expected.to delegate_method(:state_equal_or_before?).to(:state_machine) }
+    it { is_expected.to delegate_method(:state_after?).to(:state_machine) }
+    it { is_expected.to delegate_method(:state_before?).to(:state_machine) }
     it { is_expected.to delegate_method(:deletable?).to(:state_machine) }
     it { is_expected.to delegate_method(:client).to(:jira) }
   end

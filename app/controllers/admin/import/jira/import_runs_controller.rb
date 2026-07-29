@@ -152,7 +152,7 @@ module Admin::Import::Jira
 
     def retry
       last_transition = @jira_import.state_machine.last_transition
-      if @jira_import.state_machine.status_error?
+      if @jira_import.state_machine.error?
         @jira_import.transition_to!(last_transition.from_state)
       end
     end

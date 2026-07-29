@@ -59,8 +59,6 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       "finalizing_done" => imported_prefix + %w[finalizing finalizing_done],
       "reverting" => imported_prefix + %w[reverting],
       "revert_error" => imported_prefix + %w[reverting revert_error],
-      "revert_cancelling" => imported_prefix + %w[reverting revert_cancelling],
-      "revert_cancelled" => imported_prefix + %w[reverting revert_cancelling revert_cancelled],
       "reverted" => imported_prefix + %w[reverting reverted]
     }
 
@@ -305,7 +303,7 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       end
     end
 
-    context "when import is running (status_running? is true)" do
+    context "when import is running (running? is true)" do
       before { transition_to_state(jira_import, "importing") }
 
       it "does not change the step" do
@@ -314,7 +312,7 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       end
     end
 
-    context "when finalizing is running (status_running? is true)" do
+    context "when finalizing is running (running? is true)" do
       before { transition_to_state(jira_import, "finalizing") }
 
       it "does not change the step" do
