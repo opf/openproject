@@ -32,23 +32,19 @@ module Wikis
   module Adapters
     module Providers
       module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
+        module Queries
+          class BrowsePages < BaseQuery
+            MAXIMUM_RESULTS = 50
 
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
-
-          namespace("queries") do
-            register(:browse_pages, Queries::BrowsePages)
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
-            register(:search_wikis, Queries::SearchWikis)
+            def call(input_data:, auth_strategy:)
+              success(
+                WikiPage.includes(wiki: :project)
+                        .visible(auth_strategy.user)
+                        .where(parent_id: input_data.parent_identifier)
+                        .limit(MAXIMUM_RESULTS)
+                        .map { PageHierarchy.wiki_page_to_page_hierarchy(it, provider:) }
+              )
+            end
           end
         end
       end
