@@ -216,6 +216,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
   describe "#usable_custom_field_references_for_formula" do
     let!(:int) { create(:project_custom_field, :integer, default_value: 4, is_for_all: true) }
     let!(:float) { create(:project_custom_field, :float, default_value: 5.5, is_for_all: true) }
+    let!(:bool) { create(:project_custom_field, :boolean, is_for_all: true) }
     let!(:weighted_item_list) { create(:project_custom_field, :weighted_item_list, is_for_all: true) }
     let!(:other_calculated_value) { create(:calculated_value_project_custom_field, formula: "2 + 2", is_for_all: true) }
 
@@ -223,7 +224,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
     context "with permission to see all custom fields" do
       it "returns custom fields with formats that can be used in formulas" do
-        expected = [int, float, other_calculated_value, weighted_item_list]
+        expected = [int, float, bool, other_calculated_value, weighted_item_list]
         expect(subject.usable_custom_field_references_for_formula).to match_array(expected)
       end
 
@@ -244,6 +245,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
       let!(:int) { create(:project_custom_field, :integer, default_value: 4, projects: [project_with_permission]) }
       let!(:float) { create(:project_custom_field, :float, default_value: 5.5, projects: [project_with_permission]) }
+      let!(:bool) { create(:project_custom_field, :boolean, is_for_all: true, projects: [project_with_permission]) }
       let!(:other_calculated_value) do
         create(:calculated_value_project_custom_field, formula: "2 + 2", projects: [project_without_permission])
       end
@@ -254,7 +256,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       current_user { user }
 
       it "returns only custom fields that the user has permission to see" do
-        expect(subject.usable_custom_field_references_for_formula).to contain_exactly(int, float)
+        expect(subject.usable_custom_field_references_for_formula).to contain_exactly(int, float, bool)
       end
     end
 
@@ -638,8 +640,11 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       "1 <> 2",
       "1 != 2",
       "1 = 2",
+      "1 == 2",
       "1 <> 2 AND 2 <> 3",
+      "1 <> 2 && 2 <> 3",
       "1 <> 2 OR 2 <> 3",
+      "1 <> 2 || 2 <> 3",
       # functions
       "IF(1 > 2, 3, 4)",
       "AND(1 <> 2, 2 <> 3)",
@@ -651,7 +656,6 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       "MAX(1, 2, 3, 4)",
       "SUM(1, 2, 3, 4)",
       "AVG(1, 2, 3, 4)",
-      "COUNT(1, 2, 3, 4)",
       "ROUND(1.5)",
       "ROUNDUP(1.5)",
       "ROUNDDOWN(1.5)",
