@@ -27,7 +27,7 @@ To edit a work package, double-click a work package row in [table view](../../wo
 In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment.
 
 > [!TIP]
-> You can also insert a page break into the description field if you intend to [export a work package in PDF format](../exporting/#pdf-report) and want to the description to be displayed on separate pages of a PDF report.
+> You can also insert a page break into the description field if you intend to [export a work package in PDF format](../exporting/#page-breaks) and want to the description to be displayed on separate pages of a PDF report.
 
 To save changes in the description, click the **checkmark** icon.
 
