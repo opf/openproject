@@ -295,6 +295,7 @@ module Import
         custom_fields_created_by_import[@context_index]
       end
 
+      # rubocop:disable Metrics/AbcSize
       def custom_fields_created_by_import
         return [] if @jira_import.blank?
 
@@ -310,6 +311,7 @@ module Import
           ids.filter_map { |id| by_id[id] }
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
       def unique_custom_field_name
         unique_name = @import_name

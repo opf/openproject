@@ -93,7 +93,7 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
 
       custom_field = WorkPackageCustomField.find_by!(name: "CF List")
       reference = Import::JiraOpenProjectReference.find_by(op_entity_class: "WorkPackageCustomField",
-                                                          op_entity_id: custom_field.id.to_s)
+                                                           op_entity_id: custom_field.id.to_s)
       expect(reference)
         .to have_attributes(jira_entity_class: "Import::JiraField",
                             jira_entity_id: list_field.id.to_s,
