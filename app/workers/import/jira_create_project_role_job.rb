@@ -36,7 +36,8 @@ module Import
       "Create 'JiraMember' project role"
     end
 
-    def perform(_jira_import_id)
+    def perform(jira_import_id)
+      jira_import = Import::JiraImport.find(jira_import_id)
       service_call = Roles::CreateService.new(user: User.system).call(
         name: "JiraMember",
         permissions: %i[add_work_packages
@@ -48,7 +49,7 @@ module Import
       if service_call.success?
         create_reference!(op_leg: service_call.result,
                           jira_leg: nil,
-                          jira_import: @jira_import,
+                          jira_import:,
                           uses_existing: false)
       elsif service_call.errors.find { |error| error.type == :taken }.blank?
         raise service_call.message
