@@ -899,15 +899,15 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.35.0)
-    openproject-octicons_helper (19.35.0)
+    openproject-octicons (19.36.0)
+    openproject-octicons_helper (19.36.0)
       actionview
-      openproject-octicons (= 19.35.0)
+      openproject-octicons (= 19.36.0)
       railties
-    openproject-primer_view_components (0.89.2)
+    openproject-primer_view_components (0.90.1)
       actionview (>= 7.2.0)
       activesupport (>= 7.2.0)
-      openproject-octicons (>= 19.34.0)
+      openproject-octicons (>= 19.36.0)
       view_component (>= 3.1, < 5.0)
     openproject-token (8.12.0)
       activemodel
@@ -1676,10 +1676,10 @@ DEPENDENCIES
   openproject-ldap_departments!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.35.0)!
-  openproject-octicons_helper (~> 19.35.0)!
+  openproject-octicons (~> 19.36.0)!
+  openproject-octicons_helper (~> 19.36.0)!
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.89.2)!
+  openproject-primer_view_components (~> 0.90.1)!
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
@@ -2054,10 +2054,10 @@ CHECKSUMS
   openproject-ldap_departments (1.0.0)
   openproject-ldap_groups (1.0.0)
   openproject-meeting (1.0.0)
-  openproject-octicons (19.35.0) sha256=a5033550d0961b4a8cb0993512a899716d633e17c2b5147bc6a9ed74f3952b38
-  openproject-octicons_helper (19.35.0) sha256=c32d142a4bb7fda739b16768aa8846fd88ffc1750509d8056f516056e8767361
+  openproject-octicons (19.36.0) sha256=7a1beef93d3d93df0c4c68de3708be481ce3d8a7c9f56c72a94d17d150559792
+  openproject-octicons_helper (19.36.0) sha256=e4c737107fec97d2c1511a84aa7d351327a33fdb4afbe150600fc5c1caf7c3c2
   openproject-openid_connect (1.0.0)
-  openproject-primer_view_components (0.89.2) sha256=e5a5afdfb42f0a78845c4fe22efb3df36275ec7cb1c33d83f89e35592b569f3c
+  openproject-primer_view_components (0.90.1) sha256=50ba1e55e5e4893383a86a2f3f8e68162ecf07fa01857265ff9fabda030d3f63
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)

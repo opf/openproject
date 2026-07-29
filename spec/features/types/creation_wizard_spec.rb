@@ -44,8 +44,10 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
   def start_wizard
     visit types_path
 
-    # The type's group is collapsed by default, hiding its "Add sub-type" footer link.
-    find("[role='button'][aria-expanded='false']", text: bug_type.name).click
+    # The type's group is collapsed by default, hiding its "Add variant" footer link.
+    find(".CollapsibleHeader", text: bug_type.name)
+      .find(:button, aria: { expanded: false })
+      .click
     click_on I18n.t("types.index.add_subtype", name: bug_type.name)
   end
 
