@@ -8,7 +8,7 @@ sidebar_navigation:
 
 > **Note**: We strongly recommend that you have backed up your installation before upgrading OpenProject to a newer version, especially when performing multiple upgrades at once. Please follow the [backup](../backing-up) instructions.
 
-> **Note**: OpenProject supports migrating from one major version to the next. That means that migrating from a version X (and any of its minor and patch level) to version X+1 (and any of its minor and patch level) is supported. Migrating to X+2 however cannot be done directly but requires to install X+1 in between.
+> **Note**: OpenProject supports migrating from one major version to the next. That means that migrating from a version X (and any of its minor and patch level) to version X+1 (and any of its minor and patch level) is supported. Migrating to X+2 however cannot be done directly but requires to install X+1 in between. Please refer to the [Step-wise database migration script](#step-wise-database-migration-script) section for an easy way to do this.
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -267,3 +267,67 @@ rm -rf /opt/openproject/frontend/node_modules
 OpenProject 8.0. has removed Textile, all previous content is migrated to GFM Markdown using [pandoc](https://pandoc.org). This will happen automatically during the migration run. A recent pandoc version will be downloaded by OpenProject.
 
 For more information, please visit [this separate guide](../../misc/textile-migration).
+
+## Step-wise database migration script
+
+For migrating database dumps from OpenProject version 10 or later to the current version, you can use the [`bin/migrate`](../../../../bin/migrate) script. This script automates the process of restoring a database dump and sequentially applying migrations through each OpenProject version until the latest version is reached.
+
+### Prerequisites
+
+- Docker installed and running
+- Docker Hub access (to pull OpenProject images)
+- A database dump file from OpenProject 10.x or later (in `.sql` or `.pgdump` format)
+
+### Usage
+
+```shell
+./bin/migrate [OPTIONS] <dump-file>
+```
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `-n, --change-schema-name NAME` | Change the PostgreSQL schema name to `NAME` before dumping the migrated database. Default schema is `public`. |
+| `-f, --format FORMAT` | Output format for the migrated dump. Options: `sql` (default, gzipped), `pgdump` (custom/binary format). |
+
+### Examples
+
+Migrate a database dump to the latest version:
+
+```shell
+./bin/migrate openproject-10.5.sql
+```
+
+Migrate and output in PostgreSQL custom format:
+
+```shell
+./bin/migrate -f pgdump openproject-10.5.sql
+```
+
+Migrate and change the schema name to `custom_schema`:
+
+```shell
+./bin/migrate -n custom_schema openproject-10.5.sql
+```
+
+Migrate with both custom format and schema name:
+
+```shell
+./bin/migrate -f pgdump -n custom_schema openproject-10.5.sql
+```
+
+### Output
+
+The script creates a new file with the migrated database dump. The output filename is derived from the input filename:
+
+- For SQL format (default): `{input}-migrated.sql.gz` (gzipped)
+- For pgdump format: `{input}-migrated.pgdump`
+
+### Notes
+
+- The script requires a dump from OpenProject 10.x or later. For older versions, use `script/migrate/migrate-from-pre-8.sh` first.
+- The script starts a temporary PostgreSQL 17 container for the migration process.
+- Each OpenProject version's Docker image is pulled on demand during migration.
+- The migration process may take significant time depending on the size of your database and the number of versions to migrate through.
+- The script automatically cleans up the temporary container and files on exit.
