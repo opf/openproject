@@ -87,6 +87,10 @@ RSpec.describe OpPrimer::ResponsiveDataTableComponent, type: :component do
     it "marks the action cell for the trailing mobile grid column" do
       expect(rendered_component).to have_css(".TableCell.op-data-table--actions-column")
     end
+
+    it "renders a visually hidden label for the actions header" do
+      expect(rendered_component).to have_css(".TableHeader .sr-only", text: I18n.t(:label_actions))
+    end
   end
 
   it "marks cells that are hidden on mobile" do
@@ -107,6 +111,26 @@ RSpec.describe OpPrimer::ResponsiveDataTableComponent, type: :component do
     it "renders the blank slate text as the empty state" do
       expect(rendered_component).to have_text("Nothing here")
       expect(rendered_component).to have_text("Add one to get started")
+    end
+  end
+
+  context "with a footer" do
+    before do
+      PocScim::TableComponent.define_method(:has_footer?) { true }
+      PocScim::TableComponent.define_method(:footer) { "Footer content" }
+    end
+
+    it "keeps the footer inside the Turbo replacement wrapper" do
+      rows = scim_clients
+      stream = render_in_view_context do
+        PocScim::TableComponent
+          .new(rows:)
+          .render_as_turbo_stream(view_context: self, action: :replace)
+      end
+      template = Nokogiri(stream.to_s).at_css("turbo-stream template")
+      wrapper = template.at_css("#poc-scim-table-component")
+
+      expect(wrapper).to have_text("Footer content")
     end
   end
 end

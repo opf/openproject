@@ -180,6 +180,12 @@ RSpec.describe OpPrimer::DataTableComponent, type: :component do
 
       expect(rendered).to have_no_css(".TablePagination")
     end
+
+    it "renders no pagination footer when the requested page exceeds the page count" do
+      rendered = render_table("/statuses?page=999")
+
+      expect(rendered).to have_no_css(".TablePagination")
+    end
   end
 
   describe "column pairing" do

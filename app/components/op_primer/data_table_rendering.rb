@@ -55,8 +55,8 @@ module OpPrimer
   module DataTableRendering
     def call
       component_wrapper do
-        render(data_table) { |table| configure_data_table(table) }
-      end + data_table_footer.to_s
+        render(data_table) { |table| configure_data_table(table) } + data_table_footer.to_s
+      end
     end
 
     # Pairs each entry of +#columns+ with its +#headers+ entry.
@@ -153,7 +153,7 @@ module OpPrimer
     def add_actions_column(table)
       table.with_column(
         id: "actions",
-        header: I18n.t(:label_actions),
+        header: helpers.content_tag(:span, I18n.t(:label_actions), class: "sr-only"),
         cell_classes: ->(_row) { "op-data-table--actions-column" }
       ) do |column|
         column.with_cell do |row|
@@ -168,6 +168,7 @@ module OpPrimer
       # Primer::OpenProject::Pagination raises at initialize when
       # current_page > page_count.
       return unless rows.total_entries.to_i.positive?
+      return if rows.current_page > rows.total_pages
 
       table.with_pagination(**pagination_arguments)
     end
