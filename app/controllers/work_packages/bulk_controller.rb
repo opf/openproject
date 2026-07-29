@@ -87,8 +87,14 @@ class WorkPackages::BulkController < ApplicationController
       return redirect_to(action: :reassign, ids: @work_packages.map(&:id), back_url: params[:back_url])
     end
 
-    failures = destroy_work_packages(@work_packages)
-    flash[:error] = deletion_error_message(failures) if failures.any?
+    calls = destroy_work_packages(@work_packages)
+    failures = calls.reject(&:success?)
+
+    if failures.any?
+      flash[:error] = deletion_error_message(failures)
+    else
+      flash[:notice] = deletion_success_message(calls)
+    end
 
     respond_to do |format|
       format.html do
@@ -114,21 +120,27 @@ class WorkPackages::BulkController < ApplicationController
       WorkPackageCustomField.joins(:types).where(types: @types)
   end
 
-  # Returns the failed calls. Deletion is not all or nothing: one work package
-  # may be deleted while another one fails.
+  # Deletion is not all or nothing: one work package may be deleted while another
+  # one fails, so every call is returned.
   def destroy_work_packages(work_packages)
     work_packages.filter_map do |work_package|
-      call = WorkPackages::DeleteService
+      WorkPackages::DeleteService
         .new(user: current_user,
              model: work_package.reload)
         .call
-
-      call unless call.success?
     rescue ::ActiveRecord::RecordNotFound
       # raised by #reload if work package no longer exists
       # nothing to do, work package was already deleted (eg. by a parent)
       nil
     end
+  end
+
+  # A call also carries the descendants it deleted, next to work packages it only
+  # rescheduled, so count the ones that are actually gone.
+  def deletion_success_message(calls)
+    count = calls.sum { |call| call.all_results.count(&:destroyed?) }
+
+    t("work_packages.bulk.deletion_successful", count:)
   end
 
   def deletion_error_message(failures)

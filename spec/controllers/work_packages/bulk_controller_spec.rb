@@ -818,6 +818,47 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         expect(WorkPackage.find_by(id: [work_package1.id, work_package2.id])).to be_nil
         expect(response).to redirect_to(project_work_packages_path(work_package1.project))
       end
+
+      it "reports how many were deleted" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 2))
+      end
+    end
+
+    context "with a selected work package that has descendants" do
+      shared_let(:child) { create(:work_package, type:, status:, project: project1, parent: work_package1) }
+      shared_let(:grandchild) { create(:work_package, type:, status:, project: project1, parent: child) }
+
+      let(:params) { { "ids" => [work_package1.id] } }
+
+      it "counts the descendants it deleted along the way" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 3))
+      end
+    end
+
+    context "with an ancestor that is only rescheduled" do
+      shared_let(:parent) do
+        create(:work_package, type:, status:, project: project1, schedule_manually: false)
+      end
+      shared_let(:child) do
+        create(:work_package, type:, status:, project: project1, parent:,
+                              start_date: Date.parse("2026-01-05"), due_date: Date.parse("2026-01-09"))
+      end
+      shared_let(:sibling) do
+        create(:work_package, type:, status:, project: project1, parent:,
+                              start_date: Date.parse("2026-02-02"), due_date: Date.parse("2026-02-06"))
+      end
+
+      let(:params) { { "ids" => [child.id] } }
+
+      it "does not count the ancestor as deleted" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 1))
+      end
     end
 
     describe "with the cleanup being unsuccessful" do

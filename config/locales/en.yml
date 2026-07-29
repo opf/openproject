@@ -6528,6 +6528,9 @@ en:
       copy_failed: "The work packages could not be copied."
       could_not_be_deleted: "The following work packages could not be deleted:"
       could_not_be_saved: "The following work packages could not be saved:"
+      deletion_successful:
+        one: "Successfully deleted 1 work package."
+        other: "Successfully deleted %{count} work packages."
       descendant: "descendant of selected"
       move_failed: "The work packages could not be moved."
       none_could_be_saved: "None of the %{total} work packages could be updated."
