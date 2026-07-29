@@ -132,11 +132,13 @@ RSpec.describe "Wiki pages index", :skip_csrf, type: :rails_request do
       expect(page).to have_no_text "Deployment guide"
     end
 
-    it "shows the immediate parent of sub-pages and a dash for main pages" do
+    it "shows the parent title as context for sub-pages only" do
       get "/wiki_pages", params: { query_id: "all" }
 
-      expect(page).to have_css(".op-border-box-grid__row-item.parent", text: "Architecture handbook", count: 1)
-      expect(page).to have_css(".op-border-box-grid__row-item.parent", text: "-", count: 1)
+      expect(page).to have_css("[data-test-selector='wiki-page-parent']",
+                               text: "Architecture handbook",
+                               count: 1)
+      expect(page).to have_link("Deployment guide")
     end
 
     context "with a name filter" do

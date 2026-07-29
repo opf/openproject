@@ -31,7 +31,7 @@
 module Wikis
   module WikiPages
     class TableComponent < ::OpPrimer::BorderBoxTableComponent
-      columns :title, :parent, :project_name, :sub_pages_count, :last_edited
+      columns :title, :project_name, :sub_pages_count, :last_edited
 
       mobile_columns :title, :project_name
       mobile_labels :project_name
@@ -49,7 +49,6 @@ module Wikis
       def headers
         [
           [:title,           { caption: I18n.t("wikis.index.column_name") }],
-          [:parent,          { caption: I18n.t("wikis.index.column_parent") }],
           [:project_name,    { caption: I18n.t("wikis.index.column_project") }],
           [:sub_pages_count, { caption: I18n.t("wikis.index.column_sub_pages") }],
           [:last_edited,     { caption: I18n.t("wikis.index.column_last_edited") }]

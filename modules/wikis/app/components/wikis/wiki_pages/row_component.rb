@@ -34,14 +34,9 @@ module Wikis
       alias_method :wiki_page, :model
 
       def title
-        render(Primer::Beta::Link.new(
-                 href: url_helpers.project_wiki_path(wiki_page.wiki.project, wiki_page.slug),
-                 font_weight: :bold
-               )) { wiki_page.title }
-      end
+        return page_link if wiki_page.parent.nil?
 
-      def parent
-        wiki_page.parent&.title || "-"
+        safe_join([parent_context, parent_separator, page_link])
       end
 
       def project_name
@@ -56,6 +51,27 @@ module Wikis
 
       def last_edited
         render(OpPrimer::RelativeTimeComponent.new(datetime: wiki_page.updated_at, prefix: nil))
+      end
+
+      private
+
+      def page_link
+        render(Primer::Beta::Link.new(
+                 href: url_helpers.project_wiki_path(wiki_page.wiki.project, wiki_page.slug),
+                 font_weight: :bold
+               )) { wiki_page.title }
+      end
+
+      def parent_context
+        render(Primer::Beta::Text.new(color: :muted, test_selector: "wiki-page-parent")) { wiki_page.parent.title }
+      end
+
+      def parent_separator
+        render(Primer::Beta::Octicon.new(icon: "chevron-right",
+                                         size: :small,
+                                         color: :muted,
+                                         mx: 1,
+                                         "aria-hidden": true))
       end
     end
   end
