@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Workflows::TabsController do
+RSpec.describe Workflows::MatrixController do
   let!(:role_scope) do
     role_scope = instance_double(ActiveRecord::Relation)
 
@@ -71,11 +71,11 @@ RSpec.describe Workflows::TabsController do
 
   current_user { build_stubbed(:admin) }
 
-  describe "#edit" do
+  describe "#show" do
     context "when not a turbo frame request" do
       context "with a single role" do
         it "redirects to the parent workflow edit path" do
-          get :edit,
+          get :show,
               params: {
                 role_ids: [role.id.to_s],
                 type_id: type.id.to_s,
@@ -88,7 +88,7 @@ RSpec.describe Workflows::TabsController do
         end
 
         it "does not forward status_ids to the redirect" do
-          get :edit,
+          get :show,
               params: {
                 role_ids: [role.id.to_s],
                 type_id: type.id.to_s,
@@ -114,7 +114,7 @@ RSpec.describe Workflows::TabsController do
         end
 
         it "redirects preserving all role ids" do
-          get :edit,
+          get :show,
               params: {
                 role_ids: [role.id.to_s, role2.id.to_s],
                 type_id: type.id.to_s,
@@ -130,28 +130,41 @@ RSpec.describe Workflows::TabsController do
   end
 
   describe "#confirm_statuses" do
-    before do
-      allow(controller)
-        .to receive(:respond_with_dialog)
-              .and_call_original
+    let(:status) { build_stubbed(:status) }
+
+    # Which statuses the submit drops is the context's call, so the branch is driven through
+    # it rather than through a status_ids/displayed_status_ids fixture.
+    let(:matrix_context) do
+      instance_double(Workflows::MatrixContext,
+                      type:,
+                      tab: "always",
+                      roles: [role],
+                      requested_status_ids: [status.id],
+                      removed_displayed_status_ids:)
     end
 
-    context "when no statuses were removed" do
+    def submit_statuses
+      allow(controller).to receive(:respond_with_dialog).and_call_original
+      allow(controller).to receive(:build_matrix_context).and_return(matrix_context)
+
+      post :confirm_statuses,
+           params: {
+             role_ids: [role.id.to_s],
+             type_id: type.id.to_s,
+             status_ids: [status.id.to_s],
+             tab: "always"
+           },
+           as: :turbo_stream
+    end
+
+    context "when the pending selection drops nothing the dialog was showing" do
+      let(:removed_displayed_status_ids) { [] }
+
       before do
-        allow(controller).to receive(:statuses_for_form).and_return([])
-        allow(controller).to receive(:workflows_for_form)
         allow(controller).to receive(:update_via_turbo_stream)
         allow(controller).to receive(:respond_with_turbo_streams)
 
-        post :confirm_statuses,
-             params: {
-               role_ids: [role.id.to_s],
-               type_id: type.id.to_s,
-               status_ids: ["1", "2"],
-               original_status_ids: ["1", "2"],
-               tab: "always"
-             },
-             as: :turbo_stream
+        submit_statuses
       end
 
       it "updates the status matrix via turbo stream" do
@@ -160,18 +173,10 @@ RSpec.describe Workflows::TabsController do
       end
     end
 
-    context "when statuses were removed" do
-      before do
-        post :confirm_statuses,
-             params: {
-               role_ids: [role.id.to_s],
-               type_id: type.id.to_s,
-               status_ids: ["1"],
-               original_status_ids: ["1", "2"],
-               tab: "always"
-             },
-             as: :turbo_stream
-      end
+    context "when the pending selection drops a status the dialog was showing" do
+      let(:removed_displayed_status_ids) { [build_stubbed(:status).id] }
+
+      before { submit_statuses }
 
       it "responds with the danger dialog" do
         expect(controller)
@@ -184,71 +189,74 @@ RSpec.describe Workflows::TabsController do
   describe "#update" do
     let(:status_params) { { "1" => { "2" => ["always"] } } }
     let(:call_result) { ServiceResult.success }
+    let(:roles) { [role] }
 
-    context "with a single role" do
-      let(:service) do
-        instance_double(Workflows::BulkUpdateService).tap do |dbl|
-          allow(Workflows::BulkUpdateService)
-            .to receive(:new)
-                  .with(role: role, type: type, tab: "always")
-                  .and_return(dbl)
-        end
+    let(:service) do
+      instance_double(Workflows::MatrixUpdateService, call: call_result).tap do |dbl|
+        allow(Workflows::MatrixUpdateService)
+          .to receive(:new)
+                .with(type: type, roles: roles, tab: "always")
+                .and_return(dbl)
       end
+    end
 
-      before do
-        allow(service).to receive(:call).with(status_params).and_return(call_result)
-        allow(controller).to receive(:statuses_for_form).and_return([build_stubbed(:status)])
-        post :update,
-             params: { role_ids: [role.id.to_s], type_id: type.id, tab: "always", status: status_params },
-             format: :turbo_stream
-      end
+    # Statuses remain, so the response is the flash alone — the blankslate replacement is
+    # covered by the feature specs.
+    let(:matrix_context) do
+      instance_double(Workflows::MatrixContext, roles:, tab: "always", statuses: [build_stubbed(:status)])
+    end
 
-      it "calls the service and renders a flash turbo stream" do
-        expect(service).to have_received(:call).with(status_params)
-        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
-      end
+    def submit_matrix
+      service
+      allow(controller).to receive(:build_matrix_context).and_return(matrix_context)
+
+      post :update,
+           params: {
+             role_ids: roles.map { it.id.to_s },
+             type_id: type.id,
+             tab: "always",
+             status: status_params
+           },
+           format: :turbo_stream
+    end
+
+    it "hands the submitted matrix to the service and renders a flash turbo stream" do
+      submit_matrix
+
+      expect(service).to have_received(:call).with(
+        status: satisfy { it.to_unsafe_h == status_params },
+        indeterminate_status: nil
+      )
+      expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
     end
 
     context "with multiple roles" do
       let(:role2) { build_stubbed(:project_role) }
-      let(:service1) do
-        instance_double(Workflows::BulkUpdateService).tap do |dbl|
-          allow(Workflows::BulkUpdateService)
-            .to receive(:new)
-                  .with(role: role, type: type, tab: "always")
-                  .and_return(dbl)
-        end
-      end
-      let(:service2) do
-        instance_double(Workflows::BulkUpdateService).tap do |dbl|
-          allow(Workflows::BulkUpdateService)
-            .to receive(:new)
-                  .with(role: role2, type: type, tab: "always")
-                  .and_return(dbl)
-        end
-      end
+      let(:roles) { [role, role2] }
 
       before do
         allow(role_scope)
           .to receive(:where)
                 .with(id: [role.id.to_s, role2.id.to_s])
-                .and_return([role, role2])
-        allow(service1).to receive(:call).with(status_params).and_return(call_result)
-        allow(service2).to receive(:call).with(status_params).and_return(call_result)
-        allow(controller).to receive(:statuses_for_form).and_return([build_stubbed(:status)])
-        post :update,
-             params: {
-               role_ids: [role.id.to_s, role2.id.to_s],
-               type_id: type.id,
-               tab: "always",
-               status: status_params
-             },
-             format: :turbo_stream
+                .and_return(roles)
       end
 
-      it "calls the service for each role and renders a flash turbo stream" do
-        expect(service1).to have_received(:call).with(status_params)
-        expect(service2).to have_received(:call).with(status_params)
+      it "passes every selected role to the service" do
+        submit_matrix
+
+        expect(Workflows::MatrixUpdateService)
+          .to have_received(:new).with(type: type, roles: roles, tab: "always")
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+      end
+    end
+
+    context "when the service fails" do
+      let(:call_result) { ServiceResult.failure }
+
+      it "responds unprocessable with a danger flash" do
+        submit_matrix
+
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
       end
     end

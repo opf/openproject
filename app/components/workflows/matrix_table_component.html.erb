@@ -27,36 +27,28 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% name = tab[:name] %>
-<% workflows = @workflows[name] %>
-<% read_only = workflow_linked?(@type) %>
+<% if heading %>
+  <%= render(Primer::OpenProject::Heading.new(tag: :h3, my: 3)) { heading } %>
+<% end %>
 
-<%=
-  if name == "assignee"
-    render(Primer::OpenProject::Heading.new(tag: :h3, my: 3)) { t(:label_additional_workflow_transitions_for_assignee) }
-  elsif name == "author"
-    render(Primer::OpenProject::Heading.new(tag: :h3, my: 3)) { t(:label_additional_workflow_transitions_for_author) }
-  end
-%>
-
-<div id="workflow_form_<%= name %>" class="generic-table--container">
+<div id="<%= dom_id %>" class="generic-table--container">
   <div class="generic-table--results-container">
     <table
-      class="generic-table workflow-table transitions-<%= name %>"
+      class="generic-table workflow-table transitions-<%= tab %>"
       data-controller="checkable table-highlighting">
       <caption class="sr-only">
-        <%= t(".matrix_caption_#{name}", default: t(".matrix_caption")) %>
+        <%= caption %>
       </caption>
       <colgroup>
         <col data-highlight="false">
-        <% @statuses.size.times do |role| %>
+        <% statuses.size.times do %>
           <col>
         <% end %>
       </colgroup>
       <thead class="-sticky">
         <tr>
           <th></th>
-          <th colspan="<%= @statuses.size %>" class="-max">
+          <th colspan="<%= statuses.size %>" class="-max">
             <div class="generic-table--sort-header-outer -no-border">
               <div class="generic-table--sort-header">
                 <%=
@@ -73,16 +65,16 @@ See COPYRIGHT and LICENSE files for more details.
                   <span class="flex-1">
                     <%= t(:label_new_statuses_allowed) %>
                   </span>
-                  <% unless read_only %>
+                  <% unless readonly? %>
                     <%=
-                      check_all_links "workflow_form_#{name}" do |links|
+                      render(OpenProject::Common::CheckAllComponent.new(checkable_id: dom_id)) do |links|
                         links.with_check_all_button do |button|
-                          button.with_tooltip(text: t(".matrix_check_all_label"))
+                          button.with_tooltip(text: t("workflows.form.matrix_check_all_label"))
                           t(:button_check_all)
                         end
 
                         links.with_uncheck_all_button do |button|
-                          button.with_tooltip(text: t(".matrix_uncheck_all_label"))
+                          button.with_tooltip(text: t("workflows.form.matrix_uncheck_all_label"))
                           t(:button_uncheck_all)
                         end
                       end
@@ -95,7 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
         </tr>
         <tr>
           <th class="-table-border-bottom  -table-border-right"></th>
-          <% @statuses.each do |new_status| %>
+          <% statuses.each do |new_status| %>
             <th class="workflow-table--current-status -table-border-top -table-border-bottom">
               <%=
                 render(
@@ -115,11 +107,9 @@ See COPYRIGHT and LICENSE files for more details.
                       scheme: :invisible,
                       size: :small,
                       icon: :check,
-                      disabled: read_only,
+                      disabled: readonly?,
                       tooltip_direction: :sw,
-                      aria: {
-                        label: t(".matrix_check_uncheck_all_in_col_label_html", new_status: new_status.name)
-                      },
+                      aria: { label: column_toggle_label(new_status) },
                       data: {
                         action: "checkable#toggleSelection",
                         checkable_key_param: "newStatus",
@@ -135,7 +125,7 @@ See COPYRIGHT and LICENSE files for more details.
         </tr>
       </thead>
       <tbody>
-        <% @statuses.each do |old_status| %>
+        <% statuses.each do |old_status| %>
           <tr class="-table-border-left">
             <th scope="row" class="workflow-table--current-status -table-border-right">
               <%=
@@ -156,11 +146,9 @@ See COPYRIGHT and LICENSE files for more details.
                       scheme: :invisible,
                       size: :small,
                       icon: :check,
-                      disabled: read_only,
+                      disabled: readonly?,
                       tooltip_direction: :sw,
-                      aria: {
-                        label: t(".matrix_check_uncheck_all_in_row_label_html", old_status: old_status.name)
-                      },
+                      aria: { label: row_toggle_label(old_status) },
                       data: {
                         action: "checkable#toggleSelection",
                         checkable_key_param: "oldStatus",
@@ -174,12 +162,10 @@ See COPYRIGHT and LICENSE files for more details.
                 <% end %>
               <% end %>
             </th>
-            <% @statuses.each do |new_status| -%>
-              <% transition_role_ids = workflows.select { it.old_status_id == old_status.id && it.new_status_id == new_status.id }.map(&:role_id).uniq
-                 newly_added_status = @added_status_ids.include?(old_status.id) || @added_status_ids.include?(new_status.id)
-                 some_roles = !transition_role_ids.empty? && transition_role_ids.size < @roles.size && !newly_added_status %>
+            <% statuses.each do |new_status| -%>
+              <% indeterminate = indeterminate?(old_status, new_status) %>
               <td>
-                <%= hidden_field_tag "indeterminate_status[#{old_status.id}][#{new_status.id}]", "1" if some_roles %>
+                <%= hidden_field_tag "indeterminate_status[#{old_status.id}][#{new_status.id}]", "1" if indeterminate %>
                 <%=
                   render(Primer::BaseComponent.new(tag: :div, display: :flex, align_items: :center, mx: 1)) do
                     render(
@@ -187,16 +173,16 @@ See COPYRIGHT and LICENSE files for more details.
                         scheme: :array,
                         name: "status[#{old_status.id}][#{new_status.id}]",
                         id: "status_#{old_status.id}_#{new_status.id}", # See BUG https://github.com/primer/view_components/issues/3811
-                        value: name,
-                        disabled: read_only,
-                        checked: !some_roles && (transition_role_ids.any? || newly_added_status),
-                        label: t(".matrix_checkbox_label", old_status: old_status.name, new_status: new_status.name),
+                        value: tab,
+                        disabled: readonly?,
+                        checked: checked?(old_status, new_status),
+                        label: checkbox_label(old_status, new_status),
                         visually_hide_label: true,
                         data: {
                           checkable_target: "checkbox",
                           old_status: old_status.id,
                           new_status: new_status.id,
-                          indeterminate: (true if some_roles)
+                          indeterminate: (true if indeterminate)
                         }
                       )
                     )
@@ -207,8 +193,8 @@ See COPYRIGHT and LICENSE files for more details.
           </tr>
         <% end %>
         <tr class="-no-highlighting">
-          <td colspan="<%= @statuses.length + 2 %>">
-                        <span class="workflow-table--turned-header">
+          <td colspan="<%= statuses.length + 2 %>">
+            <span class="workflow-table--turned-header">
               <%= t(:label_current_status) %>
             </span>
           </td>

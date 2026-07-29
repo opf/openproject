@@ -30,6 +30,8 @@
 
 module WorkPackageTypes
   module Wizard
+    # The matrix renders no form of its own, so its inputs are submitted by the wizard form
+    # that PageComponent wraps around this, and persisted by CreationWizardController.
     class WorkflowsStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
@@ -41,11 +43,14 @@ module WorkPackageTypes
 
       def type = model
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :workflows)
+      def matrix_url
+        helpers.type_workflow_matrix_path(
+          type,
+          tab: helpers.params[:tab],
+          role_ids: roles.map(&:id),
+          status_ids: helpers.params[:status_ids]
+        )
       end
-
-      def current_tab = helpers.params[:tab].presence || "always"
 
       def roles
         Workflow.selected_roles(helpers.params[:role_ids])

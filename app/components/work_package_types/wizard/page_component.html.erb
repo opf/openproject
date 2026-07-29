@@ -27,7 +27,7 @@
           <%= within_step_frame do %>
             <%= reuse_mode_banner %>
             <%= primer_form_with(**step_form_options) do |f| %>
-              <%= render(step_editor.form_class.new(f)) %>
+              <%= render(step_editor.editor(f)) %>
             <% end %>
           <% end %>
         <% else %>

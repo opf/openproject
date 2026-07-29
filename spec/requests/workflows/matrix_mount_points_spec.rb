@@ -30,8 +30,10 @@
 
 require "spec_helper"
 
-# The workflow matrix lives only under the type edit page now. This exercises the
-# frame body end-to-end, ensuring every route helper resolves and the matrix renders.
+# Pins the split between the shared matrix editor and the page hosting it: the editor's
+# frame carries the inputs and no form of its own, and the host supplies the form that
+# submits them. Also exercises the frame body end-to-end, so every route helper the
+# editor builds has to resolve.
 RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:role) { create(:project_role) }
@@ -44,19 +46,32 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
 
   before { login_as admin }
 
-  it "renders the matrix frame with the transition menu and posts to the type-nested path" do
-    get edit_type_workflow_tab_path(type, "always", role_ids: [role.id]),
+  it "renders the matrix frame with the transition menu and no form of its own" do
+    get type_workflow_matrix_path(type, tab: "always", role_ids: [role.id]),
         headers: { "Turbo-Frame" => "workflow-table" }
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Default transitions")
-    expect(response.body).to include("action=\"#{type_workflow_tab_path(type)}\"")
+    expect(response.body).to include("status[#{status_a.id}][#{status_b.id}]")
+    expect(response.body).to include(Workflows::MatrixEditorComponent::STATE_ID)
+    expect(response.body).not_to include("<form")
   end
 
-  it "renders the type edit page shell with the lazy workflow frame" do
+  it "renders the type edit page shell with the form and Save around the lazy frame" do
     get edit_type_workflow_path(type)
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("turbo-frame")
+    expect(response.body).to include("action=\"#{type_workflow_matrix_path(type, tab: 'always')}\"")
+    expect(response.body).to have_css(".workflow-save-bar button[type=submit]", text: I18n.t(:button_save))
+  end
+
+  it "omits the Save bar while the workflows aspect is linked to another type" do
+    type.link!(Type::ConfigurationLink::WORKFLOWS, source: create(:type))
+
+    get edit_type_workflow_path(type)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).not_to include("workflow-save-bar")
   end
 end
