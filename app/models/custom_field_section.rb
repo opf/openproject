@@ -62,6 +62,26 @@ class CustomFieldSection < ApplicationRecord
     update_column(:attribute_order, keys)
   end
 
+  # Insert key directly after prev_key in the ordered list, or at the head
+  # for a blank prev_key. Idempotent for key (any existing occurrence is
+  # removed first). Returns false without mutating when prev_key does not
+  # resolve to another key in the order.
+  def insert_after_key(key, prev_key) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
+    keys = attribute_order.reject { |k| k == key }
+
+    if prev_key.blank?
+      keys.insert(0, key)
+    else
+      idx = keys.index(prev_key)
+      return false if idx.nil?
+
+      keys.insert(idx + 1, key)
+    end
+
+    update_column(:attribute_order, keys)
+    true
+  end
+
   def remove_from_order(key)
     update_column(:attribute_order, attribute_order.reject { |k| k == key })
   end
