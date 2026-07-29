@@ -166,7 +166,7 @@ RSpec.describe WorkPackages::DeleteDialogComponent, type: :component do
     end
   end
 
-  context "with nothing deletable and the only descendant undeletable" do
+  context "with one visible descendant the user cannot delete" do
     before { view_only_child }
 
     it "asks about the work package alone" do
