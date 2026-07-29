@@ -29,7 +29,7 @@
 #++
 
 module Admin::ScimClients
-  class TableComponent < OpPrimer::BorderBoxTableComponent
+  class TableComponent < OpPrimer::ResponsiveDataTableComponent
     columns :name, :user_count, :authentication_method, :created_at
     mobile_labels :user_count, :authentication_method, :created_at
 

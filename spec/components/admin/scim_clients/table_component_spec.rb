@@ -39,27 +39,47 @@ RSpec.describe Admin::ScimClients::TableComponent, type: :component do
     render_component(rows: scim_clients)
   end
 
-  shared_examples_for "rendering Border Box Grid headings" do
-    include_examples "rendering Border Box Grid heading", text: "Name"
-    include_examples "rendering Border Box Grid heading", text: "Users"
-    include_examples "rendering Border Box Grid heading", text: "Authentication method"
-    include_examples "rendering Border Box Grid heading", text: "Created on"
-    include_examples "rendering Border Box Grid mobile heading", text: "SCIM clients"
+  shared_examples_for "rendering the column headings" do
+    it "renders a heading per column", :aggregate_failures do
+      ["Name", "Users", "Authentication method", "Created on"].each do |caption|
+        expect(rendered_component).to have_css "th", text: caption
+      end
+    end
+
+    it "renders the table title" do
+      expect(rendered_component).to have_css ".TableTitle", text: "SCIM clients"
+    end
   end
 
   context "with no SCIM clients" do
     let(:scim_clients) { create_list(:scim_client, 0) }
 
-    it_behaves_like "rendering Box", row_count: 1
-    it_behaves_like "rendering Border Box Grid headings"
-    it_behaves_like "rendering Blank Slate", heading: "No SCIM clients configured yet", icon: :key
+    it "renders no data rows" do
+      expect(rendered_component).to have_no_css "tbody tr"
+    end
+
+    it "renders the table title" do
+      expect(rendered_component).to have_css ".TableTitle", text: "SCIM clients"
+    end
+
+    it "renders the empty state" do
+      expect(rendered_component).to have_text "No SCIM clients configured yet"
+    end
   end
 
   context "with SCIM clients" do
     let(:scim_clients) { create_list(:scim_client, 2) }
 
-    it_behaves_like "rendering Box", row_count: 2
-    it_behaves_like "rendering Border Box Grid headings"
-    it_behaves_like "rendering Border Box Grid rows", row_count: 2, col_count: 4
+    it_behaves_like "rendering the column headings"
+
+    it "renders a data table" do
+      expect(rendered_component).to have_css ".TableContainer .Table"
+    end
+
+    it "renders a row per client with a cell per column", :aggregate_failures do
+      expect(rendered_component).to have_css "tbody tr", count: 2
+      expect(rendered_component).to have_css "tbody tr:first-of-type td, tbody tr:first-of-type th",
+                                             count: 4
+    end
   end
 end
