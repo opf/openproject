@@ -196,10 +196,12 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
       expect(wp2.reload.sprint_id).to eq(sprint.id)
     end
 
-    it "keeps the version_id on associated work packages" do
+    it "keeps the version associations on associated work packages" do
       migrate
-      expect(wp1.reload.version_id).to eq(version.id)
-      expect(wp2.reload.version_id).to eq(version.id)
+      expect(wp1.reload.target_versions).to contain_exactly(version)
+      expect(wp2.reload.target_versions).to contain_exactly(version)
+      expect(wp1.version_id).to eq(version.id)
+      expect(wp2.version_id).to eq(version.id)
     end
 
     context "with multiple versions" do
@@ -245,6 +247,49 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
         expect(wp2.reload.sprint_id).to eq(sprint.id)
         expect(wp_in_other_project.reload.sprint_id).to be_nil
       end
+    end
+  end
+
+  describe "multiple versions feature" do
+    let!(:secondary_version) { create(:version, project:, name: "Secondary") }
+
+    shared_examples "migrates by the primary version" do
+      context "when the sprint version is the primary (version_id) target" do
+        let!(:wp_multi) do
+          create(:work_package, project:, version:).tap do |wp|
+            create(:work_package_version, work_package: wp, version: secondary_version, kind: :target)
+          end
+        end
+
+        it "assigns the work package to the sprint and keeps all target versions" do
+          migrate
+          expect(wp_multi.reload.sprint_id).to eq(Sprint.last.id)
+          expect(wp_multi.target_versions).to contain_exactly(version, secondary_version)
+        end
+      end
+
+      context "when the sprint version is only a secondary target" do
+        let!(:wp_secondary) do
+          create(:work_package, project:, version: secondary_version).tap do |wp|
+            create(:work_package_version, work_package: wp, version:, kind: :target)
+          end
+        end
+
+        it "does not assign the work package to the sprint" do
+          migrate
+          expect(wp_secondary.reload.sprint_id).to be_nil
+        end
+      end
+    end
+
+    context "when the feature is active",
+            with_flag: { work_package_multiple_versions: true },
+            with_settings: { work_package_multiple_versions: true } do
+      include_examples "migrates by the primary version"
+    end
+
+    context "when the feature is inactive" do
+      include_examples "migrates by the primary version"
     end
   end
 
