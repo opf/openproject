@@ -71,12 +71,28 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
       end
     end
 
+    context "when the query string is a plain numeric id in semantic mode",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+      let(:query_string) { "5" }
+
+      it "does not boost the numeric id match, as a bare number then means the sequence number" do
+        expect(sql).to be_nil
+      end
+    end
+
     context "when the query string has a leading '#'" do
       let!(:work_package) { create(:work_package) }
       let(:query_string) { "##{work_package.id}" }
 
       it "still matches the numeric id exactly" do
         expect(sql).to include(work_package.id.to_s)
+      end
+
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+        it "still matches the numeric id exactly, as the prefix asks for it explicitly" do
+          expect(sql).to include(work_package.id.to_s)
+        end
       end
     end
 

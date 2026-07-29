@@ -66,10 +66,7 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
 
     candidate = stripped.delete_prefix("#")
     condition =
-      if candidate.match?(/\A[1-9]\d*\z/)
-        # Used only in ORDER BY (via `sortable:`). So it does not need to be optimized
-        # for index usage, instead, the varchar(20) ensures overly long candidates are
-        # evaluated to false without raising out-of-range errors.
+      if candidate.match?(/\A[1-9]\d*\z/) && id_exact_match_rankable?(stripped)
         OpenProject::SqlSanitization.sanitize(
           "#{WorkPackage.table_name}.id = ?", candidate.to_i
         )
@@ -86,5 +83,9 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
     return nil unless condition
 
     "CASE WHEN #{condition} THEN 1 ELSE 0 END"
+  end
+
+  def self.id_exact_match_rankable?(stripped)
+    Setting::WorkPackageIdentifier.classic? || stripped.start_with?("#")
   end
 end
