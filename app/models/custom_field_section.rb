@@ -34,6 +34,7 @@ class CustomFieldSection < ApplicationRecord
   DEFAULT_OVERVIEW_KEY = OVERVIEW__SIDEBAR_KEY
 
   acts_as_list scope: [:type]
+  include Lists::MoveAfterAnchor
 
   validates :name, presence: true
 
