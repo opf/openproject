@@ -97,7 +97,6 @@ RSpec.describe "Project custom field sections drop", :skip_csrf, type: :rails_re
   end
 
   it "morphs the sections list on success" do
-    pending "morph streams land in the next commit"
     drop(section_a, { list_type: "section", list_id: "", prev_id: section_b.id.to_s })
     expect(response.body).to include('method="morph"')
   end
