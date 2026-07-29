@@ -14,7 +14,7 @@ If you select **Generate PDF** in the work package dropdown menu, a modal will o
 
 ## Template
 
-**Template** is a dropdown menu showing all of the options currently enabled. At moment possible template options include:
+**Template** is a dropdown menu showing all of the options currently enabled. At the moment possible template options include:
 
 - _Attributes and description_ - this template lists all the work package attributes [configured in the work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
 - _Contract_ - this template includes work package details formatted to the standard German contract form.
@@ -27,19 +27,19 @@ Which of the following options are offered depends on the selected template.
 
 ## Options for all templates
 
-- **Hyphenation** - if selected, a break line will be included into the export between word for improved layout. This option is deactivated by default.
+- **Hyphenation** - if selected, a break line will be included into the export between words for improved layout. This option is deactivated by default.
 
 - **Language and hyphenation** - a dropdown menu showing languages to be used for hyphenation. Your current language is preselected if hyphenation is available for it. The selection does not change the language used in the PDF export.
 
 ## Options for _Attributes and description_
 
-- **Footer text**, which is displayed in the PDF export. The project name will be suggested for the footer, and the text will be placed at the center of the footer. You can adjust the suggested footer text.
+- **Footer text**, which is displayed at the center of the footer of every page, with the export date to the left and the page number to the right of it. The project name will be suggested as footer text. You can adjust the suggested footer text.
 
 - **Page orientation**, which allows selecting _Portrait_ or _Landscape_ layout of the pages in the PDF.
 
 ## Options for _Contract_
 
-- **Footer text**, which is displayed in the PDF export. The work package subject will be suggested as the footer text, and the text will be placed at the right corner of the footer. You can adjust the suggested footer text.
+- **Footer text**, which is displayed at the center of the footer of every page, with the export date to the left and the page number to the right of it. The work package subject will be suggested as footer text. You can adjust the suggested footer text.
 
 ## Options for _PMflex Artefact_
 
