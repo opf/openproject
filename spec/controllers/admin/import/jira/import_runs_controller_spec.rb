@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
@@ -219,7 +219,8 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       end
     end
 
-    context "when step is import" do
+    context "when step is import",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
       before { transition_to_state(jira_import, "projects_meta_done") }
 
       it "transitions to importing and enqueues the import batch" do
@@ -234,7 +235,28 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       end
     end
 
-    context "when step is import from import_error" do
+    context "when step is import with classic work package identifiers",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::CLASSIC } do
+      before { transition_to_state(jira_import, "projects_meta_done") }
+
+      it "does not start the import" do
+        expect do
+          post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
+        end.not_to change(GoodJob::BatchRecord, :count)
+
+        expect(jira_import.reload.current_state).to eq("projects_meta_done")
+      end
+
+      it "explains that semantic identifiers must be enabled and links to the setting" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
+
+        expect(response.body).to include("Project-based semantic identifiers must be enabled.")
+        expect(response.body).to include(admin_settings_work_packages_identifier_path)
+      end
+    end
+
+    context "when step is import from import_error",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
       before { transition_to_state(jira_import, "import_error") }
 
       it "retries the existing import batch instead of enqueueing a new one" do

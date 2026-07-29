@@ -23,14 +23,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe Import::JiraFetchAndImportProjectsJob do
+RSpec.describe Import::JiraFetchUsersJob do
   let(:job) { described_class.new }
   let(:jira_client) { instance_double(Import::JiraClient) }
   let(:user_keys) { Set.new }
@@ -69,6 +69,19 @@ RSpec.describe Import::JiraFetchAndImportProjectsJob do
         allow(Rails.logger).to receive(:info)
         job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_client)
         expect(Rails.logger).to have_received(:info).with(a_string_including("ghost"))
+      end
+    end
+
+    context "when resolving a mentioned user fails with a non-404 error" do
+      let(:api_error) { Import::JiraClient::ApiError.new("Boom", status: 500) }
+
+      before do
+        allow(jira_client).to receive(:user_by_username).with(username: "alice").and_raise(api_error)
+      end
+
+      it "raises an error" do
+        expect { job.send(:resolve_mention_user_keys, %w[alice], user_keys, jira_client) }
+          .to raise_error("Could not resolve mentioned user 'alice': Boom")
       end
     end
   end

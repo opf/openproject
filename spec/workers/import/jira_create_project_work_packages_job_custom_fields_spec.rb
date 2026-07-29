@@ -23,39 +23,25 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe Import::JiraImportProjectsJob,
+# Custom fields are created while the per-project jobs run, so every example drives the whole
+# per-project pipeline rather than a single job.
+RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                :webmock,
                with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
-  let(:jira)       { create(:jira) }
-  let(:author)     { create(:user) }
-  let(:jira_import) do
-    create(:jira_import, jira:, author:,
-                         projects: [{ "id" => "10012", "key" => "DPPP", "name" => "Demo project" }])
-  end
-  let(:jira_project_payload) { JSON.parse(Rails.root.join("spec/fixtures/import/jira/project.json").read) }
-  let(:jira_user_payload)    { JSON.parse(Rails.root.join("spec/fixtures/import/jira/user.json").read) }
+  include_context "with jira project import data"
 
   # Issue with values for all custom field types
   # (spec/fixtures/import/jira/issue_with_custom_fields.json)
   let(:issue_payload) do
     JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_with_custom_fields.json").read)
   end
-
-  let!(:jira_project) do
-    create(:jira_project,
-           jira:,
-           jira_import:,
-           jira_project_id: "10012",
-           payload: jira_project_payload)
-  end
-  let!(:default_status) { create(:default_status) }
 
   # Standard Jira-side entities required for every import run
   let!(:jira_issue_type) do
@@ -134,7 +120,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'string' custom field" do
       expect(WorkPackageCustomField.find_by!(name: "CF String").field_format).to eq("string")
@@ -166,7 +152,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'text' custom field" do
       expect(WorkPackageCustomField.find_by!(name: "CF Text").field_format).to eq("text")
@@ -198,7 +184,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'float' custom field" do
       expect(WorkPackageCustomField.find_by!(name: "CF Number").field_format).to eq("float")
@@ -231,7 +217,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'date' custom field" do
       expect(WorkPackageCustomField.find_by!(name: "CF Date").field_format).to eq("date")
@@ -263,7 +249,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'link' custom field" do
       expect(WorkPackageCustomField.find_by!(name: "CF URL").field_format).to eq("link")
@@ -306,7 +292,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'list' custom field with the available options" do
       cf = WorkPackageCustomField.find_by!(name: "CF List")
@@ -354,7 +340,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'list' custom field that is multi-value" do
       cf = WorkPackageCustomField.find_by!(name: "CF Multi-List")
@@ -410,7 +396,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates one multi-value list custom field" do
       cf = WorkPackageCustomField.find_by!(name: "CF Booleans")
@@ -467,7 +453,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates one boolean custom field named after the Jira field" do
       cf = WorkPackageCustomField.find_by!(name: "CF Booleans - Check 1")
@@ -515,7 +501,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates one multi-value list CF per context group" do
       cf_dyx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (DPPP)")
@@ -572,7 +558,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates one list CF per context group" do
       cf_dyx = WorkPackageCustomField.find_by!(name: "CF Different-Single Checks - Yes (DPPP)")
@@ -617,7 +603,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a single-select (non-multi) 'list' custom field" do
       cf = WorkPackageCustomField.find_by!(name: "CF Radio")
@@ -674,7 +660,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates one single-select list CF per context group" do
       cf_dyx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (DPPP)")
@@ -722,7 +708,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a multi-value 'list' custom field" do
       cf = WorkPackageCustomField.find_by!(name: "CF Labels")
@@ -762,7 +748,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'user' custom field" do
       expect(WorkPackageCustomField.find_by!(name: "CF User").field_format).to eq("user")
@@ -812,7 +798,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a 'hierarchy' custom field" do
       expect(WorkPackageCustomField.find_by!(name: "CF Cascading").field_format).to eq("hierarchy")
@@ -878,7 +864,7 @@ RSpec.describe Import::JiraImportProjectsJob,
                           payload: issue_payload)
     end
 
-    before { described_class.new.perform(jira_import.id) }
+    before { import_project }
 
     it "creates a multi-value 'list' custom field" do
       cf = WorkPackageCustomField.find_by!(name: "CF Cascading")
@@ -991,12 +977,12 @@ RSpec.describe Import::JiraImportProjectsJob,
     end
 
     it "creates the correct number of OpenProject custom fields" do
-      expect { described_class.new.perform(jira_import.id) }
+      expect { import_project }
         .to change(WorkPackageCustomField, :count).by(13)
     end
 
     context "on after the import" do
-      before { described_class.new.perform(jira_import.id) }
+      before { import_project }
 
       it "creates custom fields with the right formats" do
         expected = {
@@ -1057,6 +1043,121 @@ RSpec.describe Import::JiraImportProjectsJob,
 
       it "sets the radiobuttons selected option as the list value correctly" do
         expect(cf_value("CF Radio")).to eq("Option A")
+      end
+    end
+  end
+
+  describe "custom fields shared by several imported projects" do
+    let!(:second_jira_project) do
+      create(:jira_project, jira:, jira_import:,
+                            jira_project_id: "10013",
+                            payload: { "id" => "10013",
+                                       "key" => "SECOND",
+                                       "name" => "Second project",
+                                       "description" => "",
+                                       "projectKeys" => ["SECOND"] })
+    end
+
+    let!(:jira_field) do
+      create(:jira_field, jira:, jira_import:,
+                          jira_field_id: "customfield_10264",
+                          payload: {
+                            "id" => "customfield_10264",
+                            "name" => "CF List",
+                            "schema" => {
+                              "type" => "option",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select",
+                              "customId" => 10264
+                            },
+                            "contextGroups" => [global_context.merge(
+                              "allowedValues" => [{ "id" => "10264", "value" => "Cat" }]
+                            )]
+                          })
+    end
+
+    let!(:jira_issue) do
+      create(:jira_issue, jira:, jira_import:,
+                          jira_issue_id: "10200",
+                          jira_project_id: jira_project.id,
+                          payload: issue_payload)
+    end
+
+    let!(:second_jira_issue) do
+      create(:jira_issue, jira:, jira_import:,
+                          jira_issue_id: "10201",
+                          jira_project_id: second_jira_project.id,
+                          payload: issue_payload.deep_dup.tap do |payload|
+                            payload["id"] = "10201"
+                            payload["key"] = "SECOND-1"
+                            payload["fields"]["project"] = { "id" => "10013", "key" => "SECOND" }
+                          end)
+    end
+
+    before do
+      jira_import.update!(projects: [{ "id" => jira_project_id, "key" => jira_project_key, "name" => jira_project_name },
+                                     { "id" => "10013", "key" => "SECOND", "name" => "Second project" }])
+      create_project_role
+      create_project
+      Import::JiraCreateProjectJob.perform_now(jira_import.id, second_jira_project.id)
+    end
+
+    def import_both_projects
+      create_work_packages
+      described_class.perform_now(jira_import.id, second_jira_project.id)
+    end
+
+    # Import::JiraCreateProjectWorkPackagesJob runs once per project and rebuilds the import-wide
+    # registry each time, so the registry build has to resolve the custom fields an earlier job
+    # already created instead of creating another copy.
+    it "creates one custom field per jira field, not one per project" do
+      import_both_projects
+
+      # the duplicate would be named "CF List (2)", so assert on the whole set
+      expect(WorkPackageCustomField.pluck(:name)).to eq(["CF List"])
+    end
+
+    it "gives the work packages of both projects the same custom field" do
+      import_both_projects
+
+      custom_field = WorkPackageCustomField.sole
+      expect(WorkPackage.count).to eq(2)
+      expect(WorkPackage.all.map { |wp| wp.send(custom_field.attribute_getter) }).to all(eq("Cat"))
+    end
+
+    it "creates one custom field even when it was already created by the custom fields job" do
+      Import::JiraCreateCustomFieldsJob.perform_now(jira_import.id)
+
+      expect { import_both_projects }.not_to change(WorkPackageCustomField, :count)
+    end
+
+    context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do
+      let!(:jira_field) do
+        create(:jira_field, jira:, jira_import:,
+                            jira_field_id: "customfield_10266",
+                            payload: {
+                              "id" => "customfield_10266",
+                              "name" => "CF Cascading",
+                              "schema" => {
+                                "type" => "option-with-child",
+                                "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect",
+                                "customId" => 10266
+                              },
+                              "contextGroups" => [global_context.merge(
+                                "allowedValues" => [
+                                  { "id" => "10150", "value" => "Critical",
+                                    "children" => [{ "id" => "10151", "value" => "Security" }] }
+                                ]
+                              )]
+                            })
+      end
+
+      it "creates one hierarchy field without duplicating its items" do
+        import_both_projects
+
+        custom_field = WorkPackageCustomField.sole
+        expect(custom_field.name).to eq("CF Cascading")
+        expect(custom_field.hierarchy_root.children.pluck(:label)).to eq(["Critical"])
+        expect(custom_field.hierarchy_root.children.sole.children.pluck(:label)).to eq(["Security"])
       end
     end
   end
