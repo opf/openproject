@@ -28,51 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Components
-  module WorkPackages
-    class DestroyModal
-      include Capybara::DSL
-      include Capybara::RSpecMatchers
-      include RSpec::Matchers
-
-      def initialize(bulk_mode: false)
-        @bulk_mode = bulk_mode
-      end
-
-      def dialog_id
-        "wp-delete-dialog"
-      end
-
-      def dialog_css_selector
-        "dialog##{dialog_id}"
-      end
-
-      def within_dialog(&)
-        within(dialog_css_selector, &)
-      end
-
-      def expect_listed(*work_packages)
-        within_dialog do
-          work_packages.each do |work_package|
-            expect(page).to have_text(work_package.subject)
-          end
-        end
-      end
-
-      def confirm_deletion
-        within_dialog do
-          # By id: the label says what is being deleted and so varies with the hierarchy.
-          check "#{dialog_id}-check_box", allow_label_click: true
-          expect(page).to have_button "Delete permanently", disabled: false
-          click_button "Delete permanently"
-        end
-      end
-
-      def cancel_deletion
-        within_dialog do
-          click_button "Cancel"
-        end
-      end
-    end
+# The deleted parent is deliberately not referenced. Readers of the detached work
+# package may have no access to the project the parent was in.
+class Journal::CausedByWorkPackageParentDeletion < CauseOfChange::Base
+  def initialize
+    super("work_package_parent_deleted")
   end
 end
