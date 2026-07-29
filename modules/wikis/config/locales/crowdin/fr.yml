@@ -156,7 +156,7 @@ fr:
       errors:
         connection_error: OpenProject n'a pas pu se connecter au fournisseur de wiki.
         not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
-        uid_mismatch: L'identifiant universel rapporté par le fournisseur de wiki ne correspond pas à l'identifiant qu'OpenProject a enregistré pendant l'installation.
+        uid_mismatch: L'identifiant universel communiqué par le fournisseur de wiki ne correspond pas à celui enregistré par OpenProject lors de la configuration.
         xwiki_oauth_connection_error: OpenProject n'a pas pu se connecter à l'instance XWiki configurée.
         xwiki_oauth_request_error: Une erreur inattendue s'est produite lors de la tentative de communication avec l'instance XWiki.
         xwiki_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau de l'utilisateur avec XWiki car l'utilisateur n'a pas encore connecté son compte XWiki.
@@ -202,7 +202,7 @@ fr:
         no_results: Aucune page wiki trouvée
         placeholder: Recherchez une page wiki (ou saisissez son URL)
     page_links:
-      aria_label: Un lien dynamique vers un message inséré à l'aide d'une macro.
+      aria_label: Un lien dynamique vers une page wiki inséré à l'aide d'une macro.
       errors:
         page_access_forbidden: Vous n'avez pas l'autorisation d'accéder à cette page wiki
         page_not_found: La page wiki liée n'est plus disponible

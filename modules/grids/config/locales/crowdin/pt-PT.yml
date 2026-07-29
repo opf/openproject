@@ -30,10 +30,10 @@ pt-PT:
         no_results: Nada de novo no relatório.
       not_available: Este widget não está disponível.
       project_timeline:
-        no_lifecycle_results: No life cycle phases
-        title: Project timeline
-        title_portfolio: Portfolio timeline
-        title_program: Program timeline
+        no_lifecycle_results: Sem fases do ciclo de vida
+        title: Cronograma do projeto
+        title_portfolio: Cronograma da carteira
+        title_program: Cronograma do programa
       subitems:
         button_text: Sub-elemento
         no_results: Não há filhos visíveis.

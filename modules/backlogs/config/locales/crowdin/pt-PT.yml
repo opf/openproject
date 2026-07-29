@@ -24,7 +24,7 @@ pt-PT:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Permitir a existência de vários sprints ativos
         backlog_excluded_types: Tipos de pacotes de trabalho excluídos
         sprint_sharing: Partilha de sprint
         statuses_considered_closed: Estados considerados encerrados
@@ -43,7 +43,7 @@ pt-PT:
         text: Objetivo do sprint
       work_package:
         backlog_bucket: Grupo de backlog
-        backlog_inbox: Backlog inbox
+        backlog_inbox: Caixa de entrada do backlog
         backlogs_work_package_type: Tipo de backlog
         position: Posição
         sprint: Sprint
@@ -57,10 +57,10 @@ pt-PT:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: não pode ser alterado enquanto houver vários sprints ativos em curso.
+              requires_no_sharing: só pode ser ativado quando a partilha do sprint estiver definida como "Não partilhar".
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              locked_by_multiple_active_sprints: não pode ser alterado enquanto houver vários sprints ativos ativados.
               share_all_projects_already_taken: não pode ser definido porque o projeto "%{name}" já está a partilhar com todos os projetos.
               share_all_projects_already_taken_anonymous: não pode ser definido porque outro projeto já está a partilhar com todos os projetos.
           receiving_sprints: está a receber sprints partilhados. Não pode criar sprints próprios.
@@ -94,7 +94,7 @@ pt-PT:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title: Adicionar o pacote de trabalho existente a %{name}
     administration_blankslate:
       text: Estamos a reformular o módulo Backlogs. As definições de administração para os sprints e backlogs estarão disponíveis aqui num futuro próximo. As definições ao nível do projeto continuam disponíveis.
       title: As definições de administração do backlog estão a evoluir
@@ -112,13 +112,13 @@ pt-PT:
       select_panel_title: Seleccionar elementos
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Adicionar um pacote de trabalho existente
+        add_new_work_package: Adicionar novo pacote de trabalho
         delete_backlog_bucket: Eliminar grupo de backlog
         edit_backlog_bucket: Editar grupo de backlog
-      blankslate_description: Drag items here to add them
+      blankslate_description: Arraste elementos até aqui para os adicionar
       blankslate_title: O grupo de backlog está vazio
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Arraste para aqui para adicionar este elemento
       label_actions: Acções do grupo de backlog
     bucket_destroy_modal_component:
       details: O grupo de backlog '%{name}' será eliminado e todos os pacotes de trabalho serão movidos para a caixa de entrada de backlogs. Nenhum pacote de trabalho será eliminado.
@@ -142,12 +142,12 @@ pt-PT:
       title: Estão a decorrer trabalhos
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Adicionar um pacote de trabalho existente
+        add_new_work_package: Adicionar novo pacote de trabalho
       blankslate_description: Os pacotes de trabalho em aberto que não se encontram num sprint ou num grupo do backlog aparecem automaticamente aqui
       blankslate_title: A caixa de entrada do backlog está vazia
-      drop_zone_label: Drop here to add this item
-      label_actions: Inbox actions
+      drop_zone_label: Arraste para aqui para adicionar este elemento
+      label_actions: Ações na caixa de entrada
       show_more:
         one: Mostrar mais 1 elemento
         other: Mostrar mais %{count} elementos
@@ -160,7 +160,7 @@ pt-PT:
     move_to_sprint_dialog_component:
       label_sprint: Sprint
       title: Mover para sprint
-    multiple_active_sprints: Multiple active sprints
+    multiple_active_sprints: Vários sprints ativos
     points_label:
       one: ponto
       other: pontos
@@ -169,22 +169,22 @@ pt-PT:
     rebuild: Reconstruir
     rebuild_positions: Reconstruir as posições
     remaining_hours: Trabalho restante
-    sharing: Sprint sharing
+    sharing: Partilha de sprint
     show_burndown_chart: Gráfico de burndown
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Adicionar um pacote de trabalho existente
+        add_new_work_package: Adicionar novo pacote de trabalho
         edit_sprint: Editar sprint
       blankslate_description: Ainda não existem elementos planeados. Arraste elementos para aqui para os adicionar.
       blankslate_title: "%{name} está vazio"
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Arraste para aqui para adicionar este elemento
       label_actions: Ações do sprint
       label_complete_sprint: Concluir sprint
       label_start_sprint: Iniciar sprint
       start_sprint_disabled_reason_active_sprint: Outro sprint já está ativo.
       start_sprint_disabled_reason_missing_dates: As datas de início e de fim são necessárias para iniciar o sprint.
-      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
+      start_sprint_disabled_reason_shared_sprint: Este sprint pertence a outro projeto que não é compatível com vários sprints ativos.
     sprint_form:
       goal_caption: O objetivo do sprint é específico deste projeto, e não é partilhado com outros projetos que também utilizem este sprint.
       goal_for_this_project_label: "%{attribute} (para este projeto)"
@@ -224,19 +224,19 @@ pt-PT:
     work_package_is_closed: Pacote de trabalho está feito quando
     work_packages:
       add_existing_dialog:
-        invalid_target: The target you are trying to add to is invalid.
-        target_not_found: The sprint or backlog you are trying to add to was not found.
+        invalid_target: O destino a que está a tentar adicionar não é válido.
+        target_not_found: O sprint ou backlog a que está a tentar adicionar não foi encontrado.
       move:
-        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+        moved_announcement: "%{label} transferido para %{list}, cargo %{position} de %{total}"
       update_service:
-        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
-        missing_target: list_type or list_id must be present.
+        invalid_target_type: 'list_type deve ser um de: backlog_bucket com um list_id, sprint com um list_id, ou caixa de entrada sem um list_id.'
+        missing_target: list_type ou list_id deve estar presente.
   burndown:
     story_points: Pontos de história
     story_points_ideal: Pontos de história (ideal)
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      multiple_active_sprints: Execute vários sprints em paralelo para diferentes equipas do seu projeto, para maior controlo e flexibilidade.
       sprint_sharing: Partilha de sprint
     upsell:
       multiple_active_sprints:
@@ -281,7 +281,7 @@ pt-PT:
   project_module_backlogs: Backlogs
   projects:
     copy:
-      backlog_buckets: Backlog buckets
+      backlog_buckets: Grupos de backlog
       sprints: Sprints
     settings:
       backlog_sharing:
@@ -305,15 +305,15 @@ pt-PT:
         sprint_sharing: Partilhar sprints
       backlogs:
         multiple_active_sprints:
-          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
-          heading: Number of active sprints
+          description: Por padrão, só um sprint pode estar ativo de cada vez por projeto. Pode alterar esta definição para que vários sprints possam estar ativos em paralelo neste projeto.
+          heading: Número de sprints ativos
         multiple_active_sprints_component:
-          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
-          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
+          cannot_turn_off: Estão ativos vários sprints. Para voltar a permitir apenas um sprint ativo de cada vez, confirme que há, no máximo, um sprint ativo.
+          not_available_html: Não é possível ter vários sprints ativos quando <a href=%{sprint_sharing_url}>a partilha de sprints</a> ou a receção de sprints está ativada.
         sharing_form_component:
-          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
+          disabled_due_to_multiple_active_sprints: A partilha de sprints não está disponível quando há vários sprints ativos.
           sharing_description: Este projeto pode partilhar os seus próprios sprints, receber sprints partilhados ou gerir sprints de forma independente (sem partilha).
           sharing_fallback_description: Na ausência de um plano empresarial corporativo, as opções de partilha estão limitadas aos sprints do próprio projeto. A definição atualmente ativa permanece ativa.
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: Caixa de entrada do backlog
   remaining_hours: trabalho restante

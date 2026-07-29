@@ -23,22 +23,22 @@
 fr:
   accessibility:
     macro:
-      aria_label_with_name: "%{name}: %{description}"
+      aria_label_with_name: "%{name} : %{description}"
       resource_links:
-        attachment: Un lien dynamique vers une pièce jointe insérée à l'aide d'une macro.
+        attachment: Un lien dynamique vers une pièce jointe, inséré à l'aide d'une macro.
         commit: Un lien dynamique vers un commit inséré à l'aide d'une macro.
         document: Un lien dynamique vers un document inséré à l'aide d'une macro.
-        export: Un lien dynamique vers un fichier source exporté, inséré à l'aide d'une macro.
+        export: Un lien dynamique vers l'exportation d'un fichier source inséré à l'aide d'une macro.
         group: Un lien dynamique vers un groupe inséré à l'aide d'une macro.
-        meeting: Un lien dynamique vers une réunion créé à l'aide d'une macro.
+        meeting: Un lien dynamique vers une réunion inséré à l'aide d'une macro.
         message: Un lien dynamique vers un message inséré à l'aide d'une macro.
         project: Un lien dynamique vers un projet inséré à l'aide d'une macro.
-        revision: Un lien dynamique vers une révision créée à l'aide d'une macro.
+        revision: Un lien dynamique vers une révision inséré à l'aide d'une macro.
         source: Un lien dynamique vers un fichier source inséré à l'aide d'une macro.
-        user: Un lien dynamique vers un utilisateur, créé à l'aide d'une macro.
-        version: Un lien dynamique vers une version insérée à l'aide d'une macro.
-        view: Un lien dynamique vers une vue insérée à l'aide d'une macro.
-        work_package: Un lien dynamique vers un lot de travail inséré à l'aide d'une macro.
+        user: Un lien dynamique vers un utilisateur inséré à l'aide d'une macro.
+        version: Un lien dynamique vers une version, inséré à l'aide d'une macro.
+        view: Un lien dynamique vers une vue, inséré à l'aide d'une macro.
+        work_package: Un lien dynamique vers un lot de travaux inséré à l'aide d'une macro.
   account:
     auth_source_login_html: Veuillez vous connecter en tant que <em>%{login}</em> pour activer votre compte.
     delete: Supprimer le compte
@@ -349,10 +349,10 @@ fr:
         is_default: Activé par défaut pour les nouveaux projets
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_milestone: Est un jalon
-        parent: Type de parent
+        parent: Type parent
         patterns: Modèles
       type/configuration_link:
-        source: Type de source
+        source: Type source
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
@@ -591,7 +591,7 @@ fr:
               blank: La formule ne peut pas être vide.
               format: "%{message}"
               invalid: La formule n'est pas valide.
-              invalid_tokens: Seules les valeurs numériques, les opérateurs mathématiques et les attributs de projet de type entier, flottant, valeur calculée et liste pondérée sont autorisés.
+              invalid_tokens: 'Sont uniquement autorisés : les valeurs numériques, les opérateurs, les fonctions, les mots-clés et les attributs de projet de type entier, nombre à virgule flottante, valeur calculée ou liste pondérée.'
               not_allowed_custom_fields_referenced: L'attribut %{custom_fields} ne peut pas être utilisé, car il conduit à une référence circulaire ; un attribut dépend de l'autre.
             required:
               cannot_be_true: ne peut pas être défini comme vrai.
@@ -694,10 +694,10 @@ fr:
               no_special_characters: ne peut contenir que des lettres majuscules, des chiffres et des traits de soulignement
             types:
               cannot_assign_multiple_subtypes_of_parent: Un seul sous-type d'un type peut être activé dans le projet
-              cannot_assign_subtype_and_parent: 'Impossible d''assigner un sous-type et son parent '
+              cannot_assign_subtype_and_parent: Impossible d'affecter à la fois un sous-type et son type parent
               cannot_assign_subtypes_yet: Les sous-types ne peuvent pas encore être activés au niveau d'un projet. Activez cette fonctionnalité en version bêta pour tester les sous-types
               in_use_by_work_packages: 'toujours en cours d''utilisation par les lots de travaux : %{types}'
-              switch_source_not_a_subtype: Vous ne pouvez quitter qu'un sous-type
+              switch_source_not_a_subtype: Le changement de type n'est possible qu'à partir d'un sous-type
               switch_target_identical: Le type cible doit être différent du sous-type actuel
               switch_target_not_in_family: Vous ne pouvez passer qu'à un autre sous-type du même type ou à son type parent
           cannot_be_assigned_to_artifact_work_package: L'utilisateur sélectionné ne peut pas être assigné à des lots de travaux.
@@ -812,7 +812,7 @@ fr:
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
             parent:
               cannot_be_self: ne peut pas être le type lui-même.
-              cannot_change_with_work_packages: ne peut pas être modifié car des lots de travail de ce type existent déjà.
+              cannot_change_with_work_packages: ne peut pas être modifié car des lots de travaux de ce type existent déjà.
               cannot_have_children: ne peut pas être défini car ce type possède déjà des sous-types.
               must_be_a_root: doit être lui-même un type de niveau supérieur. Les types ne peuvent être imbriqués qu'à un seul niveau.
               standard_type_must_be_root: ne peut pas être défini pour le type standard.
@@ -1572,7 +1572,7 @@ fr:
     attributes:
       property: Propriété
       version:
-        deprecated: 'Obsolète : ce champ à valeur unique est en cours de remplacement par `targetVersions`. Veuillez utiliser `targetVersions` pour la lecture et l''écriture. Tant que la prise en charge de plusieurs versions n''est pas activée, `targetVersions` n''accepte qu''une seule valeur au maximum et ne doit pas être utilisé conjointement avec `version` dans la même requête.'
+        deprecated: 'Obsolète : ce champ à valeur unique est en cours de remplacement par `targetVersions`. Veuillez utiliser `targetVersions` pour la lecture et l''écriture. Tant que la prise en charge de plusieurs versions n''est pas activée, `targetVersions` n''accepte au maximum qu''une seule valeur et ne doit pas être utilisé conjointement avec `version` dans la même requête.'
     errors:
       bad_request:
         emoji_reactions_activity_type_not_supported: Ce type d'activité ne prend pas en charge les réactions via émojis.
@@ -2474,7 +2474,7 @@ fr:
   error_auth_source_sso_failed: Single Sign-On (SSO) pour l'utilisateur '%{value}' a échoué
   error_can_not_archive_project: 'Ce projet ne peut être archivé : %{errors}'
   error_can_not_deactivate_type: Impossible de désactiver le type « %{type} », car il est toujours utilisé par %{work_packages_link}
-  error_can_not_deactivate_type_invisible_projects: Il existe également des lots de travail dans des projets que vous ne pouvez pas voir.
+  error_can_not_deactivate_type_invisible_projects: Il existe également des lots de travaux dans des projets que vous ne pouvez pas voir.
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
   error_can_not_delete_entry: Impossible de supprimer l'élément
   error_can_not_delete_in_use_archived_undisclosed: Des lots de travaux sont également repris dans les projets archivés. Vous devez demander à un administrateur d'effectuer la suppression pour voir quels projets sont affectés.
@@ -2771,10 +2771,10 @@ fr:
             line_0: Nouveau module de gestion des ressources pour la planification des capacités et la gestion des effectifs (formule Premium).
             line_1: Une meilleure gestion organisationnelle grâce aux services, aux attributs utilisateur tels que les intitulés de poste et aux horaires de travail.
             line_2: Plusieurs sprints actifs sans partage (formule Basic).
-            line_3: Amélioration de la gestion du carnet de commandes et des sprints grâce à des filtres à sélection multiple, à une fonctionnalité de glisser-déposer optimisée et à la possibilité d'ajouter des lots de travail existants.
-            line_4: Exportation des artefacts PM²/PMflex et nouveau widget permettant d'avoir une vue d'ensemble des phases et des étapes clés du projet.
+            line_3: Amélioration du backlog et des sprints grâce à des filtres à sélection multiple, à un glisser-déposer optimisé et à la possibilité d'ajouter des lots de travaux existants.
+            line_4: Exportation d'artefacts PM²/PMflex et nouveau widget offrant une vue d'ensemble des phases de projet et des portes de phase.
             line_5: Index global des pages du wiki et navigation simplifiée entre les pages associées.
-          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que:
+          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que :
 
             '
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
@@ -4476,11 +4476,11 @@ fr:
         none_enabled: Aucun modèle n'a été activé pour ce type de lot de travaux
       title: Générer un fichier PDF
       toc:
-        caption: Ajoutez une table des matières répertoriant les titres des sections.
+        caption: Ajoutez une page de table des matières répertoriant les titres de section.
         label: Table des matières
     page_nr_footer: Page %{page} sur %{total}
     template_artefact:
-      caption: Détails du lot de travail présentés sous la forme d'un artefact PMflex.
+      caption: Détails du lot de travaux présentés sous la forme d'un artefact PMflex.
       label: Artefact PMflex
     template_attributes:
       caption: Tous les attributs présents dans la configuration actuelle du formulaire en utilisant le modèle par défaut.
@@ -4634,7 +4634,7 @@ fr:
       other: "%{count} portefeuilles"
       zero: 0 portefeuille
     filters:
-      name: Part of Portfolio
+      name: Fait partie du portefeuille
   portfolios:
     index:
       search:
@@ -4660,7 +4660,7 @@ fr:
       other: "%{count} programmes"
       zero: 0 programme
     filters:
-      name: Part of Program
+      name: Fait partie du programme
   project:
     archive:
       archived: Archivé
@@ -4763,7 +4763,7 @@ fr:
       change_identifier_dialog_title: Modifier l'identifiant du projet
       change_identifier_format_hint_legacy: Uniquement des lettres minuscules (a-z), des chiffres, des tirets ou des traits de soulignement.
       change_identifier_format_hint_semantic: Uniquement des lettres majuscules (A-Z), des chiffres ou des traits de soulignement. Maximum 10 caractères. Doit commencer par une lettre.
-      change_identifier_warning: 'Cela modifiera de manière permanente les identifiants et les URL de tous les lots de travail de ce projet. Les identifiants et URL précédents continueront néanmoins à fonctionner.
+      change_identifier_warning: 'Cela modifiera de manière permanente les identifiants et les URL de tous les lots de travaux de ce projet. Les identifiants et URL précédents continueront néanmoins à fonctionner.
 
         '
       creation_wizard:
@@ -4773,7 +4773,7 @@ fr:
           no_work_package_type: La demande d'initiation de projet n'a pas pu être activée, car elle nécessite au moins un type de lot de travaux actif et ce projet n'en a pas. Veuillez ajouter au moins un type de lot de travaux à ce projet.
         export:
           description_attachment_export: L'artefact généré sera enregistré en tant que pièce jointe au format PDF dans le lot de travaux de l'artefact.
-          description_file_link_export: Le lot de travaux de l'artefact contient un lien vers un fichier PDF stocké dans un espace de stockage de fichiers externe. Nécessite un stockage de fichiers de travail avec des dossiers de projet gérés automatiquement pour ce projet. Pour le moment, seuls les espaces de stockage de fichiers Nextcloud sont pris en charge.
+          description_file_link_export: Le lot de travaux de l'artefact contiendra un lien vers un fichier PDF stocké dans un espace de stockage de fichiers externe. Nécessite un espace de stockage de fichiers opérationnel avec des dossiers de projet gérés automatiquement pour ce projet. Actuellement, seuls les espaces de stockage de fichiers Nextcloud sont pris en charge.
           description_file_storage_selection: Sélectionnez les espaces de stockage de fichiers externes configurés qui doivent être utilisés.
           external_file_storage: Espace de stockage de fichiers externe
           label_artifact_export: Exportation d'artefacts
@@ -4942,12 +4942,12 @@ fr:
     create_successful: Le dépôt a été enregistré.
     delete_sucessful: Le dépôt a été supprimé.
     destroy_dialog:
-      description: Le dépôt « %{repository_type} » disponible à l'adresse %{path} , ainsi que l'ensemble de son contenu, seront définitivement supprimés.
-      description_not_managed: Le lien %{repository_type} sur %{url} sera supprimé du projet. Cela n'entraînera pas la suppression du contenu de ce dépôt, car celui-ci n'est pas géré par OpenProject.
-      heading: Supprimer ceci %{repository_type}?
-      heading_not_managed: 'Veuillez supprimer ce lien : %{repository_type}?'
+      description: Le dépôt « %{repository_type} » disponible à l'adresse %{path}, ainsi que l'ensemble de son contenu, seront définitivement supprimés.
+      description_not_managed: Le dépôt %{repository_type} lié à l'adresse %{url} sera retiré du projet. Son contenu ne sera pas supprimé, car ce dépôt n'est pas géré par OpenProject.
+      heading: Supprimer le dépôt %{repository_type} ?
+      heading_not_managed: Supprimer le lien vers ce dépôt %{repository_type} ?
       title: Supprimer le dépôt
-      title_not_managed: Supprimer le dépôt
+      title_not_managed: Retirer le dépôt
     errors:
       build_failed: Impossible de créer le dépôt avec la configuration sélectionnée. %{reason}
       disabled_or_unknown_type: Le type %{type} sélectionné est désactivé ou n'est plus disponible pour le fournisseur de gestion de contrôle de sources %{vendor}.
@@ -5244,7 +5244,7 @@ fr:
   setting_total_percent_complete_mode_work_weighted_average: Pondéré par le travail
   setting_total_percent_complete_mode_work_weighted_average_caption_html: Le <i>% d'achèvement total</i> sera pondéré en fonction du <i>travail</i> de chaque lot de travaux repris dans la hiérarchie. Les lots de travaux sans <i>travail</i> seront ignorés.
   setting_use_wysiwyg_description: Sélectionnez cette option pour activer l'éditeur CKEditor5 WYSIWYG pour tous les utilisateurs par défaut. CKEditor a des fonctionnalités limitées pour GFM Markdown.
-  setting_user_can_change_email: Les utilisateurs sont autorisés à modifier leur adresse e-mail
+  setting_user_can_change_email: Autoriser les utilisateurs à modifier leur adresse e-mail
   setting_user_default_timezone: Fuseau horaire par défaut des utilisateurs
   setting_user_format: Format du nom d'utilisateur
   setting_users_deletable_by_admins: Comptes utilisateurs effaçables par admins
@@ -5266,7 +5266,7 @@ fr:
   setting_work_package_startdate_is_adddate: Utiliser la date actuelle comme date de début des nouveaux lots de travaux
   setting_work_packages_identifier_classic: Séquence numérique à l'échelle de l'instance (par défaut)
   setting_work_packages_identifier_classic_caption: 'Chaque lot de travaux reçoit un numéro séquentiel commençant à 1 (par exemple, #1234). Les numéros sont uniques au sein de l''instance et restent identiques même si les lots de travaux sont déplacés entre des projets.'
-  setting_work_packages_identifier_semantic: Identifiants sémantiques liés à des projets
+  setting_work_packages_identifier_semantic: Identifiants sémantiques propres aux projets
   setting_work_packages_identifier_semantic_caption: Chaque projet possède un identifiant de projet unique préfixé à un numéro (par exemple, PROJ-11). La numérotation de chaque projet commence à 1. Si un lot de travaux est déplacé vers un autre projet, un nouvel identifiant est généré, mais l'ancien continuera de fonctionner.
   setting_work_packages_projects_export_limit: Limite d'exportation des lots de travaux/projets
   setting_work_packages_projects_export_limit_text: 'Nombre maximal de lots de travaux ou de projets pouvant être inclus dans une même exportation. Les exportations plus volumineuses sont tronquées à cette limite.
@@ -5386,7 +5386,7 @@ fr:
         '
       name:
         artifact_name: Nom de l'artefact
-        artifact_name_caption: Choisissez le nom de cet artefact recommandé par votre cadre de gestion de projet.
+        artifact_name_caption: Choisissez, pour cet artefact, le nom recommandé par votre cadre de gestion de projet.
         options:
           project_creation_wizard: Assistant de création de projet
           project_initiation_request: Demande de lancement du projet
@@ -5406,8 +5406,8 @@ fr:
           Vous avez envoyé une demande de lancement de projet pour **%{project_name}**. Elle est actuellement en attente d'examen.
           Cliquez sur le lien ci-dessous pour accéder au lot de travaux contenant votre demande.
         confirmation_email_text: Texte de l'e-mail de confirmation
-        description: Lorsqu'un utilisateur soumet une demande de lancement de projet, un nouveau lot de travail est créé, auquel est joint l'artefact de la demande sous forme de fichier PDF. Les paramètres ci-dessous définissent le type, le statut et le responsable de ce nouveau lot de travail.
-        description_template: "**Ce lot de travaux a été créé automatiquement à l'issue du flux de travail %{wizard_name}.** Un artefact PDF contenant toutes les informations envoyées a été généré et joint à ce lot de travaux à des fins de référence et d'audit. Si vous avez besoin de mettre à jour ou de réexécuter les étapes de lancement, vous pouvez rouvrir l'assistant à tout moment en utilisant le lien ci-dessous :\n"
+        description: Lorsqu'un utilisateur soumet une demande de lancement de projet, un nouveau lot de travaux est créé, auquel est joint l'artefact de la demande sous forme de fichier PDF. Les paramètres ci-dessous définissent le type, le statut et le responsable de ce nouveau lot de travaux.
+        description_template: "**Ce lot de travaux a été créé automatiquement à l'issue du flux de travail %{wizard_name}.** Un artefact PDF contenant toutes les informations soumises a été généré et joint à ce lot de travaux à des fins de référence et d'audit. Pour mettre à jour ou relancer les étapes de lancement, vous pouvez rouvrir l'assistant à tout moment à l'aide du lien ci-dessous :\n"
         send_confirmation_email: Envoyer un e-mail de confirmation à l'utilisateur qui a soumis la demande de lancement du projet
         status_when_submitted: Statut lors de l'envoi
         status_when_submitted_caption: Le statut que le lot de travaux généré prendra une fois la demande envoyée.
@@ -5700,7 +5700,7 @@ fr:
     Vous êtes sur le point de retirer tout ou partie de vos permissions et ne pourrez peut-être plus modifier le projet par la suite.
     Voulez-vous vraiment continuer?
   text_permanent_delete_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée.
-  text_permanent_remove_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée.
+  text_permanent_remove_confirmation_checkbox_label: Je comprends que ce retrait ne peut pas être annulé.
   text_plugin_assets_writable: Répertoire des « plugin assets » est accessible en écriture
   text_powered_by: Propulsé par %{link}
   text_project_custom_field_html: 'L''édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
@@ -5789,7 +5789,7 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      configuration_link_error: Le mode de réutilisation n'a pas pu être enregistré. Veuillez sélectionner un type de source.
+      configuration_link_error: Le mode de réutilisation n'a pas pu être enregistré. Veuillez sélectionner un type source.
       create_subtype: Créer un sous-type
       fields:
         inherited_from_parent_html: Hérité du type parent <b>%{parent}</b>.
@@ -5805,35 +5805,35 @@ fr:
         workflows: Flux de travail
       success: Le sous-type a été créé avec succès.
       workflows:
-        copy_caption: Copiez la configuration du workflow à partir d'un type existant pour vous en servir de point de départ.
+        copy_caption: Copiez la configuration du flux de travail d'un type existant pour l'utiliser comme point de départ.
     edit:
       configuration_link:
         independent:
           caption: Ces paramètres appartiennent à ce type et sont modifiés ici. Ils ne sont liés à aucun autre type.
           label: Indépendant
-          warning: En sélectionnant « Indépendant », les paramètres actuels du type de source sélectionné sont copiés sur ce type, puis le lien est supprimé. Vous pourrez ensuite les modifier librement. Veuillez procéder avec prudence.
+          warning: Le passage au mode indépendant copie sur ce type les paramètres actuels du type source sélectionné, puis supprime le lien. Vous pourrez ensuite les modifier librement. Procédez avec prudence.
         linked:
-          caption: Ces paramètres sont repris d'un type de source et restent synchronisés avec celui-ci. Pour les modifier, modifiez le type de source.
-          label: Relié
-          warning: La liaison remplace les paramètres propres à ce type par ceux du type source. Les paramètres actuels sont supprimés et les lots de travail de ce type peuvent être affectés. Veuillez procéder avec prudence.
+          caption: Ces paramètres sont réutilisés à partir d'un type source et restent synchronisés avec celui-ci. Pour les modifier, modifiez le type source.
+          label: Lié
+          warning: La liaison remplace les paramètres propres à ce type par ceux du type source. Les paramètres actuels sont abandonnés et les lots de travaux de ce type peuvent être affectés. Procédez avec prudence.
         source:
-          label: Type de source
+          label: Type source
       export_configuration:
         artefact_export:
           attachment:
-            caption: Le fichier PDF généré est enregistré en tant que pièce jointe dans le dossier du lot de travail.
+            caption: Le PDF généré est enregistré comme pièce jointe au lot de travaux.
             label: Enregistrer en tant que pièce jointe au lot de travaux
           file_link:
-            caption: Le fichier PDF généré est téléchargé vers l'espace de stockage Nextcloud géré automatiquement du projet et un lien vers celui-ci est ajouté dans le lot de travail. Les lots de travail des projets ne disposant pas d'un tel espace de stockage sont ignorés.
-            label: Importer le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
-          intro: Générer automatiquement un fichier PDF correspondant à un lot de travail de ce type chaque fois que son statut change.
+            caption: Le PDF généré est chargé dans l'espace de stockage Nextcloud du projet, géré automatiquement, puis un lien vers ce fichier est ajouté au lot de travaux. Les lots de travaux des projets dépourvus d'un tel espace de stockage sont ignorés.
+            label: Importer le fichier dans un espace de stockage externe et ajouter au lot de travaux un lien vers ce fichier
+          intro: Générer automatiquement un artefact PDF pour un lot de travaux de ce type chaque fois que son statut change.
           invalid_mode: Mode d'exportation d'artefacts non valide.
           label: Exportation automatique des artefacts
           off_mode:
             caption: Aucun fichier PDF n'est généré automatiquement.
             label: Désactivé
           section_title: Exportation automatique des artefacts
-          unavailable: indisponible, aucun espace de stockage Nextcloud à gestion automatique n'est configuré
+          unavailable: indisponible, aucun espace de stockage Nextcloud géré automatiquement n'est configuré
         intro: Sélectionnez les modèles disponibles que vous souhaitez activer pour ce type. Le modèle détermine la conception et les attributs visibles dans le fichier PDF exporté d'un lot de travaux utilisant ce type. Le premier modèle de la liste est sélectionné par défaut.
         pdf_export_templates:
           actions:
@@ -5881,8 +5881,8 @@ fr:
         actions:
           label_disable_all: Désactiver tout
           label_enable_all: Activer tout
-        description: Sélectionnez les attributs de projet que vous souhaitez activer pour ce type de lot de travail. Les attributs de projet activés s'affichent dans un onglet distinct au sein des lots de travail de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent y consulter et modifier ces attributs.
-        filter: Recherche par rubrique ou par nom
+        description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
+        filter: Rechercher par section ou par nom
         tab: Attributs du projet
       projects:
         enable_all: Activer pour tous les projets
@@ -5913,7 +5913,7 @@ fr:
           label_with_context: "%{attribute_context} : %{attribute_label}"
     index:
       add_subtype: Ajouter un sous-type à %{name}
-      description: 'Chaque domaine de configuration au sein des types et sous-types peut être configuré de manière indépendante, limité par rapport à un autre type ou entièrement lié à une source.
+      description: 'Chaque zone de configuration des types et sous-types peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
 
         '
       no_results_content_text: Créer un nouveau type
@@ -6341,10 +6341,10 @@ fr:
       heading: Supprimer définitivement ce lot de travaux ?
       title: Supprimer le lot de travaux
     move:
-      bulk_current_type_not_available_in_target_project: 'Les types des lots de travail ou de leurs sous-éléments ne sont pas activés dans le projet cible. Veuillez activer les types manquants dans le projet cible si vous souhaitez qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
+      bulk_current_type_not_available_in_target_project: 'Les types des lots de travaux ou de leurs descendants ne sont pas activés dans le projet cible. Activez les types manquants dans le projet cible pour qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
 
         '
-      current_type_not_available_in_target_project: 'Le type de ce lot de travail ou l''un de ses descendants n''est pas activé dans le projet cible. Veuillez activer les types manquants dans le projet cible si vous souhaitez qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
+      current_type_not_available_in_target_project: 'Le type de ce lot de travaux ou de l''un de ses descendants n''est pas activé dans le projet cible. Activez les types manquants dans le projet cible pour qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
 
         '
       no_common_statuses_exists: Il n'y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé.

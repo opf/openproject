@@ -52,7 +52,7 @@ zh-CN:
         heading: 没有 LDAP 部门同步
       destroy:
         confirmation_message:
-          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          other: 如果继续，同步 %{name} 将被移除，其 %{count} 个部门将不再由 LDAP 管理。
         heading: 是否移除同步 %{name}？
         info: 部门及其成员将保留，并成为常规部门。之后，您可以在“管理”→“用户和权限”→“组织”中手动编辑或删除它们。
         title: 移除同步 %{name}

@@ -33,11 +33,11 @@ zh-CN:
           on_track: 按计划进行
           title: 状态
         project_timeline:
-          accessible_date_range: "%{start} to %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
-          accessible_phase: 'Phase %{name}: %{date}'
-          tooltip_type_gate: Phase gate
-          tooltip_type_phase: Phase
+          accessible_date_range: "%{start} 至 %{end}"
+          accessible_gate: 阶段关口 %{name}：%{date}
+          accessible_phase: 阶段 %{name}：%{date}
+          tooltip_type_gate: 阶段关口
+          tooltip_type_phase: 阶段
         subprojects:
           title: 子项目
         time_entries_current_user:

@@ -25,20 +25,20 @@ uk:
     macro:
       aria_label_with_name: "%{name}: %{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
-        commit: A dynamic link to a commit placed using a macro.
-        document: A dynamic link to a document placed using a macro.
-        export: A dynamic link to a source file export placed using a macro.
-        group: A dynamic link to a group placed using a macro.
-        meeting: A dynamic link to a meeting placed using a macro.
-        message: A dynamic link to a message placed using a macro.
-        project: A dynamic link to a project placed using a macro.
-        revision: A dynamic link to a revision placed using a macro.
-        source: A dynamic link to a source file placed using a macro.
-        user: A dynamic link to a user placed using a macro.
-        version: A dynamic link to a version placed using a macro.
-        view: A dynamic link to a view placed using a macro.
-        work_package: A dynamic link to a work package placed using a macro.
+        attachment: Динамічне посилання на вкладення, розміщене за допомогою макроса.
+        commit: Динамічне посилання на коміт, розміщене за допомогою макроса.
+        document: Динамічне посилання на документ, розміщене за допомогою макроса.
+        export: Динамічне посилання на експорт вихідного файлу, розміщене за допомогою макроса.
+        group: Динамічне посилання на групу, розміщене за допомогою макроса.
+        meeting: Динамічне посилання на нараду, розміщене за допомогою макроса.
+        message: Динамічне посилання на повідомлення, розміщене за допомогою макроса.
+        project: Динамічне посилання на проєкт, розміщене за допомогою макроса.
+        revision: Динамічне посилання на переглянуту версію, розміщене за допомогою макроса.
+        source: Динамічне посилання на вихідний файл, розміщене за допомогою макроса.
+        user: Динамічне посилання на користувача, розміщене за допомогою макроса.
+        version: Динамічне посилання на версію, розміщене за допомогою макроса.
+        view: Динамічне посилання на подання, розміщене за допомогою макроса.
+        work_package: Динамічне посилання на пакет робіт, розміщене за допомогою макроса.
   account:
     auth_source_login_html: Увійдіть, як <em>%{login}</em> для активації облікового запису.
     delete: Видалити обліковий запис
@@ -226,8 +226,8 @@ uk:
         identifier: Ідентифікатор
         latest_activity_at: Остання активність на
         parent: Підпроект
-        portfolio: Portfolio
-        program: Program
+        portfolio: Портфель
+        program: Програма
         project_creation_wizard_assignee_custom_field: Виконавець на момент подання
         project_creation_wizard_enabled: Запит на ініціювання проєкту
         project_creation_wizard_notification_text: Текст сповіщення
