@@ -32,14 +32,16 @@ module WorkPackageTypes
   module FormConfiguration
     class GroupAttributeRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::FormConfiguration::ExclusionToggle
 
-      def initialize(attribute:, type:, index:, total_count:, readonly: false)
+      def initialize(attribute:, type:, index:, total_count:, readonly: false, exclusions: nil)
         super
         @attribute = attribute
         @type = type
         @index = index
         @total_count = total_count
         @readonly = readonly
+        @exclusions = exclusions
       end
 
       def readonly?
@@ -47,6 +49,14 @@ module WorkPackageTypes
       end
 
       private
+
+      def exclusion_element_key
+        @attribute[:key]
+      end
+
+      def exclusion_toggle_label
+        t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation])
+      end
 
       def multiple_attributes?
         @total_count > 1

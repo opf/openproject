@@ -29,38 +29,48 @@
 #++
 
 module WorkPackageTypes
-  module FormConfiguration
-    class GroupQueryRowComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include WorkPackageTypes::FormConfiguration::ExclusionToggle
+  # The exclusion switches on a type's read-only configuration tabs: one element at a time,
+  # driven by Primer's ToggleSwitch, which sends "value: 0 | 1" and keeps or reverts the switch
+  # based on the response status. Built to mirror ConfigurationLinksController.
+  class ExcludedElementsController < BaseTabController
+    include TypeVariantsFeature
 
-      def initialize(group:, ee_available:, readonly: false, exclusions: nil)
-        super
-        @group = group
-        @ee_available = ee_available
-        @readonly = readonly
-        @exclusions = exclusions
+    before_action :require_type_variants_feature
+    before_action :require_valid_aspect
+
+    current_menu_item do
+      :types
+    end
+
+    # On means the type inherits the element, so switching on removes the exclusion.
+    def toggle
+      call = toggle_service
+        .new(user: current_user, type: @type)
+        .call(aspect:, elements: [element])
+
+      render json: {}, status: call.success? ? :ok : :unprocessable_entity
+    end
+
+    private
+
+    def aspect = params[:aspect]
+
+    def element = params.require(:element)
+
+    def toggle_service
+      if inherit?
+        ExcludedElements::RemoveService
+      else
+        ExcludedElements::AddService
       end
+    end
 
-      def readonly?
-        @readonly
-      end
+    def inherit?
+      ActiveRecord::Type::Boolean.new.cast(params.permit(:value)[:value])
+    end
 
-      private
-
-      # A query group holds a single query, so excluding its key drops the whole group rather
-      # than a row. Nil for a group whose query was deleted: there is no id to build a key from.
-      def exclusion_element_key
-        @group[:element_key]
-      end
-
-      def exclusion_toggle_label
-        t("types.edit.form_configuration.exclusions.section_label", section: @group[:name])
-      end
-
-      def ee_available?
-        @ee_available
-      end
+    def require_valid_aspect
+      render_404 unless Type::ConfigurationLink::ASPECTS.include?(aspect)
     end
   end
 end

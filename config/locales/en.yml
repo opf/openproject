@@ -6101,6 +6101,12 @@ en:
         drag_to_reorder: "Drag to reorder"
         edit_query: "Edit query"
         empty_group_hint: "Drag attributes here"
+        exclusions:
+          attribute_label: "Inherit %{attribute}"
+          excluded: "Excluded"
+          excluded_in_source: "Excluded in the configuration inherited from %{source}"
+          inherited: "Inherited"
+          section_label: "Inherit section %{section}"
         filter_inactive: "Filter attributes"
         group_actions: "Section actions"
         group_name_label: "Section name"
