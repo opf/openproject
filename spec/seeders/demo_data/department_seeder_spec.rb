@@ -101,7 +101,7 @@ RSpec.describe DemoData::DepartmentSeeder do
       lastname: "Marketing",
       login: "marko.marketing",
       mail: "marko.marketing@example.com",
-      status: "active"
+      status: "invited"
     )
 
     expect(seed_data.find_reference(:marketing).users).to include(marko)

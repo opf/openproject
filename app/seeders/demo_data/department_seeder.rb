@@ -99,7 +99,7 @@ module DemoData
         firstname:,
         lastname:,
         mail: "#{login}@example.com",
-        status: User.statuses[:active],
+        status: User.statuses[:invited],
         language: I18n.locale.to_s,
         password: login,
         force_password_change: false
