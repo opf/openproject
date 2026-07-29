@@ -51,7 +51,15 @@ The checkbox is not offered for default views or views you have not saved yet.
 >
 > If the query is public, other users can edit it and save the export settings. If you want to prevent other users from adjusting the export settings, you need to create a private work package query.
 
-### PDF export
+## Export a single work package
+
+It is also possible to export single work packages in PDF and Atom formats. To do that, click on the settings icon in the top right corner and select either the **Generate PDF** or the **Download Atom** option from the dropdown menu.
+
+![Single work package export options in OpenProject](openproject_user_guide_work_package_export_options.png)
+
+See [Work package PDF export](work-package-pdf) and [Work package Atom export](work-package-atom) for what each format contains.
+
+## PDF export
 
 OpenProject has multiple options for exporting work packages in PDF format: [PDF table](pdf-table), [PDF report](pdf-report) and [Gantt chart PDF](gantt-chart-pdf). The following applies to all of them.
 
@@ -68,13 +76,3 @@ OpenProject has multiple options for exporting work packages in PDF format: [PDF
 #### Page breaks
 
 If you used page breaks in work package descriptions, contents will be split into separate pages accordingly.
-
-![OpenProject_pdf_report_export](openproject-pdf-export-work-plans.png)
-
-## Export a single work package
-
-It is also possible to export single work packages in PDF and Atom formats. To do that, click on the settings icon in the top right corner and select either the **Generate PDF** or the **Download Atom** option from the dropdown menu.
-
-![Single work package export options in OpenProject](openproject_user_guide_work_package_export_options.png)
-
-See [Work package PDF export](work-package-pdf) and [Work package Atom export](work-package-atom) for what each format contains.

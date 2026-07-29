@@ -10,6 +10,10 @@ keywords: work package exports, PDF report, work plans, PDF export
 
 With PDF Reports, you can export detailed up-to-date work plans for your project in a clean and practical format. It includes a title page, a table of contents (listing all of the work packages), followed by the description of single work packages in a block form. The table of contents is clickable and is linked to the respective pages within the report, making navigation much easier.
 
+![OpenProject_pdf_report_export](openproject-pdf-export-work-plans.png)
+
+## Options
+
 ![Define a PDF report for OpenProject work packages export](openproject_pdf_export_report_options.png)
 
 For each work package, a table of attributes is included, where attributes correspond to the columns you specified for the export. For a [single work package export](../work-package-pdf/), attributes are displayed according to the work package form configuration.
