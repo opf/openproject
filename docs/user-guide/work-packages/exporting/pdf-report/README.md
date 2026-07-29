@@ -16,6 +16,14 @@ For each work package, a table of attributes is included, where attributes corre
 
 The table of attributes is followed by the work package description and, if necessary, custom long text fields, which support [embedded work package and project attributes](../../../wysiwyg/#attributes).
 
+## Columns
+
+Use the **Add columns to attribute table** option to select which attributes are listed in the attribute table of every work package and to change their order. The pre-selected columns are the ones in the work package table query. Learn how to [save the work package view](../../work-package-table-configuration/#save-work-package-views).
+
+The subject is not available as a column, since every work package block is already headed by its subject. Long text fields are not part of the attribute table either, but can be displayed below it.
+
+Unlike the other export formats, the report also accepts relation columns, such as _children_ or _blocked by_. Adding them creates the [relation blocks](#display-relations) described below.
+
 ## Long text fields
 
 Below the attribute table, the report can display the work package description and all long text custom fields. Use the **Add long text fields** option to select which of them are included and drag them to change the order in which they appear in the report.
@@ -24,7 +32,7 @@ All long text fields are selected by default. Remove a field from the selection 
 
 ## Display sums
 
-If ["display sums" is activated](../../work-package-table-configuration/) in the work package table, then the sum table is included between the table of contents and work packages description in an Overview section.
+If ["display sums" is activated](../../work-package-table-configuration/#display-sums-in-work-package-table) in the work package table, then the sum table is included between the table of contents and work packages description in an Overview section.
 
 ![A work package table in OpenProject, highlighting total sum under the work packages list](openproject_wp_table_total_sum.png)
 
