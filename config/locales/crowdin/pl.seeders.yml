@@ -506,18 +506,18 @@ pl:
           name: Błąd
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Niezwykłe elementy podrzędne: historie użytkowników i błędy'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'Elementy podrzędne historii użytkownika: zadania'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: Historie użytkowników i błędy
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Zadania
       welcome:
         title: Witamy w OpenProject!
         text: |

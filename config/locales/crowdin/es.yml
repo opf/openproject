@@ -1144,6 +1144,9 @@ es:
         '
     jemalloc_allocator: Asignador de memoria Jemalloc
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Le rogamos que nos ayude a mejorar el Migrador de Jira con sus comentarios y aportando datos privados. Puede [unirse a la comunidad de desarrollo](link) del Migrador de Jira.
 
@@ -1165,9 +1168,11 @@ es:
         ssrf_blocked: 'Conexión bloqueada: el servidor de Jira corresponde a una dirección IP privada. Si tu instancia de Jira se ejecuta en una red interna, permite su IP mediante la variable de entorno OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Añadido
+        creator: Creator
         label_ago: Hace %{amount}
         last_change: Última modificación
         projects: Proyectos
+        server_url: Server URL
       configuration:
         new: Nueva configuración
         title: Configuración de Jira
@@ -1182,18 +1187,24 @@ es:
         button_add: Agregar configuración
         button_delete_token: Eliminar token
         button_save: Guardar configuración
-        button_test: Probar configuración
         delete_token_confirm: "¿Seguro que desea eliminar el token? Esto desactivará la conexión a Jira."
         fields:
           name: Nombre
           personal_access_token: Token de acceso personal
           url: URL del servidor/Jira Data Center
         label_testing: Probando la configuración...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Cree una ejecución de importación para comenzar a importar información de esta instancia de Jira
           title: Aún no se han configurado ejecuciones de importación
         history: Historial
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Actualmente hay otra importación de Jira en curso o pendiente de revisión. Complétela o revierta antes de iniciar una nueva importación.
         index:
           button_edit_configuration: Editar configuración
@@ -1233,14 +1244,8 @@ es:
           groups:
             configuration:
               title: Configurar importación
-            confirming:
-              title: Confirmar e importar
-            fetch:
-              title: Obtener datos base
-            groups_and_users:
-              title: Grupos y usuarios
-            review:
-              title: Revisar importación
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: Entiendo y tengo una copia de seguridad
             confirm_button: Iniciar importación
@@ -1276,6 +1281,7 @@ es:
               button_start: Iniciar importación
               caption: Revise la configuración de importación y comience la importación
               caption_done: Completado
+              caption_done_info: All data has been imported
               description: Está a punto de iniciar una importación con la siguiente configuración.
               label_available_data: Datos a importar
               label_import_data: Importando
@@ -1283,9 +1289,12 @@ es:
               label_users_import_explanation: Usuarios que participan en los proyectos seleccionados (miembros de grupos incluidos)
               title: Importar datos
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Compruebe los datos disponibles
               caption_done: Completado
+              caption_done_description: Meta data fetched from %{server_info}
               description: Compruebe qué datos están disponibles para importar en la instancia de Jira host.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Obteniendo datos de Jira...
               title: Obtener metadatos de instancia
             groups_and_users:
@@ -1294,7 +1303,6 @@ es:
               button_done: Aprobar la importación
               button_revert: Revertir importación
               caption: Revise o revierta la importación
-              info: Importación ejecutada con éxito.
               label_finalize_import: Aprobar la importación
               label_finalizing: Aprobando la importación...
               label_finalizing_done: Importación aprobada.
@@ -1303,6 +1311,20 @@ es:
               label_revert_progress: Revirtiendo importación...
               label_reverted: Importación revertida.
               preview_description: Los datos importados se encuentran actualmente en modo de revisión. Haga clic en «Aprobar la importación» para que la importación sea permanente o en «Revertir importación» para deshacer todos los cambios realizados en esta importación.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Importar resultados de ejecución
             import_scope:
               button_continue: Continuar
@@ -1310,6 +1332,9 @@ es:
               button_select_projects: Seleccionar proyectos para importar
               caption: Elija lo que desea importar en OpenProject
               caption_done: Completado
+              caption_done_description:
+                one: 1 project selected as scope
+                other: "%{count} projects selected as scope"
               description: Seleccione los datos que desea importar de entre los datos disponibles obtenidos de la instancia de host de Jira.
               elements:
                 custom_fields: Un subconjunto de campos personalizados
@@ -1324,19 +1349,21 @@ es:
                 sprints: Asignaciones de sprint
                 users: Usuarios y grupos implicados
                 workflows: Flujos de trabajo a nivel de proyecto
-              label_available_server_data: Datos disponibles en %{server_info}
               label_coming_later: Más tarde
               label_coming_soon: Próximamente (tercer trimestre de 2026)
               label_import: Seleccione los proyectos que desea importar.
               label_info: Tenga en cuenta que esta herramienta de importación se encuentra en fase beta y no puede importar todos los tipos de datos. A continuación se ofrece un resumen de lo que la instancia de host de Jira ofrece para importar y lo que esta herramienta puede importar en este momento.
-              label_progress: Obteniendo datos de Jira...
+              label_progress: Fetching data
               label_selected_data: Datos seleccionados para la importación
               label_supported_data: Datos admitidos
               title: Ámbito de importación
-          select_dialog:
-            filter_projects: Filtrar por texto
           select_projects:
-            title: Seleccione los proyectos
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: La API de Jira ha devuelto el estado de error %{status}. Compruebe la URL de su instancia de Jira y el token de la API.
         connection_error: 'Error de conexión: %{message}'

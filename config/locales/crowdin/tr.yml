@@ -1148,6 +1148,9 @@ tr:
         '
     jemalloc_allocator: Jemalloc bellek ayırıcı
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
@@ -1169,9 +1172,11 @@ tr:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Eklendi
+        creator: Creator
         label_ago: "%{amount} ago"
         last_change: Son değişiklik
         projects: Projeler
+        server_url: Server URL
       configuration:
         new: Yeni yapılandırma
         title: Jira yapılandırması
@@ -1186,18 +1191,24 @@ tr:
         button_add: Yapılandırma ekle
         button_delete_token: Anahtarı sil
         button_save: Yapılandırmayı kaydet
-        button_test: Yapılandırmayı test et
         delete_token_confirm: Anahtarı silmek istediğinizden emin misiniz? Bu, Jira bağlantısını devre dışı bırakacaktır.
         fields:
           name: İsim
           personal_access_token: Kişisel Erişim Anahtarı
           url: Jira Sunucusu/Veri Merkezi URL'si
         label_testing: Yapılandırma test ediliyor...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
         history: History
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         index:
           button_edit_configuration: Edit configuration
@@ -1237,14 +1248,8 @@ tr:
           groups:
             configuration:
               title: Configure import
-            confirming:
-              title: Confirm and import
-            fetch:
-              title: Get base data
-            groups_and_users:
-              title: Groups and Users
-            review:
-              title: Review import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
             confirm_button: Start import
@@ -1280,6 +1285,7 @@ tr:
               button_start: İçe aktarmayı başlat
               caption: İçe aktarma ayarlarınızı gözden geçirin ve içe aktarmayı başlatın
               caption_done: Tamamlandı
+              caption_done_info: All data has been imported
               description: Aşağıdaki ayarlarla bir içe aktarma çalışması başlatmak üzeresiniz.
               label_available_data: Data to be imported
               label_import_data: Şu anda içe aktarılıyor
@@ -1287,9 +1293,12 @@ tr:
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Veriyi içe aktar
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Check available data
               caption_done: Completed
+              caption_done_description: Meta data fetched from %{server_info}
               description: Check what data is available for import in the host Jira instance.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Fetching data from Jira...
               title: Fetch instance meta data
             groups_and_users:
@@ -1298,7 +1307,6 @@ tr:
               button_done: Approve import
               button_revert: İçe aktarımı geri döndür
               caption: İçe aktarma çalışmasını gözden geçirin veya içe aktarmayı geri alın
-              info: Import run was successful.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1307,6 +1315,20 @@ tr:
               label_revert_progress: İçe aktarma geri alınıyor...
               label_reverted: İçe aktarma geri alındı.
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Çalışma sonuçlarını içe aktarma
             import_scope:
               button_continue: Devam et
@@ -1314,6 +1336,9 @@ tr:
               button_select_projects: İçe aktarılacak projeleri seçin
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
+              caption_done_description:
+                one: 1 project selected as scope
+                other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
@@ -1328,19 +1353,21 @@ tr:
                 sprints: Sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
               label_coming_later: Coming later
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Hangi projeleri içe aktarmak istediğinizi seçin.
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
-              label_progress: Jira'dan veri getiriliyor...
+              label_progress: Fetching data
               label_selected_data: İçe aktarım için seçilen veriler
               label_supported_data: Supported data
               title: Import scope
-          select_dialog:
-            filter_projects: Metne göre filtrele
           select_projects:
-            title: Projeleri seçin
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
         connection_error: 'Bağlantı hatası: %{message}'

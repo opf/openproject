@@ -126,7 +126,7 @@ fr:
     error_no_device: Aucun appareil 2FA enregistré trouvé pour cet utilisateur, bien qu'étant requis pour cette instance.
     error_no_matching_strategy: Aucune stratégie 2FA correspondante disponible pour cet utilisateur. Veuillez contacter votre administrateur.
     forced_registration:
-      required_to_add_device: L'administrateur a activé l'authentification à deux facteurs pour cette instance. Pour vous connecter, veuillez configurer une méthode d'authentification à deux facteurs.
+      required_to_add_device: L'administrateur a rendu obligatoire l'authentification à deux facteurs pour cette instance. Pour vous connecter, veuillez configurer une méthode d'authentification à deux facteurs.
     label_2fa_disabled: Authentification à deux facteurs non active
     label_2fa_enabled: L'authentification à deux facteurs est active
     label_default_device: Appareil 2FA par défaut

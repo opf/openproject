@@ -1182,6 +1182,9 @@ cs:
         '
     jemalloc_allocator: Jemalloc alokátor paměti
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
@@ -1203,9 +1206,11 @@ cs:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Přidáno
+        creator: Creator
         label_ago: před %{amount}
         last_change: Poslední změna
         projects: Projekty
+        server_url: Server URL
       configuration:
         new: Nová konfigurace
         title: Konfigurace Jira
@@ -1220,18 +1225,24 @@ cs:
         button_add: Přidat konfiguraci
         button_delete_token: Smazat token
         button_save: Uložit konfiguraci
-        button_test: Test konfigurace
         delete_token_confirm: Jste si jisti, že chcete token odstranit? Tím se připojení k Jira deaktivuje.
         fields:
           name: Název
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
         label_testing: Testování konfigurace...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
         history: Historie
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         index:
           button_edit_configuration: Upravit konfiguraci
@@ -1271,14 +1282,8 @@ cs:
           groups:
             configuration:
               title: Nastavit import
-            confirming:
-              title: Potvrdit a importovat
-            fetch:
-              title: Získat základní data
-            groups_and_users:
-              title: Skupiny a uživatelé
-            review:
-              title: Review import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
             confirm_button: Start import
@@ -1326,6 +1331,7 @@ cs:
               button_start: Spustit import
               caption: Review your import settings and start the import
               caption_done: Dokončeno
+              caption_done_info: All data has been imported
               description: Chystáte se spustit import s následujícím. nastavením.
               label_available_data: Data k importu
               label_import_data: Momentálně importováno
@@ -1333,9 +1339,12 @@ cs:
               label_users_import_explanation: Uživatelé, kteří jsou zapojeni do vybraných projektů (včetně členství ve skupinách)
               title: Import dat
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Check available data
               caption_done: Dokončeno
+              caption_done_description: Meta data fetched from %{server_info}
               description: Check what data is available for import in the host Jira instance.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Načítání dat z Jira...
               title: Načíst metadata instance
             groups_and_users:
@@ -1344,7 +1353,6 @@ cs:
               button_done: Schválit import
               button_revert: Revertovat import
               caption: Zkontrolovat spuštění importu nebo revertovat import
-              info: Import proběhl úspěšně.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1353,6 +1361,20 @@ cs:
               label_revert_progress: Revertování importu...
               label_reverted: Import byl revertován.
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Výsledky importu
             import_scope:
               button_continue: Pokračovat
@@ -1360,6 +1382,11 @@ cs:
               button_select_projects: Select projects to import
               caption: Vyberte, co chcete importovat do OpenProjectu
               caption_done: Dokončeno
+              caption_done_description:
+                one: 1 project selected as scope
+                few: "%{count} projects selected as scope"
+                many: "%{count} projects selected as scope"
+                other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
@@ -1374,19 +1401,21 @@ cs:
                 sprints: Přiřazení sprintu
                 users: Zapojení uživatelé a skupiny
                 workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
               label_coming_later: Coming later
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Select which projects you would like to import.
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
-              label_progress: Načítání dat z Jira...
+              label_progress: Fetching data
               label_selected_data: Vybraná data pro import
               label_supported_data: Supported data
               title: Rozsah importu
-          select_dialog:
-            filter_projects: Filtrovat podle textu
           select_projects:
-            title: Výběr projektů
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Rozhraní Jira API vrátilo chybový stav %{status}. Zkontrolujte prosím adresu URL své instance Jira a API token.
         connection_error: 'Chyba připojení: %{message}'

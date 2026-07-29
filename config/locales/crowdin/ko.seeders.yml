@@ -472,7 +472,7 @@ ko:
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: 작업
       welcome:
         title: OpenProject에 오신 것을 환영합니다!
         text: |

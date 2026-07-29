@@ -1144,6 +1144,9 @@ de:
         '
     jemalloc_allocator: Jemalloc Speicher allocator
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Bitte helfen Sie uns, den Jira Migrator mit Ihrem Feedback und Ihren privaten Datenspenden zu verbessern. Sie können [der Entwicklergemeinschaft](link) des Jira Migrator beitreten.
 
@@ -1165,9 +1168,11 @@ de:
         ssrf_blocked: 'Verbindung blockiert: Der Jira-Host wird zu einer privaten IP-Adresse aufgelöst. Wenn Ihre Jira-Instanz in einem internen Netzwerk läuft, erlauben Sie ihre IP über die OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST Umgebungsvariable.'
       columns:
         added: Hinzugefügt
+        creator: Creator
         label_ago: Vor %{amount}
         last_change: Letzte Änderung
         projects: Projekte
+        server_url: Server URL
       configuration:
         new: Neue Konfiguration
         title: Jira-Konfiguration
@@ -1182,18 +1187,24 @@ de:
         button_add: Konfiguration hinzufügen
         button_delete_token: Token löschen
         button_save: Konfiguration speichern
-        button_test: Konfiguration testen
         delete_token_confirm: Sind Sie sicher, dass Sie das Token löschen möchten? Dies wird die Verbindung zu Jira deaktivieren.
         fields:
           name: Name
           personal_access_token: Persönlicher Zugangs-Token
           url: Jira Server/Datencenter URL
         label_testing: Teste Konfiguration...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Erstellen Sie einen Importlauf, um den Import von Informationen aus dieser Jira-Instanz zu starten
           title: Noch keine Importläufe eingerichtet
         history: Historie
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Ein anderer Jira-Importlauf wird gerade durchgeführt oder wartet auf die Überprüfung. Bitte schließen Sie ihn ab oder machen Sie ihn rückgängig, bevor Sie einen neuen Import starten.
         index:
           button_edit_configuration: Konfiguration bearbeiten
@@ -1233,14 +1244,8 @@ de:
           groups:
             configuration:
               title: Import konfigurieren
-            confirming:
-              title: Bestätigen und importieren
-            fetch:
-              title: Basisdaten abrufen
-            groups_and_users:
-              title: Gruppen und Benutzer
-            review:
-              title: Import überprüfen
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: Ich verstehe und habe ein Backup
             confirm_button: Import starten
@@ -1276,6 +1281,7 @@ de:
               button_start: Import starten
               caption: Überprüfen Sie Ihre Importeinstellungen und starten Sie den Import
               caption_done: Abgeschlossen
+              caption_done_info: All data has been imported
               description: Sie sind dabei, einen Import mit den folgenden Einstellungen zu starten.
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
@@ -1283,9 +1289,12 @@ de:
               label_users_import_explanation: Nutzer, die an ausgewählten Projekten beteiligt sind (einschließlich Gruppenmitgliedschaften)
               title: Daten importieren
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Verfügbare Daten prüfen
               caption_done: Abgeschlossen
+              caption_done_description: Meta data fetched from %{server_info}
               description: Prüfen Sie, welche Daten in der Host-Jira-Instanz zum Import verfügbar sind.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Abrufen von Daten aus Jira...
               title: Metadaten der Instanz abrufen
             groups_and_users:
@@ -1294,7 +1303,6 @@ de:
               button_done: Import bestätigen
               button_revert: Import rückgängig machen
               caption: Importlauf überprüfen oder Import rückgängig machen
-              info: Der Importlauf war erfolgreich.
               label_finalize_import: Import bestätigen
               label_finalizing: Import wird abgeschlossen...
               label_finalizing_done: Import bestätigt.
@@ -1303,6 +1311,20 @@ de:
               label_revert_progress: Import wird rückgängig gemacht...
               label_reverted: Import rückgängig gemacht.
               preview_description: Die importierten Daten befinden sich derzeit im Überprüfungsmodus. Klicken Sie auf "Import bestätigen", um den Import dauerhaft zu machen, oder auf "Import rückgängig machen", um alle in diesem Importlauf vorgenommenen Änderungen rückgängig zu machen.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Importlauf-Ergebnisse
             import_scope:
               button_continue: Fortfahren
@@ -1310,6 +1332,9 @@ de:
               button_select_projects: Projekte zum Importieren auswählen
               caption: Wählen Sie, was Sie in OpenProject importieren möchten
               caption_done: Abgeschlossen
+              caption_done_description:
+                one: 1 project selected as scope
+                other: "%{count} projects selected as scope"
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               elements:
                 custom_fields: Ein Teil der benutzerdefinierten Felder
@@ -1324,19 +1349,21 @@ de:
                 sprints: Sprint-Zuweisungen
                 users: Beteiligte Benutzer und Gruppen
                 workflows: Workflows auf Projektebene
-              label_available_server_data: Verfügbare Daten auf %{server_info}
               label_coming_later: Kommt später
               label_coming_soon: In Kürze verfügbar (3. Quartal 2026)
               label_import: Wählen Sie die Projekte aus, die Sie importieren möchten.
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
-              label_progress: Abrufen von Daten aus Jira...
+              label_progress: Fetching data
               label_selected_data: Ausgewählte Daten für den Import
               label_supported_data: Unterstützte Daten
               title: Umfang des Imports
-          select_dialog:
-            filter_projects: Nach Text filtern
           select_projects:
-            title: Projekte auswählen
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API hat den Fehlerstatus %{status} zurückgegeben. Bitte überprüfen Sie die URL Ihrer Jira-Instanz und Ihr API-Token.
         connection_error: 'Verbindungsfehler: %{message}'
@@ -5738,7 +5765,7 @@ de:
   text_user_wrote: "%{value} schrieb:"
   text_warn_on_leaving_unsaved: Das Arbeitspaket enthält ungespeicherten Text, der verloren geht wenn Sie die Seite verlassen.
   text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?
-  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_caption: Dies wird nur im Wiki-Verlauf sichtbar sein.
   text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Lösche alle Unterseiten
   text_wiki_page_destroy_question: Diese Seite hat %{descendants} Unterseite(n). Was möchten Sie tun?

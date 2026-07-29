@@ -33,11 +33,11 @@ fr:
           on_track: Sur la bonne voie
           title: Statut
         project_timeline:
-          accessible_date_range: "%{start} to %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
-          accessible_phase: 'Phase %{name}: %{date}'
+          accessible_date_range: Du %{start} au %{end}
+          accessible_gate: 'Porte de phase %{name} : %{date}'
+          accessible_phase: 'Phase %{name} : %{date}'
           tooltip_type_gate: Porte de phase
-          tooltip_type_milestone: Milestone
+          tooltip_type_milestone: Jalon
           tooltip_type_phase: Phase
           tooltip_type_sprint: Sprint
         subprojects:

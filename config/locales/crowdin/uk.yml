@@ -25,20 +25,20 @@ uk:
     macro:
       aria_label_with_name: "%{name}: %{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
-        commit: A dynamic link to a commit placed using a macro.
-        document: A dynamic link to a document placed using a macro.
-        export: A dynamic link to a source file export placed using a macro.
-        group: A dynamic link to a group placed using a macro.
-        meeting: A dynamic link to a meeting placed using a macro.
-        message: A dynamic link to a message placed using a macro.
-        project: A dynamic link to a project placed using a macro.
-        revision: A dynamic link to a revision placed using a macro.
-        source: A dynamic link to a source file placed using a macro.
-        user: A dynamic link to a user placed using a macro.
-        version: A dynamic link to a version placed using a macro.
-        view: A dynamic link to a view placed using a macro.
-        work_package: A dynamic link to a work package placed using a macro.
+        attachment: Динамічне посилання на вкладення, розміщене за допомогою макроса.
+        commit: Динамічне посилання на коміт, розміщене за допомогою макроса.
+        document: Динамічне посилання на документ, розміщене за допомогою макроса.
+        export: Динамічне посилання на експорт вихідного файлу, розміщене за допомогою макроса.
+        group: Динамічне посилання на групу, розміщене за допомогою макроса.
+        meeting: Динамічне посилання на нараду, розміщене за допомогою макроса.
+        message: Динамічне посилання на повідомлення, розміщене за допомогою макроса.
+        project: Динамічне посилання на проєкт, розміщене за допомогою макроса.
+        revision: Динамічне посилання на переглянуту версію, розміщене за допомогою макроса.
+        source: Динамічне посилання на вихідний файл, розміщене за допомогою макроса.
+        user: Динамічне посилання на користувача, розміщене за допомогою макроса.
+        version: Динамічне посилання на версію, розміщене за допомогою макроса.
+        view: Динамічне посилання на подання, розміщене за допомогою макроса.
+        work_package: Динамічне посилання на пакет робіт, розміщене за допомогою макроса.
   account:
     auth_source_login_html: Увійдіть, як <em>%{login}</em> для активації облікового запису.
     delete: Видалити обліковий запис
@@ -226,8 +226,8 @@ uk:
         identifier: Ідентифікатор
         latest_activity_at: Остання активність на
         parent: Підпроект
-        portfolio: Portfolio
-        program: Program
+        portfolio: Портфель
+        program: Програма
         project_creation_wizard_assignee_custom_field: Виконавець на момент подання
         project_creation_wizard_enabled: Запит на ініціювання проєкту
         project_creation_wizard_notification_text: Текст сповіщення
@@ -1184,6 +1184,9 @@ uk:
         '
     jemalloc_allocator: Розподіл пам'яті Jemalloc
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Допоможіть нам покращити Jira Migrator, надіславши відгук і пожертвувавши приватні дані. Ви можете [приєднатися до спільноти розробників](link) Jira Migrator.
 
@@ -1205,9 +1208,11 @@ uk:
         ssrf_blocked: 'З’єднання заблоковано: хост Jira розпізнається як приватна IP-адреса. Якщо ваш екземпляр Jira працює у внутрішній мережі, дозвольте її IP-адресу за допомогою змінної середовища OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Додано
+        creator: Creator
         label_ago: "%{amount} тому"
         last_change: Остання зміна
         projects: Проєкти
+        server_url: Server URL
       configuration:
         new: Нова конфігурація
         title: Конфігурація Jira
@@ -1222,18 +1227,24 @@ uk:
         button_add: Додати конфігурацію
         button_delete_token: Видалити маркер
         button_save: Зберегти конфігурацію
-        button_test: Перевірити конфігурацію
         delete_token_confirm: Справді видалити маркер? З’єднання з Jira буде розірвано.
         fields:
           name: Назва
           personal_access_token: Персональний маркер доступу
           url: URL-адреса Jira Server / Data Center
         label_testing: Перевірка конфігурації…
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Створіть цикл імпорту, щоб почати переносити інформацію із цього екземпляра Jira
           title: Немає налаштованих циклів імпорту
         history: Історія
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Зараз виконується або очікує на перевірку ще один цикл імпорту Jira. Завершіть або скасуйте його, якщо потрібно почати новий імпорт.
         index:
           button_edit_configuration: Змінити конфігурацію
@@ -1273,14 +1284,8 @@ uk:
           groups:
             configuration:
               title: Налаштуйте імпорт
-            confirming:
-              title: Підтвердьте й імпортуйте
-            fetch:
-              title: Отримайте базові дані
-            groups_and_users:
-              title: Групи й користувачі
-            review:
-              title: Перевірте імпорт
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: Я розумію і маю резервну копію
             confirm_button: Почати імпорт
@@ -1328,6 +1333,7 @@ uk:
               button_start: Почати імпорт
               caption: Перегляньте налаштування імпорту й запустіть його
               caption_done: Завершено
+              caption_done_info: All data has been imported
               description: Ви збираєтеся запустити імпорт із наведеними далі налаштуваннями.
               label_available_data: Дані, які імпортуватимуться
               label_import_data: Зараз імпортується
@@ -1335,9 +1341,12 @@ uk:
               label_users_import_explanation: Користувачі, залучені до вибраних проєктів (зокрема, члени груп)
               title: Імпортуйте дані
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Переглянути доступні дані
               caption_done: Завершено
+              caption_done_description: Meta data fetched from %{server_info}
               description: Перевірте, які дані доступні для імпорту в хост-екземплярі Jira.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Отримання даних із Jira…
               title: Отримайте метадані екземпляра
             groups_and_users:
@@ -1346,7 +1355,6 @@ uk:
               button_done: Схвалити імпорт
               button_revert: Скасувати імпорт
               caption: Перегляньте дані про цикл імпорту або скасуйте внесені зміни
-              info: Циклу імпорту успішно виконано.
               label_finalize_import: Схвалити імпорт
               label_finalizing: Схвалення імпорту…
               label_finalizing_done: Імпорт схвалено.
@@ -1355,6 +1363,20 @@ uk:
               label_revert_progress: Скасування імпорту…
               label_reverted: Імпорт скасовано.
               preview_description: Імпортовані дані зараз перебувають у режимі перевірки. Натисніть «Схвалити імпорт», щоб застосувати зміни, або «Скасувати імпорт», щоб скасувати всі зміни, внесені під час цього циклу.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Результати циклу імпорту
             import_scope:
               button_continue: Продовжити
@@ -1362,6 +1384,11 @@ uk:
               button_select_projects: Виберіть проєкти для імпорту
               caption: Виберіть вміст, який потрібно імпортувати в OpenProject
               caption_done: Завершено
+              caption_done_description:
+                one: 1 project selected as scope
+                few: "%{count} projects selected as scope"
+                many: "%{count} projects selected as scope"
+                other: "%{count} projects selected as scope"
               description: Виберіть дані, які потрібно імпортувати з доступного вмісту, отриманого з хост-екземпляра Jira.
               elements:
                 custom_fields: Підмножина користувацьких полів
@@ -1376,19 +1403,21 @@ uk:
                 sprints: Призначення спринту
                 users: Залучені користувачі й групи
                 workflows: Робочі процеси на рівні проєктів
-              label_available_server_data: Дані, доступні на сервері %{server_info}
               label_coming_later: З’явиться пізніше
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Виберіть проєкти, які ви хочете імпортувати.
               label_info: 'Зверніть увагу: цей інструмент доступний лише в бета-версії і не може імпортувати всі типи даних. Ось короткий опис вмісту, доступного для імпорту в хост-екземплярі Jira, а також даних, які інструмент може перенести прямо зараз.'
-              label_progress: Отримання даних із Jira…
+              label_progress: Fetching data
               label_selected_data: Дані, вибрані для імпорту
               label_supported_data: Підтримувані дані
               title: Обсяг імпорту
-          select_dialog:
-            filter_projects: Фільтрування за текстом
           select_projects:
-            title: Виберіть проєкти
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Інтерфейс Jira API повернув статус помилки «%{status}». Перевірте URL-адресу свого екземпляра Jira й маркер API.
         connection_error: 'Помилка з’єднання: %{message}'

@@ -805,8 +805,8 @@ ko:
       sorting_disabled: 정렬이 불가능합니다
     sortable_lists:
       announcements:
-        fallback_item_label: Item
-        fallback_list_name: another list
+        fallback_item_label: 항목
+        fallback_list_name: 다른 목록
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
         moved: "%{label} moved to position %{position} of %{total}"

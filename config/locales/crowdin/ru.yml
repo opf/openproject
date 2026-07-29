@@ -1180,6 +1180,9 @@ ru:
         '
     jemalloc_allocator: Распределитель памяти Jemalloc
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Пожалуйста, помогите нам улучшить Jira Migrator с помощью Ваших отзывов и частных пожертвований данных. Вы можете [присоединиться к сообществу разработчиков](link) Jira Migrator.
 
@@ -1201,9 +1204,11 @@ ru:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Добавлено
+        creator: Creator
         label_ago: "%{amount} назад"
         last_change: Последнее изменение
         projects: Проекты
+        server_url: Server URL
       configuration:
         new: Новая конфигурация
         title: Конфигурация Jira
@@ -1218,18 +1223,24 @@ ru:
         button_add: Добавить конфигурацию
         button_delete_token: Удалить токен
         button_save: Сохранить конфигурацию
-        button_test: Проверить конфигурацию
         delete_token_confirm: Вы уверены, что хотите удалить токен? Это отключит подключение к Jira.
         fields:
           name: Имя
           personal_access_token: Персональный токен доступа
           url: URL сервера/центра обработки данных Jira
         label_testing: Тестирование конфигурации...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Создайте запуск импорта, чтобы начать импортировать информацию из этого экземпляра Jira
           title: Импорт еще не настроен
         history: История
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Другая операция импорта Jira находится в процессе выполнения или ожидает рассмотрения. Пожалуйста, завершите или отмените его, прежде чем начинать новый импорт.
         index:
           button_edit_configuration: Изменить конфигурацию
@@ -1269,14 +1280,8 @@ ru:
           groups:
             configuration:
               title: Настроить импорт
-            confirming:
-              title: Подтвердить и импортировать
-            fetch:
-              title: Получить базовые данные
-            groups_and_users:
-              title: Группы и пользователи
-            review:
-              title: Обзор импорта
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: Я понимаю и имею резервную копию
             confirm_button: Начать импорт
@@ -1324,6 +1329,7 @@ ru:
               button_start: Начать импорт
               caption: Просмотрите настройки импорта и начните импорт
               caption_done: Завершено
+              caption_done_info: All data has been imported
               description: Вы собираетесь начать импорт со следующими настройками.
               label_available_data: Данные для импорта
               label_import_data: Сейчас импортируется
@@ -1331,9 +1337,12 @@ ru:
               label_users_import_explanation: Пользователи, участвующие в выбранных проектах (с учетом членства в группах)
               title: Импорт данных
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Проверка доступных данных
               caption_done: Завершено
+              caption_done_description: Meta data fetched from %{server_info}
               description: Проверьте, какие данные доступны для импорта в экземпляре хоста Jira.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Получение данных из Jira...
               title: Получить мета данные экземпляра
             groups_and_users:
@@ -1342,7 +1351,6 @@ ru:
               button_done: Завершить импорт
               button_revert: Откатить импорт
               caption: Просмотрите выполнение импорта или отмените импорт
-              info: Импорт успешно запущен.
               label_finalize_import: Завершить импорт
               label_finalizing: Завершение импорта...
               label_finalizing_done: Импорт завершён.
@@ -1351,6 +1359,20 @@ ru:
               label_revert_progress: Отмена импорта...
               label_reverted: Импорт отменен.
               preview_description: В настоящее время импортированные данные находятся в режиме просмотра. Нажмите "Завершить импорт", чтобы сохранить результаты импорта, или "Отменить импорт", чтобы отменить все изменения, сделанные в ходе запуска импорта.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Результаты запуска импорта
             import_scope:
               button_continue: Продолжить
@@ -1358,6 +1380,11 @@ ru:
               button_select_projects: Выберите проекты для импорта
               caption: Выберите, что Вы хотите импортировать в OpenProject
               caption_done: Завершено
+              caption_done_description:
+                one: 1 project selected as scope
+                few: "%{count} projects selected as scope"
+                many: "%{count} projects selected as scope"
+                other: "%{count} projects selected as scope"
               description: Выберите, какие данные Вы хотите импортировать из доступных, полученных из хоста Jira.
               elements:
                 custom_fields: Подмножество настраиваемых полей
@@ -1372,19 +1399,21 @@ ru:
                 sprints: Назначения спринта
                 users: Вовлеченные пользователи и группы
                 workflows: Рабочие процессы на уровне проекта
-              label_available_server_data: Имеющиеся данные на сайте %{server_info}
               label_coming_later: Ожидается позже
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Выберите проекты, которые Вы хотите импортировать.
               label_info: Пожалуйста, обратите внимание, что этот инструмент импорта находится в бета-версии и не может импортировать все типы данных. Вот краткая информация о том, что хост Jira предлагает для импорта, и что этот инструмент может импортировать прямо сейчас.
-              label_progress: Получение данных из Jira...
+              label_progress: Fetching data
               label_selected_data: Выбранные данные для импорта
               label_supported_data: Поддерживаемые данные
               title: Объем импорта
-          select_dialog:
-            filter_projects: Фильтр по тексту
           select_projects:
-            title: Выбрать проекты
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API вернул статус ошибки %{status}. Пожалуйста, проверьте ваш экземпляр Jira URL и API токен.
         connection_error: 'Ошибка соединения: %{message}'
