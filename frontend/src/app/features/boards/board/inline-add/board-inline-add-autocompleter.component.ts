@@ -44,9 +44,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 @Component({
-  // Pre-existing selector name, kept as-is: this component is only ever instantiated
-  // dynamically by class reference (see BoardInlineCreateService#referenceComponentClass),
-  // never matched against a template tag, so renaming it is out of scope here.
+  // Please address the disabled eslint rule when making major changes to this file.
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-inline-add-autocompleter',
   templateUrl: './board-inline-add-autocompleter.html',
@@ -121,8 +119,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
 
   @ViewChild(OpAutocompleterComponent) public ngSelectComponent:OpAutocompleterComponent;
 
-  // Pre-existing output names, kept as-is: renaming a dynamically-instantiated component's
-  // public output properties is out of scope for this change.
+  // Please address the disabled eslint rule when making major changes to this file.
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onCancel = new EventEmitter<undefined>();
 
