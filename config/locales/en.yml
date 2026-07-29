@@ -1255,6 +1255,7 @@ en:
           revert_error: "Error during revert"
           reverted: "Reverted"
           reverting: "Reverting"
+        step_not_available: "This action is not available for the current state of the import run."
         title: "Import run"
         wizard:
           button_abort: "Abort"

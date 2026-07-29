@@ -36,17 +36,24 @@ module Admin::Import::Jira
 
     layout "admin"
 
-    VALID_STEPS = %i[
-      fetch_instance_meta
-      fetch_projects_meta
-      configure
-      import
-      revert
-      finalize
-      abort_import
-      resume
-      retry
-    ].freeze
+    # The step a wizard action may submit depends on the state it is rendered in.
+    # Mirrors the links in the ImportRuns::WizardStep* components; states absent
+    # here render no action at all.
+    STEPS_BY_STATE = {
+      initial: %i[fetch_instance_meta],
+      instance_meta_error: %i[fetch_instance_meta],
+      instance_meta_done: %i[configure],
+      configuring: %i[fetch_projects_meta],
+      projects_meta_error: %i[fetch_projects_meta],
+      projects_meta_done: %i[import],
+      importing: %i[abort_import],
+      import_error: %i[import revert],
+      imported: %i[finalize revert],
+      revert_error: %i[revert],
+      finalizing_error: %i[finalize]
+    }.freeze
+
+    VALID_STEPS = STEPS_BY_STATE.values.flatten.uniq.freeze
 
     menu_item :jira_import
 
@@ -84,7 +91,7 @@ module Admin::Import::Jira
     end
 
     def remove
-      raise StandardError.new(I18n.t(:"admin.jira.run.remove_error")) if @jira_import.status_running?
+      raise StandardError.new(I18n.t(:"admin.jira.run.remove_error")) if @jira_import.running?
 
       @jira_import.destroy!
       redirect_to admin_import_jira_path(@jira), status: :see_other
@@ -99,10 +106,15 @@ module Admin::Import::Jira
     def change_step(step)
       return if step.blank?
 
-      method_name = VALID_STEPS.detect { |i| i == step.to_sym }
+      method_name = VALID_STEPS.detect { |i| i.to_s == step }
       raise ArgumentError, "Invalid step: #{step}" unless method_name
+      raise ArgumentError, I18n.t(:"admin.jira.run.step_not_available") unless allowed_steps.include?(method_name)
 
       send(method_name)
+    end
+
+    def allowed_steps
+      STEPS_BY_STATE.fetch(@jira_import.current_state.to_sym, [])
     end
 
     def handle_error(error)
@@ -148,20 +160,6 @@ module Admin::Import::Jira
 
     def abort_import
       @jira_import.transition_to!(:import_aborting)
-    end
-
-    def retry
-      last_transition = @jira_import.state_machine.last_transition
-      if @jira_import.state_machine.error?
-        @jira_import.transition_to!(last_transition.from_state)
-      end
-    end
-
-    def resume
-      last_transition = @jira_import.state_machine.last_transition
-      if @jira_import.in_state?(:aborted)
-        @jira_import.transition_to!(last_transition.from_state)
-      end
     end
 
     def find_jira_and_jira_import
