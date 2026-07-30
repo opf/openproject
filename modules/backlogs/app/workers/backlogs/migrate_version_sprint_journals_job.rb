@@ -51,33 +51,28 @@ module Backlogs
 
     private
 
-    # Reads the version name through work_package_versions where available,
-    # falling back to the legacy version_id column: a worker can pick this job
-    # up between the migration enqueuing it and the much later migration that
-    # introduces work_package_versions.
     def qualified_work_packages
-      scope = WorkPackage.joins(:sprint)
+      WorkPackage
+        .joins(:sprint)
+        .joins("INNER JOIN versions ON versions.id = #{primary_target_version_id}")
+        .select("work_packages.*, versions.name AS version_name")
+    end
 
-      if work_package_versions_available?
-        # A work package can have several target versions; journal once, for
-        # the primary one (lowest version id, matching the version_id mirror).
-        scope
-          .joins(<<~SQL.squish)
-            INNER JOIN work_package_versions
-              ON work_package_versions.work_package_id = work_packages.id
-              AND work_package_versions.kind = 'target'
-              AND work_package_versions.version_id = (
-                SELECT MIN(wpv.version_id) FROM work_package_versions wpv
-                WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-              )
-          SQL
-          .joins("INNER JOIN versions ON versions.id = work_package_versions.version_id")
-          .select("work_packages.*, versions.name AS version_name")
-      else
-        scope
-          .joins("INNER JOIN versions ON versions.id = work_packages.version_id")
-          .select("work_packages.*, versions.name AS version_name")
-      end
+    # A work package can have several target versions; journal once, for the
+    # primary one (lowest version id, matching the version_id mirror). The
+    # legacy column stays the fallback per work package because a worker can
+    # pick this job up before the migrations that create and backfill
+    # work_package_versions have run.
+    def primary_target_version_id
+      return "work_packages.version_id" unless work_package_versions_available?
+
+      <<~SQL.squish
+        COALESCE(
+          (SELECT MIN(wpv.version_id) FROM work_package_versions wpv
+           WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'),
+          work_packages.version_id
+        )
+      SQL
     end
 
     def work_package_versions_available?

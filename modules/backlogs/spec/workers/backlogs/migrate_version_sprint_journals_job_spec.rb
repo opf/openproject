@@ -100,6 +100,19 @@ RSpec.describe Backlogs::MigrateVersionSprintJournalsJob, type: :model do
       end
     end
 
+    context "when work_package_versions exists but has not been backfilled yet" do
+      shared_let(:wp_legacy_only) do
+        create(:work_package, project:, sprint: sprint_b).tap do |wp|
+          wp.update_column(:version_id, version_a.id)
+        end
+      end
+
+      it "journals via the legacy version_id column" do
+        perform
+        expect(wp_legacy_only.reload.last_journal.cause["version_name"]).to eq("Version A")
+      end
+    end
+
     context "when the work_package_versions table does not exist yet" do
       before do
         allow(job).to receive(:work_package_versions_available?).and_return(false)
