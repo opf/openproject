@@ -2,8 +2,10 @@ import { Plugin, PluginKey } from 'prosemirror-state';
 import type { Fragment, Node } from 'prosemirror-model';
 import { contentNodeToInlineContent, isLinkInlineContent, isStyledTextInlineContent } from '@blocknote/core';
 import type { BlockNoteEditor, InlineContent, StyleSchema, StyledText } from '@blocknote/core';
+import type { WorkPackageBlockProps } from '../components/BlockWorkPackage/externalHtml';
 import { fetchWorkPackage, parseWorkPackageUrl } from '../services/openProjectApi';
 import { isCurrentBlockEmpty } from '../utils/blockContent';
+import { moveCursorAfterBlock } from '../utils/cursor';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyEditor = BlockNoteEditor<any, any, any>;
@@ -38,6 +40,13 @@ export function pasteWorkPackageLinkPlugin(editor:AnyEditor):Plugin {
 
     props: {
       handlePaste(_view, _event, slice) {
+        const card = solePastedCard(slice.content);
+        if (card) {
+          const target = editor.getTextCursorPosition()?.block;
+          if (!target || target.type === 'codeBlock') return false;
+          return insertPastedCard(editor, card, target.id);
+        }
+
         const pasted = singlePastedTextblock(slice.content);
         if (!pasted) return false;
 
@@ -60,6 +69,31 @@ export function pasteWorkPackageLinkPlugin(editor:AnyEditor):Plugin {
       },
     },
   });
+}
+
+function solePastedCard(fragment:Fragment):Node | null {
+  if (fragment.childCount !== 1) return null;
+  const child = fragment.child(0);
+  if (child.type.name === 'openProjectWorkPackageBlock') return child;
+  if (child.isText || child.isTextblock) return null;
+  return solePastedCard(child.content);
+}
+
+/**
+ * The default paste nests the card inside the block it is dropped into and selects it as
+ * a node, leaving no caret; hence the sibling insert and the explicit cursor move.
+ */
+function insertPastedCard(editor:AnyEditor, card:Node, blockId:string):boolean {
+  const props = card.attrs as WorkPackageBlockProps;
+  if (!props.wpid) return false;
+
+  const node = { type: 'openProjectWorkPackageBlock', props } as Parameters<typeof editor.insertBlocks>[0][number];
+  const [inserted] = isCurrentBlockEmpty(editor)
+    ? editor.replaceBlocks([blockId], [node]).insertedBlocks
+    : editor.insertBlocks([node], blockId, 'after');
+
+  moveCursorAfterBlock(editor, inserted.id);
+  return true;
 }
 
 /**
@@ -171,10 +205,12 @@ async function insertBlockWorkPackage(editor:AnyEditor, reference:Reference, blo
     editor.replaceBlocks([blockId], fallback as Parameters<typeof editor.replaceBlocks>[1]);
     return;
   }
-  editor.replaceBlocks([blockId], [{
+  const { insertedBlocks } = editor.replaceBlocks([blockId], [{
     type: 'openProjectWorkPackageBlock',
     props: { wpid: resolved.wpid, displayId: resolved.displayId },
   } as Parameters<typeof editor.replaceBlocks>[1][number]]);
+
+  moveCursorAfterBlock(editor, insertedBlocks[0].id);
 }
 
 function canInsertInlineWorkPackage(editor:AnyEditor):boolean {
