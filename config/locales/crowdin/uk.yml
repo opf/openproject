@@ -342,17 +342,17 @@ uk:
         token_name: Ім’я маркера
       type:
         attribute_groups: Конфігурація форми
-        children: Sub-types
+        children: Підтипи
         color: Колір
-        dependent_configuration_links: Linked types
+        dependent_configuration_links: Зв’язані типи
         description: Текст за умовчанням для опису
         is_default: Активовано для нових проектів за замовчуванням
         is_in_roadmap: За умовчанням відображається в дорожній карті
         is_milestone: Це віха
-        parent: Parent type
+        parent: Батьківський тип
         patterns: Шаблони
       type/configuration_link:
-        source: Source type
+        source: Вихідний тип
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
@@ -466,7 +466,7 @@ uk:
         spent_hours: Витрачений час
         spent_time: Трудовитрати
         subproject: Підпроект
-        target_versions: Target versions
+        target_versions: Цільові версії
         time_entries: Час журналу
         type: Тип
         version: Версія
@@ -489,7 +489,7 @@ uk:
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
         cant_link_a_work_package_with_a_descendant: Робочий пакет не може бути пов'язаний з одним з підзадач.
         circular_dependency: Це співвідношення створить кругову залежність.
-        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
+        configured_via_env: Конфігурація цього об’єкта визначається за допомогою змінних середовища, і її не можна змінити під час виконання.
         confirmation: не збігається %{attribute}
         could_not_be_copied: "%{dependency} не вдалося скопіювати (повністю)."
         datetime_must_be_in_future: має бути в майбутньому.
@@ -593,7 +593,7 @@ uk:
               blank: Потрібно вказати формулу.
               format: "%{message}"
               invalid: Формула недійсна.
-              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: 'Допускаються лише числові значення, оператори, функції, ключові слова й атрибути проєкту таких типів: ціле число, число з рухомою комою, розраховане значення й список зважених елементів.'
               not_allowed_custom_fields_referenced: Атрибут «%{custom_fields}» не можна використовувати, оскільки це призведе до циклічного посилання; один атрибут залежить від іншого.
             required:
               cannot_be_true: не може мати значення true.
@@ -699,13 +699,13 @@ uk:
               must_start_with_letter: має починатися з літери
               no_special_characters: може містити лише великі літери, цифри й символи підкреслення
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_subtypes_of_parent: На рівні проєкту для типу можна ввімкнути лише один підтип
+              cannot_assign_subtype_and_parent: 'Неможливо призначити підтип і його батьківський об’єкт '
+              cannot_assign_subtypes_yet: Зараз на рівні проєкту не можна вмикати підтипи. Активуйте бета-функцію, щоб випробувати підтипи.
               in_use_by_work_packages: 'як і раніше використовуються робочі пакети: %{types}'
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_source_not_a_subtype: Доступно лише перемикання із цього підтипу
+              switch_target_identical: Цільовий тип має відрізнятися від поточного підтипу
+              switch_target_not_in_family: Доступно лише перемикання на інший підтип того самого типу або на відповідний батьківський тип
           cannot_be_assigned_to_artifact_work_package: Вибраного користувача не дозволяється призначати для пакетів робіт.
           foreign_wps_reference_version: Пакети робіт у ненащадкових проєктах посилаються на версії цього проєкту або його нащадків.
         project/phase:
@@ -817,17 +817,17 @@ uk:
               group_without_name: Ім’я групи не може бути порожнім.
               query_invalid: 'Вбудований запит %{group} недійсний: %{details}'
             parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              cannot_be_self: не може бути самим типом.
+              cannot_change_with_work_packages: не можна змінити, оскільки пакети робіт цього типу вже існують.
+              cannot_have_children: не можна встановити, оскільки цей тип уже має підтипи.
+              must_be_a_root: має бути типом верхнього рівня. Типи можуть бути вкладеними лише на один рівень углиб.
+              standard_type_must_be_root: не може встановлюватися для стандартного типу.
             patterns:
               invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
         type/configuration_link:
           attributes:
             source:
-              must_differ_from_type: can't be the type itself.
+              must_differ_from_type: не може бути самим типом.
         user:
           attributes:
             base:
@@ -941,8 +941,8 @@ uk:
               cannot_be_milestone_due_to_children: не може бути важливою межой, оскільки цей робочий пакет має похідні.
           is_not_a_valid_target_for_time_entries: 'Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу.'
           readonly_status: Пакет робіт перебуває в стані лише для читання, тому його атрибути не можна змінити.
-          target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
+          target_versions_only_allow_single_value: Для цільових версій можна вказати лише одне значення.
+          version_and_target_versions_mutually_exclusive: Неможливо одночасно змінити поточну версію і цільові.
       template:
         body: 'Перевірте наступні поля:'
         header:
@@ -1121,7 +1121,7 @@ uk:
       removed_date: видалено %{date}
   admin:
     banners:
-      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
+      environment_configured_readonly: Ці значення налаштовуються за допомогою змінних середовища, і їх не можна змінити тут.
     custom_styles:
       color_theme: Колірна тема
       color_theme_custom: "(Власний)"
@@ -1141,7 +1141,7 @@ uk:
         primary-button-color: Насичений акцентний колір використовується для більшості важливих кнопок на екрані.
       manage_colors: Редагувати параметри вибору кольору
       tab_branding: Брендування
-      tab_default_colors: Default colors
+      tab_default_colors: Стандартні кольори
       tab_interface: Інтерфейс
       tab_pdf_export_font: Шрифт для експорту в PDF
       tab_pdf_export_styles: Стилі експорту PDF
@@ -1377,7 +1377,7 @@ uk:
                 workflows: Робочі процеси на рівні проєктів
               label_available_server_data: Дані, доступні на сервері %{server_info}
               label_coming_later: З’явиться пізніше
-              label_coming_soon: Coming soon (Q3 2026)
+              label_coming_soon: З’явиться незабаром (у 3 кв. 2026 р.)
               label_import: Виберіть проєкти, які ви хочете імпортувати.
               label_info: 'Зверніть увагу: цей інструмент доступний лише в бета-версії і не може імпортувати всі типи даних. Ось короткий опис вмісту, доступного для імпорту в хост-екземплярі Jira, а також даних, які інструмент може перенести прямо зараз.'
               label_progress: Отримання даних із Jira…
@@ -1632,7 +1632,7 @@ uk:
     attributes:
       property: Властивість
       version:
-        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
+        deprecated: 'Застаріла версія: це поле з одним значенням замінюється на `targetVersions`. Використовуйте натомість `targetVersions` для читання й запису. Поки підтримку декількох версій не ввімкнено, у поле `targetVersions` можна вводити лише одне значення й воно не має записуватися разом із `version` в одному й тому самому запиті.'
     errors:
       bad_request:
         emoji_reactions_activity_type_not_supported: Дія такого типу не підтримує реакцію за допомогою емодзі.
@@ -1824,8 +1824,8 @@ uk:
     reset_token:
       action_create: Створити
       action_reset: Скинути
-      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
-      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
+      checkbox_confirmation_create: Я розумію, що резервний маркер надає доступ до завантаження всіх даних цієї системи
+      checkbox_confirmation_reset: Я розумію, що наявний резервний маркер стане недійсним
       heading_create: Створення маркера резервного копіювання
       heading_reset: Скидання маркера резервного копіювання
       implications: 'Увімкнення резервних копій дасть змогу всім користувачам з обов’язковими дозволами та цим маркером резервного копіювання завантажувати резервні копії з усіма даними цього встановлення OpenProject. Це включає дані всіх інших користувачів.
@@ -1853,7 +1853,7 @@ uk:
   button_add_non_working_time: Вільний час
   button_add_sub_item: Додати піделемент
   button_add_watcher: Додати спостерігача
-  button_all_filters: All filters
+  button_all_filters: Усі фільтри
   button_annotate: Коментувати
   button_apply: Застосувати
   button_apply_changes: Застосувати зміни
@@ -2097,7 +2097,7 @@ uk:
       editable:
         all: Дозвольте користувачам самостійно редагувати це поле.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Додайте числові значення або введіть «/» для пошуку атрибута, оператора, функції чи іншого маркера.
       has_comment:
         project: Дає змогу користувачу додати коментар до атрибута проєкту при виборі значення на сторінці «Огляд проєкту».
       is_filter:
@@ -2577,8 +2577,8 @@ uk:
   error_attribute_not_highlightable: 'Атрибут(и) не виділено: %{attributes}'
   error_auth_source_sso_failed: 'Єдиний вхід (SSO) для користувача %{value} не вдалося '
   error_can_not_archive_project: 'Цей проєкт не можна архівувати: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
-  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
+  error_can_not_deactivate_type: 'Не вдалося деактивувати тип «%{type}», оскільки він усе ще використовується тут: %{work_packages_link}'
+  error_can_not_deactivate_type_invisible_projects: У проєктах також є пакети робіт, які ви не бачите.
   error_can_not_delete_custom_field: Неможливо видалити спеціальне поле
   error_can_not_delete_entry: Неможливо видалити запис
   error_can_not_delete_in_use_archived_undisclosed: Пакети робіт також містяться в архівних проєктах. Попросіть адміністратора виконати операцію видалення, щоб дізнатися, яких проєктів це стосується.
@@ -2880,13 +2880,13 @@ uk:
       new_features:
         '17_7':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: новий модуль керування ресурсами для планування завантаження й забезпечення кадрами (у межах тарифного плану Premium);
+            line_1: поліпшений організаційний менеджмент завдяки підрозділам, атрибутам користувачів, зокрема посадам, і робочим годинам;
+            line_2: підтримка кількох активних спринтів, якщо вимкнено спільний доступ (у межах тарифного плану Basic);
+            line_3: фільтри з підтримкою множинного вибору для зручнішої роботи з беклогом і спринтами, покращена функція «перетягнути й відпустити», а також можливість додавати наявні пакети робіт;
+            line_4: експорт артефактів PM²/PMflex і новий віджет для огляду етапів і контрольних точок проєктів;
+            line_5: глобальний індекс сторінок Wiki й зручніша навігація пов’язаними сторінками.
+          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
 
             '
         header: Читайте про нові функції і оновлення продуктів.
@@ -2952,6 +2952,7 @@ uk:
       work_package_children_changed_times: внесенням змін у дочірній елемент %{link}
       work_package_duplicate_closed: Статус автоматично оновлено на основі дубліката пакета робіт %{link}
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
       work_package_related_changed_times: внесенням змін у пов’язаний елемент %{link}
       working_days_changed:
@@ -2973,6 +2974,7 @@ uk:
       total_percent_complete_mode_changed_to_simple_average: Обчислення підсумків атрибута «% завершення» тепер ґрунтується на середньому арифметичному значень лише атрибута «% завершення».
       total_percent_complete_mode_changed_to_work_weighted_average: Під час обчислення підсумків атрибута «% завершення» тепер враховується значення атрибута «Робота».
       work_package_duplicate_closed: 'Дублікат пакета робіт оновлено:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: Зміни було відхилено.
   label_accessibility: Розробникам також потрібно оплачувати свої рахунки. З доступністю
   label_account: Обліковий запис
@@ -3040,8 +3042,8 @@ uk:
   label_blog: Блог
   label_board_plural: Дошки
   label_boolean: Логічний тип
-  label_boolean_false: is no
-  label_boolean_true: is yes
+  label_boolean_false: дорівнює «ні»
+  label_boolean_true: дорівнює «так»
   label_branch: Гілка
   label_browse: Огляд
   label_builtin: Вбудовано
@@ -3088,7 +3090,7 @@ uk:
   label_configuration: конфігурація
   label_confirmation: Підтвердження
   label_consent_settings: Згода користувача
-  label_constant_plural: Constants
+  label_constant_plural: Константи
   label_contains: містить
   label_content: Контент
   label_continued_from_previous_year: продовжується з попереднього року
@@ -3226,7 +3228,7 @@ uk:
   label_forum_plural: Форуми
   label_forum_sticky: Приліплена
   label_forums_locked: Заблоковані
-  label_function_plural: Functions
+  label_function_plural: Функції
   label_gantt_chart: Діаграма Ґанта
   label_gantt_chart_plural: Діаграми Ґанта
   label_general: Загальні
@@ -3416,7 +3418,7 @@ uk:
   label_operator_equals_all: є (І)
   label_operator_equals_or: є (АБО)
   label_operator_none: не вказано
-  label_operator_plural: Operators
+  label_operator_plural: Оператори
   label_operator_shared_with_user_any: усі
   label_optional_description: Опис
   label_options: Опції
@@ -3437,7 +3439,7 @@ uk:
   label_password_rule_numeric: Цифрові символи
   label_password_rule_special: Спеціальні символи
   label_password_rule_uppercase: Верхній регістр
-  label_past: Past
+  label_past: Минулі
   label_path_encoding: Кодування шляху
   label_people: Люди
   label_per_page: 'К-сть на сторінку:'
@@ -3497,7 +3499,7 @@ uk:
   label_projects_disk_usage_information: 'Проєктів, що використовують %{used_disk_space} місця на диску: %{count}'
   label_projects_menu: Проєкти
   label_public_projects: Публічні проекти
-  label_punctuation: Punctuation
+  label_punctuation: Пунктуація
   label_query_new: Новий запит
   label_query_plural: Спеціальні запити
   label_read: Читання...
@@ -3629,7 +3631,7 @@ uk:
   label_type_new: Новий тип
   label_type_plural: Типи
   label_ui: Користувацький інтерфейс
-  label_upcoming: Upcoming
+  label_upcoming: Майбутні
   label_updated_time: Оновлений %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Оновлено %{author} %{age} назад
@@ -4611,12 +4613,12 @@ uk:
         none_enabled: Для цього типу пакета робіт не ввімкнено шаблон
       title: Згенерувати PDF
       toc:
-        caption: Add a table of contents page indexing the section headers.
-        label: Table of contents
+        caption: Можна додати сторінку зі змістом, на якій наводяться заголовки розділів.
+        label: Зміст
     page_nr_footer: Сторінка %{page} з %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Деталі пакета робіт, представлені у вигляді артефакту PMflex.
+      label: Артефакт PMflex
     template_attributes:
       caption: Усі атрибути, наявні в поточній конфігурації форми, що використовують шаблон за замовчуванням.
       label: Атрибути й опис
@@ -4769,7 +4771,7 @@ uk:
       other: "%{count} портфелі(-ів)"
       zero: 0 портфелів
     filters:
-      name: Part of Portfolio
+      name: Частина портфеля
   portfolios:
     index:
       search:
@@ -4797,7 +4799,7 @@ uk:
       other: "%{count} програм(-и)"
       zero: 0 програм
     filters:
-      name: Part of Program
+      name: Частина програми
   project:
     archive:
       archived: Архівований
@@ -4909,11 +4911,11 @@ uk:
           no_status_when_submitted: Не вдалося ввімкнути запит на ініціювання проєкту, оскільки з типом пакета робіт «%{type}» має бути пов’язано принаймні один статус. Увімкніть для нього принаймні один робочий процес статусу.
           no_work_package_type: Не вдалося ввімкнути запит на ініціювання проєкту, оскільки для цього потрібен принаймні один активний тип пакета робіт, а в цьому проєкті немає жодного. Додайте в нього принаймні один тип пакета робіт.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: Створений артефакт буде збережено як вкладення у форматі PDF у пакеті робіт артефакту.
+          description_file_link_export: Пакет робіт артефакту міститиме посилання на файл PDF, що зберігатиметься в зовнішньому сховищі. Знадобиться робоче файлове сховище з папками проєкту з автоматичним керуванням для цього проєкту. Зараз підтримуються лише файлові сховища Nextcloud.
           description_file_storage_selection: Виберіть налаштоване зовнішнє файлове сховище, яке слід використовувати.
           external_file_storage: Зовнішнє файлове сховище
-          label_artifact_export: Artefact export
+          label_artifact_export: Експорт артефакту
           label_attachment_export: Зберегти як вкладення файлу в пакеті робіт
           label_file_link_export: Завантажити файл у зовнішнє файлове сховище й додати посилання на нього в пакет робіт
           pdf_file_storage: Сховище файлів PDF
@@ -5004,13 +5006,13 @@ uk:
     status:
       button_edit: Редагувати статус
     wizard:
-      create_artifact_storage_error: Failed to store artefact in file storage
-      create_artifact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
+      create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
       sidebar_content_title: Зміст
-      success: Project attributes saved and artefact work package created successfully.
+      success: Атрибути проєкту збережено, пакет робіт артефакту успішно створено.
       title: Запит на ініціювання проєкту
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
@@ -5083,12 +5085,12 @@ uk:
     create_successful: Репозитарій зареєстровано.
     delete_sucessful: Репозиторій видалено.
     destroy_dialog:
-      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
-      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
-      heading: Delete this %{repository_type}?
-      heading_not_managed: Remove this linked %{repository_type}?
-      title: Delete repository
-      title_not_managed: Remove repository
+      description: Репозиторій «%{repository_type}» (%{path}) і весь його вміст буде остаточно видалено.
+      description_not_managed: Зв’язаний репозиторій «%{repository_type}» (%{url}) буде видалено з проєкту. Вміст репозиторію не буде видалено, оскільки OpenProject ним не керує.
+      heading: Видалити репозиторій «%{repository_type}»?
+      heading_not_managed: Вилучити зв’язаний репозиторій «%{repository_type}»?
+      title: Видалити репозиторій
+      title_not_managed: Вилучити репозиторій
     errors:
       build_failed: Неможливо створити сховище з вибраною конфігурацією. %{reason}
       disabled_or_unknown_type: The selected type  %{type} вимкнено або більше не доступне для постачальника СКМ %{vendor}.
@@ -5385,7 +5387,7 @@ uk:
   setting_total_percent_complete_mode_work_weighted_average: Зважено за роботою
   setting_total_percent_complete_mode_work_weighted_average_caption_html: Атрибут <i>Загальний % завершення</i> буде зважено за атрибутом <i>Робота</i> кожного пакета робіт в ієрархії. Пакети робіт без атрибута <i>Робота</i> ігноруватимуться.
   setting_use_wysiwyg_description: Виберіть, щоб увімкнути редактор CKEditor5 WYSIWYG для всіх користувачів за умовчанням. CKEditor має обмежену функціональність для GFM Markdown.
-  setting_user_can_change_email: Users allowed to change their email address
+  setting_user_can_change_email: Користувачам дозволено змінювати свою електронну адресу
   setting_user_default_timezone: Часовий пояс користувача за замовчуванням
   setting_user_format: Формат імені користувача
   setting_users_deletable_by_admins: Облікові записи користувачів можуть бути видалені адміністраторами
@@ -5407,7 +5409,7 @@ uk:
   setting_work_package_startdate_is_adddate: Використовувати поточну дату в якості дати початку роботи для нових пакетів
   setting_work_packages_identifier_classic: Числова послідовність для всього екземпляра (за умовчанням)
   setting_work_packages_identifier_classic_caption: 'Кожному пакету робіт присвоюється порядковий номер, який починається з одиниці (наприклад, #1234). Номери є унікальними в межах екземпляра й залишаються незмінними, навіть якщо пакети робіт переміщуються між проєктами.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers
+  setting_work_packages_identifier_semantic: Семантичні ідентифікатори із зазначенням проєктів
   setting_work_packages_identifier_semantic_caption: Кожен проєкт має унікальний ідентифікатор проєкту, який додається як префікс до числа (наприклад, PROJ-11). Нумерація кожного проєкту починається з одиниці. Якщо робочий пакет переміщується в інший проєкт, генерується новий ідентифікатор, але старий продовжує працювати.
   setting_work_packages_projects_export_limit: Ліміт експорту пакетів робіт / проєктів
   setting_work_packages_projects_export_limit_text: 'Максимальна кількість пакетів робіт або проєктів, які можна включити в один експорт. Більші експорти обрізаються до цього ліміту.
@@ -5522,12 +5524,12 @@ uk:
         confirmation_message: Майстер запиту на ініціювання більше не буде доступний для нових проєктів, створених на основі цього шаблону. Менеджерам і власникам проєктів доведеться вручну вибирати налаштування й указувати відповідну інформацію на сторінці «Огляд проєкту».
         heading: Вимкнути цей запит на ініціювання проєкту?
         title: Вимкнути запит на ініціювання проєкту
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject може створити покроковий майстер, який допомагатиме менеджерам проєктів заповнювати запити на ініціювання проєктів. Ви можете вибрати атрибути проєктів, які слід включити, і в результаті створити артефакт у форматі PDF.
 
         '
       name:
-        artifact_name: Artefact name
-        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Назва артефакту
+        artifact_name_caption: Виберіть для цього артефакту назву, яка відповідатиме вашому методу управління проєктами.
         options:
           project_creation_wizard: Майстер створення проєктів
           project_initiation_request: Запит на ініціювання проєкту
@@ -5547,8 +5549,8 @@ uk:
           Ви подали запит на ініціювання проєкту **%{project_name}**. Зараз він очікує на розгляд.
           Перейдіть за посиланням нижче, щоб отримати доступ до пакета робіт із Вашим запитом.
         confirmation_email_text: Текст листа з підтвердженням
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: Коли користувач подає запит на ініціювання проєкту, створюється новий пакет робіт з артефактом запиту, долученим як файл PDF. Наведені нижче налаштування визначають тип, статус і виконавця нового пакета робіт.
+        description_template: "**Цей пакет робіт автоматично створено після завершення робочого процесу «%{wizard_name}».** Артефакт у форматі PDF, що містить усю подану інформацію, було створено й додано в цей пакет робіт для довідки й аудиту. Якщо знадобиться оновити дані або повторити кроки ініціювання, можна будь-коли знову відкрити майстер, скориставшись посиланням, наведеним нижче:\n"
         send_confirmation_email: Надіслати лист із підтвердженням користувачу, що подав запит на ініціювання проєкту
         status_when_submitted: Статус на момент подання
         status_when_submitted_caption: Статус, який буде присвоєно створеному пакету робіт після подання запиту.
@@ -5556,7 +5558,7 @@ uk:
         work_package_comment_caption: Виконавця, вибраного вище, буде автоматично @згадано в коментарі.
         work_package_comment_default: Запит на ініціювання проєкту **%{project_name}** подано, і він очікує на розгляд.
         work_package_type: Тип пакета робіт
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: Тип пакета робіт, який слід використовувати для зберігання завершеного артефакту.
       wizard_status_button:
         project_creation_wizard: Відкрити майстер створення проєктів
         project_initiation_request: Відкрити запит на ініціювання проєкту
@@ -5586,7 +5588,7 @@ uk:
       section_project_overview: Налаштування для списків проєктів
     session: Сесія
     user:
-      account: Account
+      account: Обліковий запис
       default_preferences: Параметри за умовчанням
       deletion: Видалення
       display_format: Формат відображення
@@ -5607,7 +5609,7 @@ uk:
           label: Фільтрувати за назвою атрибута…
         heading_description: Ці атрибути користувача відображаються в профілях користувачів і на інформаційних картках. Ви можете додавати нові атрибути, групувати їх у розділи й перевпорядковувати.
       heading: Атрибути користувача
-      label_default_section: User attributes
+      label_default_section: Атрибути користувача
       label_new_attribute: Атрибут користувача
       label_new_section: Розділ
       new:
@@ -5842,8 +5844,8 @@ uk:
   text_own_membership_delete_confirmation: |-
     Ви збираєтесь видалити деякі або всі права, через що можуть зникнути права на редагування цього проекту.
     Ви впевнені що хочете продовжити?
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
+  text_permanent_delete_confirmation_checkbox_label: Я розумію, що видалення не можна буде скасувати.
+  text_permanent_remove_confirmation_checkbox_label: Я розумію, що вилучення не можна буде скасувати.
   text_plugin_assets_writable: Каталог ресурсів модулів доступний для запису
   text_powered_by: Працює на %{link}
   text_project_custom_field_html: 'У версії Enterprise з’являться такі додаткові доповнення для користувацьких полів проєктів: <br> <ul><li><b>Додавати користувацькі поля проєктів у список проєктів для створення режиму перегляду портфеля проєктів</b></li> </ul>
@@ -5932,51 +5934,51 @@ uk:
   total_progress: Загальний прогрес
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      configuration_link_error: Не вдалося зберегти режим повторного використання. Виберіть вихідний тип.
+      create_subtype: Створити підтип
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
-      finish: Finish
-      placeholder_description: This step will be available soon.
-      progress_label: Step %{number} of %{total}
+        inherited_from_parent_html: Успадковано від батьківського типу <b>%{parent}</b>.
+      finish: Завершити
+      placeholder_description: Цей крок стане доступним незабаром.
+      progress_label: Крок %{number} з %{total}
       steps:
-        automations: Automations
-        details: Details
-        form_configuration: Form configuration
-        pdf: PDF generation
-        projects: Projects
-        workflows: Workflows
-      success: Sub-type created successfully.
+        automations: Автоматизації
+        details: Деталі
+        form_configuration: Конфігурація форми
+        pdf: Генерування PDF-файлу
+        projects: Проєкти
+        workflows: Робочі процеси
+      success: Підтип успішно створено.
       workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+        copy_caption: Скопіюйте конфігурацію робочого процесу з наявного типу як вихідну точку.
     edit:
       configuration_link:
         independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+          caption: Ці налаштування походять із цього типу, і їх можна тут редагувати. Вони не зв’язані з жодним іншим типом.
+          label: Незалежний режим
+          warning: 'Якщо перейти в незалежний режим, поточні налаштування вибраного вихідного типу буде скопійовано в цей тип, після чого зв’язок розірветься. Зверніть увагу: згодом ці налаштування можна буде вільно редагувати.'
         linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+          caption: Використовуються налаштування вихідного типу, і зміни постійно синхронізуються. Щоб змінити налаштування, відредагуйте вихідний тип.
+          label: Зв’язано
+          warning: 'При зв’язуванні налаштування цього типу замінюються параметрами вихідного типу. Зверніть увагу: поточні налаштування буде скасовано, що може вплинути на пакети робіт цього типу.'
         source:
-          label: Source type
+          label: Вихідний тип
       export_configuration:
         artefact_export:
           attachment:
-            caption: The generated PDF is saved as a file attachment on the work package.
-            label: Save as work package file attachment
+            caption: Згенерований файл PDF зберігається як вкладення пакета робіт.
+            label: Зберегти як вкладений файл пакета робіт
           file_link:
-            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
-            label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+            caption: Згенерований файл PDF завантажується в сховище Nextcloud з автоматичним керуванням, яке використовується для проєкту. Посилання на файл є в пакеті робіт. Якщо в проєкті немає такого сховища, відповідні пакети робіт пропускаються.
+            label: Завантажити файл у зовнішнє файлове сховище й додати посилання на нього в пакет робіт
+          intro: Автоматично генеруйте артефакт PDF для пакета робіт цього типу щоразу, коли змінюється його статус.
+          invalid_mode: Недійсний режим експорту артефактів.
+          label: Автоматичний експорт артефактів
           off_mode:
-            caption: No PDF is generated automatically.
-            label: 'Off'
-          section_title: Automatic artefact export
-          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
+            caption: Файл PDF не генерується автоматично.
+            label: Вимкнено
+          section_title: Автоматичний експорт артефактів
+          unavailable: недоступно, не налаштовано жодного сховища Nextcloud з автоматичним керуванням
         intro: Виберіть, які шаблони з доступних вам ви хочете ввімкнути для цього типу. Шаблон визначає дизайн і атрибути, що відображаються в експортованому PDF-файлі пакета робіт за допомогою цього типу. Перший шаблон у списку вибирається за замовчуванням.
         pdf_export_templates:
           actions:
@@ -5985,7 +5987,7 @@ uk:
           label: Шаблони експорту PDF
         tab: Згенерувати PDF
         templates:
-          section_title: PDF export templates
+          section_title: Шаблони експорту PDF
       form_configuration:
         add_attribute_group: Розділ
         add_query_group: Таблиця пов’язаних робочих пакетів
@@ -6022,18 +6024,18 @@ uk:
         untitled_group: Безіменна група
       project_attributes:
         actions:
-          label_disable_all: Disable all
-          label_enable_all: Enable all
-        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
-        filter: Search by section or name
-        tab: Project attributes
+          label_disable_all: Вимкнути все
+          label_enable_all: Увімкнути все
+        description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
+        filter: Пошук за розділом або назвою
+        tab: Атрибути проєктів
       projects:
         enable_all: Використовувати у всіх проєктах
         select_projects: Вибрати проєкти
         select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
         tab: Проєкти
       settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
+        parent_type_text: За бажанням можна зробити цей тип підтипом, вибравши батьківський тип.
         tab: Налаштування
         type_color_text: "Цей колір використовується для виділення різних типів \nна діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений колір."
       subject_configuration:
@@ -6055,19 +6057,19 @@ uk:
             work_package: Робочий пакет
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_subtype: Додати підтип для об’єкта «%{name}»
+      description: 'Кожну область конфігурації на рівні типів і підтипів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
 
         '
       no_results_content_text: Створіть новий тип
       no_results_title_text: Наразі немає типів.
-      subtype_label: Sub-type
+      subtype_label: Підтип
       subtypes_count:
-        one: 1 sub-type
-        few: "%{count} sub-types"
-        many: "%{count} sub-types"
-        other: "%{count} sub-types"
-      type_label: Type
+        one: "%{count} підтип"
+        few: "%{count} підтипи"
+        many: "%{count} підтипів"
+        other: "%{count} підтипу"
+      type_label: Тип
   unsupported_browser:
     close_warning: Ігнорувати це попередження.
     message: Ви можете зіткнутися з помилками та погіршити досвід роботи на цій сторінці.
@@ -6109,7 +6111,7 @@ uk:
     status_change: Зміна стану
     status_user_and_brute_force: "%{user} і %{brute_force}"
     text_change_disabled_for_provider_login: Ім’я і електронну адресу вказав ваш постачальник облікових даних, тому їх не можна змінити.
-    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
+    text_change_mail_disabled_by_administrator: Адміністратор заблокував можливість змінювати електронну адресу.
     unlock: Розблокувати
     unlock_and_reset_failed_logins: Розблокувати та скинути помилки входу до системи
   user_preferences:
@@ -6427,20 +6429,49 @@ uk:
   work_packages:
     bulk:
       copy_failed: Не вдалося скопіювати пакети робіт.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Не вдалося зберегти такі робочі пакети:'
+      deletion_successful:
+        one: Successfully deleted 1 work package.
+        few: Successfully deleted %{count} work packages.
+        many: Successfully deleted %{count} work packages.
+        other: Successfully deleted %{count} work packages.
       descendant: нащадок вибраного елемента
       move_failed: Не вдалося перемістити пакети робіт.
       none_could_be_saved: Жоден із пакетів робіт (%{total}) не можна оновити.
       selected_because_descendants: Хоча вибрано кілька %{selected} пакетів робіт, змінено всього %{total}, включно з нащадками.
       x_out_of_y_could_be_saved: 'Не вдалось оновити пакетів робіт: %{failing} із %{total}. Оновлено: %{success}.'
     bulk_delete_dialog:
-      children_label: 'Також видаляться наведені нижче дочірні елементи:'
-      confirm_children_deletion: Я усвідомлюю, що всі вибрані пакети робіт і їх дочірні елементи буде видалено назавжди.
-      cross_project_warning: 'Ці пакети робіт використовуються в кількох проєктах: %{projects}'
-      description: 'Наведені нижче пакети робіт, зокрема всі пов’язані дані, буде видалено назавжди:'
-      description_with_children: 'Наведені нижче пакети робіт, зокрема їх дочірні елементи й усі пов’язані дані, буде видалено назавжди:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Видалити ці пакети робіт (%{count}) остаточно?
+      hidden_descendants_only_warning:
+        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Видалити пакети робіт (%{count})
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6484,16 +6515,37 @@ uk:
         successors: Наступники
       update_inputs_aria_live_message: Засіб вибору дати оновлено. %{message}
     delete_dialog:
-      confirm_descendants_deletion: Я усвідомлюю, що ВСІХ нащадків цього пакета робіт буде рекурсивно видалено.
-      cross_project_warning: 'Буде видалено пакети робіт із наступних проєктів: %{projects}'
-      description: Справді видалити пакет робіт «%{name}»?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Видалити цей пакет робіт остаточно?
+      hidden_descendants_only_warning:
+        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Видалити пакет робіт
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
-      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: 'Типи пакетів робіт або їх нащадків не ввімкнено в цільовому проєкті. Увімкніть типи, яких бракує, якщо не хочете, щоб вони зазнали змін. Інакше виберіть у цільовому проєкті доступний тип зі списку.
 
         '
-      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      current_type_not_available_in_target_project: 'Тип цього пакета робіт або одного з його нащадків не ввімкнено в цільовому проєкті. Увімкніть типи, яких бракує, якщо не хочете, щоб вони зазнали змін. Інакше виберіть у цільовому проєкті доступний тип зі списку.
 
         '
       no_common_statuses_exists: Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений.

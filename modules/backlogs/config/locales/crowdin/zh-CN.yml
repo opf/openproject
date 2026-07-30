@@ -301,7 +301,7 @@ zh-CN:
       backlogs:
         multiple_active_sprints:
           description: 默认情况下，每个项目中一次只能有一个冲刺处于有效状态。您可以更改此设置，使此项目中能够同时有多个冲刺处于有效状态。
-          heading: 活跃冲刺的数量
+          heading: 有效冲刺的数量
         multiple_active_sprints_component:
           cannot_turn_off: 当前有多个冲刺处于有效状态。要切换回一次只允许一个处于有效状态的冲刺，请先确保最多只有一个冲刺处于有效状态。
           not_available_html: 在启用了<a href=%{sprint_sharing_url}>冲刺共享</a>或接收时，无法同时具有多个处于有效状态的冲刺。

@@ -32,7 +32,7 @@ uk:
         no_results: Нічого нового для звітування.
       not_available: Цей віджет недоступний.
       project_timeline:
-        no_lifecycle_results: No life cycle phases
+        no_lifecycle_results: Немає етапів життєвого циклу
         title: Часова шкала проєкту
         title_portfolio: Часова шкала портфеля
         title_program: Часова шкала програми

@@ -25,20 +25,20 @@ zh-CN:
     macro:
       aria_label_with_name: "%{name}：%{description}"
       resource_links:
-        attachment: 通过宏生成的指向某个附件的动态链接。
-        commit: 通过宏生成的指向某个提交的动态链接。
-        document: 通过宏生成的指向某个文档的动态链接。
-        export: 通过宏生成的指向某个源文件导出的动态链接。
-        group: 通过宏生成的指向某个群组的动态链接。
-        meeting: 通过宏生成的指向某个会议的动态链接。
-        message: 通过宏生成的指向某条消息的动态链接。
-        project: 通过宏生成的指向某个项目的动态链接。
-        revision: 通过宏生成的指向某个修订版本的动态链接。
-        source: 通过宏生成的指向某个源文件的动态链接。
-        user: 通过宏生成的指向某个用户的动态链接。
-        version: 通过宏生成的指向某个版本的动态链接。
-        view: 通过宏生成的指向某个视图的动态链接。
-        work_package: 通过宏生成的指向某个工作包的动态链接。
+        attachment: 通过宏放置的指向某个附件的动态链接。
+        commit: 通过宏放置的指向某个提交的动态链接。
+        document: 通过宏放置的指向某个文档的动态链接。
+        export: 通过宏放置的指向某个源文件导出的动态链接。
+        group: 通过宏放置的指向某个群组的动态链接。
+        meeting: 通过宏放置的指向某个会议的动态链接。
+        message: 通过宏放置的指向某条消息的动态链接。
+        project: 通过宏放置的指向某个项目的动态链接。
+        revision: 通过宏放置的指向某个修订版的动态链接。
+        source: 通过宏放置的指向某个源文件的动态链接。
+        user: 通过宏放置的指向某个用户的动态链接。
+        version: 通过宏放置的指向某个版本的动态链接。
+        view: 通过宏放置的指向某个视图的动态链接。
+        work_package: 通过宏放置的指向某个工作包的动态链接。
   account:
     auth_source_login_html: 请以 <em>%{login}</em> 身份登录，以激活您的帐户。
     delete: 删除帐户
@@ -693,7 +693,7 @@ zh-CN:
               no_special_characters: 只能包含大写字母、数字和下划线
             types:
               cannot_assign_multiple_subtypes_of_parent: 只能在项目上启用一个类型的单个子类型
-              cannot_assign_subtype_and_parent: 无法分配子类型及其父项
+              cannot_assign_subtype_and_parent: 无法指定子类型及其父项
               cannot_assign_subtypes_yet: 目前无法在项目上启用子类型。请启用测试版功能以试用子类型
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
               switch_source_not_a_subtype: 只能从一种子类型进行切换
@@ -2717,9 +2717,9 @@ zh-CN:
       new_features:
         '17_7':
           new_features_list:
-            line_0: 新的资源管理模块，可进行产能规划和人员配置（高级方案）。
-            line_1: 更好的组织管理，具有部门、用户特性（如职务名称）以及工作时间。
-            line_2: 多个处于有效状态且未共享的冲刺（基本方案）。
+            line_0: 新的资源管理模块，用于产能规划和人员配置（Premium 方案）。
+            line_1: 通过部门、用户特性（如职务名称）以及工作时数提升了组织管理。
+            line_2: 多个处于有效状态且未共享的冲刺（Basic 方案）。
             line_3: 通过多选筛选器、更好的拖放功能以及添加现有工作包的功能，改进了积压工作和冲刺。
             line_4: PM²/PMflex 工件导出和用于项目阶段和关口概览的新微件。
             line_5: 全球 Wiki 页面索引，更容易在相关页面之间导航。
@@ -2789,6 +2789,7 @@ zh-CN:
       work_package_children_changed_times: 通过对子级的更改 %{link}
       work_package_duplicate_closed: 重复的工作包自动更新了状态 %{link}
       work_package_parent_changed_times: 通过对父级的更改 %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
       work_package_related_changed_times: 通过对相关内容的更改 %{link}
       working_days_changed:
@@ -2810,6 +2811,7 @@ zh-CN:
       total_percent_complete_mode_changed_to_simple_average: 完成% 总数的计算现在仅基于完成% 值的简单平均值。
       total_percent_complete_mode_changed_to_work_weighted_average: 现在按工作加权计算的 完成% 总数。
       work_package_duplicate_closed: 重复的工作包已更新：
+      work_package_parent_deleted: Parent removed
     changes_retracted: 更改已撤回。
   label_accessibility: 辅助功能
   label_account: 帐户
@@ -6207,20 +6209,34 @@ zh-CN:
   work_packages:
     bulk:
       copy_failed: 无法复制工作包。
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 无法保存以下工作包：
+      deletion_successful:
+        other: Successfully deleted %{count} work packages.
       descendant: 所选项的子工作包
       move_failed: 无法移动工作包。
       none_could_be_saved: "%{total} 个工作包全部无法更新。"
       selected_because_descendants: 虽然选择了 %{selected} 个工作包，但共有 %{total} 个工作包受到影响，包括子工作包。
       x_out_of_y_could_be_saved: 在 %{total} 个工作包中，%{failing} 个无法更新，%{success} 个可以更新。
     bulk_delete_dialog:
-      children_label: 以下子工作包也将被删除：
-      confirm_children_deletion: 我确认所有选定的工作包及其子工作包将被永久删除。
-      cross_project_warning: 这些工作包跨越多个项目： %{projects}
-      description: 以下工作包和所有相关数据将被永久删除：
-      description_with_children: 以下工作包（包括子工作包和所有相关数据）将被永久删除：
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: 永久删除这些 %{count} 工作包？
+      hidden_descendants_only_warning:
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: 删除 %{count} 个工作包
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6264,11 +6280,20 @@ zh-CN:
         successors: 后置项
       update_inputs_aria_live_message: 日期选择器已更新。 %{message}
     delete_dialog:
-      confirm_descendants_deletion: 我确认此工作包的所有子工作包都将被递归移除。
-      cross_project_warning: 将删除以下项目中的工作包：%{projects}
-      description: 确定要删除工作包“%{name}”吗？
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: 是否永久删除此工作包？
+      hidden_descendants_only_warning:
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: 删除工作包
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: '目标项目中未启用这些工作包或其后代的类型。如果您希望工作包类型保持不变，请在目标项目中启用缺少的类型。否则，请从列表中选择目标项目中的可用类型。
 

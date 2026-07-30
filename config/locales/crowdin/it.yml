@@ -2842,6 +2842,7 @@ it:
       work_package_children_changed_times: da modifiche al figlio %{link}
       work_package_duplicate_closed: Lo stato è stato aggiornato automaticamente dalla macro-attività duplicata %{link}
       work_package_parent_changed_times: da modifiche al genitore %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: da modifiche al predecessore %{link}
       work_package_related_changed_times: da modifiche a elemento correlato %{link}
       working_days_changed:
@@ -2863,6 +2864,7 @@ it:
       total_percent_complete_mode_changed_to_simple_average: Il calcolo dei totali della % completamento si basa ora su una media semplice dei soli valori della % completamento.
       total_percent_complete_mode_changed_to_work_weighted_average: Il calcolo dei totali della % completamento è ora ponderato in base al Lavoro.
       work_package_duplicate_closed: 'Macro-attività duplicata aggiornata:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: Le modifiche sono state annullate.
   label_accessibility: Accessibilità
   label_account: Account
@@ -6281,20 +6283,39 @@ it:
   work_packages:
     bulk:
       copy_failed: Le macro-attività non possono essere aggiornate.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Le seguenti macro-attività non possono essere salvate:'
+      deletion_successful:
+        one: Successfully deleted 1 work package.
+        other: Successfully deleted %{count} work packages.
       descendant: figlio della macro-attività selezionata
       move_failed: Le macro-attività non possono essere spostate.
       none_could_be_saved: Nessuna delle %{total} macro-attività può essere aggiornata.
       selected_because_descendants: Sono selezionate %{selected} macro-attività ma in totale sono interessate %{total} macro-attività, compresi i relativi figli.
       x_out_of_y_could_be_saved: "%{failing} di %{total} macro-attività non possono essere aggiornate, mentre %{success} possono essere aggiornate."
     bulk_delete_dialog:
-      children_label: 'Verranno inoltre cancellati i seguenti figli:'
-      confirm_children_deletion: Confermo che tutte le macro-attività selezionate e le relative macro-attività figlie verranno eliminate definitivamente.
-      cross_project_warning: 'Queste macro-attività comprendono più progetti: %{projects}'
-      description: 'Le seguenti macro-attività e tutti i dati associati verranno eliminati definitivamente:'
-      description_with_children: 'Le seguenti macro-attività, inclusi gli elementi figli e tutti i dati associati, verranno eliminate definitivamente:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Eliminare definitivamente queste %{count} macro-attività?
+      hidden_descendants_only_warning:
+        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Elimina %{count} macro-attività
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6338,11 +6359,24 @@ it:
         successors: Successori
       update_inputs_aria_live_message: Selettore data aggiornato. %{message}
     delete_dialog:
-      confirm_descendants_deletion: Prendo atto che TUTTI gli elementi discendenti di questa macro-attività verranno rimossi ricorsivamente.
-      cross_project_warning: 'Le macro-attività dei seguenti progetti saranno eliminate: %{projects}'
-      description: Vuoi davvero eliminare la macro-attività "%{name}"?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Eliminare definitivamente questa macro-attività?
+      hidden_descendants_only_warning:
+        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Cancella macro-attività
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 

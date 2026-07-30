@@ -54,8 +54,8 @@ zh-CN:
   label_resource_management: 资源管理
   permission_allocate_user_resources: 分配用户资源
   permission_allocate_user_resources_explanation: 允许用户在资源规划工具中创建、更新和删除资源分配。这包括为规划工具分配用户（或用户筛选器），以及调整分配的时间和日期范围。
-  permission_assign_users_to_generic_allocations: 将用户分配给通用分配
-  permission_assign_users_to_generic_allocations_explanation: 允许用户使用“人员配置”视图，将真实用户分配给尚未拥有用户的通用（基于筛选器的）资源分配。该功能不支持创建或编辑分配。
+  permission_assign_users_to_generic_allocations: 将用户指定给通用分配
+  permission_assign_users_to_generic_allocations_explanation: 允许用户使用“人员配置”视图，将真实用户指定给尚未拥有用户的通用（基于筛选器的）资源分配。该功能不支持创建或编辑分配。
   permission_manage_public_resource_planners: 管理公开的资源规划工具
   permission_manage_public_resource_planners_explanation: 允许用户创建和管理公开的资源规划工具。用户可以查看、创建、管理和发布自己的资源规划工具，但不可以查看其他用户创建的未公开共享的资源规划工具。
   permission_view_resource_planners: 查看资源规划工具
@@ -100,18 +100,18 @@ zh-CN:
       no_work: 此工作包没有计划的工作
       summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
-      available: 可用量为 %{hours}
-      confirm_overtime: 仍然分配
+      available: "%{hours}可用"
+      confirm_overtime: 仍然指定
       filter_criteria: 筛选条件
       no_candidates:
         description: 没有项目成员符合此分配的筛选条件。
         title: 没有匹配的成员
       no_schedule: 此用户未设置工作时间表，因此我们无法确定此分配是否合适。
-      overbooked_detail: 此用户在此期间的可用量为 %{available} ，该工作包需要 %{requested}。
+      overbooked_detail: 此用户在此期间的可用量为 %{available}，该工作包需要 %{requested}。
       requested_for: 已请求
-      select_user: 请选择要分配的用户。
-      submit: 分配
-      title: 分配 %{filter_name}
+      select_user: 请选择要指定的用户。
+      submit: 指定
+      title: 指定 %{filter_name}
     blankslate:
       desc: 创建资源规划工具以开始规划此项目的容量。
       title: 暂无资源规划工具
@@ -144,20 +144,20 @@ zh-CN:
       private: 私用
       public: 公开
     staffing:
-      assign: 分配用户
+      assign: 指定用户
       blank:
-        description: 此项目中的所有通用分配都分配了用户。
+        description: 此项目中的所有通用分配都指定了用户。
         title: 无需配置人员
       columns:
         dates: 日期
-        requested_time: 请求的时间
+        requested_time: 请求时间
         resource: 资源
         work_package: 工作包
       context_menu_label: 分配操作
       delete_confirmation: 确定要删除此分配吗？
       menu_item: 人员配置
-      starts_in_past: 此分配已开始，但尚未完成分配。
-      success_message: 已分配用户。
+      starts_in_past: 此分配已开始，但尚未完成指定。
+      success_message: 已指定用户。
       title: 人员配置
     sub_views: 此资源规划工具中的视图
     timeframe:
@@ -212,10 +212,10 @@ zh-CN:
         add_user: 添加用户
         configure_view: 配置视图
         description: 还没有与此视图的筛选条件相符的用户。
-        manual_description: 向此视图添加用户，以查看其分配在一段时间内的变化。
+        manual_description: 向此视图添加用户，以查看其指定在一段时间内的变化。
         title: 没有可显示的用户
       no_work_schedule: 没有为此用户计划的工作时间表
-      overbooked: 此用户在所选期间内被超额分配。
+      overbooked: 此用户在所选期间内被超额指定。
       overbooked_tooltip:
         range: "%{dates}：计划量为 %{scheduled}，可用量为 %{available}"
       subheader:

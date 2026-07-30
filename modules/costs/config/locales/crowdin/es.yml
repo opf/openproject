@@ -66,7 +66,7 @@ es:
         spent_units: Unidades usadas
     errors:
       messages:
-        cost_type_in_use_cannot_disable: no puede desactivarse porque los costes ya se han registrado en este proyecto.
+        cost_type_in_use_cannot_disable: no se puede desactivar porque los costes ya se han registrado en este proyecto.
       models:
         cost_types_project:
           attributes:

@@ -2840,6 +2840,7 @@ fr:
       work_package_children_changed_times: par changement vers l'enfant %{link}
       work_package_duplicate_closed: Le statut a été mis à jour automatiquement par le doublon de lot de travaux %{link}
       work_package_parent_changed_times: par changement vers le parent %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
       work_package_related_changed_times: par changement vers %{link} connexe
       working_days_changed:
@@ -2861,6 +2862,7 @@ fr:
       total_percent_complete_mode_changed_to_simple_average: Le calcul des totaux de % d'achèvement est désormais basé sur une simple moyenne des seules valeurs de % d'achèvement.
       total_percent_complete_mode_changed_to_work_weighted_average: Le calcul des totaux de % d'achèvement est désormais pondéré par le travail.
       work_package_duplicate_closed: 'Doublon de lot de travaux mis à jour :'
+      work_package_parent_deleted: Parent removed
     changes_retracted: Les modifications ont été retirées.
   label_accessibility: Accessibilité
   label_account: Compte
@@ -6278,20 +6280,39 @@ fr:
   work_packages:
     bulk:
       copy_failed: Les lots de travaux n'ont pas pu être copiés.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Les lots de travaux suivants n''ont pas pu être sauvegardés :'
+      deletion_successful:
+        one: Successfully deleted 1 work package.
+        other: Successfully deleted %{count} work packages.
       descendant: descendant de la sélection
       move_failed: Les lots de travaux n'ont pas pu être déplacés.
       none_could_be_saved: Aucun des %{total} lots de travaux n'a pu être mis à jour.
       selected_because_descendants: Bien que %{selected} lots de travaux aient été sélectionnés, un total de %{total} lots de travaux sont concernés, y compris les descendants.
       x_out_of_y_could_be_saved: "%{failing} lots de travaux sur les %{total} n'ont pas pu être mis à jour alors que %{success} l'ont été."
     bulk_delete_dialog:
-      children_label: 'Les enfants suivants seront également supprimés :'
-      confirm_children_deletion: Je reconnais que tous les lots de travaux sélectionnés et leurs enfants seront définitivement supprimés.
-      cross_project_warning: 'Ces lots de travaux s''étendent sur plusieurs projets : %{projects}'
-      description: 'Les lots de travaux suivants et toutes les données qui y sont associées seront définitivement supprimés :'
-      description_with_children: 'Les lots de travaux suivants, y compris les enfants et toutes les données associées, seront définitivement supprimés :'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Supprimer définitivement ces %{count} lots de travaux ?
+      hidden_descendants_only_warning:
+        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Supprimer %{count} lots de travaux
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6335,11 +6356,24 @@ fr:
         successors: Successeurs
       update_inputs_aria_live_message: Sélecteur de date mis à jour. %{message}
     delete_dialog:
-      confirm_descendants_deletion: Je comprends que TOUS les descendants de ce lot de travaux seront supprimés récursivement.
-      cross_project_warning: 'Les lots de travaux des projets suivants seront supprimés : %{projects}'
-      description: Voulez-vous vraiment supprimer le lot de travaux « %{name} » ?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Supprimer définitivement ce lot de travaux ?
+      hidden_descendants_only_warning:
+        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Supprimer le lot de travaux
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'Les types des lots de travaux ou de leurs descendants ne sont pas activés dans le projet cible. Activez les types manquants dans le projet cible pour qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
 

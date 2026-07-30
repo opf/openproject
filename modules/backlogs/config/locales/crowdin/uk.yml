@@ -235,9 +235,9 @@ uk:
     work_packages:
       add_existing_dialog:
         invalid_target: Ціль, яку ви намагаєтеся додати, недійсна.
-        target_not_found: Спринт або беклог, до якого ви намагаєтеся додати елемент, не знайдено.
+        target_not_found: Спринт або беклог, у який ви намагаєтеся додати елемент, не знайдено.
       move:
-        moved_announcement: "%{label}: переміщено в список «%{list}» на місце %{position} із %{total}"
+        moved_announcement: "%{label}: переміщено в список «%{list}» на позицію %{position} з %{total}"
       update_service:
         invalid_target_type: 'list_type має бути одним із таких значень: backlog_bucket із list_id, sprint із list_id або inbox без list_id.'
         missing_target: Має бути вказано list_type або list_id.
@@ -319,7 +319,7 @@ uk:
           heading: Кількість активних спринтів
         multiple_active_sprints_component:
           cannot_turn_off: Зараз активні кілька спринтів. Щоб повернутися до режиму, у якому одночасно може використовуватися лише один спринт, спочатку переконайтеся, що активний щонайбільше один спринт.
-          not_available_html: Неможливо одночасно використовувати кілька активних спринтів, коли ввімкнено <a href=%{sprint_sharing_url}>надання доступу</a> або отримання спринту.
+          not_available_html: Неможливо одночасно використовувати кілька активних спринтів, коли ввімкнено <a href=%{sprint_sharing_url}>надання доступу</a> до спринту або його отримання.
         sharing_form_component:
           disabled_due_to_multiple_active_sprints: Спільний доступ до спринту неможливий, якщо ввімкнено кілька активних спринтів.
           sharing_description: Цей проєкт може надавати доступ до власних спринтів, використовувати спринти, до яких надано доступ, або працювати зі спринтами самостійно (без спільного доступу).
