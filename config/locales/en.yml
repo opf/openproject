@@ -1259,7 +1259,6 @@ en:
         title: "Import run"
         wizard:
           button_abort: "Abort"
-          button_continue: "Continue"
           button_retry: "Retry"
           finalize_dialog:
             confirm: "I understand that this action cannot be undone"
