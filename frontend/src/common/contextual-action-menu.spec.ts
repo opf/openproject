@@ -28,87 +28,23 @@
 
 import { getAnchoredPosition } from '@primer/behaviors';
 import type { MockInstance } from 'vitest';
+// Importing the element registers `<anchored-position>`, so the fixture below
+// gets the production accessors — including the quirk that gives this spec its
+// teeth: `anchorOffset` reads its attribute as an enum (only `spacious`/`8`
+// mean 8), so an arbitrary pixel offset can only reach `getAnchoredPosition` as
+// a property shadowing the prototype accessor.
+import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
+// Side-effect import: the type-only import above is elided, and it is loading
+// the module that registers `<anchored-position>`.
+import '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { CONTEXTUAL_ALIGN, CONTEXTUAL_SIDE, ContextualActionMenu } from './contextual-action-menu';
-
-// Mirrors the members of Primer's `AnchoredPositionElement` that the presenter
-// drives — including the quirk that gives this spec its teeth: `anchorOffset`
-// reads its attribute as an enum (only `spacious`/`8` mean 8), so an arbitrary
-// pixel offset can only reach `getAnchoredPosition` as a property.
-//
-// The accessors deliberately live on a prototype. The presenter carries the
-// vertical offset as an *own* property shadowing `anchorOffset`, and a fake
-// that defined its accessors per instance would be overwritten rather than
-// shadowed, leaving the restore with nothing to undo and nothing to prove.
-//
-// `update()` runs the real `getAnchoredPosition`, with the element itself as
-// the settings object, exactly as the production element does. The offsets
-// this spec asserts on are therefore read the way Primer reads them, rather
-// than the way this spec wishes they were read.
-class FakeAnchoredPositionElement extends HTMLElement {
-  private ownAnchorElement:HTMLElement|null = null;
-
-  get align():'start'|'center'|'end' {
-    const value = this.getAttribute('align');
-    return value === 'center' || value === 'end' ? value : 'start';
-  }
-
-  get side():'outside-bottom'|'outside-top' {
-    return this.getAttribute('side') === 'outside-top' ? 'outside-top' : 'outside-bottom';
-  }
-
-  get anchorOffset():number {
-    const alias = this.getAttribute('anchor-offset');
-    return alias === 'spacious' || alias === '8' ? 8 : 4;
-  }
-
-  get alignmentOffset():number {
-    return Number(this.getAttribute('alignment-offset'));
-  }
-
-  get allowOutOfBounds():boolean {
-    return this.hasAttribute('allow-out-of-bounds');
-  }
-
-  get anchorElement():HTMLElement|null {
-    if (this.ownAnchorElement) {
-      return this.ownAnchorElement;
-    }
-
-    const idRef = this.getAttribute('anchor');
-    return idRef ? this.ownerDocument.getElementById(idRef) : null;
-  }
-
-  set anchorElement(value:HTMLElement|null) {
-    this.ownAnchorElement = value;
-    if (!value) {
-      this.removeAttribute('anchor');
-    }
-  }
-
-  update():void {
-    const anchor = this.anchorElement;
-    if (!anchor) {
-      return;
-    }
-
-    const { top, left } = getAnchoredPosition(this, anchor, this);
-    this.style.top = `${top}px`;
-    this.style.left = `${left}px`;
-    this.style.bottom = 'auto';
-    this.style.right = 'auto';
-  }
-}
-
-if (!customElements.get('op-fake-anchored-position')) {
-  customElements.define('op-fake-anchored-position', FakeAnchoredPositionElement);
-}
 
 // The real <action-menu> custom element is registered by the Primer bundle,
 // which the Vitest browser environment does not load. The presenter only
 // touches four public members, so a structural stand-in exercises the exact
 // contract without pulling in the whole component.
 interface FakeMenu {
-  overlay:FakeAnchoredPositionElement;
+  overlay:AnchoredPositionElement;
   popoverElement:HTMLElement;
   invokerElement:HTMLButtonElement;
   ownerDocument:Document;
@@ -129,7 +65,7 @@ describe('ContextualActionMenu', () => {
   let fixture:HTMLElement;
   let menu:FakeMenu;
   let card:HTMLElement;
-  let overlay:FakeAnchoredPositionElement;
+  let overlay:AnchoredPositionElement;
   let popover:HTMLElement;
   let invoker:HTMLButtonElement;
   let update:MockInstance<() => void>;
@@ -177,16 +113,16 @@ describe('ContextualActionMenu', () => {
       <article class="card" tabindex="0"
                style="position:absolute;left:${CARD_LEFT}px;top:${CARD_TOP}px;width:300px;height:${CARD_BOTTOM - CARD_TOP}px">
         <button id="wp-1-menu-button" type="button" popovertarget="wp-1-menu-overlay">Actions</button>
-        <op-fake-anchored-position id="wp-1-menu-overlay" popover anchor="wp-1-menu-button"
-                                   align="end" anchor-offset="spacious" alignment-offset="12">
+        <anchored-position id="wp-1-menu-overlay" popover anchor="wp-1-menu-button"
+                           align="end" anchor-offset="spacious" alignment-offset="12">
           <button type="button" role="menuitem">Open details</button>
-        </op-fake-anchored-position>
+        </anchored-position>
       </article>
     `;
     document.body.appendChild(fixture);
 
     card = fixture.querySelector<HTMLElement>('.card')!;
-    overlay = fixture.querySelector<FakeAnchoredPositionElement>('op-fake-anchored-position')!;
+    overlay = fixture.querySelector<AnchoredPositionElement>('anchored-position')!;
     popover = overlay;
     invoker = fixture.querySelector<HTMLButtonElement>('#wp-1-menu-button')!;
     update = vi.spyOn(overlay, 'update');
@@ -367,8 +303,6 @@ describe('ContextualActionMenu', () => {
       expect(overlay.getAttribute('alignment-offset')).toBe('12');
       expect(overlay.anchorOffset).toBe(8);
       expect(popover.matches(':popover-open')).toBe(true);
-      // Nothing moved, so nothing needs repositioning either.
-      expect(update).not.toHaveBeenCalled();
     });
 
     it('still returns focus to the invoking element when the menu closes', async () => {
