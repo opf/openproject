@@ -29,9 +29,8 @@
 #++
 
 module Import
-  class JiraCreateUsersJob < ApplicationJob
+  class JiraCreateUsersJob < ProgressableJob
     include JiraOpenProjectReferenceCreation
-    include JobIteration::Iteration
 
     def text
       "Create users"
@@ -69,14 +68,6 @@ module Import
     end
 
     private
-
-    def job_should_exit?
-      if @jira_import.reload.in_state?(:import_aborting)
-        @jira_import.transition_to!(:import_error)
-        throw(:abort)
-      end
-      super
-    end
 
     def import_user(jira_user)
       user_attrs = jira_user.to_op_attributes
