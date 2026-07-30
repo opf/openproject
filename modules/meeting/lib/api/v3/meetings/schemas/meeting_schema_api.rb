@@ -34,7 +34,7 @@ module API
       module Schemas
         class MeetingSchemaAPI < ::API::OpenProjectAPI
           resources :schema do
-            before do
+            after_validation do
               authorize_in_any_project(:view_meetings)
             end
 
