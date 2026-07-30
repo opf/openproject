@@ -48,7 +48,7 @@ module CalculatedValues::ErrorsHelper
     if %w[ERROR_MISSING_VALUE ERROR_DISABLED_VALUE].include?(error_code)
       # To keep the error message short, we only show the first custom field with a missing/disabled value.
       missing_custom_field_id = calculated_value_error.missing_custom_field_ids.first
-      # TODO: This is also N+1 problematic.
+      # One query per distinct missing field due to AR query cache
       cf = CustomField.find_by(id: missing_custom_field_id) if missing_custom_field_id
 
       if cf
