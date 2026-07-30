@@ -51,7 +51,7 @@ module CalculatedValues::ErrorsHelper
     if %w[ERROR_MISSING_VALUE ERROR_DISABLED_VALUE].include?(error_code)
       # To keep the error message short, we only show the first custom field with a missing/disabled value.
       # TODO: This is also N+1 problematic.
-      cf = CustomField.find(missing_custom_field_ids.first)
+      cf = CustomField.find_by(id: missing_custom_field_ids.first)
 
       if cf
         translation_options[:custom_field_name] = cf.name
