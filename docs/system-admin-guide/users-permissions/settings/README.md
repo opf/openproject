@@ -8,9 +8,9 @@ keywords: user settings
 
 # User settings
 
-The user settings sections covers general settings, such as the default language, user deletion and user consent.
+The user settings section covers general settings, such as the default language, user deletion and user consent.
 
-User settings are accessible by administrators from the OpenProject **Administration**.
+User settings are accessible by administrators from the OpenProject **Administration -> Users and permissions -> User settings**.
 
 ![user and permissions settings](Openproject_system_guide_user_settings.png)
 
