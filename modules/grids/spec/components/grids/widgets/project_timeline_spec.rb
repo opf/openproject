@@ -40,12 +40,26 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
 
   describe "#render?" do
     context "with view_project_phases permission" do
-      before { create(:member, user:, project:, roles: [role]) }
+      before do
+        create(:member, user:, project:, roles: [role])
+        create(:project_phase, project:)
+      end
 
       it { expect(component.render?).to be(true) }
     end
 
     context "without permission" do
+      before { create(:project_phase, project:) }
+
+      it { expect(component.render?).to be(false) }
+    end
+
+    context "with only inactive phases" do
+      before do
+        create(:member, user:, project:, roles: [role])
+        create(:project_phase, :inactive, project:)
+      end
+
       it { expect(component.render?).to be(false) }
     end
   end
@@ -108,7 +122,9 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
   describe "rendering" do
     before { create(:member, user:, project:, roles: [role]) }
 
-    context "with no phases" do
+    context "with phases without dates" do
+      before { create(:project_phase, project:, finish_date: nil, start_date: nil) }
+
       it "renders a blankslate" do
         render_inline(component)
         expect(page).to have_test_selector("project-timeline-widget-empty")
