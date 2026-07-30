@@ -51,10 +51,9 @@ module Import
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
-        total = Import::JiraIssue.where(jira_import:).count
-        position = Import::JiraIssue
-                     .where(id: ..cursor, jira_import:)
-                     .count
+        issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
+        total = issues.count
+        position = issues.where(id: ..cursor).count
         (position.to_f / total * 100).round(2)
       else
         0
