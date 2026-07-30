@@ -49,7 +49,7 @@ module Import
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
-        (REVERT_STEPS.index(cursor.to_sym) + 1) / REVERT_STEPS.count * 100
+        ((REVERT_STEPS.index(cursor.to_sym) + 1) * 100) / REVERT_STEPS.count
       else
         0
       end
