@@ -30,24 +30,61 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   widget_wrapper do |container|
     container.with_body do
-      flex_layout(align_items: :center) do |flex|
-        flex.with_column(w: :full, mr: 3) do
-          render(
-            Primer::Beta::ProgressBar.new(
-              size: :large,
-              bg: :danger_emphasis
-            )
-          ) do |bar|
-            bar.with_item(
-              percentage: resolved_percentage
-            # TODO: consider aria-label -> what to insert here?
-            )
+      concat(
+        flex_layout(align_items: :center) do |flex|
+          flex.with_column(w: :full, mr: 3) do
+            render(
+              Primer::Beta::ProgressBar.new(
+                size: :large,
+                bg: :danger_emphasis
+              )
+            ) do |bar|
+              bar.with_item(
+                percentage: resolved_percentage
+              # TODO: consider aria-label -> what to insert here?
+              )
+            end
+          end
+
+          flex.with_column(w: :fit) do
+            render(Primer::Beta::Text.new) { resolved_summary_text }
           end
         end
+      )
 
-        flex.with_column(w: :fit) do
-          render(Primer::Beta::Text.new) { resolved_summary_text }
-        end
+      if breakdown_blocks.any?
+        concat(
+          render(Primer::Box.new(classes: "op-wp-overview--blocks", mt: 3)) do
+            breakdown_blocks.each do |block|
+              concat(
+                render(Primer::Box.new) do
+                  safe_join(
+                    [
+                      flex_layout(align_items: :center) do |flex|
+                        flex.with_column(mr: 3) do
+                          render(Primer::Beta::Text.new(tag: :h4, font_weight: :bold)) { block[:heading] }
+                        end
+                        flex.with_column do
+                          render(Primer::Beta::Link.new(href: block[:show_all_path])) do
+                            t("backlogs.sprint_reports.widgets.work_package_overview.blocks.show_all")
+                          end
+                        end
+                      end,
+                      render(Primer::Beta::Text.new(tag: :p, mb: 0, font_size: 1, font_weight: :bold, color: block[:count_color])) do
+                        prefix = block[:count_prefix] && block[:count].positive? ? "+" : ""
+
+                        "#{prefix}#{block[:count]}"
+                      end,
+                      render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) do
+                        t("backlogs.story_points", count: block[:story_points])
+                      end
+                    ]
+                  )
+                end
+              )
+            end
+          end
+        )
       end
     end
   end
