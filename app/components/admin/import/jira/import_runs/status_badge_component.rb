@@ -56,6 +56,8 @@ module Admin::Import::Jira::ImportRuns
            Import::JiraImportStateMachine::FINALIZING,
            Import::JiraImportStateMachine::REVERTING
         :accent
+      when Import::JiraImportStateMachine::IMPORT_ABORTING
+        :severe
       else
         :attention
       end
