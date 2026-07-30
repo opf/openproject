@@ -149,7 +149,7 @@ OpenProject is a form-driven application, meaning that users input a lot of data
 
 - Understand and use the [Rails framework's mechanisms](https://guides.rubyonrails.org/security.html#injection) to prevent injection and CSRF attacks
 - Understand and use the Rails framework to use its built-in security measures such as proper encoding of HTML output, CSRF tokens in all state-changing requests, and automatic escaping of user input in ActiveRecord SQL queries.
-- Implement a strict [content security policy](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html) to mitigate common XSS, CSRF and similar cross-site attack vectors. OpenProject uses the [secure_headers gem](https://github.com/github/secure_headers) to define its CSP.
+- Implement a strict [content security policy](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html) to mitigate common XSS, CSRF and similar cross-site attack vectors. OpenProject uses the Rails framework defaults to define the CSP.
 - Learn about the [different types of XSS](https://owasp.org/www-community/Types_of_Cross-Site_Scripting#stored-xss-aka-persistent-or-type-i) and their impacts: Reflected XSS, Stored XSS, Dom-based XSS and server vs client side XSS
 - Implement file upload filters based on file type, and ensure user-provided files cannot be executed as code.
 - Ensure transmission of confidential data does not happen through GET requests, but use POST/PUT/PATCH requests instead.
