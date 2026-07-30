@@ -35,6 +35,7 @@ class Account::LostPasswordForm < ApplicationForm
       type: :email,
       label: User.human_attribute_name(:mail),
       required: true,
+      scope_name_to_model: false,
       input_width: :large
     )
     form.submit(name: :submit, label: I18n.t(:button_submit), scheme: :primary)

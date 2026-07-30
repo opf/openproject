@@ -80,7 +80,7 @@ class RegistrationForm < ApplicationForm
   end
 
   def registration_mail_editable?
-    Setting.user_can_change_email? || model.nil? || model.new_record?
+    Setting.user_can_change_email? || model.new_record?
   end
 
   def password_fields(form)

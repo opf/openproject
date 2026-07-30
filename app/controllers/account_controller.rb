@@ -93,6 +93,8 @@ class AccountController < ApplicationController
   def lost_password # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     return redirect_to(home_url, status: :see_other) unless allow_lost_password_recovery?
 
+    @user = User.new unless params[:token]
+
     if params[:token]
       @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
       redirect_to(home_url, status: :see_other) && return unless @token and !@token.expired?
@@ -114,13 +116,13 @@ class AccountController < ApplicationController
       mail = params[:mail]
 
       if mail.blank?
-        @user = User.new(mail:)
+        @user.mail = mail
         @user.errors.add(:mail, :blank)
         render template: "account/lost_password", status: :unprocessable_entity
         return
       end
 
-      user = User.find_by_mail(mail) if mail.present?
+      user = User.find_by_mail(mail)
 
       # Ensure the same request is sent regardless of which email is entered
       # to avoid detecability of mails

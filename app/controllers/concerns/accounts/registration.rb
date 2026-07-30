@@ -117,6 +117,11 @@ module Accounts::Registration
     return true unless user_consent_required?
     return true if consent_param?
 
+    if user.invalid?
+      onthefly_creation_failed(user)
+      return false
+    end
+
     user.errors.add(:base, I18n.t("consent.failure_message"))
     onthefly_creation_failed(user)
 
@@ -134,7 +139,8 @@ module Accounts::Registration
       flash[:notice] = call.message.presence
       login_user_if_active(call.result, just_registered: true)
     else
-      flash[:error] = error = call.message
+      error = call.message
+      flash.now[:error] = error if user.errors.empty?
       Rails.logger.error "Registration of user #{user.login} failed: #{error}"
       onthefly_creation_failed(user)
     end

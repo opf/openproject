@@ -38,8 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
     <%= t("account.signup_title", app_title: Setting.app_title) %>
   <% end %>
 
-  <%= error_messages_for :user %>
-
   <%= primer_form_with(
         model: @user,
         url: account_register_path,
