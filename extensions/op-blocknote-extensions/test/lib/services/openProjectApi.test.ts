@@ -10,6 +10,12 @@ import {
   searchWorkPackages
 } from '../../../lib/services/openProjectApi';
 
+// fetch resolves to a full Response, but the API layer only reads ok, status,
+// statusText and json(), so the stubs cover just those.
+function mockResponse(props:Partial<Response>):Response {
+  return props as Response;
+}
+
 describe('openProjectApi', () => {
   it('works with a baseUrl with trailing slash', () => {
     initOpenProjectApi({baseUrl: 'https://example.com/'});
@@ -24,10 +30,10 @@ describe('openProjectApi', () => {
   describe('searchWorkPackages', () => {
     it('should fetch work packages sorted by updatedAt descending', () => {
       initOpenProjectApi({baseUrl: 'http://localhost:3000'});
-      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
         ok: true,
         json: async () => ({ _embedded: { elements: [] } }),
-      } as Response);
+      }));
 
       try {
         searchWorkPackages('test query');
@@ -113,10 +119,10 @@ describe('openProjectApi', () => {
     it('resolves with data on success', async () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
       const mockData = { _embedded: { elements: [] } };
-      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
         ok: true,
         json: async () => mockData,
-      } as Response);
+      }));
 
       try {
         const result = await fetchStatuses();
@@ -128,11 +134,11 @@ describe('openProjectApi', () => {
 
     it('logs to console and rejects on HTTP error', async () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
-      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
         ok: false,
         status: 500,
         statusText: 'Internal Server Error',
-      } as Response);
+      }));
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       try {
@@ -152,10 +158,10 @@ describe('openProjectApi', () => {
     it('resolves with data on success', async () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
       const mockData = { _embedded: { elements: [] } };
-      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
         ok: true,
         json: async () => mockData,
-      } as Response);
+      }));
 
       try {
         const result = await fetchTypes();
@@ -167,11 +173,11 @@ describe('openProjectApi', () => {
 
     it('logs to console and rejects on HTTP error', async () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
-      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
         ok: false,
         status: 403,
         statusText: 'Forbidden',
-      } as Response);
+      }));
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       try {

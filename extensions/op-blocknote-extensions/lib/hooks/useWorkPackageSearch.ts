@@ -73,7 +73,6 @@ export function useWorkPackageSearch(
       }
 
       return new Promise<WorkPackage[]>((resolve) => {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         debounceTimerRef.current = setTimeout(async () => {
           debounceTimerRef.current = null;
           try {

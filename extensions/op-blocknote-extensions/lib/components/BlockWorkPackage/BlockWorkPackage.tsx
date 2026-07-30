@@ -110,7 +110,7 @@ export const BlockWorkPackageComponent = ({
     if (!isOptionsOpen) return;
     const handleClickOutside = (e:MouseEvent) => {
       const path = e.composedPath();
-      if (cardRef.current && !path.includes(cardRef.current as EventTarget)) {
+      if (cardRef.current && !path.includes(cardRef.current)) {
         setIsOptionsOpen(false);
       }
     };
