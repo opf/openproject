@@ -42,19 +42,30 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
 
   describe "#render?" do
     context "with view_project_phases permission" do
-      before { create(:member, user:, project:, roles: [phases_role]) }
+      before do
+        create(:member, user:, project:, roles: [phases_role])
+        create(:project_phase, project:)
+      end
 
       it { expect(component.render?).to be(true) }
     end
 
-    context "with view_work_packages permission" do
-      before { create(:member, user:, project:, roles: [wp_role]) }
+    context "with view_work_packages permission and a milestone" do
+      let(:milestone_type) { create(:type, is_milestone: true) }
+
+      before do
+        create(:member, user:, project:, roles: [wp_role])
+        create(:work_package, project:, type: milestone_type, due_date: Time.zone.today)
+      end
 
       it { expect(component.render?).to be(true) }
     end
 
     context "with view_sprints permission and backlogs module enabled" do
-      before { create(:member, user:, project:, roles: [sprints_role]) }
+      before do
+        create(:member, user:, project:, roles: [sprints_role])
+        create(:sprint, project:)
+      end
 
       it { expect(component.render?).to be(true) }
     end
@@ -62,13 +73,25 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
     context "with view_sprints permission but backlogs module disabled" do
       before do
         project.update!(enabled_module_names: project.enabled_module_names - ["backlogs"])
+        create(:sprint, project:)
         create(:member, user:, project:, roles: [sprints_role])
       end
 
       it { expect(component.render?).to be(false) }
     end
 
-    context "without either permission" do
+    context "without permission" do
+      before { create(:project_phase, project:) }
+
+      it { expect(component.render?).to be(false) }
+    end
+
+    context "with only inactive phases" do
+      before do
+        create(:member, user:, project:, roles: [phases_role])
+        create(:project_phase, :inactive, project:)
+      end
+
       it { expect(component.render?).to be(false) }
     end
   end
@@ -363,7 +386,9 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
   describe "rendering" do
     before { create(:member, user:, project:, roles: [phases_role, wp_role]) }
 
-    context "with no content" do
+    context "with phases without dates" do
+      before { create(:project_phase, project:, finish_date: nil, start_date: nil) }
+
       it "renders a blankslate" do
         render_inline(component)
         expect(page).to have_test_selector("project-timeline-widget-empty")
