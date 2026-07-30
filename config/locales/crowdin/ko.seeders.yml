@@ -461,14 +461,14 @@ ko:
           name: 버그
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: '에픽 자식: 사용자 스토리 및 버그'
         item_1:
-          name: 'User story children: Tasks'
+          name: '사용자 스토리 자식: 작업'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: 사용자 스토리 및 버그
         item_1:
           form_configuration:
             item_0:

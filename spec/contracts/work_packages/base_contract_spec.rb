@@ -201,6 +201,43 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
+    context "when work_package has multiple versions of which only one is closed" do
+      before do
+        open_version = build_stubbed(:version)
+        closed_version = build_stubbed(:version, status: "closed")
+
+        allow(work_package)
+          .to receive(:effective_target_versions)
+          .and_return([open_version, closed_version])
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
+      end
+
+      it "is not writable" do
+        expect(contract).not_to be_writable(:status)
+      end
+    end
+
+    context "when work_package is being moved out of a closed version while the status is closed" do
+      before do
+        closed_version = build_stubbed(:version, status: "closed")
+        open_version = build_stubbed(:version)
+
+        allow(work_package)
+          .to receive(:target_versions)
+          .and_return([closed_version])
+        work_package.version = open_version
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
+      end
+
+      it "is writable" do
+        expect(contract).to be_writable(:status)
+      end
+    end
+
     context "when status is inexistent" do
       before do
         work_package.status = Status::InexistentStatus.new
@@ -1775,6 +1812,12 @@ RSpec.describe WorkPackages::BaseContract do
       context "if the current status is closed and the version is closed as well" do
         let(:version) { build_stubbed(:version, status: "closed") }
         let(:current_status) { build_stubbed(:status, is_closed: true) }
+
+        before do
+          allow(work_package)
+            .to receive(:target_versions)
+            .and_return([version])
+        end
 
         it "only allows the current status" do
           expect(contract.assignable_statuses.to_sql)

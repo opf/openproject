@@ -491,14 +491,14 @@ zh-CN:
           name: 缺陷
       global_queries:
         item_0:
-          name: 史诗子项：用户故事和缺陷
+          name: 史诗子项：用户故事和 Bug
         item_1:
           name: 用户故事子项：任务
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: 用户故事和缺陷
+              group_name: 用户故事和 Bug
         item_1:
           form_configuration:
             item_0:

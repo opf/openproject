@@ -33,7 +33,6 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
@@ -42,7 +41,10 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
 @Component({
   selector: 'wp-grid',
   template: `
-    <wp-card-view [dragOutOfHandler]="canDragOutOf"
+    <wp-card-view opSortableLists
+      [opSortableListsAxis]="'horizontal'"
+      [opSortableListsAutoScrollAxis]="'all'"
+      [dragOutOfHandler]="canDragOutOf"
       [dragInto]="dragInto"
       [cardsRemovable]="false"
       [highlightingMode]="highlightingMode"
@@ -66,7 +68,6 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
     `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    DragAndDropService,
     WorkPackageCardDragAndDropService,
   ],
   standalone: false,

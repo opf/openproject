@@ -36,6 +36,9 @@
     border-radius: var(--borderRadius-default)
     box-shadow: var(--shadow-floating-small)
     padding: var(--base-size-12)
+    max-width: 350px
+    @include text-shortener(false)
+    white-space: normal
 
   .op-timeline-tooltip--meta-row
     display: inline-flex
@@ -89,6 +92,12 @@
   .vis-item.vis-point.op-timeline-gate--finish
     .vis-item-content
       transform: translateX(-100%)
+
+  // Gates group row: we override the height so that the gates appear visually closer to the phases
+  .vis-group.op-timeline-group--gates
+    border-bottom-color: transparent
+    height: 2.25rem !important
+    overflow: visible
 
   // Cluster items
   .vis-item.vis-cluster

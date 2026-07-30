@@ -119,7 +119,7 @@ export class ProjectTimelineItemBuilder {
     }
 
     const groups = [
-      { id: GROUP_GATES, content: '' },
+      { id: GROUP_GATES, content: '', className: 'op-timeline-group--gates' },
       { id: GROUP_PHASES, content: '' },
       { id: GROUP_MILESTONES, content: '' },
       { id: GROUP_SPRINTS, content: '' },

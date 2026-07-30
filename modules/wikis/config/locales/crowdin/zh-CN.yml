@@ -205,7 +205,7 @@ zh-CN:
         no_results: 找不到 Wiki 页面
         placeholder: 搜索 Wiki 页面（或输入其 URL）
     page_links:
-      aria_label: 通过宏生成的指向某个 Wiki 页面的动态链接。
+      aria_label: 通过宏放置的指向某个 Wiki 页面的动态链接。
       errors:
         page_access_forbidden: 您无权访问此 wiki 页面
         page_not_found: 关联的 wiki 页面不再可用

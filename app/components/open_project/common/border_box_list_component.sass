@@ -123,8 +123,9 @@
     margin-left: calc(-1 * var(--stack-padding-normal))
     &.op-border-box-list-header_collapsible
       grid-template-areas: "drag_handle heading actions menu"
+
   &--drag_handle
-    align-self: stretch
+    align-self: center
     cursor: grab
     color: var(--fgColor-muted)
     justify-self: center
@@ -136,8 +137,6 @@
   &--menu
     margin-left: var(--stack-gap-normal)
     align-self: flex-start
-    // Unfortunately, the invisible button style bites us here again.
-    margin-top: -6px
 
   &--actions
     display: flex

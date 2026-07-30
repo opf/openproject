@@ -282,7 +282,7 @@ ko:
   label_template: 템플릿
   label_time_zone: 표준 시간대
   label_upcoming_meetings: 다가오는 이벤트
-  label_upcoming_meetings_short: 예정
+  label_upcoming_meetings_short: 향후
   label_version: 버전
   label_view_meeting: 미팅 보기
   label_view_meeting_series: 미팅 시리즈 보기

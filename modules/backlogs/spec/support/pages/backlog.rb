@@ -815,24 +815,12 @@ module Pages
     def selenium_drag_backlogs_item(source:, target:, edge: nil)
       install_backlogs_dnd_probe(source:, target:, edge:)
 
+      # Scroll to source first: perform_native_drag's internal scroll must not
+      # move the page after the target rect below is read.
       scroll_to_element(source)
 
-      source_rect = source.native.rect
-      target_rect = target.native.rect
-      target_x, target_y = selenium_target_point(target_rect, edge:)
-      source_x, source_y = selenium_element_center(source_rect)
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(source.native)
-        .click_and_hold(source.native)
-        .pause(duration: 0.1)
-        .move_by(target_x - source_x, target_y - source_y)
-        .pause(duration: 0.1)
-        .release
-        .perform
+      target_x, target_y = selenium_target_point(target.native.rect, edge:)
+      perform_native_drag(source:, target_x:, target_y:)
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here
@@ -854,13 +842,6 @@ module Pages
         else
           rect.y + (rect.height / 2)
         end
-      ].map(&:round)
-    end
-
-    def selenium_element_center(rect)
-      [
-        rect.x + (rect.width / 2),
-        rect.y + (rect.height / 2)
       ].map(&:round)
     end
 

@@ -517,7 +517,7 @@ de:
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Aufgaben
       welcome:
         title: Willkommen bei OpenProject!
         text: |

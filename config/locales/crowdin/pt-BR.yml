@@ -466,7 +466,7 @@ pt-BR:
         spent_hours: Tempo gasto
         spent_time: Tempo gasto
         subproject: Subprojeto
-        target_version: Target version
+        target_version: Versão de meta
         target_versions: Versões de destino
         time_entries: Registro de tempo
         type: Tipo
@@ -1145,8 +1145,8 @@ pt-BR:
     jemalloc_allocator: Alocador de memória Jemalloc
     jira:
       actions:
-        button_edit: Edit configuration
-        button_open: Open runs
+        button_edit: Editar configuração
+        button_open: Execuções abertas
       banner:
         contribution_callout: 'Ajude-nos a melhorar o Migrador do Jira com seu feedback e doações de dados privados. Você pode participar da [comunidade de desenvolvimento](link) do Migrador do Jira.
 
@@ -1168,11 +1168,11 @@ pt-BR:
         ssrf_blocked: 'Conexão bloqueada: o host do Jira resolve para um endereço IP privado. Se a sua instância do Jira estiver em uma rede interna, permita o IP na variável de ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Adicionado
-        creator: Creator
+        creator: Criador
         label_ago: Há %{amount}
         last_change: Última alteração
         projects: Projetos
-        server_url: Server URL
+        server_url: URL do servidor
       configuration:
         new: Nova configuração
         title: Configuração do Jira
@@ -1193,18 +1193,18 @@ pt-BR:
           personal_access_token: Token de acesso pessoal
           url: URL do Jira Server/Data Center
         label_testing: Testando configuração...
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+        test_configuration_caption: Você pode testar essa configuração [clicando aqui](test)
       run:
         actions:
-          button_edit: Edit run
-          button_open_history: Open run history
+          button_edit: Editar execução
+          button_open_history: Abrir histórico de execuções
         blank:
           description: Crie uma execução de importação para começar a importar informações desta instância do Jira
           title: Ainda não há execuções de importação configuradas
         history: Histórico
         side_panel:
-          run_status: Run status
-          open_history: Open the run history
+          run_status: Status da execução
+          open_history: Abrir o histórico de execuções
         import_blocked_error: Outra execução de importação do Jira está em andamento ou aguardando revisão. Conclua ou reverta-a antes de iniciar uma nova importação.
         index:
           button_edit_configuration: Editar configuração
@@ -1245,7 +1245,7 @@ pt-BR:
             configuration:
               title: Configurar importação
             run_and_review:
-              title: Run and review import
+              title: Executar e revisar a importação
           import_dialog:
             confirm: Entendo e tenho um backup
             confirm_button: Iniciar importação
@@ -1281,7 +1281,7 @@ pt-BR:
               button_start: Iniciar importação
               caption: Revise suas configurações de importação e inicie a importação
               caption_done: Concluído
-              caption_done_info: All data has been imported
+              caption_done_info: Todos os dados foram importados
               description: Você está prestes a iniciar uma execução de importação com as seguintes configurações.
               label_available_data: Dados a serem importados
               label_import_data: Importando no momento
@@ -1289,12 +1289,12 @@ pt-BR:
               label_users_import_explanation: Usuários envolvidos nos projetos selecionados (incluindo membros de grupos)
               title: Importar dados
             fetch_data:
-              button_continue: Continue to scope selection
+              button_continue: Continuar para a seleção do escopo
               button_fetch: Verificar dados disponíveis
               caption_done: Concluído
-              caption_done_description: Meta data fetched from %{server_info}
+              caption_done_description: Metadados obtidos de %{server_info}
               description: Verifique quais dados estão disponíveis para importação na instância do Jira host.
-              label_available_server_data: Available data on %{server_info}
+              label_available_server_data: Dados disponíveis em %{server_info}
               label_progress: Buscando dados do Jira...
               title: Buscar metadados da instância
             groups_and_users:
@@ -1313,18 +1313,18 @@ pt-BR:
               preview_description: Os dados importados estão atualmente em modo de revisão. Clique em “Aprovar importação” para tornar a importação permanente ou em “Reverter importação” para desfazer todas as alterações feitas nesta execução de importação.
               stats:
                 other_settings:
-                  label: Other settings
-                  subtitle: Including types and status
+                  label: Outras configurações
+                  subtitle: Incluindo tipos e status
                 projects:
-                  label: Projects
-                  subtitle: Selected as scope
-                title: Data imported
+                  label: Projetos
+                  subtitle: Selecionar como escopo
+                title: Dados importados
                 users_and_groups:
-                  label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  label: Usuários e grupos
+                  subtitle: 'Envolvido em projetos importados '
                 work_packages:
-                  label: Work packages
-                  subtitle: With attachments
+                  label: Pacotes de trabalho
+                  subtitle: Com anexos
               title: Resultados da execução de importação
             import_scope:
               button_continue: Continuar
@@ -1333,8 +1333,8 @@ pt-BR:
               caption: Escolha o que deseja importar para o OpenProject
               caption_done: Concluído
               caption_done_description:
-                one: 1 project selected as scope
-                other: "%{count} projects selected as scope"
+                one: 1 projeto selecionado como escopo
+                other: "%{count} projetos selecionados como escopo"
               description: Selecione os dados que deseja importar a partir das informações disponíveis obtidas da instância Jira host.
               elements:
                 custom_fields: Um subconjunto de campos personalizados
@@ -1353,17 +1353,17 @@ pt-BR:
               label_coming_soon: Em breve (Q3 2026)
               label_import: Selecione os projetos que você deseja importar.
               label_info: Observe que esta ferramenta de importação está em versão beta e não consegue importar todos os tipos de dados. A seguir, um resumo do que a instância Jira host oferece para importação e do que esta ferramenta consegue importar no momento.
-              label_progress: Fetching data
+              label_progress: Buscando dados
               label_selected_data: Dados selecionados para importação
               label_supported_data: Dados compatíveis
               title: Escopo da importação
           select_projects:
-            button_select: Select
-            button_select_all: Select all
-            button_unselect_all: Unselect all
-            filter_projects: Filter by text
-            info: Only projects where the Jira token owner is member are selectable as import scope.
-            title: Select projects to import
+            button_select: Selecionar
+            button_select_all: Selecionar tudo
+            button_unselect_all: Desmarcar tudo
+            filter_projects: Filtrar por texto
+            info: Somente os projetos dos quais o proprietário do token do Jira é membro podem ser selecionados como escopo de importação.
+            title: Selecione os projetos para importar
       test:
         api_error: A API do Jira retornou o status de erro %{status}. Verifique o URL da sua instância do Jira e o token da API.
         connection_error: 'Erro de conexão: %{message}'
@@ -1579,15 +1579,15 @@ pt-BR:
           other: Remover %{count} status?
         title: Remover status
       tabs:
+        always: Default transitions
         aria_label: Transições do fluxo de trabalho
-        default_transitions: Transições padrão
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: Transições disponíveis para a(s) função(ões) selecionada(s) em todos os casos.
-          user_assignee: Transições adicionais disponíveis para o responsável pelo pacote de trabalho.
-          user_author: Transições adicionais disponíveis para o autor do pacote de trabalho.
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: Transições exibidas
-        user_assignee: Usuário é responsável
-        user_author: Usuário é autor
   announcements:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
@@ -4887,9 +4887,23 @@ pt-BR:
         menu_title: Modelo
         title: Configurações do modelo
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Habilitar o tipo "%{type}"
+        in_roadmap: In roadmap
         no_results_title_text: Atualmente, não há tipos disponíveis.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Criar uma nova versão
         no_results_title_text: Atualmente, não há versões para o projeto.
@@ -5990,22 +6004,26 @@ pt-BR:
         tab: Fluxos de trabalho
     index:
       add_variant: Adicionar variante a %{name}
+      add_variant_action: Add variant
       description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Ativo em novos projetos
       make_default: Ativar em novos projetos
-      make_default_notice: "%{name} agora está ativado em novos projetos"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Criar um novo tipo
       no_results_title_text: Atualmente, não há nenhum tipo.
       remove_default: Não ativar em novos projetos
-      remove_default_notice: "%{name} não está mais ativado em novos projetos"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Tipo
       variant_enabled_in_new_projects: Variante %{name} ativa em novos projetos
       variant_label: Variante
       variants_count:
         one: 1 variante
         other: "%{count} variantes"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ignorar este aviso.
     message: Você pode encontrar erros e experiência degradada nesta página.

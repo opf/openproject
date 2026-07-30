@@ -25,20 +25,20 @@ zh-CN:
     macro:
       aria_label_with_name: "%{name}：%{description}"
       resource_links:
-        attachment: 通过宏生成的指向某个附件的动态链接。
-        commit: 通过宏生成的指向某个提交的动态链接。
-        document: 通过宏生成的指向某个文档的动态链接。
-        export: 通过宏生成的指向某个源文件导出的动态链接。
-        group: 通过宏生成的指向某个群组的动态链接。
-        meeting: 通过宏生成的指向某个会议的动态链接。
-        message: 通过宏生成的指向某条消息的动态链接。
-        project: 通过宏生成的指向某个项目的动态链接。
-        revision: 通过宏生成的指向某个修订版本的动态链接。
-        source: 通过宏生成的指向某个源文件的动态链接。
-        user: 通过宏生成的指向某个用户的动态链接。
-        version: 通过宏生成的指向某个版本的动态链接。
-        view: 通过宏生成的指向某个视图的动态链接。
-        work_package: 通过宏生成的指向某个工作包的动态链接。
+        attachment: 通过宏放置的指向某个附件的动态链接。
+        commit: 通过宏放置的指向某个提交的动态链接。
+        document: 通过宏放置的指向某个文档的动态链接。
+        export: 通过宏放置的指向某个源文件导出的动态链接。
+        group: 通过宏放置的指向某个群组的动态链接。
+        meeting: 通过宏放置的指向某个会议的动态链接。
+        message: 通过宏放置的指向某条消息的动态链接。
+        project: 通过宏放置的指向某个项目的动态链接。
+        revision: 通过宏放置的指向某个修订版的动态链接。
+        source: 通过宏放置的指向某个源文件的动态链接。
+        user: 通过宏放置的指向某个用户的动态链接。
+        version: 通过宏放置的指向某个版本的动态链接。
+        view: 通过宏放置的指向某个视图的动态链接。
+        work_package: 通过宏放置的指向某个工作包的动态链接。
   account:
     auth_source_login_html: 请以 <em>%{login}</em> 身份登录，以激活您的帐户。
     delete: 删除帐户
@@ -694,7 +694,7 @@ zh-CN:
               no_special_characters: 只能包含大写字母、数字和下划线
             types:
               cannot_assign_multiple_variants_of_parent: 只能在项目上启用一个类型的单个变体
-              cannot_assign_variant_and_parent: 无法分配变体及其父项
+              cannot_assign_variant_and_parent: 无法指定变体及其父项
               cannot_assign_variants_yet: 目前无法在项目上启用变体。请启用功能标志以试用变体
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
               switch_source_not_a_variant: 只能从一种变体进行切换
@@ -1127,8 +1127,8 @@ zh-CN:
     jemalloc_allocator: 使用 jemalloc 内存分配器
     jira:
       actions:
-        button_edit: Edit configuration
-        button_open: Open runs
+        button_edit: 编辑配置
+        button_open: 打开运行
       banner:
         contribution_callout: '请通过提供您的反馈和捐赠您的私有数据，帮助我们改进 Jira Migrator。您可以[加入 Jira Migrator 的开发社区](link)。
 
@@ -1150,11 +1150,11 @@ zh-CN:
         ssrf_blocked: 连接被阻止：Jira 主机解析到一个私有 IP 地址。如果 Jira 实例在内部网络上运行，请通过 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST 环境变量允许其 IP。
       columns:
         added: 已添加
-        creator: Creator
+        creator: 创建者
         label_ago: "%{amount}前"
         last_change: 上次更改
         projects: 项目
-        server_url: Server URL
+        server_url: 服务器 URL
       configuration:
         new: 新配置
         title: Jira 配置
@@ -1175,18 +1175,18 @@ zh-CN:
           personal_access_token: 个人访问令牌
           url: Jira 服务器/数据中心 URL
         label_testing: 正在测试配置…
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+        test_configuration_caption: 您可以通过[点击此处](test)来测试此配置
       run:
         actions:
-          button_edit: Edit run
-          button_open_history: Open run history
+          button_edit: 编辑运行
+          button_open_history: 打开运行历史记录
         blank:
           description: 创建导入运行，开始从此 Jira 实例中导入信息
           title: 尚未设置导入运行
         history: 历史记录
         side_panel:
-          run_status: Run status
-          open_history: Open the run history
+          run_status: 运行状态
+          open_history: 打开运行历史记录
         import_blocked_error: 另一个 Jira 导入运行当前正在执行或等待审核。请先完成或撤消当前运行，然后再开始新的导入。
         index:
           button_edit_configuration: 编辑配置
@@ -1227,7 +1227,7 @@ zh-CN:
             configuration:
               title: 配置导入
             run_and_review:
-              title: Run and review import
+              title: 运行并审核导入
           import_dialog:
             confirm: 我了解并已经备份
             confirm_button: 开始导入
@@ -1257,7 +1257,7 @@ zh-CN:
               button_start: 开始导入
               caption: 审核导入设置并开始导入
               caption_done: 已完成
-              caption_done_info: All data has been imported
+              caption_done_info: 所有数据均已导入
               description: 您即将使用以下设置开始导入运行。
               label_available_data: 要导入的数据
               label_import_data: 当前正在导入
@@ -1265,12 +1265,12 @@ zh-CN:
               label_users_import_explanation: 参与所选项目的用户（包括群组成员资格）
               title: 导入数据
             fetch_data:
-              button_continue: Continue to scope selection
+              button_continue: 继续选择范围
               button_fetch: 检查可用数据
               caption_done: 已完成
-              caption_done_description: Meta data fetched from %{server_info}
+              caption_done_description: 获取自 %{server_info} 的元数据
               description: 检查主机 Jira 实例中有哪些数据可以导入。
-              label_available_server_data: Available data on %{server_info}
+              label_available_server_data: "%{server_info} 上的可用数据"
               label_progress: 正在从 Jira 获取数据…
               title: 获取实例元数据
             groups_and_users:
@@ -1289,18 +1289,18 @@ zh-CN:
               preview_description: 导入的数据当前处于审核模式。点击“批准导入”可永久导入，点击“撤消导入”可撤消本次导入运行中的所有更改。
               stats:
                 other_settings:
-                  label: Other settings
-                  subtitle: Including types and status
+                  label: 其他设置
+                  subtitle: 包括类型和状态
                 projects:
-                  label: Projects
-                  subtitle: Selected as scope
-                title: Data imported
+                  label: 项目
+                  subtitle: 已选作范围
+                title: 数据已导入
                 users_and_groups:
-                  label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  label: 用户和群组
+                  subtitle: '参与导入的项目 '
                 work_packages:
-                  label: Work packages
-                  subtitle: With attachments
+                  label: 工作包
+                  subtitle: 包含附件
               title: 导入运行结果
             import_scope:
               button_continue: 继续
@@ -1309,7 +1309,7 @@ zh-CN:
               caption: 选择要导入 OpenProject 的内容
               caption_done: 已完成
               caption_done_description:
-                other: "%{count} projects selected as scope"
+                other: "%{count} 个项目被选作范围"
               description: 在从主机 Jira 实例获取的可用数据中选择要导入的数据。
               elements:
                 custom_fields: 自定义字段的子集
@@ -1328,17 +1328,17 @@ zh-CN:
               label_coming_soon: 即将推出（2026 年第三季度）
               label_import: 选择要导入的项目。
               label_info: 请注意，此导入工具仍处于测试阶段，不能导入所有类型的数据。以下是主机 Jira 实例提供的导入摘要，以及此工具目前能够导入的内容。
-              label_progress: Fetching data
+              label_progress: 正在获取数据
               label_selected_data: 已选择要导入的数据
               label_supported_data: 支持的数据
               title: 导入范围
           select_projects:
-            button_select: Select
-            button_select_all: Select all
-            button_unselect_all: Unselect all
-            filter_projects: Filter by text
-            info: Only projects where the Jira token owner is member are selectable as import scope.
-            title: Select projects to import
+            button_select: 选择
+            button_select_all: 全选
+            button_unselect_all: 取消全选
+            filter_projects: 按文本筛选
+            info: 只有 Jira 令牌所有者为成员的项目才能被选作导入范围。
+            title: 选择要导入的项目
       test:
         api_error: Jira API 返回错误状态 %{status}。请检查您的 Jira 实例 URL 和 API 令牌。
         connection_error: 连接错误：%{message}
@@ -1552,15 +1552,15 @@ zh-CN:
           other: 是否移除 %{count} 种状态？
         title: 移除状态
       tabs:
+        always: Default transitions
         aria_label: 工作流过渡
-        default_transitions: 默认转换
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: 在所有情况下对所选角色可用的过渡。
-          user_assignee: 对工作包受理人可用的其他过渡。
-          user_author: 对工作包作者可用的其他过渡。
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: 显示的过渡
-        user_assignee: 用户是指派人
-        user_author: 用户是作者
   announcements:
     is_active: 当前已显示
     is_inactive: 当前未显示
@@ -2751,9 +2751,9 @@ zh-CN:
       new_features:
         '17_7':
           new_features_list:
-            line_0: 新的资源管理模块，可进行产能规划和人员配置（高级方案）。
-            line_1: 更好的组织管理，具有部门、用户特性（如职务名称）以及工作时间。
-            line_2: 多个处于有效状态且未共享的冲刺（基本方案）。
+            line_0: 新的资源管理模块，用于产能规划和人员配置（Premium 方案）。
+            line_1: 通过部门、用户特性（如职务名称）以及工作时数提升了组织管理。
+            line_2: 多个处于有效状态且未共享的冲刺（Basic 方案）。
             line_3: 通过多选筛选器、更好的拖放功能以及添加现有工作包的功能，改进了积压工作和冲刺。
             line_4: PM²/PMflex 工件导出和用于项目阶段和关口概览的新微件。
             line_5: 全球 Wiki 页面索引，更容易在相关页面之间导航。
@@ -4822,9 +4822,23 @@ zh-CN:
         menu_title: 模板
         title: 模板设置
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: 启用类型“%{type}”
+        in_roadmap: In roadmap
         no_results_title_text: 目前有可用的类型。
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: 创建一个新的版本
         no_results_title_text: 目前这个项目没有版本。
@@ -5782,7 +5796,7 @@ zh-CN:
           caption: 用户可以不受限制地手动输入和编辑工作包主题。
           label: 可手动编辑的主题
         pattern:
-          caption: 通过添加文本创建模式，或输入“/”以搜索[支持的特性](attributes_url)。
+          caption: 通过添加文本创建模式，或输入“/”搜索[支持的特性](attributes_url)。
           insert_as_text: 未找到特性。以文本形式添加：“%{word}”
           label: 主题模式
         tab: 默认值
@@ -5886,7 +5900,7 @@ zh-CN:
             description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
             title: 是否切换配置模式？
           copy_from_type: 从类型复制
-          description: 任何设置都不会继承。如果需要，您仍可从另一种类型中一次性复制设置。
+          description: 任何设置都不会继承。如果需要，您仍可以从另一种类型中一次性复制设置。
           dialog:
             submit: 切换
             title: 独立模式
@@ -5930,21 +5944,25 @@ zh-CN:
         tab: 工作流
     index:
       add_variant: 将变体添加到 %{name}
+      add_variant_action: Add variant
       description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: 在新项目中有效
       make_default: 在新项目中激活
-      make_default_notice: "%{name} 现已在新项目中激活"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: 创建新的类型
       no_results_title_text: 目前没有类型。
       remove_default: 不在新项目中激活
-      remove_default_notice: "%{name} 不再在新项目中激活"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: 类型
       variant_enabled_in_new_projects: 变体 %{name} 在新项目中处于有效状态
       variant_label: 变体
       variants_count:
         other: "%{count} 个变体"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: 请忽略这个警告。
     message: 此页面可能会发生运行错误和不良用户体验。

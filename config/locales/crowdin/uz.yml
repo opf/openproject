@@ -1579,15 +1579,15 @@ uz:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        always: Default transitions
         aria_label: Workflow transitions
-        default_transitions: Default transitions
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: Transitions available to the selected role(s) in all cases.
-          user_assignee: Additional transitions available to the work package's assignee.
-          user_author: Additional transitions available to the work package's author.
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
-        user_assignee: User is assignee
-        user_author: User is author
   announcements:
     is_active: currently displayed
     is_inactive: currently not displayed
@@ -4888,9 +4888,23 @@ uz:
         menu_title: Template
         title: Template settings
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Enable type "%{type}"
+        in_roadmap: In roadmap
         no_results_title_text: There are currently no types available.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Create a new version
         no_results_title_text: There are currently no versions for the project.
@@ -6008,22 +6022,26 @@ uz:
         tab: Workflows
     index:
       add_variant: Add variant to %{name}
+      add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
       make_default: Activate in new projects
-      make_default_notice: "%{name} is now activated in new projects"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
       remove_default: Do not activate in new projects
-      remove_default_notice: "%{name} is no longer activated in new projects"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         one: 1 variant
         other: "%{count} variants"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ignore this warning.
     message: You may run into errors and degraded experience on this page.

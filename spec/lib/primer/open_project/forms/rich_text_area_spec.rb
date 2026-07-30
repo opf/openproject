@@ -77,8 +77,6 @@ RSpec.describe Primer::OpenProject::Forms::RichTextArea, type: :forms do
       let(:params) { { scope_id_to_model: false, rich_text_options: {} } }
 
       it "renders the label" do
-        pending "Primer Forms render incorrect label `for` value: primer/view_components#3695"
-
         expect(rendered_form).to have_element :label, for: "ultimate_answer"
       end
 
@@ -110,9 +108,7 @@ RSpec.describe Primer::OpenProject::Forms::RichTextArea, type: :forms do
       let(:params) { { scope_id_to_model: false, rich_text_options: {} } }
 
       it "renders the label" do
-        pending "Primer Forms render incorrect label `for` value: primer/view_components#3695"
-
-        expect(rendered_form).to have_element :label, for: "ultimate_answer"
+        expect(rendered_form).to have_element :label, for: "super_form_ultimate_answer"
       end
 
       it "renders the hidden textarea" do

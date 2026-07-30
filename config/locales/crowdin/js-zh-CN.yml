@@ -205,10 +205,10 @@ zh-CN:
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
       macro:
         attribute_reference:
-          aria_label_project_attribute: 通过宏生成的动态项目特性。
+          aria_label_project_attribute: 通过宏放置的动态项目特性。
           aria_label_with_name: "%{name}：%{description}"
-          aria_label_work_package_attribute: 通过宏生成的动态工作包特性。
-          aria_label_work_package_link: 通过宏生成的指向某个工作包的动态链接。
+          aria_label_work_package_attribute: 通过宏放置的动态工作包特性。
+          aria_label_work_package_link: 通过宏放置的指向某个工作包的动态链接。
           invalid_attribute: 所选属性 '%{name}' 不存在。
           nested_macro: 该宏递归引用 %{model} %{id}。
           not_found: 无法找到请求的资源
