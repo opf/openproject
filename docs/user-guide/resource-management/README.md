@@ -140,7 +140,6 @@ To delete a resource planner:
 
 ![Confirmation dialog for deleting a resource planner](resource-management-delete-planner.png)
 
----
 
 ## Planner views
 
@@ -298,7 +297,6 @@ Enter a **Resource filter name** and select **Allocate**.
 
 The allocation is created as an open resource request in the [Staffing](#staffing) view, where it can later be assigned to a project member.
 
----
 
 ## Staffing
 
