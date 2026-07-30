@@ -30,15 +30,11 @@ import type { ActionMenuElement } from '@openproject/primer-view-components/app/
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 
 // A context menu conventionally grows down and to the right of its invocation
-// point. `anchored-position` clamps into the viewport unless
-// `allow-out-of-bounds` is set, so viewport safety comes from leaving that
-// attribute alone. Both values are single constants because Design QA on
-// AGILE-348 may retune them.
-//
-// The pair is also what makes the pointer offsets below mean what they say:
-// `getAnchoredPosition` computes `top = anchorRect.bottom + anchorOffset` and
-// `left = anchorRect.left + alignmentOffset` for exactly this side/align
-// combination. Change either constant and the two offsets change axis.
+// point. The pair is also what makes the pointer offsets below mean what they
+// say: for exactly this side/align combination `getAnchoredPosition` computes
+// `top = anchorRect.bottom + anchorOffset` and
+// `left = anchorRect.left + alignmentOffset`. Change either constant and the
+// two offsets change axis.
 export const CONTEXTUAL_ALIGN = 'start';
 export const CONTEXTUAL_SIDE = 'outside-bottom';
 
@@ -60,16 +56,12 @@ function restoreAttribute(element:Element, name:string, value:string|null):void 
 /**
  * Carries the vertical pointer offset as an own property on the overlay.
  *
- * `alignment-offset` is a plain `Number(getAttribute(...))` on
- * `AnchoredPositionElement`, so the horizontal offset travels as an attribute.
- * `anchorOffset` is not: its getter reads the attribute as an enum — only
- * `spacious`/`8` mean 8, everything else means 4 — so the attribute cannot
- * carry an arbitrary pixel offset, and its setter only writes that attribute.
- * `AnchoredPositionElement.update()` passes the element itself to
- * `getAnchoredPosition` as the settings object, which reads `anchorOffset` off
- * it like any other property, so an own property shadowing the prototype
- * accessor is what gets a real number through — and deleting it hands the
- * accessor, and the More button's ordinary 4px gap, straight back.
+ * `anchorOffset`'s getter reads its attribute as an enum — only `spacious`/`8`
+ * mean 8, everything else means 4 — so the attribute cannot carry an arbitrary
+ * pixel offset the way `alignment-offset` can. `update()` passes the element
+ * itself to `getAnchoredPosition` as the settings object, so an own property
+ * shadowing the prototype accessor is what gets a real number through, and
+ * deleting it hands the accessor, and the ordinary 4px gap, straight back.
  */
 function setAnchorOffset(overlay:AnchoredPositionElement, value:number):void {
   Object.defineProperty(overlay, 'anchorOffset', { configurable: true, value });
@@ -84,9 +76,8 @@ function clearAnchorOffset(overlay:AnchoredPositionElement):void {
  * on the invoking element, or at the menu's own show button but with the
  * invoking element owning focus afterwards.
  *
- * It owns only presentation. It never decides which actions the menu contains,
- * never mutates menu items, and holds no selection state, so a later slice can
- * layer batch-selection policy on top of the same presenter.
+ * It owns only presentation: it never decides which actions the menu contains,
+ * never mutates menu items, and holds no selection state.
  */
 export class ContextualActionMenu {
   private savedState?:OverlayState;
@@ -96,12 +87,11 @@ export class ContextualActionMenu {
   constructor(private readonly menu:ActionMenuElement) {}
 
   /**
-   * Opens the menu at a viewport point (pointer invocation), anchored on the
-   * invoking element so that it keeps tracking that element while the page
-   * scrolls.
+   * Opens the menu at a viewport point, anchored on the invoking element so
+   * that it keeps tracking that element while the page scrolls.
    *
-   * `invoker` both anchors the overlay and receives focus back when the menu
-   * closes; it is the element the gesture happened on — the card.
+   * `invoker` — the element the gesture happened on — both anchors the overlay
+   * and receives focus back when the menu closes.
    */
   openAtPoint(clientX:number, clientY:number, invoker:HTMLElement):void {
     const overlay = this.overlay;
@@ -120,8 +110,7 @@ export class ContextualActionMenu {
    * anchoring untouched, and only takes over where focus goes afterwards.
    *
    * This is the keyboard invocation and the right-click on the menu's own
-   * trigger: both want the menu's ordinary position, not a pointer-relative
-   * one. Nothing is overridden here, so nothing is saved — but a contextual
+   * trigger. Nothing is overridden here, so nothing is saved — but a contextual
    * invocation that is still open has to be undone, or its pointer offsets
    * would silently reposition this opening.
    */
@@ -132,9 +121,8 @@ export class ContextualActionMenu {
       return;
     }
 
-    // Only if there was something to undo: an untouched overlay is already
-    // positioned by Primer, and a gratuitous reposition here would be a claim
-    // that this path does something to the anchoring, which it does not.
+    // Only if there was something to undo — an untouched overlay is already
+    // positioned by Primer.
     if (this.restoreOverlayState(overlay)) {
       overlay.update();
     }
@@ -143,9 +131,8 @@ export class ContextualActionMenu {
   }
 
   /**
-   * Drops every contextual mutation. Called when the host controller
-   * disconnects, so a morph that removes the card mid-invocation cannot leave
-   * a rewritten overlay behind.
+   * Drops every contextual mutation, so a morph that removes the card
+   * mid-invocation cannot leave a rewritten overlay behind.
    */
   destroy():void {
     const overlay = this.overlay;
@@ -180,13 +167,11 @@ export class ContextualActionMenu {
 
   /**
    * Expresses the pointer position as offsets from the invoking element rather
-   * than anchoring to a synthetic element placed at the pointer.
-   *
-   * A `position: fixed` element pinned at viewport coordinates never moves in
-   * viewport space, so every reposition Primer runs — on scroll, on resize —
-   * recomputed the same viewport point while the card scrolled away underneath
-   * it. Offsets from the card's live rect are recomputed on every `update()`,
-   * so the menu follows the card through window *and* container scrolling.
+   * than anchoring to a synthetic element placed at the pointer: a
+   * `position: fixed` element pinned at viewport coordinates never moves in
+   * viewport space, so every reposition recomputed the same viewport point
+   * while the card scrolled away underneath it. Offsets from the card's live
+   * rect are recomputed on every `update()`.
    */
   private anchorAtPoint(
     overlay:AnchoredPositionElement,
@@ -199,10 +184,8 @@ export class ContextualActionMenu {
     overlay.anchorElement = anchorElement;
     // The property wins over the `anchor` idref for positioning, but only
     // clearing it to null strips the attribute, so taking over the anchoring
-    // has to strip it here. Leaving the More button's idref in place would
-    // have the DOM advertise an anchoring that is no longer in force — and it
-    // is the one attribute a test can read to tell a contextual invocation
-    // from an ordinary one. `saveOverlayState` captured it for restore.
+    // has to strip it here. Left in place, the DOM would advertise an anchoring
+    // that is no longer in force. `saveOverlayState` captured it for restore.
     overlay.removeAttribute('anchor');
     overlay.setAttribute('align', CONTEXTUAL_ALIGN);
     overlay.setAttribute('side', CONTEXTUAL_SIDE);
@@ -235,12 +218,10 @@ export class ContextualActionMenu {
     }
 
     // The property has to go first: it wins over the attribute, so a stale
-    // anchor would otherwise survive the re-applied idref. Both the open path
-    // and this null assignment strip `anchor`, which is why the saved
-    // attributes are re-applied afterwards — that is what puts the More button
-    // back in charge on the menu's next ordinary invocation. The two offsets
-    // are part of that: left behind, they would shove the More button's own
-    // menu to wherever the last right-click happened to land.
+    // anchor would otherwise survive the re-applied idref. The offsets are as
+    // much a part of the borrowed anchoring as the idref — left behind, they
+    // would shove the More button's own menu to wherever the last right-click
+    // happened to land.
     overlay.anchorElement = null;
     clearAnchorOffset(overlay);
     restoreAttribute(overlay, 'anchor', state.anchor);
@@ -286,16 +267,14 @@ export class ContextualActionMenu {
 
     const doc = this.menu.ownerDocument;
     requestAnimationFrame(() => {
-      // The restore is deferred a frame, so the menu may be showing again by
-      // the time it runs — anything that closes and reopens the popover inside
-      // one gesture leaves it that way. Focus then legitimately sits on the
-      // invoker, and treating it as loose, as the check below does for the
-      // Escape path, would yank focus out of a menu the user just opened.
-      //
-      // (Clicking the More button is *not* such a gesture, despite the
-      // symmetry: measured on Chrome 150, light-dismiss never fires for a
-      // popover's own invoker, so the click simply closes the menu. See the
-      // AGILE-348 QA report.)
+      // The restore is deferred a frame, so anything that closes and reopens
+      // the popover inside one gesture leaves the menu showing by the time it
+      // runs. Focus then legitimately sits on the invoker, and treating it as
+      // loose — as the check below does for the Escape path — would yank focus
+      // out of a menu the user just opened. Clicking the More button is not
+      // such a gesture: measured on Chrome 150, light-dismiss never fires for a
+      // popover's own invoker, so the click simply closes the menu (AGILE-348
+      // QA report).
       if (this.menu.popoverElement?.matches(':popover-open')) {
         return;
       }
