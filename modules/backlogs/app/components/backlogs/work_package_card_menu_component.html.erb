@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     if show_move_submenu?
-      list.with_divider
+      list.with_divider(data: { sortable_lists__item_target: "moveDivider" })
 
       if show_move_to_inbox?
         list.with_item(
