@@ -443,6 +443,33 @@ RSpec.describe Type do
       end
     end
 
+    # The types index page and the configuration source pickers both read this,
+    # so the assertions bind to what that page renders rather than to a literal
+    # list, and the two cannot drift apart unnoticed.
+    describe ".in_family_order" do
+      let!(:zeta) { create(:type, name: "Zeta") }
+      let!(:yankee) { create(:type, name: "Yankee", parent: zeta) }
+      let!(:bravo) { create(:type, name: "Bravo", parent: zeta) }
+      # Created last, so the admin's order and an alphabetical one disagree and
+      # the assertions below can tell them apart.
+      let!(:alpha) { create(:type, name: "Alpha") }
+
+      it "keeps the roots in the order the index page lists them" do
+        expect(described_class.in_family_order.reject(&:variant?)).to eq([parent, zeta, alpha])
+      end
+
+      it "orders a family's variants the way the index page renders them" do
+        expect(described_class.in_family_order.select { |member| member.parent == zeta })
+          .to eq([bravo, yankee])
+      end
+
+      it "puts a root ahead of its own variants" do
+        order = described_class.in_family_order
+
+        expect(order.index(zeta)).to be < order.index(bravo)
+      end
+    end
+
     describe "positioning" do
       it "scopes position per parent so each group is numbered independently" do
         parent_a = create(:type)
