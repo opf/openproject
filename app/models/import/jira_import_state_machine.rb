@@ -75,15 +75,25 @@ module Import
     transition from: REVERTING,              to: [REVERTED, REVERT_ERROR]
     transition from: REVERT_ERROR,           to: [REVERTING]
 
+    def self.enqueued_job_id(job_class, jira_import_id)
+      job = job_class.perform_later(jira_import_id)
+      return job.job_id if job
+
+      # GoodJob's enqueue_limit makes perform_later return false when an equivalent job is still queued
+      GoodJob::Job
+        .where(concurrency_key: job_class.new(jira_import_id).good_job_concurrency_key)
+        .unfinished
+        .order(:created_at)
+        .pick(:id)
+    end
+
     after_transition(to: :instance_meta_fetching) do |jira_import, transition|
-      job = Import::JiraInstanceMetaDataJob.perform_later(jira_import.id)
-      transition.metadata["job_id"] = job.job_id
+      transition.metadata["job_id"] = enqueued_job_id(Import::JiraInstanceMetaDataJob, jira_import.id)
       transition.save!
     end
 
     after_transition(to: :projects_meta_fetching) do |jira_import, transition|
-      job = Import::JiraProjectsMetaDataJob.perform_later(jira_import.id)
-      transition.metadata["job_id"] = job.job_id
+      transition.metadata["job_id"] = enqueued_job_id(Import::JiraProjectsMetaDataJob, jira_import.id)
       transition.metadata["user_id"] = User.current.id
       transition.save!
     end
@@ -106,15 +116,13 @@ module Import
     end
 
     after_transition(to: :reverting) do |jira_import, transition|
-      job = Import::JiraRevertImportJob.perform_later(jira_import.id)
-      transition.metadata["job_id"] = job.job_id
+      transition.metadata["job_id"] = enqueued_job_id(Import::JiraRevertImportJob, jira_import.id)
       transition.metadata["user_id"] = User.current.id
       transition.save!
     end
 
     after_transition(to: :finalizing) do |jira_import, transition|
-      job = Import::JiraFinalizeImportJob.perform_later(jira_import.id)
-      transition.metadata["job_id"] = job.job_id
+      transition.metadata["job_id"] = enqueued_job_id(Import::JiraFinalizeImportJob, jira_import.id)
       transition.metadata["user_id"] = User.current.id
       transition.save!
     end

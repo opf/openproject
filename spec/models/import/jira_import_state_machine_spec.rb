@@ -165,6 +165,30 @@ RSpec.describe Import::JiraImportStateMachine do
       expect(jira_import.last_transition.metadata["job_id"]).to eq("instance-meta-job-id")
     end
 
+    context "when the enqueue limit rejects the job because an equivalent one is still queued" do
+      before do
+        allow(Import::JiraInstanceMetaDataJob).to receive(:perform_later).and_return(false)
+      end
+
+      it "records the already queued job so the UI still has a job to follow" do
+        queued_job = GoodJob::Job.create!(
+          active_job_id: SecureRandom.uuid,
+          job_class: "Import::JiraInstanceMetaDataJob",
+          concurrency_key: "Import::JiraInstanceMetaDataJob-#{jira_import.id}"
+        )
+
+        state_machine.transition_to!("instance_meta_fetching")
+
+        expect(jira_import.last_transition.metadata["job_id"]).to eq(queued_job.id)
+      end
+
+      it "leaves the job id blank rather than raising when no queued job is left" do
+        expect { state_machine.transition_to!("instance_meta_fetching") }.not_to raise_error
+
+        expect(jira_import.last_transition.metadata["job_id"]).to be_nil
+      end
+    end
+
     it "enqueues JiraProjectsMetaDataJob when transitioning to projects_meta_fetching" do
       transition_to_state("configuring")
 
