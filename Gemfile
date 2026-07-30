@@ -285,7 +285,7 @@ group :test do
   gem "climate_control"
 
   # XML comparison tests
-  gem "compare-xml", "~> 0.66", require: false
+  gem "compare-xml", "~> 1.0", require: false
 
   # PDF Export tests
   gem "pdf-inspector", "~> 1.2"
