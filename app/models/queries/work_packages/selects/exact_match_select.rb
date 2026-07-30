@@ -67,8 +67,11 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
     candidate = stripped.delete_prefix("#")
     condition =
       if candidate.match?(/\A[1-9]\d*\z/)
+        # Used only in ORDER BY (via `sortable:`). So it does not need to be optimized
+        # for index usage, instead, the varchar(20) ensures overly long candidates are
+        # evaluated to false without raising out-of-range errors.
         OpenProject::SqlSanitization.sanitize(
-          "#{WorkPackage.table_name}.id::varchar(20) = ?", candidate
+          "#{WorkPackage.table_name}.id = ?", candidate.to_i
         )
       elsif stripped.match?(/\A#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}\z/i)
         # So far, semantic identifier are always upper case.
