@@ -60,10 +60,13 @@ module Import
       cursor ||= REVERT_STEPS.index(@jira_import.get_job_cursor(self)&.to_sym)
       enumerator_builder.array(REVERT_STEPS, cursor:)
     rescue StandardError => e
+      raise if @jira_import.nil?
+
       @jira_import.transition_to!(:revert_error,
                                   job_id: job_id,
                                   error_backtrace: e.backtrace,
                                   error: e.message)
+      nil # JobIteration skips the job when no enumerator is returned
     end
 
     def each_iteration(revert_step, jira_import_id)
