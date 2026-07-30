@@ -281,6 +281,28 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was caused by the deletion of the parent" do
+    subject(:cause) do
+      {
+        "type" => "work_package_parent_deleted"
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.work_package_parent_deleted')}</strong> " \
+        "#{I18n.t('journals.cause_descriptions.work_package_parent_deleted')}"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant(
+        "#{I18n.t('journals.caused_changes.work_package_parent_deleted')} " \
+        "#{I18n.t('journals.cause_descriptions.work_package_parent_deleted')}"
+      )
+    end
+  end
+
   context "when the change was caused by working day changes" do
     subject(:cause) do
       {
