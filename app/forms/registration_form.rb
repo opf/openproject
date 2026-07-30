@@ -7,9 +7,25 @@
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See COPYRIGHT and LICENSE files for more details.
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class RegistrationForm < ApplicationForm
@@ -17,15 +33,22 @@ class RegistrationForm < ApplicationForm
 
   form do |form|
     login_or_email(form) if model.ldap_auth_source_id.nil?
+
     form.text_field(name: :firstname, label: attribute_name(:firstname), required: true, input_width:)
     form.text_field(name: :lastname, label: attribute_name(:lastname), required: true, input_width:)
+
     email(form) if show_email?
 
     form.html_content { helpers.call_hook(:view_account_register_after_basic_information, f: @builder) }
+
     render_custom_fields(form:)
+
     password_fields(form) if model.change_password_allowed?
+
     consent(form) if helpers.user_consent_required?
+
     form.submit(name: :submit, label: I18n.t(:button_create), scheme: :primary)
+
     authentication_providers(form)
     registration_footer(form)
   end
@@ -34,18 +57,14 @@ class RegistrationForm < ApplicationForm
 
   def login_or_email(form)
     if Setting.email_login?
-      email(form)
+      form.text_field(name: :mail,
+                      label: attribute_name(:mail),
+                      required: true,
+                      readonly: !registration_mail_editable?,
+                      input_width:)
     else
       form.text_field(name: :login, label: attribute_name(:login), required: true, input_width:)
     end
-  end
-
-  def email(form)
-    form.text_field(name: :mail,
-                    label: attribute_name(:mail),
-                    required: true,
-                    readonly: !registration_mail_editable?,
-                    input_width:)
   end
 
   def show_email?
@@ -63,7 +82,7 @@ class RegistrationForm < ApplicationForm
                        type: :password,
                        label: attribute_name(:password),
                        required: true,
-                       autocomplete: "off",
+                       autocomplete: "new-password",
                        caption: helpers.password_complexity_requirements,
                        input_width:,
                        data: { "password-requirements-target": "passwordInput" })
@@ -72,7 +91,7 @@ class RegistrationForm < ApplicationForm
                        type: :password,
                        label: attribute_name(:password_confirmation),
                        required: true,
-                       autocomplete: "off",
+                       autocomplete: "new-password",
                        input_width:)
     end
   end
