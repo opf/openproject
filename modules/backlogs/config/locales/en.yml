@@ -236,6 +236,16 @@ en:
         title: "%{sprint} report"
       widgets:
         work_package_overview:
+          blocks:
+            changed_after_start:
+              heading: "Changed after start"
+            completed:
+              heading: "Completed"
+            initially_planned:
+              heading: "Initially planned"
+            show_all: "Show all"
+            unfinished:
+              heading: "Unfinished"
           resolved_summary: "%{percentage}% (%{resolved} of %{total} work packages)"
 
     sprints:

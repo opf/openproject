@@ -32,6 +32,8 @@ module Backlogs
   module SprintReports
     module Widgets
       class WorkPackageOverview < Grids::WidgetComponent
+        include Backlogs::SprintsHelper
+
         param :sprint
         param :project
 
@@ -43,6 +45,38 @@ module Backlogs
           return 0 if total_work_packages_count.zero?
 
           (resolved_work_packages_count.to_f / total_work_packages_count * 100).round
+        end
+
+        def breakdown_blocks # rubocop:disable Metrics/AbcSize
+          return [] unless sprint.date_range_set?
+
+          [
+            block(
+              key: :initially_planned,
+              data: breakdown.initially_planned,
+              timestamps: breakdown.reference_start
+            ),
+            block(
+              key: :changed_after_start,
+              data: breakdown.changed_after_start,
+              timestamps: [breakdown.reference_start, breakdown.reference_finish],
+              count_prefix: true
+            ),
+            block(
+              key: :completed,
+              data: breakdown.completed,
+              timestamps: breakdown.reference_finish,
+              status_filter_operator: "=",
+              count_color: :success
+            ),
+            block(
+              key: :unfinished,
+              data: breakdown.unfinished,
+              timestamps: breakdown.reference_finish,
+              status_filter_operator: "!",
+              count_color: :danger
+            )
+          ]
         end
 
         private
@@ -66,6 +100,32 @@ module Backlogs
 
         def total_work_packages_count
           @total_work_packages_count ||= work_packages.count
+        end
+
+        def breakdown
+          @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:)
+        end
+
+        def block(key:, data:, timestamps:, status_filter_operator: nil, count_color: nil, count_prefix: false)
+          {
+            heading: t("backlogs.sprint_reports.widgets.work_package_overview.blocks.#{key}.heading"),
+            count: data.work_package_count,
+            story_points: data.story_points,
+            count_color:,
+            count_prefix:,
+            show_all_path: sprint_work_packages_path(
+              sprint,
+              project,
+              extra_filters: status_filters(status_filter_operator),
+              timestamps: Array(timestamps).map { |date| date.in_time_zone.end_of_day.iso8601 }
+            )
+          }
+        end
+
+        def status_filters(operator)
+          return [] if operator.nil?
+
+          [{ n: "status", o: operator, v: breakdown.done_status_ids.map(&:to_s) }]
         end
       end
     end
