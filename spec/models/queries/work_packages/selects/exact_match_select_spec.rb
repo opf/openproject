@@ -73,10 +73,18 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
 
     context "when the query string is a plain numeric id in semantic mode",
             with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+      let!(:prefix_work_package) { create(:work_package, skip_semantic_id_allocation: true) }
+      let!(:exact_work_package)  { create(:work_package, skip_semantic_id_allocation: true) }
       let(:query_string) { "5" }
 
-      it "does not boost the numeric id match, as a bare number then means the sequence number" do
-        expect(sql).to be_nil
+      before do
+        exact_work_package.update_columns(sequence_number: 5)
+        prefix_work_package.update_columns(sequence_number: 50)
+      end
+
+      it "ranks the work package whose sequence number exactly matches above one that merely starts with it" do
+        expect(ranked_ids([exact_work_package.id, prefix_work_package.id]))
+          .to eq([exact_work_package.id, prefix_work_package.id])
       end
     end
 
