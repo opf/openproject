@@ -59,7 +59,7 @@ module Admin::Import::Jira::ImportRuns
             section.with_title { @job.error }
 
             section.with_collapsible_content do
-              @job.executions.order(created_at: :desc).limit(1).pick(:error_backtrace).each do |backtrace_line|
+              Array(@job.executions.order(created_at: :desc).limit(1).pick(:error_backtrace)).each do |backtrace_line|
                 concat(render(Primer::Beta::Text.new(tag: :p)) { backtrace_line })
               end
             end
