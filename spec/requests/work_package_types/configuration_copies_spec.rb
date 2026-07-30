@@ -55,6 +55,7 @@ RSpec.describe "Work package type configuration copies",
       variant = create(:type, parent: source)
       root = create(:type, name: "Bug")
       create(:type, name: "Mobile", parent: root)
+      create(:type, name: "Desktop", parent: root)
 
       get type_configuration_copy_dialog_path(type_id: variant.id, aspect:), as: :turbo_stream
 
@@ -64,6 +65,8 @@ RSpec.describe "Work package type configuration copies",
       expect(response.body).to include("Bug: Mobile")
       # a root is listed before its variant
       expect(response.body.index("Bug")).to be < response.body.index("Bug: Mobile")
+      # variants are alphabetical, not in the order they were added
+      expect(response.body.index("Bug: Desktop")).to be < response.body.index("Bug: Mobile")
     end
 
     it "is not found for aspects without a copy service" do

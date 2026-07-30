@@ -31,6 +31,8 @@
 module WorkPackageTypes
   module ConfigurationLinks
     class SourceForm < ApplicationForm
+      include WorkPackageTypes::SourceOptions
+
       def initialize(type:, aspect:)
         super()
 
@@ -62,27 +64,10 @@ module WorkPackageTypes
 
       attr_reader :type, :aspect
 
-      # The parent leads the list as the most likely source.
-      def source_options
-        parents, others = Type.global.where.not(id: type.id).order(:name).partition { |source| parent?(source) }
-
-        parents + others
-      end
-
       # When Linked, the current source is preselected so "change source" opens on
-      # it; when Independent, the parent leads as the likely first link.
+      # it; when Independent, the parent is preselected as the likely first link.
       def selected_source
         type.source_for(aspect) || type.parent
-      end
-
-      def label_for(source)
-        return source.name unless parent?(source)
-
-        "#{source.name}#{I18n.t('types.edit.reuse_mode.parent_suffix')}"
-      end
-
-      def parent?(source)
-        source == type.parent
       end
     end
   end

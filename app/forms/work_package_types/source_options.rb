@@ -29,39 +29,25 @@
 #++
 
 module WorkPackageTypes
-  module ConfigurationCopies
-    class SourceForm < ApplicationForm
-      include WorkPackageTypes::SourceOptions
+  # The copy and link dialogs offer the same sources, so they read one list here
+  # and cannot drift apart.
+  module SourceOptions
+    private
 
-      def initialize(type:)
-        super()
+    def source_options
+      Type.global.in_family_order.reject { |source| source == type }
+    end
 
-        @type = type
-      end
+    # Variants carry their parent in the composite name; the current type's own
+    # parent is additionally flagged as the most likely source.
+    def label_for(source)
+      return source.composite_name unless parent?(source)
 
-      form do |source_form|
-        source_form.autocompleter(
-          name: :source_id,
-          label: I18n.t("types.edit.reuse_mode.copy.dialog.source_label"),
-          required: true,
-          autocomplete_options: {
-            placeholder: I18n.t("types.edit.reuse_mode.copy.dialog.source_placeholder"),
-            decorated: true,
-            multiple: false,
-            focusDirectly: false,
-            append_to: "##{DialogComponent::DIALOG_ID}",
-            data: { test_selector: "configuration-copy-source" }
-          }
-        ) do |list|
-          source_options.each do |source|
-            list.option(value: source.id, label: label_for(source))
-          end
-        end
-      end
+      "#{source.composite_name}#{I18n.t('types.edit.reuse_mode.parent_suffix')}"
+    end
 
-      private
-
-      attr_reader :type
+    def parent?(source)
+      source == type.parent
     end
   end
 end
