@@ -33,9 +33,9 @@ es:
           on_track: Según lo previsto
           title: Estado
         project_timeline:
-          accessible_date_range: "%{start} to %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
-          accessible_phase: 'Phase %{name}: %{date}'
+          accessible_date_range: "%{start} hasta %{end}"
+          accessible_gate: 'Puerta de fase %{name}: %{date}'
+          accessible_phase: 'Fase %{name}: %{date}'
           tooltip_type_gate: Hito de fase
           tooltip_type_phase: Fase
         subprojects:

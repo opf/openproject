@@ -25,20 +25,20 @@ es:
     macro:
       aria_label_with_name: "%{name}: %{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
-        commit: A dynamic link to a commit placed using a macro.
-        document: A dynamic link to a document placed using a macro.
-        export: A dynamic link to a source file export placed using a macro.
-        group: A dynamic link to a group placed using a macro.
-        meeting: A dynamic link to a meeting placed using a macro.
-        message: A dynamic link to a message placed using a macro.
-        project: A dynamic link to a project placed using a macro.
-        revision: A dynamic link to a revision placed using a macro.
-        source: A dynamic link to a source file placed using a macro.
-        user: A dynamic link to a user placed using a macro.
-        version: A dynamic link to a version placed using a macro.
-        view: A dynamic link to a view placed using a macro.
-        work_package: A dynamic link to a work package placed using a macro.
+        attachment: Un enlace dinámico a un archivo adjunto insertado mediante una macro.
+        commit: Un enlace dinámico a una confirmación insertado mediante una macro.
+        document: Un enlace dinámico a un documento insertado mediante una macro.
+        export: Un enlace dinámico a una exportación de un archivo de origen insertado mediante una macro.
+        group: Un enlace dinámico a un grupo insertado mediante una macro.
+        meeting: Un enlace dinámico a una reunión insertado mediante una macro.
+        message: Un enlace dinámico a un mensaje insertado mediante una macro.
+        project: Un enlace dinámico a un proyecto insertado mediante una macro.
+        revision: Un enlace dinámico a una revisión insertado mediante una macro.
+        source: Un enlace dinámico a un archivo de origen insertado mediante una macro.
+        user: Un enlace dinámico a un usuario insertado mediante una macro.
+        version: Un enlace dinámico a una versión insertado mediante una macro.
+        view: Un enlace dinámico a una vista insertado mediante una macro.
+        work_package: Un enlace dinámico a un paquete de trabajo insertado mediante una macro.
   account:
     auth_source_login_html: Inicia sesión como <em>%{login}</em> para activar tu cuenta.
     delete: Borrar cuenta
@@ -226,8 +226,8 @@ es:
         identifier: Identificador
         latest_activity_at: Última actividad en
         parent: Subproyecto de
-        portfolio: Portfolio
-        program: Program
+        portfolio: Cartera
+        program: Programa
         project_creation_wizard_assignee_custom_field: Asignado cuando se envía
         project_creation_wizard_enabled: Solicitud de inicio de proyecto
         project_creation_wizard_notification_text: Texto de la notificación
@@ -344,15 +344,15 @@ es:
         attribute_groups: Configuración del formulario
         children: Subtipos
         color: Color
-        dependent_configuration_links: Linked types
+        dependent_configuration_links: Tipos vinculados
         description: Texto predeterminado para descripción
         is_default: Activado para nuevos proyectos de forma predeterminada
         is_in_roadmap: Mostrado en la hoja de ruta de forma predeterminada
         is_milestone: Es un hito
-        parent: Tipo de padre
+        parent: Tipo principal
         patterns: Patrones
       type/configuration_link:
-        source: Source type
+        source: Tipo de origen
       user:
         admin: Administrador
         auth_source: Fuente de autentificación
@@ -591,7 +591,7 @@ es:
               blank: La fórmula no puede estar en blanco.
               format: "%{message}"
               invalid: La fórmula no es válida.
-              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Solo se permiten valores numéricos, operadores, funciones, palabras clave y atributos de proyecto de tipo entero, flotante, valor calculado y lista ponderada.
               not_allowed_custom_fields_referenced: El atributo %{custom_fields} no se puede usar porque conduce a una referencia circular; un atributo depende del otro.
             required:
               cannot_be_true: no se puede establecer como verdadero.
@@ -693,13 +693,13 @@ es:
               must_start_with_letter: debe empezar con una letra
               no_special_characters: solo puede contener letras mayúsculas, números y guiones bajos
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_subtypes_of_parent: Solo se puede habilitar un único subtipo de un tipo en el proyecto
+              cannot_assign_subtype_and_parent: 'No se puede asignar un subtipo y su elemento principal '
+              cannot_assign_subtypes_yet: Por el momento, los subtipos no se pueden activar en un proyecto. Activa la función beta para probar los subtipos
               in_use_by_work_packages: 'todavia en uso por los paquetes de trabajo: %{types}'
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_source_not_a_subtype: Solo se puede cambiar de un subtipo
+              switch_target_identical: El tipo de destino debe ser distinto del subtipo actual
+              switch_target_not_in_family: Solo se puede cambiar a otro subtipo del mismo tipo o a su tipo principal
           cannot_be_assigned_to_artifact_work_package: El usuario elegido no se puede asignar a paquetes de trabajo.
           foreign_wps_reference_version: Los paquetes de trabajo en los proyectos no descendientes hacen referencia a versiones del proyecto o a sus descendientes.
         project/phase:
@@ -814,14 +814,14 @@ es:
               cannot_be_self: no puede ser el tipo en sí.
               cannot_change_with_work_packages: no se puede cambiar porque ya existen paquetes de trabajo de este tipo.
               cannot_have_children: no se puede establecer porque este tipo ya tiene subtipos.
-              must_be_a_root: debe ser un tipo de nivel superior. Los tipos sólo pueden anidarse un nivel de profundidad.
+              must_be_a_root: debe ser un tipo de nivel superior. Los tipos solo pueden anidarse un nivel de profundidad.
               standard_type_must_be_root: no se puede establecer para el tipo estándar.
             patterns:
               invalid_tokens: Uno o más atributos dentro del campo no son válidos. Corrija los atributos antes de guardar.
         type/configuration_link:
           attributes:
             source:
-              must_differ_from_type: can't be the type itself.
+              must_differ_from_type: no puede ser el tipo en sí.
         user:
           attributes:
             base:
@@ -903,7 +903,7 @@ es:
               cannot_add_child_because_of_lack_of_permission: No se puede añadir un secundario porque no tiene permisos para editar el paquete de trabajo seleccionado.
               format: "%{message}"
             identifier:
-              must_not_be_changed: 'no se debe modificar manualmente. Los identificadores de los paquetes de trabajo se asignan automáticamente y se resuelven a través de la tabla de alias, por lo que cambiarlos a mano rompe los enlaces y el historial de identificadores. Si este cambio es a propósito, guarda con `save(context: :%{context})` y mantén la tabla `work_package_semantic_aliases` coherente.'
+              must_not_be_changed: 'no se debe modificar manualmente. Los identificadores de los paquetes de trabajo se asignan automáticamente y se resuelven a través de la tabla de alias, por lo que cambiarlos a mano rompe los enlaces y el historial de identificadores. Si este cambio es a propósito, guarda con ''save(context: :%{context})'' y mantén la tabla ''work_package_semantic_aliases'' coherente.'
               semantic_identifier_incomplete: y «sequence_number» deben configurarse al mismo tiempo.
             parent:
               cannot_be_in_another_project: no puede estar en otro proyecto.
@@ -922,7 +922,7 @@ es:
             schedule_manually:
               cannot_be_automatically_scheduled: no puede establecerse en falso (programado automáticamente) ya que no tiene predecesores ni elementos secundarios.
             sequence_number:
-              must_not_be_changed: 'no se debe cambiar manualmente. Se asigna automáticamente junto con el identificador. Si este cambio es a propósito, guarda con `save(context: :%{context})`.'
+              must_not_be_changed: 'no se debe cambiar manualmente. Se asigna automáticamente junto con el identificador. Si este cambio es a propósito, guarda con ''save(context: :%{context})''.'
             start_date:
               cannot_be_null: no puede establecerse como nulo, ya que la fecha final y la duración son conocidas.
               violates_relationships: sólo se puede establecer a %{soonest_start} o posterior para que no se violen las relaciones de los paquetes de trabajo.
@@ -933,8 +933,8 @@ es:
               cannot_be_milestone_due_to_children: no puede ser un hito porque este paquete de trabajo tiene elementos secundarios.
           is_not_a_valid_target_for_time_entries: 'Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo.'
           readonly_status: El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar.
-          target_versions_only_allow_single_value: Las versiones de destino pueden contener un único valor.
-          version_and_target_versions_mutually_exclusive: Las versiones "versión" y "destino" no pueden ser modificadas simultáneamente.
+          target_versions_only_allow_single_value: Las versiones de destino solo pueden tener un único valor.
+          version_and_target_versions_mutually_exclusive: No se pueden cambiar la versión actual y las versiones de destino al mismo tiempo.
       template:
         body: 'Por favor revise los siguientes campos:'
         header:
@@ -1101,7 +1101,7 @@ es:
         primary-button-color: Color de acento fuerte, utilizado para el botón más importante de una pantalla.
       manage_colors: Editar opciones de selección de colores
       tab_branding: Personalización de marca
-      tab_default_colors: Default colors
+      tab_default_colors: Colores por defecto
       tab_interface: Interfaz
       tab_pdf_export_font: Fuente de exportación PDF
       tab_pdf_export_styles: Estilos de exportación PDF
@@ -1572,7 +1572,7 @@ es:
     attributes:
       property: Propiedad
       version:
-        deprecated: 'Deprecado: este campo de valor único va a ser sustituido por `targetVersions`. Utilice `targetVersions` para la lectura y la escritura. Aunque la opción de versiones múltiples no está habilitada, `targetVersions` admite como máximo un valor y no debe escribirse junto con `version` en la misma solicitud.'
+        deprecated: 'Obsoleto: este campo de valor único se sustituirá por ''targetVersions''. Utiliza ''targetVersions'' para leer y escribir. Mientras no esté habilitada la opción de versiones múltiples, ''targetVersions'' solo admite un valor como máximo y no se debe incluir junto con ''version'' en la misma solicitud.'
     errors:
       bad_request:
         emoji_reactions_activity_type_not_supported: Este tipo de actividad no admite reacciones emoji.
@@ -1764,8 +1764,8 @@ es:
     reset_token:
       action_create: Crear
       action_reset: Reiniciar
-      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
-      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
+      checkbox_confirmation_create: Entiendo que el token de copias de seguridad permite descargar todos los datos de esta instalación
+      checkbox_confirmation_reset: Entiendo que el token de copias de seguridad actual dejará de ser válido
       heading_create: Crear token de copias de seguridad
       heading_reset: Restablecer token de copias de seguridad
       implications: 'Al habilitar las copias de seguridad, cualquier usuario con los permisos necesarios y este token de copias de seguridad podrá descargar una copia de seguridad que contenga todos los datos de esta instalación de OpenProject, incluidos los datos del resto de los usuarios.
@@ -2033,7 +2033,7 @@ es:
       editable:
         all: Permitir que el campo sea editable por los propios usuarios.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Introduce valores numéricos o escribe / para buscar un atributo, un operador, una función u otro token.
       has_comment:
         project: Permite al usuario añadir un comentario relacionado con el atributo del proyecto al seleccionar el valor en la descripción general del proyecto.
       is_filter:
@@ -2469,8 +2469,8 @@ es:
   error_attribute_not_highlightable: 'Atributos que no pueden resaltarse: %{attributes}'
   error_auth_source_sso_failed: El intento de inicio de sesión único (SSO) para el usuario “%{value}” falló
   error_can_not_archive_project: 'Este proyecto no se puede archivar: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
-  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
+  error_can_not_deactivate_type: No se puede desactivar el tipo %{type}, ya que todavía se está usando en %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: También hay paquetes de trabajo en proyectos que no puedes ver.
   error_can_not_delete_custom_field: Imposible eliminar el campo seleccionado
   error_can_not_delete_entry: No se puede eliminar la entrada
   error_can_not_delete_in_use_archived_undisclosed: También hay paquetes de trabajo en proyectos archivados. Debe pedir a un administrador que realice la eliminación para ver qué proyectos se ven afectados.
@@ -2762,13 +2762,13 @@ es:
       new_features:
         '17_7':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Nuevo módulo de gestión de recursos para la planificación de la capacidad y la dotación de personal (plan Premium).
+            line_1: Una mejor gestión organizativa mediante departamentos, atributos de usuario —como los cargos— y horarios de trabajo.
+            line_2: Varios sprints activos sin compartir (plan Básico).
+            line_3: Se han mejorado el backlog y los sprints con filtros de selección múltiple, una función de arrastrar y soltar más eficaz y la posibilidad de añadir paquetes de trabajo ya existentes.
+            line_4: Exportación de artefactos de PM²/PMflex y un nuevo widget para la visión general de las fases y los hitos del proyecto.
+            line_5: Índice global de páginas wiki y navegación más sencilla entre páginas relacionadas.
+          new_features_title: 'El lanzamiento incluye varias funciones nuevas y mejoras, tales como:
 
             '
         header: Obtenga información sobre nuevas funciones y actualizaciones de productos.
@@ -2834,6 +2834,7 @@ es:
       work_package_children_changed_times: por cambios en el secundario %{link}
       work_package_duplicate_closed: El estado fue actualizado automáticamente por el paquete de trabajo duplicado %{link}
       work_package_parent_changed_times: por cambios al %{link} principal
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: por cambios al %{link} predecesor
       work_package_related_changed_times: por cambios en los %{link} relacionados
       working_days_changed:
@@ -2855,6 +2856,7 @@ es:
       total_percent_complete_mode_changed_to_simple_average: El cálculo de los totales de % completado se basa ahora en una media simple de solo los valores de % completado.
       total_percent_complete_mode_changed_to_work_weighted_average: El cálculo de los totales de % completado ahora se pondera por Trabajo.
       work_package_duplicate_closed: 'Paquete de trabajo duplicado actualizado:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: Se deshicieron los cambios.
   label_accessibility: Accesibilidad
   label_account: Cuenta
@@ -2922,8 +2924,8 @@ es:
   label_blog: Blog
   label_board_plural: Tableros
   label_boolean: Booleano
-  label_boolean_false: is no
-  label_boolean_true: is yes
+  label_boolean_false: es no
+  label_boolean_true: es sí
   label_branch: Sucursal
   label_browse: Explorar
   label_builtin: Integrado
@@ -2970,7 +2972,7 @@ es:
   label_configuration: configuracion
   label_confirmation: Confirmación
   label_consent_settings: Consentimiento del usuario
-  label_constant_plural: Constants
+  label_constant_plural: Constantes
   label_contains: contiene
   label_content: Contenido
   label_continued_from_previous_year: continuación del año anterior
@@ -3108,7 +3110,7 @@ es:
   label_forum_plural: Foros
   label_forum_sticky: Fijo
   label_forums_locked: Bloqueado
-  label_function_plural: Functions
+  label_function_plural: Funciones
   label_gantt_chart: Diagrama de Gantt
   label_gantt_chart_plural: Diagramas de Gantt
   label_general: General
@@ -3298,7 +3300,7 @@ es:
   label_operator_equals_all: es (AND)
   label_operator_equals_or: es (OR)
   label_operator_none: está vacío
-  label_operator_plural: Operators
+  label_operator_plural: Operadores
   label_operator_shared_with_user_any: cualquiera
   label_optional_description: Descripción
   label_options: Opciones
@@ -3379,7 +3381,7 @@ es:
   label_projects_disk_usage_information: "%{count} proyectos utilizando %{used_disk_space} espacio de disco"
   label_projects_menu: Proyectos
   label_public_projects: Proyectos públicos
-  label_punctuation: Punctuation
+  label_punctuation: Puntuación
   label_query_new: Nueva consulta
   label_query_plural: Consultas personalizadas
   label_read: Leer...
@@ -4469,12 +4471,12 @@ es:
         none_enabled: No se ha habilitado ninguna plantilla para este tipo de paquete de trabajo
       title: Generar PDF
       toc:
-        caption: Add a table of contents page indexing the section headers.
-        label: Table of contents
+        caption: Añade una tabla de contenidos con los títulos de las secciones.
+        label: Tabla de contenidos
     page_nr_footer: Página %{page} de %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Detalles del paquete de trabajo representados como un artefacto PMflex.
+      label: Artefacto PMflex
     template_attributes:
       caption: Todos los atributos presentes en la configuración actual del formulario utilizando la plantilla por defecto.
       label: Atributos y descripción
@@ -4627,7 +4629,7 @@ es:
       other: "%{count} carteras"
       zero: 0 carteras
     filters:
-      name: Part of Portfolio
+      name: Parte de la cartera
   portfolios:
     index:
       search:
@@ -4653,7 +4655,7 @@ es:
       other: "%{count} programas"
       zero: 0 programas
     filters:
-      name: Part of Program
+      name: Parte del programa
   project:
     archive:
       archived: Archivado
@@ -4765,11 +4767,11 @@ es:
           no_status_when_submitted: No se ha podido habilitar la solicitud de inicio del proyecto porque el tipo de paquete de trabajo %{type} requiere al menos un estado asociado. Habilite al menos un flujo de trabajo de estado para este tipo de paquete de trabajo.
           no_work_package_type: No se ha podido habilitar la solicitud de inicio del proyecto porque requiere al menos un tipo de paquete de trabajo activo y este proyecto no tiene ninguno. Añada al menos un tipo de paquete de trabajo a este proyecto.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: El documento generado se guardará como archivo PDF adjunto al paquete de trabajo correspondiente.
+          description_file_link_export: El paquete de trabajo de artefacto tendrá un enlace de archivo a un PDF almacenado en un almacenamiento de archivos externo. Requiere un almacenamiento de archivos de trabajo con carpetas de proyecto gestionadas automáticamente para este proyecto. Por el momento sólo son compatibles los almacenamientos de archivos Nextcloud.
           description_file_storage_selection: Selecciona cuál de los almacenamientos de archivos externos configurados se debe utilizar.
           external_file_storage: Almacenamiento de archivos externo
-          label_artifact_export: Artefact export
+          label_artifact_export: Exportación de artefactos
           label_attachment_export: Guardar como archivo adjunto del paquete de trabajo
           label_file_link_export: Sube el archivo a un almacenamiento externo y añade el enlace al paquete de trabajo
           pdf_file_storage: Almacenamiento de archivos PDF
@@ -4860,13 +4862,13 @@ es:
     status:
       button_edit: Editar estado
     wizard:
-      create_artifact_storage_error: Failed to store artefact in file storage
-      create_artifact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: No se ha podido guardar el artefacto en el almacenamiento de archivos
+      create_artifact_work_package_error: No se ha podido crear el paquete de trabajo del artefacto
       no_help_text: Este atributo no tiene texto de ayuda definido.
       progress_label: "%{current} de %{total}"
       sections: Secciones
       sidebar_content_title: Contenido
-      success: Project attributes saved and artefact work package created successfully.
+      success: Los atributos del proyecto se han guardado y se ha creado correctamente el paquete de trabajo del artefacto.
       title: Solicitud de inicio de proyecto
   queries:
     apply_filter: Aplicar filtro preconfigurado
@@ -5233,7 +5235,7 @@ es:
   setting_total_percent_complete_mode_work_weighted_average: Ponderado por trabajo
   setting_total_percent_complete_mode_work_weighted_average_caption_html: El <i>% total completado</i> se ponderará con respecto al <i>Trabajo</i> de cada paquete de trabajo de la jerarquía. Los paquetes de trabajo sin <i>Trabajo</i> se ignorarán.
   setting_use_wysiwyg_description: Seleccione esta opción para habilitar el editor WYSIWYG de CKEditor 5 de forma predeterminada para todos los usuarios. CKEditor tiene funciones limitadas para la versión GFM de Markdown.
-  setting_user_can_change_email: Users allowed to change their email address
+  setting_user_can_change_email: Los usuarios pueden cambiar su dirección de correo electrónico
   setting_user_default_timezone: Zona horaria por defecto de los usuarios
   setting_user_format: Formato de nombre de usuarios
   setting_users_deletable_by_admins: Cuentas de usuario eliminables por administradores
@@ -5370,12 +5372,12 @@ es:
         confirmation_message: El asistente de solicitud de inicio ya no estará disponible para los nuevos proyectos basados en esta plantilla. Los gestores y propietarios de proyectos tendrán que configurar y rellenar manualmente la información relevante en la descripción general del proyecto.
         heading: "¿Desactivar la solicitud de inicio de proyecto?"
         title: Desactivar solicitud de inicio de proyecto
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject puede generar un asistente paso a paso para ayudar a los gestores de proyectos a cumplimentar una solicitud de inicio de proyecto. Puede elegir qué atributos del proyecto deben incluirse y crear un documento PDF como resultado.
 
         '
       name:
-        artifact_name: Artefact name
-        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Nombre del artefacto
+        artifact_name_caption: Elija el nombre que su marco de gestión de proyectos recomienda para este artefacto.
         options:
           project_creation_wizard: Asistente de creación de proyectos
           project_initiation_request: Solicitud de inicio de proyecto
@@ -5395,8 +5397,8 @@ es:
           Has enviado una solicitud de inicio de proyecto para **%{project_name}**. Ahora está pendiente de revisión.
           Haz clic en el enlace siguiente para acceder al paquete de trabajo con tu solicitud.
         confirmation_email_text: Texto del correo electrónico de confirmación
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: Cuando un usuario envíe una solicitud de inicio de proyecto, se creará un nuevo paquete de trabajo con el documento de la solicitud adjunto en formato PDF. Los parámetros que se indican a continuación definen el tipo, el estado y el responsable de este nuevo paquete de trabajo.
+        description_template: "**Este paquete de trabajo se ha creado automáticamente al completar el flujo de trabajo %{wizard_name}.** Se ha generado un archivo PDF con toda la información enviada y se ha adjuntado a este paquete de trabajo para fines de referencia y auditoría. Si necesitas actualizar o volver a ejecutar los pasos de inicio, puedes volver a abrir el asistente en cualquier momento utilizando el siguiente enlace:\n"
         send_confirmation_email: Enviar un correo electrónico de confirmación al usuario que envió la solicitud de inicio del proyecto
         status_when_submitted: Estado al enviar
         status_when_submitted_caption: El estado al que pasará el paquete de trabajo generado una vez enviada la solicitud.
@@ -5404,7 +5406,7 @@ es:
         work_package_comment_caption: La persona asignada seleccionada anteriormente será @mencionada automáticamente en el comentario.
         work_package_comment_default: Se ha enviado una solicitud de inicio de proyecto para **%{project_name}** y está pendiente de revisión.
         work_package_type: Tipo de paquete de trabajo
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: El tipo de paquete de trabajo que debe utilizarse para almacenar el artefacto finalizado.
       wizard_status_button:
         project_creation_wizard: Abrir el asistente de creación de proyectos
         project_initiation_request: Abrir solicitud de inicio de proyecto
@@ -5434,7 +5436,7 @@ es:
       section_project_overview: Configuración de las listas de proyectos
     session: Sesión
     user:
-      account: Account
+      account: Cuenta
       default_preferences: Preferencias predeterminadas
       deletion: Eliminación
       display_format: Formato de presentación
@@ -5691,8 +5693,8 @@ es:
   text_own_membership_delete_confirmation: |-
     Estás a punto de eliminar algunos o todos tus permisos, y podrías no poder volver a editar este proyecto.
     ¿Estás seguro/a de que quieres continuar?
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
+  text_permanent_delete_confirmation_checkbox_label: Entiendo que esta eliminación no se puede revertir.
+  text_permanent_remove_confirmation_checkbox_label: Entiendo que esta eliminación no se puede revertir.
   text_plugin_assets_writable: Directorio de extensiones activos escribible
   text_powered_by: Con tecnología de %{link}
   text_project_custom_field_html: 'Enterprise añadirá estas extensiones para los campos personalizados de los proyectos: <br> <ul> <li><b>Añadir campos personalizados para proyectos a tu lista de proyectos para crear una vista porfolio de proyectos</b></li> </ul>
@@ -5779,51 +5781,51 @@ es:
   total_progress: Progreso total
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      configuration_link_error: No se ha podido guardar el modo de reutilización. Seleccione un tipo de fuente.
+      create_subtype: Crear subtipo
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
-      finish: Finish
-      placeholder_description: This step will be available soon.
-      progress_label: Step %{number} of %{total}
+        inherited_from_parent_html: Heredado del tipo padre <b>%{parent}</b>.
+      finish: Parar
+      placeholder_description: Este paso estará disponible en breve.
+      progress_label: Paso %{number} de %{total}
       steps:
-        automations: Automations
-        details: Details
-        form_configuration: Form configuration
-        pdf: PDF generation
-        projects: Projects
-        workflows: Workflows
-      success: Sub-type created successfully.
+        automations: Automatizaciones
+        details: Detalles
+        form_configuration: Configuración del formato
+        pdf: Generación de PDF
+        projects: Proyectos
+        workflows: Flujos de trabajo
+      success: El subtipo se ha creado correctamente.
       workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+        copy_caption: Copie la configuración del flujo de trabajo de un tipo ya existente como punto de partida.
     edit:
       configuration_link:
         independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+          caption: Estos ajustes pertenecen a este tipo y se editan aquí. No están vinculados a ningún otro tipo.
+          label: Independiente
+          warning: Al cambiar a «Independiente», se copian los ajustes actuales del tipo de origen seleccionado a este tipo y, a continuación, se elimina el vínculo. Posteriormente, podrás editarlos libremente. Procede con precaución.
         linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+          caption: Estos ajustes se toman de un tipo de origen y se mantienen sincronizados con él. Para cambiarlos, edita el tipo de origen.
+          label: Vinculado
+          warning: Al vincular, se sustituyen los ajustes propios de este tipo por los del tipo de origen. Los ajustes actuales se descartan y los paquetes de trabajo de este tipo podrían verse afectados. Procede con precaución.
         source:
-          label: Source type
+          label: Tipo de origen
       export_configuration:
         artefact_export:
           attachment:
-            caption: The generated PDF is saved as a file attachment on the work package.
-            label: Save as work package file attachment
+            caption: El PDF generado se guarda como archivo adjunto en el paquete de trabajo.
+            label: Guardar como archivo adjunto del paquete de trabajo
           file_link:
-            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
-            label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+            caption: El PDF generado se sube al almacenamiento de Nextcloud gestionado automáticamente del proyecto y se enlaza desde el paquete de trabajo. Los paquetes de trabajo de los proyectos que no dispongan de dicho almacenamiento se omiten.
+            label: Sube el archivo a un almacenamiento externo y añade el enlace al paquete de trabajo
+          intro: Genera automáticamente un artefacto en PDF de un paquete de trabajo de este tipo cada vez que cambie su estado.
+          invalid_mode: Modo de exportación de artefactos no válido.
+          label: Exportación automática de artefactos
           off_mode:
-            caption: No PDF is generated automatically.
-            label: 'Off'
-          section_title: Automatic artefact export
-          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
+            caption: No se genera ningún PDF de forma automática.
+            label: Desactivado
+          section_title: Exportación automática de artefactos
+          unavailable: no disponible; no se ha configurado ningún almacenamiento de Nextcloud gestionado automáticamente
         intro: Seleccione qué plantillas de las disponibles desea habilitar para este tipo. La plantilla determina el diseño y los atributos visibles en el PDF exportado de un paquete de trabajo que utilice este tipo. La primera plantilla de la lista se selecciona por defecto.
         pdf_export_templates:
           actions:
@@ -5832,7 +5834,7 @@ es:
           label: Plantillas de exportación PDF
         tab: Generar PDF
         templates:
-          section_title: PDF export templates
+          section_title: Plantillas de exportación PDF
       form_configuration:
         add_attribute_group: Sección
         add_query_group: Tabla de paquetes de trabajo relacionados
@@ -5880,7 +5882,7 @@ es:
         select_projects_description: Seleccione los proyectos en los que desea utilizar este tipo.
         tab: Proyectos
       settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
+        parent_type_text: Si lo desea, puede anidar este tipo como subtipo seleccionando un tipo principal.
         tab: Ajustes
         type_color_text: El color seleccionado distingue distintos tipos en los diagramas de Gantt o en las tablas de paquetes de trabajo. Por lo tanto, se recomienda usar un color intenso.
       subject_configuration:
@@ -5902,17 +5904,17 @@ es:
             work_package: Paquete de trabajo
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_subtype: Añada un subtipo a %{name}
+      description: 'Cada área de configuración dentro de los tipos y subtipos puede configurarse de forma independiente, limitarse con respecto a otro tipo o vincularse por completo a una fuente.
 
         '
       no_results_content_text: Crear un nuevo tipo
       no_results_title_text: Actualmente no existen tipos.
-      subtype_label: Sub-type
+      subtype_label: Subtipo
       subtypes_count:
-        one: 1 sub-type
-        other: "%{count} sub-types"
-      type_label: Type
+        one: 1 subtipo
+        other: "%{count} subtipos"
+      type_label: Tipo
   unsupported_browser:
     close_warning: Ignore esta advertencia.
     message: Podrás experimentar errores y una experiencia de mala calidad en esta página.
@@ -5952,7 +5954,7 @@ es:
     status_change: Cambio de estado
     status_user_and_brute_force: "%{user} y %{brute_force}"
     text_change_disabled_for_provider_login: El nombre y el correo electrónico los configura su proveedor de inicio de sesión y no se pueden cambiar.
-    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
+    text_change_mail_disabled_by_administrator: El administrador ha desactivado la opción de cambiar su dirección de correo electrónico.
     unlock: Desbloquear
     unlock_and_reset_failed_logins: Desbloquear y resetear los inicios de sesión fallidos
   user_preferences:
@@ -5982,9 +5984,9 @@ es:
         no_results_placeholder: No se encontraron marcadores de posición
         no_results_user: No se encontraron usuarios
         required:
-          group: Por favor, seleccione un grupo
-          placeholder: Seleccione un marcador de posición
-          user: Seleccione un usuario
+          group: Selecciona un grupo
+          placeholder: Selecciona un marcador de posición
+          user: Selecciona un usuario
       project:
         label: Proyecto
         next_button: Siguiente
@@ -6268,20 +6270,39 @@ es:
   work_packages:
     bulk:
       copy_failed: No se pudieron copiar los paquetes de trabajo.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Los siguientes paquetes de trabajo no pudieron guardarse:'
+      deletion_successful:
+        one: Successfully deleted 1 work package.
+        other: Successfully deleted %{count} work packages.
       descendant: descendiente seleccionado
       move_failed: No se pudieron mover los paquetes de trabajo.
       none_could_be_saved: Ninguno de los %{total} paquetes de trabajo pudo ser actualizado.
       selected_because_descendants: Si bien se seleccionaron %{selected} paquetes de trabajo, en total se ven afectados %{total} paquetes de trabajo que incluyen a los descendientes.
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquetes de trabajo no pudieron ser actualizados mientras que %{success} pudieron."
     bulk_delete_dialog:
-      children_label: 'También se eliminarán los siguientes elementos secundarios:'
-      confirm_children_deletion: Entiendo que todos los paquetes de trabajo seleccionados y sus elementos secundarios se eliminarán de forma permanente.
-      cross_project_warning: 'Estos paquetes de trabajo abarcan varios proyectos: %{projects}'
-      description: 'Se eliminarán de forma definitiva los siguientes paquetes de trabajo, incluidos los paquetes de trabajo secundarios, así como todos los datos asociados:'
-      description_with_children: 'Los siguientes paquetes de trabajo, incluidos los subpaquetes y todos los datos asociados, se eliminarán de forma definitiva:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: "¿Desea eliminar estos %{count} paquetes de trabajo de forma definitiva?"
+      hidden_descendants_only_warning:
+        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Eliminar %{count} paquetes de trabajo
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6325,16 +6346,29 @@ es:
         successors: Sucesores
       update_inputs_aria_live_message: Selector de fecha actualizado. %{message}
     delete_dialog:
-      confirm_descendants_deletion: Entiendo que TODOS los elementos derivados de este paquete de trabajo se eliminarán de forma recursiva.
-      cross_project_warning: 'Se eliminarán los paquetes de trabajo de los siguientes proyectos: %{projects}'
-      description: "¿Seguro que desea eliminar el paquete de trabajo «%{name}»?"
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: "¿Eliminar este paquete de trabajo de forma permanente?"
+      hidden_descendants_only_warning:
+        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Eliminar el paquete de trabajo
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
-      bulk_current_type_not_available_in_target_project: 'Los tipos de paquetes de trabajo o sus descendientes no están habilitados en el proyecto destino. Por favor, habilite los tipos que faltan en el proyecto destino si desea que permanezcan sin cambios. De lo contrario, seleccione un tipo disponible en el proyecto de destino de la lista.
+      bulk_current_type_not_available_in_target_project: 'Los tipos de paquetes de trabajo o sus descendientes no están habilitados en el proyecto destino. Habilita los tipos que faltan en el proyecto destino si deseas que permanezcan sin cambios. De lo contrario, selecciona un tipo disponible en el proyecto de destino de la lista.
 
         '
-      current_type_not_available_in_target_project: 'El tipo de este paquete de trabajo o de uno de sus descendientes no está habilitado en el proyecto de destino. Por favor, habilite los tipos que faltan en el proyecto de destino si desea que se mantengan sin cambios. De lo contrario, seleccione de la lista un tipo disponible en el proyecto de destino.
+      current_type_not_available_in_target_project: 'El tipo de este paquete de trabajo o de uno de sus descendientes no está habilitado en el proyecto de destino. Habilita los tipos que faltan en el proyecto de destino si deseas que se mantengan sin cambios. De lo contrario, selecciona de la lista un tipo disponible en el proyecto de destino.
 
         '
       no_common_statuses_exists: No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar.

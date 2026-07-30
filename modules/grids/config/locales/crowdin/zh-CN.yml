@@ -31,7 +31,7 @@ zh-CN:
         no_results: 没有新消息报告。
       not_available: 此微件不可用。
       project_timeline:
-        no_lifecycle_results: No life cycle phases
+        no_lifecycle_results: 无生命周期阶段
         title: 项目时间线
         title_portfolio: 项目组合时间线
         title_program: 项目群时间线

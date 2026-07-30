@@ -36,6 +36,7 @@ class UsersController < ApplicationController
   layout "admin"
 
   before_action :authorize_global, except: %i[show deletion_info destroy]
+  before_action :prevent_response_caching, only: :edit
 
   # rubocop:disable Rails/LexicallyScopedActionFilter
   before_action :find_user, only: %i[show

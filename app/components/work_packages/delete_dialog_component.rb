@@ -31,6 +31,7 @@
 module WorkPackages
   class DeleteDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
+    include WorkPackages::DeleteDialogs::Descendants
 
     attr_reader :work_package
 
@@ -44,53 +45,39 @@ module WorkPackages
 
     def id = "wp-delete-dialog"
 
+    def i18n_scope = "work_packages.delete_dialog"
+
+    def deletion_roots = [work_package]
+
     def title
-      I18n.t("work_packages.delete_dialog.title")
+      t_dialog("title")
     end
 
     def heading
-      I18n.t("work_packages.delete_dialog.heading")
+      t_dialog("heading")
     end
 
     def description
-      I18n.t("work_packages.delete_dialog.description", name: work_package.to_s)
+      t_dialog("description", name: work_package.to_s)
     end
 
+    # Only the deleted descendants are listed, so only those can be confirmed.
     def confirmation_checkbox_text
-      if has_descendants?
-        I18n.t("work_packages.delete_dialog.confirm_descendants_deletion")
-      else
-        I18n.t("text_permanent_delete_confirmation_checkbox_label")
-      end
-    end
-
-    def descendants
-      @descendants ||= WorkPackage
-        .joins("INNER JOIN work_package_hierarchies ON work_package_hierarchies.descendant_id = work_packages.id")
-        .where(work_package_hierarchies: { ancestor_id: work_package.id })
-        .where("work_package_hierarchies.generations > 0")
-        .includes(:project, :type, :status)
-        .order("work_package_hierarchies.generations ASC, work_packages.id ASC")
-    end
-
-    def has_descendants?
-      descendants.any?
+      t_dialog(deleted_descendants.any? ? "confirm_descendants_deletion" : "confirm_deletion")
     end
 
     def cross_project_descendants?
-      descendants.any? { |d| d.project != work_package.project }
+      deleted_descendants.any? { |d| d.project != work_package.project }
     end
 
-    def all_project_names
-      names = descendants
+    def all_project_links
+      projects = deleted_descendants
         .filter_map(&:project)
         .uniq
         .reject { |p| p == work_package.project }
-        .map(&:name)
+        .unshift(work_package.project)
 
-      names
-        .unshift(work_package.project.name)
-        .join(", ")
+      link_to_projects(projects)
     end
 
     def form_action

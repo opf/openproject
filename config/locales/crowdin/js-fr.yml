@@ -206,9 +206,9 @@ fr:
       macro:
         attribute_reference:
           aria_label_project_attribute: Un attribut de projet dynamique inséré à l'aide d'une macro.
-          aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: Un attribut de lot de travail dynamique inséré à l'aide d'une macro.
-          aria_label_work_package_link: Un lien dynamique vers un lot de travail inséré à l'aide d'une macro.
+          aria_label_with_name: "%{name} : %{description}"
+          aria_label_work_package_attribute: Un attribut dynamique de lot de travaux inséré à l'aide d'une macro.
+          aria_label_work_package_link: Un lien dynamique vers un lot de travaux inséré à l'aide d'une macro.
           invalid_attribute: L'attribut « %{name} » n'existe pas.
           nested_macro: Cette macro fait référence de manière récursive à %{model} %{id}.
           not_found: La ressource demandée est introuvable
@@ -809,9 +809,9 @@ fr:
         fallback_item_label: Élément
         fallback_list_name: une autre liste
         move_failed_check_position: Le déplacement a échoué. Vérifiez la position actuelle de l'élément.
-        move_failed_rolled_back: Le déplacement a échoué. %{label} est revenu à sa position initiale.
-        moved: "%{label} a été transféré au poste %{position} de %{total}"
-        moved_to_list: "%{label} déplacé vers %{list}, à l'adresse %{position} de %{total}"
+        move_failed_rolled_back: Le déplacement a échoué. %{label} est revenu à sa position précédente.
+        moved: "%{label} a été déplacé à la position %{position} sur %{total}"
+        moved_to_list: "%{label} a été déplacé vers %{list}, à la position %{position} sur %{total}"
     spot:
       drop_modal:
         close: Fermer la fenêtre modale

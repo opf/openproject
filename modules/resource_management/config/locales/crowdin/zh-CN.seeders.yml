@@ -8,14 +8,14 @@ zh-CN:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: 团队分配
             work_package_list:
-              name: Work packages
+              name: 工作包
             work_package_timeline:
-              name: Work package timeline
+              name: 工作包时间线
             user_card:
-              name: Team members
+              name: 团队成员
             user_timeline:
-              name: Team timeline
+              name: 团队时间线
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: 软件开发者

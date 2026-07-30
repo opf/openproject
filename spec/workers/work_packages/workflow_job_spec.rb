@@ -34,8 +34,7 @@ RSpec.describe WorkPackages::WorkflowJob do
   let(:work_package) { build_stubbed(:work_package) }
   let(:changes) { { "status_id" => [1, 2] } }
   let(:journal_user) { build_stubbed(:user) }
-  let(:journal) { instance_double(Journal, journable: work_package, initial?: initial, user: journal_user) }
-  let(:initial) { false }
+  let(:journal) { instance_double(Journal, journable: work_package, user: journal_user) }
 
   let(:reupload_service) do
     instance_double(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService, call!: nil)
@@ -56,7 +55,7 @@ RSpec.describe WorkPackages::WorkflowJob do
 
   subject(:perform) { described_class.new.perform(journal, changes) }
 
-  context "when the journal is not the initial one" do
+  context "when the status changes from an existing value" do
     it "invokes both the creation-wizard reupload and the type artefact export" do
       perform
 
@@ -98,10 +97,33 @@ RSpec.describe WorkPackages::WorkflowJob do
         expect(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService).not_to have_received(:new)
       end
     end
+
+    context "even when the journal is still the initial one (aggregated change)" do
+      # The creator's status change within the aggregation window is folded into the
+      # version 1 journal. The change payload still carries a non-nil previous status,
+      # so the workflows must run despite the journal remaining the initial one.
+      it "invokes both handlers" do
+        perform
+
+        expect(reupload_service).to have_received(:call!).with(changes:)
+        expect(type_export_service).to have_received(:call!).with(changes:)
+      end
+    end
   end
 
-  context "when the journal is the initial one" do
-    let(:initial) { true }
+  context "when the status is set for the first time (work package creation)" do
+    let(:changes) { { "status_id" => [nil, 1] } }
+
+    it "does not invoke either handler" do
+      perform
+
+      expect(reupload_service).not_to have_received(:call!)
+      expect(type_export_service).not_to have_received(:call!)
+    end
+  end
+
+  context "when the changes do not touch the status" do
+    let(:changes) { { "subject" => ["Old", "New"] } }
 
     it "does not invoke either handler" do
       perform

@@ -541,11 +541,11 @@ pt-PT:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: A primeira ocorrência desta série será %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: Resulta numa série que termina em %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        one: Resulta em 1 ocorrência futura
+        other: Resulta em %{count} ocorrências futuras
+      occurrences_capped: Resulta em mais de %{count} ocorrências futuras
     day_of_month_skipping_info: Os meses com menos de %{monthly_day} dias serão ignorados
     delete_dialog:
       confirmation_message_html:
@@ -612,7 +612,7 @@ pt-PT:
         third: Terceira
     occurrence:
       error_no_next: Esta reunião não tem data prevista para a sua próxima ocorrência.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: O modelo da série de reuniões ainda está no modo rascunho.
       first_already_exists: A primeira ocorrência desta série de reuniões já está instanciada.
       first_created: 'A primeira reunião foi criada com êxito a partir do modelo. Todas as reuniões futuras serão criadas automaticamente na altura da ocorrência anterior.
 

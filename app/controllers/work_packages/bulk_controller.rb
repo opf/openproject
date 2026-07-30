@@ -83,20 +83,27 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
-    if WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
-      destroy_work_packages(@work_packages)
+    unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
+      return redirect_to(action: :reassign, ids: @work_packages.map(&:id), back_url: params[:back_url])
+    end
 
-      respond_to do |format|
-        format.html do
-          redirect_back_or_default(project_work_packages_path(@work_packages.first.project),
-                                   status: :see_other)
-        end
-        format.json do
-          head :ok
-        end
-      end
+    calls = destroy_work_packages(@work_packages)
+    failures = calls.reject(&:success?)
+
+    if failures.any?
+      flash[:error] = deletion_error_message(failures)
     else
-      redirect_to(action: :reassign, ids: @work_packages.map(&:id), back_url: params[:back_url])
+      flash[:notice] = deletion_success_message(calls)
+    end
+
+    respond_to do |format|
+      format.html do
+        redirect_back_or_default(project_work_packages_path(@work_packages.first.project),
+                                 status: :see_other)
+      end
+      format.json do
+        failures.any? ? head(:unprocessable_entity) : head(:ok)
+      end
     end
   end
 
@@ -113,8 +120,10 @@ class WorkPackages::BulkController < ApplicationController
       WorkPackageCustomField.joins(:types).where(types: @types)
   end
 
+  # Deletion is not all or nothing: one work package may be deleted while another
+  # one fails, so every call is returned.
   def destroy_work_packages(work_packages)
-    work_packages.each do |work_package|
+    work_packages.filter_map do |work_package|
       WorkPackages::DeleteService
         .new(user: current_user,
              model: work_package.reload)
@@ -122,7 +131,24 @@ class WorkPackages::BulkController < ApplicationController
     rescue ::ActiveRecord::RecordNotFound
       # raised by #reload if work package no longer exists
       # nothing to do, work package was already deleted (eg. by a parent)
+      nil
     end
+  end
+
+  # A call also carries the descendants it deleted, next to work packages it only
+  # rescheduled, so count the ones that are actually gone.
+  def deletion_success_message(calls)
+    count = calls.sum { |call| call.all_results.count(&:destroyed?) }
+
+    t("work_packages.bulk.deletion_successful", count:)
+  end
+
+  def deletion_error_message(failures)
+    messages = failures.map do |call|
+      "#{call.result.formatted_id}: #{call.errors.full_messages.to_sentence}"
+    end
+
+    "#{t('work_packages.bulk.could_not_be_deleted')} #{messages.join(' ')}"
   end
 
   def attributes_for_update
