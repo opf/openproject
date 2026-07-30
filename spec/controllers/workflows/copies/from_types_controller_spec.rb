@@ -30,6 +30,7 @@
 
 require "spec_helper"
 
+# TODO: Remove with type_variants feature flag
 RSpec.describe Workflows::Copies::FromTypesController do
   let!(:source_type) do
     build_stubbed(:type) do |stub|

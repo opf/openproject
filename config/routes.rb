@@ -216,6 +216,7 @@ Rails.application.routes.draw do
       end
 
       resource :copy, only: %i[new], controller: "/workflows/copies" do
+        # TODO: Remove with type_variants feature flag
         resource :from_type, only: %i[create], controller: "/workflows/copies/from_types"
         resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
       end
