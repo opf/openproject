@@ -34,7 +34,7 @@ module McpTools
     default_description "Updates a work package in-place."
 
     name "update_work_package"
-    annotations read_only: false, idempotent: false, destructive: false
+    annotations read_only: false, idempotent: true, destructive: false
 
     input_schema(
       required: %w[id data],
