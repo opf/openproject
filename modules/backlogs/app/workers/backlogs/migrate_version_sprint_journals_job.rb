@@ -55,7 +55,21 @@ module Backlogs
       WorkPackage
         .joins(:sprint)
         .joins("INNER JOIN versions ON versions.id = #{primary_target_version_id}")
+        .where(not_journalled_yet)
         .select("work_packages.*, versions.name AS version_name")
+    end
+
+    # A run that dies part way through can be enqueued again without doubling
+    # up the entries it already wrote.
+    def not_journalled_yet
+      <<~SQL.squish
+        NOT EXISTS (
+          SELECT 1 FROM journals
+          WHERE journals.journable_type = 'WorkPackage'
+            AND journals.journable_id = work_packages.id
+            AND journals.cause ->> 'feature' = 'sprint_migration'
+        )
+      SQL
     end
 
     # A work package can have several target versions; journal once, for the

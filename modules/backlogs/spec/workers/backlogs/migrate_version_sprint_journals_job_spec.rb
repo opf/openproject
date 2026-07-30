@@ -87,16 +87,36 @@ RSpec.describe Backlogs::MigrateVersionSprintJournalsJob, type: :model do
 
     context "when a work package has multiple target versions" do
       shared_let(:wp_multi) do
-        create(:work_package, project:, version: version_b, sprint: sprint_a).tap do |wp|
+        create(:work_package, project:, sprint: sprint_a).tap do |wp|
+          create(:work_package_version, work_package: wp, version: version_b, kind: :target)
           create(:work_package_version, work_package: wp, version: version_a, kind: :target)
         end
       end
 
-      it "creates one journal entry naming the primary (lowest id) target version" do
+      it "creates one journal entry naming the primary (lowest version id) target version" do
         perform
         journals = wp_multi.reload.journals.select { it.cause_feature == "sprint_migration" }
         expect(journals.size).to eq(1)
         expect(journals.first.cause["version_name"]).to eq("Version A")
+      end
+    end
+
+    context "when the job runs a second time" do
+      shared_let(:wp_migrated) do
+        create(:work_package, project:).tap do |wp|
+          create(:work_package_version, work_package: wp, version: version_a, kind: :target)
+          wp.update_column(:sprint_id, sprint_a.id)
+        end
+      end
+
+      it "does not journal a work package twice" do
+        described_class.new.perform
+        # Past the journal aggregation window, which would otherwise merge a
+        # second entry into the first.
+        travel(10.minutes) { described_class.new.perform }
+
+        journals = wp_migrated.reload.journals.select { it.cause_feature == "sprint_migration" }
+        expect(journals.size).to eq(1)
       end
     end
 
