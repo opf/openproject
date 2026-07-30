@@ -6149,7 +6149,6 @@ en:
         exclusions:
           attribute_label: "Inherit %{attribute}"
           excluded: "Excluded"
-          excluded_in_source: "Excluded in the configuration inherited from %{source}"
           inherited: "Inherited"
           section_label: "Inherit section %{section}"
         filter_inactive: "Filter attributes"

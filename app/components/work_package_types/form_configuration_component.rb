@@ -35,9 +35,12 @@ module WorkPackageTypes
 
     ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
-    # What this type does not inherit. `own` is this type's own link, `effective` the union over
-    # the whole chain, so an element in `effective` but not in `own` was excluded above this type.
-    ExclusionState = Data.define(:type, :own, :effective, :source_name) do
+    # What this type does not inherit.
+    #  - own: this type's own link
+    #  - effective: the union over the whole link chain
+    #
+    # an element in effective but not in own was excluded somewhere in the link BEFORE this type
+    ExclusionState = Data.define(:type, :own, :effective) do
       def excluded?(key)
         effective.include?(key.to_s)
       end
@@ -78,11 +81,12 @@ module WorkPackageTypes
       @form_attributes[:inactives]
     end
 
-    # In read-only mode the visible configuration is the linked source's, resolved at
-    # render time; independent types show their own stored configuration.
+    # In read-only mode the visible configuration is the linked source's
     def active_groups
       attributes = readonly? ? helpers.form_configuration_groups(source) : @form_attributes
-      attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
+      groups = attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
+
+      readonly? ? without_inherited_exclusions(groups) : groups
     end
 
     def wrapper_data
@@ -133,6 +137,34 @@ module WorkPackageTypes
 
     private
 
+    # This drops groups that some source link excludes.
+    # This type can only reduce attributes that it still sees.
+    # If the group was toggled off somewhere in the link, we hide it here completely.
+    def without_inherited_exclusions(groups)
+      return groups if exclusion_state.nil?
+
+      groups.filter_map do |group|
+        if group[:type].to_s == "query"
+          retained_query_group(group)
+        else
+          narrowed_attribute_group(group)
+        end
+      end
+    end
+
+    def narrowed_attribute_group(group)
+      attributes = group[:attributes].to_a
+      remaining = attributes.reject { |attribute| exclusion_state.inherited?(attribute[:key]) }
+      return if remaining.empty? && attributes.any?
+
+      group.merge(attributes: remaining)
+    end
+
+    # A query group is a single entry in the section, so an inherited exclusion drops the whole section.
+    def retained_query_group(group)
+      group unless group[:element_key].present? && exclusion_state.inherited?(group[:element_key])
+    end
+
     def build_exclusion_state
       link = @type.configuration_links.find_by(aspect: ASPECT)
       return nil unless link
@@ -140,8 +172,7 @@ module WorkPackageTypes
       ExclusionState.new(
         type: @type,
         own: link.excluded_elements.map(&:to_s),
-        effective: @type.effective_excluded_elements(ASPECT).map(&:to_s),
-        source_name: link.source.composite_name
+        effective: @type.effective_excluded_elements(ASPECT).map(&:to_s)
       )
     end
   end

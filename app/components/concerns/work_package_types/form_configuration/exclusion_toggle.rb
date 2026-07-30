@@ -52,12 +52,6 @@ module WorkPackageTypes
         @exclusions.excluded?(exclusion_element_key)
       end
 
-      # A type cannot narrow an ancestor's link, so such a switch has nothing to write and is
-      # rendered disabled.
-      def inherited_exclusion?
-        @exclusions.inherited?(exclusion_element_key)
-      end
-
       def exclusion_toggle_path
         type_excluded_element_toggle_path(
           type_id: @exclusions.type.id,
@@ -74,29 +68,19 @@ module WorkPackageTypes
         t("types.edit.form_configuration.exclusions.excluded")
       end
 
-      # As we can chain linked form configurations, the reason why this field is disables
-      # may be anywhere in the linked chain. But it is useful to find out where it comes from.
-      def exclusion_description
-        return nil unless inherited_exclusion?
-
-        t("types.edit.form_configuration.exclusions.excluded_in_source", source: @exclusions.source_name)
-      end
-
       def exclusion_toggle_arguments
         {
-          src: inherited_exclusion? ? nil : exclusion_toggle_path,
+          src: exclusion_toggle_path,
           csrf_token: helpers.form_authenticity_token,
           checked: !excluded?,
-          enabled: !inherited_exclusion?,
           on_label: exclusion_on_label,
           off_label: exclusion_off_label,
           size: :small,
           status_label_position: :start,
-          title: exclusion_description,
           aria: { label: exclusion_toggle_label },
           classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
           data: { test_selector: "toggle-form-config-exclusion-#{exclusion_element_key}" }
-        }.compact
+        }
       end
     end
   end
