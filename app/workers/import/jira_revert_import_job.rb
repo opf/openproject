@@ -92,7 +92,9 @@ module Import
           op_leg = ref.op_leg
           service_call = ::Projects::DeleteService.new(user: @user, model: op_leg).call
           raise service_call.message if service_call.failure?
-      end
+        rescue Import::JiraOpenProjectReference::LegNotFoundError
+          next
+        end
     end
 
     def delete_types_statuses_and_issue_priorities
@@ -102,7 +104,9 @@ module Import
         .find_each do |ref|
           op_leg = ref.op_leg
           op_leg.destroy!
-      end
+        rescue Import::JiraOpenProjectReference::LegNotFoundError
+          next
+        end
     end
 
     def delete_users
@@ -114,7 +118,9 @@ module Import
           # EmptyContract is used to make deletion not dependent on Setting.users_deletable_by_admins
           service_call = ::Users::DeleteService.new(user: @user, model: op_leg, contract_class: EmptyContract).call
           raise service_call.message if service_call.failure?
-      end
+        rescue Import::JiraOpenProjectReference::LegNotFoundError
+          next
+        end
     end
 
     def delete_groups
@@ -125,7 +131,9 @@ module Import
           op_leg = ref.op_leg
           service_call = ::Groups::DeleteService.new(user: @user, model: op_leg).call
           raise service_call.message if service_call.failure?
-      end
+        rescue Import::JiraOpenProjectReference::LegNotFoundError
+          next
+        end
     end
 
     def delete_project_roles
@@ -136,7 +144,9 @@ module Import
           op_leg = ref.op_leg
           service_call = ::Roles::DeleteService.new(user: @user, model: op_leg).call
           raise service_call.message if service_call.failure?
-      end
+        rescue Import::JiraOpenProjectReference::LegNotFoundError
+          next
+        end
     end
 
     def delete_custom_fields
@@ -144,9 +154,11 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "WorkPackageCustomField")
         .find_each do |ref|
-        op_leg = ref.op_leg
-        op_leg.destroy!
-      end
+          op_leg = ref.op_leg
+          op_leg.destroy!
+        rescue Import::JiraOpenProjectReference::LegNotFoundError
+          next
+        end
     end
 
     def delete_references

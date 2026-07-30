@@ -67,8 +67,9 @@ RSpec.describe Import::JiraOpenProjectReference do
                op_entity_class: "User")
       end
 
-      it "raises an error with descriptive message" do
-        expect { reference.op_leg }.to raise_error("User with id 999999 not found!")
+      it "raises a LegNotFoundError with descriptive message" do
+        expect { reference.op_leg }
+          .to raise_error(described_class::LegNotFoundError, "User with id 999999 not found!")
       end
     end
 
@@ -112,8 +113,9 @@ RSpec.describe Import::JiraOpenProjectReference do
                jira_entity_class: "Import::JiraUser")
       end
 
-      it "raises an error with descriptive message" do
-        expect { reference.jira_leg }.to raise_error("Import::JiraUser with id 999999 not found!")
+      it "raises a LegNotFoundError with descriptive message" do
+        expect { reference.jira_leg }
+          .to raise_error(described_class::LegNotFoundError, "Import::JiraUser with id 999999 not found!")
       end
     end
 
