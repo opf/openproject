@@ -237,13 +237,14 @@ Rails.application.routes.draw do
     end
 
     collection do
-      post "move/:id", action: "move"
+      post "move/:id", action: "move", as: :move
       get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
       post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
       get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
+      get :menu
       put :drop
       post :make_default
       post :remove_default

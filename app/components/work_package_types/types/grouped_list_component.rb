@@ -73,112 +73,16 @@ module WorkPackageTypes
         new_creation_wizard_types_path(parent_id: root.id)
       end
 
-      def type_actions(menu, type)
-        configure_action(menu, type)
-        default_action(menu, type)
-        menu.with_divider
-
-        add_variant_action(menu, type) unless type.variant?
-        duplicate_action(menu, type)
-        menu.with_divider
-
-        if reorderable?(type)
-          move_action(menu, type)
-          menu.with_divider
-        end
-
-        delete_action(menu, type)
+      def menu_id(type)
+        TypeActionsComponent.menu_id(type)
       end
 
-      def add_variant_action(menu, type)
-        menu.with_item(label: t("types.index.add_variant_action"), href: add_variant_path(type)) do |item|
-          item.with_leading_visual_icon(icon: :plus)
-        end
-      end
-
-      def duplicate_action(menu, type)
-        menu.with_item(
-          label: t(:button_duplicate),
-          href: duplicate_type_path(type),
-          form_arguments: { method: :post }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :duplicate)
-        end
-      end
-
-      def configure_action(menu, type)
-        menu.with_item(label: t(:button_configure), href: edit_type_details_path(type_id: type.id)) do |item|
-          item.with_leading_visual_icon(icon: :gear)
-        end
-      end
-
-      def default_action(menu, type)
-        if type.is_default?
-          remove_default_action(menu, type)
-        else
-          make_default_action(menu, type)
-        end
-      end
-
-      def make_default_action(menu, type)
-        menu.with_item(
-          label: t("types.index.make_default"),
-          href: make_default_type_path(type),
-          form_arguments: { method: :post }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :"check-circle")
-        end
-      end
-
-      def remove_default_action(menu, type)
-        menu.with_item(
-          label: t("types.index.remove_default"),
-          href: remove_default_type_path(type),
-          form_arguments: { method: :post }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :"circle-slash")
-        end
-      end
-
-      def delete_action(menu, type)
-        menu.with_item(
-          label: t(:button_delete),
-          scheme: :danger,
-          href: type_path(type),
-          form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :trash)
-        end
+      def menu_src(type)
+        menu_type_path(type)
       end
 
       def reorderable?(type)
         !type.variant? && !(type.first? && type.last?)
-      end
-
-      def move_action(menu, type)
-        menu.with_sub_menu_item(label: t(:button_move)) do |submenu|
-          submenu.with_leading_visual_icon(icon: :"op-arrow-in")
-
-          unless type.first?
-            move_item(submenu, type, :highest, t(:label_sort_highest), "move-to-top")
-            move_item(submenu, type, :higher, t(:label_sort_higher), "chevron-up")
-          end
-
-          unless type.last?
-            move_item(submenu, type, :lower, t(:label_sort_lower), "chevron-down")
-            move_item(submenu, type, :lowest, t(:label_sort_lowest), "move-to-bottom")
-          end
-        end
-      end
-
-      def move_item(submenu, type, move_to, label, icon)
-        submenu.with_item(
-          label:,
-          href: helpers.url_for(action: :move, id: type.id, type: { move_to: }),
-          form_arguments: { method: :post }
-        ) do |item|
-          item.with_leading_visual_icon(icon:)
-        end
       end
 
       def drop_target_config

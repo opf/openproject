@@ -37,8 +37,8 @@ module WorkPackageTypes
     layout "admin"
 
     before_action :require_admin
-    before_action :require_type_variants_feature, only: %i[drop duplicate]
-    before_action :find_type, only: %i[move destroy drop make_default remove_default duplicate]
+    before_action :require_type_variants_feature, only: %i[drop duplicate menu]
+    before_action :find_type, only: %i[move destroy drop make_default remove_default duplicate menu]
 
     current_menu_item do
       :types
@@ -143,6 +143,10 @@ module WorkPackageTypes
 
       update_via_turbo_stream(component: Types::GroupedListComponent.new(types: root_types))
       respond_to_with_turbo_streams
+    end
+
+    def menu
+      render Types::TypeActionsComponent.new(type: @type), layout: false
     end
 
     protected
