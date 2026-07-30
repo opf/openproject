@@ -161,6 +161,12 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_css(".ActionList-sectionDivider")
     end
 
+    it "wires the divider up to the item controller, so it can be hidden with the group" do
+      render_component
+
+      expect(page).to have_css(".ActionList-sectionDivider[data-sortable-lists--item-target='moveDivider']")
+    end
+
     it "shows the Move to position submenu with incoming-arrow icon" do
       render_component
 

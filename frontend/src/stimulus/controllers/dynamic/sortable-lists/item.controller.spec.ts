@@ -898,17 +898,20 @@ describe('Sortable lists item controller', () => {
       isItemHidden:ReturnType<typeof vi.fn>;
     }
 
-    function renderItemWithMenu(idNumber:number):{ el:HTMLElement; menu:FakeActionMenu } {
+    function renderItemWithMenu(idNumber:number, withDivider = false):{ el:HTMLElement; menu:FakeActionMenu } {
       const el = document.createElement('div');
       el.dataset.controller = 'sortable-lists--item';
       el.setAttribute('data-sortable-lists--item-id-value', String(idNumber));
       el.setAttribute('data-sortable-lists--item-type-value', 'work_package');
 
       const menuElement = document.createElement('action-menu');
-      menuElement.innerHTML = ['top', 'up', 'down', 'bottom'].map((direction) => (
-        `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
-        + ' data-action="click->sortable-lists--item#move"><button></button></li>'
-      )).join('');
+      // The divider opens the move group, so everything below it is what
+      // decides whether it still separates anything.
+      menuElement.innerHTML = (withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '')
+        + ['top', 'up', 'down', 'bottom'].map((direction) => (
+          `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
+          + ' data-action="click->sortable-lists--item#move"><button></button></li>'
+        )).join('');
       const parent = document.createElement('li');
       parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
       menuElement.appendChild(parent);
@@ -917,10 +920,12 @@ describe('Sortable lists item controller', () => {
       const menu:FakeActionMenu = {
         enableItem: vi.fn((li:Element|null) => li?.classList.remove('ActionListItem--disabled')),
         disableItem: vi.fn((li:Element|null) => li?.classList.add('ActionListItem--disabled')),
-        showItem: vi.fn(),
-        hideItem: vi.fn(),
+        // Primer's own implementations, so the hidden attribute the divider
+        // check reads is as real here as the disabled class above.
+        showItem: vi.fn((li:Element|null) => li?.removeAttribute('hidden')),
+        hideItem: vi.fn((li:Element|null) => li?.setAttribute('hidden', 'hidden')),
         isItemDisabled: vi.fn((li:Element|null) => !!li?.classList.contains('ActionListItem--disabled')),
-        isItemHidden: vi.fn(() => false),
+        isItemHidden: vi.fn((li:Element|null) => !!li?.hasAttribute('hidden')),
       };
       Object.assign(menuElement, menu);
 
@@ -998,6 +1003,46 @@ describe('Sortable lists item controller', () => {
 
       const parent = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
       expect(menu.hideItem).toHaveBeenCalledWith(parent);
+    });
+
+    // Regression: the divider is rendered server-side from a permission check
+    // alone, so an item with nowhere to move used to be left with a separator
+    // and nothing below it.
+    it('hides the divider when nothing below it is left visible', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+      expect(divider.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('keeps the divider while something below it is still visible', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+      controller.moveItemTargetConnected();
+
+      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+      expect(divider.hasAttribute('hidden')).toBe(false);
+    });
+
+    // A divider has no `.ActionListContent`, so routing it through
+    // `disableItem` would throw — and in this mode the group stays visible
+    // anyway, only disabled.
+    it('leaves the divider alone when hideUnavailable is off', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'false');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+      expect(divider.hasAttribute('hidden')).toBe(false);
     });
 
     it('delegates an enabled click to the root and no-ops a disabled one', async () => {

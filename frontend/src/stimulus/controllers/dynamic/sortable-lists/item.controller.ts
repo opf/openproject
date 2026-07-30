@@ -53,7 +53,7 @@ import { renderDragPreview } from './preview';
 type CleanupFn = () => void;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu'];
+  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider'];
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -81,6 +81,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly moveItemTargets:HTMLElement[];
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
+  declare readonly moveDividerTarget:HTMLElement;
+  declare readonly hasMoveDividerTarget:boolean;
 
   // Provided by the stimulus-elements blessing; absent when the item is not
   // inside a Primer action-menu (a drag-only consumer), in which case the move
@@ -433,6 +435,34 @@ export default class ItemController extends Controller<HTMLElement> implements R
     if (this.hasMoveMenuTarget) {
       this.setAvailability(this.moveMenuTarget, available > 0);
     }
+
+    this.refreshMoveDivider();
+  }
+
+  // The divider that opens the move group is rendered server-side from a
+  // permission check alone, so hiding the last entry below it would otherwise
+  // leave a separator with nothing to separate. It never goes through
+  // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
+  // which a divider does not have — and in that mode the group stays visible
+  // anyway, only disabled.
+  private refreshMoveDivider():void {
+    if (!this.hasMoveDividerTarget || !this.hideUnavailableValue) {
+      return;
+    }
+
+    const divider = this.moveDividerTarget;
+    let sibling = divider.nextElementSibling;
+
+    while (sibling) {
+      if (!sibling.hasAttribute('hidden')) {
+        divider.removeAttribute('hidden');
+        return;
+      }
+
+      sibling = sibling.nextElementSibling;
+    }
+
+    divider.setAttribute('hidden', 'hidden');
   }
 
   // Availability goes through the action-menu element's API: disableItem sets the

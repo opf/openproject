@@ -125,6 +125,12 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         expect(render_inline(item.card)).to have_css(".op-work-package-card.Box-card--clickable")
         expect(page).to have_no_css(".Box-card--draggable")
       end
+
+      it "still wires the contextual-action-menu controller" do
+        expect(render_inline(item.card)).to have_css(
+          ".op-work-package-card[data-controller~='contextual-action-menu']"
+        )
+      end
     end
   end
 
@@ -172,6 +178,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
     it "wires the card as a Backlogs work package" do
       expect(rendered_card).to have_css(
         ".op-work-package-card[data-controller~='backlogs--work-package']" \
+        "[data-controller~='contextual-action-menu']" \
         "[data-backlogs--work-package-id-value='#{work_package.id}']" \
         "[data-backlogs--work-package-display-id-value='#{work_package.display_id}']" \
         "[data-backlogs--work-package-full-url-value='#{work_package_path(work_package)}']" \
@@ -180,12 +187,12 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       )
     end
 
-    it "announces Enter activation to assistive tech without a button or drag role" do
+    it "announces Enter and Shift+F10 to assistive tech without a button or drag role" do
       expect(rendered_card).to have_css(
         ".op-work-package-card",
         role: "article",
         aria: {
-          keyshortcuts: "Enter",
+          keyshortcuts: "Enter Shift+F10",
           label: work_package.to_fs(:caption),
           roledescription: nil
         }
