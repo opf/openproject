@@ -56,9 +56,7 @@ class MeetingParticipantsController < ApplicationController
       participant.update!(attended: true)
     end
 
-    update_add_user_form_component_via_turbo_stream
-    update_list_component_via_turbo_stream
-    update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
+    update_participants_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -76,23 +74,15 @@ class MeetingParticipantsController < ApplicationController
     participant = @meeting.participants.find_by(id: params[:id])
 
     if participant
-      call = MeetingParticipants::DeleteService
-        .new(user: User.current, model: participant)
-        .call
+      call = remove_participant(participant)
 
       unless call.success?
         render_error_flash_message_via_turbo_stream(message: join_flash_messages(call.errors))
         return respond_with_turbo_streams
       end
-
-      if @meeting.series_template? && params[:apply_to_upcoming] == "1"
-        remove_from_upcoming_occurrences(participant.user_id)
-      end
     end
 
-    update_add_user_form_component_via_turbo_stream
-    update_list_component_via_turbo_stream
-    update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
+    update_participants_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -109,6 +99,24 @@ class MeetingParticipantsController < ApplicationController
 
   def set_participant
     @participant = @meeting.participants.find(params[:id])
+  end
+
+  def remove_participant(participant)
+    call = MeetingParticipants::DeleteService
+      .new(user: User.current, model: participant)
+      .call
+
+    if call.success? && @meeting.series_template? && params[:apply_to_upcoming] == "1"
+      remove_from_upcoming_occurrences(participant.user_id)
+    end
+
+    call
+  end
+
+  def update_participants_via_turbo_stream
+    update_add_user_form_component_via_turbo_stream
+    update_list_component_via_turbo_stream
+    update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
   end
 
   def create_new_participants(user_ids)
