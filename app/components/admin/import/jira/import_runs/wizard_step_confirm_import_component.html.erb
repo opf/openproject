@@ -116,7 +116,7 @@ See COPYRIGHT and LICENSE files for more details.
             concat(
               render(
                 Primer::Beta::Button.new(
-                  href: continue_admin_import_jira_run_path(step: :import),
+                  href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "import"),
                   data: { turbo_stream: true },
                   tag: :a
                 )
@@ -158,7 +158,7 @@ See COPYRIGHT and LICENSE files for more details.
               render(
                 Primer::Beta::Button.new(
                   scheme: :primary,
-                  href: continue_admin_import_jira_run_path(step: :import),
+                  href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "import"),
                   data: { turbo_stream: true },
                   disabled: true,
                   tag: :a
