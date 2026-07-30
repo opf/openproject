@@ -135,7 +135,8 @@ module Import
         ._record
         .jobs.each do |job|
         job.discard_job("Discarded because user clicked abort.") if job.status.in?(%i[queued retried scheduled])
-      rescue GoodJob::AdvisoryLockable::RecordAlreadyAdvisoryLockedError
+      rescue GoodJob::AdvisoryLockable::RecordAlreadyAdvisoryLockedError,
+             GoodJob::Job::ActionForStateMismatchError
         next
       end
     end
