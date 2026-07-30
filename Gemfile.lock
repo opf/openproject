@@ -460,8 +460,8 @@ GEM
     commonmarker (2.8.3-x86_64-darwin)
     commonmarker (2.8.3-x86_64-linux)
     commonmarker (2.8.3-x86_64-linux-musl)
-    compare-xml (0.66)
-      nokogiri (~> 1.8)
+    compare-xml (1.0.0)
+      nokogiri (>= 1.6)
     concurrent-ruby (1.3.8)
     connection_pool (3.0.2)
     cookiejar (0.3.4)
@@ -1593,7 +1593,7 @@ DEPENDENCIES
   closure_tree (~> 9.7.0)
   colored2
   commonmarker (~> 2.8.3)
-  compare-xml (~> 0.66)
+  compare-xml (~> 1.0)
   connection_pool (~> 3.0.2)
   costs!
   counter_culture (~> 3.14)
@@ -1863,7 +1863,7 @@ CHECKSUMS
   commonmarker (2.8.3-x86_64-darwin) sha256=8ecfee9d2c4768b9f66eafcf9fba82b91495f90f7d4242d0a85f6266684591f3
   commonmarker (2.8.3-x86_64-linux) sha256=8b78d99ed454346a488988b2ac530e88a98b44f116fb9db19a5b2d5c46c67f83
   commonmarker (2.8.3-x86_64-linux-musl) sha256=0a42f71205697edf8a488b50b6209b9cee882c39f8b18ac0a323be83ff17b250
-  compare-xml (0.66) sha256=e21aa5c0f69ef1177eced997c688fd4df989084e74a1b612257af32e1dd05319
+  compare-xml (1.0.0) sha256=e5d46e0b016362532c8e47ebcf6cb77767d8a7f267b9533ee27bcabe81c59202
   concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   cookiejar (0.3.4) sha256=11b16acfc4baf7a0f463c21a6212005e04e25f5554d4d9f24d97f3492dfda0df
