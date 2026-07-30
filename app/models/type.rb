@@ -113,6 +113,13 @@ class Type < ApplicationRecord
 
   delegate :to_s, to: :name
 
+  # Roots each immediately followed by their own variants. Reads one acts_as_list
+  # list at a time on purpose: positions are numbered per family, so no ORDER BY
+  # over the flat table can keep a family together.
+  def self.in_family_order
+    roots.includes(:children).flat_map(&:family)
+  end
+
   def <=>(other)
     name <=> other.name
   end
