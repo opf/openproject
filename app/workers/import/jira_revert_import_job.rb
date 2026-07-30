@@ -57,7 +57,7 @@ module Import
 
     def build_enumerator(jira_import_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
-      cursor ||= @jira_import.get_job_cursor(self)&.to_sym
+      cursor ||= REVERT_STEPS.index(@jira_import.get_job_cursor(self)&.to_sym)
       enumerator_builder.array(REVERT_STEPS, cursor:)
     rescue StandardError => e
       @jira_import.transition_to!(:revert_error,
@@ -69,9 +69,9 @@ module Import
     def each_iteration(revert_step, jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       @user = User.system
-      @jira_import.set_job_cursor(self, revert_step)
       ApplicationRecord.transaction do
         send(revert_step)
+        @jira_import.set_job_cursor(self, revert_step)
       end
     rescue StandardError => e
       @jira_import.transition_to!(:revert_error,
