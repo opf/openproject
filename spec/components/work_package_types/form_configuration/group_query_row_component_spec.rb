@@ -22,7 +22,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
     let(:type) { create(:type) }
     let(:exclusions) do
       WorkPackageTypes::FormConfigurationComponent::ExclusionState.new(
-        type:, own: [], effective: [], source_name: "Bug"
+        type:, own: [], effective: []
       )
     end
 

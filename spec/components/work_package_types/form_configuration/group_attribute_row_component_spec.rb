@@ -32,9 +32,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     end
 
     def exclusion_state(own:, effective:)
-      WorkPackageTypes::FormConfigurationComponent::ExclusionState.new(
-        type:, own:, effective:, source_name: "Bug"
-      )
+      WorkPackageTypes::FormConfigurationComponent::ExclusionState.new(type:, own:, effective:)
     end
 
     it "is not rendered in editable mode" do
@@ -57,25 +55,16 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
       expect(toggle["src"]).to eq(
         "/types/#{type.id}/exclusions/form_configuration/toggle?element=assignee"
       )
-      expect(toggle["class"]).not_to include("ToggleSwitch--disabled")
     end
 
+    # Rows an ancestor excludes never reach this component: FormConfigurationComponent leaves them
+    # out, so the switch here is always writable.
     it "is off and still writable when this type excludes the element itself", :aggregate_failures do
       render_row(exclusions: exclusion_state(own: %w[assignee], effective: %w[assignee]))
 
       expect(toggle.find("button")["aria-pressed"]).to eq("false")
       expect(toggle["src"]).to be_present
       expect(toggle["class"]).not_to include("ToggleSwitch--disabled")
-      expect(toggle["title"]).to be_nil
-    end
-
-    it "is off, disabled and names the source when an ancestor excludes the element", :aggregate_failures do
-      render_row(exclusions: exclusion_state(own: [], effective: %w[assignee]))
-
-      expect(toggle.find("button")["aria-pressed"]).to eq("false")
-      expect(toggle["src"]).to be_nil
-      expect(toggle["class"]).to include("ToggleSwitch--disabled")
-      expect(toggle["title"]).to eq("Excluded in the configuration inherited from Bug")
     end
   end
 end
