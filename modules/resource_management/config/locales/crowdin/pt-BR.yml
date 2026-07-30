@@ -31,9 +31,9 @@ pt-BR:
           attributes:
             end_date:
               greater_than_start_date: deve ser após a data de início.
-              required_with_start_date: must be set when a start date is set.
+              required_with_start_date: deve ser definido quando uma data de início for definida.
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: deve ser definido quando uma data de término for definida.
         resource_work_package_list:
           attributes:
             query:
@@ -48,14 +48,14 @@ pt-BR:
       resource_management: Gerenciamento de recursos
     upsell:
       resource_management:
-        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        description: Planeje e equilibre a carga de trabalho da sua equipe com planejadores de recursos. Aloque pessoas a pacotes de trabalho, acompanhe a capacidade ao longo do tempo e identifique rapidamente a superalocação e a subalocação.
         title: Gerenciamento de recursos
   button_next: Próximo
   label_resource_management: Gerenciamento de recursos
   permission_allocate_user_resources: Alocar recursos do usuário
   permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
+  permission_assign_users_to_generic_allocations: Atribuir usuários a alocações genéricas
+  permission_assign_users_to_generic_allocations_explanation: Permite que os usuários usem a visualização de alocação de equipe para atribuir usuários reais a alocações de recursos genéricas (baseadas em filtros) que ainda não possuem um usuário. Não permite criar ou editar alocações.
   permission_manage_public_resource_planners: Gerenciar planejadores de recursos públicos
   permission_manage_public_resource_planners_explanation: Permite que os usuários criem e gerenciem planejadores de recursos públicos. Permite visualizar, criar, gerenciar e publicar seus próprios planejadores de recursos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
   permission_view_resource_planners: Ver planejadores de recursos
@@ -100,18 +100,18 @@ pt-BR:
       no_work: Nenhum trabalho planejado neste pacote de trabalho
       summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
-      available: "%{hours} available"
-      confirm_overtime: Assign anyway
+      available: "%{hours} disponível"
+      confirm_overtime: Atribuir mesmo assim
       filter_criteria: Critérios de filtragem
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
-        title: No matching members
-      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
-      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
+        description: Nenhum membro do projeto corresponde aos critérios de filtro desta alocação.
+        title: Nenhum membro correspondente
+      no_schedule: Este usuário não tem um cronograma de trabalho configurado, portanto não é possível determinar se esta alocação se encaixa.
+      overbooked_detail: Este usuário tem %{available} disponíveis neste período; o pacote de trabalho requer %{requested}.
       requested_for: Solicitado para
-      select_user: Please select a user to assign.
+      select_user: Selecione um usuário para atribuir.
       submit: Atribuir
-      title: Assign %{filter_name}
+      title: Atribuir %{filter_name}
     blankslate:
       desc: Criar um planejador de recursos para iniciar o planejamento de capacidade deste projeto.
       title: Ainda não há planejadores de recursos
@@ -146,17 +146,17 @@ pt-BR:
     staffing:
       assign: Atribuir usuário
       blank:
-        description: All generic allocations in this project have a user assigned.
-        title: Nothing to staff
+        description: Todas as alocações genéricas deste projeto têm um usuário atribuído.
+        title: Nada para alocar à equipe
       columns:
         dates: Datas
-        requested_time: Requested time
+        requested_time: Tempo solicitado
         resource: Recurso
         work_package: Pacote de trabalho
       context_menu_label: Ações de alocação
-      delete_confirmation: Are you sure you want to delete this allocation?
+      delete_confirmation: Tem certeza de que deseja excluir esta alocação?
       menu_item: Pessoal
-      starts_in_past: This allocation has already started and is still unassigned.
+      starts_in_past: Esta alocação já começou e ainda não foi atribuída.
       success_message: Usuário atribuído.
       title: Pessoal
     sub_views: Visualizações neste planejador de recursos
@@ -205,20 +205,20 @@ pt-BR:
       utilization:
         label: Utilização
       working_hours:
-        blank: No working hours configured
-        schedule_availability_compact: "%{schedule} (%{factor}% available)"
-        schedule_change_compact: until %{date}, %{schedule}
+        blank: Nenhum horário de trabalho configurado
+        schedule_availability_compact: "%{schedule} (%{factor}% disponível)"
+        schedule_change_compact: até %{date}, %{schedule}
     user_timeline:
       blank:
         add_user: Adicionar usuário
         configure_view: Configurar visualização
         description: Ainda não existem usuários que correspondam aos filtros desta visualização.
-        manual_description: Add users to this view to see their allocation over time.
+        manual_description: Adicione usuários a esta visualização para ver sua alocação ao longo do tempo.
         title: Nenhum usuário para exibir
-      no_work_schedule: No work schedule planned for this user
-      overbooked: This user is over-allocated in the selected period.
+      no_work_schedule: Nenhum cronograma de trabalho planejado para este usuário
+      overbooked: Este usuário está superalocado no período selecionado.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        range: "%{dates}: %{scheduled} agendado, %{available} disponível"
       subheader:
         add_user: Adicionar usuário
     view_types:
@@ -226,7 +226,7 @@ pt-BR:
         caption: Criar uma visualização baseada em utilizadores e ver os seus detalhes e alocação numa lista de cartões de utilizador
         label: Lista de cartões de utilizadores
       resource_user_timeline:
-        caption: Create a view based on users and see their allocations over time on a timeline
+        caption: Crie uma visualização baseada em usuários e veja suas alocações ao longo do tempo em uma linha do tempo
         label: Timeline dos usuários
       resource_work_package_list:
         caption: Criar uma visualização baseada em pacotes de trabalho e ver os seus detalhes e alocação numa lista

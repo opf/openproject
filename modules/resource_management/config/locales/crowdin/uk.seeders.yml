@@ -8,14 +8,14 @@ uk:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: Виділення ресурсів команд
             work_package_list:
-              name: Work packages
+              name: Пакети робіт
             work_package_timeline:
-              name: Work package timeline
+              name: Часова шкала пакетів робіт
             user_card:
-              name: Team members
+              name: Члени команди
             user_timeline:
-              name: Team timeline
+              name: Часова шкала команди
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: Розробник ПЗ

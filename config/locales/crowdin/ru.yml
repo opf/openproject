@@ -1637,15 +1637,15 @@ ru:
           other: Удалить %{count} статусов?
         title: Удаление статусов
       tabs:
+        always: Default transitions
         aria_label: Workflow transitions
-        default_transitions: Переходы по умолчанию
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: Transitions available to the selected role(s) in all cases.
-          user_assignee: Additional transitions available to the work package's assignee.
-          user_author: Additional transitions available to the work package's author.
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
-        user_assignee: Пользователь является назначенным
-        user_author: Пользователь является автором
   announcements:
     is_active: теперь отображается
     is_inactive: теперь не отображается
@@ -5021,9 +5021,23 @@ ru:
         menu_title: Шаблон
         title: Настройки шаблона
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Разрешить тип «%{type}»
+        in_roadmap: In roadmap
         no_results_title_text: На данный момент доступных типов нет.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Создать новую версию
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
@@ -6125,16 +6139,19 @@ ru:
         tab: Workflows
     index:
       add_variant: Add variant to %{name}
+      add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
       make_default: Activate in new projects
-      make_default_notice: "%{name} is now activated in new projects"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Создать новый тип
       no_results_title_text: В данный момент типы отсутствуют.
       remove_default: Do not activate in new projects
-      remove_default_notice: "%{name} is no longer activated in new projects"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
@@ -6143,6 +6160,7 @@ ru:
         few: "%{count} variants"
         many: "%{count} variants"
         other: "%{count} variants"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Игнорировать это предупреждение.
     message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.

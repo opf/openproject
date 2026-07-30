@@ -52,10 +52,10 @@ uk:
         heading: Синхронізацію відділів з LDAP не налаштовано
       destroy:
         confirmation_message:
-          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
-          few: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
-          many: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
-          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          one: Якщо ви продовжите, синхронізацію %{name} буде видалено, а її %{count} відділ більше не синхронізуватиметься з LDAP.
+          few: Якщо ви продовжите, синхронізацію %{name} буде видалено, а її %{count} відділи більше не синхронізуватимуться з LDAP.
+          many: Якщо ви продовжите, синхронізацію %{name} буде видалено, а її %{count} відділів більше не синхронізуватимуться з LDAP.
+          other: Якщо ви продовжите, синхронізацію %{name} буде видалено, а її %{count} відділу більше не синхронізуватимуться з LDAP.
         heading: Вилучити синхронізацію «%{name}»?
         info: Відділи і їхні учасники зберігаються й стають звичайними відділами. Потім ви можете редагувати або видаляти їх вручну в розділі «Адміністрування» → «Користувачі й права доступу» → «Організація».
         title: Вилучити синхронізацію «%{name}»

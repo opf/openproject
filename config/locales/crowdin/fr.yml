@@ -1579,15 +1579,15 @@ fr:
           other: Supprimer %{count} statuts ?
         title: Supprimer des statuts
       tabs:
+        always: Default transitions
         aria_label: Transitions du flux de travail
-        default_transitions: Transitions par défaut
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: Transitions disponibles dans tous les cas pour les rôles sélectionnés.
-          user_assignee: Transitions supplémentaires mises à la disposition du responsable du lot de travaux.
-          user_author: Transitions supplémentaires mises à la disposition de l'auteur du lot de travaux.
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: Transitions affichées
-        user_assignee: L'utilisateur est la personne assignée
-        user_author: L'utilisateur est l'auteur
   announcements:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
@@ -4888,9 +4888,23 @@ fr:
         menu_title: Modèle
         title: Paramètres du modèle
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Autorise le type « %{type} »
+        in_roadmap: In roadmap
         no_results_title_text: Il n'y a actuellement aucun type disponible.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Créer une nouvelle version
         no_results_title_text: Aucune version du projet pour le moment.
@@ -6001,22 +6015,26 @@ fr:
         tab: Flux de travail
     index:
       add_variant: Ajouter une variante à %{name}
+      add_variant_action: Add variant
       description: 'Chaque zone de configuration des types et variantes peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Actif dans les nouveaux projets
       make_default: Activer dans les nouveaux projets
-      make_default_notice: "%{name} est désormais activé dans les nouveaux projets"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
       remove_default: Ne pas activer dans les nouveaux projets
-      remove_default_notice: "%{name} n'est plus activé dans les nouveaux projets"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_enabled_in_new_projects: Variante %{name} active dans les nouveaux projets
       variant_label: Variante
       variants_count:
         one: 1 variante
         other: "%{count} variantes"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ignorer cet avertissement.
     message: Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page.

@@ -1637,15 +1637,15 @@ pl:
           other: Usunąć %{count} statusu?
         title: Usuń statusy
       tabs:
+        always: Default transitions
         aria_label: Przejścia przepływu pracy
-        default_transitions: Przejścia domyślne
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: Przejścia dostępne dla wybranych ról we wszystkich przypadkach.
-          user_assignee: Dodatkowe przejścia dostępne dla osoby przypisanej do pakietu roboczego.
-          user_author: Dodatkowe przejścia dostępne dla autora pakietu roboczego.
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: Pokazane przejścia
-        user_assignee: Użytkownik jest przypisaną osobą
-        user_author: Użytkownik jest autorem
   announcements:
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
@@ -5023,9 +5023,23 @@ pl:
         menu_title: Szablon
         title: Ustawienia szablonu
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Włącz typ „%{type}”
+        in_roadmap: In roadmap
         no_results_title_text: Nie ma dostępnych typów.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Utwórz nową wersję projektu
         no_results_title_text: Nie ma innych wersji tego projektu.
@@ -6131,16 +6145,19 @@ pl:
         tab: Przepływy pracy
     index:
       add_variant: Dodaj wariant do %{name}
+      add_variant_action: Add variant
       description: 'Każdy obszar konfiguracji wewnątrz typów i wariantów może być niezależnie skonfigurowany, ograniczony z innego typu lub w pełni powiązany ze źródłem.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Aktywne w nowych projektach
       make_default: Aktywuj w nowych projektach
-      make_default_notice: "%{name} aktywowano teraz w nowych projektach"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Utwórz nowy typ
       no_results_title_text: Nie ma jeszcze żadnych typów.
       remove_default: Nie aktywuj w nowych projektach
-      remove_default_notice: "%{name} nie jest już aktywowany w nowych projektach"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Typ
       variant_enabled_in_new_projects: Wariant %{name} aktywny w nowych projektach
       variant_label: Wariant
@@ -6149,6 +6166,7 @@ pl:
         few: "%{count} warianty"
         many: "%{count} wariantów"
         other: "%{count} wariantu"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Zignoruj to ostrzeżenie.
     message: Na tej stronie mogą wystąpić błędy i pogorszenie działania.

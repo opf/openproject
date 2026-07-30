@@ -504,18 +504,18 @@ es:
           name: Error
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Elementos secundarios épicos: historias de usuarios y errores'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'Subelementos de una historia de usuario: Tareas'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: Historias de usuario y errores
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Tareas
       welcome:
         title: "¡Le damos la bienvenida a OpenProject!"
         text: |

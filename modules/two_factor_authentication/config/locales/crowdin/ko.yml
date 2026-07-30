@@ -124,7 +124,7 @@ ko:
     error_no_device: 이 인스턴스에 필요하지만, 이 사용자에 대해 등록된 2FA 장치를 찾지 못했습니다.
     error_no_matching_strategy: 이 사용자에 대해 사용 가능한 일치하는 2FA 전략이 없습니다. 관리자에게 문의하세요.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: 관리자가 이 인스턴스에 대해 2단계 인증을 적용했습니다. 로그인하려면 2단계 인증 방법을 추가하세요.
     label_2fa_disabled: 2단계 인증이 활성화되지 않았습니다.
     label_2fa_enabled: 2단계 인증이 활성화되었습니다.
     label_default_device: 기본 2FA 장치
