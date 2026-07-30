@@ -37,9 +37,16 @@ class RegistrationForm < ApplicationForm
     form.text_field(name: :firstname, label: attribute_name(:firstname), required: true, input_width:)
     form.text_field(name: :lastname, label: attribute_name(:lastname), required: true, input_width:)
 
-    email(form) if show_email?
+    if show_email?
+      form.text_field(name: :mail,
+                      type: :email,
+                      label: attribute_name(:mail),
+                      required: true,
+                      readonly: !registration_mail_editable?,
+                      input_width:)
+    end
 
-    form.html_content { helpers.call_hook(:view_account_register_after_basic_information, f: @builder) }
+    form.html_content { helpers.call_hook(:view_account_register_after_basic_information, f: form) }
 
     render_custom_fields(form:)
 
@@ -58,6 +65,7 @@ class RegistrationForm < ApplicationForm
   def login_or_email(form)
     if Setting.email_login?
       form.text_field(name: :mail,
+                      type: :email,
                       label: attribute_name(:mail),
                       required: true,
                       readonly: !registration_mail_editable?,
