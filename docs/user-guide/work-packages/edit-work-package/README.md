@@ -268,6 +268,19 @@ The user will no longer get notifications in OpenProject about changes to this w
 
 ![Remove watchers from OpenProject work packages](openproject_user_guide_wp_watchers_remove.png)
 
+### Project attributes in work packages
+
+If your OpenProject administrator has enabled **project attributes** for the selected work package type, they are also visible and editable  in the **Project attributes** tab of the work package.
+
+Project attributes allow you to view and edit project-level information directly from within a work package (if you have the necessary permissions). Any changes you make are applied to the project itself and are immediately reflected everywhere the same project attributes are displayed, including the project overview page.
+
+> [!NOTE]
+> Project attributes are shared across the entire project. Editing a project attribute in a work package updates its value for the project, not just for the individual work package.
+
+The availability of the **Project attributes** tab and the attributes displayed in it depend on the work package type and are configured by your OpenProject administrator.
+
+Project attributes displayed in a work package are also included when exporting the work package to **PDF**.
+
 ## Export work packages
 
 To export the work packages, choose **Export ...** in the settings menu on the top right of the work package table view.

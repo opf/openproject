@@ -95,7 +95,9 @@ The related work packages table is then displayed directly in the work package f
 
 ## Display project attributes in work package forms
 
-You can display **[project attributes](../../projects/project-attributes/)** in a dedicated tab within work packages. This allows users with necessary permissions to view and edit project-level information directly from a work package.
+You can display **[project attributes](../../projects/project-attributes/)** in a dedicated tab within work packages. This allows editing project-level information directly from a work package. 
+
+Please note that only users with necessary  permissions can see or edit the project attributes within a work package.
 
 To configure this, go to **Administration → Work packages → Types**, open the **Project attributes** tab, and select which project attributes should be displayed for each work package type.
 
@@ -114,7 +116,9 @@ If your instance contains many project attributes, use the search field to quick
 >
 > Read more about configuring project attributes for the [project overview page](../../../user-guide/projects/project-settings/project-attributes/).
 
-The same project attributes are used in both the project overview and work packages. Any changes made to a project attribute from within a work package are reflected everywhere the attribute is displayed.
+> [!IMPORTANT]
+>
+> The same project attributes are used in both the project overview and work packages. Any changes made to a project attribute from within a work package are reflected **everywhere the attribute is displayed**.
 
 Displaying project attributes in work packages is particularly useful for **PDF exports**, as the project attributes shown in the work package are also included in the exported document.
 
@@ -140,7 +144,7 @@ If **Enable for all projects** is disabled, a list of projects is displayed. Sel
 
 ## Generate PDF
 
-Under the **Generate PDF** tab of **Administration -> Work packages -> Types** you configure how a single work package of this type is exported as a PDF. The tab contains two sections: the available export templates and the automatic artefact export.
+Under the **Generate PDF** tab of **Administration -> Work packages -> Types** you can configure how a single work package of this type is exported as a PDF. The tab contains two sections: the available export templates and the automatic artefact export.
 
 ### Activate templates for PDF exports
 
@@ -154,10 +158,10 @@ Use the toggle next to a template to enable or disable it, or use **Enable all**
 
 Drag a template by its handle to change the order of the list. The order determines the sequence in the **Template** dropdown menu of the export dialog, and the first enabled template is preselected there.
 
-If no template is enabled, users of this type cannot generate a PDF: the export dialog states that no template has been enabled and the download button stays disabled.
+If no template is enabled, users cannot generate a PDF for a work package of this type: the export dialog states that no template has been enabled and the download button stays disabled.
 
 > [!TIP]
-> See [Work package PDF export](../../../user-guide/work-packages/exporting/work-package-pdf/) in the user guide for what each of the templates contains.
+> See [work package PDF export guide](../../../user-guide/work-packages/exporting/work-package-pdf/) for more details on what each of the templates contains.
 
 ### Automatic artefact export
 
@@ -165,9 +169,9 @@ In addition to exporting on demand, OpenProject can generate a PMflex Artefact P
 
 - **Off** - no PDF is generated automatically. This is the default.
 
-- **Save as work package file attachment** - the generated PDF is saved as a file attachment on the work package. The new attachment is also recorded in the work package Activity.
+- **Save as work package file attachment** - the generated PDF is saved as a file attachment to the work package. The new attachment is also recorded in the work package Activity.
 
-- **Upload file to external file storage and add file link to work package** - the generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped. This option can only be selected if an [automatically-managed Nextcloud storage](../../files/external-file-storages/) is configured for the instance.
+- **Upload file to external file storage and add file link to work package** - the generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such an external storage configured, are skipped. This option can only be selected if an [automatically-managed Nextcloud storage](../../files/external-file-storages/) is configured for the instance.
 
 The selection is saved immediately.
 
