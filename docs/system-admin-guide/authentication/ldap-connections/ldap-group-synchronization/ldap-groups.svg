@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -30 1430 577" width="1430" height="577" role="img">
+  <title>LDAP group entries with their member attributes, and the user entries below the users base DN</title>
+  <style>
+    .box { fill: #ffffff; stroke: #000000; stroke-width: 3; }
+    .anchor { fill: #ffffff; stroke: #000000; stroke-width: 5; }
+    .person { fill: #ededed; stroke: #000000; stroke-width: 3; }
+    .edge { fill: none; stroke: #000000; stroke-width: 3; }
+    .ou, .uid, .attr, .note {
+      font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', system-ui, sans-serif;
+      text-anchor: middle;
+      fill: #000000;
+    }
+    .ou { font-size: 24px; }
+    .uid { font-size: 22px; }
+    .attr { font-size: 22px; font-weight: bold; }
+    .note { font-size: 22px; font-style: italic; text-anchor: start; }
+  </style>
+
+  <rect x="-10" y="-30" width="1430" height="577" fill="#ffffff"/>
+
+  <!-- edges -->
+  <path class="edge" d="M680,90 V135 H340 V180"/>
+  <path class="edge" d="M680,90 V135 H1020 V180"/>
+  <path class="edge" d="M340,240 V285 H170 V330"/>
+  <path class="edge" d="M340,240 V285 H510 V330"/>
+  <path class="edge" d="M1020,240 V285 H850 V384"/>
+  <path class="edge" d="M1020,240 V285 H1190 V384"/>
+
+  <!-- directory root -->
+  <rect class="box" x="545" y="30" width="270" height="60" rx="8"/>
+  <text class="ou" x="680" y="68">dc=example,dc=com</text>
+
+  <!-- branches -->
+  <rect class="box" x="205" y="180" width="270" height="60" rx="8"/>
+  <text class="ou" x="340" y="218">ou=groups</text>
+
+  <rect class="anchor" x="885" y="180" width="270" height="60" rx="8"/>
+  <text class="ou" x="1020" y="218">ou=people</text>
+  <polygon points="1171,210 1187,202 1187,218" fill="#000000"/>
+  <text class="note" x="1199" y="218">base DN for users</text>
+
+  <!-- group entries -->
+  <rect class="box" x="20" y="330" width="300" height="160" rx="8"/>
+  <text class="ou" x="170" y="372">cn=groupA</text>
+  <text class="attr" x="170" y="402">member:</text>
+  <text class="uid" x="170" y="432">uid=alice,ou=people,…</text>
+  <text class="uid" x="170" y="462">uid=bob,ou=people,…</text>
+
+  <rect class="box" x="360" y="330" width="300" height="160" rx="8"/>
+  <text class="ou" x="510" y="372">cn=groupB</text>
+  <text class="attr" x="510" y="402">member:</text>
+  <text class="uid" x="510" y="432">uid=alice,ou=people,…</text>
+
+  <!-- person entries -->
+  <rect class="person" x="745" y="384" width="210" height="52" rx="26"/>
+  <text class="uid" x="850" y="417">uid=alice</text>
+
+  <rect class="person" x="1085" y="384" width="210" height="52" rx="26"/>
+  <text class="uid" x="1190" y="417">uid=bob</text>
+</svg>
