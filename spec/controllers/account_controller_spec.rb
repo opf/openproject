@@ -420,6 +420,110 @@ RSpec.describe AccountController, :skip_2fa_stage do
     end
   end
 
+  describe "GET #webauthn_authentication_options" do
+    let(:relying_party) { instance_double(WebAuthn::RelyingParty) }
+    # rubocop:disable RSpec/VerifiedDoubles
+    let(:options) { double("options", challenge: "test-challenge", as_json: { challenge: "test-challenge" }) }
+    # rubocop:enable RSpec/VerifiedDoubles
+
+    before do
+      allow(WebAuthn::RelyingParty).to receive(:new).and_return(relying_party)
+    end
+
+    context "when passkey authentication is disabled" do
+      it "is not found" do
+        get :webauthn_authentication_options
+
+        expect(response).to have_http_status :not_found
+      end
+    end
+
+    context "when passkey authentication is enabled", with_settings: { passkey_authentication_enabled: true } do
+      before do
+        allow(relying_party).to receive(:options_for_authentication).with(allow: []).and_return(options)
+
+        get :webauthn_authentication_options
+      end
+
+      it "returns the challenge options and stashes the challenge in the session" do
+        expect(response).to be_successful
+        expect(session[:webauthn_login_challenge]).to eq("test-challenge")
+      end
+    end
+  end
+
+  describe "POST #webauthn_authenticate" do
+    shared_let(:target_user) { create(:user) }
+
+    let!(:webauthn_credential) { create(:webauthn_credential, user: target_user, sign_count: 5) }
+    let(:relying_party) { instance_double(WebAuthn::RelyingParty) }
+    let(:credential_param) { { id: webauthn_credential.external_id }.to_json }
+
+    before do
+      allow(WebAuthn::RelyingParty).to receive(:new).and_return(relying_party)
+      session[:webauthn_login_challenge] = "test-challenge"
+    end
+
+    context "when passkey authentication is disabled" do
+      it "is not found" do
+        post :webauthn_authenticate, params: { credential: credential_param }
+
+        expect(response).to have_http_status :not_found
+      end
+    end
+
+    context "when passkey authentication is enabled", with_settings: { passkey_authentication_enabled: true } do
+      context "with a valid credential" do
+        let(:verified) { double("verified", sign_count: 6) } # rubocop:disable RSpec/VerifiedDoubles
+
+        before do
+          allow(relying_party)
+            .to receive(:verify_authentication)
+            .with({ "id" => webauthn_credential.external_id }, "test-challenge",
+                  public_key: webauthn_credential.public_key, sign_count: 5)
+            .and_return(verified)
+
+          post :webauthn_authenticate, params: { credential: credential_param }
+        end
+
+        it "logs the user in" do
+          expect(response).to redirect_to home_path
+          expect(controller.send(:current_user)).to eq(target_user)
+        end
+
+        it "updates the stored sign count" do
+          expect(webauthn_credential.reload.sign_count).to eq(6)
+        end
+      end
+
+      context "with an unrecognized credential id" do
+        let(:credential_param) { { id: "unknown-external-id" }.to_json }
+
+        before do
+          post :webauthn_authenticate, params: { credential: credential_param }
+        end
+
+        it "rejects the login" do
+          expect(response).to have_http_status :unprocessable_entity
+          expect(controller.send(:current_user)).to be_anonymous
+        end
+      end
+
+      context "when the assertion fails verification" do
+        before do
+          allow(relying_party).to receive(:verify_authentication).and_raise(WebAuthn::Error)
+
+          post :webauthn_authenticate, params: { credential: credential_param }
+        end
+
+        it "rejects the login" do
+          expect(response).to have_http_status :unprocessable_entity
+          expect(controller.send(:current_user)).to be_anonymous
+        end
+      end
+    end
+  end
+
   describe "#login with omniauth_direct_login enabled",
            with_config: { omniauth_direct_login_provider: "some_provider" } do
     describe "GET" do

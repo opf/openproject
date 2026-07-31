@@ -89,6 +89,11 @@ module Settings
 
       f.check_box(name: :log_requesting_user)
 
+      f.check_box(
+        name: :passkey_authentication_enabled,
+        caption: I18n.t(:setting_passkey_authentication_enabled_caption)
+      )
+
       f.text_field(
         name: :after_first_login_redirect_url,
         caption: helpers.t(:setting_after_first_login_redirect_url_text_html),

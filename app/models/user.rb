@@ -80,6 +80,7 @@ class User < Principal
   has_many :non_working_times, class_name: "UserNonWorkingTime",
                                dependent: :destroy,
                                inverse_of: :user
+  has_many :webauthn_credentials, dependent: :destroy
 
   # The user might have one invitation token
   has_one :invitation_token, class_name: "::Token::Invitation", dependent: :destroy
@@ -414,6 +415,12 @@ class User < Principal
   # Is the user authenticated via an external authentication source via OmniAuth?
   def uses_external_authentication?
     user_auth_provider_links.exists?
+  end
+
+  # Lazily assigns the opaque WebAuthn user handle used by both passkey login
+  # (WebauthnCredential) and 2FA (TwoFactorAuthentication::Device::Webauthn).
+  def ensure_webauthn_id!
+    update!(webauthn_id: WebAuthn.generate_user_id) if webauthn_id.blank?
   end
 
   #

@@ -82,4 +82,30 @@ RSpec.describe "Authentication Settings",
       end
     end
   end
+
+  describe "PATCH /admin/settings/authentication?tab=login" do
+    context "when enabling passkey authentication" do
+      before do
+        Setting.passkey_authentication_enabled = false
+        patch "/admin/settings/authentication.html?tab=login",
+              params: { settings: { passkey_authentication_enabled: "1" } }
+      end
+
+      it "persists the setting" do
+        expect(Setting).to be_passkey_authentication_enabled
+      end
+    end
+
+    context "when disabling passkey authentication" do
+      before do
+        Setting.passkey_authentication_enabled = true
+        patch "/admin/settings/authentication.html?tab=login",
+              params: { settings: { passkey_authentication_enabled: "0" } }
+      end
+
+      it "persists the setting" do
+        expect(Setting).not_to be_passkey_authentication_enabled
+      end
+    end
+  end
 end

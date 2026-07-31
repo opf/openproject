@@ -119,6 +119,11 @@ Rails.application.routes.draw do
     get "/login/internal", action: "internal_login", as: "internal_signin"
     get "/logout", action: "logout", as: "signout"
 
+    get "/account/webauthn/authentication_options",
+        action: "webauthn_authentication_options",
+        as: "account_webauthn_authentication_options"
+    post "/account/webauthn/authenticate", action: "webauthn_authenticate", as: "account_webauthn_authenticate"
+
     get "/sso", action: "auth_source_sso_failed", as: "sso_failure"
 
     get "/login/:stage/failure", action: "stage_failure", as: "stage_failure"
@@ -1211,6 +1216,8 @@ Rails.application.routes.draw do
       delete :revoke_ical_token
       delete :revoke_ical_meeting_token
     end
+
+    resources :webauthn_credentials, only: %i[new create destroy]
   end
 
   scope controller: "my" do

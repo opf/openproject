@@ -26,20 +26,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_my_account), t(:label_my_security) %>
-
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_my_security) }
-    header.with_breadcrumbs(
-      [{ href: my_account_path, text: t(:label_my_account) },
-       t(:label_my_security)]
-    )
-  end
-%>
-
-<%= render partial: "my/password", locals: { submit_button_scheme: :secondary } %>
-
-<%= render partial: "my/webauthn_credentials" %>
-
-<%= call_hook(:view_my_security_2fa_section, user: @user, cookies:) %>
+<% if Setting.passkey_authentication_enabled? %>
+  <div class="webauthn-login"
+       data-controller="webauthn--login"
+       data-webauthn--login-options-url-value="<%= account_webauthn_authentication_options_path %>"
+       data-webauthn--login-authenticate-url-value="<%= account_webauthn_authenticate_path %>"
+       data-webauthn--login-back-url-value="<%= back_url_to_current_page %>">
+    <%= render(Primer::Beta::Button.new(
+          scheme: :default,
+          block: true,
+          data: { action: "webauthn--login#signIn", test_selector: "webauthn-login--button" }
+        )) do |button|
+          button.with_leading_visual_icon(icon: :key)
+          t("webauthn_credentials.sign_in_with_passkey")
+        end %>
+    <p class="webauthn-credentials--error" data-webauthn--login-target="errorDisplay"></p>
+  </div>
+<% end %>

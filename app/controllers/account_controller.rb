@@ -36,6 +36,7 @@ class AccountController < ApplicationController
   include Accounts::UserLimits
   include Accounts::UserLogin
   include Accounts::UserPasswordChange
+  include Accounts::WebauthnLogin
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
@@ -51,7 +52,9 @@ class AccountController < ApplicationController
                              :stage_success,
                              :stage_failure,
                              :change_password,
-                             :auth_source_sso_failed
+                             :auth_source_sso_failed,
+                             :webauthn_authentication_options,
+                             :webauthn_authenticate
 
   before_action :apply_csp_appends, only: %i[login]
   before_action :disable_api

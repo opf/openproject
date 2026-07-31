@@ -110,6 +110,26 @@ RSpec.describe "Authentication Settings", :js do
       expect(login_page).to have_unchecked_field "Log user login, name, and mail address for all requests"
     end
 
+    it "allows changing passkey sign-in" do
+      expect(login_page).to have_unchecked_field "Passkey sign-in"
+
+      check "Passkey sign-in"
+
+      login_page.save
+      Setting.clear_cache
+      login_page.reload!
+
+      expect(login_page).to have_checked_field "Passkey sign-in"
+
+      uncheck "Passkey sign-in"
+
+      login_page.save
+      Setting.clear_cache
+      login_page.reload!
+
+      expect(login_page).to have_unchecked_field "Passkey sign-in"
+    end
+
     it "allows changing login redirect options" do
       expect(login_page).to have_field "First login redirect", with: ""
       expect(login_page).to have_field "After login redirect", with: ""

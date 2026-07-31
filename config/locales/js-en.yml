@@ -955,6 +955,12 @@ en:
       label_loading: loading watchers...
       label_search_watchers: Search watchers
       typeahead_placeholder: Search for possible watchers
+
+    webauthn_credentials:
+      errors:
+        not_supported: "Your browser does not support passkeys."
+        aborted: "Passkey action cancelled."
+        failed: "Signing in with a passkey failed. Please try again or use your password."
     wiki_formatting:
       code: "Inline Code"
       deleted: "Deleted"

@@ -5384,6 +5384,8 @@ en:
   setting_oauth_allow_remapping_of_existing_users: "Allow remapping of existing users"
   setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_organization_name: "Organization name"
+  setting_passkey_authentication_enabled: "Passkey sign-in"
+  setting_passkey_authentication_enabled_caption: "When checked, users may register passkeys and sign in with them as an additional, passwordless login method."
   setting_password_active_rules: "Password requirements"
   setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
   setting_password_days_valid: "Number of days, after which to enforce a password change"
@@ -6497,6 +6499,21 @@ en:
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users).
     Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+
+  webauthn_credentials:
+    plural: "Passkeys"
+    description: "Passkeys let you sign in without a password, using your device's biometrics, PIN, or a security key."
+    register: "Register a passkey"
+    default_name: "Passkey"
+    last_used_on: "Last used on %{date}"
+    never_used: "Never used"
+    registration_complete: "Passkey registered successfully."
+    registration_failed: "The passkey could not be registered. Please try again."
+    removed: "Passkey removed."
+    sign_in_with_passkey: "Sign in with a passkey"
+    errors:
+      not_supported: "Your browser does not support passkeys."
+      failed: "Signing in with a passkey failed. Please try again or use your password."
 
   wiki:
     index:

@@ -64,6 +64,10 @@ RSpec.describe Setting do
     it "allows users to not access public information by default" do
       expect(described_class).to be_login_required
     end
+
+    it "disables passkey authentication by default" do
+      expect(described_class).not_to be_passkey_authentication_enabled
+    end
   end
 
   # checks whether settings can be set and are persisted in the database

@@ -834,6 +834,11 @@ module Settings
         description: "Enable or disable onboarding guided tour for new users",
         default: true
       },
+      passkey_authentication_enabled: {
+        description: "Allow users to sign in and register passkeys (WebAuthn) as a primary, passwordless login method",
+        format: :boolean,
+        default: false
+      },
       password_active_rules: {
         default: %w[lowercase uppercase numeric special],
         default_by_env: {
