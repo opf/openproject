@@ -61,7 +61,7 @@ module WorkPackageTypes
           src: toggle_path,
           csrf_token: helpers.form_authenticity_token,
           checked: !excluded?,
-          on_label: t("types.edit.form_configuration.exclusions.inherited"),
+          on_label: "",
           off_label: t("types.edit.form_configuration.exclusions.excluded"),
           size: :small,
           status_label_position: :start,

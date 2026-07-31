@@ -6148,8 +6148,7 @@ en:
         empty_group_hint: "Drag attributes here"
         exclusions:
           attribute_label: "Inherit %{attribute}"
-          excluded: "Excluded"
-          inherited: "Inherited"
+          excluded: "Hidden"
           section_label: "Inherit section %{section}"
         filter_inactive: "Filter attributes"
         group_actions: "Section actions"
