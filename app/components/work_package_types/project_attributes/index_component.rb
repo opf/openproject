@@ -27,6 +27,27 @@ module WorkPackageTypes
 
       private
 
+      def visible_sections
+        return @project_custom_field_sections unless @readonly
+
+        sections_with_active_fields
+      end
+
+      def sections_with_active_fields
+        result = []
+
+        @project_custom_field_sections.each do |section, custom_fields|
+          active_fields = custom_fields.select { |cf| active_field_ids.include?(cf.id) }
+          result << [section, active_fields] if active_fields.any?
+        end
+
+        result
+      end
+
+      def active_field_ids
+        @active_field_ids ||= @type.project_custom_field_type_mappings.to_set(&:custom_field_id)
+      end
+
       def wrapper_data_attributes
         {
           controller: "filter--filter-list",

@@ -200,4 +200,35 @@ RSpec.describe "Work package type project attributes", :js do
       expect(custom_fields[1].text).to include("Boolean field")
     end
   end
+
+  describe "in linked mode", with_flag: { type_variants: true } do
+    let(:aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
+    let(:source_type) { create(:type, name: "Source type") }
+    let(:linked_type) { create(:type, name: "Linked type") }
+    let(:linked_type_page) { Pages::Types::ProjectAttributes.new(linked_type) }
+
+    before do
+      # Source activates only the Boolean field
+      source_type.project_custom_fields << boolean_project_custom_field
+      linked_type.link!(aspect, source: source_type)
+    end
+
+    it "hides the attributes deactivated in the source and only lists the active ones" do
+      linked_type_page.visit!
+
+      expect(page).to have_text("Boolean field")
+      expect(page).to have_no_text("String field")
+      expect(page).to have_no_text("List field")
+      # Also hides empty sections
+      expect(page).to have_no_css("[data-test-selector='type-project-attribute-section-#{select_section.id}']")
+    end
+
+    it "still lists all attributes for the independent source type" do
+      Pages::Types::ProjectAttributes.new(source_type).visit!
+
+      expect(page).to have_text("Boolean field")
+      expect(page).to have_text("String field")
+      expect(page).to have_text("List field")
+    end
+  end
 end
