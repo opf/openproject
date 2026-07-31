@@ -39,7 +39,7 @@ export function registerInlineWpCallbacks(
   onSelect:WpSelectedCallback,
   onCancel:WpCancelCallback,
 ):void {
-  if (process.env.NODE_ENV !== 'production' && registry.has(key)) {
+  if (!import.meta.env.PROD && registry.has(key)) {
     console.warn(`[inline-wp] Overwriting existing callbacks for key "${key}". This is likely a bug.`);
   }
   registry.set(key, { onSelect, onCancel });

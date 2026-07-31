@@ -111,6 +111,10 @@ export default defineConfig([
 
       'max-classes-per-file': 'off',
       'vitest/no-commented-out-tests': 'off',
+
+      // expect.element(locator, options) and expect(value, message) both take
+      // a second argument; the rule assumes a single one.
+      'vitest/valid-expect': ['error', { maxArgs: 2 }],
     },
   },
   {

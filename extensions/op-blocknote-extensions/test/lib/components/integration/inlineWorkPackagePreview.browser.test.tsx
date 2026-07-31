@@ -120,7 +120,7 @@ describe('Inline chip - XXS hover preview', () => {
 describe('Inline chip - XXS long-press preview (touch)', () => {
   function forceTouch() {
     const original = window.matchMedia;
-    window.matchMedia = ((query:string) => ({
+    window.matchMedia = (query:string) => ({
       matches: false,
       media: query,
       onchange: null,
@@ -129,7 +129,7 @@ describe('Inline chip - XXS long-press preview (touch)', () => {
       addListener: () => {},
       removeListener: () => {},
       dispatchEvent: () => false,
-    })) as typeof window.matchMedia;
+    });
     return () => { window.matchMedia = original; };
   }
 
