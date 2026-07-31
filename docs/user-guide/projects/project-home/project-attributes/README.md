@@ -59,4 +59,4 @@ To configure this, navigate to **Administration → Work packages → Types**, o
 > [!NOTE]
 > The visibility of project attributes in work packages is configured independently from the project overview page. Changing where a project attribute is displayed does not affect the attribute itself or its value. Any changes made to a project attribute are reflected everywhere it is displayed.
 
-For more information, see the documentation on [displaying project attributes in work package forms](../../manage-work-packages/work-package-types#display-project-attributes-in-work-package-forms).
+For more information, see the documentation on [displaying project attributes in work package forms](../../../../manage-work-packages/work-package-types/#display-project-attributes-in-work-package-forms).
