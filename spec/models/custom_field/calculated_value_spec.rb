@@ -213,6 +213,31 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     end
   end
 
+  describe ".computed_value?" do
+    {
+      true => [
+        1,
+        2.0,
+        BigDecimal("3"),
+        true,
+        false
+      ],
+      false => [
+        nil,
+        "3",
+        "foo",
+        [1],
+        Dentaku::ArgumentError.for(:invalid_value)
+      ]
+    }.each do |is_computed, values|
+      values.each do |value|
+        context "for #{value.inspect}" do
+          it { expect(described_class.computed_value?(value)).to be(is_computed) }
+        end
+      end
+    end
+  end
+
   describe "#usable_custom_field_references_for_formula" do
     let!(:int) { create(:project_custom_field, :integer, default_value: 4, is_for_all: true) }
     let!(:float) { create(:project_custom_field, :float, default_value: 5.5, is_for_all: true) }
