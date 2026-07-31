@@ -91,7 +91,7 @@ module Backlogs
         end
 
         def work_packages
-          @work_packages ||= WorkPackage.where(sprint:, project:)
+          @work_packages ||= WorkPackage.where(sprint:, project:).visible
         end
 
         def resolved_work_packages_count
