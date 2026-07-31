@@ -30,57 +30,57 @@
 
 module WorkPackageTypes
   module FormConfiguration
-    # Reusable module for rendering exclusion toggles for attributes and query group components
-    module ExclusionToggle
+    # The switch each linked attribute row renders to control exclusion of one element.
+    #
+    # +element_key+ the attribute or query key ("assignee", "custom_field_3", "query_7");
+    # +label+ Readable attribute label for the aria-label of the toggle
+    class ExclusionToggleComponent < ApplicationComponent
       ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
-      def render_exclusion_toggle?
-        @exclusions.present? && exclusion_element_key.present?
+      def initialize(exclusions:, element_key:, label:)
+        super
+
+        @exclusions = exclusions
+        @element_key = element_key
+        @label = label
+      end
+
+      # Exclusion or element_key being empty means the type owns its configuration, so there is nothing to render
+      def render?
+        @exclusions.present? && @element_key.present?
+      end
+
+      def call
+        render(Primer::Alpha::ToggleSwitch.new(**toggle_arguments))
       end
 
       private
 
-      def exclusion_element_key
-        raise SubclassResponsibilityError
-      end
-
-      def exclusion_toggle_label
-        raise SubclassResponsibilityError
+      def toggle_arguments
+        {
+          src: toggle_path,
+          csrf_token: helpers.form_authenticity_token,
+          checked: !excluded?,
+          on_label: t("types.edit.form_configuration.exclusions.inherited"),
+          off_label: t("types.edit.form_configuration.exclusions.excluded"),
+          size: :small,
+          status_label_position: :start,
+          aria: { label: @label },
+          classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
+          data: { test_selector: test_selector }
+        }
       end
 
       def excluded?
-        @exclusions.excluded?(exclusion_element_key)
+        @exclusions.excluded?(@element_key)
       end
 
-      def exclusion_toggle_path
-        type_excluded_element_toggle_path(
-          type_id: @exclusions.type.id,
-          aspect: ASPECT,
-          element: exclusion_element_key
-        )
+      def toggle_path
+        type_excluded_element_toggle_path(type_id: @exclusions.type.id, aspect: ASPECT, element: @element_key)
       end
 
-      def exclusion_on_label
-        t("types.edit.form_configuration.exclusions.inherited")
-      end
-
-      def exclusion_off_label
-        t("types.edit.form_configuration.exclusions.excluded")
-      end
-
-      def exclusion_toggle_arguments
-        {
-          src: exclusion_toggle_path,
-          csrf_token: helpers.form_authenticity_token,
-          checked: !excluded?,
-          on_label: exclusion_on_label,
-          off_label: exclusion_off_label,
-          size: :small,
-          status_label_position: :start,
-          aria: { label: exclusion_toggle_label },
-          classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
-          data: { test_selector: "toggle-form-config-exclusion-#{exclusion_element_key}" }
-        }
+      def test_selector
+        "toggle-form-config-exclusion-#{@element_key}"
       end
     end
   end

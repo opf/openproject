@@ -20,10 +20,8 @@
       end
     end
 
-    if render_exclusion_toggle?
-      row.with_column(py: 1, mr: 2) do
-        render(Primer::Alpha::ToggleSwitch.new(**exclusion_toggle_arguments))
-      end
+    if exclusion_toggle.render?
+      row.with_column(py: 1, mr: 2) { render(exclusion_toggle) }
     end
 
     if ee_available? && !readonly?

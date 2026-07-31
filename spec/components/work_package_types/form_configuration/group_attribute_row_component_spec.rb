@@ -24,15 +24,11 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     expect(page).to have_text("Assignee")
   end
 
+  # The switch itself is covered by ExclusionToggleComponent; what matters here is that the row
+  # hands it this attribute's key and label, and asks for it only in read-only mode.
   describe "the exclusion toggle" do
-    subject(:toggle) { page.find("[data-test-selector='toggle-form-config-exclusion-assignee']") }
-
     def render_row(exclusions:, readonly: true)
       render_inline(described_class.new(attribute:, type:, index: 0, total_count: 2, readonly:, exclusions:))
-    end
-
-    def exclusion_state(own:, effective:)
-      WorkPackageTypes::FormConfigurationComponent::ExclusionState.new(type:, own:, effective:)
     end
 
     it "is not rendered in editable mode" do
@@ -47,24 +43,12 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
       expect(page).to have_no_test_selector("toggle-form-config-exclusion-assignee")
     end
 
-    it "is on and posts to the toggle endpoint when the element is not excluded", :aggregate_failures do
-      render_row(exclusions: exclusion_state(own: [], effective: []))
+    it "is keyed on the attribute and labelled with its translation", :aggregate_failures do
+      render_row(exclusions: WorkPackageTypes::FormConfigurationComponent::ExclusionState
+                               .new(type:, own: [], effective: []))
 
-      expect(toggle.find("button")["aria-pressed"]).to eq("true")
+      toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee']")
       expect(toggle.find("button")["aria-label"]).to eq("Inherit Assignee")
-      expect(toggle["src"]).to eq(
-        "/types/#{type.id}/exclusions/form_configuration/toggle?element=assignee"
-      )
-    end
-
-    # Rows an ancestor excludes never reach this component: FormConfigurationComponent leaves them
-    # out, so the switch here is always writable.
-    it "is off and still writable when this type excludes the element itself", :aggregate_failures do
-      render_row(exclusions: exclusion_state(own: %w[assignee], effective: %w[assignee]))
-
-      expect(toggle.find("button")["aria-pressed"]).to eq("false")
-      expect(toggle["src"]).to be_present
-      expect(toggle["class"]).not_to include("ToggleSwitch--disabled")
     end
   end
 end

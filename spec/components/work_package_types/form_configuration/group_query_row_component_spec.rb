@@ -26,12 +26,11 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
       )
     end
 
-    it "excludes the whole section by its query key", :aggregate_failures do
+    it "is keyed on the query and labelled with the section name", :aggregate_failures do
       render_inline(described_class.new(group: group.merge(element_key: "query_7"),
                                         ee_available: false, readonly: true, exclusions:))
 
       toggle = page.find("[data-test-selector='toggle-form-config-exclusion-query_7']")
-      expect(toggle["src"]).to eq("/types/#{type.id}/exclusions/form_configuration/toggle?element=query_7")
       expect(toggle.find("button")["aria-label"]).to eq("Inherit section Related")
     end
 
