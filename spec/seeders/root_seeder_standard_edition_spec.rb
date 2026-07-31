@@ -86,7 +86,7 @@ RSpec.describe RootSeeder,
       )
 
       fritz = root_seeder.seed_data.find_reference(:user__fritz_finance)
-      expect(fritz).to have_attributes(login: "fritz.finance", mail: "fritz.finance@example.com", status: "active")
+      expect(fritz).to have_attributes(login: "fritz.finance", mail: "fritz.finance@example.com", status: "invited")
       expect(root_seeder.seed_data.find_reference(:department__finance_administration).users)
         .to include(fritz)
     end

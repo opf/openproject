@@ -531,27 +531,59 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       end
     end
 
-    context "when checking with visited nodes tracking" do
-      let!(:field1) do
-        create(:calculated_value_project_custom_field,
-               formula: "#{int_field} + 1",
-               is_for_all: true)
+    context "in a diamond shape" do
+      # top ┬> branch_a ┬> shared -> int_field
+      #     ╰- branch_b ╯
+      let!(:shared) do
+        create(:calculated_value_project_custom_field, formula: "#{int_field} + 1", is_for_all: true)
       end
 
-      let!(:field2) do
-        create(:calculated_value_project_custom_field,
-               formula: "#{field1} + 2",
-               is_for_all: true)
+      let!(:branch_a) do
+        create(:calculated_value_project_custom_field, formula: "#{shared} + 2", is_for_all: true)
       end
 
-      it "returns false when a node has already been visited" do
-        visited = { field1.id => false }
-        expect(field1.can_be_referenced_by?(field2.id, visited)).to be false
+      let!(:branch_b) do
+        create(:calculated_value_project_custom_field, formula: "#{shared} + 3", is_for_all: true)
       end
 
-      it "returns true when checking a new node with empty visited set" do
-        visited = {}
-        expect(field1.can_be_referenced_by?(field2.id, visited)).to be true
+      let!(:top) do
+        create(:calculated_value_project_custom_field, formula: "#{branch_a} + #{branch_b}", is_for_all: true)
+      end
+
+      it "can be referenced when a dependency is reached through two branches without a cycle" do
+        expect(top.can_be_referenced_by?(subject.id)).to be true
+      end
+
+      it "field can be referenced by any field if that would not lead to a loop", :aggregate_failures do
+        expect(shared.can_be_referenced_by?(top.id)).to be true
+        expect(shared.can_be_referenced_by?(branch_a.id)).to be true
+        expect(shared.can_be_referenced_by?(branch_b.id)).to be true
+        expect(branch_a.can_be_referenced_by?(top.id)).to be true
+        expect(branch_a.can_be_referenced_by?(branch_b.id)).to be true
+        expect(branch_b.can_be_referenced_by?(top.id)).to be true
+        expect(branch_b.can_be_referenced_by?(branch_a.id)).to be true
+      end
+
+      it "field cannot be referenced by any field if that would lead to a loop", :aggregate_failures do
+        expect(top.can_be_referenced_by?(branch_a.id)).to be false
+        expect(top.can_be_referenced_by?(branch_b.id)).to be false
+        expect(top.can_be_referenced_by?(shared.id)).to be false
+        expect(branch_a.can_be_referenced_by?(shared.id)).to be false
+        expect(branch_b.can_be_referenced_by?(shared.id)).to be false
+      end
+
+      it "non calculated field can be referenced by any field", :aggregate_failures do
+        expect(int_field.can_be_referenced_by?(top.id)).to be true
+        expect(int_field.can_be_referenced_by?(shared.id)).to be true
+        expect(int_field.can_be_referenced_by?(branch_a.id)).to be true
+        expect(int_field.can_be_referenced_by?(branch_b.id)).to be true
+      end
+
+      it "field cannot be referenced by an id it uses, even a non calculated one", :aggregate_failures do
+        expect(top.can_be_referenced_by?(int_field.id)).to be false
+        expect(branch_a.can_be_referenced_by?(int_field.id)).to be false
+        expect(branch_b.can_be_referenced_by?(int_field.id)).to be false
+        expect(shared.can_be_referenced_by?(int_field.id)).to be false
       end
     end
 
