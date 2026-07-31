@@ -67,10 +67,9 @@ module WorkPackageTypes
 
     # We memoize the exclusion state here to avoid an n+1 query
     def exclusion_state
-      return nil unless readonly?
       return @exclusion_state if defined?(@exclusion_state)
 
-      @exclusion_state = build_exclusion_state
+      @exclusion_state = readonly? ? build_exclusion_state : nil
     end
 
     def ee_available?
