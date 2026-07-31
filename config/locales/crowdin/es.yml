@@ -4767,8 +4767,8 @@ es:
           no_status_when_submitted: No se ha podido habilitar la solicitud de inicio del proyecto porque el tipo de paquete de trabajo %{type} requiere al menos un estado asociado. Habilite al menos un flujo de trabajo de estado para este tipo de paquete de trabajo.
           no_work_package_type: No se ha podido habilitar la solicitud de inicio del proyecto porque requiere al menos un tipo de paquete de trabajo activo y este proyecto no tiene ninguno. Añada al menos un tipo de paquete de trabajo a este proyecto.
         export:
-          description_attachment_export: El documento generado se guardará como archivo PDF adjunto al paquete de trabajo correspondiente.
-          description_file_link_export: El paquete de trabajo de artefacto tendrá un enlace de archivo a un PDF almacenado en un almacenamiento de archivos externo. Requiere un almacenamiento de archivos de trabajo con carpetas de proyecto gestionadas automáticamente para este proyecto. Por el momento sólo son compatibles los almacenamientos de archivos Nextcloud.
+          description_attachment_export: El artefacto generado se guardará como un archivo PDF adjunto al paquete de trabajo del artefacto.
+          description_file_link_export: El paquete de trabajo del artefacto tendrá un enlace a un archivo PDF guardado en un servicio de almacenamiento externo. Para este proyecto, necesitas un servicio de almacenamiento que funcione y que gestione automáticamente las carpetas del proyecto. Por ahora, solo se admiten los servicios de almacenamiento de Nextcloud.
           description_file_storage_selection: Selecciona cuál de los almacenamientos de archivos externos configurados se debe utilizar.
           external_file_storage: Almacenamiento de archivos externo
           label_artifact_export: Exportación de artefactos
@@ -5372,12 +5372,12 @@ es:
         confirmation_message: El asistente de solicitud de inicio ya no estará disponible para los nuevos proyectos basados en esta plantilla. Los gestores y propietarios de proyectos tendrán que configurar y rellenar manualmente la información relevante en la descripción general del proyecto.
         heading: "¿Desactivar la solicitud de inicio de proyecto?"
         title: Desactivar solicitud de inicio de proyecto
-      header_description: 'OpenProject puede generar un asistente paso a paso para ayudar a los gestores de proyectos a cumplimentar una solicitud de inicio de proyecto. Puede elegir qué atributos del proyecto deben incluirse y crear un documento PDF como resultado.
+      header_description: 'OpenProject puede generar un asistente paso a paso para ayudar a los gestores de proyectos a completar una solicitud de inicio de proyecto. Puedes elegir qué atributos del proyecto deben incluirse y crear un artefacto de PDF como resultado.
 
         '
       name:
         artifact_name: Nombre del artefacto
-        artifact_name_caption: Elija el nombre que su marco de gestión de proyectos recomienda para este artefacto.
+        artifact_name_caption: Elige el nombre para este artefacto que recomiende tu marco de gestión de proyectos.
         options:
           project_creation_wizard: Asistente de creación de proyectos
           project_initiation_request: Solicitud de inicio de proyecto
@@ -5397,7 +5397,7 @@ es:
           Has enviado una solicitud de inicio de proyecto para **%{project_name}**. Ahora está pendiente de revisión.
           Haz clic en el enlace siguiente para acceder al paquete de trabajo con tu solicitud.
         confirmation_email_text: Texto del correo electrónico de confirmación
-        description: Cuando un usuario envíe una solicitud de inicio de proyecto, se creará un nuevo paquete de trabajo con el documento de la solicitud adjunto en formato PDF. Los parámetros que se indican a continuación definen el tipo, el estado y el responsable de este nuevo paquete de trabajo.
+        description: Cuando un usuario envía una solicitud de inicio de proyecto, se creará un nuevo paquete de trabajo con el artefacto de solicitud adjunto como archivo PDF. La configuración siguiente define el tipo, el estado y el asignado de este nuevo paquete de trabajo.
         description_template: "**Este paquete de trabajo se ha creado automáticamente al completar el flujo de trabajo %{wizard_name}.** Se ha generado un archivo PDF con toda la información enviada y se ha adjuntado a este paquete de trabajo para fines de referencia y auditoría. Si necesitas actualizar o volver a ejecutar los pasos de inicio, puedes volver a abrir el asistente en cualquier momento utilizando el siguiente enlace:\n"
         send_confirmation_email: Enviar un correo electrónico de confirmación al usuario que envió la solicitud de inicio del proyecto
         status_when_submitted: Estado al enviar
@@ -5406,7 +5406,7 @@ es:
         work_package_comment_caption: La persona asignada seleccionada anteriormente será @mencionada automáticamente en el comentario.
         work_package_comment_default: Se ha enviado una solicitud de inicio de proyecto para **%{project_name}** y está pendiente de revisión.
         work_package_type: Tipo de paquete de trabajo
-        work_package_type_caption: El tipo de paquete de trabajo que debe utilizarse para almacenar el artefacto finalizado.
+        work_package_type_caption: El tipo de paquete de trabajo que debe utilizarse para almacenar el artefacto completado.
       wizard_status_button:
         project_creation_wizard: Abrir el asistente de creación de proyectos
         project_initiation_request: Abrir solicitud de inicio de proyecto
@@ -5781,11 +5781,11 @@ es:
   total_progress: Progreso total
   types:
     creation_wizard:
-      configuration_link_error: No se ha podido guardar el modo de reutilización. Seleccione un tipo de fuente.
+      configuration_link_error: No se ha podido guardar el modo de reutilización. Selecciona un tipo de fuente.
       create_subtype: Crear subtipo
       fields:
-        inherited_from_parent_html: Heredado del tipo padre <b>%{parent}</b>.
-      finish: Parar
+        inherited_from_parent_html: Heredado del tipo principal <b>%{parent}</b>.
+      finish: Finalizar
       placeholder_description: Este paso estará disponible en breve.
       progress_label: Paso %{number} de %{total}
       steps:
@@ -5797,7 +5797,7 @@ es:
         workflows: Flujos de trabajo
       success: El subtipo se ha creado correctamente.
       workflows:
-        copy_caption: Copie la configuración del flujo de trabajo de un tipo ya existente como punto de partida.
+        copy_caption: Copia la configuración del flujo de trabajo de un tipo ya existente como punto de partida.
     edit:
       configuration_link:
         independent:
@@ -5882,7 +5882,7 @@ es:
         select_projects_description: Seleccione los proyectos en los que desea utilizar este tipo.
         tab: Proyectos
       settings:
-        parent_type_text: Si lo desea, puede anidar este tipo como subtipo seleccionando un tipo principal.
+        parent_type_text: Si quieres, puedes anidar este tipo como subtipo seleccionando un tipo principal.
         tab: Ajustes
         type_color_text: El color seleccionado distingue distintos tipos en los diagramas de Gantt o en las tablas de paquetes de trabajo. Por lo tanto, se recomienda usar un color intenso.
       subject_configuration:
@@ -5904,7 +5904,7 @@ es:
             work_package: Paquete de trabajo
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
-      add_subtype: Añada un subtipo a %{name}
+      add_subtype: Añade un subtipo a %{name}
       description: 'Cada área de configuración dentro de los tipos y subtipos puede configurarse de forma independiente, limitarse con respecto a otro tipo o vincularse por completo a una fuente.
 
         '

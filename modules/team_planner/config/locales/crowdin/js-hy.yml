@@ -2,12 +2,12 @@
 hy:
   js:
     team_planner:
-      add_assignee: Assignee
+      add_assignee: Պատասխանատու
       add_existing: Add existing
       add_existing_title: Add existing work packages
       cannot_drag_here: Cannot move the work package due to permissions or editing restrictions.
       cannot_drag_to_non_working_day: This work package cannot start/finish on a non-working day.
-      create_label: Team planner
+      create_label: Թիմային պլանավորիչ
       create_title: Create new team planner
       drag_here_to_remove: Drag here to remove assignee and start and end dates.
       eight_weeks: 8-week
@@ -23,7 +23,7 @@ hy:
         empty_state: Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.
         search_placeholder: Search...
       remove_assignee: Remove assignee
-      today: Today
+      today: Այսօր
       two_weeks: 2-week
       unsaved_title: Unnamed team planner
-      work_week: Work week
+      work_week: Աշխատանքային շաբաթ

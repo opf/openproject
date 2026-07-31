@@ -3,13 +3,13 @@ hy:
   activerecord:
     attributes:
       wikis/page_link:
-        identifier: Identifier
+        identifier: Նույնացուցիչ
         provider: Wiki Provider
       wikis/provider:
-        name: Name
+        name: Անվանում
         universal_identifier: Universal identifier
       wikis/xwiki_provider:
-        authentication_method: Authentication method
+        authentication_method: Նույնականացման եղանակ
         authentication_methods:
           oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
           two_way_oauth2: Two-way OAuth 2.0 authorization code flow
@@ -62,12 +62,12 @@ hy:
         oauth_client_form_component:
           client_id: Wiki OAuth Client ID
           client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
+          redirect_uri: Վերահղման URI
           redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
       health_status:
         show:
           actions:
-            download_report: Download
+            download_report: Ներբեռնել
             rerun_checks: Re-run all checks
             run_checks: Run checks now
           last_check: 'Last check: %{datetime}'
@@ -96,7 +96,7 @@ hy:
           title: Health status report
       wiki_provider_list_component:
         label_creation_time: Created
-        label_name: Name
+        label_name: Անվանում
         label_provider: Provider
         no_results_description: Add a wiki provider to see them here.
         no_results_title: You don't have any wiki providers set up yet.
@@ -129,11 +129,11 @@ hy:
       done_continue: Done, continue
       open_wiki: Open wiki
       save_and_continue: Save and continue
-      wiki_page: Wiki page
+      wiki_page: Վիքի էջ
     create_new_wiki_page_dialog:
-      title: Create new wiki page
+      title: Ստեղծել նոր վիքի էջ
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: Բեռնվում է…
     delete_relation_page_link_confirmation_dialog:
       heading: Delete related wiki page link?
       title: Delete related wiki page link
@@ -162,13 +162,13 @@ hy:
         xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
         xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
     index:
-      column_last_edited: Last edited
-      column_name: Wiki page
-      column_project: Project
+      column_last_edited: Վերջին խմբագրում
+      column_name: Վիքի էջ
+      column_project: Նախագիծ
       column_sub_pages: Sub-pages
       filter_by_name: Filter by page name
-      filter_placeholder: Search by name
-      menu_title: Wiki
+      filter_placeholder: Որոնել ըստ անվան
+      menu_title: Վիքի
       no_results_description: No wiki pages are available.
       no_results_title: No wiki pages yet
       queries:
@@ -179,7 +179,7 @@ hy:
         other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_create: Ստեղծել նոր վիքի էջ
     instructions:
       xwiki:
         integration: XWiki Administration
@@ -195,9 +195,9 @@ hy:
       remove: Remove page link
     page_link_forms:
       labels:
-        page_title: Title
+        page_title: Վերնագիր
         parent: Parent wiki page
-        wiki_page: Wiki page
+        wiki_page: Վիքի էջ
       search:
         no_results: No wiki pages found
         placeholder: Search for a wiki page (or enter its URL)

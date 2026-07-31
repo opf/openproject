@@ -8,7 +8,7 @@ hy:
         response_code: Response code
         url: Payload URL
       webhooks/webhook:
-        enabled: Enabled
+        enabled: Միացված
         events: Events
         projects: Enabled projects
         secret: Signature secret
@@ -25,7 +25,7 @@ hy:
         time: Delivery time
         title: Recent deliveries
       events:
-        comment: Comment
+        comment: Մեկնաբանություն
         created: Created
         internal_comment: Internal comment
         updated: Updated
@@ -46,7 +46,7 @@ hy:
 
           '
         project_ids:
-          all: All projects
+          all: Բոլոր նախագծերը
           description: Select for which projects this webhook should be executed for.
           selected: Selected projects only
           title: Enabled projects
@@ -71,5 +71,5 @@ hy:
     plural: Webhooks
     resources:
       time_entry:
-        name: Time entry
+        name: Ժամանակի գրառում
     singular: Webhook

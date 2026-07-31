@@ -936,7 +936,7 @@ cs:
               status_invalid_in_type: je neplatná, protože aktuální stav neexistuje v tomto typu.
               status_transition_invalid: je neplatný, protože pro role aktuálního uživatele neexistuje žádný platný přechod.
             type:
-              cannot_be_milestone_due_to_children: nemůže být milníkem, protože tento pracovní balíček má děti.
+              cannot_be_milestone_due_to_children: nemůže být milníkem, protože tento pracovní balíček má potomky.
           is_not_a_valid_target_for_time_entries: 'Pracovní balíček #%{id} není platný cíl pro přeřazení časových záznamů.'
           readonly_status: Pracovní balíček je ve stavu jen pro čtení, takže jeho atributy nelze změnit.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
@@ -6388,7 +6388,7 @@ cs:
       label_blocked_singular: blokováno
       label_blocks_plural: bloky
       label_blocks_singular: bloky
-      label_child_plural: Potomci
+      label_child_plural: potomci
       label_child_singular: dítě
       label_closest: Nejbližší
       label_duplicated_by_plural: duplikován
@@ -6505,8 +6505,8 @@ cs:
         aria_label: Datepicker tabs
         blankslate:
           children:
-            description: Tento pracovní balíček nemá žádné potomky.
-            title: Žádní potomci
+            description: Tento pracovní balíček nemá žádné podřízené balíčky.
+            title: Žádné podřízené balíčky
           predecessors:
             description: This work package does not have any predecessors.
             title: Žádní předchůdci

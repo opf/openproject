@@ -24,10 +24,10 @@ hy:
   activerecord:
     attributes:
       meeting:
-        duration: Duration
+        duration: Տևողություն
         end_time: End time
         location: Location
-        notes: Notes
+        notes: Նշումներ
         notify: Send notifications
         participant:
           one: 1 Participant
@@ -37,50 +37,50 @@ hy:
         participants_attended: Attendees
         participants_invited: Invitees
         participants_removed: 'Participants removed:'
-        project: Project
+        project: Նախագիծ
         recurrence_start_time: Scheduled start time
-        sharing: Sharing
-        start_date: Date
-        start_time: Start time
-        start_time_hour: Start time
-        template: Template
+        sharing: Համօգտագործում
+        start_date: Ամսաթիվ
+        start_time: Սկզբի ժամ
+        start_time_hour: Սկզբի ժամ
+        template: Ձևանմուշ
         type: Meeting type
       meeting_agenda_item:
-        author: Author
-        description: Notes
-        duration_in_minutes: Duration
-        item_type: Type
-        lock_version: Lock version
-        notes: Notes
-        position: Position
+        author: Հեղինակ
+        description: Նշումներ
+        duration_in_minutes: Տևողություն
+        item_type: Տեսակ
+        lock_version: Կողպել տարբերակը
+        notes: Նշումներ
+        position: Դիրք
         presenter: Presenter
-        title: Title
+        title: Վերնագիր
       meeting_participant:
         attended: Attended
-        invited: Invited
+        invited: Հրավիրված
         participation_status: Participation status
       meeting_section:
-        position: Position
-        title: Title
+        position: Դիրք
+        title: Վերնագիր
       recurring_meeting:
-        duration: Duration
+        duration: Տևողություն
         end_after: Meeting series ends
-        end_date: End date
+        end_date: Ավարտի ամսաթիվ
         frequency: Frequency
         interval: Interval
         iterations: Occurrences
         location: Location
         monthly_day: Day of month
-        monthly_ordinal: Position
+        monthly_ordinal: Դիրք
         monthly_weekday: Weekday
         notify: Send notifications
         start_date: Starts on
-        start_time: Start time
-        start_time_hour: Start time
-        time_zone: Time zone
-        title: Title
+        start_time: Սկզբի ժամ
+        start_time_hour: Սկզբի ժամ
+        time_zone: Ժամային գոտի
+        title: Վերնագիր
       recurring_meeting_interim_response:
-        start_time: Start time
+        start_time: Սկզբի ժամ
     errors:
       messages:
         invalid_time_format: 'is not a valid time. Required format: HH:MM'
@@ -101,7 +101,7 @@ hy:
       meeting: One-time meeting
       meeting_agenda: Agenda
       meeting_agenda_item: Agenda item
-      meeting_section: Section
+      meeting_section: Բաժին
       recurring_meeting: Recurring meeting
       token/ical_meeting:
         one: iCal Meeting subscription
@@ -115,12 +115,12 @@ hy:
           added: set to %{value}
           added_html: set to <i>%{value}</i>
           removed: removed
-          updated: changed from %{old_value} to %{value}
+          updated: փոփոխվել է %{old_value}-ից %{value}-ի
           updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
         position:
           updated: reordered
         work_package:
-          updated: changed from %{old_value} to %{value}
+          updated: փոփոխվել է %{old_value}-ից %{value}-ի
           updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
   caption_meeting_template_select: Select a template to automatically copy its agenda items
   caption_template_project_select: Please select the project in which to create this meeting template
@@ -136,7 +136,7 @@ hy:
     meeting_minutes_created: Meeting minutes created
   label_add_work_package_to_meeting_dialog_button: Add to meeting
   label_add_work_package_to_meeting_dialog_title: Select meeting
-  label_add_work_package_to_meeting_section_label: Section
+  label_add_work_package_to_meeting_section_label: Բաժին
   label_added_as_outcome: Added as outcome
   label_agenda_backlog: Agenda backlog
   label_agenda_backlog_clear_title: Clear agenda backlog?
@@ -207,7 +207,7 @@ hy:
   label_meeting_index_delete: Delete
   label_meeting_index_later: Next week and later
   label_meeting_index_this_week: Later this week
-  label_meeting_index_today: Today
+  label_meeting_index_today: Այսօր
   label_meeting_index_tomorrow: Tomorrow
   label_meeting_last_updated: Last updated
   label_meeting_minutes: Minutes
@@ -231,18 +231,18 @@ hy:
   label_meeting_state: Meeting status
   label_meeting_state_agenda_created: Agenda created
   label_meeting_state_cancelled: Cancelled
-  label_meeting_state_closed: Closed
+  label_meeting_state_closed: Փակված
   label_meeting_state_draft: Draft
-  label_meeting_state_in_progress: In progress
+  label_meeting_state_in_progress: Ընթացքի մեջ
   label_meeting_state_open: Open
-  label_meeting_state_planned: Planned
+  label_meeting_state_planned: Պլանավորված
   label_meeting_state_skipped: Skipped
-  label_meeting_template: Template
+  label_meeting_template: Ձևանմուշ
   label_meeting_template_create: Create template
   label_meeting_template_delete: Delete template
   label_meeting_template_edit: Edit template
   label_meeting_template_new: New template
-  label_meeting_template_sharing: Sharing
+  label_meeting_template_sharing: Համօգտագործում
   label_meeting_template_sharing_descendants: With subprojects
   label_meeting_template_sharing_none: Only with this project
   label_meeting_template_sharing_system: With all projects
@@ -276,19 +276,19 @@ hy:
   label_recurring_meeting_series_edit: Edit meeting series
   label_recurring_meeting_series_end: End meeting series
   label_recurring_meeting_series_end_now: End series now
-  label_recurring_meeting_show_more: Show more
+  label_recurring_meeting_show_more: Ցուցադրել ավելին
   label_recurring_meeting_view: View meeting series
-  label_section_rename: Rename section
+  label_section_rename: Վերանվանել բաժինը
   label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
   label_series_backlog: Series backlog
   label_series_backlog_clear_title: Clear series backlog?
-  label_start_date: Start date
+  label_start_date: Սկզբի ամսաթիվ
   label_subscribe_icalendar: Subscribe to calendar
-  label_template: Template
-  label_time_zone: Time zone
+  label_template: Ձևանմուշ
+  label_time_zone: Ժամային գոտի
   label_upcoming_meetings: Upcoming meetings
   label_upcoming_meetings_short: Upcoming
-  label_version: Version
+  label_version: Տարբերակ
   label_view_meeting: View meeting
   label_view_meeting_series: View meeting series
   label_write_outcome: Write outcome
@@ -309,7 +309,7 @@ hy:
       attachments_text: Copy over all attached files to the new meeting
       participants: Copy list of participants
       title: 'Copy meeting: %{title}'
-      to_clipboard: Copy link to clipboard
+      to_clipboard: Պատճենել հղումը փոխանակման բուֆերում
     delete_dialog:
       occurrence:
         confirm_button: Cancel occurrence
@@ -367,7 +367,7 @@ hy:
         summary: Meeting series '%{title}' has been updated by %{actor}
         title: "[%{project_name}] Meeting series '%{title}' has been updated"
       updated:
-        added_participants: Added
+        added_participants: Ավելացված
         body: The meeting '%{title}' has been updated by %{actor}.
         header: Meeting '%{title}' has been updated
         new_date_time: New date/time
@@ -380,24 +380,24 @@ hy:
         summary: Meeting '%{title}' has been updated by %{actor}
     export:
       minutes:
-        author: Author
-        date: Date
+        author: Հեղինակ
+        date: Ամսաթիվ
         footer_page_numbers: P. %{current_page} of %{total_pages}
         location: Location
-        time: Time
+        time: Ժամ
         title: Minutes
       your_meeting_export: Meeting is being exported
     export_pdf_dialog:
       author:
         caption: The author of the minutes will be displayed in the subtitle.
-        label: Author
+        label: Հեղինակ
       description: Generate a printable PDF file of this meeting at the current state.
       first_page_header_left:
         caption: This text will appear on the first page at the left of the header.
         label: First page header left
       footer_text:
-        caption: This text will appear on every page at the center of the footer.
-        label: Footer text
+        caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի կենտրոնում։
+        label: Էջատակի տեքստ
       include_attachments:
         caption: A list containing the filenames of attachments will be appended at the end.
         label: Include list of attachments
@@ -410,11 +410,11 @@ hy:
       include_participants:
         caption: A list of participants will be preset above the meeting agenda.
         label: Include list of participants
-      submit_button: Download
+      submit_button: Ներբեռնել
       templates:
         default:
           caption: The default template is suitable for most meetings and represent the current state.
-          label: Default
+          label: Կանխադրված
         minutes:
           caption: The minutes template is suitable for closed and archived meetings.
           label: Minutes
@@ -454,7 +454,7 @@ hy:
         no_participants: No participants
         participants: Participants
         remove_participant: Remove participant
-        show_all: Show all
+        show_all: Ցուցադրել բոլորը
       text:
         manage_participants: Search for and add project members as participants to this meeting.
         search_for_members: Search for project members
@@ -463,12 +463,12 @@ hy:
       button_present: Present
       current_item: Current item
       exit: Exit presentation
-      next: Next
+      next: Հաջորդ
       no_items: No agenda items
       no_items_flash: There are no agenda items to present.
-      previous: Previous
+      previous: Նախորդ
       title: Presentation Mode
-      total_items: "%{current} of %{total}"
+      total_items: "%{current}-ը %{total}-ից"
     types:
       one_time: One-time
       recurring: Recurring
@@ -486,7 +486,7 @@ hy:
       declined: Declined
       needs_action: No response
       tentative: Maybe
-      unknown: Unknown
+      unknown: Անհայտ
   meeting_section:
     delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
     empty_text: Drag items here or create a new one
@@ -504,7 +504,7 @@ hy:
           dialog_body: This token will generate an iCal subscription URL that lets you view all your meetings in an external calendar application.
           dialog_title: New iCal subscription token for meetings
           name_caption: You can name it after where you will use it, such as "My phone" or "Work computer".
-          name_label: Token name
+          name_label: Թոքենի անվանում
       revocation:
         token/ical_meeting:
           notice_failure: 'Failed to revoke iCalendar meeting subscription: %{error}'
@@ -562,7 +562,7 @@ hy:
       title: Delete meeting series
     end_after:
       iterations: After a number of occurrences
-      never: Never
+      never: Երբեք
       specific_date: After a specific date
     end_series_dialog:
       title: End meeting series
@@ -635,7 +635,7 @@ hy:
       subtitle: 'The following meetings are planned in the recurring meeting schedule but are not open yet. Every time a planned meeting starts, the next one will automatically be opened for you. You can also open planned meetings manually to import the template and start editing the agenda.
 
         '
-      title: Planned
+      title: Պլանավորված
     scheduled_delete_dialog:
       confirm_button: Cancel occurrence
       confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
