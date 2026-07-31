@@ -139,11 +139,14 @@ module Accounts::Registration
       flash[:notice] = call.message.presence
       login_user_if_active(call.result, just_registered: true)
     else
-      error = call.message
-      flash.now[:error] = error if user.errors.empty?
-      Rails.logger.error "Registration of user #{user.login} failed: #{error}"
-      onthefly_creation_failed(user)
+      registration_failed(call.message, user)
     end
+  end
+
+  def registration_failed(error, user)
+    flash.now[:error] = error if user.errors.empty?
+    Rails.logger.error "Registration of user #{user.login} failed: #{error}"
+    onthefly_creation_failed(user)
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
