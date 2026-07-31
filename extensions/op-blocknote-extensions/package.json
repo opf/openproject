@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
-    "@mantine/core": "^8.3.6",
+    "@mantine/core": "^9.4.1",
     "@mantine/hooks": "^9.4.1",
     "@mantine/utils": "^6.0.22",
     "@stylistic/eslint-plugin": "^5.10.0",
