@@ -106,7 +106,9 @@ class RegistrationForm < ApplicationForm
 
   def consent(form)
     form.html_content do
-      helpers.format_text(helpers.user_consent_instructions(I18n.locale), target: "_blank")
+      helpers.content_tag(:div, class: "op-consent-instructions") do
+        helpers.format_text(helpers.user_consent_instructions(I18n.locale), target: "_blank")
+      end
     end
     form.check_box(name: :consent_check,
                    label: helpers.format_text(helpers.consent_checkbox_label),

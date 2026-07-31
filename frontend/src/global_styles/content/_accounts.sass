@@ -57,6 +57,9 @@
     margin-top: var(--base-size-24)
     text-align: center
 
+  .login-auth-providers h3 span
+    background: var(--body-background)
+
 #content .login-auth-providers.wide
   width: auto
   text-align: center
@@ -134,3 +137,12 @@
 
   &--agreement
     font-size: inherit
+
+.op-consent-instructions
+  .op-uc-link
+    text-decoration: underline
+
+    &::after
+      @include icon-font-common
+      @include icon-mixin-external-link
+      margin-left: 0.25em
