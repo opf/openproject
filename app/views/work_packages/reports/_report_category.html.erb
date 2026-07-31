@@ -28,13 +28,13 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div class="form--fieldset">
-  <div class="form--fieldset-legend"><%= WorkPackage.human_attribute_name(report.report_type) %></div>
+  <div class="form--fieldset-legend"><%= report.title %></div>
   <div class="form--toolbar">
     <span class="form--toolbar-item">
     <%= link_to(
-          icon_wrapper("icon icon-zoom-in", t(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type))),
+          icon_wrapper("icon icon-zoom-in", t(:text_analyze, subject: report.title)),
           { action: "report_details", detail: report.report_type },
-          title: t(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type)),
+          title: t(:text_analyze, subject: report.title),
           class: "no-decoration-on-hover"
         ) %></span>
   </div>

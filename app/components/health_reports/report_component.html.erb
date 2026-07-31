@@ -31,8 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
   component_wrapper do
     flex_layout do |report_container|
       report_container.with_row do
-        concat(render(Primer::Beta::Octicon.new(mr: 2, **summary_icon(report.tally))))
-        concat(render(Primer::Beta::Text.new(font_weight: :bold)) { humanize_summary(report.tally) })
+        render(Primer::OpenProject::InlineMessage.new(scheme: summary_scheme(report.tally))) do
+          humanize_summary(report.tally)
+        end
       end
 
       report_container.with_row(mt: 2) do
@@ -57,8 +58,9 @@ See COPYRIGHT and LICENSE files for more details.
                 end
 
                 header.with_column do
-                  concat(render(Primer::Beta::Octicon.new(mr: 2, **summary_icon(result_group.tally))))
-                  concat(render(Primer::Beta::Text.new) { humanize_summary(result_group.tally) })
+                  render(Primer::OpenProject::InlineMessage.new(scheme: summary_scheme(result_group.tally))) do
+                    humanize_summary(result_group.tally)
+                  end
                 end
               end
             end

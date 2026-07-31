@@ -28,10 +28,6 @@ RSpec.shared_examples "2FA forced registry" do
     expect(session[:authenticated_user_id]).to eq user.id
   end
 
-  it "flashes info message" do
-    expect(flash[:info]).not_to be_empty
-  end
-
   it "renders the login_otp" do
     expect(response).to redirect_to new_forced_2fa_device_path
   end

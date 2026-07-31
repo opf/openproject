@@ -69,10 +69,38 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       expect(item.row_args[:data]).to include(
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
-        sortable_lists__item_type_value: "work_package"
+        sortable_lists__item_type_value: "work_package",
+        sortable_lists__item_label_value: work_package.to_fs(:caption)
       )
       expect(item.row_args[:draggable]).to be(true)
       expect(item.row_args).not_to include(:tabindex)
+    end
+
+    context "with classic mode",
+            with_settings: { work_packages_identifier: "classic" } do
+      it "exposes the absolute ID-based work package URL for external drag consumers" do
+        external_url = item.row_args[:data][:sortable_lists__item_external_url_value]
+
+        expect(external_url).to match(%r{\Ahttps?://})
+        expect(external_url).to end_with("/work_packages/#{work_package.id}")
+      end
+    end
+
+    context "with semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) { create(:project, types: [type_feature], identifier: "STORY") }
+      let(:sprint) do
+        create(:sprint, project:, name: "Sprint 1", start_date: Date.yesterday, finish_date: Date.tomorrow)
+      end
+
+      it "exposes the absolute semantic work package URL for external drag consumers" do
+        external_url = item.row_args[:data][:sortable_lists__item_external_url_value]
+        semantic_id = work_package.reload.identifier
+
+        expect(semantic_id).to start_with("STORY-")
+        expect(external_url).to match(%r{\Ahttps?://})
+        expect(external_url).to end_with("/work_packages/#{semantic_id}")
+      end
     end
 
     context "when the user cannot manage sprint items" do
@@ -86,6 +114,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         expect(item.row_args[:data]).not_to include(:sortable_lists_prev_item_id)
         expect(item.row_args).not_to include(:draggable)
         expect(item.row_args).not_to include(:tabindex)
+        expect(item.row_args[:data]).not_to include(:sortable_lists__item_external_url_value)
       end
 
       it "keeps the card focusable so keyboard users can interact with it" do
@@ -95,6 +124,12 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       it "does not mark the card as draggable" do
         expect(render_inline(item.card)).to have_css(".op-work-package-card.Box-card--clickable")
         expect(page).to have_no_css(".Box-card--draggable")
+      end
+
+      it "still wires the contextual-action-menu controller" do
+        expect(render_inline(item.card)).to have_css(
+          ".op-work-package-card[data-controller~='contextual-action-menu']"
+        )
       end
     end
   end
@@ -143,6 +178,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
     it "wires the card as a Backlogs work package" do
       expect(rendered_card).to have_css(
         ".op-work-package-card[data-controller~='backlogs--work-package']" \
+        "[data-controller~='contextual-action-menu']" \
         "[data-backlogs--work-package-id-value='#{work_package.id}']" \
         "[data-backlogs--work-package-display-id-value='#{work_package.display_id}']" \
         "[data-backlogs--work-package-full-url-value='#{work_package_path(work_package)}']" \
@@ -151,12 +187,12 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       )
     end
 
-    it "announces Enter activation to assistive tech without a button or drag role" do
+    it "announces Enter and Shift+F10 to assistive tech without a button or drag role" do
       expect(rendered_card).to have_css(
         ".op-work-package-card",
         role: "article",
         aria: {
-          keyshortcuts: "Enter",
+          keyshortcuts: "Enter Shift+F10",
           label: work_package.to_fs(:caption),
           roledescription: nil
         }

@@ -67,7 +67,7 @@ RSpec.describe "Wysiwyg tables", :js do
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -116,7 +116,7 @@ RSpec.describe "Wysiwyg tables", :js do
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -181,7 +181,7 @@ RSpec.describe "Wysiwyg tables", :js do
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -297,7 +297,7 @@ RSpec.describe "Wysiwyg tables", :js do
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 

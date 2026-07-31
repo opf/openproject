@@ -189,6 +189,24 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     end
   end
 
+  context "with the deprecated version column (multiple versions feature off)" do
+    let(:version_one) { create(:version, project:, name: "1.0") }
+    let!(:work_package) do
+      create(:work_package, project:, type: type_a, version: version_one)
+    end
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(subject version))
+    end
+
+    it "exports the version name from the target_versions data" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      expect(pairs["Version"]).to eq "1.0"
+    end
+  end
+
   context "when no displayed column has a backing association" do
     let!(:work_package) { create(:work_package, project:, type: type_a, subject: "No associations") }
     let(:query) do

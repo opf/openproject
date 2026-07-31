@@ -39,7 +39,7 @@ RSpec.describe "Workflow copy from role", :js do
 
   current_user { admin }
 
-  shared_examples "a copy-to-other-roles dialog" do |with_source_role:|
+  shared_examples "a copy-to-other-roles dialog" do |with_source_role:, host:|
     it "permits to select a source role and target roles" do
       unless with_source_role
         choose "Copy to other roles"
@@ -54,28 +54,29 @@ RSpec.describe "Workflow copy from role", :js do
       click_button "Copy"
 
       expect(page).to have_css(".flash-success", text: "Successfully copied workflow to 2 roles.")
-      expect(page).to have_current_path(edit_workflow_path(type, role_id: roles.first.id))
+      # Copying to other roles stays within the same type, so the current path is kept
+      current_path = host == :wizard ? type_creation_wizard_path(type, step: :workflows) : edit_type_workflow_path(type)
+      expect(page).to have_current_path(current_path)
+      expect(page).to have_text("2 roles selected")
     end
   end
 
-  describe "from the workflows index page" do
+  describe "from the workflow tab" do
     before do
-      visit workflows_path
-      within "li", text: type.name do
-        find("button[aria-haspopup=true]").click
-        click_link "Copy"
-      end
-    end
-
-    it_behaves_like "a copy-to-other-roles dialog", with_source_role: false
-  end
-
-  describe "from the workflows edit page" do
-    before do
-      visit edit_workflow_path(type)
+      visit edit_type_workflow_path(type)
       click_link "Copy"
     end
 
-    it_behaves_like "a copy-to-other-roles dialog", with_source_role: true
+    it_behaves_like "a copy-to-other-roles dialog", with_source_role: true, host: :tab
+  end
+
+  describe "from the creation wizard", with_flag: { type_variants: true } do
+    before do
+      visit type_creation_wizard_path(type, step: :workflows)
+      # Scope to the matrix; the wizard's reuse banner also has a "Copy from type" button.
+      within("#workflow-table") { click_link "Copy" }
+    end
+
+    it_behaves_like "a copy-to-other-roles dialog", with_source_role: true, host: :wizard
   end
 end

@@ -62,7 +62,7 @@ module ProjectCustomFieldTypeMappings
     end
 
     def disable_custom_fields(custom_field_ids)
-      @type.project_custom_field_type_mappings
+      @type.own_project_custom_field_type_mappings
         .where(custom_field_id: custom_field_ids)
         .delete_all
 
@@ -70,13 +70,13 @@ module ProjectCustomFieldTypeMappings
     end
 
     def existing_mappings(custom_field_ids)
-      @type.project_custom_field_type_mappings
+      @type.own_project_custom_field_type_mappings
         .where(custom_field_id: custom_field_ids)
         .pluck(:custom_field_id)
     end
 
     def create_mappings(custom_field_ids)
-      @type.project_custom_field_type_mappings
+      @type.own_project_custom_field_type_mappings
         .insert_all(
           custom_field_ids.map { |id| { custom_field_id: id } },
           unique_by: %i[type_id custom_field_id]
@@ -86,7 +86,7 @@ module ProjectCustomFieldTypeMappings
     end
 
     def reset_associations
-      @type.project_custom_field_type_mappings.reset
+      @type.own_project_custom_field_type_mappings.reset
       @type.project_custom_fields.reset
     end
   end

@@ -201,6 +201,43 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
+    context "when work_package has multiple versions of which only one is closed" do
+      before do
+        open_version = build_stubbed(:version)
+        closed_version = build_stubbed(:version, status: "closed")
+
+        allow(work_package)
+          .to receive(:effective_target_versions)
+          .and_return([open_version, closed_version])
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
+      end
+
+      it "is not writable" do
+        expect(contract).not_to be_writable(:status)
+      end
+    end
+
+    context "when work_package is being moved out of a closed version while the status is closed" do
+      before do
+        closed_version = build_stubbed(:version, status: "closed")
+        open_version = build_stubbed(:version)
+
+        allow(work_package)
+          .to receive(:target_versions)
+          .and_return([closed_version])
+        work_package.version = open_version
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
+      end
+
+      it "is writable" do
+        expect(contract).to be_writable(:status)
+      end
+    end
+
     context "when status is inexistent" do
       before do
         work_package.status = Status::InexistentStatus.new
@@ -1181,6 +1218,38 @@ RSpec.describe WorkPackages::BaseContract do
           expect(subject.errors).to be_empty
         end
       end
+
+      context "when the closed version is assigned through target_versions" do
+        before do
+          allow(work_package)
+            .to receive(:target_versions)
+            .and_return([assignable_version])
+        end
+
+        context "and reopening the work package" do
+          before do
+            allow(work_package)
+              .to receive(:reopened?)
+              .and_return(true)
+
+            subject.validate
+          end
+
+          it "is invalid" do
+            expect(subject.errors[:base]).to eql [I18n.t(:error_can_not_reopen_work_package_on_closed_version)]
+          end
+        end
+
+        context "and not reopening the work package" do
+          before do
+            subject.validate
+          end
+
+          it "is valid" do
+            expect(subject.errors).to be_empty
+          end
+        end
+      end
     end
   end
 
@@ -1240,9 +1309,17 @@ RSpec.describe WorkPackages::BaseContract do
     end
 
     describe "mutual exclusion of version_id and target_version_ids" do
-      context "when both version_id and target_version_ids changed" do
+      let(:other_assignable_version) { build_stubbed(:version) }
+
+      before do
+        allow(work_package)
+          .to receive(:assignable_versions)
+          .and_return([assignable_version, other_assignable_version])
+      end
+
+      context "when the user changes both version_id and target_version_ids to different versions" do
         before do
-          allow(work_package).to receive(:version_id_changed?).and_return(true)
+          work_package.version = other_assignable_version
           work_package.target_version_ids_replacements = [assignable_version.id]
           contract.validate
         end
@@ -1252,18 +1329,25 @@ RSpec.describe WorkPackages::BaseContract do
         end
       end
 
-      context "when both changed on a new record" do
-        before do
-          allow(work_package).to receive_messages(
-            new_record?: true,
-            version_id_changed?: true
-          )
-          work_package.target_version_ids_replacements = [assignable_version.id]
-          subject.validate
+      context "when the system clears version_id during the change (e.g. a project move)" do
+        # version_id starts on the (now unassignable) version and gets cleared by
+        # the system while the user assigns a new target version. The set-attributes
+        # service extends the model with ChangedBySystem before validation, so mirror
+        # that here to distinguish the system-driven change from a user one.
+        let(:work_package) do
+          build_stubbed(:work_package, type:, project:, version: other_assignable_version)
+            .extend(OpenProject::ChangedBySystem)
         end
 
-        it "is valid" do
-          expect(subject.errors.symbols_for(:base)).to include(:version_and_target_versions_mutually_exclusive)
+        before do
+          work_package.change_by_system { work_package.version = nil }
+          work_package.target_version_ids_replacements = [assignable_version.id]
+          contract.validate
+        end
+
+        it "is valid (a system-driven version_id change is not a contradiction)" do
+          expect(contract.errors.symbols_for(:base))
+            .not_to include(:version_and_target_versions_mutually_exclusive)
         end
       end
 
@@ -1701,8 +1785,8 @@ RSpec.describe WorkPackages::BaseContract do
 
     shared_examples_for "new_statuses_allowed_to" do
       let(:base_scope) do
-        from_workflows = Workflow
-                        .from_status(current_status.id, type.id, [role.id], author, assignee)
+        from_workflows = type.workflows
+                        .from_status(current_status.id, [role.id], author:, assignee:)
                         .select(:new_status_id)
 
         Status.where(id: from_workflows)
@@ -1728,6 +1812,12 @@ RSpec.describe WorkPackages::BaseContract do
       context "if the current status is closed and the version is closed as well" do
         let(:version) { build_stubbed(:version, status: "closed") }
         let(:current_status) { build_stubbed(:status, is_closed: true) }
+
+        before do
+          allow(work_package)
+            .to receive(:target_versions)
+            .and_return([version])
+        end
 
         it "only allows the current status" do
           expect(contract.assignable_statuses.to_sql)
@@ -1791,6 +1881,37 @@ RSpec.describe WorkPackages::BaseContract do
       it_behaves_like "new_statuses_allowed_to" do
         let(:author) { false }
         let(:assignee) { false }
+      end
+    end
+
+    context "when the type is linked to a source", with_flag: { type_variants: true } do
+      let(:role) { create(:project_role) }
+      let(:source) { create(:type) }
+      let(:type) { create(:type) }
+      let(:current_status) { create(:status) }
+      let(:target_status) { create(:status) }
+
+      before do
+        type.link!(Type::ConfigurationLink::WORKFLOWS, source:)
+        create(:workflow, role_id: role.id, type_id: source.id,
+                          old_status_id: current_status.id, new_status_id: target_status.id,
+                          author: false, assignee: false)
+      end
+
+      it "resolves allowed transitions through the linked source's workflows" do
+        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
+      end
+
+      it "resolves allowed transitions through a longer link chain" do
+        middle = create(:type)
+        middle.link!(Type::ConfigurationLink::WORKFLOWS, source:)
+        type.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+
+        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
+      end
+
+      it "ignores the link with the variants feature disabled", with_flag: { type_variants: false } do
+        expect(contract.assignable_statuses.pluck(:id)).not_to include(target_status.id)
       end
     end
   end

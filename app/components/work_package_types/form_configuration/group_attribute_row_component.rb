@@ -33,12 +33,26 @@ module WorkPackageTypes
     class GroupAttributeRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(attribute:, type:, index:, total_count:)
+      def initialize(attribute:, type:, index:, total_count:, readonly: false, exclusions: nil)
         super
         @attribute = attribute
         @type = type
         @index = index
         @total_count = total_count
+        @readonly = readonly
+        @exclusions = exclusions
+      end
+
+      def readonly?
+        @readonly
+      end
+
+      def exclusion_toggle
+        @exclusion_toggle ||= ExclusionToggleComponent.new(
+          exclusions: @exclusions,
+          element_key: @attribute[:key],
+          label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation])
+        )
       end
 
       private

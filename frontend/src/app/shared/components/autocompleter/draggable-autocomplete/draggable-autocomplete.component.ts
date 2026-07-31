@@ -1,17 +1,16 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, OnDestroy, Output, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { DragulaService, Group } from 'ng2-dragula';
-import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 import {
   repositionDropdownBugfix,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { AlternativeSearchService } from 'core-app/shared/components/work-packages/alternative-search.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-import { merge } from 'rxjs';
+import { reorderById } from 'core-common/drag-and-drop/reorder';
+import {
+  SortableListsDropEvent,
+} from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 
 export interface DraggableOption {
   name:string;
@@ -23,15 +22,11 @@ export interface DraggableOption {
   templateUrl: './draggable-autocomplete.component.html',
   styleUrls: ['./draggable-autocomplete.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    DragulaService
-  ],
   standalone: false,
 })
-export class DraggableAutocompleteComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnDestroy {
+export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
   readonly I18n = inject(I18nService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly dragula = inject(DragulaService);
   readonly alternativeSearchService = inject(AlternativeSearchService);
 
   /** Options to show in the autocompleter */
@@ -66,7 +61,13 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** Label to display drag&drop area */
   @Input() dragAreaLabel = '';
 
-  /** Name of drag&drop area group */
+  /**
+   * Name of drag&drop area group.
+   *
+   * @deprecated Instance isolation no longer relies on a group name; each
+   * sortable list is scoped automatically. Kept only so existing
+   * custom-element embeddings that still pass the attribute keep working.
+   */
   @Input() dragAreaName = 'columns';
 
   /** Indicates that at least one entry must be selected */
@@ -83,56 +84,14 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** List of items still available for selection */
   availableOptions:DraggableOption[] = [];
 
-  private autoscroll:any;
-
-  private columnsGroup:Group;
-
   @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
-  @ViewChild('input') inputElement:ElementRef<HTMLInputElement>;
 
   public appendTo = 'body';
 
   ngOnInit():void {
     populateInputsFromDataset(this);
 
-    this.dragula.destroy(this.dragAreaName);
-
     this.updateAvailableOptions();
-
-    // Setup groups
-    this.columnsGroup = this.dragula.createGroup(
-      this.dragAreaName,
-      { mirrorContainer: this.appendToComponent ? document.getElementById(this.formControlId)! : document.body },
-    );
-
-    // Set cursor when dragging
-    this.dragula.drag(this.dragAreaName)
-      .pipe(this.untilDestroyed())
-      .subscribe(() => setBodyCursor('move', 'important'));
-
-    // Reset cursor when cancel or dropped
-    merge(
-      this.dragula.drop(this.dragAreaName),
-      this.dragula.cancel(this.dragAreaName),
-    )
-      .pipe(this.untilDestroyed())
-      .subscribe(() => setBodyCursor('auto'));
-
-    // Setup autoscroll
-    const that = this;
-    this.autoscroll = new DomAutoscrollService(
-      [
-        document.getElementById('content-body')!,
-      ],
-      {
-        margin: 25,
-        maxSpeed: 10,
-        scrollWhenOutside: true,
-        autoScroll(this:any) {
-          return this.down && that.columnsGroup.drake.dragging;
-        },
-      },
-    );
 
     this.appendTo = this.appendToComponent ? `#${this.formControlId}` : 'body';
   }
@@ -149,10 +108,28 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     }
   }
 
-  ngOnDestroy():void {
-    super.ngOnDestroy();
+  reorder(event:SortableListsDropEvent):void {
+    const reordered = reorderById({
+      list: this.selectedOptions,
+      getId: (item) => item.id,
+      sourceId: event.sourceId,
+      targetId: event.targetId,
+      closestEdge: event.edge,
+      axis: 'horizontal',
+    });
 
-    this.dragula.destroy(this.dragAreaName);
+    // reorderById returns the original reference for no-op moves, so this
+    // only re-renders and emits when the order actually changed.
+    if (reordered !== this.selectedOptions) {
+      this.selectedOptions = reordered;
+    }
+
+    // Completion is synchronous: there is no server round-trip here, the
+    // reordered chips simply persist on the next form submit. Completing
+    // unconditionally (even for a no-op) is essential — the engine keeps its
+    // transaction "busy" until `complete` runs, which blocks the *next*
+    // drag from starting if this call is skipped.
+    event.complete(true);
   }
 
   select(item:DraggableOption|undefined) {
@@ -168,6 +145,10 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
   remove(item:DraggableOption) {
     this.selectedOptions = this.selectedOptions.filter((selected) => selected.id !== item.id);
+  }
+
+  removeLabel(item:DraggableOption):string {
+    return this.I18n.t('js.autocomplete_select.remove', { name: item.name });
   }
 
   isRemovable(item:DraggableOption) {

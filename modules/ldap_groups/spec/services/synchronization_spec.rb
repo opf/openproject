@@ -315,7 +315,7 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
       end
 
       it "removes the membership" do
-        expect(project.members.count).to eq 2
+        expect(project.member_users.count).to eq 2
         expect(project.users).to contain_exactly user_aa729, user_cc414
 
         subject
@@ -327,7 +327,7 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
         expect(group_foo.users).to eq([user_aa729])
         expect(synced_foo.users.pluck(:user_id)).to eq([user_aa729.id])
 
-        expect(project.members.count).to eq 1
+        expect(project.member_users.count).to eq 1
         expect(project.users).to contain_exactly user_aa729
       end
     end

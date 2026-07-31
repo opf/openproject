@@ -157,6 +157,65 @@ RSpec.describe Type do
     end
   end
 
+  describe "target versions in the form configuration" do
+    context "when the multiple versions feature is inactive" do
+      it "offers the deprecated version in the default configuration" do
+        members = type.default_attribute_groups.to_h
+
+        expect(members[:details]).to include("version")
+        expect(members[:details]).not_to include("target_versions")
+      end
+
+      it "renders a persisted target_versions key as the deprecated version" do
+        type[:attribute_groups] = [["details", %w[category target_versions]]]
+        type.unset_attribute_groups_objects
+
+        details = type.attribute_groups.detect { |group| group.key == "details" }
+
+        expect(details.attributes).to include("version")
+        expect(details.attributes).not_to include("target_versions")
+      end
+    end
+
+    context "when the multiple versions feature is active",
+            with_flag: { work_package_multiple_versions: true },
+            with_settings: { work_package_multiple_versions: true } do
+      it "offers target_versions in the default configuration" do
+        members = type.default_attribute_groups.to_h
+
+        expect(members[:details]).to include("target_versions")
+        expect(members[:details]).not_to include("version")
+      end
+
+      it "renders a persisted legacy version key as target_versions" do
+        type[:attribute_groups] = [["details", %w[category version]]]
+        type.unset_attribute_groups_objects
+
+        details = type.attribute_groups.detect { |group| group.key == "details" }
+
+        expect(details.attributes).to include("target_versions")
+        expect(details.attributes).not_to include("version")
+      end
+
+      it "keeps the display name of a renamed group while normalizing it" do
+        type[:attribute_groups] = [["details", %w[category version], "Custom Details"]]
+        type.unset_attribute_groups_objects
+
+        details = type.attribute_groups.detect { |group| group.key == "details" }
+
+        expect(details.attributes).to include("target_versions")
+        expect(details.display_name).to eq("Custom Details")
+      end
+    end
+
+    it "leaves query group members untouched" do
+      query_member = :"#{Type::QueryGroup::MEMBER_PREFIX}1"
+      type[:attribute_groups] = [["Related", [query_member]]]
+
+      expect(type.send(:custom_attribute_groups)).to eq([["Related", [query_member]]])
+    end
+  end
+
   describe "custom fields" do
     let!(:custom_field) do
       create(

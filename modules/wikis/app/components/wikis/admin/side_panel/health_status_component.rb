@@ -43,22 +43,13 @@ module Wikis
         end
 
         def summary_header
-          tally = report.tally
-          case tally
+          case report.tally
           in { failure: 1.. }
-            {
-              icon: :alert,
-              icon_color: :danger,
-              text: I18n.t("health_reports.common.checks.failures", count: tally[:failure])
-            }
+            { scheme: :critical, text: I18n.t("health_reports.common.checks.failures", count: tally[:failure]) }
           in { warning: 1.. }
-            {
-              icon: :alert,
-              icon_color: :attention,
-              text: I18n.t("health_reports.common.checks.warnings", count: tally[:warning])
-            }
+            { scheme: :warning, text: I18n.t("health_reports.common.checks.warnings", count: tally[:warning]) }
           else
-            { icon: :"check-circle", icon_color: :success, text: I18n.t("health_reports.common.checks.success") }
+            { scheme: :success, text: I18n.t("health_reports.common.checks.success") }
           end
         end
 

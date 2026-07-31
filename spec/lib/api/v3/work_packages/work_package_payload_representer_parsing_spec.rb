@@ -37,7 +37,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
   let(:hash) { {} }
   let(:current_user) { member }
   let(:representer) do
-    described_class.create(API::V3::WorkPackages::ParseParamsService::ParsingStruct.new, current_user:)
+    described_class.create(API::V3::WorkPackages::ParsingStruct.new, current_user:)
   end
   let(:duration) { nil }
 

@@ -31,7 +31,7 @@
 import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
+import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import type { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { useAngularServices } from 'core-stimulus/mixins/use-angular-services';
@@ -241,7 +241,7 @@ export default class GenericDragAndDropController extends Controller {
     }
 
     if (!this.handleValue) {
-      return closestInteractiveElement(handle ?? null, el) == null;
+      return closestDragBlockingElement(handle ?? null, el) == null;
     }
 
     return handle?.closest(this.handleSelectorValue) != null;
