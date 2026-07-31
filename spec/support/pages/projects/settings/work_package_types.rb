@@ -52,7 +52,7 @@ module Pages
           row = find_row(type)
 
           expect(row).to have_text(type.root.name)
-          expect(row).to have_css(".Label", text: variant) if variant
+          expect(row).to have_text("Variant: #{variant}") if variant
         end
 
         def expect_no_type_row(type)
