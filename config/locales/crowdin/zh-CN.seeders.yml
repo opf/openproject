@@ -112,7 +112,7 @@ zh-CN:
         demo-project:
           name: 演示项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是对此演示 Scrum 项目目标的简短摘要。
+          description: 这是对此演示项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
@@ -218,7 +218,7 @@ zh-CN:
         scrum-project:
           name: Scrum 项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是对此演示 Scrum 项目目标的简短摘要。
+          description: 这是对此演示Scrum项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的 Scrum 演示项目
@@ -489,6 +489,20 @@ zh-CN:
           name: 用户故事
         item_6:
           name: 缺陷
+      global_queries:
+        item_0:
+          name: 史诗子项：用户故事和 Bug
+        item_1:
+          name: 用户故事子项：任务
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: 用户故事和 Bug
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: 任务
       welcome:
         title: 欢迎使用 OpenProject！
         text: |

@@ -342,7 +342,7 @@ pl:
         token_name: Nazwa tokena
       type:
         attribute_groups: Konfiguracja formularza
-        children: Podtypy
+        children: Warianty
         color: Kolor
         dependent_configuration_links: Powiązane typy
         description: Domyślny tekst opisu
@@ -466,6 +466,7 @@ pl:
         spent_hours: Czas pracy
         spent_time: Czas pracy
         subproject: Podprojekt
+        target_version: Wersja docelowa
         target_versions: Wersje docelowe
         time_entries: Rejestruj czas pracy
         type: Typ
@@ -695,13 +696,13 @@ pl:
               must_start_with_letter: musi zaczynać się literą
               no_special_characters: może zawierać tylko wielkie litery, cyfry i znaki podkreślenia
             types:
-              cannot_assign_multiple_subtypes_of_parent: W projekcie można włączyć tylko jeden podtyp typu
-              cannot_assign_subtype_and_parent: 'Nie można przypisać podtypu i jego elementu nadrzędnego '
-              cannot_assign_subtypes_yet: Podtypów nie można jeszcze włączyć w projekcie. Włącz funkcję wersji beta, aby wypróbować podtypy
+              cannot_assign_multiple_variants_of_parent: W projekcie można włączyć tylko jeden wariant typu
+              cannot_assign_variant_and_parent: 'Nie można przypisać wariantu i jego elementu nadrzędnego '
+              cannot_assign_variants_yet: Wariantów nie można jeszcze włączyć w projekcie. Włącz flagę funkcji, aby wypróbować warianty
               in_use_by_work_packages: 'nadal w użyciu przez Zestawy zadań: %{types}'
-              switch_source_not_a_subtype: Można tylko przełączyć się z podtypu
-              switch_target_identical: Typ docelowy musi różnić się od bieżącego podtypu
-              switch_target_not_in_family: Można przełączyć się tylko na inny podtyp tego samego typu lub jego typ nadrzędny
+              switch_source_not_a_variant: Można tylko przełączyć się z wariantu
+              switch_target_identical: Typ docelowy musi różnić się od bieżącego wariantu
+              switch_target_not_in_family: Można przełączyć się tylko na inny wariant tego samego typu lub jego typ nadrzędny
           cannot_be_assigned_to_artifact_work_package: Wybranemu użytkownikowi nie można przypisywać pakietów roboczych.
           foreign_wps_reference_version: Pakiety robocze w projektach innych niż wersje referencyjne projektów potomnych projektu lub jego projekty potomne.
         project/phase:
@@ -815,15 +816,15 @@ pl:
             parent:
               cannot_be_self: nie może być samym typem.
               cannot_change_with_work_packages: nie można zmienić, ponieważ pakiety robocze tego typu już istnieją.
-              cannot_have_children: nie można ustawić, ponieważ ten typ ma już podtypy.
+              cannot_have_children: nie można ustawić, ponieważ ten typ ma już warianty.
               must_be_a_root: musi być typem najwyższego poziomu. Typy można zagnieżdżać tylko o jeden poziom w głąb.
               standard_type_must_be_root: nie można ustawić dla typu standardowego.
             patterns:
               invalid_tokens: Co najmniej jeden atrybut wewnątrz pola jest nieprawidłowy. Popraw atrybuty przed zapisaniem.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: nie może być samym typem.
+            source_id:
+              would_create_cycle: połączyłby te konfiguracje w pętlę.
         user:
           attributes:
             base:
@@ -1179,6 +1180,9 @@ pl:
         '
     jemalloc_allocator: Alokator pamięci Jemalloc
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Prosimy o pomoc w ulepszaniu narzędzia Migrator Jira poprzez przekazywanie opinii i udostępnianie nam swoich danych. Możesz [dołączyć do społeczności programistów](link) narzędzia Migrator Jira.
 
@@ -1200,9 +1204,11 @@ pl:
         ssrf_blocked: 'Połączenie zablokowane: host Jira jest rozpoznawany jako prywatny adres IP. Jeśli instancja Jira działa w sieci wewnętrznej, należy zezwolić na jej adres IP za pomocą zmiennej środowiskowej OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Dodano
+        creator: Creator
         label_ago: "%{amount} temu"
         last_change: Ostatnia zmiana
         projects: Projekty
+        server_url: Server URL
       configuration:
         new: Nowa konfiguracja
         title: Konfiguracja usługi Jira
@@ -1217,18 +1223,24 @@ pl:
         button_add: Dodaj konfigurację
         button_delete_token: Usuń token
         button_save: Zapisz konfigurację
-        button_test: Przetestuj konfigurację
         delete_token_confirm: Czy na pewno chcesz usunąć token? Poskutkuje to wyłączeniem połączenia Jira.
         fields:
           name: Nazwa
           personal_access_token: Osobisty token dostępu
           url: Adres URL serwera / centrum danych Jira
         label_testing: Testowanie konfiguracji...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Utwórz uruchomienie importu, aby rozpocząć importowanie informacji z tego wystąpienia usługi Jira
           title: Nie skonfigurowano jeszcze żadnych uruchomień importu
         history: Historia
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Inne uruchomienie importu Jira jest obecnie w toku lub oczekuje na sprawdzenie. Przed rozpoczęciem nowego importu zakończ je lub cofnij.
         index:
           button_edit_configuration: Edytuj konfigurację
@@ -1268,14 +1280,8 @@ pl:
           groups:
             configuration:
               title: Sknfiguruj import
-            confirming:
-              title: Potwierdź i zaimportuj
-            fetch:
-              title: Pobierz dane bazowe
-            groups_and_users:
-              title: Grupy i użytkownicy
-            review:
-              title: Sprawdź import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: Rozumiem i mam kopię zapasową
             confirm_button: Rozpocznij import
@@ -1323,6 +1329,7 @@ pl:
               button_start: Rozpocznij import
               caption: Sprawdź ustawienia importu i rozpocznij import
               caption_done: Ukończono
+              caption_done_info: All data has been imported
               description: W ten sposób rozpoczniesz import z następującymi ustawieniami.
               label_available_data: Dane do zaimportowania
               label_import_data: Aktualnie importowane
@@ -1330,9 +1337,12 @@ pl:
               label_users_import_explanation: Użytkownicy zaangażowani w wybrane projekty (w tym członkostwo w grupach)
               title: Importuj dane
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Sprawdź dostępne dane
               caption_done: Ukończono
+              caption_done_description: Meta data fetched from %{server_info}
               description: Sprawdź, jakie dane są dostępne do importu w wystąpieniu hosta Jira.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Pobieranie danych z Jira...
               title: Pobierz metadane wystąpienia
             groups_and_users:
@@ -1341,7 +1351,6 @@ pl:
               button_done: Zatwierdź import
               button_revert: Cofnij import
               caption: Sprawdź uruchomiony import lub cofnij import
-              info: Uruchomienie importu powiodło się.
               label_finalize_import: Zatwierdź import
               label_finalizing: Zatwierdzenie importu...
               label_finalizing_done: Zatwierdzono import.
@@ -1350,6 +1359,20 @@ pl:
               label_revert_progress: Cofanie importu...
               label_reverted: Cofnięto import.
               preview_description: Zaimportowane dane są obecnie w trybie przeglądu. Kliknij przycisk „Zatwierdź import”, aby zaimportować dane na stałe lub „Cofnij import”, aby cofnąć wszystkie zmiany wprowadzone wskutek importu.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Wyniki importu
             import_scope:
               button_continue: Kontynuuj
@@ -1357,6 +1380,11 @@ pl:
               button_select_projects: Wybierz projekty do zaimportowania
               caption: Wybierz co chcesz zaimportować do OpenProject
               caption_done: Ukończono
+              caption_done_description:
+                one: 1 project selected as scope
+                few: "%{count} projects selected as scope"
+                many: "%{count} projects selected as scope"
+                other: "%{count} projects selected as scope"
               description: Wybierz dane, które chcesz zaimportować z dostępnych danych pobranych z hosta wystąpienia Jira.
               elements:
                 custom_fields: Podzestaw pól niestandardowych
@@ -1371,19 +1399,21 @@ pl:
                 sprints: Przypisania sprintów
                 users: Zaangażowani użytkownicy i grupy
                 workflows: Przepływy pracy na poziomie projektu
-              label_available_server_data: Dostępne dane — %{server_info}
               label_coming_later: W późniejszym terminie
               label_coming_soon: Wkrótce (III kwartał 2026 r.)
               label_import: Wybierz projekty, które chcesz zaimportować.
               label_info: Pamiętaj, że to narzędzie importu jest w wersji beta i nie może importować wszystkich typów danych. Poniżej znajduje się podsumowanie tego, co wystąpienie hosta Jira oferuje do importu i co to narzędzie jest obecnie w stanie zaimportować.
-              label_progress: Pobieranie danych z Jira...
+              label_progress: Fetching data
               label_selected_data: Wybrane dane do zaimportowania
               label_supported_data: Obsługiwane dane
               title: Zakres importu
-          select_dialog:
-            filter_projects: Filtruj według tekstu
           select_projects:
-            title: Wybierz projekty
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Interfejs API Jira zwrócił status błędu %{status}. Sprawdź adres URL wystąpienia usługi Jira i token interfejsu API.
         connection_error: 'Błąd połączenia: %{message}'
@@ -1576,6 +1606,7 @@ pl:
     workflows:
       blankslate:
         description: Dodaj statusy, aby rozpocząć konfigurowanie przepływów pracy dla tej roli
+        linked_description: Ten typ wykorzystuje ponownie przepływy pracy powiązanego typu źródłowego, który nie ma skonfigurowanych przejść statusu
         title: Nie skonfigurowano przejść statusów
       leave_confirmation:
         description: W ten sposób opuścisz tę stronę, ale masz niezapisane zmiany. Czy chcesz je zapisać przed kontynuowaniem?
@@ -1606,9 +1637,15 @@ pl:
           other: Usunąć %{count} statusu?
         title: Usuń statusy
       tabs:
-        default_transitions: Przejścia domyślne
-        user_assignee: Użytkownik jest przypisaną osobą
-        user_author: Użytkownik jest autorem
+        always: Default transitions
+        aria_label: Przejścia przepływu pracy
+        assignee: User is assignee
+        author: User is author
+        descriptions:
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
+        menu_label: Pokazane przejścia
   announcements:
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
@@ -3415,7 +3452,6 @@ pl:
   label_other: Inne
   label_overall_activity: Ogólna aktywność
   label_overview: Przegląd
-  label_page_title: Tytuł strony
   label_parent_group_caption: 'Ustawienie grupy nadrzędnej spowoduje, że ta grupa stanie się podgrupą wybranej grupy nadrzędnej. Będzie ona również dziedziczyć wszystkie członkostwa, w tym uprawnienia grupy nadrzędnej.
 
     '
@@ -3697,7 +3733,7 @@ pl:
   label_workflow: Przepływ pracy
   label_workflow_copy: Skopiuj przepływ pracy
   label_workflow_plural: Przepływ zadań
-  label_workflow_summary: Podsumowanie
+  label_workflow_summary: Podsumowanie przepływu pracy
   label_working_days: Dni robocze
   label_working_days_and_hours: Dni i godziny pracy
   label_working_hours: Harmonogram pracy
@@ -4989,9 +5025,23 @@ pl:
         menu_title: Szablon
         title: Ustawienia szablonu
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Włącz typ „%{type}”
+        in_roadmap: In roadmap
         no_results_title_text: Nie ma dostępnych typów.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Utwórz nową wersję projektu
         no_results_title_text: Nie ma innych wersji tego projektu.
@@ -5804,6 +5854,7 @@ pl:
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_file_link_added: Dodano link %{label} do %{value} (%{storage})
@@ -5859,8 +5910,9 @@ pl:
   text_user_invited: Użytkownik został zaproszony i oczekuje na rejestrację.
   text_user_wrote: "%{value} napisał:"
   text_warn_on_leaving_unsaved: Zadanie zawiera niezapisany tekst, który zostanie utracony, jeśli opuścisz tę stronę.
-  text_what_did_you_change_click_to_add_comment: Co zostało przez ciebie zmienione? Kliknij, aby dodać komentarz
   text_wiki_destroy_confirmation: Czy na pewno chcesz usunąć to wiki i całą jego zawartość?
+  text_wiki_page_comment_caption: Będzie to widoczne tylko w historii wiki.
+  text_wiki_page_comment_placeholder: Czy coś zostało zmienione? Dodaj komentarz
   text_wiki_page_destroy_children: Usuń stronę i wszystkie podrzędne
   text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_nullify_children: Ustaw podrzędne strony jako strony główne
@@ -5919,35 +5971,48 @@ pl:
   total_progress: Całkowity postęp
   types:
     creation_wizard:
-      configuration_link_error: Nie można zapisać trybu ponownego użycia. Wybierz typ źródłowy.
-      create_subtype: Utwórz podtyp
+      create_type: Utwórz typ
+      create_variant: Utwórz wariant
       fields:
         inherited_from_parent_html: Dziedziczone z typu nadrzędnego <b>%{parent}</b>.
       finish: Zakończ
       placeholder_description: Ten krok będzie wkrótce dostępny.
       progress_label: Krok %{number} z %{total}
       steps:
-        automations: Automatyzacje
+        defaults: Domyślne
         details: Szczegóły
         form_configuration: Konfiguracja formularza
         pdf: Generowanie pliku PDF
+        project_attributes: Atrybuty projektu
         projects: Projekty
         workflows: Przepływy pracy
-      success: Podtyp został utworzony.
-      workflows:
-        copy_caption: Jako punkt wyjścia skopiuj konfigurację przepływu pracy z istniejącego typu.
+      success: Wariant został utworzony.
     edit:
-      configuration_link:
-        independent:
-          caption: Te ustawienia należą do tego typu i edytuje się je tutaj. Nie są powiązane z żadnym innym typem.
-          label: Niezależne
-          warning: Przełączenie na opcję Niezależne powoduje skopiowanie bieżących ustawień wybranego typu źródłowego do bieżącego typu, a następnie usunięcie powiązania. Następnie można dowolnie edytować ustawienia. Zachowaj ostrożność.
-        linked:
-          caption: Te ustawienia typu źródłowego są ponownie używane i pozostają z nim zsynchronizowane. Aby je zmienić, edytuj typ źródłowy.
-          label: Powiązany
-          warning: Powiązanie zastępuje własne tego typu ustawieniami typu źródłowego. Bieżące ustawienia są odrzucane i pakiety robocze tego typu mogą ulec zmianie. Postępuj ostrożnie.
-        source:
-          label: Typ źródłowy
+      breadcrumb_variant: 'Wariant: %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: Zdefiniuj wzorzec za pomocą wywoływanych atrybutów i tekstu, aby automatycznie generować tematy pakietów roboczych. Użytkownicy nie będą mogli ręcznie edytować tematów.
+          label: Automatycznie generowane tematy
+        description:
+          caption: Dodaj tekst, który będzie dodawany do pola opisu wszystkich nowych pakietów roboczych tego typu.
+          label: Domyślny tekst opisu
+        manually_editable_subjects:
+          caption: Użytkownicy mogą bez ograniczeń ręcznie wprowadzać i edytować tematy pakietów roboczych.
+          label: Ręcznie edytowane tematy
+        pattern:
+          caption: Utwórz wzorce, dodając tekst lub wpisz znak „/”, aby wyszukać [obsługiwane atrybuty](attributes_url).
+          insert_as_text: 'Nie znaleziono atrybutów. Dodaj jako tekst: „%{word}”'
+          label: Wzorzec tematu
+        tab: Domyślne
+        token:
+          context:
+            parent: Element nadrzędny
+            project: Projekt
+            work_package: Pakiet roboczy
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Szczegóły
+        type_color_text: Wybrany kolor odróżnia różne typy na wykresach Gantta lub w tabelach pakietów roboczych. W związku z tym zalecane jest stosowanie mocnego koloru.
       export_configuration:
         artefact_export:
           attachment:
@@ -6019,42 +6084,92 @@ pl:
         select_projects: Wybierz projekty
         select_projects_description: Wybierz projekty, w których chcesz używać tego typu.
         tab: Projekty
-      settings:
-        parent_type_text: Opcjonalnie zagnieżdż ten typ jako podtyp, wybierając typ nadrzędny.
-        tab: Ustawienia
-        type_color_text: Wybrany kolor odróżnia różne typy na wykresach Gantta lub w tabelach pakietów roboczych. W związku z tym zalecane jest stosowanie mocnego koloru.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Zdefiniuj wzorzec za pomocą wywoływanych atrybutów i tekstu, aby automatycznie generować tematy pakietów roboczych. Użytkownicy nie będą mogli ręcznie edytować tematów.
-          label: Automatycznie generowane tematy
-        manually_editable_subjects:
-          caption: Użytkownicy mogą bez ograniczeń ręcznie wprowadzać i edytować tematy pakietów roboczych.
-          label: Ręcznie edytowane tematy
-        pattern:
-          caption: Utwórz wzorce, dodając tekst lub wpisz znak „/”, aby wyszukać [obsługiwane atrybuty](attributes_url).
-          insert_as_text: 'Nie znaleziono atrybutów. Dodaj jako tekst: „%{word}”'
-          label: Wzorzec tematu
-        tab: Konfiguracja tematu
-        token:
-          context:
-            parent: Rodzic
-            project: Projekt
-            work_package: Zadanie
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: Rozumiem, że to zastąpi bieżące ustawienia
+            description_html: Kopiując dane z %{source_name}, zastąpisz bieżące ustawienia i może to mieć wpływ na istniejące informacje o pakietach roboczych tego typu.
+            title: Skopiować konfigurację?
+          dialog:
+            description: Skopiuj konfigurację z typu źródłowego i użyj jej jako jednorazowej podstawy. Nie spowoduje to trwałego powiązania tych dwóch typów.
+            source_label: Skopiuj źródło
+            source_placeholder: Wybierz typ lub wariant
+            submit: Zapisz i skopiuj
+            title: Skopiuj konfigurację
+          invalid_source: Nie można skopiować konfiguracji z wybranego typu. Wybierz inny typ źródłowy.
+          success: Konfiguracja została skopiowana.
+        independent:
+          confirm_dialog:
+            check_box: Rozumiem, że to zastąpi bieżące ustawienia
+            description: Wszystkie aktualnie wybrane ustawienia zostaną zastąpione i mogą wpłynąć na istniejące informacje dotyczące pakietów roboczych tego typu.
+            title: Przełączyć tryb konfiguracji?
+          copy_from_type: Skopiuj z typu
+          description: Żadne ustawienia nie są dziedziczone. W razie potrzeby nadal można jednorazowo skopiować ustawienia z innego typu.
+          dialog:
+            submit: Przełącz
+            title: Tryb niezależny
+          invalid_mode: Wybrany tryb nie jest dostępny dla tej konfiguracji. Wybierz inny tryb.
+          modes:
+            copy:
+              caption: Zacznij od jednorazowego skopiowania bieżących ustawień powiązanego trybu.
+              label: Skopiuj z powiązanego
+            default:
+              caption: W przypadku nowych typów użyj ustawień domyślnych.
+              label: Ustawienia domyślne
+            empty:
+              caption: Ustaw wszystko od zera, zaczynając od pustej konfiguracji.
+              label: Pusty
+          success: Tryb konfiguracji został przełączony.
+          switch_to_linked: Przełącz na powiązany tryb
+          title: Tryb niezależny
+        linked:
+          change_source: Zmień typ źródłowy
+          confirm_dialog:
+            change_source:
+              description_html: Zmieniając typ źródłowy na %{source_name}, zastąpisz bieżące ustawienia i może to mieć wpływ na istniejące informacje o pakietach roboczych tego typu.
+              title: Zmienić typ źródłowy?
+            check_box: Rozumiem, że to zastąpi bieżące ustawienia
+            from_independent:
+              description: Wszystkie aktualnie wybrane ustawienia zostaną zastąpione i mogą wpłynąć na istniejące informacje dotyczące pakietów roboczych tego typu.
+              title: Przełączyć tryb konfiguracji?
+          description: Ta konfiguracja jest powiązana z typem źródłowym [%{source_name}](source_url)%{source_suffix} i dziedziczy z niego ustawienia.
+          dialog:
+            description: Skopiuj i przejmij te ustawienia ze źródła. Wszelkie nowe konfiguracje dodane do źródła będą również dodawane tutaj.
+            source_label: Powiązane źródło
+            source_placeholder: Wybierz typ lub wariant
+            submit: Przełącz
+            title: Powiązany tryb
+          invalid_source: Nie można powiązać konfiguracji z wybranym typem. Wybierz inny typ źródłowy.
+          success: Tryb konfiguracji został przełączony.
+          switch_to_independent: Przełącz na tryb niezależny
+          title: Powiązany tryb
+        parent_suffix: " (nadrzędny)"
+      workflow:
+        tab: Przepływy pracy
     index:
-      add_subtype: Dodaj podtyp do %{name}
-      description: 'Każdy obszar konfiguracji wewnątrz typów i podtypów może być niezależnie skonfigurowany, ograniczony z innego typu lub w pełni powiązany ze źródłem.
+      add_variant: Dodaj wariant do %{name}
+      add_variant_action: Add variant
+      description: 'Każdy obszar konfiguracji wewnątrz typów i wariantów może być niezależnie skonfigurowany, ograniczony z innego typu lub w pełni powiązany ze źródłem.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
+      enabled_in_new_projects: Aktywne w nowych projektach
+      make_default: Aktywuj w nowych projektach
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Utwórz nowy typ
       no_results_title_text: Nie ma jeszcze żadnych typów.
-      subtype_label: Podtyp
-      subtypes_count:
-        one: 1 podtyp
-        few: "%{count} podtypy"
-        many: "%{count} podtypów"
-        other: "%{count} podtypu"
+      remove_default: Nie aktywuj w nowych projektach
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Typ
+      variant_enabled_in_new_projects: Wariant %{name} aktywny w nowych projektach
+      variant_label: Wariant
+      variants_count:
+        one: 1 wariant
+        few: "%{count} warianty"
+        many: "%{count} wariantów"
+        other: "%{count} wariantu"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Zignoruj to ostrzeżenie.
     message: Na tej stronie mogą wystąpić błędy i pogorszenie działania.

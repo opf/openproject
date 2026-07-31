@@ -126,7 +126,7 @@ fi:
     error_no_device: Tälle käyttäjälle ei ole rekisteröity tunnistuslaitetta, vaikka se vaaditaan.
     error_no_matching_strategy: Tälle käyttäjälle ei ole käytettävissä vastaavaa 2FA-strategiaa. Ota yhteyttä hallintoasihteisiisi.
     forced_registration:
-      required_to_add_device: Tietoturva-asetukset vaativat kaksivaiheisen todennuksen käyttöönoton. Ole hyvä ja rekisteröi laitteesi.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Kaksivaiheinen tunnistautuminen ei ole käytössä
     label_2fa_enabled: Kaksivaiheinen tunnistautuminen on käytössä
     label_default_device: Oletus tunnistuslaite
