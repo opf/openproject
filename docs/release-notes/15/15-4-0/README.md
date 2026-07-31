@@ -85,7 +85,7 @@ Most important, you can now choose between two templates: One is **Attributes an
 
 Read this blog article to learn more about how this feature for automatically creating PDFs from the work package description can be a great help for organizations: [Beyond MS Word: Automatically generate beautifully styled pdf files for contracts, approval notices and project orders](https://www.openproject.org/blog/beyond-documents-generate-pdf-files/).
 
-[See our documentation](../../../user-guide/work-packages/exporting/#export-single-work-package-in-pdf-format) for information on how to use this feature.
+[See our documentation](../../../user-guide/work-packages/exporting/work-package-pdf/) for information on how to use this feature.
 
 ### Better manage a large number of projects with an enhanced project lists view
 
