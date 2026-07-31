@@ -133,19 +133,29 @@ end
 
 ## TreeView-based side menu
 
-Hierarchical side menus can use the reusable sidemenu TreeView components. They are useful when each entry is a link and the user needs to search within a hierarchy.
+  Use this pattern for hierarchical side menus where every entry is a link and users need to search or filter within the tree.
 
-The implementation uses two endpoints:
+### How it works
 
-* A lazy Turbo frame loads the filterable shell only when the sidemenu is opened.
-* The `FilterableTreeView` uses an async `src:` endpoint that returns only the `<tree-view>` fragment.
+  Loading is split across two endpoints to keep the initial page response small:
 
-This keeps the hierarchy out of the initial page response and leaves filtering and permission checks on the server.
+  1. A lazy Turbo frame renders the `FilterableTreeComponent` shell (search input +
+     empty tree container) only when the sidemenu is first opened.
+  2. The shell fetches its tree content asynchronously via the `src:` URL, which
+     returns only the `TreeComponent` fragment.
+
+  Filtering and permission checks happen entirely on the server. Each search triggers a new request to the `src:` endpoint.
+
+  The standard `FilterableTreeView` controls (the segmented filter-mode control and the "include sub-items" checkbox) are hidden. Only the search input and link nodes are visible.
 
 ### Example
 
-The menu renders a search field and link-only tree nodes. Selection controls such as the segmented control and the "include sub-items" checkbox are hidden.
+  <%= embed(OpenProject::Common::SidemenuTreePreview, :default, panels: %i[source]) %>
 
-<%= embed(OpenProject::Common::SidemenuTreePreview, :default, panels: %i[source]) %>
+### Used in
 
-Wiki pages use a tree builder in the Wikis module for page visibility, search matching, ancestor inclusion, and expansion state. Other hierarchical menus should provide their own builder and reuse the sidemenu components.
+* Wikis
+
+### How to add a new hierarchical menu
+
+  Implement a service class that builds the `TreeNode` tree for your module (handling visibility, search matching, ancestor inclusion, and expansion state), then render `FilterableTreeComponent` and `TreeComponent`.
