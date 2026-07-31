@@ -83,7 +83,7 @@ module Backlogs
 
         def resolved_summary_text
           t(
-            "backlogs.sprint_reports.widgets.work_package_overview.resolved_summary",
+            ".resolved_summary",
             percentage: resolved_percentage,
             resolved: resolved_work_packages_count,
             total: total_work_packages_count
@@ -108,7 +108,7 @@ module Backlogs
 
         def block(key:, data:, timestamps:, status_filter_operator: nil, count_color: nil, count_prefix: false)
           {
-            heading: t("backlogs.sprint_reports.widgets.work_package_overview.blocks.#{key}.heading"),
+            heading: t(".blocks.#{key}.heading"),
             count: data.work_package_count,
             story_points: data.story_points,
             count_color:,
