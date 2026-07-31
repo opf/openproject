@@ -86,6 +86,7 @@ module Grids
 
       def gantt_link
         return unless view_work_packages_allowed?
+        return unless project.module_enabled?(:gantt)
 
         result = ::Gantt::DefaultQueryGeneratorService.new(with_project: project).call(query_key: :milestones)
         return unless result
