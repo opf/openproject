@@ -97,6 +97,7 @@ class SprintWorkPackageBreakdown
   def sprint_work_packages_at(date)
     WorkPackage
       .where(project_id: @project.id, sprint_id: @sprint.id)
+      .visible
       .at_timestamp(Timestamp.parse(date.in_time_zone.end_of_day.iso8601))
   end
 

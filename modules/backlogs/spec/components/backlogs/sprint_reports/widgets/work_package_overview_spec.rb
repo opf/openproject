@@ -98,4 +98,63 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       expect(query_props).to all(include("ts"))
     end
   end
+
+  describe "visibility" do
+    let(:project) { create(:project) }
+    let(:type_feature) { create(:type_feature) }
+    let(:issue_open) { create(:status, name: "Open", is_default: true) }
+    let(:sprint) do
+      create(:sprint, project:, start_date: Time.zone.today - 5.days, finish_date: Time.zone.today + 5.days)
+    end
+
+    let!(:work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    before do
+      work_package.last_journal.update_columns(
+        created_at: work_package.created_at,
+        updated_at: work_package.created_at,
+        validity_period: work_package.created_at..Float::INFINITY
+      )
+    end
+
+    def block_count(heading)
+      block = rendered_component.css(".op-wp-overview--blocks > div").find { |node| node.text.include?(heading) }
+      block.css("p.f1").text
+    end
+
+    context "when the current user can view the project's work packages" do
+      let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+
+      current_user { create(:user, member_with_roles: { project => role }) }
+
+      it "counts the work package in the progress bar" do
+        expect(rendered_component).to have_text("0 of 1 work packages")
+      end
+
+      it "counts the work package in the initially planned and unfinished boxes" do
+        expect(block_count("Initially planned")).to eq("1")
+        expect(block_count("Unfinished")).to eq("1")
+      end
+    end
+
+    context "when the current user has no permission to view the project's work packages" do
+      let(:role) { create(:project_role, permissions: []) }
+
+      current_user { create(:user, member_with_roles: { project => role }) }
+
+      it "excludes the work package from the progress bar" do
+        expect(rendered_component).to have_text("0 of 0 work packages")
+      end
+
+      it "excludes the work package from every breakdown box" do
+        expect(block_count("Initially planned")).to eq("0")
+        expect(block_count("Changed after start")).to eq("0")
+        expect(block_count("Completed")).to eq("0")
+        expect(block_count("Unfinished")).to eq("0")
+      end
+    end
+  end
 end
