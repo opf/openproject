@@ -111,6 +111,16 @@ First, select your project status from the drop-down. You can choose between:
 
 Add the project **status description** and further important information, such as project owner, milestones and other important links or status information.
 
+### Project timeline widget
+
+The project timeline widget under the overview tab displays a timeline chart of your **Project phases** and **Phase gates**. Hover your cursor over a phase or gate on the timeline to view the name and date(s). You can also use your cursor to expand or reduce the size of the timeline chart for a more detailed or compact view. If there are no phases and gates enabled in your project, the widget shows a blank state.
+
+![Project timeline widget displayed on a project home page in OpenProject](openproject_user_guide_project_overview_project_timeline_widget.png)
+
+> [!NOTE]
+> 
+> This widget is **read-only**, which means users cannot modify project dates by dragging and dropping phases or gates on the timeline. in addition, the widget is visible only to users with the right permissions.
+
 ### Subitems widget
 
 The subitems widget lists all subitems of the respective entity:

@@ -25,7 +25,9 @@ The project home page is a centralized overview page that displays all essential
 
 You can access the project overview by navigating to **Project home** in the project menu on the left.
 
-![Project overview page for a specific project in OpenProject](openproject_user_guide_project_new_home_page.png)
+![Project overview page for a specific project in OpenProject](openproject_user_guide_project_home_page.png)
+
+![Continuation of project overview page for a specific project in OpenProject](openproject_user_guide_project_home_page_continuation.png)
 
 On the project overview page you will see the following sections: 
 
@@ -46,14 +48,23 @@ The **Overview** tab is a pre-configured to provide a concise summary of the pro
 
 - [Status](./project-widgets/#status-widget) 
 
+- [Project timeline](./project-widgets/#project-timeline-widget)
+
+  > [!TIP]
+  >
+  > If you do not see the project timeline widget, make sure phases and gates are enabled in your project.
+
 - [Subitems](./project-widgets/#subitems-widget) 
+
 - [Meetings](project-widgets/#meetings-widget)
+  
   > [!TIP]
   > If you do not see the meeting widgets displayed, make sure the Meetings module is activated for the project. 
-
+  
 - [Members](./project-widgets/#members-widget) 
 
 - [News](project-widgets/#news-widget) 
+
 - [Budgets](project-widgets/#budgets-widgets)
   > [!TIP]
   > If you do not see the budget widgets, make sure you have the required permissions, that the Budgets or Time and costs module is activated for the project, and that a budget already exists.

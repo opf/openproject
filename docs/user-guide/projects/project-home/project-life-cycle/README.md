@@ -20,7 +20,7 @@ On each project's **home page**, you can find a section called **project life cy
 >
 > If all phases and gates are disabled for a project, the project lifecycle section is hidden from the home page.
 
-![Project life cycle phases displayed on a project home page in OpenProject](openproject_user_guide_project_home_page_project_life_cycle.png)
+![Project life cycle phases displayed on a project home page in OpenProject](openproject_user_guide_project_home_page_project_lifecycle.png)
 
 ## Schedule project phases
 
