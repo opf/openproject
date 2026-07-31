@@ -5,7 +5,7 @@ hy:
       two_factor_authentication/device:
         channel: Channel
         default: Use as default
-        identifier: Identifier
+        identifier: Նույնացուցիչ
       two_factor_authentication/device/sms:
         phone_number: Phone number
       two_factor_authentication/device/webauthn:
@@ -24,14 +24,14 @@ hy:
       two_factor_authentication/device/sms: Mobile phone
       two_factor_authentication/device/totp: Authenticator application
       two_factor_authentication/device/webauthn: WebAuthn
-  button_continue: Continue
-  button_make_active: Activate
+  button_continue: Շարունակել
+  button_make_active: Ակտիվացնել
   button_make_default: Mark as default
   button_otp_by_sms: SMS
   button_otp_by_voice: Voice call
   button_resend_otp_form: Resend
   field_otp: One-time password
-  label_confirmed: Confirmed
+  label_confirmed: Հաստատված
   label_otp_channel: Delivery channel
   notice_account_has_no_phone: No cell phone number is associated with your account.
   notice_account_otp_expired: The one-time password you entered expired.

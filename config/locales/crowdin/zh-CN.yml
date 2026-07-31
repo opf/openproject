@@ -2823,6 +2823,7 @@ zh-CN:
       work_package_children_changed_times: 通过对子级的更改 %{link}
       work_package_duplicate_closed: 重复的工作包自动更新了状态 %{link}
       work_package_parent_changed_times: 通过对父级的更改 %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
       work_package_related_changed_times: 通过对相关内容的更改 %{link}
       working_days_changed:
@@ -2844,6 +2845,7 @@ zh-CN:
       total_percent_complete_mode_changed_to_simple_average: 完成% 总数的计算现在仅基于完成% 值的简单平均值。
       total_percent_complete_mode_changed_to_work_weighted_average: 现在按工作加权计算的 完成% 总数。
       work_package_duplicate_closed: 重复的工作包已更新：
+      work_package_parent_deleted: Parent removed
     changes_retracted: 更改已撤回。
   label_accessibility: 辅助功能
   label_account: 帐户
@@ -5651,6 +5653,7 @@ zh-CN:
   text_journal_changed_plain: "%{label} 已从 %{old} %{linebreak}更改为 %{new}"
   text_journal_changed_with_diff: "%{label} 已更改 (%{link})"
   text_journal_deleted: "%{label} 已删除 (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} 已删除 (%{link})"
   text_journal_file_link_added: "%{value} (%{storage}) 的 %{label} 链接已添加"
@@ -6318,20 +6321,34 @@ zh-CN:
   work_packages:
     bulk:
       copy_failed: 无法复制工作包。
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 无法保存以下工作包：
+      deletion_successful:
+        other: Successfully deleted %{count} work packages.
       descendant: 所选项的子工作包
       move_failed: 无法移动工作包。
       none_could_be_saved: "%{total} 个工作包全部无法更新。"
       selected_because_descendants: 虽然选择了 %{selected} 个工作包，但共有 %{total} 个工作包受到影响，包括子工作包。
       x_out_of_y_could_be_saved: 在 %{total} 个工作包中，%{failing} 个无法更新，%{success} 个可以更新。
     bulk_delete_dialog:
-      children_label: 以下子工作包也将被删除：
-      confirm_children_deletion: 我确认所有选定的工作包及其子工作包将被永久删除。
-      cross_project_warning: 这些工作包跨越多个项目： %{projects}
-      description: 以下工作包和所有相关数据将被永久删除：
-      description_with_children: 以下工作包（包括子工作包和所有相关数据）将被永久删除：
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: 永久删除这些 %{count} 工作包？
+      hidden_descendants_only_warning:
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: 删除 %{count} 个工作包
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6375,11 +6392,20 @@ zh-CN:
         successors: 后置项
       update_inputs_aria_live_message: 日期选择器已更新。 %{message}
     delete_dialog:
-      confirm_descendants_deletion: 我确认此工作包的所有子工作包都将被递归移除。
-      cross_project_warning: 将删除以下项目中的工作包：%{projects}
-      description: 确定要删除工作包“%{name}”吗？
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: 是否永久删除此工作包？
+      hidden_descendants_only_warning:
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: 删除工作包
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: '目标项目中未启用这些工作包或其后代的类型。如果您希望工作包类型保持不变，请在目标项目中启用缺少的类型。否则，请从列表中选择目标项目中的可用类型。
 

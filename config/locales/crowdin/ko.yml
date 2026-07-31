@@ -2837,6 +2837,7 @@ ko:
       work_package_children_changed_times: 자식 %{link}에 대한 변경 사항 기준
       work_package_duplicate_closed: 중복 작업 패키지에 의해 자동으로 상태가 업데이트되었습니다(%{link})
       work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: 선행 단계 %{link}에 대한 변경 사항 기준
       work_package_related_changed_times: 관련 %{link}에 대한 변경 사항 기준
       working_days_changed:
@@ -2858,6 +2859,7 @@ ko:
       total_percent_complete_mode_changed_to_simple_average: 이제 완료 % 합계 계산은 완료 % 값의 단순 평균만을 기반으로 합니다.
       total_percent_complete_mode_changed_to_work_weighted_average: 이제 완료 % 합계 계산에는 작업별로 가중치가 적용됩니다.
       work_package_duplicate_closed: '중복 작업 패키지가 업데이트되었습니다:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: 변경 사항이 취소되었습니다.
   label_accessibility: 접근성
   label_account: 계정
@@ -5667,6 +5669,7 @@ ko:
   text_journal_changed_plain: "%{label}이(가) %{old}에서 %{linebreak}%{new}(으)로 변경되었습니다."
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} 삭제됨(%{link})"
   text_journal_file_link_added: "%{value}(%{storage})에 대한 %{label} 링크 추가됨"
@@ -6334,20 +6337,34 @@ ko:
   work_packages:
     bulk:
       copy_failed: 작업 패키지를 복사할 수 없습니다.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: '다음 작업 패키지를 저장할 수 없습니다:'
+      deletion_successful:
+        other: Successfully deleted %{count} work packages.
       descendant: 선택한 항목의 하위 작업 패키지
       move_failed: 작업 패키지를 이동할 수 없습니다.
       none_could_be_saved: "%{total}개 작업 패키지 중 아무것도 업데이트할 수 없습니다."
       selected_because_descendants: "%{selected}개 작업 패키지가 선택되었지만, 하위 작업 패키지를 포함하여 총 %{total}개 작업 패키지가 영향을 받았습니다."
       x_out_of_y_could_be_saved: "%{failing}/%{total}개 작업 패키지를 업데이트할 수 없지만 %{success}개는 성공했습니다."
     bulk_delete_dialog:
-      children_label: '다음 자식도 삭제됩니다:'
-      confirm_children_deletion: 본인은 선택한 모든 작업 패키지 및 해당 자식이 영구적으로 삭제됨을 확인합니다.
-      cross_project_warning: '이러한 작업 패키지는 여러 프로젝트에 걸쳐 있습니다: %{projects}'
-      description: '다음 작업 패키지 및 모든 관련 데이터가 영구적으로 삭제됩니다:'
-      description_with_children: '자식 및 모든 관련 데이터를 포함한 다음 작업 패키지가 영구적으로 삭제됩니다:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: 이러한 작업 패키지 %{count}개를 영구적으로 삭제하시겠습니까?
+      hidden_descendants_only_warning:
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: "%{count}개 작업 패키지 삭제"
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6391,11 +6408,20 @@ ko:
         successors: 후속 단계
       update_inputs_aria_live_message: 날짜 선택기가 업데이트되었습니다. %{message}
     delete_dialog:
-      confirm_descendants_deletion: 본인은 이 작업 패키지의 모든 하위 항목이 재귀적으로 제거됨을 확인합니다.
-      cross_project_warning: '다음 프로젝트의 작업 패키지가 삭제됩니다: %{projects}'
-      description: 작업 패키지 "%{name}"을(를) 삭제하시겠습니까?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
+      hidden_descendants_only_warning:
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: 작업 패키지 삭제
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: '작업 패키지 또는 해당 하위 항목의 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 누락된 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
 

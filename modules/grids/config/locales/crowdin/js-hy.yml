@@ -11,37 +11,37 @@ hy:
           title: Custom text
         documents:
           no_results: No documents yet.
-          title: Documents
+          title: Փաստաթղթեր
         members:
-          title: Members
+          title: Անդամներ
         missing_permission: You don't have the necessary permissions to view this widget.
         news:
-          title: News
+          title: Նորություններ
         not_available: This widget is currently unavailable.
         project_description:
-          title: Description
+          title: Նկարագրություն
         project_favorites:
           no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
           title: Favorite projects
         project_status:
-          at_risk: At risk
-          discontinued: Discontinued
-          finished: Finished
+          at_risk: Ռիսկի տակ
+          discontinued: Դադարեցված
+          finished: Ավարտված
           not_set: Not set
-          not_started: Not started
-          off_track: Off track
-          on_track: On track
-          title: Status
+          not_started: Չսկսված
+          off_track: Պլանից շեղված
+          on_track: Ըստ պլանի
+          title: Կարգավիճակ
         project_timeline:
           accessible_date_range: "%{start} to %{end}"
           accessible_gate: 'Phase gate %{name}: %{date}'
           accessible_phase: 'Phase %{name}: %{date}'
           tooltip_type_gate: Phase gate
-          tooltip_type_milestone: Milestone
-          tooltip_type_phase: Phase
-          tooltip_type_sprint: Sprint
+          tooltip_type_milestone: Հանգրվան
+          tooltip_type_phase: Փուլ
+          tooltip_type_sprint: Սպրինտ
         subprojects:
-          title: Subitems
+          title: Ենթատարրեր
         time_entries_current_user:
           displayed_days: 'Days displayed in the widget:'
           title: My spent time
@@ -53,7 +53,7 @@ hy:
         work_packages_assigned:
           title: Work packages assigned to me
         work_packages_calendar:
-          title: Calendar
+          title: Օրացույց
         work_packages_created:
           title: Work packages created by me
         work_packages_graph:

@@ -33,12 +33,12 @@ it:
           on_track: Nei limiti
           title: Stato
         project_timeline:
-          accessible_date_range: "%{start} to %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
-          accessible_phase: 'Phase %{name}: %{date}'
-          tooltip_type_gate: Phase gate
+          accessible_date_range: Da %{start} a %{end}
+          accessible_gate: 'Controllo di fase %{name}: %{date}'
+          accessible_phase: 'Fase %{name}: %{date}'
+          tooltip_type_gate: Controllo di fase
           tooltip_type_milestone: Milestone
-          tooltip_type_phase: Phase
+          tooltip_type_phase: Fase
           tooltip_type_sprint: Sprint
         subprojects:
           title: Sottoelementi

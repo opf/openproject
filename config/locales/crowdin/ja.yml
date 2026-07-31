@@ -2823,6 +2823,7 @@ ja:
       work_package_children_changed_times: 子 %{link}への変更によって
       work_package_duplicate_closed: このステータスは重複したワークパッケージ %{link}によって自動的に更新されました
       work_package_parent_changed_times: 親の%{link}の変更により
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: 前身の %{link}への変更によって
       work_package_related_changed_times: 関連する %{link} への変更によって
       working_days_changed:
@@ -2844,6 +2845,7 @@ ja:
       total_percent_complete_mode_changed_to_simple_average: "%の計算 完全な合計は、単純な平均のみに基づいています。"
       total_percent_complete_mode_changed_to_work_weighted_average: 作業で加重された全体合計の%を計算します。
       work_package_duplicate_closed: 重複ワークパッケージの更新：
+      work_package_parent_deleted: Parent removed
     changes_retracted: 変更は取り下げられました。
   label_accessibility: アクセシビリティ
   label_account: アカウント
@@ -5657,6 +5659,7 @@ ja:
   text_journal_changed_plain: "%{label} が %{old} %{linebreak}から %{new} に変更されました"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}を削除（%{link}）"
   text_journal_file_link_added: "%{label} へのリンクが追加されました %{value} (%{storage})"
@@ -6324,20 +6327,34 @@ ja:
   work_packages:
     bulk:
       copy_failed: ワークパッケージをコピーできませんでした。
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: '次のワークパッケージを保存できませんでした:'
+      deletion_successful:
+        other: Successfully deleted %{count} work packages.
       descendant: 選択された子孫です
       move_failed: ワークパッケージを移動できませんでした。
       none_could_be_saved: "%{total} ワークパッケージのどれも更新できませんでした。"
       selected_because_descendants: "%{selected} ワークパッケージが選択されている間、合計で %{total} ワークパッケージが子孫を含む影響を受けます。"
       x_out_of_y_could_be_saved: "%{failing} の %{total} ワークパッケージのうち、 %{success} を更新できませんでした。"
     bulk_delete_dialog:
-      children_label: 'The following children will also be deleted:'
-      confirm_children_deletion: I acknowledge that all selected work packages and their children will be permanently deleted.
-      cross_project_warning: 'These work packages span multiple projects: %{projects}'
-      description: 'The following work packages and all associated data will be permanently deleted:'
-      description_with_children: 'The following work packages, including children and all associated data, will be permanently deleted:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
+      hidden_descendants_only_warning:
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6381,11 +6398,20 @@ ja:
         successors: 成功者数
       update_inputs_aria_live_message: 日付ピッカーが更新されました。 %{message}
     delete_dialog:
-      confirm_descendants_deletion: I acknowledge that ALL descendants of this work package will be recursively removed.
-      cross_project_warning: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete the work package "%{name}"?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
+      hidden_descendants_only_warning:
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 

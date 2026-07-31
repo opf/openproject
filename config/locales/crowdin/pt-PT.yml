@@ -2875,6 +2875,7 @@ pt-PT:
       work_package_children_changed_times: por alterações no %{link} secundário
       work_package_duplicate_closed: O estado foi automaticamente atualizado pelo pacote de trabalho duplicado %{link}
       work_package_parent_changed_times: por alterações no %{link} principal
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: por alterações no %{link} antecessor
       work_package_related_changed_times: por alterações no %{link} relacionado
       working_days_changed:
@@ -2896,6 +2897,7 @@ pt-PT:
       total_percent_complete_mode_changed_to_simple_average: O cálculo dos totais da % de conclusão baseia-se agora numa média simples de apenas os valores da % de conclusão.
       total_percent_complete_mode_changed_to_work_weighted_average: O cálculo dos totais da % de conclusão é agora ponderado pelo Trabalho.
       work_package_duplicate_closed: 'Pacote de trabalho duplicado atualizado:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: As mudanças foram retraídas.
   label_accessibility: Accessibilidade
   label_account: Conta
@@ -5712,6 +5714,7 @@ pt-PT:
   text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_with_diff: "%{label} alterado (%{link})"
   text_journal_deleted: "%{label} eliminado (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} eliminado (%{link})"
   text_journal_file_link_added: Link %{label} para %{value} (%{storage}) adicionado
@@ -6382,20 +6385,39 @@ pt-PT:
   work_packages:
     bulk:
       copy_failed: Não foi possível copiar os pacotes de trabalho.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Os seguintes pacotes de trabalho não puderam ser guardados:'
+      deletion_successful:
+        one: Successfully deleted 1 work package.
+        other: Successfully deleted %{count} work packages.
       descendant: descendente de selecionados
       move_failed: Não foi possível mover os pacotes de trabalho.
       none_could_be_saved: Não foi possível atualizar nenhum dos %{total} pacotes de trabalho.
       selected_because_descendants: Enquanto %{selected} pacotes de trabalho foram selecionados, %{total} pacotes de trabalho foram afetados, o que inclui descendentes.
       x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados, e %{success} puderam."
     bulk_delete_dialog:
-      children_label: 'Os seguintes filhos também serão eliminados:'
-      confirm_children_deletion: Reconheço que todos os pacotes de trabalho selecionados e os seus filhos serão permanentemente eliminados.
-      cross_project_warning: 'Estes pacotes de trabalho abrangem vários projetos: %{projects}'
-      description: 'Os seguintes pacotes de trabalho e todos os dados associados serão eliminados definitivamente:'
-      description_with_children: 'Os seguintes pacotes de trabalho, incluindo os subpacotes e todos os dados associados, serão eliminados definitivamente:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Eliminar permanentemente estes %{count} pacotes de trabalho?
+      hidden_descendants_only_warning:
+        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Eliminar %{count} pacotes de trabalho
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6439,11 +6461,24 @@ pt-PT:
         successors: Sucessores
       update_inputs_aria_live_message: Seletor de data atualizado. %{message}
     delete_dialog:
-      confirm_descendants_deletion: Reconheço que todos os descendentes dos pacotes de trabalho listados serão recursivamente removidos.
-      cross_project_warning: 'Os pacotes de trabalho dos seguintes projetos serão eliminados: %{projects}'
-      description: Tem a certeza de que deseja eliminar o pacote de trabalho "%{name}"?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Eliminar permanentemente este pacote de trabalho?
+      hidden_descendants_only_warning:
+        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Eliminar pacote de trabalho
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'Os tipos dos pacotes de trabalho ou dos seus descendentes não estão ativados no projeto de destino. Ative os tipos em falta no projeto de destino, caso pretenda que estes permaneçam inalterados. Caso contrário, selecione na lista um tipo disponível no projeto de destino.
 
