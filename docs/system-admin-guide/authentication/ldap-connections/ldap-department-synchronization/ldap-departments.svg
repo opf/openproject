@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-15 -20 1530 755" width="1530" height="755" role="img">
+  <title>LDAP organizational unit hierarchy below the base DN, with user entries in their organizational units</title>
+  <style>
+    .box { fill: #ffffff; stroke: #000000; stroke-width: 3; }
+    .anchor { fill: #ffffff; stroke: #000000; stroke-width: 5; }
+    .person { fill: #ededed; stroke: #000000; stroke-width: 3; }
+    .edge { fill: none; stroke: #000000; stroke-width: 3; }
+    .ou, .uid, .note {
+      font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', system-ui, sans-serif;
+      text-anchor: middle;
+      fill: #000000;
+    }
+    .ou { font-size: 24px; }
+    .uid { font-size: 22px; }
+    .note { font-size: 22px; font-style: italic; text-anchor: start; }
+  </style>
+
+  <rect x="-15" y="-20" width="1530" height="755" fill="#ffffff"/>
+
+  <!-- edges -->
+  <path class="edge" d="M862.5,90 V150"/>
+  <path class="edge" d="M862.5,210 V240 H525 V270"/>
+  <path class="edge" d="M862.5,210 V240 H1200 V270"/>
+  <path class="edge" d="M525,330 V360 H300 V390"/>
+  <path class="edge" d="M525,330 V360 H750 V390"/>
+  <path class="edge" d="M1200,330 V360 H1050 V390"/>
+  <path class="edge" d="M1200,330 V360 H1350 V390"/>
+  <path class="edge" d="M300,450 V480 H150 V510"/>
+  <path class="edge" d="M300,450 V480 H450 V510"/>
+  <path class="edge" d="M1050,450 V514"/>
+  <path class="edge" d="M150,570 V634"/>
+  <path class="edge" d="M450,570 V634"/>
+
+  <!-- directory root -->
+  <rect class="box" x="727.5" y="30" width="270" height="60" rx="8"/>
+  <text class="ou" x="862.5" y="68">dc=example,dc=com</text>
+
+  <!-- base DN anchor -->
+  <rect class="anchor" x="727.5" y="150" width="270" height="60" rx="8"/>
+  <text class="ou" x="862.5" y="188">ou=org</text>
+  <polygon points="1013,180 1029,172 1029,188" fill="#000000"/>
+  <text class="note" x="1041" y="188">base DN of the synchronization</text>
+
+  <!-- top-level departments -->
+  <rect class="box" x="390" y="270" width="270" height="60" rx="8"/>
+  <text class="ou" x="525" y="308">ou=IT</text>
+
+  <rect class="box" x="1065" y="270" width="270" height="60" rx="8"/>
+  <text class="ou" x="1200" y="308">ou=Human Resources</text>
+
+  <!-- sub-departments -->
+  <rect class="box" x="165" y="390" width="270" height="60" rx="8"/>
+  <text class="ou" x="300" y="428">ou=Development</text>
+
+  <rect class="box" x="615" y="390" width="270" height="60" rx="8"/>
+  <text class="ou" x="750" y="428">ou=Support</text>
+
+  <rect class="box" x="915" y="390" width="270" height="60" rx="8"/>
+  <text class="ou" x="1050" y="428">ou=Recruiting</text>
+
+  <rect class="box" x="1215" y="390" width="270" height="60" rx="8"/>
+  <text class="ou" x="1350" y="428">ou=Support</text>
+
+  <rect class="box" x="15" y="510" width="270" height="60" rx="8"/>
+  <text class="ou" x="150" y="548">ou=Frontend</text>
+
+  <rect class="box" x="315" y="510" width="270" height="60" rx="8"/>
+  <text class="ou" x="450" y="548">ou=Backend</text>
+
+  <!-- person entries -->
+  <rect class="person" x="945" y="514" width="210" height="52" rx="26"/>
+  <text class="uid" x="1050" y="547">uid=hwest</text>
+
+  <rect class="person" x="45" y="634" width="210" height="52" rx="26"/>
+  <text class="uid" x="150" y="667">uid=jdoe</text>
+
+  <rect class="person" x="345" y="634" width="210" height="52" rx="26"/>
+  <text class="uid" x="450" y="667">uid=bsmith</text>
+</svg>
