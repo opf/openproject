@@ -5,8 +5,11 @@
   @media screen and (min-width: $breakpoint-lg)
     @include extended-content--left
 
-  // Desktop layout: drop the breadcrumb offset (page header is nested in the main layout).
-  // Mobile keeps the default 30px so the back-arrow clears the main-menu toggler.
+  // Mobile tab layout: full-bleed left too (squished desktop keeps its padding above).
+  #content-body:has(.op-document-view:not(.document-page-layout_desktop-device))
+    padding-left: 0
+
+  // Desktop only: drop the breadcrumb offset (nested header); mobile keeps the default 30px to clear the toggler.
   #wrapper .hidden-navigation .document-page-layout_desktop-device .PageHeader-contextBar
     margin-left: 0
 
@@ -41,17 +44,31 @@
       .op-document-view--header
         padding-left: $blocknote-side-menu-gutter
 
-  // Mobile: strip the panel's px:3 inset (!important beats the utility) so the body isn't double-indented on top of the gutter.
+  // Mobile: margin for the title/breadcrumb (the editor body stays full-bleed for a tight "+").
+  &:not(.document-page-layout_desktop-device) .op-document-view--header
+    padding-left: var(--base-size-16, 1rem)
+
+  .document-page-layout--right-content
+    padding-inline: var(--base-size-16, 1rem)
+
   &:not(.document-page-layout_desktop-device) .document-page-layout--right-content
-    padding-left: 0 !important
+    padding-inline: var(--base-size-16, 1rem) 0
+
+  &:not(.document-page-layout_desktop-device) .document-page-layout--right-content:has(op-block-note)
+    padding-inline: 0
 
   // Notices sit beside the editor, not in it — add the gutter so they line up with the body.
   &--editor-notice
     padding-left: $blocknote-side-menu-gutter
 
-  // Mobile: the notice has no drag handle, so no gutter — a plain base-size-16 margin.
+  // Mobile: align the notice with the title and tabs' margin, not the editor gutter.
   &:not(.document-page-layout_desktop-device) .op-document-view--editor-notice
     padding-left: var(--base-size-16, 1rem)
 
   .UnderlineNav
     padding-left: var(--base-size-16, 1rem)
+
+  // Mobile: tabs flush to the grey baseline (padding 0), bar margin so it's off the screen edge.
+  &:not(.document-page-layout_desktop-device) .UnderlineNav
+    padding-left: 0
+    margin-left: var(--base-size-16, 1rem)

@@ -37,3 +37,11 @@ $blocknote-side-menu-gutter: 48px // Left lane for BlockNote's side menu (drag h
 
   :focus-visible
     outline: none !important // Remove default focus outline to use custom styles
+
+// The loading skeleton replaces the editor container in the same (shadow-DOM) mount, so give
+// it the editor's box - max-width, centering and gutter - instead of a full-width flush block.
+.document-loading-skeleton
+  max-width: $blocknote-max-width
+  width: 100%
+  margin: 0 auto
+  padding-left: $blocknote-side-menu-gutter
