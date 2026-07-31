@@ -115,14 +115,14 @@ module Accounts::Registration
 
   def consent_given_for_registration?(user)
     return true unless user_consent_required?
-    return true if consent_param?
 
-    if user.invalid?
-      onthefly_creation_failed(user)
-      return false
-    end
+    user.consent_check = consent_param?
+    return true if user.consent_check
 
-    user.errors.add(:base, I18n.t("consent.failure_message"))
+    # Populate any other field validations so they render inline alongside the
+    # consent error, then flag the missing consent on the checkbox itself.
+    user.validate
+    user.errors.add(:consent_check, I18n.t("consent.failure_message"))
     onthefly_creation_failed(user)
 
     false

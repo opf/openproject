@@ -109,9 +109,30 @@ class RegistrationForm < ApplicationForm
       helpers.format_text(helpers.user_consent_instructions(I18n.locale), target: "_blank")
     end
     form.check_box(name: :consent_check,
-                   scope_name_to_model: false,
                    label: helpers.format_text(helpers.consent_checkbox_label),
                    required: true)
+    consent_validation_message(form)
+  end
+
+  # Primer's check_box does not render inline validations, so we render the
+  # consent error next to the checkbox ourselves, matching the styling Primer
+  # uses for other inline field validations.
+  def consent_validation_message(form)
+    message = model.errors[:consent_check].first
+    return if message.blank?
+
+    form.html_content do
+      helpers.content_tag(:div, class: "FormControl-inlineValidation") do
+        helpers.safe_join([
+                            helpers.content_tag(
+                              :span,
+                              render(Primer::Beta::Octicon.new(icon: :"alert-fill", size: :xsmall, aria: { hidden: true })),
+                              class: "FormControl-inlineValidation--visual"
+                            ),
+                            helpers.content_tag(:span, message)
+                          ])
+      end
+    end
   end
 
   def authentication_providers(form)

@@ -30,7 +30,8 @@
 
 module ::UserConsentHelper
   def consent_param?
-    ActiveModel::Type::Boolean.new.cast(params[:consent_check])
+    raw = params[:consent_check] || params.dig(:user, :consent_check)
+    ActiveModel::Type::Boolean.new.cast(raw)
   end
 
   def user_consent_required?

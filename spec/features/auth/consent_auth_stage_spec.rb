@@ -228,7 +228,7 @@ RSpec.describe "Authentication Stages" do
 
       expect(page).to have_test_selector("registration-form")
       expect(page).to have_text("Consent header")
-      check "consent_check"
+      check "user_consent_check"
       click_on I18n.t(:button_create)
 
       expect_flash(message: I18n.t(:notice_account_registered_and_logged_in))
