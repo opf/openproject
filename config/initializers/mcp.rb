@@ -47,7 +47,9 @@ end
 Rails.application.config.after_initialize do
   McpTools.register McpTools::CreateWorkPackage,
                     McpTools::CreateWorkPackageComment,
+                    McpTools::CreateWorkPackageRelation,
                     McpTools::CurrentUser,
+                    McpTools::DeleteWorkPackageRelation,
                     McpTools::ListStatuses,
                     McpTools::ListTypes,
                     McpTools::ListWorkPackageComments,
@@ -60,7 +62,8 @@ Rails.application.config.after_initialize do
                     McpTools::SearchUsers,
                     McpTools::SearchVersions,
                     McpTools::SearchWorkPackages,
-                    McpTools::UpdateWorkPackage
+                    McpTools::UpdateWorkPackage,
+                    McpTools::UpdateWorkPackageRelation
 
   McpResources.register McpResources::CurrentUser,
                         McpResources::CustomField,
