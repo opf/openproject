@@ -86,7 +86,7 @@ Specify:
   - **Automatically filtered** – displays all work packages matching the selected filters.
   - **Manually hand-picked** – allows you to add and remove work packages individually.
 
-If you choose **Automatically filtered**, define which work packages should be included by specifying:
+If you choose **Automatically filtered** for one of the two work package views, define which work packages should be included by specifying:
 
 - status
 - additional work package filters, including work package attributes and custom fields
@@ -136,7 +136,7 @@ To delete a resource planner:
 3. Confirm the deletion.
 
 > [!NOTE]
-> Deleting a resource planner removes the planner and all of its planner views. It does not delete any work packages or project data.
+> Deleting a resource planner removes the planner and all of its planner views. It does not delete any work packages, allocated times or project data.
 
 ![Confirmation dialog for deleting a resource planner](resource-management-delete-planner.png)
 
@@ -235,7 +235,9 @@ Each card displays information that helps with staffing decisions, including:
 - status
 - configured working hours
 - user attributes, such as spoken languages or key skills, as configured for the view
-- current utilisation
+- current utilization
+> [!TIP]
+> The utilization bar is relative to the date range of the resource planner. It will show the user's utilization within that given range. If no range is set up, no utilization is displayed.
 
 Use the **Configure view** icon to choose which user attributes are displayed on the cards.
 
@@ -283,7 +285,9 @@ Specify:
 
 Select **Allocate**.
 
-The new allocation is immediately displayed in the planner. Allocated hours and utilisation are updated automatically.
+The new allocation is immediately displayed in the planner. Allocated hours and utilisation are updated automatically. 
+> [!TIP]
+> If the selected user is over-allocated, a warning message is displayed.
 
 ### Allocate by filter criteria
 

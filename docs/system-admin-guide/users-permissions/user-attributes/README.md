@@ -8,11 +8,11 @@ keywords: user attributes, user custom field
 
 # User attributes
 
-**User attributes** in OpenProject allow administrators to extend user profiles with additional information, such as job titles, skills, certifications or spoken languages. These attributes can be displayed on user profiles and on user cards in the [Resource management module](../../../user-guide/resource-management).
+**User attributes** in OpenProject allow administrators to extend user profiles with additional information, such as job titles, skills, certifications or spoken languages. These attributes can be displayed on user profiles, hover cards and on user cards in the [Resource management module](../../../user-guide/resource-management).
 
 ## View user attributes
 
-To view all existing user attributes, navigate to **Administration settings → Users and permissions→ User attributes**.
+To view all existing user attributes, navigate to **Administration settings → Users and permissions → User attributes**.
 
 From this page you can:
 - create and manage custom user attributes
@@ -106,7 +106,7 @@ The following example shows a user attribute with the **List** format.
 
 - **Admin-only**: If you enable this, the user attribute will only be visible to administrators. All other users will not see it.
 - **Editable**: Allows users to edit the attribute themselves.
-- **Show on user card**: Displays the attribute on user information cards throughout the application, including the Resource management module.
+- **Show on user card**: Displays the attribute on user hover cards (information shown when you hover over a user name).
 
 Once you create a user attribute, you can [define help text](#define-user-attribute-help-text) and the list items.
 
