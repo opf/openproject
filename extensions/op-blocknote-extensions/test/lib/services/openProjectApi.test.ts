@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   fetchStatuses,
   fetchTypes,
@@ -10,10 +10,12 @@ import {
   searchWorkPackages
 } from '../../../lib/services/openProjectApi';
 
-// fetch resolves to a full Response, but the API layer only reads ok, status,
-// statusText and json(), so the stubs cover just those.
 function mockResponse(props:Partial<Response>):Response {
   return props as Response;
+}
+
+function calledUrl(calls:unknown[][], index = 0):string {
+  return calls[index][0] as string;
 }
 
 describe('openProjectApi', () => {
@@ -38,8 +40,8 @@ describe('openProjectApi', () => {
       try {
         searchWorkPackages('test query');
 
-        const calledUrl = fetchSpy.mock.calls[0][0] as string;
-        expect(calledUrl).toContain('sortBy=%5B%5B%22updatedAt%22%2C%22desc%22%5D%5D');
+        const url = calledUrl(fetchSpy.mock.calls);
+        expect(url).toContain('sortBy=%5B%5B%22updatedAt%22%2C%22desc%22%5D%5D');
       } finally {
         fetchSpy.mockRestore();
       }
@@ -102,6 +104,74 @@ describe('openProjectApi', () => {
       expect(parseWorkPackageUrl('http://localhost:3000/wp/abc')).toBeNull();
       expect(parseWorkPackageUrl('http://localhost:3000/wp/0')).toBeNull();
       expect(parseWorkPackageUrl('not a url')).toBeNull();
+    });
+  });
+
+  describe('proxyUrl', () => {
+    const baseUrl = 'https://openproject.example.com';
+    const proxyUrl = 'https://proxy.example.com';
+
+    let fetchSpy = vi.spyOn(global, 'fetch');
+
+    beforeEach(() => {
+      fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+    });
+
+    afterEach(() => {
+      fetchSpy.mockRestore();
+    });
+
+    it('sends the authorized API requests to the proxyUrl', async () => {
+      initOpenProjectApi({ baseUrl, proxyUrl });
+
+      await fetchStatuses();
+      expect(calledUrl(fetchSpy.mock.calls)).toBe(`${proxyUrl}/api/v3/statuses`);
+
+      await fetchTypes();
+      expect(calledUrl(fetchSpy.mock.calls, 1)).toBe(`${proxyUrl}/api/v3/types`);
+
+      await fetchWorkPackage('DWPS-2');
+      expect(calledUrl(fetchSpy.mock.calls, 2)).toBe(`${proxyUrl}/api/v3/work_packages/DWPS-2`);
+
+      await searchWorkPackages('test query');
+      expect(calledUrl(fetchSpy.mock.calls, 3)).toContain(`${proxyUrl}/api/v3/work_packages?`);
+    });
+
+    it('keeps building work package links from the baseUrl', () => {
+      initOpenProjectApi({ baseUrl, proxyUrl });
+      expect(linkToWorkPackage('42')).toBe(`${baseUrl}/wp/42`);
+    });
+
+    it('only recognizes pasted work package URLs of the baseUrl', () => {
+      initOpenProjectApi({ baseUrl, proxyUrl });
+      expect(parseWorkPackageUrl(`${baseUrl}/wp/123`)).toBe('123');
+      expect(parseWorkPackageUrl(`${proxyUrl}/wp/123`)).toBeNull();
+    });
+
+    it('falls back to the baseUrl for the API requests if no proxyUrl is given', async () => {
+      initOpenProjectApi({ baseUrl, proxyUrl });
+      initOpenProjectApi({ baseUrl });
+
+      await fetchStatuses();
+      expect(calledUrl(fetchSpy.mock.calls)).toBe(`${baseUrl}/api/v3/statuses`);
+    });
+
+    it('works with a proxyUrl with trailing slash', async () => {
+      initOpenProjectApi({ baseUrl: `${baseUrl}/`, proxyUrl: `${proxyUrl}/` });
+
+      await fetchStatuses();
+      expect(calledUrl(fetchSpy.mock.calls)).toBe(`${proxyUrl}/api/v3/statuses`);
+      expect(linkToWorkPackage('42')).toBe(`${baseUrl}/wp/42`);
+    });
+
+    it('strips the trailing slash of the baseUrl it falls back to', async () => {
+      initOpenProjectApi({ baseUrl: `${baseUrl}/` });
+
+      await fetchStatuses();
+      expect(calledUrl(fetchSpy.mock.calls)).toBe(`${baseUrl}/api/v3/statuses`);
     });
   });
 

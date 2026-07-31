@@ -2,6 +2,7 @@
 import type {OpenProjectResponse, StatusCollection, TypeCollection, WorkPackage} from '../openProjectTypes';
 
 let baseUrl = 'https://openproject.local';
+let proxyUrl = 'https://openproject.local';
 
 
 export class OpenProjectApiError extends Error {
@@ -14,15 +15,26 @@ export class OpenProjectApiError extends Error {
   }
 }
 
-export function initOpenProjectApi(config:{ baseUrl:string }) {
-  baseUrl = config.baseUrl;
-  if (baseUrl.endsWith('/')) {
-    baseUrl = baseUrl.slice(0, -1);
-  }
+function stripTrailingSlash(url:string):string {
+  return url.endsWith('/') ? url.slice(0, -1) : url;
+}
+
+/**
+ * Initializes the API configuration.
+ *
+ * `baseUrl` is the address of the OpenProject instance. It is used for links
+ * pointing to work packages and for recognizing pasted work package URLs.
+ * `proxyUrl` is the address the authorized API requests are sent to. It
+ * defaults to `baseUrl` and only needs to be given if the API traffic has to
+ * be routed through a proxy, for example to inject authorization.
+ */
+export function initOpenProjectApi(config:{ baseUrl:string, proxyUrl?:string }) {
+  baseUrl = stripTrailingSlash(config.baseUrl);
+  proxyUrl = stripTrailingSlash(config.proxyUrl ?? config.baseUrl);
 }
 
 async function get<T>(endpoint:string):Promise<T> {
-  const response = await fetch(`${baseUrl}${endpoint}`, {
+  const response = await fetch(`${proxyUrl}${endpoint}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
