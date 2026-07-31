@@ -109,7 +109,7 @@ module AllMeetings
         )
 
         attendee_from_event = attendee(event)
-        status = attendee_from_event && partstat(attendee_from_event)
+        status = partstat(attendee_from_event)
 
         if status.present?
           response.participation_status = status
@@ -137,6 +137,8 @@ module AllMeetings
     end
 
     def partstat(attendee)
+      return nil if attendee.blank?
+
       attendee.ical_params["partstat"]&.first&.downcase
     end
 
@@ -154,7 +156,7 @@ module AllMeetings
     def update_participation_status(meeting, event)
       attendee_from_event = attendee(event)
 
-      status = attendee_from_event && partstat(attendee_from_event)
+      status = partstat(attendee_from_event)
 
       if status.present?
         participant = meeting.participants.find_by!(user: user)
