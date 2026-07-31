@@ -46,9 +46,11 @@ end
 
 Rails.application.config.after_initialize do
   McpTools.register McpTools::CreateWorkPackage,
+                    McpTools::CreateWorkPackageComment,
                     McpTools::CurrentUser,
                     McpTools::ListStatuses,
                     McpTools::ListTypes,
+                    McpTools::ListWorkPackageComments,
                     McpTools::ListWorkPackageRelations,
                     McpTools::SearchCustomFields,
                     McpTools::SearchCustomFieldItems,
