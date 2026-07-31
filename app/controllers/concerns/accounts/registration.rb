@@ -153,6 +153,13 @@ module Accounts::Registration
   def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
+
+    # Field-specific errors render inline in the form. Errors not tied to a form
+    # field are surfaced as a flash banner instead.
+    if user.errors[:base].present?
+      flash.now[:error] = user.errors[:base].to_sentence
+    end
+
     render action: "register", status: :unprocessable_entity
   end
 
