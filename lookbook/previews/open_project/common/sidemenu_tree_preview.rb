@@ -36,109 +36,79 @@ module OpenProject
       # @display min_height 450px
       # @param state [Symbol] select [current,default,filtered]
       def default(state: :current)
+        state = state.to_sym
+
         render(
-          Primer::OpenProject::FilterableTreeView.new(
-            show_search_highlighting: false,
-            classes: "op-sidemenu-filterable-tree",
-            test_selector: "wiki-sidemenu-tree",
-            include_sub_items_check_box_arguments: { hidden: true },
-            filter_mode_control_arguments: { hidden: true },
-            filter_input_arguments: {
-              autocomplete: "off"
-            }
+          OpenProject::Sidemenu::TreeComponent.new(
+            nodes: nodes_for(state),
+            query_terms: query_terms_for(state)
           )
-        ) do |tree|
-          render_nodes(tree, state)
-        end
+        )
       end
 
       private
 
-      def render_nodes(tree, state)
-        case state.to_sym
+      def nodes_for(state)
+        case state
         when :default
-          render_default_nodes(tree)
+          default_nodes
         when :filtered
-          render_filtered_nodes(tree)
+          filtered_nodes
         else
-          render_current_nodes(tree)
+          current_nodes
         end
       end
 
-      def render_default_nodes(tree)
-        tree.with_sub_tree(
-          label: "Wiki",
-          href: "/projects/demo/wiki/wiki",
-          expanded: false,
-          select_variant: :none
-        ) do |wiki|
-          wiki.with_leaf(label: "Glossary", href: "/projects/demo/wiki/glossary", select_variant: :none)
-          wiki.with_leaf(label: "Release notes", href: "/projects/demo/wiki/release-notes", select_variant: :none)
-        end
-
-        tree.with_leaf(label: "Onboarding", href: "/projects/demo/wiki/onboarding", select_variant: :none)
+      def query_terms_for(state)
+        state == :filtered ? %w[guide api] : []
       end
 
-      def render_current_nodes(tree)
-        tree.with_sub_tree(
-          label: "Wiki",
-          href: "/projects/demo/wiki/wiki",
-          expanded: true,
-          select_variant: :none
-        ) do |wiki|
-          wiki.with_sub_tree(
-            label: "Onboarding guide",
-            href: "/projects/demo/wiki/onboarding-guide",
-            expanded: true,
-            select_variant: :none
-          ) do |guide|
-            guide.with_leaf(
-              label: "API setup",
-              href: "/projects/demo/wiki/api-setup",
-              current: true,
-              select_variant: :none
-            )
-            guide.with_leaf(
-              label: "Development setup",
-              href: "/projects/demo/wiki/development-setup",
-              select_variant: :none
-            )
-          end
-
-          wiki.with_leaf(label: "Release notes", href: "/projects/demo/wiki/release-notes", select_variant: :none)
-          wiki.with_leaf(
-            label: "A very long wiki page title that should truncate inside the project sidemenu",
-            href: "/projects/demo/wiki/long-page",
-            select_variant: :none
-          )
-        end
+      def default_nodes
+        [
+          node("Wiki", "/projects/demo/wiki/wiki", children: [
+                 node("Glossary", "/projects/demo/wiki/glossary"),
+                 node("Release notes", "/projects/demo/wiki/release-notes")
+               ]),
+          node("Onboarding", "/projects/demo/wiki/onboarding")
+        ]
       end
 
-      def render_filtered_nodes(tree)
-        tree.with_sub_tree(
-          label: "Wiki",
-          href: "/projects/demo/wiki/wiki",
-          expanded: true,
-          disabled: true,
-          select_variant: :none
-        ) do |wiki|
-          wiki.with_sub_tree(
-            label: highlighted_label("Onboarding guide"),
-            href: "/projects/demo/wiki/onboarding-guide",
-            expanded: true,
-            select_variant: :none
-          ) do |guide|
-            guide.with_leaf(
-              label: highlighted_label("API setup guide"),
-              href: "/projects/demo/wiki/api-setup-guide",
-              select_variant: :none
-            )
-          end
-        end
+      def current_nodes
+        [
+          node("Wiki", "/projects/demo/wiki/wiki", expanded: true, children: [
+                 node("Onboarding guide", "/projects/demo/wiki/onboarding-guide", expanded: true, children: [
+                        node("API setup", "/projects/demo/wiki/api-setup", current: true),
+                        node("Development setup", "/projects/demo/wiki/development-setup")
+                      ]),
+                 node("Release notes", "/projects/demo/wiki/release-notes"),
+                 node(
+                   "A very long wiki page title that should truncate inside the project sidemenu",
+                   "/projects/demo/wiki/long-page"
+                 )
+               ])
+        ]
       end
 
-      def highlighted_label(label)
-        ApplicationController.helpers.highlight_text_by_terms(label, %w[guide api])
+      def filtered_nodes
+        [
+          node("Wiki", "/projects/demo/wiki/wiki", expanded: true, disabled: true, children: [
+                 node("Onboarding guide", "/projects/demo/wiki/onboarding-guide", expanded: true, children: [
+                        node("API setup guide", "/projects/demo/wiki/api-setup-guide")
+                      ])
+               ])
+        ]
+      end
+
+      def node(label, href, children: [], current: false, expanded: false, disabled: false)
+        OpenProject::Sidemenu::TreeNode.new(
+          id: href,
+          label:,
+          href:,
+          children:,
+          current:,
+          expanded:,
+          disabled:
+        )
       end
     end
   end
