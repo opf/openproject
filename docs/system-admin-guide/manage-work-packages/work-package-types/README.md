@@ -93,6 +93,31 @@ The related work packages table is then displayed directly in the work package f
 
 ![A work package in OpenProject displaying related work packages table](open_project_admin_related_wp_table.png)
 
+## Display project attributes in work package forms
+
+You can display **[project attributes](../../projects/project-attributes/)** in a dedicated tab within work packages. This allows users with necessary permissions to view and edit project-level information directly from a work package.
+
+To configure this, go to **Administration → Work packages → Types**, open the **Project attributes** tab, and select which project attributes should be displayed for each work package type.
+
+![Work package settings in OpenProject administration, showing "project attributes" tab](openproject_system_guide_work_package_types_project_attributes.png)
+
+The tab lists all available project attribute sections and their attributes.
+
+Use the On/Off toggle next to each project attribute to show or hide it in the **Project attributes** tab for the selected work package type.
+
+You can also use the **Enable all** and **Disable all** buttons displayed next to each section title to show or hide all project attributes within that section at once.
+
+If your instance contains many project attributes, use the search field to quickly find a specific attribute.
+
+> [!NOTE]
+> This setting only controls which project attributes are displayed in the **Project attributes** tab of a work package for the selected work package type. It does **not** affect which project attributes are displayed on the project's overview page. The project overview uses its own display configuration.
+>
+> Read more about configuring project attributes for the [project overview page](../../../user-guide/projects/project-settings/project-attributes/).
+
+The same project attributes are used in both the project overview and work packages. Any changes made to a project attribute from within a work package are reflected everywhere the attribute is displayed.
+
+Displaying project attributes in work packages is particularly useful for **PDF exports**, as the project attributes shown in the work package are also included in the exported document.
+
 ## Work package automatic subject configuration (Enterprise add-on)
 
 [feature: work_package_subject_generation ]
