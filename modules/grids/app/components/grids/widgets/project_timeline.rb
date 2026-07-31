@@ -46,21 +46,27 @@ module Grids
       def phases_data
         return [].to_json unless view_project_phases_allowed?
 
-        active_project_phases
-               .eager_load(definition: :color)
-               .order("project_phase_definitions.position")
-               .map { |phase| phase_data(phase) }
-               .to_json
+        if hierarchical?
+          hierarchical_phases_data
+        else
+          active_project_phases
+                 .eager_load(definition: :color)
+                 .order("project_phase_definitions.position")
+                 .map { |phase| phase_data(phase) }
+                 .to_json
+        end
       end
 
       def milestones_data
+        return [].to_json if hierarchical?
+
         assign_milestone_rows(milestones_scope)
           .map { |wp, row| { id: wp.id, subject: wp.subject, date: wp.due_date.iso8601, typeId: wp.type_id, row: } }
           .to_json
       end
 
       def sprints_data
-        return [].to_json unless view_sprints_allowed?
+        return [].to_json if hierarchical? || !view_sprints_allowed?
 
         assign_sprint_rows(sprints_scope)
           .map do |sprint, row|
@@ -71,7 +77,11 @@ module Grids
       end
 
       def any_content?
-        @any_content ||= any_phases? || milestones_scope.exists? || any_sprints?
+        @any_content ||= if hierarchical?
+                           any_phases?
+                         else
+                           any_phases? || milestones_scope.exists? || any_sprints?
+                         end
       end
 
       def render?
@@ -120,12 +130,48 @@ module Grids
           User.current.allowed_in_project?(:view_sprints, project)
       end
 
+      def hierarchical?
+        @hierarchical ||= project.portfolio? || project.program?
+      end
+
       def any_phases?
-        @any_phases ||= view_project_phases_allowed? && active_project_phases.with_timeline_content.exists?
+        @any_phases ||= if hierarchical?
+                          phases_data_projects.any?
+                        else
+                          view_project_phases_allowed? && active_project_phases.with_timeline_content.exists?
+                        end
       end
 
       def any_sprints?
         @any_sprints ||= view_sprints_allowed? && sprints_scope.exists?
+      end
+
+      def hierarchical_phases_data
+        phases_data_projects.flat_map do |proj|
+          proj.phases.active
+              .eager_load(definition: :color)
+              .order("project_phase_definitions.position")
+              .map { |phase| phase_data(phase).merge(projectId: proj.id, projectName: proj.name) }
+        end.to_json
+      end
+
+      def phases_data_projects
+        @phases_data_projects ||= begin
+          own = view_project_phases_allowed? ? [project] : []
+          children = children_with_phase_permission
+            .filter_map do |child|
+              first_start = child.phases.active.minimum(:start_date)
+              [child, first_start] if first_start
+            end
+            .sort_by { |_, date| date }
+            .map { |child, _| child }
+          own + children
+        end
+      end
+
+      def children_with_phase_permission
+        @children_with_phase_permission ||= project.children
+          .where(id: Project.allowed_to(User.current, :view_project_phases))
       end
 
       def milestones_scope

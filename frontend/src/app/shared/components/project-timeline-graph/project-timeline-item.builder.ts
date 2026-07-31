@@ -42,6 +42,8 @@ export interface ProjectPhaseData {
   startGateName:string|null;
   finishGate:boolean;
   finishGateName:string|null;
+  projectId?:number;
+  projectName?:string;
 }
 
 export interface ProjectMilestoneData {
@@ -95,8 +97,31 @@ export class ProjectTimelineItemBuilder {
   private readonly i18n = inject(I18nService);
   private readonly timezone = inject(TimezoneService);
 
-  buildData(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):{items:ProjectTimelineItem[]; groups:{id:string; content:string}[]} {
+  buildData(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):{items:ProjectTimelineItem[]; groups:{id:string; content:string; className?:string}[]; isHierarchical:boolean} {
+    const isHierarchical = phases.length > 0 && phases[0].projectId != null;
     const items:ProjectTimelineItem[] = [];
+
+    if (isHierarchical) {
+      const projects = this.collectProjects(phases);
+      for (const phase of phases) {
+        const phaseGroup = `${GROUP_PHASES}-${phase.projectId!}`;
+        const gateGroup = `${GROUP_GATES}-${phase.projectId!}`;
+        if (phase.startDate && phase.endDate) {
+          items.push(this.buildPhaseItem(phase, phaseGroup));
+        }
+        if (phase.startGate && phase.startDate) {
+          items.push(this.buildGateItem(phase, 'start', gateGroup));
+        }
+        if (phase.finishGate && phase.endDate) {
+          items.push(this.buildGateItem(phase, 'finish', gateGroup));
+        }
+      }
+      const groups = projects.flatMap((p) => [
+        { id: `${GROUP_GATES}-${p.id}`, content: '', className: 'op-timeline-group--gates' },
+        { id: `${GROUP_PHASES}-${p.id}`, content: p.name },
+      ]);
+      return { items, groups, isHierarchical };
+    }
 
     for (const phase of phases) {
       if (phase.startDate && phase.endDate) {
@@ -125,10 +150,22 @@ export class ProjectTimelineItemBuilder {
       { id: GROUP_SPRINTS, content: '' },
     ];
 
-    return { items, groups };
+    return { items, groups, isHierarchical };
   }
 
-  buildPhaseItem(phase:ProjectPhaseData):ProjectTimelineItem {
+  private collectProjects(phases:ProjectPhaseData[]):{id:number; name:string}[] {
+    const seen = new Set<number>();
+    const result:{id:number; name:string}[] = [];
+    for (const phase of phases) {
+      if (phase.projectId != null && !seen.has(phase.projectId)) {
+        seen.add(phase.projectId);
+        result.push({ id: phase.projectId, name: phase.projectName! });
+      }
+    }
+    return result;
+  }
+
+  buildPhaseItem(phase:ProjectPhaseData, group = GROUP_PHASES):ProjectTimelineItem {
     const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
     const isOneDay = phase.startDate === phase.endDate;
     let start:Date | string = phase.startDate!;
@@ -141,7 +178,7 @@ export class ProjectTimelineItemBuilder {
     }
     return {
       id: `phase-${phase.id}`,
-      group: GROUP_PHASES,
+      group,
       start,
       end,
       originalEnd: isOneDay ? phase.endDate! : undefined,
@@ -154,14 +191,14 @@ export class ProjectTimelineItemBuilder {
     };
   }
 
-  buildGateItem(phase:ProjectPhaseData, position:'start'|'finish'):ProjectTimelineItem {
+  buildGateItem(phase:ProjectPhaseData, position:'start'|'finish', group = GROUP_GATES):ProjectTimelineItem {
     const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
     const hlInlineClass = `__hl_inline_project_phase_definition_${phase.definitionId}`;
     const isFinish = position === 'finish';
     const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
     return {
       id: `gate-${position}-${phase.id}`,
-      group: GROUP_GATES,
+      group,
       start: isFinish ? phase.endDate! : phase.startDate!,
       content: icon,
       title: (isFinish ? phase.finishGateName : phase.startGateName) ?? phase.name,

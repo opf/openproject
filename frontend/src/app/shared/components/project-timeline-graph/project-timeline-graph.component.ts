@@ -47,10 +47,7 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
-import {
-  GROUP_GATES,
-  ProjectTimelineItemBuilder,
-} from './project-timeline-item.builder';
+import { ProjectTimelineItemBuilder } from './project-timeline-item.builder';
 import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectSprintData, ProjectTimelineItem } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
 
@@ -130,7 +127,8 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   }
 
   private initTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
-    const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
+    const { items, groups, isHierarchical } = this.itemBuilder.buildData(phases, milestones, sprints);
+    this.containerRef.nativeElement.classList.toggle('op-project-timeline-graph--hierarchical', isHierarchical);
     this.itemsDataset = new DataSet(items);
 
     this.timeline = new Timeline(
@@ -166,7 +164,8 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   }
 
   private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
-    const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
+    const { items, groups, isHierarchical } = this.itemBuilder.buildData(phases, milestones, sprints);
+    this.containerRef.nativeElement.classList.toggle('op-project-timeline-graph--hierarchical', isHierarchical);
     this.itemsDataset = new DataSet(items);
     this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
   }
@@ -179,11 +178,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     this.readyHandler = () => changed$.next();
     this.timeline!.on('changed', this.readyHandler);
 
-    changed$.pipe(
-      debounceTime(1000),
-      take(1),
-      takeUntil(this.destroyed$),
-    ).subscribe(() => {
+    const reveal = () => {
       this.timeline!.off('changed', this.readyHandler!);
       this.readyHandler = null;
       this.timeline!.setOptions({
@@ -191,11 +186,23 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
       });
       this.ready.set(true);
-    });
+    };
+
+    changed$.pipe(
+      debounceTime(300),
+      take(1),
+      takeUntil(this.destroyed$),
+    ).subscribe(reveal);
+
+    // Safety net: reveal after 2 seconds even if changed events keep firing
+    setTimeout(() => {
+      if (!this.ready() && !this.destroyed) reveal();
+    }, 2000);
   }
 
   private shouldCluster(a:ProjectTimelineItem, b:ProjectTimelineItem):boolean {
-    if (a.group !== GROUP_GATES || b.group !== GROUP_GATES) return false;
+    if (a.itemType !== 'gate' || b.itemType !== 'gate') return false;
+    if (a.group !== b.group) return false;
 
     const diff = Math.abs(new Date(a.start).getTime() - new Date(b.start).getTime());
     return diff <= 24 * 60 * 60 * 1000; // 24 hours
