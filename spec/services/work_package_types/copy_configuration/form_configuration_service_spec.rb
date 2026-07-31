@@ -160,6 +160,146 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
+  # Switching to Independent copies from the type's own link source, so the copy has to freeze
+  # what the type was presenting — not restore the elements its link chain excluded.
+  describe "when the type's link excludes elements", with_flag: { type_variants: true } do
+    let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
+    let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
+    let!(:solo_field) { create(:work_package_custom_field, field_format: "string") }
+
+    # The copy runs while the link is still in place — SwitchToIndependentModeService severs it
+    # afterwards — and Type#attribute_groups resolves through a live link. Reading it directly
+    # would therefore show the still-inherited view and hold whatever was actually persisted, so
+    # these assertions sever the link first and look at the type's own stored groups.
+    def own_groups
+      type.configuration_links.destroy_all
+
+      type.reload.attribute_groups.to_h { |group| [group.key, group.attributes] }
+    end
+
+    before do
+      source.attribute_groups = [
+        ["numbers", [kept_field.attribute_name, excluded_field.attribute_name]],
+        ["solo", [solo_field.attribute_name]],
+        ["people", %w[assignee]]
+      ]
+      source.custom_field_ids = [kept_field.id, excluded_field.id, solo_field.id]
+      source.save!
+      source.reload
+
+      create(:type_configuration_link, type:, source:,
+                                       aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
+                                       excluded_elements: [excluded_field.attribute_name,
+                                                           solo_field.attribute_name])
+    end
+
+    it "copies the narrowed groups and drops the emptied one" do
+      expect(service_call).to be_success
+
+      expect(own_groups.keys).to contain_exactly("numbers", "people")
+      expect(own_groups["numbers"]).to eq([kept_field.attribute_name])
+    end
+
+    it "activates only the custom fields that survived the exclusions" do
+      expect(service_call).to be_success
+
+      expect(type.reload.custom_field_ids).to contain_exactly(kept_field.id)
+    end
+
+    it "leaves the source's own configuration complete" do
+      service_call
+
+      expect(source.reload.attribute_groups.map(&:key))
+        .to contain_exactly("numbers", "solo", "people")
+      expect(source.custom_field_ids)
+        .to contain_exactly(kept_field.id, excluded_field.id, solo_field.id)
+    end
+
+    context "with exclusions accumulated over a chain" do
+      let(:owner) { create(:type) }
+
+      before do
+        # Rebuild as owner <- source <- type, each link dropping a little more.
+        type.configuration_links.destroy_all
+        owner.attribute_groups = source.attribute_groups.map { |g| [g.key, g.attributes] }
+        owner.custom_field_ids = [kept_field.id, excluded_field.id, solo_field.id]
+        owner.save!
+
+        source.update!(attribute_groups: [])
+        create(:type_configuration_link, type: source, source: owner,
+                                         aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
+                                         excluded_elements: [excluded_field.attribute_name])
+        create(:type_configuration_link, type:, source:,
+                                         aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
+                                         excluded_elements: [solo_field.attribute_name])
+      end
+
+      it "applies every link's exclusions, not just the nearest one" do
+        expect(service_call).to be_success
+
+        expect(type.reload.custom_field_ids).to contain_exactly(kept_field.id)
+        expect(own_groups.keys).to contain_exactly("numbers", "people")
+        expect(own_groups["numbers"]).to eq([kept_field.attribute_name])
+      end
+    end
+
+    context "with an excluded query group" do
+      let!(:embedded_query) { create(:query, user: admin, name: "Embedded") }
+
+      before do
+        source.attribute_groups = [
+          ["numbers", [kept_field.attribute_name]],
+          ["related", [embedded_query]]
+        ]
+        source.save!
+        source.reload
+
+        type.configuration_links
+            .find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+            .update!(excluded_elements: ["query_#{embedded_query.id}"])
+      end
+
+      it "does not copy the excluded section" do
+        expect(service_call).to be_success
+
+        expect(own_groups.keys).to contain_exactly("numbers")
+      end
+
+      # The copy rebuilds query groups as fresh Query records, so an excluded section must be
+      # dropped before that happens rather than leaving an orphan query behind.
+      it "does not rebuild a query for it" do
+        expect { service_call }.not_to change(Query, :count)
+      end
+    end
+  end
+
+  # "Copy from type" on the form configuration tab passes an arbitrary source, whose own
+  # exclusions are what the user saw when picking it.
+  describe "copying from an unrelated Linked type", with_flag: { type_variants: true } do
+    let(:owner) { create(:type) }
+    let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
+    let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
+
+    before do
+      owner.attribute_groups = [["numbers", [kept_field.attribute_name, excluded_field.attribute_name]]]
+      owner.custom_field_ids = [kept_field.id, excluded_field.id]
+      owner.save!
+      owner.reload
+
+      create(:type_configuration_link, type: source, source: owner,
+                                       aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
+                                       excluded_elements: [excluded_field.attribute_name])
+    end
+
+    # `type` is Independent here, so its own groups are what the reader returns already.
+    it "copies what that type presents, not the owner's full configuration" do
+      expect(service_call).to be_success
+
+      expect(type.reload.attribute_groups.first.attributes).to eq([kept_field.attribute_name])
+      expect(type.custom_field_ids).to contain_exactly(kept_field.id)
+    end
+  end
+
   describe "invalid sources" do
     before do
       type.attribute_groups = [["existing group", %w[assignee]]]

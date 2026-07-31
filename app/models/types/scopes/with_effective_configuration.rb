@@ -28,30 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module CopyConfiguration
-    class ProjectAttributesService < BaseService
-      private
+module Types::Scopes
+  module WithEffectiveConfiguration
+    extend ActiveSupport::Concern
 
-      def aspect = Type::ConfigurationLink::PROJECT_ATTRIBUTES
+    class_methods do
+      # Resolves each row's link chain for `aspect` in the same query, so iterating the
+      # result doesn't run Type::ConfigurationLinkable's recursive walk per record.
+      # Type#effective_source_id and Type#effective_excluded_elements pick the values up
+      # from the selected columns and fall back to their own query when absent.
+      #
+      # The columns are suffixed with the aspect on purpose: a row loaded for one aspect
+      # must not answer for another, and the suffix makes that a fallback rather than a
+      # wrong answer. Several aspects can therefore be preloaded in one query by chaining.
+      def with_effective_configuration(aspect)
+        aspect = validated_configuration_aspect(aspect)
+        join, source_id, excluded = effective_configuration_lateral("#{quoted_table_name}.id", aspect)
 
-      # Adopts the source's mappings minus the ones the type's link chain excludes: going
-      # Independent has to keep the configuration the type was presenting, not silently
-      # re-enable the attributes it was hiding. Runs before the link is severed, so the
-      # exclusions are still readable here.
-      def copy_from(source)
-        custom_field_ids = source.own_project_custom_field_type_mappings.pluck(:custom_field_id) -
-                           type.excluded_custom_field_ids(aspect)
-
-        ProjectCustomFieldTypeMapping.transaction do
-          type.own_project_custom_field_type_mappings.delete_all
-          next if custom_field_ids.empty?
-
-          type.own_project_custom_field_type_mappings.insert_all(
-            custom_field_ids.map { |id| { custom_field_id: id } },
-            unique_by: %i[type_id custom_field_id]
-          )
-        end
+        joins(join)
+          .select("#{quoted_table_name}.*")
+          .select("#{source_id} AS effective_source_id_#{aspect}")
+          .select("#{excluded} AS effective_excluded_elements_#{aspect}")
       end
     end
   end
