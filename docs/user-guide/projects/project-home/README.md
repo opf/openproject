@@ -25,9 +25,9 @@ The project home page is a centralized overview page that displays all essential
 
 You can access the project overview by navigating to **Project home** in the project menu on the left.
 
-![Project overview page for a specific project in OpenProject](openproject_user_guide_project_home_page.png)
+![Project overview page for a specific project in OpenProject](openproject_user_guide_project_new_home_page.png)
 
-![Continuation of project overview page for a specific project in OpenProject](openproject_user_guide_project_home_page_continuation.png)
+
 
 On the project overview page you will see the following sections: 
 

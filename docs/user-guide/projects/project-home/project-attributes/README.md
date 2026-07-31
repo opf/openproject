@@ -28,7 +28,7 @@ Project attributes are always grouped in sections.
 
 To edit the value of any visible project attribute, simply click on that value. For most attributes, you can edit the value directly in place.
 
-Depending on the field type, changes are saved differently. For example, text fields can be confirmed with Enter or canceled with Escape, while checkboxes are saved automatically when changed.
+Depending on the field type, changes are saved differently. For example, text fields can be confirmed with Enter or cancelled with Escape, while checkboxes are saved automatically when changed.
 
 ![Inline edit of a project attribute on project overview page in OpenProject](openproject_user_guide_project_overview_project_attributes_section_edit_inline.png)
 
