@@ -38,6 +38,14 @@ See COPYRIGHT and LICENSE files for more details.
     <%= t("account.signup_title", app_title: Setting.app_title) %>
   <% end %>
 
+  <%# Field errors render inline in the form. Errors not tied to a specific
+      field (e.g. user limit reached) are shown in a banner above the form. %>
+  <% if @user.errors[:base].present? %>
+    <%= render(Primer::Alpha::Banner.new(mb: 3, icon: :stop, scheme: :danger)) do %>
+      <%= safe_join(@user.errors[:base], tag.br) %>
+    <% end %>
+  <% end %>
+
   <%= primer_form_with(
         model: @user,
         url: account_register_path,

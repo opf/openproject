@@ -149,17 +149,12 @@ module Accounts::Registration
     onthefly_creation_failed(user)
   end
 
-  # Onthefly creation failed, display the registration form to fill/fix attributes
+  # Onthefly creation failed, display the registration form to fill/fix attributes.
+  # Field errors render inline in the form; base errors are shown in a banner
+  # rendered by the register template.
   def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
-
-    # Field-specific errors render inline in the form. Errors not tied to a form
-    # field are surfaced as a flash banner instead.
-    if user.errors[:base].present?
-      flash.now[:error] = user.errors[:base].to_sentence
-    end
-
     render action: "register", status: :unprocessable_entity
   end
 

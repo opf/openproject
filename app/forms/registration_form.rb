@@ -111,6 +111,7 @@ class RegistrationForm < ApplicationForm
       end
     end
     form.check_box(name: :consent_check,
+                   id: "user_consent_check",
                    label: helpers.format_text(helpers.consent_checkbox_label),
                    required: true)
     consent_validation_message(form)
