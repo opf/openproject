@@ -206,7 +206,7 @@ gem "ssrf_filter", "~> 1.3"
 
 gem "aws-sdk-core", "~> 3.251"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.227"
+gem "aws-sdk-s3", "~> 1.228"
 
 gem "openproject-token", "~> 8.12.0"
 
