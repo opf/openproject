@@ -119,7 +119,7 @@ The project timeline widget under the overview tab displays a timeline chart of 
 
 > [!NOTE]
 > 
-> This widget is **read-only**, which means users cannot modify project dates by dragging and dropping phases or gates on the timeline. in addition, the widget is visible only to users with the right permissions.
+> This widget is **read-only**, which means users cannot modify project dates by dragging and dropping phases or gates on the timeline. In addition, the widget is visible only to users with the right permissions.
 
 ### Subitems widget
 
