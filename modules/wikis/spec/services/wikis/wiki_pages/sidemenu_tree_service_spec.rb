@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Wikis::WikiPages::SidemenuTree do
+RSpec.describe Wikis::WikiPages::SidemenuTreeService do
   subject(:tree) do
     described_class.new(
       wiki:,
@@ -95,6 +95,14 @@ RSpec.describe Wikis::WikiPages::SidemenuTree do
       expect(child).not_to be_disabled
       expect(child).to be_expanded
       expect(child.children).to be_empty
+    end
+  end
+
+  context "with a user without permission to view wiki pages" do
+    current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+    it "builds an empty tree" do
+      expect(tree).to be_empty
     end
   end
 

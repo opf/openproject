@@ -85,7 +85,7 @@ RSpec.describe WikiController do
         expect(response).to render_template(:menu_tree)
         expect(assigns(:page)).to eq(child_page)
         expect(assigns(:query)).to eq("Child")
-        expect(assigns(:query_terms)).to eq(["Child"])
+        expect(assigns(:query_terms)).to eq(["child"])
         expect(assigns(:tree)).to all(be_a(OpenProject::Sidemenu::TreeNode))
       end
 

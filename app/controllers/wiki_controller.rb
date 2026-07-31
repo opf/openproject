@@ -127,7 +127,7 @@ class WikiController < ApplicationController
     @page = @wiki.pages.find_by(id: params[:current_page_id])
     @query = params[:query].to_s.strip
 
-    sidemenu_tree = Wikis::WikiPages::SidemenuTree.new(
+    sidemenu_tree = Wikis::WikiPages::SidemenuTreeService.new(
       wiki: @wiki,
       current_page: @page,
       query: @query,

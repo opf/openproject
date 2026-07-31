@@ -61,10 +61,10 @@ module OpenProject
       end
 
       def data
-        data = @node.data.merge(node_id: @node.id)
-        return data unless @node.current?
+        node_data = @node.data.merge(node_id: @node.id)
+        return node_data unless @node.current?
 
-        merge_data({ data: }, data: { controller: "scroll-into-view" })
+        merge_data({ data: node_data }, data: { controller: "scroll-into-view" })
       end
     end
   end

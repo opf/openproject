@@ -30,14 +30,14 @@
 
 module Wikis
   module WikiPages
-    class SidemenuTree
+    class SidemenuTreeService
       attr_reader :query_terms
 
       def initialize(wiki:, current_page:, query:, href_resolver:)
         @wiki = wiki
         @current_page = current_page
         @query = query.to_s.strip
-        @query_terms = @query.split
+        @query_terms = @query.split.map(&:downcase)
         @href_resolver = href_resolver
       end
 
@@ -113,13 +113,13 @@ module Wikis
 
       def expand_sidemenu_tree!(nodes)
         nodes.each do |node|
-          node.children = expand_sidemenu_tree!(node.children)
+          expand_sidemenu_tree!(node.children)
           node.expanded = query.present? || node.current? || node.children.any?(&:expanded?)
         end
       end
 
       def matches_query?(wiki_page)
-        query_terms.empty? || query_terms.all? { |term| wiki_page.title.downcase.include?(term.downcase) }
+        query_terms.empty? || query_terms.all? { |term| wiki_page.title.downcase.include?(term) }
       end
     end
   end
