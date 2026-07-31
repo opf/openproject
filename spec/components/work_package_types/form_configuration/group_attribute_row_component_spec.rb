@@ -47,7 +47,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
       expect(page).to have_no_test_selector("toggle-form-config-exclusion-assignee")
     end
 
-    it "is on and posts to the toggle endpoint when the element is inherited", :aggregate_failures do
+    it "is on and posts to the toggle endpoint when the element is not excluded", :aggregate_failures do
       render_row(exclusions: exclusion_state(own: [], effective: []))
 
       expect(toggle.find("button")["aria-pressed"]).to eq("true")

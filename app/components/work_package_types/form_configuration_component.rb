@@ -35,17 +35,18 @@ module WorkPackageTypes
 
     ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
-    # What this type does not inherit.
+    # The elements this type does not show.
     #  - own: this type's own link
     #  - effective: the union over the whole link chain
     #
-    # an element in effective but not in own was excluded somewhere in the link BEFORE this type
+    # An element in effective but not in own was excluded by a link above this type, which is
+    # what #excluded_by_source? answers: this type cannot reach that link to undo it.
     ExclusionState = Data.define(:type, :own, :effective) do
       def excluded?(key)
         effective.include?(key.to_s)
       end
 
-      def inherited?(key)
+      def excluded_by_source?(key)
         excluded?(key) && own.exclude?(key.to_s)
       end
     end
@@ -85,7 +86,7 @@ module WorkPackageTypes
       attributes = readonly? ? helpers.form_configuration_groups(source) : @form_attributes
       groups = attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
 
-      readonly? ? without_inherited_exclusions(groups) : groups
+      readonly? ? without_source_exclusions(groups) : groups
     end
 
     def wrapper_data
@@ -139,7 +140,7 @@ module WorkPackageTypes
     # This drops groups that some source link excludes.
     # This type can only reduce attributes that it still sees.
     # If the group was toggled off somewhere in the link, we hide it here completely.
-    def without_inherited_exclusions(groups)
+    def without_source_exclusions(groups)
       return groups if exclusion_state.nil?
 
       groups.filter_map do |group|
@@ -153,15 +154,15 @@ module WorkPackageTypes
 
     def narrowed_attribute_group(group)
       attributes = group[:attributes].to_a
-      remaining = attributes.reject { |attribute| exclusion_state.inherited?(attribute[:key]) }
+      remaining = attributes.reject { |attribute| exclusion_state.excluded_by_source?(attribute[:key]) }
       return if remaining.empty? && attributes.any?
 
       group.merge(attributes: remaining)
     end
 
-    # A query group is a single entry in the section, so an inherited exclusion drops the whole section.
+    # A query group is a single entry in the section, so a source exclusion drops the whole section.
     def retained_query_group(group)
-      group unless group[:element_key].present? && exclusion_state.inherited?(group[:element_key])
+      group unless group[:element_key].present? && exclusion_state.excluded_by_source?(group[:element_key])
     end
 
     def build_exclusion_state

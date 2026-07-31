@@ -37,7 +37,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
     end
 
     # An exclusion this type owns is reversible from here, so its row stays and the switch shows
-    # it off. One inherited from an ancestor's link is not, so the row is left out instead.
+    # it off. One coming from a link above it is not, so the row is left out instead.
     describe "exclusions" do
       let(:link) { type.configuration_links.find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION) }
 
