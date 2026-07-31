@@ -36,6 +36,7 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
 
   shared_let(:epic) { create(:type, name: "Epic") }
   shared_let(:design) { create(:type, name: "Design", parent: epic) }
+  shared_let(:blueprint) { create(:type, name: "Blueprint", parent: epic) }
   shared_let(:bug) { create(:type, name: "Bug") }
   shared_let(:milestone) { create(:type, name: "Milestone") }
   shared_let(:feature) { create(:type, name: "Feature") }
@@ -44,8 +45,11 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
   let(:project) { create(:project, types: [design, bug]) }
   let(:settings_page) { Pages::Projects::Settings::WorkPackageTypes.new(project) }
 
+  # edit_work_packages is needed on top of manage_types: switching re-types the
+  # project's work packages through WorkPackages::UpdateService as this user.
   current_user do
-    create(:user, member_with_permissions: { project => %i[edit_project manage_types view_work_packages] })
+    create(:user, member_with_permissions: { project => %i[edit_project manage_types view_work_packages
+                                                           edit_work_packages] })
   end
 
   before { settings_page.visit! }
@@ -86,6 +90,50 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
       settings_page.expect_type_row(bug)
       expect(project.reload.types).to include(bug)
     end
+  end
+
+  it "switches the project to a sibling variant and re-types its work packages" do
+    work_package = create(:work_package, project:, type: design)
+
+    settings_page.switch_type(design, target: "Epic: Blueprint")
+
+    expect_flash(message: "The project now uses Epic: Blueprint.")
+    settings_page.expect_type_row(blueprint, variant: "Blueprint")
+    settings_page.expect_no_type_row(design)
+    expect(work_package.reload.type).to eq(blueprint)
+  end
+
+  it "switches the project from a variant to the family parent" do
+    settings_page.switch_type(design, target: "Epic")
+
+    settings_page.expect_type_row(epic)
+    expect(project.reload.types).to include(epic)
+  end
+
+  it "warns about hidden custom field data and opens on the variant in use" do
+    settings_page.open_switch_dialog(design)
+
+    within(settings_page.switch_dialog) do
+      expect(page).to have_text("Epic: Switch variant")
+      expect(page).to have_text("you might lose information associated with custom fields")
+      expect(page).to have_select("Variant", selected: "Epic: Design")
+    end
+  end
+
+  it "refuses to apply the variant the project already uses" do
+    settings_page.open_switch_dialog(design)
+    settings_page.apply_switch
+
+    within(settings_page.switch_dialog) do
+      expect(page).to have_text("must be different from the one the project uses now")
+    end
+    expect(project.reload.types).to include(design)
+  end
+
+  # A family with no variants has nothing to switch to, so offering the action
+  # would open a dialog whose only option is the current one.
+  it "offers no switch action for a family without variants" do
+    settings_page.expect_no_switch_action(bug)
   end
 
   # Located by test selector because the tab nav above renders a "Types" link,

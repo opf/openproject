@@ -428,6 +428,8 @@ Rails.application.routes.draw do
           resource :internal_comments, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
             patch :bulk_update, on: :collection
+
+            resource :switch, only: %i[new create], controller: "types/switches"
           end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]

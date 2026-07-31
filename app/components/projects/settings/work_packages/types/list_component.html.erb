@@ -32,6 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% active_types.each do |type| %>
       <% list.with_item(data: { test_selector: "project-types-row-#{type.id}" }) do |item| %>
         <% item.with_menu do |menu| %>
+          <% switch_action(menu, type) if type.family.many? %>
           <% remove_action(menu, type) %>
         <% end %>
         <%= flex_layout(align_items: :center) do |row| %>

@@ -60,13 +60,14 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when the source is not a variant" do
+  context "when switching from the parent type to one of its variants" do
+    let(:project) { create(:project, types: [parent_type]) }
+    let!(:work_package) { create(:work_package, project:, type: parent_type) }
     let(:source) { parent_type }
     let(:target) { variant }
 
-    it "fails without changing anything" do
-      expect(service_call).to be_failure
-      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_source_not_a_variant)
+    it "moves the work packages to the variant and swaps the enabled types" do
+      expect(service_call).to be_success
       expect(work_package.reload.type).to eq(variant)
       expect(project.reload.types).to contain_exactly(variant)
     end

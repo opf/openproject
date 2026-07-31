@@ -30,46 +30,46 @@
 
 module Projects
   module Types
-    # Migrates a project from one member of a type family to another, in either
-    # direction. All work packages of the old type are switched to the target
-    # type before the old type is removed and the target type enabled, all
-    # within a single transaction.
-    class SwitchVariantService < BaseService
+    # Which member of a type family a project should use. Backs the switch
+    # dialog: the form binds to it, and it owns the preview of the switch it
+    # describes.
+    class Switch
+      include ActiveModel::Model
+
+      attr_accessor :project, :source
+      attr_writer :target_id
+
+      validate :target_selectable
+
+      def target_id
+        @target_id.presence&.to_i
+      end
+
+      def target
+        return @target if defined?(@target)
+
+        @target = target_id && ::Type.find_by(id: target_id)
+      end
+
+      def available_targets
+        source.family
+      end
+
+      # The dialog opens on the member the project uses now, so applying without
+      # choosing anything is a visible no-op rather than an empty field.
+      def selected_target
+        target || source
+      end
+
       private
 
-      def persist(service_call)
-        source = params[:source]
-        target = params[:target]
-
-        if source == target
-          return failure(:switch_target_identical)
-        elsif source.root != target.root
-          return failure(:switch_target_not_in_family)
-        end
-
-        switch(service_call, source, target)
-      end
-
-      def switch(service_call, source, target)
-        add_type(target)
-        reassign_work_packages(source, target).each { |wp_result| service_call.add_dependent!(wp_result) }
-        return service_call if service_call.failure?
-
-        model.types.delete(source)
-
-        service_call
-      end
-
-      def add_type(target)
-        model.types << target unless model.types.include?(target)
-        enable_work_package_custom_fields(target)
-      end
-
-      def reassign_work_packages(source, target)
-        WorkPackage.where(project: model, type: source).map do |work_package|
-          WorkPackages::UpdateService
-            .new(user:, model: work_package)
-            .call(type: target)
+      def target_selectable
+        if target_id.blank?
+          errors.add(:target_id, :blank)
+        elsif available_targets.exclude?(target)
+          errors.add(:target_id, :not_in_family)
+        elsif target == source
+          errors.add(:target_id, :unchanged)
         end
       end
     end

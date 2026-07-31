@@ -57,6 +57,20 @@ module Projects
                                 .sort_by { |type| type.root.position }
           end
 
+          def switch_path(type)
+            new_project_settings_work_packages_type_switch_path(project, type)
+          end
+
+          def switch_action(menu, type)
+            menu.with_item(
+              label: t("projects.settings.types.switch_type"),
+              href: switch_path(type),
+              content_arguments: { data: { controller: "async-dialog" } }
+            ) do |item|
+              item.with_leading_visual_icon(icon: "list-ordered")
+            end
+          end
+
           def remove_path(type)
             project_settings_work_packages_type_path(project, type)
           end
