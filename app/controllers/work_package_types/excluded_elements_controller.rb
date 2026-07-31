@@ -29,37 +29,45 @@
 #++
 
 module WorkPackageTypes
-  module FormConfiguration
-    class GroupQueryRowComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+  class ExcludedElementsController < BaseTabController
+    include TypeVariantsFeature
 
-      def initialize(group:, ee_available:, readonly: false, exclusions: nil)
-        super
-        @group = group
-        @ee_available = ee_available
-        @readonly = readonly
-        @exclusions = exclusions
+    before_action :require_type_variants_feature
+    before_action :require_valid_aspect
+
+    current_menu_item do
+      :types
+    end
+
+    # For clarification: If we toggle the element on, it means we remove the exclusion from the array.
+    def toggle
+      call = toggle_service
+        .new(user: current_user, type: @type)
+        .call(aspect:, elements: [element])
+
+      render json: {}, status: call.success? ? :ok : :unprocessable_entity
+    end
+
+    private
+
+    def aspect = params[:aspect]
+
+    def element = params.require(:element)
+
+    def toggle_service
+      if inherit?
+        ExcludedElements::RemoveService
+      else
+        ExcludedElements::AddService
       end
+    end
 
-      def readonly?
-        @readonly
-      end
+    def inherit?
+      ActiveRecord::Type::Boolean.new.cast(params.permit(:value)[:value])
+    end
 
-      # A query group holds a single query, so its key excludes the whole section rather than a row,
-      # which is why the label names the section.
-      def exclusion_toggle
-        @exclusion_toggle ||= ExclusionToggleComponent.new(
-          exclusions: @exclusions,
-          element_key: @group[:element_key],
-          label: t("types.edit.form_configuration.exclusions.section_label", section: @group[:name])
-        )
-      end
-
-      private
-
-      def ee_available?
-        @ee_available
-      end
+    def require_valid_aspect
+      render_404 unless Type::ConfigurationLink::ASPECTS.include?(aspect)
     end
   end
 end

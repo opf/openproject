@@ -81,6 +81,16 @@ RSpec.describe WorkPackageTypes::ExcludedElements::AddService, with_flag: { type
       expect(excluded_elements).to contain_exactly("custom_field_1", "assignee")
     end
 
+    # The stub hands the service a link loaded before the row changed, standing in for the
+    # concurrent toggle that #narrow's reload exists to survive.
+    it "recomputes from the persisted list, not from a stale read" do
+      allow(type.configuration_links).to receive(:find_by).and_return(link)
+      Type::ConfigurationLink.find(link.id).update!(excluded_elements: %w[assignee])
+
+      expect(service_call).to be_success
+      expect(excluded_elements).to contain_exactly("assignee", "custom_field_1")
+    end
+
     it "narrows what the type inherits" do
       source.update!(attribute_groups: [["numbers", %w[assignee responsible]]])
       described_class.new(user: admin, type:).call(aspect:, elements: %w[assignee])

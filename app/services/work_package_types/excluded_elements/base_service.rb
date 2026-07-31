@@ -67,8 +67,13 @@ module WorkPackageTypes
 
       private
 
+      # Excluded attributes are stored in an array of the link aspect.
+      # That's why we need to add a mutex for saving that array to prevent race conditions.
       def narrow(link)
-        link.update!(excluded_elements: updated_elements(link.excluded_elements, elements_param))
+        OpenProject::Mutex.with_advisory_lock_transaction(link, "excluded_elements") do
+          link.reload
+          link.update!(excluded_elements: updated_elements(link.excluded_elements, elements_param))
+        end
 
         ServiceResult.success(result: type)
       rescue ActiveRecord::RecordInvalid
