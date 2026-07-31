@@ -44,7 +44,7 @@ To access the LDAP department synchronization administration pane, expand the LD
 
 Unlike [group synchronization](../ldap-group-synchronization/), departments are never mapped one by one. You always configure a subtree, and OpenProject discovers the organizational units within it.
 
-To create a new synchronization, use the **+ Add LDAP department synchronization** button on the top right of the index page. The following properties can be set:
+To create a new synchronization, use the **+ Add LDAP department synchronization** button on the top right of the index page. The form will open, where you can specify the following: 
 
 - **Name:** A label for this synchronization, for organizational purposes only.
 - **LDAP connection:** Select the LDAP connection you want this synchronization to use. Users created by department synchronization will be tied to that LDAP and may bind against it for authentication.
@@ -54,6 +54,8 @@ To create a new synchronization, use the **+ Add LDAP department synchronization
 - **Unique identifier attribute:** (optional) The attribute holding a stable unique identifier of the OU entry, for example `objectGUID` (Active Directory) or `entryUUID` (OpenLDAP). When set, departments survive renames and moves of their OU. Leave empty to match OUs by DN.
 - **User filter:** (optional) An RFC4515 LDAP filter identifying user entries below the base DN. Leave empty to use the filter of the LDAP connection, or a generic `(objectClass=person)` filter when the connection does not define one.
 - **Sync users:** Check this option if you want users found below the base DN to be automatically created in OpenProject. When unchecked, only users that already exist in OpenProject are assigned to departments.
+
+![Form to create a new LDAP department synchronization in OpenProject administration](openproject_system_guide_add_ldap_department_sync.png)
 
 Click on **Create** to finish the creation of the synchronization. A first synchronization is started in the background immediately, and the department hierarchy and its members are synchronized every 30 minutes afterwards through a background job.
 
