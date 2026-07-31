@@ -432,5 +432,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.36.0"
   gem "openproject-octicons_helper", "~>19.36.0"
-  gem "openproject-primer_view_components", "~>0.90.1"
+  gem "openproject-primer_view_components", "~>0.91.1"
 end
