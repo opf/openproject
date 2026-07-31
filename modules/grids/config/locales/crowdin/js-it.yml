@@ -33,11 +33,11 @@ it:
           on_track: Nei limiti
           title: Stato
         project_timeline:
-          accessible_date_range: "%{start} to %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
-          accessible_phase: 'Phase %{name}: %{date}'
-          tooltip_type_gate: Phase gate
-          tooltip_type_phase: Phase
+          accessible_date_range: Da %{start} a %{end}
+          accessible_gate: 'Controllo di fase %{name}: %{date}'
+          accessible_phase: 'Fase %{name}: %{date}'
+          tooltip_type_gate: Controllo di fase
+          tooltip_type_phase: Fase
         subprojects:
           title: Sottoelementi
         time_entries_current_user:

@@ -317,3 +317,15 @@ You can also filter project lists by project phases and phase gates. Simply sele
 You will then see all projects that have the selected phase, which is active during the specified timeframe. For example _Executing_ project phase that is scheduled for the current week. 
 
 ![Project lists filter by project phases and phase gates with a specified timeframe in OpenProject](openproject_user_guide_project_lists_filter_by_phase_and_gate_timeframe.png)
+
+To filter project lists by program or portfolio, select **Part of Portfolio** or **Part of Program**. 
+
+![Project lists filter by portfolio and program in OpenProject](openproject_user_guide_project_lists_filter_by_portfolio_and_program.png)
+
+This filtering option allows you to see or exclude all projects belonging to a selected portfolio and all projects belonging to a selected program.
+
+![Filter for all projects that are part of a selected portfolio](openproject_user_guide_project_lists_filter_by_part_of_portfolio.png)
+
+> [!NOTE]
+>
+> The part of portfolio/part of program filter option is only visible to users with the right permissions to access the selected portfolio/program.

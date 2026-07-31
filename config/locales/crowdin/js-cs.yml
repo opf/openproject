@@ -582,7 +582,7 @@ cs:
     label_uploaded_by: Nahrál
     label_user_plural: Uživatelé
     label_validation_error: 'Pracovní balíček nemohl být uložen z důvodu následujících chyb:'
-    label_value_derived_from_children: "(hodnota odvozená od dětí)"
+    label_value_derived_from_children: "(hodnota odvozená od potomků)"
     label_version_plural: Verze
     label_view_has_changed: Toto zobrazení obsahuje neuložené změny. Klepnutím je uložíte.
     label_visibility_settings: Viditelnost zobrazení

@@ -2,11 +2,11 @@
 hy:
   ee:
     feature_names:
-      team_planner_view: Team planner
+      team_planner_view: Թիմային պլանավորիչ
     upsell:
       team_planner_view:
         description: Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees.
-        title: Team planner
+        title: Թիմային պլանավորիչ
   permission_manage_team_planner: Manage team planner
   permission_view_team_planner: View team planner
   plugin_openproject_team_planner:
@@ -17,5 +17,5 @@ hy:
     label_assignees: Assignees
     label_create_new_team_planner: Create new team planner
     label_new_team_planner: New team planner
-    label_team_planner: Team planner
+    label_team_planner: Թիմային պլանավորիչ
     label_team_planner_plural: Team planners

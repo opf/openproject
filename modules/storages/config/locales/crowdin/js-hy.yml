@@ -24,7 +24,7 @@ hy:
           '
         remove_short: Remove link
         select: Select files
-        select_all: Select all
+        select_all: Ընտրել բոլորը
         selection:
           zero: Select files to link
           one: Link 1 file
@@ -75,7 +75,7 @@ hy:
 
           '
         upload_keep_both: Keep both
-        upload_replace: Replace
+        upload_replace: Փոխարինել
       information:
         authentication_error: The request to %{storageType} could not be authenticated, that's an error.
         connection_error: 'Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
@@ -100,7 +100,7 @@ hy:
       open_storage: Open %{storageType}
       select_location: Select location
       types:
-        default: Storage
+        default: Պահեստ
         nextcloud: Nextcloud
         one_drive: OneDrive
         sharepoint: SharePoint

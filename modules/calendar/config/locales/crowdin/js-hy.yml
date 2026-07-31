@@ -2,8 +2,8 @@
 hy:
   js:
     calendar:
-      create_new: Create new calendar
-      label_calendar_plural: Calendars
-      title: Calendar
-      too_many: There are %{count} work packages in total, but only %{max} can be shown.
-      unsaved_title: Unnamed calendar
+      create_new: Ստեղծել նոր օրացույց
+      label_calendar_plural: Օրացույցներ
+      title: Օրացույց
+      too_many: Ընդհանուր առմամբ կա %{count} աշխատանքային փաթեթ, սակայն կարող է ցուցադրվել միայն %{max}-ը։
+      unsaved_title: Անանուն օրացույց

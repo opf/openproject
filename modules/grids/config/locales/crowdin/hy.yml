@@ -6,7 +6,7 @@ hy:
         column_count: Number of columns
         page: Page
         row_count: Number of rows
-        scope: Scope
+        scope: Շրջանակ
         widgets: Widgets
     errors:
       models:
@@ -21,7 +21,7 @@ hy:
       members:
         no_results: No visible members.
         show_members_count: Show all %{count} members
-        title: Members
+        title: Անդամներ
         view_all_members: View all members
         x_more:
           one: and one more member.
@@ -37,5 +37,5 @@ hy:
       subitems:
         button_text: Subitem
         no_results: There are no visible children.
-        title: Subitems
+        title: Ենթատարրեր
         view_all_subitems: View all subitems
