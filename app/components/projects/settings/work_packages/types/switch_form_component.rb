@@ -29,38 +29,34 @@
 #++
 
 module Projects
-  module Types
-    # Moves a project from the member of a type family it uses to another one, in either
-    # direction: a sibling variant, the shared root, or a variant of the root it uses. The
-    # project's work packages are untouched: they store the root either way, so the switch is
-    # a change of which configuration the project resolves to, not a retype.
-    class SwitchVariantService < BaseService
-      private
+  module Settings
+    module WorkPackages
+      module Types
+        # The switch dialog's contents. Separate from the dialog so a validation
+        # failure can replace it: replacing the dialog component would swap out
+        # the <dialog> element and close it.
+        class SwitchFormComponent < ApplicationComponent
+          include OpPrimer::ComponentHelpers
+          include OpTurbo::Streamable
 
-      def persist(service_call)
-        source = params[:source]
-        target = params[:target]
+          def initialize(switch:)
+            super()
 
-        if source == target
-          failure(:switch_target_identical)
-        elsif source.root_id != target.root_id
-          failure(:switch_target_not_in_family)
-        else
-          switch(target)
-          service_call
+            @switch = switch
+          end
+
+          private
+
+          delegate :project, :source, to: :@switch
+
+          def submit_path
+            project_settings_work_packages_type_switch_path(project, source)
+          end
+
+          def dialog_id
+            SwitchDialogComponent::DIALOG_ID
+          end
         end
-      end
-
-      def switch(target)
-        current_project_type = model.project_types.find_by!(type_id: target.root_id)
-
-        if target.variant?
-          current_project_type.update!(variant: target)
-        else
-          current_project_type.update!(variant: nil)
-        end
-
-        enable_work_package_custom_fields(target)
       end
     end
   end

@@ -30,37 +30,47 @@
 
 module Projects
   module Types
-    # Moves a project from the member of a type family it uses to another one, in either
-    # direction: a sibling variant, the shared root, or a variant of the root it uses. The
-    # project's work packages are untouched: they store the root either way, so the switch is
-    # a change of which configuration the project resolves to, not a retype.
-    class SwitchVariantService < BaseService
-      private
+    # Which member of a type family a project should use. Backs the switch
+    # dialog: the form binds to it, and it owns the preview of the switch it
+    # describes.
+    class Switch
+      include ActiveModel::Model
 
-      def persist(service_call)
-        source = params[:source]
-        target = params[:target]
+      attr_accessor :project, :source
+      attr_writer :target_id
 
-        if source == target
-          failure(:switch_target_identical)
-        elsif source.root_id != target.root_id
-          failure(:switch_target_not_in_family)
-        else
-          switch(target)
-          service_call
-        end
+      validate :target_selectable
+
+      def target_id
+        @target_id.presence&.to_i
       end
 
-      def switch(target)
-        current_project_type = model.project_types.find_by!(type_id: target.root_id)
+      def target
+        return @target if defined?(@target)
 
-        if target.variant?
-          current_project_type.update!(variant: target)
-        else
-          current_project_type.update!(variant: nil)
+        @target = target_id && ::Type.find_by(id: target_id)
+      end
+
+      def available_targets
+        source.family
+      end
+
+      # The dialog opens on the member the project uses now, so applying without
+      # choosing anything is a visible no-op rather than an empty field.
+      def selected_target
+        target || source
+      end
+
+      private
+
+      def target_selectable
+        if target_id.blank?
+          errors.add(:target_id, :blank)
+        elsif available_targets.exclude?(target)
+          errors.add(:target_id, :not_in_family)
+        elsif target == source
+          errors.add(:target_id, :unchanged)
         end
-
-        enable_work_package_custom_fields(target)
       end
     end
   end

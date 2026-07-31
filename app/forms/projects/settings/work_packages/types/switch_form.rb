@@ -29,38 +29,32 @@
 #++
 
 module Projects
-  module Types
-    # Moves a project from the member of a type family it uses to another one, in either
-    # direction: a sibling variant, the shared root, or a variant of the root it uses. The
-    # project's work packages are untouched: they store the root either way, so the switch is
-    # a change of which configuration the project resolves to, not a retype.
-    class SwitchVariantService < BaseService
-      private
+  module Settings
+    module WorkPackages
+      module Types
+        class SwitchForm < ApplicationForm
+          def initialize(switch:)
+            super()
 
-      def persist(service_call)
-        source = params[:source]
-        target = params[:target]
+            @switch = switch
+          end
 
-        if source == target
-          failure(:switch_target_identical)
-        elsif source.root_id != target.root_id
-          failure(:switch_target_not_in_family)
-        else
-          switch(target)
-          service_call
+          form do |switch_form|
+            switch_form.select_list(
+              name: :target_id,
+              label: I18n.t("projects.settings.types.switch_dialog.target_label"),
+              include_blank: false,
+              input_width: :medium,
+              data: { test_selector: "project-types-switch-select" }
+            ) do |list|
+              # Composite rather than own names: repeating the family on every
+              # option is what makes it evident that nothing outside it is on offer.
+              @switch.available_targets.each do |target|
+                list.option(value: target.id, label: target.composite_name, selected: target == @switch.selected_target)
+              end
+            end
+          end
         end
-      end
-
-      def switch(target)
-        current_project_type = model.project_types.find_by!(type_id: target.root_id)
-
-        if target.variant?
-          current_project_type.update!(variant: target)
-        else
-          current_project_type.update!(variant: nil)
-        end
-
-        enable_work_package_custom_fields(target)
       end
     end
   end

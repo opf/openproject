@@ -34,6 +34,8 @@ module Pages
   module Projects
     module Settings
       class WorkPackageTypes < Pages::Page
+        include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
         attr_accessor :project
 
         def initialize(project)
@@ -60,6 +62,37 @@ module Pages
         def remove_type(type)
           within(find_row(type)) { find("action-menu > button").click }
           click_on "Remove from project"
+        end
+
+        def switch_type(type, target:)
+          open_switch_dialog(type)
+          choose_switch_target(target)
+          apply_switch
+        end
+
+        def open_switch_dialog(type)
+          within(find_row(type)) { find("action-menu > button").click }
+          click_on "Switch variant"
+
+          expect(switch_dialog).to have_select("Variant")
+        end
+
+        def choose_switch_target(target)
+          within(switch_dialog) { select target, from: "Variant" }
+        end
+
+        def apply_switch
+          within(switch_dialog) { click_on "Apply" }
+        end
+
+        def switch_dialog
+          page.find_by_id("project-types-switch-dialog")
+        end
+
+        def expect_no_switch_action(type)
+          within(find_row(type)) { find("action-menu > button").click }
+
+          expect(page).to have_no_text("Switch variant")
         end
 
         def find_row(type)
