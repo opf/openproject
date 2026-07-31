@@ -1,9 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-15 -20 1530 755" width="1530" height="755" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="-15 -20 1530 755" width="1530" height="755" role="img">
   <title>LDAP organizational unit hierarchy below the base DN, with user entries in their organizational units</title>
+  <!--
+    Transparent background, legible on light and dark pages: ink drawn outside a filled shape
+    (connectors, annotation) carries a white casing/halo underneath. On light backgrounds the
+    casing is invisible, on dark ones it keeps the ink readable.
+  -->
   <style>
     .box { fill: #ffffff; stroke: #000000; stroke-width: 3; }
     .anchor { fill: #ffffff; stroke: #000000; stroke-width: 5; }
     .person { fill: #ededed; stroke: #000000; stroke-width: 3; }
+    .edge-casing { fill: none; stroke: #ffffff; stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; }
     .edge { fill: none; stroke: #000000; stroke-width: 3; }
     .ou, .uid, .note {
       font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', system-ui, sans-serif;
@@ -12,24 +19,37 @@
     }
     .ou { font-size: 24px; }
     .uid { font-size: 22px; }
-    .note { font-size: 22px; font-style: italic; text-anchor: start; }
+    .note {
+      font-size: 22px;
+      font-style: italic;
+      text-anchor: start;
+      paint-order: stroke;
+      stroke: #ffffff;
+      stroke-width: 7;
+      stroke-linejoin: round;
+    }
+    .marker { fill: #000000; paint-order: stroke; stroke: #ffffff; stroke-width: 7; stroke-linejoin: round; }
   </style>
 
-  <rect x="-15" y="-20" width="1530" height="755" fill="#ffffff"/>
+  <defs>
+    <g id="edges">
+      <path d="M862.5,90 V150"/>
+      <path d="M862.5,210 V240 H525 V270"/>
+      <path d="M862.5,210 V240 H1200 V270"/>
+      <path d="M525,330 V360 H300 V390"/>
+      <path d="M525,330 V360 H750 V390"/>
+      <path d="M1200,330 V360 H1050 V390"/>
+      <path d="M1200,330 V360 H1350 V390"/>
+      <path d="M300,450 V480 H150 V510"/>
+      <path d="M300,450 V480 H450 V510"/>
+      <path d="M1050,450 V514"/>
+      <path d="M150,570 V634"/>
+      <path d="M450,570 V634"/>
+    </g>
+  </defs>
 
-  <!-- edges -->
-  <path class="edge" d="M862.5,90 V150"/>
-  <path class="edge" d="M862.5,210 V240 H525 V270"/>
-  <path class="edge" d="M862.5,210 V240 H1200 V270"/>
-  <path class="edge" d="M525,330 V360 H300 V390"/>
-  <path class="edge" d="M525,330 V360 H750 V390"/>
-  <path class="edge" d="M1200,330 V360 H1050 V390"/>
-  <path class="edge" d="M1200,330 V360 H1350 V390"/>
-  <path class="edge" d="M300,450 V480 H150 V510"/>
-  <path class="edge" d="M300,450 V480 H450 V510"/>
-  <path class="edge" d="M1050,450 V514"/>
-  <path class="edge" d="M150,570 V634"/>
-  <path class="edge" d="M450,570 V634"/>
+  <use href="#edges" xlink:href="#edges" class="edge-casing"/>
+  <use href="#edges" xlink:href="#edges" class="edge"/>
 
   <!-- directory root -->
   <rect class="box" x="727.5" y="30" width="270" height="60" rx="8"/>
@@ -38,7 +58,7 @@
   <!-- base DN anchor -->
   <rect class="anchor" x="727.5" y="150" width="270" height="60" rx="8"/>
   <text class="ou" x="862.5" y="188">ou=org</text>
-  <polygon points="1013,180 1029,172 1029,188" fill="#000000"/>
+  <polygon class="marker" points="1013,180 1029,172 1029,188"/>
   <text class="note" x="1041" y="188">base DN of the synchronization</text>
 
   <!-- top-level departments -->

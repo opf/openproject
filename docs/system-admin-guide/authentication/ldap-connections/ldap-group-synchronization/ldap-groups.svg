@@ -1,9 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -30 1430 577" width="1430" height="577" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="-10 -30 1430 577" width="1430" height="577" role="img">
   <title>LDAP group entries with their member attributes, and the user entries below the users base DN</title>
+  <!--
+    Transparent background, legible on light and dark pages: ink drawn outside a filled shape
+    (connectors, annotation) carries a white casing/halo underneath. On light backgrounds the
+    casing is invisible, on dark ones it keeps the ink readable.
+  -->
   <style>
     .box { fill: #ffffff; stroke: #000000; stroke-width: 3; }
     .anchor { fill: #ffffff; stroke: #000000; stroke-width: 5; }
     .person { fill: #ededed; stroke: #000000; stroke-width: 3; }
+    .edge-casing { fill: none; stroke: #ffffff; stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; }
     .edge { fill: none; stroke: #000000; stroke-width: 3; }
     .ou, .uid, .attr, .note {
       font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', system-ui, sans-serif;
@@ -13,18 +20,31 @@
     .ou { font-size: 24px; }
     .uid { font-size: 22px; }
     .attr { font-size: 22px; font-weight: bold; }
-    .note { font-size: 22px; font-style: italic; text-anchor: start; }
+    .note {
+      font-size: 22px;
+      font-style: italic;
+      text-anchor: start;
+      paint-order: stroke;
+      stroke: #ffffff;
+      stroke-width: 7;
+      stroke-linejoin: round;
+    }
+    .marker { fill: #000000; paint-order: stroke; stroke: #ffffff; stroke-width: 7; stroke-linejoin: round; }
   </style>
 
-  <rect x="-10" y="-30" width="1430" height="577" fill="#ffffff"/>
+  <defs>
+    <g id="edges">
+      <path d="M680,90 V135 H340 V180"/>
+      <path d="M680,90 V135 H1020 V180"/>
+      <path d="M340,240 V285 H170 V330"/>
+      <path d="M340,240 V285 H510 V330"/>
+      <path d="M1020,240 V285 H850 V384"/>
+      <path d="M1020,240 V285 H1190 V384"/>
+    </g>
+  </defs>
 
-  <!-- edges -->
-  <path class="edge" d="M680,90 V135 H340 V180"/>
-  <path class="edge" d="M680,90 V135 H1020 V180"/>
-  <path class="edge" d="M340,240 V285 H170 V330"/>
-  <path class="edge" d="M340,240 V285 H510 V330"/>
-  <path class="edge" d="M1020,240 V285 H850 V384"/>
-  <path class="edge" d="M1020,240 V285 H1190 V384"/>
+  <use href="#edges" xlink:href="#edges" class="edge-casing"/>
+  <use href="#edges" xlink:href="#edges" class="edge"/>
 
   <!-- directory root -->
   <rect class="box" x="545" y="30" width="270" height="60" rx="8"/>
@@ -36,7 +56,7 @@
 
   <rect class="anchor" x="885" y="180" width="270" height="60" rx="8"/>
   <text class="ou" x="1020" y="218">ou=people</text>
-  <polygon points="1171,210 1187,202 1187,218" fill="#000000"/>
+  <polygon class="marker" points="1171,210 1187,202 1187,218"/>
   <text class="note" x="1199" y="218">base DN for users</text>
 
   <!-- group entries -->
