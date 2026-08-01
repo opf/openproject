@@ -5851,6 +5851,10 @@ zh-CN:
         drag_to_reorder: 拖动以重新排序
         edit_query: 编辑查询
         empty_group_hint: 将特性拖动到此处
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: 筛选特性
         group_actions: 小节操作
         group_name_label: 小节名称
@@ -5897,6 +5901,9 @@ zh-CN:
             title: 复制配置
           invalid_source: 无法从所选类型复制该配置。请选择其他源类型。
           success: 配置已复制。
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: 我明白，这会覆盖当前设置

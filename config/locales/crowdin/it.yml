@@ -5923,6 +5923,10 @@ it:
         drag_to_reorder: Trascina per riordinare
         edit_query: Modifica query
         empty_group_hint: Trascina qui gli attributi
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filtra attributi
         group_actions: Azioni di sezione
         group_name_label: Nome sezione
@@ -5969,6 +5973,9 @@ it:
             title: Copia configurazione
           invalid_source: La configurazione non può essere copiata dal tipo selezionato. Seleziona un tipo di origine diverso.
           success: La configurazione è stata copiata.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Comprendo che ciò sovrascriverà le impostazioni attuali

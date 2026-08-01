@@ -5925,6 +5925,10 @@ hy:
         drag_to_reorder: Drag to reorder
         edit_query: Խմբագրել հարցումը
         empty_group_hint: Քաշեք հատկանիշներն այստեղ
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Զտել հատկանիշները
         group_actions: Section actions
         group_name_label: Բաժնի անվանում
@@ -5971,6 +5975,9 @@ hy:
             title: Պատճենել կազմաձևումը
           invalid_source: Կազմաձևումը հնարավոր չէ պատճենել ընտրված տեսակից։ Խնդրում ենք ընտրել այլ աղբյուրի տեսակ։
           success: Կազմաձևումը պատճենվել է։
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները

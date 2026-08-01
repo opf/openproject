@@ -6052,6 +6052,10 @@ pl:
         drag_to_reorder: Przeciągnij, aby zmienić kolejność
         edit_query: Edytuj zapytanie
         empty_group_hint: Przeciągnij atrybuty tutaj
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filtruj atrybuty
         group_actions: Działania sekcji
         group_name_label: Nazwa sekcji
@@ -6098,6 +6102,9 @@ pl:
             title: Skopiuj konfigurację
           invalid_source: Nie można skopiować konfiguracji z wybranego typu. Wybierz inny typ źródłowy.
           success: Konfiguracja została skopiowana.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Rozumiem, że to zastąpi bieżące ustawienia

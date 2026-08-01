@@ -5922,6 +5922,10 @@ fr:
         drag_to_reorder: Glisser pour réorganiser
         edit_query: Modifier la requête
         empty_group_hint: Glisser les attributs ici
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filtrer les attributs
         group_actions: Actions relatives à la section
         group_name_label: Nom de la section
@@ -5968,6 +5972,9 @@ fr:
             title: Copier la configuration
           invalid_source: La configuration ne peut pas être copiée depuis le type sélectionné. Veuillez sélectionner un autre type source.
           success: La configuration a été copiée.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Je comprends que cela remplacera les paramètres actuels

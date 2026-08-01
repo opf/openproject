@@ -6067,6 +6067,10 @@ uk:
         drag_to_reorder: Перетягніть, щоб змінити порядок
         edit_query: Редагувати запит
         empty_group_hint: Перетягніть атрибути сюди
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Фільтрувати атрибути
         group_actions: Дії з розділом
         group_name_label: Назва розділу
@@ -6113,6 +6117,9 @@ uk:
             title: Скопіювати конфігурацію
           invalid_source: Конфігурацію неможливо скопіювати з вибраного вихідного типу. Будь ласка, виберіть інший.
           success: Конфігурацію скопійовано.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Я розумію, що поточні налаштування буде перезаписано

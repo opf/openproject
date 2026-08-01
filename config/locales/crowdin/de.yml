@@ -5517,7 +5517,7 @@ de:
           label: Nach Attributnamen filtern…
         heading_description: Diese Benutzerattribute werden in Benutzerprofilen und auf Informationskarten angezeigt. Sie können neue Attribute hinzufügen, diese in Abschnitte gruppieren und ihre Reihenfolge ändern.
       heading: Benutzerattribute
-      label_default_section: Benutzerattribute
+      label_default_section: Nutzerattribute
       label_new_attribute: Benutzerattribut
       label_new_section: Abschnitt
       new:
@@ -5901,7 +5901,7 @@ de:
             caption: Es wird kein PDF automatisch generiert.
             label: Aus
           section_title: Automatischer Export von Artefakten
-          unavailable: Nicht verfügbar; es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
+          unavailable: Nicht verfügbar, es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
         intro: Wählen Sie aus den verfügbaren Vorlagen diejenige aus, die Sie für diesen Typ aktivieren möchten. Die Vorlage bestimmt das Design und die Attribute, die in der exportierten PDF-Datei eines Arbeitspakets mit diesem Typ sichtbar sind. Die erste Vorlage in der Liste ist standardmäßig ausgewählt.
         pdf_export_templates:
           actions:
@@ -5925,6 +5925,10 @@ de:
         drag_to_reorder: Ziehen zum Neuordnen
         edit_query: Abfrage bearbeiten
         empty_group_hint: Attribute hierher ziehen
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Attribute filtern
         group_actions: Abschnittsoptionen
         group_name_label: Name des Abschnitts
@@ -5971,6 +5975,9 @@ de:
             title: Konfiguration kopieren
           invalid_source: Die Konfiguration kann nicht vom ausgewählten Typ kopiert werden. Bitte wählen Sie einen anderen Quelltyp aus.
           success: Die Konfiguration wurde kopiert.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt

@@ -360,7 +360,7 @@ cs:
         auth_source: Zdroj ověřování
         consented_at: Souhlas udělen
         current_password: Aktuální přístupové heslo
-        department: Department
+        department: Oddělení
         failed_login_count: Počet neúspěšných přihlášení
         first_login: První přihlášení
         first_name: Křestní jméno
@@ -2165,7 +2165,7 @@ cs:
     reorder_alphabetical: Změnit pořadí abecedně
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
-      job_title: Job title
+      job_title: Pracovní pozice
       none: None
     tab:
       no_results_content_text: Vytvořit nové vlastní pole
@@ -3675,7 +3675,7 @@ cs:
   label_user_activity_html: Aktivita uživatele %{value}
   label_user_and_permission: Uživatelé a oprávnění
   label_user_anonymous: Anonymní
-  label_user_attributes_plural: User attributes
+  label_user_attributes_plural: Uživatelské atributy
   label_user_menu: Uživatelské menu
   label_user_named: Uživatel %{name}
   label_user_new: Nový uživatel
@@ -4107,7 +4107,7 @@ cs:
       will_revoke_access_to_all: Tato akce zruší jejich přístup ke všem z nich.
       will_revoke_directly_granted_access: This action will revoke their access to all of them, but the work packages shared with a group.
     filters:
-      all_shares: Všechny akcie
+      all_shares: Všechna sdílení
     index:
       no_results_content_text: Přidání člena do projektu
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -4289,11 +4289,11 @@ cs:
         title: Účast
         watched: Sledované
       project_specific_settings:
-        add_button: Add project-specific notifications
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        dialog_title: Add project-specific notifications
+        add_button: Přidat projektové notifikace
+        description: Nastavení oznámení si můžete přizpůsobit tak, abyste dostávali oznámení pouze o určitých událostech v konkrétních projektech. Níže přidejte projekt a vyberte, které události by měly spustit zaslání oznámení. Tato nastavení pro jednotlivé projekty mají přednost před výchozími nastaveními uvedenými výše.
+        dialog_title: Přidat projektové notifikace
         list_header: Projects with specific notifications
-        title: Project-specific notifications
+        title: Projektové notifikace
     notifications_and_email:
       tabs:
         email_reminders: E-mailové připomínky
@@ -6069,6 +6069,10 @@ cs:
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
         empty_group_hint: Drag attributes here
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
         group_name_label: Section name
@@ -6115,6 +6119,9 @@ cs:
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: I understand that this will override the current settings
