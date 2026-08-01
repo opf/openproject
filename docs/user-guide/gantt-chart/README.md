@@ -198,7 +198,7 @@ Configure the parameters of the PDF export, such as zoom level for the dates, co
 You can then save the Gantt chart in PDF form to share with your project stakeholders or print it directly.
 
 > [!TIP]
-> You can also export Gantt charts in PDF format from the [work packages module](../work-packages/exporting/#gantt-chart-pdf).
+> You can also export Gantt charts in PDF format from the [work packages module](../work-packages/exporting/gantt-chart-pdf/).
 
 ## Gantt chart views
 
