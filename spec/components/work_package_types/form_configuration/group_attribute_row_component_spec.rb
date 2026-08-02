@@ -23,4 +23,32 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-assignee")
     expect(page).to have_text("Assignee")
   end
+
+  # The switch itself is covered by ExclusionToggleComponent; what matters here is that the row
+  # hands it this attribute's key and label, and asks for it only in read-only mode.
+  describe "the exclusion toggle" do
+    def render_row(exclusions:, readonly: true)
+      render_inline(described_class.new(attribute:, type:, index: 0, total_count: 2, readonly:, exclusions:))
+    end
+
+    it "is not rendered in editable mode" do
+      render_row(exclusions: nil, readonly: false)
+
+      expect(page).to have_no_test_selector("toggle-form-config-exclusion-assignee")
+    end
+
+    it "is not rendered when the type owns the configuration" do
+      render_row(exclusions: nil)
+
+      expect(page).to have_no_test_selector("toggle-form-config-exclusion-assignee")
+    end
+
+    it "is keyed on the attribute and labelled with its translation", :aggregate_failures do
+      render_row(exclusions: WorkPackageTypes::FormConfigurationComponent::ExclusionState
+                               .new(type:, own: [], effective: []))
+
+      toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee']")
+      expect(toggle.find("button")["aria-label"]).to eq("Inherit Assignee")
+    end
+  end
 end

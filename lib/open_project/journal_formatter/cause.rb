@@ -85,6 +85,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       total_percent_complete_mode_changed_to_simple_average_message
     when "import"
       import_message
+    when "work_package_parent_deleted"
+      I18n.t("journals.cause_descriptions.work_package_parent_deleted")
     else
       related_work_package_changed_message
     end

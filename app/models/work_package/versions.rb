@@ -65,6 +65,9 @@ module WorkPackage::Versions
     # that the journal snapshot sees the current version sets in the database.
     after_save :persist_version_associations
 
+    # Store in memory values that will replace target/observed_in version values
+    # This is used by the contracts/services flow in order to do checks and validations
+    # before persisting any actual data to the database
     attr_accessor :target_version_ids_replacements,
                   :observed_in_version_ids_replacements
   end
@@ -73,16 +76,16 @@ module WorkPackage::Versions
     # Unassigns work packages from +version+ if it's no longer shared with
     # the work package's project
     def update_versions_from_sharing_change(version)
-      # Update work packages assigned to the version
-      update_versions(["#{WorkPackage.table_name}.version_id = ?", version.id])
+      # Update work packages referencing the version
+      update_versions(["#{WorkPackageVersion.table_name}.version_id = ?", version.id])
     end
 
     # Unassigns work packages from versions that are no longer shared
     # after +project+ was moved
     def update_versions_from_hierarchy_change(project)
       moved_project_ids = project.self_and_descendants.reload.map(&:id)
-      # Update work packages of the moved projects and work packages assigned
-      # to a version of a moved project
+      # Update work packages of the moved projects and work packages referencing
+      # a version of a moved project
       update_versions(
         ["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)",
          moved_project_ids,
@@ -92,35 +95,52 @@ module WorkPackage::Versions
 
     private
 
+    # Work packages referencing (through any work_package_versions kind) a
+    # non-systemwide version of another project
     def having_version_from_other_project
-      where(
-        "#{WorkPackage.table_name}.version_id IS NOT NULL" +
-        " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
-        " AND #{Version.table_name}.sharing <> 'system'"
-      )
+      joins(work_package_versions: :version)
+        .merge(Version.systemwide.invert_where)
+        .where("#{Version.table_name}.project_id <> #{WorkPackage.table_name}.project_id")
+        .distinct
     end
 
-    # Update work packages so their versions are not pointing to a
-    # version that is not shared with the work package's project
-    def update_versions(conditions = nil) # rubocop:disable Metrics/AbcSize
-      # Only need to update work packages with a version from
-      # a different project and that is not systemwide shared
+    # Update work packages so they do not reference versions that are not
+    # shared with their project
+    def update_versions(conditions = nil)
       having_version_from_other_project
         .where(conditions)
-        .includes(:project, :version)
-        .references(:versions).find_each do |work_package|
-        next if work_package.project.nil? || work_package.version.nil?
+        .includes(:project)
+        .find_each do |work_package|
+        next if work_package.project.nil?
 
-        unless work_package.project.shared_versions.include?(work_package.version)
-          # this path clears version_id without going through the services,
-          # so we need to manually drop the matching target association here too.
-          work_package.target_versions.delete(work_package.version)
-          work_package.version = nil
-          unless work_package.save
-            Rails.logger.error "Failed to clear version on work package ##{work_package.id}: " \
-                               "#{work_package.errors.full_messages.to_sentence}"
-          end
-        end
+        remove_unshared_version_references(work_package)
+      end
+    end
+
+    def remove_unshared_version_references(work_package)
+      # Pruning goes through the *_version_ids_replacements accessors, so the
+      # save-time mirror (persist_version_associations) keeps the deprecated
+      # version_id column and the journals consistent, as for any other change.
+      return if prune_unshared_version_kinds(work_package).empty?
+
+      unless work_package.save
+        Rails.logger.error "Failed to clear versions on work package ##{work_package.id}: " \
+                           "#{work_package.errors.full_messages.to_sentence}"
+      end
+    end
+
+    # Sets the replacements for every kind that references versions not shared
+    # with the work package's project, returning the kinds that changed.
+    def prune_unshared_version_kinds(work_package)
+      shared_ids = work_package.project.shared_versions.pluck(:id)
+
+      %w[target observed_in].filter_map do |kind|
+        current_ids = work_package.work_package_versions.where(kind:).pluck(:version_id)
+        kept_ids = current_ids & shared_ids
+        next if kept_ids.sort == current_ids.sort
+
+        work_package.public_send(:"#{kind}_version_ids_replacements=", kept_ids)
+        kind
       end
     end
   end
@@ -133,10 +153,8 @@ module WorkPackage::Versions
   #   * for custom fields only_open: false can be used, if the CF is configured so
   def assignable_versions(only_open: true)
     if only_open
-      @assignable_versions ||= begin
-        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-        ((project&.assignable_versions || []) + [current_version]).compact.uniq
-      end
+      @assignable_versions ||=
+        ((project&.assignable_versions || []) + persisted_target_versions).compact.uniq
     else
       # The called method memoizes the result, no need to memoize it here.
       project&.assignable_versions(only_open: false)
@@ -152,6 +170,23 @@ module WorkPackage::Versions
   def override_target_versions? = !target_version_ids_replacements.nil?
   def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
 
+  # List of target versions, but takes into account pending overrides that were
+  # not written yet
+  #
+  # By precedence:
+  #   * target_version_ids_replacements
+  #   * pending version_id change
+  #   * actual written target_versions
+  def effective_target_versions
+    if target_version_ids_replacements.nil?
+      # TODO(COMMS-863)
+      return version_id_changed? ? Array(version) : target_versions
+    end
+
+    versions_by_id = Version.where(id: target_version_ids_replacements).index_by(&:id)
+    target_version_ids_replacements.filter_map { |id| versions_by_id[id] }
+  end
+
   # An override can also originate from the system, e.g. when versions that are
   # not shared with the (new) project are cleared on a project change. Such
   # overrides are marked here so that contracts don't attribute them to the
@@ -165,6 +200,12 @@ module WorkPackage::Versions
   end
 
   private
+
+  def persisted_target_versions
+    return [] unless persisted?
+
+    target_versions.to_a
+  end
 
   def system_version_overrides
     @system_version_overrides ||= Set.new
@@ -212,6 +253,14 @@ module WorkPackage::Versions
     update_columns(version_id: new_version_id) unless version_id == new_version_id
   end
 
+  # Resets any cached values. Necessary because we do insert_all.
+  def reset_version_associations
+    work_package_versions.reset
+    versions.reset
+    target_versions.reset
+    observed_in_versions.reset
+  end
+
   # Sets the work package's associations of the given kind to exactly the
   # given version_ids.
   def replace_versions(kind, version_ids)
@@ -220,9 +269,16 @@ module WorkPackage::Versions
     to_remove = existing - version_ids
     to_add    = version_ids - existing
 
-    # remove associations that are not present in the new list of versions
+    return if to_remove.empty? && to_add.empty?
+
+    apply_version_changes(kind, to_remove, to_add)
+    reset_version_associations
+  end
+
+  # remove associations that are not present in the new list of versions and
+  # add those that were not already there
+  def apply_version_changes(kind, to_remove, to_add)
     work_package_versions.where(kind:, version_id: to_remove).delete_all if to_remove.any?
-    # add new associations that were not already there
     work_package_versions.insert_all(to_add.map { |vid| { version_id: vid, kind: } }) if to_add.any?
   end
 end

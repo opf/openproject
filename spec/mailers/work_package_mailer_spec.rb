@@ -72,8 +72,7 @@ RSpec.describe WorkPackageMailer do
                       type: build_stubbed(:type_standard),
                       project:,
                       assigned_to: assignee,
-                      identifier: "PROJ-42",
-                      sequence_number: 42)
+                      identifier: "PROJ-42")
       end
 
       it "has a subject with semantic identifier and no # prefix" do
@@ -205,8 +204,7 @@ RSpec.describe WorkPackageMailer do
                         type: build_stubbed(:type_standard),
                         project:,
                         assigned_to: assignee,
-                        identifier: "PROJ-42",
-                        sequence_number: 42)
+                        identifier: "PROJ-42")
         end
 
         it "includes the semantic identifier without # prefix in the subject" do
@@ -242,8 +240,7 @@ RSpec.describe WorkPackageMailer do
                         type: build_stubbed(:type_standard),
                         project:,
                         assigned_to: assignee,
-                        identifier: "PROJ-42",
-                        sequence_number: 42)
+                        identifier: "PROJ-42")
         end
 
         it "includes the semantic identifier without # prefix in the subject" do

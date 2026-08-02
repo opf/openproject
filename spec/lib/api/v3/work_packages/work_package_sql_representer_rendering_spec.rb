@@ -260,11 +260,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
     end
   end
 
-  describe "type link for a sub-type" do
+  describe "type link for a variant" do
     let(:root_type) { create(:type, name: "Task") }
     let(:type) { create(:type, name: "Bug", parent: root_type) }
 
-    it "keeps the sub-type's own href but shows the root name as the title" do
+    it "keeps the variant's own href but shows the root name as the title" do
       expect(json)
         .to be_json_eql(api_v3_paths.type(type.id).to_json)
         .at_path("_links/type/href")

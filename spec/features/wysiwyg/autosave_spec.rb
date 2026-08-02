@@ -49,7 +49,7 @@ RSpec.describe "Wysiwyg autosave spec",
 
     it "can autosave" do
       editor.click_and_type_slowly "Initial version"
-      click_on "Save"
+      click_on "Create"
 
       expect_and_dismiss_flash(message: "Successful creation.")
 

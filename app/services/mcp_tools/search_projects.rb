@@ -55,10 +55,11 @@ module McpTools
 
     def call(page: nil, **filters)
       filtered = apply_filters(Project.project.visible, filters)
-      projects = apply_pagination(filtered, page)
+      projects, total = apply_pagination(filtered, page)
 
       {
-        items: projects.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) }
+        items: projects.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
+        total:
       }
     end
   end

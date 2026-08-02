@@ -46,7 +46,7 @@ In these Release Notes, we will give an overview of important feature changes. A
 - Feature: Create a new TableComponent based on Primer React&#39;s DataTable \[[#70204](https://community.openproject.org/wp/70204)\]
 - Feature: Automatically upload PDF artefacts to project folder \[[#77321](https://community.openproject.org/wp/77321)\]
 - Feature: Grouped types index page \[[#76546](https://community.openproject.org/wp/76546)\]
-- Feature: Sub-types are shown everywhere using their parent type&#39;s name \[[#76547](https://community.openproject.org/wp/76547)\]
+- Feature: Variants are shown everywhere using their parent type&#39;s name \[[#76547](https://community.openproject.org/wp/76547)\]
 - Feature: Move workflows as a tab under type edit \[[#77228](https://community.openproject.org/wp/77228)\]
 - Feature: All open view with default sort order to show the latest on top (ID descending) \[[#57962](https://community.openproject.org/wp/57962)\]
 - Feature: Restrict Email addresses to certain domains \[[#70521](https://community.openproject.org/wp/70521)\]

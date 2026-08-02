@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::PDF_EXPORT)) %>
 
   <%= render WorkPackageTypes::ExportConfigurationComponent.new(
-        @type.effective_source_for(Type::ConfigurationLink::PDF_EXPORT),
+        @type,
         readonly: @type.linked?(Type::ConfigurationLink::PDF_EXPORT)
       ) %>
 <% end %>

@@ -585,6 +585,29 @@ RSpec.describe "API v3 Work package form resource" do
               end
             end
 
+            describe "targetVersions" do
+              let(:path) { "_embedded/payload/_links/targetVersions" }
+              let(:target_version) { create(:version, project:) }
+              let(:version_parameter) do
+                { _links: { targetVersions: [{ href: api_v3_paths.version(target_version.id) }] } }
+              end
+              let(:params) { valid_params.merge(version_parameter) }
+
+              context "for a valid version" do
+                include_context "with post request"
+
+                it_behaves_like "valid payload"
+
+                it_behaves_like "having no errors"
+
+                it "echoes the requested target versions although they are not persisted yet" do
+                  expect(subject.body)
+                    .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
+                    .at_path("#{path}/0/href")
+                end
+              end
+            end
+
             describe "category" do
               let(:path) { "_embedded/payload/_links/category/href" }
               let(:links_path) { "_embedded/schema/category/_links" }

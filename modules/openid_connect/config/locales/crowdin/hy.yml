@@ -8,24 +8,24 @@ hy:
         acr_values: ACR values
         authorization_endpoint: Authorization endpoint
         claims: Claims
-        client_id: Client ID
-        client_secret: Client secret
+        client_id: Հաճախորդի ID
+        client_secret: Հաճախորդի գաղտնիք
         display_name: Display name
         end_session_endpoint: End session endpoint
         grant_types_supported: Supported grant types
         group_regexes: Patterns (regular expressions)
         groups_claim: Groups claim
-        icon: Custom icon
+        icon: Հատուկ պատկերակ
         issuer: Issuer
         jwks_uri: JWKS URI
-        limit_self_registration: Limit self registration
-        metadata_url: Metadata URL
-        name: Name
+        limit_self_registration: Սահմանափակել ինքնագրանցումը
+        metadata_url: Մետատվյալների URL
+        name: Անվանում
         post_logout_redirect_uri: Post logout redirect URI
         redirect_url: Redirect URL
-        scope: Scope
-        secret: Secret
-        slug: Unique identifier
+        scope: Շրջանակ
+        secret: Գաղտնիք
+        slug: Եզակի նույնացուցիչ
         sync_groups: Synchronize groups
         tenant: Tenant
         token_endpoint: Token endpoint
@@ -69,7 +69,7 @@ hy:
         '
       client_id: This is the client ID given to you by your OpenID Connect provider
       client_secret: This is the client secret given to you by your OpenID Connect provider
-      display_name: The name of the provider. This will be displayed as the login button and in the list of providers.
+      display_name: Մատակարարի անվանումը։ Այն կցուցադրվի որպես մուտքի կոճակ և մատակարարների ցանկում։
       endpoint_url: The endpoint URL given to you by the OpenID Connect provider
       group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
       group_regexes_detail: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
@@ -107,12 +107,12 @@ hy:
         name: Google
       label_add_new: Add a new OpenID provider
       label_advanced_configuration: Advanced configuration
-      label_attribute_mapping: Attribute mapping
-      label_automatic_configuration: Automatic configuration
+      label_attribute_mapping: Հատկանիշների համապատասխանեցում
+      label_automatic_configuration: Ինքնաշխատ կազմաձևում
       label_client_details: Client details
-      label_configuration_details: Metadata
+      label_configuration_details: Մետատվյալներ
       label_edit: Edit OpenID provider %{name}
-      label_empty_description: Add a provider to see them here.
+      label_empty_description: Ավելացրեք մատակարար՝ այն այստեղ տեսնելու համար։
       label_empty_title: No OpenID providers configured yet.
       label_group_mapping: Group mapping
       label_metadata: OpenID Connect Discovery Endpoint
@@ -142,7 +142,7 @@ hy:
         description: Connect OpenProject to an OpenID connect identity provider
         title: Single Sign-On (SSO) with OpenID connect
     setting_instructions:
-      limit_self_registration: 'If enabled users can only register using this provider if the self registration setting allows for it.
+      limit_self_registration: 'Եթե միացված է, օգտատերերը կարող են այս մատակարարի միջոցով գրանցվել միայն այն դեպքում, երբ ինքնագրանցման կարգավորումը դա թույլ է տալիս։
 
         '
     settings:

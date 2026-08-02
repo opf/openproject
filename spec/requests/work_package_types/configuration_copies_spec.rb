@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Work package type configuration copies",
                :skip_csrf,
                type: :rails_request,
-               with_flag: { subtypes: true } do
+               with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -51,29 +51,32 @@ RSpec.describe "Work package type configuration copies",
       expect(response.body).to include("Save and copy")
     end
 
-    it "annotates the parent and orders sub-types under their root with the composite name" do
-      subtype = create(:type, parent: source)
+    it "annotates the parent and orders variants under their root with the composite name" do
+      variant = create(:type, parent: source)
       root = create(:type, name: "Bug")
       create(:type, name: "Mobile", parent: root)
+      create(:type, name: "Desktop", parent: root)
 
-      get type_configuration_copy_dialog_path(type_id: subtype.id, aspect:), as: :turbo_stream
+      get type_configuration_copy_dialog_path(type_id: variant.id, aspect:), as: :turbo_stream
 
       # the current type's own parent is flagged as the likely source
       expect(response.body).to include("Feature (parent)")
-      # sub-types carry their parent via the composite name
+      # variants carry their parent via the composite name
       expect(response.body).to include("Bug: Mobile")
-      # a root is listed before its sub-type
+      # a root is listed before its variant
       expect(response.body.index("Bug")).to be < response.body.index("Bug: Mobile")
+      # variants are alphabetical, not in the order they were added
+      expect(response.body.index("Bug: Desktop")).to be < response.body.index("Bug: Mobile")
     end
 
     it "is not found for aspects without a copy service" do
-      get type_configuration_copy_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::WORKFLOWS),
+      get type_configuration_copy_dialog_path(type_id: type.id, aspect: "unknown_aspect"),
           as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
     end
 
-    it "is not found when the subtypes feature is disabled", with_flag: { subtypes: false } do
+    it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
       get type_configuration_copy_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
@@ -134,7 +137,7 @@ RSpec.describe "Work package type configuration copies",
     end
 
     it "is not found for aspects without a copy service" do
-      post type_configuration_copy_copy_path(type_id: type.id, aspect: Type::ConfigurationLink::WORKFLOWS),
+      post type_configuration_copy_copy_path(type_id: type.id, aspect: "unknown_aspect"),
            params: { source_id: source.id },
            as: :turbo_stream
 

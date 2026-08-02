@@ -40,7 +40,7 @@ module WorkPackageTypes
       super(type)
     end
 
-    def render? = OpenProject::FeatureDecisions.subtypes_active?
+    def render? = OpenProject::FeatureDecisions.type_variants_active?
 
     private
 
@@ -54,7 +54,7 @@ module WorkPackageTypes
 
     def source_is_parent? = source.present? && source == type.parent
 
-    def source_path = edit_type_settings_path(type_id: source.id)
+    def source_path = edit_type_details_path(type_id: source.id)
 
     def copy_supported? = CopyConfiguration.supported?(aspect)
 
@@ -67,7 +67,7 @@ module WorkPackageTypes
     def linked_description
       helpers.link_translate(
         "types.edit.reuse_mode.linked.description",
-        i18n_args: { source_name: source.name, source_suffix: parent_suffix },
+        i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
         links: { source_url: source_path },
         external: false
       )

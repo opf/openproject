@@ -3,7 +3,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicModule } from 'ng-dynamic-component';
 import { CommonModule } from '@angular/common';
-import { DragulaModule } from 'ng2-dragula';
 
 import { InviteUserButtonModule } from 'core-app/features/invite-user-modal/button/invite-user-button.module';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
@@ -46,6 +45,10 @@ import {
   OpAutocompleterFooterTemplateDirective,
 } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 import { OpSearchHighlightDirective } from 'core-app/shared/directives/search-highlight.directive';
+import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
+import {
+  OpSortableListsItemDirective,
+} from 'core-app/shared/directives/sortable-lists/sortable-lists-item.directive';
 import {
   UserAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
@@ -62,6 +65,7 @@ import {
   ProjectPhaseAutocompleterComponent,
 } from './project-phase-autocompleter/project-phase-autocompleter.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -89,7 +93,6 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   imports: [
     CommonModule,
     NgSelectModule,
-    DragulaModule,
     FormsModule,
     ReactiveFormsModule,
 
@@ -97,6 +100,10 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     OpenprojectPrincipalRenderingModule,
     InviteUserButtonModule,
     IconModule,
+    DynamicIconDirective,
+
+    OpSortableListsDirective,
+    OpSortableListsItemDirective,
   ],
   exports: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
   declarations: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,

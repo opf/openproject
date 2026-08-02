@@ -30,14 +30,62 @@
 
 class Projects::Settings::WorkPackages::TypesController < Projects::SettingsController
   include WorkPackageTypes::TypeDeactivationErrorMessage
+  include WorkPackageTypes::TypeVariantsFeature
+  include OpTurbo::ComponentStream
+  include FlashMessagesOutputSafetyHelper
 
   menu_item :settings_work_packages
 
-  def show
+  before_action :require_type_variants_feature, only: %i[new create destroy]
+
+  def index
     @types = ::Type.all
   end
 
-  def update
+  def new
+    respond_with_dialog Projects::Settings::WorkPackages::Types::AddDialogComponent.new(project: @project)
+  end
+
+  def create # rubocop:disable Metrics/AbcSize
+    type = ::Type.global.find_by(id: params[:type_id])
+
+    return render_type_not_found if type.nil?
+
+    result = ::Projects::Types::AddService.new(user: current_user, model: @project).call(type:)
+
+    result.on_success do
+      close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::AddDialogComponent::DIALOG_ID}")
+      replace_types_list
+    end
+
+    result.on_failure do
+      render_error_flash_message_via_turbo_stream(message: join_flash_messages(result.errors.full_messages))
+    end
+
+    respond_to_with_turbo_streams(status: result)
+  end
+
+  def destroy # rubocop:disable Metrics/AbcSize
+    type = @project.types.find_by(id: params[:id])
+
+    return render_type_not_found if type.nil?
+
+    result = ::Projects::Types::RemoveService.new(user: current_user, model: @project).call(type:)
+
+    result.on_success { replace_types_list }
+
+    result.on_failure do
+      render_error_flash_message_via_turbo_stream(
+        message: join_flash_messages(
+          type_deactivation_error_messages(::Type.where(id: type.id), project_ids: [@project.id])
+        )
+      )
+    end
+
+    respond_to_with_turbo_streams(status: result)
+  end
+
+  def bulk_update
     type_ids = permitted_params.projects_type_ids
 
     if UpdateProjectsTypesService.new(@project).call(type_ids)
@@ -50,6 +98,19 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   private
+
+  # Reload so the repainted list no longer sees the association's cached types.
+  def replace_types_list
+    replace_via_turbo_stream(
+      component: Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project.reload)
+    )
+  end
+
+  def render_type_not_found
+    render_error_flash_message_via_turbo_stream(message: t("projects.settings.types.type_not_found"))
+
+    respond_to_with_turbo_streams(status: :unprocessable_entity)
+  end
 
   def success_message
     ApplicationController.helpers.sanitize(

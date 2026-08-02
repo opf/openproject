@@ -124,6 +124,14 @@ module McpTools
         @filters ||= {}
       end
 
+      def output_filter(filter_class)
+        output_filters << filter_class
+      end
+
+      def output_filters
+        @output_filters ||= []
+      end
+
       def annotations(read_only:, idempotent:, destructive:)
         @annotations = {
           read_only_hint: read_only,
@@ -176,6 +184,7 @@ module McpTools
     end
 
     def format_response(result)
+      result = self.class.output_filters.inject(JSON.parse(result.to_json)) { |r, f| f.filter(r) }
       plain = render_plain_content? ? format_content(result) : []
       structured_content = render_structured_content? ? format_structured_content(result) : nil
       MCP::Tool::Response.new(plain, **{ structured_content: }.compact)
@@ -186,7 +195,9 @@ module McpTools
     end
 
     def format_structured_content(result)
-      result
+      # performing a useless JSON roundtrip to ensure that our representers get converted into proper Ruby hashes,
+      # because the mcp gem performs strict type checks on the structured content
+      JSON.parse(result.to_json)
     end
 
     def current_user
@@ -217,12 +228,13 @@ module McpTools
     end
 
     def apply_pagination(scope, page)
-      return scope unless self.class.pagination_enabled?
+      total = scope.count
+      return [scope, total] unless self.class.pagination_enabled?
 
       page_number = page || 1
       page_size = self.class.page_size
 
-      scope.offset((page_number - 1) * page_size).limit(page_size)
+      [scope.offset((page_number - 1) * page_size).limit(page_size), total]
     end
   end
 end

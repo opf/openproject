@@ -4,14 +4,14 @@ hy:
     attributes:
       ldap_departments/synchronized_department:
         dn: DN
-        group: Department
-        ldap_auth_source: LDAP connection
-        users_count: Members
+        group: Ստորաբաժանում
+        ldap_auth_source: LDAP կապ
+        users_count: Անդամներ
       ldap_departments/synchronized_tree:
         base_dn: Base DN
         guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
+        ldap_auth_source: LDAP կապ
+        name: Անվանում
         ou_name_attribute: OU name attribute
         structure_filter_string: Organizational unit filter
         sync_users: Sync users
@@ -67,9 +67,9 @@ hy:
           '
         ou_name_attribute_text: The LDAP attribute used to name the department (e.g. "ou").
         sections:
-          connection: LDAP connection
+          connection: LDAP կապ
           structure: Organizational units
-          users: Users
+          users: Օգտատերեր
         structure_filter_string_text: RFC4515 LDAP filter identifying organizational unit entries.
         sync_users_text: 'If enabled, users found below the base DN are also created in OpenProject. Without it, only existing accounts are assigned to departments.
 

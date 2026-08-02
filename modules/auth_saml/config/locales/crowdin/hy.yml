@@ -3,197 +3,197 @@ hy:
   activerecord:
     attributes:
       saml/provider:
-        assertion_consumer_service_url: ACS (Assertion consumer service) URL
-        authn_requests_signed: Sign SAML AuthnRequests
-        certificate: Certificate used by OpenProject for SAML requests
-        digest_method: Digest algorithm
-        display_name: Name
-        format: Format
-        icon: Custom icon
-        identifier: Identifier
-        idp_cert: Public certificate of identity provider
-        idp_entity_id: Identity provider entity ID
-        idp_slo_service_url: Identity provider logout endpoint
-        idp_sso_service_url: Identity provider login endpoint
-        limit_self_registration: Limit self registration
-        metadata_url: Identity provider metadata URL
-        name_identifier_format: Name identifier format
-        private_key: Corresponding private key for OpenProject SAML requests
-        scope: Scope
-        secret: Secret
-        signature_method: Signature algorithm
-        sp_entity_id: Service entity ID
-        want_assertions_encrypted: Require encrypted responses
-        want_assertions_signed: Require signed responses
+        assertion_consumer_service_url: ACS-ի (պնդումներն ընդունող ծառայության) URL
+        authn_requests_signed: Ստորագրել SAML AuthnRequest-ները
+        certificate: OpenProject-ի կողմից SAML հարցումների համար օգտագործվող վկայագիր
+        digest_method: Հեշավորման ալգորիթմ
+        display_name: Անվանում
+        format: Ձևաչափ
+        icon: Հատուկ պատկերակ
+        identifier: Նույնացուցիչ
+        idp_cert: Ինքնության մատակարարի հանրային վկայագիր
+        idp_entity_id: Ինքնության մատակարարի entity ID
+        idp_slo_service_url: Ինքնության մատակարարի ելքի վերջնակետ
+        idp_sso_service_url: Ինքնության մատակարարի մուտքի վերջնակետ
+        limit_self_registration: Սահմանափակել ինքնագրանցումը
+        metadata_url: Ինքնության մատակարարի մետատվյալների URL
+        name_identifier_format: Անվան նույնացուցչի ձևաչափ
+        private_key: OpenProject-ի SAML հարցումների համապատասխան մասնավոր բանալի
+        scope: Շրջանակ
+        secret: Գաղտնիք
+        signature_method: Ստորագրության ալգորիթմ
+        sp_entity_id: Ծառայության entity ID
+        want_assertions_encrypted: Պահանջել գաղտնագրված պատասխաններ
+        want_assertions_signed: Պահանջել ստորագրված պատասխաններ
     errors:
       models:
         saml/provider:
-          certificate_expired: is expired and can no longer be used.
-          invalid_certificate: 'is not a valid PEM-formatted certificate: %{additional_message}'
-          invalid_private_key: 'is not a valid PEM-formatted private key: %{additional_message}'
-          unmatched_private_key: does not belong to the given certificate
+          certificate_expired: ժամկետանց է և այլևս չի կարող օգտագործվել։
+          invalid_certificate: վավեր PEM ձևաչափի վկայագիր չէ՝ %{additional_message}
+          invalid_private_key: վավեր PEM ձևաչափի մասնավոր բանալի չէ՝ %{additional_message}
+          unmatched_private_key: չի պատկանում տրված վկայագրին
   saml:
-    delete_heading: Delete this SAML provider?
-    delete_title: Delete SAML provider
+    delete_heading: Ջնջե՞լ այս SAML մատակարարը
+    delete_title: Ջնջել SAML մատակարարը
     info:
-      description: 'Use these parameters to configure your identity provider connection to OpenProject.
+      description: 'Օգտագործեք այս պարամետրերը՝ Ձեր ինքնության մատակարարի միացումը OpenProject-ին կազմաձևելու համար։
 
         '
-      title: SAML Protocol Configuration Parameters
+      title: SAML արձանագրության կազմաձևման պարամետրեր
     instructions:
-      authn_requests_signed: 'If checked, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
+      authn_requests_signed: 'Եթե ընտրված է, OpenProject-ը կստորագրի SAML AuthnRequest-ը։ Դուք պետք է ստորև բերված դաշտերում նշեք ստորագրման վկայագիրը և մասնավոր բանալին։
 
         '
-      certificate: 'Enter the X509 PEM-formatted certificate used by OpenProject for signing SAML requests.
+      certificate: 'Մուտքագրեք X509 PEM ձևաչափի վկայագիրը, որը OpenProject-ը օգտագործում է SAML հարցումները ստորագրելու համար։
 
         '
-      digest_method: 'Select the digest algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+      digest_method: 'Ընտրեք հեշավորման ալգորիթմը, որը կօգտագործվի OpenProject-ի կատարած SAML հարցման ստորագրության համար (կանխադրված՝ %{default_option})։
 
         '
-      display_name: 'The name of the provider. This will be displayed as the login button and in the list of providers.
+      display_name: 'Մատակարարի անվանումը։ Այն կցուցադրվի որպես մուտքի կոճակ և մատակարարների ցանկում։
 
         '
-      documentation_link: 'Please refer to our [documentation on configuring SAML providers](docs_url) for more information on these configuration options.
+      documentation_link: 'Այս կազմաձևման ընտրանքների մասին լրացուցիչ տեղեկությունների համար խնդրում ենք դիմել մեր [SAML մատակարարների կազմաձևման փաստաթղթերին](docs_url)։
 
         '
-      icon: 'Optionally provide a public URL to an icon graphic that will be displayed next to the provider name.
+      icon: 'Ըստ ցանկության նշեք պատկերակի հանրային URL-ը, որը կցուցադրվի մատակարարի անվանման կողքին։
 
         '
-      idp_cert: 'Enter the X509 PEM-formatted public certificate of the identity provider. You can enter multiple certificates by separating them with a newline.
+      idp_cert: 'Մուտքագրեք ինքնության մատակարարի X509 PEM ձևաչափի հանրային վկայագիրը։ Կարող եք մուտքագրել մի քանի վկայագիր՝ դրանք բաժանելով նոր տողով։
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: 'Ոչ պարտադիր՝ օգտակար է, երբ մետատվյալների URL-ը մատնանշում է բազմաթիվ գրառումներ պարունակող ֆեդերացիայի հավաքածու։ Մուտքագրեք Ձեր հաստատության ինքնության մատակարարի entity ID-ն։ Մեկ մատակարարի մետատվյալների URL-ների դեպքում թողեք դատարկ։
 
         '
-      idp_slo_service_url: 'The URL of the identity provider logout endpoint.
+      idp_slo_service_url: 'Ինքնության մատակարարի ելքի վերջնակետի URL-ը։
 
         '
-      idp_sso_service_url: 'The URL of the identity provider login endpoint.
+      idp_sso_service_url: 'Ինքնության մատակարարի մուտքի վերջնակետի URL-ը։
 
         '
-      limit_self_registration: 'If enabled users can only register using this provider if the self registration setting allows for it.
+      limit_self_registration: 'Եթե միացված է, օգտատերերը կարող են այս մատակարարի միջոցով գրանցվել միայն այն դեպքում, երբ ինքնագրանցման կարգավորումը դա թույլ է տալիս։
 
         '
-      mapping: 'Configure the mapping between the SAML response and user attributes in OpenProject. You can configure multiple attribute names to look for. OpenProject will choose the first available attribute from the SAML response.
+      mapping: 'Կազմաձևեք SAML պատասխանի և OpenProject-ի օգտատիրոջ հատկանիշների միջև համապատասխանեցումը։ Կարող եք կազմաձևել որոնման ենթակա մի քանի հատկանիշի անվանում։ OpenProject-ը կընտրի SAML պատասխանից առաջին հասանելի հատկանիշը։
 
         '
-      mapping_firstname: 'SAML attributes from the response used for the given name.
+      mapping_firstname: 'Պատասխանից վերցված SAML հատկանիշներ, որոնք օգտագործվում են անվան համար։
 
         '
-      mapping_lastname: 'SAML attributes from the response used for the last name.
+      mapping_lastname: 'Պատասխանից վերցված SAML հատկանիշներ, որոնք օգտագործվում են ազգանվան համար։
 
         '
-      mapping_login: 'SAML attributes from the response used for the login.
+      mapping_login: 'Պատասխանից վերցված SAML հատկանիշներ, որոնք օգտագործվում են օգտանվան համար։
 
         '
-      mapping_mail: 'SAML attributes from the response used for the email of the user.
+      mapping_mail: 'Պատասխանից վերցված SAML հատկանիշներ, որոնք օգտագործվում են օգտատիրոջ էլ. փոստի համար։
 
         '
-      mapping_uid: 'SAML attribute to use for the internal user ID. Leave empty to use the name_id attribute instead
+      mapping_uid: 'SAML հատկանիշ, որը կօգտագործվի ներքին օգտատիրոջ ID-ի համար։ Թողեք դատարկ՝ դրա փոխարեն name_id հատկանիշն օգտագործելու համար
 
         '
-      metadata_for_idp: 'This information might be requested by your SAML identity provider.
+      metadata_for_idp: 'Այս տեղեկությունը կարող է պահանջվել Ձեր SAML ինքնության մատակարարի կողմից։
 
         '
-      metadata_none: 'Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
+      metadata_none: 'Ձեր ինքնության մատակարարը չունի մետատվյալների վերջնակետ կամ XML ներբեռնման հնարավորություն։ Կարող եք կազմաձևել այն ձեռքով։
 
         '
-      metadata_url: 'Your identity provider provides a metadata URL.
+      metadata_url: 'Ձեր ինքնության մատակարարը տրամադրում է մետատվյալների URL։
 
         '
-      metadata_xml: 'Your identity provider provides a metadata XML download.
+      metadata_xml: 'Ձեր ինքնության մատակարարը տրամադրում է մետատվյալների XML ներբեռնում։
 
         '
-      name_identifier_format: 'Set the name identifier format to be used for the SAML assertion.
+      name_identifier_format: 'Սահմանեք անվան նույնացուցչի ձևաչափը, որը կօգտագործվի SAML պնդման համար։
 
         '
-      private_key: 'Enter the X509 PEM-formatted private key for the above certificate. This needs to be an RSA private key.
+      private_key: 'Մուտքագրեք վերևում նշված վկայագրի X509 PEM ձևաչափի մասնավոր բանալին։ Այն պետք է լինի RSA մասնավոր բանալի։
 
         '
-      request_uid: 'SAML attribute to request for the internal user ID. By default, the name_id will be used for this field.
+      request_uid: 'SAML հատկանիշ, որը կպահանջվի ներքին օգտատիրոջ ID-ի համար։ Ըստ կանխադրման, այս դաշտի համար կօգտագործվի name_id-ը։
 
         '
-      requested_attributes: 'These attributes are added to the SAML request XML to communicate to the identity provider which attributes OpenProject requires.
+      requested_attributes: 'Այս հատկանիշները ավելացվում են SAML հարցման XML-ին՝ ինքնության մատակարարին հաղորդելու համար, թե որ հատկանիշներն է պահանջում OpenProject-ը։
 
         '
-      requested_format: 'The format of the requested attribute. This is used to specify the format of the attribute in the SAML request. Please see [documentation on configuring requested attributes](docs_url) for more information.
+      requested_format: 'Պահանջվող հատկանիշի ձևաչափը։ Այն օգտագործվում է SAML հարցման մեջ հատկանիշի ձևաչափը նշելու համար։ Լրացուցիչ տեղեկությունների համար խնդրում ենք տեսնել [պահանջվող հատկանիշների կազմաձևման փաստաթղթերը](docs_url)։
 
         '
-      signature_method: 'Select the signature algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+      signature_method: 'Ընտրեք ստորագրության ալգորիթմը, որը կօգտագործվի OpenProject-ի կատարած SAML հարցման ստորագրության համար (կանխադրված՝ %{default_option})։
 
         '
-      sp_entity_id: 'The entity ID of the service provider (SP). Sometimes also referred to as Audience. This is the unique client identifier of the OpenProject instance.
+      sp_entity_id: 'Ծառայության մատակարարի (SP) entity ID-ն։ Երբեմն կոչվում է նաև Audience։ Սա OpenProject-ի տեղակայման եզակի հաճախորդի նույնացուցիչն է։
 
         '
-      sp_metadata_endpoint: 'This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider.
+      sp_metadata_endpoint: 'Սա այն URL-ն է, որտեղ հասանելի են OpenProject-ի SAML մետատվյալները։ Ըստ ցանկության օգտագործեք այն Ձեր ինքնության մատակարարը կազմաձևելու համար։
 
         '
-      want_assertions_encrypted: 'If enabled, require the identity provider to encrypt the assertion response using the certificate pair that you provide.
+      want_assertions_encrypted: 'Եթե միացված է, պահանջել, որ ինքնության մատակարարը գաղտնագրի պնդման պատասխանը Ձեր տրամադրած վկայագրերի զույգով։
 
         '
-      want_assertions_signed: 'If checked, OpenProject will required signed responses from the identity provider using its own certificate keypair. OpenProject will verify the signature against the certificate from the basic configuration section.
+      want_assertions_signed: 'Եթե ընտրված է, OpenProject-ը կպահանջի ինքնության մատակարարից ստորագրված պատասխաններ՝ օգտագործելով իր վկայագրերի զույգը։ OpenProject-ը կստուգի ստորագրությունը հիմնական կազմաձևման բաժնի վկայագրի նկատմամբ։
 
         '
-    menu_title: SAML providers
+    menu_title: SAML մատակարարներ
     metadata_parser:
-      error: 'Failed to retrieve the identity provider metadata: %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      error: Չհաջողվեց ստանալ ինքնության մատակարարի մետատվյալները՝ %{error}
+      federation_metadata: 'Մետատվյալների URL-ը մատնանշում է ֆեդերացիայի հավաքածու (բազմաթիվ ինքնության մատակարարներ)։ Օգտագործեք Ձեր հաստատության ուղիղ մետատվյալների URL-ը կամ մետատվյալների ձևում մուտքագրեք Ձեր հաստատության IdP-ի entity ID-ն և կրկին փորձեք։
 
         '
-      invalid_url: Provided metadata URL is invalid. Provide a HTTP(s) URL.
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
-      success: Successfully updated the configuration using the identity provider metadata.
+      invalid_url: Տրամադրված մետատվյալների URL-ը անվավեր է։ Տրամադրեք HTTP(s) URL։
+      metadata_too_large: Մետատվյալների նիշքը գերազանցում է թույլատրելի առավելագույն չափը։
+      success: Կազմաձևումը հաջողությամբ թարմացվել է ինքնության մատակարարի մետատվյալների միջոցով։
     providers:
-      attribute_mapping: Attribute mapping
-      attribute_mapping_text: 'The following fields control which attributes provided by the SAML identity provider are used to provide user attributes in OpenProject
+      attribute_mapping: Հատկանիշների համապատասխանեցում
+      attribute_mapping_text: 'Հետևյալ դաշտերը որոշում են, թե SAML ինքնության մատակարարի տրամադրած որ հատկանիշներն են օգտագործվում OpenProject-ում օգտատիրոջ հատկանիշները լրացնելու համար
 
         '
-      label_add_new: New SAML identity provider
-      label_automatic_configuration: Automatic configuration
-      label_configuration_details: Identity provider endpoints and certificates
-      label_configuration_encryption: Signatures and Encryption
-      label_edit: Edit SAML identity provider %{name}
-      label_empty_description: Add a provider to see them here.
-      label_empty_title: No SAML providers configured yet.
-      label_mapping: Mapping
-      label_metadata: Metadata
-      label_metadata_endpoint: OpenProject metadata endpoint
-      label_openproject_information: OpenProject information
-      label_requested_attribute_for: 'Requested attribute for: %{attribute}'
-      label_uid: Internal user id
+      label_add_new: Նոր SAML ինքնության մատակարար
+      label_automatic_configuration: Ինքնաշխատ կազմաձևում
+      label_configuration_details: Ինքնության մատակարարի վերջնակետեր և վկայագրեր
+      label_configuration_encryption: Ստորագրություններ և գաղտնագրում
+      label_edit: Խմբագրել %{name} SAML ինքնության մատակարարը
+      label_empty_description: Ավելացրեք մատակարար՝ այն այստեղ տեսնելու համար։
+      label_empty_title: Դեռ ոչ մի SAML մատակարար կազմաձևված չէ։
+      label_mapping: Համապատասխանեցում
+      label_metadata: Մետատվյալներ
+      label_metadata_endpoint: OpenProject-ի մետատվյալների վերջնակետ
+      label_openproject_information: OpenProject-ի տեղեկություններ
+      label_requested_attribute_for: Պահանջվող հատկանիշ՝ %{attribute}
+      label_uid: Ներքին օգտատիրոջ ID
       metadata:
-        dialog: 'This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider:'
-      no_results_table: No SAML identity providers have been defined yet.
+        dialog: Սա այն URL-ն է, որտեղ հասանելի են OpenProject-ի SAML մետատվյալները։ Ըստ ցանկության օգտագործեք այն Ձեր ինքնության մատակարարը կազմաձևելու համար՝
+      no_results_table: SAML ինքնության մատակարարներ դեռ սահմանված չեն։
       notice_created: A new SAML identity provider was successfully created.
-      plural: SAML identity providers
+      plural: SAML ինքնության մատակարարներ
       request_attributes:
-        format: Attribute format
-        legend: 'These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires. You may still need to explicitly configure your identity provider to send these attributes. Please refer to your IdP''s documentation.
+        format: Հատկանիշի ձևաչափ
+        legend: 'Այս հատկանիշները ավելացվում են SAML XML մետատվյալներին՝ ինքնության մատակարարին հայտնելու համար, թե որ հատկանիշներն է պահանջում OpenProject-ը։ Հնարավոր է՝ Ձեզ դեռևս անհրաժեշտ լինի բացահայտորեն կազմաձևել Ձեր ինքնության մատակարարը՝ այս հատկանիշները ուղարկելու համար։ Խնդրում ենք դիմել Ձեր IdP-ի փաստաթղթերին։
 
           '
-        name: Requested attribute key
-        title: Requested attributes
-      requested_attributes: Requested attributes
+        name: Պահանջվող հատկանիշի բանալի
+        title: Պահանջվող հատկանիշներ
+      requested_attributes: Պահանջվող հատկանիշներ
       section_headers:
-        attributes: Attributes
-        configuration: Primary configuration
+        attributes: Հատկանիշներ
+        configuration: Հիմնական կազմաձևում
       section_texts:
-        configuration: Configure the endpoint URLs for the identity provider, certificates, and further SAML options.
-        configuration_metadata: This information has been pre-filled using the supplied metadata. In most cases, they do not require editing.
-        display_name: Configure the display name of the SAML provider.
-        encryption: Configure assertion signatures and encryption for SAML requests and responses.
-        encryption_form: You may optionally want to encrypt the assertion response, or have requests from OpenProject signed.
-        mapping: Manually adjust the mapping between the SAML response and user attributes in OpenProject.
-        metadata: Pre-fill configuration using a metadata URL or by pasting metadata XML
-        metadata_form: If your identity provider has a metadata endpoint or XML download, add it below to pre-fill the configuration.
-        metadata_form_banner: 'Editing the metadata may override existing values in other sections. '
-        requested_attributes: Define the set of attributes to be requested in the SAML request sent to your identity provider.
-      seeded_from_env: This provider was seeded from the environment configuration. It cannot be edited.
-      singular: SAML identity provider
+        configuration: Կազմաձևեք ինքնության մատակարարի վերջնակետերի URL-ները, վկայագրերը և SAML-ի այլ ընտրանքները։
+        configuration_metadata: Այս տեղեկությունը նախապես լրացվել է տրամադրված մետատվյալների միջոցով։ Շատ դեպքերում, դրանք խմբագրման կարիք չունեն։
+        display_name: Կազմաձևեք SAML մատակարարի ցուցադրվող անվանումը։
+        encryption: Կազմաձևեք պնդումների ստորագրությունները և գաղտնագրումը SAML հարցումների ու պատասխանների համար։
+        encryption_form: Ըստ ցանկության կարող եք գաղտնագրել պնդման պատասխանը կամ ստորագրել OpenProject-ից եկող հարցումները։
+        mapping: Ձեռքով կարգավորեք SAML պատասխանի և OpenProject-ի օգտատիրոջ հատկանիշների միջև համապատասխանեցումը։
+        metadata: Նախապես լրացրեք կազմաձևումը մետատվյալների URL-ի միջոցով կամ մետատվյալների XML-ը փակցնելով
+        metadata_form: Եթե Ձեր ինքնության մատակարարն ունի մետատվյալների վերջնակետ կամ XML ներբեռնում, ավելացրեք այն ստորև՝ կազմաձևումը նախապես լրացնելու համար։
+        metadata_form_banner: 'Մետատվյալների խմբագրումը կարող է վերագրել այլ բաժինների առկա արժեքները։ '
+        requested_attributes: Սահմանեք այն հատկանիշների ցանկը, որոնք կպահանջվեն Ձեր ինքնության մատակարարին ուղարկվող SAML հարցման մեջ։
+      seeded_from_env: Այս մատակարարը ստեղծվել է միջավայրի կազմաձևման հիման վրա։ Այն հնարավոր չէ խմբագրել։
+      singular: SAML ինքնության մատակարար
       upsell:
-        description: Connect OpenProject to a SAML identity provider
-        title: Single Sign-On (SSO) with SAML
+        description: Միացրեք OpenProject-ը SAML ինքնության մատակարարին
+        title: Միասնական մուտք (SSO) SAML-ի միջոցով
     settings:
-      metadata_none: I don't have metadata
-      metadata_url: Metadata URL
-      metadata_xml: Metadata XML
+      metadata_none: Ես չունեմ մետատվյալներ
+      metadata_url: Մետատվյալների URL
+      metadata_xml: Մետատվյալների XML

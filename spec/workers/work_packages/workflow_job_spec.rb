@@ -33,8 +33,8 @@ require "spec_helper"
 RSpec.describe WorkPackages::WorkflowJob do
   let(:work_package) { build_stubbed(:work_package) }
   let(:changes) { { "status_id" => [1, 2] } }
-  let(:journal) { instance_double(Journal, journable: work_package, initial?: initial) }
-  let(:initial) { false }
+  let(:journal_user) { build_stubbed(:user) }
+  let(:journal) { instance_double(Journal, journable: work_package, user: journal_user) }
 
   let(:reupload_service) do
     instance_double(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService, call!: nil)
@@ -43,26 +43,87 @@ RSpec.describe WorkPackages::WorkflowJob do
     instance_double(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService, call!: nil)
   end
 
+  let(:reupload_applicable) { true }
+  let(:type_export_applicable) { true }
+
   before do
     allow(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService)
-      .to receive(:new).and_return(reupload_service)
+      .to receive_messages(new: reupload_service, applicable?: reupload_applicable)
     allow(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService)
-      .to receive(:new).and_return(type_export_service)
+      .to receive_messages(new: type_export_service, applicable?: type_export_applicable)
   end
 
   subject(:perform) { described_class.new.perform(journal, changes) }
 
-  context "when the journal is not the initial one" do
+  context "when the status changes from an existing value" do
     it "invokes both the creation-wizard reupload and the type artefact export" do
       perform
 
       expect(reupload_service).to have_received(:call!).with(changes:)
       expect(type_export_service).to have_received(:call!).with(changes:)
     end
+
+    it "acts as the journal's user so generated artefacts are attributed to them" do
+      current_user_during_call = nil
+      allow(type_export_service).to receive(:call!) { current_user_during_call = User.current }
+
+      perform
+
+      expect(current_user_during_call).to eq(journal_user)
+    end
+
+    context "when only one service is applicable" do
+      let(:reupload_applicable) { false }
+
+      it "only instantiates and invokes the applicable service" do
+        perform
+
+        expect(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService).not_to have_received(:new)
+        expect(type_export_service).to have_received(:call!).with(changes:)
+      end
+    end
+
+    context "when no service is applicable" do
+      let(:reupload_applicable) { false }
+      let(:type_export_applicable) { false }
+
+      it "does not set up a user context or instantiate any service" do
+        allow(User).to receive(:execute_as)
+
+        perform
+
+        expect(User).not_to have_received(:execute_as)
+        expect(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService).not_to have_received(:new)
+        expect(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService).not_to have_received(:new)
+      end
+    end
+
+    context "even when the journal is still the initial one (aggregated change)" do
+      # The creator's status change within the aggregation window is folded into the
+      # version 1 journal. The change payload still carries a non-nil previous status,
+      # so the workflows must run despite the journal remaining the initial one.
+      it "invokes both handlers" do
+        perform
+
+        expect(reupload_service).to have_received(:call!).with(changes:)
+        expect(type_export_service).to have_received(:call!).with(changes:)
+      end
+    end
   end
 
-  context "when the journal is the initial one" do
-    let(:initial) { true }
+  context "when the status is set for the first time (work package creation)" do
+    let(:changes) { { "status_id" => [nil, 1] } }
+
+    it "does not invoke either handler" do
+      perform
+
+      expect(reupload_service).not_to have_received(:call!)
+      expect(type_export_service).not_to have_received(:call!)
+    end
+  end
+
+  context "when the changes do not touch the status" do
+    let(:changes) { { "subject" => ["Old", "New"] } }
 
     it "does not invoke either handler" do
       perform

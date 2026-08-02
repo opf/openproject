@@ -133,13 +133,24 @@ class OAuthClientsController < ApplicationController
   end
 
   def set_oauth_errors(service_result)
-    if service_result.errors.is_a?(::Storages::StorageError)
-      service_result.errors = service_result.errors.to_active_model_errors
-    end
+    messages = extract_error_messages(service_result.errors)
 
     flash[:error] = ["#{t(:"oauth_client.errors.oauth_authorization_code_grant_had_errors")}:"]
-    service_result.errors.each do |error|
-      flash[:error] << "#{t(:"oauth_client.errors.oauth_reported")}: #{error.full_message}"
+    messages.each do |message|
+      flash[:error] << "#{t(:"oauth_client.errors.oauth_reported")}: #{message}"
+    end
+  end
+
+  # service_result.error might have been set to one of many different error-representing classes. It's mainly intended
+  # to carry ActiveModel::Errors, but storages and wikis module assign their own error representations.
+  # We coerce the error as much as we can here and extract an array of error messages.
+  def extract_error_messages(error)
+    error = error.to_active_model_errors if error.respond_to?(:to_active_model_errors)
+
+    if error.is_a?(::Wikis::Adapters::Results::Error)
+      ["An unexpected error occurred: #{error.code}, #{error.source}"]
+    else
+      error.map(&:full_message)
     end
   end
 
@@ -230,7 +241,6 @@ class OAuthClientsController < ApplicationController
     if User.current.admin && redirect_uri && oauth_integration.try(:supports_oauth_redirect?)
       yield
     elsif redirect_uri
-      flash[:error] = [t(:"oauth_client.errors.oauth_issue_contact_admin")]
       redirect_to redirect_uri
     else
       redirect_to root_url

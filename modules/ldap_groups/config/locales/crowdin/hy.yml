@@ -7,13 +7,13 @@ hy:
         base_dn: Search base DN
         filter_string: LDAP filter
         group_name_attribute: Group name attribute
-        ldap_auth_source: LDAP connection
+        ldap_auth_source: LDAP կապ
         member_lookup_attribute: Group member attribute
         sync_users: Sync users
       ldap_groups/synchronized_group:
         auth_source: Auth source
         dn: DN
-        ldap_auth_source: LDAP connection
+        ldap_auth_source: LDAP կապ
         sync_users: Sync users
     errors:
       models:

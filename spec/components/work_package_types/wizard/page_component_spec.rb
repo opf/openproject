@@ -30,19 +30,83 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { subtypes: true } do
+RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
   let(:parent) { create(:type, name: "Phase") }
   let(:type) { create(:type) }
 
-  before do
-    login_as(create(:admin))
-    type.link!(Type::ConfigurationLink::PDF_EXPORT, source: parent)
+  before { login_as(create(:admin)) }
+
+  describe "step dispatch" do
+    # The page's job is to render the right body per step; each body's own content is
+    # its responsibility, so we stub it. Inline-form steps (details/defaults/workflows)
+    # render through StepEditors and are covered by their editors' specs.
+    {
+      form_configuration: WorkPackageTypes::Wizard::FormConfigurationStepComponent,
+      project_attributes: WorkPackageTypes::Wizard::ProjectAttributesStepComponent,
+      projects: WorkPackageTypes::ProjectsComponent,
+      pdf: WorkPackageTypes::Wizard::PdfStepComponent
+    }.each do |step, component|
+      it "renders #{component} on the #{step} step" do
+        stubbed = instance_double(component, render_in: "STUB[#{step}]")
+        allow(component).to receive(:new).and_return(stubbed)
+
+        render_inline(described_class.new(type:, current_step: step))
+
+        expect(component).to have_received(:new)
+        expect(page).to have_text("STUB[#{step}]")
+      end
+    end
   end
 
-  it "shows the linked PDF banner on the pdf step" do
-    render_inline(described_class.new(type:, current_step: :pdf))
+  describe "sidebar step markers" do
+    it "marks the current and pending steps, and completed steps by reuse mode" do
+      type.link!(Type::ConfigurationLink::DEFAULTS, source: parent)
 
-    expect(page).to have_text("Linked mode")
-    expect(page).to have_text("Phase")
+      render_inline(described_class.new(type:, current_step: :workflows))
+
+      expect(find_test_selector("wizard-step-details")).to have_css(".octicon-pencil")
+      expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-link")
+      expect(find_test_selector("wizard-step-workflows")).to have_css(".octicon-dot-fill")
+      expect(find_test_selector("wizard-step-pdf")).to have_css(".octicon-circle")
+    end
+  end
+
+  describe "cancel and close targets" do
+    let(:url_helpers) { Rails.application.routes.url_helpers }
+
+    context "when the type has not been created yet" do
+      it "points the close (X) and cancel actions to the type list" do
+        render_inline(described_class.new(type: build(:type), current_step: :details))
+
+        expect(page).to have_css("a.PageHeader-action[href='#{url_helpers.types_path}']")
+        expect(page).to have_css(".op-step-wizard-footer--actions-right a[href='#{url_helpers.types_path}']")
+      end
+    end
+
+    context "when the type has been created" do
+      it "points the close (X) and cancel actions to the type's edit page" do
+        edit_href = url_helpers.edit_type_details_path(type_id: type.id)
+
+        render_inline(described_class.new(type:, current_step: :defaults))
+
+        expect(page).to have_css("a.PageHeader-action[href='#{edit_href}']")
+        expect(page).to have_css(".op-step-wizard-footer--actions-right a[href='#{edit_href}']")
+      end
+    end
+  end
+
+  describe "breadcrumbs" do
+    it "links the parent the variant is being created under" do
+      render_inline(described_class.new(type: build(:type, parent:), current_step: :details))
+
+      expect(page).to have_link("Phase",
+                                href: Rails.application.routes.url_helpers.edit_type_details_path(type_id: parent.id))
+    end
+
+    it "omits the parent crumb when there is none" do
+      render_inline(described_class.new(type: build(:type), current_step: :details))
+
+      expect(page).to have_no_link("Phase")
+    end
   end
 end

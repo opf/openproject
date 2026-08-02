@@ -38,7 +38,7 @@ RSpec.describe WorkPackageTypes::IndependentMode do
     end
 
     it "offers copy and empty for patterns" do
-      expect(described_class.available_for(Type::ConfigurationLink::PATTERNS))
+      expect(described_class.available_for(Type::ConfigurationLink::DEFAULTS))
         .to eq([described_class::COPY, described_class::EMPTY])
     end
 
@@ -47,8 +47,18 @@ RSpec.describe WorkPackageTypes::IndependentMode do
         .to eq([described_class::COPY, described_class::DEFAULT])
     end
 
+    it "offers copy and empty for workflows" do
+      expect(described_class.available_for(Type::ConfigurationLink::WORKFLOWS))
+        .to eq([described_class::COPY, described_class::EMPTY])
+    end
+
+    it "offers copy and empty for project attributes" do
+      expect(described_class.available_for(Type::ConfigurationLink::PROJECT_ATTRIBUTES))
+        .to eq([described_class::COPY, described_class::EMPTY])
+    end
+
     it "returns no modes for an aspect without a switch flow" do
-      expect(described_class.available_for(Type::ConfigurationLink::WORKFLOWS)).to eq([])
+      expect(described_class.available_for("unknown_aspect")).to eq([])
     end
   end
 
@@ -59,7 +69,7 @@ RSpec.describe WorkPackageTypes::IndependentMode do
 
     it "is false for a mode the aspect does not offer" do
       expect(described_class).not_to be_available(Type::ConfigurationLink::FORM_CONFIGURATION, described_class::EMPTY)
-      expect(described_class).not_to be_available(Type::ConfigurationLink::PATTERNS, described_class::DEFAULT)
+      expect(described_class).not_to be_available(Type::ConfigurationLink::DEFAULTS, described_class::DEFAULT)
     end
   end
 end

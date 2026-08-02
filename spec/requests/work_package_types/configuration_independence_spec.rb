@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Work package type configuration independence",
                :skip_csrf,
                type: :rails_request,
-               with_flag: { subtypes: true } do
+               with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
   shared_let(:source) { create(:type) }
@@ -53,7 +53,7 @@ RSpec.describe "Work package type configuration independence",
     end
 
     it "offers copy and empty for patterns" do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::PATTERNS),
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::DEFAULTS),
           as: :turbo_stream
 
       expect(response.body).to include("Copy from linked")
@@ -76,8 +76,8 @@ RSpec.describe "Work package type configuration independence",
       expect(response).to have_http_status(:not_found)
     end
 
-    it "is not found when the subtypes feature is disabled", with_flag: { subtypes: false } do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::PATTERNS),
+    it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::DEFAULTS),
           as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
@@ -86,7 +86,7 @@ RSpec.describe "Work package type configuration independence",
 
   describe "POST confirm" do
     it "closes the picker and renders the danger confirmation" do
-      post type_configuration_independence_confirm_path(type_id: type.id, aspect: Type::ConfigurationLink::PATTERNS),
+      post type_configuration_independence_confirm_path(type_id: type.id, aspect: Type::ConfigurationLink::DEFAULTS),
            params: { mode: WorkPackageTypes::IndependentMode::EMPTY },
            as: :turbo_stream
 
@@ -97,7 +97,7 @@ RSpec.describe "Work package type configuration independence",
     end
 
     it "flashes an error for a mode the aspect does not offer" do
-      post type_configuration_independence_confirm_path(type_id: type.id, aspect: Type::ConfigurationLink::PATTERNS),
+      post type_configuration_independence_confirm_path(type_id: type.id, aspect: Type::ConfigurationLink::DEFAULTS),
            params: { mode: WorkPackageTypes::IndependentMode::DEFAULT },
            as: :turbo_stream
 
@@ -107,7 +107,7 @@ RSpec.describe "Work package type configuration independence",
   end
 
   describe "POST switch" do
-    let(:aspect) { Type::ConfigurationLink::PATTERNS }
+    let(:aspect) { Type::ConfigurationLink::DEFAULTS }
 
     it "switches to independent, severs the link and reloads the frame" do
       type.link!(aspect, source:)

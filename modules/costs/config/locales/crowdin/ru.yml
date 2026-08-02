@@ -146,14 +146,14 @@ ru:
       rates:
         title: История ставок
     errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+      no_cost_types_available: В этом проекте нет доступных типов затрат. Обратитесь к администратору.
     settings:
       cost_types:
-        for_all_projects_hint: This cost type is enabled in all projects.
+        for_all_projects_hint: Этот тип затрат включен во всех проектах.
         heading: Типы затрат
         in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
-        none_active: No cost types are currently active in this project.
-      time_and_costs: Time and costs
+        none_active: В настоящее время в этом проекте нет активных типов затрат.
+      time_and_costs: Время и затраты
   costs:
     widgets:
       actual_costs:

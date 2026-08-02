@@ -205,7 +205,7 @@ class JournalController < ApplicationController
           component: JournalShowComponent.new(journal: journal)
         )
 
-        render turbo_stream: turbo_streams, status: :ok
+        render turbo_stream: resolve_turbo_streams, status: :ok
       end
     end
   end
@@ -221,7 +221,7 @@ TODO: is `turbo: true` required here?
 ```ruby
 <%=
   component_wrapper do
-    # ...  
+    # ...
     primer_form_with(
       model: journal,
       method: :put,
@@ -240,7 +240,7 @@ Rendering of a cancel button to remove the edition form. The button calls the `c
 ```ruby
 <%=
   component_wrapper do
-    # ...  
+    # ...
     render(Primer::Beta::Button.new(
       href: cancel_edit_journal_path(journal.id),
       data: { turbo: true, turbo_stream: true } # add this!

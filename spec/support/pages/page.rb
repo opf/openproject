@@ -136,41 +136,16 @@ module Pages
       scroll_to_element(source)
       source.hover
 
-      page
-        .driver
-        .browser
-        .action
-        .move_to(source.native)
-        .click_and_hold(source.find(handler).native)
-        .perform
+      # These helpers have always meant "insert before the element currently at
+      # index `to`" (Dragula's insertBefore semantics), so aim at the target's
+      # top quarter — closest-edge resolution then inserts above it either way.
+      target_rect = target.native.rect
+      perform_native_drag(
+        source: source.find(handler),
+        target_x: target_rect.x + (target_rect.width / 2),
+        target_y: target_rect.y + (target_rect.height / 4)
+      )
 
-      ## Hover over each item to be sure,
-      # that the dragged element is reduced to the minimum height.
-      # Thus we can afterwards drag to the correct position.
-      list.each do |item|
-        next if item == source
-
-        page
-          .driver
-          .browser
-          .action
-          .move_to(item.native)
-          .perform
-      end
-
-      sleep 2
-
-      scroll_to_element(target)
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(target.native)
-        .release
-        .perform
-
-      # Wait a bit because drag & drop in selenium is easily offended
       sleep 1
     end
 

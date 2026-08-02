@@ -30,6 +30,7 @@
 
 require "spec_helper"
 
+# TODO: Remove with type_variants feature flag
 RSpec.describe "Workflow copy from type", :js do
   let!(:types) { create_list(:type, 3) }
   let!(:type) { types.first }

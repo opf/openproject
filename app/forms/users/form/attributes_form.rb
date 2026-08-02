@@ -60,31 +60,12 @@ module Users
         return unless show_account_section?
 
         form.fieldset_group(title: I18n.t(:label_account)) do |group|
-          account_status(group) if @user.persisted?
           admin_flag(group) if User.current.admin?
         end
       end
 
       def show_account_section?
         @user.persisted? || User.current.admin?
-      end
-
-      # The current status (e.g. active, locked) as a read-only line rather than
-      # folded into the section title.
-      def account_status(group)
-        status = helpers.full_user_status(@user, true)
-        scheme = if @user.active?
-                   :success
-                 elsif @user.invited?
-                   :accent
-                 elsif @user.locked? || @user.deleted?
-                   :attention
-                 else
-                   :secondary
-                 end
-        group.html_content do
-          render(Primer::Beta::Label.new(scheme:, align_self: :start)) { status }
-        end
       end
 
       def admin_flag(group)
@@ -153,9 +134,11 @@ module Users
       # The field is editable by administrators only and disabled when the current
       # department is managed by LDAP, since LDAP owns that membership.
       def render_department(group)
+        # Department is optional, so the blank entry clears the assignment rather than
+        # prompting a choice; "(none)" reads as an empty value, not a "please select" hint.
         group.select_list(name: :department_id,
                           label: User.human_attribute_name(:department),
-                          include_blank: "--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                          include_blank: I18n.t(:label_none_parentheses),
                           input_width: :medium,
                           **department_editability) do |list|
           department_options.each do |department|

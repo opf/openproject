@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Work package type configuration source",
                :skip_csrf,
                type: :rails_request,
-               with_flag: { subtypes: true } do
+               with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
   shared_let(:source) { create(:type) }
@@ -42,7 +42,7 @@ RSpec.describe "Work package type configuration source",
 
   before { login_as admin }
 
-  context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+  context "when the variants feature is disabled", with_flag: { type_variants: false } do
     it "renders the tab's own editor without the reuse mode banner" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
@@ -69,7 +69,7 @@ RSpec.describe "Work package type configuration source",
     end
 
     it "renders the subject tab with the reuse mode banner in independent mode" do
-      get edit_type_subject_configuration_path(type_id: type.id)
+      get edit_type_defaults_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Independent mode")
@@ -104,14 +104,14 @@ RSpec.describe "Work package type configuration source",
   describe "read-only preview of a Linked aspect" do
     it "shows the inherited subject pattern and links to the source" do
       source.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
-      type.link!(Type::ConfigurationLink::PATTERNS, source:)
+      type.link!(Type::ConfigurationLink::DEFAULTS, source:)
 
-      get edit_type_subject_configuration_path(type_id: type.id)
+      get edit_type_defaults_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Linked mode")
       expect(response.body).to include("PR-{{id}}")
-      expect(response.body).to include(edit_type_settings_path(type_id: source.id))
+      expect(response.body).to include(edit_type_details_path(type_id: source.id))
     end
   end
 
@@ -124,13 +124,17 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("Switch")
     end
 
-    it "leads with the parent type for sub-types" do
+    it "lists every source by composite name, families kept together, the parent flagged" do
       parent = create(:type, name: "Feature")
-      subtype = create(:type, parent:)
+      create(:type, name: "Small", parent:)
+      create(:type, name: "Big", parent:)
+      variant = create(:type, name: "Mobile", parent:)
 
-      get type_configuration_link_dialog_path(type_id: subtype.id, aspect:), as: :turbo_stream
+      get type_configuration_link_dialog_path(type_id: variant.id, aspect:), as: :turbo_stream
 
-      expect(response.body).to include("Feature (parent)")
+      expect(source_option_labels).to eq(
+        [type.name, source.name, "Feature (parent)", "Feature: Big", "Feature: Small"]
+      )
     end
 
     it "is not found for an unknown aspect" do
@@ -139,7 +143,7 @@ RSpec.describe "Work package type configuration source",
       expect(response).to have_http_status(:not_found)
     end
 
-    it "is not found when the subtypes feature is disabled", with_flag: { subtypes: false } do
+    it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
       get type_configuration_link_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
@@ -216,5 +220,13 @@ RSpec.describe "Work package type configuration source",
       expect(response).not_to be_successful
       expect(type.reload).not_to be_linked(aspect)
     end
+  end
+
+  # A decorated autocompleter ships its options to the Angular component as a
+  # JSON payload rather than rendering them as markup.
+  def source_option_labels
+    autocompleter = Nokogiri::HTML5.fragment(response.body).at_css("opce-autocompleter")
+
+    JSON.parse(autocompleter["data-items"]).pluck("name")
   end
 end

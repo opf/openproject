@@ -75,8 +75,7 @@ module ActsAsCustomizable::CalculatedValue
       errors = {}
 
       calculation.each do |key, value|
-        case value
-        when Numeric, true, false
+        if CustomField::CalculatedValue.computed_value?(value)
           result[key] = value
         else
           result[key] = nil

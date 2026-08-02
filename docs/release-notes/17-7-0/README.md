@@ -3,23 +3,174 @@ title: OpenProject 17.7.0
 sidebar_navigation:
     title: 17.7.0
 release_version: 17.7.0
-release_date: 2026-07-16
+release_date: 2026-08-05
 ---
 
 # OpenProject 17.7.0
 
-Release date: 2026-07-16
+Release date: 2026-08-05
 
-We released [OpenProject 17.7.0](https://community.openproject.org/versions/2304).
-The release contains several bug fixes and we recommend updating to the newest version.
-In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+We released [OpenProject 17.7.0](https://community.openproject.org/versions/2304). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+
 ## Important feature changes
 
-<!-- Inform about the major features in this section -->
+OpenProject 17.7 introduces new resource management capabilities to help teams plan capacity and staffing more effectively. The release also brings major improvements to agile project management, wiki collaboration, and new features for project management with PM² or PMflex.
 
-## Important updates and breaking changes
+Take a look at our release video showing the most important features introduced in OpenProject 17.7:
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+![Release video of OpenProject 17.7](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_17_7_release.mp4)
+
+### Organizational management
+
+OpenProject 17.7 introduces new organizational management capabilities that provide the foundation for the new [Resource management module](#resource-management-module-enterprise-add-on). Departments, work-related user attributes, and individual work schedules help organizations represent their workforce more accurately and enable realistic capacity planning and staffing.
+
+These features are also available independently of the Resource management module, allowing organizations on other OpenProject plans to better structure user information and organizational data.
+
+**Departments**
+
+OpenProject now introduces Departments as a new way to organize users. Under *Administration → Users and permissions → Organization*, administrators can create and manage a hierarchical organizational structure with departments and sub-departments. Departments are also available as a user attribute and help structure users consistently across OpenProject.
+
+Organizations using LDAP (Enterprise add-on) can automatically synchronize departments with their directory service, reducing administrative effort.
+
+![OpenProject's Organization page shows a hierarchical department structure that can be used to organize teams across the organization.](openproject-resource-management-departments.png)
+
+**Work-related user attributes**
+
+Under *Administration → Users and permissions → Users*, you can now set organization-specific [user attributes](../../system-admin-guide/users-permissions/user-attributes/) such as job title, key skills, spoken languages, or employment information. Depending on their permissions, users can update these attributes for themselves or on behalf of others, making it easier to keep workforce information up to date.
+
+![OpenProject's user profile shows user attributes such as department, job title, spoken languages, and key skills.](openproject-resource-management-user-attributes.png)
+
+**Work schedule**
+
+Under *Administration → Users and permissions → Users*, you can now [configure individual work schedules](../../user-guide/account-settings/schedule-and-availability/) for every user, including working days, work hours, availability factors, and future schedule changes. Users can also update their own work schedules or those of others, depending on their permissions.
+
+![OpenProject's Work schedule page shows a user's work hours, availability factor, effective work hours, and future schedule changes used for resource planning.](openproject-resource-management-user-work-schedule.png)
+
+### Resource management module (Enterprise add-on)
+
+[feature: resource_management ]
+
+The new Resource management module helps organizations plan capacity, allocate work, and balance workloads across teams. It provides dedicated tools for resource planning and staffing while giving project managers greater visibility into team availability and utilization. [Learn more about the new capabilities and the Resource management module in our dedicated blog article](https://www.openproject.org/blog/resource-management-capacity-planning/). For a detailed documentation, please refer to our [user guide on resource management](../../user-guide/resource-management/).
+
+**Resource planner**
+
+The Resource planner provides a centralized overview of your workforce, allowing you to search, filter, and compare users based on departments, work-related attributes, availability, and current workload
+
+![OpenProject's Resource planner displays users as cards with their departments, work-related attributes, availability, and utilization, making it easy to compare capacity across the organization.](openproject-resource-management-users-card-list.png)
+
+The timeline view visualizes each user's workload over time, helping project managers understand resource utilization, identify conflicts early, and make informed planning decisions. Project managers can **allocate resources directly from the timeline**, streamlining resource planning and staffing.
+
+![OpenProject's Resource planner timeline visualizes allocated work and remaining capacity for each user over time, helping identify overallocations and available resources.](openproject-resource-management-timeline-allocated.png)
+
+**Staffing**
+
+The Staffing view allows project managers to assign work while taking each team member's availability and existing workload into account. Resource requests can be allocated to suitable team members, helping organizations distribute work more effectively and avoid overallocations.
+
+![OpenProject's Staffing view shows an open resource request for Laboratory testing together with a matching project member who can be assigned to the work.](openproject-resource-management-staffing-overlay.png)
+
+### Multiple active sprints without sharing (Enterprise add-on)
+
+[feature: multiple_active_sprints]
+
+OpenProject 17.7 introduces support for multiple active sprints within a single project, eliminating the need to share sprints across projects. Teams can now manage multiple active sprints while keeping all sprint planning in one project. This also provides a consolidated overview of active sprints and backlog items on the Backlogs and Sprints page.
+
+### Community improvements for Backlog and Sprints
+
+OpenProject 17.7 also includes several other improvements for Backlog and Sprints that make sprint planning and backlog management more efficient.
+
+**Add existing work packages to a sprint, backlog bucket or backlog inbox**
+
+You can now add existing work packages directly to sprints, backlog buckets, and the backlog inbox from the Backlogs view. This lets you organize work without leaving the page, helping you stay focused and maintain context while planning your backlog.
+
+**Multi-select for sprint and backlog filters**
+
+Backlog and Sprint views now support selecting multiple sprints and backlog buckets to show. This makes it easier to focus on the work that matters most by displaying only the relevant sprints and backlog buckets.
+
+**Improved drag and drop**
+
+Drag-and-drop interactions in the Backlogs and Sprints view have been improved to provide a smoother planning experience across desktop and mobile devices. Moving work packages between the backlog and sprints or changing their order is now more intuitive and reliable.
+
+### Improvements for PM² and PMflex management
+
+OpenProject 17.7 introduces several improvements for organizations using the PM² and PMflex project management methodologies, making it easier to manage project information and monitor project progress.
+
+**Show project attributes as separate tab in a work package**
+
+Project attributes can now be displayed in a dedicated **Project attributes** tab within work packages. This provides quicker access to project-specific information while keeping work package details and project metadata clearly separated.
+
+![OpenProject displays project attributes in a dedicated Project attributes tab within a Project initiation request work package.](openproject-17.7-project-attributes-tab.png)
+
+**PMflex Artefact PDF export**
+
+Work packages can now be exported using a dedicated **PMflex Artefact** PDF template. The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
+
+Administrators can configure PMflex artefacts to be generated automatically when a work package reaches a defined status. Generated artefacts can either be uploaded to the project's connected Nextcloud folder or added directly as work package attachments.
+
+**Project phases and gates widget**
+
+A new Project phases and gates widget is available for project overviews. It provides a visual representation of the project's current phase and gate status, helping project managers and stakeholders quickly understand project progress at a glance.
+
+![OpenProject's Project phases and gates widget visualizes the current project phase and gate status on the project overview page.](openproject-17-7-phases-gates-widget.png)
+
+### Work package links and previews in Documents
+
+When using the BlockNote editor in Documents, pasting a work package URL now automatically creates a rendered work package link. In addition, tiny work package links display a preview on hover, revealing key information such as the work package type and subject. Together, these improvements make it easier to reference and identify work packages without leaving the document.
+
+### The BCF import and export now support the semantic identifier (ABC-123)
+
+Semantic identifiers are now considered production-ready and are no longer marked as Beta. OpenProject 17.7 also adds support for importing and exporting BCF files having semantic identifiers.
+
+### Filter projects by portfolio and program (Enterprise add-on)
+
+[feature: portfolio_management]
+
+Project lists now support filtering by portfolio and program. This makes it easier to find projects within large project portfolios and provides greater flexibility when creating project overviews and reports.
+
+### Additional calculation operators for calculated fields (Enterprise add-on)
+
+[feature: calculated_values]
+
+Calculated custom fields now support additional calculation options, including comparison, logical, and numeric operators such as IF, SUM, MAX, and CASE. This allows you to create more advanced formulas and model a wider range of business logic directly in OpenProject.
+
+### Wiki improvements
+
+OpenProject 17.7 further enhances the internal wiki and XWiki integration with several usability improvements.
+
+**Global wiki page index**
+
+Get a centralized overview of all wiki pages across your projects with filtering and search capabilities.
+
+**Create an internal wiki directly from a project**
+
+Project administrators can now create and configure an internal wiki directly from the project settings.
+
+**Improved wiki navigation**
+
+Wiki search results now display the page hierarchy, making it easier to understand the context of matching pages.
+
+**Permanent links between work packages and wiki pages**
+
+Promote referenced wiki pages to related pages to create permanent links between work packages and documentation.
+
+### Administration improvements
+
+**Disable users editing their own email address**
+
+Administrators can now prevent users from changing their own email address. This gives organizations greater control over user account management and supports environments where email addresses are managed centrally.
+
+**Improved status filtering for user administration**
+
+The user administration page now provides improved status filters, making it easier to find active, locked, invited, or registered users.
+
+**SCIM configuration via environment variables**
+
+SCIM configuration options can now be provided through environment variables, making automated deployments and infrastructure management easier.
+
+## Important technical changes
+
+**Agenda API: Fetch agenda items by work package ID**
+
+The Agenda API now supports retrieving agenda items by work package ID, making it easier to integrate meeting agendas with work package-based workflows.
 
 <!-- BEGIN SECURITY FIXES AUTOMATED SECTION -->
 
@@ -126,3 +277,18 @@ In these Release Notes, we will give an overview of important feature changes. A
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
+
+## Contributions
+
+A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn, ZenDiS, and STEF for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
+
+
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Walid Ibrahim, Daniel Paulo Dos Santos, Christophe GESCHÉ, Gábor Alexovics, David Masshardt, and Katja Zedel.
+
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings. This release we would like to particularly thank the following users:
+
+- [erdei.p](https://crowdin.com/profile/erdei.p), for translations into Hungarian,
+- [Adam Siemienski](https://crowdin.com/profile/siemienas) for translations to Polish,
+- [Yuliia Pavliuk](https://crowdin.com/profile/pav.yulia) for translations to Ukrainian.
+
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

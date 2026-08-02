@@ -35,6 +35,22 @@ module WorkPackageTypes
 
     ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
+    # The elements this type does not show.
+    #  - own: this type's own link
+    #  - effective: the union over the whole link chain
+    #
+    # An element in effective but not in own was excluded by a link above this type, which is
+    # what #excluded_by_source? answers: this type cannot reach that link to undo it.
+    ExclusionState = Data.define(:type, :own, :effective) do
+      def excluded?(key)
+        effective.include?(key.to_s)
+      end
+
+      def excluded_by_source?(key)
+        excluded?(key) && own.exclude?(key.to_s)
+      end
+    end
+
     def initialize(type:, form_attributes:, no_filter_query:)
       super(type)
       @type = type
@@ -43,11 +59,18 @@ module WorkPackageTypes
     end
 
     def readonly?
-      OpenProject::FeatureDecisions.subtypes_active? && @type.linked?(ASPECT)
+      OpenProject::FeatureDecisions.type_variants_active? && @type.linked?(ASPECT)
     end
 
     def source
       @type.effective_source_for(ASPECT)
+    end
+
+    # We memoize the exclusion state here to avoid an n+1 query
+    def exclusion_state
+      return @exclusion_state if defined?(@exclusion_state)
+
+      @exclusion_state = readonly? ? build_exclusion_state : nil
     end
 
     def ee_available?
@@ -58,11 +81,12 @@ module WorkPackageTypes
       @form_attributes[:inactives]
     end
 
-    # In read-only mode the visible configuration is the linked source's, resolved at
-    # render time; independent types show their own stored configuration.
+    # In read-only mode the visible configuration is the linked source's
     def active_groups
       attributes = readonly? ? helpers.form_configuration_groups(source) : @form_attributes
-      attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
+      groups = attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
+
+      readonly? ? without_source_exclusions(groups) : groups
     end
 
     def wrapper_data
@@ -98,7 +122,8 @@ module WorkPackageTypes
           ee_available: ee_available?,
           first: i == 0,
           last: i == groups.length - 1,
-          readonly: readonly?
+          readonly: readonly?,
+          exclusions: exclusion_state
         )
       end
 
@@ -107,6 +132,47 @@ module WorkPackageTypes
         group_components:,
         ee_available: ee_available?,
         readonly: readonly?
+      )
+    end
+
+    private
+
+    # This drops groups that some source link excludes.
+    # This type can only reduce attributes that it still sees.
+    # If the group was toggled off somewhere in the link, we hide it here completely.
+    def without_source_exclusions(groups)
+      return groups if exclusion_state.nil?
+
+      groups.filter_map do |group|
+        if group[:type].to_s == "query"
+          retained_query_group(group)
+        else
+          narrowed_attribute_group(group)
+        end
+      end
+    end
+
+    def narrowed_attribute_group(group)
+      attributes = group[:attributes].to_a
+      remaining = attributes.reject { |attribute| exclusion_state.excluded_by_source?(attribute[:key]) }
+      return if remaining.empty? && attributes.any?
+
+      group.merge(attributes: remaining)
+    end
+
+    # A query group is a single entry in the section, so a source exclusion drops the whole section.
+    def retained_query_group(group)
+      group unless group[:element_key].present? && exclusion_state.excluded_by_source?(group[:element_key])
+    end
+
+    def build_exclusion_state
+      link = @type.configuration_links.find_by(aspect: ASPECT)
+      return nil unless link
+
+      ExclusionState.new(
+        type: @type,
+        own: link.excluded_elements.map(&:to_s),
+        effective: @type.effective_excluded_elements(ASPECT).map(&:to_s)
       )
     end
   end

@@ -28,60 +28,6 @@
  * ++
  */
 
-const ariaInteractiveRoles = new Set([
-  'button',
-  'checkbox',
-  'combobox',
-  'link',
-  'listbox',
-  'menuitem',
-  'menuitemcheckbox',
-  'menuitemradio',
-  'option',
-  'radio',
-  'slider',
-  'spinbutton',
-  'switch',
-  'tab',
-  'textbox',
-  'treeitem',
-]);
-
-export function isInteractiveElement(el:Element|null):el is HTMLElement {
-  if (!(el instanceof HTMLElement)) return false;
-  if (el.hasAttribute('disabled')) return false;
-  if (el.getAttribute('aria-disabled') === 'true') return false;
-  if (el.hidden) return false;
-
-  const tag = el.tagName.toLowerCase();
-  const role = el.getAttribute('role');
-  const tabIndex = el.tabIndex;
-
-  const nativeInteractive = tag === 'button'
-    || tag === 'select'
-    || tag === 'textarea'
-    || tag === 'summary'
-    || (tag === 'input' && (el as HTMLInputElement).type !== 'hidden')
-    || (tag === 'a' && el.hasAttribute('href'))
-    || (tag === 'audio' && el.hasAttribute('controls'))
-    || (tag === 'video' && el.hasAttribute('controls'));
-
-  return nativeInteractive
-    || (role != null && ariaInteractiveRoles.has(role))
-    || el.isContentEditable
-    || tabIndex >= 0;
-}
-
-export function closestInteractiveElement(el:Element|null, stopAt:Element|null = null):HTMLElement|null {
-  let current = el;
-
-  while (current && current !== stopAt) {
-    if (isInteractiveElement(current)) {
-      return current;
-    }
-
-    current = current.parentElement;
-  }
-
-  return null;
-}
+// Relocated to core-common so the framework-neutral drag-and-drop engine
+// can use it; this shim keeps existing core-stimulus import paths working.
+export * from 'core-common/interactive-element-helper';

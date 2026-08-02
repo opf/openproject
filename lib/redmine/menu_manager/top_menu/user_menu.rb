@@ -163,7 +163,7 @@ module Redmine::MenuManager::TopMenu::UserMenu
         "account/login"
       end
 
-    render partial:
+    render partial:, formats: [:html]
   end
 
   def show_avatar?(avatar)

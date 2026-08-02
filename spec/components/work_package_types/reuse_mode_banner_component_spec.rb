@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, with_flag: { subtypes: true } do
+RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, with_flag: { type_variants: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type) }
@@ -40,7 +40,7 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
 
   subject(:component) { described_class.new(type:, aspect:) }
 
-  context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+  context "when the variants feature is disabled", with_flag: { type_variants: false } do
     it "does not render" do
       render_inline(component)
 
@@ -72,7 +72,7 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
   end
 
   context "when the aspect has no copy service" do
-    let(:aspect) { Type::ConfigurationLink::WORKFLOWS }
+    let(:aspect) { "unknown_aspect" }
 
     it "does not render the copy action" do
       render_inline(component)
@@ -90,7 +90,7 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
 
     it "shows the linked state with a link to the source type" do
       expect(page).to have_text("Linked mode")
-      expect(page).to have_link("Feature", href: edit_type_settings_path(type_id: source.id))
+      expect(page).to have_link("Feature", href: edit_type_details_path(type_id: source.id))
       expect(page).to have_no_text("(parent)")
     end
 
@@ -107,18 +107,18 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
   end
 
   context "when the aspect is linked to the parent" do
-    let(:subtype) { create(:type, parent: source) }
+    let(:variant) { create(:type, parent: source) }
 
-    subject(:component) { described_class.new(type: subtype, aspect:) }
+    subject(:component) { described_class.new(type: variant, aspect:) }
 
     before do
-      subtype.link!(aspect, source:)
+      variant.link!(aspect, source:)
 
       render_inline(component)
     end
 
     it "annotates the source as the parent" do
-      expect(page).to have_link("Feature", href: edit_type_settings_path(type_id: source.id))
+      expect(page).to have_link("Feature", href: edit_type_details_path(type_id: source.id))
       expect(page).to have_text("(parent)")
     end
   end

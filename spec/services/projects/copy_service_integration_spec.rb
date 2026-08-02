@@ -102,24 +102,26 @@ RSpec.describe(
 
   describe ".copyable_dependencies" do
     it "includes the list of dependencies" do
-      expect(described_class.copyable_dependencies.pluck(:identifier)).to eq(
+      expect(described_class.copyable_dependencies.pluck(:identifier)).to match_array(
         %w(
-          members
-          versions
-          categories
-          work_packages
-          work_package_attachments
-          work_package_shares
-          wiki
-          wiki_page_attachments
-          forums
-          queries
+          backlog_buckets
           boards
+          categories
+          file_links
+          forums
+          members
           overview
           phases
-          storages
+          queries
+          sprints
           storage_project_folders
-          file_links
+          storages
+          versions
+          wiki
+          wiki_page_attachments
+          work_package_attachments
+          work_package_shares
+          work_packages
         )
       )
     end
@@ -580,11 +582,11 @@ RSpec.describe(
           expect(source.users).to include current_user
           expect(source.users).to include user
           expect(project_copy.groups).to include group
-          expect(source.member_principals.count).to eq 3
+          expect(source.members.count).to eq 3
 
           expect(subject).to be_success
 
-          expect(project_copy.member_principals.count).to eq 3
+          expect(project_copy.members.count).to eq 3
           expect(project_copy.groups).to include group
           expect(project_copy.users).to include current_user
           expect(project_copy.users).to include user
@@ -1050,16 +1052,16 @@ RSpec.describe(
           let(:only_args) { %w[versions work_packages] }
 
           before do
-            work_package.update_column(:version_id, version.id)
-            work_package2.update_column(:version_id, version2.id)
+            work_package.update!(version:)
+            work_package2.update!(version: version2)
             work_package3
           end
 
           it "assigns the work packages to copies of the versions" do
             expect(subject).to be_success
-            expect(copy_of(work_package).version.name).to eq version.name
-            expect(copy_of(work_package2).version.name).to eq version2.name
-            expect(copy_of(work_package3).version).to be_nil
+            expect(copy_of(work_package).target_versions.map(&:name)).to eq [version.name]
+            expect(copy_of(work_package2).target_versions.map(&:name)).to eq [version2.name]
+            expect(copy_of(work_package3).target_versions).to be_empty
           end
         end
 
@@ -1343,11 +1345,11 @@ RSpec.describe(
           expect(source.users).to include current_user
           expect(source.users).to include user
           expect(project_copy.groups).to be_empty
-          expect(source.member_principals.count).to eq 4
+          expect(source.members.count).to eq 4
 
           expect(subject).to be_success
 
-          expect(project_copy.member_principals.count).to eq 1
+          expect(project_copy.members.count).to eq 1
           expect(project_copy.groups).to be_empty
           expect(project_copy.users).to contain_exactly current_user
 

@@ -8,11 +8,11 @@ fr:
       projects:
         demo-project:
           resource_planner:
-            name: Répartition des équipes
+            name: Affectations de l'équipe
             work_package_list:
               name: Lots de travaux
             work_package_timeline:
-              name: Calendrier des lots de travail
+              name: Chronologie des lots de travaux
             user_card:
               name: Membres de l'équipe
             user_timeline:

@@ -39,7 +39,7 @@ module API
           end
 
           get do
-            # Show roots only as sub-types are collapsed into them
+            # Show roots only as variants are collapsed into them
             types = Type.roots.includes(:color).visible
             TypeCollectionRepresenter
               .new(types,

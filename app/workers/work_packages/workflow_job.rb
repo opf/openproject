@@ -32,24 +32,35 @@ module WorkPackages
   class WorkflowJob < ApplicationJob
     def perform(journal, changes)
       work_package = journal.journable
-      return if journal.initial?
+      return unless status_transition?(changes)
 
-      process_artifact_changes(work_package, changes)
-      process_type_artefact_export(work_package, changes)
+      services = applicable_services(work_package, changes)
+      return if services.empty?
+
+      # The job runs with a clean request store, so User.current would be
+      # Anonymous here. Act as the user who caused the journalized change so the
+      # generated artefacts (attachment and its journal entry) are attributed to them.
+      User.execute_as(journal.user) do
+        services.each do |service|
+          service.new(current_user: journal.user, work_package:).call!(changes:)
+        end
+      end
     end
 
     private
 
-    def process_artifact_changes(work_package, changes)
-      Projects::CreationWizard::ReuploadArtifactOnStatusChangesService
-        .new(current_user: User.current, work_package:)
-        .call!(changes:)
+    def status_transition?(changes)
+      # journal.initial? can not be used here, because any change by the creating user is aggregated
+      # into the initial journal entry (for a user defined period of time).
+      # the services needs to be executed on every status change after creation
+      Array(changes["status_id"]).first.present?
     end
 
-    def process_type_artefact_export(work_package, changes)
-      WorkPackages::TypeArtefactExport::ExportOnStatusChangeService
-        .new(current_user: User.current, work_package:)
-        .call!(changes:)
+    def applicable_services(work_package, changes)
+      [
+        Projects::CreationWizard::ReuploadArtifactOnStatusChangesService,
+        WorkPackages::TypeArtefactExport::ExportOnStatusChangeService
+      ].select { |service| service.applicable?(work_package:, changes:) }
     end
   end
 end

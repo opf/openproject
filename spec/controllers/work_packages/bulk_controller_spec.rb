@@ -118,6 +118,41 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
     allow(User).to receive(:current).and_return user
   end
 
+  describe "#delete_dialog" do
+    shared_let(:invisible_project) { create(:project, types: [type]) }
+    shared_let(:invisible_work_package) { create(:work_package, type:, status:, project: invisible_project) }
+
+    context "with a work package the user cannot see" do
+      before do
+        get :delete_dialog, params: { ids: [invisible_work_package.id] }, format: :turbo_stream
+      end
+
+      it "denies access" do
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with a mix of visible and invisible work packages" do
+      before do
+        get :delete_dialog, params: { ids: [work_package1.id, invisible_work_package.id] }, format: :turbo_stream
+      end
+
+      it "denies access instead of offering to delete the visible subset" do
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with a visible work package" do
+      before do
+        get :delete_dialog, params: { ids: [work_package1.id] }, format: :turbo_stream
+      end
+
+      it "renders the dialog" do
+        expect(response).to be_successful
+      end
+    end
+  end
+
   describe "#edit" do
     shared_examples_for "response" do
       subject { response }
@@ -783,6 +818,47 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         expect(WorkPackage.find_by(id: [work_package1.id, work_package2.id])).to be_nil
         expect(response).to redirect_to(project_work_packages_path(work_package1.project))
       end
+
+      it "reports how many were deleted" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 2))
+      end
+    end
+
+    context "with a selected work package that has descendants" do
+      shared_let(:child) { create(:work_package, type:, status:, project: project1, parent: work_package1) }
+      shared_let(:grandchild) { create(:work_package, type:, status:, project: project1, parent: child) }
+
+      let(:params) { { "ids" => [work_package1.id] } }
+
+      it "counts the descendants it deleted along the way" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 3))
+      end
+    end
+
+    context "with an ancestor that is only rescheduled" do
+      shared_let(:parent) do
+        create(:work_package, type:, status:, project: project1, schedule_manually: false)
+      end
+      shared_let(:child) do
+        create(:work_package, type:, status:, project: project1, parent:,
+                              start_date: Date.parse("2026-01-05"), due_date: Date.parse("2026-01-09"))
+      end
+      shared_let(:sibling) do
+        create(:work_package, type:, status:, project: project1, parent:,
+                              start_date: Date.parse("2026-02-02"), due_date: Date.parse("2026-02-06"))
+      end
+
+      let(:params) { { "ids" => [child.id] } }
+
+      it "does not count the ancestor as deleted" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 1))
+      end
     end
 
     describe "with the cleanup being unsuccessful" do
@@ -816,6 +892,23 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         send_destroy_request
         expect(WorkPackage.count).to eq(0)
         expect(response).to redirect_to(project_work_packages_path(work_package1.project))
+      end
+    end
+
+    context "with a child in a project the user has no access to" do
+      shared_let(:foreign_project) { create(:project, types: [type]) }
+      shared_let(:foreign_child) do
+        create(:work_package, type:, status:, project: foreign_project, parent: work_package1)
+      end
+
+      let(:params) { { "ids" => [work_package1.id] } }
+
+      it "deletes the work package and detaches the child" do
+        send_destroy_request
+
+        expect(WorkPackage).not_to exist(work_package1.id)
+        expect(foreign_child.reload.parent_id).to be_nil
+        expect(flash[:error]).to be_nil
       end
     end
 

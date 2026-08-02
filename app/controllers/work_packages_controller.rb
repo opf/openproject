@@ -105,7 +105,9 @@ class WorkPackagesController < ApplicationController
   end
 
   def export_dialog
-    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project, title: params[:title])
+    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query,
+                                                                        project: @query.project,
+                                                                        title: params[:title])
   end
 
   def generate_pdf_dialog
@@ -153,6 +155,12 @@ class WorkPackagesController < ApplicationController
   protected
 
   def load_and_validate_query_for_export
+    if params[:query_id].present?
+      # A saved query may be opened from a project other than the one it belongs to
+      saved_query = Query.visible(current_user).find(params.expect(:query_id))
+      @query = retrieve_query(saved_query.project)
+    end
+
     load_and_validate_query
   end
 

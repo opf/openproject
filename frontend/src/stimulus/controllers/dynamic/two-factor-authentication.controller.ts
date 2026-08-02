@@ -32,6 +32,10 @@ import { Controller } from '@hotwired/stimulus';
 import * as WebAuthnJSON from '@github/webauthn-json/browser-ponyfill';
 import QrCreator from 'qr-creator';
 
+// The challenge endpoints return the bare publicKey member, not the full options object
+type CreationOptionsJSON = WebAuthnJSON.CredentialCreationOptionsJSON['publicKey'];
+type RequestOptionsJSON = NonNullable<WebAuthnJSON.CredentialRequestOptionsJSON['publicKey']>;
+
 export default class TwoFactorAuthenticationController extends Controller {
   static targets = ['resendOptions', 'qrCodeElement', 'webauthnCredential', 'errorDisplay'];
 
@@ -48,22 +52,25 @@ export default class TwoFactorAuthenticationController extends Controller {
       return true;
     }
 
+    // Resubmission triggered by this action after the credential was obtained, let it through
+    if (this.webauthnCredentialTarget.value !== '') {
+      return true;
+    }
+
     this.clearError();
     event.preventDefault();
 
     try {
       const verifyOptionsRequest = await fetch(data.challengeUrl!);
-      const verifyOptions = await verifyOptionsRequest.text();
+      const publicKey = await verifyOptionsRequest.json() as RequestOptionsJSON;
 
-      const options = WebAuthnJSON.parseRequestOptionsFromJSON({
-        publicKey: JSON.parse(verifyOptions),
-      });
+      const options = WebAuthnJSON.parseRequestOptionsFromJSON({ publicKey });
 
       const credential = await WebAuthnJSON.get(options);
 
       if (credential) {
         this.webauthnCredentialTarget.value = JSON.stringify(credential);
-        form.submit();
+        form.requestSubmit();
       }
 
       return true;
@@ -84,22 +91,25 @@ export default class TwoFactorAuthenticationController extends Controller {
       return true;
     }
 
+    // Resubmission triggered by this action after the credential was created, let it through
+    if (this.webauthnCredentialTarget.value !== '') {
+      return true;
+    }
+
     this.clearError();
     event.preventDefault();
 
     try {
       const createOptionsRequest = await fetch(data.challengeUrl!);
-      const createOptions = await createOptionsRequest.text();
+      const publicKey = await createOptionsRequest.json() as CreationOptionsJSON;
 
-      const options = WebAuthnJSON.parseCreationOptionsFromJSON({
-        publicKey: JSON.parse(createOptions),
-      });
+      const options = WebAuthnJSON.parseCreationOptionsFromJSON({ publicKey });
 
       const credential = await WebAuthnJSON.create(options);
 
       if (credential) {
         this.webauthnCredentialTarget.value = JSON.stringify(credential);
-        form.submit();
+        form.requestSubmit();
       }
 
       return true;

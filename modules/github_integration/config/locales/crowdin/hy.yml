@@ -32,9 +32,9 @@ hy:
     github_html_url: Pull Request URL
     github_login: GitHub login
     github_updated_at: Updated at
-    host: Host
+    host: Հոսթ
     labels: Labels
-    repository: Repository
+    repository: Պահոց
     review_comments_count: Review comments count
   button_add_deploy_target: Add deploy target
   label_deploy_target: Deploy target

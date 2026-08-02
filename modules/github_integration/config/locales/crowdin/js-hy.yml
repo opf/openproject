@@ -23,7 +23,7 @@
 hy:
   js:
     github_integration:
-      github_actions: Actions
+      github_actions: Գործողություններ
       pull_requests:
         merged_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.'
         message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'

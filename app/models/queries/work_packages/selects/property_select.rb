@@ -102,6 +102,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     },
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
+      group_by_class_name: "Version",
       sortable: <<~SQL.squish,
         (SELECT LOWER(v.name)
            FROM work_package_versions wpv

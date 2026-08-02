@@ -162,6 +162,11 @@ RSpec.describe McpTools::SearchUsers do
         expect(parsed_results.dig("structuredContent", "items").size).to eq(page_size)
       end
 
+      it "indicates the total number of results" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "total")).to eq(user_count)
+      end
+
       context "if another page is requested" do
         let(:call_args) { { search_term: "Konrad", page: 2 } }
 

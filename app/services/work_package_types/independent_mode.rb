@@ -44,8 +44,10 @@ module WorkPackageTypes
 
     AVAILABLE = {
       Type::ConfigurationLink::FORM_CONFIGURATION => [COPY, DEFAULT],
-      Type::ConfigurationLink::PATTERNS => [COPY, EMPTY],
-      Type::ConfigurationLink::PDF_EXPORT => [COPY, DEFAULT]
+      Type::ConfigurationLink::DEFAULTS => [COPY, EMPTY],
+      Type::ConfigurationLink::PDF_EXPORT => [COPY, DEFAULT],
+      Type::ConfigurationLink::WORKFLOWS => [COPY, EMPTY],
+      Type::ConfigurationLink::PROJECT_ATTRIBUTES => [COPY, EMPTY]
     }.freeze
 
     module_function
