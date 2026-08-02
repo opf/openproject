@@ -198,6 +198,8 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-8-claims
   oidc_groups:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-7-group-mapping
+  project_identifier_visibility:
+    href: https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#project-identifier-visibility
   saml:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/saml/
   scim:

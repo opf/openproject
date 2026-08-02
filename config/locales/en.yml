@@ -4739,6 +4739,7 @@ en:
   permission_manage_working_times_explanation: >
     Allows users to manage working times for all users, including personal non-working days.
   permission_move_work_packages: "Move work packages"
+  permission_project_identifier_visibility_caution: "Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)"
   permission_save_bcf_queries: "Save BCF queries"
   permission_save_queries: "Save views"
   permission_search_project: "Search project"

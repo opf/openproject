@@ -135,11 +135,6 @@ The form shows the available global permissions which can be assigned to the new
 > [!TIP]
 > To create a subproject for an existing project the project permission "Create subprojects" is also required. Before granting either permission, we recommend to consider the [project identifier visibility aspect](#project-identifier-visibility).
 
-> [!NOTE]
-> When creating a project or subproject, users can validate the new project's identifier to check whether it is still available. Because project identifiers must be unique across the entire instance (they are used to address a project in URLs and the API), this check considers **all** projects, including those the user cannot otherwise see.
->
-> As a result, a user with the permission to create projects or subprojects can infer whether an identifier is already in use, and therefore that a project with that identifier exists, even if it is not visible to them. Only the existence of the identifier is revealed; no other project attributes (such as its name, members, or contents) are exposed. Keep this in mind when granting the "Create projects" or "Create subprojects" permissions.
-
 - Create portfolios
 
 - Create programs
