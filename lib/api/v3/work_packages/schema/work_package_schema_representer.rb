@@ -302,6 +302,7 @@ module API
                                          },
                                          required: false
 
+          # Legacy field supported only for cases where Setting::WorkPackageMultipleVersions is off.
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,
                                          link_factory: ->(version) {

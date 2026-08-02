@@ -577,6 +577,7 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
+        # Legacy field supported only for cases where Setting::WorkPackageMultipleVersions is off.
         associated_resource :version,
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter

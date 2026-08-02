@@ -372,6 +372,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def set_versions_to_nil
     if work_package.version &&
        work_package.project&.shared_versions&.exclude?(work_package.version)
+      # TODO(COMMS-863): Remove once the version field is deprecated
       work_package.version = nil
     end
 
