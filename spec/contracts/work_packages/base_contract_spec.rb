@@ -1920,7 +1920,7 @@ RSpec.describe WorkPackages::BaseContract do
     let(:scope) do
       instance_double(ActiveRecord::Querying).tap do |s|
         allow(s)
-          .to receive(:includes)
+          .to receive(:preload)
           .and_return(s)
       end
     end

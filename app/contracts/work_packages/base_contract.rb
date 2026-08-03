@@ -213,8 +213,11 @@ module WorkPackages
                 model.project.types
               end
 
-      # A variant reads its name and color off its root, so the parent is preloaded along with them.
-      scope.includes(:color, parent: :color)
+      # A variant reads its name and color off its root, so the parent is loaded along
+      # with them. Deliberately #preload and not #includes: callers that pluck off this
+      # scope (BCF project extensions) would have Rails self-join types for the parent,
+      # making the unqualified ORDER BY of Type's default scope ambiguous.
+      scope.preload(:color, parent: :color)
     end
 
     def assignable_categories

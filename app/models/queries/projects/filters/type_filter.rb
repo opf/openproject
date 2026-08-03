@@ -80,8 +80,9 @@ class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
   end
 
   # Reads #name so a value naming a variant is labelled with the name of its root,
-  # which is preloaded for the same reason.
+  # which is loaded along with it. #preload rather than #includes so no caller can
+  # turn this into a self-join of types (see WorkPackages::BaseContract#assignable_types).
   def selected_items
-    Type.where(id: values).includes(:parent).map { |type| { name: type.name, id: type.id } }
+    Type.where(id: values).preload(:parent).map { |type| { name: type.name, id: type.id } }
   end
 end
