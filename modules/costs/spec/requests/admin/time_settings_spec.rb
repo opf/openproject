@@ -41,30 +41,33 @@ RSpec.describe "Time settings",
 
   describe "GET /admin/time" do
     context "without an Enterprise token" do
-      it "disables the maximum hours per time entry field" do
+      it "disables the restriction fields" do
         get "/admin/time"
 
         expect(response).to have_http_status(:success)
-        expect(page).to have_field(I18n.t(:setting_max_hours_per_time_entry), disabled: true)
+        expect(page).to have_field(I18n.t(:setting_time_entries_max_hours_per_entry), disabled: true)
+        expect(page).to have_field(I18n.t(:setting_time_entries_max_hours_per_day), disabled: true)
       end
     end
 
     context "with an Enterprise token", with_ee: %i[time_entry_time_restrictions] do
-      it "allows editing the maximum hours per time entry" do
+      it "allows editing the restriction fields" do
         get "/admin/time"
 
         expect(response).to have_http_status(:success)
-        expect(page).to have_field(I18n.t(:setting_max_hours_per_time_entry), disabled: false)
+        expect(page).to have_field(I18n.t(:setting_time_entries_max_hours_per_entry), disabled: false)
+        expect(page).to have_field(I18n.t(:setting_time_entries_max_hours_per_day), disabled: false)
       end
     end
   end
 
   describe "PATCH /admin/time" do
-    it "updates the maximum hours per time entry" do
-      patch "/admin/time", params: { settings: { max_hours_per_time_entry: "8" } }
+    it "updates the restrictions" do
+      patch "/admin/time", params: { settings: { time_entries_max_hours_per_entry: "8", time_entries_max_hours_per_day: "10" } }
 
       expect(response).to redirect_to(action: :show)
-      expect(Setting.max_hours_per_time_entry).to eq(8)
+      expect(Setting.time_entries_max_hours_per_entry).to eq(8)
+      expect(Setting.time_entries_max_hours_per_day).to eq(10)
     end
   end
 end

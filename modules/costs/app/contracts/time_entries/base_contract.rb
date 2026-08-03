@@ -110,6 +110,7 @@ module TimeEntries
       return errors.add(:hours, :invalid) if model.hours&.negative?
 
       validate_hours_within_max_per_entry
+      validate_hours_within_max_per_day
     end
 
     def validate_hours_within_max_per_entry
@@ -117,6 +118,22 @@ module TimeEntries
       return if limit.nil? || model.hours.nil? || model.hours <= limit
 
       errors.add :hours, :max_hours_per_entry_exceeded, limit:
+    end
+
+    def validate_hours_within_max_per_day
+      limit = TimeEntry.max_hours_per_day
+      return if limit.nil? || !day_total_determinable?
+      return if hours_already_logged_on_day + model.hours <= limit
+
+      errors.add :hours, :max_hours_per_day_exceeded, limit:
+    end
+
+    def day_total_determinable?
+      model.hours.present? && model.spent_on.present? && model.user.present?
+    end
+
+    def hours_already_logged_on_day
+      TimeEntry.of_user_and_day(model.user, model.spent_on, excluding: model).sum(:hours)
     end
 
     def validate_project_is_set

@@ -83,6 +83,7 @@ en:
           cannot_log_for_this_work_package: "Cannot log time for this work package."
           duplicate_ongoing: "An ongoing time entry already exists for this user."
           invalid_time: "must be between 00:00 and 23:59."
+          max_hours_per_day_exceeded: "cannot exceed %{limit} hours logged in total for a single day."
           max_hours_per_entry_exceeded: "cannot be more than %{limit} hours for a single time entry."
         work_package:
           is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
@@ -287,8 +288,10 @@ en:
   setting_enforce_tracking_start_and_end_times: "Require start and finish times"
   setting_enforce_tracking_start_and_end_times_caption: "Makes entering start and finish times mandatory when logging time."
   setting_enforce_without_allow: "Requiring start and finish times is not possible without allowing them"
-  setting_max_hours_per_time_entry: "Maximum hours per time entry"
-  setting_max_hours_per_time_entry_caption: "Limits how many hours a single time entry can have. Set to 0 to allow any number of hours."
+  setting_time_entries_max_hours_per_day: "Maximum hours per day"
+  setting_time_entries_max_hours_per_day_caption: "Limits how many hours a user can log in total for a single day. Set to 0 to allow any number of hours."
+  setting_time_entries_max_hours_per_entry: "Maximum hours per time entry"
+  setting_time_entries_max_hours_per_entry_caption: "Limits how many hours a single time entry can have. Set to 0 to allow any number of hours."
 
   text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"

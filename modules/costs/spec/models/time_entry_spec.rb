@@ -599,18 +599,36 @@ RSpec.describe TimeEntry do
 
   describe ".max_hours_per_entry" do
     context "when the EnterpriseToken does not allow restrictions", with_ee: [] do
-      context "with a limit configured", with_settings: { max_hours_per_time_entry: 8 } do
+      context "with a limit configured", with_settings: { time_entries_max_hours_per_entry: 8 } do
         it { expect(described_class.max_hours_per_entry).to be_nil }
       end
     end
 
     context "when the EnterpriseToken allows restrictions", with_ee: [:time_entry_time_restrictions] do
-      context "with a limit configured", with_settings: { max_hours_per_time_entry: 8 } do
+      context "with a limit configured", with_settings: { time_entries_max_hours_per_entry: 8 } do
         it { expect(described_class.max_hours_per_entry).to eq(8) }
       end
 
-      context "with the limit set to 0", with_settings: { max_hours_per_time_entry: 0 } do
+      context "with the limit set to 0", with_settings: { time_entries_max_hours_per_entry: 0 } do
         it { expect(described_class.max_hours_per_entry).to be_nil }
+      end
+    end
+  end
+
+  describe ".max_hours_per_day" do
+    context "when the EnterpriseToken does not allow restrictions", with_ee: [] do
+      context "with a limit configured", with_settings: { time_entries_max_hours_per_day: 10 } do
+        it { expect(described_class.max_hours_per_day).to be_nil }
+      end
+    end
+
+    context "when the EnterpriseToken allows restrictions", with_ee: [:time_entry_time_restrictions] do
+      context "with a limit configured", with_settings: { time_entries_max_hours_per_day: 10 } do
+        it { expect(described_class.max_hours_per_day).to eq(10) }
+      end
+
+      context "with the limit set to 0", with_settings: { time_entries_max_hours_per_day: 0 } do
+        it { expect(described_class.max_hours_per_day).to be_nil }
       end
     end
   end

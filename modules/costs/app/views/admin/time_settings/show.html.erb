@@ -72,11 +72,20 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       form.text_field(
-        name: :max_hours_per_time_entry,
+        name: :time_entries_max_hours_per_entry,
         type: :number,
         min: 0,
         input_width: :xsmall,
-        caption: I18n.t(:setting_max_hours_per_time_entry_caption),
+        caption: I18n.t(:setting_time_entries_max_hours_per_entry_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+      )
+
+      form.text_field(
+        name: :time_entries_max_hours_per_day,
+        type: :number,
+        min: 0,
+        input_width: :xsmall,
+        caption: I18n.t(:setting_time_entries_max_hours_per_day_caption),
         disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
       )
 
