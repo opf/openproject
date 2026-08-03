@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     container.with_body do
       concat(
         flex_layout(align_items: :center) do |flex|
-          flex.with_column(w: :full, mr: 3) do
+          flex.with_column(flex: 1, mr: 3) do
             render(
               Primer::Beta::ProgressBar.new(
                 size: :large,
@@ -46,8 +46,10 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
 
-          flex.with_column(w: :fit) do
-            render(Primer::Beta::Text.new) { resolved_summary_text }
+          flex.with_column(mr: 3) do
+            render(Primer::Beta::Text.new(tag: :div, font_size: :small)) do
+              resolved_summary_text
+            end
           end
         end
       )
