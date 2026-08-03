@@ -190,8 +190,8 @@ module WorkPackage::Versions
   #   * actual written target_versions
   def effective_target_versions
     if target_version_ids_replacements.nil?
-      # TODO(COMMS-863)
-      return version_id_changed? ? Array(version) : target_versions
+      # TODO(COMMS-863): drop this branch once nothing writes version_id directly
+      return version_id_changed? ? Array(Version.find_by(id: version_id)) : target_versions
     end
 
     versions_by_id = Version.where(id: target_version_ids_replacements).index_by(&:id)
