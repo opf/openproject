@@ -110,13 +110,14 @@ workPackage:WorkPackageResource,
     // Get the type of TO work package
     const type = this.relationColumnType(column);
     if (type === 'toType') {
-      const typeHref = (column as TypeRelationQueryColumn).type.href;
+      const typeHrefs = this.countedTypeHrefs(column as TypeRelationQueryColumn);
 
       return Object.values(relations).filter((relation:RelationResource) => {
         const denormalized = relation.denormalized(workPackage);
         const target = this.apiV3Service.work_packages.cache.state(denormalized.targetId).value;
+        const targetTypeHref = target?.type?.href;
 
-        return target?.type?.href === typeHref;
+        return !!targetTypeHref && typeHrefs.includes(targetTypeHref);
       });
     }
 
@@ -128,6 +129,17 @@ workPackage:WorkPackageResource,
     }
 
     return [];
+  }
+
+  /**
+   * The types a relation column counts relations to. A project runs a single member of a
+   * type family and a work package carries the member its project runs, so a column named
+   * after one type matches all of them. Older API responses only carry the single type.
+   */
+  private countedTypeHrefs(column:TypeRelationQueryColumn):string[] {
+    const counted = column.types?.map((type) => type.href).filter((href) => !!href) ?? [];
+
+    return counted.length > 0 ? counted : [column.type.href];
   }
 
   public relationColumnType(column:QueryColumn):RelationColumnType|null {

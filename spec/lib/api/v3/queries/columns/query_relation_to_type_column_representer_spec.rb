@@ -52,6 +52,26 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter d
         let(:href) { api_v3_paths.type type.id }
         let(:title) { type.name }
       end
+
+      it "lists the type it counts relations to" do
+        expect(subject)
+          .to be_json_eql([{ href: api_v3_paths.type(type.id), title: type.name }].to_json)
+          .at_path("_links/types")
+      end
+
+      # The client counts a relation by comparing the target's type against these, and a
+      # work package carries whichever member of the family its project runs.
+      context "when the type has variants", with_flag: { type_variants: true } do
+        let(:type) { create(:type, name: "Bug") }
+        let!(:variant) { create(:type, name: "Mobile Bug", parent: type) }
+
+        it "lists every member of the family, all named after the root" do
+          expect(subject)
+            .to be_json_eql([{ href: api_v3_paths.type(type.id), title: "Bug" },
+                             { href: api_v3_paths.type(variant.id), title: "Bug" }].to_json)
+            .at_path("_links/types")
+        end
+      end
     end
 
     it "has _type QueryColumn::RelationToType" do
@@ -115,6 +135,18 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter d
       I18n.with_locale(:de) do
         representer.to_json
       end
+    end
+  end
+
+  describe "#json_cache_key", with_flag: { type_variants: true } do
+    let(:type) { create(:type) }
+    let!(:variant) { create(:type, parent: type) }
+
+    # A family gaining a variant changes what the column counts without touching the type
+    # it is named after.
+    it "keys on every member of the family" do
+      expect(representer.json_cache_key)
+        .to include(type.cache_key_with_version, variant.cache_key_with_version)
     end
   end
 end

@@ -31,6 +31,7 @@ module API
     module Queries
       module Columns
         class QueryRelationToTypeColumnRepresenter < QueryColumnRepresenter
+          # The type this column is named after, which is the one users pick.
           link :type do
             {
               href: api_v3_paths.type(represented.type.id),
@@ -38,12 +39,32 @@ module API
             }
           end
 
+          # Every type this column counts relations to. A project runs a single member of a
+          # type family and users cannot tell the members apart, so a relation to a work
+          # package of any member belongs in this column.
+          links :types do
+            counted_types.map do |type|
+              {
+                href: api_v3_paths.type(type.id),
+                title: type.name
+              }
+            end
+          end
+
           def _type
             "QueryColumn::RelationToType"
           end
 
+          # Includes the whole family: gaining a variant changes what the column counts
+          # without touching the type it is named after.
           def json_cache_key
-            [represented.name, represented.type.cache_key_with_version]
+            [represented.name, *counted_types.map(&:cache_key_with_version)]
+          end
+
+          private
+
+          def counted_types
+            represented.type.family
           end
         end
       end

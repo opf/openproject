@@ -41,14 +41,14 @@ class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackag
   end
 
   # One column per family, named after the root: users pick a type without knowing which
-  # member a project runs, so a column per variant would repeat the same caption.
+  # member a project runs, so a column per variant would repeat the same caption. The
+  # variants are counted alongside their root, hence the preload; see
+  # API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter.
   def self.instances(context = nil)
-    if !granted_by_enterprise_token
-      []
-    elsif context
-      Type.roots_of(context.types)
-    else
-      Type.roots
-    end.map { |type| new(type) }
+    return [] unless granted_by_enterprise_token
+
+    roots = context ? Type.roots_of(context.types) : Type.roots
+
+    roots.includes(:children).map { |type| new(type) }
   end
 end

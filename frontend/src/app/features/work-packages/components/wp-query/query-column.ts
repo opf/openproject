@@ -21,10 +21,15 @@ export interface QueryColumn extends HalResource {
 }
 
 export interface TypeRelationQueryColumn extends QueryColumn {
+  // The type the column is named after
   type:{ href:string, name:string },
+  // Every type the column counts relations to: a project runs one member of a type family
+  // and users cannot tell the members apart
+  types?:{ href:string }[],
   _links?:{
     self:{ href:string, title:string },
-    type:{ href:string, title:string }
+    type:{ href:string, title:string },
+    types?:{ href:string, title:string }[]
   }
 }
 
