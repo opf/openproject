@@ -256,15 +256,16 @@ export class PrincipalRendererService {
   }
 
   private getInitials(name:string):string {
+    // Spread to iterate by code points to not split multibyte characters such as emojis
     const characters = [...name];
-    const lastSpace = name.lastIndexOf(' ');
+    const lastSpace = characters.lastIndexOf(' ');
     const first = characters[0]?.toUpperCase();
 
     if (lastSpace === -1) {
       return first;
     }
 
-    const last = name[lastSpace + 1]?.toUpperCase();
+    const last = characters[lastSpace + 1]?.toUpperCase();
     return [first, last].join('');
   }
 
