@@ -23,6 +23,8 @@ With the [end of life for Jira Data Center](https://www.openproject.org/blog/jir
 > [!WARNING]
 > This feature is under active development. Please only use it in test setups. We inform you about our progress and our recommendations when you can use it in production setups.
 
+For concise answers to common questions, see the [Jira migration FAQ](./faq/).
+
 ## Data covered by the Jira Migrator
 
 This import tool is currently in beta and can only import basic data: 
