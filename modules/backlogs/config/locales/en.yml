@@ -253,6 +253,46 @@ en:
               heading: "Unfinished"
           closed_work_packages: "Closed work packages"
           resolved_summary: "%{percentage}% (%{resolved} of %{total} work packages)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: "Work packages that were added after the sprint start date will appear here."
+              no_dates:
+                description: "A sprint start and finish dates are necessary to show added work packages."
+              not_started:
+                description: "Added work packages will appear here after the sprint starts."
+            title: "Sprint scope increase"
+          blankslate:
+            heading: "No work packages to display"
+          completed:
+            blankslate:
+              empty:
+                description: "Work packages that were completed in the sprint will appear here."
+              no_dates:
+                description: "A sprint start and finish dates are necessary to show completed work packages."
+              not_started:
+                description: "Completed work packages will appear here after the sprint starts."
+            title: "Completed work packages"
+          removed:
+            blankslate:
+              empty:
+                description: "Work packages that were removed after the sprint start date will appear here."
+              no_dates:
+                description: "A sprint start and finish dates are necessary to show removed work packages."
+              not_started:
+                description: "Removed work packages will appear here after the sprint starts."
+            title: "Sprint scope decrease"
+          unfinished:
+            blankslate:
+              empty:
+                description: "All work packages in this sprint are completed."
+                heading: "Wow, all done!"
+              no_dates:
+                description: "A sprint start and finish dates are necessary to show unfinished work packages."
+              not_started:
+                description: "Unfinished work packages will appear here after the sprint starts."
+            title: "Unfinished work packages"
 
     sprints:
       row_component:
