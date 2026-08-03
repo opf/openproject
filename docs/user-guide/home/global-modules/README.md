@@ -159,10 +159,12 @@ Read more about creating and editing **Meetings** [here](../../meetings).
 
 ## Wiki
 
-The **Wiki** global module lists all wiki pages across all projects and displays their respective project, the number of sub-pages, and the last edit date. The default view shows **Main wiki pages**, but you can select to show **All wiki pages**.
+The **Wiki** global module lists all wiki pages across all projects and displays their respective project, the number of sub-pages, and the last edit date. The default view shows **Main wiki pages**, but you can select to show **All wiki pages**. Please note that  you will only see the wiki pages that you're authorized to view. 
 
 ![The Wiki global module](openproject_global_modules_wiki.png)
 
-You can also use the search bar on the top of the list to search for wiki pages by name. Be aware that even in the global module, you'll only see the wiki pages that you're authorized to view. Clicking on a wiki page will guide you directly to this page in the respective project.
+You can also use the search bar on the top of the list to search for wiki pages by name. 
+
+Clicking on a wiki page will guide you directly to this page in the respective project.
 
 Read more about creating and accessing **Wikis** [here](/../../wiki/).

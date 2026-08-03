@@ -111,7 +111,7 @@ To remove a linked wiki page, click the **three-dot** menu at the end of the row
 
 The **Mentioned in description** and **Referenced in** sections are informational. They display wiki pages that already reference or are referenced by the work package. These sections can be expanded or collapsed and are only displayed when matching references exist. Their section headers indicate the number of related wiki pages. 
 
-You can convert a wiki page listed in the **Mentioned in description** or **Referenced in** sections into a related wiki page . To do so, click the **three-dot** menu next to the page and select **+ Add to related pages**.
+You can convert a wiki page listed in the **Mentioned in description** or **Referenced in** sections into a related wiki page. To do so, click the **three-dot** menu next to the page and select **+ Add to related pages**.
 
 ![Wikis tab showing linked wiki pages](openproject_user_guide_wp_wikis_tab_add_to_related.png)
 
