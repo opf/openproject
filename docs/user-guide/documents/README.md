@@ -103,7 +103,7 @@ Take a look at this example for an illustration.
 
 ### Link work packages to documents
 
-You can link existing work packages to a document in two ways:
+You can link existing work packages to a document in three ways:
 
 1. **Using the slash menu**
 
@@ -139,23 +139,19 @@ Click the work package title to open it in a new browser tab. To change the disp
 ![Context menu to change display options for a linked work package in OpenProject Documents module](openproject_user_guide_documents_link_wp_inline_menu.png)
 
 > [!TIP]
->
 > If you are working with tiny work package links, you can hover over the linked work package identifier to see a preview with additional details, such as type, status and subject.
 
 3. **Pasting a work package URL**
 
 To paste a work package URL using **Copy link to clipboard**:
 
-- Open the work package
-
-- Click More (**three dots**) 
-
+- Open the work package 
+- Click the **More (three dots)** menu 
 - Select **Copy link to clipboard** and paste the copied link into your document. 
 
 ![Pasting a work package link into a document in OpenProject](openproject_user_guide_documents_wp_url.png)
 
 > [!NOTE]
-> 
 > The way you paste the link determines how it is displayed. If you paste into an empty paragraph, the work package is linked as a card. If its pasted into an existing paragraph, the work package is linked as a regular size ( same as when using ###).
 
 ## Delete a project document
