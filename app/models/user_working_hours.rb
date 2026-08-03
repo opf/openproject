@@ -81,8 +81,13 @@ class UserWorkingHours < ApplicationRecord
     end
   end
 
-  def hours_on(date)
-    public_send("#{WDAY_TO_DAY.fetch(date.wday)}_hours")
+  def minutes_on(date)
+    public_send(WDAY_TO_DAY.fetch(date.wday))
+  end
+
+  # The capacity for that day, i.e. the working minutes reduced by the availability factor.
+  def effective_minutes_on(date)
+    ((minutes_on(date) * availability_factor) / 100.0).round
   end
 
   def weekly_working_hours

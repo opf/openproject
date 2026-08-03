@@ -139,21 +139,26 @@ module TimeEntries
       TimeEntry.of_user_and_day(model.user, model.spent_on, excluding: model).sum(:hours)
     end
 
-    # Users without a working hours schedule are not restricted at all, so that enabling
-    # the setting does not block logging time on instances that never defined any.
+    # Compared in whole minutes, since that is the granularity time is logged in and how the
+    # schedule stores its hours. Users without a working hours schedule are not restricted at
+    # all, so that enabling the setting does not block logging on instances that defined none.
     def validate_hours_within_user_working_hours
       return unless TimeEntry.limit_to_user_working_hours?
       return unless day_total_determinable?
 
-      allowance = user_working_hours_on(model.spent_on)
-      return if allowance.nil?
-      return if hours_already_logged_on_day + model.hours <= allowance
+      capacity = user_capacity_in_minutes_on(model.spent_on)
+      return if capacity.nil?
+      return if in_minutes(hours_already_logged_on_day + model.hours) <= capacity
 
-      errors.add :hours, :exceeds_user_working_hours, limit: format_hours(allowance)
+      errors.add :hours, :exceeds_user_working_hours, limit: format_hours(capacity / 60.0)
     end
 
-    def user_working_hours_on(date)
-      model.user.working_hours.valid_for_date(date)&.hours_on(date)
+    def user_capacity_in_minutes_on(date)
+      model.user.working_hours.valid_for_date(date)&.effective_minutes_on(date)
+    end
+
+    def in_minutes(hours)
+      (hours * 60).round
     end
 
     def format_hours(hours)

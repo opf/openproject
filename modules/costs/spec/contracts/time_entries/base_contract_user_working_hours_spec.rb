@@ -104,10 +104,50 @@ RSpec.describe TimeEntries::BaseContract, "limiting hours to the user's working 
         expect(call).to be_success
       end
 
-      it "ignores the availability factor" do
+      it "reduces the allowance by the availability factor" do
         user.working_hours.sole.update!(availability_factor: 50)
 
-        expect(log_time(hours: 8)).to be_success
+        expect(log_time(hours: 4)).to be_success
+        expect_rejected(log_time(hours: 5))
+      end
+    end
+
+    # 20 minutes is 0.333... hours, so these cases only hold when the comparison is done in
+    # whole minutes rather than on the rounded hour values.
+    context "when the schedule does not divide evenly into hours" do
+      before do
+        create(:user_working_hours,
+               user:,
+               valid_from: monday - 30,
+               monday: 20, tuesday: 480, wednesday: 480, thursday: 480, friday: 480,
+               saturday: 0, sunday: 0)
+      end
+
+      it "allows logging exactly the defined minutes" do
+        expect(log_time(hours: 20.0 / 60)).to be_success
+      end
+
+      it "rejects logging more than the defined minutes" do
+        expect_rejected(log_time(hours: 21.0 / 60))
+      end
+    end
+
+    context "when repeated fractional entries add up to the defined minutes" do
+      before do
+        create(:user_working_hours,
+               user:,
+               valid_from: monday - 30,
+               monday: 60, tuesday: 480, wednesday: 480, thursday: 480, friday: 480,
+               saturday: 0, sunday: 0)
+        2.times { existing_entry(hours: 20.0 / 60) }
+      end
+
+      it "allows the entry that fills the day exactly" do
+        expect(log_time(hours: 20.0 / 60)).to be_success
+      end
+
+      it "rejects the entry that would exceed the day" do
+        expect_rejected(log_time(hours: 21.0 / 60))
       end
     end
 
