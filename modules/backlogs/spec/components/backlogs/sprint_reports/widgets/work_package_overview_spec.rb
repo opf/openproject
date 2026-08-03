@@ -125,6 +125,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       block.css("p.f1").text
     end
 
+    def title_counter_text
+      rendered_component.css(".Counter").text
+    end
+
     context "when the current user can view the project's work packages" do
       let(:role) { create(:project_role, permissions: [:view_work_packages]) }
 
@@ -137,6 +141,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       it "counts the work package in the initially planned and unfinished boxes" do
         expect(block_count("Initially planned")).to eq("1")
         expect(block_count("Unfinished")).to eq("1")
+      end
+
+      it "shows a counter in the title for the total number of work packages" do
+        expect(title_counter_text).to eq("1")
       end
     end
 
@@ -154,6 +162,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         expect(block_count("Changed after start")).to eq("0")
         expect(block_count("Completed")).to eq("0")
         expect(block_count("Unfinished")).to eq("0")
+      end
+
+      it "excludes the work package from the title counter" do
+        expect(title_counter_text).to eq("0")
       end
     end
   end

@@ -31,8 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
 
-<%= render(Grids::WidgetGridComponent.new) do |grid| %>
+<%= render(Grids::WidgetGridComponent.new(mb: 3)) do |grid| %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::Goal, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageOverview, @sprint, @project) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
 <% end %>

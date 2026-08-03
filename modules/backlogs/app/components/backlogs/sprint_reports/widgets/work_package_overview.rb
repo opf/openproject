@@ -37,9 +37,8 @@ module Backlogs
         param :sprint
         param :project
 
-        def title
-          t("backlogs.show_work_package_overview")
-        end
+        # We render the title as Subhead in the view instead
+        def title = nil
 
         def resolved_percentage
           return 0 if total_work_packages_count.zero?
