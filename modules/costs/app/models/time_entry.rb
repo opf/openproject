@@ -240,6 +240,11 @@ class TimeEntry < ApplicationRecord
       EnterpriseToken.allows_to?(:time_entry_time_restrictions) &&
         Setting.time_entries_prohibit_logging_for_past_months?
     end
+
+    # Only meaningful while prohibit_logging_for_past_months? applies
+    def past_month_grace_days
+      Setting.time_entries_past_month_grace_days
+    end
   end
 
   private

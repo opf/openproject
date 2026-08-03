@@ -181,6 +181,7 @@ module Costs
       ::Settings::Definition.add "time_entries_prohibit_logging_on_non_working_days", default: false, format: :boolean
       ::Settings::Definition.add "time_entries_limit_to_user_working_hours", default: false, format: :boolean
       ::Settings::Definition.add "time_entries_prohibit_logging_for_past_months", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_past_month_grace_days", default: 0, format: :integer, allowed: (0..)
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false

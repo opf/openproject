@@ -64,6 +64,20 @@ RSpec.describe "Time settings",
         expect(page).to have_field(I18n.t(:setting_time_entries_limit_to_user_working_hours), disabled: false)
         expect(page).to have_field(I18n.t(:setting_time_entries_prohibit_logging_for_past_months), disabled: false)
       end
+
+      it "disables the grace period while logging for past months is not prohibited" do
+        Setting.time_entries_prohibit_logging_for_past_months = false
+        get "/admin/time"
+
+        expect(page).to have_field(I18n.t(:setting_time_entries_past_month_grace_days), disabled: true)
+      end
+
+      it "enables the grace period once logging for past months is prohibited" do
+        Setting.time_entries_prohibit_logging_for_past_months = true
+        get "/admin/time"
+
+        expect(page).to have_field(I18n.t(:setting_time_entries_past_month_grace_days), disabled: false)
+      end
     end
   end
 
@@ -73,7 +87,8 @@ RSpec.describe "Time settings",
                    time_entries_max_hours_per_day: "10",
                    time_entries_prohibit_logging_on_non_working_days: "1",
                    time_entries_limit_to_user_working_hours: "1",
-                   time_entries_prohibit_logging_for_past_months: "1" }
+                   time_entries_prohibit_logging_for_past_months: "1",
+                   time_entries_past_month_grace_days: "5" }
       patch "/admin/time", params: { settings: }
 
       expect(response).to redirect_to(action: :show)
@@ -82,6 +97,7 @@ RSpec.describe "Time settings",
       expect(Setting.time_entries_prohibit_logging_on_non_working_days).to be(true)
       expect(Setting.time_entries_limit_to_user_working_hours).to be(true)
       expect(Setting.time_entries_prohibit_logging_for_past_months).to be(true)
+      expect(Setting.time_entries_past_month_grace_days).to eq(5)
     end
   end
 end

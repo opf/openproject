@@ -45,7 +45,15 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
-  settings_primer_form_with(scope: :settings, action: :update, method: :patch) do |time_form|
+  settings_primer_form_with(
+    scope: :settings,
+    action: :update,
+    method: :patch,
+    data: {
+      controller: "disable-when-checked",
+      disable_when_checked_reversed_value: true
+    }
+  ) do |time_form|
     render_inline_settings_form(time_form) do |form|
       form.html_content do
         render(Primer::Beta::Subhead.new(hide_border: true)) do |subhead|
@@ -104,7 +112,25 @@ See COPYRIGHT and LICENSE files for more details.
       form.check_box(
         name: :time_entries_prohibit_logging_for_past_months,
         caption: I18n.t(:setting_time_entries_prohibit_logging_for_past_months_caption),
-        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions),
+        data: {
+          target_name: "time_entries_prohibit_logging_for_past_months",
+          disable_when_checked_target: "cause"
+        }
+      )
+
+      form.text_field(
+        name: :time_entries_past_month_grace_days,
+        type: :number,
+        min: 0,
+        input_width: :xsmall,
+        caption: I18n.t(:setting_time_entries_past_month_grace_days_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions) ||
+                  !Setting.time_entries_prohibit_logging_for_past_months?,
+        data: {
+          target_name: "time_entries_prohibit_logging_for_past_months",
+          disable_when_checked_target: "effect"
+        }
       )
 
       form.submit

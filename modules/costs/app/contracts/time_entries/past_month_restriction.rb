@@ -40,19 +40,21 @@ module TimeEntries
 
     def validate_spent_on_not_in_past_month
       return unless TimeEntry.prohibit_logging_for_past_months?
-      return unless restricted_spent_on_dates.any? { in_past_month?(it) }
+      return unless restricted_spent_on_dates.any? { it < earliest_open_date }
 
-      errors.add :spent_on, :in_past_month
+      errors.add :spent_on, :in_past_month, date: I18n.l(earliest_open_date)
     end
 
     # The persisted date is checked alongside the assigned one, so that an entry belonging
-    # to a past month cannot be pulled out of it by moving it into the current one.
+    # to a closed month cannot be pulled out of it by moving it into an open one.
     def restricted_spent_on_dates
       [model.spent_on, model.spent_on_was].compact
     end
 
-    def in_past_month?(date)
-      date < Time.zone.today.beginning_of_month
+    # Months are closed as a whole, so the grace period opens every month that the date
+    # it reaches back to belongs to. Without grace this is the start of the current month.
+    def earliest_open_date
+      (Time.zone.today - TimeEntry.past_month_grace_days).beginning_of_month
     end
   end
 end

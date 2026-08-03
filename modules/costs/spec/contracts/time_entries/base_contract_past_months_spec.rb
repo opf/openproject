@@ -121,6 +121,46 @@ RSpec.describe TimeEntries::BaseContract, "prohibiting logging for past months" 
     end
   end
 
+  context "with a grace period of 5 days",
+          with_ee: %i[time_entry_time_restrictions],
+          with_settings: { time_entries_prohibit_logging_for_past_months: true,
+                           time_entries_past_month_grace_days: 5 } do
+    # Evaluated inside the before hook, so still relative to the real date.
+    let(:next_month) { Date.current.next_month.beginning_of_month }
+
+    # Evaluated inside the examples, so relative to the date travelled to.
+    let(:month_that_just_ended) { Date.current.prev_month.beginning_of_month }
+    let(:an_earlier_month) { Date.current.prev_month.prev_month.beginning_of_month }
+
+    context "when still within the grace period" do
+      before { travel_to(next_month + 3) }
+
+      it "allows logging for the month that just ended" do
+        expect(log_time(month_that_just_ended)).to be_success
+      end
+
+      it "still rejects logging for an earlier month" do
+        expect_rejected(log_time(an_earlier_month))
+      end
+    end
+
+    context "on the last day of the grace period" do
+      before { travel_to(next_month + 4) }
+
+      it "allows logging for the month that just ended" do
+        expect(log_time(month_that_just_ended)).to be_success
+      end
+    end
+
+    context "when the grace period has passed" do
+      before { travel_to(next_month + 5) }
+
+      it "rejects logging for the month that just ended" do
+        expect_rejected(log_time(month_that_just_ended))
+      end
+    end
+  end
+
   context "with the restriction disabled",
           with_ee: %i[time_entry_time_restrictions],
           with_settings: { time_entries_prohibit_logging_for_past_months: false } do
