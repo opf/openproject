@@ -76,6 +76,7 @@ describe('Sortable lists list controller', () => {
       busy,
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
+      ownerListElementOf: vi.fn(() => null),
     };
   }
 
@@ -114,9 +115,13 @@ describe('Sortable lists list controller', () => {
     return vi.mocked(dropTargetForElements).mock.calls.find(([options]) => options.element === element)?.[0];
   }
 
-  function source(rootElement:HTMLElement|null, type = 'work_package') {
+  function source(
+    rootElement:HTMLElement|null,
+    type = 'work_package',
+    { confined = false, sourceListElement = null }:{ confined?:boolean; sourceListElement?:HTMLElement|null } = {},
+  ) {
     return {
-      data: sortableItemData({ itemId: '1', type, rootElement }),
+      data: sortableItemData({ itemId: '1', type, rootElement, confined, sourceListElement }),
       element: document.createElement('li'),
     } as never;
   }
@@ -219,6 +224,39 @@ describe('Sortable lists list controller', () => {
 
     expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'work_package') }))
       .toBe(true);
+  });
+
+  it('accepts a confined item when it is that item source list', async () => {
+    const root = document.createElement('div');
+    const { list } = await connectedListFor({ acceptedType: 'work_package', root: fakeRoot(root) });
+
+    expect(dropTargetOptionsFor(list)?.canDrop?.({
+      element: list,
+      input: {} as never,
+      source: source(root, 'work_package', { confined: true, sourceListElement: list }),
+    })).toBe(true);
+  });
+
+  it('rejects a confined item from another list', async () => {
+    const root = document.createElement('div');
+    const { list } = await connectedListFor({ acceptedType: 'work_package', root: fakeRoot(root) });
+
+    expect(dropTargetOptionsFor(list)?.canDrop?.({
+      element: list,
+      input: {} as never,
+      source: source(root, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+    })).toBe(false);
+  });
+
+  it('rejects a confined item whose payload carries no source list', async () => {
+    const root = document.createElement('div');
+    const { list } = await connectedListFor({ acceptedType: 'work_package', root: fakeRoot(root) });
+
+    expect(dropTargetOptionsFor(list)?.canDrop?.({
+      element: list,
+      input: {} as never,
+      source: source(root, 'work_package', { confined: true }),
+    })).toBe(false);
   });
 
   it('rejects an item whose type is not accepted', async () => {

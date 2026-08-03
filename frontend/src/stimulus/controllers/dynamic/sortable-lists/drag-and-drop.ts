@@ -51,6 +51,14 @@ export interface SortableItemData extends Record<string|symbol, unknown> {
   type:string;
   itemId:string;
   rootElement:HTMLElement|null;
+  // The list element the drag started in, resolved by the root at drag start
+  // (items hold no list reference themselves). Null when the item is not in a
+  // registered list. Mirrors the rootElement pattern: identity is carried on
+  // the payload so drop targets can decide without walking the DOM.
+  sourceListElement:HTMLElement|null;
+  // A confined item may only land in sourceListElement or one of its rows;
+  // every other container refuses it. See confinementAllowsDrop.
+  confined:boolean;
 }
 
 export type SortableListDropPosition = 'start'|'end';
@@ -78,6 +86,9 @@ export interface SortableListsRoot {
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
+  // The element of the list an item currently belongs to; null outside any
+  // registered list. Items carry no list reference, so the root resolves it.
+  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
@@ -109,16 +120,22 @@ export function sortableItemData({
   type,
   itemId,
   rootElement = null,
+  sourceListElement = null,
+  confined = false,
 }:{
   type:string;
   itemId:string;
   rootElement?:HTMLElement|null;
+  sourceListElement?:HTMLElement|null;
+  confined?:boolean;
 }):SortableItemData {
   return {
     [sortableItemDataKey]: true,
     type,
     itemId,
     rootElement,
+    sourceListElement,
+    confined,
   };
 }
 
@@ -173,6 +190,20 @@ export function isItemFromRoot(
   return rootElement != null
     && isSortableItemData(data)
     && data.rootElement === rootElement;
+}
+
+// Whether a drop target may accept the dragged item under its confinement.
+// contains() includes the element itself, so one predicate passes both the
+// source list element and every row inside it while refusing every foreign
+// container. The source list keeping its acceptance is load-bearing: a drop
+// resolves through the list target (resolveDropIntent returns null without
+// one), so refusing it would kill within-list reorder, not just cross-list
+// moves.
+export function confinementAllowsDrop(
+  data:SortableItemData,
+  targetElement:Element,
+):boolean {
+  return !data.confined || (data.sourceListElement?.contains(targetElement) ?? false);
 }
 
 export function resolvePreviousSortableItemId({

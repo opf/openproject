@@ -215,6 +215,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   }
 
+  // The list element an item currently belongs to, for the confinement field
+  // on the drag payload; null outside any registered list.
+  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null {
+    return this.ownerListOf(itemElement)?.element ?? null;
+  }
+
   private ownerListOf(itemElement:HTMLElement) {
     return this.sortableListsListOutlets.find((list) => list.element.contains(itemElement)) ?? null;
   }

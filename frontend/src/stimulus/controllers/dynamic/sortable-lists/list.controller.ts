@@ -30,6 +30,7 @@ import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller } from '@hotwired/stimulus';
 import {
+  confinementAllowsDrop,
   isItemFromRoot,
   isSortableItemData,
   sortableListData,
@@ -163,7 +164,12 @@ export default class ListController extends Controller<HTMLElement> implements R
       return false;
     }
 
-    return isItemFromRoot(root.element, data) && data.type === this.acceptedTypeValue;
+    // A confined item's source list always passes the confinement check
+    // (containment includes the list element itself), keeping within-list
+    // reorder alive; only foreign containers refuse.
+    return isItemFromRoot(root.element, data)
+      && data.type === this.acceptedTypeValue
+      && confinementAllowsDrop(data, this.element);
   }
 
   // The list is the item targets' parent drop target, so its onDrag keeps firing

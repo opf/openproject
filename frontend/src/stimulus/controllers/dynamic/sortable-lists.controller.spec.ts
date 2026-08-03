@@ -902,4 +902,13 @@ describe('Sortable lists controller', () => {
 
     expect(controller.moveAvailability(document.createElement('li'))).toBeNull();
   });
+
+  it('resolves the owning list element of an item for the drag payload', async () => {
+    const { root, sourceList, firstSourceItem } = renderFixture();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    expect(controller.ownerListElementOf(firstSourceItem)).toBe(sourceList);
+    expect(controller.ownerListElementOf(document.createElement('li'))).toBeNull();
+  });
 });
