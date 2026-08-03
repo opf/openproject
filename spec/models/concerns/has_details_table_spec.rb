@@ -205,6 +205,57 @@ RSpec.describe HasDetailsTable do
     end
   end
 
+  # Mirrors booting against an empty database: `db:prepare` loads the
+  # application (and with it every model an engine references from its
+  # to_prepare block) before it loads the schema and seeds.
+  describe "when the class is loaded before its detail table exists" do
+    before(:all) do # rubocop:disable RSpec/BeforeAfterAll
+      ActiveRecord::Schema.define do
+        drop_table :test_gadget_details, if_exists: true
+
+        create_table :test_gadgets, force: true do |t|
+          t.string :name
+          t.timestamps
+        end
+      end
+
+      klass = Class.new(ApplicationRecord) { self.table_name = "test_gadgets" }
+      Object.const_set(:TestGadget, klass)
+      klass.include(described_class)
+      klass.has_details_table
+
+      ActiveRecord::Schema.define do
+        create_table :test_gadget_details, force: true do |t|
+          t.references :test_gadget, null: false, index: { unique: true }
+          t.boolean :fancy, default: false, null: false
+          t.timestamps
+        end
+      end
+    end
+
+    after(:all) do # rubocop:disable RSpec/BeforeAfterAll
+      Object.send(:remove_const, :TestGadgetDetail) if defined?(TestGadgetDetail) # rubocop:disable RSpec/RemoveConst
+      Object.send(:remove_const, :TestGadget) if defined?(TestGadget) # rubocop:disable RSpec/RemoveConst
+
+      ActiveRecord::Schema.define do
+        drop_table :test_gadget_details, if_exists: true
+        drop_table :test_gadgets, if_exists: true
+      end
+    end
+
+    it "delegates attributes passed to new, which assigns them before after_initialize runs" do
+      gadget = TestGadget.new(name: "Late Schema", fancy: true)
+
+      expect(gadget.fancy).to be true
+    end
+
+    it "persists detail attributes passed to create" do
+      created = TestGadget.create!(name: "Late Schema", fancy: true)
+
+      expect(created.reload.fancy).to be true
+    end
+  end
+
   describe "error promotion" do
     it "promotes detail validation errors onto the owner" do
       I18n.backend.store_translations(:en,

@@ -228,15 +228,30 @@ module HasDetailsTable
     def setup_detail_delegation(detail_class, foreign_key)
       # Try to set up delegation eagerly so that writer methods exist
       # during assign_attributes in new/create. Requires DB + table.
-      if ActiveRecord::Base.connected? && detail_class.table_exists?
-        finalize_detail_delegation!(detail_class, foreign_key)
-      end
+      finalize_detail_delegation!(detail_class, foreign_key)
 
-      # Fallback for when eager setup was skipped (db:create, db:migrate).
+      # Fallbacks for when eager setup was skipped, which happens whenever the
+      # class is loaded before its detail table exists: db:create, db:migrate,
+      # or booting against an empty database (db:prepare loads the app, and
+      # engines reference model classes from their to_prepare blocks, long
+      # before the schema is loaded and seeding starts).
       # finalize_detail_delegation! is idempotent via @_detail_delegation_set_up.
       fk = foreign_key
+      owner = self
+
+      # `new` assigns attributes *before* after_initialize runs, so the writers
+      # have to exist by then. Hooking initialize is the only point early enough.
+      prepend(Module.new do
+        define_method(:initialize) do |*args, &block|
+          owner.send(:finalize_detail_delegation!, detail_class, fk)
+          super(*args, &block)
+        end
+      end)
+
+      # Records loaded from the database are allocated rather than initialized,
+      # so they need the callback to get their readers.
       after_initialize do
-        self.class.send(:finalize_detail_delegation!, detail_class, fk)
+        owner.send(:finalize_detail_delegation!, detail_class, fk)
       end
     end
 
@@ -265,12 +280,25 @@ module HasDetailsTable
       return if @_detail_delegation_set_up
       # The detail table may not yet exist during early migrations on a fresh
       # database. Skip — the next instance will retry once the table is there.
-      return unless ActiveRecord::Base.connected? && detail_class.table_exists?
+      return unless detail_table_exists?(detail_class)
 
       @_detail_delegation_set_up = true
 
       delegate_detail_columns(detail_class, foreign_key)
       delegate_detail_associations(detail_class)
+    end
+
+    # Deliberately queries the database instead of asking the schema cache: a
+    # cache populated before the table existed answers `false` forever, which
+    # would leave the model without its delegated attributes for the rest of
+    # the process.
+    def detail_table_exists?(detail_class)
+      detail_class.connection_pool.with_connection do |connection|
+        connection.data_source_exists?(detail_class.table_name)
+      end
+    rescue ActiveRecord::ActiveRecordError
+      # No database, no connection, or no permission to look — retry later.
+      false
     end
 
     def delegate_detail_columns(detail_class, foreign_key)
