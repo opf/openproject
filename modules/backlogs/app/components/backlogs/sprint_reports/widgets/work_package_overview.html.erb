@@ -31,6 +31,35 @@ See COPYRIGHT and LICENSE files for more details.
   widget_wrapper do |container|
     container.with_body do
       concat(
+        render(
+          Primer::Beta::Subhead.new(hide_border: true, pt: 3, pb: 3)
+        ) do |head|
+          head.with_heading(
+            tag: :h3,
+            size: :medium,
+            font_size: 4,
+            font_weight: :bold,
+            display: :inline_flex,
+            align_items: :center,
+            classes: "gap-2"
+          ) do
+            concat t("backlogs.show_work_package_overview")
+            concat(
+              render(
+                Primer::Beta::Counter.new(
+                  scheme: :primary,
+                  count: total_work_packages_count,
+                  round: true,
+                  limit: 1_000,
+                  hide_if_zero: true
+                )
+              )
+            )
+          end
+        end
+      )
+
+      concat(
         flex_layout(align_items: :center) do |flex|
           flex.with_column(flex: 1, mr: 3) do
             render(
