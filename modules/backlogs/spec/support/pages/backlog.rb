@@ -484,6 +484,17 @@ module Pages
         .to have_no_css(draggable_work_package_selector(work_package))
     end
 
+    # A read-only card keeps its drag but is confined to its own list: it can
+    # be reordered in place, while every other container refuses it. The
+    # confined value is what the foreign drop targets read.
+    def expect_work_package_confined(work_package)
+      expect(page)
+        .to have_css("#{draggable_work_package_selector(work_package)}" \
+                     "[data-sortable-lists--item-confined-value='true']")
+      expect(page)
+        .to have_css("#{work_package_selector(work_package)}[draggable]")
+    end
+
     def pick_up_and_release_work_package(work_package)
       # A mid-drag list refresh can detach the grabbed row, so retry a bounded
       # number of times on a stale node. retry_block no-ops under
@@ -602,6 +613,68 @@ module Pages
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
+    end
+
+    # Drags a confined card over another sprint's list body and releases it
+    # there. No foreign container accepts it, so the release must resolve to
+    # nothing: no drop indicator over the target, no accepted drop target at
+    # release, no move request. The card's unchanged position is the caller's
+    # assertion.
+    def drag_work_package_without_move(moved, into:)
+      # See pick_up_and_release_work_package for the retry rationale.
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        moved_element = find(draggable_work_package_selector(moved))
+        target_element = find(list_body_selector(sprint_selector(into)))
+        install_backlogs_move_request_probe
+        begin
+          drag_backlogs_item(source: moved_element, target: target_element)
+        ensure
+          stop_backlogs_move_request_probe
+        end
+      end
+
+      expect_backlogs_drag_refused
+      expect_no_backlogs_move_request
+    end
+
+    # The refusal must be observable, or the assertions above would also pass
+    # for a drag that never engaged. The drop has to reach the controller with
+    # no accepted target, and the final dragover — the one over the foreign
+    # container — must show no drop indicator of either kind. Earlier dragovers
+    # may legitimately show indicators while the pointer is still crossing the
+    # card's own list, which keeps accepting it.
+    def expect_backlogs_drag_refused
+      refusal = page.evaluate_script(<<~JS)
+        (() => {
+          const state = window.__opBacklogsDndProbeState;
+          const call = state?.handleDropCalls?.at(-1);
+          const lastDragover = (state?.events ?? [])
+            .filter((event) => event.type === 'dragover')
+            .at(-1);
+
+          return {
+            handled: Boolean(call),
+            dropTargetCount: call?.dropTargets?.length ?? 0,
+            observedDragover: Boolean(lastDragover),
+            dropPositions: lastDragover?.dropPositions ?? null,
+            dropContainers: lastDragover?.dropContainers ?? null
+          };
+        })()
+      JS
+
+      expect(refusal.fetch("handled")).to be(true)
+      expect(refusal.fetch("dropTargetCount")).to eq(0)
+      expect(refusal.fetch("observedDragover")).to be(true)
+      expect(refusal.fetch("dropPositions")).to be_empty
+      expect(refusal.fetch("dropContainers")).to eq(0)
     end
 
     def drag_work_package_to_backlog_inbox(work_package)
@@ -1050,6 +1123,7 @@ module Pages
             label,
             draggingCount: document.querySelectorAll('[data-dragging]').length,
             honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
+            dropContainers: document.querySelectorAll('[data-drop-container]').length,
             dropTargets: document.querySelectorAll('[data-drop-target-for-element]').length,
             dropPositions: Array
               .from(document.querySelectorAll('[data-drop-position]'))
@@ -1081,6 +1155,7 @@ module Pages
             effectAllowed: event.dataTransfer?.effectAllowed ?? null,
             draggingCount: document.querySelectorAll('[data-dragging]').length,
             honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
+            dropContainers: document.querySelectorAll('[data-drop-container]').length,
             dropPositions: Array
               .from(document.querySelectorAll('[data-drop-position]'))
               .map((element) => ({
