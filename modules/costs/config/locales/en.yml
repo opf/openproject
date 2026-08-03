@@ -83,6 +83,7 @@ en:
           cannot_log_for_this_work_package: "Cannot log time for this work package."
           duplicate_ongoing: "An ongoing time entry already exists for this user."
           exceeds_user_working_hours: "cannot exceed the %{limit} hours defined for the user's working day."
+          in_past_month: "is in a past month. Time entries can only be added, changed or deleted for the current month."
           invalid_time: "must be between 00:00 and 23:59."
           max_hours_per_day_exceeded: "cannot exceed %{limit} hours logged in total for a single day."
           max_hours_per_entry_exceeded: "cannot be more than %{limit} hours for a single time entry."
@@ -296,6 +297,8 @@ en:
   setting_time_entries_max_hours_per_day_caption: "Limits how many hours a user can log in total for a single day. Set to 0 to allow any number of hours."
   setting_time_entries_max_hours_per_entry: "Maximum hours per time entry"
   setting_time_entries_max_hours_per_entry_caption: "Limits how many hours a single time entry can have. Set to 0 to allow any number of hours."
+  setting_time_entries_prohibit_logging_for_past_months: "Prohibit logging for past months"
+  setting_time_entries_prohibit_logging_for_past_months_caption: "Restricts adding, changing and deleting time entries to the current month. Entries in past months can no longer be modified."
   setting_time_entries_prohibit_logging_on_non_working_days: "Prohibit logging on non-working days"
   setting_time_entries_prohibit_logging_on_non_working_days_caption: "Prevents logging time on global non-working days and on the user's own non-working times."
 

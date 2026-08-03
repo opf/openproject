@@ -32,6 +32,7 @@ module TimeEntries
   class BaseContract < ::ModelContract
     include AssignableValuesContract
     include AssignableCustomFieldValues
+    include PastMonthRestriction
 
     delegate :entity,
              :project,
