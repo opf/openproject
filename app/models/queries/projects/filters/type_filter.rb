@@ -29,6 +29,9 @@
 #++
 
 class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
+  # Any family member is a valid value, not just the roots offered by
+  # #autocomplete_options: the project field on the global create form filters by
+  # the root before a project is picked and by the resolved variant afterwards.
   def allowed_values
     @allowed_values ||= Type.pluck(:name, :id)
   end
@@ -37,8 +40,11 @@ class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
     :types
   end
 
+  # A project activates a single member of a type family, which may be a variant
+  # while the value filtered for is its root. Matching the whole family keeps
+  # variants transparent, e.g. for the project field on the global create form.
   def where
-    operator_strategy.sql_for_field(values, Type.table_name, :id)
+    operator_strategy.sql_for_field(expanded_values, Type.table_name, :id)
   end
 
   def type
@@ -46,19 +52,36 @@ class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
   end
 
   def autocomplete_options
-    all_items = allowed_values.map { |name, id| { name:, id: } }
     {
       component: "opce-autocompleter",
       bindValue: "id",
       bindLabel: "name",
       hideSelected: true,
       defaultData: false,
-      items: all_items,
-      model: all_items.select { |item| values.include?(item[:id]) }
+      items: selectable_items,
+      model: selected_items
     }
   end
 
   def self.key
     :type_id
+  end
+
+  private
+
+  def expanded_values
+    Type.family_ids(values).presence || values
+  end
+
+  # Only roots are offered as variants are collapsed into them, and filtering for
+  # a root matches its variants anyway.
+  def selectable_items
+    Type.roots.pluck(:name, :id).map { |name, id| { name:, id: } }
+  end
+
+  # Reads #name so a value naming a variant is labelled with the name of its root,
+  # which is preloaded for the same reason.
+  def selected_items
+    Type.where(id: values).includes(:parent).map { |type| { name: type.name, id: type.id } }
   end
 end

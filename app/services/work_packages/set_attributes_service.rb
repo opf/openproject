@@ -94,6 +94,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     update_derivable_date_attribute
     update_progress_attributes
     update_project_dependent_attributes
+    resolve_type_within_family
     reassign_invalid_status_if_type_changed
     set_templated_description
     set_cause_for_readonly_attributes
@@ -282,6 +283,32 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
       assign_default_type unless work_package.type
     end
+  end
+
+  # Outside of a project only root types are offered (see the types API), while a
+  # project runs a single member of a family, possibly a variant. Following that
+  # member keeps variants transparent when the type is picked before the project,
+  # as on the global create form, and when moving between projects.
+  def resolve_type_within_family
+    return unless work_package.type_id_changed? || work_package.project_id_changed?
+
+    family_member = enabled_family_member
+    return if family_member.nil?
+
+    model.change_by_system { work_package.type = family_member }
+  end
+
+  # The member of the type's family the project has enabled, or nil if that is the
+  # type itself or no member of the family is enabled at all.
+  def enabled_family_member
+    type = work_package.type
+    project = work_package.project
+    return if type.nil? || project.nil?
+
+    enabled_types = project.types.to_a
+    return if enabled_types.include?(type)
+
+    enabled_types.detect { |enabled| enabled.root_id == type.root_id }
   end
 
   # The identifier belongs to the source project; a fresh one is allocated

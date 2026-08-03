@@ -206,12 +206,15 @@ module WorkPackages
 
     def assignable_types
       scope = if model.project.nil?
-                Type
+                # Variants are collapsed into their root outside of a project
+                # context, where there is no way to tell which one applies.
+                Type.roots
               else
-                model.project.types.includes(:color)
+                model.project.types
               end
 
-      scope.includes(:color)
+      # A variant reads its name and color off its root, so the parent is preloaded along with them.
+      scope.includes(:color, parent: :color)
     end
 
     def assignable_categories

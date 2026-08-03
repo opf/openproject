@@ -110,6 +110,39 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
     end
   end
 
+  # The global create form offers root types only, so picking a project that runs a
+  # variant of the chosen type has to resolve to that variant (FND-200).
+  describe "with a project running a variant of the provided type" do
+    shared_let(:root_type) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root_type) }
+    shared_let(:variant_project) { create(:project, types: [variant]) }
+
+    let(:parameters) do
+      {
+        _links: {
+          project: { href: api_v3_paths.project(variant_project.id) },
+          type: { href: api_v3_paths.type(root_type.id) }
+        },
+        subject: "lorem ipsum"
+      }
+    end
+
+    it "has 0 validation errors" do
+      expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
+    end
+
+    it "resolves the type to the variant while keeping the name of its root" do
+      type_link = {
+        href: api_v3_paths.type(variant.id),
+        title: root_type.name
+      }
+
+      expect(subject.body)
+        .to be_json_eql(type_link.to_json)
+        .at_path("_embedded/payload/_links/type")
+    end
+  end
+
   describe "with targetVersions (e.g. when duplicating a work package)" do
     shared_let(:version) { create(:version, project:) }
 

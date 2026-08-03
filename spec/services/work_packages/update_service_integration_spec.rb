@@ -385,6 +385,25 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         end
       end
 
+      # Variants are transparent to users, so the type follows the member of its
+      # family the target project runs (FND-200).
+      context "with a variant of the type existing in the target project",
+              with_flag: { type_variants: true } do
+        shared_let(:variant) { create(:type, parent: default_type) }
+
+        before do
+          target_project.types << variant
+        end
+
+        it "switches to the variant" do
+          expect(subject)
+            .to be_success
+
+          expect(subject.result.type)
+            .to eql variant
+        end
+      end
+
       context "with only non default types" do
         before do
           target_project.types << other_type

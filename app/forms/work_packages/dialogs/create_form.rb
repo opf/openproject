@@ -61,14 +61,13 @@ module WorkPackages::Dialogs
           data: { test_selector: "work_package_create_dialog_type" }
         }
       ) do |select|
-        contract
-          .assignable_types
-          .pluck(:id, :name)
-          .map do |value, label|
-          select.option(label:,
-                        value:,
-                        classes: "__hl_inline_type_#{value}",
-                        selected: work_package.type_id == value)
+        # Reads #name off the record rather than plucking the column, so a variant
+        # is labelled with the name of its root.
+        contract.assignable_types.each do |type|
+          select.option(label: type.name,
+                        value: type.id,
+                        classes: "__hl_inline_type_#{type.id}",
+                        selected: work_package.type_id == type.id)
         end
       end
 

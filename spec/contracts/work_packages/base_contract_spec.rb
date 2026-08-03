@@ -1930,9 +1930,9 @@ RSpec.describe WorkPackages::BaseContract do
         work_package.project = nil
       end
 
-      it "is all types" do
+      it "is the root types as there is no project telling which variant applies" do
         allow(Type)
-          .to receive(:includes)
+          .to receive(:roots)
           .and_return(scope)
 
         expect(contract.assignable_types)
@@ -1948,6 +1948,22 @@ RSpec.describe WorkPackages::BaseContract do
 
         expect(contract.assignable_types)
           .to eql(scope)
+      end
+    end
+
+    context "when the project runs variants", with_flag: { type_variants: true } do
+      # One variant per family, as a project runs a single member of each.
+      let(:variants) { create_list(:type, 5).map { |root| create(:type, parent: root) } }
+
+      before do
+        work_package.project = create(:project, types: variants)
+      end
+
+      # A variant reads its name and color off its root, so the query count has to
+      # stay independent of the number of types.
+      it "preloads the roots the names and colors are read from" do
+        expect { contract.assignable_types.each { |type| [type.name, type.color] } }
+          .to have_a_query_limit(3)
       end
     end
   end

@@ -411,6 +411,41 @@ RSpec.describe Type do
       end
     end
 
+    describe "#root_id" do
+      it "returns the parent's id for a child" do
+        expect(child.root_id).to eq(parent.id)
+      end
+
+      it "returns its own id for a root" do
+        expect(parent.root_id).to eq(parent.id)
+      end
+    end
+
+    describe ".family_ids" do
+      let!(:other) { create(:type) }
+
+      it "returns every member of the family of a root" do
+        expect(described_class.family_ids([parent.id])).to contain_exactly(parent.id, child.id)
+      end
+
+      it "returns every member of the family of a variant" do
+        expect(described_class.family_ids([child.id])).to contain_exactly(parent.id, child.id)
+      end
+
+      it "accepts ids as strings, as filters hold them" do
+        expect(described_class.family_ids([child.id.to_s])).to contain_exactly(parent.id, child.id)
+      end
+
+      it "combines the families of all given ids without duplicates" do
+        expect(described_class.family_ids([parent.id, child.id, other.id]))
+          .to contain_exactly(parent.id, child.id, other.id)
+      end
+
+      it "is empty for ids that do not exist" do
+        expect(described_class.family_ids([described_class.maximum(:id) + 1])).to be_empty
+      end
+    end
+
     # Isolated from the shared parent/child so the factory's generated names
     # cannot land between the names under test.
     describe "#sorted_variants" do

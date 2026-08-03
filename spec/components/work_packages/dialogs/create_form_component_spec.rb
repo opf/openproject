@@ -63,4 +63,18 @@ RSpec.describe WorkPackages::Dialogs::CreateFormComponent, type: :component do
       expect(page.find('input[name="work_package[subject]"]')).to be_disabled
     end
   end
+
+  context "when the project runs a variant", with_flag: { type_variants: true } do
+    let(:root_type) { create(:type, name: "Bug") }
+    let(:variant) { create(:type, name: "Mobile Bug", parent: root_type) }
+    let(:work_package) { create(:work_package, type: variant, project: create(:project, types: [variant])) }
+
+    it "labels the type with the name of its root" do
+      render_component
+
+      items = JSON.parse(page.find("opce-autocompleter[data-test-selector='work_package_create_dialog_type']")["data-items"])
+
+      expect(items).to contain_exactly(a_hash_including("id" => variant.id, "name" => "Bug"))
+    end
+  end
 end

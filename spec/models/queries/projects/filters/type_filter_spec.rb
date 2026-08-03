@@ -50,4 +50,66 @@ RSpec.describe Queries::Projects::Filters::TypeFilter do
       end
     end
   end
+
+  describe "filtering" do
+    shared_let(:root_type) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root_type) }
+    shared_let(:other_type) { create(:type, name: "Task") }
+
+    shared_let(:project_with_root) { create(:project, types: [root_type]) }
+    shared_let(:project_with_variant) { create(:project, types: [variant]) }
+    shared_let(:project_with_other_type) { create(:project, types: [other_type]) }
+
+    current_user { create(:admin) }
+
+    def results_for(*types)
+      ProjectQuery
+        .new
+        .tap { |query| query.where(:type_id, "=", types.map { |type| type.id.to_s }) }
+        .results
+    end
+
+    it "finds projects running any member of the family of the filtered type" do
+      expect(results_for(root_type)).to contain_exactly(project_with_root, project_with_variant)
+      expect(results_for(variant)).to contain_exactly(project_with_root, project_with_variant)
+    end
+
+    it "keeps types of other families out" do
+      expect(results_for(other_type)).to contain_exactly(project_with_other_type)
+    end
+
+    it "finds no projects for a type that does not exist" do
+      query = ProjectQuery.new
+      query.where(:type_id, "=", [(Type.maximum(:id) + 1).to_s])
+
+      expect(query.results).to be_empty
+    end
+  end
+
+  describe "#autocomplete_options" do
+    shared_let(:root_type) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root_type) }
+
+    subject(:options) { described_class.create!(name: :type_id, operator: "=", values:).autocomplete_options }
+
+    context "with a root type selected" do
+      let(:values) { [root_type.id.to_s] }
+
+      it "offers roots only, variants being collapsed into them" do
+        expect(options[:items]).to contain_exactly({ name: "Bug", id: root_type.id })
+      end
+
+      it "has the selected type as its model" do
+        expect(options[:model]).to contain_exactly({ name: "Bug", id: root_type.id })
+      end
+    end
+
+    context "with a variant selected" do
+      let(:values) { [variant.id.to_s] }
+
+      it "labels it with the name of its root" do
+        expect(options[:model]).to contain_exactly({ name: "Bug", id: variant.id })
+      end
+    end
+  end
 end

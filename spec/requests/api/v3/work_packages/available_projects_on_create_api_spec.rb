@@ -67,6 +67,17 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
     it_behaves_like "API V3 collection response", 1, 1, "Project" do
       let(:elements) { [project_with_type] }
     end
+
+    # Types are picked as roots outside of a project context, so a project running
+    # a variant of the filtered type has to be offered as well.
+    context "when the project runs a variant of the filtered type" do
+      let(:variant) { create(:type, parent: type) }
+      let(:project_with_type) { create(:project, types: [variant]) }
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [project_with_type] }
+      end
+    end
   end
 
   describe "with a single project" do

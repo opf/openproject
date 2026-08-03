@@ -122,6 +122,14 @@ class Type < ApplicationRecord
     roots.includes(:children).flat_map(&:family)
   end
 
+  # Ids of every member of the families the given ids belong to. Variants are
+  # transparent to users, so a filter naming one member has to match them all.
+  def self.family_ids(ids)
+    root_ids = where(id: ids).pluck(Arel.sql("COALESCE(parent_id, id)")).uniq
+
+    where(id: root_ids).or(where(parent_id: root_ids)).pluck(:id)
+  end
+
   def <=>(other)
     name <=> other.name
   end
@@ -195,6 +203,10 @@ class Type < ApplicationRecord
 
   def root
     parent || self
+  end
+
+  def root_id
+    parent_id || id
   end
 
   def variant?

@@ -414,6 +414,28 @@ RSpec.describe "new work package", :js do
         expect(page).to have_no_css(".ng-dropdown-panel .ng-option", text: project_without_bug.name)
       end
     end
+
+    # Only root types are offered here, so a project running a variant of the
+    # picked type has to be offered and create a work package of that variant,
+    # variants being transparent to users (FND-200).
+    context "with a project running a variant of type_bug", with_flag: { type_variants: true } do
+      let!(:variant) { create(:type, name: "Mobile Bug", parent: type_bug) }
+      let!(:variant_project) do
+        create(:project, name: "Variant project", types: [variant])
+      end
+      let(:user) do
+        create(:user, member_with_permissions: { project => permissions, variant_project => permissions })
+      end
+
+      it "shows the project and creates the work package with the variant" do
+        create_work_package_globally(type_bug, variant_project.name)
+        expect(page).to have_selector(safeguard_selector, wait: 10)
+
+        save_work_package!
+
+        expect(WorkPackage.last.type).to eq variant
+      end
+    end
   end
 
   context "as a user with no permissions" do

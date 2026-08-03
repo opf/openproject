@@ -117,6 +117,22 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
+  # The type is picked before the project on the global create form, where only
+  # root types are offered (FND-200).
+  context "when the project runs a variant of the provided type", with_flag: { type_variants: true } do
+    let(:variant) { create(:type, parent: default_type) }
+    let(:project) { create(:project, types: [variant]) }
+    let(:attributes) do
+      { subject: "blubs", project:, type: default_type }
+    end
+
+    it "creates the work package with the variant" do
+      expect(service_result).to be_success
+      expect(service_result.errors).to be_empty
+      expect(new_work_package.type).to eql variant
+    end
+  end
+
   describe "#call" do
     let(:attributes) do
       { subject: "blubs",
