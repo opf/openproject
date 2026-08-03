@@ -32,13 +32,17 @@ module WorkPackages::Scopes::WithoutExcludedType
   extend ActiveSupport::Concern
 
   class_methods do
+    # Excluded by family: the project settings name the type users see, while its work
+    # packages carry whichever member of the family the project runs.
     def without_excluded_type
       type_subquery = <<~SQL.squish
         NOT EXISTS (
           SELECT 1
           FROM backlog_excluded_types
-          WHERE project_id = work_packages.project_id
-            AND type_id = work_packages.type_id
+          JOIN #{Type.table_name} excluded_types
+            ON excluded_types.id = backlog_excluded_types.type_id
+          WHERE backlog_excluded_types.project_id = work_packages.project_id
+            AND #{Type.root_id_expression('excluded_types')} = #{Type.root_id_subquery('work_packages.type_id')}
         )
       SQL
 

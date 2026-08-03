@@ -31,7 +31,9 @@ module Bim::Bcf::API::V2_1
     property :topic_type,
              getter: ->(decorator:, **) {
                decorator.with_check do
-                 assignable_types.pluck(:name)
+                 # Reads #name rather than plucking the column, so a variant reports the
+                 # name of its root: BCF clients only ever see the type users see.
+                 assignable_types.map(&:name)
                end
              }
 

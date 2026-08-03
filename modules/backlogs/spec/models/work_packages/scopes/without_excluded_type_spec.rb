@@ -77,5 +77,37 @@ RSpec.describe WorkPackages::Scopes::WithoutExcludedType do
 
       expect(visible).to include(wp1, wp2)
     end
+
+    # The settings name the type users see, while the work packages of a project running a
+    # variant carry that variant.
+    context "when the project runs a variant of the excluded type", with_flag: { type_variants: true } do
+      let(:variant) { create(:type, name: "Sprint task", parent: excluded_type) }
+      let(:variant_project) do
+        create(:project, enabled_module_names: %w[backlogs], types: [variant]) do |p|
+          p.backlog_excluded_types = [excluded_type]
+        end
+      end
+
+      it "excludes work packages of the variant" do
+        create(:work_package, project: variant_project, type: variant)
+
+        expect(visible).to be_empty
+      end
+    end
+
+    context "when the excluded type is a variant the project does not run", with_flag: { type_variants: true } do
+      let(:variant) { create(:type, name: "Sprint task", parent: excluded_type) }
+      let(:root_project) do
+        create(:project, enabled_module_names: %w[backlogs], types: [excluded_type]) do |p|
+          p.backlog_excluded_types = [variant]
+        end
+      end
+
+      it "excludes work packages of the root as well, both being one type to users" do
+        create(:work_package, project: root_project, type: excluded_type)
+
+        expect(visible).to be_empty
+      end
+    end
   end
 end

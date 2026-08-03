@@ -40,13 +40,15 @@ class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackag
            type: type.name)
   end
 
+  # One column per family, named after the root: users pick a type without knowing which
+  # member a project runs, so a column per variant would repeat the same caption.
   def self.instances(context = nil)
     if !granted_by_enterprise_token
       []
     elsif context
-      context.types
+      Type.roots_of(context.types)
     else
-      Type.all
+      Type.roots
     end.map { |type| new(type) }
   end
 end

@@ -112,7 +112,7 @@ module DevelopmentData
         name: project_name(identifier),
         identifier:,
         enabled_module_names: project_modules,
-        types: Type.all,
+        types: Type.roots,
         workspace_type: "project"
       }
     end

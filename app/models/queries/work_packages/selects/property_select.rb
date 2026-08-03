@@ -54,10 +54,12 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     subject: {
       sortable: "#{WorkPackage.table_name}.subject"
     },
+    # Grouped and sorted by family: users see one type per family, so work packages of a
+    # root and of its variants belong in the same group, in the position of the root.
     type: {
       association: "type",
-      sortable: "position",
-      groupable: "#{WorkPackage.table_name}.type_id"
+      sortable: ->(types_table) { Type.family_setting_expression(:position, types_table) },
+      groupable: Type.root_id_subquery("#{WorkPackage.table_name}.type_id")
     },
     parent: {
       association: "ancestors_relations",

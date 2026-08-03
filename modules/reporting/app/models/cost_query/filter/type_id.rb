@@ -34,7 +34,15 @@ class CostQuery::Filter::TypeId < Report::Filter::Base
     WorkPackage.human_attribute_name(:type)
   end
 
+  # Roots only, read through #name so a variant never shows its own label: users pick the
+  # type they see and #transformed_values matches its whole family.
   def self.available_values(*)
-    Type.order(Arel.sql("name")).pluck(:name, :id)
+    Type.roots.sort_by(&:name).map { |type| [type.name, type.id] }
+  end
+
+  # A project runs a single member of a family and its work packages carry that member, so
+  # filtering for one type has to match every member.
+  def transformed_values
+    Type.family_ids(values).presence || values
   end
 end

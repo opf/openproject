@@ -49,8 +49,10 @@ module OpenProject::Bim::BcfXml
       @instance_cache[:all_types] ||= listings.pluck(:type).flatten.uniq
     end
 
+    # Matched against the roots only: a variant carries the name of its root, so listing
+    # variants too would compare the same name repeatedly.
     def unknown_types
-      @instance_cache[:unknown_types] ||= all_types - Type.all.map(&:name)
+      @instance_cache[:unknown_types] ||= all_types - Type.roots.map(&:name)
     end
 
     def all_priorities

@@ -61,7 +61,7 @@ module Projects
 
           # A family is addable as a whole, so any active member rules out all of it.
           def active_root_ids
-            @active_root_ids ||= project.types.pluck(:parent_id, :id).map { |parent_id, id| parent_id || id }
+            @active_root_ids ||= ::Type.root_ids(project.types)
           end
         end
       end

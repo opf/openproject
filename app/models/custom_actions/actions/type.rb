@@ -30,6 +30,7 @@
 
 class CustomActions::Actions::Type < CustomActions::Actions::Base
   include CustomActions::Actions::Strategies::Associated
+  include CustomActions::TypeFamilyValues
 
   PRIORITY = 20
 
@@ -47,10 +48,11 @@ class CustomActions::Actions::Type < CustomActions::Actions::Base
 
   private
 
+  # Only roots are offered: setting one lands on whichever member the work package's
+  # project runs (see WorkPackages::SetAttributesService#resolve_type_within_family).
   def associated
     ::Type
-      .preload(:parent)
-      .order(:position)
-      .map { |u| [u.id, u.composite_name] }
+      .roots
+      .map { |type| [type.id, type.name] }
   end
 end

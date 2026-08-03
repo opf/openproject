@@ -1,7 +1,8 @@
 <%# Highlightable resources %>
 <% resources_scope_color_css("status", ::Status) %>
 <% resources_scope_color_css("priority", ::IssuePriority) %>
-<% resources_scope_color_css("type", ::Type, inline_foreground: true) %>
+<%# A variant reads its color off its root, so the parent is loaded along with it %>
+<% resources_scope_color_css("type", ::Type.preload(parent: :color), inline_foreground: true) %>
 
 <%# Color coded icons %>
 <% project_phase_color_css %>

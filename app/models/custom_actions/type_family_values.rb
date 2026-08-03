@@ -28,24 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomActions::Conditions::Type < CustomActions::Conditions::Base
-  include CustomActions::TypeFamilyValues
+# Type conditions and actions deal in roots, as that is the type users pick and see. A
+# stored variant, from a configuration made before the family gained members, folds into
+# its root rather than turning into a value no longer offered.
+module CustomActions::TypeFamilyValues
+  def values=(values)
+    folded = ::Type.root_ids(Array(values)).presence
 
-  def self.key
-    :type
-  end
-
-  # Holds for whichever member of the family a project runs: users pick the type they see
-  # and cannot know which variant a given project activated.
-  def fulfilled_by?(work_package, _user)
-    values.empty? || values.include?(work_package.type&.root_id)
-  end
-
-  private
-
-  def associated
-    ::Type
-      .roots
-      .map { |type| [type.id, type.name] }
+    super(folded || values)
   end
 end

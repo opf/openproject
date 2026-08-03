@@ -189,7 +189,7 @@ module DemoData
         status_explanation: project_data.lookup("status_explanation"),
         description: project_data.lookup("description"),
         enabled_module_names: project_data.lookup("modules"),
-        types: Type.all,
+        types: Type.roots,
         parent: Project.find_by(identifier: project_data.lookup("parent")),
         workspace_type: "project"
       }

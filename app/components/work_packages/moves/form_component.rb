@@ -91,19 +91,27 @@ module WorkPackages
         current_types_missing_in_target? || descendant_types_missing_in_target?
       end
 
+      # Compared by family: the target project runs a single member of each and the move
+      # follows it (see WorkPackages::SetAttributesService#resolve_type_within_family), so
+      # a sibling variant is not a missing type.
       def current_types_missing_in_target?
-        work_packages.map(&:type_id).uniq.difference(available_types.pluck(:id)).any?
+        missing_families?(work_packages.map(&:type_id))
       end
 
       def descendant_types_missing_in_target?
         hierarchies = WorkPackageHierarchy
                         .includes(:descendant)
                         .where(ancestor_id: work_packages.map(&:id))
-        Type.where(id: hierarchies.map { it.descendant.type_id })
-            .select("distinct id")
-            .pluck(:id)
-            .difference(available_types.pluck(:id))
-            .any?
+
+        missing_families?(hierarchies.map { it.descendant.type_id })
+      end
+
+      def missing_families?(type_ids)
+        Type.root_ids(type_ids).difference(available_type_root_ids).any?
+      end
+
+      def available_type_root_ids
+        @available_type_root_ids ||= available_types.map(&:root_id)
       end
 
       def possible_assignees

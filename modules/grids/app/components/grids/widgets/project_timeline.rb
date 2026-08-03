@@ -134,7 +134,7 @@ module Grids
           .visible(User.current)
           .where(project:)
           .joins(:type)
-          .where(types: { is_milestone: true })
+          .merge(Type.milestone)
           .where.not(due_date: nil)
           .order(:due_date)
       end

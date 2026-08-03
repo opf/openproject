@@ -16,5 +16,5 @@
   <%= render partial: "import_solution", locals: { solution_select_id: "unknown_types_chose_ids",
                                                    hidden_field_identifier: "unknown_types_action",
                                                    solution_text: t("bcf.bcf_xml.import.import_types_as"),
-                                                   solution_options: Type.all.collect { |type| [type.name, type.id] } } %>
+                                                   solution_options: Type.roots.collect { |type| [type.name, type.id] } } %>
 <% end %>

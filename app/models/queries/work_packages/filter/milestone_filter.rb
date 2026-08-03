@@ -63,7 +63,7 @@ class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Fi
 
   def milestone_subselect
     Type
-      .where(is_milestone: true)
+      .milestone
       .select(:id)
       .to_sql
   end

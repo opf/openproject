@@ -109,5 +109,19 @@ RSpec.describe "BCF 2.1 project extensions resource", content_type: :json do
         }
       end
     end
+
+    # BCF clients see the type users see, never the variant a project happens to run.
+    context "when the project runs a variant", with_flag: { type_variants: true } do
+      shared_let(:variant) { create(:type, name: "BIM task", parent: type_task) }
+      shared_let(:project) { create(:project, enabled_module_names: [:bim], types: [variant]) }
+
+      it "offers the name of the root as the topic type" do
+        topic_types = JSON.parse(last_response.body)["topic_type"]
+
+        expect(response).to have_http_status(:ok)
+        expect(topic_types).to include type_task.name
+        expect(topic_types).not_to include variant.own_name
+      end
+    end
   end
 end

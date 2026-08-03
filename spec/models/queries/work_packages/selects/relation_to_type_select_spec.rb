@@ -32,8 +32,9 @@ require "spec_helper"
 require_relative "shared_query_select_specs"
 
 RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
-  let(:project) { build_stubbed(:project) }
-  let(:type) { build_stubbed(:type) }
+  shared_let(:type) { create(:type) }
+
+  let(:project) { create(:project, types: [type]) }
   let(:instance) { described_class.new(type) }
   let(:enterprise_token_allows) { true }
 
@@ -48,12 +49,6 @@ RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
     end
 
     context "within project" do
-      before do
-        allow(project)
-          .to receive(:types)
-          .and_return([type])
-      end
-
       context "with a valid enterprise token" do
         it "contains the type columns" do
           expect(described_class.instances(project).length)
@@ -75,11 +70,6 @@ RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
     end
 
     context "global" do
-      before do
-        allow(Type)
-          .to receive(:all)
-          .and_return([type])
-      end
 
       context "with a valid enterprise token" do
         it "contains the type columns" do
@@ -98,6 +88,21 @@ RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
           expect(described_class.instances)
             .to be_empty
         end
+      end
+    end
+
+    # Users see one type per family, so a column per member would repeat the same caption.
+    context "with a family of types", with_flag: { type_variants: true } do
+      shared_let(:variant) { create(:type, parent: type) }
+
+      it "offers a single column, named after the root" do
+        expect(described_class.instances.map(&:type)).to contain_exactly(type)
+      end
+
+      it "offers the root's column in a project running the variant" do
+        variant_project = create(:project, types: [variant])
+
+        expect(described_class.instances(variant_project).map(&:type)).to contain_exactly(type)
       end
     end
   end

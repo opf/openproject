@@ -35,24 +35,33 @@ RSpec.describe CustomActions::Actions::Type do
   let(:priority) { 20 }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    root = build_stubbed(:type, name: "Task")
-    sub = build_stubbed(:type, name: "Bug", parent: root)
-    relation = instance_double(ActiveRecord::Relation)
-    allow(Type).to receive(:preload).with(:parent).and_return(relation)
-    allow(relation).to receive(:order).with(:position).and_return([root, sub])
+    task = create(:type, name: "Task")
+    create(:type, name: "Sprint task", parent: task)
+    phase = create(:type, name: "Phase")
 
-    [{ value: root.id, label: "Task" },
-     { value: sub.id, label: "Task: Bug" }]
+    [{ value: task.id, label: "Task" },
+     { value: phase.id, label: "Phase" }]
   end
 
   it_behaves_like "base custom action"
   it_behaves_like "associated custom action" do
     describe "#allowed_values" do
-      it "is the list of all type" do
-        allowed_values
+      it "is the list of root types, the variant a project runs being set for us" do
+        expected = allowed_values
 
         expect(instance.allowed_values)
-          .to eql(allowed_values)
+          .to eql(expected)
+      end
+    end
+
+    describe "#values=" do
+      it "folds a variant configured before into its root" do
+        root = create(:type)
+        variant = create(:type, parent: root)
+
+        instance.values = [variant.id]
+
+        expect(instance.values).to eql [root.id]
       end
     end
   end

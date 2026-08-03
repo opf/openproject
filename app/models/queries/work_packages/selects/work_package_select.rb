@@ -82,7 +82,9 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
   end
 
   def sortable
-    resolved = @sortable.respond_to?(:call) ? @sortable.call : @sortable
+    # A callable taking the association's table is resolved later, once the alias that
+    # table got in the query is known (see Query::Results#expand_association_column).
+    resolved = @sortable.respond_to?(:call) && @sortable.arity.zero? ? @sortable.call : @sortable
     name_or_value_or_false(resolved)
   end
 

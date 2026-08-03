@@ -58,7 +58,8 @@ See COPYRIGHT and LICENSE files for more details.
           <tbody>
             <% @workflow_counts.each do |type, roles| -%>
               <tr>
-                <td><%= h type %></td>
+                <%# Variants configure their own workflows, so this admin table names them %>
+                <td><%= h type.composite_name %></td>
                 <% roles.each do |role, count| -%>
                   <td>
                     <%= link_to((count > 0 ? count : content_tag(:span, "", class: "icon-close icon-context icon-button")), edit_type_workflow_path(type, role_ids: [role]), title: t(:button_edit)) %>

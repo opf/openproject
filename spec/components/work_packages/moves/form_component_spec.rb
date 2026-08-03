@@ -190,6 +190,27 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     end
   end
 
+  # The move follows the family member the target project runs, so warning about it would
+  # block a move that succeeds.
+  context "when the target project runs a variant of the moved type", with_flag: { type_variants: true } do
+    let(:variant) { create(:type, name: "Mobile Bug", parent: type) }
+    let(:target_project) { create(:project, types: [variant]) }
+
+    it "does not render the unavailable-type warning" do
+      expect(rendered_component).to have_no_css(".op-toast.-warning")
+    end
+
+    context "with a descendant of the same family" do
+      before do
+        create(:work_package, project:, type:, parent: work_package)
+      end
+
+      it "does not render the unavailable-type warning either" do
+        expect(rendered_component).to have_no_css(".op-toast.-warning")
+      end
+    end
+  end
+
   context "with a required project-scoped custom field on the target type" do
     let!(:source_version) { create(:version, project:, name: "Source milestone") }
     let!(:target_version) { create(:version, project: target_project, name: "Target milestone") }

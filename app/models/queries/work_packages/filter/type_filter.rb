@@ -57,7 +57,9 @@ class Queries::WorkPackages::Filter::TypeFilter <
       .filter_map { |type_id| available_types[type_id.to_i] }
   end
 
-  # Filtering by a root type includes work packages of any of its variants
+  # Filtering by one member of a family includes the work packages of every member: a
+  # project offers whichever member it runs, so the same filter has to hold across
+  # projects that run a different one.
   def where
     operator_strategy.sql_for_field(expanded_values, self.class.model.table_name, self.class.key)
   end
@@ -65,13 +67,13 @@ class Queries::WorkPackages::Filter::TypeFilter <
   private
 
   def expanded_values
-    ids = values.map(&:to_i)
-    child_ids = ::Type.where(parent_id: ids).pluck(:id)
-
-    (ids + child_ids).uniq.map(&:to_s)
+    ::Type.family_ids(values).map(&:to_s).presence || values
   end
 
+  # Every member of a family is a valid value, not just the roots the global type
+  # endpoint offers: a project's filter names whichever member that project runs, and
+  # the same query stays valid outside of it. #where matches the family either way.
   def types
-    project.nil? ? ::Type.roots.order(Arel.sql("position")) : project.rolled_up_types
+    project.nil? ? ::Type.all : project.rolled_up_types
   end
 end

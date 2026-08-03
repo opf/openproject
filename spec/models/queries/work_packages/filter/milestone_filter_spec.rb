@@ -85,6 +85,10 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
     let(:model) { WorkPackage.unscoped }
     let(:attribute) { :id }
 
+    # Which types count as milestones is the Type.milestone scope's business, as a variant
+    # inherits the flag from its root; only the operator is asserted here.
+    let(:milestone_types) { Type.milestone.select(:id).to_sql }
+
     describe "#scope" do
       context "for the true value" do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
@@ -93,9 +97,7 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
           let(:operator) { "=" }
 
           it "is the same as handwriting the query" do
-            expected = 'type_id IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE ORDER BY position ASC)'
-
-            expect(instance.where).to eql expected
+            expect(instance.where).to eql "type_id IN (#{milestone_types})"
           end
         end
 
@@ -103,9 +105,7 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
           let(:operator) { "!" }
 
           it "is the same as handwriting the query" do
-            expected = 'type_id NOT IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE ORDER BY position ASC)'
-
-            expect(instance.where).to eql expected
+            expect(instance.where).to eql "type_id NOT IN (#{milestone_types})"
           end
         end
       end
@@ -117,9 +117,7 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
           let(:operator) { "=" }
 
           it "is the same as handwriting the query" do
-            expected = 'type_id NOT IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE ORDER BY position ASC)'
-
-            expect(instance.where).to eql expected
+            expect(instance.where).to eql "type_id NOT IN (#{milestone_types})"
           end
         end
 
@@ -127,12 +125,29 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
           let(:operator) { "!" }
 
           it "is the same as handwriting the query" do
-            expected = 'type_id IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE ORDER BY position ASC)'
-
-            expect(instance.where).to eql expected
+            expect(instance.where).to eql "type_id IN (#{milestone_types})"
           end
         end
       end
+    end
+  end
+
+  describe "milestones of a type family", with_flag: { type_variants: true } do
+    shared_let(:milestone_root) { create(:type, is_milestone: true) }
+    shared_let(:variant) { create(:type, parent: milestone_root) }
+    shared_let(:regular_type) { create(:type, is_milestone: false) }
+
+    before do
+      # A variant's own column is meaningless, so it must not decide the outcome.
+      variant.update_column(:is_milestone, false)
+    end
+
+    it "counts a variant of a milestone type as a milestone" do
+      expect(Type.milestone).to include(milestone_root, variant)
+    end
+
+    it "leaves types outside such a family out" do
+      expect(Type.milestone).not_to include(regular_type)
     end
   end
 end

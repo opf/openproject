@@ -35,42 +35,55 @@ RSpec.describe CustomActions::Conditions::Type do
     let(:key) { :type }
 
     describe "#allowed_values" do
-      it "is the list of all types, labelled by their composite name" do
-        root = build_stubbed(:type, name: "Task")
-        sub = build_stubbed(:type, name: "Bug", parent: root)
-        allow(Type)
-          .to receive(:preload)
-          .and_return([root, sub])
+      it "is the list of root types, variants being collapsed into them" do
+        root = create(:type, name: "Task")
+        create(:type, name: "Bug", parent: root)
 
         expect(instance.allowed_values)
-          .to eql([{ value: root.id, label: "Task" },
-                   { value: sub.id, label: "Task: Bug" }])
+          .to eql([{ value: root.id, label: "Task" }])
+      end
+    end
+
+    describe "#values=" do
+      it "folds a variant configured before into its root" do
+        root = create(:type)
+        variant = create(:type, parent: root)
+
+        instance.values = [variant.id]
+
+        expect(instance.values).to eql [root.id]
       end
     end
 
     describe "#fulfilled_by?" do
-      let(:work_package) { double("work_package", type_id: 1) }
+      shared_let(:root) { create(:type) }
+      shared_let(:variant) { create(:type, parent: root) }
+      shared_let(:unrelated) { create(:type) }
+
       let(:user) { double("not relevant") }
+
+      def naming_root_fulfilled_by?(type)
+        described_class.new([root.id]).fulfilled_by?(build_stubbed(:work_package, type:), user)
+      end
 
       it "is true if values are empty" do
         instance.values = []
 
-        expect(instance.fulfilled_by?(work_package, user))
-          .to be_truthy
+        expect(instance).to be_fulfilled_by(build_stubbed(:work_package, type: unrelated), user)
       end
 
-      it "is true if values include work package's type_id" do
-        instance.values = [1]
-
-        expect(instance.fulfilled_by?(work_package, user))
-          .to be_truthy
+      it "is true for the type it names" do
+        expect(naming_root_fulfilled_by?(root)).to be true
       end
 
-      it "is false if values do not include work package's type_id" do
-        instance.values = [5]
+      # The work package's project may run any member of the family, and users picked the
+      # family when they picked the type.
+      it "is true for a variant of the type it names" do
+        expect(naming_root_fulfilled_by?(variant)).to be true
+      end
 
-        expect(instance.fulfilled_by?(work_package, user))
-          .to be_falsey
+      it "is false for a type of another family" do
+        expect(naming_root_fulfilled_by?(unrelated)).to be false
       end
     end
   end

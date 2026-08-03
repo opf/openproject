@@ -421,28 +421,132 @@ RSpec.describe Type do
       end
     end
 
-    describe ".family_ids" do
+    describe "#enabled_in?" do
+      let(:project) { create(:project, types: [child]) }
+
+      it "is true for the enabled variant" do
+        expect(child).to be_enabled_in(project)
+      end
+
+      it "is true for its root, which users cannot tell apart from the variant" do
+        expect(parent).to be_enabled_in(project)
+      end
+
+      it "is false for a type of another family" do
+        expect(create(:type)).not_to be_enabled_in(project)
+      end
+    end
+
+    describe "family resolution" do
       let!(:other) { create(:type) }
 
-      it "returns every member of the family of a root" do
-        expect(described_class.family_ids([parent.id])).to contain_exactly(parent.id, child.id)
+      describe ".in_families_of" do
+        it "returns every member of a root's family" do
+          expect(described_class.in_families_of([parent.id])).to contain_exactly(parent, child)
+        end
+
+        it "returns every member of a variant's family" do
+          expect(described_class.in_families_of([child.id])).to contain_exactly(parent, child)
+        end
+
+        it "accepts records and relations as well as ids" do
+          expect(described_class.in_families_of(child)).to contain_exactly(parent, child)
+          expect(described_class.in_families_of(described_class.where(id: [child.id, other.id])))
+            .to contain_exactly(parent, child, other)
+        end
+
+        it "combines the families of all given types without duplicates" do
+          expect(described_class.in_families_of([parent.id, child.id, other.id]))
+            .to contain_exactly(parent, child, other)
+        end
+
+        it "is empty for types that do not exist" do
+          expect(described_class.in_families_of([described_class.maximum(:id) + 1])).to be_empty
+        end
       end
 
-      it "returns every member of the family of a variant" do
-        expect(described_class.family_ids([child.id])).to contain_exactly(parent.id, child.id)
+      describe ".roots_of" do
+        it "returns the root of each family, whichever member was named" do
+          expect(described_class.roots_of([child.id, other.id])).to contain_exactly(parent, other)
+        end
       end
 
-      it "accepts ids as strings, as filters hold them" do
-        expect(described_class.family_ids([child.id.to_s])).to contain_exactly(parent.id, child.id)
+      describe ".family_ids" do
+        it "returns the ids of every family member" do
+          expect(described_class.family_ids([parent.id])).to contain_exactly(parent.id, child.id)
+        end
+
+        it "accepts ids as strings, as filters hold them" do
+          expect(described_class.family_ids([child.id.to_s])).to contain_exactly(parent.id, child.id)
+        end
       end
 
-      it "combines the families of all given ids without duplicates" do
-        expect(described_class.family_ids([parent.id, child.id, other.id]))
-          .to contain_exactly(parent.id, child.id, other.id)
+      describe ".root_ids" do
+        it "returns the root ids" do
+          expect(described_class.root_ids([child.id, other.id])).to contain_exactly(parent.id, other.id)
+        end
+      end
+    end
+
+    # The SQL these build is what keeps grouping, sorting and cross-table joins family
+    # aware, so they are asserted against the database rather than as strings.
+    describe "family SQL" do
+      shared_let(:sql_root) { create(:type, name: "SQL root") }
+      shared_let(:sql_variant) { create(:type, name: "SQL variant", parent: sql_root) }
+      shared_let(:project) { create(:project, types: [sql_variant]) }
+      shared_let(:work_package) { create(:work_package, project:, type: sql_variant) }
+
+      describe ".root_id_subquery" do
+        it "resolves the root id of a bare type_id column" do
+          grouped = WorkPackage.where(id: work_package.id)
+                               .group(Arel.sql(described_class.root_id_subquery("work_packages.type_id")))
+                               .count
+
+          expect(grouped).to eq(sql_root.id => 1)
+        end
       end
 
-      it "is empty for ids that do not exist" do
-        expect(described_class.family_ids([described_class.maximum(:id) + 1])).to be_empty
+      describe ".root_id_expression" do
+        it "resolves the root id of a joined types row" do
+          root_ids = described_class.where(id: [sql_root.id, sql_variant.id])
+                                    .pluck(Arel.sql("types.id"), Arel.sql(described_class.root_id_expression))
+                                    .to_h
+
+          expect(root_ids).to eq(sql_root.id => sql_root.id, sql_variant.id => sql_root.id)
+        end
+      end
+
+      describe ".same_family_condition" do
+        it "matches rows of one family across two joined types tables" do
+          pairs = described_class
+                    .joins("JOIN types others ON #{described_class.same_family_condition('types', 'others')}")
+                    .where(id: sql_variant.id)
+                    .pluck(Arel.sql("others.id"))
+
+          expect(pairs).to contain_exactly(sql_root.id, sql_variant.id)
+        end
+      end
+
+      describe ".family_setting_expression" do
+        it "gives a variant the position of its root, which is the order users see" do
+          positions = described_class.where(id: [sql_root.id, sql_variant.id])
+                                     .pluck(Arel.sql("types.id"),
+                                            Arel.sql(described_class.family_setting_expression(:position)))
+                                     .to_h
+
+          expect(positions[sql_variant.id]).to eq(sql_root.position)
+          expect(positions[sql_root.id]).to eq(sql_root.position)
+        end
+
+        it "reads an inherited core setting off the root rather than the variant's column" do
+          sql_root.update!(is_milestone: true)
+          sql_variant.update_column(:is_milestone, false)
+
+          milestones = described_class
+                         .where("#{described_class.family_setting_expression(:is_milestone)} = TRUE")
+
+          expect(milestones).to include(sql_root, sql_variant)
+        end
       end
     end
 

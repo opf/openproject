@@ -33,8 +33,10 @@ module Types::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
+      # Reads the flag off the family: a variant inherits it from its root and its own
+      # column is meaningless (see Type#is_milestone).
       def milestone
-        where(is_milestone: true)
+        where("#{family_setting_expression(:is_milestone)} = TRUE")
       end
     end
   end

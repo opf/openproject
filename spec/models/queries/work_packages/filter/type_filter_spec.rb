@@ -58,16 +58,15 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
       context "without a project" do
         let(:project) { nil }
-        let!(:root) { create(:type) }
 
         it "is true" do
-          allow(Type).to receive(:roots).and_return(Type.where(id: root.id))
+          create(:type)
 
           expect(instance).to be_available
         end
 
         it "is false without a type" do
-          allow(Type).to receive(:roots).and_return(Type.none)
+          expect(Type.count).to eq(0) # guards the example against types leaking in
 
           expect(instance).not_to be_available
         end
@@ -93,14 +92,13 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
       context "without a project" do
         let(:project) { nil }
         let!(:root) { create(:type) }
+        let!(:variant) { create(:type, parent: root) }
 
-        before do
-          allow(Type).to receive(:roots).and_return(Type.where(id: root.id))
-        end
-
-        it "returns an array of type options" do
+        # Permissive on purpose: a query built inside a project names the member that
+        # project runs, and has to stay valid when read outside of it.
+        it "returns every member of a family" do
           expect(instance.allowed_values)
-            .to contain_exactly([root.name, root.id.to_s])
+            .to contain_exactly([root.name, root.id.to_s], [variant.name, variant.id.to_s])
         end
       end
     end
@@ -145,11 +143,19 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
           .to include(root.id.to_s, variant.id.to_s)
       end
 
-      it "leaves a childless type unchanged" do
+      it "expands a variant to its family as well, whichever member a project offers" do
         instance.values = [variant.id.to_s]
 
         expect(instance.where)
-          .not_to include(root.id.to_s)
+          .to include(root.id.to_s, variant.id.to_s)
+      end
+
+      it "leaves other families out" do
+        unrelated = create(:type)
+        instance.values = [unrelated.id.to_s]
+
+        expect(instance.where)
+          .not_to include(root.id.to_s, variant.id.to_s)
       end
 
       it "returns work packages of the root type and its variants, but not unrelated types" do

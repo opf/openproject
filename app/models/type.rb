@@ -96,10 +96,22 @@ class Type < ApplicationRecord
          :with_effective_configuration,
          :with_effective_source
 
-  default_scope { order("position ASC") }
+  # Qualified because types is self-joined for the parent of a variant, which makes
+  # an unqualified position ambiguous.
+  default_scope { order(Arel.sql("#{table_name}.position ASC")) }
 
   scope :roots, -> { where(parent_id: nil) }
   scope :variants, -> { where.not(parent_id: nil) }
+  # Every member of the families the given types belong to; accepts records, ids or a
+  # relation. Variants are transparent to users, so anything naming one member of a
+  # family has to match all of them.
+  scope :in_families_of, ->(types) {
+    roots = root_id_select_for(types)
+
+    where(id: roots).or(where(parent_id: roots))
+  }
+  # The roots of the families the given types belong to.
+  scope :roots_of, ->(types) { where(id: root_id_select_for(types)) }
   # All types are global until project-owned variants exist; this is the seam the
   # configuration source picker and contract scope against (see FND-103 :manage_type_variants).
   scope :global, -> { all }
@@ -122,12 +134,43 @@ class Type < ApplicationRecord
     roots.includes(:children).flat_map(&:family)
   end
 
-  # Ids of every member of the families the given ids belong to. Variants are
-  # transparent to users, so a filter naming one member has to match them all.
-  def self.family_ids(ids)
-    root_ids = where(id: ids).pluck(Arel.sql("COALESCE(parent_id, id)")).uniq
+  def self.family_ids(types)
+    in_families_of(types).pluck(:id)
+  end
 
-    where(id: root_ids).or(where(parent_id: root_ids)).pluck(:id)
+  def self.root_ids(types)
+    roots_of(types).pluck(:id)
+  end
+
+  # The root id of a types row, for SQL that has one joined already.
+  def self.root_id_expression(types_table = table_name)
+    "COALESCE(#{types_table}.parent_id, #{types_table}.id)"
+  end
+
+  # The root id belonging to a type_id column, for SQL that has no types row at hand.
+  # A correlated subquery rather than a join, so callers cannot collide with the types
+  # table an eager load may have joined already.
+  def self.root_id_subquery(type_id_column)
+    "(SELECT #{root_id_expression('families')} FROM #{table_name} families WHERE families.id = #{type_id_column})"
+  end
+
+  # Whether two joined types rows belong to the same family.
+  def self.same_family_condition(types_table, other_types_table)
+    "#{root_id_expression(types_table)} = #{root_id_expression(other_types_table)}"
+  end
+
+  # A setting as it applies to the whole family, for SQL that would otherwise read a
+  # variant's own column: core settings are inherited from the root (see
+  # #inherited_core_setting), and position is append order within the family rather than
+  # a display order (see #sorted_variants), so both belong to the root.
+  def self.family_setting_expression(setting, types_table = table_name)
+    "COALESCE((SELECT roots.#{setting} FROM #{table_name} roots WHERE roots.id = #{types_table}.parent_id), " \
+      "#{types_table}.#{setting})"
+  end
+
+  # Relation selecting the root ids of the given types, for use as a subquery.
+  def self.root_id_select_for(types)
+    unscoped.where(id: types).select(Arel.sql(root_id_expression))
   end
 
   def <=>(other)
@@ -197,8 +240,10 @@ class Type < ApplicationRecord
     include_default ? scope.or(Status.where_default) : scope
   end
 
+  # A project runs a single member of a family and users cannot tell the members apart,
+  # so any member counts as this type being enabled.
   def enabled_in?(object)
-    object.types.include?(self)
+    object.types.any? { |type| type.root_id == root_id }
   end
 
   def root

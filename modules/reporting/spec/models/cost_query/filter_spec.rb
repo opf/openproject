@@ -258,6 +258,30 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(query.result.count).to eq(3)
       end
 
+      # Users filter for the type they see; the work packages of a project running a
+      # variant carry that variant.
+      context "with a family of types", with_flag: { type_variants: true } do
+        let(:root_type) { project.types.first }
+        let!(:variant) { create(:type, parent: root_type) }
+        let!(:variant_project) { create(:project, types: [variant]) }
+
+        before do
+          create_work_packages_and_time_entries(2, type: root_type)
+          create_work_packages_and_time_entries(3, type: variant, project: variant_project)
+        end
+
+        it "filters the whole family when filtering for the root" do
+          query.filter :type_id, operator: "=", value: root_type.id
+
+          expect(query.result.count).to eq(5)
+        end
+
+        it "offers the roots only, labelled with the name users see" do
+          expect(CostQuery::Filter::TypeId.available_values.map(&:last)).not_to include(variant.id)
+          expect(CostQuery::Filter::TypeId.available_values).to include([root_type.name, root_type.id])
+        end
+      end
+
       it "filters work_package authors" do
         matching_author = create_matching_object_with_time_entries(:user, :author, 3)
         query.filter :author_id, operator: "=", value: matching_author.id
