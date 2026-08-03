@@ -36,6 +36,10 @@ See COPYRIGHT and LICENSE files for more details.
   <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageGraph, @sprint, @project) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::CreatedResolvedChart, @sprint, @project) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::CompletedTable, @sprint, @project) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::UnfinishedTable, @sprint, @project) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::AddedTable, @sprint, @project) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::RemovedTable, @sprint, @project) %>
 <% end %>
 
 <%= render(Backlogs::SprintReports::NavigationComponent.new(sprint: @sprint, project: @project)) %>
