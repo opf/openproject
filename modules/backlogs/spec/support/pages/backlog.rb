@@ -495,6 +495,21 @@ module Pages
         .to have_css("#{work_package_selector(work_package)}[draggable]")
     end
 
+    # The lock on the status badge is what tells the user why the cross-container
+    # moves are gone. Without it a read-only card is indistinguishable from a
+    # movable one until they try to move it and nothing happens.
+    def expect_work_package_locked(work_package)
+      within_work_package(work_package) do
+        expect(page).to have_css(readonly_lock_selector)
+      end
+    end
+
+    def expect_work_package_not_locked(work_package)
+      within_work_package(work_package) do
+        expect(page).to have_no_css(readonly_lock_selector)
+      end
+    end
+
     def pick_up_and_release_work_package(work_package)
       # A mid-drag list refresh can detach the grabbed row, so retry a bounded
       # number of times on a stale node. retry_block no-ops under
@@ -838,6 +853,12 @@ module Pages
 
     def draggable_work_package_selector(work_package)
       "#{work_package_selector(work_package)}[data-sortable-lists--item-id-value]"
+    end
+
+    # Located by the lock's accessible name so the expectation fails if the
+    # icon ever loses the text that explains it.
+    def readonly_lock_selector
+      "[aria-label='#{I18n.t('activerecord.attributes.status.is_readonly')}']"
     end
 
     def drag_backlogs_item(source:, target:, edge: nil)

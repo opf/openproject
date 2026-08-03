@@ -67,6 +67,11 @@ RSpec.describe "A read-only work package card in Backlogs",
     backlogs_page.visit!
   end
 
+  it "wears a lock the movable card beside it does not", :aggregate_failures do
+    backlogs_page.expect_work_package_locked(rejected_wp)
+    backlogs_page.expect_work_package_not_locked(movable_wp)
+  end
+
   it "can be reordered within its own list, and stays a drop target", :aggregate_failures do
     backlogs_page.expect_work_packages_in_sprint_in_order(sprint, work_packages: [movable_wp, rejected_wp])
 
