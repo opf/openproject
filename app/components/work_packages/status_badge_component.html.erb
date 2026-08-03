@@ -5,7 +5,7 @@
             icon: :lock,
             size: :xsmall,
             classes: "op-status-badge--icon",
-            aria: { label: t("activerecord.attributes.status.is_readonly") }
+            aria: { label: Status.human_attribute_name(:is_readonly) }
           )
         ) -%>
   <%- end -%>

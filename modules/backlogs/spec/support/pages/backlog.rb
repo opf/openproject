@@ -858,7 +858,7 @@ module Pages
     # Located by the lock's accessible name so the expectation fails if the
     # icon ever loses the text that explains it.
     def readonly_lock_selector
-      "[aria-label='#{I18n.t('activerecord.attributes.status.is_readonly')}']"
+      "[aria-label='#{Status.human_attribute_name(:is_readonly)}']"
     end
 
     def drag_backlogs_item(source:, target:, edge: nil)

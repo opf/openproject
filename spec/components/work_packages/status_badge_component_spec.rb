@@ -35,7 +35,7 @@ RSpec.describe WorkPackages::StatusBadgeComponent, type: :component do
     render_inline(described_class.new(...))
   end
 
-  let(:lock) { "[aria-label='#{I18n.t('activerecord.attributes.status.is_readonly')}']" }
+  let(:lock) { "[aria-label='#{Status.human_attribute_name(:is_readonly)}']" }
   let(:status) { build_stubbed(:status, name: "In progress") }
 
   subject(:rendered_component) do
