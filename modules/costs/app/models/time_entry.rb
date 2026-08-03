@@ -211,6 +211,13 @@ class TimeEntry < ApplicationRecord
         can_track_start_and_end_time? &&
         Setting.enforce_tracking_start_and_end_times?
     end
+
+    def max_hours_per_entry
+      return nil unless EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+
+      limit = Setting.max_hours_per_time_entry
+      limit if limit.positive?
+    end
   end
 
   private

@@ -83,6 +83,7 @@ en:
           cannot_log_for_this_work_package: "Cannot log time for this work package."
           duplicate_ongoing: "An ongoing time entry already exists for this user."
           invalid_time: "must be between 00:00 and 23:59."
+          max_hours_per_entry_exceeded: "cannot be more than %{limit} hours for a single time entry."
         work_package:
           is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
           nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
@@ -170,6 +171,7 @@ en:
   description_costs_settings: "Define the desired format for the costs in all projects."
 
   description_date_for_new_rate: "Date for new rate"
+  description_time_entry_restrictions: "Define restrictions that are validated when time is logged in all projects."
   description_time_settings: "Define which fields are mandatory to fill when logging time in all projects."
 
   ee:
@@ -234,6 +236,7 @@ en:
   label_status_finished: "Finished"
   label_time: "Time"
   label_time_entry_activity_form_description: "Changes to this time entry activity will be reflected in all projects where it is enabled."
+  label_time_entry_restrictions: "Restrictions"
   label_timer_since: "Started at %{time}"
   label_today_capitalized: "Today"
   label_units: "Cost units"
@@ -284,6 +287,8 @@ en:
   setting_enforce_tracking_start_and_end_times: "Require start and finish times"
   setting_enforce_tracking_start_and_end_times_caption: "Makes entering start and finish times mandatory when logging time."
   setting_enforce_without_allow: "Requiring start and finish times is not possible without allowing them"
+  setting_max_hours_per_time_entry: "Maximum hours per time entry"
+  setting_max_hours_per_time_entry_caption: "Limits how many hours a single time entry can have. Set to 0 to allow any number of hours."
 
   text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"

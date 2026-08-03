@@ -176,6 +176,7 @@ module Costs
       ::Settings::Definition.add "costs_currency_format", default: "%n %u", format: :string, allowed: ["%u %n", "%n %u"]
       ::Settings::Definition.add "allow_tracking_start_and_end_times", default: false, format: :boolean
       ::Settings::Definition.add "enforce_tracking_start_and_end_times", default: false, format: :boolean
+      ::Settings::Definition.add "max_hours_per_time_entry", default: 0, format: :integer, allowed: (0..)
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false

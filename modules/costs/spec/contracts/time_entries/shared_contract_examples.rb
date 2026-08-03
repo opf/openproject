@@ -229,6 +229,36 @@ RSpec.shared_examples_for "time entry contract" do
     end
   end
 
+  context "with a maximum number of hours per time entry configured" do
+    let(:max_hours_per_time_entry) { 4 }
+
+    before do
+      allow(Setting).to receive(:max_hours_per_time_entry).and_return(max_hours_per_time_entry)
+    end
+
+    it_behaves_like "is valid" # without an Enterprise token, the restriction is not enforced
+
+    context "with an Enterprise token", with_ee: %i[time_entry_time_restrictions] do
+      context "when hours exceed the maximum" do
+        it "is invalid" do
+          expect_valid(false, hours: %i(max_hours_per_entry_exceeded))
+        end
+      end
+
+      context "when hours equal the maximum" do
+        let(:time_entry_hours) { max_hours_per_time_entry }
+
+        it_behaves_like "is valid"
+      end
+
+      context "when the maximum is 0" do
+        let(:max_hours_per_time_entry) { 0 }
+
+        it_behaves_like "is valid"
+      end
+    end
+  end
+
   context "when comment is nil" do
     let(:time_entry_comments) { nil }
 

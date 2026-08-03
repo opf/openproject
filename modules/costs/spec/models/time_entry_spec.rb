@@ -597,6 +597,24 @@ RSpec.describe TimeEntry do
     end
   end
 
+  describe ".max_hours_per_entry" do
+    context "when the EnterpriseToken does not allow restrictions", with_ee: [] do
+      context "with a limit configured", with_settings: { max_hours_per_time_entry: 8 } do
+        it { expect(described_class.max_hours_per_entry).to be_nil }
+      end
+    end
+
+    context "when the EnterpriseToken allows restrictions", with_ee: [:time_entry_time_restrictions] do
+      context "with a limit configured", with_settings: { max_hours_per_time_entry: 8 } do
+        it { expect(described_class.max_hours_per_entry).to eq(8) }
+      end
+
+      context "with the limit set to 0", with_settings: { max_hours_per_time_entry: 0 } do
+        it { expect(described_class.max_hours_per_entry).to be_nil }
+      end
+    end
+  end
+
   describe "deprecated work package association" do
     it "ignores the deprecated work package association" do
       expect(described_class.ignored_columns).to include("work_package_id")

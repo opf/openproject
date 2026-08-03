@@ -107,7 +107,16 @@ module TimeEntries
     end
 
     def validate_hours_are_in_range
-      errors.add :hours, :invalid if model.hours&.negative?
+      return errors.add(:hours, :invalid) if model.hours&.negative?
+
+      validate_hours_within_max_per_entry
+    end
+
+    def validate_hours_within_max_per_entry
+      limit = TimeEntry.max_hours_per_entry
+      return if limit.nil? || model.hours.nil? || model.hours <= limit
+
+      errors.add :hours, :max_hours_per_entry_exceeded, limit:
     end
 
     def validate_project_is_set

@@ -64,6 +64,22 @@ See COPYRIGHT and LICENSE files for more details.
         disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
       )
 
+      form.html_content do
+        render(Primer::Beta::Subhead.new(hide_border: true)) do |subhead|
+          subhead.with_heading(tag: :h3, size: :medium) { I18n.t(:label_time_entry_restrictions) }
+          subhead.with_description { I18n.t(:description_time_entry_restrictions) }
+        end
+      end
+
+      form.text_field(
+        name: :max_hours_per_time_entry,
+        type: :number,
+        min: 0,
+        input_width: :xsmall,
+        caption: I18n.t(:setting_max_hours_per_time_entry_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+      )
+
       form.submit
     end
   end
