@@ -359,30 +359,16 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
       end
     end
 
-    context "with only version_id" do
+    context "with the deprecated version_id" do
       let(:attributes) do
         { subject: "test wp", project:, version_id: version1.id }
       end
 
-      it { expect(service_result).to be_success }
-
-      it "sets target versions" do
-        service_result
-        expect(new_work_package.target_versions).to contain_exactly(version1)
-      end
-
-      it "sets the version" do
-        service_result
-        expect(new_work_package.version).to eq version1
-      end
-    end
-
-    context "with both version_id and target_version_ids" do
-      let(:attributes) do
-        { subject: "test wp", project:, version_id: version1.id, target_version_ids: [version2.id] }
-      end
-
       it { expect(service_result).to be_failure }
+
+      it "rejects it as read-only" do
+        expect(service_result.errors.symbols_for(:version_id)).to include(:error_readonly)
+      end
     end
 
     context "with non-assignable version IDs" do

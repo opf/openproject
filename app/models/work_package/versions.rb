@@ -44,10 +44,6 @@ module WorkPackage::Versions
              -> { where(work_package_versions: { kind: "observed_in" }) },
              through: :work_package_versions, source: :version
 
-    scope :without_version, -> {
-      where(version_id: nil)
-    }
-
     scope :with_target_version, ->(version_id) {
       where(id: WorkPackageVersion.where(kind: "target", version_id:).select(:work_package_id))
     }
@@ -156,6 +152,13 @@ module WorkPackage::Versions
     target_versions.first
   end
 
+  # Id of the single target version, pending overrides included. Backs the
+  # deprecated `version` API link, which must echo a write that has not been
+  # persisted yet (e.g. when rendering a form payload).
+  def effective_target_version_id
+    effective_target_versions.first&.id
+  end
+
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
   #   * any open, shared version of the project the wp belongs to
@@ -186,13 +189,9 @@ module WorkPackage::Versions
   #
   # By precedence:
   #   * target_version_ids_replacements
-  #   * pending version_id change
   #   * actual written target_versions
   def effective_target_versions
-    if target_version_ids_replacements.nil?
-      # TODO(COMMS-863): drop this branch once nothing writes version_id directly
-      return version_id_changed? ? Array(Version.find_by(id: version_id)) : target_versions
-    end
+    return target_versions if target_version_ids_replacements.nil?
 
     versions_by_id = Version.where(id: target_version_ids_replacements).index_by(&:id)
     target_version_ids_replacements.filter_map { |id| versions_by_id[id] }
@@ -222,20 +221,14 @@ module WorkPackage::Versions
     @system_version_overrides ||= Set.new
   end
 
-  # Two paths feed the "target" associations:
-  #   * an explicit override (the *_replacements accessor was set) takes
-  #     precedence and replaces the whole set.
-  #   * otherwise, a plain change to version_id (the legacy single-version
-  #     path) is mirrored into the associations so both stay consistent.
-  #
-  # Writing to version_id will be removed after all subsystems start using
-  # target_versions instead
+  # The "target" associations are fed by an explicit override (the
+  # *_replacements accessor was set), which replaces the whole set. Nothing
+  # writes version_id anymore; it is only mirrored from the override for the
+  # subsystems still reading the deprecated column.
   def persist_version_associations
     if override_target_versions?
       replace_versions("target", target_version_ids_replacements)
       update_legacy_version_field
-    elsif saved_change_to_version_id?
-      replace_versions("target", Array(version_id))
     end
 
     if override_observed_in_versions?

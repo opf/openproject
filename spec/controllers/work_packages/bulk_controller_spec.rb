@@ -542,7 +542,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         end
 
         describe "#version" do
-          describe "set version_id attribute to some version" do
+          describe "set the deprecated version_id attribute" do
             shared_let(:subproject) do
               create(:project,
                      parent: project1,
@@ -563,22 +563,10 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
                   }
             end
 
-            subject { response }
-
-            it { is_expected.to be_redirect }
-
-            describe "#work_package" do
-              describe "#version" do
-                subject { work_packages.map(&:version_id).uniq }
-
-                it { is_expected.to contain_exactly(version.id) }
-              end
-
-              describe "#project" do
-                subject { work_packages.map(&:project_id).uniq }
-
-                it { is_expected.not_to contain_exactly(subproject.id) }
-              end
+            it "ignores the unpermitted param" do
+              expect(response).to be_redirect
+              expect(work_packages.map { |wp| wp.target_versions.pluck(:id) }.uniq)
+                .to contain_exactly([])
             end
           end
 
@@ -631,25 +619,6 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             end
           end
 
-          describe "set version_id to nil" do
-            before do
-              # 'none' is a magic value, setting version_id to nil
-              # will make the controller ignore that param
-              put :update,
-                  params: {
-                    ids: work_package_ids,
-                    work_package: { version_id: "none" }
-                  }
-            end
-
-            describe "#work_package" do
-              describe "#version" do
-                subject { work_packages.map(&:version_id).uniq }
-
-                it { is_expected.to eq([nil]) }
-              end
-            end
-          end
         end
 
         describe "#done_ratio" do

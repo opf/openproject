@@ -536,12 +536,6 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params"
     end
 
-    describe "version_id" do
-      let(:hash) { { "version_id" => "1" } }
-
-      it_behaves_like "allows params"
-    end
-
     describe "estimated_hours" do
       let(:hash) { { "estimated_hours" => "1" } }
 

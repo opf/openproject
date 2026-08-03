@@ -57,6 +57,8 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
 
   current_user { user }
 
+  let(:group_value) { ->(wp) { wp.send("#{group_by}_id") } }
+
   def wp_with(custom_field_value: nil, **attributes)
     attributes[:custom_values] = { custom_field.id => custom_field_value } if custom_field_value
 
@@ -78,7 +80,7 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
       work_package_attributes = ->(work_package) do
         {
           id: work_package.id,
-          values: [work_package.send("#{group_by}_id")] + work_package.custom_values.map(&:value).sort
+          values: Array(group_value.call(work_package)) + work_package.custom_values.map(&:value).sort
         }
       end
 
@@ -93,7 +95,7 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
       work_package_attributes = ->(work_package) do
         {
           id: work_package.id,
-          values: [work_package.send("#{group_by}_id")] + work_package.custom_values.map(&:value).sort
+          values: Array(group_value.call(work_package)) + work_package.custom_values.map(&:value).sort
         }
       end
 
@@ -231,7 +233,10 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
       ]
     end
     let(:id_by_name) { versions.to_h { [it.name, it.id] } }
+    let(:version_by_name) { versions.index_by(&:name) }
     let(:group_by) { :version }
+    # Versions are grouped through the target_versions association.
+    let(:group_value) { ->(wp) { wp.target_version_ids } }
 
     context "if not allowing multi select" do
       let(:custom_field) { create(:version_wp_custom_field) }
@@ -239,11 +244,11 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
       it_behaves_like "it sorts asc" do
         let(:work_packages) do
           [
-            wp_with(version_id: id_by_name.fetch("9")),
-            wp_with(version_id: id_by_name.fetch("9"), custom_field_value: id_by_name.fetch("9")),
-            wp_with(version_id: id_by_name.fetch("10.10.2")),
-            wp_with(version_id: id_by_name.fetch("10.10.2"), custom_field_value: id_by_name.fetch("9")),
-            wp_with(version_id: id_by_name.fetch("10.10.2"), custom_field_value: id_by_name.fetch("10.2")),
+            wp_with(version: version_by_name.fetch("9")),
+            wp_with(version: version_by_name.fetch("9"), custom_field_value: id_by_name.fetch("9")),
+            wp_with(version: version_by_name.fetch("10.10.2")),
+            wp_with(version: version_by_name.fetch("10.10.2"), custom_field_value: id_by_name.fetch("9")),
+            wp_with(version: version_by_name.fetch("10.10.2"), custom_field_value: id_by_name.fetch("10.2")),
             wp_without,
             wp_with(custom_field_value: id_by_name.fetch("9")),
             wp_with(custom_field_value: id_by_name.fetch("10.2")),
@@ -256,11 +261,11 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
       it_behaves_like "it sorts desc" do
         let(:work_packages) do
           [
-            wp_with(version_id: id_by_name.fetch("9"), custom_field_value: id_by_name.fetch("9")),
-            wp_with(version_id: id_by_name.fetch("9")),
-            wp_with(version_id: id_by_name.fetch("10.10.2"), custom_field_value: id_by_name.fetch("10.2")),
-            wp_with(version_id: id_by_name.fetch("10.10.2"), custom_field_value: id_by_name.fetch("9")),
-            wp_with(version_id: id_by_name.fetch("10.10.2")),
+            wp_with(version: version_by_name.fetch("9"), custom_field_value: id_by_name.fetch("9")),
+            wp_with(version: version_by_name.fetch("9")),
+            wp_with(version: version_by_name.fetch("10.10.2"), custom_field_value: id_by_name.fetch("10.2")),
+            wp_with(version: version_by_name.fetch("10.10.2"), custom_field_value: id_by_name.fetch("9")),
+            wp_with(version: version_by_name.fetch("10.10.2")),
             wp_with(custom_field_value: id_by_name.fetch("10.10.10")),
             wp_with(custom_field_value: id_by_name.fetch("10.10.2")),
             wp_with(custom_field_value: id_by_name.fetch("10.2")),
@@ -277,18 +282,18 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
       it_behaves_like "it sorts asc" do
         let(:work_packages) do
           [
-            wp_with(version_id: id_by_name.fetch("10.10.10")),
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10")),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.10.2", "9")),    # 9, 10.10.2
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.10.10", "9")),   # 9, 10.10.10
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("9", "10.10.10")),   # 9, 10.10.10
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.2", "10.10.2")), # 10.2, 10.10.2
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.10.2")),         # 10.10.2
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.10.10")),        # 10.10.10
             wp_without,
             wp_with(custom_field_value: id_by_name.fetch_values("10.10.2", "9")),    # 9, 10.10.2
@@ -304,19 +309,19 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
       it_behaves_like "it sorts desc" do
         let(:work_packages) do
           [
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.10.10")),        # 10.10.10
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.10.2")),         # 10.10.2
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.2", "10.10.2")), # 10.2, 10.10.2
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("9", "10.10.10")),   # 9, 10.10.10
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.10.10", "9")),   # 9, 10.10.10
-            wp_with(version_id: id_by_name.fetch("10.10.10"),
+            wp_with(version: version_by_name.fetch("10.10.10"),
                     custom_field_value: id_by_name.fetch_values("10.10.2", "9")),    # 9, 10.10.2
-            wp_with(version_id: id_by_name.fetch("10.10.10")),
+            wp_with(version: version_by_name.fetch("10.10.10")),
             wp_with(custom_field_value: id_by_name.fetch_values("10.10.10")),        # 10.10.10
             wp_with(custom_field_value: id_by_name.fetch_values("10.10.2")),         # 10.10.2
             wp_with(custom_field_value: id_by_name.fetch_values("10.2", "10.10.2")), # 10.2, 10.10.2

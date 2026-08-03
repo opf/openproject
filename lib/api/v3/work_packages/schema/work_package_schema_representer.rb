@@ -314,6 +314,9 @@ module API
                                          },
                                          required: false,
                                          deprecated: true,
+                                         # Writes to the deprecated link are translated into a single
+                                         # target version, so it is writable exactly when that is.
+                                         writable: ->(*) { represented.writable?(:target_versions) },
                                          show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
                                          description: -> { I18n.t("api_v3.attributes.version.deprecated") }
 

@@ -579,10 +579,18 @@ module API
 
         # Deprecated in favour of `targetVersions`
         # Removed from the API if multiple_versions is enabled on the instance
+        #
+        # Writes are translated into a single target version instead of the
+        # legacy version_id column, so clients using the deprecated link keep
+        # working while nothing writes version_id anymore.
         associated_resource :version,
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter,
-                            skip_render: ->(*) { Setting::WorkPackageMultipleVersions.active? }
+                            skip_render: ->(*) { Setting::WorkPackageMultipleVersions.active? },
+                            link_getter: :effective_target_version_id,
+                            setter: ->(fragment:, **) do
+                              represented.target_version_ids = parse_link_ids_from_fragment([fragment], :version).compact
+                            end
 
         associated_resources :target_versions,
                              v3_path: :version,

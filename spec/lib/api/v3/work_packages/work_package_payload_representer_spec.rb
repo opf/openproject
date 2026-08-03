@@ -598,13 +598,28 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe "version" do
-      before do
-        work_package.version_id = 1
+      # The deprecated link writes through target_version_ids instead of the
+      # legacy version_id column.
+      let(:version) { build_stubbed(:version) }
+
+      describe "with a valid href" do
+        let(:links) { { "version" => { href: api_v3_paths.version(version.id) } } }
+
+        it "sets a single target version" do
+          expect(work_package).to receive(:target_version_ids=).with([version.id.to_s])
+
+          subject
+        end
       end
 
-      it_behaves_like "linked resource" do
-        let(:attribute_name) { "version" }
-        let(:association_name) { "version_id" }
+      describe "with a null href" do
+        let(:links) { { "version" => { href: nil } } }
+
+        it "clears the target versions" do
+          expect(work_package).to receive(:target_version_ids=).with([])
+
+          subject
+        end
       end
     end
 

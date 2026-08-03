@@ -46,11 +46,6 @@ module WorkPackages
     attribute :type_id
     attribute :priority_id
     attribute :category_id
-    attribute :version_id,
-              permission: :assign_versions,
-              writable: ->(*) { !Setting::WorkPackageMultipleVersions.active? } do
-      validate_version_is_assignable
-    end
     attribute :target_versions,
               permission: :assign_versions do
       validate_target_versions_are_assignable
@@ -62,7 +57,7 @@ module WorkPackages
 
     validate :validate_no_reopen_on_closed_version
     validate :validate_versions_permission
-    validate :validate_target_versions_and_legacy_version_id
+    validate :validate_target_versions_length
 
     attribute :project_id
 
@@ -393,12 +388,6 @@ module WorkPackages
       end
     end
 
-    def validate_version_is_assignable
-      if model.version_id && model.assignable_versions.map(&:id).exclude?(model.version_id)
-        errors.add :version_id, :inclusion
-      end
-    end
-
     # Only user-requested overrides need the permission; system-initiated
     # overrides (e.g. clearing versions not shared with the project the work
     # package is moved to) are exempt, like change_by_system attributes.
@@ -421,37 +410,14 @@ module WorkPackages
       model.override_observed_in_versions? && !model.system_version_override?("observed_in")
     end
 
-    # While the deprecated single version_id column coexists with target_versions,
-    # the two must not contradict each other. This enforces both constraints of
-    # that transitional period in one place:
-    #   * target_versions behaves as a single value (at most one entry) unless the
-    #     multiple-versions feature is enabled, and
-    #   * version_id and target_versions may both be written in one request as
-    #     long as they agree; only an actual contradiction is rejected.
-    def validate_target_versions_and_legacy_version_id
-      return unless model.override_target_versions?
-
-      validate_target_versions_length
-      validate_version_and_target_version_not_contradict
-    end
-
+    # target_versions behaves as a single value (at most one entry) unless the
+    # multiple-versions feature is enabled.
     def validate_target_versions_length
+      return unless model.override_target_versions?
       return if Setting::WorkPackageMultipleVersions.active?
 
       if model.target_version_ids_replacements.length > 1
         errors.add :base, :target_versions_only_allow_single_value
-      end
-    end
-
-    def validate_version_and_target_version_not_contradict
-      # Only a user writing both fields is a real contradiction. version_id is
-      # also cleared by the system (e.g. on a project move, when the old version
-      # is not shared with the target project); that change is driven by the
-      # target_versions override and must not be flagged here.
-      return unless changed_by_user.include?("version_id")
-
-      if model.version_id != model.target_version_ids_replacements.first
-        errors.add :base, :version_and_target_versions_mutually_exclusive
       end
     end
 
