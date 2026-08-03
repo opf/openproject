@@ -154,7 +154,6 @@ module OpenProject
       # @param description text
       # @param interactive toggle
       # @param collapsible toggle
-      # @param multi_line toggle
       def playground(
         title_tag: :h4,
         count: :inferred,
@@ -164,8 +163,7 @@ module OpenProject
         header_padding: :inherit,
         description: PLAYGROUND_DESCRIPTION,
         interactive: false,
-        collapsible: false,
-        multi_line: true
+        collapsible: false
       )
         render OpenProject::Common::BorderBoxListComponent.new(
           container: "border-box-list-playground-preview",
@@ -178,7 +176,6 @@ module OpenProject
             title: "Playground list",
             title_tag: title_tag.to_sym,
             count: preview_count(count),
-            multi_line: boolean_preview_param(multi_line),
             count_arguments: {
               scheme: count_scheme.to_sym,
               hide_if_zero: boolean_preview_param(hide_zero_count),
@@ -216,20 +213,20 @@ module OpenProject
         end
       end
 
-      # @label With header action label
-      # Header action area holding a status label, optionally next to an action button.
+      # @label With header label
+      # Header holding a status label, optionally next to an action button.
       # @param label_scheme [Symbol] select [default, primary, secondary, accent, success, attention, severe, danger]
       # @param with_action_button toggle
       # @param padding [Symbol] select [default, condensed, spacious]
       # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
-      def with_header_action_label(
+      def with_header_label(
         label_scheme: :default,
         with_action_button: false,
         padding: :default,
         header_padding: :inherit
       )
-        render_action_label_list(
-          container: "border-box-list-header-action-label-preview",
+        render_label_list(
+          container: "border-box-list-header-label-preview",
           label_scheme:,
           with_action_button:,
           padding:,
@@ -238,21 +235,21 @@ module OpenProject
         )
       end
 
-      # @label With collapsible header action label
-      # The collapsible header renders through its own heading markup, so the action
+      # @label With collapsible header label
+      # The collapsible header renders through its own heading markup, so the
       # label alignment is worth checking separately.
       # @param label_scheme [Symbol] select [default, primary, secondary, accent, success, attention, severe, danger]
       # @param with_action_button toggle
       # @param padding [Symbol] select [default, condensed, spacious]
       # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
-      def with_collapsible_header_action_label(
+      def with_collapsible_header_label(
         label_scheme: :default,
         with_action_button: false,
         padding: :default,
         header_padding: :inherit
       )
-        render_action_label_list(
-          container: "border-box-list-collapsible-header-action-label-preview",
+        render_label_list(
+          container: "border-box-list-collapsible-header-label-preview",
           label_scheme:,
           with_action_button:,
           padding:,
@@ -281,8 +278,8 @@ module OpenProject
 
       private
 
-      def render_action_label_list(container:, label_scheme:, with_action_button:, padding:, header_padding:,
-                                   collapsible:)
+      def render_label_list(container:, label_scheme:, with_action_button:, padding:, header_padding:,
+                            collapsible:)
         render OpenProject::Common::BorderBoxListComponent.new(
           container:,
           padding:,
@@ -290,7 +287,7 @@ module OpenProject
           collapsible:
         ) do |list|
           list.with_header(title: "Bug", count: true) do |header|
-            header.with_action_label(scheme: label_scheme) { "Default" }
+            header.with_label(scheme: label_scheme) { "Default" }
             if boolean_preview_param(with_action_button)
               header.with_action_button do |button|
                 button.with_leading_visual_icon(icon: :pencil)
