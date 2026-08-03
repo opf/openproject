@@ -267,6 +267,66 @@ RSpec.describe Projects::Exports::PDF do
     end
   end
 
+  describe "project phase columns selected" do
+    let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+    let(:query_columns) { %w[name] + ["project_phase_#{phase_definition.id}"] }
+
+    context "with view_project_phases permission" do
+      let(:permissions) { super() + %i[view_project_phases] }
+
+      context "and an active phase" do
+        before do
+          create(:project_phase, project:, definition: phase_definition,
+                                 start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+        end
+
+        it "includes the phase's date range in the export" do
+          expected_document = [
+            *expected_cover_page,
+            project.name,
+            "Initiation", "#{format_date(Date.new(2026, 1, 5))} - #{format_date(Date.new(2026, 1, 20))}",
+            "1/1", export_time_formatted, query.name
+          ].join(" ")
+
+          expect(subject).to eq expected_document
+        end
+      end
+
+      context "and an inactive phase" do
+        before do
+          create(:project_phase, project:, definition: phase_definition, active: false)
+        end
+
+        it "drops the phase attribute instead of rendering it as empty" do
+          expected_document = [
+            *expected_cover_page,
+            project.name,
+            "1/1", export_time_formatted, query.name
+          ].join(" ")
+
+          expect(subject).to eq expected_document
+        end
+      end
+    end
+
+    context "without view_project_phases permission anywhere" do
+      before do
+        create(:project_phase, project:, definition: phase_definition,
+                               start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+      end
+
+      it "omits the phase column entirely" do
+        expected_document = [
+          *expected_cover_page,
+          project.name,
+          "1/1", export_time_formatted, query.name
+        ].join(" ")
+
+        expect(subject).to eq expected_document
+      end
+    end
+  end
+
   context "with no project visible" do
     let(:current_user) { User.anonymous }
 

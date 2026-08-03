@@ -184,6 +184,49 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
     end
   end
 
+  describe "project phase columns selected" do
+    let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+    let(:query_columns) { %w[name description project_status public] + ["project_phase_#{phase_definition.id}"] }
+
+    before do
+      create(:project_phase, project:, definition: phase_definition,
+                             start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+    end
+
+    context "with view_project_phases permission" do
+      let(:permissions) { super() + %i[view_project_phases] }
+
+      it "renders the phase's date range in the row" do
+        expect(header).to eq %w[Name Description Status Public Initiation]
+
+        formatter = Projects::Exports::Formatters::ProjectPhase.new(nil)
+        expect(sheet.row(1).last)
+          .to eq("#{formatter.format_date(Date.new(2026, 1, 5))} - #{formatter.format_date(Date.new(2026, 1, 20))}")
+      end
+    end
+
+    context "without view_project_phases permission anywhere" do
+      it "omits the phase column entirely" do
+        expect(header).to eq %w[Name Description Status Public]
+        expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false"]
+      end
+    end
+
+    context "with view_project_phases permission in another project only" do
+      let(:other_project) { create(:project) }
+
+      before do
+        create(:member, user: current_user, project: other_project,
+                        roles: [create(:project_role, permissions: %i[view_project_phases])])
+      end
+
+      it "renders an empty value for the project where the user lacks the permission" do
+        expect(header).to eq %w[Name Description Status Public Initiation]
+        expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false", nil]
+      end
+    end
+  end
+
   context "with no project visible" do
     let(:current_user) { User.anonymous }
 
