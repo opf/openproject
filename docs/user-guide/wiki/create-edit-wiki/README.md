@@ -15,7 +15,7 @@ In OpenProject, you can create and edit wiki pages together with your team to do
 | [Create a new wiki page](#create-a-new-wiki-page) | How to create a new wiki page. |
 | [Edit a wiki page](#edit-a-wiki-page) | How to make changes to an existing wiki page. |
 | [Rename a wiki page](#rename-a-wiki-page-title) | How to rename a wiki page. |
-| [Create a wiki page structure](#create-a-wiki-page-structure) | How to organize wiki pages in a hierarchy. |
+| [Create a wiki page structure](#change-the-page-hierarchy) | How to organize wiki pages in a hierarchy. |
 | [Watch a wiki page](#watch-a-wiki-page) | How to watch a wiki page. |
 | [Lock a wiki page](#lock-a-wiki-page) | How to lock and unlock a wiki page. |
 | [Delete a wiki page](#delete-a-wiki-page) | How to delete a wiki page. |

@@ -28,7 +28,7 @@ For organizations that prefer to manage documentation outside of OpenProject, ex
 | Topic | Content |
 | ------ | ------- |
 | [Create and edit wiki pages](create-edit-wiki/) | Create, edit, organize, and manage wiki pages. |
-| [Wiki navigation](wiki-menu/) | Navigate and organize wiki pages within a project. |
+| [Wiki navigation](wiki-navigation/) | Navigate and organize wiki pages within a project. |
 | [Wiki FAQ](wiki-faq/) | Frequently asked questions about the wiki. |
 
 ## Enable internal wiki

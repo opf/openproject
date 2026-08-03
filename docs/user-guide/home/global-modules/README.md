@@ -165,4 +165,4 @@ The **Wiki** global module lists all wiki pages across all projects and displays
 
 You can also use the search bar on the top of the list to search for wiki pages by name. Be aware that even in the global module, you'll only see the wiki pages that you're authorized to view. Clicking on a wiki page will guide you directly to this page in the respective project.
 
-Read more about creating and accessing **Wikis** [here](/../../wiki/).
+Read more about creating and accessing **Wikis** [here](../../wiki/).
