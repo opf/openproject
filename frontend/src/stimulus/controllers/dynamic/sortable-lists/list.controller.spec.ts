@@ -226,18 +226,12 @@ describe('Sortable lists list controller', () => {
       .toBe(true);
   });
 
-  it('accepts a confined item when it is that item source list', async () => {
-    const root = document.createElement('div');
-    const { list } = await connectedListFor({ acceptedType: 'work_package', root: fakeRoot(root) });
-
-    expect(dropTargetOptionsFor(list)?.canDrop?.({
-      element: list,
-      input: {} as never,
-      source: source(root, 'work_package', { confined: true, sourceListElement: list }),
-    })).toBe(true);
-  });
-
-  it('rejects a confined item from another list', async () => {
+  // A confined item stays accepted by a foreign list on purpose: only an
+  // accepted target keeps the standard 'move' cursor on the dragover (refused,
+  // Chrome falls back to a copy cursor), and Pragmatic's getDropEffect cannot
+  // express 'none'. The refusal lives in resolveDropIntent and in the
+  // suppressed drop indicators instead.
+  it('still accepts a confined item from another list', async () => {
     const root = document.createElement('div');
     const { list } = await connectedListFor({ acceptedType: 'work_package', root: fakeRoot(root) });
 
@@ -245,18 +239,7 @@ describe('Sortable lists list controller', () => {
       element: list,
       input: {} as never,
       source: source(root, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
-    })).toBe(false);
-  });
-
-  it('rejects a confined item whose payload carries no source list', async () => {
-    const root = document.createElement('div');
-    const { list } = await connectedListFor({ acceptedType: 'work_package', root: fakeRoot(root) });
-
-    expect(dropTargetOptionsFor(list)?.canDrop?.({
-      element: list,
-      input: {} as never,
-      source: source(root, 'work_package', { confined: true }),
-    })).toBe(false);
+    })).toBe(true);
   });
 
   it('rejects an item whose type is not accepted', async () => {
@@ -289,39 +272,62 @@ describe('Sortable lists list controller', () => {
   });
 
   it('outlines the container for a list-only drop', async () => {
-    const { list } = await connectedListFor();
+    const rootElement = document.createElement('div');
+    const { list } = await connectedListFor({ root: fakeRoot(rootElement) });
     const options = dropTargetOptionsFor(list);
 
-    options?.onDragEnter?.({ location: locationOver() } as never);
+    options?.onDragEnter?.({ location: locationOver(), source: source(rootElement) } as never);
 
     expect(list.dataset.dropContainer).toEqual('active');
   });
 
   it('does not outline the container while the pointer is over an item row', async () => {
-    const { list } = await connectedListFor();
+    const rootElement = document.createElement('div');
+    const { list } = await connectedListFor({ root: fakeRoot(rootElement) });
     const options = dropTargetOptionsFor(list);
 
-    options?.onDrag?.({ location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }) } as never);
+    options?.onDrag?.({
+      location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }),
+      source: source(rootElement),
+    } as never);
+
+    expect(list.dataset.dropContainer).toBeUndefined();
+  });
+
+  it('does not outline the container for a confined item from another list', async () => {
+    const rootElement = document.createElement('div');
+    const { list } = await connectedListFor({ root: fakeRoot(rootElement) });
+    const options = dropTargetOptionsFor(list);
+
+    options?.onDragEnter?.({
+      location: locationOver(),
+      source: source(rootElement, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+    } as never);
 
     expect(list.dataset.dropContainer).toBeUndefined();
   });
 
   it('clears the container outline when the pointer moves from the list onto an item row', async () => {
-    const { list } = await connectedListFor();
+    const rootElement = document.createElement('div');
+    const { list } = await connectedListFor({ root: fakeRoot(rootElement) });
     const options = dropTargetOptionsFor(list);
 
-    options?.onDragEnter?.({ location: locationOver() } as never);
+    options?.onDragEnter?.({ location: locationOver(), source: source(rootElement) } as never);
     expect(list.dataset.dropContainer).toEqual('active');
 
-    options?.onDrag?.({ location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }) } as never);
+    options?.onDrag?.({
+      location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }),
+      source: source(rootElement),
+    } as never);
     expect(list.dataset.dropContainer).toBeUndefined();
   });
 
   it('clears the container outline on drag leave', async () => {
-    const { list } = await connectedListFor();
+    const rootElement = document.createElement('div');
+    const { list } = await connectedListFor({ root: fakeRoot(rootElement) });
     const options = dropTargetOptionsFor(list);
 
-    options?.onDragEnter?.({ location: locationOver() } as never);
+    options?.onDragEnter?.({ location: locationOver(), source: source(rootElement) } as never);
     expect(list.dataset.dropContainer).toEqual('active');
 
     options?.onDragLeave?.({} as never);

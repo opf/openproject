@@ -192,13 +192,20 @@ export function isItemFromRoot(
     && data.rootElement === rootElement;
 }
 
-// Whether a drop target may accept the dragged item under its confinement.
-// contains() includes the element itself, so one predicate passes both the
-// source list element and every row inside it while refusing every foreign
-// container. The source list keeping its acceptance is load-bearing: a drop
-// resolves through the list target (resolveDropIntent returns null without
-// one), so refusing it would kill within-list reorder, not just cross-list
-// moves.
+// Whether a drop on the given target may amount to a move under the source's
+// confinement. contains() includes the element itself, so one predicate passes
+// both the source list element and every row inside it while failing every
+// foreign container. The source list passing is load-bearing: a drop resolves
+// through the list target (resolveDropIntent returns null without one), so
+// failing it would kill within-list reorder, not just cross-list moves.
+//
+// Item drop targets consult this in canDrop and refuse outright; list drop
+// targets stay accepted regardless (an accepted target is what keeps the
+// standard 'move' cursor on the dragover — refused, Chrome falls back to a
+// copy cursor) and the refusal is enforced here in resolveDropIntent: a
+// release over a container this fails for resolves to no move at all, and
+// the drop-indicator layers consult it too, so such a container never shows
+// a drop position.
 export function confinementAllowsDrop(
   data:SortableItemData,
   targetElement:Element,
@@ -283,11 +290,13 @@ export function resolveDropIntent({
   const targetItem = location.current.dropTargets.find(
     (target):target is typeof target & { data:SortableItemData; element:HTMLElement } => (
       isSortableItemData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
+        && confinementAllowsDrop(sourceData, target.element)
     ),
   );
   const targetList = location.current.dropTargets.find(
     (target):target is typeof target & { data:SortableListData; element:HTMLElement } => (
       isSortableListData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
+        && confinementAllowsDrop(sourceData, target.element)
     ),
   );
   if (!targetList) {

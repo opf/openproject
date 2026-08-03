@@ -96,14 +96,22 @@ export default class ListController extends Controller<HTMLElement> implements R
 
     this.cleanupFn = dropTargetForElements({
       element: this.element,
+      // A confined item from another list stays accepted here on purpose,
+      // even though releasing it resolves to nothing (see acceptsDrop): only
+      // an accepted target lets Pragmatic keep the standard 'move' drop
+      // effect on the dragover, and with it the standard cursor. Refused, the
+      // container falls through to the browser default, which Chrome renders
+      // as a copy cursor — promising an "add" that will never happen.
+      // Pragmatic's getDropEffect cannot express 'none', so acceptance is the
+      // only supported way to control the cursor over these containers.
       canDrop: ({ source }) => this.canDrop(source.data),
       getData: () => this.listData,
       getIsSticky: () => false,
-      onDragEnter: ({ location }) => {
-        this.syncDropIndicator(location);
+      onDragEnter: ({ location, source }) => {
+        this.syncDropIndicator(location, source.data);
       },
-      onDrag: ({ location }) => {
-        this.syncDropIndicator(location);
+      onDrag: ({ location, source }) => {
+        this.syncDropIndicator(location, source.data);
       },
       onDragLeave: () => {
         this.clearDropIndicator();
@@ -164,19 +172,26 @@ export default class ListController extends Controller<HTMLElement> implements R
       return false;
     }
 
-    // A confined item's source list always passes the confinement check
-    // (containment includes the list element itself), keeping within-list
-    // reorder alive; only foreign containers refuse.
-    return isItemFromRoot(root.element, data)
-      && data.type === this.acceptedTypeValue
-      && confinementAllowsDrop(data, this.element);
+    return isItemFromRoot(root.element, data) && data.type === this.acceptedTypeValue;
+  }
+
+  // Whether a drop released here would amount to a move. A confined item's
+  // source list always passes (containment includes the list element itself),
+  // keeping within-list reorder alive; foreign containers stay accepted drop
+  // targets (see canDrop above) but a release on them resolves to nothing —
+  // resolveDropIntent applies the same confinement filter.
+  private acceptsDrop(data:Record<string|symbol, unknown>):boolean {
+    return isItemFromRoot(this.root?.element ?? null, data) && confinementAllowsDrop(data, this.element);
   }
 
   // The list is the item targets' parent drop target, so its onDrag keeps firing
   // while the pointer is over a row. Outline the container only for a list-only
-  // drop (no item target in play), so the row gap indicator owns that case.
-  private syncDropIndicator(location:DragLocationHistory):void {
-    if (location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
+  // drop (no item target in play) by a source that may actually land here, so
+  // the row gap indicator owns the over-a-row case and a confined foreign item
+  // draws nothing at all.
+  private syncDropIndicator(location:DragLocationHistory, sourceData:Record<string|symbol, unknown>):void {
+    if (!this.acceptsDrop(sourceData)
+      || location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
       this.clearDropIndicator();
     } else {
       this.renderDropIndicator();

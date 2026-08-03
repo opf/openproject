@@ -631,10 +631,9 @@ module Pages
     end
 
     # Drags a confined card over another sprint's list body and releases it
-    # there. No foreign container accepts it, so the release must resolve to
-    # nothing: no drop indicator over the target, no accepted drop target at
-    # release, no move request. The card's unchanged position is the caller's
-    # assertion.
+    # there. The release must resolve to nothing: no drop indicator over the
+    # target, no row of it accepting, no move request. The card's unchanged
+    # position is the caller's assertion.
     def drag_work_package_without_move(moved, into:)
       # See pick_up_and_release_work_package for the retry rationale.
       retry_block(
@@ -661,11 +660,13 @@ module Pages
     end
 
     # The refusal must be observable, or the assertions above would also pass
-    # for a drag that never engaged. The drop has to reach the controller with
-    # no accepted target, and the final dragover — the one over the foreign
-    # container — must show no drop indicator of either kind. Earlier dragovers
+    # for a drag that never engaged. The drop has to reach the controller —
+    # the foreign container stays an accepted drop target so the drag keeps
+    # the standard cursor, so it may appear in the drop's target list, but no
+    # row of it may — and the final dragover, the one over the foreign
+    # container, must show no drop indicator of either kind. Earlier dragovers
     # may legitimately show indicators while the pointer is still crossing the
-    # card's own list, which keeps accepting it.
+    # card's own list, which keeps accepting it for real.
     def expect_backlogs_drag_refused
       refusal = page.evaluate_script(<<~JS)
         (() => {
@@ -677,7 +678,7 @@ module Pages
 
           return {
             handled: Boolean(call),
-            dropTargetCount: call?.dropTargets?.length ?? 0,
+            dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? [],
             observedDragover: Boolean(lastDragover),
             dropPositions: lastDragover?.dropPositions ?? null,
             dropContainers: lastDragover?.dropContainers ?? null
@@ -686,7 +687,7 @@ module Pages
       JS
 
       expect(refusal.fetch("handled")).to be(true)
-      expect(refusal.fetch("dropTargetCount")).to eq(0)
+      expect(refusal.fetch("dropTargetTypes")).not_to include("work_package")
       expect(refusal.fetch("observedDragover")).to be(true)
       expect(refusal.fetch("dropPositions")).to be_empty
       expect(refusal.fetch("dropContainers")).to eq(0)
