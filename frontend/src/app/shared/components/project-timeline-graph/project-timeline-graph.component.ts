@@ -150,7 +150,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years maximum zoom
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip) } as any,
+        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip), overflowMethod: 'cap' } as any,
       },
     );
 
