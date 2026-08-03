@@ -664,8 +664,9 @@ module Pages
     # the foreign container stays an accepted drop target so the drag keeps
     # the standard cursor, so it may appear in the drop's target list, but no
     # row of it may — and the final dragover, the one over the foreign
-    # container, must show no drop indicator of either kind. Earlier dragovers
-    # may legitimately show indicators while the pointer is still crossing the
+    # container, must show no drop position and mark that container refused
+    # (the muted danger outline) rather than active. Earlier dragovers may
+    # legitimately show indicators while the pointer is still crossing the
     # card's own list, which keeps accepting it for real.
     def expect_backlogs_drag_refused
       refusal = page.evaluate_script(<<~JS)
@@ -690,7 +691,7 @@ module Pages
       expect(refusal.fetch("dropTargetTypes")).not_to include("work_package")
       expect(refusal.fetch("observedDragover")).to be(true)
       expect(refusal.fetch("dropPositions")).to be_empty
-      expect(refusal.fetch("dropContainers")).to eq(0)
+      expect(refusal.fetch("dropContainers")).to eq(["refused"])
     end
 
     def drag_work_package_to_backlog_inbox(work_package)
@@ -1145,7 +1146,9 @@ module Pages
             label,
             draggingCount: document.querySelectorAll('[data-dragging]').length,
             honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
-            dropContainers: document.querySelectorAll('[data-drop-container]').length,
+            dropContainers: Array
+              .from(document.querySelectorAll('[data-drop-container]'))
+              .map((element) => element.getAttribute('data-drop-container')),
             dropTargets: document.querySelectorAll('[data-drop-target-for-element]').length,
             dropPositions: Array
               .from(document.querySelectorAll('[data-drop-position]'))
@@ -1177,7 +1180,9 @@ module Pages
             effectAllowed: event.dataTransfer?.effectAllowed ?? null,
             draggingCount: document.querySelectorAll('[data-dragging]').length,
             honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
-            dropContainers: document.querySelectorAll('[data-drop-container]').length,
+            dropContainers: Array
+              .from(document.querySelectorAll('[data-drop-container]'))
+              .map((element) => element.getAttribute('data-drop-container')),
             dropPositions: Array
               .from(document.querySelectorAll('[data-drop-position]'))
               .map((element) => ({

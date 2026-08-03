@@ -294,7 +294,7 @@ describe('Sortable lists list controller', () => {
     expect(list.dataset.dropContainer).toBeUndefined();
   });
 
-  it('does not outline the container for a confined item from another list', async () => {
+  it('marks the container refused for a confined item from another list', async () => {
     const rootElement = document.createElement('div');
     const { list } = await connectedListFor({ root: fakeRoot(rootElement) });
     const options = dropTargetOptionsFor(list);
@@ -304,6 +304,34 @@ describe('Sortable lists list controller', () => {
       source: source(rootElement, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
     } as never);
 
+    expect(list.dataset.dropContainer).toEqual('refused');
+  });
+
+  it('outlines the container for a confined item over its own list', async () => {
+    const rootElement = document.createElement('div');
+    const { list } = await connectedListFor({ root: fakeRoot(rootElement) });
+    const options = dropTargetOptionsFor(list);
+
+    options?.onDragEnter?.({
+      location: locationOver(),
+      source: source(rootElement, 'work_package', { confined: true, sourceListElement: list }),
+    } as never);
+
+    expect(list.dataset.dropContainer).toEqual('active');
+  });
+
+  it('clears the refused mark on drag leave', async () => {
+    const rootElement = document.createElement('div');
+    const { list } = await connectedListFor({ root: fakeRoot(rootElement) });
+    const options = dropTargetOptionsFor(list);
+
+    options?.onDragEnter?.({
+      location: locationOver(),
+      source: source(rootElement, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+    } as never);
+    expect(list.dataset.dropContainer).toEqual('refused');
+
+    options?.onDragLeave?.({} as never);
     expect(list.dataset.dropContainer).toBeUndefined();
   });
 

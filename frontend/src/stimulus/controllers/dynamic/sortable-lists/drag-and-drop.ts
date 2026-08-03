@@ -204,8 +204,8 @@ export function isItemFromRoot(
 // standard 'move' cursor on the dragover — refused, Chrome falls back to a
 // copy cursor) and the refusal is enforced here in resolveDropIntent: a
 // release over a container this fails for resolves to no move at all, and
-// the drop-indicator layers consult it too, so such a container never shows
-// a drop position.
+// the drop-indicator layers consult it too — rows never show a drop position
+// for it, and the list marks its container refused instead of active.
 export function confinementAllowsDrop(
   data:SortableItemData,
   targetElement:Element,

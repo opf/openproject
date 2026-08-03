@@ -175,31 +175,28 @@ export default class ListController extends Controller<HTMLElement> implements R
     return isItemFromRoot(root.element, data) && data.type === this.acceptedTypeValue;
   }
 
-  // Whether a drop released here would amount to a move. A confined item's
-  // source list always passes (containment includes the list element itself),
-  // keeping within-list reorder alive; foreign containers stay accepted drop
-  // targets (see canDrop above) but a release on them resolves to nothing —
-  // resolveDropIntent applies the same confinement filter.
-  private acceptsDrop(data:Record<string|symbol, unknown>):boolean {
-    return isItemFromRoot(this.root?.element ?? null, data) && confinementAllowsDrop(data, this.element);
-  }
-
   // The list is the item targets' parent drop target, so its onDrag keeps firing
-  // while the pointer is over a row. Outline the container only for a list-only
-  // drop (no item target in play) by a source that may actually land here, so
-  // the row gap indicator owns the over-a-row case and a confined foreign item
-  // draws nothing at all.
+  // while the pointer is over a row. Indicate only for a list-only drop (no item
+  // target in play), so the row gap indicator owns the over-a-row case. Whether
+  // a release would amount to a move decides the indicator's state: a confined
+  // item's source list counts as a move (containment includes the list element
+  // itself, keeping within-list reorder alive), while a foreign container stays
+  // an accepted drop target (see canDrop above) whose release resolves to
+  // nothing — resolveDropIntent applies the same confinement filter — and is
+  // marked refused so it can signal that a drop will not land here.
   private syncDropIndicator(location:DragLocationHistory, sourceData:Record<string|symbol, unknown>):void {
-    if (!this.acceptsDrop(sourceData)
+    if (!isItemFromRoot(this.root?.element ?? null, sourceData)
       || location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
       this.clearDropIndicator();
+    } else if (confinementAllowsDrop(sourceData, this.element)) {
+      this.renderDropIndicator('active');
     } else {
-      this.renderDropIndicator();
+      this.renderDropIndicator('refused');
     }
   }
 
-  private renderDropIndicator():void {
-    this.element.dataset.dropContainer = 'active';
+  private renderDropIndicator(state:'active'|'refused'):void {
+    this.element.dataset.dropContainer = state;
   }
 
   private clearDropIndicator():void {
