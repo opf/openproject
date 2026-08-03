@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import styled from 'styled-components';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import {
   defaultWpVariables,
   WorkPackageId,
@@ -15,6 +15,7 @@ interface UnavailableCardProps {
   messageKey:string;
   icon?:ReactNode;
   displayId?:string;
+  linkHeader?:boolean;
 }
 
 const UnavailableWorkPackage = styled.div.attrs({
@@ -42,8 +43,10 @@ const UnavailableMessageHeader = styled.div.attrs({
   gap: ${CHIP_STYLES.gap};
 `;
 
-export const UnavailableCard = ({ headerKey, messageKey, icon, displayId }:UnavailableCardProps) => {
+export const UnavailableCard = ({ headerKey, messageKey, icon, displayId, linkHeader }:UnavailableCardProps) => {
   const { t } = useTranslation();
+
+  const header = t(headerKey);
 
   return (
     <UnavailableWorkPackage>
@@ -52,10 +55,9 @@ export const UnavailableCard = ({ headerKey, messageKey, icon, displayId }:Unava
           {icon}
           {displayId && <WorkPackageId as="span" $compact>{formatWorkPackageId(displayId)}</WorkPackageId>}
           <span>
-            <Trans
-              i18nKey={headerKey}
-              components={displayId ? { wplink: <WorkPackageTitleLink {...workPackageLinkProps(displayId)} /> } : undefined}
-            />
+            {linkHeader && displayId
+              ? <WorkPackageTitleLink {...workPackageLinkProps(displayId)}>{header}</WorkPackageTitleLink>
+              : header}
           </span>
         </UnavailableMessageHeader>
         {t(messageKey)}

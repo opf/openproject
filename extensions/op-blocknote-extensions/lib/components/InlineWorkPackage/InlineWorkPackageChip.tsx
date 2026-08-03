@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import styled, { css } from 'styled-components';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useWorkPackagePreview } from '../../hooks/useWorkPackagePreview';
 import { useColors } from '../../services/colors';
-import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { ChipBase, ChipBaseXXS } from './chipLayouts';
-import { WorkPackageId, WorkPackageTitleLink, workPackageLinkProps } from '../WorkPackage/atoms';
+import { ChipBase, InlineChip } from './chipLayouts';
+import { WorkPackageId } from '../WorkPackage/atoms';
 import { WpChipXXS, WpChipXS, WpChipS } from './InlineChips';
+import { UnavailableChip } from './UnavailableChip';
 import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { WpPreviewPopover } from '../WorkPackage/PreviewPopover';
-import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { getPendingCallbacks, clearInlineWpCallbacks } from './callbacks';
 import type { InlineWpSize } from '../WorkPackage/types';
 import {
@@ -19,10 +17,8 @@ import {
   removeInlineChipAt,
   promoteInlineChipToBlockAt,
 } from '../../utils/inlineChipActions';
-import { EyeClosedIcon, AlertIcon } from '@primer/octicons-react';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
-import { Trans, useTranslation } from 'react-i18next';
-import { defaultWpVariables } from '../WorkPackage/atoms';
+import { useTranslation } from 'react-i18next';
 import { formatWorkPackageId } from '../../utils/id';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
@@ -39,36 +35,6 @@ export interface InlineWorkPackageChipProps {
     props:{ wpid:string; size:string; displayId:string };
   }) => void;
 }
-
-const UnavailableLabel = styled.span`
-  color: var(--bn-colors-editor-text);
-`;
-
-const InlineChip = styled.span.attrs({
-  className: 'op-bn-inline-wp',
-  contentEditable: false,
-})<{ selected?:boolean }>`
-  ${defaultWpVariables}
-  display: inline;
-  cursor: pointer;
-  user-select: none;
-  -webkit-touch-callout: none;
-  border-radius: ${CHIP_STYLES.radius};
-  position: relative;
-  line-height: 1;
-
-  &:active {
-    cursor: grabbing;
-  }
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      & > .op-bn-inline-wp-base {
-        box-shadow: ${CHIP_STYLES.inlineFocusShadow};
-      }
-    `}
-`;
 
 export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updateInlineContent }:InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
@@ -92,8 +58,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const [isSelected, setIsSelected] = useState(false);
   const chipRef = useRef<HTMLElement | null>(null);
 
-  const { previewOpen, closePreview, wasLongPress, triggerProps, cardProps } =
-    useWorkPackagePreview({ enabled: size === 'xxs', suppressed: isSelected });
+  const preview = useWorkPackagePreview({ enabled: size === 'xxs', suppressed: isSelected });
+  const { previewOpen, closePreview, wasLongPress, triggerProps, cardProps } = preview;
 
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
@@ -224,69 +190,23 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     );
   }
 
-  const unavailableWorkPackage = (kind:'unauthorized' | 'error') => {
-    const inlineIcon = kind === 'unauthorized'
-      ? <EyeClosedIcon size={12} verticalAlign="middle" />
-      : <AlertIcon size={12} verticalAlign="middle" />;
-    const cardIcon = kind === 'unauthorized'
-      ? <EyeClosedIcon size={16} />
-      : <AlertIcon size={16} />;
-    const shortMessageKey = `unavailableWorkPackage.${kind}.short_message`;
-    const shortLabel = t(shortMessageKey).replace(/<\/?wplink>/g, '');
-
-    // xxs stays tiny (icon only); the full message lives in the hover/long-press preview.
-    const iconOnly = size === 'xxs';
-    const Base = iconOnly ? ChipBaseXXS : ChipBase;
-    const showPreview = iconOnly && previewOpen;
-
+  // Unavailable: the work package exists but this user cannot see it, or the fetch failed
+  if (wpid && (unauthorized || error)) {
     return (
-      <InlineChip
-        ref={setRef}
-        data-drag-handle
-        // icon-only xxs is a labelled state graphic; larger sizes carry visible text
-        role={iconOnly ? 'img' : undefined}
+      <UnavailableChip
+        kind={unauthorized ? 'unauthorized' : 'error'}
+        size={size}
+        displayId={displayId}
+        setRef={setRef}
+        // eslint-disable-next-line react-hooks/refs
+        anchorEl={chipRef.current}
         selected={isSelected || isEditorSelected}
-        aria-label={iconOnly ? shortLabel : undefined}
-        {...triggerProps}
+        preview={preview}
         onClick={handleWorkPackageClick}
-      >
-        <Base>
-          {inlineIcon}
-          {!iconOnly && <WorkPackageId as="span" $compact>{formatWorkPackageId(displayId)}</WorkPackageId>}
-          {!iconOnly && (
-            <UnavailableLabel>
-              <Trans
-                i18nKey={shortMessageKey}
-                components={{ wplink: <WorkPackageTitleLink {...workPackageLinkProps(displayId)} /> }}
-              />
-            </UnavailableLabel>
-          )}
-        </Base>
-
-        {showPreview && (
-          <WpPreviewPopover
-            anchorEl={chipRef.current}
-            onClose={closePreview}
-            {...cardProps}
-          >
-            <UnavailableCard
-              icon={cardIcon}
-              headerKey={`unavailableWorkPackage.${kind}.header`}
-              messageKey={`unavailableWorkPackage.${kind}.message`}
-              displayId={displayId}
-            />
-          </WpPreviewPopover>
-        )}
-
-        {isSelected && optionsPopover}
-      </InlineChip>
+        optionsPopover={isSelected && optionsPopover}
+      />
     );
-  };
-
-  // eslint-disable-next-line react-hooks/refs
-  if (wpid && unauthorized) return unavailableWorkPackage('unauthorized');
-  // eslint-disable-next-line react-hooks/refs
-  if (wpid && error) return unavailableWorkPackage('error');
+  }
 
   // Unknown / transitional
   if (wpid) {

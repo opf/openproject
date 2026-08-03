@@ -205,6 +205,7 @@ export const BlockWorkPackageComponent = ({
                     headerKey="unavailableWorkPackage.unauthorized.header"
                     messageKey="unavailableWorkPackage.unauthorized.message"
                     displayId={displayId}
+                    linkHeader
                   />
                 )}
                 {isOptionsOpen && optionsPopover}

@@ -36,7 +36,7 @@ interface ChipTriggerProps {
   style:{ touchAction:'none' };
 }
 
-interface WorkPackagePreview {
+export interface WorkPackagePreview {
   previewOpen:boolean;
   closePreview:() => void;
   // True at most once per press: the click that follows a long press, so the
