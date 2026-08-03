@@ -118,7 +118,7 @@ class AccountController < ApplicationController
       if mail.blank?
         @user.mail = mail
         @user.errors.add(:mail, :blank)
-        render template: "account/lost_password", status: :unprocessable_entity
+        render status: :unprocessable_entity
         return
       end
 
