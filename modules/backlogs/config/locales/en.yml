@@ -246,8 +246,8 @@ en:
             show_all: "Show all"
             unfinished:
               heading: "Unfinished"
-          resolved_summary: "%{percentage}% (%{resolved} of %{total} work packages)"
           closed_work_packages: "Closed work packages"
+          resolved_summary: "%{percentage}% (%{resolved} of %{total} work packages)"
 
     sprints:
       row_component:
