@@ -139,6 +139,20 @@ RSpec.describe UserWorkingHours do
     end
   end
 
+  describe "#hours_on" do
+    before do
+      working_hours.monday = 480
+      working_hours.saturday = 0
+      working_hours.sunday = 120
+    end
+
+    it "returns the hours defined for the date's week day" do
+      expect(working_hours.hours_on(Date.new(2026, 8, 3))).to eq(8.0)  # Monday
+      expect(working_hours.hours_on(Date.new(2026, 8, 1))).to eq(0.0)  # Saturday
+      expect(working_hours.hours_on(Date.new(2026, 8, 2))).to eq(2.0)  # Sunday
+    end
+  end
+
   describe "#weekly_working_hours" do
     it "sums the daily working hours for the week" do
       working_hours.monday = 480

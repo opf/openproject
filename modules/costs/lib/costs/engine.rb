@@ -179,6 +179,8 @@ module Costs
       ::Settings::Definition.add "time_entries_max_hours_per_entry", default: 0, format: :integer, allowed: (0..)
       ::Settings::Definition.add "time_entries_max_hours_per_day", default: 0, format: :integer, allowed: (0..)
       ::Settings::Definition.add "time_entries_prohibit_logging_on_non_working_days", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_limit_to_user_working_hours", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_prohibit_logging_for_ended_months", default: false, format: :boolean
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
