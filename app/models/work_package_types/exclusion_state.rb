@@ -29,21 +29,30 @@
 #++
 
 module WorkPackageTypes
-  module FormConfiguration
-    # Form-configuration binding of WorkPackageTypes::ExclusionToggleComponent.
-    class ExclusionToggleComponent < WorkPackageTypes::ExclusionToggleComponent
-      ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
+  # The elements this type does not show.
+  #  - own: this type's own link
+  #  - effective: the union over the whole link chain
+  #
+  # An element in effective but not in own was excluded by a link above this type, which is
+  # what #excluded_by_source? answers: this type cannot reach that link to undo it.
+  ExclusionState = Data.define(:type, :own, :effective) do
+    def self.for(type, aspect)
+      link = type.configuration_links.find_by(aspect:)
+      return unless link
 
-      def initialize(exclusions:, element_key:, label:)
-        super(
-          exclusions:,
-          element_key:,
-          label:,
-          aspect: ASPECT,
-          off_label: I18n.t("types.edit.form_configuration.exclusions.excluded"),
-          test_selector: "toggle-form-config-exclusion-#{element_key}"
-        )
-      end
+      new(
+        type:,
+        own: link.excluded_elements.map(&:to_s),
+        effective: type.effective_excluded_elements(aspect).map(&:to_s)
+      )
+    end
+
+    def excluded?(key)
+      effective.include?(key.to_s)
+    end
+
+    def excluded_by_source?(key)
+      excluded?(key) && own.exclude?(key.to_s)
     end
   end
 end

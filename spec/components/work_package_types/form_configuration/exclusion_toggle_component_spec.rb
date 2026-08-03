@@ -6,7 +6,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
   let(:type) { create(:type) }
 
   def exclusion_state(effective: [])
-    WorkPackageTypes::FormConfigurationComponent::ExclusionState.new(type:, own: effective, effective:)
+    WorkPackageTypes::ExclusionState.new(type:, own: effective, effective:)
   end
 
   def component(exclusions: exclusion_state, element_key: "assignee", label: "Inherit Assignee")
