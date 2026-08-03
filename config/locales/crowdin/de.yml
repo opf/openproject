@@ -5469,7 +5469,7 @@ de:
           label: Nach Attributnamen filtern…
         heading_description: Diese Benutzerattribute werden in Benutzerprofilen und auf Informationskarten angezeigt. Sie können neue Attribute hinzufügen, diese in Abschnitte gruppieren und ihre Reihenfolge ändern.
       heading: Benutzerattribute
-      label_default_section: Benutzerattribute
+      label_default_section: Nutzerattribute
       label_new_attribute: Benutzerattribut
       label_new_section: Abschnitt
       new:
@@ -5836,7 +5836,7 @@ de:
             caption: Es wird kein PDF automatisch generiert.
             label: Aus
           section_title: Automatischer Export von Artefakten
-          unavailable: Nicht verfügbar; es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
+          unavailable: Nicht verfügbar, es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
         intro: Wählen Sie aus den verfügbaren Vorlagen diejenige aus, die Sie für diesen Typ aktivieren möchten. Die Vorlage bestimmt das Design und die Attribute, die in der exportierten PDF-Datei eines Arbeitspakets mit diesem Typ sichtbar sind. Die erste Vorlage in der Liste ist standardmäßig ausgewählt.
         pdf_export_templates:
           actions:

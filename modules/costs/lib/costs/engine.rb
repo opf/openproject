@@ -38,7 +38,8 @@ module Costs
       project_module :costs do
         permission :view_time_entries,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { time_entries: %i[read] }
         permission :view_own_time_entries,
                    {},
                    permissible_on: %i[work_package project],
@@ -54,7 +55,8 @@ module Costs
                    {},
                    permissible_on: :project,
                    require: :loggedin,
-                   dependencies: :view_time_entries
+                   dependencies: :view_time_entries,
+                   contract_actions: { time_entries: %i[create] }
 
         permission :edit_own_time_entries,
                    {},
@@ -64,7 +66,8 @@ module Costs
         permission :edit_time_entries,
                    {},
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { time_entries: %i[edit destroy] }
 
         permission :manage_project_activities,
                    {

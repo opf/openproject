@@ -167,4 +167,4 @@ You can also use the search bar on the top of the list to search for wiki pages 
 
 Clicking on a wiki page will guide you directly to this page in the respective project.
 
-Read more about creating and accessing **Wikis** [here](/../../wiki/).
+Read more about creating and accessing **Wikis** [here](../../wiki/).

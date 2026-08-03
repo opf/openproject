@@ -38,4 +38,4 @@ The wiki syntax that is used internally in OpenProject is GitHub-flavored Markdo
 
 ## Can I use an external wiki instead of the internal wiki?
 
-Yes. OpenProject supports integrations with external wiki providers, such as XWiki. For more information, see the **[Wiki providers](../../system-admin-guide/wikis/wiki-providers)** documentation.
+Yes. OpenProject supports integrations with external wiki providers, such as XWiki. For more information, see the **[Wiki providers](../../../system-admin-guide/wikis/wiki-providers)** documentation.

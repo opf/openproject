@@ -82,6 +82,10 @@ module CustomField::CalculatedValue
     Dentaku::Calculator.new(case_sensitive: true, raw_date_literals: false)
   end
 
+  def self.computed_value?(value)
+    value in Numeric | true | false
+  end
+
   class_methods do
     def with_formula_referencing(id)
       where("(formula -> 'referenced_custom_fields') @> ?", id)

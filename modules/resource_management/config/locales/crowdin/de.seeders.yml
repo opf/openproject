@@ -14,7 +14,7 @@ de:
             work_package_timeline:
               name: Arbeitspakete auf Zeitleiste
             user_card:
-              name: Team
+              name: Teammitglieder
             user_timeline:
               name: Team auf Zeitleiste
             generic_allocation:
