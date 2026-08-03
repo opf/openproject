@@ -89,6 +89,12 @@ See COPYRIGHT and LICENSE files for more details.
         disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
       )
 
+      form.check_box(
+        name: :time_entries_prohibit_logging_on_non_working_days,
+        caption: I18n.t(:setting_time_entries_prohibit_logging_on_non_working_days_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+      )
+
       form.submit
     end
   end

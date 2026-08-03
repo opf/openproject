@@ -225,6 +225,11 @@ class TimeEntry < ApplicationRecord
       limit = Setting.time_entries_max_hours_per_day
       limit if limit.positive?
     end
+
+    def prohibit_logging_on_non_working_days?
+      EnterpriseToken.allows_to?(:time_entry_time_restrictions) &&
+        Setting.time_entries_prohibit_logging_on_non_working_days?
+    end
   end
 
   private

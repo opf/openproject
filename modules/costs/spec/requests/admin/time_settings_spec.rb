@@ -47,6 +47,7 @@ RSpec.describe "Time settings",
         expect(response).to have_http_status(:success)
         expect(page).to have_field(I18n.t(:setting_time_entries_max_hours_per_entry), disabled: true)
         expect(page).to have_field(I18n.t(:setting_time_entries_max_hours_per_day), disabled: true)
+        expect(page).to have_field(I18n.t(:setting_time_entries_prohibit_logging_on_non_working_days), disabled: true)
       end
     end
 
@@ -57,17 +58,22 @@ RSpec.describe "Time settings",
         expect(response).to have_http_status(:success)
         expect(page).to have_field(I18n.t(:setting_time_entries_max_hours_per_entry), disabled: false)
         expect(page).to have_field(I18n.t(:setting_time_entries_max_hours_per_day), disabled: false)
+        expect(page).to have_field(I18n.t(:setting_time_entries_prohibit_logging_on_non_working_days), disabled: false)
       end
     end
   end
 
   describe "PATCH /admin/time" do
     it "updates the restrictions" do
-      patch "/admin/time", params: { settings: { time_entries_max_hours_per_entry: "8", time_entries_max_hours_per_day: "10" } }
+      settings = { time_entries_max_hours_per_entry: "8",
+                   time_entries_max_hours_per_day: "10",
+                   time_entries_prohibit_logging_on_non_working_days: "1" }
+      patch "/admin/time", params: { settings: }
 
       expect(response).to redirect_to(action: :show)
       expect(Setting.time_entries_max_hours_per_entry).to eq(8)
       expect(Setting.time_entries_max_hours_per_day).to eq(10)
+      expect(Setting.time_entries_prohibit_logging_on_non_working_days).to be(true)
     end
   end
 end

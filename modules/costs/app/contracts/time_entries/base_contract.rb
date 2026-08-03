@@ -44,6 +44,7 @@ module TimeEntries
     end
 
     validate :validate_hours_are_in_range
+    validate :validate_spent_on_is_working_day
     validate :validate_project_is_set
     validate :validate_entity
     validate :validate_user
@@ -134,6 +135,22 @@ module TimeEntries
 
     def hours_already_logged_on_day
       TimeEntry.of_user_and_day(model.user, model.spent_on, excluding: model).sum(:hours)
+    end
+
+    def validate_spent_on_is_working_day
+      return unless TimeEntry.prohibit_logging_on_non_working_days?
+      return if model.spent_on.nil? || model.user.nil?
+      return unless globally_non_working?(model.spent_on) || personally_non_working?(model.spent_on)
+
+      errors.add :spent_on, :not_a_working_day
+    end
+
+    def globally_non_working?(date)
+      WorkPackages::Shared::WorkingDays.new.non_working?(date)
+    end
+
+    def personally_non_working?(date)
+      model.user.non_working_times.overlapping(date..date).exists?
     end
 
     def validate_project_is_set
