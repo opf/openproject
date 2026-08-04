@@ -33,20 +33,23 @@ module Projects
     class AddService < BaseService
       private
 
+      # A project offers one row per family, so enabling a second member of one is a conflict
+      # with whatever that row already resolves to rather than a check per pair of members.
       def persist(service_call)
         type = params[:type]
+        current_project_type = model.project_types.find_by(type_id: type.root_id)
 
-        if model.types.include?(type)
+        if current_project_type&.effective_type == type
           service_call
         elsif variant_without_feature?(type)
           failure(:cannot_assign_variants_yet)
-        elsif sibling_variant_enabled?(type)
-          failure(:cannot_assign_multiple_variants_of_parent)
-        elsif family_conflict?(type)
-          failure(:cannot_assign_variant_and_parent)
-        else
+        elsif current_project_type.nil?
           add_type(type)
           service_call
+        elsif type.variant? && current_project_type.variant
+          failure(:cannot_assign_multiple_variants_of_parent)
+        else
+          failure(:cannot_assign_variant_and_parent)
         end
       end
 
@@ -54,23 +57,8 @@ module Projects
         type.variant? && !OpenProject::FeatureDecisions.type_variants_active?
       end
 
-      def sibling_variant_enabled?(type)
-        return false unless type.variant?
-
-        model.types.exists?(parent_id: type.parent_id)
-      end
-
-      # A variant may not be enabled alongside its parent, and vice versa.
-      def family_conflict?(type)
-        if type.variant?
-          model.types.exists?(id: type.parent_id)
-        else
-          model.types.exists?(parent_id: type.id)
-        end
-      end
-
       def add_type(type)
-        model.types << type
+        model.project_types.create!(type:)
         enable_work_package_custom_fields(type)
       end
     end

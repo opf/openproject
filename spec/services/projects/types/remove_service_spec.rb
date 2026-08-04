@@ -77,6 +77,30 @@ RSpec.describe Projects::Types::RemoveService do
     end
   end
 
+  context "when the project resolves the family to a variant", with_flag: { type_variants: true } do
+    let(:root) { create(:type) }
+    let(:type) { create(:type, parent: root) }
+    let(:project) { create(:project, types: [type, other_type]) }
+
+    it "stops offering the family when given the variant" do
+      expect(service_call).to be_success
+      expect(project.reload.types).to contain_exactly(other_type)
+    end
+
+    it "stops offering the family when given the root" do
+      expect(described_class.new(user:, model: project).call(type: root)).to be_success
+      expect(project.reload.types).to contain_exactly(other_type)
+    end
+
+    it "refuses while a work package of the family exists" do
+      create(:work_package, project:, type: root)
+
+      expect(service_call).to be_failure
+      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:in_use_by_work_packages)
+      expect(project.reload.types).to contain_exactly(root, other_type)
+    end
+  end
+
   context "when the user is not allowed to manage types" do
     let(:user) { create(:user) }
 

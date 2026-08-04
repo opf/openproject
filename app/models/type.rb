@@ -199,6 +199,10 @@ class Type < ApplicationRecord
     parent || self
   end
 
+  def root_id
+    parent_id || id
+  end
+
   def variant?
     parent_id.present?
   end
@@ -219,7 +223,7 @@ class Type < ApplicationRecord
   end
 
   def own_name
-    read_attribute(:name)
+    self[:name]
   end
 
   def composite_name
