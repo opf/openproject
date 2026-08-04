@@ -28,7 +28,7 @@ These features are also available independently of the Resource management modul
 
 **Departments**
 
-OpenProject now introduces Departments as a new way to organize users. Under *Administration → Users and permissions → Organization*, administrators can create and manage a hierarchical organizational structure with departments and sub-departments. Departments are also available as a user attribute and help structure users consistently across OpenProject.
+OpenProject now introduces Departments as a new way to organize users. Under *Administration → Users and permissions → Organization*, administrators can create and manage a [hierarchical organizational structure](../../system-admin-guide/users-permissions/organization/) with departments and sub-departments. Departments are also available as a user attribute and help structure users consistently across OpenProject.
 
 Organizations using LDAP (Enterprise add-on) can automatically synchronize departments with their directory service, reducing administrative effort.
 
@@ -70,7 +70,7 @@ The Staffing view allows project managers to assign work while taking each team 
 
 ### Multiple active sprints without sharing (Enterprise add-on)
 
-[feature: multiple_active_sprints]
+[feature: multiple_active_sprints ]
 
 OpenProject 17.7 introduces support for multiple active sprints within a single project, eliminating the need to share sprints across projects. Teams can now manage multiple active sprints while keeping all sprint planning in one project. This also provides a consolidated overview of active sprints and backlog items on the Backlogs and Sprints page.
 
@@ -102,19 +102,19 @@ Project attributes can now be displayed in a dedicated **Project attributes** ta
 
 **PMflex Artefact PDF export**
 
-Work packages can now be exported using a dedicated **PMflex Artefact** PDF template. The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
+Work packages can now be [exported using a dedicated **PMflex Artefact** PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact). The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
 
 Administrators can configure PMflex artefacts to be generated automatically when a work package reaches a defined status. Generated artefacts can either be uploaded to the project's connected Nextcloud folder or added directly as work package attachments.
 
 **Project phases and gates widget**
 
-A new Project phases and gates widget is available for project overviews. It provides a visual representation of the project's current phase and gate status, helping project managers and stakeholders quickly understand project progress at a glance.
+A new [project timeline widget](../../projects/project-home/project-widgets/#project-timeline-widget) is available for project overviews. It provides a visual representation of the project's current phase and gate status, helping project managers and stakeholders quickly understand project progress at a glance.
 
 ![OpenProject's Project phases and gates widget visualizes the current project phase and gate status on the project overview page.](openproject-17-7-phases-gates-widget.png)
 
 ### Work package links and previews in Documents
 
-When using the BlockNote editor in Documents, pasting a work package URL now automatically creates a rendered work package link. In addition, tiny work package links display a preview on hover, revealing key information such as the work package type and subject. Together, these improvements make it easier to reference and identify work packages without leaving the document.
+When using the BlockNote editor in [Documents](../../user-guide/documents/), pasting a work package URL now automatically creates a rendered work package link. In addition, tiny work package links display a preview on hover, revealing key information such as the work package type and subject. Together, these improvements make it easier to reference and identify work packages without leaving the document.
 
 ### The BCF import and export now support the semantic identifier (ABC-123)
 
@@ -122,27 +122,29 @@ Semantic identifiers are now considered production-ready and are no longer marke
 
 ### Filter projects by portfolio and program (Enterprise add-on)
 
-[feature: portfolio_management]
+[feature: portfolio_management ]
 
-Project lists now support filtering by portfolio and program. This makes it easier to find projects within large project portfolios and provides greater flexibility when creating project overviews and reports.
+[Project lists](../../user-guide/projects/project-lists/) now support filtering by portfolio and program. This makes it easier to find projects within large project portfolios and provides greater flexibility when creating project overviews and reports.
 
 ### Additional calculation operators for calculated fields (Enterprise add-on)
 
-[feature: calculated_values]
+[feature: calculated_values ]
 
 Calculated custom fields now support additional calculation options, including comparison, logical, and numeric operators such as IF, SUM, MAX, and CASE. This allows you to create more advanced formulas and model a wider range of business logic directly in OpenProject.
 
+Read more about [calculation logic](../../system-admin-guide/projects/project-attributes/#formula-syntax-reference).
+
 ### Wiki improvements
 
-OpenProject 17.7 further enhances the internal wiki and XWiki integration with several usability improvements.
+OpenProject 17.7 further enhances the [internal wiki](../../user-guide/wiki/) and XWiki integration with several usability improvements.
 
 **Global wiki page index**
 
-Get a centralized overview of all wiki pages across your projects with filtering and search capabilities.
+Get a centralized overview of all wiki pages across your projects with filtering and search capabilities in the [global wiki module](../../user-guide/home/global-modules/#wiki).
 
-**Create an internal wiki directly from a project**
+**Enable an internal wiki on a project level**
 
-Project administrators can now create and configure an internal wiki directly from the project settings.
+The Wiki module is no longer found under the modules project settings. Project administrators can now enable an internal wiki on a project level directly from the [project settings](../../user-guide/projects/project-settings/project-wiki/). 
 
 **Improved wiki navigation**
 
@@ -164,7 +166,7 @@ The user administration page now provides improved status filters, making it eas
 
 **SCIM configuration via environment variables**
 
-SCIM configuration options can now be provided through environment variables, making automated deployments and infrastructure management easier.
+[SCIM configuration options can now be provided through environment variables](../../system-admin-guide/authentication/scim/#configuration-using-environment-variables), making automated deployments and infrastructure management easier.
 
 ## Important technical changes
 
