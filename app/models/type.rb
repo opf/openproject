@@ -68,7 +68,9 @@ class Type < ApplicationRecord
     end
   end
 
-  has_and_belongs_to_many :projects
+  # Projects offering this type. Only roots are ever offered, so a variant has none.
+  has_many :project_types, dependent: :delete_all
+  has_many :projects, through: :project_types
 
   has_and_belongs_to_many :custom_fields,
                           class_name: "WorkPackageCustomField",

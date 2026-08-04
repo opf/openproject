@@ -195,6 +195,40 @@ RSpec.describe Project do
     end
   end
 
+  describe "#types" do
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+
+    it "offers the root and resolves the variant when a variant is enabled" do
+      project = create(:project, types: [variant])
+
+      expect(project.reload.types).to contain_exactly(root)
+      expect(project.project_types.sole.variant).to eq(variant)
+    end
+
+    it "offers a root without resolving a variant" do
+      project = create(:project, types: [root])
+
+      expect(project.reload.types).to contain_exactly(root)
+      expect(project.project_types.sole.variant).to be_nil
+    end
+
+    it "switches the resolved variant without changing what is offered" do
+      project = create(:project, types: [root])
+
+      project.project_types.sole.update!(variant:)
+
+      expect(project.reload.types).to contain_exactly(root)
+      expect(project.project_types.sole.effective_type).to eq(variant)
+    end
+
+    it "refuses a second member of a family already offered" do
+      project = create(:project, types: [root])
+
+      expect { project.types << variant }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
+
   describe "#types_used_by_work_packages" do
     let(:project) { create(:project_with_types) }
     let(:type) { project.types.first }

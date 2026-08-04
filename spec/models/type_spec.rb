@@ -48,6 +48,22 @@ RSpec.describe Type do
     end
   end
 
+  describe "#projects" do
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+
+    shared_let(:offering_root) { create(:project, types: [root]) }
+    shared_let(:running_variant) { create(:project, types: [variant]) }
+
+    it "offers the root to every project running the family" do
+      expect(root.projects).to contain_exactly(offering_root, running_variant)
+    end
+
+    it "is empty for a variant, which is never offered" do
+      expect(variant.projects).to be_empty
+    end
+  end
+
   describe ".visible" do
     subject { described_class.visible(user) }
 
