@@ -40,10 +40,11 @@ RSpec.describe "team planner onboarding tour",
 
   let(:demo_project) do
     create(:project,
+           :with_internal_wiki,
            name: "Demo project",
            identifier: "demo-project",
            public: true,
-           enabled_module_names: %w[work_package_tracking gantt wiki team_planner_view])
+           enabled_module_names: %w[work_package_tracking gantt team_planner_view]).reload
   end
 
   let(:user) do

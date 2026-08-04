@@ -51,6 +51,10 @@ Rails.application.routes.draw do
   end
 
   resources :projects, only: %i[] do
+    namespace :settings do
+      resource :wiki, controller: "/wikis/project_settings/wiki", only: %i[show create]
+    end
+
     resources :work_packages, only: %i[] do
       resources :wikis, only: %i[] do
         collection do

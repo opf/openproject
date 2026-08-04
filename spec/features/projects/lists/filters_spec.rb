@@ -669,6 +669,116 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
     end
   end
 
+  describe "portfolio filter" do
+    context "with EE", with_ee: %i[portfolio_management] do
+      context "when a portfolio is visible to the user" do
+        shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
+        shared_let(:other_portfolio) { create(:portfolio, name: "Consumer Portfolio") }
+        shared_let(:program) { create(:program, name: "Growth Program", parent: portfolio) }
+        shared_let(:portfolio_child) { create(:project, name: "Growth Initiative", parent: program) }
+
+        it "offers only portfolios in the autocomplete and filters for their descendants" do
+          load_and_open_filters admin
+
+          projects_page.expect_filter_available("Part of Portfolio")
+
+          selected_filter = projects_page.select_filter("portfolio", "Part of Portfolio")
+          within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+
+          projects_page.expect_ng_option(selected_filter, portfolio.name)
+          projects_page.expect_ng_option(selected_filter, other_portfolio.name)
+          projects_page.expect_no_ng_option(selected_filter, program.name)
+          projects_page.expect_no_ng_option(selected_filter, project.name)
+
+          projects_page.set_filter("portfolio", "Part of Portfolio", "is (OR)", [portfolio.name])
+
+          wait_for_network_idle
+
+          projects_page.expect_projects_listed(program, portfolio_child)
+          projects_page.expect_projects_not_listed(portfolio, other_portfolio,
+                                                   project, public_project,
+                                                   development_project)
+        end
+      end
+
+      context "when no portfolio is visible to the user" do
+        shared_let(:invisible_portfolio) { create(:portfolio) }
+
+        it "does not offer the filter" do
+          load_and_open_filters manager
+
+          projects_page.expect_filter_not_available("Part of Portfolio")
+        end
+      end
+    end
+
+    context "without EE", without_ee: %i[portfolio_management] do
+      shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
+
+      it "does not offer the filter" do
+        load_and_open_filters admin
+
+        projects_page.expect_filter_not_available("Part of Portfolio")
+      end
+    end
+  end
+
+  describe "program filter" do
+    context "with EE", with_ee: %i[portfolio_management] do
+      context "when a program is visible to the user" do
+        # portfolio is intentionally unrelated to program: were it its parent, the autocompleter
+        # would legitimately display it as a disabled ancestor entry for tree context.
+        shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
+        shared_let(:program) { create(:program, name: "Growth Program") }
+        shared_let(:other_program) { create(:program, name: "Retention Program") }
+        shared_let(:program_child) { create(:project, name: "Growth Initiative", parent: program) }
+
+        it "offers only programs in the autocomplete and filters for their descendants" do
+          load_and_open_filters admin
+
+          projects_page.expect_filter_available("Part of Program")
+
+          selected_filter = projects_page.select_filter("program", "Part of Program")
+          within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+
+          projects_page.expect_ng_option(selected_filter, program.name)
+          projects_page.expect_ng_option(selected_filter, other_program.name)
+          projects_page.expect_no_ng_option(selected_filter, portfolio.name)
+          projects_page.expect_no_ng_option(selected_filter, project.name)
+
+          projects_page.set_filter("program", "Part of Program", "is (OR)", [program.name])
+
+          wait_for_network_idle
+
+          projects_page.expect_projects_listed(program_child)
+          projects_page.expect_projects_not_listed(portfolio, program,
+                                                   other_program, project,
+                                                   public_project, development_project)
+        end
+      end
+
+      context "when no program is visible to the user" do
+        shared_let(:invisible_program) { create(:program) }
+
+        it "does not offer the filter" do
+          load_and_open_filters manager
+
+          projects_page.expect_filter_not_available("Part of Program")
+        end
+      end
+    end
+
+    context "without EE", without_ee: %i[portfolio_management] do
+      shared_let(:program) { create(:program, name: "Growth Program") }
+
+      it "does not offer the filter" do
+        load_and_open_filters admin
+
+        projects_page.expect_filter_not_available("Part of Program")
+      end
+    end
+  end
+
   describe "date cf filter" do
     let!(:date_custom_field) do
       create(:date_project_custom_field,

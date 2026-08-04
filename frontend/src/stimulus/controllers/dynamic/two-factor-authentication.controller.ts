@@ -1,36 +1,38 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { Controller } from '@hotwired/stimulus';
 import * as WebAuthnJSON from '@github/webauthn-json/browser-ponyfill';
 import QrCreator from 'qr-creator';
+
+// The challenge endpoints return the bare publicKey member, not the full options object
+type CreationOptionsJSON = WebAuthnJSON.CredentialCreationOptionsJSON['publicKey'];
+type RequestOptionsJSON = NonNullable<WebAuthnJSON.CredentialRequestOptionsJSON['publicKey']>;
 
 export default class TwoFactorAuthenticationController extends Controller {
   static targets = ['resendOptions', 'qrCodeElement', 'webauthnCredential', 'errorDisplay'];
@@ -48,22 +50,25 @@ export default class TwoFactorAuthenticationController extends Controller {
       return true;
     }
 
+    // Resubmission triggered by this action after the credential was obtained, let it through
+    if (this.webauthnCredentialTarget.value !== '') {
+      return true;
+    }
+
     this.clearError();
     event.preventDefault();
 
     try {
       const verifyOptionsRequest = await fetch(data.challengeUrl!);
-      const verifyOptions = await verifyOptionsRequest.text();
+      const publicKey = await verifyOptionsRequest.json() as RequestOptionsJSON;
 
-      const options = WebAuthnJSON.parseRequestOptionsFromJSON({
-        publicKey: JSON.parse(verifyOptions),
-      });
+      const options = WebAuthnJSON.parseRequestOptionsFromJSON({ publicKey });
 
       const credential = await WebAuthnJSON.get(options);
 
       if (credential) {
         this.webauthnCredentialTarget.value = JSON.stringify(credential);
-        form.submit();
+        form.requestSubmit();
       }
 
       return true;
@@ -84,22 +89,25 @@ export default class TwoFactorAuthenticationController extends Controller {
       return true;
     }
 
+    // Resubmission triggered by this action after the credential was created, let it through
+    if (this.webauthnCredentialTarget.value !== '') {
+      return true;
+    }
+
     this.clearError();
     event.preventDefault();
 
     try {
       const createOptionsRequest = await fetch(data.challengeUrl!);
-      const createOptions = await createOptionsRequest.text();
+      const publicKey = await createOptionsRequest.json() as CreationOptionsJSON;
 
-      const options = WebAuthnJSON.parseCreationOptionsFromJSON({
-        publicKey: JSON.parse(createOptions),
-      });
+      const options = WebAuthnJSON.parseCreationOptionsFromJSON({ publicKey });
 
       const credential = await WebAuthnJSON.create(options);
 
       if (credential) {
         this.webauthnCredentialTarget.value = JSON.stringify(credential);
-        form.submit();
+        form.requestSubmit();
       }
 
       return true;

@@ -5,6 +5,7 @@ fr:
       resource_allocation:
         allocated_hours: Heures
         allocated_time: Temps alloué
+        date_range: Dates
         end_date: Date de fin
         entity: Entité
         filter_name: Nom du filtre de ressources
@@ -13,6 +14,7 @@ fr:
         state: État
         user_filter: Filtre utilisateur
       resource_planner:
+        date_range: Dates
         default_view_class_name: Vue par défaut
         end_date: Date de fin
         favorite: Favori
@@ -29,6 +31,9 @@ fr:
           attributes:
             end_date:
               greater_than_start_date: doit être postérieure à la date de début.
+              required_with_start_date: doit être renseignée lorsqu'une date de début est définie.
+            start_date:
+              required_with_end_date: doit être renseignée lorsqu'une date de fin est définie.
         resource_work_package_list:
           attributes:
             query:
@@ -38,12 +43,19 @@ fr:
       resource_planner: Planificateur de ressources
       resource_user_card: Fiches des utilisateurs
       resource_work_package_list: Liste des lots de travaux
+  ee:
+    features:
+      resource_management: Gestion des ressources
+    upsell:
+      resource_management:
+        description: Planifiez et équilibrez la charge de travail de votre équipe à l'aide d'outils de planification des ressources. Affectez les collaborateurs aux lots de travaux, suivez l'évolution des capacités au fil du temps et identifiez d'un seul coup d'œil les cas de surcharge ou de sous-utilisation.
+        title: Gestion des ressources
   button_next: Suivant
   label_resource_management: Gestion des ressources
   permission_allocate_user_resources: Attribuer des ressources aux utilisateurs
   permission_allocate_user_resources_explanation: Permet aux utilisateurs de créer, mettre à jour et supprimer les allocations de ressources dans un planificateur de ressources. Cela inclut l'assignation d'utilisateurs (ou des filtres d'utilisateurs) à un planificateur et l'ajustement de la plage de temps et de dates allouées.
-  permission_assign_users_to_generic_allocations: Affecter des utilisateurs à des allocations génériques
-  permission_assign_users_to_generic_allocations_explanation: Permet aux utilisateurs d'utiliser la vue « Effectifs » pour affecter des utilisateurs réels à des affectations de ressources génériques (basées sur des filtres) qui ne sont pas encore associées à un utilisateur. Cette fonctionnalité ne permet pas de créer ni de modifier des affectations.
+  permission_assign_users_to_generic_allocations: Affecter des utilisateurs à des affectations génériques
+  permission_assign_users_to_generic_allocations_explanation: Permet d'utiliser la vue « Effectifs » pour affecter des utilisateurs réels à des affectations de ressources génériques (basées sur des filtres) qui ne sont pas encore associées à un utilisateur. Cette autorisation ne permet pas de créer ni de modifier des affectations.
   permission_manage_public_resource_planners: Gérer les planificateurs de ressources publiques
   permission_manage_public_resource_planners_explanation: Permet aux utilisateurs de créer et de gérer des planificateurs de ressources publics. Cela leur permet de visualiser, de créer, de gérer et de publier leurs propres planificateurs de ressources. Cela ne leur permet pas de visualiser les planificateurs de ressources qui ont été créés par d'autres utilisateurs et qui ne sont pas partagés publiquement.
   permission_view_resource_planners: Voir les planificateurs de ressources
@@ -90,18 +102,18 @@ fr:
       no_work: Aucun travail n'est prévu pour ce lot de travaux
       summary: "%{allocated}/%{scheduled}"
     assignment_dialog:
-      available: "%{hours} disponible"
-      confirm_overtime: Attribuer quand même
+      available: "%{hours} disponibles"
+      confirm_overtime: Affecter quand même
       filter_criteria: Critères de filtrage
       no_candidates:
-        description: Aucun membre du projet ne répond aux critères de sélection de cette affectation.
-        title: Aucun membre trouvé
+        description: Aucun membre du projet ne correspond aux critères de filtrage de cette affectation.
+        title: Aucun membre correspondant
       no_schedule: Cet utilisateur n'a pas d'horaire de travail défini ; nous ne pouvons donc pas déterminer si cette affectation est appropriée.
-      overbooked_detail: Cet utilisateur dispose de %{available} pendant cette période ; le lot de travail nécessite %{requested}.
-      requested_for: Demande concernant
-      select_user: Veuillez sélectionner un utilisateur à désigner.
-      submit: Assigner
-      title: Attribuer %{filter_name}
+      overbooked_detail: Cet utilisateur dispose de %{available} pendant cette période ; le lot de travaux nécessite %{requested}.
+      requested_for: Demandé pour
+      select_user: Veuillez sélectionner un utilisateur à affecter.
+      submit: Affecter
+      title: Affecter %{filter_name}
     blankslate:
       desc: Créez un planificateur de ressources pour commencer à planifier la capacité de ce projet.
       title: Aucun planificateur de ressources pour le moment
@@ -134,26 +146,24 @@ fr:
       private: Privé
       public: Public
     staffing:
-      assign: Attribuer un utilisateur
+      assign: Affecter un utilisateur
       blank:
-        description: Toutes les affectations génériques de ce projet ont un utilisateur qui leur est attribué.
-        title: Rien à transmettre au personnel
+        description: Toutes les affectations génériques de ce projet sont déjà attribuées à un utilisateur.
+        title: Aucune affectation à pourvoir
       columns:
         dates: Dates
-        requested_time: Temps requis
+        requested_time: Temps demandé
         resource: Ressource
         work_package: Lot de travaux
-      context_menu_label: Actions d'allocation
-      delete_confirmation: Êtes-vous sûr de vouloir supprimer cette affectation ?
-      menu_item: Ressources humaines
-      starts_in_past: Cette allocation a déjà commencé et n'a pas encore été attribuée.
-      success_message: Attribué par l'utilisateur.
-      title: Equipe
+      context_menu_label: Actions d'affectation
+      delete_confirmation: Voulez-vous vraiment supprimer cette affectation ?
+      menu_item: Effectifs
+      starts_in_past: Cette affectation a déjà commencé et n'est toujours attribuée à aucun utilisateur.
+      success_message: Utilisateur affecté.
+      title: Effectifs
     sub_views: Vues de ce planificateur de ressources
     timeframe:
-      end_only: Jusqu'à %{end}
       full: De %{start} à %{end}
-      start_only: De %{start}
     timeline:
       granularity:
         day: Jour
@@ -165,7 +175,7 @@ fr:
         today: Aujourd'hui
       subheader:
         add: Ajouter
-        allocate: Allouer
+        allocate: Affecter
         settings: Configurer la vue
     user_allocations_dialog:
       allocate_work_package: Attribuer un lot de travaux
@@ -182,7 +192,7 @@ fr:
         manual_description: Aucun utilisateur n'a encore été ajouté à cette vue.
         title: Aucun utilisateur à afficher
       card:
-        multi_value_more: Afficher %{count} de plus
+        multi_value_more: "+%{count} de plus"
         remove: Supprimer l'utilisateur
         remove_confirmation: Supprimer cet utilisateur de la vue ?
       fields:
@@ -205,12 +215,12 @@ fr:
         add_user: Ajouter un utilisateur
         configure_view: Configurer la vue
         description: Aucun utilisateur ne correspond pour l'instant aux critères de filtrage de cette vue.
-        manual_description: Ajoutez des utilisateurs à cette vue pour visualiser leur répartition au fil du temps.
+        manual_description: Ajoutez des utilisateurs à cette vue pour visualiser leurs affectations au fil du temps.
         title: Aucun utilisateur à afficher
-      no_work_schedule: Aucun planning de travail n'est prévu pour cet utilisateur
-      overbooked: Cet utilisateur a dépassé son quota pour la période sélectionnée.
+      no_work_schedule: Aucun horaire de travail n'est prévu pour cet utilisateur
+      overbooked: Cet utilisateur est en surcharge d'affectation pendant la période sélectionnée.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} prévu, %{available} disponible"
+        range: "%{dates} : %{scheduled} planifiées, %{available} disponibles"
       subheader:
         add_user: Ajouter un utilisateur
     view_types:
@@ -218,8 +228,8 @@ fr:
         caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
         label: Liste des fiches des utilisateurs
       resource_user_timeline:
-        caption: Créez une vue basée sur les utilisateurs et visualisez l'évolution de leurs allocations au fil du temps sur un graphique chronologique
-        label: Fil d'actualité des utilisateurs
+        caption: Créez une vue basée sur les utilisateurs et visualisez leurs affectations au fil du temps dans une chronologie
+        label: Chronologie des utilisateurs
       resource_work_package_list:
         caption: Créez une vue basée sur des lots de travaux et affichez leurs informations et leur affectation dans une liste
         label: Liste des lots de travaux

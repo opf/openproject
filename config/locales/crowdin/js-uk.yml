@@ -120,6 +120,7 @@ uk:
     button_cancel: Скасувати
     button_change_project: Перейти до іншого проєкту
     button_check_all: Перевірити все
+    button_clear: Очистити
     button_close: Закрити
     button_close_details: Закрити подання деталей
     button_collapse_all: Згорнути все
@@ -204,10 +205,10 @@ uk:
       error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
       macro:
         attribute_reference:
-          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_project_attribute: Динамічний атрибут проєкту, розміщений за допомогою макроса.
           aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
-          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
+          aria_label_work_package_attribute: Динамічний атрибут пакета робіт, розміщений за допомогою макроса.
+          aria_label_work_package_link: Динамічне посилання на пакет робіт, розміщене за допомогою макроса.
           invalid_attribute: Вибраний атрибут «%{name}» не існує.
           nested_macro: Цей макрос рекурсивно посилається на %{model} %{id}.
           not_found: Не вдалося знайти потрібний ресурс
@@ -805,6 +806,14 @@ uk:
       sorted_dsc: Застосовується сортування за спаданням,
       sorted_no: Не застосовано жодного сорту
       sorting_disabled: сортування відключено
+    sortable_lists:
+      announcements:
+        fallback_item_label: Об’єкт
+        fallback_list_name: інший список
+        move_failed_check_position: Не вдалося перемістити. Перегляньте поточну позицію об’єкта.
+        move_failed_rolled_back: Не вдалося перемістити. Об’єкт %{label} повернувся в попередню позицію.
+        moved: "%{label}: переміщено в позицію %{position} з %{total}"
+        moved_to_list: "%{label}: переміщено в список «%{list}» на позицію %{position} з %{total}"
     spot:
       drop_modal:
         close: Закрити модальне вікно
@@ -1110,7 +1119,7 @@ uk:
         activity: Активність
         files: Файли
         overview: Огляд
-        project_attributes: Project attributes
+        project_attributes: Атрибути проєктів
         relations: Зв'язки
         watchers: Спостерігачі
       time_relative:

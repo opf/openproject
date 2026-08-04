@@ -30,22 +30,32 @@
 
 class WorkPackages::DeleteService < BaseServices::Delete
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::DeletionPlanning
 
   private
 
+  def deletion_roots = [model]
+
+  def deletion_user = user
+
+  def deletable?(descendant)
+    validate(descendant, user, options: contract_options).first
+  end
+
   def persist(service_result)
-    # `to_a` is used to avoid lazy loading. If the relation is laded after the
-    # work package is deleted, it would return an empty array.
-    descendants = model.descendants.to_a
-    descendants_check = validate_descendant_deletions(descendants)
-    return descendants_check if descendants_check.failure?
+    # Read before the work package is gone, or the hierarchy comes back empty.
+    detachable = unlinked_descendants
+    deletable = deleted_descendants
+
+    detachment_result = detach(detachable)
+    return detachment_result if detachment_result.failure?
 
     successors = find_successors_of_self_and_descendants(model).to_a
 
     result = super
 
     if result.success?
-      destroy_descendants(descendants, result)
+      destroy_descendants(deletable, result)
       update_ancestors_and_successors(successors, result)
       delete_associated_notifications(model)
     end
@@ -53,12 +63,13 @@ class WorkPackages::DeleteService < BaseServices::Delete
     result
   end
 
-  def validate_descendant_deletions(descendants)
-    descendants.each do |descendant|
-      success, errors = validate(descendant, user, options: contract_options)
-      next if success
+  def detach(detachable)
+    detachable.each do |descendant|
+      result = WorkPackages::UpdateService
+        .new(user:, model: descendant, contract_class: EmptyContract)
+        .call(parent: nil, journal_cause: Journal::CausedByWorkPackageParentDeletion.new)
 
-      return ServiceResult.failure(result: model, errors:)
+      return result if result.failure?
     end
 
     ServiceResult.success(result: model)

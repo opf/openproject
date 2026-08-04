@@ -29,10 +29,13 @@ ko:
         no_results: 새로 보고할 것이 없음
       not_available: 이 위젯은 사용할 수 없습니다.
       project_timeline:
-        no_lifecycle_results: No project life cycle phases configured
-        title: Project timeline
-        title_portfolio: Portfolio timeline
-        title_program: Program timeline
+        footer_actions_label: 자세한 내용 보기
+        gantt_link: 마일스톤 Gantt
+        no_results_title: 프로젝트 타임라인 콘텐츠가 구성되지 않음
+        sprints_link: 스프린트 개요
+        title: 프로젝트 타임라인
+        title_portfolio: 포트폴리오 타임라인
+        title_program: 프로그램 타임라인
       subitems:
         button_text: 하위 항목
         no_results: 표시되는 자식이 없습니다.

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -309,7 +309,7 @@ export class WorkPackagesListService {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         const queryAccessibleByUser = query.public || query.user.id === this.currentUser.userId;
         if (queryAccessibleByUser) {
-          if (!this.$state.current.name) {
+          if (this.isOnNonRouterPage()) {
             this.navigateToQueryOnNonRouterPage(query.id);
           } else {
             void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
@@ -465,8 +465,12 @@ export class WorkPackagesListService {
     }
   }
 
+  private isOnNonRouterPage():boolean {
+    return !this.$state.current.name || !!this.getNonRouterSidemenuId();
+  }
+
   private navigateToQueryOnNonRouterPage(queryId:string|null):void {
-    if (this.$state.current.name) { return; }
+    if (!this.isOnNonRouterPage()) { return; }
 
     // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
     const url = new URL(window.location.href);
@@ -477,7 +481,7 @@ export class WorkPackagesListService {
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
-    const sidemenuId = !this.$state.current.name ? this.getNonRouterSidemenuId() : undefined;
+    const sidemenuId = this.isOnNonRouterPage() ? this.getNonRouterSidemenuId() : undefined;
     this.submenuService.reloadSubmenu(selectedQueryId, sidemenuId);
   }
 

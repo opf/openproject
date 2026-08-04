@@ -46,8 +46,11 @@ zh-CN:
       external_wiki_providers: Wiki 提供商
       internal_wiki_provider: 内部 Wiki
       wikis: Wiki
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: 管理 Wiki 页面链接
+  project_module_wiki_internal: 项目 Wiki
   project_module_wiki_platforms: Wiki 提供商
+  projects_settings_wiki:
+    title: 项目 Wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -153,18 +156,33 @@ zh-CN:
       base_configuration:
         header: 配置
         provider_configured: 配置完成
-        universal_id_known: Provider recognized
+        universal_id_known: 提供商认可
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
+        connection_error: OpenProject 无法连接到 Wiki 提供商。
         not_configured: 无法验证关联。请先完成配置。
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
+        uid_mismatch: Wiki 提供商报告的通用标识符与 OpenProject 在设置过程中记录的标识符不匹配。
         xwiki_oauth_connection_error: OpenProject 无法关联到已配置的 XWiki 实例。
-        xwiki_oauth_request_error: 尝试与 XWiki 实例通信时发生意外错误。
+        xwiki_oauth_request_error: 尝试与 XWiki 实例通信时意外出错。
         xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
         xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
+    index:
+      column_last_edited: 上次编辑
+      column_name: Wiki 页面
+      column_project: 项目
+      column_sub_pages: 子页面
+      filter_by_name: 按页面名称筛选
+      filter_placeholder: 按名称搜索
+      menu_title: Wiki
+      no_results_description: 没有可用的 Wiki 页面。
+      no_results_title: 暂无 Wiki 页面
+      queries:
+        all: 所有 Wiki 页面
+        main: 主 Wiki 页面
+      sub_pages_count:
+        other: "%{count} 个子页面"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: 添加现有 Wiki 页面
+      title_create: 新建 Wiki 页面
     instructions:
       xwiki:
         integration: XWiki 管理
@@ -176,6 +194,7 @@ zh-CN:
       description: 登录 %{provider} ，查看和管理此 OpenProject 实例的相关Wiki页面。
       heading: 未连接至 %{provider}
     page_link_component:
+      add_to_related_pages: 添加到相关页面
       remove: 删除页面链接
     page_link_forms:
       labels:
@@ -186,13 +205,17 @@ zh-CN:
         no_results: 找不到 Wiki 页面
         placeholder: 搜索 Wiki 页面（或输入其 URL）
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: 通过宏放置的指向某个 Wiki 页面的动态链接。
       errors:
         page_access_forbidden: 您无权访问此 wiki 页面
         page_not_found: 关联的 wiki 页面不再可用
         unexpected: 发生意外错误
       source:
-        parent: As parent
+        parent: 作为父项
+    project_settings:
+      project_internal_wiki_component:
+        caption: 这会为此项目启用原生 Wiki 功能。成员将能够创建和阅读存储在 OpenProject 中的 Wiki 页面。
+        enable: 为此父项启用内部 Wiki
     provider_types:
       xwiki:
         name: XWiki

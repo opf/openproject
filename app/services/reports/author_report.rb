@@ -38,7 +38,7 @@ class Reports::AuthorReport < Reports::Report
   end
 
   def rows
-    @rows ||= @project.members.map(&:principal).sort
+    @rows ||= @project.member_users.map(&:principal).sort
   end
 
   def data

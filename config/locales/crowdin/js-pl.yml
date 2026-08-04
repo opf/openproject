@@ -120,6 +120,7 @@ pl:
     button_cancel: Anuluj
     button_change_project: Przenieś do innego projektu
     button_check_all: Zaznacz wszystko
+    button_clear: Wyczyść
     button_close: Zamknij
     button_close_details: Zamknij szczegóły widoku
     button_collapse_all: Zwiń wszystko
@@ -204,10 +205,10 @@ pl:
       error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{error}'
       macro:
         attribute_reference:
-          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_project_attribute: Dynamiczny atrybut projektu umieszczony za pomocą makra.
           aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
-          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
+          aria_label_work_package_attribute: Dynamiczny atrybut pakietu roboczego umieszczony za pomocą makra.
+          aria_label_work_package_link: Dynamiczny link do pakietu roboczego umieszczonego za pomocą makra.
           invalid_attribute: Wybrany atrybut „%{name}” nie istnieje.
           nested_macro: To makro odwołuje się rekurencyjnie do %{model} %{id}.
           not_found: Nie można znaleźć żądanego zasobu
@@ -805,6 +806,14 @@ pl:
       sorted_dsc: 'Zastosowano sortowanie malejące, '
       sorted_no: 'Nie zastosowano sortowania, '
       sorting_disabled: sortowanie jest wyłączone
+    sortable_lists:
+      announcements:
+        fallback_item_label: Element
+        fallback_list_name: inna lista
+        move_failed_check_position: Przeniesienie nie powiodło się. Sprawdź bieżącą pozycję elementu.
+        move_failed_rolled_back: Przeniesienie nie powiodło się. Przywrócono poprzednią pozycję %{label}.
+        moved: "%{label} przeniesiono do pozycji %{position} z %{total}"
+        moved_to_list: "%{label} przeniesiono do %{list}, pozycja %{position} z %{total}"
     spot:
       drop_modal:
         close: Zamknij okno modalne
@@ -1110,7 +1119,7 @@ pl:
         activity: Działanie
         files: Pliki
         overview: Przegląd
-        project_attributes: Project attributes
+        project_attributes: Atrybuty projektu
         relations: Relacje
         watchers: Obserwatorzy
       time_relative:

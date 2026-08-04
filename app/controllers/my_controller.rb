@@ -41,6 +41,7 @@ class MyController < ApplicationController
   before_action :require_login
   before_action :set_current_user
   before_action :check_password_confirmation, only: %i[update_account]
+  before_action :prevent_response_caching, only: :account
 
   no_authorization_required! :account,
                              :update_account,

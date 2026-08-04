@@ -66,7 +66,7 @@ zh-CN:
         spent_units: 已支出单位成本
     errors:
       messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+        cost_type_in_use_cannot_disable: 无法禁用，因为已在此项目中为其记录成本。
       models:
         cost_types_project:
           attributes:
@@ -139,7 +139,7 @@ zh-CN:
       cost_types:
         for_all_projects_hint: 此成本类型已在所有项目中启用。
         heading: 成本类型
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        in_use_hint: 此成本类型无法禁用，因为已在此项目中为其记录成本。
         none_active: 此项目中目前没有有效成本类型。
       time_and_costs: 时间和成本
   costs:

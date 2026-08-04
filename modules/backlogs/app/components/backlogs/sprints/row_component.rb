@@ -31,8 +31,9 @@
 module Backlogs
   module Sprints
     class RowComponent < ::OpPrimer::BorderBoxRowComponent
+      include CommonHelper
+      include SprintsHelper
       include Redmine::I18n
-      include Backlogs::SprintsHelper
 
       delegate :project, to: :table
       alias_method :sprint, :model
@@ -63,6 +64,82 @@ module Backlogs
 
       def row_css_id
         dom_id(sprint)
+      end
+
+      def button_links
+        [
+          action_menu
+        ]
+      end
+
+      private
+
+      def action_menu
+        render(Primer::Alpha::ActionMenu.new) do |menu|
+          menu.with_show_button(icon: "kebab-horizontal",
+                                "aria-label": t(:label_more),
+                                test_selector: "sprints--more",
+                                scheme: :invisible)
+
+          with_item_group(menu) do
+            sprint_edit_action(menu) if can_open_edit_dialog?
+          end
+
+          with_item_group(menu) do
+            sprint_board_action(menu) if show_task_board_link?
+            sprint_report_action(menu) if show_sprint_report_link?
+          end
+        end
+      end
+
+      def current_user
+        @current_user ||= User.current
+      end
+
+      def sprint_edit_action(menu)
+        menu.with_item(
+          id: dom_target(sprint, :menu, :edit_sprint),
+          label: t(".action_menu.edit_sprint"),
+          href: edit_dialog_project_backlogs_sprint_path(project, sprint),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+
+      def sprint_report_action(menu)
+        label = t(".action_menu.sprint_report")
+        href = project_backlogs_sprint_report_path(project, sprint)
+
+        menu.with_item(label:, href:) do |item|
+          item.with_leading_visual_icon(icon: :graph)
+        end
+      end
+
+      def sprint_board_action(menu)
+        label = t("backlogs.label_sprint_board")
+        href = project_backlogs_sprint_taskboard_path(project, sprint)
+
+        menu.with_item(label:, href:) do |item|
+          item.with_leading_visual_icon(icon: :"op-view-cards")
+        end
+      end
+
+      def show_sprint_report_link?
+        OpenProject::FeatureDecisions.sprint_reports_active? &&
+          user_allowed?(:view_sprints)
+      end
+
+      def show_task_board_link?
+        sprint_board.present?
+      end
+
+      def can_open_edit_dialog?
+        if sprint.owned_by?(project)
+          user_allowed?(:create_sprints)
+        else
+          user_allowed?(:create_sprints) || user_allowed?(:create_sprints, project: sprint.project)
+        end
       end
     end
   end

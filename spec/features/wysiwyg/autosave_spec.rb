@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Wysiwyg autosave spec",
                :js do
   shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
+  shared_let(:project) { create(:project, :with_internal_wiki, enabled_module_names: %w[work_package_tracking]) }
   shared_let(:work_package) { create(:work_package, subject: "Foobar", project:) }
 
   let(:editor) { Components::WysiwygEditor.new }
@@ -49,7 +49,7 @@ RSpec.describe "Wysiwyg autosave spec",
 
     it "can autosave" do
       editor.click_and_type_slowly "Initial version"
-      click_on "Save"
+      click_on "Create"
 
       expect_and_dismiss_flash(message: "Successful creation.")
 

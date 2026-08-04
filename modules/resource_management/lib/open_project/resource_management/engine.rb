@@ -36,10 +36,6 @@ module OpenProject::ResourceManagement
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    initializer "openproject-resource_management.feature_decisions" do
-      OpenProject::FeatureDecisions.add :resource_management
-    end
-
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
                                                             principal_assigned_by_id]
 
@@ -48,7 +44,7 @@ module OpenProject::ResourceManagement
              bundled: true,
              settings: {} do
       project_module :resource_management,
-                     if: -> { OpenProject::FeatureDecisions.resource_management_active? } do
+                     enterprise_feature: "resource_management" do
         # `view_resource_planners` gates access to all CRUD actions. The
         # per-record rules (only owners can change their own private planner;
         # only manage_public users can change public ones) live in the
@@ -99,8 +95,7 @@ module OpenProject::ResourceManagement
       # TODO: Add those menus when global overview will be implemented
       #    should_render_global_menu_item = Proc.new do
       #      (User.current.logged? || !Setting.login_required?) &&
-      #        User.current.allowed_in_any_project?(:view_resources) &&
-      #        OpenProject::FeatureDecisions.resource_management_active?
+      #        User.current.allowed_in_any_project?(:view_resources)
       #    end
 
       #    menu :global_menu,
@@ -125,7 +120,8 @@ module OpenProject::ResourceManagement
            { controller: "/resource_management/resource_planners", action: :index },
            caption: :label_resource_management,
            after: :work_packages,
-           icon: "people"
+           icon: "people",
+           enterprise_feature: "resource_management"
 
       menu :project_menu,
            :resource_planners_menu,

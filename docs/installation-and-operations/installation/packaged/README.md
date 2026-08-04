@@ -8,6 +8,7 @@ sidebar_navigation:
 
 > [!IMPORTANT]
 > We will not build packages for new Linux versions, such as Ubuntu 24.04. We will, however, keep releasing new package versions for the currently supported Linux versions until their EOL (end of life).
+> If your distribution has reached EOL and packages are no longer available, migrate to Docker Compose using the [packaged → Docker Compose migration guide](../../misc/packaged-docker-migration/).
 
 The packaged installation of OpenProject is one of the ways to install and maintain OpenProject using DEB or RPM packages.
 

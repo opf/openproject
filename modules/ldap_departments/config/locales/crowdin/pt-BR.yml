@@ -52,8 +52,8 @@ pt-BR:
         heading: Nenhuma sincronização de departamento LDAP
       destroy:
         confirmation_message:
-          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
-          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          one: Se você continuar, a sincronização %{name} será removida e seu %{count} departamento deixará de ser gerenciado pelo LDAP.
+          other: Se você continuar, a sincronização %{name} será removida e seus %{count} departamentos deixarão de ser gerenciado pelo LDAP.
         heading: Remover sincronização %{name}?
         info: Os departamentos e seus membros são mantidos e passam a ser departamentos regulares. Depois disso, você pode editá-los ou excluí-los manualmente em Administração → Usuários e permissões → Organização.
         title: Remover sincronização %{name}

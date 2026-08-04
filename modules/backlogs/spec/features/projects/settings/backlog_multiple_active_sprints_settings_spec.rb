@@ -41,9 +41,20 @@ RSpec.describe "Backlogs project settings multiple active sprints", :js do
     visit project_settings_backlog_multiple_active_sprints_path(project)
 
     expect(page).to have_link(
-      I18n.t("backlogs.multiple_active_sprints"),
+      "Multiple active sprints",
       href: project_settings_backlog_multiple_active_sprints_path(project)
     )
+  end
+
+  context "without share_sprint permission" do
+    let(:permissions) { %i[create_sprints select_backlog_types_and_statuses] }
+
+    it "does not show the multiple active sprints tab in the navigation" do
+      visit project_settings_backlogs_path(project)
+
+      expect(page).to have_link("Types and statuses")
+      expect(page).to have_no_link("Multiple active sprints")
+    end
   end
 
   context "without an enterprise token for multiple_active_sprints" do
@@ -64,20 +75,47 @@ RSpec.describe "Backlogs project settings multiple active sprints", :js do
         expect(page).to have_no_text("not available")
       end
 
+      context "when toggling on" do
+        it "enables the setting" do
+          visit project_settings_backlog_multiple_active_sprints_path(project)
+
+          expect(page).to have_css(".ToggleSwitch")
+          expect(page).to have_no_css(".ToggleSwitch--checked")
+          find(".ToggleSwitch").click
+          expect(page).to have_css(".ToggleSwitch--checked")
+
+          expect(project.reload.allow_multiple_active_sprints).to be(true)
+        end
+      end
+
+      context "when toggling off" do
+        before { project.update!(allow_multiple_active_sprints: true) }
+
+        it "disables the setting" do
+          visit project_settings_backlog_multiple_active_sprints_path(project)
+
+          expect(page).to have_css(".ToggleSwitch--checked")
+          find(".ToggleSwitch").click
+          expect(page).to have_no_css(".ToggleSwitch--checked")
+
+          expect(project.reload.allow_multiple_active_sprints).to be(false)
+        end
+      end
+
       context "when multiple active sprints is already enabled and multiple sprints are active" do
         before do
           project.update!(allow_multiple_active_sprints: true)
-          create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow)
-          create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow)
+          create(:sprint, project:, status: "active",
+                          start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1)
+          create(:sprint, project:, status: "active",
+                          start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1)
         end
 
         it "renders the toggle disabled with a warning" do
           visit project_settings_backlog_multiple_active_sprints_path(project)
 
           expect(page).to have_css(".ToggleSwitch--disabled")
-          expect(page).to have_text(
-            I18n.t("projects.settings.backlogs.multiple_active_sprints_component.cannot_turn_off")
-          )
+          expect(page).to have_text("Multiple sprints are currently active")
         end
       end
     end

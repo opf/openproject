@@ -120,6 +120,7 @@ el:
     button_cancel: Ακύρωση
     button_change_project: Move to another project
     button_check_all: Επιλογή όλων
+    button_clear: Clear
     button_close: Κλείσιμο
     button_close_details: Κλείσιμο προβολής λεπτομερειών
     button_collapse_all: Σύμπτυξη όλων
@@ -803,6 +804,14 @@ el:
       sorted_dsc: 'Εφαρμόστηκε φθίνουσα ταξινόμηση, '
       sorted_no: 'Δεν έχει εφαρμοστεί ταξινόμηση, '
       sorting_disabled: η ταξινόμηση είναι απενεργοποιημένη
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal

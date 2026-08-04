@@ -42,8 +42,11 @@ pt-BR:
       external_wiki_providers: Provedores de wiki
       internal_wiki_provider: Wiki interna
       wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: Gerenciar links das páginas wiki
+  project_module_wiki_internal: Wiki do projeto
   project_module_wiki_platforms: Provedores de wiki
+  projects_settings_wiki:
+    title: Wiki do projeto
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -149,18 +152,34 @@ pt-BR:
       base_configuration:
         header: Configuração
         provider_configured: Configuração concluída
-        universal_id_known: Provider recognized
+        universal_id_known: Provedor reconhecido
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
+        connection_error: O OpenProject não conseguiu se conectar ao provedor de wiki.
         not_configured: Não foi possível validar a conexão. Primeiro, conclua a configuração.
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
+        uid_mismatch: O identificador universal informado pelo provedor de wiki não corresponde ao identificador que o OpenProject registrou durante a configuração.
         xwiki_oauth_connection_error: O OpenProject não conseguiu se conectar à instância do XWiki configurada.
         xwiki_oauth_request_error: Ocorreu um erro inesperado ao tentar comunicar com a instância do XWiki.
         xwiki_oauth_token_missing: O OpenProject não pode testar a comunicação ao nível do utilizador com o XWiki, pois o utilizador ainda não conectou a sua conta XWiki.
         xwiki_oauth_unauthorized: O token do utilizador não foi reconhecido pelo XWiki.
+    index:
+      column_last_edited: Última edição
+      column_name: Página Wiki
+      column_project: Projeto
+      column_sub_pages: Subpáginas
+      filter_by_name: Filtrar por nome de página
+      filter_placeholder: Pesquisar por nome
+      menu_title: Wiki
+      no_results_description: Nenhuma página wiki está disponível.
+      no_results_title: Nenhuma página wiki ainda
+      queries:
+        all: Todas as páginas da wiki
+        main: Páginas principais da wiki
+      sub_pages_count:
+        one: 1 subpágina
+        other: "%{count} subpáginas"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Adicionar página wiki existente
+      title_create: Criar nova página wiki
     instructions:
       xwiki:
         integration: Administração do XWiki
@@ -172,6 +191,7 @@ pt-BR:
       description: Faça login em %{provider} para visualizar e gerenciar páginas wiki relacionadas nesta instância do OpenProject.
       heading: Não conectado a %{provider}
     page_link_component:
+      add_to_related_pages: Adicionar às páginas relacionadas
       remove: Remover link de página
     page_link_forms:
       labels:
@@ -182,13 +202,17 @@ pt-BR:
         no_results: Nenhuma página de wiki encontrada
         placeholder: Pesquisar uma página de wiki (ou inserir URL)
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: Um link dinâmico para uma página wiki inserido usando uma macro.
       errors:
         page_access_forbidden: Você não tem permissão para acessar esta página wiki
         page_not_found: Página wiki vinculada não está mais disponível
         unexpected: Ocorreu um erro inesperado
       source:
-        parent: As parent
+        parent: Como pai
+    project_settings:
+      project_internal_wiki_component:
+        caption: Isso habilita a funcionalidade nativa de wiki para este projeto. Os membros poderão criar e ler páginas de wiki armazenadas no OpenProject.
+        enable: Habilitar a wiki interna deste projeto
     provider_types:
       xwiki:
         name: XWiki

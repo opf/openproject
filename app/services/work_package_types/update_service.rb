@@ -51,7 +51,7 @@ module WorkPackageTypes
 
     private
 
-    def default_contract_class = UpdateSettingsContract
+    def default_contract_class = UpdateDetailsContract
 
     def set_attribute_groups(params)
       normalize_result = normalize_attribute_groups_param(params[:attribute_groups])

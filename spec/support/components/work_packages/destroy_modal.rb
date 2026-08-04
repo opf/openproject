@@ -39,8 +39,12 @@ module Components
         @bulk_mode = bulk_mode
       end
 
+      def dialog_id
+        "wp-delete-dialog"
+      end
+
       def dialog_css_selector
-        "dialog#wp-delete-dialog"
+        "dialog##{dialog_id}"
       end
 
       def within_dialog(&)
@@ -57,7 +61,8 @@ module Components
 
       def confirm_deletion
         within_dialog do
-          check "I understand that this deletion cannot be reversed."
+          # By id: the label says what is being deleted and so varies with the hierarchy.
+          check "#{dialog_id}-check_box", allow_label_click: true
           expect(page).to have_button "Delete permanently", disabled: false
           click_button "Delete permanently"
         end

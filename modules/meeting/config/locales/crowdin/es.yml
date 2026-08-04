@@ -541,11 +541,11 @@ es:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: La primera aparición de esta serie será %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: Esto da lugar a una serie que finaliza el %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        one: Esto da como resultado 1 repetición próxima
+        other: Esto da como resultado %{count} repeticiones próximas
+      occurrences_capped: Esto da como resultado más de %{count} repeticiones próximas
     day_of_month_skipping_info: Se omitirán los meses con menos de %{monthly_day} días
     delete_dialog:
       confirmation_message_html:

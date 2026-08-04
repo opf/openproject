@@ -43,7 +43,10 @@ en:
       internal_wiki_provider: Internal wiki
       wikis: Wikis
   permission_manage_wiki_page_links: Manage wiki page links
+  project_module_wiki_internal: Project wiki
   project_module_wiki_platforms: Wiki providers
+  projects_settings_wiki:
+    title: Project wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -208,6 +211,12 @@ en:
         unexpected: An unexpected error occurred
       source:
         parent: As parent
+    project_settings:
+      project_internal_wiki_component:
+        caption: >-
+          This enables native wiki functionality for this project. Members will be able to create and read wiki pages
+          that are stored in OpenProject.
+        enable: Enable the internal wiki for this project
     provider_types:
       xwiki:
         name: XWiki

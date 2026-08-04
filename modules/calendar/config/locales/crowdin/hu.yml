@@ -7,6 +7,6 @@ hu:
   permission_share_calendars: Feliratkozás az iCalendars-ra
   permission_view_calendar: Naptár bejegyzések megtekintése
   plugin_openproject_calendar:
-    description: Provides calendar views.
-    name: OpenProject Calendar
+    description: Tábla nézeteket biztosít.
+    name: OpenProject naptár
   project_module_calendar_view: Naptárak

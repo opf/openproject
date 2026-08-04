@@ -75,7 +75,9 @@ class Version < ApplicationRecord
 
   scope :shared_via_work_packages, ->(*args) {
     user = args.first || User.current
-    where(id: WorkPackage.visible(user).where.not(version_id: nil).distinct.select(:version_id))
+    where(id: WorkPackageVersion.where(kind: "target")
+                                .where(work_package_id: WorkPackage.visible(user).select(:id))
+                                .select(:version_id))
   }
 
   def self.with_status_open

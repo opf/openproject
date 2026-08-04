@@ -51,7 +51,7 @@ module OpenProject
           end
 
           comment_field_if_enabled(form)
-          render_action_buttons if show_action_buttons
+          render_action_buttons(form) if show_action_buttons
         end
 
         private
@@ -63,20 +63,6 @@ module OpenProject
           opts[:wrapper_id] ||= @system_arguments[:wrapper_id]
           opts[:focusDirectly] = true if opts[:focusDirectly].nil?
           opts[:closeOnSelect] = false if opts[:closeOnSelect].nil?
-        end
-
-        def render_action_buttons
-          form.group(layout: :horizontal, justify_content: :flex_end) do |button_group|
-            button_group.submit(name: :reset,
-                                type: :submit,
-                                label: I18n.t(:button_cancel),
-                                scheme: :default,
-                                formaction: inplace_edit_field_reset_path(model: model.class.name, id: model.id, attribute:),
-                                formmethod: :get)
-            button_group.submit(name: :submit,
-                                label: I18n.t(:button_save),
-                                scheme: :primary)
-          end
         end
 
         def render_custom_field_input

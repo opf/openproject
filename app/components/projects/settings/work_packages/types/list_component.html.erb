@@ -1,0 +1,68 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper do %>
+  <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
+    <% active_types.each do |type| %>
+      <% list.with_item(data: { test_selector: "project-types-row-#{type.id}" }) do |item| %>
+        <% item.with_menu do |menu| %>
+          <% remove_action(menu, type) %>
+        <% end %>
+        <%= flex_layout(align_items: :center) do |row| %>
+          <% row.with_column(display: :inline_flex, align_items: :center, mr: 2) do %>
+            <%= helpers.icon_for_type(type.root) %>
+          <% end %>
+          <% row.with_column(mr: 2) do %>
+            <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { type.root.name } %>
+          <% end %>
+          <% if type.variant? %>
+            <% row.with_column(mr: 2) do %>
+              <%= render(Primer::Beta::Label.new(scheme: :secondary)) { type.own_name } %>
+            <% end %>
+          <% end %>
+          <% if type.is_in_roadmap? %>
+            <% row.with_column do %>
+              <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
+                <%= t("projects.settings.types.in_roadmap") %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if active_types.empty? %>
+      <% list.with_empty_state(
+           title: t("projects.settings.types.empty_state.title"),
+           description: t("projects.settings.types.empty_state.description"),
+           icon: :rows
+         ) %>
+    <% end %>
+  <% end %>
+<% end %>
