@@ -43,13 +43,19 @@ module Projects
           service_call
         elsif variant_without_feature?(type)
           failure(:cannot_assign_variants_yet)
-        elsif current_project_type.nil?
+        elsif current_project_type
+          failure(conflict_with(current_project_type, type))
+        else
           add_type(type)
           service_call
-        elsif type.variant? && current_project_type.variant
-          failure(:cannot_assign_multiple_variants_of_parent)
+        end
+      end
+
+      def conflict_with(current_project_type, type)
+        if type.variant? && current_project_type.variant
+          :cannot_assign_multiple_variants_of_parent
         else
-          failure(:cannot_assign_variant_and_parent)
+          :cannot_assign_variant_and_parent
         end
       end
 
