@@ -103,21 +103,21 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
       group_by_class_name: "Version",
+      # The primary target version (the lowest version id) represents the work
+      # package, matching the version_id mirror column and the cost report's
+      # primary-version join; the sort key is that version's name.
       sortable: <<~SQL.squish,
         (SELECT LOWER(v.name)
            FROM work_package_versions wpv
            INNER JOIN versions v ON v.id = wpv.version_id
           WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-          ORDER BY LOWER(v.name), wpv.version_id
+          ORDER BY wpv.version_id
           LIMIT 1)
       SQL
       groupable: <<~SQL.squish
-        (SELECT wpv.version_id
+        (SELECT MIN(wpv.version_id)
            FROM work_package_versions wpv
-           INNER JOIN versions v ON v.id = wpv.version_id
-          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-          ORDER BY LOWER(v.name), wpv.version_id
-          LIMIT 1)
+          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
       SQL
     },
     target_versions: {
