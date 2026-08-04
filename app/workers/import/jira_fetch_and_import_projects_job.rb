@@ -73,6 +73,7 @@ module Import
       payload = issue.payload["fields"]
       collect_field_user_keys(user_keys, mention_usernames, payload)
       collect_comment_user_keys(user_keys, mention_usernames, payload)
+      collect_attachment_user_keys(user_keys, payload)
       collect_changelog_user_keys(user_keys, issue)
     end
 
@@ -87,6 +88,13 @@ module Import
       payload.dig("comment", "comments").each do |c|
         user_keys << c.dig("author", "key")
         collect_markup_mentions(c["body"], mention_usernames)
+      end
+    end
+
+    def collect_attachment_user_keys(user_keys, payload)
+      (payload["attachment"] || []).each do |attachment|
+        key = attachment.dig("author", "key")
+        user_keys << key if key.present?
       end
     end
 
