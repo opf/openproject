@@ -728,9 +728,9 @@ en:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: "must be a top-level type. A project offers roots and resolves a variant separately."
+              must_be_a_root_type: "must be a top-level type. A project uses roots and resolves a variant separately."
             variant:
-              must_belong_to_the_type: "must be a variant of the type the project offers."
+              must_belong_to_the_type: "must be a variant of the type the project uses."
         queries/filters/base:
           attributes:
             values:

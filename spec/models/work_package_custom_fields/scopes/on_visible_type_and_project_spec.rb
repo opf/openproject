@@ -159,7 +159,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
 
     subject { WorkPackageCustomField.on_visible_type_and_project(variant_user) }
 
-    it "offers the root while resolving the variant" do
+    it "uses the root while resolving the variant" do
       expect(variant_project.types).to contain_exactly(root_type)
       expect(variant_project.project_types.sole.effective_type).to eq(variant)
     end

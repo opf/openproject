@@ -40,7 +40,7 @@ module WorkPackageCustomFields::Scopes
       # * on a project the user has access to
       # Both conditions need to be met on the same project.
       #
-      # A project offers a root but may resolve the family to a variant, and a type whose form
+      # A project uses a root but may resolve the family to a variant, and a type whose form
       # configuration is linked resolves further to the type that actually owns that
       # configuration. Both hops happen here, so work packages surface the fields of whichever
       # type is ultimately in force.

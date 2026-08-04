@@ -48,7 +48,7 @@ module Projects
 
           attr_reader :project
 
-          # One row per family. A project offers the root and resolves the variant
+          # One row per family. A project uses the root and resolves the variant
           # separately, so the row is the join record rather than a single type.
           def active_project_types
             @active_project_types ||= project

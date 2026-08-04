@@ -52,14 +52,14 @@ RSpec.describe Type do
     shared_let(:root) { create(:type, name: "Bug") }
     shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
 
-    shared_let(:offering_root) { create(:project, types: [root]) }
-    shared_let(:running_variant) { create(:project, types: [variant]) }
+    shared_let(:project_using_root) { create(:project, types: [root]) }
+    shared_let(:project_using_variant) { create(:project, types: [variant]) }
 
-    it "offers the root to every project running the family" do
-      expect(root.projects).to contain_exactly(offering_root, running_variant)
+    it "includes every project using the family" do
+      expect(root.projects).to contain_exactly(project_using_root, project_using_variant)
     end
 
-    it "is empty for a variant, which is never offered" do
+    it "is empty for a variant, which a project never uses directly" do
       expect(variant.projects).to be_empty
     end
   end
@@ -551,14 +551,14 @@ RSpec.describe Type do
         expect(child.errors).to be_of_kind(:parent, :cannot_change_while_used_by_projects)
       end
 
-      it "freezes parent_id while a project offers the type as a root" do
-        offered_root = create(:type)
-        create(:project, types: [offered_root])
+      it "freezes parent_id while a project uses the type as a root" do
+        used_root = create(:type)
+        create(:project, types: [used_root])
 
-        offered_root.parent = create(:type)
+        used_root.parent = create(:type)
 
-        expect(offered_root).not_to be_valid
-        expect(offered_root.errors).to be_of_kind(:parent, :cannot_change_while_used_by_projects)
+        expect(used_root).not_to be_valid
+        expect(used_root.errors).to be_of_kind(:parent, :cannot_change_while_used_by_projects)
       end
 
       it "allows re-parenting a variant no project uses" do

@@ -68,7 +68,7 @@ class Type < ApplicationRecord
     end
   end
 
-  # Projects offering this type. Only roots are ever offered, so a variant has none.
+  # Projects using this type. A project always uses the root, so a variant has none.
   has_many :project_types, dependent: :delete_all
   has_many :projects, through: :project_types
 
@@ -316,8 +316,8 @@ class Type < ApplicationRecord
   end
 
   # Re-parenting moves a type into another family or out of one, which would leave every
-  # project_types row referencing it either offering a type that is no longer a root, or
-  # resolving to a variant of a different family than the row offers. Neither row gets
+  # project_types row referencing it either using a type that is no longer a root, or
+  # resolving to a variant of a different family than the row uses. Neither row gets
   # revalidated, so the only place to catch it is here.
   def parent_frozen_while_used_by_projects
     return unless parent_id_changed? && persisted?

@@ -33,7 +33,7 @@ module Projects
     class AddService < BaseService
       private
 
-      # A project offers one row per family, so enabling a second member of one is a conflict
+      # A project uses one member per family, so enabling a second is a conflict
       # with whatever that row already resolves to rather than a check per pair of members.
       def persist(service_call)
         type = params[:type]

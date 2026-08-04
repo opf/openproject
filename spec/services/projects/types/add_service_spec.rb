@@ -75,7 +75,7 @@ RSpec.describe Projects::Types::AddService do
     end
 
     context "and the variants feature is active", with_flag: { type_variants: true } do
-      it "offers the parent and resolves the variant" do
+      it "uses the parent and resolves the variant" do
         expect(service_call).to be_success
         expect(project.reload.types).to contain_exactly(parent_type)
         expect(project.project_types.sole.effective_type).to eq(type)

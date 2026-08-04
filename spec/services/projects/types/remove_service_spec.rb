@@ -82,12 +82,12 @@ RSpec.describe Projects::Types::RemoveService do
     let(:type) { create(:type, parent: root) }
     let(:project) { create(:project, types: [type, other_type]) }
 
-    it "stops offering the family when given the variant" do
+    it "stops using the family when given the variant" do
       expect(service_call).to be_success
       expect(project.reload.types).to contain_exactly(other_type)
     end
 
-    it "stops offering the family when given the root" do
+    it "stops using the family when given the root" do
       expect(described_class.new(user:, model: project).call(type: root)).to be_success
       expect(project.reload.types).to contain_exactly(other_type)
     end

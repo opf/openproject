@@ -36,11 +36,11 @@ RSpec.describe ProjectType do
   shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
 
   describe "validations" do
-    it "is valid offering a root without a variant" do
+    it "is valid using a root without a variant" do
       expect(build(:project_type, project:, type: root)).to be_valid
     end
 
-    it "is valid offering a root with one of its variants" do
+    it "is valid using a root with one of its variants" do
       expect(build(:project_type, project:, type: root, variant:)).to be_valid
     end
 
@@ -59,7 +59,7 @@ RSpec.describe ProjectType do
       expect(project_type.errors).to be_of_kind(:variant, :must_belong_to_the_type)
     end
 
-    it "offers a type at most once per project" do
+    it "uses a type at most once per project" do
       create(:project_type, project:, type: root)
       duplicate = build(:project_type, project:, type: root, variant:)
 
@@ -67,13 +67,13 @@ RSpec.describe ProjectType do
       expect(duplicate.errors).to be_of_kind(:type_id, :taken)
     end
 
-    it "offers the same type in another project" do
+    it "uses the same type in another project" do
       create(:project_type, project:, type: root)
 
       expect(build(:project_type, project: create(:project), type: root)).to be_valid
     end
 
-    it "rejects a second member of a family already offered" do
+    it "rejects a second member of a family already used" do
       create(:project_type, project:, type: root)
       duplicate = build(:project_type, project:, type: variant)
 
@@ -90,7 +90,7 @@ RSpec.describe ProjectType do
   end
 
   describe "#type=" do
-    it "offers the root and resolves the variant when given a variant" do
+    it "uses the root and resolves the variant when given a variant" do
       project_type = create(:project_type, project:, type: variant)
 
       expect(project_type.type).to eq(root)
