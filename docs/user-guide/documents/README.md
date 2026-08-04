@@ -143,11 +143,10 @@ Click the work package title to open it in a new browser tab. To change the disp
 
 3. **Pasting a work package URL**
 
-To paste a work package URL using **Copy link to clipboard**:
+Copy a work package URL ad paste directly into a document. You can use either the browser URL or **Copy link to clipboard**:
 
-- Open the work package 
-- Click the **More (three dots)** menu 
-- Select **Copy link to clipboard** and paste the copied link into your document. 
+- Open a work package, click the **More (three dots)** menu 
+- Select **Copy link to clipboard**, then paste the link into your document.
 
 ![Pasting a work package link into a document in OpenProject](openproject_user_guide_documents_wp_url.png)
 
