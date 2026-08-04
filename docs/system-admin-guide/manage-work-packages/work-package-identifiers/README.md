@@ -85,7 +85,7 @@ Existing work package identifiers remain valid after the change. Previously assi
 > A project's identifier is not restricted to its members and should not be treated as
 > confidential, even if the project itself is private.
 
-Work packages can be referenced from rich text anywhere in OpenProject — for example wiki pages,
+Work packages can be referenced in rich text editors anywhere in OpenProject — for example wiki pages,
 documents, forum posts, meeting agendas, or work package descriptions and comments — using the work
 package's identifier (e.g. `PROJ-123`) or a rich link inserted via the editor. If such content
 becomes visible to users outside the project, the project identifier is exposed along with it. No
