@@ -29,36 +29,30 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class ProjectAttributesStepComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+  # The elements this type does not show.
+  #  - own: this type's own link
+  #  - effective: the union over the whole link chain
+  #
+  # An element in effective but not in own was excluded by a link above this type, which is
+  # what #excluded_by_source? answers: this type cannot reach that link to undo it.
+  ExclusionState = Data.define(:type, :own, :effective) do
+    def self.for(type, aspect)
+      link = type.configuration_links.find_by(aspect:)
+      return unless link
 
-      def initialize(type:)
-        super(type)
-      end
+      new(
+        type:,
+        own: link.excluded_elements.map(&:to_s),
+        effective: type.effective_excluded_elements(aspect).map(&:to_s)
+      )
+    end
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     type: model,
-                     project_custom_field_sections:
-                   ))
-        end
-      end
+    def excluded?(key)
+      effective.include?(key.to_s)
+    end
 
-      private
-
-      def project_custom_field_sections
-        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
-      end
-
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
-      end
+    def excluded_by_source?(key)
+      excluded?(key) && own.exclude?(key.to_s)
     end
   end
 end

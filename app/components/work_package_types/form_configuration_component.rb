@@ -35,22 +35,6 @@ module WorkPackageTypes
 
     ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
-    # The elements this type does not show.
-    #  - own: this type's own link
-    #  - effective: the union over the whole link chain
-    #
-    # An element in effective but not in own was excluded by a link above this type, which is
-    # what #excluded_by_source? answers: this type cannot reach that link to undo it.
-    ExclusionState = Data.define(:type, :own, :effective) do
-      def excluded?(key)
-        effective.include?(key.to_s)
-      end
-
-      def excluded_by_source?(key)
-        excluded?(key) && own.exclude?(key.to_s)
-      end
-    end
-
     def initialize(type:, form_attributes:, no_filter_query:)
       super(type)
       @type = type
@@ -70,7 +54,7 @@ module WorkPackageTypes
     def exclusion_state
       return @exclusion_state if defined?(@exclusion_state)
 
-      @exclusion_state = readonly? ? build_exclusion_state : nil
+      @exclusion_state = readonly? ? WorkPackageTypes::ExclusionState.for(@type, ASPECT) : nil
     end
 
     def ee_available?
@@ -163,17 +147,6 @@ module WorkPackageTypes
     # A query group is a single entry in the section, so a source exclusion drops the whole section.
     def retained_query_group(group)
       group unless group[:element_key].present? && exclusion_state.excluded_by_source?(group[:element_key])
-    end
-
-    def build_exclusion_state
-      link = @type.configuration_links.find_by(aspect: ASPECT)
-      return nil unless link
-
-      ExclusionState.new(
-        type: @type,
-        own: link.excluded_elements.map(&:to_s),
-        effective: @type.effective_excluded_elements(ASPECT).map(&:to_s)
-      )
     end
   end
 end

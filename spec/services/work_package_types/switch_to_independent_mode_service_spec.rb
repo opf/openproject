@@ -170,6 +170,22 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
         expect(type.reload).not_to be_linked(aspect)
         expect(type.own_project_custom_field_type_mappings.map(&:custom_field_id)).to contain_exactly(field.id)
       end
+
+      it "copies only the attributes the variant kept active, dropping the ones it disabled",
+         with_flag: { type_variants: true } do
+        source = create(:type)
+        kept = create(:project_custom_field)
+        disabled = create(:project_custom_field)
+        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: kept)
+        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: disabled)
+        type.link!(aspect, source:)
+        type.configuration_links.find_by(aspect:).update!(excluded_elements: [disabled.attribute_name])
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::COPY)
+
+        expect(result).to be_success
+        expect(type.own_project_custom_field_type_mappings.map(&:custom_field_id)).to contain_exactly(kept.id)
+      end
     end
 
     context "with the empty mode (project attributes)" do

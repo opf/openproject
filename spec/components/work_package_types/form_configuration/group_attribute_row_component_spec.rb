@@ -44,7 +44,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     end
 
     it "is keyed on the attribute and labelled with its translation", :aggregate_failures do
-      render_row(exclusions: WorkPackageTypes::FormConfigurationComponent::ExclusionState
+      render_row(exclusions: WorkPackageTypes::ExclusionState
                                .new(type:, own: [], effective: []))
 
       toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee']")

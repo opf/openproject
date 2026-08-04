@@ -30,57 +30,19 @@
 
 module WorkPackageTypes
   module FormConfiguration
-    # The switch each linked attribute row renders to control exclusion of one element.
-    #
-    # +element_key+ the attribute or query key ("assignee", "custom_field_3", "query_7");
-    # +label+ Readable attribute label for the aria-label of the toggle
-    class ExclusionToggleComponent < ApplicationComponent
+    # Form-configuration binding of WorkPackageTypes::ExclusionToggleComponent.
+    class ExclusionToggleComponent < WorkPackageTypes::ExclusionToggleComponent
       ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
 
       def initialize(exclusions:, element_key:, label:)
-        super
-
-        @exclusions = exclusions
-        @element_key = element_key
-        @label = label
-      end
-
-      # Exclusion or element_key being empty means the type owns its configuration, so there is nothing to render
-      def render?
-        @exclusions.present? && @element_key.present?
-      end
-
-      def call
-        render(Primer::Alpha::ToggleSwitch.new(**toggle_arguments))
-      end
-
-      private
-
-      def toggle_arguments
-        {
-          src: toggle_path,
-          csrf_token: helpers.form_authenticity_token,
-          checked: !excluded?,
-          on_label: "",
-          off_label: t("types.edit.form_configuration.exclusions.excluded"),
-          size: :small,
-          status_label_position: :start,
-          aria: { label: @label },
-          classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
-          data: { test_selector: test_selector }
-        }
-      end
-
-      def excluded?
-        @exclusions.excluded?(@element_key)
-      end
-
-      def toggle_path
-        type_excluded_element_toggle_path(type_id: @exclusions.type.id, aspect: ASPECT, element: @element_key)
-      end
-
-      def test_selector
-        "toggle-form-config-exclusion-#{@element_key}"
+        super(
+          exclusions:,
+          element_key:,
+          label:,
+          aspect: ASPECT,
+          off_label: I18n.t("types.edit.form_configuration.exclusions.excluded"),
+          test_selector: "toggle-form-config-exclusion-#{element_key}"
+        )
       end
     end
   end
