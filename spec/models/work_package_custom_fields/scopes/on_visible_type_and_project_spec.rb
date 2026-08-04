@@ -140,4 +140,54 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       end
     end
   end
+
+  describe ".on_visible_type_and_project when the project resolves a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:root_type) { create(:type) }
+    shared_let(:variant) { create(:type, parent: root_type) }
+    shared_let(:variant_project) { create(:project, types: [variant]) }
+    shared_let(:variant_user) do
+      create(:user, member_with_permissions: { variant_project => [] })
+    end
+
+    shared_let(:root_cf) do
+      create(:integer_wp_custom_field, projects: [variant_project], types: [root_type])
+    end
+    shared_let(:variant_cf) do
+      create(:integer_wp_custom_field, projects: [variant_project], types: [variant])
+    end
+
+    subject { WorkPackageCustomField.on_visible_type_and_project(variant_user) }
+
+    it "offers the root while resolving the variant" do
+      expect(variant_project.types).to contain_exactly(root_type)
+      expect(variant_project.project_types.sole.effective_type).to eq(variant)
+    end
+
+    context "when the variant inherits its form configuration" do
+      it "surfaces the root's fields" do
+        expect(subject).to include(root_cf)
+      end
+
+      it "does not surface the variant's own fields" do
+        expect(subject).not_to include(variant_cf)
+      end
+    end
+
+    context "when the variant owns its form configuration" do
+      before do
+        variant.configuration_links
+               .find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+               .destroy!
+      end
+
+      it "surfaces the variant's own fields" do
+        expect(subject).to include(variant_cf)
+      end
+
+      it "does not surface the root's fields" do
+        expect(subject).not_to include(root_cf)
+      end
+    end
+  end
 end
