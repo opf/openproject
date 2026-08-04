@@ -92,7 +92,7 @@ class Type < ApplicationRecord
   validate :not_own_parent
   validate :cannot_have_children_when_child
   validate :standard_type_stays_root
-  validate :parent_frozen_with_work_packages
+  validate :parent_frozen_while_used_by_projects
 
   scopes :milestone,
          :with_effective_configuration,
@@ -315,9 +315,14 @@ class Type < ApplicationRecord
     errors.add(:parent, :standard_type_must_be_root) if is_standard? && parent_id.present?
   end
 
-  def parent_frozen_with_work_packages
+  # Re-parenting moves a type into another family or out of one, which would leave every
+  # project_types row referencing it either offering a type that is no longer a root, or
+  # resolving to a variant of a different family than the row offers. Neither row gets
+  # revalidated, so the only place to catch it is here.
+  def parent_frozen_while_used_by_projects
     return unless parent_id_changed? && persisted?
+    return unless ProjectType.where(type_id: id).or(ProjectType.where(variant_id: id)).exists?
 
-    errors.add(:parent, :cannot_change_with_work_packages) if WorkPackage.exists?(type_id: id)
+    errors.add(:parent, :cannot_change_while_used_by_projects)
   end
 end

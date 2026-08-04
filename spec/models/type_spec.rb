@@ -541,16 +541,35 @@ RSpec.describe Type do
         expect(duplicate).not_to be_valid
       end
 
-      it "freezes parent_id once work packages exist" do
+      it "freezes parent_id while a project resolves to the variant" do
         other_root = create(:type)
-        create(:work_package, type: child)
+        create(:project, types: [child])
 
         child.parent = other_root
+
         expect(child).not_to be_valid
+        expect(child.errors).to be_of_kind(:parent, :cannot_change_while_used_by_projects)
       end
 
-      it "allows editing a type with work packages when the parent is unchanged" do
-        create(:work_package, type: child)
+      it "freezes parent_id while a project offers the type as a root" do
+        offered_root = create(:type)
+        create(:project, types: [offered_root])
+
+        offered_root.parent = create(:type)
+
+        expect(offered_root).not_to be_valid
+        expect(offered_root.errors).to be_of_kind(:parent, :cannot_change_while_used_by_projects)
+      end
+
+      it "allows re-parenting a variant no project uses" do
+        other_root = create(:type)
+
+        child.parent = other_root
+        expect(child).to be_valid
+      end
+
+      it "allows editing a type used by projects when the parent is unchanged" do
+        create(:project, types: [child])
 
         child.name = "Renamed"
         expect(child).to be_valid
