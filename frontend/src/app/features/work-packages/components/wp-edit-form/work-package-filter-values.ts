@@ -40,9 +40,12 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 /**
  * Some filter ids write to a work package attribute of a different name.
  *
- * Version filters keep their deprecated ids because stored board queries and
- * saved user queries still use them, while the value is written to the
- * multi-valued targetVersions attribute that replaces the single version one.
+ * Both version filters write the multi-valued targetVersions attribute:
+ *   * "version" is the deprecated single-version filter, still used by stored
+ *     board queries and saved user queries.
+ *   * "targetVersion" is the APIv3 name of the target_version_id filter key.
+ *     PropertyNameConverter strips the _id suffix, so the filter id is singular
+ *     even though the attribute it writes is a collection.
  */
 export function attributeNameForFilter(filterId:string):string {
   switch (filterId) {
