@@ -27,13 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper do %>
+<%= component_wrapper(**wrapper_data_attrs) do %>
   <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
     <% active_types.each do |type| %>
       <% list.with_item(data: { test_selector: "project-types-row-#{type.id}" }) do |item| %>
-        <% item.with_menu do |menu| %>
-          <% switch_action(menu, type) if type.family.many? %>
-          <% remove_action(menu, type) %>
+        <% unless switching_from?(type) %>
+          <% item.with_menu do |menu| %>
+            <% switch_action(menu, type) if type.family.many? %>
+            <% remove_action(menu, type) %>
+          <% end %>
         <% end %>
         <%= flex_layout(align_items: :center) do |row| %>
           <% row.with_column(display: :inline_flex, align_items: :center, mr: 2) do %>
@@ -42,7 +44,17 @@ See COPYRIGHT and LICENSE files for more details.
           <% row.with_column(mr: 2) do %>
             <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { type.root.name } %>
           <% end %>
-          <% if type.variant? %>
+          <% if switching_from?(type) %>
+            <% row.with_column(display: :inline_flex, align_items: :center, mr: 2) do %>
+              <%= render(Primer::Beta::Spinner.new(size: :small)) %>
+            <% end %>
+            <% row.with_column do %>
+              <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { switching_to_prefix } %>
+              <%= render(Primer::Beta::Text.new(color: :muted, font_weight: :semibold, font_size: :small)) do %>
+                <%= switching_to_name %>
+              <% end %>
+            <% end %>
+          <% elsif type.variant? %>
             <% row.with_column do %>
               <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
                 <%= t("projects.settings.types.variant_prefix") %>

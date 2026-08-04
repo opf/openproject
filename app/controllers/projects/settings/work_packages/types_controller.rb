@@ -33,13 +33,20 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
   include FlashMessagesOutputSafetyHelper
+  include WorkPackageTypes::SwitchFeedback
 
   menu_item :settings_work_packages
 
-  before_action :require_type_variants_feature, only: %i[new create destroy]
+  before_action :require_type_variants_feature, only: %i[new create destroy status]
 
   def index
     @types = ::Type.all
+  end
+
+  def status
+    render_switch_state(@project)
+
+    respond_to_with_turbo_streams
   end
 
   def new

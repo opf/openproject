@@ -38,15 +38,16 @@ module Projects
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
 
-          def initialize(project:)
+          def initialize(project:, pending_switch: nil)
             super()
 
             @project = project
+            @pending_switch = pending_switch
           end
 
           private
 
-          attr_reader :project
+          attr_reader :project, :pending_switch
 
           # A variant's acts_as_list position is scoped to its parent, so only
           # the family's own position is comparable across rows.
@@ -57,17 +58,63 @@ module Projects
                                 .sort_by { |type| type.root.position }
           end
 
+          def switching? = pending_switch.present?
+
+          def switching_from?(type)
+            switching? && pending_switch.source_id == type.id
+          end
+
+          # Switching to the family parent leaves the project on no variant at
+          # all, so it cannot borrow the wording the mockup gives a variant.
+          def switching_to_prefix
+            key = pending_switch.target.variant? ? "switching_to_variant" : "switching_to_type"
+
+            t("projects.settings.types.#{key}")
+          end
+
+          def switching_to_name
+            pending_switch.target.own_name
+          end
+
+          def wrapper_data_attrs
+            return {} unless switching?
+
+            {
+              data: {
+                controller: "poll-for-changes",
+                poll_for_changes_url_value: status_project_settings_work_packages_types_path(project),
+                poll_for_changes_interval_value: 3000
+              }
+            }
+          end
+
           def switch_path(type)
             new_project_settings_work_packages_type_switch_path(project, type)
           end
 
           def switch_action(menu, type)
+            return blocked_switch_action(menu) if switching?
+
             menu.with_item(
               label: t("projects.settings.types.switch_type"),
               href: switch_path(type),
               content_arguments: { data: { controller: "async-dialog" } }
             ) do |item|
               item.with_leading_visual_icon(icon: "list-ordered")
+            end
+          end
+
+          # Switches are serialised by an advisory lock on the project, so a
+          # second one would queue behind the first. Saying so is kinder than an
+          # action that silently disappears from families nobody is switching.
+          def blocked_switch_action(menu)
+            menu.with_item(
+              label: t("projects.settings.types.switch_type"),
+              disabled: true,
+              description_scheme: :block
+            ) do |item|
+              item.with_leading_visual_icon(icon: "list-ordered")
+              item.with_description { t("projects.settings.types.switch_in_progress") }
             end
           end
 

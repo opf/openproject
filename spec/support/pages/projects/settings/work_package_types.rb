@@ -89,6 +89,24 @@ module Pages
           page.find_by_id("project-types-switch-dialog")
         end
 
+        # The spinner is the only sign the request came back, so waiting on it is
+        # what guarantees the job is queued before an example performs it. Kept
+        # target-agnostic because switching to the family parent is worded
+        # differently from switching to a variant.
+        def await_switch_queued(type)
+          expect(find_row(type)).to have_text("Switching to")
+        end
+
+        def expect_switching_row(type, target:)
+          expect(find_row(type)).to have_text("Switching to variant: #{target}", normalize_ws: true)
+        end
+
+        # The designer settled on the row spinner alone, so a backgrounded switch
+        # must not raise a modal of any kind.
+        def expect_no_dialog
+          expect(page).to have_no_css("dialog[open]")
+        end
+
         def expect_no_switch_action(type)
           within(find_row(type)) { find("action-menu > button").click }
 

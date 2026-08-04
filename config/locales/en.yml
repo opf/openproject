@@ -5059,7 +5059,11 @@ en:
           target_label: "Variant"
           title: "%{type}: Switch variant"
           warning: "If you switch variants, you might lose information associated with custom fields that might not be present in the new one."
+        switch_in_progress: "Another variant switch is in progress."
         switch_type: "Switch variant"
+        # Both carry their own punctuation so locales can set their own spacing.
+        switching_to_type: "Switching to:"
+        switching_to_variant: "Switching to variant:"
         type_not_found: "The selected type could not be found."
         # Carries its own punctuation so locales can set their own spacing.
         variant_prefix: "Variant:"

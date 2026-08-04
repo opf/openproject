@@ -31,7 +31,13 @@
 class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::SettingsController
   include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
-  include FlashMessagesOutputSafetyHelper
+  include WorkPackageTypes::SwitchFeedback
+
+  # A switch that settles inside this window is reported as a finished page, so
+  # a small project reads as a plain refresh rather than a progress dance. The
+  # cost is holding the request for at most this long.
+  DEBOUNCE_SECONDS = 1.0
+  SETTLE_POLL_SECONDS = 0.05
 
   menu_item :settings_work_packages
 
@@ -47,16 +53,14 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
     return render_invalid(switch) unless switch.valid?
 
-    result = ::Projects::Types::SwitchVariantService
-               .new(user: current_user, model: @project)
-               .call(source: switch.source, target: switch.target)
+    job = enqueue_switch(switch)
 
-    result.on_success { on_switched(switch) }
-    result.on_failure do
-      render_error_flash_message_via_turbo_stream(message: join_flash_messages(failure_messages(result)))
-    end
+    settled = settled_within_debounce?(job)
 
-    respond_to_with_turbo_streams(status: result)
+    close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}")
+    render_switch_state(@project)
+
+    respond_to_with_turbo_streams(status: settled ? :ok : :accepted)
   end
 
   private
@@ -74,15 +78,6 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
     ::Projects::Types::Switch.new(project: @project, source: @source, target_id: params.dig(:switch, :target_id))
   end
 
-  # A work package that refuses the re-type reports through a dependent result
-  # and leaves the top-level errors empty, which would render a blank flash.
-  def failure_messages(result)
-    messages = result.errors.full_messages
-    return messages if messages.any?
-
-    result.dependent_results.flat_map { |dependent| dependent.errors.full_messages }.uniq
-  end
-
   def render_invalid(switch)
     update_via_turbo_stream(
       component: Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(switch:)
@@ -91,14 +86,35 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
     respond_to_with_turbo_streams(status: :unprocessable_entity)
   end
 
-  # Reload so the repainted list no longer sees the association's cached types.
-  def on_switched(switch)
-    close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}")
-    replace_via_turbo_stream(
-      component: Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project.reload)
+  def enqueue_switch(switch)
+    ::Projects::Types::SwitchVariantJob.perform_later(
+      user: current_user,
+      project: @project,
+      source: switch.source,
+      target: switch.target
     )
-    render_success_flash_message_via_turbo_stream(
-      message: t("projects.settings.types.switch_dialog.success", type: switch.target.composite_name)
-    )
+  end
+
+  # Uncached because the query cache would answer every pass with the row as it
+  # was on the first one, so the worker's progress would never be seen.
+  def settled_within_debounce?(job)
+    deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + DEBOUNCE_SECONDS
+
+    ::JobStatus::Status.uncached do
+      loop do
+        return true unless switch_running?(job)
+        return false if Process.clock_gettime(Process::CLOCK_MONOTONIC) >= deadline
+
+        sleep SETTLE_POLL_SECONDS
+      end
+    end
+  end
+
+  # No row yet means the enqueue listener has not written one, which is still a
+  # switch we are waiting on rather than one that has finished.
+  def switch_running?(job)
+    row = ::JobStatus::Status.find_by(job_id: job.job_id)
+
+    row.nil? || ::Projects::Types::SwitchStatus::PENDING.include?(row.status)
   end
 end

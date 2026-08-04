@@ -42,7 +42,12 @@ See COPYRIGHT and LICENSE files for more details.
        ) { t("activerecord.attributes.work_package.type") } %>
   <% end %>
 
-  <%= render(Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project)) %>
+  <%= render(
+        Projects::Settings::WorkPackages::Types::ListComponent.new(
+          project: @project,
+          pending_switch: ::Projects::Types::SwitchStatus.pending_for(@project)
+        )
+      ) %>
 <% elsif Type.any? %>
   <%= form_for @project,
                url: bulk_update_project_settings_work_packages_types_path(@project),

@@ -64,6 +64,67 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
+  context "when a switch is running in the background" do
+    shared_let(:blueprint) { create(:type, name: "Blueprint", parent: epic) }
+
+    # A second family with variants of its own, so the effect of a switch on the
+    # rows that are not switching is visible.
+    shared_let(:feature) { create(:type, name: "Feature").tap { |type| type.update_column(:position, 3) } }
+    shared_let(:research) { create(:type, name: "Research", parent: feature) }
+
+    subject(:component) { described_class.new(project:, pending_switch:) }
+
+    let(:project) { create(:project, types: [design, research]) }
+    let(:pending_switch) do
+      instance_double(Projects::Types::SwitchStatus, source_id: design.id, target: blueprint)
+    end
+
+    before { render_inline(component) }
+
+    # Its own name, not the composite one: the parent already labels the row.
+    it "says where the switching family is heading" do
+      expect(page).to have_text("Switching to variant: Blueprint", normalize_ws: true)
+    end
+
+    context "when the target is the family parent rather than a variant" do
+      let(:pending_switch) do
+        instance_double(Projects::Types::SwitchStatus, source_id: design.id, target: epic)
+      end
+
+      it "drops the word variant, because the project will be left on none" do
+        expect(page).to have_text("Switching to: Epic", normalize_ws: true)
+      end
+    end
+
+    it "polls, so the row settles without the user reloading" do
+      expect(page).to have_css("[data-controller='poll-for-changes']")
+    end
+
+    it "offers no actions on the switching row" do
+      expect(switching_row).to have_no_button("Remove from project", visible: :all)
+    end
+
+    # The service takes an advisory lock on the project, so a second switch would
+    # queue behind the first. Disabling says so; hiding used to leave families
+    # nobody is switching looking broken.
+    it "keeps the switch action on the other family, disabled and explained" do
+      expect(other_family_row).to have_text("Switch variant")
+      expect(other_family_row).to have_text("Another variant switch is in progress.")
+      expect(other_family_row).to have_no_css(
+        "a[href='#{new_project_settings_work_packages_type_switch_path(project, research)}']",
+        visible: :all
+      )
+    end
+
+    def switching_row
+      page.find("[data-test-selector='project-types-row-#{design.id}']", visible: :all)
+    end
+
+    def other_family_row
+      page.find("[data-test-selector='project-types-row-#{research.id}']", visible: :all)
+    end
+  end
+
   context "when a family is active through a variant" do
     let(:project) { create(:project, types: [design]) }
 

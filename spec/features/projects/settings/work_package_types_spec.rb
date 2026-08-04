@@ -96,6 +96,8 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     work_package = create(:work_package, project:, type: design)
 
     settings_page.switch_type(design, target: "Epic: Blueprint")
+    settings_page.await_switch_queued(design)
+    perform_enqueued_jobs
 
     expect_flash(message: "The project now uses Epic: Blueprint.")
     settings_page.expect_type_row(blueprint, variant: "Blueprint")
@@ -105,6 +107,8 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
 
   it "switches the project from a variant to the family parent" do
     settings_page.switch_type(design, target: "Epic")
+    settings_page.await_switch_queued(design)
+    perform_enqueued_jobs
 
     settings_page.expect_type_row(epic)
     expect(project.reload.types).to include(epic)
@@ -134,6 +138,45 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
   # would open a dialog whose only option is the current one.
   it "offers no switch action for a family without variants" do
     settings_page.expect_no_switch_action(bug)
+  end
+
+  # Nothing performs the job, so it is still queued when the debounce window
+  # closes: the case where the switch outlives it and the indicators appear.
+  context "when the switch outlives the debounce window" do
+    before { create(:work_package, project:, type: design) }
+
+    it "hands the switch to a background job instead of holding the request" do
+      settings_page.switch_type(design, target: "Epic: Blueprint")
+
+      settings_page.expect_switching_row(design, target: "Blueprint")
+      # Nothing has run yet: the request only queued it.
+      expect(project.reload.types).to contain_exactly(design, bug)
+
+      perform_enqueued_jobs
+
+      expect(project.reload.types).to contain_exactly(blueprint, bug)
+    end
+
+    it "settles the row without a reload, and never opens a dialog" do
+      settings_page.switch_type(design, target: "Epic: Blueprint")
+
+      settings_page.expect_switching_row(design, target: "Blueprint")
+      settings_page.expect_no_dialog
+
+      perform_enqueued_jobs
+
+      settings_page.expect_type_row(blueprint, variant: "Blueprint")
+      expect_flash(message: "The project now uses Epic: Blueprint.")
+    end
+
+    # Keyed on the project, so a colleague who did not start it still sees it.
+    it "shows a switch started by somebody else" do
+      Projects::Types::SwitchVariantJob.perform_later(user: current_user, project:, source: design, target: blueprint)
+
+      settings_page.visit!
+
+      settings_page.expect_switching_row(design, target: "Blueprint")
+    end
   end
 
   # Located by test selector because the tab nav above renders a "Types" link,
