@@ -26,18 +26,23 @@
       end
 
       custom_field_container.with_column(py: 1, mr: 2) do
-        render(
-          Primer::Alpha::ToggleSwitch.new(
-            src: readonly ? nil : toggle_path,
-            csrf_token: form_authenticity_token,
-            data: toggle_data_attributes,
-            checked: active_for_type?,
-            enabled: !readonly,
-            size: :small,
-            status_label_position: :start,
-            classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+        if linked
+          render(exclusion_toggle)
+        else
+          render(
+            Primer::Alpha::ToggleSwitch.new(
+              src: toggle_path,
+              csrf_token: form_authenticity_token,
+              data: toggle_data_attributes,
+              checked: active_for_type?,
+              on_label: "",
+              off_label: t("types.edit.project_attributes.disabled"),
+              size: :small,
+              status_label_position: :start,
+              classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+            )
           )
-        )
+        end
       end
     end
   end
