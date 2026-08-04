@@ -27,23 +27,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper do %>
-  <%= primer_form_with(url: switch_path, method: :post) do |form| %>
-    <%= render(Primer::Alpha::Dialog::Body.new) do %>
-      <%= render(
-            Projects::Settings::WorkPackages::Types::SwitchFieldsComponent.new(
-              form:, targets: available_targets, selected:, validation_message:
-            )
-          ) %>
+<%= flex_layout(direction: :column) do |body| %>
+  <% body.with_row(mb: 3) do %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert)) do %>
+      <%= t("projects.settings.types.switch.warning") %>
     <% end %>
-
-    <%= render(Primer::Alpha::Dialog::Footer.new) do %>
-      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) do %>
-        <%= t(:button_cancel) %>
-      <% end %>
-      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do %>
-        <%= t("projects.settings.types.switch.apply") %>
-      <% end %>
+  <% end %>
+  <% body.with_row(mb: 2) do %>
+    <%= render(Primer::Beta::Text.new(tag: :p)) do %>
+      <%= t("projects.settings.types.switch.description") %>
     <% end %>
+  <% end %>
+  <% body.with_row do %>
+    <%= render(
+          Projects::Settings::WorkPackages::Types::SwitchForm.new(
+            @form, targets: @targets, selected: @selected, validation_message: @validation_message
+          )
+        ) %>
   <% end %>
 <% end %>
