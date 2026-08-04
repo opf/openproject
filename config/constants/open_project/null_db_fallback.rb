@@ -39,17 +39,10 @@ module OpenProject
         ActiveRecord::Base.establish_connection adapter: :nulldb
       end
 
-      # Reconnects to the real database once it is available, e.g. after
-      # +db:create+ has created the database this process failed to reach when
-      # it booted. Resolving the connection through the environment name rather
-      # than config/database.yml keeps DATABASE_URL working.
       def reset
         return unless applied?
 
-        # Only drop the flag once the reconnect went through: a process that
-        # failed to leave NullDB has to stay eligible for a later retry.
-        ActiveRecord::Base.establish_connection(Rails.env.to_sym)
-        unapplied!
+        ActiveRecord::Base.establish_connection(database_config)
       end
 
       private
@@ -66,6 +59,10 @@ module OpenProject
 
       def applied?
         !!applied
+      end
+
+      def database_config
+        YAML.load_file(Rails.root.join("config/database.yml").to_s)[Rails.env]
       end
     end
   end

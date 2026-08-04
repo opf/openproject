@@ -28,21 +28,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# `db:prepare` boots the application *before* it creates the database and loads
-# the schema, which leaves this process holding two kinds of stale state by the
-# time it gets here.
-#
-# When the database did not exist at all, the boot fell back to NullDB and never
-# came back off it, so without this the seeders would write into the void.
-OpenProject::NullDbFallback.reset
-
-# And every model an engine touches from a `to_prepare` block looked up its
-# columns while no table existed yet — memoising that empty answer for the rest
-# of the process, which leaves the model without any attribute methods. Throw
-# that away so the seeders work against the schema that has since been loaded.
-ActiveRecord::Base.connection_pool.schema_cache.clear!
-ActiveRecord::Base.descendants.each(&:reset_column_information)
-Setting.clear_cache
-
 Seeder.log_to_stdout!
 RootSeeder.new(raise_on_unknown_language: true).seed!
