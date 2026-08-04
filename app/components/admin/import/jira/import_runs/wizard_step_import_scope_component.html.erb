@@ -28,85 +28,115 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= flex_layout do |box|
-  box.with_row do
-    concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
-      I18n.t(:"admin.jira.run.wizard.sections.import_scope.title")
-    })
-    if model.status_before?(:instance_meta_done)
-      concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption")
-      })
-    elsif model.status_equal_or_after?(:projects_meta_done)
-      concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done")
-      })
-    end
-  end
-  if model.in_state?(:instance_meta_done)
-    box.with_row(mb: 3) do
-      flex_layout do |flex|
-        flex.with_column(flex: 1, mr: 1) do
-          render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
-            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_available_server_data",  server_info: model.jira.name),
-            subtitle: server_info,
-            list: import_stats_available,
-            h: :full
-          ))
+      box.with_row do
+        concat(
+          content_tag(:div, class: "d-flex flex-items-center") do
+            concat(
+              render(Primer::Beta::Text.new(font_weight: :bold)) do
+                I18n.t(:"admin.jira.run.wizard.sections.import_scope.title")
+              end
+            )
+            if model.status_equal_or_after?(:projects_meta_done)
+              concat(
+                render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, color: :success, ml: 1)) do
+                  I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done")
+                end
+              )
+            end
+          end
+        )
+
+        if model.status_before?(:configuring)
+          concat(
+            render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption")
+            end
+          )
+        elsif model.status_equal_or_after?(:projects_meta_done)
+          concat(
+            render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done_description", count: selected_projects_count)
+            end
+          )
         end
       end
-    end
-    box.with_row do
-      render(Primer::Beta::Button.new(
-        scheme: :primary,
-        size: :medium,
-        tag: :a,
-        href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: 'configure'),
-        data: { turbo_stream: true }
-      )) {
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_continue")
-      }
-    end
-  elsif model.in_state?(:configuring, :projects_meta_error)
-    box.with_row(mb: 3, mt: 3) do
-      render(Primer::Beta::Text.new) {
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_import")
-      }
-    end
-    box.with_row(mb: 3) do
-      render(Primer::Beta::Button.new(
-        size: :medium,
-        tag: :a,
-        href: admin_import_jira_run_select_projects_path(jira_id: model.jira.id, run_id: model.id),
-        data: { controller: "async-dialog" }
-      )) do |component|
-        component.with_trailing_visual_counter(count: selected_projects_count)
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_select")
+      if model.in_state?(:configuring, :projects_meta_error)
+        box.with_row(mt: 1, mb: 3) do
+          render(Primer::Beta::Text.new) do
+            I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_import")
+          end
+        end
+        box.with_row(mb: 1) do
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                size: :medium,
+                tag: :a,
+                href: admin_import_jira_run_select_projects_path(jira_id: model.jira.id, run_id: model.id),
+                data: { controller: "async-dialog" }
+              )
+            ) do |component|
+              component.with_trailing_visual_counter(count: selected_projects_count)
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_select")
+            end
+          )
+          if model.in_state?(:configuring)
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :primary,
+                  size: :medium,
+                  tag: :a,
+                  href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "fetch_projects_meta"),
+                  data: { turbo_stream: true },
+                  disabled: model.projects.blank?
+                )
+              ) do
+                I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_continue")
+              end
+            )
+          end
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                size: :medium,
+                href: admin_import_jira_path(model.jira)
+              )
+            ) do
+              I18n.t(:button_cancel)
+            end
+          )
+        end
+        if model.in_state?(:projects_meta_error)
+          box.with_row do
+            render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, "fetch_projects_meta"))
+          end
+        end
+      elsif model.in_state?(:projects_meta_fetching)
+        box.with_row(mt: 3) do
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                size: :medium,
+                disabled: true
+              )
+            ) do |component|
+              component.with_trailing_visual_counter(count: selected_projects_count)
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_select")
+            end
+          )
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                size: :medium
+              )
+            ) do |button|
+              button.with_leading_visual_icon(icon: :sync, animation: :rotate)
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_progress")
+            end
+          )
+        end
       end
-    end
-    if model.in_state?(:configuring)
-      box.with_row do
-        render(Primer::Beta::Button.new(
-          scheme: :primary,
-          size: :medium,
-          tag: :a,
-          href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: 'fetch_projects_meta'),
-          data: { turbo_stream: true },
-          disabled: model.projects.nil? || model.projects.empty?
-        )) {
-          I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_continue")
-        }
-      end
-    elsif model.in_state?(:projects_meta_error)
-      box.with_row do
-        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, 'fetch_projects_meta'))
-      end
-    end
-  elsif model.in_state?(:projects_meta_fetching)
-    box.with_row(mt: 3) do
-      render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_progress")
-      ))
-    end
-  end
-end
-%>
+    end %>

@@ -58,13 +58,20 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
           expect(names).not_to include :version
         end
 
-        it "is displayable but neither sortable nor groupable" do
+        it "is displayable, sortable and groupable" do
           column = described_class.instances.find { it.name == :target_versions }
 
           expect(column).to be_displayable
-          expect(column).not_to be_sortable
-          expect(column).not_to be_groupable
+          expect(column).to be_sortable
+          expect(column).to be_groupable
           expect(column.caption).to eq WorkPackage.human_attribute_name(:target_versions)
+        end
+
+        it "sorts and groups via the work_package_versions join rows" do
+          column = described_class.instances.find { it.name == :target_versions }
+
+          expect(Array(column.sortable)).to all include("work_package_versions")
+          expect(column.groupable).to include("work_package_versions")
         end
       end
 
@@ -76,6 +83,14 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
 
           expect(names).to include :version
           expect(names).not_to include :target_versions
+        end
+
+        it "sorts and groups the version column via the work_package_versions join rows" do
+          column = described_class.instances.find { it.name == :version }
+
+          expect(column.sortable).to include("work_package_versions")
+          expect(column.groupable).to include("work_package_versions")
+          expect(column.groupable).not_to include("#{WorkPackage.table_name}.version_id")
         end
       end
 

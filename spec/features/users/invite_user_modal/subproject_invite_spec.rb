@@ -76,7 +76,7 @@ RSpec.describe "Invite user modal subprojects", :js do
       assignee_field.expect_inactive!
       assignee_field.expect_display_value invitable_user.name
 
-      new_member = subproject.reload.member_principals.find_by(user_id: invitable_user.id)
+      new_member = subproject.reload.members.find_by(user_id: invitable_user.id)
       expect(new_member).to be_present
       expect(new_member.roles).to eq [role]
     end

@@ -17,15 +17,18 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(type:, project_custom_field:)
+      def initialize(type:, project_custom_field:, readonly: false)
         super
 
         @type = type
         @project_custom_field = project_custom_field
+        @readonly = readonly
         @project_custom_field_type_mappings = type.project_custom_field_type_mappings
       end
 
       private
+
+      attr_reader :readonly
 
       def wrapper_uniq_by
         @project_custom_field.id

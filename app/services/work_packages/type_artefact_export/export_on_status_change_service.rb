@@ -66,7 +66,7 @@ module WorkPackages
       def export_and_store!
         export = WorkPackage::PDFExport::Artefact.new(work_package).export!
 
-        case type.effective_artefact_export_mode
+        case type.artefact_export_mode
         when Type::ArtefactExport::ATTACHMENT
           store_as_attachment(export)
         when Type::ArtefactExport::FILE_LINK

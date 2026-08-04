@@ -18,6 +18,7 @@ export class SortModalObject {
 export interface SortColumn {
   name:string;
   href:string | null;
+  displayable?:boolean;
 }
 
 export type SortingMode = 'automatic'|'manual';
@@ -86,7 +87,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
         const allColumns:SortColumn[] = this.wpTableSortBy.available.filter(
           (sort:QuerySortByResource) => !sort.column.href!.endsWith('/parent'),
         ).map(
-          (sort:QuerySortByResource) => ({ name: sort.column.name, href: sort.column.href }),
+          (sort:QuerySortByResource) => ({ name: sort.column.name, href: sort.column.href, displayable: sort.displayable }),
         );
 
         // For whatever reason, even though the UI doesn't implement it,
@@ -123,7 +124,10 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
       .filter((o) => o.column !== null)
       .map((object:SortModalObject) => object.column);
 
-    this.availableColumns = sortBy(this.allColumns.filter((col) => !usedColumns.some((used) => used.href === col.href)), 'name');
+    this.availableColumns = sortBy(
+      this.allColumns.filter((col) => (col.displayable ?? true) && !usedColumns.some((used) => used.href === col.href)),
+      'name',
+    );
   }
 
   public updateSortingMode(mode:SortingMode) {

@@ -43,6 +43,8 @@ export class QuerySortByResource extends HalResource {
   public column:QueryColumn;
 
   public direction:QuerySortByDirection;
+
+  public displayable:boolean;
 }
 
 /**
