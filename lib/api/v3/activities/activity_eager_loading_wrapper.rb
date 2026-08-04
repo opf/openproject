@@ -150,7 +150,8 @@ module API
                   ) AS journals
                 SQL
               )
-              .includes(:attachable_journals, :customizable_journals, :storable_journals, :target_version_journals)
+              .includes(:attachable_journals, :customizable_journals, :storable_journals,
+                        :work_package_version_journals)
           end
         end
       end

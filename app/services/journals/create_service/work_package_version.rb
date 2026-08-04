@@ -30,11 +30,9 @@
 
 class Journals::CreateService
   # Journals the version associations of a work package. Only the kinds listed
-  # in JOURNALED_KINDS are snapshotted: observed_in versions stay unjournaled
-  # until the legacy version_id column stops being journaled, as they would
-  # otherwise render alongside it.
+  # in JOURNALED_KINDS are snapshotted.
   class WorkPackageVersion < Association
-    JOURNALED_KINDS = %w[target].freeze
+    JOURNALED_KINDS = %w[target observed_in].freeze
 
     def associated?
       journable.respond_to?(:target_versions)
