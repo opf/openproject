@@ -113,7 +113,7 @@ RSpec.describe "Project attributes activity", :js do
         activity_page.expect_activity("Status set to On track")
         activity_page.expect_activity("Status description set (Details)")
         activity_page.expect_activity("Visibility set to public")
-        activity_page.expect_activity("No longer subproject of #{parent_project.name}")
+        activity_page.expect_activity("No longer subproject of a non-visible project")
         activity_page.expect_activity("Project unarchived")
         activity_page.expect_activity("Identifier changed from #{project_was.identifier} " \
                                       "to #{project.identifier}")
@@ -203,7 +203,8 @@ RSpec.describe "Project attributes activity", :js do
         activity_page.expect_activity("Status set to On track")
         activity_page.expect_activity("Status description set (Details)")
         activity_page.expect_activity("Visibility set to public")
-        activity_page.expect_activity("No longer subproject of #{parent_project.name}")
+        # The user is a member of project and project2, but not of their former parent.
+        activity_page.expect_activity("No longer subproject of a non-visible project")
         activity_page.expect_activity("Project unarchived")
         activity_page.expect_activity("Identifier changed from #{project_was.identifier} " \
                                       "to #{project.identifier}")
