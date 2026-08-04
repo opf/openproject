@@ -32,6 +32,18 @@ module Projects::EnabledTypes
   extend ActiveSupport::Concern
 
   included do
+    # The type whose configuration applies in this project for the given type's family: the
+    # variant this project resolves to, or the family's root when it resolves to none.
+    #
+    # Every configuration read for a work package has to go through here. Reading an aspect
+    # off the type a work package stores answers with the root's configuration and silently
+    # ignores the variant.
+    def effective_type(type)
+      return if type.nil?
+
+      project_types.detect { |project_type| project_type.type_id == type.root_id }&.variant || type.root
+    end
+
     def types_used_by_work_packages
       ::Type.where(id: WorkPackage.where(project_id: project.id)
                                   .select(:type_id)

@@ -293,6 +293,16 @@ class WorkPackage < ApplicationRecord
 
   alias_method :is_milestone?, :milestone?
 
+  # The type to read configuration from: #type is the family's root, which is what this work
+  # package stores, while its project may resolve the family to a variant configured
+  # differently. Use this for form configuration, workflows, custom fields, defaults and
+  # export templates; use #type for identity, filtering and grouping.
+  def effective_type
+    return type&.root if project.nil?
+
+    project.effective_type(type)
+  end
+
   def included_in_totals_calculation?
     !status.excluded_from_totals
   end

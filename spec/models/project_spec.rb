@@ -229,6 +229,48 @@ RSpec.describe Project do
     end
   end
 
+  describe "#effective_type" do
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+    shared_let(:sibling) { create(:type, name: "Tablet Bug", parent: root) }
+
+    context "when the project resolves the family to a variant" do
+      shared_let(:project) { create(:project, types: [variant]) }
+
+      it "resolves the root to that variant" do
+        expect(project.effective_type(root)).to eq(variant)
+      end
+
+      it "resolves any member of the family to that variant" do
+        expect(project.effective_type(sibling)).to eq(variant)
+      end
+    end
+
+    context "when the project uses the root itself" do
+      shared_let(:project) { create(:project, types: [root]) }
+
+      it "resolves to the root" do
+        expect(project.effective_type(root)).to eq(root)
+      end
+
+      it "resolves a variant back to the root" do
+        expect(project.effective_type(variant)).to eq(root)
+      end
+    end
+
+    context "when the project does not use the family at all" do
+      shared_let(:project) { create(:project, no_types: true) }
+
+      it "resolves to the root, whose configuration is the only one that could apply" do
+        expect(project.effective_type(variant)).to eq(root)
+      end
+    end
+
+    it "is nil without a type" do
+      expect(create(:project).effective_type(nil)).to be_nil
+    end
+  end
+
   describe "#types_used_by_work_packages" do
     let(:project) { create(:project_with_types) }
     let(:type) { project.types.first }

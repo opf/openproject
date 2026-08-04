@@ -218,6 +218,50 @@ RSpec.describe WorkPackage do
     it { is_expected.to eq(category.assigned_to) }
   end
 
+  describe "#effective_type", with_flag: { type_variants: true } do
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+
+    it "is the variant the work package's project resolves to" do
+      variant_project = create(:project, types: [variant])
+      work_package = create(:work_package, project: variant_project, type: root)
+
+      expect(work_package.type).to eq(root)
+      expect(work_package.effective_type).to eq(variant)
+    end
+
+    it "is the root when the project resolves to no variant" do
+      root_project = create(:project, types: [root])
+      work_package = create(:work_package, project: root_project, type: root)
+
+      expect(work_package.effective_type).to eq(root)
+    end
+
+    it "follows the target project when the work package moves" do
+      root_project = create(:project, types: [root])
+      variant_project = create(:project, types: [variant])
+      work_package = create(:work_package, project: root_project, type: root)
+
+      expect(work_package.effective_type).to eq(root)
+
+      work_package.project = variant_project
+
+      expect(work_package.effective_type).to eq(variant)
+    end
+
+    it "is the type itself without a project, there being no variant to resolve" do
+      expect(described_class.new(type: root).effective_type).to eq(root)
+    end
+
+    it "still answers with the root when the stored type is a variant" do
+      expect(described_class.new(type: variant).effective_type).to eq(root)
+    end
+
+    it "is nil without a type" do
+      expect(described_class.new.effective_type).to be_nil
+    end
+  end
+
   describe "responsible" do
     let(:group) { create(:group) }
     let!(:member) do
