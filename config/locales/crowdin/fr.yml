@@ -2864,6 +2864,9 @@ fr:
       work_package_duplicate_closed: 'Doublon de lot de travaux mis à jour :'
       work_package_parent_deleted: Parent removed
     changes_retracted: Les modifications ont été retirées.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Accessibilité
   label_account: Compte
   label_actions: Actions

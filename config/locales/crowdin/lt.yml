@@ -2974,6 +2974,9 @@ lt:
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Pakeitimai buvo atšaukti.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Prieinamumas
   label_account: Paskyra
   label_actions: Veiksmai

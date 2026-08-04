@@ -2813,6 +2813,9 @@ zh-CN:
       work_package_duplicate_closed: 重复的工作包已更新：
       work_package_parent_deleted: Parent removed
     changes_retracted: 更改已撤回。
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: 辅助功能
   label_account: 帐户
   label_actions: 操作

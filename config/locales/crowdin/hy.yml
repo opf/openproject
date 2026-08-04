@@ -2860,6 +2860,9 @@ hy:
       work_package_duplicate_closed: Կրկնօրինակ աշխատանքային փաթեթը թարմացվել է՝
       work_package_parent_deleted: Ծնողը հեռացվել է
     changes_retracted: Փոփոխությունները հետ են վերցվել։
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Մատչելիություն
   label_account: Հաշիվ
   label_actions: Գործողություններ

@@ -94,7 +94,7 @@ pt-PT:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Adicionar o pacote de trabalho existente a %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Estamos a reformular o módulo Backlogs. As definições de administração para os sprints e backlogs estarão disponíveis aqui num futuro próximo. As definições ao nível do projeto continuam disponíveis.
       title: As definições de administração do backlog estão a evoluir

@@ -2864,6 +2864,9 @@ sv:
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Förändringarna drogs tillbaka.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Tillgänglighet
   label_account: Konto
   label_actions: Åtgärder

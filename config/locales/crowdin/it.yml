@@ -2866,6 +2866,9 @@ it:
       work_package_duplicate_closed: 'Macro-attività duplicata aggiornata:'
       work_package_parent_deleted: Genitore rimosso
     changes_retracted: Le modifiche sono state annullate.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Accessibilità
   label_account: Account
   label_actions: Azioni

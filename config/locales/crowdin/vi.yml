@@ -2811,6 +2811,9 @@ vi:
       work_package_duplicate_closed: 'Gói công việc trùng lặp được cập nhật:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Những thay đổi đã bị rút lại
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Trợ năng
   label_account: tài khoản
   label_actions: hành động

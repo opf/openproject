@@ -2815,6 +2815,9 @@ zh-TW:
       work_package_duplicate_closed: 更新了重複工作套件：
       work_package_parent_deleted: Parent removed
     changes_retracted: 更改已被撤銷
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: 輔助功能
   label_account: 帳號
   label_actions: 操作

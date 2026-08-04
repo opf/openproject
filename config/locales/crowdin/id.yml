@@ -2818,6 +2818,9 @@ id:
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Perubahan ditarik kembali.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Kemampuan akses
   label_account: Akun
   label_actions: Tindakan

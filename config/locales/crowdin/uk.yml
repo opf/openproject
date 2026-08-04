@@ -2976,6 +2976,9 @@ uk:
       work_package_duplicate_closed: 'Дублікат пакета робіт оновлено:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Зміни було відхилено.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Розробникам також потрібно оплачувати свої рахунки. З доступністю
   label_account: Обліковий запис
   label_actions: Дії

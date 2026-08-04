@@ -2870,6 +2870,9 @@ tr:
       work_package_duplicate_closed: 'Mükerrer iş paketi güncellendi:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Değişiklikler geri alındı.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Erişilebilirlik
   label_account: Hesap
   label_actions: Eylemler

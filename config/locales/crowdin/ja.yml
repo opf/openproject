@@ -2813,6 +2813,9 @@ ja:
       work_package_duplicate_closed: 重複ワークパッケージの更新：
       work_package_parent_deleted: Parent removed
     changes_retracted: 変更は取り下げられました。
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: アクセシビリティ
   label_account: アカウント
   label_actions: 操作

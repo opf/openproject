@@ -2972,6 +2972,9 @@ cs:
       work_package_duplicate_closed: 'Aktualizován duplikát pracovního balíčku:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Změny byly staženy.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Přístupnost
   label_account: Účet
   label_actions: Akce

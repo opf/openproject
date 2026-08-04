@@ -2864,6 +2864,9 @@ pt-BR:
       work_package_duplicate_closed: 'Pacote de trabalho duplicado atualizado:'
       work_package_parent_deleted: Parent removed
     changes_retracted: As mudanças foram retraídas.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Acessibilidade
   label_account: Conta
   label_actions: Ações

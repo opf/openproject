@@ -94,7 +94,7 @@ it:
         other: Sprint
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Aggiungi macro-attività esistente a %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Stiamo attualmente riprogettando il modulo Backlog. Le impostazioni amministrative per sprint e backlog saranno presto disponibili qui. Le impostazioni a livello di progetto restano disponibili.
       title: Le impostazioni amministrative del backlog sono in divenire

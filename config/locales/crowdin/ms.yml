@@ -2821,6 +2821,9 @@ ms:
       work_package_duplicate_closed: 'Pakej kerja pendua dikemas kini:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Perubahan telah ditarik balik.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Kebolehcapaian
   label_account: Akaun
   label_actions: Tindakan

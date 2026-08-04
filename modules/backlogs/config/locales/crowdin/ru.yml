@@ -98,7 +98,7 @@ ru:
         other: Спринтов
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Добавить существующий пакет работ в %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: В настоящее время мы переделываем модуль Backlogs. В ближайшем будущем здесь появятся административные настройки для спринтов и бэклогов. Настройки на уровне проекта остаются доступными.
       title: Настройки администрирования бэклога будут в будущем

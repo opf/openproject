@@ -2920,6 +2920,9 @@ hu:
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: A módosítások visszavonásra kerültek.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Kisegítő lehetőségek
   label_account: Felhasználói fiók
   label_actions: Műveletek

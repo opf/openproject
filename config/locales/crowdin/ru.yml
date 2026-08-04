@@ -2970,6 +2970,9 @@ ru:
       work_package_duplicate_closed: 'Дубликат пакета работ обновлён:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Изменения отменены.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Спец. возможности
   label_account: Учетная запись
   label_actions: Действия

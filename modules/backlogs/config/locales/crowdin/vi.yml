@@ -94,7 +94,7 @@ vi:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Chúng tôi hiện đang thiết kế lại mô-đun Backlogs. Các thiết lập quản trị cho Sprint và Backlog sẽ hiển thị ở đây trong thời gian tới. Các thiết lập ở cấp độ dự án vẫn khả dụng.
       title: Các thiết lập quản trị Backlog đang được phát triển

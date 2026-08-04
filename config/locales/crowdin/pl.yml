@@ -2966,6 +2966,9 @@ pl:
       work_package_duplicate_closed: 'Zaktualizowano zduplikowany pakiet roboczy:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Zmiany zostały wycofane.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Dostępność
   label_account: Konto
   label_actions: Działania

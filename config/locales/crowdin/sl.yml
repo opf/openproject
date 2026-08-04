@@ -2986,6 +2986,9 @@ sl:
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Spremembe so bile umaknjene.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Dostopnost
   label_account: Račun
   label_actions: Akcije

@@ -94,7 +94,7 @@ hy:
         other: Սպրինտներ
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Ավելացնել առկա աշխատանքային փաթեթ %{name}-ում
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Մենք ներկայումս վերանախագծում ենք Բեքլոգների մոդուլը։ Սպրինտների և բեքլոգների ադմինիստրատիվ կարգավորումները մոտ ապագայում տեսանելի կլինեն այստեղ։ Նախագծի մակարդակի կարգավորումները մնում են հասանելի։
       title: Բեքլոգի ադմինիստրատիվ կարգավորումները զարգանում են

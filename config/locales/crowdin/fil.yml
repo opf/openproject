@@ -2864,6 +2864,9 @@ fil:
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: The changes were retracted.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Aksibilidad
   label_account: Akawnt
   label_actions: Mga Aksyon
