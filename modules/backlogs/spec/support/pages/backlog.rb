@@ -484,6 +484,32 @@ module Pages
         .to have_no_css(draggable_work_package_selector(work_package))
     end
 
+    # A read-only card keeps its drag but is confined to its own list: it can
+    # be reordered in place, while every other container refuses it. The
+    # confined value is what the foreign drop targets read.
+    def expect_work_package_confined(work_package)
+      expect(page)
+        .to have_css("#{draggable_work_package_selector(work_package)}" \
+                     "[data-sortable-lists--item-confined-value='true']")
+      expect(page)
+        .to have_css("#{work_package_selector(work_package)}[draggable]")
+    end
+
+    # The lock on the status badge is what tells the user why the cross-container
+    # moves are gone. Without it a read-only card is indistinguishable from a
+    # movable one until they try to move it and nothing happens.
+    def expect_work_package_locked(work_package)
+      within_work_package(work_package) do
+        expect(page).to have_css(readonly_lock_selector)
+      end
+    end
+
+    def expect_work_package_not_locked(work_package)
+      within_work_package(work_package) do
+        expect(page).to have_no_css(readonly_lock_selector)
+      end
+    end
+
     def pick_up_and_release_work_package(work_package)
       # A mid-drag list refresh can detach the grabbed row, so retry a bounded
       # number of times on a stale node. retry_block no-ops under
@@ -602,6 +628,70 @@ module Pages
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
+    end
+
+    # Drags a confined card over another sprint's list body and releases it
+    # there. The release must resolve to nothing: no drop indicator over the
+    # target, no row of it accepting, no move request. The card's unchanged
+    # position is the caller's assertion.
+    def drag_work_package_without_move(moved, into:)
+      # See pick_up_and_release_work_package for the retry rationale.
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        moved_element = find(draggable_work_package_selector(moved))
+        target_element = find(list_body_selector(sprint_selector(into)))
+        install_backlogs_move_request_probe
+        begin
+          drag_backlogs_item(source: moved_element, target: target_element)
+        ensure
+          stop_backlogs_move_request_probe
+        end
+      end
+
+      expect_backlogs_drag_refused
+      expect_no_backlogs_move_request
+    end
+
+    # The refusal must be observable, or the assertions above would also pass
+    # for a drag that never engaged. The drop has to reach the controller —
+    # the foreign container stays an accepted drop target so the drag keeps
+    # the standard cursor, so it may appear in the drop's target list, but no
+    # row of it may — and the final dragover, the one over the foreign
+    # container, must show no drop position and mark that container refused
+    # (the muted danger outline) rather than active. Earlier dragovers may
+    # legitimately show indicators while the pointer is still crossing the
+    # card's own list, which keeps accepting it for real.
+    def expect_backlogs_drag_refused
+      refusal = page.evaluate_script(<<~JS)
+        (() => {
+          const state = window.__opBacklogsDndProbeState;
+          const call = state?.handleDropCalls?.at(-1);
+          const lastDragover = (state?.events ?? [])
+            .filter((event) => event.type === 'dragover')
+            .at(-1);
+
+          return {
+            handled: Boolean(call),
+            dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? [],
+            observedDragover: Boolean(lastDragover),
+            dropPositions: lastDragover?.dropPositions ?? null,
+            dropContainers: lastDragover?.dropContainers ?? null
+          };
+        })()
+      JS
+
+      expect(refusal.fetch("handled")).to be(true)
+      expect(refusal.fetch("dropTargetTypes")).not_to include("work_package")
+      expect(refusal.fetch("observedDragover")).to be(true)
+      expect(refusal.fetch("dropPositions")).to be_empty
+      expect(refusal.fetch("dropContainers")).to eq(["refused"])
     end
 
     def drag_work_package_to_backlog_inbox(work_package)
@@ -765,6 +855,12 @@ module Pages
 
     def draggable_work_package_selector(work_package)
       "#{work_package_selector(work_package)}[data-sortable-lists--item-id-value]"
+    end
+
+    # Located by the lock's accessible name so the expectation fails if the
+    # icon ever loses the text that explains it.
+    def readonly_lock_selector
+      "[aria-label='#{Status.human_attribute_name(:is_readonly)}']"
     end
 
     def drag_backlogs_item(source:, target:, edge: nil)
@@ -1064,6 +1160,9 @@ module Pages
             label,
             draggingCount: document.querySelectorAll('[data-dragging]').length,
             honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
+            dropContainers: Array
+              .from(document.querySelectorAll('[data-drop-container]'))
+              .map((element) => element.getAttribute('data-drop-container')),
             dropTargets: document.querySelectorAll('[data-drop-target-for-element]').length,
             dropPositions: Array
               .from(document.querySelectorAll('[data-drop-position]'))
@@ -1095,6 +1194,9 @@ module Pages
             effectAllowed: event.dataTransfer?.effectAllowed ?? null,
             draggingCount: document.querySelectorAll('[data-dragging]').length,
             honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
+            dropContainers: Array
+              .from(document.querySelectorAll('[data-drop-container]'))
+              .map((element) => element.getAttribute('data-drop-container')),
             dropPositions: Array
               .from(document.querySelectorAll('[data-drop-position]'))
               .map((element) => ({

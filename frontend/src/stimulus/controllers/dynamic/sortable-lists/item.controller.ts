@@ -41,6 +41,7 @@ import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
+  confinementAllowsDrop,
   isItemFromRoot,
   sortableItemData,
   type RootAwareChild,
@@ -60,6 +61,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
     id: String,
     type: String,
     hideUnavailable: { type: Boolean, default: true },
+    // A confined item is still a full drag source, but only its own list and
+    // that list's rows accept it as a drop target; foreign containers refuse
+    // it, so a release there lands nowhere and the item stays put. Consumers
+    // use this for items the server allows to reorder in place but refuses to
+    // relocate to another container.
+    confined: { type: Boolean, default: false },
     label: String,
   };
 
@@ -68,6 +75,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly typeValue:string;
   declare readonly hasTypeValue:boolean;
   declare readonly hideUnavailableValue:boolean;
+  declare readonly confinedValue:boolean;
   declare readonly labelValue:string;
   declare readonly hasLabelValue:boolean;
 
@@ -248,7 +256,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
         // resolving to a silent no-op. Holds today (one type per list).
         return isItemFromRoot(root.element, source.data)
           && source.data.itemId !== this.idValue
-          && source.data.type === this.typeValue;
+          && source.data.type === this.typeValue
+          && confinementAllowsDrop(source.data, this.element);
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {
@@ -311,6 +320,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
       itemId: this.idValue,
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
+      sourceListElement: this.root?.ownerListElementOf(this.element) ?? null,
+      confined: this.confinedValue,
     });
   }
 

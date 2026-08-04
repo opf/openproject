@@ -150,7 +150,7 @@ module OpenProject
       #   # @param drop_target_label [String, nil] when given, renders a
       #   #   drop-zone overlay with this label. The overlay becomes visible
       #   #   while a sortable item hovers the surrounding
-      #   #   `[data-drop-container]` list.
+      #   #   `[data-drop-container="active"]` list.
       #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Blankslate`.
       #   # @return [ViewComponent::Slot]
       #   def with_empty_state(title:, description: nil, icon: nil, drop_target_label: nil, **system_arguments)

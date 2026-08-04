@@ -88,11 +88,16 @@
     border-bottom-right-radius: 0
 
   // Drop container: the whole list outlines while a sortable item hovers it,
-  // signalling the item will land inside this list.
+  // signalling the item will land inside this list. A refused container (a
+  // confined item hovering a foreign list) mutes the outline to a danger tone
+  // instead, signalling the item will not land here.
   &[data-drop-container]
     outline: var(--borderWidth-thick) solid var(--fgColor-accent)
     outline-offset: calc(var(--borderWidth-thick) * -1)
     border-radius: var(--borderRadius-medium)
+
+  &[data-drop-container="refused"]
+    outline-color: var(--borderColor-danger-muted)
 
   // The empty-state row only makes sense while it is alone in the list. Hiding
   // it as soon as a sibling row appears (e.g. dropped by drag and drop) avoids
@@ -250,7 +255,7 @@
     @media (prefers-reduced-motion: no-preference)
       transition: opacity 0.1s ease-in-out, visibility 0s linear 0.1s
 
-.op-border-box-list[data-drop-container] .op-border-box-list-empty-state--drop-overlay
+.op-border-box-list[data-drop-container="active"] .op-border-box-list-empty-state--drop-overlay
   opacity: 1
   visibility: visible
   pointer-events: auto

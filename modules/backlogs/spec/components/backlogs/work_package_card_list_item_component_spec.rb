@@ -35,6 +35,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
 
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:default_status) { create(:default_status) }
+  shared_let(:readonly_status) { create(:status, :readonly) }
   shared_let(:default_priority) { create(:default_priority) }
   shared_let(:user) { create(:admin) }
   current_user { user }
@@ -59,6 +60,16 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
            position: 1,
            sprint:)
   end
+  let(:readonly_work_package) do
+    create(:work_package,
+           project:,
+           type: type_feature,
+           status: readonly_status,
+           priority: default_priority,
+           subject: "Rejected card",
+           position: 1,
+           sprint:)
+  end
   let(:item) do
     described_class.new(work_package:, project:, container:, params:, current_user: user)
   end
@@ -69,7 +80,8 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       expect(item.row_args[:data]).to include(
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
-        sortable_lists__item_type_value: "work_package"
+        sortable_lists__item_type_value: "work_package",
+        sortable_lists__item_confined_value: false
       )
       expect(item.row_args[:draggable]).to be(true)
       expect(item.row_args).not_to include(:tabindex)
@@ -95,6 +107,48 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       it "does not mark the card as draggable" do
         expect(render_inline(item.card)).to have_css(".op-work-package-card.Box-card--clickable")
         expect(page).to have_no_css(".Box-card--draggable")
+      end
+    end
+
+    # A read-only status blocks every attribute write, so the server refuses
+    # the sprint_id/backlog_bucket_id change a cross-container move performs —
+    # but a reorder within the card's own list writes no attribute and stays
+    # allowed. The row keeps its drag, confined to that list.
+    context "when the work package is in a read-only status", with_ee: %i[readonly_work_packages] do
+      let(:work_package) { readonly_work_package }
+
+      it "still marks the row as draggable" do
+        expect(item.row_args[:draggable]).to be(true)
+      end
+
+      it "registers the row as a sortable item confined to its list" do
+        expect(item.row_args[:data]).to include(
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: work_package.id,
+          sortable_lists__item_confined_value: true
+        )
+      end
+
+      it "keeps the card focusable so keyboard users can still open it" do
+        expect(render_inline(item.card)).to have_css(".op-work-package-card[tabindex='0']")
+      end
+
+      it "still offers the card as a drag handle", :aggregate_failures do
+        render_inline(item.card)
+
+        expect(page).to have_css(".op-work-package-card[data-sortable-lists--item-target='preview handle']")
+        expect(page).to have_css(".Box-card--draggable")
+      end
+    end
+
+    # Status#is_readonly always returns false without the token, so the same
+    # work package is movable in Community and the bug cannot occur there.
+    context "when the work package is in a read-only status without an Enterprise token" do
+      let(:work_package) { readonly_work_package }
+
+      it "does not confine the row" do
+        expect(item.row_args[:draggable]).to be(true)
+        expect(item.row_args[:data]).to include(sortable_lists__item_confined_value: false)
       end
     end
   end

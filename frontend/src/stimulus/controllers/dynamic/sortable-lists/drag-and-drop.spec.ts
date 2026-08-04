@@ -403,6 +403,59 @@ describe('sortable lists drag and drop helpers', () => {
       expect(intent?.previousItemId).toEqual('5');
     });
 
+    // A confined item's foreign-list targets stay registered (they express
+    // refusal through a 'none' drop effect), so the browser should never fire
+    // a drop over them — but if one slips through, the intent must resolve to
+    // nothing rather than to a move the server will reject.
+    it('resolves no intent for a confined item over a foreign list', () => {
+      const { root, list } = buildList();
+      const sourceList = document.createElement('ul');
+      const source = itemRow('1');
+
+      sourceList.setAttribute('data-controller', 'sortable-lists--list');
+      sourceList.append(source);
+      list.append(itemRow('4'), itemRow('5'));
+      root.append(sourceList);
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
+        }),
+        root,
+        sourceData: sortableItemData({
+          type: 'work_package',
+          itemId: '1',
+          sourceListElement: sourceList,
+          confined: true,
+        }),
+      });
+
+      expect(intent).toBeNull();
+    });
+
+    it('resolves a confined item dropped on its own source list', () => {
+      const { root, list } = buildList();
+      const source = itemRow('1');
+
+      list.append(source, itemRow('2'));
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{ data: sortableListData({ type: 'sprint', listId: '7' }), element: list }],
+        }),
+        root,
+        sourceData: sortableItemData({
+          type: 'work_package',
+          itemId: '1',
+          sourceListElement: list,
+          confined: true,
+        }),
+      });
+
+      expect(intent?.listElement).toBe(list);
+      expect(intent?.previousItemId).toEqual('2');
+    });
+
     it('prepends to the list when its drop position is start', () => {
       const { root, list } = buildList();
       const sourceList = document.createElement('ul');
