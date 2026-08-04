@@ -96,6 +96,21 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
     )
   end
 
+  it "does not move a middle work package to the top when it is picked up and released" do
+    backlogs_page.visit!
+
+    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+      bucket_alpha, work_packages: [alpha_wp1, alpha_wp2, alpha_wp3]
+    )
+
+    backlogs_page.pick_up_and_release_work_package(alpha_wp2)
+
+    backlogs_page.expect_no_backlogs_move_request
+    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+      bucket_alpha, work_packages: [alpha_wp1, alpha_wp2, alpha_wp3]
+    )
+  end
+
   context "when the bucket item was morphed by a Turbo update" do
     it "allows dragging the morphed item" do
       backlogs_page.visit!
