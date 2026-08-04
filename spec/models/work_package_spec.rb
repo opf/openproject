@@ -507,8 +507,9 @@ RSpec.describe WorkPackage do
              project:,
              type:,
              priority:,
-             version: version1,
-             category: category1)
+             category: category1).tap do |wp|
+               wp.target_versions = [version1]
+             end
     end
     shared_let(:work_package2) do
       create(:work_package,
@@ -519,7 +520,9 @@ RSpec.describe WorkPackage do
              type: type2,
              priority: priority2,
              version: version2,
-             category: category2)
+             category: category2).tap do |wp|
+               wp.target_versions = [version2]
+             end
     end
 
     shared_examples_for "group by" do
