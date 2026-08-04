@@ -1,6 +1,4 @@
-import React from 'react';
 import type { WorkPackage } from '../../openProjectTypes';
-import { linkToWorkPackage } from '../../services/openProjectApi';
 import {
   typeColor,
   statusColor,
@@ -14,6 +12,7 @@ import {
   WorkPackageType,
   WorkPackageStatus,
   WorkPackageTitleLink,
+  workPackageLinkProps,
 } from '../WorkPackage/atoms';
 import { formatWorkPackageId } from '../../utils/id';
 
@@ -22,11 +21,8 @@ const WRAP_OPPORTUNITY = '\u200B'; /*zero-width space*/
 
 const titleLinkProps = (wp:WorkPackage) => ({
   as: 'a' as const,
-  href: linkToWorkPackage(resolvedDisplayId(wp)),
-  target: '_blank' as const,
-  rel: 'noopener noreferrer',
+  ...workPackageLinkProps(resolvedDisplayId(wp)),
   $compact: true,
-  onClick: (e:React.MouseEvent) => e.stopPropagation(),
 });
 
 // XXS — "#ID"

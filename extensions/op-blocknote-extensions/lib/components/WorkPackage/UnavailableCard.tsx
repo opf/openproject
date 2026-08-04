@@ -1,12 +1,21 @@
 import type { ReactNode } from 'react';
 import styled from 'styled-components';
-import { defaultWpVariables } from './atoms';
+import { useTranslation } from 'react-i18next';
+import {
+  defaultWpVariables,
+  WorkPackageId,
+  WorkPackageTitleLink,
+  workPackageLinkProps,
+} from './atoms';
 import { CHIP_STYLES } from './tokens';
+import { formatWorkPackageId } from '../../utils/id';
 
 interface UnavailableCardProps {
-  header:string;
-  message:string;
+  headerKey:string;
+  messageKey:string;
   icon?:ReactNode;
+  displayId?:string;
+  linkHeader?:boolean;
 }
 
 const UnavailableWorkPackage = styled.div.attrs({
@@ -34,14 +43,25 @@ const UnavailableMessageHeader = styled.div.attrs({
   gap: ${CHIP_STYLES.gap};
 `;
 
-export const UnavailableCard = ({ header, message, icon }:UnavailableCardProps) => (
-  <UnavailableWorkPackage>
-    <UnavailableMessage>
-      <UnavailableMessageHeader>
-        {icon}
-        {header}
-      </UnavailableMessageHeader>
-      {message}
-    </UnavailableMessage>
-  </UnavailableWorkPackage>
-);
+export const UnavailableCard = ({ headerKey, messageKey, icon, displayId, linkHeader }:UnavailableCardProps) => {
+  const { t } = useTranslation();
+
+  const header = t(headerKey);
+
+  return (
+    <UnavailableWorkPackage>
+      <UnavailableMessage>
+        <UnavailableMessageHeader>
+          {icon}
+          {displayId && <WorkPackageId as="span" $compact>{formatWorkPackageId(displayId)}</WorkPackageId>}
+          <span>
+            {linkHeader && displayId
+              ? <WorkPackageTitleLink {...workPackageLinkProps(displayId)}>{header}</WorkPackageTitleLink>
+              : header}
+          </span>
+        </UnavailableMessageHeader>
+        {t(messageKey)}
+      </UnavailableMessage>
+    </UnavailableWorkPackage>
+  );
+};

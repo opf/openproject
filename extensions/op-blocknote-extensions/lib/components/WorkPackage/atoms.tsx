@@ -1,9 +1,11 @@
+import type { MouseEvent } from 'react';
 import styled, { css } from 'styled-components';
 import {
   defaultColorStyles,
   metaTextColor,
   typeTextColor,
 } from '../../services/colors';
+import { linkToWorkPackage } from '../../services/openProjectApi';
 
 export const defaultWpVariables = css`
   --spacer-s: 4px;
@@ -95,6 +97,14 @@ export const WorkPackageTitle = styled.span.attrs({
   font-weight: 500;
   overflow-wrap: anywhere;
 `;
+
+export const workPackageLinkProps = (displayId:string) => ({
+  href: linkToWorkPackage(displayId),
+  target: '_blank' as const,
+  rel: 'noopener noreferrer',
+  /*  keep link clicks from toggling the surrounding chip/card popover  */
+  onClick: (e:MouseEvent) => e.stopPropagation(),
+});
 
 export const WorkPackageTitleLink = styled.a<{ $compact?:boolean }>`
   cursor: pointer;

@@ -1,6 +1,7 @@
 import { css } from 'styled-components';
 import styled from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
+import { defaultWpVariables } from '../WorkPackage/atoms';
 
 const chipBaseStyles = css`
   display: inline;
@@ -46,3 +47,29 @@ export const ChipBaseS = styled.span.attrs({ className: 'op-bn-inline-wp-base' }
 `;
 
 export const ChipBase = ChipBaseS;
+
+export const InlineChip = styled.span.attrs({
+  className: 'op-bn-inline-wp',
+  contentEditable: false,
+})<{ selected?:boolean }>`
+  ${defaultWpVariables}
+  display: inline;
+  cursor: pointer;
+  user-select: none;
+  -webkit-touch-callout: none;
+  border-radius: ${CHIP_STYLES.radius};
+  position: relative;
+  line-height: 1;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      & > .op-bn-inline-wp-base {
+        box-shadow: ${CHIP_STYLES.inlineFocusShadow};
+      }
+    `}
+`;

@@ -23,7 +23,7 @@ export const en = {
       'unauthorized': {
         'header': 'Linked work package unavailable',
         'message': 'You do not have permission to see this',
-        'short_message': 'Unavailable: No permission'
+        'short_message': 'Work package unavailable: no permission'
       },
       'error': {
         'header': 'Error',
