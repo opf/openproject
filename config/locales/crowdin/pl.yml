@@ -3003,6 +3003,9 @@ pl:
       work_package_duplicate_closed: 'Zaktualizowano zduplikowany pakiet roboczy:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Zmiany zostały wycofane.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Dostępność
   label_account: Konto
   label_actions: Działania
@@ -4741,6 +4744,7 @@ pl:
 
     '
   permission_move_work_packages: Przenoszenie pakietów roboczych
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Zapisz zapytania BCF
   permission_save_queries: Zapisz widoki
   permission_search_project: Wyszukaj projekt
@@ -6081,6 +6085,9 @@ pl:
           label_disable_all: Wyłącz wszystkie
           label_enable_all: Włącz wszystkie
         description: Wybierz atrybuty projektu, które chcesz włączyć dla tego typu pakietu roboczego. Włączone atrybuty projektu są wyświetlane w osobnej karcie w pakietach roboczych tego typu. Użytkownicy z niezbędnymi uprawnieniami mogą tam przeglądać i edytować owe atrybuty.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Wyszukaj według sekcji lub nazwy
         tab: Atrybuty projektu
       projects:

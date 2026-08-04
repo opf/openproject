@@ -256,11 +256,11 @@ cs:
     story_points_ideal: Story pointy (ideální)
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Sdílení sprintu
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Sdílení sprintů napříč projekty za účelem sladění týmů a koordinace práce v rámci škálovaných agilních prostředí (SAFe).
   label_all_sprints: Všechny sprinty

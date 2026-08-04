@@ -256,11 +256,11 @@ ru:
     story_points_ideal: Стори-поинты (идеально)
   ee:
     features:
-      multiple_active_sprints: Проводите несколько спринтов параллельно для разных команд в рамках вашего проекта, чтобы обеспечить больший контроль и гибкость.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Совместное использование спринта
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Используйте общие спринты для всех проектов, чтобы обеспечить согласованность действий команд и скоординировать работу в рамках масштабированных гибких моделей (SAFe).
   label_all_sprints: Все спринты

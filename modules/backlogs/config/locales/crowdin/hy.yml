@@ -246,11 +246,11 @@ hy:
     story_points_ideal: Պատմության միավորներ (իդեալական)
   ee:
     features:
-      multiple_active_sprints: Զուգահեռաբար վարեք մի քանի սպրինտներ Ձեր նախագծի տարբեր թիմերի համար, ապահովելով ավելի մեծ վերահսկողություն և ճկունություն։
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Սպրինտների համօգտագործում
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Համօգտագործեք սպրինտները նախագծերի միջև, որպեսզի համաձայնեցնեք թիմերը և համակարգեք աշխատանքը մասշտաբավորված Agile մոդելներում (SAFe)։
   label_all_sprints: Բոլոր սպրինտները

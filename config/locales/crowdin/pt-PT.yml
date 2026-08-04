@@ -2899,6 +2899,9 @@ pt-PT:
       work_package_duplicate_closed: 'Pacote de trabalho duplicado atualizado:'
       work_package_parent_deleted: Parent removed
     changes_retracted: As mudanças foram retraídas.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Accessibilidade
   label_account: Conta
   label_actions: Ações
@@ -4604,6 +4607,7 @@ pt-PT:
 
     '
   permission_move_work_packages: Mover pacotes de trabalho
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Guardar consultas BCF
   permission_save_queries: Guardar visualizações
   permission_search_project: Pesquisar projeto
@@ -5941,6 +5945,9 @@ pt-PT:
           label_disable_all: Desativar tudo
           label_enable_all: Ativar tudo
         description: Selecione os atributos do projeto que pretende ativar para este tipo de pacote de trabalho. Os atributos do projeto ativados são apresentados num separador distinto nos pacotes de trabalho deste tipo. Os utilizadores com as permissões necessárias podem ver e editar esses atributos nesse separador.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Pesquisar por secção ou nome
         tab: Atributos do projeto
       projects:

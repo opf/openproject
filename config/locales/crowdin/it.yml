@@ -2901,6 +2901,9 @@ it:
       work_package_duplicate_closed: 'Macro-attività duplicata aggiornata:'
       work_package_parent_deleted: Genitore rimosso
     changes_retracted: Le modifiche sono state annullate.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Accessibilità
   label_account: Account
   label_actions: Azioni
@@ -4609,6 +4612,7 @@ it:
 
     '
   permission_move_work_packages: Spostare le macro-attività
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Salva query BCF
   permission_save_queries: Salva viste
   permission_search_project: Cerca progetto
@@ -5952,6 +5956,9 @@ it:
           label_disable_all: Disabilita tutto
           label_enable_all: Abilita tutto
         description: Seleziona gli attributi del progetto da abilitare per questo tipo di macro-attività. Gli attributi abilitati vengono visualizzati in una scheda separata nelle macro-attività di questo tipo. Gli utenti con le autorizzazioni necessarie possono visualizzarli e modificarli in tale scheda.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Ricerca per sezione o per nome
         tab: Attributi del progetto
       projects:

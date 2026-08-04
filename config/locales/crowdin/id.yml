@@ -2852,6 +2852,9 @@ id:
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Perubahan ditarik kembali.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Kemampuan akses
   label_account: Akun
   label_actions: Tindakan
@@ -4545,6 +4548,7 @@ id:
 
     '
   permission_move_work_packages: Pindahkan Paket-Penugasan
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Save BCF queries
   permission_save_queries: Simpan tampilan
   permission_search_project: Search project
@@ -5877,6 +5881,9 @@ id:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:

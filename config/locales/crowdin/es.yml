@@ -2893,6 +2893,9 @@ es:
       work_package_duplicate_closed: 'Paquete de trabajo duplicado actualizado:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Se deshicieron los cambios.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Accesibilidad
   label_account: Cuenta
   label_actions: Comportamiento
@@ -4601,6 +4604,7 @@ es:
 
     '
   permission_move_work_packages: Mover paquetes de trabajo
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Guardar consultas BCF
   permission_save_queries: Guardar vistas
   permission_search_project: Buscar proyecto
@@ -5941,6 +5945,9 @@ es:
           label_disable_all: Desactivar todo
           label_enable_all: Activar todo
         description: Selecciona los atributos del proyecto que quieras habilitar para este tipo de paquete de trabajo. Los atributos del proyecto habilitados se muestran en una pestaña aparte en los paquetes de trabajo de este tipo. Los usuarios con los permisos necesarios pueden ver y editar estos atributos desde allí.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Buscar por sección o por nombre
         tab: Atributos del proyecto
       projects:

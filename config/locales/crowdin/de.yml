@@ -2897,6 +2897,9 @@ de:
       work_package_duplicate_closed: 'Dupliziertes Arbeitspaket aktualisiert:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Die Änderungen wurden zurückgezogen.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Barrierefreiheit
   label_account: Konto
   label_actions: Aktionen
@@ -4609,6 +4612,7 @@ de:
 
     '
   permission_move_work_packages: Arbeitspakete verschieben
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: BCF-Abfragen speichern
   permission_save_queries: Ansichten speichern
   permission_search_project: Projekt suchen
@@ -5954,6 +5958,9 @@ de:
           label_disable_all: Alle deaktivieren
           label_enable_all: Alle aktivieren
         description: Wählen Sie die Projektattribute aus, die Sie für diesen Arbeitspaket-Typ anzeigen möchten. Diese Attribute werden in einem separaten Tab in Arbeitspaketen dieses Typs angezeigt. Benutzer mit den erforderlichen Berechtigungen können diese Attribute dort einsehen und bearbeiten.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Nach Abschnitt oder Name suchen
         tab: Projektattribute
       projects:

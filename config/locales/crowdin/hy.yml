@@ -2895,6 +2895,9 @@ hy:
       work_package_duplicate_closed: Կրկնօրինակ աշխատանքային փաթեթը թարմացվել է՝
       work_package_parent_deleted: Ծնողը հեռացվել է
     changes_retracted: Փոփոխությունները հետ են վերցվել։
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Մատչելիություն
   label_account: Հաշիվ
   label_actions: Գործողություններ
@@ -4602,6 +4605,7 @@ hy:
 
     '
   permission_move_work_packages: Տեղափոխել աշխատանքային փաթեթները
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Պահպանել BCF հարցումները
   permission_save_queries: Պահպանել տեսքերը
   permission_search_project: Որոնել նախագծում
@@ -5950,6 +5954,9 @@ hy:
           label_disable_all: Անջատել բոլորը
           label_enable_all: Միացնել բոլորը
         description: Ընտրեք նախագծի հատկանիշները, որոնք ցանկանում եք միացնել աշխատանքային փաթեթի այս տեսակի համար։ Միացված նախագծի հատկանիշները ցուցադրվում են այս տեսակի աշխատանքային փաթեթներում՝ առանձին ներդիրում։ Անհրաժեշտ թույլտվություններ ունեցող օգտատերերը կարող են այնտեղ դիտել և խմբագրել այդ հատկանիշները։
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Որոնել ըստ բաժնի կամ անվանման
         tab: Նախագծի հատկանիշներ
       projects:

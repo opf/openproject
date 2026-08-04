@@ -2899,6 +2899,9 @@ fr:
       work_package_duplicate_closed: 'Doublon de lot de travaux mis à jour :'
       work_package_parent_deleted: Parent removed
     changes_retracted: Les modifications ont été retirées.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Accessibilité
   label_account: Compte
   label_actions: Actions
@@ -4608,6 +4611,7 @@ fr:
 
     '
   permission_move_work_packages: Déplacer les Lots de travaux
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Enregistrer les requêtes BCF
   permission_save_queries: Enregistrer les vues
   permission_search_project: Rechercher un projet
@@ -5951,6 +5955,9 @@ fr:
           label_disable_all: Désactiver tout
           label_enable_all: Activer tout
         description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Rechercher par section ou par nom
         tab: Attributs du projet
       projects:

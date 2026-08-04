@@ -3013,6 +3013,9 @@ uk:
       work_package_duplicate_closed: 'Дублікат пакета робіт оновлено:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Зміни було відхилено.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Розробникам також потрібно оплачувати свої рахунки. З доступністю
   label_account: Обліковий запис
   label_actions: Дії
@@ -4745,6 +4748,7 @@ uk:
 
     '
   permission_move_work_packages: Переміщення робочих пакетів
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Зберігання запитів BCF
   permission_save_queries: Зберегти перегляди
   permission_search_project: Пошук проєктів
@@ -6096,6 +6100,9 @@ uk:
           label_disable_all: Вимкнути все
           label_enable_all: Увімкнути все
         description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Пошук за розділом або назвою
         tab: Атрибути проєктів
       projects:

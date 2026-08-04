@@ -2847,6 +2847,9 @@ zh-CN:
       work_package_duplicate_closed: 重复的工作包已更新：
       work_package_parent_deleted: Parent removed
     changes_retracted: 更改已撤回。
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: 辅助功能
   label_account: 帐户
   label_actions: 操作
@@ -4543,6 +4546,7 @@ zh-CN:
 
     '
   permission_move_work_packages: 移动工作包
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: 保存 BCF 查询
   permission_save_queries: 保存界面设置
   permission_search_project: 搜索项目
@@ -5880,6 +5884,9 @@ zh-CN:
           label_disable_all: 全部禁用
           label_enable_all: 全部启用
         description: 选择您希望为此工作包类型启用的项目特性。启用的项目特性将显示在此类型工作包的一个单独的选项卡中；拥有必要权限的用户可以在其中查看和编辑这些特性。
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: 按分区或名称搜索
         tab: 项目特性
       projects:
