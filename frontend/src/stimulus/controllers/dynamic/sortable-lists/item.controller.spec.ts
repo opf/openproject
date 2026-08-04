@@ -91,7 +91,7 @@ describe('Sortable lists item controller', () => {
 
   function fakeRoot(
     element = document.createElement('div'),
-    { busy = false } = {},
+    { busy = false, ownerListElement = null }:{ busy?:boolean; ownerListElement?:HTMLElement|null } = {},
   ):SortableListsRoot {
     Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
     return {
@@ -99,6 +99,7 @@ describe('Sortable lists item controller', () => {
       busy,
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
+      ownerListElementOf: vi.fn(() => ownerListElement),
     };
   }
 
@@ -107,11 +108,13 @@ describe('Sortable lists item controller', () => {
     {
       handle = null,
       root = fakeRoot(),
+      confinedValue = false,
       externalUrl = null,
       label = null,
     }:{
       handle?:HTMLElement|null;
       root?:SortableListsRoot|null;
+      confinedValue?:boolean;
       externalUrl?:string|null;
       label?:string|null;
     } = {},
@@ -123,6 +126,7 @@ describe('Sortable lists item controller', () => {
     Object.defineProperty(controller, 'hasIdValue', { value: true });
     Object.defineProperty(controller, 'typeValue', { value: 'item' });
     Object.defineProperty(controller, 'hasTypeValue', { value: true });
+    Object.defineProperty(controller, 'confinedValue', { value: confinedValue });
     Object.defineProperty(controller, 'externalUrlValue', { value: externalUrl ?? '' });
     Object.defineProperty(controller, 'hasExternalUrlValue', { value: externalUrl !== null });
     Object.defineProperty(controller, 'labelValue', { value: label ?? '' });
@@ -179,12 +183,21 @@ describe('Sortable lists item controller', () => {
     Object.defineProperty(controller, 'hasIdValue', { value: id !== '' });
     Object.defineProperty(controller, 'typeValue', { value: type });
     Object.defineProperty(controller, 'hasTypeValue', { value: type !== '' });
+    Object.defineProperty(controller, 'confinedValue', { value: false });
     Object.defineProperty(controller, 'hasHandleTarget', { value: false });
 
     controller.connect();
 
     return warn;
   }
+
+  it('registers a drag source', () => {
+    const element = document.createElement('li');
+
+    connectedControllerFor(element);
+
+    expect(draggable).toHaveBeenCalledWith(expect.objectContaining({ element }));
+  });
 
   it('warns when connected without an item id', () => {
     const warn = connectItem({ id: '', type: 'work_package' });
@@ -438,6 +451,88 @@ describe('Sortable lists item controller', () => {
     })).toBe(true);
   });
 
+  // A confined item may only land in its source list. Rows of that list keep
+  // accepting it (within-list reorder), rows of any other list refuse it, and
+  // with no payload list there is nothing it may land on.
+  describe('a confined drag source', () => {
+    function canDropOnto(targetElement:HTMLElement, root:HTMLElement, sourceListElement:HTMLElement|null) {
+      return vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+        element: targetElement,
+        input: {} as never,
+        source: {
+          data: sortableItemData({
+            type: 'item',
+            itemId: '456',
+            rootElement: root,
+            sourceListElement,
+            confined: true,
+          }),
+          element: document.createElement('article'),
+        } as never,
+      });
+    }
+
+    it('still registers a drag source', () => {
+      const element = document.createElement('li');
+
+      connectedControllerFor(element, { confinedValue: true });
+
+      expect(draggable).toHaveBeenCalledWith(expect.objectContaining({ element }));
+    });
+
+    it('is accepted by a row inside its source list', () => {
+      const root = document.createElement('div');
+      const sourceList = document.createElement('div');
+      const targetElement = document.createElement('article');
+      sourceList.appendChild(targetElement);
+
+      connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+      expect(canDropOnto(targetElement, root, sourceList)).toBe(true);
+    });
+
+    it('is refused by a row of a foreign list', () => {
+      const root = document.createElement('div');
+      const sourceList = document.createElement('div');
+      const targetElement = document.createElement('article');
+
+      connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+      expect(canDropOnto(targetElement, root, sourceList)).toBe(false);
+    });
+
+    it('is refused everywhere when its payload carries no source list', () => {
+      const root = document.createElement('div');
+      const targetElement = document.createElement('article');
+
+      connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+      expect(canDropOnto(targetElement, root, null)).toBe(false);
+    });
+  });
+
+  it('accepts an unconfined drop from a row of another list', () => {
+    const root = document.createElement('div');
+    const foreignList = document.createElement('div');
+    const targetElement = document.createElement('article');
+
+    connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+      element: targetElement,
+      input: {} as never,
+      source: {
+        data: sortableItemData({
+          type: 'item',
+          itemId: '456',
+          rootElement: root,
+          sourceListElement: foreignList,
+        }),
+        element: document.createElement('article'),
+      } as never,
+    })).toBe(true);
+  });
+
   it('does not accept drops while the root is busy moving another item', () => {
     const root = document.createElement('div');
     const targetElement = document.createElement('article');
@@ -614,6 +709,27 @@ describe('Sortable lists item controller', () => {
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
       .toEqual(expect.objectContaining({ itemId: '123', type: 'item', rootElement: root }));
+  });
+
+  it('includes the root-resolved source list and confinement in the drag payload', () => {
+    const root = document.createElement('div');
+    const sourceList = document.createElement('div');
+    const element = document.createElement('article');
+    connectedControllerFor(element, {
+      root: fakeRoot(root, { ownerListElement: sourceList }),
+      confinedValue: true,
+    });
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
+      .toEqual(expect.objectContaining({ sourceListElement: sourceList, confined: true }));
+  });
+
+  it('defaults the payload to unconfined with no source list', () => {
+    const element = document.createElement('article');
+    connectedControllerFor(element);
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
+      .toEqual(expect.objectContaining({ sourceListElement: null, confined: false }));
   });
 
   describe('Stimulus application wiring', () => {

@@ -34,6 +34,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:default_status) { create(:default_status) }
+  shared_let(:readonly_status) { create(:status, :readonly) }
   shared_let(:default_priority) { create(:default_priority) }
   shared_let(:user) { create(:admin) }
   current_user { user }
@@ -46,6 +47,17 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
   let!(:third_story) { create_story(position: 3) }
   let!(:fourth_story) { create_story(position: 4) }
   let(:work_package) { second_story }
+  let(:readonly_story) do
+    create(:work_package,
+           subject: "Rejected Story",
+           project:,
+           type: type_feature,
+           status: readonly_status,
+           priority: default_priority,
+           position: 5,
+           sprint:,
+           backlog_bucket: bucket)
+  end
 
   def create_story(position:, subject: "Test Story", story_points: 5)
     create(:work_package,
@@ -369,6 +381,62 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       render_component(other_buckets_exist: false)
 
       expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+    end
+  end
+
+  # A read-only status blocks every attribute write, so the server refuses the
+  # sprint_id/backlog_bucket_id change a cross-container move performs — the
+  # menu must not offer those. A reorder within the card's own list writes no
+  # attribute and stays allowed, so the positional moves survive.
+  describe "a work package in a read-only status" do
+    let(:work_package) { readonly_story }
+
+    context "with an Enterprise token", with_ee: %i[readonly_work_packages] do
+      it "offers no move to another container", :aggregate_failures do
+        render_component
+
+        expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
+      end
+
+      it "keeps the positional moves within its own list", :aggregate_failures do
+        render_component
+
+        expect(page).to have_selector(:menuitem, text: "Move to position")
+        expect(page).to have_text(I18n.t(:label_sort_highest))
+        expect(page).to have_text(I18n.t(:label_sort_higher))
+        expect(page).to have_text(I18n.t(:label_sort_lower))
+        expect(page).to have_text(I18n.t(:label_sort_lowest))
+      end
+
+      it "keeps the divider that separates the move group" do
+        render_component
+
+        expect(page).to have_css(".ActionList-sectionDivider")
+      end
+
+      it "still offers the actions that do not write to it", :aggregate_failures do
+        render_component
+
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_open_details\z/)
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_open_fullscreen\z/)
+        expect(page).to have_element(:"clipboard-copy",
+                                     id: /\Awork_package_#{work_package.id}_menu_copy_url_to_clipboard\z/)
+        expect(page).to have_element(:"clipboard-copy",
+                                     id: /\Awork_package_#{work_package.id}_menu_copy_work_package_id\z/)
+      end
+    end
+
+    # Status#is_readonly always returns false without the token, so the same
+    # work package is movable in Community and the bug cannot occur there.
+    context "without an Enterprise token" do
+      it "still offers the move actions" do
+        render_component
+
+        expect(page).to have_selector(:menuitem, text: "Move to position")
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+      end
     end
   end
 end

@@ -30,6 +30,7 @@ import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller } from '@hotwired/stimulus';
 import {
+  confinementAllowsDrop,
   isItemFromRoot,
   isSortableItemData,
   sortableListData,
@@ -95,14 +96,22 @@ export default class ListController extends Controller<HTMLElement> implements R
 
     this.cleanupFn = dropTargetForElements({
       element: this.element,
+      // A confined item from another list stays accepted here on purpose,
+      // even though releasing it resolves to nothing (see acceptsDrop): only
+      // an accepted target lets Pragmatic keep the standard 'move' drop
+      // effect on the dragover, and with it the standard cursor. Refused, the
+      // container falls through to the browser default, which Chrome renders
+      // as a copy cursor — promising an "add" that will never happen.
+      // Pragmatic's getDropEffect cannot express 'none', so acceptance is the
+      // only supported way to control the cursor over these containers.
       canDrop: ({ source }) => this.canDrop(source.data),
       getData: () => this.listData,
       getIsSticky: () => false,
-      onDragEnter: ({ location }) => {
-        this.syncDropIndicator(location);
+      onDragEnter: ({ location, source }) => {
+        this.syncDropIndicator(location, source.data);
       },
-      onDrag: ({ location }) => {
-        this.syncDropIndicator(location);
+      onDrag: ({ location, source }) => {
+        this.syncDropIndicator(location, source.data);
       },
       onDragLeave: () => {
         this.clearDropIndicator();
@@ -167,18 +176,27 @@ export default class ListController extends Controller<HTMLElement> implements R
   }
 
   // The list is the item targets' parent drop target, so its onDrag keeps firing
-  // while the pointer is over a row. Outline the container only for a list-only
-  // drop (no item target in play), so the row gap indicator owns that case.
-  private syncDropIndicator(location:DragLocationHistory):void {
-    if (location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
+  // while the pointer is over a row. Indicate only for a list-only drop (no item
+  // target in play), so the row gap indicator owns the over-a-row case. Whether
+  // a release would amount to a move decides the indicator's state: a confined
+  // item's source list counts as a move (containment includes the list element
+  // itself, keeping within-list reorder alive), while a foreign container stays
+  // an accepted drop target (see canDrop above) whose release resolves to
+  // nothing — resolveDropIntent applies the same confinement filter — and is
+  // marked refused so it can signal that a drop will not land here.
+  private syncDropIndicator(location:DragLocationHistory, sourceData:Record<string|symbol, unknown>):void {
+    if (!isItemFromRoot(this.root?.element ?? null, sourceData)
+      || location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
       this.clearDropIndicator();
+    } else if (confinementAllowsDrop(sourceData, this.element)) {
+      this.renderDropIndicator('active');
     } else {
-      this.renderDropIndicator();
+      this.renderDropIndicator('refused');
     }
   }
 
-  private renderDropIndicator():void {
-    this.element.dataset.dropContainer = 'active';
+  private renderDropIndicator(state:'active'|'refused'):void {
+    this.element.dataset.dropContainer = state;
   }
 
   private clearDropIndicator():void {

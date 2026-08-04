@@ -34,6 +34,7 @@ module Backlogs
   class WorkPackageCardMenuComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include CommonHelper
+    include Concerns::WorkPackageMovability
 
     attr_reader :work_package, :project, :open_sprints_exist, :other_buckets_exist, :current_user
 
@@ -53,28 +54,27 @@ module Backlogs
 
     private
 
+    # Positional moves reorder within the card's own list, which the server
+    # allows even for a read-only work package, so they gate on the page-level
+    # permission alone. Only the cross-container moves below require movable?.
     def show_move_items?
-      allowed_to_manage_sprint_items?
+      sortable?
     end
 
     def show_move_to_inbox?
-      allowed_to_manage_sprint_items? && (work_package.sprint_id? || work_package.backlog_bucket_id?)
+      movable? && (work_package.sprint_id? || work_package.backlog_bucket_id?)
     end
 
     def show_move_to_backlog_bucket?
-      allowed_to_manage_sprint_items? && other_buckets_exist
+      movable? && other_buckets_exist
     end
 
     def show_move_to_sprint?
-      allowed_to_manage_sprint_items? && open_sprints_exist
+      movable? && open_sprints_exist
     end
 
     def show_move_submenu?
       show_move_items? || show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
-    end
-
-    def allowed_to_manage_sprint_items?
-      user_allowed?(:manage_sprint_items)
     end
 
     def build_move_menu(menu)
