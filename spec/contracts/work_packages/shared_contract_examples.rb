@@ -227,6 +227,11 @@ RSpec.shared_examples "work package contract" do
     end
 
     describe "version" do
+      # make sure we reset in memory changes
+      after do
+        work_package.target_version_ids_replacements = nil
+      end
+
       context "having full access" do
         context "with an assignable_version" do
           before do
