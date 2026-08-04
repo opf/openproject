@@ -30,33 +30,34 @@
 
 module Wikis::Adapters::Results
   class PageSearchTreeNode
-    attr_accessor :enabled
+    NodeKey = Data.define(:type, :identifier)
 
-    attr_reader :identifier, :type, :name
+    attr_reader :identifier, :type, :name, :enabled, :key
 
     class << self
       def empty_root
-        new(identifier: "root", type: :root, name: "root", children: {}, enabled: false)
+        new(identifier: "root", type: :root, name: "root", enabled: false)
       end
 
       def empty_wiki(identifier, name)
-        new(identifier:, type: :wiki, name:, children: {}, enabled: false)
+        new(identifier:, type: :wiki, name:, enabled: false)
       end
 
       def leaf_page(identifier, name, enabled)
-        new(identifier:, type: :page, name:, children: {}, enabled:)
+        new(identifier:, type: :page, name:, enabled:)
       end
     end
 
-    def initialize(identifier:, type:, name:, children:, enabled:)
+    def initialize(identifier:, type:, name:, enabled:)
+      @key = NodeKey.new(type, identifier)
       @identifier = identifier
       @type = type
       @name = name
-      @children = children
+      @children = {}
       @enabled = enabled
     end
 
-    def children = @children.is_a?(Array) ? @children : @children.values
+    def children = @children.values
 
     # @param node [PageSearchTreeNode] the node to be added
     # @raise [ArgumentError] if node isn't a {PageSearchTreeNode}
@@ -64,15 +65,12 @@ module Wikis::Adapters::Results
     def add_child(node)
       raise ArgumentError unless node.is_a? self.class
 
-      if @children.is_a? Hash
-        @children.fetch(node.key) { @children[node.key] = node }
-      else
-        @children << node
-        node
-      end
+      @children.fetch(node.key) { @children[node.key] = node }
     end
 
-    def key = "#{type}:#{identifier}"
+    def enable
+      @enabled = true
+    end
 
     def ==(other)
       key == other.key

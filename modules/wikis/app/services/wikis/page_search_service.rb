@@ -89,97 +89,77 @@ module Wikis
     end
 
     def to_tree_node(page:, enabled:)
-      Adapters::Results::PageSearchTreeNode.new(identifier: page.identifier,
-                                                type: :page,
-                                                name: page.title,
-                                                children: [],
-                                                enabled:)
+      Adapters::Results::PageSearchTreeNode.leaf_page(page.identifier, page.title, enabled)
     end
 
     def build_result_tree(pages:, wikis:)
-      root = Adapters::Results::PageSearchTreeNode.new(identifier: "root",
-                                                       type: :root,
-                                                       name: "root",
-                                                       children: [],
-                                                       enabled: false)
-      accumulator = { root:, all_nodes: [root] }
+      root = Adapters::Results::PageSearchTreeNode.empty_root
 
-      wikis.each { insert_wiki_node(accumulator, it) }
-      pages.each { insert_page_hierarchy(accumulator, it) }
+      existing_nodes = {}
+      wikis.each { insert_wiki_node(existing_nodes, it, root) }
+      pages.each { insert_page_hierarchy(existing_nodes, it, root) }
 
       root.children
     end
 
-    def insert_page_hierarchy(accumulator, page_hierarchy)
-      insert_wiki_node(accumulator, page_hierarchy.wiki)
-      insert_ancestor_nodes(accumulator, page_hierarchy)
-      insert_page_node(accumulator, page_hierarchy)
+    def insert_page_hierarchy(existing_nodes, page_hierarchy, root_node)
+      insert_wiki_node(existing_nodes, page_hierarchy.wiki, root_node)
+      insert_ancestor_nodes(existing_nodes, page_hierarchy)
+      insert_page_node(existing_nodes, page_hierarchy)
     end
 
-    def insert_wiki_node(accumulator, wiki)
-      wiki_node = accumulator[:all_nodes].find { it.key == node_key(type: :wiki, identifier: wiki.identifier) }
-      return if wiki_node.present?
+    def insert_wiki_node(node_list, wiki, root_node)
+      wiki_node = Adapters::Results::PageSearchTreeNode.empty_wiki(wiki.identifier, wiki.name)
 
-      wiki_node = Adapters::Results::PageSearchTreeNode.new(identifier: wiki.identifier,
-                                                            type: :wiki,
-                                                            name: wiki.name,
-                                                            children: [],
-                                                            enabled: false)
-      accumulator[:all_nodes] << wiki_node
-      accumulator[:root].children << wiki_node
-    end
-
-    def insert_ancestor_nodes(accumulator, page) # rubocop:disable Metrics/AbcSize
-      ancestors = page.ancestors
-      wiki = page.wiki
-      previous_ancestor_node = accumulator[:all_nodes].find do |node|
-        node.key == node_key(type: :wiki, identifier: wiki.identifier)
+      node_list.fetch(wiki_node.key) do
+        root_node.add_child(wiki_node)
+        node_list[wiki_node.key] = wiki_node
       end
+    end
 
-      ancestors.reverse_each do |ancestor|
-        ancestor_node = accumulator[:all_nodes].find { it.key == node_key(type: :page, identifier: ancestor.identifier) }
-        if ancestor_node.nil?
-          ancestor_node = to_tree_node(page: ancestor, enabled: false)
-          previous_ancestor_node.children << ancestor_node
-          accumulator[:all_nodes] << ancestor_node
+    def insert_ancestor_nodes(node_list, page)
+      page => { wiki:, ancestors: }
+
+      previous_ancestor_node = node_list[node_key(:wiki, wiki.identifier)]
+
+      ancestors.reduce(previous_ancestor_node) do |previous, current|
+        ancestor_node = to_tree_node(page: current, enabled: false)
+
+        node_list.fetch(ancestor_node.key) do
+          previous.add_child(ancestor_node)
+          node_list[ancestor_node.key] = ancestor_node
         end
-
-        previous_ancestor_node = ancestor_node
       end
     end
 
-    def insert_page_node(accumulator, page_hierarchy)
+    def insert_page_node(node_list, page_hierarchy)
       page_hierarchy => { page:, ancestors:, wiki: }
 
-      return if enable_if_node_exists(accumulator, page)
-
-      parent_node = find_parent(accumulator, ancestors, wiki)
       new_node = to_tree_node(page:, enabled: true)
-      parent_node.children << new_node
-      accumulator[:all_nodes] << new_node
+      return if enable_if_node_exists(node_list, new_node)
+
+      parent_node = find_parent(node_list, ancestors, wiki)
+      parent_node.add_child(new_node)
+      node_list[new_node.key] = new_node
     end
 
-    def find_parent(accumulator, ancestors, wiki)
-      accumulator[:all_nodes].find do |node|
-        parent_key = if ancestors.any?
-                       node_key(type: :page, identifier: ancestors.first.identifier)
-                     else
-                       node_key(type: :wiki, identifier: wiki.identifier)
-                     end
-        node.key == parent_key
-      end
+    def find_parent(node_list, ancestors, wiki)
+      key = if ancestors.any?
+              node_key(:page, ancestors.first.identifier)
+            else
+              node_key(:wiki, wiki.identifier)
+            end
+
+      node_list[key]
     end
 
-    def enable_if_node_exists(accumulator, page) # rubocop:disable Naming/PredicateMethod
-      node = accumulator[:all_nodes].find { it.key == node_key(type: :page, identifier: page.identifier) }
-      return false if node.nil?
-
-      node.enabled = true
-      true
+    def node_key(type, identifier)
+      Adapters::Results::PageSearchTreeNode::NodeKey.new(type, identifier)
     end
 
-    def node_key(type:, identifier:)
-      "#{type}:#{identifier}"
+    def enable_if_node_exists(node_list, node)
+      existing_node = node_list.fetch(node.key) { return false }
+      existing_node.enable
     end
   end
 end
