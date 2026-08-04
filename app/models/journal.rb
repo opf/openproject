@@ -71,6 +71,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::Template
   register_journal_formatter OpenProject::JournalFormatter::TimeEntryHours
   register_journal_formatter OpenProject::JournalFormatter::TimeEntryNamedAssociation
+  register_journal_formatter OpenProject::JournalFormatter::TypeNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::Visibility
   register_journal_formatter OpenProject::JournalFormatter::WikiDiff
 

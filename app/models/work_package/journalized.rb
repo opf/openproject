@@ -104,10 +104,12 @@ module WorkPackage::Journalized
     register_journal_formatted_fields "project_phase_definition_id", formatter_key: :project_phase_definition
     register_journal_formatted_fields "target_versions", formatter_key: :target_versions
 
+    register_journal_formatted_fields "type_id", formatter_key: :type_named_association
+
     # Joined
     register_journal_formatted_fields :parent_id, :project_id,
                                       :budget_id,
-                                      :status_id, :type_id,
+                                      :status_id,
                                       :assigned_to_id, :priority_id,
                                       :category_id, :version_id,
                                       :author_id, :responsible_id,
