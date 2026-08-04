@@ -2964,6 +2964,9 @@ en:
       work_package_parent_deleted: "Parent removed"
 
     changes_retracted: "The changes were retracted."
+    non_visible:
+      project: "a non-visible project"
+      work_package: "a non-visible work package"
   label_accessibility: "Accessibility"
 
   label_account: "Account"
