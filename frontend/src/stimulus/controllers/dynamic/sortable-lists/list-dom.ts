@@ -124,24 +124,24 @@ export function resolveListAppendPreviousItemId({
 
 export interface RowPlacement {
   row:HTMLElement;
-  parent:Node|null;
-  nextSibling:Node|null;
+  parent:HTMLElement|null;
+  nextElementSibling:Element|null;
 }
 
 // Snapshot each row's current location so an optimistic move can be undone if
 // the server rejects it. Captured before the move; restored in reverse so the
-// stored nextSibling references are still valid when reinserting.
+// stored nextElementSibling references are still valid when reinserting.
 export function captureRowPositions(rows:HTMLElement[]):RowPlacement[] {
   return rows.map((row) => ({
     row,
-    parent: row.parentNode,
-    nextSibling: row.nextSibling,
+    parent: row.parentElement,
+    nextElementSibling: row.nextElementSibling,
   }));
 }
 
 export function restoreRowPositions(positions:RowPlacement[]):void {
   for (let i = positions.length - 1; i >= 0; i -= 1) {
-    const { row, parent, nextSibling } = positions[i];
+    const { row, parent, nextElementSibling } = positions[i];
     // A list-refresh morph can replace the captured parent mid-request; restoring
     // into a detached node would drop the row out of the live DOM until the next
     // reload. Skip it and let the pending refresh reconcile the position.
@@ -149,19 +149,19 @@ export function restoreRowPositions(positions:RowPlacement[]):void {
       continue;
     }
 
-    const insertionPoint = nextSibling?.parentNode === parent ? nextSibling : null;
+    const insertionPoint = nextElementSibling?.parentNode === parent ? nextElementSibling : null;
     parent.insertBefore(row, insertionPoint);
   }
 }
 
 // A rollback may only reinsert rows it still owns: if a concurrent morph
 // removed or repositioned a row after the optimistic move, the morph reflects
-// fresher server state and the rollback must yield. Deliberately strict —
-// any deviation from the captured placement (even a replaced or inserted
-// sibling) counts as foreign ownership.
+// fresher server state and the rollback must yield. The comparison is
+// element-level placement only — a changed parent or element sibling counts
+// as foreign ownership; text and comment nodes are deliberately ignored.
 export function rowsRemainAt(positions:RowPlacement[]):boolean {
-  return positions.every(({ row, parent, nextSibling }) => (
-    row.parentNode === parent && row.nextSibling === nextSibling
+  return positions.every(({ row, parent, nextElementSibling }) => (
+    row.parentElement === parent && row.nextElementSibling === nextElementSibling
   ));
 }
 

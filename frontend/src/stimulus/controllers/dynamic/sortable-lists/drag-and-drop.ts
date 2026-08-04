@@ -30,8 +30,17 @@ import {
   type Edge,
   extractClosestEdge,
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+// Pragmatic drives native drag/drop through an invisible, pointer-tracking
+// overlay (a "honey pot") that works around a real cross-browser bug:
+// browsers incorrectly keep native "hover" active at the drag's start
+// position for its whole duration. A raw document.elementsFromPoint can
+// resolve to that overlay instead of the element actually under the
+// pointer; this helper reads past it the same way Pragmatic's own target
+// resolution (lifecycle-manager) does.
+import { getElementFromPointWithoutHoneypot } from '@atlaskit/pragmatic-drag-and-drop/private/get-element-from-point-without-honey-pot';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
+  resolveClosestItemElement,
   resolveItemElement,
   resolveItemId,
   resolveListAppendPreviousItemId,
@@ -266,6 +275,28 @@ export function resolveDropIntent({
   const listElement = targetList.element;
   const listData = targetList.data;
   const rowsContainer = listData.rowsContainer ?? listElement;
+
+  // An item never accepts itself as a drop target (see ItemController's
+  // canDrop: source.data.itemId !== this.idValue), so a drag that is
+  // released without ever leaving its own row resolves no item target here,
+  // exactly like a genuine drop on the list's background. Tell the two
+  // apart by asking what is actually under the pointer: if it is still the
+  // source's own row, nothing has moved and there is no signal to act on.
+  // Unlike the null for a drop outside the root above, this null rejects a
+  // drop the root does own; it must stay behind the target resolution so a
+  // background drop keeps resolving. Only an ancestor of the hit-tested
+  // element can be "the row under the pointer" -- descending into a
+  // container would resolve its first item and swallow that item's genuine
+  // list-only drops (a send-to-bottom of the first row).
+  if (!targetItem) {
+    const { input } = location.current;
+    const elementAtPoint = getElementFromPointWithoutHoneypot({ x: input.clientX, y: input.clientY });
+    const itemAtPoint = elementAtPoint ? resolveClosestItemElement(elementAtPoint) : null;
+
+    if (itemAtPoint && root.contains(itemAtPoint) && resolveItemId(itemAtPoint) === sourceData.itemId) {
+      return null;
+    }
+  }
 
   const previousItemId = targetItem
     ? resolvePreviousSortableItemId({
