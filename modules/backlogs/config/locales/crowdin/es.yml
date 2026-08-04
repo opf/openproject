@@ -155,6 +155,7 @@ es:
     label_burndown_chart: Diagrama Burndown
     label_is_done_status: El estado %{status_name} significa completado
     label_sprint_board: Tablero Sprint
+    label_sprint_report: Informe del sprint
     move_to_bucket_dialog_component:
       title: Mover al bucket de backlog
     move_to_sprint_dialog_component:
@@ -191,6 +192,15 @@ es:
     sprint_form_component:
       shared_sprint_info_banner: Este es un sprint compartido. Las modificaciones serán reflejadas en todos los proyectos que lo usen.
       shared_sprint_warning_banner: Este es un sprint compartido. Usted no tiene los permisos necesarios para editarlo.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Informe
+        title: Informe de %{sprint}
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Editar sprint
+          sprint_report: Informe del sprint
     sprints_component:
       blankslate:
         create_and_manage_description_html: Para empezar a planificar tu sprint, crea uno aquí o ve a %{settings_link} para recibir sprints de otro proyecto.
@@ -236,11 +246,11 @@ es:
     story_points_ideal: Puntos de historia (ideal)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Ejecuta varios sprints en paralelo para los distintos equipos de tu proyecto y así tener más control y flexibilidad.
       sprint_sharing: Compartir Sprint
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: " "
       sprint_sharing:
         description: Comparte sprints entre proyectos para coordinar a los equipos y organizar el trabajo en entornos ágiles a gran escala (SAFe).
   label_all_sprints: Todos los sprints

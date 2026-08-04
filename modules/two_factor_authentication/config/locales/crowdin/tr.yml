@@ -126,7 +126,7 @@ tr:
     error_no_device: Bu örnek için gerekli olmasına rağmen, bu kullanıcı için kayıtlı 2FA cihazı bulunamadı.
     error_no_matching_strategy: Bu kullanıcı için eşleşen 2FA stratejisi yok. Lütfen yöneticinize başvurun.
     forced_registration:
-      required_to_add_device: İki faktörlü kimlik doğrulayıcıyı etkinleştirmek için aktif bir güvenlik politikası gereklidir. Bir cihazı kaydetmek için lütfen aşağıdaki formu doldurun.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: İki faktörlü kimlik doğrulama etkin değil
     label_2fa_enabled: İki faktörlü kimlik doğrulama etkin
     label_default_device: Varsayılan 2FA cihazı

@@ -161,6 +161,7 @@ pl:
     label_burndown_chart: Wykres spalania (burndown)
     label_is_done_status: Status %{status_name} oznacza zrobiony
     label_sprint_board: Tablica sprintu
+    label_sprint_report: Raport dotyczący sprintu
     move_to_bucket_dialog_component:
       title: Przenieś do kategorii backlogu
     move_to_sprint_dialog_component:
@@ -199,6 +200,15 @@ pl:
     sprint_form_component:
       shared_sprint_info_banner: To jest udostępniony sprint. Wprowadzone zmiany zostaną uwzględnione we wszystkich projektach, w których jest on używany.
       shared_sprint_warning_banner: Jest to udostępniony sprint. Nie masz uprawnień niezbędnych do jego edycji.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Raport
+        title: Raport dotyczący %{sprint}
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edytuj sprint
+          sprint_report: Raport dotyczący sprintu
     sprints_component:
       blankslate:
         create_and_manage_description_html: Aby rozpocząć planowanie sprintu, utwórz go tutaj lub przejdź do strony %{settings_link}, aby otrzymać sprinty z innego projektu.
@@ -246,11 +256,11 @@ pl:
     story_points_ideal: Punkty historii (idealne)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Aby mieć większą kontrolę i elastyczność, uruchom równolegle wiele sprintów dla różnych zespołów w Twoim projekcie.
       sprint_sharing: Udostępnianie sprintu
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: " "
       sprint_sharing:
         description: Udostępnianie sprintów między projektami w celu dostosowania zespołów i koordynowania pracy w skalowanych konfiguracjach zwinnych (SAFe).
   label_all_sprints: Wszystkie sprinty
