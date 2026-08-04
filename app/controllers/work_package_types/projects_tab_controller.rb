@@ -104,7 +104,7 @@ module WorkPackageTypes
       deactivated_project_ids = @type.project_ids - Array(project_ids).compact_blank.map(&:to_i)
 
       WorkPackage
-        .where(type_id: @type.id, project_id: deactivated_project_ids)
+        .where(type_id: @type.root_id, project_id: deactivated_project_ids)
         .distinct
         .pluck(:project_id)
     end
