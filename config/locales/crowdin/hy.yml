@@ -342,7 +342,7 @@ hy:
         token_name: Թոքենի անվանում
       type:
         attribute_groups: Ձևի կազմաձևում
-        children: Ենթատեսակներ
+        children: Տարատեսակներ
         color: Գույն
         dependent_configuration_links: Կապակցված տեսակներ
         description: Նկարագրության կանխադրված տեքստ
@@ -466,6 +466,7 @@ hy:
         spent_hours: Ծախսված ժամանակ
         spent_time: Ծախսված ժամանակ
         subproject: Ենթանախագիծ
+        target_version: Նպատակային տարբերակ
         target_versions: Նպատակային տարբերակներ
         time_entries: Գրանցել ժամանակ
         type: Տեսակ
@@ -693,13 +694,13 @@ hy:
               must_start_with_letter: պետք է սկսվի տառով
               no_special_characters: կարող է պարունակել միայն մեծատառեր, թվեր և ընդգծման նշաններ
             types:
-              cannot_assign_multiple_subtypes_of_parent: Նախագծում հնարավոր է միացնել Տեսակի միայն մեկ ենթատեսակ
-              cannot_assign_subtype_and_parent: 'Հնարավոր չէ միաժամանակ նշանակել ենթատեսակը և դրա ծնողը '
-              cannot_assign_subtypes_yet: Ենթատեսակները դեռ հնարավոր չէ միացնել նախագծում։ Ենթատեսակները փորձարկելու համար միացրեք բետա գործառույթը
+              cannot_assign_multiple_variants_of_parent: Նախագծում հնարավոր է միացնել Տեսակի միայն մեկ տարատեսակ
+              cannot_assign_variant_and_parent: 'Հնարավոր չէ միաժամանակ նշանակել տարատեսակը և դրա ծնողը '
+              cannot_assign_variants_yet: Տարատեսակները դեռ հնարավոր չէ միացնել նախագծում։ Տարատեսակները փորձարկելու համար միացրեք գործառույթի դրոշակը
               in_use_by_work_packages: դեռ օգտագործվում են աշխատանքային փաթեթների կողմից՝ %{types}
-              switch_source_not_a_subtype: Անցում հնարավոր է կատարել միայն ենթատեսակից
-              switch_target_identical: Նպատակային Տեսակը պետք է տարբերվի ընթացիկ ենթատեսակից
-              switch_target_not_in_family: Անցում հնարավոր է կատարել միայն նույն Տեսակի այլ ենթատեսակին կամ դրա ծնող Տեսակին
+              switch_source_not_a_variant: Անցում հնարավոր է կատարել միայն տարատեսակից
+              switch_target_identical: Նպատակային Տեսակը պետք է տարբերվի ընթացիկ տարատեսակից
+              switch_target_not_in_family: Անցում հնարավոր է կատարել միայն նույն Տեսակի այլ տարատեսակին կամ դրա ծնող Տեսակին
           cannot_be_assigned_to_artifact_work_package: Ընտրված օգտատիրոջը թույլատրված չէ նշանակել աշխատանքային փաթեթներին։
           foreign_wps_reference_version: Ոչ հետնորդ նախագծերի աշխատանքային փաթեթները հղում են կատարում այս նախագծի կամ դրա հետնորդների տարբերակներին։
         project/phase:
@@ -813,15 +814,15 @@ hy:
             parent:
               cannot_be_self: չի կարող լինել տեսակն ինքը։
               cannot_change_with_work_packages: հնարավոր չէ փոփոխել, քանի որ այս տեսակի աշխատանքային փաթեթներ արդեն գոյություն ունեն։
-              cannot_have_children: հնարավոր չէ սահմանել, քանի որ այս տեսակն արդեն ունի ենթատեսակներ։
+              cannot_have_children: հնարավոր չէ սահմանել, քանի որ այս տեսակն արդեն ունի տարատեսակներ։
               must_be_a_root: ինքը պետք է լինի վերին մակարդակի տեսակ։ Տեսակները կարող են ներդրվել միայն մեկ մակարդակ խորությամբ։
               standard_type_must_be_root: հնարավոր չէ սահմանել ստանդարտ տեսակի համար։
             patterns:
               invalid_tokens: Դաշտի ներսում մեկ կամ մի քանի հատկանիշ վավեր չէ։ Խնդրում ենք ուղղել հատկանիշները նախքան պահպանելը։
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: չի կարող լինել տեսակն ինքը։
+            source_id:
+              would_create_cycle: կկապի այս կազմաձևումները ցիկլի մեջ։
         user:
           attributes:
             base:
@@ -1143,6 +1144,9 @@ hy:
         '
     jemalloc_allocator: Jemalloc հիշողության բաշխիչ
     jira:
+      actions:
+        button_edit: Խմբագրել կազմաձևումը
+        button_open: Բացել գործարկումները
       banner:
         contribution_callout: 'Խնդրում ենք օգնել մեզ բարելավել Jira Migrator-ը Ձեր արձագանքներով և մասնավոր տվյալների նվիրաբերմամբ։ Դուք կարող եք միանալ Jira Migrator-ի [մշակման համայնքին](link)։
 
@@ -1164,9 +1168,11 @@ hy:
         ssrf_blocked: Միացումն արգելափակված է՝ Jira հոսթը որոշվում է որպես մասնավոր IP հասցե։ Եթե Ձեր Jira համակարգն աշխատում է ներքին ցանցում, թույլատրեք դրա IP-ն OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST միջավայրի փոփոխականի միջոցով։
       columns:
         added: Ավելացված
+        creator: Ստեղծող
         label_ago: "%{amount} առաջ"
         last_change: Վերջին փոփոխություն
         projects: Նախագծեր
+        server_url: Սերվերի URL
       configuration:
         new: Նոր կազմաձևում
         title: Jira-ի կազմաձևում
@@ -1181,18 +1187,24 @@ hy:
         button_add: Ավելացնել կազմաձևում
         button_delete_token: Ջնջել թոքենը
         button_save: Պահպանել կազմաձևումը
-        button_test: Փորձարկել կազմաձևումը
         delete_token_confirm: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել թոքենը։ Դա կանջատի Jira-ի միացումը։
         fields:
           name: Անվանում
           personal_access_token: Անձնական մուտքի թոքեն
           url: Jira Server/Data Center URL
         label_testing: Կազմաձևման փորձարկում...
+        test_configuration_caption: Դուք կարող եք փորձարկել այս կազմաձևումը՝ [սեղմելով այստեղ](test)
       run:
+        actions:
+          button_edit: Խմբագրել գործարկումը
+          button_open_history: Բացել գործարկումների պատմությունը
         blank:
           description: Ստեղծեք ներմուծման գործարկում՝ այս Jira համակարգից տեղեկությունների ներմուծումը սկսելու համար
           title: Դեռևս ներմուծման գործարկումներ կազմաձևված չեն
         history: Պատմություն
+        side_panel:
+          run_status: Գործարկման կարգավիճակ
+          open_history: Բացել գործարկումների պատմությունը
         import_blocked_error: Jira-ի մեկ այլ ներմուծման գործարկում ընթացքի մեջ է կամ սպասում է վերանայման։ Խնդրում ենք ավարտել կամ հետ շրջել այն՝ նախքան նոր ներմուծում սկսելը։
         index:
           button_edit_configuration: Խմբագրել կազմաձևումը
@@ -1232,14 +1244,8 @@ hy:
           groups:
             configuration:
               title: Կազմաձևել ներմուծումը
-            confirming:
-              title: Հաստատել և ներմուծել
-            fetch:
-              title: Ստանալ բազային տվյալները
-            groups_and_users:
-              title: Խմբեր և օգտատերեր
-            review:
-              title: Վերանայել ներմուծումը
+            run_and_review:
+              title: Գործարկել և վերանայել ներմուծումը
           import_dialog:
             confirm: Հասկանում եմ և ունեմ պահուստային պատճեն
             confirm_button: Սկսել ներմուծումը
@@ -1275,6 +1281,7 @@ hy:
               button_start: Սկսել ներմուծումը
               caption: Վերանայեք Ձեր ներմուծման կարգավորումները և սկսեք ներմուծումը
               caption_done: Ավարտված
+              caption_done_info: Բոլոր տվյալները ներմուծված են
               description: Դուք պատրաստվում եք սկսել ներմուծման գործարկում հետևյալ կարգավորումներով։
               label_available_data: Ներմուծվող տվյալներ
               label_import_data: Ներկայումս ներմուծվում է
@@ -1282,9 +1289,12 @@ hy:
               label_users_import_explanation: Ընտրված նախագծերում ներգրավված օգտատերերը (ներառյալ խմբային անդամակցությունները)
               title: Ներմուծել տվյալները
             fetch_data:
+              button_continue: Անցնել շրջանակի ընտրությանը
               button_fetch: Ստուգել հասանելի տվյալները
               caption_done: Ավարտված
+              caption_done_description: Մետատվյալները ստացվել են %{server_info}-ից
               description: Ստուգեք, թե ինչ տվյալներ են հասանելի ներմուծման համար հոսթ Jira համակարգում։
+              label_available_server_data: Հասանելի տվյալները %{server_info}-ում
               label_progress: Տվյալները ստացվում են Jira-ից...
               title: Ստանալ համակարգի մետատվյալները
             groups_and_users:
@@ -1293,7 +1303,6 @@ hy:
               button_done: Հաստատել ներմուծումը
               button_revert: Հետարկել ներմուծումը
               caption: Վերանայեք ներմուծման գործարկումը կամ հետարկեք ներմուծումը
-              info: Ներմուծման գործարկումը հաջողությամբ ավարտվել է։
               label_finalize_import: Հաստատել ներմուծումը
               label_finalizing: Ներմուծումը հաստատվում է...
               label_finalizing_done: Ներմուծումը հաստատվել է։
@@ -1302,6 +1311,20 @@ hy:
               label_revert_progress: Ներմուծումը հետարկվում է...
               label_reverted: Ներմուծումը հետարկվել է։
               preview_description: Ներմուծված տվյալները ներկայումս վերանայման ռեժիմում են։ Սեղմեք "Հաստատել ներմուծումը"՝ ներմուծումը մշտական դարձնելու համար, կամ "Հետարկել ներմուծումը"՝ այս ներմուծման գործարկման ընթացքում կատարված բոլոր փոփոխությունները հետարկելու համար։
+              stats:
+                other_settings:
+                  label: Այլ կարգավորումներ
+                  subtitle: Ներառյալ տեսակները և կարգավիճակը
+                projects:
+                  label: Նախագծեր
+                  subtitle: Ընտրված է որպես շրջանակ
+                title: Ներմուծված տվյալներ
+                users_and_groups:
+                  label: Օգտատերեր և խմբեր
+                  subtitle: 'Ներգրավված են ներմուծված նախագծերում '
+                work_packages:
+                  label: Աշխատանքային փաթեթներ
+                  subtitle: Կցորդներով
               title: Ներմուծման գործարկման արդյունքներ
             import_scope:
               button_continue: Շարունակել
@@ -1309,6 +1332,9 @@ hy:
               button_select_projects: Ընտրել ներմուծվող նախագծերը
               caption: Ընտրեք, թե ինչ եք ցանկանում ներմուծել OpenProject-ում
               caption_done: Ավարտված
+              caption_done_description:
+                one: 1 նախագիծ ընտրված է որպես շրջանակ
+                other: "%{count} նախագիծ ընտրված է որպես շրջանակ"
               description: Ընտրեք, թե ինչ տվյալներ եք ցանկանում ներմուծել հոսթ Jira համակարգից ստացված հասանելի տվյալներից։
               elements:
                 custom_fields: Հատուկ դաշտերի ենթաբազմություն
@@ -1323,19 +1349,21 @@ hy:
                 sprints: Սպրինտների նշանակումներ
                 users: Ներգրավված օգտատերեր և խմբեր
                 workflows: Նախագծի մակարդակի աշխատանքային հոսքեր
-              label_available_server_data: Հասանելի տվյալները %{server_info}-ում
               label_coming_later: Ավելի ուշ
               label_coming_soon: Շուտով (Q3 2026)
               label_import: Ընտրեք, թե որ նախագծերը ցանկանում եք ներմուծել։
               label_info: Խնդրում ենք նկատի ունենալ, որ այս ներմուծման գործիքը բետա փուլում է և չի կարող ներմուծել տվյալների բոլոր տեսակները։ Ստորև ներկայացված է ամփոփում այն մասին, թե ինչ է առաջարկում հոսթ Jira համակարգը ներմուծման համար և ինչ է կարողանում ներմուծել այս գործիքն այս պահին։
-              label_progress: Տվյալները ստացվում են Jira-ից...
+              label_progress: Տվյալները ստացվում են
               label_selected_data: Ներմուծման համար ընտրված տվյալներ
               label_supported_data: Աջակցվող տվյալներ
               title: Ներմուծման շրջանակ
-          select_dialog:
-            filter_projects: Զտել ըստ տեքստի
           select_projects:
-            title: Ընտրել նախագծերը
+            button_select: Ընտրել
+            button_select_all: Ընտրել բոլորը
+            button_unselect_all: Հանել բոլորի ընտրությունը
+            filter_projects: Զտել ըստ տեքստի
+            info: Որպես ներմուծման շրջանակ կարելի է ընտրել միայն այն նախագծերը, որտեղ Jira թոքենի սեփականատերն անդամ է։
+            title: Ընտրել ներմուծվող նախագծերը
       test:
         api_error: Jira API-ն վերադարձրել է %{status} սխալի կարգավիճակ։ Խնդրում ենք ստուգել Ձեր Jira համակարգի URL-ը և API թոքենը։
         connection_error: Կապի սխալ՝ %{message}
@@ -1522,6 +1550,7 @@ hy:
     workflows:
       blankslate:
         description: Ավելացրեք կարգավիճակներ՝ այս դերի աշխատանքային հոսքերի կազմաձևումը սկսելու համար
+        linked_description: Այս տեսակը վերաօգտագործում է իր կապակցված սկզբնական տեսակի աշխատանքային հոսքերը, որում կարգավիճակների անցումներ կազմաձևված չեն
         title: Կարգավիճակների անցումներ կազմաձևված չեն
       leave_confirmation:
         description: Դուք պատրաստվում եք հեռանալ այս էջից, սակայն ունեք չպահպանված փոփոխություններ։ Ցանկանո՞ւմ եք պահպանել դրանք շարունակելուց առաջ։
@@ -1548,9 +1577,15 @@ hy:
           other: Հեռացնե՞լ %{count} կարգավիճակ։
         title: Հեռացնել կարգավիճակները
       tabs:
-        default_transitions: Կանխադրված անցումներ
-        user_assignee: Օգտատերը պատասխանատու է
-        user_author: Օգտատերը հեղինակ է
+        always: Կանխադրված անցումներ
+        aria_label: Աշխատանքային հոսքի անցումներ
+        assignee: Օգտատերը պատասխանատու է
+        author: Օգտատերը հեղինակ է
+        descriptions:
+          always: Ընտրված դեր(եր)ին բոլոր դեպքերում հասանելի անցումներ։
+          assignee: Աշխատանքային փաթեթի պատասխանատուին հասանելի լրացուցիչ անցումներ։
+          author: Աշխատանքային փաթեթի հեղինակին հասանելի լրացուցիչ անցումներ։
+        menu_label: Ցուցադրվող անցումներ
   announcements:
     is_active: ներկայումս ցուցադրվում է
     is_inactive: ներկայումս չի ցուցադրվում
@@ -3309,7 +3344,6 @@ hy:
   label_other: Այլ
   label_overall_activity: Ընդհանուր գործունեություն
   label_overview: Ընդհանուր տեսք
-  label_page_title: Էջի վերնագիր
   label_parent_group_caption: 'Ծնող խումբ նշանակելը այս խումբը կդարձնի ընտրված ծնող խմբի ենթախումբ։ Այն նաև կժառանգի ծնող խմբի բոլոր անդամակցությունները, ներառյալ թույլտվությունները։
 
     '
@@ -3591,7 +3625,7 @@ hy:
   label_workflow: Աշխատանքային հոսք
   label_workflow_copy: Պատճենել աշխատանքային հոսքը
   label_workflow_plural: Աշխատանքային հոսքեր
-  label_workflow_summary: Ամփոփում
+  label_workflow_summary: Աշխատանքային հոսքի ամփոփում
   label_working_days: Աշխատանքային օրեր
   label_working_days_and_hours: Աշխատանքային օրեր և ժամեր
   label_working_hours: Աշխատանքային ժամանակացույց
@@ -4850,9 +4884,23 @@ hy:
         menu_title: Ձևանմուշ
         title: Ձևանմուշի կարգավորումներ
       types:
+        add_dialog:
+          description: Նախագիծն օգտագործում է տեսակների յուրաքանչյուր ընտանիքից մեկ անդամ։ Ընտրեք տեսակը կամ տարատեսակը, որը պետք է օգտագործի այս նախագիծը։
+          none_addable: Բոլոր հասանելի տեսակներն արդեն ակտիվ են այս նախագծում։
+          submit: Ավելացնել
+          title: Ավելացնել տեսակ
+          type_label: Տեսակ
+          type_placeholder: Ընտրեք տեսակ
+        add_type: Ավելացնել տեսակ
+        empty_state:
+          description: Ավելացրեք տեսակ, որպեսզի օգտատերերը կարողանան այս նախագծում ստեղծել այդ տեսակի աշխատանքային փաթեթներ։
+          title: Այս նախագծում ակտիվ տեսակներ չկան
         form:
           enable_type_in_project: Միացնել "%{type}" տեսակը
+        in_roadmap: Ճանապարհային քարտեզում
         no_results_title_text: Ներկայումս հասանելի տեսակներ չկան։
+        remove_from_project: Հեռացնել նախագծից
+        type_not_found: Ընտրված տեսակը չհաջողվեց գտնել։
       versions:
         no_results_content_text: Ստեղծել նոր տարբերակ
         no_results_title_text: Ներկայումս նախագծում տարբերակներ չկան։
@@ -5675,6 +5723,7 @@ hy:
   text_journal_changed_plain: "%{label} փոխվել է %{old}-ից %{linebreak}%{new}"
   text_journal_changed_with_diff: "%{label} փոխվել է (%{link})"
   text_journal_deleted: "%{label} ջնջվել է (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} ջնջվել է (%{link})"
   text_journal_file_link_added: "%{label} հղումը %{value}-ին (%{storage}) ավելացվել է"
@@ -5730,8 +5779,9 @@ hy:
   text_user_invited: Օգտատերը հրավիրված է և սպասում է գրանցման։
   text_user_wrote: "%{value}-ը գրել է՝"
   text_warn_on_leaving_unsaved: Աշխատանքային փաթեթը պարունակում է չպահպանված տեքստ, որը կկորչի, եթե Դուք լքեք այս էջը։
-  text_what_did_you_change_click_to_add_comment: Ի՞նչ եք փոխել։ Սեղմեք՝ մեկնաբանություն ավելացնելու համար
   text_wiki_destroy_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս վիքին և դրա ամբողջ բովանդակությունը։
+  text_wiki_page_comment_caption: Սա տեսանելի կլինի միայն վիքիի պատմության մեջ։
+  text_wiki_page_comment_placeholder: Ինչ-որ բան փոխե՞լ եք։ Ավելացրեք մեկնաբանություն
   text_wiki_page_destroy_children: Ջնջել ենթաէջերը և դրանց բոլոր հետնորդները
   text_wiki_page_destroy_question: Այս էջն ունի %{descendants} ենթաէջ և հետնորդ։ Ի՞նչ եք ցանկանում անել։
   text_wiki_page_nullify_children: Պահել ենթաէջերը որպես արմատային էջեր
@@ -5790,35 +5840,48 @@ hy:
   total_progress: Ընդհանուր առաջընթաց
   types:
     creation_wizard:
-      configuration_link_error: Չհաջողվեց պահպանել կրկնակի օգտագործման ռեժիմը։ Խնդրում ենք ընտրել աղբյուրի տեսակ։
-      create_subtype: Ստեղծել ենթատեսակ
+      create_type: Ստեղծել տեսակ
+      create_variant: Ստեղծել տարատեսակ
       fields:
         inherited_from_parent_html: Ժառանգված է <b>%{parent}</b> ծնող տեսակից։
       finish: Ավարտել
       placeholder_description: Այս քայլը շուտով հասանելի կլինի։
       progress_label: Քայլ %{number} %{total}-ից
       steps:
-        automations: Ավտոմատացումներ
+        defaults: Կանխադրված արժեքներ
         details: Մանրամասներ
         form_configuration: Ձևի կազմաձևում
         pdf: PDF-ի ստեղծում
+        project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
         workflows: Աշխատանքային հոսքեր
-      success: Ենթատեսակը հաջողությամբ ստեղծվել է։
-      workflows:
-        copy_caption: Պատճենեք աշխատանքային հոսքի կազմաձևումը առկա տեսակից՝ որպես մեկնարկային կետ։
+      success: Տարատեսակը հաջողությամբ ստեղծվել է։
     edit:
-      configuration_link:
-        independent:
-          caption: Այս կարգավորումները պատկանում են այս տեսակին և խմբագրվում են այստեղ։ Դրանք կապակցված չեն որևէ այլ տեսակի հետ։
-          label: Անկախ
-          warning: Անկախ ռեժիմին անցնելը ընտրված աղբյուրի տեսակի ընթացիկ կարգավորումները պատճենում է այս տեսակի վրա, ապա հեռացնում կապը։ Այնուհետև Դուք կարող եք դրանք ազատորեն խմբագրել։ Խնդրում ենք գործել զգուշությամբ։
-        linked:
-          caption: Այս կարգավորումները կրկին օգտագործվում են աղբյուրի տեսակից և մնում են դրա հետ համաժամացված։ Դրանք փոխելու համար խմբագրեք աղբյուրի տեսակը։
-          label: Կապակցված
-          warning: Կապակցումը փոխարինում է այս տեսակի սեփական կարգավորումները աղբյուրի տեսակի կարգավորումներով։ Ընթացիկ կարգավորումները կհեռացվեն, և այս տեսակի աշխատանքային փաթեթները կարող են տուժել։ Խնդրում ենք գործել զգուշությամբ։
-        source:
-          label: Աղբյուրի տեսակ
+      breadcrumb_variant: Տարատեսակ՝ %{name}
+      defaults:
+        automatically_generated_subjects:
+          caption: Սահմանեք կաղապար՝ օգտագործելով հղված հատկանիշներ և տեքստ, աշխատանքային փաթեթների վերնագրերն ավտոմատ ստեղծելու համար։ Օգտատերերը չեն կարողանա ձեռքով խմբագրել վերնագրերը։
+          label: Ավտոմատ ստեղծվող վերնագրեր
+        description:
+          caption: Ավելացրեք տեքստը, որը կավելացվի այս տեսակի բոլոր նոր աշխատանքային փաթեթների նկարագրության դաշտում։
+          label: Կանխադրված նկարագրության տեքստ
+        manually_editable_subjects:
+          caption: Օգտատերերը կարող են ձեռքով մուտքագրել և խմբագրել աշխատանքային փաթեթների վերնագրերն առանց սահմանափակումների։
+          label: Ձեռքով խմբագրվող վերնագրեր
+        pattern:
+          caption: Ստեղծեք կաղապարներ՝ ավելացնելով տեքստ, կամ մուտքագրեք "/"՝ [աջակցվող հատկանիշները](attributes_url) որոնելու համար։
+          insert_as_text: Հատկանիշներ չեն գտնվել։ Ավելացնել որպես տեքստ՝ "%{word}"
+          label: Վերնագրի կաղապար
+        tab: Կանխադրված արժեքներ
+        token:
+          context:
+            parent: Ծնող
+            project: Նախագիծ
+            work_package: Աշխատանքային փաթեթ
+          label_with_context: "%{attribute_context}՝ %{attribute_label}"
+      details:
+        tab: Մանրամասներ
+        type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։
       export_configuration:
         artefact_export:
           attachment:
@@ -5858,6 +5921,10 @@ hy:
         drag_to_reorder: Քաշեք՝ վերադասավորելու համար
         edit_query: Խմբագրել հարցումը
         empty_group_hint: Քաշեք հատկանիշներն այստեղ
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Զտել հատկանիշները
         group_actions: Բաժնի գործողություններ
         group_name_label: Բաժնի անվանում
@@ -5890,40 +5957,93 @@ hy:
         select_projects: Ընտրել նախագծերը
         select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
         tab: Նախագծեր
-      settings:
-        parent_type_text: Ըստ ցանկության՝ ներդրեք այս տեսակը որպես ենթատեսակ՝ ընտրելով ծնող տեսակ։
-        tab: Կարգավորումներ
-        type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Սահմանեք կաղապար՝ օգտագործելով հղված հատկանիշներ և տեքստ, աշխատանքային փաթեթների վերնագրերն ավտոմատ ստեղծելու համար։ Օգտատերերը չեն կարողանա ձեռքով խմբագրել վերնագրերը։
-          label: Ավտոմատ ստեղծվող վերնագրեր
-        manually_editable_subjects:
-          caption: Օգտատերերը կարող են ձեռքով մուտքագրել և խմբագրել աշխատանքային փաթեթների վերնագրերն առանց սահմանափակումների։
-          label: Ձեռքով խմբագրվող վերնագրեր
-        pattern:
-          caption: Ստեղծեք կաղապարներ՝ ավելացնելով տեքստ, կամ մուտքագրեք "/"՝ [աջակցվող հատկանիշները](attributes_url) որոնելու համար։
-          insert_as_text: Հատկանիշներ չեն գտնվել։ Ավելացնել որպես տեքստ՝ "%{word}"
-          label: Վերնագրի կաղապար
-        tab: Վերնագրի կազմաձևում
-        token:
-          context:
-            parent: Ծնող
-            project: Նախագիծ
-            work_package: Աշխատանքային փաթեթ
-          label_with_context: "%{attribute_context}՝ %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
+            description_html: "%{source_name}-ից տվյալներ պատճենելով Դուք կվերագրեք ընթացիկ կարգավորումները և կարող եք ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։"
+            title: Պատճենե՞լ կազմաձևումը։
+          dialog:
+            description: Պատճենեք կազմաձևումն աղբյուրի տեսակից և օգտագործեք այն որպես միանգամյա հիմք։ Սա մշտապես չի կապակցում երկու տեսակները։
+            source_label: Պատճենման աղբյուր
+            source_placeholder: Ընտրեք տեսակ կամ տարատեսակ
+            submit: Պահպանել և պատճենել
+            title: Պատճենել կազմաձևումը
+          invalid_source: Կազմաձևումը հնարավոր չէ պատճենել ընտրված տեսակից։ Խնդրում ենք ընտրել այլ աղբյուրի տեսակ։
+          success: Կազմաձևումը պատճենվել է։
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        independent:
+          confirm_dialog:
+            check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
+            description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
+            title: Փոխե՞լ կազմաձևման ռեժիմը։
+          copy_from_type: Պատճենել տեսակից
+          description: Ոչ մի կարգավորում չի ժառանգվում։ Ցանկության դեպքում Դուք դեռևս կարող եք միանգամյա պատճենել կարգավորումները այլ տեսակից։
+          dialog:
+            submit: Անցնել
+            title: Անկախ ռեժիմ
+          invalid_mode: Ընտրված ռեժիմը հասանելի չէ այս կազմաձևման համար։ Խնդրում ենք ընտրել այլ ռեժիմ։
+          modes:
+            copy:
+              caption: Սկսեք կապակցված ռեժիմում սահմանված ընթացիկ կարգավորումների միանգամյա պատճենով։
+              label: Պատճենել կապակցվածից
+            default:
+              caption: Օգտագործել կանխադրված կարգավորումները նոր տեսակների համար։
+              label: Կանխադրված կարգավորումներ
+            empty:
+              caption: Կազմաձևեք ամեն ինչ զրոյից՝ սկսելով դատարկ կազմաձևումից։
+              label: Դատարկ
+          success: Կազմաձևման ռեժիմը փոխվել է։
+          switch_to_linked: Անցնել կապակցված ռեժիմին
+          title: Անկախ ռեժիմ
+        linked:
+          change_source: Փոխել աղբյուրի տեսակը
+          confirm_dialog:
+            change_source:
+              description_html: Աղբյուրի տեսակը %{source_name}-ի փոխելով Դուք կվերագրեք ընթացիկ կարգավորումները և կարող եք ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
+              title: Փոխե՞լ աղբյուրի տեսակը։
+            check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
+            from_independent:
+              description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
+              title: Փոխե՞լ կազմաձևման ռեժիմը։
+          description: Այս կազմաձևումը կապակցված է և ժառանգում է իր կարգավորումները [%{source_name}](source_url)%{source_suffix} աղբյուրի տեսակից։
+          dialog:
+            description: Պատճենեք և ժառանգեք այս կարգավորումները աղբյուրից։ Աղբյուրին ավելացված ցանկացած նոր կազմաձևում կավելացվի նաև այստեղ։
+            source_label: Կապակցված աղբյուր
+            source_placeholder: Ընտրեք տեսակ կամ տարատեսակ
+            submit: Անցնել
+            title: Կապակցված ռեժիմ
+          invalid_source: Կազմաձևումը հնարավոր չէ կապակցել ընտրված տեսակին։ Խնդրում ենք ընտրել այլ աղբյուրի տեսակ։
+          success: Կազմաձևման ռեժիմը փոխվել է։
+          switch_to_independent: Անցնել անկախ ռեժիմին
+          title: Կապակցված ռեժիմ
+        parent_suffix: " (ծնող)"
+      workflow:
+        tab: Աշխատանքային հոսքեր
     index:
-      add_subtype: Ավելացնել ենթատեսակ %{name}-ին
-      description: 'Տեսակների և ենթատեսակների ներսում կազմաձևման յուրաքանչյուր հատված կարող է կազմաձևվել ինքնուրույն, սահմանափակվել այլ տեսակից կամ ամբողջությամբ կապակցվել աղբյուրին։
+      add_variant: Ավելացնել տարատեսակ %{name}-ին
+      add_variant_action: Ավելացնել տարատեսակ
+      description: 'Տեսակների և տարատեսակների ներսում կազմաձևման յուրաքանչյուր հատված կարող է կազմաձևվել ինքնուրույն, սահմանափակվել այլ տեսակից կամ ամբողջությամբ կապակցվել աղբյուրին։
 
         '
+      duplicate_name: "%{name}-ի պատճեն"
+      duplicate_notice: "%{name}-ը կրկնօրինակվել է։"
+      enabled_in_new_projects: Ակտիվ նոր նախագծերում
+      make_default: Ակտիվացնել նոր նախագծերում
+      make_default_notice: "%{name}-ը այժմ ակտիվացված է նոր նախագծերում։"
       no_results_content_text: Ստեղծել նոր տեսակ
       no_results_title_text: Ներկայումս տեսակներ չկան։
-      subtype_label: Ենթատեսակ
-      subtypes_count:
-        one: 1 ենթատեսակ
-        other: "%{count} ենթատեսակ"
+      remove_default: Չակտիվացնել նոր նախագծերում
+      remove_default_notice: "%{name}-ը այլևս ակտիվացված չէ նոր նախագծերում։"
       type_label: Տեսակ
+      variant_enabled_in_new_projects: "%{name} տարատեսակն ակտիվ է նոր նախագծերում"
+      variant_label: Տարատեսակ
+      variants_count:
+        one: 1 տարատեսակ
+        other: "%{count} տարատեսակ"
+    milestone_indicator: Հանգրվան
   unsupported_browser:
     close_warning: Անտեսել այս նախազգուշացումը։
     message: Այս էջում Դուք կարող եք բախվել սխալների և օգտագործման որակի վատթարացման։

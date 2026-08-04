@@ -152,6 +152,7 @@ zh-CN:
     label_burndown_chart: 燃尽图
     label_is_done_status: 状态 %{status_name} 表示已完成
     label_sprint_board: 冲刺面板
+    label_sprint_report: 冲刺报告
     move_to_bucket_dialog_component:
       title: 移至积压工作存储桶
     move_to_sprint_dialog_component:
@@ -187,6 +188,15 @@ zh-CN:
     sprint_form_component:
       shared_sprint_info_banner: 这是共享冲刺。所做的修改将反映在所有使用该冲刺的项目中。
       shared_sprint_warning_banner: 这是共享冲刺。您没有编辑该冲刺的必要权限。
+    sprint_reports:
+      page_header_component:
+        breadcrumb: 报告
+        title: "%{sprint}报告"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: 编辑冲刺
+          sprint_report: 冲刺报告
     sprints_component:
       blankslate:
         create_and_manage_description_html: 要开始计划冲刺，请在此处创建，或转到%{settings_link}从其他项目接收冲刺。
@@ -231,11 +241,11 @@ zh-CN:
     story_points_ideal: 故事点（理想）
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: 为项目中的不同团队并行运行多个冲刺，以获得更大的控制力和灵活性。
       sprint_sharing: 冲刺共享
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: " "
       sprint_sharing:
         description: 跨项目共享冲刺，以便在规模化敏捷设置 (SAFe) 中调整团队和协调工作。
   label_all_sprints: 所有冲刺
