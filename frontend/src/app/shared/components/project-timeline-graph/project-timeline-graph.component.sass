@@ -28,6 +28,25 @@
   .vis-labelset
     display: none
 
+  // Hierarchical mode: show label column with project names
+  &.op-project-timeline-graph--hierarchical
+    .vis-labelset
+      display: flex
+      flex-direction: column
+      width: 10rem
+      min-width: 10rem
+      max-width: 10rem
+    .vis-label
+      display: flex
+      align-items: center
+    .vis-label .vis-inner
+      padding: 0 var(--base-size-8)
+      font-size: var(--text-body-size-small)
+      font-weight: var(--base-text-weight-semibold)
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
   // Tooltip
   .vis-tooltip
     background: var(--body-background)
@@ -125,6 +144,12 @@
 
   .op-timeline-sprint-icon
     color: var(--fgColor-accent)
+
+  .vis-group.op-timeline-group--gates,
+  .vis-label.op-timeline-group--gates
+    border-bottom-color: transparent
+    height: 2.25rem !important
+    //overflow: visible
 
   // Sprints
   .vis-item.vis-range.op-timeline-sprint
