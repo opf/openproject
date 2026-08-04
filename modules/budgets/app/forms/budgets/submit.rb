@@ -27,40 +27,30 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require "rails_helper"
 
-RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
-  let(:project) do
-    create(
-      :project,
-      enabled_module_names: %i[costs work_package_tracking budgets],
-      members: {
-        user => member_role
+module Budgets
+  class Submit < ApplicationForm
+    attr_reader :options
+
+    form do |form|
+      form.submit(**options)
+    end
+
+    def initialize(**options)
+      super()
+
+      @options = options.with_defaults(default_options)
+    end
+
+    private
+
+    def default_options
+      {
+        name: :submit,
+        scheme: :primary,
+        label: I18n.t(:button_save),
+        data: { test_selector: "budgets-save-button" }
       }
-    )
-  end
-
-  let(:member_role) { create(:project_role, name: "Member", permissions: [:view_time_entries]) }
-  let(:budget) { create :budget, project: }
-  let(:work_package) { create :work_package, project:, budget:, author: user }
-  let(:user) { create :user }
-
-  subject do
-    described_class.new budget:, project:
-  end
-
-  before do
-    login_as user
-  end
-
-  describe "with time entries" do
-    let!(:time_entry) { create :time_entry, entity: work_package, user: }
-
-    it "renders the link to the time entry's user's avatar" do
-      rendered = render_inline(subject)
-
-      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
     end
   end
 end

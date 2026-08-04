@@ -27,40 +27,42 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
+
 require "rails_helper"
 
-RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
-  let(:project) do
-    create(
-      :project,
-      enabled_module_names: %i[costs work_package_tracking budgets],
-      members: {
-        user => member_role
-      }
-    )
+RSpec.describe Budgets::MaterialBudgetItems::SubformTableComponent, type: :component do
+  def render_component(...)
+    render_inline(described_class.new(...))
   end
 
-  let(:member_role) { create(:project_role, name: "Member", permissions: [:view_time_entries]) }
-  let(:budget) { create :budget, project: }
-  let(:work_package) { create :work_package, project:, budget:, author: user }
-  let(:user) { create :user }
+  let(:form) { instance_double(Primer::Forms::Builder, fields_for: "") }
+  let(:budget) { create(:budget) }
 
-  subject do
-    described_class.new budget:, project:
+  subject(:rendered_component) do
+    render_component(rows: budget_items, form:, budget:)
   end
 
-  before do
-    login_as user
+  context "with no budget items" do
+    let(:budget_items) { create_list(:material_budget_item, 0) }
+
+    it "renders headers" do
+      expect(rendered_component).to have_css "th .generic-table--sort-header", text: "Units"
+      expect(rendered_component).to have_css "th .generic-table--sort-header", text: "Unit name"
+      expect(rendered_component).to have_css "th .generic-table--sort-header", text: "Cost type"
+      expect(rendered_component).to have_css "th .generic-table--sort-header", text: "Comment"
+      expect(rendered_component).to have_css "th .generic-table--sort-header", text: "Budget"
+    end
+
+    it "renders 1 row" do
+      expect(rendered_component).to have_css "tbody tr", count: 1
+    end
   end
 
-  describe "with time entries" do
-    let!(:time_entry) { create :time_entry, entity: work_package, user: }
+  context "with budget items" do
+    let(:budget_items) { create_list(:material_budget_item, 2) }
 
-    it "renders the link to the time entry's user's avatar" do
-      rendered = render_inline(subject)
-
-      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
+    it "renders 2 rows" do
+      expect(rendered_component).to have_css "tbody tr", count: 2
     end
   end
 end
