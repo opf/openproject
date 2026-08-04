@@ -161,6 +161,7 @@ ru:
     label_burndown_chart: Диаграмма выгорания
     label_is_done_status: Статус %{status_name} означает завершение,
     label_sprint_board: Доска для спринта
+    label_sprint_report: Отчет о спринте
     move_to_bucket_dialog_component:
       title: Перенос в раздел бэклога
     move_to_sprint_dialog_component:
@@ -199,6 +200,15 @@ ru:
     sprint_form_component:
       shared_sprint_info_banner: Это общий спринт. Изменения будут отражены во всех проектах, использующих его.
       shared_sprint_warning_banner: Это общий спринт. У вас нет необходимых прав для его редактирования.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Отчет
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Редактировать спринт
+          sprint_report: Отчет о спринте
     sprints_component:
       blankslate:
         create_and_manage_description_html: Чтобы начать планировать свой спринт, создайте его здесь или перейдите на %{settings_link}, чтобы получить спринты из другого проекта.
@@ -246,11 +256,11 @@ ru:
     story_points_ideal: Стори-поинты (идеально)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Проводите несколько спринтов параллельно для разных команд в рамках вашего проекта, чтобы обеспечить больший контроль и гибкость.
       sprint_sharing: Совместное использование спринта
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: " "
       sprint_sharing:
         description: Используйте общие спринты для всех проектов, чтобы обеспечить согласованность действий команд и скоординировать работу в рамках масштабированных гибких моделей (SAFe).
   label_all_sprints: Все спринты

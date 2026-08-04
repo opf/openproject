@@ -161,6 +161,7 @@ uk:
     label_burndown_chart: Діаграма згорання завдань
     label_is_done_status: Стан %{status_name} означає виконано
     label_sprint_board: Дошка спринту
+    label_sprint_report: Звіт про спринт
     move_to_bucket_dialog_component:
       title: Перемістити в сегмент беклогу
     move_to_sprint_dialog_component:
@@ -199,6 +200,15 @@ uk:
     sprint_form_component:
       shared_sprint_info_banner: Це спільний спринт. Внесені зміни відображатимуться в усіх проєктах, які його використовують.
       shared_sprint_warning_banner: Це спільний спринт. У вас немає необхідних прав для його редагування.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Звіт
+        title: Звіт про %{sprint}
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Змінити спринт
+          sprint_report: Звіт про спринт
     sprints_component:
       blankslate:
         create_and_manage_description_html: Щоб почати планувати спринт, створіть його тут або перейдіть у %{settings_link}, щоб отримати спринти з інших проєктів.
@@ -246,11 +256,11 @@ uk:
     story_points_ideal: Сторі-поінти (ідеально)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Запускайте паралельно кілька спринтів для різних команд, що працюють над вашим проєктом, для більшого контролю й гнучкості.
       sprint_sharing: Спільний доступ до спринту
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: " "
       sprint_sharing:
         description: Надавайте доступ до спринтів кільком проєктам, щоб узгоджувати й координувати роботу команд у конфігураціях Масштабованої гнучкої розробки (SAFe).
   label_all_sprints: Усі спринти

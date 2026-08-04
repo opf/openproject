@@ -126,7 +126,7 @@ sk:
     error_no_device: Pre tohto používateľa nebolo nájdené žiadne zaregistrované zariadenie 2FA, napriek tomu, že je to potrebné pre túto inštanciu.
     error_no_matching_strategy: Pre daného používateľa nie je k dispozícii žiadna zodpovedajúca stratégia 2FA. Kontaktujte svojho správcu.
     forced_registration:
-      required_to_add_device: Aktívna bezpečnostná politika vyžaduje, aby ste zapli dvojfaktorové overovanie. Prosím, použite nasledujúci formulár pre registráciu zariadenia.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Dvojfaktorová autentifikácia nie je aktívna
     label_2fa_enabled: Dvojfaktorová autentifikácia je aktívna
     label_default_device: Predvolené 2FA zariadenie

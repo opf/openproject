@@ -37,7 +37,9 @@ fr:
           accessible_gate: 'Porte de phase %{name} : %{date}'
           accessible_phase: 'Phase %{name} : %{date}'
           tooltip_type_gate: Porte de phase
+          tooltip_type_milestone: Jalon
           tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Sous-éléments
         time_entries_current_user:
