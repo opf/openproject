@@ -29,7 +29,8 @@ That backup typically includes:
 - `conf-<timestamp>.tar.gz` (Configuration of the packaged installation - including secrets)
 - `git-repositories-<timestamp>.tar.gz` / `svn-repositories-<timestamp>.tar.gz` (Repository data, if used)
 
-**Important:** The packaged installation PostgreSQL backup uses the binary/custom backup mode. This backup can fail when the Docker Compose PostgreSQL version differs from the packaged one. To prevent this, please use a separate manual plain SQL backup using this command:
+> [!IMPORTANT]
+> The packaged installation PostgreSQL backup uses the binary/custom backup mode. This backup can fail when the Docker Compose PostgreSQL version differs from the packaged one. To prevent this, please use a separate manual plain SQL backup using this command:
 
 ```shell
 pg_dump $(sudo openproject config:get DATABASE_URL) -x -O > openproject.sql
@@ -56,7 +57,7 @@ sudo openproject config:get SECRET_TOKEN
 > [!TIP]
 > Packaged installations historically exposed both `SECRET_KEY_BASE` and `SECRET_TOKEN`.
 > Docker Compose only uses `SECRET_KEY_BASE`.
-> Prefer keeping the same value so existing sessions and tokens remain valid.
+> We recommend keeping the same value so existing sessions and tokens remain valid.
 > If you generate a new `SECRET_KEY_BASE`, all user sessions are invalidated and some tokens (for example invitation or reminder tokens) stop working until reissued.
 
 You will set this value in the Docker Compose `.env` file in the next step.
@@ -81,7 +82,7 @@ docker compose up -d
 Confirm that the frontend comes up (a fresh empty instance is expected at this point).
 You will replace the seeded database and attachments in the following steps.
 
-> [!Note]
+> [!NOTE]
 > This guide focuses on the Docker Compose installation method, as that is recommended for production migrations.
 > The all-in-one docker container restore path is documented separately in the [Backup Restoring Guide](../../operation/restoring/#using-the-all-in-one-container).
 
@@ -92,7 +93,7 @@ OpenProject cannot always migrate a database dump across multiple major versions
 If you restore a dump from an older packaged version (for example 13.x) directly into a current Compose stack, the `seeder` service may crash and restart without a clear error.
 
 For dumps from OpenProject **10.x or later**, download and use the [`bin/migrate`](https://github.com/opf/openproject/blob/dev/bin/migrate) script.
-It starts temporary Docker containers and applies migrations major version by major version until the dump matches the current release:
+It starts temporary Docker containers and applies to migrations by major version until the dump matches the current release:
 
 ```shell
 # Download the script (or clone the OpenProject repository)
@@ -120,7 +121,7 @@ These steps mirror the [Using Docker Compose](../../operation/restoring/#using-d
 From the directory that contains your `docker-compose.yml`:
 
 ```shell
-# Stop application processes so nothing writes to the database during import
+# Stop the application processes to prevent writes to the database during the import:
 docker compose stop web worker cron seeder
 
 # Drop and recreate the database (Compose connects as the postgres superuser by default)
@@ -212,5 +213,5 @@ If the seeder still crash-loops after a direct import, return to [Step 4](#step-
 - [Backing up](../../operation/backing-up/)
 - [Restoring](../../operation/restoring/) — including [Using Docker Compose](../../operation/restoring/#using-docker-compose)
 - [Docker Compose installation](../../installation/docker-compose/)
-- [Step-wise database migration script](../../operation/upgrading/#step-wise-database-migration-script)
+- [Step-by-step database migration script](../../operation/upgrading/#step-wise-database-migration-script)
 - [Migrating a packaged installation to another packaged environment](../migration/)

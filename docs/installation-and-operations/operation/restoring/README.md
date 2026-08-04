@@ -136,7 +136,7 @@ Run the following commands from the directory that contains your `docker-compose
 > If the dump comes from an OpenProject version that is **more than one major release** behind the image used by Docker Compose, the `seeder` may crash-loop without a useful error.
 > In that case, first upgrade the dump with the [`bin/migrate`](https://github.com/opf/openproject/blob/dev/bin/migrate) script as described in the [step-wise migration documentation](../upgrading/#step-wise-database-migration-script), then import the migrated dump below.
 
-1. Stop the application containers so nothing writes to the database during import:
+1. Stop the application containers to prevent writes to the database during the import:
 
    ```shell
    docker compose stop web worker cron seeder
@@ -186,7 +186,8 @@ Run the following commands from the directory that contains your `docker-compose
 
 8. Confirm with `docker compose logs -f` that the processes are starting correctly.
 
-> **NOTE:** If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
+> [!NOTE]
+> If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
 
 #### Restoring attachments (Docker Compose)
 
