@@ -32,6 +32,5 @@ FactoryBot.define do
   factory :project_type do
     project
     type
-    variant { nil }
   end
 end

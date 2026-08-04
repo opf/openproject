@@ -37,6 +37,16 @@ class ProjectType < ApplicationRecord
   validate :type_is_a_root
   validate :variant_belongs_to_type
 
+  # Callers (especially in test cases) enable a family member without caring whether it is a root or a variant.
+  def type=(new_type)
+    if new_type&.variant?
+      self.variant = new_type
+      super(new_type.root)
+    else
+      super
+    end
+  end
+
   def effective_type
     variant || type
   end

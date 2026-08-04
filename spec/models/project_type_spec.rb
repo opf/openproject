@@ -44,13 +44,6 @@ RSpec.describe ProjectType do
       expect(build(:project_type, project:, type: root, variant:)).to be_valid
     end
 
-    it "rejects a variant as the offered type" do
-      project_type = build(:project_type, project:, type: variant)
-
-      expect(project_type).not_to be_valid
-      expect(project_type.errors).to be_of_kind(:type, :must_be_a_root_type)
-    end
-
     it "rejects a variant of another family" do
       other_variant = create(:type, name: "Blocker", parent: create(:type, name: "Risk"))
       project_type = build(:project_type, project:, type: root, variant: other_variant)
@@ -78,6 +71,48 @@ RSpec.describe ProjectType do
       create(:project_type, project:, type: root)
 
       expect(build(:project_type, project: create(:project), type: root)).to be_valid
+    end
+
+    it "rejects a second member of a family already offered" do
+      create(:project_type, project:, type: root)
+      duplicate = build(:project_type, project:, type: variant)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors).to be_of_kind(:type_id, :taken)
+    end
+
+    it "rejects a variant assigned as a raw type_id" do
+      project_type = build(:project_type, project:, type_id: variant.id)
+
+      expect(project_type).not_to be_valid
+      expect(project_type.errors).to be_of_kind(:type, :must_be_a_root_type)
+    end
+  end
+
+  describe "#type=" do
+    it "offers the root and resolves the variant when given a variant" do
+      project_type = create(:project_type, project:, type: variant)
+
+      expect(project_type.type).to eq(root)
+      expect(project_type.variant).to eq(variant)
+      expect(project_type.effective_type).to eq(variant)
+    end
+
+    it "leaves a root alone" do
+      project_type = create(:project_type, project:, type: root)
+
+      expect(project_type.type).to eq(root)
+      expect(project_type.variant).to be_nil
+    end
+
+    it "resolves the variant last assigned" do
+      other_variant = create(:type, name: "Tablet Bug", parent: root)
+      project_type = create(:project_type, project:, type: variant)
+
+      project_type.type = other_variant
+
+      expect(project_type.type).to eq(root)
+      expect(project_type.variant).to eq(other_variant)
     end
   end
 
