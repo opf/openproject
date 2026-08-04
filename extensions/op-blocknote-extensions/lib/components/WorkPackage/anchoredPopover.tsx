@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom';
 
 const DEFAULT_ANCHOR_OFFSET = 6;
 const VIEWPORT_MARGIN = 8;
+const MIN_POPOVER_HEIGHT = 80;
 
 // For a chip wrapped across lines, getBoundingClientRect() returns the union of
 // its line fragments (left edge = start of line). The first fragment is where
@@ -24,6 +25,10 @@ export interface AnchoredPopoverOptions {
   onClose:() => void;
   // When false, a scroll repositions the popover instead of closing it.
   closeOnScroll?:boolean;
+  matchAnchorWidth?:boolean;
+  maxHeight?:number;
+  // Any value that changes when the content changes size.
+  resizeKey?:unknown;
 }
 
 export const useAnchoredPopover = ({
@@ -33,6 +38,9 @@ export const useAnchoredPopover = ({
   offset = DEFAULT_ANCHOR_OFFSET,
   onClose,
   closeOnScroll = true,
+  matchAnchorWidth = false,
+  maxHeight,
+  resizeKey,
 }:AnchoredPopoverOptions) => {
   const [anchorRect, setAnchorRect] = useState<DOMRect | null>(
     () => (anchorEl ? getAnchorRect(anchorEl) : null)
@@ -65,6 +73,9 @@ export const useAnchoredPopover = ({
     const popover = popoverRef.current;
     if (!anchorRect || !popover) return;
 
+    if (matchAnchorWidth) popover.style.width = `${anchorRect.width}px`;
+    if (maxHeight !== undefined) popover.style.maxHeight = `${maxHeight}px`;
+
     const { offsetWidth: width, offsetHeight: height } = popover;
     const spaceAbove = anchorRect.top - offset - VIEWPORT_MARGIN;
     const spaceBelow = window.innerHeight - anchorRect.bottom - offset - VIEWPORT_MARGIN;
@@ -80,6 +91,10 @@ export const useAnchoredPopover = ({
 
     popover.style.position = 'fixed';
     popover.style.left = `${left}px`;
+    if (maxHeight !== undefined) {
+      const space = resolved === 'above' ? spaceAbove : spaceBelow;
+      popover.style.maxHeight = `${Math.min(maxHeight, Math.max(MIN_POPOVER_HEIGHT, space))}px`;
+    }
     if (resolved === 'above') {
       popover.style.bottom = `${window.innerHeight - anchorRect.top + offset}px`;
       popover.style.top = 'auto';
@@ -87,7 +102,7 @@ export const useAnchoredPopover = ({
       popover.style.top = `${anchorRect.bottom + offset}px`;
       popover.style.bottom = 'auto';
     }
-  }, [anchorRect, placement, offset, popoverRef]);
+  }, [anchorRect, placement, offset, popoverRef, matchAnchorWidth, maxHeight, resizeKey]);
 };
 
 export const PopoverPortal = ({

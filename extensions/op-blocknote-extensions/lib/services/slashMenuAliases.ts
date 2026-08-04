@@ -1,27 +1,30 @@
 import i18n from '../services/i18n.ts';
 
-let aliases:string[] | undefined;
+export type SlashMenuFunction = 'link' | 'create';
 
-export function getAliases():string[] {
-  return aliases ?? (aliases = calculateAliases());
+const aliases:Partial<Record<SlashMenuFunction, string[]>> = {};
+
+export function getAliases(functionName:SlashMenuFunction = 'link'):string[] {
+  return aliases[functionName] ?? (aliases[functionName] = calculateAliases(functionName));
 }
 
 i18n.on('languageChanged', () => {
-  aliases = undefined;
+  delete aliases.link;
+  delete aliases.create;
 });
 
-function calculateAliases():string[] {
+function calculateAliases(functionName:SlashMenuFunction):string[] {
   const combinations:string[] = [];
 
   for (const namespace of namespaces()) {
     for (const objectType of objectTypes()) {
-      for (const functionName of functionNames()) {
-        combinations.push(`${namespace} ${objectType} ${functionName}`);
-        combinations.push(`${namespace} ${functionName} ${objectType}`);
-        combinations.push(`${objectType} ${namespace} ${functionName}`);
-        combinations.push(`${objectType} ${functionName} ${namespace}`);
-        combinations.push(`${functionName} ${namespace} ${objectType}`);
-        combinations.push(`${functionName} ${objectType} ${namespace}`);
+      for (const name of functionNames(functionName)) {
+        combinations.push(`${namespace} ${objectType} ${name}`);
+        combinations.push(`${namespace} ${name} ${objectType}`);
+        combinations.push(`${objectType} ${namespace} ${name}`);
+        combinations.push(`${objectType} ${name} ${namespace}`);
+        combinations.push(`${name} ${namespace} ${objectType}`);
+        combinations.push(`${name} ${objectType} ${namespace}`);
       }
     }
   }
@@ -45,10 +48,10 @@ function objectTypes() {
   return types;
 }
 
-function functionNames() {
+function functionNames(functionName:SlashMenuFunction) {
   const names = new Set<string>;
-  names.add('link');
-  names.add(i18n.t('slashMenu.aliases.link'));
+  names.add(functionName);
+  names.add(i18n.t(`slashMenu.aliases.${functionName}`));
 
   return names;
 }

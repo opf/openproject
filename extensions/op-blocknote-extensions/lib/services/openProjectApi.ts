@@ -1,5 +1,15 @@
 
-import type {OpenProjectResponse, StatusCollection, TypeCollection, WorkPackage} from '../openProjectTypes';
+import type {
+  HalCollection,
+  HalResource,
+  OpenProjectApiErrorBody,
+  OpenProjectResponse,
+  StatusCollection,
+  TypeCollection,
+  WorkPackage,
+  WorkPackageForm,
+  WorkPackagePayload,
+} from '../openProjectTypes';
 
 let baseUrl = 'https://openproject.local';
 let proxyUrl = 'https://openproject.local';
@@ -44,8 +54,40 @@ async function get<T>(endpoint:string):Promise<T> {
   return response.json() as Promise<T>;
 }
 
+async function readErrorMessage(response:Response):Promise<string> {
+  try {
+    const body = await response.json() as OpenProjectApiErrorBody;
+    const nested = body._embedded?.errors?.map((error) => error.message).filter(Boolean);
+    if (nested && nested.length > 0) return nested.join(' ');
+    if (body.message) return body.message;
+  } catch { /* no JSON body */ }
+  return `HTTP error! status: ${response.status} - ${response.statusText}`;
+}
+
+async function post<T>(endpoint:string, body:unknown):Promise<T> {
+  const response = await fetch(`${proxyUrl}${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // The API refuses a session authenticated write without it over plain HTTP.
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    throw new OpenProjectApiError(await readErrorMessage(response), response.status);
+  }
+  return response.json() as Promise<T>;
+}
+
 export function linkToWorkPackage(displayId:string):string {
   return `${baseUrl}/wp/${encodeURIComponent(displayId)}`;
+}
+
+export function linkToNewWorkPackage(projectId?:string):string {
+  return projectId
+    ? `${baseUrl}/projects/${encodeURIComponent(projectId)}/work_packages/new`
+    : `${baseUrl}/work_packages/new`;
 }
 
 const WP_ID_URL_PATTERN = '\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+';
@@ -94,6 +136,62 @@ export function fetchTypes():Promise<TypeCollection> {
     // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
     return Promise.reject(error);
   });
+}
+
+const ALLOWED_VALUES_PAGE_SIZE = 20;
+
+/**
+ * Asks the API which attributes a new work package needs: an empty payload yields
+ * the bare schema, sending the project back its types, the type its statuses.
+ */
+export function fetchWorkPackageCreateForm(payload:WorkPackagePayload = {}):Promise<WorkPackageForm> {
+  return post<WorkPackageForm>('/api/v3/work_packages/form', payload);
+}
+
+export function createWorkPackage(payload:WorkPackagePayload):Promise<WorkPackage> {
+  return post<WorkPackage>('/api/v3/work_packages', payload);
+}
+
+function withTypeaheadFilter(href:string, query:string):string {
+  const separator = href.indexOf('?');
+  const path = separator === -1 ? href : href.slice(0, separator);
+  const params = new URLSearchParams(separator === -1 ? '' : href.slice(separator + 1));
+
+  let filters:unknown[] = [];
+  try {
+    const parsed = JSON.parse(params.get('filters') ?? '[]') as unknown;
+    if (Array.isArray(parsed)) filters = parsed;
+  } catch { /* not our filters to interpret */ }
+  filters.push({ typeahead: { operator: '**', values: [query] } });
+
+  params.set('filters', JSON.stringify(filters));
+  if (!params.has('pageSize')) params.set('pageSize', String(ALLOWED_VALUES_PAGE_SIZE));
+
+  return `${path}?${params.toString()}`;
+}
+
+/**
+ * Follows the `allowedValues` link of a schema attribute, narrowed by a typeahead
+ * term. An endpoint that rejects the filter answers 400 and is retried unfiltered.
+ */
+export async function fetchAllowedValues(href:string, query = ''):Promise<HalResource[]> {
+  if (!href.startsWith('/api/v3/')) {
+    throw new OpenProjectApiError(`Unexpected allowed values href: ${href}`);
+  }
+
+  const trimmedQuery = query.trim();
+  if (trimmedQuery) {
+    try {
+      const filtered = await get<HalCollection<HalResource>>(withTypeaheadFilter(href, trimmedQuery));
+      return filtered._embedded?.elements ?? [];
+    } catch (error) {
+      if (!(error instanceof OpenProjectApiError) || error.responseStatus !== 400) throw error;
+      console.warn('[OpenProjectApi] typeahead filter rejected, retrying unfiltered:', error);
+    }
+  }
+
+  const data = await get<HalCollection<HalResource>>(href);
+  return data._embedded?.elements ?? [];
 }
 
 export async function searchWorkPackages(query:string):Promise<WorkPackage[]> {

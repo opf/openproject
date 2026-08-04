@@ -5,10 +5,8 @@
 const originalFetch = window.fetch;
 const apiKey = btoa(`apikey:${import.meta.env.VITE_API_KEY}`);
 window.fetch = (url, options = {}) => {
-  return originalFetch(url, {
-    ...options,
-    headers: {
-      'Authorization': `Basic ${apiKey}`,
-    },
-  });
+  const headers = new Headers(options.headers);
+  headers.set('Authorization', `Basic ${apiKey}`);
+
+  return originalFetch(url, { ...options, headers });
 };

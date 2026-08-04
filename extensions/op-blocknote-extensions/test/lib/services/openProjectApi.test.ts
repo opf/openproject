@@ -1,9 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  createWorkPackage,
+  fetchAllowedValues,
   fetchStatuses,
   fetchTypes,
   fetchWorkPackage,
+  fetchWorkPackageCreateForm,
   initOpenProjectApi,
+  linkToNewWorkPackage,
   linkToWorkPackage,
   OpenProjectApiError,
   parseWorkPackageUrl,
@@ -140,6 +144,13 @@ describe('openProjectApi', () => {
       expect(calledUrl(fetchSpy.mock.calls, 3)).toContain(`${proxyUrl}/api/v3/work_packages?`);
     });
 
+    it('sends a write to the proxyUrl as well', async () => {
+      initOpenProjectApi({ baseUrl, proxyUrl });
+
+      await fetchWorkPackageCreateForm();
+      expect(calledUrl(fetchSpy.mock.calls)).toBe(`${proxyUrl}/api/v3/work_packages/form`);
+    });
+
     it('keeps building work package links from the baseUrl', () => {
       initOpenProjectApi({ baseUrl, proxyUrl });
       expect(linkToWorkPackage('42')).toBe(`${baseUrl}/wp/42`);
@@ -221,6 +232,210 @@ describe('openProjectApi', () => {
         fetchSpy.mockRestore();
         consoleSpy.mockRestore();
       }
+    });
+  });
+
+  describe('creating a work package', () => {
+    it('posts the form request as JSON', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _type: 'Form' }),
+      }));
+
+      try {
+        await fetchWorkPackageCreateForm({ _links: { project: { href: '/api/v3/projects/1' } } });
+
+        expect(fetchSpy.mock.calls[0][0]).toBe('http://localhost:3000/api/v3/work_packages/form');
+        const options = fetchSpy.mock.calls[0][1]!;
+        expect(options.method).toBe('POST');
+        // The API refuses a session authenticated write without it.
+        expect(options.headers).toEqual({
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        });
+        expect(options.body).toBe('{"_links":{"project":{"href":"/api/v3/projects/1"}}}');
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('posts the work package to the global endpoint', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ id: 42 }),
+      }));
+
+      try {
+        const created = await createWorkPackage({ subject: 'Fix the header' });
+
+        expect(fetchSpy.mock.calls[0][0]).toBe('http://localhost:3000/api/v3/work_packages');
+        expect(created).toEqual({ id: 42 });
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('opens the form with an empty payload', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _type: 'Form' }),
+      }));
+
+      try {
+        await fetchWorkPackageCreateForm();
+        expect(fetchSpy.mock.calls[0][1]!.body).toBe('{}');
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('falls back to the status line when the failure carries no message', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: false,
+        status: 503,
+        statusText: 'Service Unavailable',
+        json: async () => { throw new Error('not JSON'); },
+      }));
+
+      try {
+        await expect(createWorkPackage({})).rejects
+          .toHaveProperty('message', 'HTTP error! status: 503 - Service Unavailable');
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('joins the attribute errors and prefers them over the summary', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: false,
+        status: 422,
+        statusText: 'Unprocessable Entity',
+        json: async () => ({
+          message: 'Multiple field constraints have been violated.',
+          _embedded: { errors: [{ message: 'Subject can\'t be blank.' }, { message: 'Type is not set.' }] },
+        }),
+      }));
+
+      try {
+        await expect(createWorkPackage({})).rejects
+          .toHaveProperty('message', 'Subject can\'t be blank. Type is not set.');
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('reports the message the API returns instead of the status line', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: false,
+        status: 422,
+        statusText: 'Unprocessable Entity',
+        json: async () => ({ _embedded: { errors: [{ message: 'Subject can\'t be blank.' }] } }),
+      }));
+
+      try {
+        await expect(createWorkPackage({})).rejects.toHaveProperty('message', 'Subject can\'t be blank.');
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+  });
+
+  describe('fetchAllowedValues', () => {
+    it('merges the typeahead term into the filters the href already carries', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+
+      try {
+        await fetchAllowedValues('/api/v3/principals?filters=[{"status":{"operator":"!","values":["3"]}}]&pageSize=-1', 'eli');
+
+        const calledUrl = fetchSpy.mock.calls[0][0] as string;
+        const filters = new URL(calledUrl).searchParams.get('filters');
+        expect(JSON.parse(filters!)).toEqual([
+          { status: { operator: '!', values: ['3'] } },
+          { typeahead: { operator: '**', values: ['eli'] } },
+        ]);
+        expect(new URL(calledUrl).searchParams.get('pageSize')).toBe('-1');
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('keeps a query string it cannot interpret usable', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+
+      try {
+        await fetchAllowedValues('/api/v3/principals?filters={"broken":true}&select=all', 'eli');
+        await fetchAllowedValues('/api/v3/work_packages/available_projects', 'demo');
+
+        const first = new URL(fetchSpy.mock.calls[0][0] as string);
+        expect(JSON.parse(first.searchParams.get('filters')!))
+          .toEqual([{ typeahead: { operator: '**', values: ['eli'] } }]);
+        expect(first.searchParams.get('select')).toBe('all');
+
+        const second = new URL(fetchSpy.mock.calls[1][0] as string);
+        expect(second.searchParams.get('pageSize')).toBe('20');
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('propagates a failure that is not a rejected filter', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error',
+        json: async () => ({ message: 'Boom.' }),
+      }));
+
+      try {
+        await expect(fetchAllowedValues('/api/v3/principals', 'eli')).rejects.toHaveProperty('responseStatus', 500);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('retries unfiltered when the endpoint rejects the typeahead filter', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch')
+        .mockResolvedValueOnce(mockResponse({ ok: false, status: 400, statusText: 'Bad Request', json: async () => ({}) }))
+        .mockResolvedValueOnce(mockResponse({ ok: true, json: async () => ({ _embedded: { elements: [{ id: 1 }] } }) }));
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      try {
+        await expect(fetchAllowedValues('/api/v3/custom_fields/3/items', 'design')).resolves.toEqual([{ id: 1 }]);
+        expect(fetchSpy.mock.calls[1][0]).toBe('http://localhost:3000/api/v3/custom_fields/3/items');
+      } finally {
+        fetchSpy.mockRestore();
+        consoleSpy.mockRestore();
+      }
+    });
+
+    it('refuses an href outside the API', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      await expect(fetchAllowedValues('https://evil.example.com/steal')).rejects.toBeInstanceOf(OpenProjectApiError);
+    });
+  });
+
+  describe('linkToNewWorkPackage', () => {
+    it('links to the creation form of a project, or the global one', () => {
+      initOpenProjectApi({ baseUrl: 'https://example.com' });
+      expect(linkToNewWorkPackage('42')).toBe('https://example.com/projects/42/work_packages/new');
+      expect(linkToNewWorkPackage()).toBe('https://example.com/work_packages/new');
     });
   });
 

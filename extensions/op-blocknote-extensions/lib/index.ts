@@ -3,6 +3,7 @@ export {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
+  createWorkPackageSlashMenu,
   ShadowDomWrapper,
 } from './components';
 export { initializeOpBlockNoteExtensions } from './initialize';

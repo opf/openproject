@@ -14,6 +14,7 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
+  createWorkPackageSlashMenu,
   useHashWpMenu,
 } from '../lib';
 import './fetchOverride';
@@ -39,6 +40,8 @@ function buildSlashMenuItems(editor:EditorType) {
     ...getDefaultReactSlashMenuItems(editor),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     workPackageSlashMenu(editor as any),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
+    createWorkPackageSlashMenu(editor as any),
   ];
 }
 

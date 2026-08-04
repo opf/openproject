@@ -33,7 +33,167 @@ export const mockWorkPackageWithSemanticId = {
   },
 };
 
+export const mockCreatedWorkPackage = {
+  id: 999,
+  displayId: '999',
+  subject: 'Freshly created work package',
+  _links: {
+    self:   { href: '/api/v3/work_packages/999' },
+    type:   { title: 'Task', href: '/api/v3/types/1'    },
+    status: { title: 'New',  href: '/api/v3/statuses/1' },
+  },
+};
+
+const subjectSchema = {
+  type: 'String', name: 'Subject', required: true, hasDefault: false, writable: true, maxLength: 255,
+};
+
+const projectSchema = {
+  type: 'Project', name: 'Project', required: true, hasDefault: false, writable: true, location: '_links',
+  _links: { allowedValues: { href: '/api/v3/work_packages/available_projects' } },
+};
+
+const typeSchema = {
+  type: 'Type', name: 'Type', required: true, hasDefault: false, writable: true, location: '_links',
+  _links: {
+    allowedValues: [
+      { href: '/api/v3/types/1', title: 'Task' },
+      { href: '/api/v3/types/2', title: 'Bug' },
+    ],
+  },
+};
+
+const assigneeSchema = {
+  type: 'User', name: 'Assignee', required: false, hasDefault: false, writable: true, location: '_links',
+  _links: { allowedValues: { href: '/api/v3/projects/1/available_assignees' } },
+};
+
+const prioritySchema = {
+  type: 'Priority', name: 'Priority', required: true, hasDefault: true, writable: true, location: '_links',
+  _links: { allowedValues: [{ href: '/api/v3/priorities/8', title: 'Normal' }] },
+};
+
+const statusSchema = {
+  type: 'Status', name: 'Status', required: true, hasDefault: true, writable: true, location: '_links',
+  _links: {
+    allowedValues: [
+      { href: '/api/v3/statuses/1', title: 'New' },
+      { href: '/api/v3/statuses/2', title: 'In progress' },
+    ],
+  },
+};
+
+const supervisorSchema = {
+  type: 'User', name: 'Supervisor', required: true, hasDefault: false, writable: true, location: '_links',
+  _links: {
+    allowedValues: {
+      href: '/api/v3/principals?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22!%22%2C%22values%22%3A%5B%223%22%5D%7D%7D%5D&pageSize=-1',
+    },
+  },
+};
+
+const needsDocumentationSchema = {
+  type: 'Boolean', name: 'Needs documentation', required: true, hasDefault: false, writable: true,
+};
+
+const departmentSchema = {
+  type: 'CustomOption', name: 'Department', required: true, hasDefault: false, writable: true, location: '_links',
+  _links: {
+    allowedValues: [
+      { href: '/api/v3/custom_options/7', title: 'Design' },
+      { href: '/api/v3/custom_options/8', title: 'Development' },
+    ],
+  },
+};
+
+interface FormRequestBody {
+  _links?:Record<string, { href?:string }>;
+}
+
+function createFormFor(body:FormRequestBody) {
+  const projectHref = body._links?.project?.href;
+  const typeHref = body._links?.type?.href;
+
+  const schema:Record<string, unknown> = { _type: 'Schema', subject: subjectSchema, project: projectSchema };
+  const links:Record<string, { href:string }> = {};
+
+  if (projectHref) {
+    Object.assign(schema, { type: typeSchema, assignee: assigneeSchema, priority: prioritySchema });
+    links.project = { href: projectHref };
+    links.priority = { href: '/api/v3/priorities/8' };
+  }
+
+  if (projectHref && typeHref) {
+    Object.assign(schema, {
+      status: statusSchema,
+      customField1: supervisorSchema,
+      customField2: needsDocumentationSchema,
+      customField3: departmentSchema,
+    });
+    links.type = { href: typeHref };
+    links.status = { href: '/api/v3/statuses/1' };
+  }
+
+  return {
+    _type: 'Form',
+    _embedded: {
+      payload: { subject: null, scheduleManually: false, _links: links },
+      schema,
+      validationErrors: {},
+    },
+  };
+}
+
 export const handlers = [
+  http.get('http://localhost:3000/api/v3/work_packages/available_projects', ({ request }) => {
+    const filters = new URL(request.url).searchParams.get('filters') ?? '';
+    const projects = [
+      { id: 1, name: 'Demo project', _links: { self: { href: '/api/v3/projects/1' } } },
+      { id: 2, name: 'Scrum project', _links: { self: { href: '/api/v3/projects/2' } } },
+    ];
+    return HttpResponse.json({
+      _embedded: {
+        elements: filters.includes('Scrum') ? projects.slice(1) : projects,
+      },
+    });
+  }),
+
+  http.get('http://localhost:3000/api/v3/projects/:id/available_assignees', () =>
+    HttpResponse.json({
+      _embedded: {
+        elements: [
+          { id: 5, name: 'Elif Yildiz', _links: { self: { href: '/api/v3/users/5' } } },
+          { id: 6, name: 'Bianca Fuchs', _links: { self: { href: '/api/v3/users/6' } } },
+        ],
+      },
+    })
+  ),
+
+  http.get('http://localhost:3000/api/v3/principals', ({ request }) => {
+    const filters = new URL(request.url).searchParams.get('filters') ?? '';
+    const principals = [
+      { id: 7, name: 'Anna Kovalenko', _links: { self: { href: '/api/v3/users/7' } } },
+      { id: 8, name: 'Peter Lang', _links: { self: { href: '/api/v3/users/8' } } },
+    ];
+    return HttpResponse.json({
+      _embedded: {
+        elements: filters.includes('Peter') ? principals.slice(1) : principals,
+      },
+    });
+  }),
+
+  http.post('http://localhost:3000/api/v3/work_packages/form', async ({ request }) =>
+    HttpResponse.json(createFormFor(await request.json() as FormRequestBody))
+  ),
+
+  http.post('http://localhost:3000/api/v3/work_packages', async ({ request }) => {
+    const body = await request.json() as { subject?:string };
+    if (!body.subject) {
+      return HttpResponse.json({ _type: 'Error', message: 'Subject can\'t be blank.' }, { status: 422 });
+    }
+    return HttpResponse.json({ ...mockCreatedWorkPackage, subject: body.subject }, { status: 201 });
+  }),
+
   http.get('http://localhost:3000/api/v3/types', () =>
     HttpResponse.json({
       _embedded: {
@@ -58,6 +218,7 @@ export const handlers = [
 
   http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
     const raw = String(params.id);
+    if (raw === '999') return HttpResponse.json(mockCreatedWorkPackage);
     if (raw === '789' || raw === 'DWPS-1') return HttpResponse.json(mockWorkPackageWithSemanticId);
     if (raw === '456') return HttpResponse.json(mockWorkPackage2);
     const id = Number(raw);

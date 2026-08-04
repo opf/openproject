@@ -8,6 +8,7 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
+  createWorkPackageSlashMenu,
   useHashWpMenu,
 } from '../../lib';
 
@@ -32,7 +33,11 @@ function Editor({ onEditor, schema }:{ onEditor?:(editor:any) => void; schema?:a
   const getSlashItems = useCallback(
     async (query:string) =>
       filterSuggestionItems(
-        [...getDefaultReactSlashMenuItems(editor), workPackageSlashMenu(editor as any)],
+        [
+          ...getDefaultReactSlashMenuItems(editor),
+          workPackageSlashMenu(editor as any),
+          createWorkPackageSlashMenu(editor as any),
+        ],
         query
       ),
     [editor]
