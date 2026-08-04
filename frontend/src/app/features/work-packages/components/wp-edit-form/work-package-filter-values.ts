@@ -37,6 +37,25 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
+/**
+ * Some filter ids write to a work package attribute of a different name.
+ *
+ * Version filters keep their deprecated ids because stored board queries and
+ * saved user queries still use them, while the value is written to the
+ * multi-valued targetVersions attribute that replaces the single version one.
+ */
+export function attributeNameForFilter(filterId:string):string {
+  switch (filterId) {
+    case 'onlySubproject':
+      return 'project';
+    case 'version':
+    case 'targetVersion':
+      return 'targetVersions';
+    default:
+      return filterId;
+  }
+}
+
 export class WorkPackageFilterValues {
   @LazyInject() currentUser:CurrentUserService;
 
@@ -100,11 +119,11 @@ export class WorkPackageFilterValues {
    * @private
    */
   private applyFirstValue(change:WorkPackageChangeset|Record<string, unknown>, filter:QueryFilterInstanceResource):void {
-    const attributeName = this.mapFilterToAttribute(filter);
+    const attributeName = attributeNameForFilter(filter.id);
 
     // Avoid setting a value if current value is in filter list
     // and more than one value selected
-    if (this.filterAlreadyApplied(change, filter, attributeName)) {
+    if (this.filterAlreadyApplied(change, attributeName, filter.values)) {
       return;
     }
 
@@ -125,7 +144,7 @@ export class WorkPackageFilterValues {
    * @private
    */
   private setToNull(change:WorkPackageChangeset|Record<string, unknown>, filter:QueryFilterInstanceResource):void {
-    const attributeName = this.mapFilterToAttribute(filter);
+    const attributeName = attributeNameForFilter(filter.id);
 
     this.setValue(change, attributeName, this.isMultiValueAttribute(attributeName) ? [] : { href: null });
   }
@@ -164,49 +183,17 @@ export class WorkPackageFilterValues {
   }
 
   /**
-   * Avoid applying filter values when changeset already matches one of the selected values
-   * @param filter
+   * Avoid applying filter values when the change already matches one of the selected values
    */
   private filterAlreadyApplied(
     change:WorkPackageChangeset|Record<string, unknown>,
-    filter:{ id:string, values:unknown[] },
-    attributeName:string = filter.id,
+    attributeName:string,
+    filterValues:unknown[],
   ):boolean {
     const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[attributeName] : change[attributeName];
     const current = Array.isArray(value) ? value : [value];
 
-    for (let i = 0; i < filter.values.length; i++) {
-      for (let j = 0; j < current.length; j++) {
-        if (compareByHrefOrString(current[j], filter.values[i])) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
-  /**
-   * Some filter ids need to be mapped to a different attribute name
-   * in order to be processed correctly.
-   *
-   * @param filter The filter to map
-   * @returns An attribute name string to set
-   * @private
-   */
-  private mapFilterToAttribute(filter:any):string {
-    if (filter.id === 'onlySubproject') {
-      return 'project';
-    }
-
-    // Version filters write the multi-valued targetVersions attribute,
-    // which replaces the deprecated single-valued version attribute.
-    if (filter.id === 'version' || filter.id === 'targetVersion') {
-      return 'targetVersions';
-    }
-
-    // Default to returning the filter id
-    return filter.id;
+    return filterValues.some((filterValue) => current.some((currentValue) => compareByHrefOrString(currentValue, filterValue)));
   }
 
   private isMultiValueAttribute(attributeName:string):boolean {

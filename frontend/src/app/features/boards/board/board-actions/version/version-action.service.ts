@@ -39,6 +39,7 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { attributeNameForFilter } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
 import {
   firstValueFrom,
   Observable,
@@ -55,11 +56,12 @@ export class BoardVersionActionService extends CachedBoardActionService {
   /**
    * The list-defining filter stays "version" (stored in board queries), but
    * assigning a card writes the targetVersions attribute replacing the
-   * deprecated single version attribute.
+   * deprecated single version attribute. Derived from the same mapping that
+   * WorkPackageFilterValues applies, so the writability check below and the
+   * attribute actually written can never disagree.
    */
-  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
-  get attributeName():string {
-    return 'targetVersions';
+  override get attributeName():string {
+    return attributeNameForFilter(this.filterName);
   }
 
   resourceName = 'version';
