@@ -93,7 +93,10 @@ class AccountController < ApplicationController
   def lost_password # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     return redirect_to(home_url, status: :see_other) unless allow_lost_password_recovery?
 
-    @user = User.new unless params[:token]
+    # Blank user backing the form for the initial GET render and for re-rendering
+    # with a validation error. Kept distinct from the looked-up +actual_user+ below
+    # so we never reflect whether an email exists.
+    @form_user = User.new unless params[:token]
 
     if params[:token]
       @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
@@ -116,35 +119,34 @@ class AccountController < ApplicationController
       mail = params[:mail]
 
       if mail.blank?
-        @user.mail = mail
-        @user.errors.add(:mail, :blank)
+        @form_user.errors.add(:mail, :blank)
         render status: :unprocessable_entity
         return
       end
 
-      user = User.find_by_mail(mail)
+      actual_user = User.find_by_mail(mail)
 
       # Ensure the same request is sent regardless of which email is entered
       # to avoid detecability of mails
       flash[:notice] = I18n.t(:notice_account_lost_email_sent)
 
-      unless user
+      unless actual_user
         # user not found in db
         Rails.logger.error "Lost password unknown email input: #{mail}"
         redirect_to action: :lost_password, status: :see_other
         return
       end
 
-      unless user.change_password_allowed?
+      unless actual_user.change_password_allowed?
         # user uses an external authentication
-        UserMailer.password_change_not_possible(user).deliver_later
+        UserMailer.password_change_not_possible(actual_user).deliver_later
         Rails.logger.warn "Password cannot be changed for user: #{mail}"
         redirect_to action: :lost_password, status: :see_other
         return
       end
 
       # create a new token for password recovery
-      token = Token::Recovery.new(user_id: user.id)
+      token = Token::Recovery.new(user_id: actual_user.id)
       if token.save
         UserMailer.password_lost(token).deliver_later
         flash[:notice] = I18n.t(:notice_account_lost_email_sent)
