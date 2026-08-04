@@ -120,7 +120,7 @@ If you are the system administrator of an on-premises installation (Enterprise o
 
 This is not possible per se, there's no Ctrl+Z option or anything similar.
 
-Please use these resources to find out about the latest changes and re-do them manually: The [work package activity](../getting-started/work-packages-introduction/#activity-of-work-packages), the [history of the wiki page](../user-guide/wiki/more-wiki-functions/#show-wiki-page-history) or the [Activities module](../user-guide/activity).
+Please use these resources to find out about the latest changes and re-do them manually: The [work package activity](../getting-started/work-packages-introduction/#activity-of-work-packages), the [history of the wiki page](../user-guide/wiki/create-edit-wiki/#show-wiki-page-history) or the [Activities module](../user-guide/activity).
 
 ### How can I increase or decrease the number of users in OpenProject?
 
