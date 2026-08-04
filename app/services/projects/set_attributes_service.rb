@@ -79,6 +79,8 @@ module Projects
     end
 
     def set_default_types(provided)
+      # TODO: should go through Projects::Types::AddService, which owns the family conflict
+      # rules and enables the types' work package custom fields.
       model.types = ::Type.default if !provided && model.types.empty?
     end
 

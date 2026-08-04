@@ -101,6 +101,8 @@ class UpdateProjectsTypesService < BaseProjectService
 
   def update_project_types(type_ids)
     new_types_to_add = type_ids - project.type_ids
+    # TODO: should go through Projects::Types::AddService and RemoveService, which own the
+    # family conflict rules and the custom field enabling this reimplements.
     project.type_ids = type_ids
     project.work_package_custom_field_ids |= WorkPackageCustomField.joins(:types).where(types: { id: new_types_to_add }).ids
   end

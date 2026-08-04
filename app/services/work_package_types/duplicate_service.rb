@@ -72,6 +72,8 @@ module WorkPackageTypes
         color_id: source.color_id,
         is_milestone: source.is_milestone,
         is_in_roadmap: source.is_in_roadmap,
+        # TODO: project_ids writes Type#projects, which should go through
+        # Projects::Types::AddService. Reachable for roots only, hence no variant to resolve.
         project_ids: source.project_ids
       )
     end
