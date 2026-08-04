@@ -44,10 +44,10 @@ hy:
         labor_budget_item:
           attributes:
             principal:
-              not_a_member_of_budget_project: is not a member of the budget's project
+              not_a_member_of_budget_project: բյուջեի նախագծի անդամ չէ
     models:
       budget: Բյուջե
-      labor_budget_item: Planned labor cost
+      labor_budget_item: Պլանավորված աշխատուժի ծախս
       material_budget_item: Միավոր
   activity:
     filter:
@@ -64,22 +64,22 @@ hy:
           description: Ավելացրեք Ձեր պլանավորված բյուջեի մանրամասները՝ այստեղ տվյալներ տեսնելու համար
           heading: Բյուջեի մանրամասները բացակայում են
         count_caption:
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-          zero: No budget data.
+          one: Տվյալներն ամփոփված են %{count} բյուջեից
+          other: Տվյալներն ամփոփված են %{count} բյուջեից
+          zero: Բյուջեի տվյալներ չկան։
         count_caption_with_subitems:
           portfolio:
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-            zero: No budget data.
+            one: Տվյալներն ամփոփված են այս պորտֆոլիոյում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            other: Տվյալներն ամփոփված են այս պորտֆոլիոյում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            zero: Բյուջեի տվյալներ չկան։
           program:
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-            zero: No budget data.
+            one: Տվյալներն ամփոփված են այս ծրագրում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            other: Տվյալներն ամփոփված են այս ծրագրում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            zero: Բյուջեի տվյալներ չկան։
           project:
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-            zero: No budget data.
+            one: Տվյալներն ամփոփված են այս նախագծում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            other: Տվյալներն ամփոփված են այս նախագծում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            zero: Բյուջեի տվյալներ չկան։
         title: Բյուջեն ըստ ծախսի տեսակի
         view_details: Դիտել բյուջեի մանրամասները
       budget_totals:
@@ -116,7 +116,7 @@ hy:
   label_example_placeholder: օրինակ՝ %{decimal}
   label_view_all_budgets: Դիտել բոլոր բյուջեները
   label_yes: Այո
-  notice_budget_conflict: Work packages must be of the same project.
+  notice_budget_conflict: Աշխատանքային փաթեթները պետք է լինեն նույն նախագծից։
   notice_no_budgets_available: Հասանելի բյուջեներ չկան։
   permission_edit_budgets: Խմբագրել բյուջեները
   permission_view_budgets: Դիտել բյուջեները

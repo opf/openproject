@@ -231,11 +231,11 @@ ko:
     story_points_ideal: 스토리 포인트(적합함)
   ee:
     features:
-      multiple_active_sprints: 프로젝트 내에서 서로 다른 팀에 대해 여러 스프린트를 병렬로 실행하여 제어 효율성과 유연성을 높이세요.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: 스프린트 공유
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: 프로젝트 간에 스프린트를 공유하여 팀을 조율하고 확장된 애자일 설정(SAFe)에서 작업을 조정합니다.
   label_all_sprints: 모든 스프린트

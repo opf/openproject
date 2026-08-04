@@ -26,8 +26,8 @@ hy:
       type_form:
         edit_query: Խմբագրել հարցումը
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
-        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: Առաջընթացի հաշվարկման ռեժիմը «աշխատանքի հիմքով»-ից «կարգավիճակի հիմքով» փոխելիս <i>Կատարման %</i> դաշտի բոլոր առկա արժեքները կկորչեն և կփոխարինվեն յուրաքանչյուր կարգավիճակին համապատասխանող արժեքներով։ <i>Մնացած աշխատանք</i> դաշտի առկա արժեքները նույնպես կարող են վերահաշվարկվել՝ այս փոփոխությունն արտացոլելու համար։ Այս գործողությունն անշրջելի է։
+        warning_progress_calculation_mode_change_from_status_to_field_html: Առաջընթացի հաշվարկման ռեժիմը «կարգավիճակի հիմքով»-ից «աշխատանքի հիմքով» փոխելիս <i>Կատարման %</i> դաշտը կդառնա ազատ խմբագրելի։ Եթե ցանկանաք լրացնել <i>Աշխատանք</i> կամ <i>Մնացած աշխատանք</i> դաշտերի արժեքները, դրանք նույնպես կկապակցվեն <i>Կատարման %</i>-ի հետ։ Այնուհետև <i>Մնացած աշխատանք</i> դաշտի փոփոխումը կարող է թարմացնել <i>Կատարման %</i>-ը։
       working_days:
         add_non_working_day: Ոչ աշխատանքային օր
         already_added_error: Այս ամսաթվի համար ոչ աշխատանքային օր արդեն գոյություն ունի։ Յուրաքանչյուր ամսաթվի համար կարող է ստեղծվել միայն մեկ ոչ աշխատանքային օր։
@@ -36,7 +36,7 @@ hy:
           empty_state_header: Ոչ աշխատանքային օրեր
           new_date: "(նոր)"
     ajax:
-      hide: Hide
+      hide: Թաքցնել
       loading: Բեռնվում է…
       updating: Թարմացվում է…
     attachments:
@@ -50,8 +50,8 @@ hy:
       quarantined_hint: Նիշքը մեկուսացված է, քանի որ վիրուս է հայտնաբերվել։ Այն հասանելի չէ ներբեռնման համար։
     autocomplete_ng_select:
       add_tag: Ավելացնել տարր
-      clear_all: Clear all
-      loading: Loading...
+      clear_all: Մաքրել բոլորը
+      loading: Բեռնվում է...
       not_found: Տարրեր չեն գտնվել
       type_to_search: Մուտքագրեք որոնելու համար
     autocomplete_select:
@@ -87,12 +87,12 @@ hy:
       drop_down:
         a_specific_date: որոշակի ամսաթիվ
         between_two_specific_dates: երկու որոշակի ամսաթվերի միջև
-        last_month: last month
-        last_week: last week
+        last_month: անցյալ ամիս
+        last_week: անցյալ շաբաթ
         last_working_day: վերջին աշխատանքային օր
         none: "-"
         yesterday: երեկ
-      from: From
+      from: Սկսած
       header_description: Ընդգծեք այս ցանկում անցյալի ցանկացած պահից ի վեր կատարված փոփոխությունները։
       help_description: Ելակետի հղման ժամային գոտին։
       icon_tooltip:
@@ -109,56 +109,56 @@ hy:
       show_changes_since: Ցուցադրել փոփոխությունները սկսած
       time: Ժամ
       time_description: Ձեր տեղական ժամանակով՝ %{datetime}
-      to: To
+      to: Մինչև
       toggle_title: Ելակետ
-    breadcrumb: Breadcrumb
+    breadcrumb: Նավիգացիոն շղթա
     button_add: Ավելացնել
     button_add_watcher: Ավելացնել հետևող
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Ընդլայնված զտիչ
     button_back: Հետ
-    button_back_to_list_view: Back to list view
+    button_back_to_list_view: Վերադառնալ ցուցակի տեսքին
     button_cancel: Չեղարկել
-    button_change_project: Move to another project
+    button_change_project: Տեղափոխել այլ նախագիծ
     button_check_all: Նշել բոլորը
     button_clear: Մաքրել
-    button_close: Close
-    button_close_details: Close details view
+    button_close: Փակել
+    button_close_details: Փակել մանրամասների տեսքը
     button_collapse_all: Ծալել բոլորը
-    button_configure-form: Configure form
+    button_configure-form: Կազմաձևել ձևը
     button_confirm: Հաստատել
     button_continue: Շարունակել
     button_copy: Պատճենել
     button_copy_link_to_clipboard: Պատճենել հղումը փոխանակման բուֆերում
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Պատճենել թվային ID-ն փոխանակման բուֆեր
     button_copy_to_clipboard: Պատճենել փոխանակման բուֆերում
-    button_copy_to_other_project: Duplicate in another project
+    button_copy_to_other_project: Կրկնօրինակել այլ նախագծում
     button_create: Ստեղծել
     button_custom-fields: Հատուկ դաշտեր
-    button_delete: Delete
-    button_delete_watcher: Delete watcher
-    button_details_view: Details view
-    button_duplicate: Duplicate
+    button_delete: Ջնջել
+    button_delete_watcher: Ջնջել հետևողին
+    button_details_view: Մանրամասների տեսք
+    button_duplicate: Կրկնօրինակել
     button_edit: Խմբագրել
     button_expand_all: Ընդարձակել բոլորը
-    button_export-atom: Download Atom
-    button_filter: Filter
-    button_generate_pdf: Generate PDF
-    button_list_view: List view
+    button_export-atom: Ներբեռնել Atom
+    button_filter: Զտիչ
+    button_generate_pdf: Ստեղծել PDF
+    button_list_view: Ցուցակի տեսք
     button_log_time: Գրանցել ժամանակ
-    button_more: More
-    button_more_actions: More actions
-    button_open_details: Open details view
-    button_open_fullscreen: Open fullscreen view
+    button_more: Ավելին
+    button_more_actions: Այլ գործողություններ
+    button_open_details: Բացել մանրամասների տեսքը
+    button_open_fullscreen: Բացել լիաէկրան տեսքը
     button_quote: Մեջբերել
     button_save: Պահպանել
     button_settings: Կարգավորումներ
-    button_show_cards: Show card view
-    button_show_fullscreen: Show fullscreen view
-    button_show_gantt: Show Gantt view
-    button_show_list: Show list view
-    button_show_table: Show table view
-    button_show_view: Fullscreen view
-    button_start_timer: Start timer
+    button_show_cards: Ցուցադրել քարտերի տեսքը
+    button_show_fullscreen: Ցուցադրել լիաէկրան տեսքը
+    button_show_gantt: Ցուցադրել Գանտի տեսքը
+    button_show_list: Ցուցադրել ցուցակի տեսքը
+    button_show_table: Ցուցադրել աղյուսակի տեսքը
+    button_show_view: Լիաէկրան տեսք
+    button_start_timer: Սկսել ժամաչափը
     button_stop_timer: Դադարեցնել ժամաչափը
     button_uncheck_all: Հանել բոլոր նշումները
     button_update: Թարմացնել
@@ -176,7 +176,7 @@ hy:
       modal_title: Աշխատանքային փաթեթների գծապատկերի կազմաձևում
       tabs:
         dataset: Տվյալների հավաքածու %{number}
-        graph_settings: General
+        graph_settings: Ընդհանուր
       type: Գծապատկերի տեսակ
       types:
         bar: Սյունակային
@@ -189,17 +189,17 @@ hy:
     clipboard:
       browser_error: Ձեր դիտարկիչը չի աջակցում փոխանակման բուֆերում պատճենելը։ Խնդրում ենք ձեռքով պատճենել այն՝ %{content}
       copied_successful: Հաջողությամբ պատճենվել է փոխանակման բուֆերում։
-    close_filter_title: Close filter
-    close_form_title: Close form
-    close_popup_title: Close popup
+    close_filter_title: Փակել զտիչը
+    close_form_title: Փակել ձևը
+    close_popup_title: Փակել ելնող պատուհանը
     custom_actions:
       date:
         current_date: Ընթացիկ ամսաթիվ
         specific: նշված օրը
     description_available_columns: Հասանելի սյունակներ
     description_current_position: 'Դուք այստեղ եք՝ '
-    description_select_work_package: 'Select work package #%{id}'
-    description_subwork_package: 'Child of work package #%{id}'
+    description_select_work_package: 'Ընտրել #%{id} աշխատանքային փաթեթը'
+    description_subwork_package: "#%{id} աշխատանքային փաթեթի ենթատարր"
     editor:
       ckeditor_error: CKEditor-ում սխալ է տեղի ունեցել
       error_saving_failed: Փաստաթղթի պահպանումը ձախողվեց հետևյալ սխալով՝ %{error}
@@ -258,7 +258,7 @@ hy:
       preview: Փոխարկել նախադիտման ռեժիմը
       revisions: Ցուցադրել տեղային փոփոխությունները
       source_code: Փոխարկել Markdown-ի սկզբնագրի ռեժիմը
-    enumeration_activities: Activities (time tracking)
+    enumeration_activities: Գործունեություններ (ժամանակի հաշվառում)
     enumeration_doc_categories: Փաստաթղթերի կատեգորիաներ
     enumeration_work_package_priorities: Աշխատանքային փաթեթների առաջնահերթություններ
     error:
@@ -266,10 +266,10 @@ hy:
       embedded_table_loading: Ներդրված տեսքը չհաջողվեց բեռնել՝ %{message}
       internal: Տեղի է ունեցել ներքին սխալ։
       query_saving: Տեսքը չհաջողվեց պահպանել։
-    error_attachment_upload: 'File failed to upload: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files on this resource.
-    error_could_not_resolve_user_name: Couldn't resolve user name
-    error_could_not_resolve_version_name: Couldn't resolve version name
+    error_attachment_upload: Նիշքը չհաջողվեց վերբեռնել՝ %{error}
+    error_attachment_upload_permission: Դուք չունեք այս ռեսուրսում նիշքեր վերբեռնելու թույլտվություն։
+    error_could_not_resolve_user_name: Չհաջողվեց որոշել օգտատիրոջ անունը
+    error_could_not_resolve_version_name: Չհաջողվեց որոշել տարբերակի անվանումը
     exclusion_info:
       modal:
         content: "'%{status_name}' կարգավիճակը կազմաձևված է այնպես, որ բացառվի Աշխատանք, Մնացած աշխատանք և Կատարման % դաշտերի հիերարխիկ ընդհանուր գումարներից։ Ընդհանուր գումարներն այս արժեքը հաշվի չեն առնում։"
@@ -277,13 +277,13 @@ hy:
     favorite_projects:
       no_results: Ձեր ընտրանում նախագծեր չկան
       no_results_subtext: Ավելացրեք մեկ կամ մի քանի նախագիծ Ձեր ընտրանում՝ դրանց ընդհանուր տեսքի էջից կամ նախագծերի ցանկից։
-    field_value_enter_prompt: Enter a value for '%{field}'
+    field_value_enter_prompt: Մուտքագրեք '%{field}'-ի արժեքը
     filter:
       description:
         text_close_filter: Տարրն ընտրելու համար լքեք դաշտը, օրինակ՝ սեղմելով enter։ Առանց զտիչի դուրս գալու համար ընտրեք առաջին (դատարկ) տարրը։
         text_open_filter: Բացեք այս զտիչը 'ALT' և սլաքների ստեղներով։
       more_values_not_shown: Կան ևս %{total} արդյունք, որոնեք՝ արդյունքները զտելու համար։
-      noneElement: "(none)"
+      noneElement: "(ոչ մեկը)"
       sorting:
         criteria:
           one: Դասավորման առաջին չափանիշ
@@ -303,7 +303,7 @@ hy:
       button_activate: Ցուցադրել Գանտի գծապատկերը
       button_deactivate: Թաքցնել Գանտի գծապատկերը
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(ոչ մեկը)"
       label: Գանտի գծապատկեր
       labels:
         bar: Շերտերի պիտակներ
@@ -318,14 +318,14 @@ hy:
       selection_mode:
         notification: Կապ ստեղծելու համար սեղմեք ցանկացած ընդգծված աշխատանքային փաթեթի վրա։ Չեղարկելու համար սեղմեք escape։
       zoom:
-        auto: Ավտոմատ մասշտաբ
+        auto: Ավտոմատ խոշորացում
         days: Օրեր
-        description: 'Ընտրեք սկզբնական մասշտաբի մակարդակը, որը կցուցադրվի, երբ ավտոմատ մասշտաբը հասանելի չէ։
+        description: 'Ընտրեք սկզբնական խոշորացման մակարդակը, որը կցուցադրվի, երբ ավտոմատ խոշորացումը հասանելի չէ։
 
           '
-        in: Zoom in
+        in: Խոշորացնել
         months: Ամիսներ
-        out: Zoom out
+        out: Փոքրացնել
         quarters: Եռամսյակներ
         weeks: Շաբաթներ
         years: Տարիներ
@@ -361,7 +361,7 @@ hy:
       ical_generation_error_text: Օրացույցի URL-ը ստեղծելիս սխալ առաջացավ։
       inital_setup_error_message: Տվյալները ստանալիս սխալ առաջացավ։
       success_message: '"%{name}" URL-ը հաջողությամբ պատճենվել է Ձեր փոխանակման բուֆերում։ Տեղադրեք այն Ձեր օրացույցի հաճախորդում՝ բաժանորդագրությունն ավարտելու համար։'
-      title: Subscribe to calendar
+      title: Բաժանորդագրվել օրացույցին
       token_name_description_text: Եթե այս օրացույցին բաժանորդագրվեք մի քանի սարքից, այս անունը կօգնի Ձեզ տարբերել դրանք Ձեր <a href="%{myAccessTokensUrl}" target="_blank">մուտքի թոքենների</a> ցանկում։
       token_name_label: Որտե՞ղ եք սա օգտագործելու։
       token_name_placeholder: Մուտքագրեք անուն, օրինակ՝ "Հեռախոս"
@@ -371,7 +371,7 @@ hy:
       clear_selection: Մաքրել ընտրությունը
       include_subprojects: Ներառել բոլոր ենթանախագծերը
       no_results: Ոչ մի նախագիծ չի համապատասխանում Ձեր որոնման չափանիշներին։
-      search_placeholder: Search projects...
+      search_placeholder: Որոնել նախագծեր...
       selected_filter:
         all: Բոլոր նախագծերը
         selected: Միայն ընտրվածները
@@ -402,207 +402,207 @@ hy:
         required: "%{field}-ը չի կարող դատարկ լինել"
       link_formatting_help: Տեքստի ձևաչափման օգնություն
       null_value_label: Արժեք չկա
-    invalid_job_response: Invalid response from server.
+    invalid_job_response: Սերվերի անվավեր պատասխան։
     invite_user_modal:
       invite: Հրավիրել
       placeholder_add_tag: Ստեղծել տեղապահ օգտատեր
     label_activate: Ակտիվացնել
-    label_activity_show_all: Show all activities
-    label_activity_show_only_comments: Show activities with comments only
-    label_add_attachments: Attach files
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
-    label_add_columns: Add columns
+    label_activity_show_all: Ցուցադրել բոլոր գործունեությունները
+    label_activity_show_only_comments: Ցուցադրել միայն մեկնաբանություններով գործունեությունները
+    label_add_attachments: Կցել նիշքեր
+    label_add_column_after: Ավելացնել սյունակ աջից
+    label_add_column_before: Ավելացնել սյունակ ձախից
+    label_add_columns: Ավելացնել սյունակներ
     label_add_comment: Ավելացնել մեկնաբանություն
-    label_add_comment_title: Comment and type @ to notify other people
-    label_add_description: Add a description for %{file}
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
-    label_add_selected_columns: Add selected columns
-    label_added_by: added by
-    label_added_time_by: Added by <a href="%{authorLink}">%{author}</a> at %{age}
-    label_ago: days ago
-    label_all: all
+    label_add_comment_title: Մեկնաբանեք և մուտքագրեք @՝ այլ մարդկանց ծանուցելու համար
+    label_add_description: Ավելացնել նկարագրություն %{file}-ի համար
+    label_add_row_after: Ավելացնել տող ներքևից
+    label_add_row_before: Ավելացնել տող վերևից
+    label_add_selected_columns: Ավելացնել ընտրված սյունակները
+    label_added_by: ավելացրել է՝
+    label_added_time_by: Ավելացրել է <a href="%{authorLink}">%{author}</a>-ը %{age}
+    label_ago: օր առաջ
+    label_all: բոլորը
     label_all_projects: Բոլոր նախագծերը
     label_all_uppercase: Բոլորը
-    label_all_work_packages: all work packages
+    label_all_work_packages: բոլոր աշխատանքային փաթեթները
     label_and: և
-    label_ascending: Ascending
+    label_ascending: Աճման կարգով
     label_assignee: Պատասխանատու
-    label_assignee_alt_text: This work package is assigned to %{name}
+    label_assignee_alt_text: Այս աշխատանքային փաթեթը նշանակված է %{name}-ին
     label_attachments: Կցորդներ
-    label_author: 'Author: %{user}'
+    label_author: Հեղինակ՝ %{user}
     label_avatar: Ավատար
     label_between: միջև
     label_board: Տախտակ
     label_board_locked: Կողպված
     label_board_plural: Տախտակներ
-    label_board_sticky: Sticky
-    label_cancel_comment: Cancel comment
+    label_board_sticky: Ամրակցված
+    label_cancel_comment: Չեղարկել մեկնաբանությունը
     label_change: Փոփոխել
-    label_children_derived_duration: Work package's children derived duration
-    label_closed_work_packages: closed
-    label_collapse: Collapse
+    label_children_derived_duration: Աշխատանքային փաթեթի ենթատարրերից ածանցյալ տևողություն
+    label_closed_work_packages: փակ
+    label_collapse: Ծալել
     label_collapse_all: Ծալել բոլորը
-    label_collapse_text: Collapse text
-    label_collapsed: collapsed
-    label_columns: Columns
+    label_collapse_text: Ծալել տեքստը
+    label_collapsed: ծալված
+    label_columns: Սյունակներ
     label_comment: Մեկնաբանություն
-    label_contains: contains
+    label_contains: պարունակում է
     label_create: Ստեղծել
-    label_create_work_package: Create new work package
-    label_created_by: Created by
-    label_created_on: created on
-    label_current: current
-    label_custom_queries: Private
+    label_create_work_package: Ստեղծել նոր աշխատանքային փաթեթ
+    label_created_by: Ստեղծել է՝
+    label_created_on: ստեղծվել է՝
+    label_current: ընթացիկ
+    label_custom_queries: Մասնավոր
     label_date: Ամսաթիվ
-    label_date_with_format: 'Enter the %{date_attribute} using the following format: %{format}'
-    label_deactivate: Deactivate
+    label_date_with_format: Մուտքագրեք %{date_attribute}-ը հետևյալ ձևաչափով՝ %{format}
+    label_deactivate: Ապաակտիվացնել
     label_default_queries: Կանխադրված
-    label_descending: Descending
+    label_descending: Նվազման կարգով
     label_description: Նկարագրություն
-    label_details: Details
-    label_display: Display
-    label_drop_files: Drop files here to attach files.
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_drop_or_click_files: Drop files here or click to attach files.
-    label_edit_comment: Edit this comment
-    label_edit_status: Edit the status of the work package
+    label_details: Մանրամասներ
+    label_display: Ցուցադրում
+    label_drop_files: Նիշքերը կցելու համար քաշեք դրանք այստեղ։
+    label_drop_folders_hint: Դուք չեք կարող պանակներ վերբեռնել որպես կցորդ։ Խնդրում ենք ընտրել առանձին նիշքեր։
+    label_drop_or_click_files: Քաշեք նիշքերն այստեղ կամ սեղմեք՝ դրանք կցելու համար։
+    label_edit_comment: Խմբագրել այս մեկնաբանությունը
+    label_edit_status: Խմբագրել աշխատանքային փաթեթի կարգավիճակը
     label_email: Էլ. փոստ
-    label_equals: is
-    label_expand: Expand
+    label_equals: է
+    label_expand: Ընդարձակել
     label_expand_all: Ընդարձակել բոլորը
-    label_expand_project_menu: Expand project menu
-    label_expand_text: Show full text
-    label_expanded: expanded
+    label_expand_project_menu: Ընդարձակել նախագծի ցանկը
+    label_expand_text: Ցուցադրել ամբողջ տեքստը
+    label_expanded: ընդարձակված
     label_export: Արտահանել
-    label_export_preparing: The export is being prepared and will be downloaded shortly.
+    label_export_preparing: Արտահանումը պատրաստվում է և շուտով կներբեռնվի։
     label_favorites: Ընտրանի
     label_filename: Նիշք
-    label_files_to_upload: 'These files will be uploaded:'
+    label_files_to_upload: Հետևյալ նիշքերը կվերբեռնվեն՝
     label_filesize: Չափ
-    label_formattable_attachment_hint: Attach and link files by dropping on this field, or pasting from the clipboard.
-    label_general: General
+    label_formattable_attachment_hint: Կցեք և կապակցեք նիշքերը՝ քաշելով դրանք այս դաշտի վրա կամ տեղադրելով փոխանակման բուֆերից։
+    label_general: Ընդհանուր
     label_global_queries: Հանրային
     label_greater_or_equal: ">="
     label_group: Խումբ
     label_group_by: Խմբավորել ըստ
     label_group_plural: Խմբեր
     label_hide_attributes: Ցուցադրել ավելի քիչ
-    label_hide_column: Hide column
-    label_hide_project_menu: Collapse project menu
+    label_hide_column: Թաքցնել սյունակը
+    label_hide_project_menu: Ծալել նախագծի ցանկը
     label_import: Ներմուծել
-    label_in: in
-    label_in_less_than: in less than
-    label_in_more_than: in more than
-    label_incoming_emails: Incoming emails
-    label_infinity: Infinity
-    label_information_plural: Information
-    label_invalid: Invalid
-    label_last_updated_on: Last updated on
-    label_latest_activity: Latest activity
-    label_learn_more_link: Learn more
+    label_in: հետո
+    label_in_less_than: պակաս քան
+    label_in_more_than: ավելի քան
+    label_incoming_emails: Մուտքային էլ. նամակներ
+    label_infinity: Անվերջություն
+    label_information_plural: Տեղեկություններ
+    label_invalid: Անվավեր
+    label_last_updated_on: Վերջին թարմացումը՝
+    label_latest_activity: Վերջին գործունեություն
+    label_learn_more_link: Իմանալ ավելին
     label_less_or_equal: "<="
-    label_less_than_ago: less than days ago
-    label_loading: Loading...
+    label_less_than_ago: պակաս քան օր առաջ
+    label_loading: Բեռնվում է...
     label_mail_notification: Էլ. փոստի ծանուցումներ
-    label_manage_columns: Manage and reorder columns
-    label_me: me
-    label_meeting_agenda: Agenda
-    label_meeting_minutes: Minutes
-    label_moderate_comment: Moderate comment
-    label_more_than_ago: more than days ago
+    label_manage_columns: Կառավարել և վերադասավորել սյունակները
+    label_me: ես
+    label_meeting_agenda: Օրակարգ
+    label_meeting_minutes: Արձանագրություն
+    label_moderate_comment: Մոդերացնել մեկնաբանությունը
+    label_more_than_ago: ավելի քան օր առաջ
     label_next: Հաջորդ
     label_no_color: Առանց գույնի
-    label_no_data: No data to display
-    label_no_date: no date
-    label_no_due_date: no finish date
-    label_no_start_date: no start date
+    label_no_data: Ցուցադրելու տվյալներ չկան
+    label_no_date: ամսաթիվ չկա
+    label_no_due_date: առանց ավարտի ամսաթվի
+    label_no_start_date: առանց սկզբի ամսաթվի
     label_no_value: Արժեք չկա
-    label_none: none
-    label_not_available: Not available
+    label_none: ոչ մեկը
+    label_not_available: Հասանելի չէ
     label_not_contains: չի պարունակում
     label_not_equals: չէ
     label_on: նշված օրը
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Բացել համատեքստային ցանկը
     label_open_menu: Բացել ընտրացանկը
     label_open_work_packages: բաց
     label_password: Գաղտնաբառ
     label_per_page: Մեկ էջում՝
-    label_please_wait: Please wait
-    label_press_enter_to_save: Press enter to save.
+    label_please_wait: Խնդրում ենք սպասել
+    label_press_enter_to_save: Պահպանելու համար սեղմեք enter։
     label_previous: Նախորդ
     label_project: Նախագիծ
     label_project_plural: Նախագծեր
     label_public_query: Հանրային
-    label_quote_comment: Quote this comment
-    label_recent: Recent
-    label_rejected_files: 'These files cannot be uploaded:'
-    label_rejected_files_reason: These files cannot be uploaded as their size is greater than %{maximumFilesize}
+    label_quote_comment: Մեջբերել այս մեկնաբանությունը
+    label_recent: Վերջինները
+    label_rejected_files: Հետևյալ նիշքերը հնարավոր չէ վերբեռնել՝
+    label_rejected_files_reason: Հետևյալ նիշքերը հնարավոր չէ վերբեռնել, քանի որ դրանց չափը մեծ է %{maximumFilesize}-ից
     label_remove: Հեռացնել
-    label_remove_all_files: Delete all files
+    label_remove_all_files: Ջնջել բոլոր նիշքերը
     label_remove_column: Հեռացնել սյունակը
     label_remove_columns: Հեռացնել ընտրված սյունակները
-    label_remove_file: Delete %{fileName}
-    label_remove_row: Remove row
-    label_remove_watcher: Remove watcher %{name}
+    label_remove_file: Ջնջել %{fileName}-ը
+    label_remove_row: Հեռացնել տողը
+    label_remove_watcher: Հեռացնել %{name} հետևողին
     label_report: Հաշվետվություն
     label_repository_plural: Պահոցներ
     label_reset: Վերակայել
-    label_resize_project_menu: Resize project menu
+    label_resize_project_menu: Փոխել նախագծի ցանկի չափը
     label_save_as: Պահպանել որպես
-    label_search_columns: Search a column
-    label_select_watcher: Select a watcher...
-    label_selected_filter_list: Selected filters
-    label_show_attributes: Show all attributes
-    label_show_in_menu: Show view in menu
-    label_sort_by: Sort by
-    label_sort_higher: Move up
-    label_sort_lower: Move down
-    label_sorted_by: sorted by
-    label_sorting: Sorting
+    label_search_columns: Որոնել սյունակ
+    label_select_watcher: Ընտրեք հետևող...
+    label_selected_filter_list: Ընտրված զտիչներ
+    label_show_attributes: Ցուցադրել բոլոր հատկանիշները
+    label_show_in_menu: Ցուցադրել տեսքը ցանկում
+    label_sort_by: Դասավորել ըստ
+    label_sort_higher: Տեղափոխել վերև
+    label_sort_lower: Տեղափոխել ներքև
+    label_sorted_by: դասավորված ըստ՝
+    label_sorting: Դասավորում
     label_spent_time: Ծախսված ժամանակ
-    label_star_query: Favorited
+    label_star_query: Ընտրանիում է
     label_starred_queries: Ընտրանի
     label_subject: Վերնագիր
-    label_sum: Sum
-    label_sum_for: Sum for
+    label_sum: Գումար
+    label_sum_for: Գումարը՝
     label_this_week: այս շաբաթ
     label_time_entry_plural: Ծախսված ժամանակ
     label_today: Այսօր
-    label_total_amount: 'Total: %{amount}'
-    label_total_progress: "%{percent}% Total progress"
-    label_total_sum: Total sum
+    label_total_amount: Ընդհանուր՝ %{amount}
+    label_total_progress: "%{percent}% ընդհանուր առաջընթաց"
+    label_total_sum: Ընդհանուր գումար
     label_unwatch: Չհետևել
-    label_unwatch_work_package: Unwatch work package
+    label_unwatch_work_package: Չհետևել աշխատանքային փաթեթին
     label_up: Վերև
-    label_updated_on: updated on
-    label_upload_counter: "%{done} of %{count} files finished"
-    label_upload_notification: Uploading files...
-    label_uploaded_by: Uploaded by
+    label_updated_on: թարմացվել է՝
+    label_upload_counter: "%{count} նիշքից %{done}-ն ավարտված է"
+    label_upload_notification: Նիշքերը վերբեռնվում են...
+    label_uploaded_by: Վերբեռնել է՝
     label_user_plural: Օգտատերեր
-    label_validation_error: 'The work package could not be saved due to the following errors:'
-    label_value_derived_from_children: "(value derived from children)"
+    label_validation_error: Աշխատանքային փաթեթը հնարավոր չեղավ պահպանել հետևյալ սխալների պատճառով՝
+    label_value_derived_from_children: "(արժեքն ածանցված է ենթատարրերից)"
     label_version_plural: Տարբերակներ
-    label_view_has_changed: This view has unsaved changes. Click to save them.
-    label_visibility_settings: Visibility settings
-    label_wait: Please wait for configuration...
+    label_view_has_changed: Այս տեսքն ունի չպահպանված փոփոխություններ։ Սեղմեք՝ դրանք պահպանելու համար։
+    label_visibility_settings: Տեսանելիության կարգավորումներ
+    label_wait: Խնդրում ենք սպասել կազմաձևմանը...
     label_warning: Նախազգուշացում
     label_watch: Հետևել
-    label_watch_work_package: Watch work package
-    label_watcher_added_successfully: Watcher successfully added!
-    label_watcher_deleted_successfully: Watcher successfully deleted!
+    label_watch_work_package: Հետևել աշխատանքային փաթեթին
+    label_watcher_added_successfully: Հետևողը հաջողությամբ ավելացվել է։
+    label_watcher_deleted_successfully: Հետևողը հաջողությամբ ջնջվել է։
     label_work_package: Աշխատանքային փաթեթ
-    label_work_package_context_menu: Work package context menu
-    label_work_package_details_you_are_here: You are on the %{tab} tab for %{type} %{subject}.
-    label_work_package_parent: Parent work package
+    label_work_package_context_menu: Աշխատանքային փաթեթի համատեքստային ցանկ
+    label_work_package_details_you_are_here: Դուք գտնվում եք %{type} %{subject}-ի %{tab} ներդիրում։
+    label_work_package_parent: Ծնող աշխատանքային փաթեթ
     label_work_package_plural: Աշխատանքային փաթեթներ
-    label_work_package_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_work_package_upload_notification: 'Նիշքերի վերբեռնում #%{id} աշխատանքային փաթեթի համար՝ %{subject}'
+    label_wp_id_added_by: "#%{id}-ն ավելացրել է %{author}-ը"
     modals:
       button_apply: Կիրառել
       button_cancel: Չեղարկել
-      button_delete: Delete
+      button_delete: Ջնջել
       button_save: Պահպանել
       button_submit: Ուղարկել
       destroy_time_entry:
@@ -613,53 +613,53 @@ hy:
         title: Հաստատեք՝ շարունակելու համար
       label_delete_page: Ջնջել ընթացիկ էջը
       label_name: Անվանում
-    no_job_id: No job ID returned from server.
-    notice_bad_request: Bad Request.
-    notice_job_started: job started.
-    notice_no_results_to_display: No visible results to display.
-    notice_successful_create: Successful creation.
-    notice_successful_delete: Successful deletion.
-    notice_successful_update: Successful update.
+    no_job_id: Սերվերը չի վերադարձրել աշխատանքի ID։
+    notice_bad_request: Սխալ հարցում։
+    notice_job_started: աշխատանքը սկսվեց։
+    notice_no_results_to_display: Ցուցադրելու տեսանելի արդյունքներ չկան։
+    notice_successful_create: Հաջողությամբ ստեղծվել է։
+    notice_successful_delete: Հաջողությամբ ջնջվել է։
+    notice_successful_update: Հաջողությամբ թարմացվել է։
     notifications:
       center:
         and_more_users:
-          one: and 1 other
-          other: and %{count} others
+          one: և ևս 1 օգտատեր
+          other: և ևս %{count} օգտատեր
         empty_state:
-          no_notification: Looks like you are all caught up.
-          no_notification_for_filter: Looks like you are all caught up for this filter.
-          no_notification_with_current_filter: Looks like you are all caught up for %{filter} filter.
-          no_notification_with_current_project_filter: Looks like you are all caught up with the selected project.
-          no_selection: Click on a notification to view all activity details.
+          no_notification: Կարծես թե ամեն ինչ արդեն դիտված է։
+          no_notification_for_filter: Կարծես թե այս զտիչի համար ամեն ինչ արդեն դիտված է։
+          no_notification_with_current_filter: Կարծես թե %{filter} զտիչի համար ամեն ինչ արդեն դիտված է։
+          no_notification_with_current_project_filter: Կարծես թե ընտրված նախագծի համար ամեն ինչ արդեն դիտված է։
+          no_selection: Սեղմեք ծանուցման վրա՝ գործունեության բոլոր մանրամասները դիտելու համար։
         label_actor_and: և
         mark_all_read: Նշել բոլորը որպես կարդացված
         mark_all_read_confirmation: Սա կնշի այս տեսքի բոլոր ծանուցումները որպես կարդացված։ Համոզվա՞ծ եք, որ ցանկանում եք դա անել։
-        mark_as_read: Mark as read
+        mark_as_read: Նշել որպես կարդացված
         new_notifications:
-          link_text: Click here to load them.
-          message: There are new notifications.
+          link_text: Սեղմեք այստեղ՝ դրանք բեռնելու համար։
+          message: Կան նոր ծանուցումներ։
         no_results:
-          at_all: New notifications will appear here when there is activity that concerns you.
-          with_current_filter: There are no notifications in this view at the moment
-        text_update_date_by: "%{date} by"
-        total_count_warning: Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed.
+          at_all: Նոր ծանուցումներն այստեղ կհայտնվեն, երբ լինի Ձեզ վերաբերող գործունեություն։
+          with_current_filter: Այս պահին այս տեսքում ծանուցումներ չկան
+        text_update_date_by: "%{date}՝"
+        total_count_warning: Ցուցադրվում են վերջին %{newest_count} ծանուցումները։ Եվս %{more_count}-ը չեն ցուցադրվում։
       date_alerts:
-        milestone_date: Milestone date
+        milestone_date: Հանգրվանի ամսաթիվ
         overdue: Ժամկետանց
-        overdue_since: for %{difference_in_days}.
-        property_is: is in %{difference_in_days}.
-        property_is_deleted: is deleted.
-        property_today: is today.
-        property_was: was %{difference_in_days} ago.
+        overdue_since: արդեն %{difference_in_days}։
+        property_is: "%{difference_in_days} հետո է։"
+        property_is_deleted: ջնջված է։
+        property_today: այսօր է։
+        property_was: "%{difference_in_days} առաջ էր։"
       no_unread: Չկարդացված ծանուցումներ չկան
       reasons:
         assigned: Պատասխանատու
         commented: Մեկնաբանված
-        created: Created
+        created: Ստեղծված
         dateAlert: Ամսաթվի ազդանշան
         mentioned: Հիշատակված
-        prioritized: Prioritized
-        processed: Processed
+        prioritized: Առաջնահերթությունը փոխվել է
+        processed: Մշակված
         reminder: Հիշեցում
         responsible: Հաշվետու
         scheduled: Պլանավորված
@@ -668,330 +668,330 @@ hy:
       reminders:
         note: Նշում՝ “%{note}”
       settings:
-        change_notification_settings: You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.
+        change_notification_settings: Դուք կարող եք փոփոխել Ձեր <a target="_blank" href="%{url}">ծանուցումների կարգավորումները</a>՝ երբեք կարևոր թարմացում բաց չթողնելու համար։
         title: Ծանուցումների կարգավորումներ
       title: Ծանուցումներ
     onboarding:
       buttons:
-        got_it: Got it
+        got_it: Հասկանալի է
         next: Հաջորդ
-        skip: Skip
+        skip: Բաց թողնել
       steps:
         boards:
-          add: Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.
-          drag: Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.
-          lists_basic: Here you can create multiple lists (columns) within your agile board.
-          lists_kanban: Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.
-          overview: Select <b>boards</b> to shift the view and manage your project using the agile boards view.
-        help_menu: The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!
-        members: Invite new <b>members</b> to join your project.
-        quick_add_button: Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.
-        sidebar_arrow: Use the return arrow in the top left corner to return to the project’s <b>main menu</b>.
+          add: Սեղմեք գումարած (+) պատկերակին՝ <b>նոր քարտ ստեղծելու</b> կամ տախտակի ցանկում <b>առկա քարտ ավելացնելու</b> համար։
+          drag: Քարշ տարեք և թողեք Ձեր քարտերը տվյալ ցանկի ներսում՝ դրանք վերադասավորելու կամ մեկ այլ ցանկ տեղափոխելու համար։ <br> Կարող եք սեղմել վերին աջ անկյունում գտնվող տեղեկատվության (i) պատկերակին կամ կրկնակի սեղմել քարտի վրա՝ դրա մանրամասները բացելու համար։
+          lists_basic: Այստեղ Դուք կարող եք ստեղծել բազմաթիվ ցանկեր (սյունակներ) Ձեր ճկուն տախտակի ներսում։
+          lists_kanban: Այստեղ Դուք կարող եք ստեղծել բազմաթիվ ցանկեր (սյունակներ) Ձեր տախտակի ներսում։ Այս հատկությունը թույլ է տալիս ստեղծել, օրինակ, <b>Kanban տախտակ</b>։
+          overview: Ընտրեք <b>տախտակները</b>՝ տեսքը փոխելու և Ձեր նախագիծը ճկուն տախտակների տեսքով կառավարելու համար։
+        help_menu: Օգնության (?) ցանկը տրամադրում է <b>լրացուցիչ օգնության ռեսուրսներ</b>։ Այստեղ Դուք կգտնեք օգտատիրոջ ձեռնարկ, օգտակար ուսուցողական տեսանյութեր և այլն։ <br> Հաճելի աշխատանք OpenProject-ի հետ։
+        members: Հրավիրեք նոր <b>անդամների</b>՝ միանալու Ձեր նախագծին։
+        quick_add_button: Սեղմեք վերին գոտու գումարած (+) պատկերակին՝ <b>նոր նախագիծ ստեղծելու</b> կամ <b>գործընկերներ հրավիրելու</b> համար։
+        sidebar_arrow: Օգտագործեք վերին ձախ անկյունում գտնվող վերադարձի սլաքը՝ նախագծի <b>գլխավոր ցանկին</b> վերադառնալու համար։
         team_planner:
-          add_assignee: To get started, add assignees to the team planner.
-          add_existing: Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.
-          calendar: The weekly or biweekly planning board displays all work packages assigned to your team members.
-          card: Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.
-          overview: The team planner lets you visually assign tasks to team members and get an overview of who is working on what.
-        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
-        wiki: Within the <b>wiki</b> you can document and share knowledge together with your team.
+          add_assignee: Սկսելու համար ավելացրեք պատասխանատուներ թիմային պլանավորիչում։
+          add_existing: Որոնեք առկա աշխատանքային փաթեթներ և քարշ տարեք դրանք թիմային պլանավորիչ՝ ակնթարթորեն թիմի անդամին նշանակելու և սկզբի ու ավարտի ամսաթվերը սահմանելու համար։
+          calendar: Շաբաթական կամ երկշաբաթյա պլանավորման տախտակը ցուցադրում է Ձեր թիմի անդամներին նշանակված բոլոր աշխատանքային փաթեթները։
+          card: Քարշ տարեք աշխատանքային փաթեթները հորիզոնական՝ դրանք ժամանակի մեջ առաջ կամ հետ տեղափոխելու համար, քարշ տարեք եզրերը՝ սկզբի և ավարտի ամսաթվերը փոխելու համար, և նույնիսկ քարշ տարեք դրանք ուղղահայաց՝ այլ տող, մեկ այլ անդամի նշանակելու համար։
+          overview: Թիմային պլանավորիչը թույլ է տալիս տեսողականորեն նշանակել առաջադրանքներ թիմի անդամներին և ընդհանուր պատկերացում կազմել, թե ով ինչի վրա է աշխատում։
+        welcome: Անցեք երեքրոպեանոց ներածական շրջայցը՝ ծանոթանալու <b>ամենակարևոր հատկություններին</b>։ <br> Խորհուրդ ենք տալիս քայլերն ավարտին հասցնել։ Դուք կարող եք ցանկացած պահի վերսկսել շրջայցը։
+        wiki: "<b>Վիքիում</b> Դուք կարող եք փաստագրել և Ձեր թիմի հետ միասին կիսվել գիտելիքներով։"
         wp:
-          back_button: Use the return arrow in the top left corner to exit and return to the work package list.
-          create_button: The <b>+ Create</b> button will add a new work package to your project.
-          full_view: The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.
-          gantt_menu: Create project schedules and timelines effortlessly using the Gantt chart module.
-          list: This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.
-          timeline: Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.
-          toggler: Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work.
+          back_button: Օգտագործեք վերին ձախ անկյունում գտնվող վերադարձի սլաքը՝ դուրս գալու և աշխատանքային փաթեթների ցանկ վերադառնալու համար։
+          create_button: "<b>+ Ստեղծել</b> կոճակը Ձեր նախագծին կավելացնի նոր աշխատանքային փաթեթ։"
+          full_view: "<b>Աշխատանքային փաթեթի մանրամասների</b> տեսքը տրամադրում է տվյալ աշխատանքային փաթեթին վերաբերող ողջ տեղեկատվությունը՝ դրա նկարագրությունը, կարգավիճակը, առաջնահերթությունը, գործունեությունը, կախվածությունները և մեկնաբանությունները։"
+          gantt_menu: Հեշտությամբ ստեղծեք նախագծի ժամանակացույցեր և ժամանակագծեր՝ Գանտի գծապատկերի մոդուլի միջոցով։
+          list: "<b>Աշխատանքային</b> փաթեթների այս ընդհանուր տեսքը տրամադրում է Ձեր նախագծի ողջ աշխատանքի ցանկը՝ առաջադրանքներ, հանգրվաններ, փուլեր և այլն։ <br> Աշխատանքային փաթեթները կարող են ստեղծվել և խմբագրվել անմիջապես այս տեսքից։ Կոնկրետ աշխատանքային փաթեթի մանրամասներին հասնելու համար պարզապես կրկնակի սեղմեք դրա տողի վրա։"
+          timeline: Այստեղ Դուք կարող եք <b>խմբագրել Ձեր նախագծի պլանը</b>, ստեղծել նոր աշխատանքային փաթեթներ՝ առաջադրանքներ, հանգրվաններ, փուլեր և այլն, ինչպես նաև <b>ավելացնել կախվածություններ</b>։ Թիմի բոլոր անդամները կարող են ցանկացած պահի տեսնել և թարմացնել վերջին պլանը։
+          toggler: Այժմ դիտենք <b>աշխատանքային փաթեթների</b> բաժինը, որը Ձեզ տալիս է Ձեր աշխատանքի ավելի մանրամասն պատկերը։
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: There is a network problem.
-        network_on: Network is back. We are trying.
+        network_off: Ցանցի հետ կապված խնդիր կա։
+        network_on: Ցանցը վերականգնվել է։ Փորձում ենք։
       waiting_title:
-        timeout: Timeout
+        timeout: Ժամանակի սպառում
     pagination:
-      no_other_page: You are on the only page.
-      page_navigation: Pagination navigation
+      no_other_page: Դուք գտնվում եք միակ էջում։
+      page_navigation: Էջերի նավարկում
       pages:
-        page_number: Page %{number}
-        show_per_page: Show %{number} per page
-      pages_skipped: Pages skipped.
-      per_page_navigation: Items per page selection
+        page_number: Էջ %{number}
+        show_per_page: Ցուցադրել %{number} մեկ էջում
+      pages_skipped: Էջերը բաց թողնված են։
+      per_page_navigation: Մեկ էջում տարրերի ընտրություն
     placeholders:
       default: "-"
-      description: 'Description: Click to edit...'
-      relation_description: Click to add description for this relation
+      description: Նկարագրություն՝ սեղմեք խմբագրելու համար...
+      relation_description: Սեղմեք՝ այս կապի նկարագրությունն ավելացնելու համար
       selection: Ընտրեք
-      subject: Enter subject here
+      subject: Մուտքագրեք վերնագիրն այստեղ
     project:
       autocompleter:
-        label: Project autocompletion
-      click_to_switch_to_project: 'Project: %{projectname}'
-      context: Project context
-      not_available: Project N/A
-      required_outside_context: 'Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+        label: Նախագծի ինքնալրացում
+      click_to_switch_to_project: Նախագիծ՝ %{projectname}
+      context: Նախագծի համատեքստ
+      not_available: Նախագիծը հասանելի չէ
+      required_outside_context: 'Խնդրում ենք ընտրել նախագիծ, որտեղ կստեղծվի աշխատանքային փաթեթը՝ բոլոր հատկանիշները տեսնելու համար։ Դուք կարող եք ընտրել միայն այն նախագծերը, որոնցում ակտիվացված է վերևում նշված տեսակը։
 
         '
-    project_menu_details: Details
+    project_menu_details: Մանրամասներ
     projects:
       identifier_suggestion:
-        loading: Loading suggestion...
-        set_name_first: Please set the name first.
+        loading: Առաջարկը բեռնվում է...
+        set_name_first: Խնդրում ենք նախ սահմանել անվանումը։
     relation_buttons:
-      abort: Abort
-      add_existing: Add existing
-      add_existing_child: Add child
-      add_existing_relation: Add existing relation
-      add_new_child: Create new child
-      add_new_relation: Create new relation
-      add_parent: Add existing parent
-      add_predecessor: Add predecessor
-      add_successor: Add successor
-      change_parent: Change parent
-      create_new: Create new
-      group_by_relation_type: Group by relation type
-      group_by_wp_type: Group by work package type
-      hierarchy_indent: Indent hierarchy
-      hierarchy_outdent: Outdent hierarchy
-      remove: Remove relation
-      remove_child: Remove child
-      remove_parent: Remove parent
-      save: Save relation
-      set_parent: Set parent
-      show_relations: Show relations
-      toggle_description: Toggle relation description
-      update_description: Set or update description of this relation
-      update_relation: Click to change the relation type
+      abort: Ընդհատել
+      add_existing: Ավելացնել առկա
+      add_existing_child: Ավելացնել դուստր տարր
+      add_existing_relation: Ավելացնել առկա կապ
+      add_new_child: Ստեղծել նոր ենթատարր
+      add_new_relation: Ստեղծել նոր կապ
+      add_parent: Ավելացնել առկա ծնող
+      add_predecessor: Ավելացնել նախորդող
+      add_successor: Ավելացնել հաջորդող
+      change_parent: Փոխել ծնողը
+      create_new: Ստեղծել նոր
+      group_by_relation_type: Խմբավորել ըստ կապի տեսակի
+      group_by_wp_type: Խմբավորել ըստ աշխատանքային փաթեթի տեսակի
+      hierarchy_indent: Իջեցնել հիերարխիայի մակարդակը
+      hierarchy_outdent: Բարձրացնել հիերարխիայի մակարդակը
+      remove: Հեռացնել կապը
+      remove_child: Հեռացնել դուստր տարրը
+      remove_parent: Հեռացնել ծնողը
+      save: Պահպանել կապը
+      set_parent: Սահմանել ծնող
+      show_relations: Ցուցադրել կապերը
+      toggle_description: Փոխարկել կապի նկարագրությունը
+      update_description: Սահմանել կամ թարմացնել այս կապի նկարագրությունը
+      update_relation: Սեղմեք՝ կապի տեսակը փոխելու համար
     relation_labels:
-      blocked: Blocked by
-      blocks: Blocks
-      child: Child
+      blocked: Արգելափակված է
+      blocks: Արգելափակում է
+      child: Ենթատարր
       children: Ենթատարրեր
-      duplicated: Duplicated by
-      duplicates: Duplicates
-      follows: Follows
-      includes: Includes
+      duplicated: Կրկնօրինակված է
+      duplicates: Կրկնօրինակում է
+      follows: Հետևում է
+      includes: Ներառում է
       parent: Ծնող
-      partof: Part of
-      precedes: Precedes
-      relates: Related To
-      relation_type: relation type
-      required: Required by
-      requires: Requires
+      partof: Մասն է
+      precedes: Նախորդում է
+      relates: Կապակցված է
+      relation_type: կապի տեսակ
+      required: Պահանջվում է
+      requires: Պահանջում է
     relations:
-      empty: No relation exists
-      remove: Remove relation
+      empty: Կապեր գոյություն չունեն
+      remove: Հեռացնել կապը
     relations_autocomplete:
-      parent_placeholder: Choose new parent or press escape to cancel.
+      parent_placeholder: Ընտրեք նոր ծնող կամ սեղմեք escape՝ չեղարկելու համար։
       placeholder: Մուտքագրեք որոնելու համար
     relations_hierarchy:
       children_headline: Ենթատարրեր
-      hierarchy_headline: Hierarchy
+      hierarchy_headline: Հիերարխիա
       parent_headline: Ծնող
     repositories:
-      select_branch: Select branch
-      select_tag: Select tag
+      select_branch: Ընտրեք ճյուղ
+      select_tag: Ընտրեք պիտակ
     sharing:
-      selected_count: "%{count} selected"
+      selected_count: Ընտրված է %{count}
       selection:
-        mixed: Mixed
+        mixed: Խառը
       share: Համօգտագործել
     sort:
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
+      activate_asc: ակտիվացրեք՝ աճման կարգով դասավորելու համար
+      activate_dsc: ակտիվացրեք՝ նվազման կարգով դասավորելու համար
+      activate_no: ակտիվացրեք՝ դասավորումը հեռացնելու համար
+      sorted_asc: 'Կիրառված է աճման կարգով դասավորում, '
+      sorted_dsc: 'Կիրառված է նվազման կարգով դասավորում, '
+      sorted_no: 'Դասավորում կիրառված չէ, '
+      sorting_disabled: դասավորումն անջատված է
     sortable_lists:
       announcements:
         fallback_item_label: Տարր
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the item's current position.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
-        moved: "%{label} moved to position %{position} of %{total}"
+        fallback_list_name: մեկ այլ ցանկ
+        move_failed_check_position: Տեղափոխումը ձախողվեց։ Ստուգեք տարրի ընթացիկ դիրքը։
+        move_failed_rolled_back: Տեղափոխումը ձախողվեց։ %{label} վերադարձավ իր նախորդ դիրքին։
+        moved: "%{label} տեղափոխվեց դիրք %{position} %{total}-ից"
         moved_to_list: "%{label} տեղափոխվեց %{list}, դիրք %{position} %{total}-ից"
     spot:
       drop_modal:
-        close: Close modal
-        focus_grab: This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.
+        close: Փակել պատուհանը
+        focus_grab: Սա մոդալ պատուհանների ֆոկուսի խարիսխն է։ Սեղմեք shift+tab՝ մոդալ պատուհանը բացող տարրին վերադառնալու համար։
       filter_chip:
         remove: Հեռացնել
-    text_are_you_sure: Are you sure?
-    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
-    text_data_lost: All entered data will be lost.
-    text_query_destroy_confirmation: Are you sure you want to delete the selected view?
-    text_user_wrote: "%{value} wrote:"
-    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
+    text_are_you_sure: Համոզվա՞ծ եք։
+    text_are_you_sure_to_cancel: Այս էջում Դուք ունեք չպահպանված փոփոխություններ։ Համոզվա՞ծ եք, որ ցանկանում եք հրաժարվել դրանցից։
+    text_data_lost: Բոլոր մուտքագրված տվյալները կկորչեն։
+    text_query_destroy_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված տեսքը։
+    text_user_wrote: "%{value}-ը գրել է՝"
+    text_work_packages_destroy_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթ(ներ)ը։
     time_entry:
-      stop: Stop
+      stop: Դադարեցնել
       title: Գրանցել ժամանակ
-      tracking: Time tracking
-      work_package_required: Requires selecting a work package first.
+      tracking: Ժամանակի հաշվառում
+      work_package_required: Նախ անհրաժեշտ է ընտրել աշխատանքային փաթեթ։
     timer:
-      button_stop: Stop current timer
-      start_new_timer: Start new timer
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: No active timer for this work package, have you stopped it in another window?
-      tracking_time: Tracking time
+      button_stop: Դադարեցնել ընթացիկ ժամաչափը
+      start_new_timer: Սկսել նոր ժամաչափ
+      timer_already_running: Նոր ժամաչափ սկսելու համար նախ պետք է դադարեցնեք ընթացիկ ժամաչափը՝
+      timer_already_stopped: Այս աշխատանքային փաթեթի համար ակտիվ ժամաչափ չկա, գուցե այն դադարեցրե՞լ եք մեկ այլ պատուհանում։
+      tracking_time: Ժամանակը հաշվառվում է
     tl_toolbar:
-      outlines: Hierarchy level
-      zooms: Zoom level
+      outlines: Հիերարխիայի մակարդակ
+      zooms: Խոշորացման մակարդակ
     toolbar:
-      filter: Filter
-      search_query_label: Search saved views
+      filter: Զտիչ
+      search_query_label: Որոնել պահպանված տեսքերում
       settings:
-        columns: Columns
-        configure_view: Configure view
-        delete: Delete
-        display_hierarchy: Display hierarchy
-        display_sums: Display sums
+        columns: Սյունակներ
+        configure_view: Կազմաձևել տեսքը
+        delete: Ջնջել
+        display_hierarchy: Ցուցադրել հիերարխիան
+        display_sums: Ցուցադրել գումարները
         export: Արտահանել
         group_by: Խմբավորել ըստ
-        hide_hierarchy: Hide hierarchy
-        hide_sums: Hide sums
-        page_settings: Rename view
+        hide_hierarchy: Թաքցնել հիերարխիան
+        hide_sums: Թաքցնել գումարները
+        page_settings: Վերանվանել տեսքը
         save: Պահպանել
         save_as: Պահպանել որպես
-        share_calendar: Subscribe to calendar
-        sort_by: Sort by
-        visibility_settings: Visibility settings
+        share_calendar: Բաժանորդագրվել օրացույցին
+        sort_by: Դասավորել ըստ
+        visibility_settings: Տեսանելիության կարգավորումներ
       unselected_title: Աշխատանքային փաթեթ
     two_factor_authentication:
-      label_two_factor_authentication: Two-factor authentication
+      label_two_factor_authentication: Երկգործոն նույնականացում
     units:
       child_work_packages:
-        one: one child work package
-        other: "%{count} work package children"
+        one: մեկ դուստր աշխատանքային փաթեթ
+        other: "%{count} դուստր աշխատանքային փաթեթ"
       day:
         one: 1 օր
         other: "%{count} օր"
-        zero: 0 days
+        zero: 0 օր
       hour:
-        one: 1 h
-        other: "%{count} h"
-        zero: 0 h
-      hour_string: "%{hours} h"
+        one: 1 ժ
+        other: "%{count} ժ"
+        zero: 0 ժ
+      hour_string: "%{hours} ժ"
       word:
-        one: 1 word
-        other: "%{count} words"
+        one: 1 բառ
+        other: "%{count} բառ"
       workPackage:
-        one: work package
-        other: work packages
+        one: աշխատանքային փաթեթ
+        other: աշխատանքային փաթեթ
     upsell:
-      ee_only: Enterprise edition add-on
+      ee_only: Enterprise edition-ի հավելում
     views:
-      card: Cards
+      card: Քարտեր
       list: Աղյուսակ
-      timeline: Gantt
+      timeline: Գանտ
     watchers:
-      label_add: Add watchers
-      label_discard: Discard selection
-      label_error_loading: An error occurred while loading the watchers
-      label_loading: loading watchers...
-      label_search_watchers: Search watchers
-      typeahead_placeholder: Search for possible watchers
+      label_add: Ավելացնել հետևողներ
+      label_discard: Հրաժարվել ընտրությունից
+      label_error_loading: Հետևողներին բեռնելիս սխալ առաջացավ
+      label_loading: հետևողները բեռնվում են...
+      label_search_watchers: Որոնել հետևողներ
+      typeahead_placeholder: Որոնել հնարավոր հետևողներ
     wiki_formatting:
-      code: Inline Code
-      deleted: Deleted
-      heading1: Heading 1
-      heading2: Heading 2
-      heading3: Heading 3
-      image: Image
-      italic: Italic
-      ordered_list: Ordered List
-      preformatted_text: Preformatted Text
+      code: Ներտողային կոդ
+      deleted: Ջնջված
+      heading1: Վերնագիր 1
+      heading2: Վերնագիր 2
+      heading3: Վերնագիր 3
+      image: Պատկեր
+      italic: Շեղ
+      ordered_list: Համարակալված ցանկ
+      preformatted_text: Նախաձևաչափված տեքստ
       quote: Մեջբերել
-      strong: Strong
-      underline: Underline
-      unordered_list: Unordered List
-      unquote: Unquote
-      wiki_link: Link to a Wiki page
+      strong: Թավ
+      underline: Ընդգծված
+      unordered_list: Չհամարակալված ցանկ
+      unquote: Հանել մեջբերումը
+      wiki_link: Հղում վիքի էջին
     work_packages:
       baseline:
         addition_label: Ավելացվել է տեսքին համեմատության ժամանակահատվածում
-        column_incompatible: This column does not show changes in Baseline mode.
-        modification_label: Modified within the comparison time period
+        column_incompatible: Այս սյունակը Ելակետի ռեժիմում փոփոխությունները չի ցուցադրում։
+        modification_label: Փոփոխվել է համեմատության ժամանակահատվածում
         removal_label: Հեռացվել է տեսքից համեմատության ժամանակահատվածում
       bulk_actions:
-        delete: Bulk delete
-        duplicate: Bulk duplicate
-        edit: Bulk edit
-        move: Bulk change of project
+        delete: Զանգվածային ջնջում
+        duplicate: Զանգվածային կրկնօրինակում
+        edit: Զանգվածային խմբագրում
+        move: Նախագծի զանգվածային փոփոխություն
       button_clear: Մաքրել
-      comment_added: The comment was successfully added.
-      comment_send_failed: An error has occurred. Could not submit the comment.
-      comment_updated: The comment was successfully updated.
-      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      comment_added: Մեկնաբանությունը հաջողությամբ ավելացվել է։
+      comment_send_failed: Սխալ է տեղի ունեցել։ Չհաջողվեց ուղարկել մեկնաբանությունը։
+      comment_updated: Մեկնաբանությունը հաջողությամբ թարմացվել է։
+      confirm_edit_cancel: Համոզվա՞ծ եք, որ ցանկանում եք չեղարկել աշխատանքային փաթեթի խմբագրումը։
       create:
         button: Ստեղծել
-        header: New %{type}
-        header_no_type: New work package (Type not yet set)
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        header: Նոր %{type}
+        header_no_type: Նոր աշխատանքային փաթեթ (Տեսակը դեռ սահմանված չէ)
+        header_with_parent: 'Նոր %{type} (%{parent_type} #%{id}-ի դուստր տարր)'
         title: Նոր աշխատանքային փաթեթ
       default_queries:
-        all_open: All open
-        assigned_to_me: Assigned to me
-        created_by_me: Created by me
-        latest_activity: Latest activity
-        manually_sorted: New manually sorted query
+        all_open: Բոլոր բացերը
+        assigned_to_me: Ինձ նշանակված
+        created_by_me: Իմ ստեղծած
+        latest_activity: Վերջին գործունեություն
+        manually_sorted: Նոր ձեռքով դասավորված հարցում
         overdue: Ժամկետանց
-        recently_created: Recently created
+        recently_created: Վերջերս ստեղծված
         shared_with_me: Ինձ հետ համօգտագործված
-        shared_with_users: Shared with users
+        shared_with_users: Օգտատերերի հետ համօգտագործված
         summary: Ամփոփում
       description_enter_text: Մուտքագրեք տեքստ
-      description_filter: Filter
-      description_options_hide: Hide options
-      description_options_show: Show options
+      description_filter: Զտիչ
+      description_options_hide: Թաքցնել ընտրանքները
+      description_options_show: Ցուցադրել ընտրանքները
       duplicate:
-        title: Duplicate work package
-      edit_attribute: "%{attribute} - Edit"
+        title: Կրկնօրինակել աշխատանքային փաթեթը
+      edit_attribute: "%{attribute} - Խմբագրել"
       faulty_query:
-        description: Your view is erroneous and could not be processed.
-        title: Work packages could not be loaded.
+        description: Ձեր տեսքը սխալ է և հնարավոր չեղավ մշակել։
+        title: Աշխատանքային փաթեթները չհաջողվեց բեռնել։
       filters:
-        baseline_incompatible: This filter attribute is not taken into consideration in Baseline mode.
-        baseline_warning: Baseline mode is on but some of your active filters are not included in the comparison.
-        title: Filter work packages
+        baseline_incompatible: Զտիչի այս հատկանիշը Ելակետի ռեժիմում հաշվի չի առնվում։
+        baseline_warning: Ելակետի ռեժիմը միացված է, սակայն Ձեր ակտիվ զտիչներից մի քանիսը ներառված չեն համեմատության մեջ։
+        title: Զտել աշխատանքային փաթեթները
       hierarchy:
-        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the filtered children
-        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the filtered children
-        hide: Hide hierarchy mode
-        leaf: Work package leaf at level %{level}.
-        show: Show hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
+        children_collapsed: Հիերարխիայի մակարդակ %{level}, ծալված։ Սեղմեք՝ զտված ենթատարրերը ցուցադրելու համար
+        children_expanded: Հիերարխիայի մակարդակ %{level}, ընդարձակված։ Սեղմեք՝ զտված ենթատարրերը ծալելու համար
+        hide: Թաքցնել հիերարխիայի ռեժիմը
+        leaf: Աշխատանքային փաթեթի տերև %{level} մակարդակում։
+        show: Ցուցադրել հիերարխիայի ռեժիմը
+        toggle_button: Սեղմեք՝ հիերարխիայի ռեժիմը փոխարկելու համար։
       inline_create:
-        title: Click here to add a new work package to this list
+        title: Սեղմեք այստեղ՝ այս ցանկին նոր աշխատանքային փաթեթ ավելացնելու համար
       jump_marks:
-        content: Jump to content
-        label_content: Click here to skip over the menu and go to the content
-        label_pagination: Click here to skip over the work packages table and go to pagination
-        pagination: Jump to table pagination
-      key_value: "%{key}: %{value}"
-      label_column_multiselect: 'Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace'
-      label_disable_multi_select: Disable multiselect
-      label_enable_multi_select: Enable multiselect
-      label_filter_add: Add filter
+        content: Անցնել բովանդակությանը
+        label_content: Սեղմեք այստեղ՝ ցանկը բաց թողնելու և բովանդակությանն անցնելու համար
+        label_pagination: Սեղմեք այստեղ՝ աշխատանքային փաթեթների աղյուսակը բաց թողնելու և էջերի նավարկմանն անցնելու համար
+        pagination: Անցնել աղյուսակի էջերի նավարկմանը
+      key_value: "%{key}՝ %{value}"
+      label_column_multiselect: Համակցված բացվող դաշտ՝ ընտրեք սլաքների ստեղներով, հաստատեք ընտրությունը enter-ով, ջնջեք backspace-ով
+      label_disable_multi_select: Անջատել բազմակի ընտրությունը
+      label_enable_multi_select: Միացնել բազմակի ընտրությունը
+      label_filter_add: Ավելացնել զտիչ
       label_filter_by_text: Զտել ըստ տեքստի
       label_options: Ընտրանքներ
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
-      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
-      message_successful_bulk_delete: Successfully deleted work packages.
-      message_successful_show_in_fullscreen: Click here to open this work package in fullscreen view.
-      message_view_spent_time: Show spent time for this work package
-      message_work_package_read_only: Work package is locked in this status. No attribute other than status can be altered.
-      message_work_package_status_blocked: Work package status is not writable due to closed status and closed version being assigned.
+      limited_results: Ձեռքով դասավորման ռեժիմում կարող է ցուցադրվել միայն %{count} աշխատանքային փաթեթ։ Խնդրում ենք կրճատել արդյունքները զտման միջոցով կամ անցնել ավտոմատ դասավորման։
+      message_error_during_bulk_delete: Աշխատանքային փաթեթները ջնջելու փորձի ժամանակ սխալ առաջացավ։
+      message_successful_bulk_delete: Աշխատանքային փաթեթները հաջողությամբ ջնջվել են։
+      message_successful_show_in_fullscreen: Սեղմեք այստեղ՝ այս աշխատանքային փաթեթը լիաէկրան տեսքով բացելու համար։
+      message_view_spent_time: Ցուցադրել այս աշխատանքային փաթեթի ծախսված ժամանակը
+      message_work_package_read_only: Աշխատանքային փաթեթը կողպված է այս կարգավիճակում։ Կարգավիճակից բացի ոչ մի հատկանիշ չի կարող փոփոխվել։
+      message_work_package_status_blocked: Աշխատանքային փաթեթի կարգավիճակը գրելի չէ, քանի որ նշանակված են փակ կարգավիճակ և փակ տարբերակ։
       no_results:
-        description: Either none have been created or all work packages are filtered out.
-        title: No work packages to display.
-      placeholder_filter_by_text: Subject, description, comments, ...
+        description: Կամ ոչ մեկը ստեղծված չէ, կամ բոլոր աշխատանքային փաթեթները բացառվել են զտիչներով։
+        title: Ցուցադրելու աշխատանքային փաթեթներ չկան։
+      placeholder_filter_by_text: Վերնագիր, նկարագրություն, մեկնաբանություններ, ...
       placeholders:
-        date: Select date
+        date: Ընտրեք ամսաթիվ
         default: "-"
       progress:
-        title: Work estimates and progress
+        title: Աշխատանքի գնահատումներ և առաջընթաց
       properties:
         assignee: Պատասխանատու
         author: Հեղինակ
@@ -1002,14 +1002,14 @@ hy:
         dueDate: Ավարտի ամսաթիվ
         duration: Տևողություն
         percentComplete: Կատարման %
-        percentCompleteAlternative: Progress
-        percentageDone: Percentage done
+        percentCompleteAlternative: Առաջընթաց
+        percentageDone: Կատարման տոկոս
         priority: Առաջնահերթություն
         projectName: Նախագիծ
         remainingTime: Մնացած աշխատանք
         remainingWork: Մնացած աշխատանք
-        remainingWorkAlternative: Remaining hours
-        responsible: Responsible
+        remainingWorkAlternative: Մնացած ժամեր
+        responsible: Հաշվետու
         spentTime: Ծախսված ժամանակ
         startDate: Սկզբի ամսաթիվ
         status: Կարգավիճակ
@@ -1021,103 +1021,103 @@ hy:
         version: Տարբերակ
         versionName: Տարբերակ
         work: Աշխատանք
-        workAlternative: Estimated time
+        workAlternative: Գնահատված ժամանակ
       property_groups:
-        details: Details
-        estimatesAndTime: Estimates & Time
+        details: Մանրամասներ
+        estimatesAndTime: Գնահատումներ և ժամանակ
         other: Այլ
         people: Անձինք
       query:
-        click_to_edit_query_name: Click to edit title of this view.
-        column_names: Columns
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
+        click_to_edit_query_name: Սեղմեք՝ այս տեսքի վերնագիրը խմբագրելու համար։
+        column_names: Սյունակներ
+        confirm_edit_cancel: Համոզվա՞ծ եք, որ ցանկանում եք չեղարկել այս տեսքի անվան խմբագրումը։ Վերնագիրը կվերադառնա նախորդ արժեքին։
         display_sums: Ցուցադրել գումարները
         errors:
-          duplicate_query_title: Name of this view already exists. Change anyway?
-          not_found: There is no such view
-          unretrievable_query: Unable to retrieve view from URL
-        filters: Filters
+          duplicate_query_title: Այս անվանումով տեսք արդեն գոյություն ունի։ Փոխե՞լ այնուամենայնիվ։
+          not_found: Այդպիսի տեսք գոյություն չունի
+          unretrievable_query: Չհաջողվեց ստանալ տեսքը URL-ից
+        filters: Զտիչներ
         group: Խմբավորել ըստ
         group_by: Խմբավորել արդյունքները ըստ
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: Hide column
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
-        move_column_left: Move column left
-        move_column_right: Move column right
+        group_by_disabled_by_hierarchy: Խմբավորումն անջատված է, քանի որ ակտիվ է հիերարխիայի ռեժիմը։
+        hide_column: Թաքցնել սյունակը
+        hierarchy_disabled_by_group_by: Հիերարխիայի ռեժիմն անջատված է, քանի որ արդյունքները խմբավորված են ըստ %{column}-ի։
+        insert_columns: Տեղադրել սյունակներ
+        move_column_left: Տեղափոխել սյունակը ձախ
+        move_column_right: Տեղափոխել սյունակը աջ
         public_text: 'Հրապարակեք այս տեսքը՝ թույլ տալով այլ օգտատերերին մուտք գործել Ձեր տեսքին։ ''Կառավարել հանրային տեսքերը'' թույլտվություն ունեցող օգտատերերը կարող են փոփոխել կամ հեռացնել հանրային հարցումը։ Սա չի ազդում այդ տեսքում աշխատանքային փաթեթների արդյունքների տեսանելիության վրա, և կախված իրենց թույլտվություններից՝ օգտատերերը կարող են տեսնել տարբեր արդյունքներ։
 
           '
-        rename_query_placeholder: Name of this view
+        rename_query_placeholder: Այս տեսքի անվանումը
         sort_ascending: Դասավորել աճման կարգով
         sort_descending: Դասավորել նվազման կարգով
-        star_text: Mark this view as favorite and add to the saved views sidebar on the left.
-        text_no_results: No matching views were found.
+        star_text: Նշեք այս տեսքը որպես ընտրանի և ավելացրեք ձախ կողմում գտնվող պահպանված տեսքերի կողային վահանակում։
+        text_no_results: Համապատասխան տեսքեր չեն գտնվել։
       reminders:
         button_label: Սահմանել հիշեցում
         presets:
-          custom: At a particular date/time
-          month: In a month
-          three_days: In 3 days
-          tomorrow: Tomorrow
-          week: In a week
-        subtitle: You will receive a notification for this work package at the chosen time.
+          custom: Որոշակի ամսաթվի/ժամի
+          month: Մեկ ամիս անց
+          three_days: 3 օր անց
+          tomorrow: Վաղը
+          week: Մեկ շաբաթ անց
+        subtitle: Դուք ընտրված ժամին կստանաք ծանուցում այս աշխատանքային փաթեթի վերաբերյալ։
         title:
-          edit: Edit reminder
-          new: Set a reminder
+          edit: Խմբագրել հիշեցումը
+          new: Սահմանել հիշեցում
       scheduling:
-        is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
-        is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+        is_parent: Այս աշխատանքային փաթեթի ամսաթվերն ավտոմատ կերպով հաշվարկվում են դրա ենթատարրերից։ Ամսաթվերը սահմանելու համար ակտիվացրեք 'Ձեռքով պլանավորումը'։
+        is_switched_from_manual_to_automatic: Այս աշխատանքային փաթեթի ամսաթվերը կարող է անհրաժեշտ լինի վերահաշվարկել ձեռքով պլանավորումից ավտոմատին անցնելուց հետո՝ այլ աշխատանքային փաթեթների հետ ունեցած կապերի պատճառով։
       sharing:
-        show_all_users: Show all users with whom the work package has been shared with
+        show_all_users: Ցուցադրել բոլոր օգտատերերին, որոնց հետ համօգտագործվել է աշխատանքային փաթեթը
         title: Համօգտագործել աշխատանքային փաթեթը
       table:
-        configure_button: Configure work package table
-        summary: Table with rows of work package and columns of work package attributes.
-        text_inline_edit: Most cells of this table are buttons that activate inline-editing functionality of that attribute.
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
-        text_sort_hint: With the links in the table headers you can sort, group, reorder, remove and add table columns.
+        configure_button: Կազմաձևել աշխատանքային փաթեթների աղյուսակը
+        summary: Աղյուսակ՝ աշխատանքային փաթեթների տողերով և աշխատանքային փաթեթների հատկանիշների սյունակներով։
+        text_inline_edit: Այս աղյուսակի բջիջների մեծ մասը կոճակներ են, որոնք ակտիվացնում են տվյալ հատկանիշի տեղում խմբագրման գործառույթը։
+        text_select_hint: Ընտրության դաշտերը պետք է բացվեն 'ALT' և սլաքների ստեղներով։
+        text_sort_hint: Աղյուսակի սյունակների վերնագրերի հղումների միջոցով Դուք կարող եք դասավորել, խմբավորել, վերադասավորել, հեռացնել և ավելացնել աղյուսակի սյունակներ։
       table_configuration:
-        button: Configure this work package table
-        choose_display_mode: Display work packages as
-        columns_help_text: Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them.
-        default: default
-        default_mode: Flat list
-        display_settings: Display settings
-        display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
-        hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
-        hierarchy_mode: Hierarchy
-        highlighting: Highlighting
+        button: Կազմաձևել այս աշխատանքային փաթեթների աղյուսակը
+        choose_display_mode: Ցուցադրել աշխատանքային փաթեթները որպես
+        columns_help_text: Օգտագործեք վերևի մուտքագրման դաշտը՝ Ձեր աղյուսակի տեսքին սյունակներ ավելացնելու համար։ Կարող եք քարշ տալ և թողնել սյունակները՝ դրանք վերադասավորելու համար։
+        default: կանխադրված
+        default_mode: Հարթ ցանկ
+        display_settings: Ցուցադրման կարգավորումներ
+        display_sums_hint: Ցուցադրել բոլոր գումարվող հատկանիշների գումարներն աղյուսակի արդյունքների տակ գտնվող տողում։
+        embedded_tab_disabled: Կազմաձևման այս ներդիրը հասանելի չէ Ձեր խմբագրած ներդրված տեսքի համար։
+        hierarchy_hint: Աղյուսակի բոլոր զտված արդյունքները կլրացվեն իրենց նախնիներով։ Հիերարխիաները կարելի է ընդարձակել և ծալել։
+        hierarchy_mode: Հիերարխիա
+        highlighting: Ընդգծում
         highlighting_mode:
-          description: Highlight with color
-          entire_row_by: Entire row by
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
-          none: No highlighting
+          description: Ընդգծել գույնով
+          entire_row_by: Ամբողջ տողն ըստ
+          inline: Ընդգծված հատկանիշ(ներ)
+          inline_all: Բոլոր հատկանիշները
+          none: Առանց ընդգծման
           priority: Առաջնահերթություն
           status: Կարգավիճակ
           type: Տեսակ
-        modal_title: Work package table configuration
+        modal_title: Աշխատանքային փաթեթների աղյուսակի կազմաձևում
         relation_filters:
-          filter_work_packages_by_relation_type: Filter work packages by relation type
-        show_timeline_hint: Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart.
+          filter_work_packages_by_relation_type: Զտել աշխատանքային փաթեթներն ըստ կապի տեսակի
+        show_timeline_hint: Ցուցադրել ինտերակտիվ Գանտի գծապատկեր աղյուսակի աջ կողմում։ Դուք կարող եք փոխել դրա լայնությունը՝ քարշ տալով աղյուսակի և Գանտի գծապատկերի միջև գտնվող բաժանարարը։
         sorting_mode:
-          automatic: Automatic
-          description: 'Chose the mode to sort your Work packages:'
-          manually: Manually
-          warning: You will lose your previous sorting when activating the automatic sorting mode.
+          automatic: Ինքնաշխատ
+          description: Ընտրեք Ձեր աշխատանքային փաթեթների դասավորման ռեժիմը՝
+          manually: Ձեռքով
+          warning: Ավտոմատ դասավորման ռեժիմն ակտիվացնելիս Դուք կկորցնեք Ձեր նախորդ դասավորումը։
       tabs:
         activity: Գործունեություն
-        files: Files
-        overview: Overview
+        files: Նիշքեր
+        overview: Ընդհանուր տեսք
         project_attributes: Նախագծի հատկանիշներ
-        relations: Relations
-        watchers: Watchers
+        relations: Կապեր
+        watchers: Հետևողներ
       time_relative:
         days: օր
-        months: months
-        weeks: weeks
+        months: ամիս
+        weeks: շաբաթ
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: Ակտիվացնել զեն ռեժիմը
+      button_deactivate: Ապաակտիվացնել զեն ռեժիմը

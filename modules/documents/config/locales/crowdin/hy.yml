@@ -43,8 +43,8 @@ hy:
   documents:
     active_editors: Ակտիվ խմբագրողներ
     active_editors_count:
-      one: 1 active editor
-      other: "%{count} active editors"
+      one: 1 ակտիվ խմբագրող
+      other: "%{count} ակտիվ խմբագրող"
     admin:
       collaboration_settings:
         banner:
@@ -116,7 +116,7 @@ hy:
       currently_offline: Դուք ներկայումս անցանց եք։
     label_attachment_author: Կցորդի հեղինակ
     label_categories: Կատեգորիաներ
-    last_updated_at: Last saved %{time}.
+    last_updated_at: Վերջին անգամ պահպանվել է %{time}։
     menu:
       all: Բոլոր փաստաթղթերը
       collaboration_settings: Իրական ժամանակի համագործակցություն
@@ -155,6 +155,6 @@ hy:
   permission_manage_documents: Կառավարել փաստաթղթերը
   permission_view_documents: Դիտել փաստաթղթերը
   plugin_openproject_documents:
-    description: An OpenProject plugin to allow creation of documents in projects.
-    name: OpenProject Documents
+    description: OpenProject-ի հավելում՝ նախագծերում փաստաթղթեր ստեղծելու հնարավորության համար։
+    name: OpenProject-ի փաստաթղթեր
   project_module_documents: Փաստաթղթեր

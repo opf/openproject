@@ -3,179 +3,179 @@ hy:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        channel: Channel
-        default: Use as default
+        channel: Ալիք
+        default: Օգտագործել որպես կանխադրված
         identifier: Նույնացուցիչ
       two_factor_authentication/device/sms:
-        phone_number: Phone number
+        phone_number: Հեռախոսահամար
       two_factor_authentication/device/webauthn:
         webauthn_external: WebAuthn ID
-        webauthn_public_key: WebAuthn public key
+        webauthn_public_key: WebAuthn հանրային բանալի
     errors:
       models:
         two_factor_authentication/device:
-          default_already_exists: is already set for another OTP device.
+          default_already_exists: արդեն սահմանված է մեկ այլ OTP սարքի համար։
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: must be of format +XX XXXXXXXXX
+              error_phone_number_format: պետք է լինի +XX XXXXXXXXX ձևաչափով
     models:
-      two_factor_authentication/device: 2FA device
-      two_factor_authentication/device/sms: Mobile phone
-      two_factor_authentication/device/totp: Authenticator application
+      two_factor_authentication/device: 2FA սարք
+      two_factor_authentication/device/sms: Բջջային հեռախոս
+      two_factor_authentication/device/totp: Նույնականացնող հավելված
       two_factor_authentication/device/webauthn: WebAuthn
   button_continue: Շարունակել
   button_make_active: Ակտիվացնել
-  button_make_default: Mark as default
+  button_make_default: Նշել որպես կանխադրված
   button_otp_by_sms: SMS
-  button_otp_by_voice: Voice call
-  button_resend_otp_form: Resend
-  field_otp: One-time password
+  button_otp_by_voice: Ձայնային զանգ
+  button_resend_otp_form: Կրկին ուղարկել
+  field_otp: Մեկանգամյա գաղտնաբառ
   label_confirmed: Հաստատված
-  label_otp_channel: Delivery channel
-  notice_account_has_no_phone: No cell phone number is associated with your account.
-  notice_account_otp_expired: The one-time password you entered expired.
-  notice_account_otp_invalid: Invalid one-time password.
-  notice_account_otp_send_failed: Your one-time password could not be sent.
-  notice_developer_strategy_otp: 'Developer strategy generated the following one-time password: %{token} (Channel: %{channel})'
-  notice_phone_number_format: 'Please enter the number in the following format: +XX XXXXXXXX.'
+  label_otp_channel: Առաքման ալիք
+  notice_account_has_no_phone: Ձեր հաշվին բջջային հեռախոսահամար կապված չէ։
+  notice_account_otp_expired: Ձեր մուտքագրած մեկանգամյա գաղտնաբառի ժամկետը լրացել է։
+  notice_account_otp_invalid: Անվավեր մեկանգամյա գաղտնաբառ։
+  notice_account_otp_send_failed: Ձեր մեկանգամյա գաղտնաբառը չհաջողվեց ուղարկել։
+  notice_developer_strategy_otp: Մշակողի ռազմավարությունը ստեղծել է հետևյալ մեկանգամյա գաղտնաբառը՝ %{token} (Ալիք՝ %{channel})
+  notice_phone_number_format: Խնդրում ենք մուտքագրել համարը հետևյալ ձևաչափով՝ +XX XXXXXXXX։
   plugin_openproject_two_factor_authentication:
-    description: This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
-    name: OpenProject Two-factor authentication
-  text_otp_not_receive: Other verification methods
-  text_send_otp_again: 'Resend one-time password by:'
+    description: OpenProject-ի այս հավելումը նույնականացնում է Ձեր օգտատերերին երկգործոն նույնականացման միջոցով՝ մեկանգամյա գաղտնաբառով, որը ստացվում է TOTP ստանդարտի միջոցով (Google Authenticator) կամ ուղարկվում է օգտատիրոջ բջջային հեռախոսին SMS-ով կամ ձայնային զանգով։
+    name: OpenProject-ի երկգործոն նույնականացում
+  text_otp_not_receive: Ստուգման այլ եղանակներ
+  text_send_otp_again: Կրկին ուղարկել մեկանգամյա գաղտնաբառը՝
   two_factor_authentication:
     admin:
-      all_devices_deleted: All 2FA devices of this user have been deleted
-      button_delete_all_devices: Delete registered 2FA devices
-      button_register_mobile_phone_for_user: Register mobile phone
-      delete_all_are_you_sure: Are you sure you want to delete all 2FA devices for this user?
-      no_devices_for_user: No 2FA device has been registered for this user.
-      only_sms_allowed: Only SMS delivery can be set up for other users.
-      self_edit_forbidden: You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead.
-      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
-      text_2fa_disabled: The user did not set up a 2FA device through their 'My account page'
-      text_2fa_enabled: Upon every login, this user will be requested to enter a OTP token from their default 2FA device.
+      all_devices_deleted: Այս օգտատիրոջ բոլոր 2FA սարքերը ջնջվել են
+      button_delete_all_devices: Ջնջել գրանցված 2FA սարքերը
+      button_register_mobile_phone_for_user: Գրանցել բջջային հեռախոս
+      delete_all_are_you_sure: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս օգտատիրոջ բոլոր 2FA սարքերը։
+      no_devices_for_user: Այս օգտատիրոջ համար 2FA սարք գրանցված չէ։
+      only_sms_allowed: Այլ օգտատերերի համար կարող է կարգավորվել միայն SMS առաքումը։
+      self_edit_forbidden: Այս ուղով Դուք չեք կարող խմբագրել Ձեր սեփական 2FA սարքերը։ Փոխարենը անցեք Իմ հաշիվ > Երկգործոն նույնականացում։
+      self_edit_path_html: Ձեր սեփական 2FA սարքերն ավելացնելու կամ փոփոխելու համար խնդրում ենք անցնել [Ձեր հաշվի էջի Երկգործոն նույնականացում բաժին](self_edit_link)
+      text_2fa_disabled: Օգտատերը 2FA սարք չի կարգավորել իր 'Իմ հաշվի էջի' միջոցով
+      text_2fa_enabled: Յուրաքանչյուր մուտքի ժամանակ այս օգտատիրոջից կպահանջվի մուտքագրել OTP թոքեն իր կանխադրված 2FA սարքից։
     backup_codes:
       generate:
-        keep_safe_as_password: Important! Treat these codes as passwords.
-        keep_safe_warning: Either save them in your password manager, or print this page and put in a safe place.
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
-        title: Generate backup codes
+        keep_safe_as_password: Կարևոր է։ Այս կոդերին վերաբերվեք որպես գաղտնաբառերի։
+        keep_safe_warning: Կամ պահպանեք դրանք Ձեր գաղտնաբառերի կառավարիչում, կամ տպեք այս էջը և պահեք ապահով տեղում։
+        regenerate_warning: Նախազգուշացում՝ եթե նախկինում ստեղծել եք պահուստային կոդեր, դրանք կդառնան անվավեր և այլևս չեն աշխատի։
+        title: Ստեղծել պահուստային կոդեր
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
-      plural: Backup codes
-      singular: Backup code
-    channel_unavailable: The delivery channel %{channel} is unavailable.
+        Եթե չեք կարողանում օգտվել Ձեր երկգործոն սարքերից, կարող եք օգտագործել պահուստային կոդ՝ Ձեր հաշվին հասանելիությունը վերականգնելու համար։
+        Օգտագործեք հետևյալ կոճակը՝ պահուստային կոդերի նոր հավաքածու ստեղծելու համար։
+      plural: Պահուստային կոդեր
+      singular: Պահուստային կոդ
+    channel_unavailable: "%{channel} առաքման ալիքը հասանելի չէ։"
     devices:
-      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
-      add_new: Add new 2FA device
-      button_complete_registration: Complete 2FA registration
-      cannot_delete_default: Cannot delete default device
-      confirm_default: Confirm changing default device
-      confirm_device: Confirm device
-      confirm_now: Not confirmed, click here to activate
-      confirm_send_failed: Confirmation of your 2FA device failed.
-      deletion_are_you_sure: Are you sure you want to delete this 2FA device?
-      failed_to_delete: Failed to delete 2FA device.
-      is_default_cannot_delete: The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.
-      make_default_are_you_sure: Are you sure you want to make this 2FA device your default?
-      make_default_failed: Failed to update the default 2FA device.
-      not_existing: No 2FA device has been registered for your account.
-      register: Register device
-      registration_complete: 2FA device registration complete!
-      registration_failed_token_invalid: 2FA device registration failed, the token was invalid.
-      registration_failed_update: 2FA device registration failed, the token was valid but the device could not be updated.
+      2fa_from_input_html: Խնդրում ենք մուտքագրել կոդը Ձեր <strong>%{device_name}</strong>-ից՝ Ձեր ինքնությունը հաստատելու համար։
+      2fa_from_webauthn_html: Խնդրում ենք տրամադրել <strong>%{device_name}</strong> WebAuthn սարքը։ Եթե այն USB-ի վրա հիմնված է, համոզվեք, որ միացրել եք այն և հպվել եք դրան։ Ապա սեղմեք մուտքի կոճակը։
+      add_new: Ավելացնել նոր 2FA սարք
+      button_complete_registration: Ավարտել 2FA գրանցումը
+      cannot_delete_default: Հնարավոր չէ ջնջել կանխադրված սարքը
+      confirm_default: Հաստատել կանխադրված սարքի փոփոխությունը
+      confirm_device: Հաստատել սարքը
+      confirm_now: Հաստատված չէ, սեղմեք այստեղ՝ ակտիվացնելու համար
+      confirm_send_failed: Ձեր 2FA սարքի հաստատումը ձախողվեց։
+      deletion_are_you_sure: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս 2FA սարքը։
+      failed_to_delete: Չհաջողվեց ջնջել 2FA սարքը։
+      is_default_cannot_delete: Սարքը նշված է որպես կանխադրված և հնարավոր չէ ջնջել ակտիվ անվտանգության քաղաքականության պատճառով։ Նախքան ջնջելը մեկ այլ սարք նշեք որպես կանխադրված։
+      make_default_are_you_sure: Համոզվա՞ծ եք, որ ցանկանում եք այս 2FA սարքը դարձնել Ձեր կանխադրվածը։
+      make_default_failed: Չհաջողվեց թարմացնել կանխադրված 2FA սարքը։
+      not_existing: Ձեր հաշվի համար 2FA սարք գրանցված չէ։
+      register: Գրանցել սարք
+      registration_complete: 2FA սարքի գրանցումն ավարտված է։
+      registration_failed_token_invalid: 2FA սարքի գրանցումը ձախողվեց, թոքենն անվավեր էր։
+      registration_failed_update: 2FA սարքի գրանցումը ձախողվեց, թոքենը վավեր էր, սակայն սարքը չհաջողվեց թարմացնել։
       sms:
-        description: 'Receive 2FA code via a text message on your phone each time you log in.
+        description: 'Ամեն անգամ մուտք գործելիս ստացեք 2FA կոդը Ձեր հեռախոսին ուղարկվող տեքստային հաղորդագրությամբ։
 
           '
-        redacted_identifier: Mobile device (%{redacted_number})
-        request_2fa_identifier: "%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}"
-        title: Mobile device
-      text_confirm_to_change_default_html: Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device.
-      text_confirm_to_complete_html: Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device.
-      text_identifier: You can give the device a custom identifier using this field.
+        redacted_identifier: Բջջային սարք (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}, մենք Ձեզ ուղարկել ենք նույնականացման կոդ %{delivery_channel}-ի միջոցով"
+        title: Բջջային սարք
+      text_confirm_to_change_default_html: Խնդրում ենք հաստատել Ձեր կանխադրված սարքը <strong>%{new_identifier}</strong>-ով փոխարինելը՝ մուտքագրելով մեկանգամյա գաղտնաբառ Ձեր ընթացիկ կանխադրված սարքից։
+      text_confirm_to_complete_html: Խնդրում ենք ավարտել Ձեր <strong>%{identifier}</strong> սարքի գրանցումը՝ մուտքագրելով մեկանգամյա գաղտնաբառ Ձեր կանխադրված սարքից։
+      text_identifier: Այս դաշտի միջոցով կարող եք սարքին հատուկ նույնացուցիչ տալ։
       totp:
-        account: Account name / Issuer
-        description: 'Use a one-time code generated by an authenticator like Authy or Google Authenticator.
+        account: Հաշվի անուն / Թողարկող
+        description: 'Օգտագործեք Authy-ի կամ Google Authenticator-ի նման նույնականացնող հավելվածի ստեղծած մեկանգամյա կոդը։
 
           '
-        provisioning_uri: Provisioning URI
-        question_cannot_scan: 'Unable to scan the code using your application?
+        provisioning_uri: Տրամադրման URI
+        question_cannot_scan: 'Չե՞ք կարողանում սկանավորել կոդը Ձեր հավելվածի միջոցով։
 
           '
-        secret_key: Secret key
+        secret_key: Գաղտնի բանալի
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
-        text_cannot_scan: 'If you can''t scan the code, you can enter the entry manually using the following details:
+          Google Authenticator-ի միջոցով երկգործոն նույնականացումը կարգավորելու համար ներբեռնեք հավելվածը Apple App store-ից կամ Google Play Store-ից։
+          Հավելվածը բացելուց հետո կարող եք սկանավորել հետևյալ QR կոդը՝ սարքը գրանցելու համար։
+        text_cannot_scan: 'Եթե չեք կարողանում սկանավորել կոդը, կարող եք գրառումը ձեռքով մուտքագրել՝ օգտագործելով հետևյալ տվյալները՝
 
           '
-        time_based: Time based
-        title: App-based authenticator
+        time_based: Ժամանակի վրա հիմնված
+        title: Հավելվածային նույնականացուցիչ
       webauthn:
-        description: Register a FIDO2 device (like YubiKey) or the secure enclave of your mobile device.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Գրանցեք FIDO2 սարք (օրինակ՝ YubiKey) կամ Ձեր բջջային սարքի անվտանգ մոդուլը։
+        further_steps: Անուն ընտրելուց հետո Դուք կարող եք սեղմել Շարունակել կոճակը։ Ձեր դիտարկիչը կհուշի Ձեզ ներկայացնել Ձեր WebAuthn սարքը։ Դա անելուց հետո սարքի գրանցումն ավարտված է։
         title: WebAuthn
-    error_2fa_disabled: 2FA delivery has been disabled.
-    error_invalid_backup_code: Invalid 2FA backup code
-    error_is_enforced_not_active: 'Configuration error: Two-factor authentication has been enforced, but no active strategies exist.'
-    error_no_device: No registered 2FA device found for this user, despite being required for this instance.
-    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administratior.
+    error_2fa_disabled: 2FA առաքումն անջատված է։
+    error_invalid_backup_code: Անվավեր 2FA պահուստային կոդ
+    error_is_enforced_not_active: Կազմաձևման սխալ՝ երկգործոն նույնականացումը պարտադրված է, սակայն ակտիվ ռազմավարություններ չկան։
+    error_no_device: Այս օգտատիրոջ համար գրանցված 2FA սարք չի գտնվել, չնայած որ այն պարտադիր է այս համակարգում։
+    error_no_matching_strategy: Այս օգտատիրոջ համար համապատասխան 2FA ռազմավարություն հասանելի չէ։ Խնդրում ենք դիմել Ձեր ադմինիստրատորին։
     forced_registration:
-      required_to_add_device: An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.
-    label_2fa_disabled: Two-factor authentication not active
-    label_2fa_enabled: Two-factor authentication is active
-    label_default_device: Default 2FA device
-    label_device: 2FA device
-    label_device_type: Device type
-    label_devices: 2FA devices
-    label_two_factor_authentication: Two-factor authentication
+      required_to_add_device: Ակտիվ անվտանգության քաղաքականությունը պահանջում է միացնել երկգործոն նույնականացումը։ Խնդրում ենք օգտագործել հետևյալ ձևը՝ սարք գրանցելու համար։
+    label_2fa_disabled: Երկգործոն նույնականացումն ակտիվ չէ
+    label_2fa_enabled: Երկգործոն նույնականացումն ակտիվ է
+    label_default_device: Կանխադրված 2FA սարք
+    label_device: 2FA սարք
+    label_device_type: Սարքի տեսակ
+    label_devices: 2FA սարքեր
+    label_two_factor_authentication: Երկգործոն նույնականացում
     login:
-      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      enter_backup_code_title: Enter backup code
-      other_device: Use another device or backup code
+      enter_backup_code_text: Խնդրում ենք մուտքագրել վավեր պահուստային կոդ Ձեր կոդերի ցուցակից, եթե այլևս հասանելիություն չունեք Ձեր գրանցված 2FA սարքերին։
+      enter_backup_code_title: Մուտքագրել պահուստային կոդ
+      other_device: Օգտագործել այլ սարք կամ պահուստային կոդ
     message_bird:
-      sms_delivery_failed: MessageBird SMS delivery failed.
-      voice_delivery_failed: MessageBird voice call failed.
-    mobile_transmit_notification: A one-time password has been sent to your cell phone.
-    no_valid_phone_number: No valid phone number exists.
-    notice_not_writable: 2FA Settings were provided through environment variables and cannot be overwritten.
+      sms_delivery_failed: MessageBird-ի SMS-ի առաքումը ձախողվեց։
+      voice_delivery_failed: MessageBird-ի ձայնային զանգը ձախողվեց։
+    mobile_transmit_notification: Մեկանգամյա գաղտնաբառն ուղարկվել է Ձեր բջջային հեռախոսին։
+    no_valid_phone_number: Վավեր հեռախոսահամար գոյություն չունի։
+    notice_not_writable: 2FA կարգավորումները տրամադրվել են միջավայրի փոփոխականների միջոցով և չեն կարող վերագրվել։
     remember:
-      active_session_notice: 'Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      active_session_notice: 'Ձեր հաշիվն ունի ակտիվ հիշելու cookie, որը վավեր է մինչև %{expires_on}։ Այս cookie-ն թույլ է տալիս Ձեզ մինչև այդ պահը մուտք գործել Ձեր հաշիվ առանց երկրորդ գործոնի։
 
         '
-      clear_cookie: Remove all remembered 2FA sessions.
-      cookie_removed: All remembered 2FA sessions have been removed.
-      dont_ask_again: Create cookie to remember 2FA authentication on this client for %{days} days.
-      label: Remember
-      other_active_session_notice: Your account has an active remember cookie on another session.
+      clear_cookie: Հեռացնել բոլոր հիշված 2FA աշխատաշրջանները։
+      cookie_removed: Բոլոր հիշված 2FA աշխատաշրջանները հեռացվել են։
+      dont_ask_again: Ստեղծել cookie՝ այս հաճախորդում 2FA նույնականացումը %{days} օր հիշելու համար։
+      label: Հիշել
+      other_active_session_notice: Ձեր հաշիվն ունի ակտիվ հիշելու cookie մեկ այլ աշխատաշրջանում։
     settings:
-      current_configuration: Current configuration
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
-      label_active_strategies: Active 2FA strategies
-      label_enforced: Enforce 2FA
-      label_remember: Remember 2FA login
-      text_configuration: 'Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      current_configuration: Ընթացիկ կազմաձևում
+      failed_to_save_settings: Չհաջողվեց թարմացնել 2FA կարգավորումները՝ %{message}
+      label_active_strategies: Ակտիվ 2FA ռազմավարություններ
+      label_enforced: Պարտադրել 2FA
+      label_remember: Հիշել 2FA մուտքը
+      text_configuration: 'Նշում՝ այս արժեքները ներկայացնում են ամբողջ հավելվածի ընթացիկ կազմաձևումը։ Դուք չեք կարող անջատել կազմաձևման կողմից պարտադրված կարգավորումները կամ փոփոխել ընթացիկ ակտիվ ռազմավարությունները, քանի որ դրանք պահանջում են սերվերի վերագործարկում։
 
         '
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.
+      text_configuration_guide: Լրացուցիչ տեղեկությունների համար ծանոթացեք կազմաձևման ուղեցույցին։
+      text_enforced: Միացրեք այս կարգավորումը՝ բոլոր օգտատերերին հաջորդ մուտքի ժամանակ 2FA սարք գրանցելու պարտադրելու համար։ Կարող է անջատվել միայն այն դեպքում, երբ պարտադրված չէ կազմաձևման կողմից։
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      title: 2FA settings
+        Սահմանեք սա զրոյից մեծ արժեք՝ օգտատերերին թույլ տալու համար հիշել իրենց 2FA նույնականացումը նշված օրերի ընթացքում։
+        Այդ ժամանակահատվածում նրանցից չի պահանջվի կրկին մուտքագրել այն։ Կարող է սահմանվել միայն այն դեպքում, երբ պարտադրված չէ կազմաձևման կողմից։
+      title: 2FA կարգավորումներ
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: SNS առաքումը ձախողվեց՝
     strategies:
       resdt: SMS Rest API
       sns: Amazon SNS
-      totp: Authenticator application
+      totp: Նույնականացնող հավելված
       webauthn: WebAuthn
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
-    text_2fa_enabled: Upon every login, you will be requested to enter a OTP token from your default 2FA device.
-    text_otp_delivery_message_sms: Your %{app_title} one-time password is %{token}
-    text_otp_delivery_message_voice: 'Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'
+    text_2fa_disabled: Երկգործոն նույնականացումը միացնելու համար ստորև գտնվող կոճակի միջոցով գրանցեք նոր 2FA սարք։ Եթե արդեն ունեք սարք, ապա պետք է այն դարձնեք կանխադրված։
+    text_2fa_enabled: Յուրաքանչյուր մուտքի ժամանակ Ձեզանից կպահանջվի մուտքագրել OTP թոքեն Ձեր կանխադրված 2FA սարքից։
+    text_otp_delivery_message_sms: Ձեր %{app_title} մեկանգամյա գաղտնաբառն է %{token}
+    text_otp_delivery_message_voice: Ձեր %{app_title} մեկանգամյա գաղտնաբառն է՝ %{pause} %{token}։ %{pause} Կրկնում եմ՝ %{pause} %{token}

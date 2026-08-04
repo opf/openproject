@@ -141,8 +141,8 @@ hy:
   permission_view_ifc_models: Դիտել IFC մոդելները
   permission_view_linked_issues: Դիտել BCF խնդիրները
   plugin_openproject_bim:
-    description: This OpenProject plugin introduces BIM and BCF functionality.
-    name: OpenProject BIM and BCF functionality
+    description: Այս OpenProject հավելումը ներկայացնում է BIM և BCF ֆունկցիոնալությունը։
+    name: OpenProject-ի BIM և BCF ֆունկցիոնալություն
   project_module_bcf: BCF
   project_module_bim: BCF
   project_module_ifc_models: IFC մոդելներ

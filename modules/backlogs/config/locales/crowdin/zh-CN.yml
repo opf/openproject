@@ -231,11 +231,11 @@ zh-CN:
     story_points_ideal: 故事点（理想）
   ee:
     features:
-      multiple_active_sprints: 为项目中的不同团队并行运行多个冲刺，以获得更大的控制力和灵活性。
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: 冲刺共享
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: 跨项目共享冲刺，以便在规模化敏捷设置 (SAFe) 中调整团队和协调工作。
   label_all_sprints: 所有冲刺

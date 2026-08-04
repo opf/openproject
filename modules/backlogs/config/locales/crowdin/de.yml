@@ -236,11 +236,11 @@ de:
     story_points_ideal: Story-Points (ideal)
   ee:
     features:
-      multiple_active_sprints: Führen Sie für höhere Kontrolle und Flexibilität der Teams in Ihrem Projekt mehrere Sprints gleichzeitig aus.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Sprints teilen
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Teilen Sie Sprints über Projekte hinweg, um Teams aufeinander abzustimmen und die Arbeit in skalierten agilen Setups (SAFe) zu koordinieren.
   label_all_sprints: Alle Sprints
