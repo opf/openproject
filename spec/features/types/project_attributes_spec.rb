@@ -206,21 +206,64 @@ RSpec.describe "Work package type project attributes", :js do
     let(:source_type) { create(:type, name: "Source type") }
     let(:linked_type) { create(:type, name: "Linked type") }
     let(:linked_type_page) { Pages::Types::ProjectAttributes.new(linked_type) }
+    let(:link) { linked_type.configuration_links.find_by(aspect:) }
 
-    before do
-      # Source activates only the Boolean field
-      source_type.project_custom_fields << boolean_project_custom_field
-      linked_type.link!(aspect, source: source_type)
+    def active_custom_field_ids
+      linked_type.project_custom_field_type_mappings.map(&:custom_field_id)
     end
 
-    it "hides the attributes deactivated in the source and only lists the active ones" do
+    before do
+      # Source activates Boolean + String, List stays deactivated
+      source_type.project_custom_fields << [boolean_project_custom_field, string_project_custom_field]
+      linked_type.link!(aspect, source: source_type)
       linked_type_page.visit!
+    end
 
-      expect(page).to have_text("Boolean field")
-      expect(page).to have_no_text("String field")
+    it "shows the source-active attributes as toggles and hides the source-deactivated ones" do
+      linked_type_page.within_attribute(boolean_project_custom_field) do
+        linked_type_page.expect_checked_state
+      end
+      linked_type_page.within_attribute(string_project_custom_field) do
+        linked_type_page.expect_checked_state
+      end
+
       expect(page).to have_no_text("List field")
-      # Also hides empty sections
       expect(page).to have_no_css("[data-test-selector='type-project-attribute-section-#{select_section.id}']")
+    end
+
+    it "disables an inherited attribute for the variant via its toggle" do
+      expect(active_custom_field_ids)
+        .to contain_exactly(boolean_project_custom_field.id, string_project_custom_field.id)
+
+      linked_type_page.toggle(string_project_custom_field)
+
+      linked_type_page.within_attribute(string_project_custom_field) do
+        linked_type_page.expect_unchecked_state
+      end
+
+      linked_type_page.visit!
+      linked_type_page.within_attribute(string_project_custom_field) do
+        linked_type_page.expect_unchecked_state
+      end
+
+      expect(link.reload.excluded_elements).to eq([string_project_custom_field.attribute_name])
+      expect(active_custom_field_ids).to contain_exactly(boolean_project_custom_field.id)
+    end
+
+    it "hides attributes an ancestor variant disabled" do
+      # A -> B -> C
+      type_b = create(:type, name: "Type B")
+      type_b.link!(aspect, source: source_type)
+      type_b.configuration_links.find_by(aspect:).update!(excluded_elements: [boolean_project_custom_field.attribute_name])
+      type_c = create(:type, name: "Type C")
+      type_c.link!(aspect, source: type_b)
+
+      Pages::Types::ProjectAttributes.new(type_c).visit!
+
+      # Boolean was disabled by B and is hidden on C
+      expect(page).to have_no_text("Boolean field")
+      # String is still inherited and controllable on C
+      expect(page).to have_text("String field")
     end
 
     it "still lists all attributes for the independent source type" do
