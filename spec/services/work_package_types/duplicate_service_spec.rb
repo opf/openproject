@@ -161,9 +161,15 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
 
     context "when duplicating a variant" do
       let(:root) { create(:type, name: "Task") }
-      let(:variant) { create(:type, name: "Urgent", parent: root, projects: [project_a, project_b]) }
+      let(:variant) { create(:type, name: "Urgent", parent: root) }
 
       subject(:service_call) { described_class.new(type: variant, user: admin).call }
+
+      # A variant is never offered by a project, only resolved to by one, so the projects
+      # have to enable it rather than the variant claiming them.
+      before do
+        [project_a, project_b].each { |project| project.types << variant }
+      end
 
       it "leaves the copy with no enabled projects" do
         copy = service_call.result.reload
