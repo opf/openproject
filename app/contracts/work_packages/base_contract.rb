@@ -54,6 +54,9 @@ module WorkPackages
               permission: :assign_versions do
       validate_target_versions_are_assignable
     end
+    # Observed versions have no deprecated single-value counterpart to coexist
+    # with, so unlike target versions they are always offered and always
+    # multi-valued.
     attribute :observed_in_versions,
               permission: :assign_versions do
       validate_observed_in_versions_are_assignable
