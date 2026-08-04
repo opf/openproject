@@ -46,6 +46,10 @@ import {
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
+// A raw `_links` entry of a HAL source: either a single link or a collection of links.
+interface HalSourceLink { href?:string|null }
+type HalLinkValue = HalSourceLink|HalSourceLink[];
+
 @Component({
   selector: 'wp-custom-action',
   templateUrl: './wp-custom-action.component.html',
@@ -147,21 +151,23 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
   // Build a commit describing the link attributes that the custom action
   // changed, by diffing the work package before and after execution. Only the
   // `changes` map is consumed by the action board listener, where each entry's
-  // `from`/`to` is compared against the column's value via its `href`.
+  // `from`/`to` is compared against the column's value via its `href`
+  // (link collections contribute the href of each of their entries).
   private commitFor(previous:WorkPackageResource, saved:WorkPackageResource):ResourceChangesetCommit<WorkPackageResource> {
     const previousLinks = this.linksOf(previous);
     const savedLinks = this.linksOf(saved);
     const changes:ChangeMap = {};
 
-    Object.keys(savedLinks).forEach((attribute) => {
-      const from = previousLinks[attribute]?.href;
-      const to = savedLinks[attribute]?.href;
+    // Union of both key sets, so that attributes which were removed by the
+    // action (present before, absent after) are reported as changed as well.
+    const attributes = new Set([...Object.keys(previousLinks), ...Object.keys(savedLinks)]);
 
-      if (from !== to) {
-        changes[attribute] = {
-          from: from ? { href: from } : undefined,
-          to: to ? { href: to } : undefined,
-        };
+    attributes.forEach((attribute) => {
+      const from = previousLinks[attribute];
+      const to = savedLinks[attribute];
+
+      if (!this.sameLinks(from, to)) {
+        changes[attribute] = { from, to };
       }
     });
 
@@ -173,10 +179,27 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
     };
   }
 
+  private sameLinks(from:HalLinkValue|undefined, to:HalLinkValue|undefined):boolean {
+    const fromHrefs = this.hrefsOf(from);
+    const toHrefs = this.hrefsOf(to);
+
+    return fromHrefs.length === toHrefs.length
+      && fromHrefs.every((href, index) => href === toHrefs[index]);
+  }
+
+  private hrefsOf(value:HalLinkValue|undefined):(string|null|undefined)[] {
+    if (value === undefined || value === null) {
+      return [];
+    }
+
+    // Link collections (e.g. `targetVersions`) are arrays of link objects.
+    return (Array.isArray(value) ? value : [value]).map((link) => link?.href);
+  }
+
   // `$source` is untyped (`any`), so narrow it before reading the HAL `_links`
-  // object to keep the link diff type-safe.
-  private linksOf(workPackage:WorkPackageResource):Record<string, { href?:string }> {
-    const source = workPackage.$source as { _links?:Record<string, { href?:string }> };
+  // object. Entries are either a single link or a collection of links.
+  private linksOf(workPackage:WorkPackageResource):Record<string, HalLinkValue> {
+    const source = workPackage.$source as { _links?:Record<string, HalLinkValue> };
     return source._links ?? {};
   }
 
