@@ -450,7 +450,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
     if work_package.type_id_changed?
-      reassign_status work_package.type.statuses(include_default: true)
+      reassign_status work_package.effective_type.statuses(include_default: true)
     end
   end
 

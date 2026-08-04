@@ -33,7 +33,7 @@ module WorkPackages
     class ExportOnStatusChangeService
       attr_reader :current_user, :work_package
 
-      delegate :project, :type, to: :work_package
+      delegate :project, :type, :effective_type, to: :work_package
 
       def initialize(current_user:, work_package:)
         @current_user = current_user
@@ -42,7 +42,7 @@ module WorkPackages
 
       def self.applicable?(work_package:, changes:)
         return false if changes["status_id"].blank?
-        return false unless work_package.type.artefact_export_enabled?
+        return false unless work_package.effective_type.artefact_export_enabled?
 
         # The creation wizard runs its own export for its artifact work package;
         # skip it here to avoid generating the PDF twice.
@@ -66,7 +66,7 @@ module WorkPackages
       def export_and_store!
         export = WorkPackage::PDFExport::Artefact.new(work_package).export!
 
-        case type.artefact_export_mode
+        case effective_type.artefact_export_mode
         when Type::ArtefactExport::ATTACHMENT
           store_as_attachment(export)
         when Type::ArtefactExport::FILE_LINK

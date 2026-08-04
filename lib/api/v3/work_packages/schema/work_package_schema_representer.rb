@@ -374,7 +374,7 @@ module API
           def attribute_group_map(key)
             return nil if represented.type.nil?
 
-            @attribute_group_map ||= represented.type.attribute_groups.each_with_object({}) do |group, hash|
+            @attribute_group_map ||= represented.effective_type.attribute_groups.each_with_object({}) do |group, hash|
               Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
             end
 
