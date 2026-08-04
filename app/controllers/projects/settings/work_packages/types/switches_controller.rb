@@ -92,7 +92,7 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
       component: Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project.reload)
     )
     render_success_flash_message_via_turbo_stream(
-      message: t("projects.settings.types.switch_dialog.success", type: target.composite_name)
+      message: t("projects.settings.types.switch.success", type: target.composite_name)
     )
   end
 end

@@ -33,12 +33,12 @@ See COPYRIGHT and LICENSE files for more details.
       <%= flex_layout(direction: :column) do |body| %>
         <% body.with_row(mb: 3) do %>
           <%= render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert)) do %>
-            <%= t("projects.settings.types.switch_dialog.warning") %>
+            <%= t("projects.settings.types.switch.warning") %>
           <% end %>
         <% end %>
         <% body.with_row(mb: 2) do %>
           <%= render(Primer::Beta::Text.new(tag: :p)) do %>
-            <%= t("projects.settings.types.switch_dialog.description") %>
+            <%= t("projects.settings.types.switch.description") %>
           <% end %>
         <% end %>
         <% body.with_row do %>
@@ -56,7 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t(:button_cancel) %>
       <% end %>
       <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do %>
-        <%= t("projects.settings.types.switch_dialog.apply") %>
+        <%= t("projects.settings.types.switch.apply") %>
       <% end %>
     <% end %>
   <% end %>

@@ -44,7 +44,7 @@ module Projects
           form do |switch_form|
             switch_form.select_list(
               name: :target_id,
-              label: I18n.t("projects.settings.types.switch_dialog.target_label"),
+              label: I18n.t("projects.settings.types.switch.target_label"),
               include_blank: false,
               input_width: :medium,
               validation_message: @validation_message,

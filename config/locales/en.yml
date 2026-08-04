@@ -5064,7 +5064,7 @@ en:
           enable_type_in_project: 'Enable type "%{type}"'
         no_results_title_text: There are currently no types available.
         remove_from_project: "Remove from project"
-        switch_dialog:
+        switch:
           apply: "Apply"
           description: "Select a different variant of this type to use in this project."
           success: "The project now uses %{type}."
