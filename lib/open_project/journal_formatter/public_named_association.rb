@@ -28,13 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# References an associated record which includes a visible? check
-class OpenProject::JournalFormatter::VisibleNamedAssociation < JournalFormatter::NamedAssociation
+# Opts an association out of the visibility check its superclass applies. Reserved
+# for records the journable already names elsewhere, such as the people in its
+# author, assignee and responsible fields.
+class OpenProject::JournalFormatter::PublicNamedAssociation < JournalFormatter::NamedAssociation
   private
 
-  def associated_object_name(object)
-    return super if object.nil? || object.visible?
-
-    I18n.t("journals.non_visible.#{object.model_name.i18n_key}")
-  end
+  def reachable?(_object) = true
 end
