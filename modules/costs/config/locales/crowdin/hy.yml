@@ -66,7 +66,7 @@ hy:
         spent_units: Ծախսված միավորներ
     errors:
       messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+        cost_type_in_use_cannot_disable: հնարավոր չէ անջատել, քանի որ այս նախագծում դրա համար արդեն գրանցվել են ծախսեր։
       models:
         cost_types_project:
           attributes:
@@ -143,7 +143,7 @@ hy:
       cost_types:
         for_all_projects_hint: Այս ծախսի տեսակը միացված է բոլոր նախագծերում։
         heading: Ծախսի տեսակներ
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        in_use_hint: Այս ծախսի տեսակը հնարավոր չէ անջատել, քանի որ այս նախագծում դրա համար արդեն գրանցվել են ծախսեր։
         none_active: Այս նախագծում ներկայումս ակտիվ ծախսի տեսակներ չկան։
       time_and_costs: Ժամանակ և ծախսեր
   costs:
@@ -199,7 +199,7 @@ hy:
   label_new_time_entry_activity: Ժամանակի հաշվառման նոր գործունեություն
   label_next_day: Հաջորդ օր
   label_next_month: Հաջորդ ամիս
-  label_next_week: Next week
+  label_next_week: Հաջորդ շաբաթ
   label_next_workweek: Հաջորդ աշխատանքային շաբաթ
   label_no: Ոչ
   label_no_time: Ժամանակ չի հաշվառվել
@@ -249,18 +249,18 @@ hy:
   permission_view_own_time_entries: Դիտել սեփական ծախսված ժամանակը
   placeholder_activity_select_work_package_first: Նախ անհրաժեշտ է ընտրել աշխատանքային փաթեթ
   plugin_costs:
-    description: This module adds features for planning and tracking costs of projects.
+    description: Այս մոդուլն ավելացնում է նախագծերի ծախսերի պլանավորման և հետագծման հնարավորություններ։
     name: Ժամանակ և ծախսեր
   project_module_costs: Ժամանակ և ծախսեր
   setting_allow_tracking_start_and_end_times: Թույլատրել սկզբի և ավարտի ժամեր
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
+  setting_allow_tracking_start_and_end_times_caption: Թույլ է տալիս ժամանակ գրանցելիս մուտքագրել սկզբի և ավարտի ժամերը։
   setting_costs_currency: Արժույթ
   setting_costs_currency_caption: Սա արժույթի միավորն է։ Այն կարող է լինել եռատառ ISO կոդ, ինչպիսին են EUR, USD կամ JPY, կամ նշան, ինչպիսին են €, $ կամ ¥։
   setting_costs_currency_format: Արժույթի ձևաչափ
   setting_costs_currency_format_prefix: Թվից առաջ (օրինակ՝ EUR 100)
   setting_costs_currency_format_suffix: Թվից հետո (օրինակ՝ 100 EUR)
   setting_enforce_tracking_start_and_end_times: Պահանջել սկզբի և ավարտի ժամեր
-  setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_tracking_start_and_end_times_caption: Ժամանակ գրանցելիս սկզբի և ավարտի ժամերի մուտքագրումը դարձնում է պարտադիր։
   setting_enforce_without_allow: Սկզբի և ավարտի ժամեր պահանջելը հնարավոր չէ առանց դրանք թույլատրելու
   text_assign_time_and_cost_entries_to_project: Նշանակել գրանցված ժամերը և ծախսերը նախագծին
   text_destroy_cost_entries_question: "%{cost_entries} գրանցվել են այն աշխատանքային փաթեթների համար, որոնք պատրաստվում եք ջնջել։ Ի՞նչ եք ցանկանում անել։"

@@ -27,7 +27,7 @@ hy:
     label_hours: ժամ
     myTimeTracking:
       noSpecificTime: Առանց որոշակի ժամի
-    text_are_you_sure: Are you sure?
+    text_are_you_sure: Համոզվա՞ծ եք։
     work_packages:
       properties:
         overallCosts: Ընդհանուր ծախսեր

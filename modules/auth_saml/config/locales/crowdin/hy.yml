@@ -164,7 +164,7 @@ hy:
       metadata:
         dialog: Սա այն URL-ն է, որտեղ հասանելի են OpenProject-ի SAML մետատվյալները։ Ըստ ցանկության օգտագործեք այն Ձեր ինքնության մատակարարը կազմաձևելու համար՝
       no_results_table: SAML ինքնության մատակարարներ դեռ սահմանված չեն։
-      notice_created: A new SAML identity provider was successfully created.
+      notice_created: Նոր SAML ինքնության մատակարարը հաջողությամբ ստեղծվել է։
       plural: SAML ինքնության մատակարարներ
       request_attributes:
         format: Հատկանիշի ձևաչափ

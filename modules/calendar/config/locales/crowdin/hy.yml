@@ -7,6 +7,6 @@ hy:
   permission_share_calendars: Բաժանորդագրվել iCalendar-ներին
   permission_view_calendar: Դիտել օրացույցները
   plugin_openproject_calendar:
-    description: Provides calendar views.
-    name: OpenProject Calendar
+    description: Ապահովում է օրացույցի տեսքեր։
+    name: OpenProject-ի օրացույց
   project_module_calendar_view: Օրացույցներ

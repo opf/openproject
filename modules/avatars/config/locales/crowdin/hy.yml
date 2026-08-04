@@ -22,7 +22,7 @@ hy:
   label_current_avatar: Ընթացիկ ավատար
   message_avatar_uploaded: Ավատարը հաջողությամբ փոփոխվել է։
   plugin_openproject_avatars:
-    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    description: Այս հավելումը թույլ է տալիս OpenProject-ի օգտատերերին վերբեռնել նկար՝ որպես ավատար օգտագործելու համար, կամ օգտվել Gravatar-ում գրանցված պատկերներից։
     name: Ավատարներ
   unable_to_delete_avatar: Ավատարը չհաջողվեց ջնջել։
   wrong_file_format: Թույլատրելի ձևաչափերն են՝ jpg, png, gif։

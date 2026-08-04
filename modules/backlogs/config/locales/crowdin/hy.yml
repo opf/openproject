@@ -83,7 +83,7 @@ hy:
               can_only_contain_work_packages_of_current_sprint: կարող է պարունակել միայն ընթացիկ սպրինտի աշխատանքային փաթեթների ID-ները։
               must_block_at_least_one_work_package: պետք է պարունակի առնվազն մեկ աշխատանքային փաթեթի ID։
             sprint:
-              not_assignable: is not assignable since it is either not shared with the project or already finished.
+              not_assignable: հնարավոր չէ նշանակել, քանի որ այն կամ չի համօգտագործվել նախագծի հետ, կամ արդեն ավարտված է։
               not_eligible_for_moving: ակտիվ սպրինտ չէ այն նախագծում, որին պատկանում է սպրինտը, որտեղից տեղափոխվում է աշխատանքային փաթեթը։
             version_id:
               task_version_must_be_the_same_as_story_version: պետք է նույնը լինի, ինչ ծնող պատմության տարբերակը։
@@ -255,7 +255,7 @@ hy:
         description: Համօգտագործեք սպրինտները նախագծերի միջև, որպեսզի համաձայնեցնեք թիմերը և համակարգեք աշխատանքը մասշտաբավորված Agile մոդելներում (SAFe)։
   label_all_sprints: Բոլոր սպրինտները
   label_backlog: Բեքլոգ
-  label_backlog_and_sprints: Backlog and sprints
+  label_backlog_and_sprints: Բեքլոգ և սպրինտներ
   label_backlog_bucket_edit: Խմբագրել բեքլոգի բաժինը
   label_backlog_bucket_new: Բեքլոգի նոր բաժին
   label_backlogs: Բեքլոգներ
@@ -286,8 +286,8 @@ hy:
   permission_start_complete_sprint: Սկսել/ավարտել սպրինտը
   permission_view_sprints: Դիտել սպրինտները
   plugin_openproject_backlogs:
-    description: This module adds features enabling agile teams to work with OpenProject in Scrum projects.
-    name: OpenProject Backlogs
+    description: Այս մոդուլն ավելացնում է հնարավորություններ, որոնք ճկուն թիմերին թույլ են տալիս աշխատել OpenProject-ում Scrum նախագծերում։
+    name: OpenProject-ի բեքլոգներ
   project_module_backlogs: Բեքլոգներ
   projects:
     copy:
