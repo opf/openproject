@@ -77,6 +77,12 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
+  <% if description? && !collapsible? %>
+    <% grid.with_area(:description) do %>
+      <%= description %>
+    <% end %>
+  <% end %>
+
   <% if label? %>
     <% grid.with_area(:label) do %>
       <%= label %>
@@ -94,12 +100,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% if menu? %>
     <% grid.with_area(:menu) do %>
       <%= menu %>
-    <% end %>
-  <% end %>
-
-  <% if description? && !collapsible? %>
-    <% grid.with_area(:description) do %>
-      <%= description %>
     <% end %>
   <% end %>
 <% end %>

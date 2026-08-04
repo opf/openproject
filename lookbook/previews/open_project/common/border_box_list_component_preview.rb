@@ -215,11 +215,13 @@ module OpenProject
 
       # @label With header label
       # Header holding a status label, optionally next to an action button.
+      # @param label text
       # @param label_scheme [Symbol] select [default, primary, secondary, accent, success, attention, severe, danger]
       # @param with_action_button toggle
       # @param padding [Symbol] select [default, condensed, spacious]
       # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
       def with_header_label(
+        label: "Default",
         label_scheme: :default,
         with_action_button: false,
         padding: :default,
@@ -227,6 +229,7 @@ module OpenProject
       )
         render_label_list(
           container: "border-box-list-header-label-preview",
+          label:,
           label_scheme:,
           with_action_button:,
           padding:,
@@ -238,11 +241,13 @@ module OpenProject
       # @label With collapsible header label
       # The collapsible header renders through its own heading markup, so the
       # label alignment is worth checking separately.
+      # @param label text
       # @param label_scheme [Symbol] select [default, primary, secondary, accent, success, attention, severe, danger]
       # @param with_action_button toggle
       # @param padding [Symbol] select [default, condensed, spacious]
       # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
       def with_collapsible_header_label(
+        label: "Default",
         label_scheme: :default,
         with_action_button: false,
         padding: :default,
@@ -250,6 +255,7 @@ module OpenProject
       )
         render_label_list(
           container: "border-box-list-collapsible-header-label-preview",
+          label:,
           label_scheme:,
           with_action_button:,
           padding:,
@@ -278,7 +284,7 @@ module OpenProject
 
       private
 
-      def render_label_list(container:, label_scheme:, with_action_button:, padding:, header_padding:,
+      def render_label_list(container:, label:, label_scheme:, with_action_button:, padding:, header_padding:,
                             collapsible:)
         render OpenProject::Common::BorderBoxListComponent.new(
           container:,
@@ -287,7 +293,7 @@ module OpenProject
           collapsible:
         ) do |list|
           list.with_header(title: "Bug", count: true) do |header|
-            header.with_label(scheme: label_scheme) { "Default" }
+            header.with_label(scheme: label_scheme) { label }
             if boolean_preview_param(with_action_button)
               header.with_action_button do |button|
                 button.with_leading_visual_icon(icon: :pencil)

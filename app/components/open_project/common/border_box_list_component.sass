@@ -137,6 +137,9 @@
   &--actions,
   &--menu
     margin-left: var(--stack-gap-normal)
+
+  &--actions,
+  &--menu
     align-self: flex-start
 
   &--actions
@@ -144,9 +147,15 @@
     align-items: center
     gap: var(--stack-gap-condensed)
 
-  // An informational label has no room next to the title on a phone, so it
-  // is dropped there. Action buttons stay, as they are functional.
   &--label
+    display: flex
+    align-items: center
+    // A label's text is not length-constrained,
+    // so cap it (roughly 35 characters' worth)
+    .Label
+      max-width: 200px
+      @include text-shortener
+
     @media screen and (max-width: $breakpoint-sm)
       display: none
 
