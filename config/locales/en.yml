@@ -725,6 +725,12 @@ en:
           attributes:
             project_ids:
               blank: "Please select a project."
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: "must be a top-level type. A project offers roots and resolves a variant separately."
+            variant:
+              must_belong_to_the_type: "must be a variant of the type the project offers."
         queries/filters/base:
           attributes:
             values:
@@ -1226,9 +1232,6 @@ en:
           description: "Create an import run to start importing information from this Jira instance"
           title: "No import runs set up yet"
         history: "History"
-        side_panel:
-          run_status: "Run status"
-          open_history: "Open the run history"
         import_blocked_error: "Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import."
         index:
           button_edit_configuration: "Edit configuration"
@@ -1236,6 +1239,9 @@ en:
           description: "You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing."
         project_identifier_taken: "You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry."
         remove_error: "A Jira import run cannot be removed while it is running"
+        side_panel:
+          open_history: "Open the run history"
+          run_status: "Run status"
         status:
           configuring: "Select scope"
           finalizing: "Finalizing"
