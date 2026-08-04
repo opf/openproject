@@ -1,0 +1,98 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper(data: { test_selector: "project-types-switch-impact" }) do %>
+  <% if impact.nil? %>
+    <%= render(Primer::Beta::Text.new(color: :muted)) do %>
+      <%= t("projects.settings.types.switch.impact.unchanged") %>
+    <% end %>
+  <% else %>
+    <%= flex_layout(direction: :column) do |preview| %>
+      <% preview.with_row(mb: 2) do %>
+        <%= render(Primer::Beta::Text.new(font_weight: :semibold)) do %>
+          <%= t("projects.settings.types.switch.impact.work_packages", count: impact.work_package_count) %>
+        <% end %>
+      <% end %>
+
+      <% unless impact.anything_affected? %>
+        <% preview.with_row do %>
+          <%= render(Primer::Beta::Text.new(color: :muted)) do %>
+            <%= t("projects.settings.types.switch.impact.nothing_affected") %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% field_sections.each do |section| %>
+        <% preview.with_row(mb: 2) do %>
+          <%= render(
+                OpenProject::Common::BorderBoxListComponent.new(
+                  container: "project-types-switch-#{section.id}-fields",
+                  collapsible: true
+                )
+              ) do |list| %>
+            <% list.with_header(title: section.heading, count: true, collapsed: true) %>
+            <% section.fields.each do |field| %>
+              <% list.with_item do %>
+                <%= render(Primer::Beta::Text.new) { field.label } %>
+                <% if (suffix = field_suffix(field)) %>
+                  <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { suffix } %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if impact.missing_statuses.any? %>
+        <% preview.with_row do %>
+          <%= render(
+                OpenProject::Common::BorderBoxListComponent.new(
+                  container: "project-types-switch-missing-statuses",
+                  collapsible: true
+                )
+              ) do |list| %>
+            <% list.with_header(
+                 title: t("projects.settings.types.switch.impact.missing_statuses_heading"),
+                 count: true,
+                 collapsed: true
+               ) %>
+            <% impact.missing_statuses.each do |status, count| %>
+              <% list.with_item do %>
+                <%= render(Primer::Beta::Text.new) { status.name } %>
+                <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) do %>
+                  <%= t("projects.settings.types.switch.impact.status_count", count:) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

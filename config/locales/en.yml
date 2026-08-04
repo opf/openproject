@@ -5067,6 +5067,22 @@ en:
         switch:
           apply: "Apply"
           description: "Select a different variant of this type to use in this project."
+          impact:
+            hidden_heading: "Fields that will no longer be shown"
+            missing_statuses_heading: "Statuses missing from the new workflow"
+            new_heading: "Fields that become available"
+            nothing_affected: "No fields or statuses are affected."
+            status_count:
+              one: "1 work package"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            unchanged: "Select a different variant to see what will change."
+            value_count:
+              one: "1 work package has a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: "1 work package will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: "The project now uses %{type}."
           target_label: "Variant"
           title: "%{type}: Switch variant"
