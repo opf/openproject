@@ -337,6 +337,32 @@ RAILS_ENV=development bundle exec good_job start
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
 
+### How to access your development environment from another device on the same network
+
+Sometimes it is necessary to test with a real mobile phone. To make this possible, you have to set some environment variables before starting the backend and frontend servers. You need the IP address of the machine that runs the dev server on the network. Then edit your `.env` file like this:
+
+```shell
+DEV_IP=<INSERT YOUR IP HERE>
+# Local backend development host and port
+HOST=$DEV_IP
+PORT=3000
+# Local frontend development host and port
+FE_HOST=$DEV_IP
+FE_PORT=4200
+# Use this variables to configure hostnames for frontend and backend
+OPENPROJECT_DEV_HOST=$DEV_IP
+OPENPROJECT_DEV_URL=http://${OPENPROJECT_DEV_HOST}:${FE_PORT}
+OPENPROJECT_HOST__NAME=$DEV_IP:3000
+# Configure Hocuspocus if you want to use documents
+OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=ws://$DEV_IP:1234
+OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=secret12345
+```
+
+After that, you need to start the backend server like this (if you use overmind or `bin/dev`, edit `Procfile.dev`): `bundle exec rails server --binding=0.0.0.0`
+And the frontend server like this: `DEV_IP=<INSERT YOUR IP HERE> FE_HOST=$DEV_IP PROXY_HOSTNAME=$DEV_IP npm run serve`
+
+Afterwards, you can navigate to `<INSERT YOUR IP HERE>:3000` on a device on the same network (e.g. your mobile phone).
+
 ### Known issues
 
 #### Spawning a lot of browser tabs
