@@ -8,22 +8,25 @@ keywords: Jira migration FAQ, Jira Migrator, Jira Data Center, OpenProject migra
 
 # Frequently asked questions about Jira migration
 
-This page helps decision-makers assess how OpenProject can provide a sustainable alternative to Jira and how to approach a migration. OpenProject deliberately focuses on clear, integrated project-management concepts instead of reproducing the full complexity of Jira and its app ecosystem. The questions below provide a starting point for a detailed fit-gap analysis.
+This page helps decision-makers assess how OpenProject can provide a sustainable alternative to Jira and how to approach a migration. OpenProject focuses on clear, integrated product and project management concepts in one platform instead of reproducing the full complexity of Jira and its app ecosystem.
+The questions below provide a starting point for a detailed fit-gap analysis. Please [reach out to our experts](https://www.openproject.org/contact/) for personalized guidance on your Jira migration.
 
 > [!IMPORTANT]
-> Current product and migration capabilities on this page refer to OpenProject 17.6. The Jira Migrator is in beta and should only be used in test setups. Items on the [OpenProject roadmap](https://www.openproject.org/roadmap/) describe current plans, but their scope, status and delivery dates may change.
-
+> Current product and migration capabilities on this page refer to OpenProject 17.6. The Jira Migrator is in beta and should only be used in test setups. Items on the [OpenProject roadmap](https://www.openproject.org/roadmap/) reflect our current development plans and priorities. While we are committed to delivering them, scope, status and target delivery dates may change.
+> 
 ## Is OpenProject proven in large organizations?
 
-Yes. Several very large organizations have been using OpenProject successfully for years. References and major deployments include Deutsche Bahn, Mercedes-AMG, Samsung, 3M, Charité, the German Federal Ministry for Digital Transformation and Government Modernisation (BMDS), and the [International Criminal Court (ICC) through openDesk](https://www.openproject.org/blog/digital-sovereignty-government-germany-opendesk/). The [OpenProject customer overview](https://www.openproject.org/customers/) provides further examples across industry, research, healthcare and government.
+Yes. Many large organizations have been using OpenProject successfully for years. References and major deployments include Deutsche Bahn, Mercedes-AMG, Samsung, 3M, Charité, the German Federal Ministry for Digital Transformation and Government Modernisation (BMDS), and the [International Criminal Court (ICC)](https://www.openproject.org/blog/digital-sovereignty-government-germany-opendesk/) through openDesk.
+
+OpenProject is trusted by organizations across government and public administration, healthcare, transportation, manufacturing, automotive, research and higher education, energy, IT, and consulting. It is increasingly adopted by public sector organizations pursuing digital sovereignty, open standards, and vendor independence. The  [OpenProject customer overview](https://www.openproject.org/customers/) provides further examples across industries and geographies.
 
 OpenProject is also currently undergoing an extensive security assessment as part of openDesk for use by the German Armed Forces (Bundeswehr). This work goes beyond a standard functional evaluation and examines the software and its operation against the requirements of a particularly security-sensitive organization.
 
 ## Can OpenProject users be forced into a cloud migration?
 
-Organizations using OpenProject are not facing the specific problem created by the [announced end of life of Jira Data Center on March 28, 2029](https://www.atlassian.com/licensing/data-center): they do not have to move to a proprietary cloud simply because the vendor discontinues its self-hosted product. With OpenProject, organizations can continue to operate the open source software in infrastructure they control and decide how and when to update it. Enterprise subscriptions add professional support and service levels without taking away that operational independence.
+No. Organizations using OpenProject are not facing the specific problem created by the [announced end of life of Jira Data Center on March 28, 2029](https://www.atlassian.com/licensing/data-center): they do not have to move to a proprietary cloud simply because the vendor discontinues its self-hosted product. With OpenProject, organizations can operate the open source software in infrastructure they control and decide how and when to update it. Enterprise subscriptions add professional support and service levels without taking away that control and operational independence.
 
-This does not mean that operating enterprise software requires no effort or that incidents cannot occur. It means that OpenProject has a long-standing track record in demanding environments and that its users retain control over the deployment instead of being forced into a cloud migration by a product end-of-life decision.
+OpenProject has a long-standing track record in demanding enterprise environments, enabling customers to retain control over their infrastructure and deployment instead of being forced into a cloud migration due to a single vendor's product end-of-life decision.
 
 ## Why should European organizations carefully reconsider a move to Atlassian Cloud?
 
@@ -33,15 +36,15 @@ Under the [US CLOUD Act](https://www.justice.gov/criminal/media/999391/dl?inline
 
 Some US legal processes can also restrict or delay customer notification. For example, [18 U.S.C. § 2709](https://www.law.cornell.edu/uscode/text/18/2709) permits nondisclosure requirements for certain National Security Letters when the statutory conditions are met, and [18 U.S.C. § 2705](https://www.law.cornell.edu/uscode/text/18/2705) provides for delayed or prohibited notice in specified investigations. Atlassian's own [transparency report](https://www.atlassian.com/trust/privacy/transparency-report) confirms that the company receives US government requests and, after legal review, has disclosed user or account data in response to some requests.
 
-The practical risk depends on the organization and its data. For many ordinary business use cases, the likelihood of a relevant US access request may be low. For governments, critical infrastructure, financial institutions, healthcare organizations and companies handling strategically sensitive information, however, the jurisdictional dependency itself can be material. The [European Commission's Cloud Sovereignty Framework](https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en) therefore treats exposure to non-EU laws with cross-border reach, including the US CLOUD Act, as a distinct sovereignty criterion.
+The practical risk depends on the organization and its data. For many ordinary business use cases, the likelihood of a relevant US access request may be low. For governments, critical infrastructure, financial institutions, healthcare organizations, and companies handling strategically sensitive information, however, the jurisdictional dependency itself can be material. The [European Commission's Cloud Sovereignty Framework](https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en) therefore treats exposure to non-EU laws with cross-border reach, including the US CLOUD Act, as a distinct sovereignty criterion.
 
-A self-hosted OpenProject deployment provides a different risk model: the organization chooses and controls the infrastructure, retains the software and source code, and is not operationally dependent on a proprietary US SaaS provider. Each organization should still assess its complete infrastructure and supplier chain and obtain legal advice for its specific regulatory and threat model.
+A self-hosted OpenProject deployment provides a different risk model: the organization chooses and controls the infrastructure, retains the software and the source code, and is not operationally dependent on a proprietary US SaaS provider. Each organization should still assess its complete infrastructure and supplier chain and obtain legal advice for its specific regulatory and threat model.
 
 ## Is OpenProject a one-to-one replacement for Jira?
 
-OpenProject is not intended to be a one-to-one copy of Jira. This is an important advantage: organizations can replace a complex combination of Jira products and apps with a more consistent platform and simplify processes that have grown over time.
+OpenProject is not intended to be a one-to-one copy of Jira. This is an important advantage: organizations can replace a complex combination of Jira products and apps with a more consistent platform and simplify complex processes that have grown over time.
 
-OpenProject combines [work packages](../../../user-guide/work-packages/), [agile boards](../../../user-guide/agile-boards/), [backlogs and sprints](../../../user-guide/backlogs-scrum/), [Gantt charts](../../../user-guide/gantt-chart/), [portfolios](../../../user-guide/portfolios/), [team planning](../../../user-guide/team-planner/), [time and cost tracking](../../../user-guide/time-and-costs/), [meetings](../../../user-guide/meetings/), [documents](../../../user-guide/documents/) and a [project wiki](../../../user-guide/wiki/). It is particularly attractive to organizations that value open source, data sovereignty, self-hosting or EU-based cloud hosting.
+OpenProject combines [work packages](../../../user-guide/work-packages/), [agile boards](../../../user-guide/agile-boards/), [backlogs and sprints](../../../user-guide/backlogs-scrum/), [Gantt charts](../../../user-guide/gantt-chart/), [portfolios](../../../user-guide/portfolios/), [team planning](../../../user-guide/team-planner/), [time and cost tracking](../../../user-guide/time-and-costs/), [meetings](../../../user-guide/meetings/), [documents](../../../user-guide/documents/) and a [project wiki](../../../user-guide/wiki/). It is particularly attractive to organizations that value data sovereignty, self-hosting, open source, or EU-based cloud hosting.
 
 A successful decision should be based on business processes and outcomes rather than identical screens or configuration objects. Organizations with many Jira workflows, schemes, marketplace apps or custom scripts should use a fit-gap analysis to identify where OpenProject can cover the underlying need with a simpler approach.
 
@@ -49,11 +52,11 @@ A successful decision should be based on business processes and outcomes rather 
 
 Start with an inventory of the Jira environment and identify:
 
-- Jira products, versions, projects, issue counts and attachment volumes.
-- Issue types, fields, workflows, permissions, security schemes, boards, filters and dashboards.
-- Marketplace apps, custom scripts, automations and integrations.
-- Regulatory, accessibility, hosting, data residency, support and availability requirements.
-- Reports and processes that are business-critical at go-live.
+- Jira products, versions, projects, issue counts and attachment volumes
+- Issue types, fields, workflows, permissions, security schemes, boards, filters and dashboards
+- Marketplace apps, custom scripts, automations and integrations
+- Regulatory, accessibility, hosting, data residency, support and availability requirements
+- Reports and processes that are business-critical at go-live
 
 For every requirement, distinguish between a legal or operational necessity, a valuable convenience and a historical configuration that is no longer needed. This analysis often reveals opportunities to reduce fields, workflows, schemes and apps. Classify each requirement as available, configurable, replaceable through another approach, planned, or currently a gap.
 
@@ -65,31 +68,31 @@ Each import run enters a review mode and can be approved or reverted. After appr
 
 ## Which Jira versions can currently be imported?
 
-OpenProject 17.6 supports Jira Server and Jira Data Center 10.x and 11.x. Jira Cloud is not supported. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/).
+OpenProject 17.6 supports Jira Server and Jira Data Center 10.x and 11.x. Jira Cloud is not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/).
 
 ## Which data can OpenProject 17.6 import automatically?
 
 The documented scope already includes the central foundation for a realistic migration test:
 
-- Projects and project identifiers.
-- Issues and selected standard attributes, including subject, description, attachments, due date, estimated hours and remaining hours.
-- [Project-based issue identifiers](../../../system-admin-guide/manage-work-packages/work-package-identifiers/).
-- Supported custom fields.
-- Users with names, email addresses and project memberships.
-- Statuses and types.
+- Projects and project identifiers
+- Issues and selected standard attributes, including subject, description, attachments, due date, estimated hours and remaining hours
+- [Project-based issue identifiers](../../../system-admin-guide/manage-work-packages/work-package-identifiers/)
+- Supported custom fields
+- Users with names, email addresses and project memberships
+- Statuses and types
 
 Review the [Jira migration guide](../) and [custom fields migration guide](../custom-fields/) for the authoritative scope of the OpenProject version used for the migration. Test representative projects because data quality and Jira configuration can affect the result.
 
 ## Which Jira data is not yet migrated automatically?
 
-The Jira Migrator is being expanded iteratively. OpenProject 17.6 does not yet migrate every Jira configuration object or all ecosystem data. Important areas requiring particular attention include relations between issues, sprint assignments, versions, components, project-level workflows, permissions, schemes, boards, filters, dashboards, time logs and data owned by marketplace apps.
+The Jira Migrator is being expanded iteratively. OpenProject 17.6 does not yet migrate every Jira configuration object or all ecosystem data. Important areas requiring particular attention include relations between issues, sprint assignments, versions, components, project-level workflows, permissions, schemes, boards, filters, dashboards, time logs, and data owned by marketplace apps.
 
 Several of these areas are represented by roadmap items, including:
 
-- [Relations between work items](https://community.openproject.org/projects/JIM/work_packages/JIM-43/activity).
-- [Sprint assignments](https://community.openproject.org/projects/JIM/work_packages/JIM-44/activity).
-- [Affected and fix versions](https://community.openproject.org/projects/JIM/work_packages/JIM-154/activity).
-- [Jira components](https://community.openproject.org/projects/JIM/work_packages/JIM-107/activity).
+- [Relations between work items](https://community.openproject.org/projects/JIM/work_packages/JIM-43/activity)
+- [Sprint assignments](https://community.openproject.org/projects/JIM/work_packages/JIM-44/activity)
+- [Affected and fix versions](https://community.openproject.org/projects/JIM/work_packages/JIM-154/activity)
+- [Jira components](https://community.openproject.org/projects/JIM/work_packages/JIM-107/activity)
 - [Preserving references after a separate Confluence-to-XWiki migration](https://community.openproject.org/projects/JIM/work_packages/JIM-129/activity). This does not include migrating Confluence content.
 
 Roadmap inclusion does not mean that a capability is available in the version being evaluated. Verify the current status of each required item.
@@ -118,7 +121,7 @@ Nevertheless, test all link types. Raw URLs, app-specific links, links created b
 
 ## How are Jira custom fields handled?
 
-The Migrator supports a broad set of commonly used Jira field types, including text, number, date, list, checkbox, URL, user, labels and cascading-select fields. It also handles several Jira field-context scenarios. This provides a good basis for testing real projects while avoiding the automatic transfer of unused configuration. Unused fields may be ignored, and unsupported field types are skipped.
+The Jira Migrator supports a broad set of commonly used Jira field types, including text, number, date, list, checkbox, URL, user, labels and cascading-select fields. It also handles several Jira field-context scenarios. This provides a good basis for testing real projects while avoiding the automatic transfer of unused configuration. Unused fields may be ignored, and unsupported field types are skipped.
 
 Fields created by marketplace apps require special attention because their values and configuration may not be exposed like regular Jira custom fields. Build a field inventory, identify the owning app and test representative values. See [custom fields migration](../custom-fields/) for supported types and detailed mapping rules.
 
@@ -134,23 +137,25 @@ Several measured test migrations provide a reliable basis for planning a large c
 
 Begin with a representative set of projects: one standard project, one highly customized project, one large project and one project using important marketplace apps. Record import duration, warnings, rejected objects, manual corrections and validation results. Use these results to estimate the full migration and decide which historical data should be archived rather than migrated.
 
+See also our blog post on [jira migration strategies](https://www.openproject.org/blog/jira-migration-strategies/).
+
 ## Can OpenProject replace Jira Software for Scrum, Kanban and SAFe?
 
-OpenProject 17.6 provides [agile boards](../../../user-guide/agile-boards/) as well as [backlogs and sprints](../../../user-guide/backlogs-scrum/) with sprint planning and sprint boards. A particular strength is the combination of agile work with [work-package hierarchies and relations](../../../user-guide/work-packages/work-package-relations-hierarchies/), [Gantt charts](../../../user-guide/gantt-chart/) and [portfolio structures](../../../user-guide/portfolios/). This makes it possible to connect agile delivery with classic planning and governance in one system.
+Yes. OpenProject 17.6 provides [agile boards](../../../user-guide/agile-boards/) as well as [backlogs and sprints](../../../user-guide/backlogs-scrum/) with sprint planning and sprint boards. A particular strength is the combination of agile work with [work-package hierarchies and relations](../../../user-guide/work-packages/work-package-relations-hierarchies/), [Gantt charts](../../../user-guide/gantt-chart/) and [portfolio structures](../../../user-guide/portfolios/). This makes it possible to connect agile delivery with classic planning and governance in one system.
 
 The roadmap includes further Jira-oriented capabilities such as work-in-progress limits, sprint reports, burndown and velocity charts, multiple active sprints, board swimlanes and cumulative-flow diagrams. Organizations using Advanced Roadmaps, extensive board automation or SAFe can use the documented [SAFe use case](../../../use-cases/safe-framework/) as a starting point and should model their real planning events, metrics, dependencies and cross-team views in a pilot.
 
 ## Can OpenProject replace Jira Service Management?
 
-OpenProject already provides a solid foundation for modeling requests, incidents, changes and other service records through [work packages](../../../user-guide/work-packages/), [workflows](../../../system-admin-guide/manage-work-packages/work-package-workflows/), custom fields and [notifications](../../../user-guide/notifications/). OpenProject 17.6 does not yet cover the complete Jira Service Management feature set.
+OpenProject already provides a solid foundation for modeling requests, incidents, changes and other service records through [work packages](../../../user-guide/work-packages/), [workflows](../../../system-admin-guide/manage-work-packages/work-package-workflows/), custom fields and [notifications](../../../user-guide/notifications/). OpenProject 17.6 does not yet cover the complete Jira Service Management feature set. Closing these gaps is part of the OpenProject product roadmap, and we will continue to expand our service management capabilities in future releases.
 
 The roadmap includes incoming-email improvements, a [service portal](https://community.openproject.org/projects/SISMI/work_packages/71021/activity), [asset management](https://community.openproject.org/projects/SISMI/work_packages/67364/activity) and [service level agreements](https://community.openproject.org/projects/SISMI/work_packages/74193/activity). Evaluate customer portals, queues, SLAs, assets, knowledge articles, email processing, approvals and reporting separately. Planned features are not a substitute for a tested go-live requirement.
 
 ## What is the alternative to Xray or Zephyr test management?
 
-Test-management processes can already be modeled with work-package types, workflows, relations and views, as shown in the [OpenProject test-management use case](../../../use-cases/test-management/). A dedicated [test-management roadmap](https://www.openproject.org/roadmap/#test-management) covers test cases, executions, results, traceability and reporting. Work on the [Squash TM integration](https://community.openproject.org/projects/SSOI/work_packages/SSOI-1/activity) has already started.
+Test management processes can already be modeled with work-package types, workflows, relations and views, as shown in the [OpenProject test management use case](../../../use-cases/test-management/). A dedicated [test management roadmap](https://www.openproject.org/roadmap/#test-management) covers test cases, executions, results, traceability and reporting. Work on the [Squash TM integration](https://community.openproject.org/projects/SSOI/work_packages/SSOI-1/activity) has already started.
 
-There is no generic migration of Xray or Zephyr data in OpenProject 17.6. Inventory test cases, steps, executions, plans, evidence, automation results and requirement links. Decide whether they should be modeled in OpenProject, moved to a specialized test-management system, or retained in an archive.
+There is no generic migration of Xray or Zephyr data in OpenProject 17.6. Inventory test cases, steps, executions, plans, evidence, automation results and requirement links. Decide whether they should be modeled in OpenProject directly, moved to a specialized test management system, or retained in an archive.
 
 ## How does OpenProject support portfolio and program management?
 
@@ -160,7 +165,7 @@ The [portfolio and program management roadmap](https://www.openproject.org/roadm
 
 ## How does OpenProject support resource and capacity management?
 
-[Team planners](../../../user-guide/team-planner/) provide a visual view of assigned work and help teams coordinate workloads within projects. Resource planning remains connected to the underlying work packages, schedules and responsibilities instead of being maintained in a disconnected planning layer.
+[Team planners](../../../user-guide/team-planner/) provide a visual view of assigned work and help teams coordinate workloads within projects. Resource planning remains connected to the underlying work packages, schedules and responsibilities instead of being maintained in a disconnected planning layer. OpenProject 17.7 will release a dedicated resource management module in OpenProject.
 
 The [resource and capacity management roadmap](https://www.openproject.org/roadmap/#resources-capacity-management) includes cross-project resource planning, capacity visibility and workload balancing. [Multi-project resource management](https://community.openproject.org/projects/OP/work_packages/OP-6038/activity) is still a roadmap item. Organizations using Tempo Planner, BigPicture or similar apps should validate planning granularity, skills and roles, availability, allocations, scenarios and capacity reports against the current release and the roadmap.
 
@@ -174,7 +179,7 @@ Organizations using Tempo Timesheets or specialized financial extensions should 
 
 Yes. The [OpenProject wiki](../../../user-guide/wiki/) is an integrated module that can be enabled for individual projects with just a few clicks. No separate wiki installation or additional service is required. Teams can create structured project documentation, maintain a page history, use macros and link project information directly from the wiki. The module is available in the Community edition and does not require an Enterprise subscription.
 
-The integration between work packages and wiki pages is also included in the Community edition. Users can [link a work package to an existing wiki page or create a new wiki page](../../../user-guide/work-packages/edit-work-package/#link-to-or-create-a-wiki-page) directly from the work package. Wiki pages can also include dynamic work-package tables and Gantt charts. This close integration is particularly useful when requirements, decisions or other project documentation need to remain connected to operational work.
+The integration between work packages and wiki pages is also included in the Community edition. Users can [link a work package to an existing wiki page or create a new wiki page](../../../user-guide/work-packages/edit-work-package/#link-to-or-create-a-wiki-page) directly from the work package. Wiki pages can also include dynamic work package tables and Gantt charts. This close integration is particularly useful when requirements, decisions or other project documentation need to remain connected to operational work.
 
 OpenProject does not support migrating Confluence content, and a Confluence content migrator is not planned as part of the Jira Migrator. Organizations that want to replace both Jira and Confluence should evaluate the combination of OpenProject and XWiki. OpenProject provides a dedicated [XWiki integration](../../../system-admin-guide/integrations/xwiki/) that connects project management and knowledge management. Any migration of Confluence spaces, pages, permissions, macros, attachments and diagrams to XWiki needs to be planned separately.
 
@@ -227,7 +232,7 @@ We have also started planning a dedicated CI/CD infrastructure for OpenProject e
 
 OpenProject represents a paradigm shift: the software is not a closed product controlled exclusively by one vendor. The [Community edition is free and open source](https://www.openproject.org/download-and-installation/), and its [source code is publicly available](https://github.com/opf/openproject). In this practical sense, the software belongs in the hands of its users: organizations can inspect it, operate it in their own infrastructure, retain control of their data, adapt it and continue using it independently. This reduces vendor lock-in and creates long-term choice over hosting, operations and service providers.
 
-OpenProject does not sell licenses for the open source application. Its commercial offering consists of Enterprise subscriptions that provide additional services and capabilities. The developers of OpenProject offer [individual consulting](https://www.openproject.org/training-and-consulting/#consulting) and Enterprise support with [guaranteed availability and resolution times based on an SLA](../../../enterprise-guide/support/). Organizations can therefore combine software freedom and data sovereignty with professional support and defined service levels.
+OpenProject does not sell licenses for the open source application. Its commercial offering consists of Enterprise subscriptions that provide additional services and capabilities. The developers of OpenProject offer [individual consulting](https://www.openproject.org/training-and-consulting/#consulting) and Enterprise support with [guaranteed availability and resolution times based on an SLA](../../../enterprise-guide/support/). Also the Enterprise edition of OpenProject is fully open source. Organizations can therefore combine software freedom and data sovereignty with professional support and defined service levels.
 
 ## How quickly is OpenProject evolving?
 
@@ -244,4 +249,4 @@ The following path provides a quick way to experience OpenProject and build evid
 3. Perform a [test migration](../) with representative Jira projects and review the imported data, workflows and user experience with the future users.
 4. Contact the [OpenProject consulting team](https://www.openproject.org/training-and-consulting/#consulting) for a personal discussion of requirements, target processes and migration options.
 
-The cloud trial and Community installation are two alternative starting environments; either can be followed by a test migration and a structured evaluation with the relevant stakeholders.
+The Cloud trial and Community installation are two alternative starting environments; either can be followed by a test migration and a structured evaluation with the relevant stakeholders.
