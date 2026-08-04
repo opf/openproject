@@ -36,12 +36,24 @@ import { FrameElement } from '@hotwired/turbo';
 // not fetched on load); the first event points it at `urlValue`, later events
 // reload it. Pair the frame with `refresh="morph"` to reload without flicker.
 export default class ReloadFrameOnEventController extends Controller<FrameElement> {
-  static values = { eventName: String, url: String };
+  static values = { eventName: String, url: String, reloadFromLocation: Boolean };
 
   declare eventNameValue:string;
   declare urlValue:string;
+  declare reloadFromLocationValue:boolean;
 
   private readonly listener = ():void => {
+    // Optionally reload from the live address bar rather than the
+    // urlValue, so query state that changed client-side is preserved across the reload.
+    if (this.reloadFromLocationValue) {
+      if (this.element.src === window.location.href) {
+        void this.element.reload();
+      } else {
+        this.element.src = window.location.href;
+      }
+      return;
+    }
+
     if (this.element.src) {
       void this.element.reload();
     } else {

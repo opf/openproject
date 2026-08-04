@@ -48,6 +48,26 @@ RSpec.describe BasicData::TypeConfigurationSeeder do
     end
   end
 
+  context "with a form_configuration referencing a query that is not registered" do
+    # Happens when re-seeding an installation whose global queries still exist: the
+    # GlobalQuerySeeder is then skipped and their references are not registered again.
+    let(:data_hash) do
+      YAML.load <<~SEEDING_DATA_YAML
+        type_configuration:
+        - type: :default_type_summary_task
+          form_configuration:
+            - group_name: "Children"
+              query: :query__not_registered
+      SEEDING_DATA_YAML
+    end
+
+    it "skips the entry without raising and leaves the form configuration untouched" do
+      attribute_groups_before = phase_type.attribute_groups.dup
+      expect { seeder.seed! }.not_to raise_error
+      expect(phase_type.attribute_groups).to eq(attribute_groups_before)
+    end
+  end
+
   context "with a form_configuration entry in type_configuration in seed data" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
@@ -77,6 +97,35 @@ RSpec.describe BasicData::TypeConfigurationSeeder do
         .to include(an_instance_of(Type::QueryGroup).and(having_attributes(attributes: query)))
       expect(attribute_groups_now)
         .to include(an_instance_of(Type::QueryGroup).and(having_attributes(attributes: bugs_of_the_week_query)))
+    end
+
+    it "does not merge the default form configuration by default" do
+      seeder.seed!
+      expect(phase_type.attribute_groups).to all(be_a(Type::QueryGroup))
+      expect(phase_type.default_attribute_groups).to be_present # sanity check: there is something to merge
+    end
+
+    context "with merge_form_configuration enabled" do
+      let(:data_hash) do
+        YAML.load <<~SEEDING_DATA_YAML
+          type_configuration:
+          - type: :default_type_summary_task
+            merge_form_configuration: true
+            form_configuration:
+              - group_name: "Children"
+                query: :query__children
+        SEEDING_DATA_YAML
+      end
+
+      it "appends the type's default form configuration to the seeded query groups" do
+        default_group_keys = phase_type.default_attribute_groups.map(&:first)
+        seeder.seed!
+        attribute_groups_now = phase_type.attribute_groups
+
+        expect(attribute_groups_now.first)
+          .to be_a(Type::QueryGroup).and(having_attributes(attributes: query))
+        expect(attribute_groups_now.map(&:key)).to include("Children", *default_group_keys)
+      end
     end
   end
 end

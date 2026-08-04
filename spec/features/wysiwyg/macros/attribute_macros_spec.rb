@@ -125,7 +125,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         expect(container).to have_table
       end
 
-      click_on "Save"
+      click_on "Create"
 
       expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -189,7 +189,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
           expect(container).to have_text "workPackageValue"
         end
 
-        click_on "Save"
+        click_on "Create"
 
         expect_flash(message: "Successful creation.")
 

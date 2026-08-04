@@ -1,0 +1,46 @@
+# /api/v3/custom_field/{id}
+---
+get:
+  summary: Get custom field
+  operationId: get_custom_field
+  description: |-
+    Retrieves the custom field with the given ID.
+  parameters:
+    - name: id
+      description: The custom field's unique identifier
+      in: path
+      example: '42'
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/custom_field_model.yml'
+    '403':
+      description: Returned if the user is not logged in.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: Returned if the custom field does not exist or the user lacks the permission to view it.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.

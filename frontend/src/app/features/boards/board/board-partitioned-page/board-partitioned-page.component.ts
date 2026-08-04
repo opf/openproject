@@ -11,7 +11,6 @@ import { BoardFilterComponent } from 'core-app/features/boards/board/board-filte
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { BoardsMenuButtonComponent } from 'core-app/features/boards/board/toolbar-menu/boards-menu-button.component';
@@ -47,7 +46,6 @@ export function boardCardViewHandlerFactory(injector:Injector) {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    DragAndDropService,
     BoardFiltersService,
   ],
   standalone: false,

@@ -33,7 +33,7 @@ const SKELETON_CONTENT_STYLE = { width: '100%', height: '150px' };
 
 export function DocumentLoadingSkeleton() {
   return (
-    <div>
+    <div className={'document-loading-skeleton'}>
       <div className={'mb-3'}>
         <div style={SKELETON_TITLE_STYLE} className={'SkeletonBox'} />
       </div>

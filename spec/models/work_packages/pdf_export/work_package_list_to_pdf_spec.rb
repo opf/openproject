@@ -301,6 +301,101 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         ].join(" ")
       end
     end
+
+    describe "grouped by a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+      let!(:hierarchy_custom_field) do
+        create(:hierarchy_wp_custom_field, name: "Location", types: [type_standard, type_bug], projects: [project])
+      end
+      let!(:hierarchy_items) do
+        service = CustomFields::Hierarchy::HierarchicalItemService.new
+        %w[Berlin Lisbon].map do |label|
+          service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+                              parent: hierarchy_custom_field.hierarchy_root,
+                              label:).value!
+        end
+      end
+
+      before do
+        work_package_parent.update!(hierarchy_custom_field.attribute_name => hierarchy_items.first.id.to_s)
+        work_package_child.update!(hierarchy_custom_field.attribute_name => hierarchy_items.last.id.to_s)
+      end
+
+      context "with sums" do
+        let(:query_attributes) { { group_by: hierarchy_custom_field.column_name, display_sums: true } }
+
+        it "contains correct data" do
+          strings = pdf_strings_without_footers(1)
+          expect(strings).to eq [
+            query.name,
+            "Berlin",
+            *column_titles,
+            *work_package_columns(work_package_parent),
+            I18n.t("js.label_sum"), work_package_parent.story_points.to_s, "25%",
+            "Lisbon",
+            *column_titles,
+            *work_package_columns(work_package_child),
+            I18n.t("js.label_sum"), work_package_child.story_points.to_s, "50%"
+          ].join(" ")
+        end
+      end
+
+      context "without sums" do
+        let(:query_attributes) { { group_by: hierarchy_custom_field.column_name, display_sums: false } }
+
+        it "contains correct data" do
+          strings = pdf_strings_without_footers(1)
+          expect(strings).to eq [
+            query.name,
+            "Berlin",
+            *column_titles,
+            *work_package_columns(work_package_parent),
+            "Lisbon",
+            *column_titles,
+            *work_package_columns(work_package_child)
+          ].join(" ")
+        end
+      end
+    end
+
+    describe "grouped by a multi value hierarchy custom field with sums", with_ee: %i[custom_field_hierarchies] do
+      let!(:multi_hierarchy_custom_field) do
+        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_standard, type_bug], projects: [project])
+      end
+      let!(:multi_hierarchy_items) do
+        service = CustomFields::Hierarchy::HierarchicalItemService.new
+        %w[Berlin Lisbon].map do |label|
+          service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+                              parent: multi_hierarchy_custom_field.hierarchy_root,
+                              label:).value!
+        end
+      end
+
+      let(:query_attributes) { { group_by: multi_hierarchy_custom_field.column_name, display_sums: true } }
+
+      before do
+        work_package_parent.update!(
+          multi_hierarchy_custom_field.attribute_name => multi_hierarchy_items.map { |item| item.id.to_s }
+        )
+        work_package_child.update!(
+          multi_hierarchy_custom_field.attribute_name => [multi_hierarchy_items.first.id.to_s]
+        )
+      end
+
+      it "contains correct data" do
+        strings = pdf_strings_without_footers(1)
+        expect(strings).to eq [
+          query.name,
+          "Berlin",
+          *column_titles,
+          *work_package_columns(work_package_child),
+          I18n.t("js.label_sum"), work_package_child.story_points.to_s, "50%",
+          "Berlin, Lisbon",
+          *column_titles,
+          *work_package_columns(work_package_parent),
+          I18n.t("js.label_sum"), work_package_parent.story_points.to_s, "25%"
+        ].join(" ")
+      end
+    end
   end
 
   context "with a request for a PDF Report" do

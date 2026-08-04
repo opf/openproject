@@ -47,7 +47,7 @@ module Wikis
         format.turbo_stream do
           replace_via_turbo_stream component: Wikis::WikiPages::IndexResultsComponent.new(wiki_pages: @wiki_pages)
           turbo_streams << turbo_stream.push_state(current_state)
-          render turbo_stream: turbo_streams
+          render turbo_stream: resolve_turbo_streams
         end
       end
     end

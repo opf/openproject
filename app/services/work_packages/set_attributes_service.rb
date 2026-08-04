@@ -379,8 +379,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def clear_unassignable_versions
-    return unless work_package.persisted?
-
     assignable_ids = work_package.project&.shared_versions&.pluck(:id) || []
 
     %w[target observed_in].each do |kind|
@@ -392,8 +390,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     attr = :"#{kind}_version_ids_replacements"
     current_replacements = work_package.send(attr)
 
-    current_ids = current_replacements ||
-      work_package.work_package_versions.where(kind:).pluck(:version_id)
+    current_ids = current_replacements || persisted_version_ids(kind)
     filtered_ids = current_ids & assignable_ids
 
     return if filtered_ids.sort == current_ids.sort
@@ -406,6 +403,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # is marked as such and exempted from that permission. A user-requested
     # set that merely got filtered stays attributed to the user.
     work_package.mark_system_version_override(kind) if current_replacements.nil?
+  end
+
+  def persisted_version_ids(kind)
+    return [] unless work_package.persisted?
+
+    work_package.work_package_versions.where(kind:).pluck(:version_id)
   end
 
   def set_parent_to_nil

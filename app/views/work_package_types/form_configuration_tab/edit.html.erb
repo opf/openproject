@@ -33,9 +33,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
 <%= render(
-      WorkPackageTypes::FormConfigurationComponent.new(
-        type: @type,
-        form_attributes: form_configuration_groups(@type),
-        no_filter_query:
+      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+        reload_url: edit_type_form_configuration_path(type_id: @type.id)
       )
-    ) %>
+    ) do %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::FORM_CONFIGURATION)) %>
+  <%= render(
+        WorkPackageTypes::FormConfigurationComponent.new(
+          type: @type,
+          form_attributes: form_configuration_groups(@type),
+          no_filter_query:
+        )
+      ) %>
+<% end %>

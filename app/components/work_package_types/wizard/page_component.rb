@@ -45,40 +45,99 @@ module WorkPackageTypes
 
       def type = model
 
-      def title = I18n.t("types.creation_wizard.create_subtype")
+      def title
+        if type.variant?
+          I18n.t("types.creation_wizard.create_variant")
+        else
+          I18n.t("types.creation_wizard.create_type")
+        end
+      end
 
       def breadcrumb_items
         [
           { href: admin_index_path, text: I18n.t("label_administration") },
           { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
           { href: types_path, text: I18n.t(:label_type_plural) },
+          *parent_breadcrumb_item,
           title
         ]
       end
 
-      def step_title = Steps.title(current_step)
+      def parent_breadcrumb_item
+        return [] if type.parent.nil?
 
-      def step_aspect = Steps.aspect_for(current_step)
+        [{ href: edit_type_details_path(type_id: type.parent_id), text: type.parent.name }]
+      end
+
+      def cancel_href
+        type.persisted? ? edit_type_details_path(type_id: type.id) : types_path
+      end
+
+      def step_title = Steps.title(current_step)
 
       def step_url = type_creation_wizard_path(type, step: current_step)
 
+      # A brand-new variant is created on the first step's submit; every later
+      # submit patches the existing record for its step.
+      def step_form_url
+        type.new_record? ? creation_wizard_types_path : step_url
+      end
+
+      def step_form_method
+        type.new_record? ? :post : :patch
+      end
+
       # Editors whose fields belong to the wizard form itself, so that "Continue"
-      # persists them along with the step's reuse mode.
-      def step_editor_form
-        WorkflowsForm if current_step == :workflows
+      # persists them when advancing to the next step.
+      def step_editor
+        @step_editor ||= StepEditors.for(current_step, type)
+      end
+
+      def step_form_options
+        {
+          model: step_editor.model,
+          url: step_form_url,
+          method: step_form_method,
+          readonly: step_editor.readonly?,
+          html: {
+            id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
+            # Advancing replaces the whole page, so submission must escape the frame.
+            data: { turbo_frame: "_top" }.merge(step_editor.form_data)
+          }
+        }
+      end
+
+      # Only a step with a reuse mode needs the frame, and only those steps are reached
+      # with a persisted type — step_url has no route while the record is still new.
+      def within_step_frame(&)
+        return capture(&) unless step_editor.linkable_aspect?
+
+        render(
+          WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+            reload_url: step_url,
+            reload_from_location: step_editor.reload_from_location?
+          ),
+          &
+        )
+      end
+
+      def reuse_mode_banner
+        return unless step_editor.linkable_aspect?
+
+        render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect))
       end
 
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step
-        when :details
-          DetailsComponent.new(type:)
         when :form_configuration
           FormConfigurationStepComponent.new(type:)
+        when :project_attributes
+          ProjectAttributesStepComponent.new(type:)
         when :projects
           WorkPackageTypes::ProjectsComponent.new(type, projects: Project.all)
         when :pdf
-          WorkPackageTypes::ExportConfigurationComponent.new(type)
+          PdfStepComponent.new(type:)
         else
           PlaceholderComponent.new(step: current_step)
         end

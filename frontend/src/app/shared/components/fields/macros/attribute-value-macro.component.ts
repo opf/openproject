@@ -45,6 +45,10 @@ import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 export const ATTRIBUTE_MACRO_CLASS = 'op-attribute-value-macro';
 
+// An undefined layout means the author did not choose one; the display field
+// service then falls through to the attribute type's regular rendering.
+export type MacroLayout = 'singleline'|'multiline';
+
 @Component({
   templateUrl: './attribute-value-macro.html',
   styleUrls: ['./attribute-macro.sass'],
@@ -83,11 +87,14 @@ export class AttributeValueMacroComponent implements OnInit {
 
   fieldName:string;
 
+  layout?:MacroLayout;
+
   ngOnInit():void {
     const element = this.elementRef.nativeElement;
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
+    this.layout = element.dataset.layout as MacroLayout|undefined;
     element.classList.add(ATTRIBUTE_MACRO_CLASS);
     this.ariaContext = this.text.aria_label(model);
 
@@ -124,7 +131,15 @@ export class AttributeValueMacroComponent implements OnInit {
 
     const schema = await this.schemaCache.ensureLoaded(resource);
     const proxied = this.schemaCache.proxied(resource, schema);
-    const attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
+    let attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
+
+    // The deprecated version attribute renders the work package's target
+    // versions, single-line by default so legacy macros keep their inline shape.
+    if (resource._type === 'WorkPackage' && attribute === 'version') {
+      attribute = 'targetVersions';
+      this.layout = this.layout ?? 'singleline';
+    }
+
     const fieldSchema = proxied.ofProperty(attribute) as IFieldSchema|undefined;
 
     if (fieldSchema) {

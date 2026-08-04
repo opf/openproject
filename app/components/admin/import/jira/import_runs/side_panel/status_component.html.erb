@@ -1,0 +1,22 @@
+<%=
+  render(Primer::OpenProject::SidePanel::Section.new) do |section|
+    section.with_title { I18n.t(:"admin.jira.run.side_panel.run_status") }
+    flex_layout do |flex|
+      flex.with_row do
+        render(Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(jira_import))
+      end
+      flex.with_row(mt: 3) do
+        render(
+          Primer::Beta::Link.new(
+            href: history_admin_import_jira_run_path(jira_id: jira_import.jira.id, id: jira_import.id),
+            target: "_blank"
+          )
+        ) do |link|
+          link.with_leading_visual_icon(icon: :clock)
+          link.with_trailing_visual_icon(icon: :"link-external")
+          I18n.t(:"admin.jira.run.side_panel.open_history")
+        end
+      end
+    end
+  end
+%>
