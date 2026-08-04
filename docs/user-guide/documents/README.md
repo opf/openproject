@@ -139,7 +139,7 @@ Click the work package title to open it in a new browser tab. To change the disp
 ![Context menu to change display options for a linked work package in OpenProject Documents module](openproject_user_guide_documents_link_wp_inline_menu.png)
 
 > [!TIP]
-> If you are working with tiny work package links, you can hover over the linked work package identifier to see a preview with additional details, such as type, status and subject.
+> If you are working with tiny work package links, you can hover over the linked work package identifier to see a preview with additional details, such as type, status and subject. For the mobile screens use a long tap instead.
 
 3. **Pasting a work package URL**
 
