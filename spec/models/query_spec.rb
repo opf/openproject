@@ -400,9 +400,11 @@ RSpec.describe Query,
           .to receive(:all)
                 .and_return empty_wp_relation
 
+        # The relation columns are generated per type family, so a relation is needed here
+        # rather than a plain array: Type.roots is a scope and executes against one.
         allow(Type)
-          .to receive(:all)
-                .and_return []
+          .to receive(:roots)
+                .and_return Type.none
 
         query.displayable_columns
 
