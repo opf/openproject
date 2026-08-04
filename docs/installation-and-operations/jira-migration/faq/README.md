@@ -20,7 +20,7 @@ Yes. Many large organizations have been using OpenProject successfully for years
 
 OpenProject is trusted by organizations across government and public administration, healthcare, transportation, manufacturing, automotive, research and higher education, energy, IT, and consulting. It is increasingly adopted by public sector organizations pursuing digital sovereignty, open standards, and vendor independence. The  [OpenProject customer overview](https://www.openproject.org/customers/) provides further examples across industries and geographies.
 
-OpenProject is also currently undergoing an extensive security assessment as part of openDesk for use by the German Armed Forces (Bundeswehr). This work goes beyond a standard functional evaluation and examines the software and its operation against the requirements of a particularly security-sensitive organization.
+OpenProject is also currently undergoing an extensive security assessment as part of openDesk for use in highly security-sensitive organizations. This work goes beyond a standard functional evaluation and examines the software and its operation against the requirements of such environments.
 
 ## Can OpenProject users be forced into a cloud migration?
 
