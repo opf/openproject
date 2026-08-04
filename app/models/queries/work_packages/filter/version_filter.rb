@@ -32,7 +32,9 @@ class Queries::WorkPackages::Filter::VersionFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   # Filters on `target_versions` as it is replacing
   # the legacy `work_packages.version_id` column.
-  include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
+  include ::Queries::WorkPackages::Filter::FilterOnWorkPackageVersionsMixin
+
+  def version_kind = "target"
 
   def human_name
     WorkPackage.human_attribute_name("version")

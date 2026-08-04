@@ -28,16 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Filter::TargetVersionsFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-  include ::Queries::WorkPackages::Filter::FilterOnWorkPackageVersionsMixin
-
-  def version_kind = "target"
-
-  def self.key = :target_version_id
-  def human_name = WorkPackage.human_attribute_name("target_versions")
-
-  def available?
-    Setting::WorkPackageMultipleVersions.active?
+module API
+  module V3
+    module Queries
+      module Schemas
+        # The allowed values of the observed versions filter are the same
+        # collection of versions the single version filter offers, so the
+        # dependency representation is identical. A dedicated class is still
+        # needed, as FilterDependencyRepresenterFactory resolves the representer
+        # from the filter's class name.
+        class ObservedInVersionsFilterDependencyRepresenter <
+          VersionFilterDependencyRepresenter
+        end
+      end
+    end
   end
 end

@@ -28,16 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Filter::TargetVersionsFilter <
+class Queries::WorkPackages::Filter::ObservedInVersionsFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   include ::Queries::WorkPackages::Filter::FilterOnWorkPackageVersionsMixin
 
-  def version_kind = "target"
+  def version_kind = "observed_in"
 
-  def self.key = :target_version_id
-  def human_name = WorkPackage.human_attribute_name("target_versions")
-
-  def available?
-    Setting::WorkPackageMultipleVersions.active?
-  end
+  def self.key = :observed_in_version_id
+  def human_name = WorkPackage.human_attribute_name("observed_in_versions")
 end
