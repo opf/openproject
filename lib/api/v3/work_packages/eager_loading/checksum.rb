@@ -54,19 +54,20 @@ module API
 
             protected
 
-            # The target versions associated via work_package_versions are a
-            # has_many, which the left_joins/pluck design above cannot express
-            # (it would multiply rows), so they enter the checksum as an
-            # aggregated correlated subquery. This also covers versions beyond
-            # the first, which the deprecated version association could not see.
-            # Only "target" rows are folded in: they are what the representer
-            # renders (as `version` and `targetVersions`); observed_in versions
-            # do not appear in the representation and must not bust its cache.
+            # The versions associated via work_package_versions are a has_many,
+            # which the left_joins/pluck design above cannot express (it would
+            # multiply rows), so they enter the checksum as an aggregated
+            # correlated subquery. This also covers versions beyond the first,
+            # which the deprecated version association could not see.
+            # Every kind is folded in, since the representer renders both the
+            # target (as `version` and `targetVersions`) and the observed_in
+            # rows (as `observedInVersions`). The kind is part of the aggregated
+            # value so that moving a version between kinds busts the cache too.
             VERSIONS_CHECKSUM_SQL = <<~SQL.squish
-              (SELECT COALESCE(STRING_AGG(CONCAT(v.id, v.updated_at), ',' ORDER BY v.id), '')
+              (SELECT COALESCE(STRING_AGG(CONCAT(wpv.kind, v.id, v.updated_at), ',' ORDER BY wpv.kind, v.id), '')
                  FROM work_package_versions wpv
                  INNER JOIN versions v ON v.id = wpv.version_id
-                WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+                WHERE wpv.work_package_id = work_packages.id)
             SQL
 
             def md5_concat
