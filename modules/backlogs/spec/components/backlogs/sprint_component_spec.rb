@@ -297,6 +297,19 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         it "renders the start-sprint link enabled" do
           expect(rendered_component).to have_link("Start sprint")
         end
+
+        context "when params[:all] is true" do
+          before do
+            vc_test_controller.params[:all] = "1"
+          end
+
+          it "preserves ?all=true on the start-sprint link" do
+            expect(rendered_component).to have_link(
+              "Start sprint",
+              href: start_project_backlogs_sprint_path(project, sprint, all: true)
+            )
+          end
+        end
       end
 
       context "when the sprint is in planning without start date" do
