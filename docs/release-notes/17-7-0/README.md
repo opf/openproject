@@ -108,7 +108,7 @@ Administrators can configure PMflex artefacts to be generated automatically when
 
 **Project phases and gates widget**
 
-A new [project timeline widget](../../projects/project-home/project-widgets/#project-timeline-widget) is available for project overviews. It provides a visual representation of the project's current phase and gate status, helping project managers and stakeholders quickly understand project progress at a glance.
+A new [project timeline widget](../../user-guide/projects/project-home/project-widgets/#project-timeline-widget) is available for project overviews. It provides a visual representation of the project's current phase and gate status, helping project managers and stakeholders quickly understand project progress at a glance.
 
 ![OpenProject's Project phases and gates widget visualizes the current project phase and gate status on the project overview page.](openproject-17-7-phases-gates-widget.png)
 
