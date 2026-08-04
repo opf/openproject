@@ -57,9 +57,34 @@ module JournalFormatter
       values.map do |value|
         next unless klass && value
 
-        record = associated_object(klass, value.to_i, cache:)
-        associated_object_name(record)
+        name_or_placeholder(associated_object(klass, value.to_i, cache:))
       end
+    end
+
+    def name_or_placeholder(object)
+      return associated_object_name(object) if object.nil? || reachable?(object)
+
+      I18n.t("journals.non_visible.#{object.model_name.i18n_key}",
+             default: I18n.t("journals.non_visible.default"))
+    end
+
+    # A journal outlives the reader's access to what it references: a work package
+    # moved between projects keeps journal entries naming the parent, version,
+    # category and budget it had in a project the reader cannot open.
+    #
+    # The reader is part of the key, so a verdict left behind in a thread that
+    # outlives a single request cannot be read back for somebody else.
+    def reachable?(object)
+      RequestStore.fetch("journal_reachable/#{User.current.id}/#{object.class.name}/#{object.id}") do
+        reader_may_see?(object)
+      end
+    end
+
+    def reader_may_see?(object)
+      return object.visible? if object.respond_to?(:visible?)
+
+      project = object.try(:project)
+      project.nil? || project.visible?
     end
 
     def associated_object_name(object)

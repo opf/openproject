@@ -3001,7 +3001,14 @@ en:
 
     changes_retracted: "The changes were retracted."
     non_visible:
+      budget: "a non-visible budget"
+      category: "a non-visible category"
+      default: "a non-visible record"
+      issue_priority: "a non-visible priority"
       project: "a non-visible project"
+      sprint: "a non-visible sprint"
+      time_entry_activity: "a non-visible activity"
+      version: "a non-visible version"
       work_package: "a non-visible work package"
   label_accessibility: "Accessibility"
 

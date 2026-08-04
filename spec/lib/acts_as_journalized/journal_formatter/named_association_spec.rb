@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe OpenProject::JournalFormatter::VisibleNamedAssociation do
+RSpec.describe JournalFormatter::NamedAssociation do
   shared_let(:permitted_project) { create(:private_project, name: "Permitted project") }
   shared_let(:other_project) { create(:private_project, name: "Other project") }
 
@@ -75,6 +75,19 @@ RSpec.describe OpenProject::JournalFormatter::VisibleNamedAssociation do
         expect(render([other_parent.id, permitted_parent.id])).not_to include(other_parent.subject)
         expect(render([permitted_parent.id, other_parent.id])).not_to include(other_parent.subject)
       end
+    end
+
+    # Verdicts are memoized per request. Should a thread ever outlive one, the next
+    # reader must still be judged on their own access.
+    it "does not carry one reader's verdict over to the next" do
+      login_as(reader)
+      withheld = render([nil, other_parent.id])
+
+      login_as(reader_of_both)
+      disclosed = render([nil, other_parent.id])
+
+      expect(withheld).not_to include(other_parent.subject)
+      expect(disclosed).to include(other_parent.subject)
     end
 
     context "with a reader permitted in both projects" do
@@ -170,6 +183,76 @@ RSpec.describe OpenProject::JournalFormatter::VisibleNamedAssociation do
       it "names the parent project" do
         expect(render([nil, other_project.id])).to include(other_project.name)
       end
+    end
+  end
+
+  # Moving a work package between projects nulls its version, category and budget
+  # and reassigns its category, so one journal entry can name several records that
+  # belong to the project it came from.
+  describe "records left behind by a move between projects" do
+    shared_let(:work_package) { create(:work_package, project: permitted_project, subject: "Moved") }
+
+    shared_let(:other_version) { create(:version, project: other_project, name: "Version in other project") }
+    shared_let(:other_category) { create(:category, project: other_project, name: "Category in other project") }
+    shared_let(:other_budget) { create(:budget, project: other_project, subject: "Budget in other project") }
+
+    let(:journal) { work_package.journals.last }
+
+    context "with a reader permitted in one project only" do
+      current_user { reader }
+
+      it "withholds the version name" do
+        expect(journal.render_detail(["version_id", [other_version.id, nil]]))
+          .to eq("<strong>Version</strong> deleted (<strike><i>a non-visible version</i></strike>)")
+      end
+
+      it "withholds the category name" do
+        expect(journal.render_detail(["category_id", [other_category.id, nil]]))
+          .not_to include(other_category.name)
+      end
+
+      it "withholds the budget name" do
+        expect(journal.render_detail(["budget_id", [other_budget.id, nil]]))
+          .not_to include(other_budget.subject)
+      end
+
+      it "withholds names among the target versions" do
+        permitted_version = create(:version, project: permitted_project, name: "Version in permitted project")
+        rendered = journal.render_detail(["target_versions", [nil, "#{permitted_version.id},#{other_version.id}"]])
+
+        expect(rendered).to include(permitted_version.name)
+        expect(rendered).not_to include(other_version.name)
+      end
+    end
+
+    context "with a reader permitted in both projects" do
+      current_user { reader_of_both }
+
+      it "names all of them" do
+        expect(journal.render_detail(["version_id", [other_version.id, nil]])).to include(other_version.name)
+        expect(journal.render_detail(["category_id", [other_category.id, nil]])).to include(other_category.name)
+        expect(journal.render_detail(["budget_id", [other_budget.id, nil]])).to include(other_budget.subject)
+      end
+    end
+  end
+
+  describe "people, which the journable names anyway" do
+    shared_let(:work_package) { create(:work_package, project: permitted_project, subject: "Assigned") }
+    shared_let(:stranger) do
+      create(:user, firstname: "Stranger", lastname: "Person",
+                    member_with_permissions: { other_project => %i[view_work_packages] })
+    end
+
+    let(:journal) { work_package.journals.last }
+
+    current_user { reader }
+
+    it "names them even though the reader shares no project with them" do
+      expect(stranger.visible?(reader)).to be(false)
+
+      expect(journal.render_detail(["assigned_to_id", [nil, stranger.id]])).to include(stranger.name)
+      expect(journal.render_detail(["responsible_id", [nil, stranger.id]])).to include(stranger.name)
+      expect(journal.render_detail(["author_id", [nil, stranger.id]])).to include(stranger.name)
     end
   end
 end
