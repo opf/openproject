@@ -66,7 +66,8 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     add_type("Research", select_text: "Feature: Research")
 
     settings_page.expect_type_row(research, variant: "Research")
-    expect(project.reload.types).to include(research)
+    expect(project.reload.types).to include(feature)
+    expect(project.project_types.find_by(type: feature).variant).to eq(research)
   end
 
   it "removes a type that has no work packages" do
