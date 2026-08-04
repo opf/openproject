@@ -123,7 +123,7 @@ export class WorkPackageFilterValues {
 
     // Avoid setting a value if current value is in filter list
     // and more than one value selected
-    if (this.filterAlreadyApplied(change, attributeName, filter.values)) {
+    if (this.filterAlreadyApplied(change, filter, attributeName)) {
       return;
     }
 
@@ -183,17 +183,26 @@ export class WorkPackageFilterValues {
   }
 
   /**
-   * Avoid applying filter values when the change already matches one of the selected values
+   * Avoid applying filter values when changeset already matches one of the selected values
+   * @param filter
    */
   private filterAlreadyApplied(
     change:WorkPackageChangeset|Record<string, unknown>,
-    attributeName:string,
-    filterValues:unknown[],
+    filter:{ id:string, values:unknown[] },
+    attributeName:string = filter.id,
   ):boolean {
     const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[attributeName] : change[attributeName];
     const current = Array.isArray(value) ? value : [value];
 
-    return filterValues.some((filterValue) => current.some((currentValue) => compareByHrefOrString(currentValue, filterValue)));
+    for (let i = 0; i < filter.values.length; i++) {
+      for (let j = 0; j < current.length; j++) {
+        if (compareByHrefOrString(current[j], filter.values[i])) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   private isMultiValueAttribute(attributeName:string):boolean {
