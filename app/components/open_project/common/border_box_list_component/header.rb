@@ -89,9 +89,19 @@ module OpenProject
         #   # @return [ViewComponent::Slot]
         #   def with_action_button(**system_arguments, &block)
         #   end
+        #
+        #   # Adds a label to the header actions area.
+        #   #
+        #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Label`.
+        #   # @return [ViewComponent::Slot]
+        #   def with_action_label(**system_arguments, &block)
+        #   end
         renders_many :actions, types: {
           button: ->(scheme: DEFAULT_ACTION_SCHEME, **system_arguments) do
             Primer::Beta::Button.new(scheme:, **system_arguments)
+          end,
+          label: ->(**system_arguments) do
+            Primer::Beta::Label.new(**system_arguments)
           end
         }
 

@@ -33,16 +33,33 @@ module API
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
+        cached_representer key_parts: %i[parent]
+
         self_link
 
         property :id
+
         property :name
+
+        property :own_name,
+                 as: :ownName,
+                 getter: ->(*) { own_name }
+
         property :color,
-                 getter: ->(*) { color.hexcode if color },
+                 getter: ->(*) { color&.hexcode },
                  render_nil: true
         property :position
         property :is_default
         property :is_milestone
+
+        link :parent do
+          next if represented.parent.nil?
+
+          {
+            href: api_v3_paths.type(represented.parent_id),
+            title: represented.parent.name
+          }
+        end
 
         date_time_property :created_at
         date_time_property :updated_at

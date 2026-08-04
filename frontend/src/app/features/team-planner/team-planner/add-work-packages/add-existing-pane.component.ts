@@ -57,7 +57,6 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {
-      this.calendarDrag.destroyDrake();
       this.calendarDrag.registerDrag(v, '.op-add-existing-pane--wp');
     }
   }
@@ -143,7 +142,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.calendarDrag.destroyDrake();
+    this.calendarDrag.destroyDraggable();
   }
 
   searchWorkPackages(searchString:string):Observable<WorkPackageResource[]> {

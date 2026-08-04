@@ -1,7 +1,6 @@
 import { ElementRef, Injectable, inject } from '@angular/core';
-import { ThirdPartyDraggable } from '@fullcalendar/interaction';
-import { DragMetaInput } from '@fullcalendar/common';
-import dragula, { Drake } from 'dragula';
+import { Draggable } from '@fullcalendar/interaction';
+import { DragMetaInput, PointerDragEvent } from '@fullcalendar/core/internal';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { BehaviorSubject } from 'rxjs';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -17,7 +16,9 @@ export class CalendarDragDropService {
   readonly workPackagesCalendarService = inject(OpWorkPackagesCalendarService);
   readonly I18n = inject(I18nService);
 
-  drake:Drake;
+  private draggable:Draggable|undefined;
+
+  private draggedElement:HTMLElement|undefined;
 
   draggableWorkPackages$ = new BehaviorSubject<WorkPackageResource[]>([]);
 
@@ -30,31 +31,35 @@ export class CalendarDragDropService {
     },
   };
 
-  destroyDrake():void {
-    if (this.drake) {
-      this.drake.destroy();
-    }
+  destroyDraggable():void {
+    this.draggable?.destroy();
+    this.draggable = undefined;
   }
 
   registerDrag(container:ElementRef<HTMLElement>, itemSelector:string):void {
-    this.drake = dragula({
-      containers: [container.nativeElement],
-      revertOnSpill: true,
-    });
+    this.destroyDraggable();
 
-    this.drake.on('drag', (el:HTMLElement) => {
-      el.classList.add('gu-transit');
-      this.isDragging$.next(el.dataset.dragHelperId);
-    });
-
-    this.drake.on('dragend', () => {
-      this.isDragging$.next(undefined);
-    });
-
-    new ThirdPartyDraggable(container.nativeElement, {
+    this.draggable = new Draggable(container.nativeElement, {
       itemSelector,
-      mirrorSelector: '.gu-mirror', // the dragging element that dragula renders
       eventData: this.eventData.bind(this),
+    });
+
+    // `dragging` is typed public but undocumented: FullCalendar treats the
+    // pointer-drag engine as internal, so an upgrade may move or rename it.
+    const { emitter } = this.draggable.dragging;
+
+    emitter.on('dragstart', (ev:PointerDragEvent) => {
+      this.draggedElement = ev.subjectEl as HTMLElement;
+      this.draggedElement.classList.add('op-add-existing-pane--wp_dragging');
+      this.isDragging$.next(this.draggedElement.dataset.dragHelperId);
+    });
+
+    // A mid-drag destroy() delivers a dragend without subjectEl, so the
+    // dragged element is tracked in a field instead.
+    emitter.on('dragend', () => {
+      this.draggedElement?.classList.remove('op-add-existing-pane--wp_dragging');
+      this.draggedElement = undefined;
+      this.isDragging$.next(undefined);
     });
   }
 

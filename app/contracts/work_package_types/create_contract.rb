@@ -31,7 +31,7 @@
 module WorkPackageTypes
   class CreateContract < BaseContract
     attribute :description
-    with_options(writable: -> { !model.subtype? }) do
+    with_options(writable: -> { !model.variant? }) do
       attribute :color_id
       attribute :is_default
       attribute :is_in_roadmap

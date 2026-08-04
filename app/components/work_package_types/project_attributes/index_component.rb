@@ -17,11 +17,12 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(type:, project_custom_field_sections:)
+      def initialize(type:, project_custom_field_sections:, readonly: false)
         super
 
         @type = type
         @project_custom_field_sections = project_custom_field_sections
+        @readonly = readonly
       end
 
       private
