@@ -14,7 +14,12 @@ permissions:
 
 jobs:
   version-check:
-    if: github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'
+    # Skip automation PRs (dependabot, copilot, the release merge PRs opened by
+    # openprojectci) as they never link a work package.
+    if: >-
+      github.event.pull_request.draft == false
+      && github.event.pull_request.user.type != 'Bot'
+      && github.event.pull_request.user.login != 'openprojectci'
     runs-on: ubuntu-latest
 
     steps:
