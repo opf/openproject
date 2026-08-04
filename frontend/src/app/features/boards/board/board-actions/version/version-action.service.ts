@@ -40,6 +40,7 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { attributeNameForFilter } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   firstValueFrom,
   Observable,
@@ -88,8 +89,10 @@ export class BoardVersionActionService extends CachedBoardActionService {
     }
 
     if (!this.writable$) {
-      this.writable$ = query.results.createWorkPackage()
-        .then((form:FormResource) => form.schema.targetVersions.writable);
+      const createForm = query.results.createWorkPackage as () => Promise<FormResource>;
+
+      this.writable$ = createForm()
+        .then((form:FormResource) => (form.schema[this.attributeName] as IFieldSchema).writable);
     }
 
     return this.writable$;

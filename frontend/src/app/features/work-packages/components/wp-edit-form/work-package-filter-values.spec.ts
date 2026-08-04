@@ -123,7 +123,7 @@ describe('WorkPackageFilterValues', () => {
       const version = halResourceService.createHalResourceOfClass(
         HalResource,
         { _type: 'Version', id: '42', _links: { self: { href: '/api/v3/versions/42', name: 'v1.0' } } },
-      );
+      ) as HalResource;
 
       filters.push({
         id: 'version',
