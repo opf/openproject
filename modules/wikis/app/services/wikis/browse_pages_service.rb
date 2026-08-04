@@ -28,54 +28,47 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis::Adapters::Results
-  class PageSearchTreeNode
-    attr_accessor :enabled
+module Wikis
+  class BrowsePagesService
+    include Dry::Monads[:result]
 
-    attr_reader :identifier, :type, :name
-
-    class << self
-      def empty_root
-        new(identifier: "root", type: :root, name: "root", children: {}, enabled: false)
-      end
-
-      def empty_wiki(identifier, name)
-        new(identifier:, type: :wiki, name:, children: {}, enabled: false)
-      end
-
-      def leaf_page(identifier, name, enabled)
-        new(identifier:, type: :page, name:, children: {}, enabled:)
-      end
+    def initialize(provider:, user:)
+      @provider = provider
+      @user = user
     end
 
-    def initialize(identifier:, type:, name:, children:, enabled:)
-      @identifier = identifier
-      @type = type
-      @name = name
-      @children = children
-      @enabled = enabled
+    def call(parent_identifier)
+      browse_pages(parent_identifier).bind { build_result_tree(it, parent_identifier) }
     end
 
-    def children = @children.is_a?(Array) ? @children : @children.values
+    private
 
-    # @param node [PageSearchTreeNode] the node to be added
-    # @raise [ArgumentError] if node isn't a {PageSearchTreeNode}
-    # @return [PageSearchTreeNode] the added node
-    def add_child(node)
-      raise ArgumentError unless node.is_a? self.class
+    attr_reader :user, :provider
 
-      if @children.is_a? Hash
-        @children.fetch(node.key) { @children[node.key] = node }
-      else
-        @children << node
-        node
+    def build_result_tree(pages, parent_identifier)
+      root_node = Adapters::Results::PageSearchTreeNode.empty_root
+
+      pages.each do |page_hierarchy|
+        page_hierarchy => { page:, wiki: }
+
+        parent_node = if parent_identifier.blank?
+                        root_node.add_child(Adapters::Results::PageSearchTreeNode.empty_wiki(wiki.identifier, wiki.name))
+                      else
+                        root_node
+                      end
+
+        parent_node.add_child(Adapters::Results::PageSearchTreeNode.leaf_page(page.identifier, page.title, true))
       end
+
+      Success(root_node.children)
     end
 
-    def key = "#{type}:#{identifier}"
-
-    def ==(other)
-      key == other.key
+    def browse_pages(parent_identifier)
+      Adapters::Input::BrowsePages.build(parent_identifier:).bind do |input_data|
+        provider.auth_strategy_for(user).bind do |auth_strategy|
+          provider.resolve("queries.browse_pages").call(input_data:, auth_strategy:)
+        end
+      end
     end
   end
 end

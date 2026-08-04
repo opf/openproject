@@ -72,24 +72,29 @@ module Wikis
     end
 
     def search
-      query = params[:query]
+      params.permit(:query, :name).to_h => { query:, name: }
+      builder = form_builder
 
       if query.blank?
-        return render "browse", layout: false, locals: { pages: new_pages }
+        browse_pages(nil).either(
+          ->(pages) { render "browse", locals: { builder:, form_name: name, pages:, provider_id: fetch_provider.id } },
+          ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+        )
+      else
+        search_pages(query, fetch_provider).either(
+          ->(pages) { render(Wikis::SearchPagesResultComponent.new(pages, form_name: name, builder:), layout: false) },
+          ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+        )
       end
-
-      form_name = params[:name]
-      builder = form_builder
-      search_result = search_pages(query, fetch_provider)
-
-      search_result.either(
-        ->(pages) { render(Wikis::SearchPagesResultComponent.new(pages, form_name:, builder:), layout: false) },
-        ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
-      )
     end
 
     def browse
-      render "browse", layout: false, locals: { pages: new_pages, path: params[:path] }
+      path = JSON.parse(params[:path])
+
+      browse_pages(params.expect(:parent)).either(
+        ->(pages) { render "browse", layout: false, locals: { pages:, path:, provider_id: fetch_provider.id } },
+        ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+      )
     end
 
     private
@@ -102,22 +107,12 @@ module Wikis
       ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
     end
 
-    def new_pages
-      parent = params[:parent]
-
-      [
-        Adapters::Results::PageSearchTreeNode.new(identifier: "1", type: :page, name: "#{parent}page 1", children: [], enabled: true),
-        Adapters::Results::PageSearchTreeNode.new(identifier: "2", type: :page, name: "#{parent}page 2", children: [], enabled: true),
-        Adapters::Results::PageSearchTreeNode.new(identifier: "3", type: :page, name: "#{parent}page 3", children: [], enabled: true)
-      ]
-    end
-
     def search_pages(query, provider)
       PageSearchService.new(provider:, user: current_user).search_pages(query)
     end
 
     def browse_pages(parent_identifier)
-      PageBrowseService.new(provider:, user: current_user).browse_pages(parent_identifier)
+      BrowsePagesService.new(provider: fetch_provider, user: current_user).call(parent_identifier)
     end
 
     def create_new_page_params

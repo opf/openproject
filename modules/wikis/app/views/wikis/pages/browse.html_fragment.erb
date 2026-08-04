@@ -29,10 +29,24 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::Alpha::TreeView::SubTree.new(path:, node_variant: :div)) do |tree|
-    pages.each do |page|
-      tree.with_sub_tree(label: page.name) do |sub_tree|
-        sub_tree.with_loading_spinner(src: browse_wiki_pages_path(parent: page.identifier))
+    add_node = lambda do |parent, nodes|
+      nodes.each do |node|
+        icon = node.type == :wiki ? :book : :"op-file-doc"
+        item_options = {
+          label: node.name,
+          select_variant: :single,
+          disabled: !node.enabled,
+          expanded: false,
+          data: { node_id: node.identifier }
+        }
+
+        parent.with_sub_tree(**item_options) do |item|
+          item.with_leading_visual_icon(icon:)
+          item.with_loading_spinner(src: browse_wiki_pages_path(parent: node.identifier, provider_id:))
+        end
       end
     end
+
+    add_node[tree, pages]
   end
 %>
