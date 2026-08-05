@@ -71,6 +71,7 @@ en:
               locked_by_multiple_active_sprints: "cannot be changed while multiple active sprints are enabled."
               share_all_projects_already_taken: "cannot be set because project \"%{name}\" is already sharing with all projects."
               share_all_projects_already_taken_anonymous: "cannot be set because another project is already sharing with all projects."
+              work_packages_still_linked_to_shared_sprints: "cannot be changed because work packages are still linked to shared sprints. Unassign them first."
           receiving_sprints: "is receiving shared sprints. Own sprints cannot be created."
         sprint:
           attributes:

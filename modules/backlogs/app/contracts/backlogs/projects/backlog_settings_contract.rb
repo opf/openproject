@@ -37,15 +37,31 @@ module Backlogs::Projects
     validate :validate_global_sprint_sharer_uniqueness
     validates :sprint_sharing, presence: true
     validates :sprint_sharing, inclusion: { in: Project::SPRINT_SHARING_MODES }, allow_blank: true
-    validate :validate_sprint_sharing_in_ee_token
-    validate :validate_multiple_active_sprints_in_ee_token
-    validate :validate_allow_multiple_active_sprints_requires_no_sharing
-    validate :validate_sprint_sharing_locked_when_multiple_active_sprints
-    validate :validate_multiple_active_sprints_setting_not_changeable_while_active
+    validate :validate_sprint_sharing_in_ee_token, if: :sprint_sharing_changed?
+
+    validate :validate_multiple_active_sprints_locked_when_active, if: :allow_multiple_active_sprints_changed?
+
+    with_options if: %i[allow_multiple_active_sprints_changed? allow_multiple_active_sprints?] do
+      validate :validate_multiple_active_sprints_in_ee_token
+      validate :validate_allow_multiple_active_sprints_requires_no_sharing
+    end
+
+    with_options if: %i[sprint_sharing_changed? allow_multiple_active_sprints?] do
+      validate :validate_sprint_sharing_locked_when_multiple_active_sprints
+    end
+
+    with_options if: :sprint_sharing_changed?, unless: :allow_multiple_active_sprints? do
+      validate :validate_only_one_active_sprint_when_receiving_shared_sprints
+      validate :validate_no_work_packages_in_shared_sprints_when_leaving_receiving
+    end
 
     def validate_model? = false
 
     protected
+
+    def allow_multiple_active_sprints? = model.allow_multiple_active_sprints?
+    def allow_multiple_active_sprints_changed? = model.allow_multiple_active_sprints_changed?
+    def sprint_sharing_changed? = model.sprint_sharing_changed?
 
     def validate_permissions
       unless user.allowed_in_project?(:share_sprint, model)
@@ -67,18 +83,15 @@ module Backlogs::Projects
     end
 
     def validate_sprint_sharing_in_ee_token
-      if !model.not_sharing_sprints? &&
-         !EnterpriseToken.allows_to?(:sprint_sharing) &&
-         model.sprint_sharing_changed?
-        errors.add :sprint_sharing,
-                   :enterprise_plan_required,
-                   plan_name: I18n.t("ee.upsell.plan_name", plan: OpenProject::Token.lowest_plan_for(:sprint_sharing))
-      end
+      return if model.not_sharing_sprints?
+      return if EnterpriseToken.allows_to?(:sprint_sharing)
+
+      errors.add :sprint_sharing,
+                 :enterprise_plan_required,
+                 plan_name: I18n.t("ee.upsell.plan_name", plan: OpenProject::Token.lowest_plan_for(:sprint_sharing))
     end
 
     def validate_multiple_active_sprints_in_ee_token
-      return unless model.allow_multiple_active_sprints_changed?
-      return unless model.allow_multiple_active_sprints?
       return if EnterpriseToken.allows_to?(:multiple_active_sprints)
 
       errors.add :allow_multiple_active_sprints,
@@ -87,25 +100,45 @@ module Backlogs::Projects
     end
 
     def validate_allow_multiple_active_sprints_requires_no_sharing
-      return unless model.allow_multiple_active_sprints_changed?
-      return unless model.allow_multiple_active_sprints?
       return if model.not_sharing_sprints?
 
       errors.add :allow_multiple_active_sprints, :requires_no_sharing
     end
 
     def validate_sprint_sharing_locked_when_multiple_active_sprints
-      return unless model.sprint_sharing_changed?
-      return unless model.allow_multiple_active_sprints?
-
       errors.add :sprint_sharing, :locked_by_multiple_active_sprints
     end
 
-    def validate_multiple_active_sprints_setting_not_changeable_while_active
-      return unless model.allow_multiple_active_sprints_changed?
+    def validate_multiple_active_sprints_locked_when_active
       return unless Sprint.for_project(model).active.many?
 
       errors.add :allow_multiple_active_sprints, :locked_by_multiple_active_sprints
+    end
+
+    # It raises a validation error when an active sprint has work packages assigned.
+    # Active sprints from this project with no work packages assigned to them will just
+    # silently disappear, once the sharing mode is set to receive.
+    # This also covers the case of "borrowed" sprints via work package assignment.
+    def validate_only_one_active_sprint_when_receiving_shared_sprints
+      return unless model.receive_shared_sprints?
+      return unless WorkPackage.where(project: model).joins(:sprint).merge(Sprint.active).exists?
+
+      errors.add :sprint_sharing, :only_one_active_sprint_allowed
+    end
+
+    # Once the project stops receiving, the sharer could activate a "borrowed" sprint
+    # at any later point, which could lead to a second active sprint.
+    # A validation error is raised when disabling sprint receiving, if any work package
+    # is still assigned to the shared sprints, regardless of whether the sprint is active or not.
+    def validate_no_work_packages_in_shared_sprints_when_leaving_receiving
+      return unless model.receive_shared_sprints_was?
+
+      return unless WorkPackage.where(project: model)
+                               .joins(:sprint)
+                               .where.not(sprints: { project_id: model.id })
+                               .exists?
+
+      errors.add :sprint_sharing, :work_packages_still_linked_to_shared_sprints
     end
   end
 end
