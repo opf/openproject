@@ -36,8 +36,7 @@ module Wikis
       def initialize(wiki:, current_page:, query:, href_resolver:)
         @wiki = wiki
         @current_page = current_page
-        @query = query.to_s.strip
-        @query_terms = @query.split.map(&:downcase)
+        @query_terms = query.to_s.downcase.split
         @href_resolver = href_resolver
       end
 
@@ -53,7 +52,6 @@ module Wikis
 
       attr_reader :wiki,
                   :current_page,
-                  :query,
                   :href_resolver
 
       def sidemenu_nodes(pages)
@@ -96,7 +94,7 @@ module Wikis
       end
 
       def included_sidemenu_page_ids(pages)
-        return pages.to_set(&:id) if query.blank?
+        return pages.to_set(&:id) if query_terms.empty?
 
         pages_by_id = pages.index_by(&:id)
 
@@ -114,12 +112,15 @@ module Wikis
       def expand_sidemenu_tree!(nodes)
         nodes.each do |node|
           expand_sidemenu_tree!(node.children)
-          node.expanded = query.present? || node.current? || node.children.any?(&:expanded?)
+          node.expanded = query_terms.any? || node.current? || node.children.any?(&:expanded?)
         end
       end
 
       def matches_query?(wiki_page)
-        query_terms.empty? || query_terms.all? { |term| wiki_page.title.downcase.include?(term) }
+        return true if query_terms.empty?
+
+        title = wiki_page.title.downcase
+        query_terms.all? { |term| title.include?(term) }
       end
     end
   end

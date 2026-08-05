@@ -44,6 +44,9 @@ RSpec.describe Wikis::WikiPages::SidemenuTreeService do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project, :with_internal_wiki).reload }
   shared_let(:wiki) { project.wiki }
+  shared_let(:user) do
+    create(:user, member_with_permissions: { project => %i[view_project view_wiki_pages] })
+  end
 
   let!(:parent_page) { create(:wiki_page, wiki:, title: "Parent page", author: admin) }
   let!(:child_page) { create(:wiki_page, wiki:, title: "Unique child page", parent: parent_page, author: admin) }
@@ -54,7 +57,7 @@ RSpec.describe Wikis::WikiPages::SidemenuTreeService do
   let(:query) { "" }
   let(:href_resolver) { ->(page) { "/wiki/#{page.slug}" } }
 
-  current_user { admin }
+  current_user { user }
 
   it "builds all nodes collapsed by default" do
     parent = node_named(tree, "Parent page")
