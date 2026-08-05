@@ -70,7 +70,7 @@ fr:
         replace_with_system_user: Les remplacer par l'utilisateur "Système"
         unknown_emails_found: Des adresses e-mail inconnues ont été trouvées
         unknown_property: Propriété inconnue
-        what_to_do: Que voulez-vous faire ?
+        what_to_do: Que voulez-vous faire?
         work_package_has_newer_changes: Obsolète ! Ce sujet n'a pas été mis à jour, car les derniers changements sur le serveur étaient plus récents que la "ModifiedDate" du sujet importé. Toutefois, les commentaires sur le sujet ont été importés.
       import_canceled: Importation BCF-XML annulée.
       import_failed: 'Impossible d''importer le fichier BCF : %{error}'
