@@ -153,7 +153,7 @@ The roadmap includes incoming-email improvements, a [service portal](https://com
 
 ## What is the alternative to Xray or Zephyr test management?
 
-Test management processes can already be modeled with work-package types, workflows, relations and views, as shown in the [OpenProject test management use case](../../../use-cases/test-management/). A dedicated [test management roadmap](https://www.openproject.org/roadmap/#test-management) covers test cases, executions, results, traceability and reporting. Work on the [Squash TM integration](https://community.openproject.org/projects/SSOI/work_packages/SSOI-1/activity) has already started.
+Test management processes can already be modeled with work-package types, workflows, relations and views, as shown in the [OpenProject test management use case](../../../use-cases/test-management/). A dedicated [test management roadmap](https://www.openproject.org/roadmap/#xray-alternative) covers test cases, executions, results, traceability and reporting. Work on the [Squash TM integration](https://community.openproject.org/projects/SSOI/work_packages/SSOI-1/activity) has already started.
 
 There is no generic migration of Xray or Zephyr data in OpenProject 17.6. Inventory test cases, steps, executions, plans, evidence, automation results and requirement links. Decide whether they should be modeled in OpenProject directly, moved to a specialized test management system, or retained in an archive.
 
@@ -167,7 +167,7 @@ The [portfolio and program management roadmap](https://www.openproject.org/roadm
 
 [Team planners](../../../user-guide/team-planner/) provide a visual view of assigned work and help teams coordinate workloads within projects. Resource planning remains connected to the underlying work packages, schedules and responsibilities instead of being maintained in a disconnected planning layer. OpenProject 17.7 will release a dedicated resource management module in OpenProject.
 
-The [resource and capacity management roadmap](https://www.openproject.org/roadmap/#resources-capacity-management) includes cross-project resource planning, capacity visibility and workload balancing. [Multi-project resource management](https://community.openproject.org/projects/OP/work_packages/OP-6038/activity) is still a roadmap item. Organizations using Tempo Planner, BigPicture or similar apps should validate planning granularity, skills and roles, availability, allocations, scenarios and capacity reports against the current release and the roadmap.
+The [resource and capacity management roadmap](https://www.openproject.org/roadmap/#big-picture-alternative) includes cross-project resource planning, capacity visibility and workload balancing. [Multi-project resource management](https://community.openproject.org/projects/OP/work_packages/OP-6038/activity) is still a roadmap item. Organizations using Tempo Planner, BigPicture or similar apps should validate planning granularity, skills and roles, availability, allocations, scenarios and capacity reports against the current release and the roadmap.
 
 ## How does OpenProject support time and cost management?
 
