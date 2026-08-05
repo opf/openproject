@@ -273,6 +273,42 @@ module WorkPackageTypes
           end
         end
 
+        context "when the multiple categories feature is inactive" do
+          it "accepts the deprecated category" do
+            model.attribute_groups = [["foo", ["category"]]]
+
+            expect(contract).to be_valid
+          end
+
+          it "rejects categories as an unknown attribute" do
+            model.attribute_groups = [["foo", ["categories"]]]
+
+            expect(contract).not_to be_valid
+            expect(contract.errors.details[:attribute_groups]).to include(
+              error: "Invalid work package attribute used: categories"
+            )
+          end
+        end
+
+        context "when the multiple categories feature is active",
+                with_flag: { work_package_multiple_categories: true },
+                with_settings: { work_package_multiple_categories: true } do
+          it "accepts categories" do
+            model.attribute_groups = [["foo", ["categories"]]]
+
+            expect(contract).to be_valid
+          end
+
+          it "rejects the deprecated category as an unknown attribute" do
+            model.attribute_groups = [["foo", ["category"]]]
+
+            expect(contract).not_to be_valid
+            expect(contract.errors.details[:attribute_groups]).to include(
+              error: "Invalid work package attribute used: category"
+            )
+          end
+        end
+
         context "with invalid query group" do
           let(:query) { Query.new(name: "Invalid Query", user:) }
           let(:invalid_query_group) { ["query_group", [query]] }

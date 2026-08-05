@@ -156,17 +156,31 @@ module Type::AttributeGroups
     groups = self[:attribute_groups].presence
     return if groups.nil?
 
-    # Only one version attribute is offered at a time, so render whichever one a
-    # saved configuration holds as the one the current feature state exposes.
-    stored, offered = if Setting::WorkPackageMultipleVersions.active?
-                        %w[version target_versions]
-                      else
-                        %w[target_versions version]
-                      end
+    # Only one version and one category attribute is offered at a time, so render
+    # whichever one a saved configuration holds as the one the current feature
+    # state exposes.
+    substitutions = feature_gated_attribute_substitutions
 
     groups.map do |key, attributes, *rest|
-      [key, attributes.map { |attribute| attribute == stored ? offered : attribute }.uniq, *rest]
+      [key, attributes.map { |attribute| substitutions.fetch(attribute, attribute) }.uniq, *rest]
     end
+  end
+
+  # Maps the attribute name a stored configuration may hold onto the one the
+  # current feature state exposes.
+  def feature_gated_attribute_substitutions
+    version_pair = if Setting::WorkPackageMultipleVersions.active?
+                     %w[version target_versions]
+                   else
+                     %w[target_versions version]
+                   end
+    category_pair = if Setting::WorkPackageMultipleCategories.active?
+                      %w[category categories]
+                    else
+                      %w[categories category]
+                    end
+
+    [version_pair, category_pair].to_h
   end
 
   def default_group_key(key)
