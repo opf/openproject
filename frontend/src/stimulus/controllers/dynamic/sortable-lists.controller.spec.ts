@@ -26,31 +26,32 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
+// vi.doMock is not hoisted above imports, unlike vi.mock, so the subject
+// below is imported dynamically further down, after these calls run.
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
   draggable: vi.fn(() => vi.fn()),
   dropTargetForElements: vi.fn(() => vi.fn()),
   monitorForElements: vi.fn(() => vi.fn()),
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: vi.fn(() => vi.fn()),
 }));
 
-// This spec mounts the real item controller, which pulls in these modules.
-// Tests share one module registry (the runner does not isolate spec files),
-// so importing the real versions here would leak into the item controller
-// spec and break its spies. Mock them to keep the shared cache inert.
-vi.mock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
+// This spec mounts the real item controller, which pulls in these three
+// modules. Stub them so its Pragmatic side effects stay inert; nothing
+// here reads them back.
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
   combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
     cleanups.forEach((cleanup) => cleanup());
   })),
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
   preventUnhandled: { start: vi.fn(), stop: vi.fn() },
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
   setCustomNativeDragPreview: vi.fn(),
 }));
 
