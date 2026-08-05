@@ -200,7 +200,7 @@ class WorkPackage < ApplicationRecord
 
   associated_to_ask_before_destruction TimeEntry,
                                        ->(work_packages) {
-                                         TimeEntry.on_work_packages(work_packages).count > 0
+                                         TimeEntry.on_work_packages(work_packages).any?
                                        },
                                        method(:cleanup_time_entries_before_destruction_of)
 
@@ -525,13 +525,16 @@ class WorkPackage < ApplicationRecord
     work_packages.each do |work_package|
       effective_type_id = effective_type_ids[custom_field_pair(work_package)]
 
-      RequestStore.store[available_custom_field_key(work_package)] = custom_fields
-                                                                       .select do |cf|
-        (cf.available_project_ids.include?(work_package.project_id) || cf.is_for_all?) &&
-        cf.available_type_ids.include?(effective_type_id)
-      end
+      RequestStore.store[available_custom_field_key(work_package)] =
+        custom_fields.select { |cf| available_for?(cf, work_package, effective_type_id) }
     end
   end
+
+  def self.available_for?(custom_field, work_package, effective_type_id)
+    (custom_field.available_project_ids.include?(work_package.project_id) || custom_field.is_for_all?) &&
+      custom_field.available_type_ids.include?(effective_type_id)
+  end
+  private_class_method :available_for?
 
   # A work package stores its family's root, while its project may resolve that family to a
   # variant owning a different form configuration. The fields available therefore depend on the
@@ -569,18 +572,28 @@ class WorkPackage < ApplicationRecord
     project_ids = work_packages.map(&:project_id).uniq
     type_join = form_configuration_custom_fields_join(type_ids)
 
+    custom_fields_activated_in(type_join, project_ids)
+      .or(custom_fields_for_all(type_join))
+      .distinct
+  end
+  private_class_method :available_custom_fields_from_db
+
+  def self.custom_fields_activated_in(type_join, project_ids)
     WorkPackageCustomField
       .joins(type_join)
       .left_joins(:projects)
       .where(projects: { id: project_ids })
-      .or(WorkPackageCustomField
-            .joins(type_join)
-            .left_joins(:projects)
-            .references(:projects)
-            .where(is_for_all: true))
-      .distinct
   end
-  private_class_method :available_custom_fields_from_db
+  private_class_method :custom_fields_activated_in
+
+  def self.custom_fields_for_all(type_join)
+    WorkPackageCustomField
+      .joins(type_join)
+      .left_joins(:projects)
+      .references(:projects)
+      .where(is_for_all: true)
+  end
+  private_class_method :custom_fields_for_all
 
   # Match custom fields on the type that owns the (possibly linked) form configuration, minus
   # the ones its link chain excludes, but keep the driving type id available so a batch preload
