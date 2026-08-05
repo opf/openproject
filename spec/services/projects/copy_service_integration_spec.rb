@@ -161,6 +161,20 @@ RSpec.describe(
 
         expect(project_copy.project_types.pluck(:project_id).uniq).to eq([project_copy.id])
       end
+
+      context "when the caller names the types itself" do
+        shared_let(:other_type) { create(:type, name: "Chosen type") }
+
+        let(:target_project_params) { { "name" => "Copy", "identifier" => "copy", "type_ids" => [other_type.id] } }
+
+        # project_types and type_ids write the same rows, so the source's must stand aside
+        # rather than compete with what the caller asked for.
+        it "uses the caller's types instead of the source's" do
+          expect(subject).to be_success
+
+          expect(project_copy.types).to contain_exactly(other_type)
+        end
+      end
     end
 
     shared_examples_for "copies public attribute" do
