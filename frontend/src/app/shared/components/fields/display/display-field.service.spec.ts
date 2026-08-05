@@ -77,6 +77,7 @@ describe('DisplayFieldService', () => {
   // rendering in the singleline layout via a dedicated field.
   const multiValueTypes:[string, DisplayFieldClass, DisplayFieldClass][] = [
     ['[]Version', SingleLineResourcesDisplayField, MultipleLinesCustomOptionsDisplayField],
+    ['[]Category', SingleLineResourcesDisplayField, MultipleLinesCustomOptionsDisplayField],
     ['[]CustomOption', SingleLineResourcesDisplayField, MultipleLinesCustomOptionsDisplayField],
     ['[]User', SingleLineUserDisplayField, MultipleLinesUserFieldModule],
     ['[]CustomField::Hierarchy::Item', SingleLineResourcesDisplayField, MultipleLinesHierarchyItemDisplayField],

@@ -321,7 +321,7 @@ class EditField
       "op-user-autocompleter"
     when :priority, :status, :type, :category, :workPackage, :parent, :projectPhase
       "create-autocompleter"
-    when :targetVersions
+    when :targetVersions, :categories
       "ng-select"
     when :project
       "op-project-autocompleter"

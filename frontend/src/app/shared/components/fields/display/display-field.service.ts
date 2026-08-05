@@ -97,7 +97,7 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
     // The singleline layout (macro argument) renders multi value fields as a
     // comma-separated list instead of the one-per-line variants below.
     // Users keep their avatars via a dedicated inline field.
-    const multiValueTypes = ['[]CustomOption', '[]Version', '[]User', '[]CustomField::Hierarchy::Item'];
+    const multiValueTypes = ['[]CustomOption', '[]Version', '[]Category', '[]User', '[]CustomField::Hierarchy::Item'];
     if (context.container === 'single-view' && context.options.layout === 'singleline' && multiValueTypes.includes(schema.type)) {
       if (schema.type === '[]User') {
         return new SingleLineUserDisplayField(fieldName, context);
@@ -123,8 +123,8 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
     }
 
     // Separate class seems not needed (merge with []CustomOption above?)
-    const isVersionMultiLinesField = ['[]Version'].includes(schema.type);
-    if (context.container === 'single-view' && isVersionMultiLinesField) {
+    const isResourceMultiLinesField = ['[]Version', '[]Category'].includes(schema.type);
+    if (context.container === 'single-view' && isResourceMultiLinesField) {
       return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
     }
     const isUserMultiLinesField = ['[]User'].includes(schema.type);

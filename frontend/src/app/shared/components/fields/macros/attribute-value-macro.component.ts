@@ -133,10 +133,11 @@ export class AttributeValueMacroComponent implements OnInit {
     const proxied = this.schemaCache.proxied(resource, schema);
     let attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
 
-    // The deprecated version attribute renders the work package's target
-    // versions, single-line by default so legacy macros keep their inline shape.
-    if (resource._type === 'WorkPackage' && attribute === 'version') {
-      attribute = 'targetVersions';
+    // The deprecated single-valued attributes render the whole set that replaces
+    // them, single-line by default so legacy macros keep their inline shape.
+    const legacyMultiValueAttributes:Record<string, string> = { version: 'targetVersions', category: 'categories' };
+    if (resource._type === 'WorkPackage' && attribute && legacyMultiValueAttributes[attribute]) {
+      attribute = legacyMultiValueAttributes[attribute];
       this.layout = this.layout ?? 'singleline';
     }
 

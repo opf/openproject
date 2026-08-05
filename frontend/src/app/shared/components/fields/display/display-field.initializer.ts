@@ -114,7 +114,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'Workspace'])
       .addFieldType(ProjectPhaseDisplayField, 'projectPhase', ['ProjectPhase'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption', '[]CustomField::Hierarchy::Item'])
-      .addFieldType(ResourcesDisplayField, 'resources', ['[]Version'])
+      .addFieldType(ResourcesDisplayField, 'resources', ['[]Version', '[]Category'])
       .addFieldType(MultipleUserFieldModule, 'users', ['[]User'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
       .addFieldType(DaysDurationDisplayField, 'duration', ['duration'])

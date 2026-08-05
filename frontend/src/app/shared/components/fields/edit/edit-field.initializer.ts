@@ -84,6 +84,9 @@ import {
 import {
   VersionsEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
+import {
+  CategoriesEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/categories-edit-field.component';
 import { ProjectPhaseAutocompleterComponent } from '../../autocompleter/project-phase-autocompleter/project-phase-autocompleter.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
@@ -144,6 +147,12 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         VersionsEditFieldComponent,
         'versions',
         ['targetVersions', 'observedInVersions'],
+      )
+      .addSpecificFieldType(
+        'WorkPackage',
+        CategoriesEditFieldComponent,
+        'categories',
+        ['categories'],
       )
       .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('Portfolio', ProjectStatusEditFieldComponent, 'status', ['status'])
