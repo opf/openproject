@@ -78,7 +78,7 @@ module SearchHighlightingHelper
   # Merges overlapping or adjacent ranges into a minimal set of non-overlapping ranges.
   def merge_highlight_ranges(ranges)
     ranges.sort_by(&:begin).each_with_object([]) do |range, merged|
-      if merged.empty? || range.begin >= merged.last.end
+      if merged.empty? || range.begin > merged.last.end
         merged << range
       else
         last = merged.last
