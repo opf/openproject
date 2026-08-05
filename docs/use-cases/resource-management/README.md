@@ -2,58 +2,91 @@
 sidebar_navigation:
   title: Resource management
   priority: 980
-description: Step-by-step instruction about resource management
-keywords: use-case, resource management
+description: Learn how to plan capacity, allocate work and staff projects with resource management in OpenProject.
+keywords: use-case, resource management, capacity planning, resource planner, staffing, resource allocation
 ---
 
 # Resource management with OpenProject
 
-**Note:**  OpenProject does not have the automated functionality to provide detailed resource management or employee work capacity calculations. However, there is a workaround that you can use to configure a visual estimate of task distribution and plan accordingly.
+Resource management helps you plan not only *what* needs to be done, but also *who* can do the work and *when*. With OpenProject 17.7, you can combine work packages with team members' working schedules, availability and skills to make realistic staffing decisions.
 
-## Work packages view
+The dedicated **Resource management** module lets you create resource planners, allocate hours to specific users or requested profiles, identify capacity conflicts and fill open resource requests from within your project.
 
-These are the steps you can follow to adjust a work package overview to suit your goals.
+[feature: resource_management]
 
-![resource management](configure_wp_view.png)
+> [!NOTE]
+> The Resource management module is an Enterprise add-on available with the Premium plan. Departments, user attributes, working schedules and availability are also useful independently of the module and are available in the Community edition.
 
-Step 1: Select a project and go to the work package overview by clicking **Work packages** in the project menu on the left. If you would like to create an overview over multiple projects, select the respective projects and/or subprojects in the **Include projects** menu between the **+ Create** and the **Filter** buttons.
+## What you can achieve
 
-Alternatively, you can also chose the **Global work package overview** by selecting the **Waffle icon** in the top right corner:
+Use resource management in OpenProject to:
 
-![OpenProject global work packages overview](openproject_global_wp_view.png)
+- compare planned work with available capacity
+- identify overloaded or available team members
+- plan work for a known person
+- reserve capacity based on required skills, roles or other user attributes before choosing a person
+- find suitable project members for open resource requests
+- review the same plan from a work package or user perspective
 
-Step 2: You can add existing fields, such as **Work** (earlier called **Estimated time**), **Spent time** and **Remaining work** (earlier called **Remaining hours**) to your work packages list. Also, you can [create additional custom fields](../../system-admin-guide/custom-fields/), e.g. **Scope (h)**, to get an overview of the team capacity.
+## Prepare your resource data
 
-Step 3: You can add these fields via the **Insert columns** option on the drop-down menu.
+Capacity planning is most useful when the underlying project and user data is complete. Before creating a resource planner:
 
-Step 4: You can add any filters necessary and sort or group the work packages by assignee.
+1. Activate **Resource management** under **Project settings → Modules**.
+2. Add the relevant team members and work packages to the project.
+3. Give work packages realistic dates and record their total work.
+4. Configure each user's [working schedule, schedule changes and time off](../../user-guide/account-settings/schedule-and-availability/).
+5. Organize users in [departments](../../system-admin-guide/users-permissions/organization/) and maintain [user attributes](../../system-admin-guide/users-permissions/user-attributes/), such as skills, languages or certifications, when these details should inform staffing decisions.
 
-![OpenProject sort work packages by assignee](openproject_sort_by_assignee.png)
+## Plan and balance capacity
 
-Step 5: Save your adjusted view by clicking on the **Save** icon on the left (you can name this view before saving or re-name it later). ![Save adjusted openproject work package view](openproject_save_wp_adjusted_view.png)
+### 1. Create a resource planner
 
-This view will be saved and shown under your private work package filters (you can make it public and share with other team members).
+Open **Resource management** from the project menu and create a resource planner. Define its name, planning period, visibility and first planner view.
 
-![OpenProject work package private filter](work_package_private_filter.png)
+You can create multiple planners for different teams, departments, project phases or planning scenarios.
 
-## Adding sums to the work packages view
+### 2. Choose the right planning view
 
-You can also use the sum function. Select **\[⋮\]** -> _**Configure view**_ -> _**Display settings**_ -> and check the _**Display Sums**_ box:
+A resource planner can contain multiple views of the same planning data:
 
-![OpenProject work package configure view](openproject_configure_view.png)
+- **Work packages timeline** shows allocations alongside scheduled work packages.
+- **Users timeline** shows each person's allocations and availability over time, including warnings for missing work schedules or overallocation.
+- **Work packages list** provides a table-oriented view of work and allocations.
+- **Users card list** combines capacity information with departments and selected user attributes to support staffing decisions.
 
-![OpenProject display sums](openproject_display_sums.png)
+Switch between these views depending on whether you want to start from the work, the people or the available capacity.
 
-You will see the **Work** (previously called estimated time), **Spent time** and **Remaining work** (called remaining hours) summed up by user, as well as the overall sum.
+### 3. Allocate planned work
 
-![OpenProject work packages sums](openproject_work_packages_sum.png)
+Create an allocation for a work package and enter the planned date range and hours. You can allocate work in two ways:
 
-## Gantt chart view
+- **By user** when you already know which project member should perform the work.
+- **By filter criteria** when you know which skills, role or other attributes are required but have not yet selected a person.
 
-You could also add the Gantt view to add an additional dimension to your overview.
+Allocations are separate from the work package assignee. This allows you to distribute planned hours across multiple people or reserve capacity before responsibility for the work package is finalized.
 
-![OpenProject work packages Gantt view](openproject_wp_gantt_view.png)
+OpenProject warns you when allocation dates fall outside the work package dates or when a user is allocated beyond their available capacity.
 
-This will provide a rough overview of the various tasks assigned to a specific person or team. Adding the Gantt view provides a supplementary overview of when these tasks are scheduled. It is a visual way of looking at approximately how many tasks are assigned to an individual. This view gives you an estimate about the timeline, allowing for adjustments in assignments and timing to be made to balance your resources.
+### 4. Staff open resource requests
 
-To get a more in-depth overview about who does which tasks and when, you can also switch to the [team planner view](../../user-guide/team-planner/).
+Allocations based on filter criteria appear as open requests in the **Staffing** view. Open a request to compare matching project members and their remaining capacity, then assign a suitable person.
+
+This workflow lets project managers define the demand while resource managers or team leads complete the staffing decision.
+
+### 5. Review and adjust the plan
+
+Use the timeline views to spot scheduling gaps and overloads, and the user cards to compare availability and relevant attributes. Adjust allocation dates, hours or assigned users as project priorities and team availability change.
+
+Keeping work package dates, work estimates and user schedules up to date ensures that the planner continues to reflect a realistic capacity picture.
+
+## Complementary planning options
+
+The Resource planner complements other OpenProject views:
+
+- Use the [Team planner](../../user-guide/team-planner/) for a weekly or bi-weekly overview of work packages assigned to team members.
+- Use configurable [work package tables](../../user-guide/work-packages/work-package-table-configuration/) to compare fields such as **Work**, **Remaining work** and **Spent time**, and to group results by assignee.
+
+These views are useful for task coordination and lightweight workload overviews. For schedule-based capacity planning, skill-based resource requests and staffing, use the Resource management module.
+
+For detailed instructions on creating planners, configuring views, allocating work and staffing requests, see the [Resource management user guide](../../user-guide/resource-management/).
