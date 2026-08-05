@@ -133,4 +133,19 @@ RSpec.describe DemoData::DepartmentSeeder do
 
     expect(seeder).not_to be_applicable
   end
+
+  it "is not applicable when seeding users is disabled through ENV" do
+    expect(seeder).to be_applicable
+
+    stub_const("ENV", ENV.to_hash.merge("OP_DEV_USER_SEEDER_ENABLED" => "false"))
+
+    expect(seeder).not_to be_applicable
+  end
+
+  it "creates no users when seeding users is disabled through ENV" do
+    stub_const("ENV", ENV.to_hash.merge("OP_DEV_USER_SEEDER_ENABLED" => "false"))
+
+    expect { seeder.seed! }.not_to change(User, :count)
+    expect(Group.organizational_units).to be_empty
+  end
 end

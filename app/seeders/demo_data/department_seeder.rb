@@ -46,7 +46,15 @@ module DemoData
     end
 
     def applicable?
-      Group.organizational_units.none?
+      !seed_users_disabled? && Group.organizational_units.none?
+    end
+
+    def not_applicable_message
+      if seed_users_disabled?
+        "Skipping departments as seeding users is disabled through ENV"
+      else
+        "Skipping departments as there are already some organizational units"
+      end
     end
 
     private
