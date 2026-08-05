@@ -31,9 +31,6 @@ See COPYRIGHT and LICENSE files for more details.
 <% @user ||= User.new %>
 
 <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-account-registration")) do %>
-  <% if CustomStyle.current&.logo_mobile.present? || !custom_logo? %>
-    <div class="op-logo--icon op-account-registration--logo" aria-hidden="true"></div>
-  <% end %>
   <%= render(Primer::Beta::Text.new(tag: :p, classes: "op-account-registration--subtitle")) do %>
     <%= t("account.signup_title", app_title: Setting.app_title) %>
   <% end %>
