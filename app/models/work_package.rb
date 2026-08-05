@@ -514,6 +514,8 @@ class WorkPackage < ApplicationRecord
   end
 
   def self.preload_available_custom_fields(work_packages)
+    effective_type_ids = effective_type_ids_by_pair(work_packages)
+
     custom_fields = available_custom_fields_from_db(work_packages)
                     .select("array_agg(projects.id) available_project_ids",
                             "array_agg(wp_types.own_id) available_type_ids",
@@ -521,16 +523,47 @@ class WorkPackage < ApplicationRecord
                     .group("custom_fields.id")
 
     work_packages.each do |work_package|
+      effective_type_id = effective_type_ids[custom_field_pair(work_package)]
+
       RequestStore.store[available_custom_field_key(work_package)] = custom_fields
                                                                        .select do |cf|
         (cf.available_project_ids.include?(work_package.project_id) || cf.is_for_all?) &&
-        cf.available_type_ids.include?(work_package.type_id)
+        cf.available_type_ids.include?(effective_type_id)
       end
     end
   end
 
+  # A work package stores its family's root, while its project may resolve that family to a
+  # variant owning a different form configuration. The fields available therefore depend on the
+  # (project, type) pair rather than the type alone, which is what #available_custom_field_key
+  # already caches on.
+  #
+  # Resolved here in Ruby rather than joined into the query below: it costs one small query and
+  # leaves the form configuration SQL — and its measured performance characteristics — untouched.
+  def self.effective_type_ids_by_pair(work_packages)
+    pairs = work_packages.filter_map { |work_package| custom_field_pair(work_package) }.uniq
+    return {} if pairs.empty?
+
+    resolved = ProjectType
+                 .where(project_id: pairs.map(&:first), type_id: pairs.map(&:last))
+                 .pluck(:project_id, :type_id, :variant_id)
+                 .to_h { |project_id, type_id, variant_id| [[project_id, type_id], variant_id || type_id] }
+
+    # A pair with no row means the project does not use the family, so only the root's own
+    # configuration could apply.
+    pairs.index_with { |pair| resolved.fetch(pair, pair.last) }
+  end
+  private_class_method :effective_type_ids_by_pair
+
+  def self.custom_field_pair(work_package)
+    return if work_package.project_id.nil? || work_package.type_id.nil?
+
+    [work_package.project_id, work_package.type_id]
+  end
+  private_class_method :custom_field_pair
+
   def self.available_custom_fields_from_db(work_packages)
-    type_ids = work_packages.filter_map(&:type_id).uniq
+    type_ids = effective_type_ids_by_pair(work_packages).values.uniq
     return WorkPackageCustomField.none if type_ids.empty?
 
     project_ids = work_packages.map(&:project_id).uniq
@@ -550,8 +583,8 @@ class WorkPackage < ApplicationRecord
   private_class_method :available_custom_fields_from_db
 
   # Match custom fields on the type that owns the (possibly linked) form configuration, minus
-  # the ones its link chain excludes, but keep the work package's own type id available so a
-  # batch preload can match it against each work package's own type_id.
+  # the ones its link chain excludes, but keep the driving type id available so a batch preload
+  # can match it against each work package's effective type id.
   def self.form_configuration_custom_fields_join(type_ids)
     source_table, source_type_id, excluded = Type::FormConfigurationSql.source_table(type_ids)
     exclusion = Type.excluded_custom_field_condition("custom_fields.id", excluded)
