@@ -80,7 +80,9 @@ COPY vendor ./vendor
 # Add lib in case a plugin tries to load VERSION file under lib
 COPY lib ./lib
 
-COPY ./docker/prod/setup/bundle-install.sh ./vendor/bundle* ./vendor/
+# The restored vendor/bundle cache already arrives with `COPY vendor` above. Naming
+# it again here copied its *contents* into vendor/, leaving a stale second gem tree.
+COPY ./docker/prod/setup/bundle-install.sh ./vendor/
 RUN bash vendor/bundle-install.sh && rm vendor/bundle-install.sh
 
 COPY . .
