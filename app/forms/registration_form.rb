@@ -31,33 +31,33 @@
 class RegistrationForm < ApplicationForm
   include CustomFields::CustomFieldRendering
 
-  form do |form|
-    login_or_email(form) if model.ldap_auth_source_id.nil?
+  form do |f|
+    login_or_email(f) if model.ldap_auth_source_id.nil?
 
-    form.text_field(name: :firstname, label: attribute_name(:firstname), required: true, input_width:)
-    form.text_field(name: :lastname, label: attribute_name(:lastname), required: true, input_width:)
+    f.text_field(name: :firstname, label: attribute_name(:firstname), required: true, input_width:)
+    f.text_field(name: :lastname, label: attribute_name(:lastname), required: true, input_width:)
 
     if show_email?
-      form.text_field(name: :mail,
-                      type: :email,
-                      label: attribute_name(:mail),
-                      required: true,
-                      readonly: !registration_mail_editable?,
-                      input_width:)
+      f.text_field(name: :mail,
+                   type: :email,
+                   label: attribute_name(:mail),
+                   required: true,
+                   readonly: !registration_mail_editable?,
+                   input_width:)
     end
 
-    form.html_content { helpers.call_hook(:view_account_register_after_basic_information, f: form) }
+    f.html_content { helpers.call_hook(:view_account_register_after_basic_information, f:) }
 
-    render_custom_fields(form:)
+    render_custom_fields(form: f)
 
-    password_fields(form) if model.change_password_allowed?
+    password_fields(f) if model.change_password_allowed?
 
-    consent(form) if helpers.user_consent_required?
+    consent(f) if helpers.user_consent_required?
 
-    form.submit(name: :submit, label: I18n.t(:button_create), scheme: :primary)
+    f.submit(name: :submit, label: I18n.t(:button_create), scheme: :primary)
 
-    authentication_providers(form)
-    registration_footer(form)
+    authentication_providers(f)
+    registration_footer(f)
   end
 
   private

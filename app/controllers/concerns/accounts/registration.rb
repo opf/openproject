@@ -72,6 +72,8 @@ module Accounts::Registration
     # on-the-fly registration via omniauth or via auth source
     if pending_omniauth_registration?
       user.assign_attributes permitted_params.user_register_via_omniauth
+      return unless consent_given_for_registration?(user)
+
       register_via_omniauth(session, user.attributes)
     else
       user.attributes = permitted_params.user
@@ -144,7 +146,7 @@ module Accounts::Registration
   end
 
   def registration_failed(error, user)
-    flash.now[:error] = error if user.errors.empty?
+    user.errors.add(:base, error) if error.present? && user.errors.empty?
     Rails.logger.error "Registration of user #{user.login} failed: #{error}"
     onthefly_creation_failed(user)
   end
