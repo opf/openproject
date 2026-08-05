@@ -114,16 +114,21 @@ class WorkPackages::BulkController < ApplicationController
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
     @assignables = @responsibles = Principal.possible_assignee(@projects)
     @types = @projects.map(&:types).inject(&:&)
+    @custom_fields = editable_custom_fields
+  end
 
-    # Display only the custom fields that are enabled on the projects and on types too.
-    # Each project may resolve a family to its own variant, so the types are resolved per
-    # project and their #custom_fields follows the form configuration link from there.
-    @custom_fields =
-      @projects.map(&:all_work_package_custom_fields).inject(&:&) &
-      @projects.flat_map { |project| project.effective_types(*@types) }
-               .uniq
-               .flat_map { |type| type.custom_fields.to_a }
-               .uniq
+  # Only the custom fields that are enabled on the projects and on the types too.
+  def editable_custom_fields
+    @projects.map(&:all_work_package_custom_fields).inject(&:&) & custom_fields_of_effective_types
+  end
+
+  # Each project may resolve a family to its own variant, so the types are resolved per project
+  # before #custom_fields follows the form configuration link from there.
+  def custom_fields_of_effective_types
+    @projects.flat_map { |project| project.effective_types(*@types) }
+             .uniq
+             .flat_map { |type| type.custom_fields.to_a }
+             .uniq
   end
 
   # Deletion is not all or nothing: one work package may be deleted while another
