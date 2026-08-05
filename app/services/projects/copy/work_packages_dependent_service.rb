@@ -67,6 +67,7 @@ module Projects::Copy
           :custom_values,
           :target_versions,
           :observed_in_versions,
+          :categories,
           :assigned_to,
           :responsible
         )
@@ -137,6 +138,7 @@ module Projects::Copy
 
     def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
       target_version_ids = work_package_target_version_ids(source_work_package)
+      category_ids = work_package_category_ids(source_work_package)
 
       {
         project: target,
@@ -146,6 +148,10 @@ module Projects::Copy
         version_id: target_version_ids&.first,
         target_version_ids:,
         observed_in_version_ids: work_package_observed_in_version_ids(source_work_package),
+        # Same as version_id above: the legacy category_id must not contradict the
+        # category set until the column is dropped.
+        category_id: category_ids&.first,
+        category_ids:,
         assigned_to_id: work_package_assigned_to_id(source_work_package),
         responsible_id: work_package_responsible_id(source_work_package),
         custom_field_values: custom_value_attributes(source_work_package, user_cf_ids),
@@ -168,6 +174,18 @@ module Projects::Copy
       return if lookup.nil?
 
       source_work_package.observed_in_versions.filter_map { |v| state.version_id_lookup[v.id] }.presence
+    end
+
+    # Categories are project-owned, so a copied work package has to point at the
+    # copies made by Projects::Copy::CategoriesDependentService. Returning nil
+    # (categories were not copied) leaves the set untouched here; the set-attributes
+    # service then reassigns it by name on the project change, which finds nothing
+    # and clears it.
+    def work_package_category_ids(source_work_package)
+      lookup = state.category_id_lookup
+      return if lookup.nil?
+
+      source_work_package.categories.filter_map { |c| lookup[c.id] }.presence
     end
 
     def work_package_assigned_to_id(source_work_package)

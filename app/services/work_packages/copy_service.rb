@@ -87,6 +87,7 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
                    .slice(*writable_attributes)
                    .merge("custom_field_values" => work_package.custom_value_attributes)
                    .merge(version_reference_attributes(work_package, writable_attributes))
+                   .merge(category_reference_attributes(work_package, writable_attributes))
                    .merge(overwritten_attributes)
 
     if overwritten_attributes.has_key?("start_date") &&
@@ -114,6 +115,12 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
     end
 
     attributes.compact
+  end
+
+  def category_reference_attributes(work_package, writable_attributes)
+    return {} unless writable_attributes.include?("categories")
+
+    { "category_ids" => work_package.categories.pluck(:id).presence }.compact
   end
 
   def remove_author_watcher(copied)
