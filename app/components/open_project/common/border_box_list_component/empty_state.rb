@@ -47,7 +47,8 @@ module OpenProject
         #   announced politely to assistive technology.
         # @param drop_target_label [String, nil] when given, renders a drop-zone
         #   overlay with this label. The overlay becomes visible while a
-        #   sortable item hovers the surrounding `[data-drop-container]` list.
+        #   sortable item hovers the surrounding `[data-drop-container="active"]`
+        #   list.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::Blankslate`.
         def initialize(
           title:,

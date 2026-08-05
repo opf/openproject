@@ -2989,6 +2989,7 @@ uk:
       work_package_children_changed_times: внесенням змін у дочірній елемент %{link}
       work_package_duplicate_closed: Статус автоматично оновлено на основі дубліката пакета робіт %{link}
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
       work_package_related_changed_times: внесенням змін у пов’язаний елемент %{link}
       working_days_changed:
@@ -3010,7 +3011,11 @@ uk:
       total_percent_complete_mode_changed_to_simple_average: Обчислення підсумків атрибута «% завершення» тепер ґрунтується на середньому арифметичному значень лише атрибута «% завершення».
       total_percent_complete_mode_changed_to_work_weighted_average: Під час обчислення підсумків атрибута «% завершення» тепер враховується значення атрибута «Робота».
       work_package_duplicate_closed: 'Дублікат пакета робіт оновлено:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: Зміни було відхилено.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Розробникам також потрібно оплачувати свої рахунки. З доступністю
   label_account: Обліковий запис
   label_actions: Дії
@@ -4743,6 +4748,7 @@ uk:
 
     '
   permission_move_work_packages: Переміщення робочих пакетів
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Зберігання запитів BCF
   permission_save_queries: Зберегти перегляди
   permission_search_project: Пошук проєктів
@@ -5867,6 +5873,7 @@ uk:
   text_journal_changed_plain: "%{label} змінено з %{old} %{linebreak}на %{new}"
   text_journal_changed_with_diff: "%{label} змінено (%{link})"
   text_journal_deleted: "%{label} видалено (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} видалено (%{link})"
   text_journal_file_link_added: Додано посилання %{label} на значення %{value} (%{storage})
@@ -6064,6 +6071,10 @@ uk:
         drag_to_reorder: Перетягніть, щоб змінити порядок
         edit_query: Редагувати запит
         empty_group_hint: Перетягніть атрибути сюди
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Фільтрувати атрибути
         group_actions: Дії з розділом
         group_name_label: Назва розділу
@@ -6089,6 +6100,9 @@ uk:
           label_disable_all: Вимкнути все
           label_enable_all: Увімкнути все
         description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Пошук за розділом або назвою
         tab: Атрибути проєктів
       projects:
@@ -6110,6 +6124,9 @@ uk:
             title: Скопіювати конфігурацію
           invalid_source: Конфігурацію неможливо скопіювати з вибраного вихідного типу. Будь ласка, виберіть інший.
           success: Конфігурацію скопійовано.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Я розумію, що поточні налаштування буде перезаписано
@@ -6541,20 +6558,49 @@ uk:
   work_packages:
     bulk:
       copy_failed: Не вдалося скопіювати пакети робіт.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Не вдалося зберегти такі робочі пакети:'
+      deletion_successful:
+        one: Successfully deleted 1 work package.
+        few: Successfully deleted %{count} work packages.
+        many: Successfully deleted %{count} work packages.
+        other: Successfully deleted %{count} work packages.
       descendant: нащадок вибраного елемента
       move_failed: Не вдалося перемістити пакети робіт.
       none_could_be_saved: Жоден із пакетів робіт (%{total}) не можна оновити.
       selected_because_descendants: Хоча вибрано кілька %{selected} пакетів робіт, змінено всього %{total}, включно з нащадками.
       x_out_of_y_could_be_saved: 'Не вдалось оновити пакетів робіт: %{failing} із %{total}. Оновлено: %{success}.'
     bulk_delete_dialog:
-      children_label: 'Також видаляться наведені нижче дочірні елементи:'
-      confirm_children_deletion: Я усвідомлюю, що всі вибрані пакети робіт і їх дочірні елементи буде видалено назавжди.
-      cross_project_warning: 'Ці пакети робіт використовуються в кількох проєктах: %{projects}'
-      description: 'Наведені нижче пакети робіт, зокрема всі пов’язані дані, буде видалено назавжди:'
-      description_with_children: 'Наведені нижче пакети робіт, зокрема їх дочірні елементи й усі пов’язані дані, буде видалено назавжди:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Видалити ці пакети робіт (%{count}) остаточно?
+      hidden_descendants_only_warning:
+        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Видалити пакети робіт (%{count})
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6598,11 +6644,32 @@ uk:
         successors: Наступники
       update_inputs_aria_live_message: Засіб вибору дати оновлено. %{message}
     delete_dialog:
-      confirm_descendants_deletion: Я усвідомлюю, що ВСІХ нащадків цього пакета робіт буде рекурсивно видалено.
-      cross_project_warning: 'Буде видалено пакети робіт із наступних проєктів: %{projects}'
-      description: Справді видалити пакет робіт «%{name}»?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Видалити цей пакет робіт остаточно?
+      hidden_descendants_only_warning:
+        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Видалити пакет робіт
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'Типи пакетів робіт або їх нащадків не ввімкнено в цільовому проєкті. Увімкніть типи, яких бракує, якщо не хочете, щоб вони зазнали змін. Інакше виберіть у цільовому проєкті доступний тип зі списку.
 

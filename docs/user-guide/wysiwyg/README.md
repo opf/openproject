@@ -49,6 +49,12 @@ As CKEditor5 currently does not provide support for code blocks, OpenProject can
 
 The GFM extension of the CommonMark specs adds a definition for table syntax, which the CKEditor of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
 
+### Emojis
+
+You can add emojis to all text editors in OpenProject. Type a colon and a letter, e.g. **:a** into the wiki editor and get a suggested list of emojis you can use.
+
+![Insert an emoji into a WYSIWIG editor in OpenProject](openproject_user_guide_wysiwig_emoji.png)
+
 ### Autoformatting
 
 CKEditor5 allows certain CommonMark-like [autoformatting keyboard strokes](https://ckeditor5.github.io/docs/nightly/ckeditor5/latest/features/autoformat.html):
@@ -86,6 +92,10 @@ OpenProject has supported macros on textile formatted pages and continues to do 
 
 You can find the macros here in the text editor:
 ![Macros text editor](openproject_user_guide_macros.png)
+
+### Full vs constrained editor
+
+In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
 
 ### Table of contents
 

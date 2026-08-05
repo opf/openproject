@@ -41,7 +41,7 @@ gem "activemodel-serializers-xml", "~> 1.0.1"
 gem "activerecord-import", "~> 2.2.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
-gem "rails", "~> 8.1.3"
+gem "rails", "~> 8.1.3", ">= 8.1.3.1"
 gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
@@ -70,7 +70,7 @@ gem "acts_as_list", "~> 1.2.6"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.9.0"
 gem "closure_tree", "~> 9.7.0"
-gem "rubytree", "~> 2.2.0"
+gem "rubytree", "~> 2.2.1"
 
 gem "addressable", "~> 2.9.0"
 
@@ -206,7 +206,7 @@ gem "ssrf_filter", "~> 1.3"
 
 gem "aws-sdk-core", "~> 3.251"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.227"
+gem "aws-sdk-s3", "~> 1.228"
 
 gem "openproject-token", "~> 8.12.0"
 
@@ -254,7 +254,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.0"
+gem "httpx", "~> 1.8.1"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -266,7 +266,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.6.2"
+  gem "test-prof", "~> 1.6.3"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
@@ -285,7 +285,7 @@ group :test do
   gem "climate_control"
 
   # XML comparison tests
-  gem "compare-xml", "~> 0.66", require: false
+  gem "compare-xml", "~> 1.0", require: false
 
   # PDF Export tests
   gem "pdf-inspector", "~> 1.2"
@@ -432,5 +432,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.36.0"
   gem "openproject-octicons_helper", "~>19.36.0"
-  gem "openproject-primer_view_components", "~>0.90.1"
+  gem "openproject-primer_view_components", "~>0.91.1"
 end

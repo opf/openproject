@@ -113,13 +113,13 @@ See COPYRIGHT and LICENSE files for more details.
           tag: :a,
           scheme: :secondary,
           leading_icon: :copy,
-          label: t(:button_copy),
+          label: copy_button_label,
           href: helpers.new_type_workflow_copy_path(type, source_role_id: roles.first&.id),
-          aria: { label: t(:button_copy) },
-          title: t(:button_copy),
+          aria: { label: copy_button_label },
+          title: copy_button_label,
           data: { controller: "async-dialog", "admin--workflow-checkbox-state-confirmation-trigger": "click" }
         ) do
-          t(:button_copy)
+          copy_button_label
         end
       end
     end

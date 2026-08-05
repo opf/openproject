@@ -149,8 +149,10 @@ module DemoData
       seed_data.find_reference(reference)
     end
 
+    # The referenced principals are seeded with the development data, so they are absent on
+    # production instances and the work packages fall back to the admin.
     def find_principal(reference)
-      seed_data.find_reference(reference) || admin_user
+      seed_data.find_reference(reference, default: nil) || admin_user
     end
 
     def find_status(attributes)

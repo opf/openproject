@@ -427,6 +427,166 @@ RSpec.describe Import::JiraImport do
         group = Group.find_by(name: "jira-software-users")
         expect(group.users.pluck(:login)).to contain_exactly("jdoe@example.com", "jsmith@example.com")
       end
+
+      it "creates a single reference for the shared group" do
+        expect { jira_import.import_users }
+          .to change { Import::JiraOpenProjectReference.where(op_entity_class: "Group").count }.by(1)
+      end
+
+      it "keeps the shared group marked as created by this import" do
+        jira_import.import_users
+
+        reference = Import::JiraOpenProjectReference.find_by(
+          op_entity_class: "Group", op_entity_id: Group.find_by(name: "jira-software-users").id
+        )
+        expect(reference.uses_existing).to be false
+      end
+
+      context "when the shared group already exists in OpenProject" do
+        let!(:existing_group) { create(:group, name: "jira-software-users") }
+
+        it "does not create a duplicate group" do
+          expect { jira_import.import_users }.not_to change(Group, :count)
+        end
+
+        it "keeps the shared group marked as pre-existing" do
+          jira_import.import_users
+
+          reference = Import::JiraOpenProjectReference.find_by(
+            op_entity_class: "Group", op_entity_id: existing_group.id
+          )
+          expect(reference.uses_existing).to be true
+        end
+
+        it "adds both users to the existing group" do
+          jira_import.import_users
+
+          expect(existing_group.reload.users.pluck(:login))
+            .to contain_exactly("jdoe@example.com", "jsmith@example.com")
+        end
+      end
+    end
+
+    context "when a stopped import run is retried" do
+      let!(:jira_user) do
+        create(:jira_user,
+               jira:,
+               jira_import:,
+               jira_user_key: "JIRAUSER10120",
+               payload: jira_user_payload(
+                 key: "JIRAUSER10120",
+                 name: "jdoe@example.com",
+                 display_name: "John Doe",
+                 email:,
+                 groups: ["jira-software-users"]
+               ))
+      end
+
+      it "does not create a duplicate OpenProject user" do
+        expect { jira_import.import_users }.to change(User, :count).by(1)
+        expect { jira_import.import_users }.not_to change(User, :count)
+        expect { jira_import.import_users }.not_to change(User, :count)
+      end
+
+      it "does not create additional references for the same Jira user" do
+        expect { jira_import.import_users }.to change(Import::JiraOpenProjectReference, :count).by(2)
+        expect { jira_import.import_users }.not_to change(Import::JiraOpenProjectReference, :count)
+      end
+
+      it "keeps the reference pointing at the originally imported user" do
+        jira_import.import_users
+        reference = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user.id,
+                                                             jira_entity_class: Import::JiraUser.to_s)
+
+        jira_import.import_users
+
+        expect(reference.reload).to have_attributes(
+          op_entity_id: User.find_by(login: email).id.to_s,
+          uses_existing: false
+        )
+      end
+
+      it "does not suffix the login or email of the imported user" do
+        2.times { jira_import.import_users }
+
+        expect(User.where("login LIKE '%+%'")).to be_empty
+        expect(User.find_by(login: email).mail).to eq(email)
+      end
+
+      it "keeps the group membership intact" do
+        2.times { jira_import.import_users }
+
+        group = Group.find_by(name: "jira-software-users")
+        expect(group.users.pluck(:login)).to contain_exactly(email)
+      end
+
+      it "keeps the group marked as created by this import" do
+        2.times { jira_import.import_users }
+
+        group_reference = Import::JiraOpenProjectReference.find_by(
+          op_entity_class: "Group",
+          op_entity_id: Group.find_by(name: "jira-software-users").id
+        )
+        expect(group_reference.uses_existing).to be false
+      end
+
+      it "does not create additional group references" do
+        expect { jira_import.import_users }
+          .to change { Import::JiraOpenProjectReference.where(op_entity_class: "Group").count }.by(1)
+        expect { jira_import.import_users }
+          .not_to change { Import::JiraOpenProjectReference.where(op_entity_class: "Group").count }
+      end
+
+      context "when the previous attempt reused an existing OpenProject user" do
+        let!(:existing_user) do
+          create(:user,
+                 mail: email,
+                 password: existing_user_password,
+                 password_confirmation: existing_user_password,
+                 login: "pre-existing")
+        end
+
+        it "does not create a duplicate and keeps the uses_existing flag" do
+          expect { jira_import.import_users }.not_to change(User, :count)
+          expect { jira_import.import_users }.not_to change(User, :count)
+
+          reference = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user.id,
+                                                               jira_entity_class: Import::JiraUser.to_s)
+          expect(reference).to have_attributes(
+            op_entity_id: existing_user.id.to_s,
+            uses_existing: true
+          )
+        end
+      end
+
+      context "when the previous attempt stopped before importing the second user" do
+        let!(:jira_user2) do
+          create(:jira_user,
+                 jira:,
+                 jira_import:,
+                 jira_user_key: "JIRAUSER10121",
+                 payload: jira_user_payload(
+                   key: "JIRAUSER10121",
+                   name: "jsmith@example.com",
+                   display_name: "Jane Smith",
+                   email: "jsmith@example.com",
+                   groups: ["jira-software-users"]
+                 ))
+        end
+
+        it "imports the missing user on the retry" do
+          # simulate an attempt that only got as far as the first user
+          Import::JiraUser.where(id: jira_user2.id).update_all(jira_import_id: nil)
+          jira_import.import_users
+          Import::JiraUser.where(id: jira_user2.id).update_all(jira_import_id: jira_import.id)
+
+          expect { jira_import.import_users }.to change(User, :count).by(1)
+
+          expect(Import::JiraOpenProjectReference.exists?(jira_entity_id: jira_user2.id,
+                                                          jira_entity_class: Import::JiraUser.to_s)).to be true
+          expect(User.find_by(login: "jsmith@example.com").mail).to eq("jsmith@example.com")
+        end
+      end
     end
 
     context "when user has a single-word display name" do

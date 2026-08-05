@@ -270,7 +270,7 @@ For more information, please visit [this separate guide](../../misc/textile-migr
 
 ## Step-wise database migration script
 
-For migrating database dumps from OpenProject version 10 or later to the current version, you can use the [`bin/migrate`](../../../../bin/migrate) script. This script automates the process of restoring a database dump and sequentially applying migrations through each OpenProject version until the latest version is reached.
+For migrating database dumps from OpenProject version 10 or later to the current version, you can use the [`bin/migrate`](https://github.com/opf/openproject/blob/dev/bin/migrate) script. This script automates the process of restoring a database dump and sequentially applying migrations through each OpenProject version until the latest version is reached.
 
 ### Prerequisites
 
@@ -331,3 +331,4 @@ The script creates a new file with the migrated database dump. The output filena
 - Each OpenProject version's Docker image is pulled on demand during migration.
 - The migration process may take significant time depending on the size of your database and the number of versions to migrate through.
 - The script automatically cleans up the temporary container and files on exit.
+- When moving from a packaged installation to Docker Compose across multiple major versions, run this script on your SQL dump before importing it. See the [packaged → Docker Compose migration guide](../../misc/packaged-docker-migration/).

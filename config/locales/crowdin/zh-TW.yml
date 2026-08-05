@@ -2825,6 +2825,7 @@ zh-TW:
       work_package_children_changed_times: 因子工作套件%{link}而異動
       work_package_duplicate_closed: 重複的工作套件會自動更新狀態 %{link}
       work_package_parent_changed_times: 因上層%{link}而異動
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: 根據前置任務 %{link} 的更改
       work_package_related_changed_times: 因與%{link}相關而異動
       working_days_changed:
@@ -2846,7 +2847,11 @@ zh-TW:
       total_percent_complete_mode_changed_to_simple_average: 完成百分比總數的計算現在僅基於完成百分比值的簡單平均值。
       total_percent_complete_mode_changed_to_work_weighted_average: 完成百分比總計的計算現在以工作加權。
       work_package_duplicate_closed: 更新了重複工作套件：
+      work_package_parent_deleted: Parent removed
     changes_retracted: 更改已被撤銷
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: 輔助功能
   label_account: 帳號
   label_actions: 操作
@@ -4546,6 +4551,7 @@ zh-TW:
 
     '
   permission_move_work_packages: 移動工作套件
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: 保存 BCF 查詢
   permission_save_queries: 儲存版面
   permission_search_project: 搜尋專案
@@ -5663,6 +5669,7 @@ zh-TW:
   text_journal_changed_plain: "%{label} 從 %{old} %{linebreak} 改為 %{new}"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
   text_journal_file_link_added: '新增%{label} ，連結：  %{value} (%{storage}) '
@@ -5860,6 +5867,10 @@ zh-TW:
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
         empty_group_hint: Drag attributes here
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
         group_name_label: Section name
@@ -5885,6 +5896,9 @@ zh-TW:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:
@@ -5906,6 +5920,9 @@ zh-TW:
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: I understand that this will override the current settings
@@ -6328,20 +6345,34 @@ zh-TW:
   work_packages:
     bulk:
       copy_failed: 此工作套件無法被複製。
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 以下文檔無法被保存
+      deletion_successful:
+        other: Successfully deleted %{count} work packages.
       descendant: 所選項的子工作
       move_failed: 此工作套件無法被移動。
       none_could_be_saved: "%{total} 個工作套件無法更新。"
       selected_because_descendants: 雖然選擇了 %{selected} 工作套件，但共有 %{total} 個工作套件受到影響，包括子工作套件。
       x_out_of_y_could_be_saved: 在 %{total} 個工作套件中，有 %{failing} 個無法更新，而 %{success} 個更新成功。
     bulk_delete_dialog:
-      children_label: 'The following children will also be deleted:'
-      confirm_children_deletion: I acknowledge that all selected work packages and their children will be permanently deleted.
-      cross_project_warning: 'These work packages span multiple projects: %{projects}'
-      description: 'The following work packages and all associated data will be permanently deleted:'
-      description_with_children: 'The following work packages, including children and all associated data, will be permanently deleted:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
+      hidden_descendants_only_warning:
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6385,11 +6416,20 @@ zh-TW:
         successors: 繼承者
       update_inputs_aria_live_message: 日期選擇器已更新。 %{message}
     delete_dialog:
-      confirm_descendants_deletion: I acknowledge that ALL descendants of this work package will be recursively removed.
-      cross_project_warning: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete the work package "%{name}"?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
+      hidden_descendants_only_warning:
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 

@@ -35,7 +35,7 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
 
       def initialize(group:, type: nil, ee_available: false, first: false, last: false, edit_mode: false,
-                     form_model: nil, readonly: false)
+                     form_model: nil, readonly: false, exclusions: nil)
         super(group)
         @group = group
         @type = type
@@ -45,6 +45,7 @@ module WorkPackageTypes
         @edit_mode = edit_mode
         @form_model = form_model
         @readonly = readonly
+        @exclusions = exclusions
         @instance_uid = SecureRandom.hex(4)
       end
 

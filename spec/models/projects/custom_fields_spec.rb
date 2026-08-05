@@ -69,6 +69,38 @@ RSpec.describe Projects::CustomFields do
       end
     end
 
+    context "when the link excludes an attribute", with_flag: { type_variants: true } do
+      let(:kept_field) { create(:project_custom_field, projects: [project]) }
+
+      before do
+        parent.project_custom_fields << kept_field
+        variant.configuration_links
+               .find_by(aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+               .update!(excluded_elements: [custom_field.attribute_name])
+      end
+
+      it "drops it from the inherited attributes" do
+        expect(available).to contain_exactly(kept_field)
+      end
+
+      it "leaves the owning type's attributes untouched" do
+        expect(project.available_custom_fields_for_type(parent.id).to_a)
+          .to contain_exactly(custom_field, kept_field)
+      end
+
+      # Links are independent of the parent/child hierarchy: any type can link to any other,
+      # so a chain can be arbitrarily long regardless of nesting. A plain root type is used
+      # here deliberately — no parent involved.
+      it "accumulates the exclusions of a longer chain" do
+        leaf = create(:type)
+        create(:type_configuration_link, type: leaf, source: variant,
+                                         aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES,
+                                         excluded_elements: [kept_field.attribute_name])
+
+        expect(project.available_custom_fields_for_type(leaf.id).to_a).to be_empty
+      end
+    end
+
     context "when the type is Linked but the feature flag is off", with_flag: { type_variants: false } do
       it "ignores the link and reads the type's own (empty) mappings" do
         variant.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: parent)

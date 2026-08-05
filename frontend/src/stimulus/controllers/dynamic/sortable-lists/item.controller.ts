@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,6 +41,7 @@ import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
+  confinementAllowsDrop,
   isItemFromRoot,
   sortableItemData,
   type RootAwareChild,
@@ -53,7 +54,7 @@ import { renderDragPreview } from './preview';
 type CleanupFn = () => void;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu'];
+  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider'];
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -61,6 +62,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
     type: String,
     externalUrl: String,
     hideUnavailable: { type: Boolean, default: true },
+    // A confined item is still a full drag source, but only its own list and
+    // that list's rows accept it as a drop target; foreign containers refuse
+    // it, so a release there lands nowhere and the item stays put. Consumers
+    // use this for items the server allows to reorder in place but refuses to
+    // relocate to another container.
+    confined: { type: Boolean, default: false },
     label: String,
   };
 
@@ -71,6 +78,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly externalUrlValue:string;
   declare readonly hasExternalUrlValue:boolean;
   declare readonly hideUnavailableValue:boolean;
+  declare readonly confinedValue:boolean;
   declare readonly labelValue:string;
   declare readonly hasLabelValue:boolean;
 
@@ -81,6 +89,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly moveItemTargets:HTMLElement[];
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
+  declare readonly moveDividerTarget:HTMLElement;
+  declare readonly hasMoveDividerTarget:boolean;
 
   // Provided by the stimulus-elements blessing; absent when the item is not
   // inside a Primer action-menu (a drag-only consumer), in which case the move
@@ -260,7 +270,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
         // resolving to a silent no-op. Holds today (one type per list).
         return isItemFromRoot(root.element, source.data)
           && source.data.itemId !== this.idValue
-          && source.data.type === this.typeValue;
+          && source.data.type === this.typeValue
+          && confinementAllowsDrop(source.data, this.element);
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {
@@ -344,6 +355,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
       itemId: this.idValue,
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
+      sourceListElement: this.root?.ownerListElementOf(this.element) ?? null,
+      confined: this.confinedValue,
     });
   }
 
@@ -433,6 +446,34 @@ export default class ItemController extends Controller<HTMLElement> implements R
     if (this.hasMoveMenuTarget) {
       this.setAvailability(this.moveMenuTarget, available > 0);
     }
+
+    this.refreshMoveDivider();
+  }
+
+  // The divider that opens the move group is rendered server-side from a
+  // permission check alone, so hiding the last entry below it would otherwise
+  // leave a separator with nothing to separate. It never goes through
+  // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
+  // which a divider does not have — and in that mode the group stays visible
+  // anyway, only disabled.
+  private refreshMoveDivider():void {
+    if (!this.hasMoveDividerTarget || !this.hideUnavailableValue) {
+      return;
+    }
+
+    const divider = this.moveDividerTarget;
+    let sibling = divider.nextElementSibling;
+
+    while (sibling) {
+      if (!sibling.hasAttribute('hidden')) {
+        divider.removeAttribute('hidden');
+        return;
+      }
+
+      sibling = sibling.nextElementSibling;
+    }
+
+    divider.setAttribute('hidden', 'hidden');
   }
 
   // Availability goes through the action-menu element's API: disableItem sets the

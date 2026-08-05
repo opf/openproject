@@ -1756,6 +1756,7 @@ en:
     entity_type: "Entity"
     estimated_hours: "Work"
     estimated_time: "Work"
+    exact_match: "Exact match"
     expires_at: "Expires on"
     filter: "Filter"
     firstname: "First name"
@@ -2999,6 +3000,9 @@ en:
       work_package_parent_deleted: "Parent removed"
 
     changes_retracted: "The changes were retracted."
+    non_visible:
+      project: "a non-visible project"
+      work_package: "a non-visible work package"
   label_accessibility: "Accessibility"
 
   label_account: "Account"
@@ -4736,6 +4740,7 @@ en:
   permission_manage_working_times_explanation: >
     Allows users to manage working times for all users, including personal non-working days.
   permission_move_work_packages: "Move work packages"
+  permission_project_identifier_visibility_caution: "Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)"
   permission_save_bcf_queries: "Save BCF queries"
   permission_save_queries: "Save views"
   permission_search_project: "Search project"
@@ -6146,6 +6151,10 @@ en:
         drag_to_reorder: "Drag to reorder"
         edit_query: "Edit query"
         empty_group_hint: "Drag attributes here"
+        exclusions:
+          attribute_label: "Inherit %{attribute}"
+          excluded: "Hidden"
+          section_label: "Inherit section %{section}"
         filter_inactive: "Filter attributes"
         group_actions: "Section actions"
         group_name_label: "Section name"
@@ -6170,6 +6179,9 @@ en:
           label_disable_all: "Disable all"
           label_enable_all: "Enable all"
         description: "Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there."
+        disabled: "Disabled"
+        exclusions:
+          attribute_label: "Inherit %{attribute}"
         filter: "Search by section or name"
         tab: "Project attributes"
       projects:
@@ -6191,6 +6203,9 @@ en:
             title: "Copy configuration"
           invalid_source: "The configuration cannot be copied from the selected type. Please select a different source type."
           success: "The configuration was copied."
+        exclusions:
+          not_linked: "This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead."
+          unknown_aspect: "Unknown configuration section \"%{aspect}\"."
         independent:
           confirm_dialog:
             check_box: "I understand that this will override the current settings"

@@ -17,15 +17,47 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(type:, project_custom_field_sections:, readonly: false)
-        super
+      ASPECT = Type::ConfigurationLink::PROJECT_ATTRIBUTES
+
+      def initialize(type:, project_custom_field_sections:)
+        super()
 
         @type = type
         @project_custom_field_sections = project_custom_field_sections
-        @readonly = readonly
       end
 
       private
+
+      def linked?
+        OpenProject::FeatureDecisions.type_variants_active? && @type.linked?(ASPECT)
+      end
+
+      def exclusion_state
+        return @exclusion_state if defined?(@exclusion_state)
+
+        @exclusion_state = linked? ? WorkPackageTypes::ExclusionState.for(@type, ASPECT) : nil
+      end
+
+      def visible_sections
+        return @project_custom_field_sections unless linked?
+
+        result = []
+        @project_custom_field_sections.each do |section, custom_fields|
+          shown = custom_fields.select { |cf| show_in_linked_mode?(cf) }
+          result << [section, shown] if shown.any?
+        end
+        result
+      end
+
+      def show_in_linked_mode?(custom_field)
+        source_active_field_ids.include?(custom_field.id) &&
+          !exclusion_state&.excluded_by_source?(custom_field.attribute_name)
+      end
+
+      def source_active_field_ids
+        @source_active_field_ids ||=
+          @type.effective_source_for(ASPECT).own_project_custom_field_type_mappings.to_set(&:custom_field_id)
+      end
 
       def wrapper_data_attributes
         {

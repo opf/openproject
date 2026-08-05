@@ -94,7 +94,7 @@ fa:
         other: اسپرینت‌ها
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: ما در حال بازطراحی ماژول بک‌لاگ هستیم. تنظیمات مدیریتی اسپرینت‌ها و بک‌لاگ‌ها به‌زودی در اینجا نمایش داده می‌شود. تنظیمات سطح پروژه همچنان در دسترس است.
       title: تنظیمات مدیریتی بک‌لاگ در حال تکمیل است
@@ -246,11 +246,11 @@ fa:
     story_points_ideal: Story points (ideal)
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Sprint sharing
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints

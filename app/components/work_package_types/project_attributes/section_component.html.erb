@@ -12,40 +12,38 @@
         title: @project_custom_field_section.name,
         title_arguments: { font_weight: :bold }
       ) do |header|
-        unless readonly
-          header.with_action_button(
-            tag: :a,
-            href: enable_all_path,
-            scheme: :invisible,
-            font_weight: :bold,
-            color: :subtle,
-            "aria-label": t("types.edit.project_attributes.actions.label_enable_all"),
-            data: {
-              "turbo-method": :put,
-              "turbo-stream": true,
-              test_selector: "enable-all-type-project-attributes-#{@project_custom_field_section.id}"
-            }
-          ) do |button|
-            button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
-            t("types.edit.project_attributes.actions.label_enable_all")
-          end
+        header.with_action_button(
+          tag: :a,
+          href: enable_all_path,
+          scheme: :invisible,
+          font_weight: :bold,
+          color: :subtle,
+          "aria-label": t("types.edit.project_attributes.actions.label_enable_all"),
+          data: {
+            "turbo-method": :put,
+            "turbo-stream": true,
+            test_selector: "enable-all-type-project-attributes-#{@project_custom_field_section.id}"
+          }
+        ) do |button|
+          button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
+          t("types.edit.project_attributes.actions.label_enable_all")
+        end
 
-          header.with_action_button(
-            tag: :a,
-            href: disable_all_path,
-            scheme: :invisible,
-            font_weight: :bold,
-            color: :subtle,
-            "aria-label": t("types.edit.project_attributes.actions.label_disable_all"),
-            data: {
-              "turbo-method": :put,
-              "turbo-stream": true,
-              test_selector: "disable-all-type-project-attributes-#{@project_custom_field_section.id}"
-            }
-          ) do |button|
-            button.with_leading_visual_icon(icon: "x-circle", color: :subtle)
-            t("types.edit.project_attributes.actions.label_disable_all")
-          end
+        header.with_action_button(
+          tag: :a,
+          href: disable_all_path,
+          scheme: :invisible,
+          font_weight: :bold,
+          color: :subtle,
+          "aria-label": t("types.edit.project_attributes.actions.label_disable_all"),
+          data: {
+            "turbo-method": :put,
+            "turbo-stream": true,
+            test_selector: "disable-all-type-project-attributes-#{@project_custom_field_section.id}"
+          }
+        ) do |button|
+          button.with_leading_visual_icon(icon: "x-circle", color: :subtle)
+          t("types.edit.project_attributes.actions.label_disable_all")
         end
       end
 
@@ -62,7 +60,8 @@
               WorkPackageTypes::ProjectAttributes::RowComponent.new(
                 type: @type,
                 project_custom_field:,
-                readonly: @readonly
+                linked:,
+                exclusion_state:
               )
             )
           end

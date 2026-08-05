@@ -158,7 +158,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
         end
 
         expect(rendered_component).to have_css(".op-work-package-card") do |card|
-          expect(card["data-controller"]).to eq("backlogs--work-package")
+          expect(card["data-controller"].split).to include("backlogs--work-package")
           expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
           expect(card["data-backlogs--work-package-split-url-value"])
             .to end_with(project_backlogs_backlog_details_path(project, work_package))

@@ -8,14 +8,14 @@ hy:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: Թիմի հատկացումներ
             work_package_list:
-              name: Work packages
+              name: Աշխատանքային փաթեթներ
             work_package_timeline:
-              name: Work package timeline
+              name: Աշխատանքային փաթեթի ժամանակագիծ
             user_card:
-              name: Team members
+              name: Թիմի անդամներ
             user_timeline:
-              name: Team timeline
+              name: Թիմի ժամանակագիծ
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: Ծրագրային ապահովման մշակող

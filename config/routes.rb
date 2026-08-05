@@ -205,6 +205,10 @@ Rails.application.routes.draw do
         post :confirm
         post :copy
       end
+
+      scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
+        post :toggle
+      end
     end
 
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
@@ -216,6 +220,7 @@ Rails.application.routes.draw do
       end
 
       resource :copy, only: %i[new], controller: "/workflows/copies" do
+        # TODO: Remove with type_variants feature flag
         resource :from_type, only: %i[create], controller: "/workflows/copies/from_types"
         resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
       end
@@ -237,13 +242,14 @@ Rails.application.routes.draw do
     end
 
     collection do
-      post "move/:id", action: "move"
+      post "move/:id", action: "move", as: :move
       get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
       post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
       get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
+      get :menu
       put :drop
       post :make_default
       post :remove_default

@@ -47,16 +47,12 @@ See COPYRIGHT and LICENSE files for more details.
               <% end %>
             <% end %>
             <% add_default_label(header, root) %>
-            <% header.with_menu do |menu| %>
-              <% type_actions(menu, root) %>
-            <% end %>
+            <% header.with_menu(menu_id: menu_id(root), src: menu_src(root)) %>
           <% end %>
 
           <% root.sorted_variants.each do |child| %>
             <% list.with_item do |item| %>
-              <% item.with_menu do |menu| %>
-                <% type_actions(menu, child) %>
-              <% end %>
+              <% item.with_menu(menu_id: menu_id(child), src: menu_src(child)) %>
               <%= flex_layout(align_items: :center, justify_content: :space_between) do |variant| %>
                 <% variant.with_column(display: :inline_flex, align_items: :center) do %>
                   <%= render(

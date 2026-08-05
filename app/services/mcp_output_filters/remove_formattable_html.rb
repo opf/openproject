@@ -30,21 +30,19 @@
 
 module McpOutputFilters
   class RemoveFormattableHtml < HashFilter
-    class << self
-      private
+    private
 
-      def on_hash(hash) # rubocop:disable Naming/PredicateMethod
-        if formattable?(hash)
-          hash.delete("html")
-          return false
-        end
-
-        true
+    def on_hash(hash) # rubocop:disable Naming/PredicateMethod
+      if formattable?(hash)
+        hash.delete("html")
+        return false
       end
 
-      def formattable?(hash)
-        hash.key?("format") && hash.key?("raw") && hash.key?("html")
-      end
+      true
+    end
+
+    def formattable?(hash)
+      hash.key?("format") && hash.key?("raw") && hash.key?("html")
     end
   end
 end

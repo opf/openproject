@@ -50,6 +50,13 @@ module WorkPackageTypes
       @type.effective_source_for(ASPECT)
     end
 
+    # We memoize the exclusion state here to avoid an n+1 query
+    def exclusion_state
+      return @exclusion_state if defined?(@exclusion_state)
+
+      @exclusion_state = readonly? ? WorkPackageTypes::ExclusionState.for(@type, ASPECT) : nil
+    end
+
     def ee_available?
       EnterpriseToken.allows_to?(:edit_attribute_groups)
     end
@@ -58,11 +65,12 @@ module WorkPackageTypes
       @form_attributes[:inactives]
     end
 
-    # In read-only mode the visible configuration is the linked source's, resolved at
-    # render time; independent types show their own stored configuration.
+    # In read-only mode the visible configuration is the linked source's
     def active_groups
       attributes = readonly? ? helpers.form_configuration_groups(source) : @form_attributes
-      attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
+      groups = attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
+
+      readonly? ? without_source_exclusions(groups) : groups
     end
 
     def wrapper_data
@@ -98,7 +106,8 @@ module WorkPackageTypes
           ee_available: ee_available?,
           first: i == 0,
           last: i == groups.length - 1,
-          readonly: readonly?
+          readonly: readonly?,
+          exclusions: exclusion_state
         )
       end
 
@@ -108,6 +117,36 @@ module WorkPackageTypes
         ee_available: ee_available?,
         readonly: readonly?
       )
+    end
+
+    private
+
+    # This drops groups that some source link excludes.
+    # This type can only reduce attributes that it still sees.
+    # If the group was toggled off somewhere in the link, we hide it here completely.
+    def without_source_exclusions(groups)
+      return groups if exclusion_state.nil?
+
+      groups.filter_map do |group|
+        if group[:type].to_s == "query"
+          retained_query_group(group)
+        else
+          narrowed_attribute_group(group)
+        end
+      end
+    end
+
+    def narrowed_attribute_group(group)
+      attributes = group[:attributes].to_a
+      remaining = attributes.reject { |attribute| exclusion_state.excluded_by_source?(attribute[:key]) }
+      return if remaining.empty? && attributes.any?
+
+      group.merge(attributes: remaining)
+    end
+
+    # A query group is a single entry in the section, so a source exclusion drops the whole section.
+    def retained_query_group(group)
+      group unless group[:element_key].present? && exclusion_state.excluded_by_source?(group[:element_key])
     end
   end
 end

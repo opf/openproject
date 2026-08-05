@@ -67,7 +67,7 @@ module WorkPackageTypes
     def linked_description
       helpers.link_translate(
         "types.edit.reuse_mode.linked.description",
-        i18n_args: { source_name: source.name, source_suffix: parent_suffix },
+        i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
         links: { source_url: source_path },
         external: false
       )

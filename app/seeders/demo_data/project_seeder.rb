@@ -63,8 +63,7 @@ module DemoData
         ::Meetings::DemoData::MeetingAgendaItemsSeeder,
         ::Meetings::DemoData::MeetingParticipantsSeeder,
         ::Meetings::DemoData::MeetingSeriesFinalizerSeeder,
-        ::Meetings::DemoData::MeetingOccurrencesSeeder,
-        ::ResourceManagement::DemoData::ResourcePlannerSeeder
+        ::Meetings::DemoData::MeetingOccurrencesSeeder
       ]
     end
 

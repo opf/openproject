@@ -280,7 +280,7 @@ class Query < ApplicationRecord
   # Returns a Hash of sql columns for sorting by column
   def sortable_key_by_column_name
     column_sortability = sortable_columns.inject({}) do |h, column|
-      h[column.name.to_s] = column.sortable
+      h[column.name.to_s] = column.sortable(self)
       h
     end
 

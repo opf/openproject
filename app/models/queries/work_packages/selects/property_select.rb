@@ -37,7 +37,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
 
   self.property_selects = {
     id: {
-      sortable: -> {
+      sortable: ->(_query = nil) {
         if Setting::WorkPackageIdentifier.semantic?
           ["#{Project.table_name}.identifier", "#{WorkPackage.table_name}.sequence_number"]
         else

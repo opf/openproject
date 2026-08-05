@@ -75,6 +75,7 @@ RSpec.describe "types routes" do
         .to route_to("workflows/copies#new", type_id: "42")
     end
 
+    # TODO: Remove with type_variants feature flag
     it do
       expect(post("/types/42/workflow/copy/from_type"))
         .to route_to("workflows/copies/from_types#create", type_id: "42")

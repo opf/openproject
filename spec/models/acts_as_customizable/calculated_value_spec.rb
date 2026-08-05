@@ -597,6 +597,78 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
       end
     end
 
+    context "when Dentaku::ArgumentError is not caused by a missing value" do
+      context "when wrong value is boolean" do
+        let(:cf_bool) { create(:boolean_project_custom_field, projects: [project]) }
+        let(:cv) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project],
+                                                                            formula: "#{cf_bool} + 1")
+        end
+
+        let(:custom_field_values) do
+          { cf_bool => cf_bool_value, cv => nil }
+        end
+
+        context "when value is true" do
+          let(:cf_bool_value) { true }
+
+          it "creates an unknown error and reports no missing values" do
+            project.calculate_custom_fields([cv])
+
+            expect(cv.first_calculation_error(project))
+              .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+          end
+        end
+
+        context "when value is false" do
+          let(:cf_bool_value) { false }
+
+          it "creates an unknown error and reports no missing values" do
+            project.calculate_custom_fields([cv])
+
+            expect(cv.first_calculation_error(project))
+              .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+          end
+        end
+      end
+
+      context "when case expression falls through without default branch (regression #OP-19819)" do
+        let(:cv) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project],
+                                                                            formula: "CASE 0 WHEN 1 THEN 2 END")
+        end
+
+        let(:custom_field_values) { {} }
+
+        it "creates an unknown error and reports no missing values" do
+          project.calculate_custom_fields([cv])
+
+          expect(cv.first_calculation_error(project))
+            .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+        end
+      end
+    end
+
+    describe "missing value alongside a set boolean reference" do
+      let(:cf_int) { create(:integer_project_custom_field, projects: [project]) }
+      let(:cf_bool) { create(:boolean_project_custom_field, projects: [project]) }
+      let(:cv) do
+        create(:calculated_value_project_custom_field, :skip_validations, projects: [project],
+                                                                          formula: "#{cf_int} + #{cf_bool}")
+      end
+
+      let(:custom_field_values) do
+        { cf_int => nil, cf_bool => true, cv => nil }
+      end
+
+      it "reports only the missing field" do
+        project.calculate_custom_fields([cv])
+
+        expect(cv.first_calculation_error(project))
+          .to have_attributes(error_code: "ERROR_MISSING_VALUE", missing_custom_field_ids: [cf_int.id])
+      end
+    end
+
     describe "disabled value" do
       let(:cf_int) { create(:integer_project_custom_field, projects: []) }
       let(:cv1) do

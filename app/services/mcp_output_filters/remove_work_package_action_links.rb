@@ -29,44 +29,32 @@
 #++
 
 module McpOutputFilters
-  class RemoveWorkPackageActionLinks < HashFilter
-    BLOCKED_LINKS = %w[
-      update
-      updateImmediately
-      delete
-      logTime
-      move
-      copy
-      generate_pdf
-      configureForm
-      availableWatchers
-      watch
-      unwatch
-      addWatcher
-      removeWatcher
-      addRelation
-      addChild
-      changeParent
-      addComment
-      addAttachment
-      previewMarkup
-      timeEntries
-      showCosts
-      addFileLink
-    ].to_set
-
-    class << self
-      private
-
-      def on_hash(hash) # rubocop:disable Naming/PredicateMethod
-        links = hash["_links"]
-        if links
-          links.delete_if { |key| BLOCKED_LINKS.include?(key) }
-          return false
-        end
-
-        true
-      end
+  class RemoveWorkPackageActionLinks < RemoveLinks
+    def initialize
+      super(%w[
+        update
+        updateImmediately
+        delete
+        logTime
+        move
+        copy
+        generate_pdf
+        configureForm
+        availableWatchers
+        watch
+        unwatch
+        addWatcher
+        removeWatcher
+        addRelation
+        addChild
+        changeParent
+        addComment
+        addAttachment
+        previewMarkup
+        timeEntries
+        showCosts
+        addFileLink
+      ])
     end
   end
 end

@@ -98,7 +98,7 @@ pl:
         other: Sprinty
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Dodaj istniejący pakiet roboczy do %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Obecnie przeprojektowujemy moduł Backlogs. Ustawienia administratora dla sprintów i backlogów będą widoczne tutaj w najbliższej przyszłości. Ustawienia na poziomie projektu pozostają dostępne.
       title: Ustawienia administratora backlogu ewoluują
@@ -256,11 +256,11 @@ pl:
     story_points_ideal: Punkty historii (idealne)
   ee:
     features:
-      multiple_active_sprints: Aby mieć większą kontrolę i elastyczność, uruchom równolegle wiele sprintów dla różnych zespołów w Twoim projekcie.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Udostępnianie sprintu
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Udostępnianie sprintów między projektami w celu dostosowania zespołów i koordynowania pracy w skalowanych konfiguracjach zwinnych (SAFe).
   label_all_sprints: Wszystkie sprinty

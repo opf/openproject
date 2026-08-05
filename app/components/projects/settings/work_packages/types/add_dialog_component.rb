@@ -55,17 +55,11 @@ module Projects
             project_settings_work_packages_types_path(project)
           end
 
-          # Roots are a single acts_as_list list, so their position order is
-          # meaningful; each family then contributes its members in display
-          # order via Type#family, shared with the admin family list.
           def addable_types
-            @addable_types ||= addable_roots.flat_map(&:family)
+            @addable_types ||= ::Type.global.where.not(id: active_root_ids).in_family_order
           end
 
-          def addable_roots
-            ::Type.global.roots.where.not(id: active_root_ids).includes(:children)
-          end
-
+          # A family is addable as a whole, so any active member rules out all of it.
           def active_root_ids
             @active_root_ids ||= project.types.pluck(:parent_id, :id).map { |parent_id, id| parent_id || id }
           end
