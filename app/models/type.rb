@@ -72,6 +72,14 @@ class Type < ApplicationRecord
   has_many :project_types, dependent: :delete_all
   has_many :projects, through: :project_types
 
+  # Rows naming this type as the resolved variant. Nothing reads them directly; they are how
+  # #effective_in_projects finds a variant's projects, which #projects cannot.
+  has_many :variant_project_types,
+           class_name: "ProjectType",
+           foreign_key: :variant_id,
+           inverse_of: :variant,
+           dependent: :nullify
+
   has_and_belongs_to_many :custom_fields,
                           class_name: "WorkPackageCustomField",
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
@@ -195,6 +203,30 @@ class Type < ApplicationRecord
     type_ref = resolve_aspect_in_sql? ? effective_source_id_ref(Type::ConfigurationLink::WORKFLOWS) : [id]
     scope = self.class.statuses(type_ref, role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
+  end
+
+  # The projects this type is the member in force for — the inverse of Project#effective_type.
+  # A variant's are the projects resolving the family to it; a root's are those using it
+  # without resolving a variant.
+  #
+  # Distinct from #projects, which a variant never appears in: a project uses the root even
+  # when the configuration in force is the variant's.
+  def effective_in_projects
+    Project.where(id: ProjectType.where(variant_id: id)
+                                 .or(ProjectType.where(type_id: id, variant_id: nil))
+                                 .select(:project_id))
+  end
+
+  # A project only shows custom fields its own activation includes, so fields on this type's
+  # form have to be activated wherever that form is in force, or the form silently omits them.
+  # Load-bearing for variants: a variant never appears in #projects, so nothing else reaches
+  # the projects whose form it configures.
+  def activate_custom_fields_in_effective_projects!
+    return if custom_field_ids.empty?
+
+    effective_in_projects.each do |project|
+      project.work_package_custom_field_ids |= custom_field_ids
+    end
   end
 
   def root

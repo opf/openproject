@@ -90,6 +90,37 @@ RSpec.describe Projects::Types::AddService do
         end
       end
 
+      # Without this the work package form is empty for the variant: a variant inheriting its
+      # form configuration owns no custom_fields_types rows of its own.
+      context "when the variant inherits its form configuration" do
+        let!(:parent_custom_field) { create(:text_wp_custom_field, types: [parent_type]) }
+
+        it "enables the fields the variant actually shows, which are the parent's" do
+          expect { service_call }
+            .to change { project.reload.work_package_custom_field_ids }
+            .from([])
+            .to([parent_custom_field.id])
+        end
+      end
+
+      context "when the variant owns its form configuration" do
+        let!(:parent_custom_field) { create(:text_wp_custom_field, types: [parent_type]) }
+        let!(:variant_custom_field) { create(:text_wp_custom_field, types: [type]) }
+
+        before do
+          type.configuration_links
+              .find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+              .destroy!
+        end
+
+        it "enables its own fields rather than the parent's" do
+          expect { service_call }
+            .to change { project.reload.work_package_custom_field_ids }
+            .from([])
+            .to([variant_custom_field.id])
+        end
+      end
+
       context "when a sibling variant is already enabled" do
         let(:sibling) { create(:type, parent: parent_type) }
         let(:project) { create(:project, types: [sibling]) }
