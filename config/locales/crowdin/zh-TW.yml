@@ -342,7 +342,7 @@ zh-TW:
         token_name: 令牌名稱
       type:
         attribute_groups: 表單設定
-        children: Sub-types
+        children: Variants
         color: 顏色
         dependent_configuration_links: Linked types
         description: 描述的預設文字
@@ -466,6 +466,7 @@ zh-TW:
         spent_hours: 耗時
         spent_time: 耗時
         subproject: 子專案
+        target_version: Target version
         target_versions: Target versions
         time_entries: 工作紀錄
         type: 類型
@@ -692,13 +693,13 @@ zh-TW:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
+              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
+              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: "%{types} 仍在被工作套件使用中"
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_source_not_a_variant: Can only switch away from a variant
+              switch_target_identical: The target Type must be different from the current variant
+              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: 不允許指定所選使用者為工作套件。
           foreign_wps_reference_version: 非子孫專案中的工作套件參考該專案或其子孫專案的版本。
         project/phase:
@@ -812,15 +813,15 @@ zh-TW:
             parent:
               cannot_be_self: can't be the type itself.
               cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: 欄位內的一個或多個屬性不正確。請在儲存前修正屬性。
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1125,6 +1126,9 @@ zh-TW:
         '
     jemalloc_allocator: Jemalloc 記憶體分配器
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
@@ -1146,9 +1150,11 @@ zh-TW:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Added
+        creator: Creator
         label_ago: "%{amount} ago"
         last_change: Last change
         projects: Projects
+        server_url: Server URL
       configuration:
         new: New configuration
         title: Jira configuration
@@ -1163,18 +1169,24 @@ zh-TW:
         button_add: Add configuration
         button_delete_token: Delete token
         button_save: Save configuration
-        button_test: Test configuration
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
         fields:
           name: Name
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
         label_testing: Testing configuration...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
         history: History
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         index:
           button_edit_configuration: Edit configuration
@@ -1214,14 +1226,8 @@ zh-TW:
           groups:
             configuration:
               title: Configure import
-            confirming:
-              title: Confirm and import
-            fetch:
-              title: Get base data
-            groups_and_users:
-              title: Groups and Users
-            review:
-              title: Review import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
             confirm_button: Start import
@@ -1251,6 +1257,7 @@ zh-TW:
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
+              caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
               label_available_data: Data to be imported
               label_import_data: Currently importing
@@ -1258,9 +1265,12 @@ zh-TW:
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Check available data
               caption_done: Completed
+              caption_done_description: Meta data fetched from %{server_info}
               description: Check what data is available for import in the host Jira instance.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Fetching data from Jira...
               title: Fetch instance meta data
             groups_and_users:
@@ -1269,7 +1279,6 @@ zh-TW:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
-              info: Import run was successful.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1278,6 +1287,20 @@ zh-TW:
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1285,6 +1308,8 @@ zh-TW:
               button_select_projects: Select projects to import
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
+              caption_done_description:
+                other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
@@ -1299,19 +1324,21 @@ zh-TW:
                 sprints: Sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
               label_coming_later: Coming later
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Select which projects you would like to import.
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
-              label_progress: Fetching data from Jira...
+              label_progress: Fetching data
               label_selected_data: Selected data for import
               label_supported_data: Supported data
               title: Import scope
-          select_dialog:
-            filter_projects: Filter by text
           select_projects:
-            title: Select projects
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
         connection_error: 'Connection error: %{message}'
@@ -1498,6 +1525,7 @@ zh-TW:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -1522,9 +1550,15 @@ zh-TW:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
-        default_transitions: 預設轉換
-        user_assignee: 使用者為執行者
-        user_author: 使用者為作者
+        always: Default transitions
+        aria_label: Workflow transitions
+        assignee: User is assignee
+        author: User is author
+        descriptions:
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
   announcements:
     is_active: 當前已顯示
     is_inactive: 尚未顯示
@@ -3059,7 +3093,7 @@ zh-TW:
   label_filter_add: 新增條件
   label_filter_any_name_attribute: 名稱屬性
   label_filter_by: 篩選條件：
-  label_filter_plural: 篩選條件
+  label_filter_plural: 篩選器
   label_filters_toggle: 顯示/隱藏篩選條件
   label_float: 浮點數
   label_folder: 資料夾
@@ -3082,9 +3116,9 @@ zh-TW:
   label_global_roles: 全域角色
   label_go_back: 回到上一層選單
   label_go_forward: 開啟 %{module} 子選單
-  label_greater_or_equal: 之前
+  label_greater_or_equal: ">="
   label_group: 群組
-  label_group_by: 分類
+  label_group_by: 分組依據
   label_group_named: 群組名稱 %{name}
   label_group_new: 新增群組
   label_group_plural: 群組
@@ -3152,7 +3186,7 @@ zh-TW:
   label_ldap_auth_source_plural: LDAP 連線
   label_ldap_authentication: LDAP 認證
   label_learn_more: 了解更多
-  label_less_or_equal: 之後
+  label_less_or_equal: "<="
   label_less_than_ago: 幾天內
   label_life_cycle_step_plural: 專案生命週期
   label_link_url: 連結(URL)
@@ -3267,7 +3301,6 @@ zh-TW:
   label_other: 其他
   label_overall_activity: 全部活動
   label_overview: 概要
-  label_page_title: 網頁標題
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -3436,7 +3469,7 @@ zh-TW:
   label_storage_used_space: 已用磁碟空間
   label_string: 文字
   label_subitems: 子項目
-  label_subject_or_id: 名稱或 id
+  label_subject_or_id: 主旨或 id
   label_subproject: 子專案
   label_subproject_new: 新增子專案
   label_subproject_plural: 子專案
@@ -3549,7 +3582,7 @@ zh-TW:
   label_workflow: 工作流程
   label_workflow_copy: 複製工作流程
   label_workflow_plural: 工作流程
-  label_workflow_summary: 總覽
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: 工作日和工作小時
   label_working_hours: Work schedule
@@ -4518,6 +4551,7 @@ zh-TW:
 
     '
   permission_move_work_packages: 移動工作套件
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: 保存 BCF 查詢
   permission_save_queries: 儲存版面
   permission_search_project: 搜尋專案
@@ -4799,9 +4833,23 @@ zh-TW:
         menu_title: 範本
         title: 範本設定
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: 啟用 "%{type}" 類型
+        in_roadmap: In roadmap
         no_results_title_text: 目前沒有可用的類型
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: 建立一個新版本
         no_results_title_text: 目前的專案沒有設定版本
@@ -5621,6 +5669,7 @@ zh-TW:
   text_journal_changed_plain: "%{label} 從 %{old} %{linebreak} 改為 %{new}"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
   text_journal_file_link_added: '新增%{label} ，連結：  %{value} (%{storage}) '
@@ -5676,8 +5725,9 @@ zh-TW:
   text_user_invited: 這個使用者已經被邀請而且正在等待註冊。
   text_user_wrote: "%{value} 寫道："
   text_warn_on_leaving_unsaved: 若離開當前頁面，將遺失此工作套件未儲存的內容。
-  text_what_did_you_change_click_to_add_comment: 點擊這裡來說明變更了什麼
   text_wiki_destroy_confirmation: 您是否確定要刪除此 wiki 和它所有的內容？
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: 刪除子頁面和所有他們的派生頁面
   text_wiki_page_destroy_question: 此頁有 %{descendants} 子頁面和派生頁面。您想進行何種操作？
   text_wiki_page_nullify_children: 保持子頁面作為根頁面
@@ -5736,35 +5786,48 @@ zh-TW:
   total_progress: 總進度
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      create_type: Create type
+      create_variant: Create variant
       fields:
         inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
+        defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Sub-type created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+      success: Variant created successfully.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
+      breadcrumb_variant: 'Variant: %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
+          label: Automatically generated subjects
+        description:
+          caption: Add the text that will be added to the description field of all new work packages with this type.
+          label: Default description text
+        manually_editable_subjects:
+          caption: Users can manually enter and edit work package subjects without restrictions.
+          label: Manually editable subjects
+        pattern:
+          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          insert_as_text: 'No attributes found. Add as text: "%{word}"'
+          label: Subject pattern
+        tab: Defaults
+        token:
+          context:
+            parent: Parent
+            project: Project
+            work_package: Work package
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Details
+        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
         artefact_export:
           attachment:
@@ -5804,6 +5867,10 @@ zh-TW:
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
         empty_group_hint: Drag attributes here
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
         group_name_label: Section name
@@ -5829,6 +5896,9 @@ zh-TW:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:
@@ -5836,39 +5906,92 @@ zh-TW:
         select_projects: 選取專案
         select_projects_description: 選擇要使用此類型的專案。
         tab: 專案
-      settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
-        tab: 設定
-        type_color_text: 選取的顏色可區分甘特圖或工作套件表格中的不同類型。因此建議使用強烈的顏色。
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: 使用參考屬性和文字定義模式，以自動產生工作套件標題。使用者將無法手動編輯標題。
-          label: 自動產生的主題
-        manually_editable_subjects:
-          caption: 使用者可以不受限制地手動輸入和編輯工作套件標題。
-          label: 可手動編輯的主題
-        pattern:
-          caption: 透過新增文字建立模式，或輸入「/」來搜尋 [支援的屬性](attributes_url)。
-          insert_as_text: 未找到屬性。以文字新增："%{word}
-          label: 主題模板
-        tab: 主題設定
-        token:
-          context:
-            parent: 上層目錄：
-            project: 專案
-            work_package: 工作套件
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or variant
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        independent:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            title: Switch configuration mode?
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          dialog:
+            submit: Switch
+            title: Independent mode
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the current settings set in the linked mode.
+              label: Copy from linked
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              title: Change source type?
+            check_box: I understand that this will override the current settings
+            from_independent:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              title: Switch configuration mode?
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          dialog:
+            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
+            source_label: Linked source
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Linked mode
+          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
+      workflow:
+        tab: Workflows
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Add variant to %{name}
+      add_variant_action: Add variant
+      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: 新增一個類型
       no_results_title_text: 目前沒有類型
-      subtype_label: Sub-type
-      subtypes_count:
-        other: "%{count} sub-types"
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
+      variant_label: Variant
+      variants_count:
+        other: "%{count} variants"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: 忽略此警告。
     message: 您可能會在此頁面上遇到錯誤和降級的體驗。

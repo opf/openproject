@@ -540,7 +540,7 @@ cs:
   permission_create_meetings: 'Vytvořit schůzku
 
     '
-  permission_delete_meetings: Odstranit schůzky
+  permission_delete_meetings: Smazat schůzku
   permission_edit_meetings: Upravit schůzku
   permission_manage_agendas: Správa zápisů
   permission_manage_agendas_explanation: Umožňuje vytvářet, upravovat a odebírat položky agendy

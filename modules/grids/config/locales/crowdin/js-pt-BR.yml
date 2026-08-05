@@ -37,7 +37,9 @@ pt-BR:
           accessible_gate: 'Marco de fase %{name}: %{date}'
           accessible_phase: 'Fase %{name}: %{date}'
           tooltip_type_gate: Controle de fase
+          tooltip_type_milestone: Marco
           tooltip_type_phase: Fase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Subitens
         time_entries_current_user:

@@ -342,7 +342,7 @@ uk:
         token_name: Ім’я маркера
       type:
         attribute_groups: Конфігурація форми
-        children: Підтипи
+        children: Варіанти
         color: Колір
         dependent_configuration_links: Зв’язані типи
         description: Текст за умовчанням для опису
@@ -466,6 +466,7 @@ uk:
         spent_hours: Витрачений час
         spent_time: Трудовитрати
         subproject: Підпроект
+        target_version: Цільова версія
         target_versions: Цільові версії
         time_entries: Час журналу
         type: Тип
@@ -699,13 +700,13 @@ uk:
               must_start_with_letter: має починатися з літери
               no_special_characters: може містити лише великі літери, цифри й символи підкреслення
             types:
-              cannot_assign_multiple_subtypes_of_parent: На рівні проєкту для типу можна ввімкнути лише один підтип
-              cannot_assign_subtype_and_parent: 'Неможливо призначити підтип і його батьківський об’єкт '
-              cannot_assign_subtypes_yet: Зараз на рівні проєкту не можна вмикати підтипи. Активуйте бета-функцію, щоб випробувати підтипи.
+              cannot_assign_multiple_variants_of_parent: На рівні проєкту можна ввімкнути лише один варіант типу
+              cannot_assign_variant_and_parent: 'Неможливо призначити варіант і його батьківський об’єкт '
+              cannot_assign_variants_yet: Зараз на рівні проєкту не можна вмикати варіанти. Активуйте прапорець функції, щоб випробувати варіанти.
               in_use_by_work_packages: 'як і раніше використовуються робочі пакети: %{types}'
-              switch_source_not_a_subtype: Доступно лише перемикання із цього підтипу
-              switch_target_identical: Цільовий тип має відрізнятися від поточного підтипу
-              switch_target_not_in_family: Доступно лише перемикання на інший підтип того самого типу або на відповідний батьківський тип
+              switch_source_not_a_variant: Доступно лише перемикання із цього варіанта
+              switch_target_identical: Цільовий тип має відрізнятися від поточного варіанта
+              switch_target_not_in_family: Доступно лише перемикання на інший варіант того самого типу або на відповідний батьківський тип
           cannot_be_assigned_to_artifact_work_package: Вибраного користувача не дозволяється призначати для пакетів робіт.
           foreign_wps_reference_version: Пакети робіт у ненащадкових проєктах посилаються на версії цього проєкту або його нащадків.
         project/phase:
@@ -819,15 +820,15 @@ uk:
             parent:
               cannot_be_self: не може бути самим типом.
               cannot_change_with_work_packages: не можна змінити, оскільки пакети робіт цього типу вже існують.
-              cannot_have_children: не можна встановити, оскільки цей тип уже має підтипи.
+              cannot_have_children: не можна встановити, оскільки цей тип уже має варіанти.
               must_be_a_root: має бути типом верхнього рівня. Типи можуть бути вкладеними лише на один рівень углиб.
               standard_type_must_be_root: не може встановлюватися для стандартного типу.
             patterns:
               invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: не може бути самим типом.
+            source_id:
+              would_create_cycle: зв’яже ці конфігурації в цикл.
         user:
           attributes:
             base:
@@ -1183,6 +1184,9 @@ uk:
         '
     jemalloc_allocator: Розподіл пам'яті Jemalloc
     jira:
+      actions:
+        button_edit: Змінити конфігурацію
+        button_open: Відкрити список циклів
       banner:
         contribution_callout: 'Допоможіть нам покращити Jira Migrator, надіславши відгук і пожертвувавши приватні дані. Ви можете [приєднатися до спільноти розробників](link) Jira Migrator.
 
@@ -1204,9 +1208,11 @@ uk:
         ssrf_blocked: 'З’єднання заблоковано: хост Jira розпізнається як приватна IP-адреса. Якщо ваш екземпляр Jira працює у внутрішній мережі, дозвольте її IP-адресу за допомогою змінної середовища OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Додано
+        creator: Автор
         label_ago: "%{amount} тому"
         last_change: Остання зміна
         projects: Проєкти
+        server_url: URL-адреса сервера
       configuration:
         new: Нова конфігурація
         title: Конфігурація Jira
@@ -1221,18 +1227,24 @@ uk:
         button_add: Додати конфігурацію
         button_delete_token: Видалити маркер
         button_save: Зберегти конфігурацію
-        button_test: Перевірити конфігурацію
         delete_token_confirm: Справді видалити маркер? З’єднання з Jira буде розірвано.
         fields:
           name: Назва
           personal_access_token: Персональний маркер доступу
           url: URL-адреса Jira Server / Data Center
         label_testing: Перевірка конфігурації…
+        test_configuration_caption: Ви можете перевірити цю конфігурацію, [натиснувши тут](test)
       run:
+        actions:
+          button_edit: Змінити цикл
+          button_open_history: Відкрити історію циклів
         blank:
           description: Створіть цикл імпорту, щоб почати переносити інформацію із цього екземпляра Jira
           title: Немає налаштованих циклів імпорту
         history: Історія
+        side_panel:
+          run_status: Статус циклу
+          open_history: Відкрити історію циклів
         import_blocked_error: Зараз виконується або очікує на перевірку ще один цикл імпорту Jira. Завершіть або скасуйте його, якщо потрібно почати новий імпорт.
         index:
           button_edit_configuration: Змінити конфігурацію
@@ -1272,14 +1284,8 @@ uk:
           groups:
             configuration:
               title: Налаштуйте імпорт
-            confirming:
-              title: Підтвердьте й імпортуйте
-            fetch:
-              title: Отримайте базові дані
-            groups_and_users:
-              title: Групи й користувачі
-            review:
-              title: Перевірте імпорт
+            run_and_review:
+              title: Запуск і перевірка імпорту
           import_dialog:
             confirm: Я розумію і маю резервну копію
             confirm_button: Почати імпорт
@@ -1327,6 +1333,7 @@ uk:
               button_start: Почати імпорт
               caption: Перегляньте налаштування імпорту й запустіть його
               caption_done: Завершено
+              caption_done_info: Усі дані імпортовано
               description: Ви збираєтеся запустити імпорт із наведеними далі налаштуваннями.
               label_available_data: Дані, які імпортуватимуться
               label_import_data: Зараз імпортується
@@ -1334,9 +1341,12 @@ uk:
               label_users_import_explanation: Користувачі, залучені до вибраних проєктів (зокрема, члени груп)
               title: Імпортуйте дані
             fetch_data:
+              button_continue: Перейти до вибору обсягу
               button_fetch: Переглянути доступні дані
               caption_done: Завершено
+              caption_done_description: Метадані отримано із сервера %{server_info}
               description: Перевірте, які дані доступні для імпорту в хост-екземплярі Jira.
+              label_available_server_data: Дані, доступні на сервері %{server_info}
               label_progress: Отримання даних із Jira…
               title: Отримайте метадані екземпляра
             groups_and_users:
@@ -1345,7 +1355,6 @@ uk:
               button_done: Схвалити імпорт
               button_revert: Скасувати імпорт
               caption: Перегляньте дані про цикл імпорту або скасуйте внесені зміни
-              info: Циклу імпорту успішно виконано.
               label_finalize_import: Схвалити імпорт
               label_finalizing: Схвалення імпорту…
               label_finalizing_done: Імпорт схвалено.
@@ -1354,6 +1363,20 @@ uk:
               label_revert_progress: Скасування імпорту…
               label_reverted: Імпорт скасовано.
               preview_description: Імпортовані дані зараз перебувають у режимі перевірки. Натисніть «Схвалити імпорт», щоб застосувати зміни, або «Скасувати імпорт», щоб скасувати всі зміни, внесені під час цього циклу.
+              stats:
+                other_settings:
+                  label: Інші налаштування
+                  subtitle: Зокрема типи й статус
+                projects:
+                  label: Проєкти
+                  subtitle: Включено в обсяг
+                title: Дані імпортовано
+                users_and_groups:
+                  label: Користувачі й групи
+                  subtitle: 'Залучені до імпортованих проєктів '
+                work_packages:
+                  label: Пакети робіт
+                  subtitle: З вкладеннями
               title: Результати циклу імпорту
             import_scope:
               button_continue: Продовжити
@@ -1361,6 +1384,11 @@ uk:
               button_select_projects: Виберіть проєкти для імпорту
               caption: Виберіть вміст, який потрібно імпортувати в OpenProject
               caption_done: Завершено
+              caption_done_description:
+                one: "%{count} проєкт включено в обсяг"
+                few: "%{count} проєкти включено в обсяг"
+                many: "%{count} проєктів включено в обсяг"
+                other: "%{count} проєкту включено в обсяг"
               description: Виберіть дані, які потрібно імпортувати з доступного вмісту, отриманого з хост-екземпляра Jira.
               elements:
                 custom_fields: Підмножина користувацьких полів
@@ -1375,19 +1403,21 @@ uk:
                 sprints: Призначення спринту
                 users: Залучені користувачі й групи
                 workflows: Робочі процеси на рівні проєктів
-              label_available_server_data: Дані, доступні на сервері %{server_info}
               label_coming_later: З’явиться пізніше
               label_coming_soon: З’явиться незабаром (у 3 кв. 2026 р.)
               label_import: Виберіть проєкти, які ви хочете імпортувати.
               label_info: 'Зверніть увагу: цей інструмент доступний лише в бета-версії і не може імпортувати всі типи даних. Ось короткий опис вмісту, доступного для імпорту в хост-екземплярі Jira, а також даних, які інструмент може перенести прямо зараз.'
-              label_progress: Отримання даних із Jira…
+              label_progress: Отримання даних
               label_selected_data: Дані, вибрані для імпорту
               label_supported_data: Підтримувані дані
               title: Обсяг імпорту
-          select_dialog:
-            filter_projects: Фільтрування за текстом
           select_projects:
-            title: Виберіть проєкти
+            button_select: Вибрати
+            button_select_all: Вибрати всі
+            button_unselect_all: Скасувати вибір усіх
+            filter_projects: Фільтрувати за текстом
+            info: В обсяг імпорту можна включити лише ті проєкти, учасником яких є власник маркера Jira.
+            title: Виберіть проєкти для імпорту
       test:
         api_error: Інтерфейс Jira API повернув статус помилки «%{status}». Перевірте URL-адресу свого екземпляра Jira й маркер API.
         connection_error: 'Помилка з’єднання: %{message}'
@@ -1580,6 +1610,7 @@ uk:
     workflows:
       blankslate:
         description: Додайте статуси, щоб почати налаштовувати робочі процеси для цієї ролі
+        linked_description: Цей тип використовує робочі процеси зв’язаного з ним вихідного типу, для якого не налаштовано переходи між статусами
         title: Переходи статусів не налаштовано
       leave_confirmation:
         description: Ви збираєтеся покинути цю сторінку, однак деякі зміни не збережено. Бажаєте зберегти їх, перш ніж продовжити?
@@ -1610,9 +1641,15 @@ uk:
           other: Видалити %{count} статусу?
         title: Видалити статуси
       tabs:
-        default_transitions: Стандартні переходи
-        user_assignee: Користувач є призначеною особою
-        user_author: Користувач є автором
+        always: Default transitions
+        aria_label: Переходи в робочих процесах
+        assignee: User is assignee
+        author: User is author
+        descriptions:
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
+        menu_label: Показані переходи
   announcements:
     is_active: наразі відображається
     is_inactive: наразі не відображається
@@ -3279,7 +3316,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції із встановлення
+  label_installation_guides: Інструкції зі встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -3428,7 +3465,6 @@ uk:
   label_other: Інше
   label_overall_activity: Загальна активність
   label_overview: Огляд
-  label_page_title: Заголовок сторінки
   label_parent_group_caption: 'Якщо вказати батьківську групу, ця група стане її підгрупою. Вона також успадкує всі дані про членство, зокрема дозволи батьківської групи.
 
     '
@@ -3710,7 +3746,7 @@ uk:
   label_workflow: Робочий процес
   label_workflow_copy: Копіювати робочий процес
   label_workflow_plural: Робочі процеси
-  label_workflow_summary: Резюме
+  label_workflow_summary: Огляд робочого процесу
   label_working_days: Робочі дні
   label_working_days_and_hours: Робочі дні й години
   label_working_hours: Розклад роботи
@@ -4712,6 +4748,7 @@ uk:
 
     '
   permission_move_work_packages: Переміщення робочих пакетів
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Зберігання запитів BCF
   permission_save_queries: Зберегти перегляди
   permission_search_project: Пошук проєктів
@@ -4996,9 +5033,23 @@ uk:
         menu_title: Шаблон
         title: Налаштування шаблону
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Дозволити тип «%{type}»?
+        in_roadmap: In roadmap
         no_results_title_text: Наразі немає доступних типів.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Створіть нову версію
         no_results_title_text: Наразі не існує версій для проекту.
@@ -5822,6 +5873,7 @@ uk:
   text_journal_changed_plain: "%{label} змінено з %{old} %{linebreak}на %{new}"
   text_journal_changed_with_diff: "%{label} змінено (%{link})"
   text_journal_deleted: "%{label} видалено (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} видалено (%{link})"
   text_journal_file_link_added: Додано посилання %{label} на значення %{value} (%{storage})
@@ -5877,8 +5929,9 @@ uk:
   text_user_invited: Користувача запрошено та очікує реєстрації.
   text_user_wrote: "%{value} написав:"
   text_warn_on_leaving_unsaved: Робочий пакет містить незбережений текст, який буде втрачено, якщо ви залишите цю сторінку.
-  text_what_did_you_change_click_to_add_comment: Що ви змінили? Натисніть, щоб додати коментар
   text_wiki_destroy_confirmation: Ви впевнені що хочете видалити цю Вікі і весь її вміст?
+  text_wiki_page_comment_caption: Це буде видно лише в історії Wiki.
+  text_wiki_page_comment_placeholder: Ви щось змінили? Додайте коментар.
   text_wiki_page_destroy_children: Видалення дочірніх сторінок і всі їх нащадки
   text_wiki_page_destroy_question: На цій сторінці є %{descendants} дочірні сторінки та нащадки. Що ти хочеш робити?
   text_wiki_page_nullify_children: Майте дочірні сторінки як кореневі сторінки
@@ -5937,35 +5990,48 @@ uk:
   total_progress: Загальний прогрес
   types:
     creation_wizard:
-      configuration_link_error: Не вдалося зберегти режим повторного використання. Виберіть вихідний тип.
-      create_subtype: Створити підтип
+      create_type: Створити тип
+      create_variant: Створити варіант
       fields:
         inherited_from_parent_html: Успадковано від батьківського типу <b>%{parent}</b>.
       finish: Завершити
       placeholder_description: Цей крок стане доступним незабаром.
       progress_label: Крок %{number} з %{total}
       steps:
-        automations: Автоматизації
+        defaults: Стандартні
         details: Деталі
         form_configuration: Конфігурація форми
         pdf: Генерування PDF-файлу
+        project_attributes: Атрибути проєкту
         projects: Проєкти
         workflows: Робочі процеси
-      success: Підтип успішно створено.
-      workflows:
-        copy_caption: Скопіюйте конфігурацію робочого процесу з наявного типу як вихідну точку.
+      success: Варіант успішно створено.
     edit:
-      configuration_link:
-        independent:
-          caption: Ці налаштування походять із цього типу, і їх можна тут редагувати. Вони не зв’язані з жодним іншим типом.
-          label: Незалежний режим
-          warning: 'Якщо перейти в незалежний режим, поточні налаштування вибраного вихідного типу буде скопійовано в цей тип, після чого зв’язок розірветься. Зверніть увагу: згодом ці налаштування можна буде вільно редагувати.'
-        linked:
-          caption: Використовуються налаштування вихідного типу, і зміни постійно синхронізуються. Щоб змінити налаштування, відредагуйте вихідний тип.
-          label: Зв’язано
-          warning: 'При зв’язуванні налаштування цього типу замінюються параметрами вихідного типу. Зверніть увагу: поточні налаштування буде скасовано, що може вплинути на пакети робіт цього типу.'
-        source:
-          label: Вихідний тип
+      breadcrumb_variant: 'Варіант: «%{name}»'
+      defaults:
+        automatically_generated_subjects:
+          caption: Визначте шаблон, використовуючи атрибути й текст, щоб теми пакетів робіт генерувались автоматично. Користувачі не зможуть редагувати теми вручну.
+          label: Автоматично згенеровані теми
+        description:
+          caption: Введіть текст, який додаватиметься в поле опису всіх нових пакетів робіт цього типу.
+          label: Стандартний текст опису
+        manually_editable_subjects:
+          caption: Користувачі можуть самостійно вводити й редагувати теми пакетів робіт без обмежень.
+          label: Теми, які можна редагувати вручну
+        pattern:
+          caption: Створіть шаблони, додаючи текст, або введіть «/», щоб знайти [підтримувані атрибути](attributes_url).
+          insert_as_text: 'Атрибутів не знайдено. Додайте як текст: «%{word}».'
+          label: Шаблон теми
+        tab: Стандартні
+        token:
+          context:
+            parent: Батьківський об’єкт
+            project: Проєкт
+            work_package: Пакет робіт
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Деталі
+        type_color_text: Вибраний колір використовується для виділення різних типів на діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений.
       export_configuration:
         artefact_export:
           attachment:
@@ -6005,6 +6071,10 @@ uk:
         drag_to_reorder: Перетягніть, щоб змінити порядок
         edit_query: Редагувати запит
         empty_group_hint: Перетягніть атрибути сюди
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Фільтрувати атрибути
         group_actions: Дії з розділом
         group_name_label: Назва розділу
@@ -6030,6 +6100,9 @@ uk:
           label_disable_all: Вимкнути все
           label_enable_all: Увімкнути все
         description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Пошук за розділом або назвою
         tab: Атрибути проєктів
       projects:
@@ -6037,42 +6110,95 @@ uk:
         select_projects: Вибрати проєкти
         select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
         tab: Проєкти
-      settings:
-        parent_type_text: За бажанням можна зробити цей тип підтипом, вибравши батьківський тип.
-        tab: Налаштування
-        type_color_text: "Цей колір використовується для виділення різних типів \nна діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений колір."
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Визначте шаблон, використовуючи атрибути й текст, щоб теми пакетів робіт створювались автоматично. Користувачі не зможуть редагувати теми.
-          label: Автоматично згенеровані теми
-        manually_editable_subjects:
-          caption: Користувачі можуть самостійно вводити й редагувати теми пакетів робіт без обмежень.
-          label: Теми, які можна редагувати вручну
-        pattern:
-          caption: Створіть шаблони, додаючи текст, або введіть «/», щоб знайти [підтримувані атрибути](attributes_url).
-          insert_as_text: 'Атрибутів не знайдено. Додайте як текст: «%{word}»'
-          label: Шаблон теми
-        tab: Конфігурація теми
-        token:
-          context:
-            parent: Батьківський об’єкт
-            project: Проєкт
-            work_package: Робочий пакет
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: Я розумію, що поточні налаштування буде перезаписано
+            description_html: Скопіювавши дані з вихідного типу «%{source_name}», ви перезапишете поточні налаштування, що може вплинути на наявні дані пакетів робіт цього типу.
+            title: Скопіювати конфігурацію?
+          dialog:
+            description: Скопіюйте конфігурацію з вихідного типу, щоб використати її як основу один раз. Це не призведе до встановлення постійного зв’язку між двома типами.
+            source_label: Копіювати з вихідного типу
+            source_placeholder: Вибрати тип або варіант
+            submit: Зберегти й скопіювати
+            title: Скопіювати конфігурацію
+          invalid_source: Конфігурацію неможливо скопіювати з вибраного вихідного типу. Будь ласка, виберіть інший.
+          success: Конфігурацію скопійовано.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        independent:
+          confirm_dialog:
+            check_box: Я розумію, що поточні налаштування буде перезаписано
+            description: Усі поточні налаштування буде перезаписано, що може вплинути на наявні дані пакетів робіт цього типу.
+            title: Змінити режим конфігурації?
+          copy_from_type: Скопіювати з типу
+          description: Налаштування не успадковуються. За потреби все одно можна скопіювати налаштування з іншого типу (разова дія).
+          dialog:
+            submit: Змінити
+            title: Незалежний режим
+          invalid_mode: Вибраний режим недоступний для цієї конфігурації. Будь ласка, виберіть інший.
+          modes:
+            copy:
+              caption: Для початку скопіюйте поточний набір налаштувань у режимі зв’язування (разова дія).
+              label: Скопіювати зі зв’язаного об’єкта
+            default:
+              caption: Використовуйте стандартні налаштування для нових типів.
+              label: Стандартні налаштування
+            empty:
+              caption: Почніть із порожньої конфігурації і налаштуйте все з нуля.
+              label: Немає
+          success: Режим конфігурації змінено.
+          switch_to_linked: Перейти в режим зв’язування
+          title: Незалежний режим
+        linked:
+          change_source: Змінити вихідний тип
+          confirm_dialog:
+            change_source:
+              description_html: Змінивши вихідний тип на «%{source_name}», ви перезапишете поточні налаштування, що може вплинути на наявні дані пакетів робіт цього типу.
+              title: Змінити вихідний тип?
+            check_box: Я розумію, що поточні налаштування буде перезаписано
+            from_independent:
+              description: Усі поточні налаштування буде перезаписано, що може вплинути на наявні дані пакетів робіт цього типу.
+              title: Змінити режим конфігурації?
+          description: Цю конфігурацію зв’язано з вихідним типом [%{source_name}](source_url)%{source_suffix}, і вона успадковує його налаштування.
+          dialog:
+            description: Дає змогу копіювати й успадковувати налаштування з вихідного об’єкта. Якщо додати у вихідний об’єкт будь-яку нову конфігурацію, вона також з’явиться тут.
+            source_label: Зв’язаний вихідний об’єкт
+            source_placeholder: Вибрати тип або варіант
+            submit: Змінити
+            title: Режим зв’язування
+          invalid_source: Конфігурацію неможливо зв’язати з вибраним вихідним типом. Будь ласка, виберіть інший.
+          success: Режим конфігурації змінено.
+          switch_to_independent: Перейти в незалежний режим
+          title: Режим зв’язування
+        parent_suffix: " (батьківський об’єкт)"
+      workflow:
+        tab: Робочі процеси
     index:
-      add_subtype: Додати підтип для об’єкта «%{name}»
-      description: 'Кожну область конфігурації на рівні типів і підтипів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
+      add_variant: Додати варіант для об’єкта «%{name}»
+      add_variant_action: Add variant
+      description: 'Кожну область конфігурації на рівні типів і варіантів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
+      enabled_in_new_projects: Активовано в нових проєктах
+      make_default: Активувати в нових проєктах
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Створіть новий тип
       no_results_title_text: Наразі немає типів.
-      subtype_label: Підтип
-      subtypes_count:
-        one: "%{count} підтип"
-        few: "%{count} підтипи"
-        many: "%{count} підтипів"
-        other: "%{count} підтипу"
+      remove_default: Не активувати в нових проєктах
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Тип
+      variant_enabled_in_new_projects: Варіант «%{name}» активний у нових проєктах
+      variant_label: Варіант
+      variants_count:
+        one: "%{count} варіант"
+        few: "%{count} варіанти"
+        many: "%{count} варіантів"
+        other: "%{count} варіанта"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ігнорувати це попередження.
     message: Ви можете зіткнутися з помилками та погіршити досвід роботи на цій сторінці.
