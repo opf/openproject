@@ -2863,8 +2863,8 @@ de:
       work_package_parent_deleted: Parent removed
     changes_retracted: Die Änderungen wurden zurückgezogen.
     non_visible:
-      project: a non-visible project
-      work_package: a non-visible work package
+      project: ein nicht sichtbares Projekt
+      work_package: ein nicht sichtbares Arbeitspaket
   label_accessibility: Barrierefreiheit
   label_account: Konto
   label_actions: Aktionen
@@ -4640,7 +4640,7 @@ de:
       other: "%{count} Portfolios"
       zero: Keine Portfolios
     filters:
-      name: Part of Portfolio
+      name: Teil des Portfolios
   portfolios:
     index:
       search:
@@ -4666,7 +4666,7 @@ de:
       other: "%{count} Programme"
       zero: 0 Programme
     filters:
-      name: Part of Program
+      name: Teil des Programms
   project:
     archive:
       archived: Archiviert
@@ -6286,39 +6286,39 @@ de:
   work_packages:
     bulk:
       copy_failed: Die Arbeitspakete konnten nicht kopiert werden.
-      could_not_be_deleted: 'The following work packages could not be deleted:'
+      could_not_be_deleted: 'Die folgenden Arbeitspakete konnten nicht gelöscht werden:'
       could_not_be_saved: 'Die folgenden Arbeitspakete konnten nicht gespeichert werden:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
-        other: Successfully deleted %{count} work packages.
+        one: 1 Arbeitspaket wurde erfolgreich gelöscht.
+        other: "%{count} Arbeitspaket wurde erfolgreich gelöscht."
       descendant: untergeordnetes Arbeitspaket eines ausgewählten Arbeitspaketes
       move_failed: Die Arbeitspakete konnten nicht verschoben werden.
       none_could_be_saved: Keines der %{total} Arbeitspakete konnte aktualisiert werden.
       selected_because_descendants: Obwohl nur %{selected} Arbeitspakete ausgewählt wurden, sind inklusive untergeordneter Arbeitspakete insgesamt %{total} Arbeitspakete betroffen.
       x_out_of_y_could_be_saved: "%{failing} von %{total} Arbeitspaketen konnten nicht aktualisiert werden, aber %{success} wurden aktualisiert."
     bulk_delete_dialog:
-      children_label: 'The following descendants will also be deleted:'
-      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
-      description: Are you sure you want to delete the selected work packages and all associated data?
-      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
-      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
-      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
+      children_label: 'Die folgenden Unteraufgaben werden ebenfalls gelöscht:'
+      confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
+      confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
+      cross_project_warning_html: 'Diese Arbeitspakete sind über mehrere Projekte verteilt: %{projects}'
+      description: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle zugehörigen Daten löschen möchten?
+      description_with_all_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle deren untergeordneten Elemente löschen möchten?
+      description_with_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle folgenden untergeordneten Elemente löschen möchten?
+      description_with_visible_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle sichtbaren untergeordneten Elemente löschen möchten?
       heading: Diese %{count} Arbeitspakete unwiderruflich löschen?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Dieses Arbeitspaket hat eine Unteraufgabe, das Sie nicht sehen können. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Dieses Arbeitspaket enthält %{count} Unteraufgaben, die Sie nicht sehen können. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch eine Unteraufgabe, die Sie nicht sehen können. Sie wird nicht gelöscht, aber die Verknüpfung zum Elternelement wird entfernt.
+        other: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch %{count} Unteraufgaben, die Sie nicht sehen können. Sie werden nicht gelöscht, aber deren Verknüpfungen zum Elternelement werden entfernt.
       title: "%{count} Arbeitspakete löschen"
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleibt erhalten, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     datepicker_modal:
       banner:
         description:
@@ -6362,24 +6362,24 @@ de:
         successors: Nachfolger
       update_inputs_aria_live_message: Datumsauswahl aktualisiert. %{message}
     delete_dialog:
-      confirm_deletion: I confirm that the work package and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete "%{name}"?
+      confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
+      confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
+      cross_project_warning_html: 'Die zur Löschung vorgesehenen Arbeitspakete stammen aus folgenden Projekten: %{projects}'
+      description: Möchten Sie "%{name}" wirklich löschen?
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Dieses Arbeitspaket hat eine Unteraufgabe, das Sie nicht sehen können. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Dieses Arbeitspaket enthält %{count} Unteraufgaben, die Sie nicht sehen können. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch %{count} Unteraufgaben, die Sie nicht sehen können. Sie werden nicht gelöscht, aber deren Verknüpfungen zum Elternelement werden entfernt.
+        other: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch %{count} Unteraufgaben, die Sie nicht sehen können. Sie werden nicht gelöscht, aber deren Verknüpfungen zum Elternelement werden entfernt.
       title: Arbeitspaket löschen
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleibt erhalten, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     move:
       bulk_current_type_not_available_in_target_project: 'Die Typen der Arbeitspakete oder deren Unterelemente sind im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die fehlenden Typen im Zielprojekt, wenn Sie möchten, dass diese unverändert bleiben. Andernfalls wählen Sie bitte einen im Zielprojekt verfügbaren Typ aus der Liste aus.
 

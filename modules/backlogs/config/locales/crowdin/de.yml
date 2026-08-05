@@ -94,7 +94,7 @@ de:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: Vorhandenes Arbeitspaket hinzufügen
     administration_blankslate:
       text: Wir gestalten gerade das Backlogs-Modul neu. Die Einstellungen für Sprints und Backlogs werden in naher Zukunft hier sichtbar sein. Einstellungen auf Projektebene bleiben weiterhin verfügbar.
       title: Die Einstellungen des Backlogs-Moduls sind derzeit in der Entwicklung
@@ -236,7 +236,7 @@ de:
     story_points_ideal: Story-Points (ideal)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Mehrere aktive Sprints
       sprint_sharing: Sprints teilen
     upsell:
       multiple_active_sprints:
