@@ -1666,6 +1666,81 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         expect(work_package.category).to eq(category)
       end
     end
+
+    context "when setting categories from keywords" do
+      let(:permissions) { %i[add_work_packages edit_work_packages view_work_packages] }
+      let!(:user) do
+        create(:user,
+               mail: "JSmith@somenet.foo",
+               firstname: "John",
+               lastname: "Smith",
+               member_with_permissions: { project => permissions })
+      end
+      let!(:alpha) { create(:category, name: "alpha", project:) }
+      let!(:beta) { create(:category, name: "beta", project:) }
+
+      context "when the multiple-categories feature is enabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        subject do
+          submit_email("wp_with_multiple_categories.eml",
+                       issue: { project: "onlinestore" },
+                       allow_override: ["category"])
+        end
+
+        it "assigns every named category" do
+          expect(subject.categories)
+            .to contain_exactly(alpha, beta)
+        end
+
+        it "keeps the legacy category in sync with the first category" do
+          expect(subject.category)
+            .to eql(alpha)
+        end
+
+        it "removes the keyword from the description" do
+          expect(subject.description)
+            .not_to match(/^Categories:/i)
+        end
+      end
+
+      context "when the multiple-categories feature is disabled" do
+        subject do
+          submit_email("wp_with_multiple_categories.eml",
+                       issue: { project: "onlinestore" },
+                       allow_override: ["category"])
+        end
+
+        it "is refused by the single-value rule rather than silently dropped" do
+          expect(subject)
+            .not_to be_persisted
+          expect(subject.errors.symbols_for(:base))
+            .to include(:categories_only_allow_single_value)
+        end
+      end
+
+      context "when both category and categories keywords are present",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        subject do
+          submit_email("wp_with_category_and_categories.eml",
+                       issue: { project: "onlinestore" },
+                       allow_override: ["category"])
+        end
+
+        it "lets the categories keyword win" do
+          expect(subject.categories)
+            .to contain_exactly(beta)
+        end
+
+        it "removes both keywords from the description" do
+          expect(subject.description)
+            .not_to match(/^Category:/i)
+          expect(subject.description)
+            .not_to match(/^Categories:/i)
+        end
+      end
+    end
   end
 
   private
