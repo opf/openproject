@@ -682,14 +682,14 @@ RSpec.describe AccountController, :skip_2fa_stage do
     end
   end
 
-  describe "POST #password_recovery" do
+  describe "POST #set_recovered_password" do
     context "when the user has been invited but not yet activated" do
       shared_let(:admin) { create(:admin, status: :invited) }
       shared_let(:token) { create(:recovery_token, user: admin) }
 
       context "with a valid token" do
         before do
-          post :password_recovery, params: { token: token.value }
+          post :set_recovered_password, params: { token: token.value }
         end
 
         it "redirects to the login page" do

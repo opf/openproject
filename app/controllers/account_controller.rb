@@ -44,6 +44,7 @@ class AccountController < ApplicationController
                              :logout,
                              :lost_password,
                              :password_recovery,
+                             :set_recovered_password,
                              :register,
                              :activate,
                              :consent,
@@ -138,23 +139,32 @@ class AccountController < ApplicationController
     redirect_to action: :lost_password, status: :see_other
   end
 
-  # Enable a user to set a new password using a recovery token
-  def password_recovery # rubocop:disable Metrics/AbcSize
+  # Show the new-password form for a valid recovery token
+  def password_recovery
     return redirect_to(home_url, status: :see_other) unless allow_lost_password_recovery?
-
-    @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
-    redirect_to(home_url, status: :see_other) && return unless @token and !@token.expired?
+    return unless (@token = find_valid_recovery_token)
 
     @user = @token.user
-    return unless request.post?
+  end
+
+  # Set a new password using a valid recovery token. Handled as a dedicated
+  # POST-only action so the submitted password is never read from a GET query
+  # string.
+  def set_recovered_password # rubocop:disable Metrics/AbcSize
+    return redirect_to(home_url, status: :see_other) unless allow_lost_password_recovery?
+    return unless (@token = find_valid_recovery_token)
+
+    @user = @token.user
 
     call = ::Users::ChangePasswordService.new(current_user: @user, session:).call(params)
     call.apply_flash_message!(flash) if call.errors.empty?
 
-    return unless call.success?
-
-    @token.destroy!
-    redirect_to action: "login", status: :see_other
+    if call.success?
+      @token.destroy!
+      redirect_to action: "login", status: :see_other
+    else
+      render template: "account/password_recovery"
+    end
   end
 
   # User self-registration
@@ -315,6 +325,16 @@ class AccountController < ApplicationController
 
   def allow_lost_password_recovery?
     Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
+  end
+
+  # Returns the valid, unexpired recovery token for the request, or redirects
+  # home and returns nil when it is missing or expired.
+  def find_valid_recovery_token
+    token = ::Token::Recovery.find_by_plaintext_value(params[:token])
+    return token if token && !token.expired?
+
+    redirect_to(home_url, status: :see_other)
+    nil
   end
 
   def check_auth_source_sso_failure
