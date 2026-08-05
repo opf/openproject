@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe DemoData::DepartmentSeeder do
+RSpec.describe DevelopmentData::DepartmentSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
   let(:seed_data) { Source::SeedData.new(data_hash) }

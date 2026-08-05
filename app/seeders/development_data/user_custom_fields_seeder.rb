@@ -26,10 +26,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
+module DevelopmentData
   # Seeds a handful of user attributes that fit the demo project's mix of
-  # conference organisation and software delivery work. Values are intentionally
-  # not assigned to users here - that happens once the users PR is merged.
+  # conference organisation and software delivery work. The values are assigned
+  # to the users created by the DepartmentSeeder.
   class UserCustomFieldsSeeder < Seeder
     JOB_TITLES = [
       "Project Manager",
