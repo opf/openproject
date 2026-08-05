@@ -98,7 +98,7 @@ uk:
         other: Спринти
   backlogs:
     add_existing_work_package_dialog_component:
-      title: 'Додати наявний пакет робіт сюди: «%{name}»'
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Зараз ми переробляємо модуль невиконаних завдань (беклогів). Налаштування адміністратора для спринтів і беклогів з’являться тут найближчим часом. Налаштування на рівні проєктів залишаються доступними.
       title: Ми змінюємо налаштування адміністратора в модулі беклогів

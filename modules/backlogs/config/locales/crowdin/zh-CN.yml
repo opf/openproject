@@ -92,7 +92,7 @@ zh-CN:
         other: 冲刺
   backlogs:
     add_existing_work_package_dialog_component:
-      title: 将现有工作包添加到 %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
       title: 积压工作管理设置不断演进

@@ -98,7 +98,7 @@ pl:
         other: Sprinty
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Dodaj istniejący pakiet roboczy do %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Obecnie przeprojektowujemy moduł Backlogs. Ustawienia administratora dla sprintów i backlogów będą widoczne tutaj w najbliższej przyszłości. Ustawienia na poziomie projektu pozostają dostępne.
       title: Ustawienia administratora backlogu ewoluują

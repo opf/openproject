@@ -94,7 +94,7 @@ fr:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Ajouter un lot de travaux existant à %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Nous sommes en train de redessiner le module Backlogs. Les paramètres d'administration pour les sprints et les backlogs seront visibles ici dans un futur proche. Les paramètres au niveau du projet restent disponibles.
       title: Les paramètres d'administration du backlog évoluent

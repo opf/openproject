@@ -92,7 +92,7 @@ ko:
         other: 스프린트
   backlogs:
     add_existing_work_package_dialog_component:
-      title: "%{name}에 기존 작업 패키지 추가"
+      title_without_container: Add existing work package
     administration_blankslate:
       text: 백로그 모듈을 현재 재설계하는 중입니다. 스프린트 및 백로그에 대한 관리자 설정이 조만간 여기에 표시될 예정입니다. 프로젝트 수준 설정은 계속 사용할 수 있습니다.
       title: 백로그 관리자 설정을 개선하는 중입니다

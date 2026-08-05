@@ -102,7 +102,7 @@ ar:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: إضافة حزمة العمل الحالية إلى %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: نحن نعمل حاليًا على إعادة تصميم وحدة «قوائم المهام المتأخرة». وستظهر هنا في المستقبل القريب إعدادات الإدارة الخاصة بالسباقات وقوائم المهام المتأخرة. وتظل الإعدادات على مستوى المشروع متاحة.
       title: تتطور إعدادات إدارة الطلبات المتراكمة

@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 
 <%=
-  render(Primer::Alpha::Dialog.new(title: t(".title", name: container.name), id: DIALOG_ID, size: :large)) do |d|
+  render(Primer::Alpha::Dialog.new(title: t(".title_without_container"), id: DIALOG_ID, size: :large)) do |d|
     d.with_header(variant: :large)
 
     d.with_body(classes: "Overlay-body_autocomplete_height") do
