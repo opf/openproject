@@ -466,7 +466,7 @@ de:
         spent_hours: Aufgewendete Zeit
         spent_time: Aufgewendete Zeit
         subproject: Unterprojekt
-        target_version: Target version
+        target_version: Zielversion
         target_versions: Zielversionen
         time_entries: Zeit buchen
         type: Typ
@@ -1168,11 +1168,11 @@ de:
         ssrf_blocked: 'Verbindung blockiert: Der Jira-Host wird zu einer privaten IP-Adresse aufgelöst. Wenn Ihre Jira-Instanz in einem internen Netzwerk läuft, erlauben Sie ihre IP über die OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST Umgebungsvariable.'
       columns:
         added: Hinzugefügt
-        creator: Creator
+        creator: Ersteller
         label_ago: Vor %{amount}
         last_change: Letzte Änderung
         projects: Projekte
-        server_url: Server URL
+        server_url: Server-URL
       configuration:
         new: Neue Konfiguration
         title: Jira-Konfiguration
@@ -1281,7 +1281,7 @@ de:
               button_start: Import starten
               caption: Überprüfen Sie Ihre Importeinstellungen und starten Sie den Import
               caption_done: Abgeschlossen
-              caption_done_info: All data has been imported
+              caption_done_info: Alle Daten wurden importiert
               description: Sie sind dabei, einen Import mit den folgenden Einstellungen zu starten.
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
@@ -1294,7 +1294,7 @@ de:
               caption_done: Abgeschlossen
               caption_done_description: Meta data fetched from %{server_info}
               description: Prüfen Sie, welche Daten in der Host-Jira-Instanz zum Import verfügbar sind.
-              label_available_server_data: Available data on %{server_info}
+              label_available_server_data: Verfügbare Daten auf %{server_info}
               label_progress: Abrufen von Daten aus Jira...
               title: Metadaten der Instanz abrufen
             groups_and_users:
@@ -1313,18 +1313,18 @@ de:
               preview_description: Die importierten Daten befinden sich derzeit im Überprüfungsmodus. Klicken Sie auf "Import bestätigen", um den Import dauerhaft zu machen, oder auf "Import rückgängig machen", um alle in diesem Importlauf vorgenommenen Änderungen rückgängig zu machen.
               stats:
                 other_settings:
-                  label: Other settings
-                  subtitle: Including types and status
+                  label: Andere Einstellungen
+                  subtitle: Einschließlich Typen und Status
                 projects:
-                  label: Projects
+                  label: Projekte
                   subtitle: Selected as scope
-                title: Data imported
+                title: Daten importiert
                 users_and_groups:
-                  label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  label: Benutzer & Gruppen
+                  subtitle: 'An importierten Projekten beteiligt '
                 work_packages:
-                  label: Work packages
-                  subtitle: With attachments
+                  label: Arbeitspakete
+                  subtitle: Mit Anhängen
               title: Importlauf-Ergebnisse
             import_scope:
               button_continue: Fortfahren
@@ -1353,17 +1353,17 @@ de:
               label_coming_soon: In Kürze verfügbar (3. Quartal 2026)
               label_import: Wählen Sie die Projekte aus, die Sie importieren möchten.
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
-              label_progress: Fetching data
+              label_progress: Daten werden abgerufen
               label_selected_data: Ausgewählte Daten für den Import
               label_supported_data: Unterstützte Daten
               title: Umfang des Imports
           select_projects:
-            button_select: Select
-            button_select_all: Select all
-            button_unselect_all: Unselect all
-            filter_projects: Filter by text
+            button_select: Auswählen
+            button_select_all: Alle auswählen
+            button_unselect_all: Auswahl aufheben
+            filter_projects: Nach Text filtern
             info: Only projects where the Jira token owner is member are selectable as import scope.
-            title: Select projects to import
+            title: Projekte zum Importieren auswählen
       test:
         api_error: Jira API hat den Fehlerstatus %{status} zurückgegeben. Bitte überprüfen Sie die URL Ihrer Jira-Instanz und Ihr API-Token.
         connection_error: 'Verbindungsfehler: %{message}'
@@ -1582,11 +1582,11 @@ de:
         always: Default transitions
         aria_label: Workflow-Übergänge
         assignee: User is assignee
-        author: User is author
+        author: Benutzer ist Autor
         descriptions:
-          always: Transitions available to the selected role(s) in all cases.
-          assignee: Additional transitions available to the work package's assignee.
-          author: Additional transitions available to the work package's author.
+          always: In allen Fällen stehen Übergänge in den ausgewählten Rollen zur Verfügung.
+          assignee: Zusätzliche Übergänge, die dem zugewiesenen Benutzer des Arbeitspakets zur Verfügung stehen.
+          author: Zusätzliche Übergänge, die dem Author des Arbeitspakets zur Verfügung stehen.
         menu_label: Dargestellte Übergänge
   announcements:
     is_active: derzeit angezeigt
@@ -2898,8 +2898,8 @@ de:
       work_package_parent_deleted: Parent removed
     changes_retracted: Die Änderungen wurden zurückgezogen.
     non_visible:
-      project: a non-visible project
-      work_package: a non-visible work package
+      project: ein nicht sichtbares Projekt
+      work_package: ein nicht sichtbares Arbeitspaket
   label_accessibility: Barrierefreiheit
   label_account: Konto
   label_actions: Aktionen
@@ -4675,7 +4675,7 @@ de:
       other: "%{count} Portfolios"
       zero: Keine Portfolios
     filters:
-      name: Part of Portfolio
+      name: Teil des Portfolios
   portfolios:
     index:
       search:
@@ -4701,7 +4701,7 @@ de:
       other: "%{count} Programme"
       zero: 0 Programme
     filters:
-      name: Part of Program
+      name: Teil des Programms
   project:
     archive:
       archived: Archiviert
@@ -4898,20 +4898,20 @@ de:
         add_dialog:
           description: The project uses one member of each type family. Pick the type or the variant this project should use.
           none_addable: All available types are already active in this project.
-          submit: Add
-          title: Add type
-          type_label: Type
-          type_placeholder: Select a type
-        add_type: Add type
+          submit: Hinzufügen
+          title: Typ hinzufügen
+          type_label: Typ
+          type_placeholder: Typ auswählen
+        add_type: Typ hinzufügen
         empty_state:
-          description: Add a type to let people create work packages of that type in this project.
-          title: No types are active in this project
+          description: Fügen Sie einen Typ hinzu, damit die Benutzer in diesem Projekt Arbeitspakete dieses Typs erstellen können.
+          title: In diesem Projekt sind keine Typen aktiv
         form:
           enable_type_in_project: Typ "%{type}" aktivieren
-        in_roadmap: In roadmap
+        in_roadmap: In Roadmap anzeigen
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
-        remove_from_project: Remove from project
-        type_not_found: The selected type could not be found.
+        remove_from_project: Aus dem Projekt entfernen
+        type_not_found: Der ausgewählte Typ konnte nicht gefunden werden.
       versions:
         no_results_content_text: Neue Version erstellen
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
@@ -5731,7 +5731,7 @@ de:
   text_journal_changed_plain: "%{label} geändert von %{old} %{linebreak}zu %{new}"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
-  text_journal_deleted_no_detail: "%{label} deleted"
+  text_journal_deleted_no_detail: "%{label} aktualisiert"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} wurde gelöscht (%{link})"
   text_journal_file_link_added: "%{label} Link zu %{value} (%{storage}) hinzugefügt"
@@ -5787,7 +5787,7 @@ de:
   text_warn_on_leaving_unsaved: Das Arbeitspaket enthält ungespeicherten Text, der verloren geht wenn Sie die Seite verlassen.
   text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?
   text_wiki_page_comment_caption: Dies wird nur im Wiki-Verlauf sichtbar sein.
-  text_wiki_page_comment_placeholder: Did you change something? Add a comment
+  text_wiki_page_comment_placeholder: Haben Sie etwas geändert? Fügen Sie einen Kommentar hinzu
   text_wiki_page_destroy_children: Lösche alle Unterseiten
   text_wiki_page_destroy_question: Diese Seite hat %{descendants} Unterseite(n). Was möchten Sie tun?
   text_wiki_page_nullify_children: Verschiebe die Unterseiten auf die oberste Ebene
@@ -5846,22 +5846,22 @@ de:
   total_progress: Gesamtfortschritt
   types:
     creation_wizard:
-      create_type: Create type
-      create_variant: Create variant
+      create_type: Typ erstellen
+      create_variant: Variante erstellen
       fields:
         inherited_from_parent_html: Vom übergeordneten Typ <b>%{parent}</b> gesetzt.
       finish: Beenden
       placeholder_description: Dieser Schritt wird in Kürze verfügbar sein.
       progress_label: Schritt %{number} von %{total}
       steps:
-        defaults: Defaults
+        defaults: Standardwerte
         details: Details
         form_configuration: Formularkonfiguration
         pdf: PDF-Erstellung
-        project_attributes: Project attributes
+        project_attributes: Projektattribute
         projects: Projekte
         workflows: Workflows
-      success: Variant created successfully.
+      success: Variante erfolgreich erstellt.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:
@@ -5930,8 +5930,8 @@ de:
         edit_query: Abfrage bearbeiten
         empty_group_hint: Attribute hierher ziehen
         exclusions:
-          attribute_label: Inherit %{attribute}
-          excluded: Hidden
+          attribute_label: "%{attribute} erben"
+          excluded: Ausgeblendet
           section_label: Inherit section %{section}
         filter_inactive: Attribute filtern
         group_actions: Abschnittsoptionen
@@ -5958,9 +5958,9 @@ de:
           label_disable_all: Alle deaktivieren
           label_enable_all: Alle aktivieren
         description: Wählen Sie die Projektattribute aus, die Sie für diesen Arbeitspaket-Typ anzeigen möchten. Diese Attribute werden in einem separaten Tab in Arbeitspaketen dieses Typs angezeigt. Benutzer mit den erforderlichen Berechtigungen können diese Attribute dort einsehen und bearbeiten.
-        disabled: Disabled
+        disabled: Deaktiviert
         exclusions:
-          attribute_label: Inherit %{attribute}
+          attribute_label: "%{attribute} erben"
         filter: Nach Abschnitt oder Name suchen
         tab: Projektattribute
       projects:
@@ -6035,26 +6035,26 @@ de:
         tab: Workflows
     index:
       add_variant: Variante von %{name} hinzufügen
-      add_variant_action: Add variant
+      add_variant_action: Variante hinzufügen
       description: 'Jeder Konfigurationsbereich innerhalb von Typen und Varianten kann unabhängig konfiguriert, gegenüber einem anderen Typ eingeschränkt oder vollständig mit einer Quelle verknüpft werden.
 
         '
-      duplicate_name: Copy of %{name}
-      duplicate_notice: "%{name} was duplicated."
+      duplicate_name: Kopie von %{name}
+      duplicate_notice: "%{name} wurde dupliziert."
       enabled_in_new_projects: Aktiv in neuen Projekten
       make_default: In neuen Projekten aktivieren
-      make_default_notice: "%{name} is now activated in new projects."
+      make_default_notice: "%{name} ist nun in neuen Projekten aktiviert."
       no_results_content_text: Neuen Typ erstellen
       no_results_title_text: Derzeit gibt es keine Typen.
       remove_default: In neuen Projekten nicht aktivieren
-      remove_default_notice: "%{name} is no longer activated in new projects."
+      remove_default_notice: "%{name} ist in neuen Projekten nicht länger aktiviert."
       type_label: Typ
       variant_enabled_in_new_projects: Variante %{name} ist in neuen Projekten aktiv
       variant_label: Variante
       variants_count:
         one: Eine Variante
         other: "%{count} Varianten"
-    milestone_indicator: Milestone
+    milestone_indicator: Meilenstein
   unsupported_browser:
     close_warning: Diese Warnung ignorieren.
     message: Sie werden deshalb auf dieser Seite eventuell Fehler feststellen oder Ihr Benutzererlebnis wird eingeschränkt sein.
@@ -6410,39 +6410,39 @@ de:
   work_packages:
     bulk:
       copy_failed: Die Arbeitspakete konnten nicht kopiert werden.
-      could_not_be_deleted: 'The following work packages could not be deleted:'
+      could_not_be_deleted: 'Die folgenden Arbeitspakete konnten nicht gelöscht werden:'
       could_not_be_saved: 'Die folgenden Arbeitspakete konnten nicht gespeichert werden:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
-        other: Successfully deleted %{count} work packages.
+        one: 1 Arbeitspaket wurde erfolgreich gelöscht.
+        other: "%{count} Arbeitspaket wurde erfolgreich gelöscht."
       descendant: untergeordnetes Arbeitspaket eines ausgewählten Arbeitspaketes
       move_failed: Die Arbeitspakete konnten nicht verschoben werden.
       none_could_be_saved: Keines der %{total} Arbeitspakete konnte aktualisiert werden.
       selected_because_descendants: Obwohl nur %{selected} Arbeitspakete ausgewählt wurden, sind inklusive untergeordneter Arbeitspakete insgesamt %{total} Arbeitspakete betroffen.
       x_out_of_y_could_be_saved: "%{failing} von %{total} Arbeitspaketen konnten nicht aktualisiert werden, aber %{success} wurden aktualisiert."
     bulk_delete_dialog:
-      children_label: 'The following descendants will also be deleted:'
-      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
-      description: Are you sure you want to delete the selected work packages and all associated data?
-      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
-      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
-      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
+      children_label: 'Die folgenden Unteraufgaben werden ebenfalls gelöscht:'
+      confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
+      confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
+      cross_project_warning_html: 'Diese Arbeitspakete sind über mehrere Projekte verteilt: %{projects}'
+      description: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle zugehörigen Daten löschen möchten?
+      description_with_all_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle deren untergeordneten Elemente löschen möchten?
+      description_with_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle folgenden untergeordneten Elemente löschen möchten?
+      description_with_visible_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle sichtbaren untergeordneten Elemente löschen möchten?
       heading: Diese %{count} Arbeitspakete unwiderruflich löschen?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Dieses Arbeitspaket hat eine Unteraufgabe, das Sie nicht sehen können. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Dieses Arbeitspaket enthält %{count} Unteraufgaben, die Sie nicht sehen können. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch eine Unteraufgabe, die Sie nicht sehen können. Sie wird nicht gelöscht, aber die Verknüpfung zum Elternelement wird entfernt.
+        other: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch %{count} Unteraufgaben, die Sie nicht sehen können. Sie werden nicht gelöscht, aber deren Verknüpfungen zum Elternelement werden entfernt.
       title: "%{count} Arbeitspakete löschen"
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleibt erhalten, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     datepicker_modal:
       banner:
         description:
@@ -6486,24 +6486,24 @@ de:
         successors: Nachfolger
       update_inputs_aria_live_message: Datumsauswahl aktualisiert. %{message}
     delete_dialog:
-      confirm_deletion: I confirm that the work package and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete "%{name}"?
+      confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
+      confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
+      cross_project_warning_html: 'Die zur Löschung vorgesehenen Arbeitspakete stammen aus folgenden Projekten: %{projects}'
+      description: Möchten Sie "%{name}" wirklich löschen?
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Dieses Arbeitspaket hat eine Unteraufgabe, das Sie nicht sehen können. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Dieses Arbeitspaket enthält %{count} Unteraufgaben, die Sie nicht sehen können. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch %{count} Unteraufgaben, die Sie nicht sehen können. Sie werden nicht gelöscht, aber deren Verknüpfungen zum Elternelement werden entfernt.
+        other: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch %{count} Unteraufgaben, die Sie nicht sehen können. Sie werden nicht gelöscht, aber deren Verknüpfungen zum Elternelement werden entfernt.
       title: Arbeitspaket löschen
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleibt erhalten, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     move:
       bulk_current_type_not_available_in_target_project: 'Die Typen der Arbeitspakete oder deren Unterelemente sind im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die fehlenden Typen im Zielprojekt, wenn Sie möchten, dass diese unverändert bleiben. Andernfalls wählen Sie bitte einen im Zielprojekt verfügbaren Typ aus der Liste aus.
 
