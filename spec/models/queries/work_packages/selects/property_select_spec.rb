@@ -116,5 +116,64 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
         end
       end
     end
+
+    describe "category and categories columns" do
+      context "with the feature flag and the setting enabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        it "replaces the category column with the categories column" do
+          names = described_class.instances.map(&:name)
+
+          expect(names).to include :categories
+          expect(names).not_to include :category
+        end
+
+        it "is displayable, sortable and groupable" do
+          column = described_class.instances.find { it.name == :categories }
+
+          expect(column).to be_displayable
+          expect(column).to be_sortable
+          expect(column).to be_groupable
+          expect(column.caption).to eq WorkPackage.human_attribute_name(:categories)
+        end
+
+        it "sorts and groups via the work_package_categories join rows" do
+          column = described_class.instances.find { it.name == :categories }
+
+          expect(Array(column.sortable)).to all include("work_package_categories")
+          expect(column.groupable).to include("work_package_categories")
+        end
+      end
+
+      context "with the feature flag disabled",
+              with_flag: { work_package_multiple_categories: false },
+              with_settings: { work_package_multiple_categories: true } do
+        it "keeps the category column" do
+          names = described_class.instances.map(&:name)
+
+          expect(names).to include :category
+          expect(names).not_to include :categories
+        end
+
+        it "sorts and groups the category column via the work_package_categories join rows" do
+          column = described_class.instances.find { it.name == :category }
+
+          expect(column.sortable).to include("work_package_categories")
+          expect(column.groupable).to include("work_package_categories")
+          expect(column.groupable).not_to include("#{WorkPackage.table_name}.category_id")
+        end
+      end
+
+      context "with the setting disabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: false } do
+        it "keeps the category column" do
+          names = described_class.instances.map(&:name)
+
+          expect(names).to include :category
+          expect(names).not_to include :categories
+        end
+      end
+    end
   end
 end
