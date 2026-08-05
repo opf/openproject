@@ -40,10 +40,10 @@ sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev 
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
 Ruby.
 You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `4.0.2`, which we also require.
+At the time of this writing, the latest stable version is `4.0.6`, which we also require.
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.2` and install that version.
+Read the first line e.g. `4.0.6` and install that version.
 
 #### Install rbenv and ruby-build
 
@@ -80,18 +80,18 @@ With both installed, we can now install ruby.
 You can check available ruby versions with `rbenv install --list`.
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.2` and install that version.
+Read the first line e.g. `4.0.6` and install that version.
 
 ```shell
 # Install the required version as read from the .ruby-version file
-rbenv install 4.0.2
+rbenv install 4.0.6
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to
 globally activate this version
 
 ```shell
-rbenv global 4.0.2
+rbenv global 4.0.6
 rbenv rehash
 ```
 
@@ -181,10 +181,10 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```shell
 ruby --version
-ruby 4.0.2 (2026-03-17 revision d3da9fec82) +PRISM [arm64-darwin25]
+ruby 4.0.6 (2026-07-14 revision 03b6d3f889) +PRISM [arm64-darwin25]
 
 bundler --version
-4.0.9
+4.0.16
 
 node --version
 v24.18.0
@@ -336,6 +336,32 @@ RAILS_ENV=development bundle exec good_job start
 ```
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
+
+### How to access your development environment from another device on the same network
+
+Sometimes it is necessary to test with a real mobile phone. To make this possible, you have to set some environment variables before starting the backend and frontend servers. You need the IP address of the machine that runs the dev server on the network. Then edit your `.env` file like this:
+
+```shell
+DEV_IP=<INSERT YOUR IP HERE>
+# Local backend development host and port
+HOST=$DEV_IP
+PORT=3000
+# Local frontend development host and port
+FE_HOST=$DEV_IP
+FE_PORT=4200
+# Use this variables to configure hostnames for frontend and backend
+OPENPROJECT_DEV_HOST=$DEV_IP
+OPENPROJECT_DEV_URL=http://${OPENPROJECT_DEV_HOST}:${FE_PORT}
+OPENPROJECT_HOST__NAME=$DEV_IP:3000
+# Configure Hocuspocus if you want to use documents
+OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=ws://$DEV_IP:1234
+OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=secret12345
+```
+
+After that, you need to start the backend server like this (if you use overmind or `bin/dev`, edit `Procfile.dev`): `bundle exec rails server --binding=0.0.0.0`
+And the frontend server like this: `DEV_IP=<INSERT YOUR IP HERE> FE_HOST=$DEV_IP PROXY_HOSTNAME=$DEV_IP npm run serve`
+
+Afterwards, you can navigate to `<INSERT YOUR IP HERE>:3000` on a device on the same network (e.g. your mobile phone).
 
 ### Known issues
 

@@ -10,11 +10,16 @@ on:
 
 permissions:
   contents: read # to fetch code (actions/checkout)
-  pull-requests: write  # to comment on the PR
+  pull-requests: write # to comment on the PR
 
 jobs:
   version-check:
-    if: github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'
+    # Skip automation PRs (dependabot, copilot, the release merge PRs opened by
+    # openprojectci) as they never link a work package.
+    if: >-
+      github.event.pull_request.draft == false
+      && github.event.pull_request.user.type != 'Bot'
+      && github.event.pull_request.user.login != 'openprojectci'
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +29,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1
+        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
 
       - name: Verify linked version matches core version
         id: version-check

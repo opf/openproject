@@ -234,6 +234,64 @@ RSpec.describe WorkPackages::AutoCompletesController do
       end
     end
 
+    describe "exact-match ranking" do
+      context "in classic mode",
+              with_settings: { work_packages_identifier: "classic" } do
+        let!(:exact_match)  { create(:work_package, project:) }
+        let!(:prefix_match) { create(:work_package, project:) }
+        let(:prefix_match_id) { "#{exact_match.id}0".to_i }
+
+        before do
+          WorkPackage.where(id: prefix_match.id).update_all(id: prefix_match_id, updated_at: 1.minute.ago)
+          WorkPackage.where(id: exact_match.id).update_all(updated_at: 2.days.ago)
+
+          get :index, params: { project_id: project.id, q: exact_match.id.to_s }, format: :json
+        end
+
+        it "returns the exact id match first despite being older" do
+          expect(assigns(:work_packages).first.id).to eq(exact_match.id)
+        end
+      end
+
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:my_project) { create(:project, identifier: "MP") }
+        let!(:my_member) do
+          create(:member, project: my_project, principal: user, roles: [role])
+        end
+        let!(:exact_match) do
+          create(:work_package, project: my_project, updated_at: 2.days.ago, skip_semantic_id_allocation: true)
+        end
+        let!(:prefix_match) do
+          create(:work_package, project: my_project, updated_at: 1.minute.ago, skip_semantic_id_allocation: true)
+        end
+        let!(:exact_alias) do
+          create(:work_package_semantic_alias, work_package: exact_match, identifier: "MP-5")
+        end
+        let!(:prefix_alias) do
+          create(:work_package_semantic_alias, work_package: prefix_match, identifier: "MP-50")
+        end
+
+        before { get :index, params: { project_id: my_project.id, q: "MP-5" }, format: :json }
+
+        it "returns the exact identifier match first despite being older" do
+          expect(assigns(:work_packages).first).to eq(exact_match)
+        end
+      end
+
+      describe "does not error on a blank query" do
+        before { get :index, params: { project_id: project.id, q: "" }, format: :json }
+
+        it_behaves_like "successful response"
+      end
+
+      describe "does not error on a multi-word query" do
+        before { get :index, params: { project_id: project.id, q: "Can't print" }, format: :json }
+
+        it_behaves_like "successful response"
+      end
+    end
+
     describe "in different projects" do
       let(:project2) do
         create(:project,

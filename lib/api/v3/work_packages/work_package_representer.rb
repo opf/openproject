@@ -584,6 +584,24 @@ module API
         associated_resources :target_versions,
                              v3_path: :version,
                              representer: ::API::V3::Versions::VersionRepresenter,
+                             getter: ->(*) {
+                               next unless embed_link?(:target_versions)
+
+                               represented.effective_target_versions.map do |version|
+                                 ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               represented.effective_target_versions.map do |version|
+                                 ::API::Decorators::LinkObject
+                                   .new(version,
+                                        property_name: :itself,
+                                        path: :version,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             },
                              setter: ->(fragment:, **) do
                                represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end

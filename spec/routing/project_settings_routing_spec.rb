@@ -105,14 +105,35 @@ RSpec.describe Projects::SettingsController do
     it do
       expect(get("/projects/123/settings/work_packages/types"))
         .to route_to(
-          controller: "projects/settings/work_packages/types", action: "show", project_id: "123"
+          controller: "projects/settings/work_packages/types", action: "index", project_id: "123"
         )
     end
 
     it do
-      expect(patch("/projects/123/settings/work_packages/types"))
+      expect(get("/projects/123/settings/work_packages/types/new"))
         .to route_to(
-          controller: "projects/settings/work_packages/types", action: "update", project_id: "123"
+          controller: "projects/settings/work_packages/types", action: "new", project_id: "123"
+        )
+    end
+
+    it do
+      expect(post("/projects/123/settings/work_packages/types"))
+        .to route_to(
+          controller: "projects/settings/work_packages/types", action: "create", project_id: "123"
+        )
+    end
+
+    it do
+      expect(delete("/projects/123/settings/work_packages/types/5"))
+        .to route_to(
+          controller: "projects/settings/work_packages/types", action: "destroy", project_id: "123", id: "5"
+        )
+    end
+
+    it do
+      expect(patch("/projects/123/settings/work_packages/types/bulk_update"))
+        .to route_to(
+          controller: "projects/settings/work_packages/types", action: "bulk_update", project_id: "123"
         )
     end
 
