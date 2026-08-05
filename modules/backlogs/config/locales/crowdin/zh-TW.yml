@@ -92,7 +92,7 @@ zh-TW:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: 我們目前正在重新設計 Backlogs 模組。在不久的將來，Sprint 和 Backlogs 的管理設定將在此處顯示。專案層級的設定仍然可用。
       title: Backlog 管理設定不斷演進
@@ -152,6 +152,7 @@ zh-TW:
     label_burndown_chart: 未完成圖
     label_is_done_status: 狀態 %{status_name} 表示完成
     label_sprint_board: 衝刺目標
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Move to backlog bucket
     move_to_sprint_dialog_component:
@@ -187,6 +188,15 @@ zh-TW:
     sprint_form_component:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
@@ -272,7 +282,7 @@ zh-TW:
   permission_view_sprints: View sprints
   plugin_openproject_backlogs:
     description: 此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。
-    name: OpenProject待辦事項
+    name: OpenProject代辦事項
   project_module_backlogs: 待辦事項
   projects:
     copy:

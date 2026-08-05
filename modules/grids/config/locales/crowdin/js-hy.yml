@@ -37,7 +37,9 @@ hy:
           accessible_gate: Փուլի դարպաս %{name}՝ %{date}
           accessible_phase: Փուլ %{name}՝ %{date}
           tooltip_type_gate: Փուլի դարպաս
+          tooltip_type_milestone: Հանգրվան
           tooltip_type_phase: Փուլ
+          tooltip_type_sprint: Սպրինտ
         subprojects:
           title: Ենթատարրեր
         time_entries_current_user:

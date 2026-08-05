@@ -98,7 +98,7 @@ uk:
         other: Спринти
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title: 'Додати наявний пакет робіт сюди: «%{name}»'
     administration_blankslate:
       text: Зараз ми переробляємо модуль невиконаних завдань (беклогів). Налаштування адміністратора для спринтів і беклогів з’являться тут найближчим часом. Налаштування на рівні проєктів залишаються доступними.
       title: Ми змінюємо налаштування адміністратора в модулі беклогів
@@ -161,6 +161,7 @@ uk:
     label_burndown_chart: Діаграма згорання завдань
     label_is_done_status: Стан %{status_name} означає виконано
     label_sprint_board: Дошка спринту
+    label_sprint_report: Звіт про спринт
     move_to_bucket_dialog_component:
       title: Перемістити в сегмент беклогу
     move_to_sprint_dialog_component:
@@ -199,6 +200,15 @@ uk:
     sprint_form_component:
       shared_sprint_info_banner: Це спільний спринт. Внесені зміни відображатимуться в усіх проєктах, які його використовують.
       shared_sprint_warning_banner: Це спільний спринт. У вас немає необхідних прав для його редагування.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Звіт
+        title: Звіт про %{sprint}
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Змінити спринт
+          sprint_report: Звіт про спринт
     sprints_component:
       blankslate:
         create_and_manage_description_html: Щоб почати планувати спринт, створіть його тут або перейдіть у %{settings_link}, щоб отримати спринти з інших проєктів.

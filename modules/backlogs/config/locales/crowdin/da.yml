@@ -94,7 +94,7 @@ da:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: Vi er i gang med at redesigne Backlog-modulet. Admin-indstillinger for sprints og backlogs vil fremgå her i den nærmeste fremtid. Projektniveauindstillinger forbliver tilgængelige.
       title: Backlog admin-indstillinger udvikler sig
@@ -155,6 +155,7 @@ da:
     label_burndown_chart: Burndown-diagram
     label_is_done_status: Status %{status_name} betyder færdig
     label_sprint_board: Sprinttavle
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Move to backlog bucket
     move_to_sprint_dialog_component:
@@ -191,6 +192,15 @@ da:
     sprint_form_component:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: For at begynde at planlægge en sprint, opret en her eller gå til %{settings_link} for at modtage sprints fra et andet projekt.

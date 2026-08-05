@@ -342,7 +342,7 @@ ko:
         token_name: 토큰 이름
       type:
         attribute_groups: 양식 구성
-        children: 하위 유형
+        children: 변형
         color: 색상
         dependent_configuration_links: 연결된 유형
         description: 설명의 기본 텍스트
@@ -466,6 +466,7 @@ ko:
         spent_hours: 소비한 시간
         spent_time: 소비한 시간
         subproject: 하위 프로젝트
+        target_version: 대상 버전
         target_versions: 대상 버전
         time_entries: 작업시간 기록
         type: 타입
@@ -692,13 +693,13 @@ ko:
               must_start_with_letter: "- 문자로 시작해야 합니다"
               no_special_characters: "- 대문자, 숫자 및 밑줄만 포함될 수 있습니다"
             types:
-              cannot_assign_multiple_subtypes_of_parent: 프로젝트에서는 유형의 단일 하위 유형만 활성화할 수 있습니다
-              cannot_assign_subtype_and_parent: '하위 유형 및 해당 부모를 할당할 수 없습니다 '
-              cannot_assign_subtypes_yet: 아직 프로젝트에서 하위 유형을 활성화할 수 없습니다. 하위 유형을 사용해 보려면 베타 기능을 활성화하세요
+              cannot_assign_multiple_variants_of_parent: 프로젝트에서는 유형의 단일 변형만 활성화할 수 있습니다
+              cannot_assign_variant_and_parent: '변형 및 해당 부모를 할당할 수 없습니다 '
+              cannot_assign_variants_yet: 아직 프로젝트에서 변형을 활성화할 수 없습니다. 변형을 사용해 보려면 기능 플래그를 활성화하세요
               in_use_by_work_packages: '아직 작업 패키지에 사용됨: %{types}'
-              switch_source_not_a_subtype: 하위 유형에서만 전환할 수 있습니다
-              switch_target_identical: 대상 유형은 현재 하위 유형과 달라야 합니다
-              switch_target_not_in_family: 동일한 유형의 다른 하위 유형이나 해당 부모 유형으로만 전환할 수 있습니다
+              switch_source_not_a_variant: 변형에서만 전환할 수 있습니다
+              switch_target_identical: 대상 유형은 현재 변형과 달라야 합니다
+              switch_target_not_in_family: 동일한 유형의 다른 변형이나 해당 부모 유형으로만 전환할 수 있습니다
           cannot_be_assigned_to_artifact_work_package: 선택한 사용자는 작업 패키지에 할당할 수 없습니다.
           foreign_wps_reference_version: 하위가 아닌 프로젝트의 작업 패키지는 해당 프로젝트 또는 하위 프로젝트의 버전을 참조합니다.
         project/phase:
@@ -812,15 +813,15 @@ ko:
             parent:
               cannot_be_self: "- 해당 유형 자체일 수는 없습니다."
               cannot_change_with_work_packages: "- 이 유형의 작업 패키지가 이미 존재하므로 변경할 수 없습니다."
-              cannot_have_children: "- 이 유형에는 이미 하위 유형이 있으므로 설정할 수 없습니다."
+              cannot_have_children: "- 이 유형에는 이미 변형이 있으므로 설정할 수 없습니다."
               must_be_a_root: "- 그 자체로 최상위 유형이어야 합니다. 유형은 한 수준까지만 중첩될 수 있습니다."
               standard_type_must_be_root: "- 표준 유형에 대해 설정할 수 없습니다."
             patterns:
               invalid_tokens: 필드 내의 특성이 하나 이상의 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: "- 해당 유형 자체일 수는 없습니다."
+            source_id:
+              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
         user:
           attributes:
             base:
@@ -1125,6 +1126,9 @@ ko:
         '
     jemalloc_allocator: Jemalloc 메모리 할당기
     jira:
+      actions:
+        button_edit: 구성 편집
+        button_open: 실행 열기
       banner:
         contribution_callout: '피드백 및 개인 데이터 기부를 통해 Jira Migator를 개선할 수 있도록 도와주세요. Jira Migator의 [개발 커뮤니티에 참여](link)할 수 있습니다.
 
@@ -1146,9 +1150,11 @@ ko:
         ssrf_blocked: '연결 차단됨: Jira 호스트가 사설 IP 주소로 확인됩니다. Jira 인스턴스가 내부 네트워크에서 실행되는 경우 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST 환경 변수를 통해 해당 IP를 허용하세요.'
       columns:
         added: 추가됨
+        creator: 생성자
         label_ago: "%{amount} 전"
         last_change: 마지막 변경
         projects: 프로젝트
+        server_url: 서버 URL
       configuration:
         new: 새 구성
         title: Jira 구성
@@ -1163,18 +1169,24 @@ ko:
         button_add: 구성 추가
         button_delete_token: 토큰 삭제
         button_save: 구성 저장
-        button_test: 구성 테스트
         delete_token_confirm: 토큰을 삭제하시겠습니까? 그러면 Jira 연결이 비활성화됩니다.
         fields:
           name: 이름
           personal_access_token: 개인 액세스 토큰
           url: Jira 서버/데이터 센터 URL
         label_testing: 구성 테스트 중...
+        test_configuration_caption: "[여기를 클릭](test)하여 이 구성을 테스트할 수 있습니다"
       run:
+        actions:
+          button_edit: 실행 편집
+          button_open_history: 실행 기록 열기
         blank:
           description: 가져오기 실행을 만들어서 이 Jira 인스턴스에서 정보 가져오기를 시작하세요
           title: 가져오기 실행이 아직 설정되지 않음
         history: 기록
+        side_panel:
+          run_status: 실행 상태
+          open_history: 실행 기록 열기
         import_blocked_error: 다른 Jira 가져오기 실행이 현재 진행 중이거나 검토를 기다리는 중입니다. 새 가져오기를 시작하기 전에 완료하거나 되돌리세요.
         index:
           button_edit_configuration: 구성 편집
@@ -1214,14 +1226,8 @@ ko:
           groups:
             configuration:
               title: 가져오기 구성
-            confirming:
-              title: 확인 및 가져오기
-            fetch:
-              title: 기본 데이터 가져오기
-            groups_and_users:
-              title: 그룹 및 사용자
-            review:
-              title: 가져오기 검토
+            run_and_review:
+              title: 가져오기 실행 및 검토
           import_dialog:
             confirm: 본인은 해당 내용을 이해하며 백업이 있습니다
             confirm_button: 가져오기 시작
@@ -1251,6 +1257,7 @@ ko:
               button_start: 가져오기 시작
               caption: 가져오기 설정을 검토하고 가져오기를 시작합니다
               caption_done: 완료됨
+              caption_done_info: 모든 데이터를 가져왔습니다
               description: 다음 설정으로 가져오기 실행을 시작하려고 합니다.
               label_available_data: 가져올 데이터
               label_import_data: 현재 가져오는 중
@@ -1258,9 +1265,12 @@ ko:
               label_users_import_explanation: 선택한 프로젝트에 참여하는 사용자(그룹 멤버십 포함됨)
               title: 데이터 가져오기
             fetch_data:
+              button_continue: 계속하여 범위 선택
               button_fetch: 사용 가능한 데이터 확인
               caption_done: 완료됨
+              caption_done_description: "%{server_info}에서 가져온 메타 데이터"
               description: 호스트 Jira 인스턴스에서 가져올 수 있는 데이터를 확인하세요.
+              label_available_server_data: "%{server_info}의 사용 가능한 데이터"
               label_progress: Jira에서 데이터를 가져오는 중...
               title: 인스턴스 메타 데이터 가져오기
             groups_and_users:
@@ -1269,7 +1279,6 @@ ko:
               button_done: 가져오기 승인
               button_revert: 가져오기 되돌리기
               caption: 가져오기 실행 검토 또는 가져오기 되돌리기
-              info: 가져오기 실행에 성공했습니다.
               label_finalize_import: 가져오기 승인
               label_finalizing: 가져오기 승인 중...
               label_finalizing_done: 가져오기가 승인되었습니다.
@@ -1278,6 +1287,20 @@ ko:
               label_revert_progress: 가져오기를 되돌리는 중...
               label_reverted: 가져오기를 되돌렸습니다.
               preview_description: 가져온 데이터는 현재 검토 모드에 있습니다. 가져오기를 영구적으로 적용하려면 "가져오기 승인"을 클릭하고, 이 가져오기 실행에서 변경된 모든 사항을 취소하려면 "가져오기 되돌리기"를 클릭합니다.
+              stats:
+                other_settings:
+                  label: 기타 설정
+                  subtitle: 유형 및 상태 포함
+                projects:
+                  label: 프로젝트
+                  subtitle: 범위로 선택함
+                title: 데이터 가져옴
+                users_and_groups:
+                  label: 사용자 및 그룹
+                  subtitle: '가져온 프로젝트에 참여함 '
+                work_packages:
+                  label: 작업 패키지
+                  subtitle: 첨부 파일 있음
               title: 가져오기 실행 결과
             import_scope:
               button_continue: 계속
@@ -1285,6 +1308,8 @@ ko:
               button_select_projects: 가져올 프로젝트 선택
               caption: OpenProject로 가져올 항목을 선택합니다
               caption_done: 완료됨
+              caption_done_description:
+                other: 범위로 선택된 %{count}개 프로젝트
               description: 호스트 Jira 인스턴스에서 가져온 사용 가능한 데이터에서 가져올 데이터를 선택합니다.
               elements:
                 custom_fields: 사용자 지정 필드의 하위 집합
@@ -1299,19 +1324,21 @@ ko:
                 sprints: 스프린트 할당
                 users: 참여 사용자 및 그룹
                 workflows: 프로젝트 수준 워크플로
-              label_available_server_data: "%{server_info}의 사용 가능 데이터"
               label_coming_later: 추후 제공 예정
               label_coming_soon: 곧 제공 예정(2026년 3분기)
               label_import: 가져올 프로젝트를 선택합니다.
               label_info: 이 가져오기 도구는 베타 버전이며 일부 유형의 데이터를 가져올 수 없다는 점에 유의하세요. 호스트 Jira 인스턴스에서 가져오기용으로 제공하는 항목과 이 도구에서 현재 가져올 수 있는 항목에 대한 요약은 다음과 같습니다.
-              label_progress: Jira에서 데이터를 가져오는 중...
+              label_progress: 데이터를 가져오는 중
               label_selected_data: 가져올 데이터 선택함
               label_supported_data: 지원되는 데이터
               title: 가져오기 범위
-          select_dialog:
-            filter_projects: 텍스트로 필터링
           select_projects:
-            title: 프로젝트 선택
+            button_select: 선택
+            button_select_all: 모두 선택
+            button_unselect_all: 모두 선택 해제
+            filter_projects: 텍스트로 필터링
+            info: Jira 토큰 소유자가 멤버인 프로젝트만 가져오기 범위로 선택할 수 있습니다.
+            title: 가져올 프로젝트 선택
       test:
         api_error: Jira API가 오류 상태 %{status}을(를) 반환했습니다. Jira 인스턴스 URL 및 API 토큰을 확인하세요.
         connection_error: '연결 오류: %{message}'
@@ -1496,6 +1523,7 @@ ko:
     workflows:
       blankslate:
         description: 상태를 추가하여 이 역할에 대한 워크플로 구성을 시작합니다
+        linked_description: 이 유형은 상태 전환이 구성되지 않은 연결된 소스 유형의 워크플로를 재사용합니다
         title: 구성된 상태 전환 없음
       leave_confirmation:
         description: 이 페이지를 나가려고 하는데, 저장되지 않은 변경 사항이 있습니다. 저장한 후에 계속하시겠습니까?
@@ -1520,9 +1548,15 @@ ko:
           other: "%{count}개 상태를 제거하시겠습니까?"
         title: 상태 제거
       tabs:
-        default_transitions: 기본 전환
-        user_assignee: 사용자가 담당자입니다
-        user_author: 사용자가 작성자입니다
+        always: Default transitions
+        aria_label: 워크플로 전환
+        assignee: User is assignee
+        author: User is author
+        descriptions:
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
+        menu_label: 표시된 전환
   announcements:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
@@ -3279,7 +3313,6 @@ ko:
   label_other: 기타
   label_overall_activity: 전체 작업
   label_overview: 요약
-  label_page_title: 페이지 제목
   label_parent_group_caption: '부모 그룹을 설정하면 선택한 부모 그룹의 하위 그룹으로 이 그룹이 지정됩니다. 또한 부모 그룹의 권한을 포함한 모든 멤버십이 상속됩니다.
 
     '
@@ -3561,7 +3594,7 @@ ko:
   label_workflow: 워크플로
   label_workflow_copy: 워크플로 복사
   label_workflow_plural: 워크플로
-  label_workflow_summary: 요약
+  label_workflow_summary: 워크플로 요약
   label_working_days: 근무일
   label_working_days_and_hours: 근무일 및 시간
   label_working_hours: 근무 스케줄
@@ -4532,6 +4565,7 @@ ko:
 
     '
   permission_move_work_packages: 작업 패키지 이동
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: BCF 쿼리 저장
   permission_save_queries: 보기 저장
   permission_search_project: 프로젝트 검색
@@ -4807,9 +4841,23 @@ ko:
         menu_title: 템플릿
         title: 템플릿 설정
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: 유형 "%{type}" 사용
+        in_roadmap: In roadmap
         no_results_title_text: 사용 가능한 타입이 없습니다.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: 새 버전 생성
         no_results_title_text: 프로젝트에 버전이 없습니다.
@@ -5625,6 +5673,7 @@ ko:
   text_journal_changed_plain: "%{label}이(가) %{old}에서 %{linebreak}%{new}(으)로 변경되었습니다."
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} 삭제됨(%{link})"
   text_journal_file_link_added: "%{value}(%{storage})에 대한 %{label} 링크 추가됨"
@@ -5680,8 +5729,9 @@ ko:
   text_user_invited: 사용자가 초대되었으며 등록 보류 중입니다.
   text_user_wrote: "%{value}이(가) 작성함:"
   text_warn_on_leaving_unsaved: 현재 페이지에는 저장되지 않은 텍스트가 있습니다. 이 페이지를 나가면 텍스트가 손실됩니다.
-  text_what_did_you_change_click_to_add_comment: 무엇을 변경하셨습니까? 댓글을 추가하려면 클릭하세요.
   text_wiki_destroy_confirmation: 이 위키와 모든 해당 콘텐츠를 삭제하시겠습니까?
+  text_wiki_page_comment_caption: 이 내용은 위키 기록에서만 볼 수 있습니다.
+  text_wiki_page_comment_placeholder: 무언가 변경하셨나요? 코멘트를 추가하세요
   text_wiki_page_destroy_children: 자식 페이지 및 모든 하위 페이지 삭제
   text_wiki_page_destroy_question: 이 페이지에는 %{descendants}개의 자식 페이지와 하위 항목이 있습니다. 어떻게 하시겠습니까?
   text_wiki_page_nullify_children: 자식 페이지를 루트 페이지로 유지
@@ -5740,35 +5790,48 @@ ko:
   total_progress: 총 진행률
   types:
     creation_wizard:
-      configuration_link_error: 재사용 모드를 저장할 수 없습니다. 소스 유형을 선택하세요.
-      create_subtype: 하위 유형 만들기
+      create_type: 유형 만들기
+      create_variant: 변형 만들기
       fields:
         inherited_from_parent_html: 부모 유형 <b>%{parent}</b>에서 상속되었습니다.
       finish: 완료
       placeholder_description: 이 단계는 곧 사용 가능하게 됩니다.
       progress_label: "%{number}/%{total}단계"
       steps:
-        automations: 자동화
+        defaults: 기본값
         details: 세부 정보
         form_configuration: 양식 구성
         pdf: PDF 생성
+        project_attributes: 프로젝트 특성
         projects: 프로젝트
         workflows: 워크플로
-      success: 하위 유형이 생성되었습니다.
-      workflows:
-        copy_caption: 기존 유형의 워크플로 구성을 복사하여 시작점으로 사용합니다.
+      success: 변형이 생성되었습니다.
     edit:
-      configuration_link:
-        independent:
-          caption: 이러한 설정은 이 유형에 속하며, 여기서 편집됩니다. 해당 설정은 다른 어떤 유형과도 연결되어 있지 않습니다.
-          label: 독립
-          warning: 독립으로 전환하면 선택한 소스 유형의 현재 설정이 이 유형으로 복사된 후 링크가 제거됩니다. 이후에는 자유롭게 편집할 수 있습니다. 주의하여 진행하세요.
-        linked:
-          caption: 이러한 설정은 소스 유형에서 재사용되며, 해당 소스 유형과 항상 동기화됩니다. 해당 설정을 변경하려면 소스 유형을 편집하세요.
-          label: 연결됨
-          warning: 연결하면 이 유형의 고유한 설정이 소스 유형의 설정으로 대체됩니다. 현재 설정은 삭제되며, 이 유형의 작업 패키지에 영향을 미칠 수 있습니다. 주의하여 진행하세요.
-        source:
-          label: 소스 유형
+      breadcrumb_variant: '변형: %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: 참조된 특성과 텍스트를 사용하여 패턴을 정의하고 작업 패키지 제목을 자동으로 생성하세요. 사용자는 제목을 수동으로 편집할 수 없습니다.
+          label: 자동으로 생성되는 제목
+        description:
+          caption: 이 유형의 모든 신규 작업 패키지의 설명 필드에 추가될 텍스트를 입력하세요.
+          label: 기본 설명 텍스트
+        manually_editable_subjects:
+          caption: 사용자가 제한 없이 작업 패키지 제목을 수동으로 입력하고 편집할 수 있습니다.
+          label: 수동으로 편집 가능한 제목
+        pattern:
+          caption: 텍스트를 추가하여 패턴을 만들거나 "/"를 입력하여 [지원되는 특성](attributes_url)을 검색하세요.
+          insert_as_text: '특성을 찾지 못했습니다. 텍스트로 추가: "%{word}"'
+          label: 제목 패턴
+        tab: 기본값
+        token:
+          context:
+            parent: 부모
+            project: 프로젝트
+            work_package: 작업 패키지
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: 세부 정보
+        type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
       export_configuration:
         artefact_export:
           attachment:
@@ -5808,6 +5871,10 @@ ko:
         drag_to_reorder: 드래그하여 재정렬
         edit_query: 쿼리 편집
         empty_group_hint: 속성을 여기로 드래그하세요
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: 필터 특성
         group_actions: 섹션 작업
         group_name_label: 섹션 이름
@@ -5833,6 +5900,9 @@ ko:
           label_disable_all: 모두 비활성화
           label_enable_all: 모두 활성화
         description: 이 작업 패키지 유형에 대해 활성화할 프로젝트 특성을 선택하세요. 활성화된 프로젝트 특성은 이 유형의 작업 패키지에서 별도의 탭에 표시됩니다. 필요한 권한을 가진 사용자는 해당 탭에서 이러한 특성을 보고 편집할 수 있습니다.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: 섹션 또는 이름으로 검색
         tab: 프로젝트 특성
       projects:
@@ -5840,39 +5910,92 @@ ko:
         select_projects: 프로젝트 선택
         select_projects_description: 이 유형을 사용하려는 프로젝트를 선택합니다.
         tab: 프로젝트
-      settings:
-        parent_type_text: 선택적으로, 부모 유형을 선택하여 이 유형을 하위 유형으로 중첩합니다.
-        tab: 설정
-        type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: 참조된 특성과 텍스트를 사용하여 패턴을 정의하고 작업 패키지 제목을 자동으로 생성하세요. 사용자는 제목을 수동으로 편집할 수 없습니다.
-          label: 자동으로 생성되는 제목
-        manually_editable_subjects:
-          caption: 사용자가 제한 없이 작업 패키지 제목을 수동으로 입력하고 편집할 수 있습니다.
-          label: 수동으로 편집 가능한 제목
-        pattern:
-          caption: 텍스트를 추가하여 패턴을 만들거나 "/"를 입력하여 [지원되는 특성](attributes_url)을 검색합니다.
-          insert_as_text: '특성을 찾지 못했습니다. 텍스트로 추가: "%{word}"'
-          label: 제목 패턴
-        tab: 제목 구성
-        token:
-          context:
-            parent: 부모
-            project: 프로젝트
-            work_package: 작업 패키지
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: 본인은 이렇게 하면 현재 설정을 덮어쓰게 된다는 것을 이해합니다
+            description_html: "%{source_name}에서 데이터를 복사하면 현재 설정이 덮어쓰게 되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다."
+            title: 구성 복사?
+          dialog:
+            description: 소스 유형의 구성을 복사하여 일회성 기본값으로 사용하세요. 이렇게 해도 두 유형이 영구적으로 연결되지는 않습니다.
+            source_label: 소스 복사
+            source_placeholder: 유형 또는 변형 선택
+            submit: 저장 및 복사
+            title: 구성 복사
+          invalid_source: 선택한 유형에서 이 구성을 복사할 수 없습니다. 다른 소스 유형을 선택하세요.
+          success: 구성이 복사되었습니다.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        independent:
+          confirm_dialog:
+            check_box: 본인은 이렇게 하면 현재 설정을 덮어쓰게 된다는 것을 이해합니다
+            description: 현재 선택된 모든 설정을 덮어쓰며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
+            title: 구성 모드 전환?
+          copy_from_type: 유형에서 복사
+          description: 설정이 상속되지 않습니다. 원하는 경우 다른 유형의 설정을 한 번만 복사할 수 있습니다.
+          dialog:
+            submit: 전환
+            title: 독립 모드
+          invalid_mode: 선택한 모드는 이 구성에 사용할 수 없습니다. 다른 모드를 선택하세요.
+          modes:
+            copy:
+              caption: 연결 모드에서 지정된 현재 설정을 일회성으로 복사하여 시작하세요.
+              label: 연결 모드에서 복사
+            default:
+              caption: 새로운 유형에 기본 설정을 사용하세요.
+              label: 기본 설정
+            empty:
+              caption: 빈 구성에서 시작하여 처음부터 모든 것을 설정하세요.
+              label: 비어 있음
+          success: 구성 모드가 전환되었습니다.
+          switch_to_linked: 연결 모드로 전환
+          title: 독립 모드
+        linked:
+          change_source: 소스 유형 변경
+          confirm_dialog:
+            change_source:
+              description_html: 소스 유형을 %{source_name}(으)로 변경하면 현재 설정이 덮어쓰게 되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
+              title: 소스 유형 변경?
+            check_box: 본인은 이렇게 하면 현재 설정을 덮어쓰게 된다는 것을 이해합니다
+            from_independent:
+              description: 현재 선택된 모든 설정을 덮어쓰며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
+              title: 구성 모드 전환?
+          description: 이 구성은 소스 유형 [%{source_name}](source_url)%{source_suffix}에서 연결되어 있으며, 해당 설정을 상속받고 있습니다.
+          dialog:
+            description: 소스에서 이 설정을 복사하여 상속받으세요. 소스에 추가된 새로운 구성은 여기에도 추가됩니다.
+            source_label: 연결된 소스
+            source_placeholder: 유형 또는 변형 선택
+            submit: 전환
+            title: 연결 모드
+          invalid_source: 선택한 유형에 이 구성을 연결할 수 없습니다. 다른 소스 유형을 선택하세요.
+          success: 구성 모드가 전환되었습니다.
+          switch_to_independent: 독립 모드로 전환
+          title: 연결 모드
+        parent_suffix: " (부모)"
+      workflow:
+        tab: 워크플로
     index:
-      add_subtype: "%{name}에 하위 유형 추가"
-      description: '유형 및 하위 유형 내의 각 구성 영역은 독립적으로 구성하거나, 다른 유형으로부터 제한하거나, 소스에 완전히 연결할 수 있습니다.
+      add_variant: "%{name}에 변형 추가"
+      add_variant_action: Add variant
+      description: '유형 및 변형 내의 각 구성 영역은 독립적으로 구성하거나, 다른 유형으로부터 제한하거나, 소스에 완전히 연결할 수 있습니다.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
+      enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
+      make_default: 새로운 프로젝트에서 활성화
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
-      subtype_label: 하위 유형
-      subtypes_count:
-        other: "%{count}개 하위 유형"
+      remove_default: 새 프로젝트에서 활성화 안 함
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: 유형
+      variant_enabled_in_new_projects: 새 프로젝트에서 활성 상태인 변형 %{name}
+      variant_label: 변형
+      variants_count:
+        other: "%{count}개 변형"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: 이 경고를 무시하십시오.
     message: 이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다.

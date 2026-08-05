@@ -92,7 +92,7 @@ zh-CN:
         other: 冲刺
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title: 将现有工作包添加到 %{name}
     administration_blankslate:
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
       title: 积压工作管理设置不断演进
@@ -152,6 +152,7 @@ zh-CN:
     label_burndown_chart: 燃尽图
     label_is_done_status: 状态 %{status_name} 表示已完成
     label_sprint_board: 冲刺面板
+    label_sprint_report: 冲刺报告
     move_to_bucket_dialog_component:
       title: 移至积压工作存储桶
     move_to_sprint_dialog_component:
@@ -187,6 +188,15 @@ zh-CN:
     sprint_form_component:
       shared_sprint_info_banner: 这是共享冲刺。所做的修改将反映在所有使用该冲刺的项目中。
       shared_sprint_warning_banner: 这是共享冲刺。您没有编辑该冲刺的必要权限。
+    sprint_reports:
+      page_header_component:
+        breadcrumb: 报告
+        title: "%{sprint}报告"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: 编辑冲刺
+          sprint_report: 冲刺报告
     sprints_component:
       blankslate:
         create_and_manage_description_html: 要开始计划冲刺，请在此处创建，或转到%{settings_link}从其他项目接收冲刺。
