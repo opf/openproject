@@ -181,7 +181,12 @@ module Backlogs
     end
 
     def show_burndown_link?
-      sprint.active?
+      sprint.active? && !OpenProject::FeatureDecisions.sprint_reports_active?
+    end
+
+    def show_report_link?
+      OpenProject::FeatureDecisions.sprint_reports_active? &&
+        user_allowed?(:view_sprints)
     end
 
     def can_open_edit_dialog?

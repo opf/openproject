@@ -44,6 +44,8 @@ module Grids
       end
 
       def phases_data
+        return [].to_json unless view_project_phases_allowed?
+
         active_project_phases
                .eager_load(definition: :color)
                .order("project_phase_definitions.position")
@@ -51,12 +53,53 @@ module Grids
                .to_json
       end
 
-      def any_phases?
-        active_project_phases.with_timeline_content.exists?
+      def milestones_data
+        assign_milestone_rows(milestones_scope)
+          .map { |wp, row| { id: wp.id, subject: wp.subject, date: wp.due_date.iso8601, typeId: wp.type_id, row: } }
+          .to_json
+      end
+
+      def sprints_data
+        return [].to_json unless view_sprints_allowed?
+
+        assign_sprint_rows(sprints_scope)
+          .map do |sprint, row|
+          { id: sprint.id, name: sprint.name, startDate: sprint.start_date.iso8601,
+            endDate: sprint.finish_date.iso8601, status: sprint.status, row: }
+        end
+          .to_json
+      end
+
+      def any_content?
+        @any_content ||= any_phases? || milestones_scope.exists? || any_sprints?
       end
 
       def render?
-        User.current.allowed_in_project?(:view_project_phases, project) && active_project_phases.any?
+        (view_project_phases_allowed? && active_project_phases.any?) ||
+          view_work_packages_allowed? ||
+          view_sprints_allowed?
+      end
+
+      def show_footer?
+        any_content? && (gantt_link || sprints_link)
+      end
+
+      def gantt_link
+        return unless view_work_packages_allowed?
+        return unless project.module_enabled?(:gantt)
+
+        result = ::Gantt::DefaultQueryGeneratorService.new(with_project: project).call(query_key: :milestones)
+        return unless result
+
+        params = JSON.parse(result[:query_props])
+        params["hi"] = false
+        helpers.project_gantt_index_path(project, query_props: params.to_json)
+      end
+
+      def sprints_link
+        return unless view_sprints_allowed? && any_sprints?
+
+        helpers.project_backlogs_sprints_path(project)
       end
 
       def wrapper_arguments
@@ -64,6 +107,67 @@ module Grids
       end
 
       private
+
+      def view_work_packages_allowed?
+        @view_work_packages_allowed ||= User.current.allowed_in_project?(:view_work_packages, project)
+      end
+
+      def view_project_phases_allowed?
+        @view_project_phases_allowed ||= User.current.allowed_in_project?(:view_project_phases, project)
+      end
+
+      def view_sprints_allowed?
+        @view_sprints_allowed ||= project.module_enabled?(:backlogs) &&
+          User.current.allowed_in_project?(:view_sprints, project)
+      end
+
+      def any_phases?
+        @any_phases ||= view_project_phases_allowed? && active_project_phases.with_timeline_content.exists?
+      end
+
+      def any_sprints?
+        @any_sprints ||= view_sprints_allowed? && sprints_scope.exists?
+      end
+
+      def milestones_scope
+        @milestones_scope ||= WorkPackage
+          .visible(User.current)
+          .where(project:)
+          .joins(:type)
+          .where(types: { is_milestone: true })
+          .where.not(due_date: nil)
+          .order(:due_date)
+      end
+
+      def sprints_scope
+        @sprints_scope ||= Sprint
+          .for_project(project)
+          .where.not(start_date: nil)
+          .where.not(finish_date: nil)
+          .order(:start_date)
+      end
+
+      def assign_milestone_rows(milestones)
+        date_rows = Hash.new(-1)
+        milestones.map do |wp|
+          date_rows[wp.due_date] += 1
+          [wp, date_rows[wp.due_date]]
+        end
+      end
+
+      def assign_sprint_rows(sprints)
+        row_ends = []
+        sprints.map do |sprint|
+          row_index = row_ends.index { |end_date| end_date < sprint.start_date }
+          if row_index
+            row_ends[row_index] = sprint.finish_date
+          else
+            row_index = row_ends.size
+            row_ends << sprint.finish_date
+          end
+          [sprint, row_index]
+        end
+      end
 
       def phase_data(phase) # rubocop:disable Metrics/AbcSize
         {

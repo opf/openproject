@@ -216,6 +216,51 @@ module OpenProject
         end
       end
 
+      # @label With header action label
+      # Header action area holding a status label, optionally next to an action button.
+      # @param label_scheme [Symbol] select [default, primary, secondary, accent, success, attention, severe, danger]
+      # @param with_action_button toggle
+      # @param padding [Symbol] select [default, condensed, spacious]
+      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
+      def with_header_action_label(
+        label_scheme: :default,
+        with_action_button: false,
+        padding: :default,
+        header_padding: :inherit
+      )
+        render_action_label_list(
+          container: "border-box-list-header-action-label-preview",
+          label_scheme:,
+          with_action_button:,
+          padding:,
+          header_padding:,
+          collapsible: false
+        )
+      end
+
+      # @label With collapsible header action label
+      # The collapsible header renders through its own heading markup, so the action
+      # label alignment is worth checking separately.
+      # @param label_scheme [Symbol] select [default, primary, secondary, accent, success, attention, severe, danger]
+      # @param with_action_button toggle
+      # @param padding [Symbol] select [default, condensed, spacious]
+      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
+      def with_collapsible_header_action_label(
+        label_scheme: :default,
+        with_action_button: false,
+        padding: :default,
+        header_padding: :inherit
+      )
+        render_action_label_list(
+          container: "border-box-list-collapsible-header-action-label-preview",
+          label_scheme:,
+          with_action_button:,
+          padding:,
+          header_padding:,
+          collapsible: true
+        )
+      end
+
       # @label With header drag handle
       # @param padding [Symbol] select [default, condensed, spacious]
       # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
@@ -235,6 +280,34 @@ module OpenProject
       end
 
       private
+
+      def render_action_label_list(container:, label_scheme:, with_action_button:, padding:, header_padding:,
+                                   collapsible:)
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container:,
+          padding:,
+          header_padding:,
+          collapsible:
+        ) do |list|
+          list.with_header(title: "Bug", count: true) do |header|
+            header.with_action_label(scheme: label_scheme) { "Default" }
+            if boolean_preview_param(with_action_button)
+              header.with_action_button do |button|
+                button.with_leading_visual_icon(icon: :pencil)
+                "Edit"
+              end
+            end
+            header.with_menu(button_aria_label: "Type actions") do |menu|
+              menu.with_item(label: "Configure") do |menu_item|
+                menu_item.with_leading_visual_icon(icon: :gear)
+              end
+            end
+          end
+
+          list.with_item { "Agile bug" }
+          list.with_item { "API bug" }
+        end
+      end
 
       def preview_count(count)
         case count.to_sym

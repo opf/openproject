@@ -28,17 +28,39 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= widget_wrapper(test_selector: "op-overview-widget--project-timeline") do %>
-  <% if any_phases? %>
+<%= widget_wrapper(test_selector: "op-overview-widget--project-timeline") do |container| %>
+  <% if any_content? %>
     <%= helpers.angular_component_tag(
           "opce-project-timeline-graph",
-          "phases-data": phases_data
+          "phases-data": phases_data,
+          "milestones-data": milestones_data,
+          "sprints-data": sprints_data
         ) %>
   <% else %>
     <%= render(Primer::Beta::Blankslate.new(test_selector: "project-timeline-widget-empty")) do |blankslate| %>
       <% blankslate.with_visual_icon(icon: :"op-view-timeline") %>
-      <% blankslate.with_heading(tag: :h3) { t("grids.widgets.project_timeline.no_lifecycle_results") } %>
+      <% blankslate.with_heading(tag: :h3) { t("grids.widgets.project_timeline.no_results_title") } %>
       <% blankslate.with_description { I18n.t("grids.widgets.empty") } %>
+    <% end %>
+  <% end %>
+  <% if show_footer? %>
+    <% container.with_footer do %>
+      <%= render(Primer::Alpha::ActionMenu.new) do |menu| %>
+        <% menu.with_show_button(scheme: :invisible, "aria-label": t("grids.widgets.project_timeline.footer_actions_label")) do |button| %>
+          <% button.with_trailing_visual_icon(icon: :"triangle-down") %>
+          <% t("grids.widgets.project_timeline.footer_actions_label") %>
+        <% end %>
+        <% if (link = gantt_link) %>
+          <% menu.with_item(label: t("grids.widgets.project_timeline.gantt_link"), href: link) do |item| %>
+            <% item.with_leading_visual_icon(icon: :"op-view-timeline") %>
+          <% end %>
+        <% end %>
+        <% if (link = sprints_link) %>
+          <% menu.with_item(label: t("grids.widgets.project_timeline.sprints_link"), href: link) do |item| %>
+            <% item.with_leading_visual_icon(icon: :zap) %>
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

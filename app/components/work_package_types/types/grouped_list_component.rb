@@ -34,81 +34,55 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(types:)
+      def initialize(types:, expanded_type_id: nil)
         super()
 
         @types = types
+        @expanded_type_id = expanded_type_id
       end
 
       private
 
-      attr_reader :types
+      attr_reader :types, :expanded_type_id
 
-      def subtypes_count_label(root)
-        t("types.index.subtypes_count", count: root.children.size)
+      def collapsed?(root)
+        root.id != expanded_type_id
       end
 
-      def add_subtype_path(root)
+      def variants_count_label(root)
+        t("types.index.variants_count", count: root.children.size)
+      end
+
+      # A default variant is only visible once the group is expanded, so the
+      # collapsed header names it instead.
+      def add_default_label(header, root)
+        if root.is_default?
+          header.with_action_label { t("types.index.enabled_in_new_projects") }
+        elsif (variant = default_variant(root))
+          header.with_action_label(scheme: :secondary) do
+            t("types.index.variant_enabled_in_new_projects", name: variant.own_name)
+          end
+        end
+      end
+
+      def default_variant(root)
+        root.children.find(&:is_default?)
+      end
+
+      def add_variant_path(root)
         new_creation_wizard_types_path(parent_id: root.id)
       end
 
-      def type_actions(menu, type)
-        configure_action(menu, type)
-        menu.with_divider
-
-        if reorderable?(type)
-          move_action(menu, type)
-          menu.with_divider
-        end
-
-        delete_action(menu, type)
+      def menu_id(type)
+        TypeActionsComponent.menu_id(type)
       end
 
-      def configure_action(menu, type)
-        menu.with_item(label: t(:button_configure), href: edit_type_settings_path(type_id: type.id)) do |item|
-          item.with_leading_visual_icon(icon: :gear)
-        end
-      end
-
-      def delete_action(menu, type)
-        menu.with_item(
-          label: t(:button_delete),
-          scheme: :danger,
-          href: type_path(type),
-          form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :trash)
-        end
+      def menu_src(type)
+        menu_type_path(type)
       end
 
       def reorderable?(type)
-        !type.subtype? && !(type.first? && type.last?)
-      end
-
-      def move_action(menu, type)
-        menu.with_sub_menu_item(label: t(:button_move)) do |submenu|
-          submenu.with_leading_visual_icon(icon: :"op-arrow-in")
-
-          unless type.first?
-            move_item(submenu, type, :highest, t(:label_sort_highest), "move-to-top")
-            move_item(submenu, type, :higher, t(:label_sort_higher), "chevron-up")
-          end
-
-          unless type.last?
-            move_item(submenu, type, :lower, t(:label_sort_lower), "chevron-down")
-            move_item(submenu, type, :lowest, t(:label_sort_lowest), "move-to-bottom")
-          end
-        end
-      end
-
-      def move_item(submenu, type, move_to, label, icon)
-        submenu.with_item(
-          label:,
-          href: helpers.url_for(action: :move, id: type.id, type: { move_to: }),
-          form_arguments: { method: :post }
-        ) do |item|
-          item.with_leading_visual_icon(icon:)
-        end
+        !type.variant? && !(type.first? && type.last?)
       end
 
       def drop_target_config
@@ -124,11 +98,6 @@ module WorkPackageTypes
           "draggable-id": root.id,
           "drop-url": drop_type_path(root)
         }
-      end
-
-      # Sub-types need to be displayed alphabetically sorted
-      def sorted_children(root)
-        root.children.sort_by { |child| child.name.downcase }
       end
     end
   end

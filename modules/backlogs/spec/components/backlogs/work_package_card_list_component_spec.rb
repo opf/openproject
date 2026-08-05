@@ -105,8 +105,8 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
       work_package = work_packages.first
 
       expect(rendered_component).to have_css(
-        ".Box-row#work_package_#{work_package.id}[data-controller='sortable-lists--item'] " \
-        ".op-work-package-card[data-controller='backlogs--work-package']"
+        ".Box-row#work_package_#{work_package.id}[data-controller~='sortable-lists--item'] " \
+        ".op-work-package-card[data-controller~='backlogs--work-package']"
       )
     end
 
@@ -260,8 +260,8 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
         ]
       end
 
-      it "does not render the blankslate" do
-        expect(rendered_component).to have_no_css(".blankslate")
+      it "renders the blankslate in the DOM (hidden by CSS when items are present)" do
+        expect(rendered_component).to have_css(".blankslate")
       end
     end
   end

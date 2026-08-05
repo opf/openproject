@@ -28,6 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# TODO: Remove with type_variants feature flag
 class Workflows::Copies::FromTypesController < ApplicationController
   include OpTurbo::ComponentStream
 
@@ -53,7 +54,8 @@ class Workflows::Copies::FromTypesController < ApplicationController
       @turbo_status = :unprocessable_entity
     else
       Workflow.copy(@source_type, nil, @target_types, Workflow.eligible_roles)
-      redirect_to edit_workflow_path(@target_types.first),
+
+      redirect_to edit_type_workflow_path(@target_types.first),
                   notice: t(".notice", count: @target_types.size, type_name: @target_types.first.name)
       return
     end
@@ -64,7 +66,7 @@ class Workflows::Copies::FromTypesController < ApplicationController
   private
 
   def set_source_type
-    @source_type = ::Type.find_by(id: params[:workflow_type_id])
+    @source_type = ::Type.find_by(id: params[:type_id])
   end
 
   def set_target_types

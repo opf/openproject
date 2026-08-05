@@ -59,7 +59,9 @@
             render(
               WorkPackageTypes::ProjectAttributes::RowComponent.new(
                 type: @type,
-                project_custom_field:
+                project_custom_field:,
+                linked:,
+                exclusion_state:
               )
             )
           end

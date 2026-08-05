@@ -297,7 +297,7 @@ module Import
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
-      _, sequence_number = identifier.split("-")
+      sequence_number = WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier)
       work_package.update_columns(sequence_number:, identifier:)
       work_package_id = work_package.id
       aliases_from_history = jira_issue
@@ -332,18 +332,20 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        author = find_user(comment["author"]["key"])
-        import_member(project, author)
-        journal_service.add_comment(comment:, user: author)
+        key = comment.dig("author", "key")
+        author = find_user(key)
+        import_member(project, author) if author.present?
+        journal_service.add_comment(comment:, user: author || User.system)
       end
 
       journal_service.call
 
       attachments = jira_issue.payload.dig("fields", "attachment") || []
       attachments.each do |attachment|
-        author = find_user(attachment["author"]["key"])
-        import_member(project, author)
-        import_attachment(work_package, attachment, author)
+        key = attachment.dig("author", "key")
+        author = find_user(key)
+        import_member(project, author) if author.present?
+        import_attachment(work_package, attachment, author || User.system)
       end
     end
 

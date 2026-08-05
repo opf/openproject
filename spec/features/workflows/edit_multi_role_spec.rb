@@ -252,7 +252,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
 
       check workflow_checkbox(0, 1)
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
       expect(page).to have_dialog("Save changes before continuing?")
     end
 
@@ -319,7 +319,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
 
       toggle_select_all_in_column(1)
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
       expect(page).to have_dialog("Save changes before continuing?")
     end
   end
