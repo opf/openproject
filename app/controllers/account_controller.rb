@@ -43,6 +43,7 @@ class AccountController < ApplicationController
                              :internal_login,
                              :logout,
                              :lost_password,
+                             :password_recovery,
                              :register,
                              :activate,
                              :consent,
@@ -89,71 +90,71 @@ class AccountController < ApplicationController
     perform_post_logout previous_session, previous_user
   end
 
-  # Enable user to choose a new password
-  def lost_password # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+  # Enable a user to request a password recovery email
+  def lost_password # rubocop:disable Metrics/AbcSize
     return redirect_to(home_url, status: :see_other) unless allow_lost_password_recovery?
 
     # Blank user backing the form for the initial GET render and for re-rendering
     # with a validation error. Kept distinct from the looked-up +actual_user+ below
     # so we never reflect whether an email exists.
-    @form_user = User.new unless params[:token]
+    @form_user = User.new
 
-    if params[:token]
-      @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
-      redirect_to(home_url, status: :see_other) && return unless @token and !@token.expired?
+    return unless request.post?
 
-      @user = @token.user
-      if request.post?
-        call = ::Users::ChangePasswordService.new(current_user: @user, session:).call(params)
-        call.apply_flash_message!(flash) if call.errors.empty?
+    mail = params[:mail]
 
-        if call.success?
-          @token.destroy
-          redirect_to action: "login", status: :see_other
-          return
-        end
-      end
-
-      render template: "account/password_recovery"
-    elsif request.post?
-      mail = params[:mail]
-
-      if mail.blank?
-        @form_user.errors.add(:mail, :blank)
-        render status: :unprocessable_entity
-        return
-      end
-
-      actual_user = User.find_by_mail(mail)
-
-      # Ensure the same request is sent regardless of which email is entered
-      # to avoid detecability of mails
-      flash[:notice] = I18n.t(:notice_account_lost_email_sent)
-
-      unless actual_user
-        # user not found in db
-        Rails.logger.error "Lost password unknown email input: #{mail}"
-        redirect_to action: :lost_password, status: :see_other
-        return
-      end
-
-      unless actual_user.change_password_allowed?
-        # user uses an external authentication
-        UserMailer.password_change_not_possible(actual_user).deliver_later
-        Rails.logger.warn "Password cannot be changed for user: #{mail}"
-        redirect_to action: :lost_password, status: :see_other
-        return
-      end
-
-      # create a new token for password recovery
-      token = Token::Recovery.new(user_id: actual_user.id)
-      if token.save
-        UserMailer.password_lost(token).deliver_later
-        flash[:notice] = I18n.t(:notice_account_lost_email_sent)
-        redirect_to action: :lost_password, status: :see_other
-        nil
-      end
+    if mail.blank?
+      @form_user.errors.add(:mail, :blank)
+      render status: :unprocessable_entity
+      return
     end
+
+    actual_user = User.find_by_mail(mail)
+
+    # Ensure the same request is sent regardless of which email is entered
+    # to avoid detecability of mails
+    flash[:notice] = I18n.t(:notice_account_lost_email_sent)
+
+    unless actual_user
+      # user not found in db
+      Rails.logger.error "Lost password unknown email input: #{mail}"
+      redirect_to action: :lost_password, status: :see_other
+      return
+    end
+
+    unless actual_user.change_password_allowed?
+      # user uses an external authentication
+      UserMailer.password_change_not_possible(actual_user).deliver_later
+      Rails.logger.warn "Password cannot be changed for user: #{mail}"
+      redirect_to action: :lost_password, status: :see_other
+      return
+    end
+
+    # create a new token for password recovery
+    token = Token::Recovery.new(user_id: actual_user.id)
+    return unless token.save
+
+    UserMailer.password_lost(token).deliver_later
+    redirect_to action: :lost_password, status: :see_other
+  end
+
+  # Enable a user to set a new password using a recovery token
+  def password_recovery # rubocop:disable Metrics/AbcSize
+    return redirect_to(home_url, status: :see_other) unless allow_lost_password_recovery?
+
+    @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
+    redirect_to(home_url, status: :see_other) && return unless @token and !@token.expired?
+
+    @user = @token.user
+    return unless request.post?
+
+    call = ::Users::ChangePasswordService.new(current_user: @user, session:).call(params)
+    call.apply_flash_message!(flash) if call.errors.empty?
+
+    return unless call.success?
+
+    @token.destroy!
+    redirect_to action: "login", status: :see_other
   end
 
   # User self-registration

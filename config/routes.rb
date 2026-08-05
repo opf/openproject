@@ -112,6 +112,7 @@ Rails.application.routes.draw do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
     match "/account/lost_password", action: "lost_password", via: %i[get post]
+    match "/account/password_recovery", action: "password_recovery", via: %i[get post]
     match "/account/register", action: "register", via: %i[get post patch]
     get "/account/activate", action: "activate"
 
