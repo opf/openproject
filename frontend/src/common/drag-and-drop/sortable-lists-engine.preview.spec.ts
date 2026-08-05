@@ -70,6 +70,10 @@ describe('createSortableRoot drag preview offset', () => {
 
   function setup():{ rows:HTMLElement[] } {
     const root = document.createElement('div');
+    // The engine attaches auto-scroll to this element directly, with no
+    // ancestor walk, so the overflow has to sit here. This also computes
+    // overflow-x to auto; 600px rows just happen to fit the viewport.
+    root.style.cssText = 'overflow-y:auto;';
     const rows = ['a', 'b'].map((id) => {
       const row = document.createElement('div');
       row.style.cssText = 'height:40px; width:600px;';
