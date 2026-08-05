@@ -38,6 +38,14 @@ import { Constructor } from '@angular/cdk/schematics';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export type ICKEditorType = 'full'|'constrained';
+
+// Which macros an editor's "Macros ▾" dropdown offers; resolved by resolveMacros().
+// The wiki-link macros are appended to any array result when a wiki provider is available.
+//   'none' / false → no macros (dropdown hidden)
+//   'resource'     → ToC, embedded table, WP button/quickinfo (+ wiki links when available)
+//   'wiki'         → only the wiki links, and only when a provider is available (else none)
+//   'full' / true  → keep every macro the build ships, regardless of wiki availability
+//   string[]       → exactly these macro plugin names (+ wiki links when available)
 export type ICKEditorMacroType = 'none'|'resource'|'full'|'wiki'|boolean|string[];
 
 // Wiki-page-link macros, added to any editor when a wiki provider is configured (see resolveMacros).
@@ -239,10 +247,10 @@ export class CKEditorSetupService {
 
   // Expand macro tokens and add/withhold the wiki macros based on `wikisAvailable`.
   // `false`/`'none'` stay macro-free, keeping custom fields and read-only editors untouched.
-  private resolveMacros(macros:ICKEditorMacroType|undefined):ICKEditorMacroType|undefined {
+  private resolveMacros(macros:ICKEditorMacroType|undefined):ICKEditorMacroType {
     let resolved = macros;
 
-    if (resolved === 'none') {
+    if (!resolved || resolved === 'none') {
       return false;
     }
     if (resolved === 'resource') {
