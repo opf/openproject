@@ -45,6 +45,8 @@ class Reports::CategoryReport < Reports::Report
     @data ||= WorkPackage.by_category(@project)
   end
 
+  # The summary groups work packages under each single category, so the heading
+  # stays singular whether or not multiple categories are enabled.
   def title
     @title ||= WorkPackage.human_attribute_name(:category)
   end

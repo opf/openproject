@@ -287,6 +287,38 @@ RSpec.describe WorkPackageMailer do
       end
     end
 
+    describe "rendering the category(ies) detail from the categories association" do
+      subject(:mail) { described_class.watcher_changed(work_package, recipient, author, "added") }
+
+      let(:category_a) { build_stubbed(:category, name: "Bugs") }
+      let(:category_b) { build_stubbed(:category, name: "UI") }
+
+      before do
+        allow(work_package).to receive(:categories).and_return(categories)
+      end
+
+      context "with multiple categories disabled (legacy behaviour)",
+              with_flag: { work_package_multiple_categories: false } do
+        let(:categories) { [category_a] }
+
+        it "labels the row 'Category' and shows the single category" do
+          expect(mail.text_part.body.encoded).to include("Category: Bugs")
+          expect(mail.html_part.body.encoded).to include("<li>Category: Bugs</li>")
+        end
+      end
+
+      context "with multiple categories enabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        let(:categories) { [category_a, category_b] }
+
+        it "labels the row 'Categories' and lists all categories" do
+          expect(mail.text_part.body.encoded).to include("Categories: Bugs, UI")
+          expect(mail.html_part.body.encoded).to include("<li>Categories: Bugs, UI</li>")
+        end
+      end
+    end
+
     describe "rendering the latest comment containing a WP reference" do
       shared_let(:persisted_project) { create(:project, identifier: "demo") }
       shared_let(:persisted_recipient) { create(:admin) }
