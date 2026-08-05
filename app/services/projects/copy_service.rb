@@ -77,7 +77,7 @@ module Projects
       attributes = source_attributes.merge(
         # Clear enabled modules
         enabled_module_names: source_enabled_modules,
-        types: source_types,
+        project_types: source_project_types,
         work_package_custom_fields: source_custom_fields,
 
         # clear PIR settings
@@ -141,8 +141,10 @@ module Projects
       source.status&.attributes
     end
 
-    def source_types
-      source.types
+    # Whole rows rather than #types, which would yield the roots only and drop which variant
+    # each family resolves to. Assigning them to the target sets their project on save.
+    def source_project_types
+      source.project_types.map(&:dup)
     end
 
     def source_custom_fields
