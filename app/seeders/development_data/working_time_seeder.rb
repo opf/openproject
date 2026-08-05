@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module DemoData
-  # Seeds working hours (weekly schedules) and vacations (non-working times) for the demo users,
-  # deliberately covering all cases: users without a schedule, users with a single schedule, and
-  # users whose schedule changes over time (e.g. reduced hours over the summer).
+module DevelopmentData
+  # Seeds working hours (weekly schedules) and vacations (non-working times) for the users created
+  # by the DepartmentSeeder, deliberately covering all cases: users without a schedule, users with
+  # a single schedule, and users whose schedule changes over time (e.g. reduced hours over summer).
   class WorkingTimeSeeder < Seeder
     # Working hours are stored as minutes per weekday.
     FULL_TIME        = { monday: 480, tuesday: 480, wednesday: 480, thursday: 480, friday: 480, saturday: 0, sunday: 0 }.freeze

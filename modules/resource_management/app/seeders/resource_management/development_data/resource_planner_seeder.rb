@@ -29,12 +29,14 @@
 #++
 
 module ResourceManagement
-  module DemoData
+  module DevelopmentData
     # Adds a resource planner to a demo project: one of each of the four planner
     # views and a handful of allocations (explicit and filter-based, including a
     # deliberate overbooking). Runs only for projects that carry `resource_planner`
     # seed data, so it augments the existing demo project rather than seeding a
     # dedicated one.
+    #
+    # Driven per project by ResourcePlannersSeeder, which runs after the demo data.
     class ResourcePlannerSeeder < ::Seeder
       # APIV3 filter JSON for the automatically filtered timeline: open work packages.
       OPEN_STATUS_FILTER = %([{"status_id":{"operator":"o","values":[]}}])

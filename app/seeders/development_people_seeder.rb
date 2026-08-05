@@ -26,17 +26,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-class DemoDataSeeder < CompositeSeeder
+#++
+
+# The part of the development data creating the fictional company staff. It runs before the demo
+# data, which references those users as project members, work package assignees and meeting
+# presenters. Everything else in the development data runs after the demo data.
+#
+# These seeders must not run on production instances: environments that re-run the seeders on every
+# deploy would otherwise create users again after an administrator deleted them.
+class DevelopmentPeopleSeeder < CompositeSeeder
   def data_seeder_classes
     [
-      DemoData::GroupSeeder,
-      DemoData::GlobalQuerySeeder,
-      DemoData::ProjectsSeeder,
-      DemoData::OverviewSeeder
+      DevelopmentData::UserCustomFieldsSeeder,
+      DevelopmentData::DepartmentSeeder,
+      DevelopmentData::WorkingTimeSeeder
     ]
   end
 
+  # A fixed subset of the development data, so plugin seeders are deliberately not discovered here.
+  # They belong to DevelopmentDataSeeder, which runs after the demo data.
+  def discovered_seeder_classes
+    []
+  end
+
   def namespace
-    "DemoData"
+    "DevelopmentData"
   end
 end

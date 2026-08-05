@@ -51,16 +51,23 @@ RSpec.describe RootSeeder,
       expect(User.not_builtin.where(admin: true).count).to eq 1
     end
 
+    it "creates neither users nor departments" do
+      # Both are development data: instances that re-run the seeders on every deploy would
+      # otherwise get them back after an administrator deleted them.
+      expect(User.not_builtin.pluck(:login)).to eq [root_seeder.admin_user.login]
+      expect(Group.organizational_units).to be_empty
+    end
+
     it "creates the demo data" do # rubocop:disable RSpec/MultipleExpectations
       expect(Project.count).to eq 2
-      expect(EnabledModule.count).to eq 18
+      expect(EnabledModule.count).to eq 17
       expect(WorkPackage.count).to eq 37
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8
       expect(View.where(type: "work_packages_table").count).to eq 5
       expect(View.where(type: "team_planner").count).to eq 1
       expect(View.where(type: "gantt").count).to eq 2
-      expect(Query.count).to eq 30
+      expect(Query.count).to eq 28
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
       expect(GlobalRole.count).to eq 2
@@ -70,96 +77,6 @@ RSpec.describe RootSeeder,
       expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
       expect(Project::PhaseDefinition.count).to eq 4
       expect(DocumentType.count).to be >= 3 # at least the 3 default types
-    end
-
-    it "creates the company departments with their member users" do
-      departments = Group.organizational_units
-      expect(departments.count).to eq 7
-      expect(departments.where_detail(parent_id: nil).count).to eq 5
-
-      # Compare records, not names: the names are translatable (t_name) and get prefixed in the
-      # translated language test contexts.
-      marketing = root_seeder.seed_data.find_reference(:department__marketing_communications)
-      expect(marketing.children).to contain_exactly(
-        root_seeder.seed_data.find_reference(:department__public_relations),
-        root_seeder.seed_data.find_reference(:department__design_content)
-      )
-
-      fritz = root_seeder.seed_data.find_reference(:user__fritz_finance)
-      expect(fritz).to have_attributes(login: "fritz.finance", mail: "fritz.finance@example.com", status: "invited")
-      expect(root_seeder.seed_data.find_reference(:department__finance_administration).users)
-        .to include(fritz)
-    end
-
-    it "assigns job title, languages, skills and a job start date to the member users" do
-      fritz = root_seeder.seed_data.find_reference(:user__fritz_finance)
-      job_title = UserCustomField.find_by!(name: "Job title")
-      languages = UserCustomField.find_by!(name: "Spoken languages")
-      skills = UserCustomField.find_by!(name: "Key skills")
-      job_start_date = UserCustomField.find_by!(name: "Job start date")
-
-      expect(fritz.typed_custom_value_for(job_title)).to eq("Project Manager")
-      expect(fritz.typed_custom_value_for(languages)).to contain_exactly("English", "German")
-      expect(fritz.typed_custom_value_for(skills)).to contain_exactly("Budgeting", "Stakeholder Management")
-      expect(fritz.typed_custom_value_for(job_start_date)).to eq(Date.new(2017, 7, 3))
-    end
-
-    it "adds members to the demo project directly and through their department" do
-      demo_project = Project.find_by(identifier: "demo-project")
-
-      marko = root_seeder.seed_data.find_reference(:user__marko_marketing) # direct member
-      finance = root_seeder.seed_data.find_reference(:department__finance_administration) # group member
-      fritz = root_seeder.seed_data.find_reference(:user__fritz_finance) # member via Finance department
-
-      # Direct member: roles assigned directly, not inherited from a group.
-      marko_member = demo_project.members.find_by(user_id: marko.id)
-      expect(marko_member.member_roles.map(&:inherited_from)).to all(be_nil)
-
-      # The department group itself is a member (groups are excluded from #members, hence #memberships),
-      # and its users inherit the role from it.
-      expect(demo_project.memberships.exists?(user_id: finance.id)).to be true
-      fritz_member = demo_project.members.find_by(user_id: fritz.id)
-      expect(fritz_member.member_roles.map(&:inherited_from)).to all(be_present)
-    end
-
-    it "assigns demo work packages to individual users and to whole departments" do
-      data = root_seeder.seed_data
-
-      # Assigned to an individual user (direct project member).
-      expect(data.find_reference(:setup_conference_website).assigned_to)
-        .to eq(data.find_reference(:user__wanda_web))
-
-      # Assigned to a whole department (group member of the project).
-      expect(data.find_reference(:organize_open_source_conference).assigned_to)
-        .to eq(data.find_reference(:department__events_operations))
-    end
-
-    it "seeds working hours and vacations for demo users" do
-      data = root_seeder.seed_data
-
-      # Schedule change: three dated schedules for the same user.
-      expect(data.find_reference(:user__dora_design).working_hours.count).to eq 3
-      # Single schedule.
-      expect(data.find_reference(:user__marko_marketing).working_hours.count).to eq 1
-      # No schedule.
-      expect(data.find_reference(:user__connie_comms).working_hours).to be_empty
-      # Vacation seeded.
-      expect(data.find_reference(:user__wanda_web).non_working_times.count).to eq 1
-    end
-
-    it "includes a QA department with a QA user and a QA work package" do
-      data = root_seeder.seed_data
-
-      qa_department = data.find_reference(:department__quality_assurance)
-      tessa = data.find_reference(:user__tessa_tester)
-      expect(qa_department).to be_organizational_unit
-      expect(qa_department.users).to include(tessa)
-
-      qa_work_package = WorkPackage.find_by(assigned_to: tessa)
-      expect(qa_work_package).to be_present
-      # The QA task follows the website setup task.
-      website = data.find_reference(:setup_conference_website)
-      expect(Relation.follows.exists?(from_id: qa_work_package.id, to_id: website.id)).to be true
     end
 
     it "links work packages to their version" do
@@ -191,9 +108,7 @@ RSpec.describe RootSeeder,
       expect(template.agenda_items.count).to eq 9
       expect(template.agenda_items.sum(:duration_in_minutes)).to eq 60
 
-      # Agenda items are presented by several different participants, not just the admin,
-      # while the meeting organizer (admin) remains the author of every item.
-      expect(template.agenda_items.pluck(:presenter_id).uniq.count).to be > 1
+      # The meeting organizer (admin) is the author of every item.
       expect(template.agenda_items.pluck(:author_id).uniq).to eq([root_seeder.admin_user.id])
 
       # The first two instances come from the finalizer seeder (and its chained job), the rest
@@ -204,26 +119,6 @@ RSpec.describe RootSeeder,
         expect(instance.agenda_items.count).to eq 9
         expect(instance.agenda_items.sum(:duration_in_minutes)).to eq 60
       end
-    end
-
-    it "gives the meeting participants and varies their responses across occurrences" do
-      series = RecurringMeeting.first
-
-      # The template carries the regular attendees, all accepting by default.
-      expect(series.template.participants.count).to eq 5
-      expect(series.template.participants).to all(be_participation_accepted)
-
-      occurrences = series.meetings.not_templated.order(:start_time).to_a
-
-      # The first occurrence inherited the template participants, everybody accepted.
-      expect(occurrences.first.participants.count).to eq 5
-      expect(occurrences.first.participants).to all(be_participation_accepted)
-
-      # A later occurrence has declined/tentative responses and extra one-off guests.
-      second = occurrences.second
-      expect(second.participants.count).to eq 7 # 5 regulars + 2 one-off guests
-      statuses = second.participants.pluck(:participation_status)
-      expect(statuses).to include("declined", "tentative")
     end
 
     it "creates different types of queries" do
@@ -321,6 +216,137 @@ RSpec.describe RootSeeder,
     include_examples "it is compatible with the automatic scheduling mode"
   end
 
+  # The fictional company staff is development data, and the demo data referencing it (project
+  # members, work package assignees, meeting participants) only materialises alongside it.
+  shared_examples "creates the company staff and the demo data referencing it" do
+    it "creates the company departments with their member users" do
+      departments = Group.organizational_units
+      expect(departments.count).to eq 7
+      expect(departments.where_detail(parent_id: nil).count).to eq 5
+
+      # Compare records, not names: the names are translatable (t_name) and get prefixed in the
+      # translated language test contexts.
+      marketing = root_seeder.seed_data.find_reference(:department__marketing_communications)
+      expect(marketing.children).to contain_exactly(
+        root_seeder.seed_data.find_reference(:department__public_relations),
+        root_seeder.seed_data.find_reference(:department__design_content)
+      )
+
+      fritz = root_seeder.seed_data.find_reference(:user__fritz_finance)
+      expect(fritz).to have_attributes(login: "fritz.finance", mail: "fritz.finance@example.com", status: "invited")
+      expect(root_seeder.seed_data.find_reference(:department__finance_administration).users)
+        .to include(fritz)
+    end
+
+    it "assigns job title, languages, skills and a job start date to the member users" do
+      fritz = root_seeder.seed_data.find_reference(:user__fritz_finance)
+      job_title = UserCustomField.find_by!(name: "Job title")
+      languages = UserCustomField.find_by!(name: "Spoken languages")
+      skills = UserCustomField.find_by!(name: "Key skills")
+      job_start_date = UserCustomField.find_by!(name: "Job start date")
+
+      expect(fritz.typed_custom_value_for(job_title)).to eq("Project Manager")
+      expect(fritz.typed_custom_value_for(languages)).to contain_exactly("English", "German")
+      expect(fritz.typed_custom_value_for(skills)).to contain_exactly("Budgeting", "Stakeholder Management")
+      expect(fritz.typed_custom_value_for(job_start_date)).to eq(Date.new(2017, 7, 3))
+    end
+
+    it "adds members to the demo project directly and through their department" do
+      demo_project = Project.find_by(identifier: "demo-project")
+
+      marko = root_seeder.seed_data.find_reference(:user__marko_marketing) # direct member
+      finance = root_seeder.seed_data.find_reference(:department__finance_administration) # group member
+      fritz = root_seeder.seed_data.find_reference(:user__fritz_finance) # member via Finance department
+
+      # Direct member: roles assigned directly, not inherited from a group.
+      marko_member = demo_project.members.find_by(user_id: marko.id)
+      expect(marko_member.member_roles.map(&:inherited_from)).to all(be_nil)
+
+      # The department group itself is a member (groups are excluded from #members, hence #memberships),
+      # and its users inherit the role from it.
+      expect(demo_project.memberships.exists?(user_id: finance.id)).to be true
+      fritz_member = demo_project.members.find_by(user_id: fritz.id)
+      expect(fritz_member.member_roles.map(&:inherited_from)).to all(be_present)
+    end
+
+    it "assigns demo work packages to individual users and to whole departments" do
+      data = root_seeder.seed_data
+
+      # Assigned to an individual user (direct project member).
+      expect(data.find_reference(:setup_conference_website).assigned_to)
+        .to eq(data.find_reference(:user__wanda_web))
+
+      # Assigned to a whole department (group member of the project).
+      expect(data.find_reference(:organize_open_source_conference).assigned_to)
+        .to eq(data.find_reference(:department__events_operations))
+    end
+
+    it "seeds working hours and vacations for the member users" do
+      data = root_seeder.seed_data
+
+      # Schedule change: three dated schedules for the same user.
+      expect(data.find_reference(:user__dora_design).working_hours.count).to eq 3
+      # Single schedule.
+      expect(data.find_reference(:user__marko_marketing).working_hours.count).to eq 1
+      # No schedule.
+      expect(data.find_reference(:user__connie_comms).working_hours).to be_empty
+      # Vacation seeded.
+      expect(data.find_reference(:user__wanda_web).non_working_times.count).to eq 1
+    end
+
+    it "includes a QA department with a QA user and a QA work package" do
+      data = root_seeder.seed_data
+
+      qa_department = data.find_reference(:department__quality_assurance)
+      tessa = data.find_reference(:user__tessa_tester)
+      expect(qa_department).to be_organizational_unit
+      expect(qa_department.users).to include(tessa)
+
+      qa_work_package = WorkPackage.find_by(assigned_to: tessa)
+      expect(qa_work_package).to be_present
+      # The QA task follows the website setup task.
+      website = data.find_reference(:setup_conference_website)
+      expect(Relation.follows.exists?(from_id: qa_work_package.id, to_id: website.id)).to be true
+    end
+
+    it "lets several different participants present the meeting agenda items" do
+      template = Meeting.templated.first
+
+      expect(template.agenda_items.pluck(:presenter_id).uniq.count).to be > 1
+    end
+
+    it "adds a resource planner with its views and allocations to the demo project" do
+      demo_project = Project.find_by(identifier: "demo-project")
+
+      expect(demo_project.enabled_module_names).to include("resource_management")
+      planners = ResourcePlanner.where(project: demo_project)
+      expect(planners.count).to eq 1
+      expect(planners.first.children.count).to eq 4
+      # Four allocations for individual users and one filter-based allocation.
+      expect(ResourceAllocation.count).to eq 5
+    end
+
+    it "gives the meeting participants and varies their responses across occurrences" do
+      series = RecurringMeeting.first
+
+      # The template carries the regular attendees, all accepting by default.
+      expect(series.template.participants.count).to eq 5
+      expect(series.template.participants).to all(be_participation_accepted)
+
+      occurrences = series.meetings.not_templated.order(:start_time).to_a
+
+      # The first occurrence inherited the template participants, everybody accepted.
+      expect(occurrences.first.participants.count).to eq 5
+      expect(occurrences.first.participants).to all(be_participation_accepted)
+
+      # A later occurrence has declined/tentative responses and extra one-off guests.
+      second = occurrences.second
+      expect(second.participants.count).to eq 7 # 5 regulars + 2 one-off guests
+      statuses = second.participants.pluck(:participation_status)
+      expect(statuses).to include("declined", "tentative")
+    end
+  end
+
   describe "demo data" do
     shared_let(:root_seeder) { described_class.new }
 
@@ -353,7 +379,7 @@ RSpec.describe RootSeeder,
         expect(View.where(type: "work_packages_table").count).to eq 5
         expect(View.where(type: "team_planner").count).to eq 1
         expect(View.where(type: "gantt").count).to eq 2
-        expect(Query.count).to eq 30
+        expect(Query.count).to eq 28
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3
         expect(GlobalRole.count).to eq 2
@@ -500,9 +526,11 @@ RSpec.describe RootSeeder,
     end
 
     it "creates 1 project with custom fields" do
-      # 12 development work package custom fields + 4 demo user custom fields
+      # 12 development work package custom fields + 4 development user custom fields
       expect(CustomField.count).to eq 16
     end
+
+    include_examples "creates the company staff and the demo data referencing it"
 
     include_examples "no email deliveries"
   end
