@@ -946,6 +946,8 @@ en:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
             type:
               cannot_be_milestone_due_to_children: "cannot be a milestone because this work package has children."
+          categories_only_allow_single_value: "Categories can only hold a single value."
+          category_and_categories_mutually_exclusive: "Category and categories cannot both be changed at the same time."
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
           target_versions_only_allow_single_value: "Target Versions can only hold a single value."

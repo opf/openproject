@@ -1826,9 +1826,9 @@ RSpec.describe WorkPackages::SetAttributesService,
     before do
       without_partial_double_verification do
         allow(new_project_categories)
-          .to receive(:find_by)
-          .with(name: category.name)
-          .and_return nil
+          .to receive(:where)
+          .with(name: [category.name])
+          .and_return []
         allow(new_project)
           .to receive_messages(shared_versions: new_versions, types: new_types)
         allow(new_types)
@@ -1901,14 +1901,20 @@ RSpec.describe WorkPackages::SetAttributesService,
             expect(work_package.category)
               .to be_nil
           end
+
+          it "clears the category set" do
+            subject
+
+            expect(work_package.category_ids_replacements).to eq []
+          end
         end
 
         context "when category of same name in new project" do
           before do
             allow(new_project_categories)
-              .to receive(:find_by)
-              .with(name: category.name)
-              .and_return new_category
+              .to receive(:where)
+              .with(name: [category.name])
+              .and_return [new_category]
           end
 
           it "uses the equally named category" do
@@ -1923,6 +1929,12 @@ RSpec.describe WorkPackages::SetAttributesService,
 
             expect(work_package.changed_by_system["category_id"])
               .to eql [nil, new_category.id]
+          end
+
+          it "replaces the category set with the equally named category" do
+            subject
+
+            expect(work_package.category_ids_replacements).to eq [new_category.id]
           end
         end
       end
