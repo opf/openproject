@@ -28,11 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to a set of versions referenced by a work package. Each
-# value is the sorted, comma-joined version ids (see JournalChanges); every id
-# is resolved to the version's name, dropping versions that have been deleted in
-# the meantime.
-class OpenProject::JournalFormatter::JoinedVersions < JournalFormatter::NamedAssociation
+# Renders the change to a whole set of records referenced by a journable through
+# a has_many. Each value is the sorted, comma-joined record ids (see
+# JournalChanges); every id is resolved to the record's name, dropping records
+# that have been deleted in the meantime.
+class OpenProject::JournalFormatter::JoinedAssociation < JournalFormatter::NamedAssociation
   private
 
   def format_values(values, key, cache:)

@@ -44,6 +44,7 @@ RSpec.describe WorkPackage do
     shared_let(:other_user) { create(:user) }
     shared_let(:other_project) { create(:project) }
     shared_let(:category) { create(:category) }
+    shared_let(:other_category) { create(:category) }
     shared_let(:version) { create(:version) }
     shared_let(:other_version) { create(:version) }
     shared_let(:project_phase_definition) { create(:project_phase_definition) }
@@ -89,7 +90,7 @@ RSpec.describe WorkPackage do
                          "status_id" => [nil, :status],
                          "priority_id" => [nil, :priority],
                          "project_id" => [nil, :project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [nil, -> { version.id.to_s }],
                          "start_date" => [nil, Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -202,7 +203,7 @@ RSpec.describe WorkPackage do
                          "status_id" => %i[status other_status],
                          "priority_id" => %i[priority other_priority],
                          "project_id" => %i[project other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [-> { version.id.to_s }, -> { other_version.id.to_s }],
                          "start_date" => [Date.new(2026, 1, 9), Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -278,7 +279,7 @@ RSpec.describe WorkPackage do
                          "status_id" => [nil, :other_status],
                          "priority_id" => [nil, :other_priority],
                          "project_id" => [nil, :other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [nil, -> { other_version.id.to_s }],
                          "start_date" => [nil, Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -357,7 +358,7 @@ RSpec.describe WorkPackage do
                          "status_id" => %i[status other_status],
                          "priority_id" => %i[priority other_priority],
                          "project_id" => %i[project other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [-> { version.id.to_s }, -> { other_version.id.to_s }],
                          "start_date" => [Date.new(2026, 1, 9), Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -612,6 +613,112 @@ RSpec.describe WorkPackage do
           expect(journable.last_journal.details)
             .to have_key("#{kind}_versions"),
                 "journaled kind '#{kind}' creates journals but renders no detail for them"
+        end
+      end
+    end
+
+    # These examples also guard the callback order between the
+    # WorkPackage::Categories and WorkPackage::Journalized concerns: the journal
+    # snapshots table state during the save, so it only captures the category
+    # associations if they are persisted by the earlier after_save callback.
+    context "on category changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_categories(categories)
+        journable.category_ids_replacements = categories.map(&:id)
+        journable.save!
+      end
+
+      context "when setting categories" do
+        it "creates a new journal listing the categories in the details" do
+          expect { set_categories([category, other_category]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["categories"])
+            .to eq([nil, [category.id, other_category.id].sort.join(",")])
+        end
+
+        it "touches the journable to match the journal's timestamp" do
+          expect { set_categories([category]) }
+            .to change { journable.reload.updated_at }
+
+          expect(journable.updated_at).to eq(journable.last_journal.updated_at)
+        end
+      end
+
+      context "when replacing a category" do
+        before do
+          set_categories([category])
+        end
+
+        it "creates a new journal with the old and new categories in the details" do
+          expect { set_categories([other_category]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["categories"])
+            .to eq([category.id.to_s, other_category.id.to_s])
+        end
+      end
+
+      context "when removing all categories" do
+        before do
+          set_categories([category])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_categories([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["categories"])
+            .to eq([category.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged categories" do
+        before do
+          set_categories([category])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_categories([category]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
+        end
+      end
+
+      context "on work package creation" do
+        it "includes the categories in the initial journal's details" do
+          journable = build(:work_package)
+          journable.category_ids_replacements = [category.id]
+          journable.save!
+
+          expect(journable.last_journal.details["categories"])
+            .to eq([nil, category.id.to_s])
+        end
+      end
+
+      # While the deprecated category_id column mirrors the categories, every
+      # category change produces both a category_id and a categories diff. Only
+      # the categories representation is exposed.
+      context "when changing the category via the legacy category field" do
+        it "journals the change as categories only" do
+          journable.update!(category:)
+
+          expect(journable.last_journal.details["categories"])
+            .to eq([nil, category.id.to_s])
+          expect(journable.last_journal.details)
+            .not_to have_key("category_id")
+        end
+      end
+
+      context "when setting categories via the replacements" do
+        it "does not additionally journal the mirrored category_id" do
+          set_categories([category])
+
+          expect(journable.last_journal.details)
+            .not_to have_key("category_id")
         end
       end
     end

@@ -138,12 +138,17 @@ FactoryBot.define do
           work_package_cv_attributes = work_package.custom_values.map { it.attributes.slice("custom_field_id", "value") }
           version_attributes = work_package.work_package_versions.where(kind: "target")
                                            .map { it.attributes.slice("version_id", "kind") }
+          category_attributes = work_package.work_package_categories
+                                            .map { it.attributes.slice("category_id") }
 
           create(:work_package_journal,
                  **journal_attributes,
                  data: build(:journal_work_package_journal, data_attributes),
                  customizable_journals: work_package_cv_attributes.map { build(:journal_customizable_journal, it) },
-                 work_package_version_journals: version_attributes.map { build(:journal_work_package_version_journal, it) })
+                 work_package_version_journals: version_attributes.map { build(:journal_work_package_version_journal, it) },
+                 work_package_category_journals: category_attributes.map do |attributes|
+                   build(:journal_work_package_category_journal, attributes)
+                 end)
         end
 
         work_package.journals.reload

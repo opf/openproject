@@ -28,18 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to the set of target versions
-# (see JournalChanges#get_target_versions_changes).
-class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedAssociation
+# Renders the change to the set of categories
+# (see JournalChanges#get_categories_changes).
+class OpenProject::JournalFormatter::Categories < OpenProject::JournalFormatter::JoinedAssociation
   private
 
-  # While the multiple versions feature is inactive, the rest of the UI still
-  # labels the attribute "Version"; the journal entry follows suit.
+  # While the multiple categories feature is inactive, the rest of the UI still
+  # labels the attribute "Category"; the journal entry follows suit.
   def label(key)
-    if Setting::WorkPackageMultipleVersions.active?
+    if Setting::WorkPackageMultipleCategories.active?
       super
     else
-      super("version")
+      super("category")
     end
   end
 end

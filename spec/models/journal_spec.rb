@@ -182,4 +182,27 @@ RSpec.describe Journal do
       end
     end
   end
+
+  describe "formatter registration" do
+    # register_journal_formatted_fields only maps a field to a formatter key; the
+    # class behind that key has to be registered here as well. Miss it and
+    # rendering the activity raises a NoMethodError on nil deep inside
+    # JournalFormatter#formatter_instances, which no per-formatter unit spec can
+    # catch because those instantiate their class directly.
+    it "has a formatter class for every registered formatted field" do
+      Rails.application.eager_load!
+
+      registrations = JournalFormatter.registered_fields.flat_map do |journal_data_type, fields|
+        fields.map { |field, formatter_key| [journal_data_type, field, formatter_key] }
+      end
+
+      expect(registrations).not_to be_empty
+
+      unregistered = registrations.reject { |_, _, formatter_key| JournalFormatter.formatters[formatter_key] }
+
+      expect(unregistered).to be_empty,
+                              "no formatter class is registered for: " \
+                              "#{unregistered.map { |type, field, key| "#{type}##{field.source} (#{key})" }.join(', ')}"
+    end
+  end
 end

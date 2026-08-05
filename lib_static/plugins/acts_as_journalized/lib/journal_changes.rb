@@ -35,7 +35,7 @@ module JournalChanges
 
     merged = all_changes.reduce({}.with_indifferent_access, :merge!)
 
-    @changes = suppress_mirrored_version_change(merged)
+    @changes = suppress_mirrored_association_changes(merged)
   end
 
   def get_cause_changes
@@ -142,6 +142,19 @@ module JournalChanges
     { observed_in_versions: [old_value, new_value] }
   end
 
+  # The whole set of categories is diffed as a single value (the sorted,
+  # comma-joined category ids), matching how the change is rendered: one
+  # "Categories" line with the old and the new list.
+  def get_categories_changes
+    return unless journable.respond_to?(:categories)
+
+    old_value = predecessor && joined_category_ids(predecessor)
+    new_value = joined_category_ids(self)
+    return if old_value == new_value
+
+    { categories: [old_value, new_value] }
+  end
+
   def get_file_links_changes
     return unless has_file_links?
 
@@ -196,18 +209,20 @@ module JournalChanges
       get_project_phases_changes,
       get_target_versions_changes,
       get_observed_in_versions_changes,
+      get_categories_changes,
       get_file_links_changes,
       get_participants_changes,
       get_agenda_items_changes
     ].compact
   end
 
-  # While the deprecated version_id column mirrors the target versions, a
-  # version change diffs under both keys; only the target_versions
-  # representation is rendered. Historical journals render the same way,
-  # since every versioned journal has a backfilled target snapshot.
-  def suppress_mirrored_version_change(changes)
+  # While the deprecated version_id and category_id columns mirror the target
+  # versions and the categories, such a change diffs under both keys; only the
+  # set representation is rendered. Historical journals render the same way,
+  # since every affected journal has a backfilled snapshot.
+  def suppress_mirrored_association_changes(changes)
     changes.delete("version_id") if changes.key?("target_versions")
+    changes.delete("category_id") if changes.key?("categories")
 
     changes
   end
@@ -218,6 +233,10 @@ module JournalChanges
 
   def joined_observed_in_version_ids(journal)
     journal.observed_in_version_journals.map(&:version_id).sort.join(",").presence
+  end
+
+  def joined_category_ids(journal)
+    journal.work_package_category_journals.map(&:category_id).sort.join(",").presence
   end
 
   def participant_baseline_journal
