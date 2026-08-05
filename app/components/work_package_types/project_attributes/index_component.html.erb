@@ -28,14 +28,15 @@
         end
       end
 
-      @project_custom_field_sections.each do |project_custom_field_section, project_custom_fields|
+      visible_sections.each do |project_custom_field_section, project_custom_fields|
         flex.with_row do
           render(
             WorkPackageTypes::ProjectAttributes::SectionComponent.new(
               type: @type,
               project_custom_field_section:,
               project_custom_fields:,
-              readonly: @readonly
+              linked: linked?,
+              exclusion_state:
             )
           )
         end

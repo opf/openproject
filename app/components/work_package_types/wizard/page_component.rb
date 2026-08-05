@@ -112,7 +112,13 @@ module WorkPackageTypes
       def within_step_frame(&)
         return capture(&) unless step_editor.linkable_aspect?
 
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url: step_url), &)
+        render(
+          WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+            reload_url: step_url,
+            reload_from_location: step_editor.reload_from_location?
+          ),
+          &
+        )
       end
 
       def reuse_mode_banner
@@ -126,8 +132,6 @@ module WorkPackageTypes
         case current_step
         when :form_configuration
           FormConfigurationStepComponent.new(type:)
-        when :workflows
-          WorkflowsStepComponent.new(type:)
         when :project_attributes
           ProjectAttributesStepComponent.new(type:)
         when :projects

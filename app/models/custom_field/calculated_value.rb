@@ -37,8 +37,8 @@ module CustomField::CalculatedValue
   # AND and OR can be used both as operators and functions.
   FORMULA_OPERATORS = %w[
     + - * / % ^
-    < > <= >= <> != =
-    AND OR
+    < > <= >= <> != = ==
+    AND && OR ||
   ].freeze
 
   # Symbols for grouping and calling functions.
@@ -50,7 +50,7 @@ module CustomField::CalculatedValue
   # AND and OR can be used both as operators and functions.
   FORMULA_FUNCTIONS = %w[
     IF AND OR XOR NOT SWITCH
-    MIN MAX SUM AVG COUNT ROUND ROUNDDOWN ROUNDUP ABS
+    MIN MAX SUM AVG ROUND ROUNDDOWN ROUNDUP ABS
   ].freeze
 
   # Keywords allowed in a formula.
@@ -76,10 +76,14 @@ module CustomField::CalculatedValue
   private_constant :FORMULA_SPLITTER, :FORMULA_TOKENS
 
   # Field formats that can be used within a formula.
-  FIELD_FORMATS_FOR_FORMULA = %w[int float calculated_value weighted_item_list].freeze
+  FIELD_FORMATS_FOR_FORMULA = %w[int float bool calculated_value weighted_item_list].freeze
 
   def self.calculator_instance
     Dentaku::Calculator.new(case_sensitive: true, raw_date_literals: false)
+  end
+
+  def self.computed_value?(value)
+    value in Numeric | true | false
   end
 
   class_methods do

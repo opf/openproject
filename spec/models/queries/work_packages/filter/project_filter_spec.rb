@@ -131,7 +131,10 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
       end
 
       context "with a visible child" do
-        let(:child) { build_stubbed(:project, parent: selected, id: 2134) }
+        # No explicit id: the point is only that the child is a different project from
+        # its parent, and a hardcoded one can collide with the id the parent was stubbed
+        # with, which makes the two compare equal and the example prove nothing.
+        let(:child) { build_stubbed(:project, parent: selected) }
         let(:visible_descendants) { [child] }
 
         it "still only returns the parent object" do

@@ -71,6 +71,8 @@ module WorkPackageTypes
         update_details
       when :defaults
         update_defaults
+      when :workflows
+        update_workflows
       else
         advance
       end
@@ -99,6 +101,26 @@ module WorkPackageTypes
                        .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateDefaultsContract)
                        .call(patterns: Forms::DefaultsFormModel.to_patterns(defaults_params),
                              description: defaults_params[:description])
+
+      if service_call.success?
+        advance
+      else
+        render :show, status: :unprocessable_entity
+      end
+    end
+
+    # The matrix submits its inputs with the wizard form, along with the roles and
+    # transition tab it was showing, so that only that slice is rewritten.
+    def update_workflows
+      matrix_context = ::Workflows::MatrixContext.new(
+        type: @type,
+        tab: params[:tab],
+        role_ids: params[:role_ids]
+      )
+
+      service_call = ::Workflows::MatrixUpdateService
+                       .new(type: @type, roles: matrix_context.roles, tab: matrix_context.tab)
+                       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
 
       if service_call.success?
         advance

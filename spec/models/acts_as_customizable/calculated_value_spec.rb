@@ -148,7 +148,8 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "1 >= 2" => false,
           "1 <> 2" => true,
           "1 != 2" => true,
-          "1 = 2" => false
+          "1 = 2" => false,
+          "1 == 2" => false
         }
       end
 
@@ -161,9 +162,15 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "1 <> 2 AND 2 <> 3" => true,
           "TRUE AND TRUE AND TRUE" => true,
           "TRUE AND TRUE AND FALSE" => false,
+          "1 <> 2 && 2 <> 3" => true,
+          "TRUE && TRUE && TRUE" => true,
+          "TRUE && TRUE && FALSE" => false,
           "1 = 2 OR 2 <> 3" => true,
           "FALSE OR FALSE OR TRUE" => true,
           "FALSE OR FALSE OR FALSE" => false,
+          "1 = 2 || 2 <> 3" => true,
+          "FALSE || FALSE || TRUE" => true,
+          "FALSE || FALSE || FALSE" => false,
           "AND(1 <> 2, 2 <> 3)" => true,
           "AND(TRUE, TRUE, TRUE)" => true,
           "AND(TRUE, TRUE, FALSE)" => false,
@@ -188,7 +195,6 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           "MAX(3, 1, 2, 4)" => 4,
           "SUM(1, 2, 3, 4)" => 10,
           "AVG(1, 2, 3, 4)" => 5/2r,
-          "COUNT(1, 2, 3, 4)" => 4,
           "ROUND(1.5)" => 2,
           "ROUNDUP(1.4)" => 2,
           "ROUNDDOWN(1.6)" => 1,
@@ -204,7 +210,13 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         {
           "IF(1 > 2, 3, 4)" => 4,
           "SWITCH(2, 1, 100, 2, 200, 3, 300, 400)" => 200,
-          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 200
+          "SWITCH(4, 1, 100, 2, 200, 3, 300, 400)" => 400,
+          "SWITCH(2, 1, 100, 2, 200, 3, 300)" => 200,
+          "SWITCH(4, 1, 100, 2, 200, 3, 300)" => nil,
+          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 200,
+          "CASE 4 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END" => 400,
+          "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 END" => 200,
+          "CASE 4 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 END" => nil
         }
       end
 
@@ -485,9 +497,26 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
       end
     end
 
+    context "when using boolean fields" do
+      let(:cf_bool) { build_stubbed(:boolean_project_custom_field) }
+      let(:cf) { build_stubbed(:calculated_value_project_custom_field, formula: "IF(#{cf_bool}, 10, 20)") }
+
+      let(:enabled_custom_field_ids) { [cf_bool, cf].map(&:id) }
+      let(:custom_field_values) do
+        {
+          cf_bool => true
+        }.map { |custom_field, value| build_stubbed(:custom_value, custom_field:, value:) }
+      end
+
+      it "calculates values using the boolean value of the referenced field" do
+        instance.calculate_custom_fields([cf])
+        expect(instance).to have_received(:custom_field_values=).with(cf.id => 10).once
+      end
+    end
+
     context "when using weighted item lists" do
       let(:cf_list) { build_stubbed(:weighted_item_list_project_custom_field) }
-      let(:cf1) { build_stubbed(:calculated_value_project_custom_field) }
+      let(:cf1) { build_stubbed(:calculated_value_project_custom_field, formula: "#{cf_list} * 2") }
       let(:hierarchy_item) { create(:hierarchy_item, weight: 7) }
 
       let(:enabled_custom_field_ids) { [cf_list, cf1].map(&:id) }
@@ -497,18 +526,9 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         }.map { |custom_field, value| build_stubbed(:custom_value, custom_field:, value:) }
       end
 
-      before do
-        {
-          cf1 => "#{cf_list} * 2"
-        }.each do |cf, formula|
-          cf.formula = formula
-        end
-      end
-
       it "calculates values using the weight of the selected entry" do
         instance.calculate_custom_fields([cf1])
-        expect(instance).to have_received(:custom_field_values=)
-                              .with(cf1.id => 2 * 7).once
+        expect(instance).to have_received(:custom_field_values=).with(cf1.id => 2 * 7).once
       end
     end
   end
@@ -574,6 +594,78 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
 
         # Missing a value for cv1, which itself is missing cf_int and thus has no value
         expect_calculated_value_error(cv2, project, "ERROR_MISSING_VALUE", cv1.name)
+      end
+    end
+
+    context "when Dentaku::ArgumentError is not caused by a missing value" do
+      context "when wrong value is boolean" do
+        let(:cf_bool) { create(:boolean_project_custom_field, projects: [project]) }
+        let(:cv) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project],
+                                                                            formula: "#{cf_bool} + 1")
+        end
+
+        let(:custom_field_values) do
+          { cf_bool => cf_bool_value, cv => nil }
+        end
+
+        context "when value is true" do
+          let(:cf_bool_value) { true }
+
+          it "creates an unknown error and reports no missing values" do
+            project.calculate_custom_fields([cv])
+
+            expect(cv.first_calculation_error(project))
+              .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+          end
+        end
+
+        context "when value is false" do
+          let(:cf_bool_value) { false }
+
+          it "creates an unknown error and reports no missing values" do
+            project.calculate_custom_fields([cv])
+
+            expect(cv.first_calculation_error(project))
+              .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+          end
+        end
+      end
+
+      context "when case expression falls through without default branch (regression #OP-19819)" do
+        let(:cv) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project],
+                                                                            formula: "CASE 0 WHEN 1 THEN 2 END")
+        end
+
+        let(:custom_field_values) { {} }
+
+        it "creates an unknown error and reports no missing values" do
+          project.calculate_custom_fields([cv])
+
+          expect(cv.first_calculation_error(project))
+            .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+        end
+      end
+    end
+
+    describe "missing value alongside a set boolean reference" do
+      let(:cf_int) { create(:integer_project_custom_field, projects: [project]) }
+      let(:cf_bool) { create(:boolean_project_custom_field, projects: [project]) }
+      let(:cv) do
+        create(:calculated_value_project_custom_field, :skip_validations, projects: [project],
+                                                                          formula: "#{cf_int} + #{cf_bool}")
+      end
+
+      let(:custom_field_values) do
+        { cf_int => nil, cf_bool => true, cv => nil }
+      end
+
+      it "reports only the missing field" do
+        project.calculate_custom_fields([cv])
+
+        expect(cv.first_calculation_error(project))
+          .to have_attributes(error_code: "ERROR_MISSING_VALUE", missing_custom_field_ids: [cf_int.id])
       end
     end
 

@@ -2,6 +2,11 @@
 @import 'helpers'
 @import '../../app/spot/styles/sass/variables'
 
+// Without this the host is an inline box around block content, and its own
+// box collapses — taking the drop indicator and the drag image snapshot with it.
+:host
+  display: block
+
 .op-wp-single-card
   display: flex
   user-select: none
@@ -66,9 +71,12 @@
       flex-grow: 1
       @include text-shortener
 
-  // Style shadow element while dragging
-  wp-single-card:host.gu-transit &
-    @include modifying--placeholder
+  // Keep the picked-up card visible in place, dimmed, rather than leaving a
+  // dashed hole behind — matching the Backlogs list and the WP table row.
+  wp-single-card:host([data-dragging='source']) &
+    opacity: 0.4
+    background-color: var(--bgColor-inset)
+    pointer-events: none
 
   &--content
 

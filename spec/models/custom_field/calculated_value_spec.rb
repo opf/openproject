@@ -213,9 +213,35 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     end
   end
 
+  describe ".computed_value?" do
+    {
+      true => [
+        1,
+        2.0,
+        BigDecimal("3"),
+        true,
+        false
+      ],
+      false => [
+        nil,
+        "3",
+        "foo",
+        [1],
+        Dentaku::ArgumentError.for(:invalid_value)
+      ]
+    }.each do |is_computed, values|
+      values.each do |value|
+        context "for #{value.inspect}" do
+          it { expect(described_class.computed_value?(value)).to be(is_computed) }
+        end
+      end
+    end
+  end
+
   describe "#usable_custom_field_references_for_formula" do
     let!(:int) { create(:project_custom_field, :integer, default_value: 4, is_for_all: true) }
     let!(:float) { create(:project_custom_field, :float, default_value: 5.5, is_for_all: true) }
+    let!(:bool) { create(:project_custom_field, :boolean, is_for_all: true) }
     let!(:weighted_item_list) { create(:project_custom_field, :weighted_item_list, is_for_all: true) }
     let!(:other_calculated_value) { create(:calculated_value_project_custom_field, formula: "2 + 2", is_for_all: true) }
 
@@ -223,7 +249,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
     context "with permission to see all custom fields" do
       it "returns custom fields with formats that can be used in formulas" do
-        expected = [int, float, other_calculated_value, weighted_item_list]
+        expected = [int, float, bool, other_calculated_value, weighted_item_list]
         expect(subject.usable_custom_field_references_for_formula).to match_array(expected)
       end
 
@@ -244,6 +270,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
       let!(:int) { create(:project_custom_field, :integer, default_value: 4, projects: [project_with_permission]) }
       let!(:float) { create(:project_custom_field, :float, default_value: 5.5, projects: [project_with_permission]) }
+      let!(:bool) { create(:project_custom_field, :boolean, is_for_all: true, projects: [project_with_permission]) }
       let!(:other_calculated_value) do
         create(:calculated_value_project_custom_field, formula: "2 + 2", projects: [project_without_permission])
       end
@@ -254,7 +281,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       current_user { user }
 
       it "returns only custom fields that the user has permission to see" do
-        expect(subject.usable_custom_field_references_for_formula).to contain_exactly(int, float)
+        expect(subject.usable_custom_field_references_for_formula).to contain_exactly(int, float, bool)
       end
     end
 
@@ -529,27 +556,59 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       end
     end
 
-    context "when checking with visited nodes tracking" do
-      let!(:field1) do
-        create(:calculated_value_project_custom_field,
-               formula: "#{int_field} + 1",
-               is_for_all: true)
+    context "in a diamond shape" do
+      # top ┬> branch_a ┬> shared -> int_field
+      #     ╰- branch_b ╯
+      let!(:shared) do
+        create(:calculated_value_project_custom_field, formula: "#{int_field} + 1", is_for_all: true)
       end
 
-      let!(:field2) do
-        create(:calculated_value_project_custom_field,
-               formula: "#{field1} + 2",
-               is_for_all: true)
+      let!(:branch_a) do
+        create(:calculated_value_project_custom_field, formula: "#{shared} + 2", is_for_all: true)
       end
 
-      it "returns false when a node has already been visited" do
-        visited = { field1.id => false }
-        expect(field1.can_be_referenced_by?(field2.id, visited)).to be false
+      let!(:branch_b) do
+        create(:calculated_value_project_custom_field, formula: "#{shared} + 3", is_for_all: true)
       end
 
-      it "returns true when checking a new node with empty visited set" do
-        visited = {}
-        expect(field1.can_be_referenced_by?(field2.id, visited)).to be true
+      let!(:top) do
+        create(:calculated_value_project_custom_field, formula: "#{branch_a} + #{branch_b}", is_for_all: true)
+      end
+
+      it "can be referenced when a dependency is reached through two branches without a cycle" do
+        expect(top.can_be_referenced_by?(subject.id)).to be true
+      end
+
+      it "field can be referenced by any field if that would not lead to a loop", :aggregate_failures do
+        expect(shared.can_be_referenced_by?(top.id)).to be true
+        expect(shared.can_be_referenced_by?(branch_a.id)).to be true
+        expect(shared.can_be_referenced_by?(branch_b.id)).to be true
+        expect(branch_a.can_be_referenced_by?(top.id)).to be true
+        expect(branch_a.can_be_referenced_by?(branch_b.id)).to be true
+        expect(branch_b.can_be_referenced_by?(top.id)).to be true
+        expect(branch_b.can_be_referenced_by?(branch_a.id)).to be true
+      end
+
+      it "field cannot be referenced by any field if that would lead to a loop", :aggregate_failures do
+        expect(top.can_be_referenced_by?(branch_a.id)).to be false
+        expect(top.can_be_referenced_by?(branch_b.id)).to be false
+        expect(top.can_be_referenced_by?(shared.id)).to be false
+        expect(branch_a.can_be_referenced_by?(shared.id)).to be false
+        expect(branch_b.can_be_referenced_by?(shared.id)).to be false
+      end
+
+      it "non calculated field can be referenced by any field", :aggregate_failures do
+        expect(int_field.can_be_referenced_by?(top.id)).to be true
+        expect(int_field.can_be_referenced_by?(shared.id)).to be true
+        expect(int_field.can_be_referenced_by?(branch_a.id)).to be true
+        expect(int_field.can_be_referenced_by?(branch_b.id)).to be true
+      end
+
+      it "field cannot be referenced by an id it uses, even a non calculated one", :aggregate_failures do
+        expect(top.can_be_referenced_by?(int_field.id)).to be false
+        expect(branch_a.can_be_referenced_by?(int_field.id)).to be false
+        expect(branch_b.can_be_referenced_by?(int_field.id)).to be false
+        expect(shared.can_be_referenced_by?(int_field.id)).to be false
       end
     end
 
@@ -638,8 +697,11 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       "1 <> 2",
       "1 != 2",
       "1 = 2",
+      "1 == 2",
       "1 <> 2 AND 2 <> 3",
+      "1 <> 2 && 2 <> 3",
       "1 <> 2 OR 2 <> 3",
+      "1 <> 2 || 2 <> 3",
       # functions
       "IF(1 > 2, 3, 4)",
       "AND(1 <> 2, 2 <> 3)",
@@ -651,7 +713,6 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       "MAX(1, 2, 3, 4)",
       "SUM(1, 2, 3, 4)",
       "AVG(1, 2, 3, 4)",
-      "COUNT(1, 2, 3, 4)",
       "ROUND(1.5)",
       "ROUNDUP(1.5)",
       "ROUNDDOWN(1.5)",

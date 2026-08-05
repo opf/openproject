@@ -35,6 +35,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
 
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:default_status) { create(:default_status) }
+  shared_let(:readonly_status) { create(:status, :readonly) }
   shared_let(:default_priority) { create(:default_priority) }
   shared_let(:user) { create(:admin) }
   current_user { user }
@@ -59,6 +60,16 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
            position: 1,
            sprint:)
   end
+  let(:readonly_work_package) do
+    create(:work_package,
+           project:,
+           type: type_feature,
+           status: readonly_status,
+           priority: default_priority,
+           subject: "Rejected card",
+           position: 1,
+           sprint:)
+  end
   let(:item) do
     described_class.new(work_package:, project:, container:, params:, current_user: user)
   end
@@ -70,6 +81,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
         sortable_lists__item_type_value: "work_package",
+        sortable_lists__item_confined_value: false,
         sortable_lists__item_label_value: work_package.to_fs(:caption)
       )
       expect(item.row_args[:draggable]).to be(true)
@@ -125,6 +137,54 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         expect(render_inline(item.card)).to have_css(".op-work-package-card.Box-card--clickable")
         expect(page).to have_no_css(".Box-card--draggable")
       end
+
+      it "still wires the contextual-action-menu controller" do
+        expect(render_inline(item.card)).to have_css(
+          ".op-work-package-card[data-controller~='contextual-action-menu']"
+        )
+      end
+    end
+
+    # A read-only status blocks every attribute write, so the server refuses
+    # the sprint_id/backlog_bucket_id change a cross-container move performs —
+    # but a reorder within the card's own list writes no attribute and stays
+    # allowed. The row keeps its drag, confined to that list.
+    context "when the work package is in a read-only status", with_ee: %i[readonly_work_packages] do
+      let(:work_package) { readonly_work_package }
+
+      it "still marks the row as draggable" do
+        expect(item.row_args[:draggable]).to be(true)
+      end
+
+      it "registers the row as a sortable item confined to its list" do
+        expect(item.row_args[:data]).to include(
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: work_package.id,
+          sortable_lists__item_confined_value: true
+        )
+      end
+
+      it "keeps the card focusable so keyboard users can still open it" do
+        expect(render_inline(item.card)).to have_css(".op-work-package-card[tabindex='0']")
+      end
+
+      it "still offers the card as a drag handle", :aggregate_failures do
+        render_inline(item.card)
+
+        expect(page).to have_css(".op-work-package-card[data-sortable-lists--item-target='preview handle']")
+        expect(page).to have_css(".Box-card--draggable")
+      end
+    end
+
+    # Status#is_readonly always returns false without the token, so the same
+    # work package is movable in Community and the bug cannot occur there.
+    context "when the work package is in a read-only status without an Enterprise token" do
+      let(:work_package) { readonly_work_package }
+
+      it "does not confine the row" do
+        expect(item.row_args[:draggable]).to be(true)
+        expect(item.row_args[:data]).to include(sortable_lists__item_confined_value: false)
+      end
     end
   end
 
@@ -172,6 +232,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
     it "wires the card as a Backlogs work package" do
       expect(rendered_card).to have_css(
         ".op-work-package-card[data-controller~='backlogs--work-package']" \
+        "[data-controller~='contextual-action-menu']" \
         "[data-backlogs--work-package-id-value='#{work_package.id}']" \
         "[data-backlogs--work-package-display-id-value='#{work_package.display_id}']" \
         "[data-backlogs--work-package-full-url-value='#{work_package_path(work_package)}']" \
@@ -180,12 +241,12 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       )
     end
 
-    it "announces Enter activation to assistive tech without a button or drag role" do
+    it "announces Enter and Shift+F10 to assistive tech without a button or drag role" do
       expect(rendered_card).to have_css(
         ".op-work-package-card",
         role: "article",
         aria: {
-          keyshortcuts: "Enter",
+          keyshortcuts: "Enter Shift+F10",
           label: work_package.to_fs(:caption),
           roledescription: nil
         }

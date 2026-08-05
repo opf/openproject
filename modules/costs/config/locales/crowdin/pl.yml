@@ -66,7 +66,7 @@ pl:
         spent_units: Zużyte jednostki
     errors:
       messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+        cost_type_in_use_cannot_disable: nie można wyłączyć, ponieważ odpowiednie koszty zostały już zarejestrowane w tym projekcie.
       models:
         cost_types_project:
           attributes:
@@ -151,7 +151,7 @@ pl:
       cost_types:
         for_all_projects_hint: Ten typ kosztów jest włączony we wszystkich projektach.
         heading: Typy kosztów
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        in_use_hint: Tego typu kosztu nie można wyłączyć, ponieważ odpowiednie koszty zostały już zarejestrowane w tym projekcie.
         none_active: Żadne typy kosztów nie są obecnie aktywne w tym projekcie.
       time_and_costs: Czas i koszty
   costs:

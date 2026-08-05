@@ -38,6 +38,23 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::WORKFLOWS)) %>
 
   <% if @type && @roles.any? %>
-    <%= turbo_frame_tag "workflow-table", class: "workflow-table--pinned-save-bar", src: edit_type_workflow_tab_path(@type, @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
+    <%= form_tag(
+          type_workflow_matrix_path(@type, tab: @current_tab),
+          method: :patch,
+          autocomplete: "off",
+          class: "workflow-table--pinned-save-bar"
+        ) do %>
+      <%= turbo_frame_tag "workflow-table", src: type_workflow_matrix_path(@type, tab: @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
+
+      <% unless @type.linked?(Type::ConfigurationLink::WORKFLOWS) %>
+        <div class="workflow-save-bar">
+          <%=
+            render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do
+              t(:button_save)
+            end
+          %>
+        </div>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

@@ -91,6 +91,15 @@ module Import
     private
 
     def import_user(jira_user)
+      # A retried run re-processes every Jira user. Without this the OP user created by the
+      # previous attempt is seen as a login/email collision and a duplicate is created.
+      already_imported = Import::JiraOpenProjectReference.exists?(
+        jira_import_id: id,
+        jira_entity_class: Import::JiraUser.to_s,
+        jira_entity_id: jira_user.id
+      )
+      return import_user_groups(jira_user) if already_imported
+
       user_attrs = jira_user.to_op_attributes
       call = Users::CreateService
                .new(user: User.system, contract_class: EmptyContract)
@@ -233,6 +242,15 @@ module Import
 
       group = Group.where(name: group_name).first
       if group.present?
+        # The group is imported once per member. Overwriting the reference would clear
+        # uses_existing and make the revert skip a group this run created.
+        already_referenced = Import::JiraOpenProjectReference.exists?(
+          jira_import_id: id,
+          op_entity_class: group.class.to_s,
+          op_entity_id: group.id
+        )
+        return if already_referenced
+
         create_reference!(
           op_leg: group,
           jira_leg: nil,

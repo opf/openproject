@@ -491,18 +491,18 @@ zh-CN:
           name: 缺陷
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 史诗子项：用户故事和 Bug
         item_1:
-          name: 'User story children: Tasks'
+          name: 用户故事子项：任务
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: 用户故事和 Bug
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: 任务
       welcome:
         title: 欢迎使用 OpenProject！
         text: |

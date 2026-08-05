@@ -82,6 +82,7 @@ module JournalFormatter
     end
 
     def render_ternary_detail_text(label, value, old_value, options)
+      return I18n.t(:text_journal_deleted_no_detail, label:) if value.blank? && old_value.blank?
       return I18n.t(:text_journal_deleted, label:, old: old_value) if value.blank?
       return I18n.t(:text_journal_set_to, label:, value:) if old_value.blank?
 

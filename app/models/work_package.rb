@@ -524,13 +524,7 @@ class WorkPackage < ApplicationRecord
     return WorkPackageCustomField.none if type_ids.empty?
 
     project_ids = work_packages.map(&:project_id).uniq
-
-    # Match custom fields on the type that owns the (possibly linked) form
-    # configuration, but keep the work package's own type id available so a batch
-    # preload can match it against each work package's own type_id.
-    type_join = "#{Type::EffectiveSourceSql.form_configuration_source_table(type_ids)} " \
-                "JOIN custom_fields_types cft " \
-                "ON cft.custom_field_id = custom_fields.id AND cft.type_id = wp_types.source_id"
+    type_join = form_configuration_custom_fields_join(type_ids)
 
     WorkPackageCustomField
       .joins(type_join)
@@ -544,6 +538,20 @@ class WorkPackage < ApplicationRecord
       .distinct
   end
   private_class_method :available_custom_fields_from_db
+
+  # Match custom fields on the type that owns the (possibly linked) form configuration, minus
+  # the ones its link chain excludes, but keep the work package's own type id available so a
+  # batch preload can match it against each work package's own type_id.
+  def self.form_configuration_custom_fields_join(type_ids)
+    source_table, source_type_id, excluded = Type::FormConfigurationSql.source_table(type_ids)
+    exclusion = Type.excluded_custom_field_condition("custom_fields.id", excluded)
+
+    "#{source_table} " \
+      "JOIN custom_fields_types cft " \
+      "ON cft.custom_field_id = custom_fields.id AND cft.type_id = #{source_type_id} " \
+      "AND #{exclusion}"
+  end
+  private_class_method :form_configuration_custom_fields_join
 
   def self.available_custom_field_key(work_package)
     :"work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"

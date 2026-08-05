@@ -772,7 +772,7 @@ module WorkPackages
     end
 
     def closed_version_and_status?(status = model.status)
-      model.version&.closed? && status.is_closed?
+      status&.is_closed? && model.effective_target_versions.any?(&:closed?)
     end
 
     def new_statuses_by_workflow(status)

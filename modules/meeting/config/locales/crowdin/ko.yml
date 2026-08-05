@@ -282,7 +282,7 @@ ko:
   label_template: 템플릿
   label_time_zone: 표준 시간대
   label_upcoming_meetings: 다가오는 이벤트
-  label_upcoming_meetings_short: 예정
+  label_upcoming_meetings_short: 향후
   label_version: 버전
   label_view_meeting: 미팅 보기
   label_view_meeting_series: 미팅 시리즈 보기
@@ -467,8 +467,8 @@ ko:
     types:
       one_time: 일회성
       recurring: 반복
-      recurring_text: 각 항목에 대해 다이내믹 템플릿을 사용하여 미팅 시리즈를 만듭니다.
-      structured_text: 미팅을 의제 항목의 다이내믹 목록으로 구성하고, 선택적으로 작업 패키지에 연결합니다.
+      recurring_text: 각 항목에 대해 동적 템플릿을 사용하여 미팅 시리즈를 만듭니다.
+      structured_text: 미팅을 의제 항목의 동적 목록으로 구성하고, 선택적으로 작업 패키지에 연결합니다.
       structured_text_copy: 미팅을 복사하면 관련 미팅 의제 항목은 현재 복사되지 않고 세부 정보만 복사됩니다
     widgets:
       blankslate:
@@ -536,10 +536,10 @@ ko:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: 이 시리즈의 첫 번째 항목은 %{first_occurrence}입니다
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: 이렇게 하면 시리즈가 %{date}에 종료됩니다
       occurrences:
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        other: 이렇게 하면 향후 항목이 %{count}개가 됩니다
+      occurrences_capped: 이렇게 하면 향후 항목이 %{count}개를 초과하게 됩니다
     day_of_month_skipping_info: "%{monthly_day}일보다 적은 달은 건너뜁니다"
     delete_dialog:
       confirmation_message_html:
@@ -599,7 +599,7 @@ ko:
         third: 세 번째
     occurrence:
       error_no_next: 이 미팅의 다음 항목이 없습니다.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: 미팅 시리즈 템플릿이 아직 초안 모드에 있습니다.
       first_already_exists: 이 미팅 시리즈의 첫 번째 항목은 이미 인스턴스화되었습니다.
       first_created: '첫 번째 미팅이 템플릿에서 성공적으로 생성되었습니다. 향후 모든 미팅은 이전 항목이 발생한 시점에 자동으로 생성됩니다.
 

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -155,13 +155,21 @@ export class WorkPackagesListChecksumService {
     );
   }
 
+  private isOnNonRouterPage():boolean {
+    if (!this.$state.current.name) return true;
+    const { pathname } = window.location;
+    return pathname.includes('/team_planners')
+      || pathname.includes('/calendars')
+      || pathname.includes('/ifc_models');
+  }
+
   private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {
     this.visibleChecksum = checksum;
     this.visibleChecksum$.next(checksum);
 
-    // When uiRouter is not managing the current page (e.g. calendar after Turbo migration),
-    // $state.current.name is empty and state.go('.') does nothing. Fall back to pushState.
-    if (!this.$state.current.name) {
+    // When uiRouter is not managing the current page (e.g. calendar, team planner, BIM after Turbo migration),
+    // $state.current.name may be stale from a previous router page. Detect by URL to avoid incorrect $state.go() navigation.
+    if (this.isOnNonRouterPage()) {
       const url = new URL(window.location.href);
 
       if (checksum) {

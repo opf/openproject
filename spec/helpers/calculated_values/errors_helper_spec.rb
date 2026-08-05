@@ -69,6 +69,27 @@ RSpec.describe CalculatedValues::ErrorsHelper do
         expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.missing_value",
                                                                        custom_field_name: other_custom_field.name))
       end
+
+      it "when there are no missing values, it fallbacks to unknown error" do
+        error.missing_custom_field_ids = []
+
+        error.error_code = "ERROR_MISSING_VALUE"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
+      end
+
+      it "when missing value can't be found, it fallbacks to unknown error" do
+        error.missing_custom_field_ids = [0]
+
+        error.error_code = "ERROR_MISSING_VALUE"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
+      end
+
+      it "with unexpected missing value, it fallbacks to unknown error" do
+        error.missing_custom_field_ids = [nil]
+
+        error.error_code = "ERROR_MISSING_VALUE"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
+      end
     end
 
     describe "disabled values" do
@@ -86,6 +107,27 @@ RSpec.describe CalculatedValues::ErrorsHelper do
         error.error_code = "ERROR_DISABLED_VALUE"
         expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.disabled_value",
                                                                        custom_field_name: other_custom_field.name))
+      end
+
+      it "when there are no disabled values, it fallbacks to unknown error" do
+        error.missing_custom_field_ids = []
+
+        error.error_code = "ERROR_DISABLED_VALUE"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
+      end
+
+      it "when disabled value can't be found, it fallbacks to unknown error" do
+        error.missing_custom_field_ids = [0]
+
+        error.error_code = "ERROR_DISABLED_VALUE"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
+      end
+
+      it "with unexpected disabled value, it fallbacks to unknown error" do
+        error.missing_custom_field_ids = [nil]
+
+        error.error_code = "ERROR_DISABLED_VALUE"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
       end
     end
   end

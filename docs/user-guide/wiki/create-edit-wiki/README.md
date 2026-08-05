@@ -1,83 +1,130 @@
 ---
 sidebar_navigation:
-  title: Create and edit wiki
+  title: Create and edit wiki pages
   priority: 799
-description: Create a new wiki page in OpenProject
-keywords: create wiki
+description: Create and edit wiki pages in OpenProject.
+keywords: create wiki, edit wiki
 ---
 
 # Create and edit a wiki page
 
-In OpenProject you can create and edit wiki pages together with your team to document important project information.
+In OpenProject, you can create and edit wiki pages together with your team to document important project information. This page explains how to create, edit, organize, and manage wiki pages.
 
-| Feature                                                       | Documentation for                             |
+| Feature | Documentation |
 |---------------------------------------------------------------|-----------------------------------------------|
-| [Create a new wiki page](#create-a-new-wiki-page)             | How to create a new wiki page.                |
-| [Edit a wiki page](#edit-a-wiki-page)                         | How to make changes to an existing wiki page. |
-| [Create a wiki page structure](#create-a-wiki-page-structure) | How to create a wiki page structure.          |
-| [Watch a wiki page](#watch-a-wiki-page)                       | How to watch a wiki page.                     |
+| [Create a new wiki page](#create-a-new-wiki-page) | How to create a new wiki page. |
+| [Edit a wiki page](#edit-a-wiki-page) | How to make changes to an existing wiki page. |
+| [Rename a wiki page](#rename-a-wiki-page-title) | How to rename a wiki page. |
+| [Create a wiki page structure](#change-the-page-hierarchy) | How to organize wiki pages in a hierarchy. |
+| [Watch a wiki page](#watch-a-wiki-page) | How to watch a wiki page. |
+| [Lock a wiki page](#lock-a-wiki-page) | How to lock and unlock a wiki page. |
+| [Delete a wiki page](#delete-a-wiki-page) | How to delete a wiki page. |
+| [Show wiki page history](#show-wiki-page-history) | How to view changes to a wiki page. |
+| [Export a wiki page](#export-a-wiki-page) | How to export a wiki page. |
 
 ## Create a new wiki page
 
-To create a new wiki page in a project, navigate to the wiki module in your project menu and click on the green **+ Wiki page** button in the toolbar on the right hand side.
+To create a new wiki page, open the **Wiki** module in your project and click **+ Wiki page** in the toolbar.
 
-![Create a new wiki page in OpenProject](openproject_user_guide_create_wiki_page_button.png)
+![Create a new wiki page button in OpenProject](openproject_user_guide_create_wiki_page_button.png)
 
 > [!TIP]
-> If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](../../projects).
+> If you do not see the **Wiki** module in your project menu, first [enable the project wiki](../../projects/project-settings/project-wiki).
 
-The editor window will open, allowing you to enter title and content of the new page.
+The editor opens, allowing you to enter the page title and content.
 
-1. Enter your page title
-2. Enter your wiki content. You can use the editor bar to format your texts.  [Learn here how to format texts in wiki](../#general-wiki-information) with the editor toolbar.
-3. Files can be inserted directly via drag and drop or copy and paste into the text input field, or via the image button in the editor toolbar.
-4. Choose a parent wiki page.
-5. Comment which changes you have made to a wiki page.
-6. Save (or cancel) your changes to the page.
+1. Enter a page title.
+2. Add the page content. You can format the content using the editor toolbar. For more information, see the [WYSIWYG editor](../).
+3. Add images by dragging and dropping them into the editor, pasting them from your clipboard, or using the image button in the toolbar.
+4. Optionally, select a **Parent page**.
+5. Optionally, enter a comment describing your changes.
+6. Click **Save**.
 
-![Form to create a new wiki page in OpenProject](openproject_user_guide_create_wiki_page_form.png)
+![Create a new wiki page form in OpenProject](openproject_user_guide_create_wiki_page_form.png)
+
 
 ## Edit a wiki page
 
-To edit a wiki page, click the **Edit** button on the wiki page details on the top right.
+To edit a wiki page, open the page and click **Edit**.
 
-![Edit wiki page in OpenProject](openproject_user_guide_edit_wiki_page_button.png)
+![Edit wiki page button in OpenProject](openproject_user_guide_edit_wiki_page_button.png)
 
-The text editor will be opened to make changes to the wiki page, as described above, how to [create a new wiki page](#create-a-new-wiki-page).
 
-Do not forget to **Save** your changes after you finished editing the page.
+Make your changes in the editor and click **Save**.
 
 > [!TIP]
-> Changes you made are saved locally. If you navigated away from page or could not save your changes due to a technical difficulty, you can access latest changes via the editor toolbar.
+> Changes are automatically saved locally while you edit. If you accidentally leave the page or cannot save due to a technical issue, you can restore the latest local version from the editor toolbar.
 
-![Restore local backups in text editor in OpenProject](openproject_user_guide_wiki_autosave_icon.png)
+![Restore local changes in the wiki editor](openproject_user_guide_wiki_autosave_icon.png)
 
-### Change the wiki page title
+### Change the page hierarchy
 
-To rename a wiki page, simply select the wiki page you want to change, and click the **Edit** button on the top right of the page. Click in the title and just enter the new name of the page.
+You can organize your wiki by creating a hierarchy of pages and sub-pages.
 
-Do not forget to **Save** your changes by pressing the button at the bottom of the page.
+When creating a new wiki page, optionally select a **Parent page**. If you create a new page from an existing wiki page using **+ Wiki page**, the current page is preselected as the parent.
 
-## Create a wiki page structure
+To change the hierarchy later, edit the wiki page and select a different **Parent page**. To move a page to the top level, select **-- No parent page --**.
 
-If you want to create a wiki structure with different pages and sub-pages, you can enter a parent page for a wiki page which then will be displayed automatically in the wiki page menu on the left.
-
-If you are on an existing wiki page and click the green **+ Wiki page** button on top of the page to [create a new wiki page](#create-a-new-wiki-page), the wiki page will already be pre-selected as a **parent page**.
-
-![Wiki page structure example with page parent](openproject_user_guide_wiki_child_page_example.png)
-
-You can change the parent page afterwards to change the wiki page structure by clicking on the **Edit** button of an existing wiki page and select the new parent page at the bottom of the form.
-
-If you select **-- No parent page --** the wiki page will be displayed at first level of the wiki navigation in the project menu.
-
-The pages are ordered alphabetically in the wiki menu.
-
-![Wiki page structure example with no parent](openproject_user_guide_wiki_noparent_page_example.png)
+Child pages are displayed beneath their parent page in the wiki hierarchy. Pages on the same level are ordered alphabetically.
 
 ## Watch a wiki page
 
-If you want to keep updated about any changes to a wiki page, you can make use of the **Watch** option. Browse to the wiki page you want to watch and click on the **Watch** button in the top right corner. You can undo this choice at any time.
+To receive notifications when a wiki page is updated, open the page and click **Watch**. Click **Unwatch** at any time to stop receiving notifications.
 
-![Watch a wiki page in OpenProject](openproject_user_guide_watch_wiki_page_button.png)
+![Watch wiki page button in OpenProject](openproject_user_guide_watch_wiki_page_button.png)
 
-With this function being activated, you will receive an e-mail notification (according to your email preferences) after every page update, including a link to the respective changes.
+You will receive email notifications according to your notification settings whenever the page is updated.
+
+## Lock a wiki page
+
+To prevent other users from editing a wiki page, open the **More** menu and select **Lock**.
+
+To allow editing again, open the **More** menu and select **Unlock**.
+
+![Lock wiki page from the More menu](openproject_user_guide_wiki_more_lock.png)
+
+## Rename a wiki page title
+
+To rename a wiki page, open the **More** menu and select **Rename**.
+
+Enter the new page title. Optionally, select **Redirect existing links** so that links to the old page title continue to work.
+
+Click **Rename**.
+
+![Rename wiki page dialog](openproject_user_guide_wiki_renaming_form.png)
+
+You can also rename a page by editing its title directly in **Edit** mode.
+
+## Delete a wiki page
+
+To delete a wiki page, open the page, click **More**, and select **Delete**.
+
+Confirm the deletion in the dialog.
+
+> [!WARNING]
+> Deleted wiki pages cannot be easily restored.
+
+## Show wiki page history
+
+To view previous versions of a wiki page, open the **More** menu and select **History**.
+
+![Wiki page history in OpenProject](openproject_user_guide_wiki_history.png)
+
+The history shows who changed the page, when it was changed, and any comments that were added. Select two versions and click **View differences** to compare them.
+
+> [!NOTE]
+> Comparing consecutive versions provides the clearest overview of changes. Multiple edits made by the same user within five minutes are automatically merged into a single history entry to reduce clutter.
+
+## Print a wiki page
+
+To print a wiki page, open the **More** menu and select **Print**.
+
+A printer-friendly version of the page is displayed.
+
+## Export a wiki page
+
+To export a wiki page, open the **More** menu, select **Export**, and then choose **Markdown**.
+
+![Export wiki page from the More menu](openproject_user_guide_wiki_more_export.png)
+
+Alternatively, you can use your browser's print function to save the page as a PDF.

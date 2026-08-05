@@ -37,7 +37,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
 
   self.property_selects = {
     id: {
-      sortable: -> {
+      sortable: ->(_query = nil) {
         if Setting::WorkPackageIdentifier.semantic?
           ["#{Project.table_name}.identifier", "#{WorkPackage.table_name}.sequence_number"]
         else
@@ -102,6 +102,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     },
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
+      group_by_class_name: "Version",
       sortable: <<~SQL.squish,
         (SELECT LOWER(v.name)
            FROM work_package_versions wpv

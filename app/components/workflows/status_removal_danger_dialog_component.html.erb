@@ -33,11 +33,11 @@ See COPYRIGHT and LICENSE files for more details.
       id: DIALOG_ID,
       title: t("admin.workflows.statuses_removal_dialog.title"),
       confirm_button_text: t("admin.workflows.statuses_removal_dialog.confirm"),
-      form_arguments: { action: helpers.edit_type_workflow_tab_path(@type, @tab), method: :get, data: { turbo_frame: "workflow-table" } }
+      form_arguments: { action: helpers.type_workflow_matrix_path(type, tab:), method: :get, data: { turbo_frame: "workflow-table" } }
     )
   ) do |dialog|
     dialog.with_confirmation_message do |message|
-      message.with_heading(tag: :h2) { t("admin.workflows.statuses_removal_dialog.heading", count: @removed_count) }
+      message.with_heading(tag: :h2) { t("admin.workflows.statuses_removal_dialog.heading", count: removed_count) }
       message.with_description_content(t("admin.workflows.statuses_removal_dialog.description"))
     end
 
@@ -46,8 +46,8 @@ See COPYRIGHT and LICENSE files for more details.
     # The reason this is done here is because the submit is not a DELETE, and GET form submissions
     # strip url params
     dialog.with_additional_details do
-      @roles.each { |role| concat(hidden_field_tag("role_ids[]", role.id)) }
-      @status_ids.each { |id| concat(hidden_field_tag("status_ids[]", id)) }
+      roles.each { |role| concat(hidden_field_tag("role_ids[]", role.id)) }
+      requested_status_ids.each { |id| concat(hidden_field_tag("status_ids[]", id)) }
     end
   end
 %>

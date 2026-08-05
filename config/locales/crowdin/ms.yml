@@ -1130,6 +1130,9 @@ ms:
         '
     jemalloc_allocator: Pengagih ingatan Jemalloc
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
@@ -1151,9 +1154,11 @@ ms:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Added
+        creator: Creator
         label_ago: "%{amount} ago"
         last_change: Last change
         projects: Projects
+        server_url: Server URL
       configuration:
         new: New configuration
         title: Jira configuration
@@ -1168,18 +1173,24 @@ ms:
         button_add: Add configuration
         button_delete_token: Delete token
         button_save: Save configuration
-        button_test: Test configuration
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
         fields:
           name: Name
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
         label_testing: Testing configuration...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
         history: History
+        side_panel:
+          run_status: Run status
+          open_history: Open the run history
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         index:
           button_edit_configuration: Edit configuration
@@ -1219,14 +1230,8 @@ ms:
           groups:
             configuration:
               title: Configure import
-            confirming:
-              title: Confirm and import
-            fetch:
-              title: Get base data
-            groups_and_users:
-              title: Groups and Users
-            review:
-              title: Review import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
             confirm_button: Start import
@@ -1256,6 +1261,7 @@ ms:
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
+              caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
               label_available_data: Data to be imported
               label_import_data: Currently importing
@@ -1263,9 +1269,12 @@ ms:
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Check available data
               caption_done: Completed
+              caption_done_description: Meta data fetched from %{server_info}
               description: Check what data is available for import in the host Jira instance.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Fetching data from Jira...
               title: Fetch instance meta data
             groups_and_users:
@@ -1274,7 +1283,6 @@ ms:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
-              info: Import run was successful.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1283,6 +1291,20 @@ ms:
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1290,6 +1312,8 @@ ms:
               button_select_projects: Select projects to import
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
+              caption_done_description:
+                other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
@@ -1304,19 +1328,21 @@ ms:
                 sprints: Sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
               label_coming_later: Coming later
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Select which projects you would like to import.
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
-              label_progress: Fetching data from Jira...
+              label_progress: Fetching data
               label_selected_data: Selected data for import
               label_supported_data: Supported data
               title: Import scope
-          select_dialog:
-            filter_projects: Filter by text
           select_projects:
-            title: Select projects
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
         connection_error: 'Connection error: %{message}'
@@ -1528,15 +1554,15 @@ ms:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        always: Default transitions
         aria_label: Workflow transitions
-        default_transitions: Default transitions
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: Transitions available to the selected role(s) in all cases.
-          user_assignee: Additional transitions available to the work package's assignee.
-          user_author: Additional transitions available to the work package's author.
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
-        user_assignee: User is assignee
-        user_author: User is author
   announcements:
     is_active: kini dipaparkan
     is_inactive: tidak dipaparkan buat masa ini
@@ -2805,6 +2831,7 @@ ms:
       work_package_children_changed_times: dengan perubahan pada anak %{link}
       work_package_duplicate_closed: Status telah dikemas kini secara automatik oleh pakej kerja pendua %{link}
       work_package_parent_changed_times: dengan perubahan pada induk %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: dengan perubahan pada pendahulu %{link}
       work_package_related_changed_times: dengan perubahan pada %{link} yang berkaitan
       working_days_changed:
@@ -2826,7 +2853,11 @@ ms:
       total_percent_complete_mode_changed_to_simple_average: Pengiraan % Jumlah lengkap sekarang berdasarkan purata mudah hanya % nilai Lengkap.
       total_percent_complete_mode_changed_to_work_weighted_average: Pengiraan % Jumlah lengkap kini ditimbang mengikut Kerja.
       work_package_duplicate_closed: 'Pakej kerja pendua dikemas kini:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: Perubahan telah ditarik balik.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Kebolehcapaian
   label_account: Akaun
   label_actions: Tindakan
@@ -4527,6 +4558,7 @@ ms:
 
     '
   permission_move_work_packages: Alih pakej kerja
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Simpan pertanyaan BCF
   permission_save_queries: Simpan paparan
   permission_search_project: Cari projek
@@ -4808,9 +4840,23 @@ ms:
         menu_title: Template
         title: Template settings
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Aktifkan jenis "%{type}"
+        in_roadmap: In roadmap
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Cipta versi baharu
         no_results_title_text: Tiada versi untuk projek tersebut buat masa ini.
@@ -5632,6 +5678,7 @@ ms:
   text_journal_changed_plain: "%{label} ditukar dari %{old} %{linebreak}ke %{new}"
   text_journal_changed_with_diff: "%{label} diubah (%{link})"
   text_journal_deleted: "%{label} dipadam (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} dipadam (%{link})"
   text_journal_file_link_added: "%{label} terpaut pada %{value} (%{storage}) ditambah"
@@ -5825,6 +5872,10 @@ ms:
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
         empty_group_hint: Drag attributes here
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
         group_name_label: Section name
@@ -5850,6 +5901,9 @@ ms:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:
@@ -5871,6 +5925,9 @@ ms:
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: I understand that this will override the current settings
@@ -5921,21 +5978,25 @@ ms:
         tab: Workflows
     index:
       add_variant: Add variant to %{name}
+      add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
       make_default: Activate in new projects
-      make_default_notice: "%{name} is now activated in new projects"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Cipta jenis baharu
       no_results_title_text: Tiada jenis buat masa ini.
       remove_default: Do not activate in new projects
-      remove_default_notice: "%{name} is no longer activated in new projects"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         other: "%{count} variants"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Abaikan amaran ini.
     message: Anda mungkin mengalami ralat dan pengalaman yang terjejas pada halaman ini.
@@ -6291,20 +6352,34 @@ ms:
   work_packages:
     bulk:
       copy_failed: Pakej kerja ini tidak boleh disalin.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Pakej kerja yang berikut tidak dapat disimpan:'
+      deletion_successful:
+        other: Successfully deleted %{count} work packages.
       descendant: keturunan yang dipilih
       move_failed: Pakej kerja tidak boleh dialihkan.
       none_could_be_saved: Tiada pakej kerja %{total} yang boleh dikemas kini.
       selected_because_descendants: Walaupun %{selected} pakej kerja dipilih, secara keseluruhan %{total} pakej kerja terjejas yang termasuk keturunan.
       x_out_of_y_could_be_saved: "%{failing} daripada %{total} pakej kerja tidak dapat dikemas kini manakala %{success} boleh."
     bulk_delete_dialog:
-      children_label: 'The following children will also be deleted:'
-      confirm_children_deletion: I acknowledge that all selected work packages and their children will be permanently deleted.
-      cross_project_warning: 'These work packages span multiple projects: %{projects}'
-      description: 'The following work packages and all associated data will be permanently deleted:'
-      description_with_children: 'The following work packages, including children and all associated data, will be permanently deleted:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
+      hidden_descendants_only_warning:
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6348,11 +6423,20 @@ ms:
         successors: Successors
       update_inputs_aria_live_message: Date picker updated. %{message}
     delete_dialog:
-      confirm_descendants_deletion: I acknowledge that ALL descendants of this work package will be recursively removed.
-      cross_project_warning: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete the work package "%{name}"?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
+      hidden_descendants_only_warning:
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 

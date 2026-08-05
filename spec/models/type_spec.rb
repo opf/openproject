@@ -411,10 +411,62 @@ RSpec.describe Type do
       end
     end
 
+    # Isolated from the shared parent/child so the factory's generated names
+    # cannot land between the names under test.
+    describe "#sorted_variants" do
+      let!(:family_root) { create(:type, name: "Family") }
+      let!(:yankee) { create(:type, name: "Yankee", parent: family_root) }
+      let!(:bravo) { create(:type, name: "Bravo", parent: family_root) }
+
+      it "orders variants alphabetically by their own name" do
+        expect(family_root.sorted_variants.map(&:own_name)).to eq(%w[Bravo Yankee])
+      end
+
+      it "does not fall back to position, which is append order" do
+        expect(family_root.children.map(&:own_name)).to eq(%w[Yankee Bravo])
+      end
+    end
+
     describe "#family" do
       it "returns the root followed by its children" do
         expect(child.family).to eq([parent, child])
         expect(parent.family).to eq([parent, child])
+      end
+
+      it "orders the variants the same way #sorted_variants does" do
+        family_root = create(:type, name: "Family")
+        create(:type, name: "Yankee", parent: family_root)
+        create(:type, name: "Bravo", parent: family_root)
+
+        expect(family_root.family).to eq([family_root, *family_root.sorted_variants])
+        expect(family_root.family.map(&:own_name)).to eq(%w[Family Bravo Yankee])
+      end
+    end
+
+    # The types index page and the configuration source pickers both read this,
+    # so the assertions bind to what that page renders rather than to a literal
+    # list, and the two cannot drift apart unnoticed.
+    describe ".in_family_order" do
+      let!(:zeta) { create(:type, name: "Zeta") }
+      let!(:yankee) { create(:type, name: "Yankee", parent: zeta) }
+      let!(:bravo) { create(:type, name: "Bravo", parent: zeta) }
+      # Created last, so the admin's order and an alphabetical one disagree and
+      # the assertions below can tell them apart.
+      let!(:alpha) { create(:type, name: "Alpha") }
+
+      it "keeps the roots in the order the index page lists them" do
+        expect(described_class.in_family_order.reject(&:variant?)).to eq([parent, zeta, alpha])
+      end
+
+      it "orders a family's variants the way the index page renders them" do
+        expect(described_class.in_family_order.select { |member| member.parent == zeta })
+          .to eq([bravo, yankee])
+      end
+
+      it "puts a root ahead of its own variants" do
+        order = described_class.in_family_order
+
+        expect(order.index(zeta)).to be < order.index(bravo)
       end
     end
 

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -215,6 +215,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   }
 
+  // The list element an item currently belongs to, for the confinement field
+  // on the drag payload; null outside any registered list.
+  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null {
+    return this.ownerListOf(itemElement)?.element ?? null;
+  }
+
   private ownerListOf(itemElement:HTMLElement) {
     return this.sortableListsListOutlets.find((list) => list.element.contains(itemElement)) ?? null;
   }
@@ -247,7 +253,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       sourceData: source.data,
     });
     if (!intent) {
-      debugLog('sortable-lists: ignoring drop, it did not resolve to a move (dropped outside a list)');
+      debugLog('sortable-lists: ignoring drop, it did not resolve to a move');
       return;
     }
 

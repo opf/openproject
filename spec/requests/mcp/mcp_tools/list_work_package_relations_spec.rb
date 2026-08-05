@@ -41,7 +41,7 @@ RSpec.describe McpTools::ListWorkPackageRelations do
     # avoid owner for application, so that we don't have additional users created
     create(:oauth_access_token, scopes: "mcp", resource_owner: user, application: create(:oauth_application, owner: nil))
   end
-  let(:user) { create(:user) } # TODO: properly test permissions
+  let(:user) { create(:user) }
 
   let(:request_body) do
     {

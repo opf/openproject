@@ -466,7 +466,7 @@ pt-BR:
         spent_hours: Tempo gasto
         spent_time: Tempo gasto
         subproject: Subprojeto
-        target_version: Target version
+        target_version: Versão de meta
         target_versions: Versões de destino
         time_entries: Registro de tempo
         type: Tipo
@@ -1144,6 +1144,9 @@ pt-BR:
         '
     jemalloc_allocator: Alocador de memória Jemalloc
     jira:
+      actions:
+        button_edit: Editar configuração
+        button_open: Execuções abertas
       banner:
         contribution_callout: 'Ajude-nos a melhorar o Migrador do Jira com seu feedback e doações de dados privados. Você pode participar da [comunidade de desenvolvimento](link) do Migrador do Jira.
 
@@ -1165,9 +1168,11 @@ pt-BR:
         ssrf_blocked: 'Conexão bloqueada: o host do Jira resolve para um endereço IP privado. Se a sua instância do Jira estiver em uma rede interna, permita o IP na variável de ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Adicionado
+        creator: Criador
         label_ago: Há %{amount}
         last_change: Última alteração
         projects: Projetos
+        server_url: URL do servidor
       configuration:
         new: Nova configuração
         title: Configuração do Jira
@@ -1182,18 +1187,24 @@ pt-BR:
         button_add: Adicionar configuração
         button_delete_token: Excluir token
         button_save: Salvar configuração
-        button_test: Testar configuração
         delete_token_confirm: Tem certeza de que deseja excluir o token? Isso desativará a conexão com o Jira.
         fields:
           name: Nome
           personal_access_token: Token de acesso pessoal
           url: URL do Jira Server/Data Center
         label_testing: Testando configuração...
+        test_configuration_caption: Você pode testar essa configuração [clicando aqui](test)
       run:
+        actions:
+          button_edit: Editar execução
+          button_open_history: Abrir histórico de execuções
         blank:
           description: Crie uma execução de importação para começar a importar informações desta instância do Jira
           title: Ainda não há execuções de importação configuradas
         history: Histórico
+        side_panel:
+          run_status: Status da execução
+          open_history: Abrir o histórico de execuções
         import_blocked_error: Outra execução de importação do Jira está em andamento ou aguardando revisão. Conclua ou reverta-a antes de iniciar uma nova importação.
         index:
           button_edit_configuration: Editar configuração
@@ -1233,14 +1244,8 @@ pt-BR:
           groups:
             configuration:
               title: Configurar importação
-            confirming:
-              title: Confirmar e importar
-            fetch:
-              title: Obter dados básicos
-            groups_and_users:
-              title: Grupos e usuários
-            review:
-              title: Revisar importação
+            run_and_review:
+              title: Executar e revisar a importação
           import_dialog:
             confirm: Entendo e tenho um backup
             confirm_button: Iniciar importação
@@ -1276,6 +1281,7 @@ pt-BR:
               button_start: Iniciar importação
               caption: Revise suas configurações de importação e inicie a importação
               caption_done: Concluído
+              caption_done_info: Todos os dados foram importados
               description: Você está prestes a iniciar uma execução de importação com as seguintes configurações.
               label_available_data: Dados a serem importados
               label_import_data: Importando no momento
@@ -1283,9 +1289,12 @@ pt-BR:
               label_users_import_explanation: Usuários envolvidos nos projetos selecionados (incluindo membros de grupos)
               title: Importar dados
             fetch_data:
+              button_continue: Continuar para a seleção do escopo
               button_fetch: Verificar dados disponíveis
               caption_done: Concluído
+              caption_done_description: Metadados obtidos de %{server_info}
               description: Verifique quais dados estão disponíveis para importação na instância do Jira host.
+              label_available_server_data: Dados disponíveis em %{server_info}
               label_progress: Buscando dados do Jira...
               title: Buscar metadados da instância
             groups_and_users:
@@ -1294,7 +1303,6 @@ pt-BR:
               button_done: Aprovar a importação
               button_revert: Reverter importação
               caption: Revisar execução de importação ou reverter importação
-              info: A importação foi concluída com sucesso.
               label_finalize_import: Aprovar importação
               label_finalizing: Aprovando importação...
               label_finalizing_done: Importação aprovada.
@@ -1303,6 +1311,20 @@ pt-BR:
               label_revert_progress: Revertendo importação...
               label_reverted: Importação revertida.
               preview_description: Os dados importados estão atualmente em modo de revisão. Clique em “Aprovar importação” para tornar a importação permanente ou em “Reverter importação” para desfazer todas as alterações feitas nesta execução de importação.
+              stats:
+                other_settings:
+                  label: Outras configurações
+                  subtitle: Incluindo tipos e status
+                projects:
+                  label: Projetos
+                  subtitle: Selecionar como escopo
+                title: Dados importados
+                users_and_groups:
+                  label: Usuários e grupos
+                  subtitle: 'Envolvido em projetos importados '
+                work_packages:
+                  label: Pacotes de trabalho
+                  subtitle: Com anexos
               title: Resultados da execução de importação
             import_scope:
               button_continue: Continuar
@@ -1310,6 +1332,9 @@ pt-BR:
               button_select_projects: Selecione os projetos para importar
               caption: Escolha o que deseja importar para o OpenProject
               caption_done: Concluído
+              caption_done_description:
+                one: 1 projeto selecionado como escopo
+                other: "%{count} projetos selecionados como escopo"
               description: Selecione os dados que deseja importar a partir das informações disponíveis obtidas da instância Jira host.
               elements:
                 custom_fields: Um subconjunto de campos personalizados
@@ -1324,19 +1349,21 @@ pt-BR:
                 sprints: Atribuições de sprint
                 users: Usuários e grupos envolvidos
                 workflows: Fluxos de trabalho no nível do projeto
-              label_available_server_data: Dados disponíveis em %{server_info}
               label_coming_later: Mais tarde
               label_coming_soon: Em breve (Q3 2026)
               label_import: Selecione os projetos que você deseja importar.
               label_info: Observe que esta ferramenta de importação está em versão beta e não consegue importar todos os tipos de dados. A seguir, um resumo do que a instância Jira host oferece para importação e do que esta ferramenta consegue importar no momento.
-              label_progress: Buscando dados do Jira...
+              label_progress: Buscando dados
               label_selected_data: Dados selecionados para importação
               label_supported_data: Dados compatíveis
               title: Escopo da importação
-          select_dialog:
-            filter_projects: Filtrar por texto
           select_projects:
-            title: Selecionar projetos
+            button_select: Selecionar
+            button_select_all: Selecionar tudo
+            button_unselect_all: Desmarcar tudo
+            filter_projects: Filtrar por texto
+            info: Somente os projetos dos quais o proprietário do token do Jira é membro podem ser selecionados como escopo de importação.
+            title: Selecione os projetos para importar
       test:
         api_error: A API do Jira retornou o status de erro %{status}. Verifique o URL da sua instância do Jira e o token da API.
         connection_error: 'Erro de conexão: %{message}'
@@ -1552,15 +1579,15 @@ pt-BR:
           other: Remover %{count} status?
         title: Remover status
       tabs:
+        always: Default transitions
         aria_label: Transições do fluxo de trabalho
-        default_transitions: Transições padrão
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: Transições disponíveis para a(s) função(ões) selecionada(s) em todos os casos.
-          user_assignee: Transições adicionais disponíveis para o responsável pelo pacote de trabalho.
-          user_author: Transições adicionais disponíveis para o autor do pacote de trabalho.
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: Transições exibidas
-        user_assignee: Usuário é responsável
-        user_author: Usuário é autor
   announcements:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
@@ -2848,6 +2875,7 @@ pt-BR:
       work_package_children_changed_times: por alterações ao secundário %{link}
       work_package_duplicate_closed: O status foi atualizado automaticamente pelo pacote de trabalho duplicado %{link}
       work_package_parent_changed_times: por alterações ao primário %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: por alterações ao antecessor %{link}
       work_package_related_changed_times: por alterações ao %{link} relacionado
       working_days_changed:
@@ -2869,7 +2897,11 @@ pt-BR:
       total_percent_complete_mode_changed_to_simple_average: O cálculo dos totais de % de conclusão agora é feito com base na média simples dos valores de % de conclusão.
       total_percent_complete_mode_changed_to_work_weighted_average: O cálculo dos totais de % de conclusão agora é ponderado pelo Trabalho.
       work_package_duplicate_closed: 'Pacote de trabalho duplicado atualizado:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: As mudanças foram retraídas.
+    non_visible:
+      project: a non-visible project
+      work_package: a non-visible work package
   label_accessibility: Acessibilidade
   label_account: Conta
   label_actions: Ações
@@ -4578,6 +4610,7 @@ pt-BR:
 
     '
   permission_move_work_packages: Mover pacotes de trabalho
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Salvar consultas a BCF
   permission_save_queries: Salvar visões
   permission_search_project: Buscar projeto
@@ -4860,9 +4893,23 @@ pt-BR:
         menu_title: Modelo
         title: Configurações do modelo
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Habilitar o tipo "%{type}"
+        in_roadmap: In roadmap
         no_results_title_text: Atualmente, não há tipos disponíveis.
+        remove_from_project: Remove from project
+        type_not_found: The selected type could not be found.
       versions:
         no_results_content_text: Criar uma nova versão
         no_results_title_text: Atualmente, não há versões para o projeto.
@@ -5676,6 +5723,7 @@ pt-BR:
   text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} excluído (%{link})"
   text_journal_file_link_added: Link de %{label} para %{value} (%{storage}) adicionado
@@ -5867,6 +5915,10 @@ pt-BR:
         drag_to_reorder: Arraste para reordenar
         edit_query: Editar consulta
         empty_group_hint: Arraste atributos aqui
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Todos atributos
         group_actions: Ações da seção
         group_name_label: Nome da seção
@@ -5892,6 +5944,9 @@ pt-BR:
           label_disable_all: Desabilitar todos
           label_enable_all: Habilitar todos
         description: Selecione os atributos do projeto que deseja habilitar para este tipo de pacote de trabalho. Os atributos do projeto habilitados são exibidos em uma guia separada nos pacotes de trabalho deste tipo. Usuários com as permissões necessárias podem visualizar e editar esses atributos nessa guia.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Pesquisar por seção ou nome
         tab: Atributos do projeto
       projects:
@@ -5913,6 +5968,9 @@ pt-BR:
             title: Copiar configuração
           invalid_source: A configuração não pode ser copiada do tipo selecionado. Selecione um tipo de origem diferente.
           success: A configuração foi copiada.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Eu entendo que isso substituirá as configurações atuais
@@ -5963,22 +6021,26 @@ pt-BR:
         tab: Fluxos de trabalho
     index:
       add_variant: Adicionar variante a %{name}
+      add_variant_action: Add variant
       description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Ativo em novos projetos
       make_default: Ativar em novos projetos
-      make_default_notice: "%{name} agora está ativado em novos projetos"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Criar um novo tipo
       no_results_title_text: Atualmente, não há nenhum tipo.
       remove_default: Não ativar em novos projetos
-      remove_default_notice: "%{name} não está mais ativado em novos projetos"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Tipo
       variant_enabled_in_new_projects: Variante %{name} ativa em novos projetos
       variant_label: Variante
       variants_count:
         one: 1 variante
         other: "%{count} variantes"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ignorar este aviso.
     message: Você pode encontrar erros e experiência degradada nesta página.
@@ -6336,20 +6398,39 @@ pt-BR:
   work_packages:
     bulk:
       copy_failed: Os pacotes de trabalho não puderam ser copiados.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Os seguintes pacotes de trabalho não puderam ser salvos:'
+      deletion_successful:
+        one: Successfully deleted 1 work package.
+        other: Successfully deleted %{count} work packages.
       descendant: descendente de selecionados
       move_failed: Os pacotes de trabalho não puderam ser movidos.
       none_could_be_saved: Nenhum dos %{total} pacotes de trabalho pode ser atualizado.
       selected_because_descendants: Enquanto %{selected} pacotes de trabalho são selecionados, no total de %{total} pacotes de trabalho são afetados, o que inclui descendentes.
       x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados enquanto %{success} foram atualizados."
     bulk_delete_dialog:
-      children_label: 'Os seguintes itens filhos também serão excluídos:'
-      confirm_children_deletion: Reconheço que todos os pacotes de trabalho selecionados e seus itens filhos serão excluídos permanentemente.
-      cross_project_warning: 'Esses pacotes de trabalho abrangem vários projetos: %{projects}'
-      description: 'Os seguintes pacotes de trabalho e todos os dados associados serão excluídos permanentemente:'
-      description_with_children: 'Os seguintes pacotes de trabalho, incluindo filhos e todos os dados associados, serão permanentemente excluídos:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Excluir estes %{count} pacotes de trabalho de forma permanente?
+      hidden_descendants_only_warning:
+        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Excluir %{count} pacotes de trabalho
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6393,11 +6474,24 @@ pt-BR:
         successors: Sucessores
       update_inputs_aria_live_message: Seletor de data atualizado. %{message}
     delete_dialog:
-      confirm_descendants_deletion: Reconheço que TODOS os descendentes deste pacote de trabalho serão removidos recursivamente.
-      cross_project_warning: 'Pacotes de trabalho dos seguintes projetos serão excluídos: %{projects}'
-      description: Tem certeza de que deseja excluir o pacote de trabalho "%{name}"?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Excluir este pacote de trabalho de forma permanente?
+      hidden_descendants_only_warning:
+        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Excluir pacote de trabalho
+      undeletable_descendants_warning:
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'Os tipos dos pacotes de trabalho ou seus descendentes não estão habilitados no projeto de destino. Habilite os tipos ausentes no projeto de destino se quiser mantê-los inalterados. Caso contrário, selecione um tipo disponível no projeto de destino na lista.
 

@@ -66,7 +66,7 @@ ko:
         spent_units: 소비 단위
     errors:
       messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+        cost_type_in_use_cannot_disable: "- 이 프로젝트에서 해당 항목에 대한 비용이 이미 기록되었으므로 비활성화할 수 없습니다."
       models:
         cost_types_project:
           attributes:
@@ -139,7 +139,7 @@ ko:
       cost_types:
         for_all_projects_hint: 이 비용 유형은 모든 프로젝트에서 활성화되었습니다.
         heading: 비용 유형
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        in_use_hint: "- 이 프로젝트에서 해당 비용 유형에 대한 비용이 이미 기록되었으므로 해당 유형을 비활성화할 수 없습니다."
         none_active: 이 프로젝트에는 현재 활성화된 비용 유형이 없습니다.
       time_and_costs: 시간 및 비용
   costs:
