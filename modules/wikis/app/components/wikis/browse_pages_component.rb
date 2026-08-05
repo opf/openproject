@@ -28,37 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module EnvData
-  module Wikis
-    class ExternalProviderSeeder < Seeder
-      def seed_data!
-        Setting.wiki_providers.each do |config|
-          print_status "    ↳ Creating or Updating wiki provider" do
-            result = sync_service_class(config).new(config).call
+module Wikis
+  class BrowsePagesComponent < ApplicationComponent
+    include Components::TreeNodeHelper
 
-            if result.success?
-              print_status "   - OK"
-            else
-              raise result.message
-            end
+    attr_reader :builder, :form_name, :provider_id
+
+    alias_method :nodes, :model
+    def initialize(model, builder, form_name, provider_id)
+      super(model)
+      @builder = builder
+      @form_name = form_name
+      @provider_id = provider_id
+    end
+
+    def build_tree(tree_view)
+      add_node(tree_view, nodes)
+    end
+
+    private
+
+    def add_node(parent, nodes)
+      nodes.each do |node|
+        if node.children.none?
+          add_lazy_loaded_subtree(parent, node)
+        else
+          parent.with_sub_tree(**node_options(node, expanded: true)) do |item|
+            item.with_leading_visual_icon(icon: node_icon(node))
+            add_node(item, node.children)
           end
         end
       end
+    end
 
-      def applicable?
-        Setting.wiki_providers.present?
-      end
-
-      private
-
-      def sync_service_class(config)
-        type = config.fetch("type").downcase
-        case type
-        when "xwiki"
-          ::Wikis::XWikiEnvSyncService
-        else
-          raise "Unsupported external wiki provider '#{type}'"
-        end
+    def add_lazy_loaded_subtree(parent, node)
+      parent.with_sub_tree(**node_options(node)) do |item|
+        item.with_leading_visual_icon(icon: node_icon(node))
+        item.with_loading_spinner(src: browse_wiki_pages_path(parent: node.identifier, provider_id:))
       end
     end
   end

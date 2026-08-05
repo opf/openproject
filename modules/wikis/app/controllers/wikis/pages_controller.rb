@@ -76,10 +76,7 @@ module Wikis
       builder = form_builder
 
       if query.blank?
-        browse_pages(nil).either(
-          ->(pages) { render "browse", locals: { builder:, form_name: name, pages:, provider_id: fetch_provider.id } },
-          ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
-        )
+        render_browsing_tree(name, builder)
       else
         search_pages(query, fetch_provider).either(
           ->(pages) { render(Wikis::SearchPagesResultComponent.new(pages, form_name: name, builder:), layout: false) },
@@ -92,12 +89,19 @@ module Wikis
       path = JSON.parse(params[:path])
 
       browse_pages(params.expect(:parent)).either(
-        ->(pages) { render "browse", layout: false, locals: { pages:, path:, provider_id: fetch_provider.id } },
+        ->(pages) { render(Wikis::BrowsePagesFragmentComponent.new(pages, path, fetch_provider.id), layout: false) },
         ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
       )
     end
 
     private
+
+    def render_browsing_tree(name, builder)
+      browse_pages(nil).either(
+        ->(pages) { render Wikis::BrowsePagesComponent.new(pages, builder, name, fetch_provider.id) },
+        ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+      )
+    end
 
     def fetch_provider
       Provider.visible.enabled.find(params.expect(:provider_id))

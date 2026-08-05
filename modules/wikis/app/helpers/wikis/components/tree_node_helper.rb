@@ -28,37 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module EnvData
-  module Wikis
-    class ExternalProviderSeeder < Seeder
-      def seed_data!
-        Setting.wiki_providers.each do |config|
-          print_status "    ↳ Creating or Updating wiki provider" do
-            result = sync_service_class(config).new(config).call
-
-            if result.success?
-              print_status "   - OK"
-            else
-              raise result.message
-            end
-          end
-        end
+module Wikis
+  module Components
+    module TreeNodeHelper
+      def node_options(node, expanded: false)
+        {
+          label: node.name,
+          select_variant: :single,
+          disabled: !node.enabled,
+          data: { node_id: node.identifier },
+          expanded:
+        }
       end
 
-      def applicable?
-        Setting.wiki_providers.present?
-      end
-
-      private
-
-      def sync_service_class(config)
-        type = config.fetch("type").downcase
-        case type
-        when "xwiki"
-          ::Wikis::XWikiEnvSyncService
-        else
-          raise "Unsupported external wiki provider '#{type}'"
-        end
+      def node_icon(node)
+        node.type == :wiki ? :book : :"op-file-doc"
       end
     end
   end
