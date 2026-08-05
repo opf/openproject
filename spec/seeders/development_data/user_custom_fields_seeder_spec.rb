@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe DemoData::UserCustomFieldsSeeder do
+RSpec.describe DevelopmentData::UserCustomFieldsSeeder do
   subject(:seeder) { described_class.new }
 
   # The default user custom field section is seeded as basic data; provide one here.

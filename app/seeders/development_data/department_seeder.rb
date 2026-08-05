@@ -28,10 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module DemoData
+module DevelopmentData
+  # Creates the fictional company staff the demo data is built around: the departments as
+  # organizational units and their users. Development data only, and it runs before the demo
+  # data so the demo projects can reference the users as members and assignees.
   class DepartmentSeeder < Seeder
     # Maps the member attributes in the seeding data to the user custom fields
-    # created by UserCustomFieldsSeeder, which runs earlier in the demo data.
+    # created by UserCustomFieldsSeeder, which runs earlier in the development data.
     CUSTOM_FIELD_BY_MEMBER_KEY = {
       "job_title" => "Job title",
       "spoken_languages" => "Spoken languages",
@@ -46,7 +49,15 @@ module DemoData
     end
 
     def applicable?
-      Group.organizational_units.none?
+      !seed_users_disabled? && Group.organizational_units.none?
+    end
+
+    def not_applicable_message
+      if seed_users_disabled?
+        "Skipping departments as seeding users is disabled through ENV"
+      else
+        "Skipping departments as there are already some organizational units"
+      end
     end
 
     private

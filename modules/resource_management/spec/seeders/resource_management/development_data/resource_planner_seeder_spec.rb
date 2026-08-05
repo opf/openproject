@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe ResourceManagement::DemoData::ResourcePlannerSeeder do
+RSpec.describe ResourceManagement::DevelopmentData::ResourcePlannerSeeder do
   include_context "with basic seed data"
 
   shared_let(:admin) { create(:admin) }
