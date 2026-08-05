@@ -86,6 +86,8 @@ properties:
     $ref: './schema_property_model.yml'
   category:
     $ref: './schema_property_model.yml'
+  categories:
+    $ref: './schema_property_model.yml'
   version:
     $ref: './schema_property_model.yml'
   targetVersions:

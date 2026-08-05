@@ -501,6 +501,31 @@ module API
 
         associated_resource :category
 
+        associated_resources :categories,
+                             v3_path: :category,
+                             representer: ::API::V3::Categories::CategoryRepresenter,
+                             getter: ->(*) {
+                               next unless embed_link?(:categories)
+
+                               represented.effective_categories.map do |category|
+                                 ::API::V3::Categories::CategoryRepresenter.create(category, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               represented.effective_categories.map do |category|
+                                 ::API::Decorators::LinkObject
+                                   .new(category,
+                                        property_name: :itself,
+                                        path: :category,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             },
+                             setter: ->(fragment:, **) do
+                               represented.category_ids = parse_link_ids_from_fragment(fragment, :category).compact
+                             end
+
         associated_resource :type
 
         associated_resource :priority
@@ -856,7 +881,8 @@ module API
                                 attachments
                                 budget
                                 target_versions
-                                observed_in_versions]
+                                observed_in_versions
+                                categories]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super

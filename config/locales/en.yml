@@ -446,6 +446,7 @@ en:
         ancestor: "Descendants of" # used for filtering of work packages that are descendants of a given work package
         begin_deletion: "Begin of the deletion"
         begin_insertion: "Begin of the insertion"
+        categories: "Categories"
         children: "Subelements"
         derived_done_ratio: "Total % complete"
         derived_remaining_hours: "Total remaining work"
@@ -1639,6 +1640,12 @@ en:
     quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
   api_v3:
     attributes:
+      category:
+        deprecated: >-
+          Deprecated: this single-valued field is being replaced by `categories`.
+          Read and write `categories` instead. While multiple categories is not enabled,
+          `categories` accepts at most one value and must not be written together
+          with `category` in the same request.
       property: "Property"
       version:
         deprecated: >-
