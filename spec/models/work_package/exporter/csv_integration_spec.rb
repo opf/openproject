@@ -207,6 +207,54 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     end
   end
 
+  context "with the categories column",
+          with_flag: { work_package_multiple_categories: true },
+          with_settings: { work_package_multiple_categories: true } do
+    let(:category_one) { create(:category, project:, name: "Bugs") }
+    let(:category_two) { create(:category, project:, name: "UI") }
+    let!(:work_package) do
+      create(:work_package, project:, type: type_a).tap do |wp|
+        wp.category_ids_replacements = [category_one.id, category_two.id]
+        wp.save!
+      end
+    end
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(subject categories))
+    end
+
+    it "exports the joined category names" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      expect(pairs["Categories"].split("; ")).to eq %w[Bugs UI]
+    end
+
+    it "preloads categories so cell rendering does not query per row" do
+      loaded = instance.work_packages.to_a
+
+      expect { loaded.each { it.categories.map(&:name) } }.to have_a_query_limit(0)
+    end
+  end
+
+  context "with the deprecated category column (multiple categories feature off)" do
+    let(:category_one) { create(:category, project:, name: "Bugs") }
+    let!(:work_package) do
+      create(:work_package, project:, type: type_a, category: category_one)
+    end
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(subject category))
+    end
+
+    it "exports the category name from the categories data" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      expect(pairs["Category"]).to eq "Bugs"
+    end
+  end
+
   context "when no displayed column has a backing association" do
     let!(:work_package) { create(:work_package, project:, type: type_a, subject: "No associations") }
     let(:query) do

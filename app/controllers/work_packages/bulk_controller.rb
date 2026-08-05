@@ -38,8 +38,11 @@ class WorkPackages::BulkController < ApplicationController
   include QueriesHelper
 
   include WorkPackages::BulkErrorMessage
-  include WorkPackages::TargetVersionNormalization
+  include WorkPackages::MultiValueAttributeNormalization
   include OpTurbo::ComponentStream
+
+  # Array-valued form attributes; see #attributes_for_update.
+  MULTI_VALUE_ATTRIBUTES = %i[target_version_ids category_ids].freeze
 
   def delete_dialog
     component =
@@ -158,13 +161,20 @@ class WorkPackages::BulkController < ApplicationController
     attributes = permitted_params.update_work_package
     attributes[:custom_field_values] = transform_attributes(attributes[:custom_field_values])
     attributes = attributes_with_normalized_parent_id(attributes)
-    # target_version_ids is an array param and must not be run through the generic
-    # transform below (which is built for scalar "none"/blank magic values), so pull
-    # it out, normalize it separately, and merge the result back in.
-    target_version_ids = normalized_target_version_ids(attributes.delete(:target_version_ids))
-    attributes = transform_attributes(attributes)
-    attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
-    attributes
+    multi_value_ids = extract_multi_value_ids(attributes)
+
+    transform_attributes(attributes).merge(multi_value_ids)
+  end
+
+  # target_version_ids and category_ids are array params and must not be run
+  # through the generic transform (which is built for scalar "none"/blank magic
+  # values), so they are removed from the attributes here and normalized
+  # separately. A nil result means "leave the existing set untouched" and is
+  # dropped rather than merged back in.
+  def extract_multi_value_ids(attributes)
+    MULTI_VALUE_ATTRIBUTES
+      .index_with { |attribute| normalized_multi_value_ids(attributes.delete(attribute)) }
+      .compact
   end
 
   def attributes_with_normalized_parent_id(attributes)

@@ -43,6 +43,8 @@ module WorkPackage::Exports
     #   workPackageValue:1234:targetVersions:singleline # Outputs the values of #1234 comma-separated (export default)
     #   workPackageValue:PROJ-10:targetVersions:singleline # Outputs the values of PROJ-10 comma-separated
     #   workPackageValue:1234:targetVersions:multiline # Outputs the values of #1234 one per line
+    #   workPackageValue:1234:categories:singleline # Outputs the values of #1234 comma-separated (export default)
+    #   workPackageValue:1234:categories:multiline # Outputs the values of #1234 one per line
     #
     #   projectLabel:active # Outputs current project label attribute "active"
     #   projectLabel:1234:active # Outputs project label attribute "active"
@@ -181,22 +183,21 @@ module WorkPackage::Exports
         custom_field = find_custom_field(obj, attribute)
 
         attribute_name = convert_to_attribute_name(custom_field, attribute, obj)
-        attribute_name = map_legacy_version(attribute_name, obj)
+        attribute_name = map_legacy_multi_value_attribute(attribute_name, obj)
         return " " unless can_view_attribute?(custom_field, obj, attribute_name)
 
         is_rich_text = custom_field&.formattable? || disabled_rich_text_fields.include?(attribute_name.to_sym)
         [format_attribute_value(attribute_name, obj.class, obj, is_rich_text, layout:), is_rich_text]
       end
 
-      ##
-      # The deprecated version attribute renders the work package's target
-      # versions.
-      def self.map_legacy_version(attribute_name, obj)
-        if obj.is_a?(WorkPackage) && attribute_name == "version"
-          "target_versions"
-        else
-          attribute_name
-        end
+      # The deprecated single-valued attributes render the whole set that replaces
+      # them.
+      LEGACY_MULTI_VALUE_ATTRIBUTES = { "version" => "target_versions", "category" => "categories" }.freeze
+
+      def self.map_legacy_multi_value_attribute(attribute_name, obj)
+        return attribute_name unless obj.is_a?(WorkPackage)
+
+        LEGACY_MULTI_VALUE_ATTRIBUTES.fetch(attribute_name, attribute_name)
       end
 
       def self.can_view_attribute?(custom_field, obj, attribute_name)

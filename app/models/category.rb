@@ -31,7 +31,11 @@
 class Category < ApplicationRecord
   belongs_to :project
   belongs_to :assigned_to, class_name: "Principal"
+  # Clears the deprecated single-category column; the join rows below carry the
+  # actual assignments.
   has_many :work_packages, dependent: :nullify
+  has_many :work_package_categories, dependent: :delete_all
+  has_many :categorized_work_packages, through: :work_package_categories, source: :work_package
 
   validates :name,
             uniqueness: { scope: [:project_id], case_sensitive: false },
@@ -49,10 +53,15 @@ class Category < ApplicationRecord
   # Destroy the category
   # If a category is specified, issues are reassigned to this category
   def destroy(reassign_to = nil)
-    if reassign_to && reassign_to.is_a?(Category) && reassign_to.project == project
-      WorkPackage.where("category_id = #{id}").update_all("category_id = #{reassign_to.id}")
+    affected_work_package_ids = work_package_categories.pluck(:work_package_id)
+
+    if reassign_to.is_a?(Category) && reassign_to.project == project
+      reassign_work_packages_to(reassign_to)
     end
-    destroy_without_reassign
+
+    destroy_without_reassign.tap do
+      resync_legacy_category_ids(affected_work_package_ids)
+    end
   end
 
   def <=>(other)
@@ -60,4 +69,36 @@ class Category < ApplicationRecord
   end
 
   def to_s; name end
+
+  private
+
+  def reassign_work_packages_to(other)
+    # Work packages that already carry the target category would violate the join
+    # table's uniqueness, so their row for this category is dropped rather than
+    # moved over.
+    already_assigned = WorkPackageCategory.where(category_id: other.id).select(:work_package_id)
+    work_package_categories.where(work_package_id: already_assigned).delete_all
+
+    work_package_categories.update_all(category_id: other.id, updated_at: Time.current)
+  end
+
+  # The deprecated work_packages.category_id column mirrors the alphabetically
+  # first category of a work package. Both destroy paths above touch it bluntly
+  # (`dependent: :nullify` clears it, the reassignment above overwrites it), which
+  # is wrong for work packages that hold more than one category. Recompute it from
+  # what is left in the join table. Can be dropped along with the column.
+  def resync_legacy_category_ids(work_package_ids)
+    return if work_package_ids.empty?
+
+    WorkPackage.where(id: work_package_ids).update_all(<<~SQL.squish)
+      category_id = (
+        SELECT work_package_categories.category_id
+        FROM work_package_categories
+        INNER JOIN categories ON categories.id = work_package_categories.category_id
+        WHERE work_package_categories.work_package_id = work_packages.id
+        ORDER BY categories.name, categories.id
+        LIMIT 1
+      )
+    SQL
+  end
 end

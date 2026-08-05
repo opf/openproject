@@ -96,9 +96,48 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       default_order: "desc"
     },
     category: {
-      association: "category",
-      sortable: "name",
-      groupable: "#{WorkPackage.table_name}.category_id"
+      if: -> { !Setting::WorkPackageMultipleCategories.active? },
+      group_by_class_name: "Category",
+      sortable: <<~SQL.squish,
+        (SELECT LOWER(c.name)
+           FROM work_package_categories wpc
+           INNER JOIN categories c ON c.id = wpc.category_id
+          WHERE wpc.work_package_id = work_packages.id
+          ORDER BY LOWER(c.name), wpc.category_id
+          LIMIT 1)
+      SQL
+      groupable: <<~SQL.squish
+        (SELECT wpc.category_id
+           FROM work_package_categories wpc
+           INNER JOIN categories c ON c.id = wpc.category_id
+          WHERE wpc.work_package_id = work_packages.id
+          ORDER BY LOWER(c.name), wpc.category_id
+          LIMIT 1)
+      SQL
+    },
+    categories: {
+      if: -> { Setting::WorkPackageMultipleCategories.active? },
+      sortable: [
+        <<~SQL.squish,
+          (SELECT STRING_AGG(LOWER(c.name), ' ' ORDER BY LOWER(c.name), wpc.category_id)
+             FROM work_package_categories wpc
+             INNER JOIN categories c ON c.id = wpc.category_id
+            WHERE wpc.work_package_id = work_packages.id)
+        SQL
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpc.category_id::text, '.' ORDER BY LOWER(c.name), wpc.category_id)
+             FROM work_package_categories wpc
+             INNER JOIN categories c ON c.id = wpc.category_id
+            WHERE wpc.work_package_id = work_packages.id)
+        SQL
+      ],
+      groupable:
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpc.category_id::text, '.' ORDER BY LOWER(c.name), wpc.category_id)
+             FROM work_package_categories wpc
+             INNER JOIN categories c ON c.id = wpc.category_id
+            WHERE wpc.work_package_id = work_packages.id)
+        SQL
     },
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },

@@ -33,6 +33,11 @@ module IncomingEmails
 
     REFERENCES_RE = %r{^<?op\.([a-z_]+)-(\d+)@}
 
+    # Attributes whose keyword may override the configured value unless the caller
+    # pinned that value explicitly. Target versions follow the same rule as the
+    # deprecated single version.
+    OVERRIDABLE_BY_DEFAULT = %i[project status version target_versions type priority].freeze
+
     AUTOMATIC_HEADERS = {
       "X-Auto-Response-Suppress" => "oof",
       "Auto-Submitted" => /\Aauto-/
@@ -275,27 +280,26 @@ module IncomingEmails
       nil
     end
 
-    def assign_options(value) # rubocop:disable Metrics/AbcSize
+    def assign_options(value)
       options = value.dup
 
       options[:issue] ||= {}
       options[:allow_override] = allow_override_option(options).to_set(&:to_sym)
-      # Project needs to be overridable if not specified
-      options[:allow_override] << :project unless options[:issue].has_key?(:project)
-      # Status overridable by default
-      options[:allow_override] << :status unless options[:issue].has_key?(:status)
-      # Version overridable by default
-      options[:allow_override] << :version unless options[:issue].has_key?(:version)
-      # Target versions follow the same rule as the deprecated single version
-      options[:allow_override] << :target_versions unless options[:issue].has_key?(:target_versions)
-      # Type overridable by default
-      options[:allow_override] << :type unless options[:issue].has_key?(:type)
-      # Priority overridable by default
-      options[:allow_override] << :priority unless options[:issue].has_key?(:priority)
+      add_default_allow_override(options)
 
       options[:no_permission_check] = ActiveRecord::Type::Boolean.new.cast(options[:no_permission_check])
 
       options
+    end
+
+    def add_default_allow_override(options)
+      OVERRIDABLE_BY_DEFAULT.each do |attribute|
+        options[:allow_override] << attribute unless options[:issue].has_key?(attribute)
+      end
+
+      # Unlike versions, the category keyword is not overridable by default, so the
+      # categories keyword is overridable exactly when the deprecated one is.
+      options[:allow_override] << :categories if options[:allow_override].include?(:category)
     end
 
     def allow_override_option(options)

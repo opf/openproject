@@ -154,7 +154,7 @@ module IncomingEmails::Handlers
     def wp_attributes_from_keywords(work_package)
       {
         "assigned_to_id" => wp_assignee_from_keywords(work_package),
-        "category_id" => wp_category_from_keywords(work_package),
+        "category_ids" => wp_category_ids_from_keywords(work_package),
         "due_date" => wp_due_date_from_keywords,
         "estimated_hours" => wp_estimated_hours_from_keywords,
         "parent_id" => wp_parent_from_keywords,
@@ -185,8 +185,24 @@ module IncomingEmails::Handlers
       lookup_case_insensitive_key(IssuePriority, :priority)
     end
 
-    def wp_category_from_keywords(work_package)
-      lookup_case_insensitive_key(work_package.project.categories, :category)
+    # Both keywords are always read so neither leaks into the description or
+    # journal note; the categories keyword takes precedence over the deprecated
+    # single-category one when both are supplied.
+    def wp_category_ids_from_keywords(work_package)
+      plural = get_keyword(:categories)
+      legacy = get_keyword(:category)
+      keyword = plural.presence || legacy
+      return if keyword.blank?
+
+      matching_category_ids(work_package, keyword)
+    end
+
+    # The single-value limit is enforced by the contract, so the full
+    # comma-separated list is parsed here regardless of the feature flag.
+    def matching_category_ids(work_package, keyword)
+      names = keyword.split(",").map(&:strip).compact_blank
+      categories_by_name = work_package.project.categories.index_by { |category| category.name.downcase }
+      names.filter_map { |name| categories_by_name[name.downcase]&.id }
     end
 
     def wp_accountable_from_keywords(work_package)

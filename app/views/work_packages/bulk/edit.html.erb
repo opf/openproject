@@ -123,14 +123,18 @@ See COPYRIGHT and LICENSE files for more details.
             </div>
           </div>
           <% if @project %>
+            <%# Always write through category_ids; the feature only toggles single vs. multiple select. %>
+            <% multiple_categories = Setting::WorkPackageMultipleCategories.active? %>
             <div class="form--field">
-              <%= styled_label_tag :work_package_category_id, WorkPackage.human_attribute_name(:category) %>
+              <%= styled_label_tag :work_package_category_ids,
+                                   WorkPackage.human_attribute_name(multiple_categories ? :categories : :category) %>
               <div class="form--field-container">
                 <%= styled_select_tag(
-                      "work_package[category_id]",
+                      "work_package[category_ids][]",
                       content_tag("option", t(:label_none), value: "none") +
                       options_from_collection_for_select(@project.categories, :id, :name),
-                      include_blank: t(:label_no_change_option)
+                      include_blank: t(:label_no_change_option),
+                      multiple: multiple_categories
                     ) %>
               </div>
             </div>

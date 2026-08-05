@@ -65,6 +65,7 @@ import { ProgressPopoverEditFieldComponent } from 'core-app/shared/components/fi
 import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
 import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
 import { VersionsEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
+import { CategoriesEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/categories-edit-field.component';
 import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
 import { CombinedDateEditFieldComponent } from './edit/field-types/combined-date-edit-field.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -120,6 +121,7 @@ import { FormsModule } from '@angular/forms';
     ProjectEditFieldComponent,
     UserEditFieldComponent,
     VersionsEditFieldComponent,
+    CategoriesEditFieldComponent,
     WorkPackageEditFieldComponent,
     EditFormComponent,
     DisplayFieldComponent,

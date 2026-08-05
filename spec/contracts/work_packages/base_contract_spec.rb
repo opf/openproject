@@ -1504,6 +1504,151 @@ RSpec.describe WorkPackages::BaseContract do
     end
   end
 
+  describe "categories" do
+    subject(:contract) { described_class.new(work_package, current_user) }
+
+    let(:assignable_category) { build_stubbed(:category, name: "Alpha") }
+    let(:other_assignable_category) { build_stubbed(:category, name: "Beta") }
+    let(:non_assignable_category) { build_stubbed(:category, name: "Foreign") }
+
+    before do
+      allow(work_package)
+        .to receive(:assignable_categories)
+        .and_return([assignable_category, other_assignable_category])
+    end
+
+    describe "assignability" do
+      it "is valid with assignable IDs" do
+        work_package.category_ids_replacements = [assignable_category.id]
+        contract.validate
+
+        expect(contract.errors.symbols_for(:categories)).to be_empty
+      end
+
+      it "is invalid with a category of another project" do
+        work_package.category_ids_replacements = [non_assignable_category.id]
+        contract.validate
+
+        expect(contract.errors.symbols_for(:categories)).to include(:inclusion)
+      end
+
+      it "is valid with an empty array" do
+        work_package.category_ids_replacements = []
+        contract.validate
+
+        expect(contract.errors.symbols_for(:categories)).to be_empty
+      end
+
+      it "is valid when not overridden" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:categories)).to be_empty
+      end
+    end
+
+    describe "length" do
+      before do
+        work_package.category_ids_replacements = [assignable_category.id, other_assignable_category.id]
+      end
+
+      context "when the multiple-categories feature is disabled" do
+        before { contract.validate }
+
+        it "rejects more than one category" do
+          expect(contract.errors.symbols_for(:base)).to include(:categories_only_allow_single_value)
+        end
+      end
+
+      context "when the multiple-categories feature is enabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        before { contract.validate }
+
+        it "allows more than one category" do
+          expect(contract.errors.symbols_for(:base)).not_to include(:categories_only_allow_single_value)
+        end
+      end
+    end
+
+    describe "mutual exclusion of category_id and category_ids" do
+      context "when the user changes both to different categories" do
+        before do
+          work_package.category = other_assignable_category
+          work_package.category_ids_replacements = [assignable_category.id]
+          contract.validate
+        end
+
+        it "is invalid" do
+          expect(contract.errors.symbols_for(:base)).to include(:category_and_categories_mutually_exclusive)
+        end
+      end
+
+      context "when both are set to the same category" do
+        before do
+          work_package.category = assignable_category
+          work_package.category_ids_replacements = [assignable_category.id]
+          contract.validate
+        end
+
+        it "is valid (a consistent write is allowed)" do
+          expect(contract.errors.symbols_for(:base))
+            .not_to include(:category_and_categories_mutually_exclusive)
+        end
+      end
+
+      context "when the written category_id is part of a larger set",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        before do
+          work_package.category = other_assignable_category
+          work_package.category_ids_replacements = [assignable_category.id, other_assignable_category.id]
+          contract.validate
+        end
+
+        it "is valid (the mirrored member is decided by the set's ordering)" do
+          expect(contract.errors.symbols_for(:base))
+            .not_to include(:category_and_categories_mutually_exclusive)
+        end
+      end
+
+      context "when the user clears category_id while writing a non-empty set" do
+        let(:work_package) { build_stubbed(:work_package, type:, project:, category: other_assignable_category) }
+
+        before do
+          work_package.category = nil
+          work_package.category_ids_replacements = [assignable_category.id]
+          contract.validate
+        end
+
+        it "is invalid" do
+          expect(contract.errors.symbols_for(:base))
+            .to include(:category_and_categories_mutually_exclusive)
+        end
+      end
+
+      context "when the system rewrites category_id during the change (e.g. a project move)" do
+        # The set-attributes service extends the model with ChangedBySystem before
+        # validation, so mirror that here to distinguish the system-driven change
+        # from a user one.
+        let(:work_package) do
+          build_stubbed(:work_package, type:, project:)
+            .extend(OpenProject::ChangedBySystem)
+        end
+
+        before do
+          work_package.change_by_system { work_package.category = other_assignable_category }
+          work_package.category_ids_replacements = [assignable_category.id]
+          contract.validate
+        end
+
+        it "is valid (a system-driven category_id change is not a contradiction)" do
+          expect(contract.errors.symbols_for(:base))
+            .not_to include(:category_and_categories_mutually_exclusive)
+        end
+      end
+    end
+  end
+
   describe "parent" do
     let(:parent) { build_stubbed(:work_package) }
 

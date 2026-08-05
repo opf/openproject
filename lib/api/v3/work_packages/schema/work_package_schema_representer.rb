@@ -39,7 +39,8 @@ module API
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
-                                  Setting::WorkPackageMultipleVersions.active?]
+                                  Setting::WorkPackageMultipleVersions.active?,
+                                  Setting::WorkPackageMultipleCategories.active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -300,7 +301,29 @@ module API
                                              title: category.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         deprecated: true,
+                                         description: -> { I18n.t("api_v3.attributes.category.deprecated") }
+
+          # While multiple categories is not enabled, the field keeps the label of the
+          # single-valued category field it replaces and announces via options.multiple
+          # that the UI must restrict it to a single value.
+          schema_with_allowed_collection :categories,
+                                         type: "[]Category",
+                                         name_source: -> {
+                                           attribute = Setting::WorkPackageMultipleCategories.active? ? :categories : :category
+                                           WorkPackage.human_attribute_name(attribute)
+                                         },
+                                         value_representer: Categories::CategoryRepresenter,
+                                         link_factory: ->(category) {
+                                           {
+                                             href: api_v3_paths.category(category.id),
+                                             title: category.name
+                                           }
+                                         },
+                                         writable: ->(*) { represented.writable?(:categories) },
+                                         required: false,
+                                         options: -> { { multiple: Setting::WorkPackageMultipleCategories.active? } }
 
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,

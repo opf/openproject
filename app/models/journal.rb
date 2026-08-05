@@ -51,6 +51,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::AgendaItemTitle
   register_journal_formatter OpenProject::JournalFormatter::AllocatedTime
   register_journal_formatter OpenProject::JournalFormatter::Attachment
+  register_journal_formatter OpenProject::JournalFormatter::Categories
   register_journal_formatter OpenProject::JournalFormatter::Cause
   register_journal_formatter OpenProject::JournalFormatter::CustomComment
   register_journal_formatter OpenProject::JournalFormatter::CustomField
@@ -123,6 +124,7 @@ class Journal < ApplicationRecord
   has_many :project_phase_journals, class_name: "Journal::ProjectPhaseJournal", dependent: :delete_all
   has_many :storable_journals, class_name: "Journal::StorableJournal", dependent: :delete_all
   has_many :work_package_version_journals, class_name: "Journal::WorkPackageVersionJournal", dependent: :delete_all
+  has_many :work_package_category_journals, class_name: "Journal::WorkPackageCategoryJournal", dependent: :delete_all
 
   has_many :notifications, dependent: :destroy
 

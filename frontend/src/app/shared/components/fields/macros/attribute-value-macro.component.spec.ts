@@ -99,4 +99,31 @@ describe('AttributeValueMacroComponent', () => {
       expect(component.layout).toBeUndefined();
     });
   });
+
+  describe('with the deprecated category attribute on a work package', () => {
+    it('maps to categories with the singleline layout', async () => {
+      const component = await render({ model: 'workPackage', id: '42', attribute: 'category' });
+
+      expect(component.fieldName).toEqual('categories');
+      expect(component.layout).toEqual('singleline');
+    });
+
+    it('keeps an explicitly requested multiline layout', async () => {
+      const component = await render({
+        model: 'workPackage', id: '42', attribute: 'category', layout: 'multiline',
+      });
+
+      expect(component.fieldName).toEqual('categories');
+      expect(component.layout).toEqual('multiline');
+    });
+  });
+
+  describe('with a category attribute on another resource type', () => {
+    it('keeps the attribute untouched', async () => {
+      const component = await render({ model: 'project', id: '42', attribute: 'category' }, 'Project');
+
+      expect(component.fieldName).toEqual('category');
+      expect(component.layout).toBeUndefined();
+    });
+  });
 });

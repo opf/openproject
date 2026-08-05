@@ -28,23 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to a set of versions referenced by a work package. Each
-# value is the sorted, comma-joined version ids (see JournalChanges); every id
-# is resolved to the version's name, dropping versions that have been deleted in
-# the meantime.
-class OpenProject::JournalFormatter::JoinedVersions < JournalFormatter::NamedAssociation
-  private
-
-  def format_values(values, key, cache:)
-    klass = class_from_field(key)
-
-    values.map do |value|
-      next if value.blank? || klass.nil?
-
-      value.to_s.split(",")
-           .filter_map { |id| associated_object(klass, id.to_i, cache:)&.name }
-           .join(", ")
-           .presence
-    end
-  end
+class WorkPackageCategory < ApplicationRecord
+  belongs_to :work_package
+  belongs_to :category
 end

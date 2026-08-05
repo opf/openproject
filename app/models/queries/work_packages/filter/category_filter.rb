@@ -28,6 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Filters on the categories referenced through work_package_categories, which are
+# replacing the legacy `work_packages.category_id` column.
+#
+# Unlike versions, categories form a single set, so there is no second filter to
+# introduce alongside this one: the API name derived from the key below
+# ("category") is the one the new attribute would want anyway. Only the label
+# follows the multiple-categories feature.
 class Queries::WorkPackages::Filter::CategoryFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
@@ -46,6 +53,12 @@ class Queries::WorkPackages::Filter::CategoryFilter <
     :category_id
   end
 
+  def human_name
+    attribute = Setting::WorkPackageMultipleCategories.active? ? "categories" : "category"
+
+    WorkPackage.human_attribute_name(attribute)
+  end
+
   def value_objects
     available_categories = all_project_categories.index_by(&:id)
 
@@ -57,7 +70,33 @@ class Queries::WorkPackages::Filter::CategoryFilter <
     true
   end
 
+  def where
+    case operator
+    when "!" # is not
+      "NOT (#{categories_matching_values})"
+    when "!*" # empty
+      "NOT (#{any_category_associated})"
+    when "*" # not empty
+      any_category_associated
+    else # "=" is (or)
+      categories_matching_values
+    end
+  end
+
   private
+
+  def any_category_associated
+    "EXISTS (#{category_associations.select(1).to_sql})"
+  end
+
+  def categories_matching_values
+    "EXISTS (#{category_associations.where(category_id: values).select(1).to_sql})"
+  end
+
+  def category_associations
+    WorkPackageCategory
+      .where("#{WorkPackageCategory.table_name}.work_package_id = #{WorkPackage.table_name}.id")
+  end
 
   def all_project_categories
     @all_project_categories ||= project.categories

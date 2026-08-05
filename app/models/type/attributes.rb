@@ -86,6 +86,7 @@ module Type::Attributes
                                               *wp_cf_cache_parts,
                                               EXCLUDED.length,
                                               Setting::WorkPackageMultipleVersions.active?,
+                                              Setting::WorkPackageMultipleCategories.active?,
                                               merge_date) do
         calculate_all_work_package_form_attributes(merge_date)
       end
@@ -139,7 +140,10 @@ module Type::Attributes
       # We always want to include the priority even if its required
       return false if key == "priority"
 
-      excluded_version_attribute?(key) || EXCLUDED.include?(key) || definition[:required]
+      excluded_version_attribute?(key) ||
+        excluded_category_attribute?(key) ||
+        EXCLUDED.include?(key) ||
+        definition[:required]
     end
 
     # Only one of the two version attributes is offered at a time, matching the
@@ -147,6 +151,13 @@ module Type::Attributes
     # the deprecated single version without it.
     def excluded_version_attribute?(key)
       key == (Setting::WorkPackageMultipleVersions.active? ? "version" : "target_versions")
+    end
+
+    # As for versions, only one of the two category attributes is offered at a
+    # time: categories with the multiple categories feature enabled, the
+    # deprecated single category without it.
+    def excluded_category_attribute?(key)
+      key == (Setting::WorkPackageMultipleCategories.active? ? "category" : "categories")
     end
 
     def merge_date_for_form_attributes(attributes)

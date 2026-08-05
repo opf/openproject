@@ -1,0 +1,33 @@
+<ng-select [(ngModel)]="model"
+  [ngClass]="'inline-edit--field -multi-select'"
+  [required]="required"
+  [clearable]="!required"
+  [disabled]="inFlight"
+  [id]="handler.htmlId"
+  [items]="selectableOptions"
+  bindLabel="name"
+  [virtualScroll]="true"
+  [clearSearchOnAdd]="true"
+  (keydown)="handler.handleUserKeydown($event, true)"
+  (open)="onOpen()"
+  (close)="onClose()"
+  (add)="repositionDropdown()"
+  (remove)="repositionDropdown()"
+  (change)="onSelectionChange()"
+  [multiple]="allowMultiple"
+  [closeOnSelect]="!allowMultiple"
+  [appendTo]="appendTo"
+  [dropdownPosition]="'top'"
+  [hideSelected]="allowMultiple">
+  <ng-template ng-option-tmp let-item="item">
+    <span class="ng-option-label ellipsis" [textContent]="item.name"></span>
+  </ng-template>
+</ng-select>
+
+@if (!handler.inEditMode && allowMultiple) {
+  <edit-field-controls [fieldController]="self"
+    (onSave)="handler.handleUserSubmit()"
+    (onCancel)="handler.handleUserCancel()"
+    [saveTitle]="text.save"
+    [cancelTitle]="text.cancel" />
+}

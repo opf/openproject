@@ -82,4 +82,33 @@ RSpec.describe "Work Package table group headers", :js do
       group_by.expect_grouped_by_value "-", 1
     end
   end
+
+  context "with multiple categories active",
+          with_flag: { work_package_multiple_categories: true },
+          with_settings: { work_package_multiple_categories: true } do
+    # The single category column no longer exists once the feature is on, so the
+    # query would not even validate with the shared column names.
+    let!(:query) do
+      query = build(:query, user:, project:)
+      query.column_names = ["subject", "categories"]
+      query.show_hierarchies = false
+
+      query.save!
+      query
+    end
+
+    it "shows one group header per category set" do
+      wp_cat2.category_ids_replacements = [category.id, category2.id]
+      wp_cat2.save!
+
+      group_by.enable_via_menu "Categories"
+
+      # The category set is the group key: {Foo} and {Bar, Foo} are separate
+      # groups, work packages without categories are grouped under "-"
+      group_by.expect_number_of_groups 3
+      group_by.expect_grouped_by_value "Foo", 1
+      group_by.expect_grouped_by_value "Bar, Foo", 1
+      group_by.expect_grouped_by_value "-", 1
+    end
+  end
 end

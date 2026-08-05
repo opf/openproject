@@ -112,11 +112,13 @@ RSpec.describe Query::SortCriteria do
     end
 
     context "with multiple sort_criteria with order handling and misc order statement" do
-      let(:sort_criteria) { [%w[category desc], %w[start_date asc]] }
+      # `type` is sorted through its association, so its sortable is a bare column
+      # name rather than a work_packages one.
+      let(:sort_criteria) { [%w[type desc], %w[start_date asc]] }
 
       it "adds the order handling (and the default order by id)" do
         expect(subject)
-          .to eq [["name DESC"],
+          .to eq [["position DESC"],
                   ["work_packages.start_date"],
                   ["work_packages.id DESC"]]
       end

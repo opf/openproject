@@ -30,7 +30,7 @@
 
 # Renders the change to the set of target versions
 # (see JournalChanges#get_target_versions_changes).
-class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedVersions
+class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedAssociation
   private
 
   # While the multiple versions feature is inactive, the rest of the UI still

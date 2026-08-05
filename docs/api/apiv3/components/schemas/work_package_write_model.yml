@@ -63,6 +63,23 @@ properties:
               The category of the work package
 
               **Resource**: Category
+
+              **Deprecated**: this single-valued field is being replaced by `categories`.
+              Read and write `categories` instead. While multiple categories is not enabled,
+              `category` must not be written together with `categories` in the same request.
+      categories:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          List of categories associated to the work package
+
+          **Resource**: Collection of Category
+
+          # Conditions
+
+          - Transitioning from single to multiple category support
+          - (Temporary) Only allows a single value for compatibility with the category field
       type:
         allOf:
           - $ref: './link.yml'

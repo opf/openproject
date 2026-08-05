@@ -1359,6 +1359,11 @@ module Settings
         default: "field",
         allowed: %w[field status]
       },
+      work_package_multiple_categories: {
+        description: "Enable multiple category assignments on work packages.",
+        format: :boolean,
+        default: false
+      },
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",
         format: :boolean,

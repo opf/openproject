@@ -151,7 +151,7 @@ module API
                 SQL
               )
               .includes(:attachable_journals, :customizable_journals, :storable_journals,
-                        :work_package_version_journals)
+                        :work_package_version_journals, :work_package_category_journals)
           end
         end
       end

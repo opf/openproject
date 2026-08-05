@@ -29,9 +29,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
-  MultiSelectEditFieldComponent,
-} from 'core-app/shared/components/fields/edit/field-types/multi-select-edit-field.component';
-import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
+  SingleOrMultiSelectEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/single-or-multi-select-edit-field.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -56,7 +55,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class VersionsEditFieldComponent extends MultiSelectEditFieldComponent implements OnInit {
+export class VersionsEditFieldComponent extends SingleOrMultiSelectEditFieldComponent implements OnInit {
   readonly apiV3Service = inject(ApiV3Service);
   readonly currentProject = inject(CurrentProjectService);
   readonly halNotification = inject(HalResourceNotificationService);
@@ -65,8 +64,6 @@ export class VersionsEditFieldComponent extends MultiSelectEditFieldComponent im
   public createAllowed:false|((name:string) => Promise<VersionResource>) = false;
 
   public createLabel = this.I18n.t('js.label_create');
-
-  private noValueOption:ValueOption = { name: this.text.placeholder, href: null };
 
   groupByFn = (item:HalResource):string|null => {
     // Do not group the "-" (no value) option
@@ -79,66 +76,6 @@ export class VersionsEditFieldComponent extends MultiSelectEditFieldComponent im
   ngOnInit():void {
     super.ngOnInit();
     this.setupVersionCreation();
-  }
-
-  /** Whether the schema allows assigning more than one version. */
-  public get allowMultiple():boolean {
-    return (this.schema.options as { multiple?:boolean }|undefined)?.multiple !== false;
-  }
-
-  /** Memoized options of the selectableOptions getter, keyed by the array they were built from. */
-  private selectableOptionsSource:unknown = null;
-
-  private selectableOptionsBuilt:ValueOption[] = [];
-
-  /**
-   * The selectable options, extended by an explicit "-" option to unset
-   * the value in single value mode (mirroring the single select fields).
-   *
-   * The getter is bound in the template, so it must return a stable array
-   * reference while the available options stay the same — a fresh array per
-   * change detection cycle would make ng-select reprocess the whole list on
-   * every tick.
-   */
-  public get selectableOptions():HalResource[]|ValueOption[] {
-    if (this.allowMultiple || this.required) {
-      return this.availableOptions as HalResource[];
-    }
-
-    if (this.selectableOptionsSource !== this.availableOptions) {
-      this.selectableOptionsSource = this.availableOptions;
-      this.selectableOptionsBuilt = [this.noValueOption, ...(this.availableOptions as ValueOption[])];
-    }
-
-    return this.selectableOptionsBuilt;
-  }
-
-  /**
-   * The ng-select model: the selected options in multiple mode,
-   * the single selected option (or null) otherwise.
-   */
-  public get model():ValueOption[]|ValueOption|null {
-    if (this.allowMultiple) {
-      return this.selectedOption;
-    }
-
-    return this.selectedOption[0] ?? null;
-  }
-
-  public set model(val:ValueOption[]|ValueOption|null) {
-    const values = val == null ? [] : [val].flat();
-    // Selecting the "-" option unsets the value.
-    this.selectedOption = values.filter((option) => option.href != null);
-  }
-
-  /**
-   * In single value mode the field saves right after selection, mirroring the
-   * behavior of the single select edit fields it stands in for.
-   */
-  public onSelectionChange():void {
-    if (!this.allowMultiple) {
-      void this.handler.handleUserSubmit();
-    }
   }
 
   /**

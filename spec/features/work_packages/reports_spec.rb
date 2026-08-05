@@ -151,4 +151,36 @@ RSpec.describe "work package reports", :js do
       end
     end
   end
+
+  context "with the multiple categories feature enabled",
+          with_flag: { work_package_multiple_categories: true },
+          with_settings: { work_package_multiple_categories: true } do
+    let!(:category_a) { create(:category, project:, name: "Alpha bugs") }
+    let!(:category_b) { create(:category, project:, name: "Beta docs") }
+    let!(:wp_multi) do
+      create(:work_package, project:, type: type_a, status: type_a.statuses.first).tap do |wp|
+        wp.category_ids_replacements = [category_a.id, category_b.id]
+        wp.save!
+      end
+    end
+
+    it "counts a work package with several categories under each of them" do
+      wp_table_page.visit!
+
+      within ".main-menu--children" do
+        click_on "Summary"
+      end
+
+      expect(page).to have_text "CATEGORY"
+
+      click_link "Further analyze: Category"
+
+      aggregate_failures do
+        [category_a, category_b].each do |category|
+          row = page.find(:xpath, "//tbody/tr[td[normalize-space()='#{category.name}']]")
+          expect(row).to have_css("td:last-child", text: "1")
+        end
+      end
+    end
+  end
 end

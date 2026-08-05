@@ -28,23 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared normalization for the array-valued +target_version_ids+ parameter used
-# by the work package move and bulk-edit forms. It is pulled out of the generic
-# scalar "none"/blank attribute transforms (which are built for scalar values)
-# and normalized here instead.
-module WorkPackages::TargetVersionNormalization
-  extend ActiveSupport::Concern
+# Renders the change to the set of categories
+# (see JournalChanges#get_categories_changes).
+class OpenProject::JournalFormatter::Categories < OpenProject::JournalFormatter::JoinedAssociation
+  private
 
-  included do
-    private
-
-    # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
-    #   * blank selection  -> nil  (leave existing target_versions untouched)
-    #   * "none" selection -> []   (clear all target_versions)
-    #   * a version id      -> [id]
-    def normalized_target_version_ids(raw)
-      values = Array(raw).compact_blank
-      values == ["none"] ? [] : values.presence
+  # While the multiple categories feature is inactive, the rest of the UI still
+  # labels the attribute "Category"; the journal entry follows suit.
+  def label(key)
+    if Setting::WorkPackageMultipleCategories.active?
+      super
+    else
+      super("category")
     end
   end
 end

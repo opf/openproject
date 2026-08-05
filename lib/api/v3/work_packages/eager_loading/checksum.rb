@@ -63,11 +63,26 @@ module API
             # target (as `version` and `targetVersions`) and the observed_in
             # rows (as `observedInVersions`). The kind is part of the aggregated
             # value so that moving a version between kinds busts the cache too.
+            # The parts are separated so that no two distinct tuples can
+            # concatenate to the same string and collide.
             VERSIONS_CHECKSUM_SQL = <<~SQL.squish
-              (SELECT COALESCE(STRING_AGG(CONCAT(wpv.kind, v.id, v.updated_at), ',' ORDER BY wpv.kind, v.id), '')
+              (SELECT COALESCE(STRING_AGG(CONCAT_WS('-', wpv.kind, v.id, v.updated_at), ',' ORDER BY wpv.kind, v.id), '')
                  FROM work_package_versions wpv
                  INNER JOIN versions v ON v.id = wpv.version_id
                 WHERE wpv.work_package_id = work_packages.id)
+            SQL
+
+            # Same reasoning as VERSIONS_CHECKSUM_SQL: the categories are a
+            # has_many that the left_joins/pluck design cannot express, and the
+            # representer renders every one of them (as `categories`), not just
+            # the one the deprecated category association can see.
+            # The parts are separated so that no two distinct tuples can
+            # concatenate to the same string and collide.
+            CATEGORIES_CHECKSUM_SQL = <<~SQL.squish
+              (SELECT COALESCE(STRING_AGG(CONCAT_WS('-', c.id, c.updated_at), ',' ORDER BY c.id), '')
+                 FROM work_package_categories wpc
+                 INNER JOIN categories c ON c.id = wpc.category_id
+                WHERE wpc.work_package_id = work_packages.id)
             SQL
 
             def md5_concat
@@ -77,6 +92,7 @@ module API
                 %W[#{table_name}.id #{table_name}.updated_at]
               end
               md5_parts << VERSIONS_CHECKSUM_SQL
+              md5_parts << CATEGORIES_CHECKSUM_SQL
 
               <<-SQL
                 MD5(CONCAT(#{md5_parts.join(', ')}))

@@ -46,6 +46,9 @@ module WorkPackages
     attribute :type_id
     attribute :priority_id
     attribute :category_id
+    attribute :categories do
+      validate_categories_are_assignable
+    end
     attribute :version_id,
               permission: :assign_versions do
       validate_version_is_assignable
@@ -65,6 +68,7 @@ module WorkPackages
     validate :validate_no_reopen_on_closed_version
     validate :validate_versions_permission
     validate :validate_target_versions_and_legacy_version_id
+    validate :validate_categories_and_legacy_category_id
 
     attribute :project_id
 
@@ -218,7 +222,7 @@ module WorkPackages
     end
 
     def assignable_categories
-      model.project.categories if model.project.respond_to?(:categories)
+      model.assignable_categories if model.project.respond_to?(:categories)
     end
 
     def assignable_priorities
@@ -392,6 +396,56 @@ module WorkPackages
         errors.add :category, :does_not_exist
       elsif category_not_of_project?
         errors.add :category, :only_same_project_categories_allowed
+      end
+    end
+
+    # While the deprecated single category_id column coexists with the categories
+    # association, the two must not contradict each other. This enforces both
+    # constraints of that transitional period in one place:
+    #   * categories behaves as a single value (at most one entry) unless the
+    #     multiple-categories feature is enabled, and
+    #   * category_id and categories may both be written in one request as long as
+    #     they agree; only an actual contradiction is rejected.
+    def validate_categories_and_legacy_category_id
+      return unless model.override_categories?
+
+      validate_categories_length
+      validate_category_and_categories_not_contradict
+    end
+
+    def validate_categories_length
+      return if Setting::WorkPackageMultipleCategories.active?
+
+      if model.category_ids_replacements.length > 1
+        errors.add :base, :categories_only_allow_single_value
+      end
+    end
+
+    def validate_category_and_categories_not_contradict
+      # Only a user writing both fields is a real contradiction. category_id is
+      # also rewritten by the system (e.g. on a project move, when the old
+      # category has no counterpart in the target project); that change is driven
+      # by the categories override and must not be flagged here.
+      return unless changed_by_user.include?("category_id")
+
+      # The deprecated column is re-derived from the set on save, so a category_id
+      # the user wrote only has to be part of the set they wrote. Which member ends
+      # up mirrored is decided by the set's (name) ordering.
+      contradiction = if model.category_id.nil?
+                        model.category_ids_replacements.any?
+                      else
+                        model.category_ids_replacements.exclude?(model.category_id)
+                      end
+
+      errors.add :base, :category_and_categories_mutually_exclusive if contradiction
+    end
+
+    def validate_categories_are_assignable
+      return if model.category_ids_replacements.nil?
+
+      assignable_ids = assignable_categories&.map(&:id) || []
+      if (model.category_ids_replacements - assignable_ids).any?
+        errors.add :categories, :inclusion
       end
     end
 

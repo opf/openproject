@@ -34,7 +34,7 @@ class Journals::CreateService
 
     # Core associations are defined here. Module-specific associations can be defined in engines
     # using `Journals::CreateService::Association.register`.
-    @registry = Set.new(%i[Attachable CustomComment Customizable ProjectPhase WorkPackageVersion])
+    @registry = Set.new(%i[Attachable CustomComment Customizable ProjectPhase WorkPackageVersion WorkPackageCategory])
 
     class << self
       def register(*names)

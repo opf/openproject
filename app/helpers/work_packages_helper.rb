@@ -153,6 +153,22 @@ module WorkPackagesHelper
     end
   end
 
+  def work_package_categories_label
+    attribute = Setting::WorkPackageMultipleCategories.active? ? :categories : :category
+    WorkPackage.human_attribute_name(attribute)
+  end
+
+  # Presented value for the category(ies) attribute, read from the categories
+  # association. Legacy behaviour surfaces the single associated category; with the
+  # feature on it lists all of them (the association is already name-ordered).
+  def work_package_categories_value(work_package)
+    if Setting::WorkPackageMultipleCategories.active?
+      work_package.categories.join(", ")
+    else
+      work_package.categories.first
+    end
+  end
+
   private
 
   def truncated_work_package_description(work_package, lines = 3) # rubocop:disable Metrics/AbcSize

@@ -969,7 +969,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "categories" do
+    describe "category" do
       it_behaves_like "has basic schema properties" do
         let(:path) { "category" }
         let(:type) { "Category" }
@@ -977,12 +977,64 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
         let(:location) { "_links" }
+        let(:description) { I18n.t("api_v3.attributes.category.deprecated") }
       end
 
       it_behaves_like "has a collection of allowed values" do
         let(:json_path) { "category" }
         let(:href_path) { "categories" }
         let(:factory) { :category }
+      end
+    end
+
+    describe "categories" do
+      before do
+        allow(schema).to receive(:writable?).with(:categories).and_return true
+      end
+
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "categories" }
+        let(:type) { "[]Category" }
+        let(:name) { I18n.t("attributes.category") }
+        let(:required) { false }
+        let(:writable) { true }
+        let(:location) { "_links" }
+      end
+
+      it "announces the single value restriction while multiple categories is inactive" do
+        expect(subject).to be_json_eql(false.to_json).at_path("categories/options/multiple")
+      end
+
+      context "when not writable" do
+        before do
+          allow(schema).to receive(:writable?).with(:categories).and_return false
+        end
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "categories" }
+          let(:type) { "[]Category" }
+          let(:name) { I18n.t("attributes.category") }
+          let(:required) { false }
+          let(:writable) { false }
+          let(:location) { "_links" }
+        end
+      end
+
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "categories" }
+          let(:type) { "[]Category" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.categories") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+
+        it "announces that multiple values are allowed" do
+          expect(subject).to be_json_eql(true.to_json).at_path("categories/options/multiple")
+        end
       end
     end
 

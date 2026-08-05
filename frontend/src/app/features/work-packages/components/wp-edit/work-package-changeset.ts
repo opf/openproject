@@ -62,12 +62,12 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
       delete (payload as { subject?:string }).subject;
     }
 
-    // Explicitly exclude the version collections if they are empty
+    // Explicitly exclude the version and category collections if they are empty
     if (isNewResource(this.pristineResource)) {
       const links = (payload as { _links?:Record<string, unknown> })._links;
 
       if (links) {
-        ['targetVersions', 'observedInVersions'].forEach((attribute) => {
+        ['targetVersions', 'observedInVersions', 'categories'].forEach((attribute) => {
           const value = links[attribute];
 
           if (!Array.isArray(value) || value.length === 0) {

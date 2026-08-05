@@ -879,6 +879,71 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "categories" do
+      context "when no category is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/categories")
+          expect(subject).to have_json_size(0).at_path("_embedded/categories")
+        end
+      end
+
+      context "when a category is set" do
+        let!(:category) { create(:category, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([category])
+        end
+
+        it "wraps the category in the links collection" do
+          expect(subject).to have_json_size(1).at_path("_links/categories")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.category(category.id).to_json)
+            .at_path("_links/categories/0/href")
+          expect(subject)
+            .to be_json_eql(category.name.to_json)
+            .at_path("_links/categories/0/title")
+        end
+
+        it "wraps the category in the embedded collection" do
+          expect(subject).to have_json_size(1).at_path("_embedded/categories")
+          expect(subject)
+            .to be_json_eql("Category".to_json)
+            .at_path("_embedded/categories/0/_type")
+          expect(subject)
+            .to be_json_eql(category.name.to_json)
+            .at_path("_embedded/categories/0/name")
+        end
+      end
+
+      context "when categories are assigned but not yet persisted" do
+        let!(:category) { create(:category, project: workspace, name: "Beta") }
+        let!(:other_category) { create(:category, project: workspace, name: "Alpha") }
+
+        before do
+          # The pending set is what #effective_categories exposes; the model spec
+          # covers how it is derived from category_ids_replacements.
+          allow(work_package).to receive(:effective_categories).and_return([other_category, category])
+        end
+
+        it "renders the pending categories" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.category(other_category.id).to_json)
+            .at_path("_links/categories/0/href")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.category(category.id).to_json)
+            .at_path("_links/categories/1/href")
+        end
+
+        it "embeds the pending categories" do
+          expect(subject).to have_json_size(2).at_path("_embedded/categories")
+          expect(subject)
+            .to be_json_eql(other_category.name.to_json)
+            .at_path("_embedded/categories/0/name")
+        end
+      end
+    end
+
     describe "priority" do
       it_behaves_like "has a titled link" do
         let(:link) { "priority" }
