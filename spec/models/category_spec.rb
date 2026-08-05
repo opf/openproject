@@ -67,6 +67,12 @@ RSpec.describe Category do
         .to be_nil
     end
 
+    it "removes the category from the work package's set" do
+      created_category.destroy
+
+      expect(work_package.reload.categories).to be_empty
+    end
+
     it "allows reassigning to a different category" do
       other_category = create(:category, project:)
 
@@ -74,6 +80,37 @@ RSpec.describe Category do
 
       expect(work_package.reload.category)
         .to eq other_category
+    end
+
+    it "reassigns the work package's set to the other category" do
+      other_category = create(:category, project:)
+
+      created_category.destroy(other_category)
+
+      expect(work_package.reload.categories).to eq [other_category]
+    end
+
+    context "with a work package holding more than one category" do
+      let(:kept_category) { create(:category, project:, name: "Kept") }
+
+      before do
+        work_package.category_ids_replacements = [created_category.id, kept_category.id]
+        work_package.save!
+      end
+
+      it "keeps the remaining category and re-mirrors it into the deprecated column" do
+        created_category.destroy
+
+        expect(work_package.reload.categories).to eq [kept_category]
+        expect(work_package.category).to eq kept_category
+      end
+
+      it "drops the row instead of duplicating when reassigning to a category already assigned" do
+        created_category.destroy(kept_category)
+
+        expect(work_package.reload.categories).to eq [kept_category]
+        expect(work_package.category).to eq kept_category
+      end
     end
   end
 end

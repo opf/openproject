@@ -88,6 +88,8 @@ RSpec.describe WorkPackage do
     it { is_expected.to have_many(:versions).through(:work_package_versions).source(:version) }
     it { is_expected.to have_many(:target_versions).through(:work_package_versions).source(:version) }
     it { is_expected.to have_many(:observed_in_versions).through(:work_package_versions).source(:version) }
+    it { is_expected.to have_many(:work_package_categories).dependent(:delete_all) }
+    it { is_expected.to have_many(:categories).through(:work_package_categories).source(:category) }
   end
 
   describe ".new" do

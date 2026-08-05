@@ -38,9 +38,10 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Ancestors
   include WorkPackage::CustomActioned
   include WorkPackage::Hooks
-  # Must stay above WorkPackage::Journalized: its after_save persists the
-  # version rows that the journal snapshot then reads.
+  # Must stay above WorkPackage::Journalized: their after_save hooks persist the
+  # version and category rows that the journal snapshot then reads.
   include WorkPackage::Versions
+  include WorkPackage::Categories
   include WorkPackages::DerivedDates
   include WorkPackages::SpentTime
   include WorkPackages::Costs
@@ -62,7 +63,6 @@ class WorkPackage < ApplicationRecord
   belongs_to :responsible, class_name: "Principal", optional: true
   belongs_to :project_phase_definition, class_name: "Project::PhaseDefinition", optional: true
   belongs_to :priority, class_name: "IssuePriority"
-  belongs_to :category, class_name: "Category", optional: true
 
   has_many :time_entries, dependent: :delete_all, inverse_of: :entity, as: :entity
   has_many :file_links, dependent: :delete_all, class_name: "Storages::FileLink", as: :container
@@ -441,9 +441,22 @@ class WorkPackage < ApplicationRecord
   end
 
   def self.by_category(project)
-    count_and_group_by project:,
-                       field: "category_id",
-                       joins: Category.table_name
+    # Counts via the category associations rather than the deprecated category_id
+    # column, so a work package assigned to several categories is counted under
+    # each of them.
+    sql = sanitize_sql_array(
+      ["SELECT s.id AS status_id,
+               s.is_closed AS closed,
+               wpc.category_id AS category_id,
+               COUNT(i.id) AS total
+          FROM #{WorkPackage.table_name} i
+          INNER JOIN #{Status.table_name} s ON i.status_id = s.id
+          INNER JOIN #{WorkPackageCategory.table_name} wpc ON wpc.work_package_id = i.id
+         WHERE i.project_id = :project_id
+         GROUP BY s.id, s.is_closed, wpc.category_id",
+       { project_id: project.id }]
+    )
+    ActiveRecord::Base.connection.select_all(sql).to_a
   end
 
   def self.by_assigned_to(project)
@@ -620,11 +633,14 @@ class WorkPackage < ApplicationRecord
     default_id && attributes.except(key).values.all?(&:blank?)
   end
 
-  # Default assignment based on category
+  # Default assignment based on the primary category. Reads the effective set
+  # because the categories are only written after_save, so a pending override is
+  # not yet reflected in #category at before_create time.
   def default_assign
-    if assigned_to.nil? && category&.assigned_to
-      self.assigned_to = category.assigned_to
-    end
+    return unless assigned_to.nil?
+
+    primary_category = effective_categories.first
+    self.assigned_to = primary_category.assigned_to if primary_category&.assigned_to
   end
 
   # Closes duplicates if the work_package is being closed
