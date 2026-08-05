@@ -154,8 +154,14 @@ class Type < ApplicationRecord
     where(is_standard: true).first
   end
 
+  # The roots the given project(s) use. A project uses a root even when it resolves the family
+  # to a variant, so a variant is never returned.
+  #
+  # Resolved as a subquery rather than a join so a root used by several projects yields one row:
+  # a join would duplicate it, which the eager load only hid from callers reading records and
+  # not from those plucking ids.
   def self.enabled_in(project)
-    includes(:projects).where(projects: { id: project })
+    where(id: ProjectType.where(project_id: project).select(:type_id))
   end
 
   # Writers use #own_workflows; the flag-off branch also keeps it so an eager-loaded
@@ -189,10 +195,6 @@ class Type < ApplicationRecord
     type_ref = resolve_aspect_in_sql? ? effective_source_id_ref(Type::ConfigurationLink::WORKFLOWS) : [id]
     scope = self.class.statuses(type_ref, role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
-  end
-
-  def enabled_in?(object)
-    object.types.include?(self)
   end
 
   def root

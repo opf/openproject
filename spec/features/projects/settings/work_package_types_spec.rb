@@ -77,6 +77,16 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     expect(project.reload.types).not_to include(bug)
   end
 
+  # The row names the active variant, so the removal is requested with the variant's id while
+  # the row that has to go is the family's.
+  it "removes a family the project runs through a variant" do
+    settings_page.remove_type(design)
+
+    settings_page.expect_no_type_row(design)
+    expect(project.reload.types).not_to include(epic)
+    expect(project.project_types.where(type: epic)).to be_empty
+  end
+
   context "when work packages of that type exist" do
     let!(:work_package) { create(:work_package, project:, type: bug) }
 

@@ -271,6 +271,42 @@ RSpec.describe Project do
     end
   end
 
+  describe "#effective_types" do
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+    shared_let(:sibling) { create(:type, name: "Tablet Bug", parent: root) }
+    shared_let(:unrelated) { create(:type, name: "Risk") }
+
+    shared_let(:project) { create(:project, types: [variant, unrelated]) }
+
+    it "resolves every member of a family to the one the project runs" do
+      expect(project.effective_types(root, sibling, unrelated)).to contain_exactly(variant, unrelated)
+    end
+
+    it "accepts ids as well as records" do
+      expect(project.effective_types(root.id, unrelated.id)).to contain_exactly(variant, unrelated)
+    end
+
+    it "collapses members of one family to a single entry" do
+      expect(project.effective_types(root, variant, sibling)).to contain_exactly(variant)
+    end
+
+    it "falls back to the root for a family the project does not use" do
+      other_root = create(:type, name: "Risk of its own")
+      create(:type, name: "Unused variant", parent: other_root)
+
+      expect(project.effective_types(other_root)).to contain_exactly(other_root)
+    end
+
+    it "is empty without types" do
+      expect(project.effective_types).to be_empty
+    end
+
+    it "keeps Type's default ordering usable despite resolving through types twice" do
+      expect { project.effective_types(root, unrelated).to_a }.not_to raise_error
+    end
+  end
+
   describe "#types_used_by_work_packages" do
     let(:project) { create(:project_with_types) }
     let(:type) { project.types.first }

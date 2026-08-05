@@ -66,9 +66,11 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
-    type = @project.types.find_by(id: params[:id])
+    # The row names the member in force, which is the variant when the project resolves one,
+    # so the type is looked up globally and checked against the families the project uses.
+    type = ::Type.find_by(id: params[:id])
 
-    return render_type_not_found if type.nil?
+    return render_type_not_found if type.nil? || !@project.project_types.exists?(type_id: type.root_id)
 
     result = ::Projects::Types::RemoveService.new(user: current_user, model: @project).call(type:)
 

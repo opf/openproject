@@ -46,6 +46,27 @@ RSpec.describe Type do
     it "returns the types enabled in the provided project" do
       expect(described_class.enabled_in(project)).to contain_exactly(type)
     end
+
+    context "with variants", with_flag: { type_variants: true } do
+      shared_let(:enabled_root) { create(:type, name: "Enabled root") }
+      shared_let(:enabled_variant) { create(:type, name: "Enabled variant", parent: enabled_root) }
+      shared_let(:on_variant) { create(:project, types: [enabled_variant]) }
+      shared_let(:also_on_root) { create(:project, types: [enabled_root]) }
+
+      it "returns the root a project uses even when it resolves a variant" do
+        expect(described_class.enabled_in(on_variant)).to contain_exactly(enabled_root)
+      end
+
+      it "never returns a variant" do
+        expect(described_class.enabled_in(on_variant)).not_to include(enabled_variant)
+      end
+
+      it "names a root shared by several projects once, including when plucking ids" do
+        projects = Project.where(id: [on_variant.id, also_on_root.id])
+
+        expect(described_class.enabled_in(projects).pluck(:id)).to contain_exactly(enabled_root.id)
+      end
+    end
   end
 
   describe "#projects" do
