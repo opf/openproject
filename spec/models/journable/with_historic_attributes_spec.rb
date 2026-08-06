@@ -695,6 +695,29 @@ RSpec.describe Journable::WithHistoricAttributes,
         end
       end
 
+      context "when a secondary target version was removed" do
+        it "marks only the target versions as changed" do
+          # Journal rows are stamped by the database clock, so a past removal
+          # can't be journalled directly; seed the baseline snapshot instead.
+          create(:journal_work_package_version_journal,
+                 journal: work_package.journals.first,
+                 version: version_b,
+                 kind: "target")
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("target_versions")
+        end
+      end
+
+      context "when all target versions were removed" do
+        it "marks both the version and the target versions as changed" do
+          update_target_versions
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("target_versions", "version_id")
+        end
+      end
+
       context "when the target versions are unchanged" do
         it "reports no version change" do
           expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))

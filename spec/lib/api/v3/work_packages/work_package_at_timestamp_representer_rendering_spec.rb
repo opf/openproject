@@ -321,6 +321,40 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
+  context "with all target versions removed" do
+    let(:version) { nil }
+    let(:target_versions) { [] }
+    let(:attributes_changed_to_baseline) { %w[version_id target_versions] }
+
+    let(:expected_json) do
+      {
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
+        },
+        "_links" => {
+          "version" => {
+            "href" => nil
+          },
+          "targetVersions" => [],
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
+          },
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          }
+        }
+      }.to_json
+    end
+
+    it "renders as expected" do
+      expect(subject)
+        .to be_json_eql(expected_json)
+    end
+  end
+
   context "without a linked property" do
     let(:attributes_changed_to_baseline) { %w[subject start_date] }
 
