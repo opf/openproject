@@ -28,58 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::Selects::ProjectPhase < Queries::Selects::Base
-  KEY = /\Aproject_phase_(\d+)\z/
+require "spec_helper"
 
-  def self.key
-    KEY
-  end
+RSpec.describe Queries::Projects::Selects::ProjectPhase do
+  describe ".id_from_key" do
+    let(:definition_id) { 42 }
 
-  def self.id_from_key(attribute)
-    attribute.to_s[KEY, 1]&.to_i
-  end
+    it "returns the definition id for a string attribute" do
+      expect(described_class.id_from_key("project_phase_#{definition_id}")).to eq definition_id
+    end
 
-  def self.all_available
-    return [] unless available?
+    it "returns the definition id for a symbol attribute" do
+      expect(described_class.id_from_key(:"project_phase_#{definition_id}")).to eq definition_id
+    end
 
-    Project::PhaseDefinition
-      .pluck(:id)
-      .map { |id| new(:"project_phase_#{id}") }
-  end
+    it "returns nil for a non numerical id" do
+      expect(described_class.id_from_key("project_phase_abc")).to be_nil
+    end
 
-  def caption
-    project_phase_definition.name
-  end
+    it "returns nil for a prefixed attribute" do
+      expect(described_class.id_from_key("xproject_phase_42")).to be_nil
+    end
 
-  def project_phase_definition
-    return @project_phase_definition if defined?(@project_phase_definition)
-
-    @project_phase_definition = Project::PhaseDefinition
-                                    .find_by(id: attribute[KEY, 1])
-  end
-
-  def self.available?
-    User.current.allowed_in_any_project?(:view_project_phases)
-  end
-
-  def available?
-    project_phase_definition.present?
-  end
-
-  def visual_icon
-    {
-      icon: :"op-phase",
-      classes: helpers.hl_inline_class("project_phase_definition", project_phase_definition)
-    }
-  end
-
-  def action_menu_classes
-    "leading-visual-icon-header"
-  end
-
-  private
-
-  def helpers
-    @helpers ||= Object.new.extend(ColorsHelper)
+    it "returns nil for an unrelated attribute" do
+      expect(described_class.id_from_key("name")).to be_nil
+    end
   end
 end
