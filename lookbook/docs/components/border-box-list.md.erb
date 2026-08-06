@@ -71,7 +71,8 @@ comparable lists should use headers.
 | `with_description` | Secondary content below the title, wrapped in `Primer::Beta::Text` with muted color by default. Accepts Primer system arguments |
 | `with_label` | Informational status label (`Primer::Beta::Label`) shown on the title row. Right-aligned, truncated when long, and hidden on small screens, so use it only for supplementary status, never as the sole affordance for an action |
 | `with_action_button` | Button rendered in the header actions area |
-| `with_menu` | Action menu rendered in the header actions area. Pass `button_aria_label:` for the trigger button |
+| `with_action_icon_button` | Icon button rendered in the header actions area |
+| `with_menu` | Action menu rendered in the header actions area. Pass `button_arguments:` for the default trigger button |
 
 ### Collapsible headers
 
@@ -111,6 +112,17 @@ It renders `OpenProject::Common::WorkPackageCardComponent` by default. See the
 for card-specific layout, parameters, and slots.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :with_work_package_items, panels: %i[source] %>
+
+### Custom header content
+
+Use `with_title` when a header title needs composed **inline phrasing content**,
+such as a link or an emphasized fragment. The slot renders inside the heading
+element, so never nest block layouts, counters, or buttons in it — the counter
+belongs to `count:` and actions to the header action slots. Use
+`menu.with_show_button` when the default action-menu trigger is not specific
+enough for the list action.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :custom_header_content, panels: %i[source] %>
 
 ### Empty state
 
@@ -172,7 +184,7 @@ render OpenProject::Common::BorderBoxListComponent.new(
     header.with_description(id: "project-attributes-description", font_size: :small) do
       "Visible in the project overview"
     end
-    header.with_menu(button_aria_label: "Project attribute actions") do |menu|
+    header.with_menu(button_arguments: { aria: { label: "Project attribute actions" } }) do |menu|
       menu.with_item(label: "Edit", href: edit_project_path(@project))
     end
   end

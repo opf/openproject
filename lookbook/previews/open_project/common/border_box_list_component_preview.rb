@@ -64,7 +64,7 @@ module OpenProject
               button.with_leading_visual_icon(icon: :pencil)
               "Edit"
             end
-            header.with_menu(button_aria_label: "List actions") do |menu|
+            header.with_menu(button_arguments: { aria: { label: "List actions" } }) do |menu|
               menu.with_item(label: "Configure") do |menu_item|
                 menu_item.with_leading_visual_icon(icon: :gear)
               end
@@ -105,7 +105,7 @@ module OpenProject
               button.with_leading_visual_icon(icon: :rocket)
               "Start sprint"
             end
-            header.with_menu(button_aria_label: "Sprint actions") do |menu|
+            header.with_menu(button_arguments: { aria: { label: "Sprint actions" } }) do |menu|
               menu.with_item(label: "Edit sprint") do |menu_item|
                 menu_item.with_leading_visual_icon(icon: :pencil)
               end
@@ -141,6 +141,35 @@ module OpenProject
         ) do |list|
           list.with_header(title: "Work packages", count: true)
           render_work_package_items(list, work_packages)
+        end
+      end
+
+      # @label Custom header content
+      # List with a linked title slot and a custom action-menu trigger.
+      def custom_header_content
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-custom-header-preview"
+        ) do |list|
+          list.with_header(count: true) do |header|
+            header.with_title do
+              '<a href="#" class="Link--primary no-underline">Linked delivery plan</a>'.html_safe
+            end
+            header.with_description do
+              "Milestones grouped by owner."
+            end
+            header.with_menu do |menu|
+              menu.with_show_button(scheme: :primary, aria: { label: "Add delivery item" }) do |button|
+                button.with_leading_visual_icon(icon: :plus)
+                "Add item"
+              end
+              menu.with_item(label: "Import milestones") do |menu_item|
+                menu_item.with_leading_visual_icon(icon: :upload)
+              end
+            end
+          end
+
+          list.with_item { "Alpha release checklist" }
+          list.with_item { "Customer review preparation" }
         end
       end
 

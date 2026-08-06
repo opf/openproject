@@ -56,9 +56,12 @@ module OpenProject
         # @!parse
         #   # Renders the header title content.
         #   #
-        #   # Block-based alternative to the `title:` string, for advanced use
-        #   # cases where the title needs more than plain text. Takes precedence
-        #   # over `title:` when both are given.
+        #   # Block-based alternative to the `title:` string, strictly for
+        #   # inline phrasing content — a link or an emphasized fragment that
+        #   # renders inside the heading element. Never nest block layouts,
+        #   # counters, or buttons here: counts belong to `count:`, actions to
+        #   # `with_action_button`/`with_action_icon_button`/`with_menu`.
+        #   # Takes precedence over `title:` when both are given.
         #   #
         #   # @return [ViewComponent::Slot]
         #   def with_title(&block)
@@ -89,9 +92,19 @@ module OpenProject
         #   # @return [ViewComponent::Slot]
         #   def with_action_button(**system_arguments, &block)
         #   end
+        #
+        #   # Adds an icon button to the header actions area.
+        #   #
+        #   # @param system_arguments [Hash] forwarded to `Primer::Beta::IconButton`.
+        #   # @return [ViewComponent::Slot]
+        #   def with_action_icon_button(**system_arguments)
+        #   end
         renders_many :actions, types: {
           button: ->(scheme: DEFAULT_ACTION_SCHEME, **system_arguments) do
             Primer::Beta::Button.new(scheme:, **system_arguments)
+          end,
+          icon_button: ->(**system_arguments) do
+            Primer::Beta::IconButton.new(**system_arguments)
           end
         }
 
@@ -125,7 +138,8 @@ module OpenProject
 
         attr_writer :collapsible_id
 
-        # @param title [String] header title.
+        # @param title [String, nil] header title. Optional when the `title`
+        #   slot is filled.
         # @param count [Integer, Boolean, nil] count badge behavior. Pass
         #   `nil` or `false` to hide it, `true` to infer the rendered item
         #   count, or an integer to render an explicit value.
