@@ -1715,6 +1715,7 @@
     entity_type: Entity
     estimated_hours: Arbeid
     estimated_time: Arbeid
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filter
     firstname: Fornavn

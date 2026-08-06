@@ -1686,6 +1686,7 @@ th:
     entity_type: Entity
     estimated_hours: Work
     estimated_time: Work
+    exact_match: Exact match
     expires_at: Expires on
     filter: ตัวกรอง
     firstname: ชื่อ

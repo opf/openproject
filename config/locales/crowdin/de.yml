@@ -1715,6 +1715,7 @@ de:
     entity_type: Entität
     estimated_hours: Aufwand
     estimated_time: Aufwand
+    exact_match: Exact match
     expires_at: Verfällt am
     filter: Filter
     firstname: Vorname

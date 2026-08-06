@@ -1690,6 +1690,7 @@ ms:
     entity_type: Entity
     estimated_hours: Kerja
     estimated_time: Kerja
+    exact_match: Exact match
     expires_at: Expires on
     filter: Penyaring
     firstname: Nama pertama

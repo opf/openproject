@@ -1692,6 +1692,7 @@ zh-TW:
     entity_type: 實體
     estimated_hours: 工時
     estimated_time: 工時
+    exact_match: Exact match
     expires_at: 失效於
     filter: 篩選條件
     firstname: 名字

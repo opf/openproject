@@ -1715,6 +1715,7 @@ et:
     entity_type: Entity
     estimated_hours: Töö
     estimated_time: Töö
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filter
     firstname: Eesnimi

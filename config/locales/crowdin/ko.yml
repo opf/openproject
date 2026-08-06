@@ -1684,6 +1684,7 @@ ko:
     entity_type: 엔티티
     estimated_hours: 작업
     estimated_time: 작업
+    exact_match: Exact match
     expires_at: 만료 날짜
     filter: 필터
     firstname: 이름

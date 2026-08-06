@@ -1693,6 +1693,7 @@ id:
     entity_type: Entity
     estimated_hours: Work
     estimated_time: Work
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filter
     firstname: Nama depan

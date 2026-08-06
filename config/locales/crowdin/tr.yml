@@ -1721,6 +1721,7 @@ tr:
     entity_type: Varlık
     estimated_hours: Çalışma
     estimated_time: Çalışma
+    exact_match: Exact match
     expires_at: Süre bitişi
     filter: Filtre
     firstname: İsim

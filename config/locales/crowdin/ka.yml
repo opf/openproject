@@ -1715,6 +1715,7 @@ ka:
     entity_type: Entity
     estimated_hours: სამუშაო
     estimated_time: სამუშაო
+    exact_match: Exact match
     expires_at: Expires on
     filter: ფილტრი
     firstname: სახელი

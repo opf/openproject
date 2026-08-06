@@ -1713,6 +1713,7 @@ hy:
     entity_type: Էություն
     estimated_hours: Աշխատանք
     estimated_time: Աշխատանք
+    exact_match: Exact match
     expires_at: Վավեր է մինչև
     filter: Զտիչ
     firstname: Անուն

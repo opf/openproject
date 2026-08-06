@@ -1715,6 +1715,7 @@ ca:
     entity_type: Entity
     estimated_hours: Treball
     estimated_time: Treball
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filtre
     firstname: Nom

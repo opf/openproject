@@ -1753,6 +1753,7 @@ hu:
     entity_type: Entity
     estimated_hours: Munka
     estimated_time: Munka
+    exact_match: Exact match
     expires_at: Lejár
     filter: Szűrő
     firstname: Keresztnév

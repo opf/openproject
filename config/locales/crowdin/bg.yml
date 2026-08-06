@@ -1715,6 +1715,7 @@ bg:
     entity_type: Entity
     estimated_hours: Работа
     estimated_time: Работа
+    exact_match: Exact match
     expires_at: Expires on
     filter: Филтър
     firstname: Собствено име

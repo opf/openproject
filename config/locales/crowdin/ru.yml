@@ -1775,6 +1775,7 @@ ru:
     entity_type: Тип сущности
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
+    exact_match: Exact match
     expires_at: Истекает
     filter: Фильтр
     firstname: Имя

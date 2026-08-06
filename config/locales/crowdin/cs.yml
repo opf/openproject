@@ -1775,6 +1775,7 @@ cs:
     entity_type: Entity
     estimated_hours: Práce
     estimated_time: Práce
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filtr
     firstname: Křestní jméno

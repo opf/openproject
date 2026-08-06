@@ -1777,6 +1777,7 @@ uk:
     entity_type: Сутність
     estimated_hours: Робота
     estimated_time: Робота
+    exact_match: Exact match
     expires_at: Термін дії минає
     filter: Фільтр
     firstname: Ім'я

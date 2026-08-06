@@ -1688,6 +1688,7 @@ ja:
     entity_type: エンティティ
     estimated_hours: 予定時間
     estimated_time: 予定時間
+    exact_match: Exact match
     expires_at: 有効期限
     filter: フィルタ
     firstname: 名前

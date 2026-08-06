@@ -1688,6 +1688,7 @@ zh-CN:
     entity_type: 实体
     estimated_hours: 工时
     estimated_time: 工时
+    exact_match: Exact match
     expires_at: 到期时间
     filter: 筛选器
     firstname: 名字

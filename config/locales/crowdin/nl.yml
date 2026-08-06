@@ -1715,6 +1715,7 @@ nl:
     entity_type: Entity
     estimated_hours: Werk
     estimated_time: Werk
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filter
     firstname: Voornaam

@@ -1719,6 +1719,7 @@ it:
     entity_type: Entità
     estimated_hours: Lavoro
     estimated_time: Lavoro
+    exact_match: Exact match
     expires_at: Scadenza
     filter: Filtro
     firstname: Nome

@@ -1715,6 +1715,7 @@ pt-PT:
     entity_type: Entidade
     estimated_hours: Trabalho
     estimated_time: Trabalho
+    exact_match: Exact match
     expires_at: Expira em
     filter: Filtro
     firstname: Primeiro nome

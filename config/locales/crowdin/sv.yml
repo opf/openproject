@@ -1715,6 +1715,7 @@ sv:
     entity_type: Entity
     estimated_hours: Arbete
     estimated_time: Arbete
+    exact_match: Exact match
     expires_at: Förfaller den
     filter: Filter
     firstname: Förnamn

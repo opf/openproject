@@ -1744,6 +1744,7 @@ ro:
     entity_type: Entity
     estimated_hours: Muncă
     estimated_time: Muncă
+    exact_match: Exact match
     expires_at: Expiră în
     filter: Filtrează
     firstname: Prenume

@@ -1686,6 +1686,7 @@ vi:
     entity_type: thực thể
     estimated_hours: làm việc
     estimated_time: làm việc
+    exact_match: Exact match
     expires_at: Hết hạn vào
     filter: bộ lọc
     firstname: Tên

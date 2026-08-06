@@ -1145,8 +1145,8 @@ fr:
     jemalloc_allocator: Allocateur de mémoire Jemalloc
     jira:
       actions:
-        button_edit: Edit configuration
-        button_open: Open runs
+        button_edit: Éditer la configuration
+        button_open: Séries ouvertes
       banner:
         contribution_callout: 'Aidez-nous à améliorer le Jira Migrator avec vos commentaires et vos dons de données privées. Vous pouvez [rejoindre la communauté de développement](link) du Jira Migrator.
 
@@ -1168,11 +1168,11 @@ fr:
         ssrf_blocked: 'Connexion bloquée : l''hôte Jira se résout en une adresse IP privée. Si votre instance Jira fonctionne sur un réseau interne, autorisez son IP via la variable d''environnement OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Ajouté
-        creator: Creator
+        creator: Créateur
         label_ago: Il y a %{amount}
         last_change: Dernière modification
         projects: Projets
-        server_url: Server URL
+        server_url: URL du serveur
       configuration:
         new: Nouvelle configuration
         title: Configuration de Jira
@@ -1193,18 +1193,18 @@ fr:
           personal_access_token: Jeton d'accès personnel
           url: URL du Jira Server / Data Center
         label_testing: Test de la configuration...
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+        test_configuration_caption: Vous pouvez test cette configuration en [cliquant ici](test)
       run:
         actions:
-          button_edit: Edit run
-          button_open_history: Open run history
+          button_edit: Modifier l'exécution
+          button_open_history: Afficher l'historique des exécutions
         blank:
           description: Créez un cycle d'importation pour commencer à importer des informations à partir de cette instance Jira
           title: Aucun cycle d'importation n'a encore été configuré
         history: Historique
         side_panel:
-          run_status: Run status
-          open_history: Open the run history
+          run_status: Statut d'exécution
+          open_history: Ouvrez l'historique des exécutions
         import_blocked_error: Un autre cycle d'importation Jira est actuellement en cours ou en attente de révision. Veuillez le terminer ou l'annuler avant de commencer une nouvelle importation.
         index:
           button_edit_configuration: Éditer la configuration
@@ -1245,7 +1245,7 @@ fr:
             configuration:
               title: Configurer l'importation
             run_and_review:
-              title: Run and review import
+              title: Lancer et vérifier l'importation
           import_dialog:
             confirm: Je comprends et j'ai une copie de sauvegarde
             confirm_button: Démarrer l'importation
@@ -1281,7 +1281,7 @@ fr:
               button_start: Démarrer l'importation
               caption: Vérifiez vos paramètres d'importation et démarrez l'importation
               caption_done: Terminé
-              caption_done_info: All data has been imported
+              caption_done_info: Toutes les données ont été importées
               description: Vous êtes sur le point de lancer un cycle d'importation avec les paramètres suivants.
               label_available_data: Données à importer
               label_import_data: Importation en cours
@@ -1289,12 +1289,12 @@ fr:
               label_users_import_explanation: Utilisateurs impliqués dans les projets sélectionnés (y compris les membres de groupes)
               title: Importation des données
             fetch_data:
-              button_continue: Continue to scope selection
+              button_continue: Poursuivre la sélection du champ d'application
               button_fetch: Vérifier les données disponibles
               caption_done: Terminé
-              caption_done_description: Meta data fetched from %{server_info}
+              caption_done_description: Métadonnées extraites de %{server_info}
               description: Vérifiez quelles données sont disponibles pour l'importation dans l'instance Jira hôte.
-              label_available_server_data: Available data on %{server_info}
+              label_available_server_data: Données disponibles sur %{server_info}
               label_progress: Récupération des données de Jira...
               title: Récupérer les métadonnées de l'instance
             groups_and_users:
@@ -1313,18 +1313,18 @@ fr:
               preview_description: Les données importées sont actuellement en mode révision. Cliquez sur « Approuver l'importation » pour rendre l'importation permanente ou sur « Annuler l'importation » pour annuler toutes les modifications apportées lors de cette importation.
               stats:
                 other_settings:
-                  label: Other settings
-                  subtitle: Including types and status
+                  label: Autres paramètres
+                  subtitle: Y compris les types et le statut
                 projects:
-                  label: Projects
-                  subtitle: Selected as scope
-                title: Data imported
+                  label: Projets
+                  subtitle: Sélectionné comme périmètre
+                title: Données importées
                 users_and_groups:
-                  label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  label: Utilisateurs et Groupes
+                  subtitle: 'Impliqué dans les projets importés '
                 work_packages:
-                  label: Work packages
-                  subtitle: With attachments
+                  label: Lots de travaux
+                  subtitle: Avec pièces jointes
               title: Résultats du cycle d'importation
             import_scope:
               button_continue: Continuer
@@ -1333,8 +1333,8 @@ fr:
               caption: Choisissez ce que vous voulez importer dans OpenProject
               caption_done: Terminé
               caption_done_description:
-                one: 1 project selected as scope
-                other: "%{count} projects selected as scope"
+                one: 1 projet sélectionné dans le cadre de ce projet
+                other: "%{count} projets retenus dans le cadre de ce projet"
               description: Sélectionnez les données que vous souhaitez importer parmi les données disponibles extraites de l'instance Jira hôte.
               elements:
                 custom_fields: Un sous-ensemble de champs personnalisés
@@ -1353,17 +1353,17 @@ fr:
               label_coming_soon: À venir (3e trimestre 2026)
               label_import: Sélectionnez les projets que vous souhaitez importer.
               label_info: Veuillez noter que cet outil d'importation est en version bêta et qu'il ne peut pas importer tous les types de données. Voici un résumé de ce que l'instance Jira hôte offre pour l'importation et de ce que cet outil est capable d'importer pour le moment.
-              label_progress: Fetching data
+              label_progress: Récupération des données
               label_selected_data: Données sélectionnées pour l'importation
               label_supported_data: Données prises en charge
               title: Portée de l'importation
           select_projects:
-            button_select: Select
-            button_select_all: Select all
-            button_unselect_all: Unselect all
-            filter_projects: Filter by text
-            info: Only projects where the Jira token owner is member are selectable as import scope.
-            title: Select projects to import
+            button_select: Sélectionner
+            button_select_all: Tout sélectionner
+            button_unselect_all: Désélectionner tout
+            filter_projects: Filtrer par texte
+            info: Seuls les projets dont le titulaire du jeton Jira est membre peuvent être sélectionnés comme périmètre d'importation.
+            title: Sélectionnez les projets à importer
       test:
         api_error: L'API Jira a renvoyé le statut d'erreur %{status}. Veuillez vérifier l'URL de votre instance Jira et le jeton d'API.
         connection_error: 'Erreur de connexion : %{message}'
@@ -1579,14 +1579,14 @@ fr:
           other: Supprimer %{count} statuts ?
         title: Supprimer des statuts
       tabs:
-        always: Default transitions
+        always: Transitions par défaut
         aria_label: Transitions du flux de travail
-        assignee: User is assignee
-        author: User is author
+        assignee: L'utilisateur est la personne assignée
+        author: L'utilisateur est l'auteur
         descriptions:
-          always: Transitions available to the selected role(s) in all cases.
-          assignee: Additional transitions available to the work package's assignee.
-          author: Additional transitions available to the work package's author.
+          always: Transitions disponibles dans tous les cas pour les rôles sélectionnés.
+          assignee: Transitions supplémentaires mises à la disposition du responsable du lot de travaux.
+          author: Transitions supplémentaires mises à la disposition de l'auteur du lot de travaux.
         menu_label: Transitions affichées
   announcements:
     is_active: actuellement affiché
@@ -1715,6 +1715,7 @@ fr:
     entity_type: Entité
     estimated_hours: Travail
     estimated_time: Travail
+    exact_match: Exact match
     expires_at: Expire le
     filter: Filtrer
     firstname: Prénom
@@ -2875,7 +2876,7 @@ fr:
       work_package_children_changed_times: par changement vers l'enfant %{link}
       work_package_duplicate_closed: Le statut a été mis à jour automatiquement par le doublon de lot de travaux %{link}
       work_package_parent_changed_times: par changement vers le parent %{link}
-      work_package_parent_deleted: because the parent work package was deleted
+      work_package_parent_deleted: car le lot de travail parent a été supprimé
       work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
       work_package_related_changed_times: par changement vers %{link} connexe
       working_days_changed:
@@ -2897,11 +2898,11 @@ fr:
       total_percent_complete_mode_changed_to_simple_average: Le calcul des totaux de % d'achèvement est désormais basé sur une simple moyenne des seules valeurs de % d'achèvement.
       total_percent_complete_mode_changed_to_work_weighted_average: Le calcul des totaux de % d'achèvement est désormais pondéré par le travail.
       work_package_duplicate_closed: 'Doublon de lot de travaux mis à jour :'
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: Élément parent supprimé
     changes_retracted: Les modifications ont été retirées.
     non_visible:
-      project: a non-visible project
-      work_package: a non-visible work package
+      project: un projet non visible
+      work_package: un lot de travail non visible
   label_accessibility: Accessibilité
   label_account: Compte
   label_actions: Actions
@@ -4611,7 +4612,7 @@ fr:
 
     '
   permission_move_work_packages: Déplacer les Lots de travaux
-  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
+  permission_project_identifier_visibility_caution: 'Attention : les utilisateurs disposant de cette autorisation peuvent vérifier si un identifiant de projet est déjà utilisé, même par des projets auxquels ils n''ont pas accès. [En savoir plus](project_identifier_visibility_url)'
   permission_save_bcf_queries: Enregistrer les requêtes BCF
   permission_save_queries: Enregistrer les vues
   permission_search_project: Rechercher un projet
@@ -4895,22 +4896,22 @@ fr:
         title: Paramètres du modèle
       types:
         add_dialog:
-          description: The project uses one member of each type family. Pick the type or the variant this project should use.
-          none_addable: All available types are already active in this project.
-          submit: Add
-          title: Add type
+          description: Ce projet utilise une police de chaque famille typographique. Veuillez choisir la police ou la variante que ce projet doit utiliser.
+          none_addable: Tous les types disponibles sont déjà actifs dans ce projet.
+          submit: Ajouter
+          title: Ajouter un type
           type_label: Type
-          type_placeholder: Select a type
-        add_type: Add type
+          type_placeholder: Sélectionnez un type
+        add_type: Ajouter un type
         empty_state:
-          description: Add a type to let people create work packages of that type in this project.
-          title: No types are active in this project
+          description: Ajoutez un type afin de permettre aux utilisateurs de créer des lots de travail de ce type dans ce projet.
+          title: Aucun type n'est actif dans ce projet
         form:
           enable_type_in_project: Autorise le type « %{type} »
-        in_roadmap: In roadmap
+        in_roadmap: Dans la feuille de route
         no_results_title_text: Il n'y a actuellement aucun type disponible.
-        remove_from_project: Remove from project
-        type_not_found: The selected type could not be found.
+        remove_from_project: Supprimer du projet
+        type_not_found: Le type sélectionné est introuvable.
       versions:
         no_results_content_text: Créer une nouvelle version
         no_results_title_text: Aucune version du projet pour le moment.
@@ -5728,7 +5729,7 @@ fr:
   text_journal_changed_plain: "%{label} changé de %{old} %{linebreak}à %{new}"
   text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
-  text_journal_deleted_no_detail: "%{label} deleted"
+  text_journal_deleted_no_detail: "%{label} supprimé"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
   text_journal_file_link_added: Lien %{label} vers %{value} (%{storage}) ajouté
@@ -5927,9 +5928,9 @@ fr:
         edit_query: Modifier la requête
         empty_group_hint: Glisser les attributs ici
         exclusions:
-          attribute_label: Inherit %{attribute}
-          excluded: Hidden
-          section_label: Inherit section %{section}
+          attribute_label: Hériter %{attribute}
+          excluded: Masqué
+          section_label: Section « Héritage » %{section}
         filter_inactive: Filtrer les attributs
         group_actions: Actions relatives à la section
         group_name_label: Nom de la section
@@ -5955,9 +5956,9 @@ fr:
           label_disable_all: Désactiver tout
           label_enable_all: Activer tout
         description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
-        disabled: Disabled
+        disabled: Désactivé
         exclusions:
-          attribute_label: Inherit %{attribute}
+          attribute_label: Hériter %{attribute}
         filter: Rechercher par section ou par nom
         tab: Attributs du projet
       projects:
@@ -5980,8 +5981,8 @@ fr:
           invalid_source: La configuration ne peut pas être copiée depuis le type sélectionné. Veuillez sélectionner un autre type source.
           success: La configuration a été copiée.
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
-          unknown_aspect: Unknown configuration section "%{aspect}".
+          not_linked: Ce type dispose de sa propre configuration pour cette section ; il n'y a donc rien à exclure. Modifiez plutôt directement la configuration.
+          unknown_aspect: Section de configuration inconnue «%{aspect}».
         independent:
           confirm_dialog:
             check_box: Je comprends que cela remplacera les paramètres actuels
@@ -6032,26 +6033,26 @@ fr:
         tab: Flux de travail
     index:
       add_variant: Ajouter une variante à %{name}
-      add_variant_action: Add variant
+      add_variant_action: Ajouter une variante
       description: 'Chaque zone de configuration des types et variantes peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
 
         '
-      duplicate_name: Copy of %{name}
-      duplicate_notice: "%{name} was duplicated."
+      duplicate_name: Copie de %{name}
+      duplicate_notice: "%{name} a été dupliqué."
       enabled_in_new_projects: Actif dans les nouveaux projets
       make_default: Activer dans les nouveaux projets
-      make_default_notice: "%{name} is now activated in new projects."
+      make_default_notice: "%{name} est désormais activé dans les nouveaux projets."
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
       remove_default: Ne pas activer dans les nouveaux projets
-      remove_default_notice: "%{name} is no longer activated in new projects."
+      remove_default_notice: "%{name} n'est plus activé dans les nouveaux projets."
       type_label: Type
       variant_enabled_in_new_projects: Variante %{name} active dans les nouveaux projets
       variant_label: Variante
       variants_count:
         one: 1 variante
         other: "%{count} variantes"
-    milestone_indicator: Milestone
+    milestone_indicator: Étape
   unsupported_browser:
     close_warning: Ignorer cet avertissement.
     message: Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page.
@@ -6407,39 +6408,39 @@ fr:
   work_packages:
     bulk:
       copy_failed: Les lots de travaux n'ont pas pu être copiés.
-      could_not_be_deleted: 'The following work packages could not be deleted:'
+      could_not_be_deleted: 'Les lots de travail suivants n''ont pas pu être supprimés :'
       could_not_be_saved: 'Les lots de travaux suivants n''ont pas pu être sauvegardés :'
       deletion_successful:
-        one: Successfully deleted 1 work package.
-        other: Successfully deleted %{count} work packages.
+        one: 1 lot de travail a été supprimé avec succès.
+        other: Les lots de travail « %{count} » ont été supprimés avec succès.
       descendant: descendant de la sélection
       move_failed: Les lots de travaux n'ont pas pu être déplacés.
       none_could_be_saved: Aucun des %{total} lots de travaux n'a pu être mis à jour.
       selected_because_descendants: Bien que %{selected} lots de travaux aient été sélectionnés, un total de %{total} lots de travaux sont concernés, y compris les descendants.
       x_out_of_y_could_be_saved: "%{failing} lots de travaux sur les %{total} n'ont pas pu être mis à jour alors que %{success} l'ont été."
     bulk_delete_dialog:
-      children_label: 'The following descendants will also be deleted:'
-      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
-      description: Are you sure you want to delete the selected work packages and all associated data?
-      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
-      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
-      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
+      children_label: 'Les éléments descendants suivants seront également supprimés :'
+      confirm_deletion: Je confirme que les lots de travail sélectionnés ainsi que toutes les données associées seront supprimés.
+      confirm_descendants_deletion: Je confirme que tous les descendants mentionnés ci-dessus seront également supprimés.
+      cross_project_warning_html: 'Ces lots de travaux s''étendent sur plusieurs projets : %{projects}'
+      description: Êtes-vous sûr de vouloir supprimer les lots de travail sélectionnés et toutes les données associées ?
+      description_with_all_descendants: Êtes-vous sûr de vouloir supprimer les lots de travail sélectionnés ainsi que tous leurs éléments descendants ?
+      description_with_descendants: Êtes-vous sûr de vouloir supprimer les lots de travail sélectionnés ainsi que tous leurs éléments descendants ?
+      description_with_visible_descendants: Êtes-vous sûr de vouloir supprimer les lots de travail sélectionnés et tous leurs éléments descendants visibles ?
       heading: Supprimer définitivement ces %{count} lots de travaux ?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Il y a un descendant que vous ne pouvez pas voir. Il ne sera pas supprimé, mais le lien sera supprimé.
+        other: Il existe des descendants de type « %{count} » que vous ne pouvez pas voir. Ceux-ci ne seront pas supprimés, mais toutes les relations hiérarchiques les concernant seront supprimées.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Tous les descendants visibles seront supprimés. Cependant, il existe un descendant que vous ne pouvez pas voir. Il ne sera pas supprimé, mais la relation sera supprimée.
+        other: Tous les descendants visibles seront supprimés. Cependant, il existe des descendants %{count} que vous ne pouvez pas voir. Ceux-ci ne seront pas supprimés, mais toutes les relations hiérarchiques les concernant seront supprimées.
       title: Supprimer %{count} lots de travaux
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Vous ne pouvez pas supprimer un descendant car vous ne disposez pas des autorisations nécessaires. Il sera conservé, mais la relation hiérarchique sera supprimée.
+        other: Vous ne pouvez pas supprimer les éléments descendants de %{count} car vous ne disposez pas des autorisations nécessaires. Ceux-ci seront conservés, mais toutes les relations hiérarchiques seront supprimées.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Vous ne pouvez pas supprimer un descendant car vous ne disposez pas des autorisations nécessaires dans « %{projects}». Il sera conservé, mais la relation hiérarchique sera supprimée.
+        other: Vous ne pouvez pas supprimer les éléments descendants de %{count} car vous ne disposez pas des autorisations nécessaires dans %{projects}. Ceux-ci seront conservés, mais toutes les relations hiérarchiques seront supprimées.
     datepicker_modal:
       banner:
         description:
@@ -6483,24 +6484,24 @@ fr:
         successors: Successeurs
       update_inputs_aria_live_message: Sélecteur de date mis à jour. %{message}
     delete_dialog:
-      confirm_deletion: I confirm that the work package and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete "%{name}"?
+      confirm_deletion: Je confirme que le lot de travail et toutes les données associées seront supprimés.
+      confirm_descendants_deletion: Je confirme que tous les descendants mentionnés ci-dessus seront également supprimés.
+      cross_project_warning_html: 'Les lots de travaux des projets suivants seront supprimés : %{projects}'
+      description: Êtes-vous sûr de vouloir supprimer «%{name} » ?
       heading: Supprimer définitivement ce lot de travaux ?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Ce lot de travail comporte un élément enfant que vous ne pouvez pas voir. Il ne sera pas supprimé, mais la relation hiérarchique sera supprimée.
+        other: Ce lot de travail comporte des éléments descendants de type « %{count} » que vous ne pouvez pas voir. Ceux-ci ne seront pas supprimés, mais la relation hiérarchique sera supprimée.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Tous les descendants visibles seront supprimés. Cependant, ce lot de travail comporte un descendant que vous ne pouvez pas voir. Celui-ci ne sera pas supprimé, mais la relation hiérarchique sera supprimée.
+        other: Tous les descendants visibles seront supprimés. Toutefois, ce lot de travail comporte des descendants %{count} que vous ne pouvez pas voir. Ceux-ci ne seront pas supprimés, mais la relation hiérarchique sera supprimée.
       title: Supprimer le lot de travaux
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Vous ne pouvez pas supprimer un descendant car vous ne disposez pas des autorisations nécessaires. Il sera conservé, mais la relation hiérarchique sera supprimée.
+        other: Vous ne pouvez pas supprimer les éléments descendants de %{count} car vous ne disposez pas des autorisations nécessaires. Ceux-ci seront conservés, mais toutes les relations hiérarchiques seront supprimées.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Vous ne pouvez pas supprimer un descendant car vous ne disposez pas des autorisations nécessaires dans « %{projects}». Il sera conservé, mais la relation hiérarchique sera supprimée.
+        other: Vous ne pouvez pas supprimer les éléments descendants de %{count} car vous ne disposez pas des autorisations nécessaires dans %{projects}. Ceux-ci seront conservés, mais toutes les relations hiérarchiques seront supprimées.
     move:
       bulk_current_type_not_available_in_target_project: 'Les types des lots de travaux ou de leurs descendants ne sont pas activés dans le projet cible. Activez les types manquants dans le projet cible pour qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
 

@@ -1773,6 +1773,7 @@ lt:
     entity_type: Entity
     estimated_hours: Darbas
     estimated_time: Darbas
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filtras
     firstname: Vardas

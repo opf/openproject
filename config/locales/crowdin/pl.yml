@@ -1773,6 +1773,7 @@ pl:
     entity_type: Podmiot
     estimated_hours: Praca
     estimated_time: Praca
+    exact_match: Exact match
     expires_at: Wygasa
     filter: Filtr
     firstname: Imię
