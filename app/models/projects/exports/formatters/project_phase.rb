@@ -50,7 +50,7 @@ module Projects::Exports
 
       def phase_for(project)
         definition = Project::PhaseDefinition.find_by(id: attribute.to_s[Queries::Projects::Selects::ProjectPhase::KEY, 1])
-        return nil if definition.nil?
+        return nil unless definition
 
         project.phases.active.find_by(definition:)
       end
