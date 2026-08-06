@@ -38,17 +38,11 @@ class ApplyWorkingDaysChangeJobBase < ApplicationJob
     total_limit: 1
   )
 
-  attr_reader :previous_working_days, :previous_non_working_days,
-              :current_working_days, :current_non_working_days
+  attr_reader :previous_working_days, :previous_non_working_days
 
-  def perform(user_id:, previous_working_days:, previous_non_working_days:,
-              current_working_days: nil, current_non_working_days: nil)
+  def perform(user_id:, previous_working_days:, previous_non_working_days:)
     @previous_working_days = previous_working_days
     @previous_non_working_days = previous_non_working_days
-    # Prefer the state captured at time of enqueuing this job,
-    # preventing concurrent settings changes from changing the days to be applied or removed.
-    @current_working_days = current_working_days || Setting.working_days
-    @current_non_working_days = current_non_working_days || NonWorkingDay.pluck(:date)
 
     user = User.find(user_id)
 
@@ -72,12 +66,12 @@ class ApplyWorkingDaysChangeJobBase < ApplicationJob
 
   def changed_days
     # reverse order, so new working days map to true
-    @changed_days ||= changes_between(previous_working_days, current_working_days)
+    @changed_days ||= changes_between(previous_working_days, Setting.working_days)
   end
 
   def changed_non_working_dates
     # reverse order, as new non working dates map to false
-    @changed_non_working_dates ||= changes_between(current_non_working_days, previous_non_working_days)
+    @changed_non_working_dates ||= changes_between(NonWorkingDay.pluck(:date), previous_non_working_days)
   end
 
   def changes_between(list_a, list_b)

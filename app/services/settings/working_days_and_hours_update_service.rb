@@ -60,11 +60,6 @@ class Settings::WorkingDaysAndHoursUpdateService < Settings::UpdateService
 
   def after_perform(call)
     super.tap do
-      # ensure we read the current state of the working days and non-working days
-      # to avoid race conditions with the job that is applied after the current job.
-      current_working_days = Setting[:working_days]
-      current_non_working_days = NonWorkingDay.pluck(:date)
-
       [
         Projects::Phases::ApplyWorkingDaysChangeJob,
         WorkPackages::ApplyWorkingDaysChangeJob
@@ -72,9 +67,7 @@ class Settings::WorkingDaysAndHoursUpdateService < Settings::UpdateService
         job_class.perform_later(
           user_id: User.current.id,
           previous_working_days:,
-          previous_non_working_days:,
-          current_working_days:,
-          current_non_working_days:
+          previous_non_working_days:
         )
       end
     end
