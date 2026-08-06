@@ -166,6 +166,7 @@ en:
     index:
       column_last_edited: Last edited
       column_name: Wiki page
+      column_parent: Parent
       column_project: Project
       column_sub_pages: Sub-pages
       filter_by_name: Filter by page name
