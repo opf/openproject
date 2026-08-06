@@ -1362,7 +1362,7 @@ RSpec.describe WorkPackages::BaseContract do
         let(:higher_version) { [assignable_version, other_assignable_version].max_by(&:id) }
 
         it "is valid when version names the lowest target version" do
-          work_package.version = lower_version
+          work_package.version_id = lower_version.id
           work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
           contract.validate
 
@@ -1371,7 +1371,7 @@ RSpec.describe WorkPackages::BaseContract do
         end
 
         it "is invalid when version names a non-lowest target version" do
-          work_package.version = higher_version
+          work_package.version_id = higher_version.id
           work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
           contract.validate
 
