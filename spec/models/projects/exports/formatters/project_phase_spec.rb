@@ -36,7 +36,7 @@ RSpec.describe Projects::Exports::Formatters::ProjectPhase do
   let(:user) { create(:user) }
 
   before do
-    User.current = user
+    login_as(user)
     mock_permissions_for(user) do |mock|
       mock.allow_in_project :view_project_phases, project:
     end
