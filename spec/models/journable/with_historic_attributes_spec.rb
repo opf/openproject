@@ -664,6 +664,16 @@ RSpec.describe Journable::WithHistoricAttributes,
         expect(work_package.reload.target_versions)
           .to contain_exactly(version_a, version_b)
       end
+
+      it "omits snapshotted target versions that were deleted since" do
+        update_target_versions(version_a, version_b)
+        version_b.destroy!
+
+        # 1 hour in the future so the journal written by the update above is
+        # unambiguously in the past, regardless of sub-second timing.
+        expect(subject.at_timestamp(Timestamp.parse(1.hour.from_now.iso8601)).target_versions)
+          .to contain_exactly(version_a)
+      end
     end
 
     describe "#changed_at_timestamp" do
