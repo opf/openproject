@@ -31,7 +31,7 @@ module Projects::Exports
   module Formatters
     class ProjectPhase < ::Exports::Formatters::Default
       def self.apply?(attribute, _export_format)
-        attribute.to_s.match?(Queries::Projects::Selects::ProjectPhase::KEY)
+        attribute.to_s.match?(Queries::Projects::Selects::ProjectPhase.key)
       end
 
       ##
