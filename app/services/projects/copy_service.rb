@@ -125,12 +125,10 @@ module Projects
     # This has to run after copy_activated_custom_fields, since that is what
     # actually creates most of the mappings being adjusted here.
     def copy_creation_wizard_flags(project)
-      source_flags = source.project_custom_field_project_mappings.pluck(:custom_field_id, :creation_wizard).to_h
+      enabled_cf_ids = source.project_custom_field_project_mappings.where(creation_wizard: true).pluck(:custom_field_id)
 
-      project.project_custom_field_project_mappings.find_each do |mapping|
-        creation_wizard = source_flags[mapping.custom_field_id]
-        mapping.update_column(:creation_wizard, creation_wizard) unless creation_wizard.nil?
-      end
+      project.project_custom_field_project_mappings.update_all(creation_wizard: false)
+      project.project_custom_field_project_mappings.where(custom_field_id: enabled_cf_ids).update_all(creation_wizard: true)
     end
 
     def retain_attributes(source, target)
