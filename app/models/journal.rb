@@ -60,6 +60,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::MeetingStartTime
   register_journal_formatter OpenProject::JournalFormatter::MeetingState
   register_journal_formatter OpenProject::JournalFormatter::MeetingWorkPackageId
+  register_journal_formatter OpenProject::JournalFormatter::ObservedInVersions
   register_journal_formatter OpenProject::JournalFormatter::ParticipantChange
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseActive
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDates
@@ -122,13 +123,6 @@ class Journal < ApplicationRecord
   has_many :project_phase_journals, class_name: "Journal::ProjectPhaseJournal", dependent: :delete_all
   has_many :storable_journals, class_name: "Journal::StorableJournal", dependent: :delete_all
   has_many :work_package_version_journals, class_name: "Journal::WorkPackageVersionJournal", dependent: :delete_all
-  # Row lifecycle is owned by work_package_version_journals above.
-  # rubocop:disable Rails/HasManyOrHasOneDependent
-  has_many :target_version_journals,
-           -> { where(kind: "target") },
-           class_name: "Journal::WorkPackageVersionJournal",
-           inverse_of: :journal
-  # rubocop:enable Rails/HasManyOrHasOneDependent
 
   has_many :notifications, dependent: :destroy
 
@@ -145,6 +139,20 @@ class Journal < ApplicationRecord
   scope :for_meeting, -> { where(journable_type: "Meeting") }
 
   alias_attribute :internal, :restricted
+
+  # The snapshotted versions of a work package, split by the kind that
+  # references them.
+  #
+  # Deliberately derived in memory instead of being declared as kind-scoped
+  # associations: as associations, each kind would issue its own query, and
+  # every caller eager loads all of them together anyway.
+  def target_version_journals
+    work_package_version_journals.select { |journal| journal.kind == "target" }
+  end
+
+  def observed_in_version_journals
+    work_package_version_journals.select { |journal| journal.kind == "observed_in" }
+  end
 
   # In conjunction with the included Comparable module, allows comparison of journal records
   # based on their corresponding version numbers, creation timestamps and IDs.

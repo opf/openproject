@@ -187,6 +187,18 @@ module WorkPackage::Versions
     target_version_ids_replacements.filter_map { |id| versions_by_id[id] }
   end
 
+  # List of observed in versions, but takes into account pending overrides that
+  # were not written yet.
+  #
+  # There is no deprecated single-value column mirroring this kind, so unlike
+  # #effective_target_versions only the override has to be considered.
+  def effective_observed_in_versions
+    return observed_in_versions if observed_in_version_ids_replacements.nil?
+
+    versions_by_id = Version.where(id: observed_in_version_ids_replacements).index_by(&:id)
+    observed_in_version_ids_replacements.filter_map { |id| versions_by_id[id] }
+  end
+
   # An override can also originate from the system, e.g. when versions that are
   # not shared with the (new) project are cleared on a project change. Such
   # overrides are marked here so that contracts don't attribute them to the

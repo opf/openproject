@@ -144,6 +144,29 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
             WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
         SQL
     },
+    observed_in_versions: {
+      sortable: [
+        <<~SQL.squish,
+          (SELECT STRING_AGG(LOWER(v.name), ' ' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'observed_in')
+        SQL
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpv.version_id::text, '.' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'observed_in')
+        SQL
+      ],
+      groupable:
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpv.version_id::text, '.' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'observed_in')
+        SQL
+    },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date"
     },

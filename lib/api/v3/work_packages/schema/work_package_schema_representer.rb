@@ -334,6 +334,22 @@ module API
                                          required: false,
                                          options: -> { { multiple: Setting::WorkPackageMultipleVersions.active? } }
 
+          # Unlike target versions, observed versions have no single-valued
+          # predecessor to stand in for, so the attribute is always offered and
+          # always a collection.
+          schema_with_allowed_collection :observed_in_versions,
+                                         type: "[]Version",
+                                         value_representer: Versions::VersionRepresenter,
+                                         link_factory: ->(version) {
+                                           {
+                                             href: api_v3_paths.version(version.id),
+                                             title: version.name
+                                           }
+                                         },
+                                         writable: ->(*) { represented.writable?(:observed_in_versions) },
+                                         required: false,
+                                         options: -> { { multiple: true } }
+
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
                                          link_factory: ->(priority) {

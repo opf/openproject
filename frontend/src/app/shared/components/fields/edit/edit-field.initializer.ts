@@ -143,7 +143,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'WorkPackage',
         VersionsEditFieldComponent,
         'versions',
-        ['targetVersions'],
+        ['targetVersions', 'observedInVersions'],
       )
       .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('Portfolio', ProjectStatusEditFieldComponent, 'status', ['status'])

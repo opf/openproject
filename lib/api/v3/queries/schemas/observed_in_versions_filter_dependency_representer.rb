@@ -28,18 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to the set of target versions
-# (see JournalChanges#get_target_versions_changes).
-class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedVersions
-  private
-
-  # While the multiple versions feature is inactive, the rest of the UI still
-  # labels the attribute "Version"; the journal entry follows suit.
-  def label(key)
-    if Setting::WorkPackageMultipleVersions.active?
-      super
-    else
-      super("version")
+module API
+  module V3
+    module Queries
+      module Schemas
+        # The allowed values of the observed versions filter are the same
+        # collection of versions the single version filter offers, so the
+        # dependency representation is identical. A dedicated class is still
+        # needed, as FilterDependencyRepresenterFactory resolves the representer
+        # from the filter's class name.
+        class ObservedInVersionsFilterDependencyRepresenter <
+          VersionFilterDependencyRepresenter
+        end
+      end
     end
   end
 end

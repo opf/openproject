@@ -33,20 +33,7 @@ module JournalChanges
     return @changes if @changes
     return {} if data.nil?
 
-    changes = [
-      get_cause_changes,
-      get_data_changes,
-      get_attachments_changes,
-      get_custom_comments_changes,
-      get_custom_fields_changes,
-      get_project_phases_changes,
-      get_target_versions_changes,
-      get_file_links_changes,
-      get_participants_changes,
-      get_agenda_items_changes
-    ].compact
-
-    merged = changes.reduce({}.with_indifferent_access, :merge!)
+    merged = all_changes.reduce({}.with_indifferent_access, :merge!)
 
     @changes = suppress_mirrored_version_change(merged)
   end
@@ -143,6 +130,18 @@ module JournalChanges
     { target_versions: [old_value, new_value] }
   end
 
+  # Diffed as a single value just like the target versions above: one
+  # "Observed versions" line with the old and the new list.
+  def get_observed_in_versions_changes
+    return unless journable.respond_to?(:observed_in_versions)
+
+    old_value = predecessor && joined_observed_in_version_ids(predecessor)
+    new_value = joined_observed_in_version_ids(self)
+    return if old_value == new_value
+
+    { observed_in_versions: [old_value, new_value] }
+  end
+
   def get_file_links_changes
     return unless has_file_links?
 
@@ -187,6 +186,22 @@ module JournalChanges
 
   private
 
+  def all_changes
+    [
+      get_cause_changes,
+      get_data_changes,
+      get_attachments_changes,
+      get_custom_comments_changes,
+      get_custom_fields_changes,
+      get_project_phases_changes,
+      get_target_versions_changes,
+      get_observed_in_versions_changes,
+      get_file_links_changes,
+      get_participants_changes,
+      get_agenda_items_changes
+    ].compact
+  end
+
   # While the deprecated version_id column mirrors the target versions, a
   # version change diffs under both keys; only the target_versions
   # representation is rendered. Historical journals render the same way,
@@ -199,6 +214,10 @@ module JournalChanges
 
   def joined_target_version_ids(journal)
     journal.target_version_journals.map(&:version_id).sort.join(",").presence
+  end
+
+  def joined_observed_in_version_ids(journal)
+    journal.observed_in_version_journals.map(&:version_id).sort.join(",").presence
   end
 
   def participant_baseline_journal

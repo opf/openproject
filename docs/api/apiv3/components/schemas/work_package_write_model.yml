@@ -126,6 +126,19 @@ properties:
 
           - Transitioning from single to multiple version support
           - (Temporary) Only allows a single value for compatibility with the version field
+      observedInVersions:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          List of versions the work package has been observed in
+
+          **Resource**: Collection of Version
+
+          # Conditions
+
+          - Unlike `targetVersions`, closed versions may be assigned
+          - Always multi-valued, independently of multiple version support
       parent:
         allOf:
           - $ref: './link.yml'

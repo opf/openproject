@@ -39,13 +39,14 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 /**
- * Edit field for the targetVersions attribute of work packages.
+ * Edit field for the version collection attributes of work packages
+ * (targetVersions, observedInVersions).
  *
- * The attribute always reads and writes a collection, but as long as the
- * multiple versions setting is inactive, the schema restricts it to a single
- * value (options.multiple). In that mode the field mimics the single select
- * fields it stands in for: an explicit "-" option, no save/cancel controls,
- * saving right on selection.
+ * The attributes always read and write a collection, but the schema may
+ * restrict one to a single value (options.multiple) — targetVersions does so as
+ * long as the multiple versions setting is inactive. In that mode the field
+ * mimics the single select fields it stands in for: an explicit "-" option, no
+ * save/cancel controls, saving right on selection.
  *
  * Versions can be created from within the field when the user is allowed to
  * (mirroring VersionAutocompleterComponent).

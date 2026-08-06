@@ -30,7 +30,9 @@
 
 class Queries::WorkPackages::Filter::TargetVersionsFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-  include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
+  include ::Queries::WorkPackages::Filter::FilterOnWorkPackageVersionsMixin
+
+  def version_kind = "target"
 
   def self.key = :target_version_id
   def human_name = WorkPackage.human_attribute_name("target_versions")

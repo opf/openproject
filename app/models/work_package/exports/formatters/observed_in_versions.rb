@@ -28,18 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to the set of target versions
-# (see JournalChanges#get_target_versions_changes).
-class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedVersions
-  private
+module WorkPackage::Exports
+  module Formatters
+    class ObservedInVersions < ::Exports::Formatters::Default
+      def self.apply?(attribute, _export_format)
+        attribute.to_sym == :observed_in_versions
+      end
 
-  # While the multiple versions feature is inactive, the rest of the UI still
-  # labels the attribute "Version"; the journal entry follows suit.
-  def label(key)
-    if Setting::WorkPackageMultipleVersions.active?
-      super
-    else
-      super("version")
+      def retrieve_value(object)
+        object.observed_in_versions.map(&:name)
+      end
     end
   end
 end

@@ -28,18 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to the set of target versions
-# (see JournalChanges#get_target_versions_changes).
-class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedVersions
+# Renders the change to a set of versions referenced by a work package. Each
+# value is the sorted, comma-joined version ids (see JournalChanges); every id
+# is resolved to the version's name, dropping versions that have been deleted in
+# the meantime.
+class OpenProject::JournalFormatter::JoinedVersions < JournalFormatter::NamedAssociation
   private
 
-  # While the multiple versions feature is inactive, the rest of the UI still
-  # labels the attribute "Version"; the journal entry follows suit.
-  def label(key)
-    if Setting::WorkPackageMultipleVersions.active?
-      super
-    else
-      super("version")
+  def format_values(values, key, cache:)
+    klass = class_from_field(key)
+
+    values.map do |value|
+      next if value.blank? || klass.nil?
+
+      value.to_s.split(",")
+           .filter_map { |id| associated_object(klass, id.to_i, cache:)&.name }
+           .join(", ")
+           .presence
     end
   end
 end
