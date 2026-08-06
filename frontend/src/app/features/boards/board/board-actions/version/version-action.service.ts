@@ -39,6 +39,8 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { attributeNameForFilter } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   firstValueFrom,
   Observable,
@@ -53,15 +55,14 @@ export class BoardVersionActionService extends CachedBoardActionService {
   filterName = 'version';
 
   /**
-   * The work package show view writes the version via the targetVersions
-   * attribute, while dragging a card between lists still writes the
-   * deprecated version attribute. Watch both so either change moves the card.
-   *
-   * TODO: Reduce to targetVersions once boards write it as well
-   * (BoardActionService#assignToWorkPackage in the boards follow-up of COMMS-877).
+   * The list-defining filter stays "version" (stored in board queries), but
+   * assigning a card writes the targetVersions attribute replacing the
+   * deprecated single version attribute. Derived from the same mapping that
+   * WorkPackageFilterValues applies, so the writability check below and the
+   * attribute actually written can never disagree.
    */
-  get watchedAttributes():string[] {
-    return [this.filterName, 'targetVersions'];
+  override get attributeName():string {
+    return attributeNameForFilter(this.filterName);
   }
 
   resourceName = 'version';
@@ -88,8 +89,10 @@ export class BoardVersionActionService extends CachedBoardActionService {
     }
 
     if (!this.writable$) {
-      this.writable$ = query.results.createWorkPackage()
-        .then((form:FormResource) => form.schema.version.writable);
+      const createForm = query.results.createWorkPackage as () => Promise<FormResource>;
+
+      this.writable$ = createForm()
+        .then((form:FormResource) => (form.schema[this.attributeName] as IFieldSchema).writable);
     }
 
     return this.writable$;
