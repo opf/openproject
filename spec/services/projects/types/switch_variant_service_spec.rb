@@ -37,26 +37,36 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
   let(:variant) { create(:type, parent: parent_type) }
   let(:sibling_variant) { create(:type, parent: parent_type) }
   let(:project) { create(:project, types: [variant]) }
-  let!(:work_package) { create(:work_package, project:, type: variant) }
+  let!(:work_package) { create(:work_package, project:, type: parent_type) }
 
   let(:source) { variant }
   let(:target) { sibling_variant }
 
+  def resolved_variant = project.reload.project_types.sole.variant
+
   context "when switching to a sibling variant" do
-    it "moves the work packages, enables the target and removes the source" do
+    it "resolves the project to the target" do
       expect(service_call).to be_success
-      expect(work_package.reload.type).to eq(sibling_variant)
-      expect(project.reload.types).to contain_exactly(sibling_variant)
+      expect(resolved_variant).to eq(sibling_variant)
+      expect(project.types).to contain_exactly(parent_type)
+    end
+
+    it "leaves the work packages alone" do
+      expect { service_call }.not_to change { work_package.reload.attributes }
+    end
+
+    it "journals nothing" do
+      expect { service_call }.not_to change(Journal, :count)
     end
   end
 
   context "when switching to the parent type" do
     let(:target) { parent_type }
 
-    it "moves the work packages to the parent and swaps the enabled types" do
+    it "resolves the project to the root itself" do
       expect(service_call).to be_success
-      expect(work_package.reload.type).to eq(parent_type)
-      expect(project.reload.types).to contain_exactly(parent_type)
+      expect(resolved_variant).to be_nil
+      expect(project.project_types.sole.effective_type).to eq(parent_type)
     end
   end
 
@@ -67,8 +77,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     it "fails without changing anything" do
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_source_not_a_variant)
-      expect(work_package.reload.type).to eq(variant)
-      expect(project.reload.types).to contain_exactly(variant)
+      expect(resolved_variant).to eq(variant)
     end
   end
 
@@ -96,21 +105,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     it "fails without changing anything" do
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:base)).to contain_exactly(:error_unauthorized)
-      expect(work_package.reload.type).to eq(variant)
-      expect(project.reload.types).to contain_exactly(variant)
-    end
-  end
-
-  context "when a work package fails to update" do
-    before do
-      failing_service = instance_double(WorkPackages::UpdateService, call: ServiceResult.failure)
-      allow(WorkPackages::UpdateService).to receive(:new).and_return(failing_service)
-    end
-
-    it "rolls back the entire switch" do
-      expect(service_call).to be_failure
-      expect(work_package.reload.type).to eq(variant)
-      expect(project.reload.types).to contain_exactly(variant)
+      expect(resolved_variant).to eq(variant)
     end
   end
 end

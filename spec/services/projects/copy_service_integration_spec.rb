@@ -141,6 +141,42 @@ RSpec.describe(
       copied_work_package
     end
 
+    describe "the variant a family resolves to", with_flag: { type_variants: true } do
+      shared_let(:root_type) { create(:type, name: "Copied root") }
+      shared_let(:variant) { create(:type, name: "Copied variant", parent: root_type) }
+
+      before { source.project_types.create!(type: root_type, variant:) }
+
+      it "copies the resolved variant, not just the root the project uses" do
+        expect(subject).to be_success
+
+        copied = project_copy.project_types.find_by(type: root_type)
+
+        expect(copied.variant).to eq(variant)
+        expect(copied.effective_type).to eq(variant)
+      end
+
+      it "keeps the copy pointing at its own project" do
+        expect(subject).to be_success
+
+        expect(project_copy.project_types.pluck(:project_id).uniq).to eq([project_copy.id])
+      end
+
+      context "when the caller names the types itself" do
+        shared_let(:other_type) { create(:type, name: "Chosen type") }
+
+        let(:target_project_params) { { "name" => "Copy", "identifier" => "copy", "type_ids" => [other_type.id] } }
+
+        # project_types and type_ids write the same rows, so the source's must stand aside
+        # rather than compete with what the caller asked for.
+        it "uses the caller's types instead of the source's" do
+          expect(subject).to be_success
+
+          expect(project_copy.types).to contain_exactly(other_type)
+        end
+      end
+    end
+
     shared_examples_for "copies public attribute" do
       describe "#public" do
         before do

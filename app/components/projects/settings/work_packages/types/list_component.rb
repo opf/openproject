@@ -48,13 +48,13 @@ module Projects
 
           attr_reader :project
 
-          # A variant's acts_as_list position is scoped to its parent, so only
-          # the family's own position is comparable across rows.
-          def active_types
-            @active_types ||= project
-                                .types
-                                .includes(:parent, :color)
-                                .sort_by { |type| type.root.position }
+          # One row per family. A project uses the root and resolves the variant
+          # separately, so the row is the join record rather than a single type.
+          def active_project_types
+            @active_project_types ||= project
+                                        .project_types
+                                        .includes(:variant, type: :color)
+                                        .sort_by { |project_type| project_type.type.position }
           end
 
           def remove_path(type)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,44 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module Schema
-        class TypedWorkPackageSchema < BaseWorkPackageSchema
-          attr_reader :project, :type, :custom_fields
+class ProjectType < ApplicationRecord
+  belongs_to :project
+  belongs_to :type
+  belongs_to :variant, class_name: "Type", optional: true
 
-          def initialize(project:, type:, custom_fields: nil)
-            @project = project
-            @type = type
-            @custom_fields = custom_fields
-          end
+  validates :type_id, uniqueness: { scope: :project_id }
+  validate :type_is_a_root
+  validate :variant_belongs_to_type
 
-          def milestone?
-            type.is_milestone?
-          end
+  def effective_type
+    variant || type
+  end
 
-          def available_custom_fields
-            custom_fields || (project.all_work_package_custom_fields.to_a & effective_type.custom_fields.to_a)
-          end
+  private
 
-          def no_caching?
-            false
-          end
+  def type_is_a_root
+    return if type.nil? || !type.variant?
 
-          def work_package
-            @work_package ||= WorkPackage.new(project:, type:)
-          end
+    errors.add(:type, :must_be_a_root_type)
+  end
 
-          private
+  def variant_belongs_to_type
+    return if variant.nil? || variant.parent_id == type_id
 
-          def contract
-            @contract ||= ::API::V3::WorkPackages::Schema::TypedSchemaContract
-                .new(work_package,
-                     User.current)
-          end
-        end
-      end
-    end
+    errors.add(:variant, :must_belong_to_the_type)
   end
 end

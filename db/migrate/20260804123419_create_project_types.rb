@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,44 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module Schema
-        class TypedWorkPackageSchema < BaseWorkPackageSchema
-          attr_reader :project, :type, :custom_fields
+class CreateProjectTypes < ActiveRecord::Migration[8.1]
+  def up
+    create_table :project_types do |t|
+      t.references :project, null: false, foreign_key: { on_delete: :cascade }, index: false
+      t.references :type, null: false, foreign_key: { to_table: :types, on_delete: :cascade }
+      t.references :variant, null: true, foreign_key: { to_table: :types, on_delete: :nullify }
 
-          def initialize(project:, type:, custom_fields: nil)
-            @project = project
-            @type = type
-            @custom_fields = custom_fields
-          end
-
-          def milestone?
-            type.is_milestone?
-          end
-
-          def available_custom_fields
-            custom_fields || (project.all_work_package_custom_fields.to_a & effective_type.custom_fields.to_a)
-          end
-
-          def no_caching?
-            false
-          end
-
-          def work_package
-            @work_package ||= WorkPackage.new(project:, type:)
-          end
-
-          private
-
-          def contract
-            @contract ||= ::API::V3::WorkPackages::Schema::TypedSchemaContract
-                .new(work_package,
-                     User.current)
-          end
-        end
-      end
+      t.timestamps
     end
+
+    add_index :project_types, :project_id
+    add_index :project_types, %i[project_id type_id], unique: true
+
+    backfill_from_projects_types
+  end
+
+  def down
+    drop_table :project_types
+  end
+
+  private
+
+  def backfill_from_projects_types
+    execute <<~SQL.squish
+      INSERT INTO project_types (project_id, type_id, variant_id, created_at, updated_at)
+      SELECT pt.project_id,
+             COALESCE(t.parent_id, t.id),
+             MIN(CASE WHEN t.parent_id IS NOT NULL THEN t.id END),
+             NOW(),
+             NOW()
+      FROM projects_types pt
+      JOIN types t ON t.id = pt.type_id
+      GROUP BY pt.project_id, COALESCE(t.parent_id, t.id)
+    SQL
   end
 end

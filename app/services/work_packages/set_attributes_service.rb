@@ -240,7 +240,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = work_package.type&.description
+    work_package.description = work_package.effective_type&.description
   end
 
   def default_description?
@@ -450,7 +450,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
     if work_package.type_id_changed?
-      reassign_status work_package.type.statuses(include_default: true)
+      reassign_status work_package.effective_type.statuses(include_default: true)
     end
   end
 

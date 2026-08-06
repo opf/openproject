@@ -35,7 +35,7 @@ require "spec_helper"
 RSpec.describe Type::FormConfigurationSql do
   let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
 
-  # Runs the remap fragment over projects_types, keyed by each row's own type id.
+  # Runs the remap fragment over project_types, keyed by each row's own type id.
   def remap_by_own_id
     join, source_expr, excluded_expr = described_class.remap("pt.type_id")
 
@@ -43,7 +43,7 @@ RSpec.describe Type::FormConfigurationSql do
       SELECT pt.type_id AS own_id,
              #{source_expr} AS source_id,
              array_to_string(#{excluded_expr}, ',') AS excluded
-      FROM projects_types pt
+      FROM project_types pt
       #{join}
     SQL
   end

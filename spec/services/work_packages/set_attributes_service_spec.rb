@@ -2462,5 +2462,25 @@ RSpec.describe WorkPackages::SetAttributesService,
         expect(work_package.description).to eq("Something the user typed")
       end
     end
+
+    # Type#description resolves through the defaults link, so a variant owning its defaults
+    # carries a template of its own while the work package still stores the root.
+    context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+      let(:family_root) { create(:type, description: "Root template") }
+      let(:variant) { create(:type, parent: family_root) }
+      let(:variant_project) { create(:project, types: [variant]) }
+      let(:call_attributes) { { project: variant_project, type: family_root } }
+
+      before do
+        variant.configuration_links.find_by(aspect: Type::ConfigurationLink::DEFAULTS).destroy!
+        variant.update!(description: "Variant template")
+      end
+
+      it "uses the variant's template, not the stored root's" do
+        service_result
+
+        expect(work_package.description).to eq("Variant template")
+      end
+    end
   end
 end

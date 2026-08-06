@@ -68,7 +68,17 @@ class Type < ApplicationRecord
     end
   end
 
-  has_and_belongs_to_many :projects
+  # Projects using this type. A project always uses the root, so a variant has none.
+  has_many :project_types, dependent: :delete_all
+  has_many :projects, through: :project_types
+
+  # Rows naming this type as the resolved variant. Nothing reads them directly; they are how
+  # #effective_in_projects finds a variant's projects, which #projects cannot.
+  has_many :variant_project_types,
+           class_name: "ProjectType",
+           foreign_key: :variant_id,
+           inverse_of: :variant,
+           dependent: :nullify
 
   has_and_belongs_to_many :custom_fields,
                           class_name: "WorkPackageCustomField",
@@ -90,7 +100,7 @@ class Type < ApplicationRecord
   validate :not_own_parent
   validate :cannot_have_children_when_child
   validate :standard_type_stays_root
-  validate :parent_frozen_with_work_packages
+  validate :parent_frozen_while_used_by_projects
 
   scopes :milestone,
          :with_effective_configuration,
@@ -152,8 +162,14 @@ class Type < ApplicationRecord
     where(is_standard: true).first
   end
 
+  # The roots the given project(s) use. A project uses a root even when it resolves the family
+  # to a variant, so a variant is never returned.
+  #
+  # Resolved as a subquery rather than a join so a root used by several projects yields one row:
+  # a join would duplicate it, which the eager load only hid from callers reading records and
+  # not from those plucking ids.
   def self.enabled_in(project)
-    includes(:projects).where(projects: { id: project })
+    where(id: ProjectType.where(project_id: project).select(:type_id))
   end
 
   # Writers use #own_workflows; the flag-off branch also keeps it so an eager-loaded
@@ -189,12 +205,36 @@ class Type < ApplicationRecord
     include_default ? scope.or(Status.where_default) : scope
   end
 
-  def enabled_in?(object)
-    object.types.include?(self)
+  # The projects this type is the member in force for — the inverse of Project#effective_type.
+  # A variant's are the projects resolving the family to it; a root's are those using it
+  # without resolving a variant.
+  #
+  # Distinct from #projects, which a variant never appears in: a project uses the root even
+  # when the configuration in force is the variant's.
+  def effective_in_projects
+    Project.where(id: ProjectType.where(variant_id: id)
+                                 .or(ProjectType.where(type_id: id, variant_id: nil))
+                                 .select(:project_id))
+  end
+
+  # A project only shows custom fields its own activation includes, so fields on this type's
+  # form have to be activated wherever that form is in force, or the form silently omits them.
+  # Load-bearing for variants: a variant never appears in #projects, so nothing else reaches
+  # the projects whose form it configures.
+  def activate_custom_fields_in_effective_projects!
+    return if custom_field_ids.empty?
+
+    effective_in_projects.each do |project|
+      project.work_package_custom_field_ids |= custom_field_ids
+    end
   end
 
   def root
     parent || self
+  end
+
+  def root_id
+    parent_id || id
   end
 
   def variant?
@@ -217,7 +257,7 @@ class Type < ApplicationRecord
   end
 
   def own_name
-    read_attribute(:name)
+    self[:name]
   end
 
   def composite_name
@@ -309,9 +349,14 @@ class Type < ApplicationRecord
     errors.add(:parent, :standard_type_must_be_root) if is_standard? && parent_id.present?
   end
 
-  def parent_frozen_with_work_packages
+  # Re-parenting moves a type into another family or out of one, which would leave every
+  # project_types row referencing it either using a type that is no longer a root, or
+  # resolving to a variant of a different family than the row uses. Neither row gets
+  # revalidated, so the only place to catch it is here.
+  def parent_frozen_while_used_by_projects
     return unless parent_id_changed? && persisted?
+    return unless ProjectType.where(type_id: id).or(ProjectType.where(variant_id: id)).exists?
 
-    errors.add(:parent, :cannot_change_with_work_packages) if WorkPackage.exists?(type_id: id)
+    errors.add(:parent, :cannot_change_while_used_by_projects)
   end
 end

@@ -143,7 +143,7 @@ module WorkPackages
 
     validates :subject,
               presence: true,
-              unless: -> { model.type&.replacement_pattern_defined_for?(:subject) }
+              unless: -> { model.effective_type&.replacement_pattern_defined_for?(:subject) }
     validates :subject, length: { maximum: 255 }
 
     validates :due_date,
@@ -778,7 +778,7 @@ module WorkPackages
     def new_statuses_by_workflow(status)
       return Status.none unless model.type
 
-      workflows = model.type
+      workflows = model.effective_type
                        .workflows
                        .from_status(status.id,
                                     user_roles.map(&:id),
@@ -816,7 +816,7 @@ module WorkPackages
     def auto_generated_attributes_writable? = false
 
     def auto_generated_attribute_names
-      (model.type && model.type.enabled_patterns&.keys&.map(&:to_s)) || []
+      model.effective_type&.enabled_patterns.to_h.keys.map(&:to_s)
     end
   end
 end

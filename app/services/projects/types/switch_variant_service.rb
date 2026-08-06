@@ -30,10 +30,10 @@
 
 module Projects
   module Types
-    # Migrates a project from one variant to another type of the same family
-    # (a sibling variant or the shared parent). All work packages of the old
-    # variant are switched to the target type before the old variant is removed
-    # and the target type enabled, all within a single transaction.
+    # Moves a project from one variant of a family to another member of it (a sibling
+    # variant or the shared root). The project's work packages are untouched: they store
+    # the root either way, so the switch is a change of which configuration the project
+    # resolves to, not a retype.
     class SwitchVariantService < BaseService
       private
 
@@ -42,37 +42,27 @@ module Projects
         target = params[:target]
 
         if !source.variant?
-          return failure(:switch_source_not_a_variant)
+          failure(:switch_source_not_a_variant)
         elsif source == target
-          return failure(:switch_target_identical)
-        elsif source.root != target.root
-          return failure(:switch_target_not_in_family)
+          failure(:switch_target_identical)
+        elsif source.root_id != target.root_id
+          failure(:switch_target_not_in_family)
+        else
+          switch(target)
+          service_call
+        end
+      end
+
+      def switch(target)
+        current_project_type = model.project_types.find_by!(type_id: target.root_id)
+
+        if target.variant?
+          current_project_type.update!(variant: target)
+        else
+          current_project_type.update!(variant: nil)
         end
 
-        switch(service_call, source, target)
-      end
-
-      def switch(service_call, source, target)
-        add_type(target)
-        reassign_work_packages(source, target).each { |wp_result| service_call.add_dependent!(wp_result) }
-        return service_call if service_call.failure?
-
-        model.types.delete(source)
-
-        service_call
-      end
-
-      def add_type(target)
-        model.types << target unless model.types.include?(target)
         enable_work_package_custom_fields(target)
-      end
-
-      def reassign_work_packages(source, target)
-        WorkPackage.where(project: model, type: source).map do |work_package|
-          WorkPackages::UpdateService
-            .new(user:, model: work_package)
-            .call(type: target)
-        end
       end
     end
   end

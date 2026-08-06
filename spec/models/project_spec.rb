@@ -195,6 +195,118 @@ RSpec.describe Project do
     end
   end
 
+  describe "#types" do
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+
+    it "uses the root and resolves the variant when a variant is enabled" do
+      project = create(:project, types: [variant])
+
+      expect(project.reload.types).to contain_exactly(root)
+      expect(project.project_types.sole.variant).to eq(variant)
+    end
+
+    it "uses a root without resolving a variant" do
+      project = create(:project, types: [root])
+
+      expect(project.reload.types).to contain_exactly(root)
+      expect(project.project_types.sole.variant).to be_nil
+    end
+
+    it "switches the resolved variant without changing which type is used" do
+      project = create(:project, types: [root])
+
+      project.project_types.sole.update!(variant:)
+
+      expect(project.reload.types).to contain_exactly(root)
+      expect(project.project_types.sole.effective_type).to eq(variant)
+    end
+
+    it "refuses a second member of a family already used" do
+      project = create(:project, types: [root])
+
+      expect { project.types << variant }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
+
+  describe "#effective_type" do
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+    shared_let(:sibling) { create(:type, name: "Tablet Bug", parent: root) }
+
+    context "when the project resolves the family to a variant" do
+      shared_let(:project) { create(:project, types: [variant]) }
+
+      it "resolves the root to that variant" do
+        expect(project.effective_type(root)).to eq(variant)
+      end
+
+      it "resolves any member of the family to that variant" do
+        expect(project.effective_type(sibling)).to eq(variant)
+      end
+    end
+
+    context "when the project uses the root itself" do
+      shared_let(:project) { create(:project, types: [root]) }
+
+      it "resolves to the root" do
+        expect(project.effective_type(root)).to eq(root)
+      end
+
+      it "resolves a variant back to the root" do
+        expect(project.effective_type(variant)).to eq(root)
+      end
+    end
+
+    context "when the project does not use the family at all" do
+      shared_let(:project) { create(:project, no_types: true) }
+
+      it "resolves to the root, whose configuration is the only one that could apply" do
+        expect(project.effective_type(variant)).to eq(root)
+      end
+    end
+
+    it "is nil without a type" do
+      expect(create(:project).effective_type(nil)).to be_nil
+    end
+  end
+
+  describe "#effective_types" do
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+    shared_let(:sibling) { create(:type, name: "Tablet Bug", parent: root) }
+    shared_let(:unrelated) { create(:type, name: "Risk") }
+
+    shared_let(:project) { create(:project, types: [variant, unrelated]) }
+
+    it "resolves every member of a family to the one the project runs" do
+      expect(project.effective_types(root, sibling, unrelated)).to contain_exactly(variant, unrelated)
+    end
+
+    it "accepts ids as well as records" do
+      expect(project.effective_types(root.id, unrelated.id)).to contain_exactly(variant, unrelated)
+    end
+
+    it "collapses members of one family to a single entry" do
+      expect(project.effective_types(root, variant, sibling)).to contain_exactly(variant)
+    end
+
+    it "falls back to the root for a family the project does not use" do
+      other_root = create(:type, name: "Risk of its own")
+      create(:type, name: "Unused variant", parent: other_root)
+
+      expect(project.effective_types(other_root)).to contain_exactly(other_root)
+    end
+
+    it "is empty without types" do
+      expect(project.effective_types).to be_empty
+    end
+
+    it "keeps Type's default ordering usable despite resolving through types twice" do
+      expect { project.effective_types(root, unrelated).to_a }.not_to raise_error
+    end
+  end
+
   describe "#types_used_by_work_packages" do
     let(:project) { create(:project_with_types) }
     let(:type) { project.types.first }
