@@ -614,6 +614,47 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       let(:work_week) { week_with_all_days_working }
       let!(:previous_non_working_days) { week_with_saturday_and_sunday_as_non_working_day }
 
+      context "when current non-working days were captured at enqueue time" do
+        let_work_packages(<<~TABLE)
+          subject      | MTWTFSS |
+          work_package | XXXX ░░ |
+        TABLE
+
+        let(:wednesday) { next_monday.next_occurring(:wednesday) }
+        # Outside the work package span so scheduling is unchanged; only the journal cause
+        # would pick this up if the job re-read NonWorkingDay at perform time.
+        let(:later_non_working_day) { next_monday + 3.weeks }
+        let(:current_non_working_days) do
+          previous_non_working_days + [wednesday]
+        end
+
+        subject do
+          job.perform_now(
+            user_id: user.id,
+            previous_working_days:,
+            previous_non_working_days:,
+            current_working_days: previous_working_days,
+            current_non_working_days:
+          )
+        end
+
+        before do
+          set_non_working_days(wednesday)
+          # Simulate another settings change while this job runs: a further non-working day
+          # is persisted after enqueue. The job must not pick it up from the live table.
+          set_non_working_days(later_non_working_day)
+        end
+
+        it "only records the non-working days from the enqueue-time snapshot in the journal cause" do
+          subject
+
+          expect(work_package.journals.last.cause_changed_days).to eq(
+            "working_days" => {},
+            "non_working_days" => { wednesday.iso8601 => false }
+          )
+        end
+      end
+
       context "when a work package includes a date that is now a non-working day" do
         let_work_packages(<<~TABLE)
           subject               | MTWTFSS |

@@ -93,7 +93,11 @@ RSpec.describe Settings::WorkingDaysAndHoursUpdateService do
 
           expect(job_class)
             .to have_received(:perform_later)
-                  .with(user_id: user.id, previous_working_days:, previous_non_working_days:)
+                  .with(user_id: user.id,
+                        previous_working_days:,
+                        previous_non_working_days:,
+                        current_working_days: Setting[:working_days],
+                        current_non_working_days: NonWorkingDay.pluck(:date))
         end
       end
     end
