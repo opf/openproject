@@ -80,13 +80,18 @@ COPY vendor ./vendor
 # Add lib in case a plugin tries to load VERSION file under lib
 COPY lib ./lib
 
-COPY ./docker/prod/setup/bundle-install.sh ./vendor/bundle* ./vendor/
+# The restored vendor/bundle cache already arrives with `COPY vendor` above. Naming
+# it again here copied its *contents* into vendor/, leaving a stale second gem tree.
+COPY ./docker/prod/setup/bundle-install.sh ./vendor/
 RUN bash vendor/bundle-install.sh && rm vendor/bundle-install.sh
 
 COPY . .
 
-# Copy lock file again as the updated version was overriden by COPY just now
+# Copy lock file again as the updated version was overriden by COPY just now.
+# `COPY . .` also restores the CI vendor/bundle cache over the installed bundle, so
+# the superseded gem versions bundle-install.sh pruned are back and need pruning again.
 RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
+  bundle clean --force && \
   ./docker/prod/setup/precompile-assets.sh
 
 FROM app-build AS app-build-slim
