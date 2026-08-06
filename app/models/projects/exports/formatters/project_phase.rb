@@ -31,7 +31,7 @@ module Projects::Exports
   module Formatters
     class ProjectPhase < ::Exports::Formatters::Default
       def self.apply?(attribute, _export_format)
-        attribute.to_s.match?(Queries::Projects::Selects::ProjectPhase.key)
+        Queries::Projects::Selects::ProjectPhase.id_from_key(attribute).present?
       end
 
       ##
@@ -49,7 +49,8 @@ module Projects::Exports
       private
 
       def phase_for(project)
-        definition = Project::PhaseDefinition.find_by(id: attribute.to_s[Queries::Projects::Selects::ProjectPhase::KEY, 1])
+        definition_id = Queries::Projects::Selects::ProjectPhase.id_from_key(attribute)
+        definition = Project::PhaseDefinition.find_by(id: definition_id)
         return nil unless definition
 
         project.phases.active.find_by(definition:)
