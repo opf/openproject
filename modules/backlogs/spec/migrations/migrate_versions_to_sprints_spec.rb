@@ -264,6 +264,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
         it "assigns the work package to the sprint and keeps all target versions" do
           migrate
           expect(wp_multi.reload.sprint_id).to eq(Sprint.last.id)
+          expect(wp_multi.sprint.name).to eq(version.name)
           expect(wp_multi.target_versions).to contain_exactly(version, secondary_version)
         end
       end
