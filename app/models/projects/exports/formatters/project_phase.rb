@@ -41,7 +41,7 @@ module Projects::Exports
         return "" unless User.current.allowed_in_project?(:view_project_phases, project)
 
         phase = phase_for(project)
-        return "" if phase.nil?
+        return "" unless phase
 
         format_phase_value(phase)
       end
