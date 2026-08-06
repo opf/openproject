@@ -23,21 +23,22 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-class EnvDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      EnvData::CustomDesignSeeder,
-      EnvData::LdapSeeder,
-      EnvData::LlmConnectionSeeder,
-      EnvData::ScimClientSeeder,
-      EnvData::TokenSeeder
-    ]
-  end
+#++
 
-  def namespace
-    "EnvData"
+module Llm
+  # Refreshes the cached model catalogue out of band.
+  #
+  # Used by the environment seeder, which must not block on -- or fail because of
+  # -- an LLM server that has not finished starting.
+  class SyncModelsJob < ApplicationJob
+    def perform
+      connection = LlmConnection.first
+      return if connection.nil? || !connection.configured?
+
+      LlmConnections::SyncModelsService.new(connection).call
+    end
   end
 end

@@ -23,21 +23,43 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-class EnvDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      EnvData::CustomDesignSeeder,
-      EnvData::LdapSeeder,
-      EnvData::LlmConnectionSeeder,
-      EnvData::ScimClientSeeder,
-      EnvData::TokenSeeder
-    ]
-  end
+#++
 
-  def namespace
-    "EnvData"
+module LlmConnections
+  # Applies an environment-provided configuration to the connection record.
+  #
+  # Uses EnvironmentUpdateContract, which lifts the "configured from environment
+  # is read-only" guard and, crucially, does not probe the LLM server: the
+  # container running the seed may well start before the server does.
+  class EnvSyncService
+    def initialize(env_config)
+      @config = env_config.deep_symbolize_keys
+    end
+
+    def call
+      UpdateService
+        .new(user: User.system,
+             model: LlmConnection.instance,
+             contract_class: EnvironmentUpdateContract,
+             sync_models: false)
+        .call(**attributes)
+    end
+
+    private
+
+    attr_reader :config
+
+    def attributes
+      {
+        base_url: config.fetch(:base_url),
+        api_key: config[:api_key],
+        default_chat_model_id: config[:default_chat_model],
+        default_embedding_model_id: config[:default_embedding_model],
+        enabled: ActiveRecord::Type::Boolean.new.deserialize(config.fetch(:enabled, true))
+      }.compact
+    end
   end
 end
