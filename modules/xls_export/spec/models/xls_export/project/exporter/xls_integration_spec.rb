@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 require "spreadsheet"
 require "models/projects/exporter/exportable_project_context"
@@ -209,6 +211,28 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
         it "renders an empty value while keeping the phase column" do
           expect(header).to eq %w[Name Description Status Public Initiation]
           expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false", nil]
+        end
+      end
+
+      context "and multiple phase definitions" do
+        shared_let(:execution_definition) { create(:project_phase_definition, name: "Execution") }
+        shared_let(:closing_definition) { create(:project_phase_definition, name: "Closing") }
+
+        let(:query_columns) do
+          %w[name description project_status public] +
+            [execution_definition, phase_definition, closing_definition].map { |d| "project_phase_#{d.id}" }
+        end
+
+        before do
+          create(:project_phase, project:, definition: execution_definition,
+                                 start_date: Date.new(2026, 2, 1), finish_date: Date.new(2026, 2, 10))
+          create(:project_phase, project:, definition: closing_definition, active: false)
+        end
+
+        it "renders each definition's own date range and leaves the ones without an active phase empty" do
+          expect(header).to eq %w[Name Description Status Public Execution Initiation Closing]
+          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false",
+                                      "02/01/2026 - 02/10/2026", "01/05/2026 - 01/20/2026", nil]
         end
       end
     end
