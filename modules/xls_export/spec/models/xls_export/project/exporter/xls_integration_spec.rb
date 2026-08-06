@@ -185,8 +185,8 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
   end
 
   describe "project phase columns selected" do
-    let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
-    let(:query_columns) { %w[name description project_status public] + ["project_phase_#{phase_definition.id}"] }
+    shared_let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+    shared_let(:query_columns) { %w[name description project_status public] + ["project_phase_#{phase_definition.id}"] }
 
     before do
       create(:project_phase, project:, definition: phase_definition,
