@@ -39,9 +39,10 @@ module LlmConnections
     attribute :default_embedding_model_id
 
     validates :base_url, presence: true
+    # Resolves to the validate_url gem, which defaults to http and https. Plain
     # http is deliberately allowed: an on-premise LLM server on an internal
-    # network commonly terminates TLS elsewhere or not at all.
-    validates :base_url, url: { allowed_protocols: %w[http https] }, unless: -> { base_url.blank? }
+    # network commonly terminates TLS elsewhere, or not at all.
+    validates :base_url, url: { message: :invalid_url }, unless: -> { base_url.blank? }
 
     validate :enabled_requires_connection
     validate :default_models_offered_by_server

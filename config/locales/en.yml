@@ -1407,6 +1407,33 @@ en:
       caption_with_maximum: >
         User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
+    llm_connections:
+      form:
+        api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_stored: "A key is stored. Leave blank to keep it, or enter a new one to replace it."
+        base_url_caption: >
+          The full base URL of the server, including the API version segment, exactly as your provider documents it (for example https://example.com/v1). OpenProject appends only the endpoint path.
+        button_connect: "Connect"
+        default_chat_model_caption: "Used by AI features that do not select a model themselves."
+        enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
+        label_connecting: "Contacting the LLM server…"
+      delete_api_key:
+        success: "The API key has been removed."
+      models:
+        blank_description: "Save the connection to retrieve the models the server offers."
+        blank_title: "No models retrieved yet"
+        context_window: "Context window"
+        identifier: "Model"
+      refresh_models:
+        failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
+        success: "The model list has been refreshed."
+      show:
+        description: "Connect OpenProject to a server that speaks the OpenAI API, so AI features can use it."
+        models_description: "Reported by the server on %{fetched_at}."
+        models_heading: "Available models"
+        refresh_models: "Refresh models"
+      update:
+        success: "Successfully connected to the LLM server."
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -4106,6 +4133,7 @@ en:
       aggregation: "Aggregation"
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
+      llm_connection: "LLM settings"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"

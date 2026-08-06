@@ -691,6 +691,11 @@ Rails.application.routes.draw do
       end
     end
 
+    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
+      post :refresh_models
+      delete :api_key, action: :delete_api_key
+    end
+
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
         post :multi_update
