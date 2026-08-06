@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,28 +29,32 @@
 #++
 
 module TimeEntries
-  class DeleteContract < ::DeleteContract
-    include PastMonthRestriction
+  module PastMonthRestriction
+    extend ActiveSupport::Concern
 
-    delete_permission -> {
-      edit_all = user.allowed_in_project?(:edit_time_entries, model.project)
-      edit_own = if model.entity.is_a?(WorkPackage)
-                   user.allowed_in_work_package?(:edit_own_time_entries, model.entity)
-                 else
-                   user.allowed_in_project?(:edit_own_time_entries, model.project)
-                 end
-      edit_ongoing = if model.entity.is_a?(WorkPackage)
-                       model.ongoing && user.allowed_in_work_package?(:log_own_time, model.entity)
-                     else
-                       # TODO: Ongoing on meeting?
-                       false
-                     end
+    included do
+      validate :validate_spent_on_not_in_past_month
+    end
 
-      if model.user == user
-        edit_own || edit_all || edit_ongoing
-      else
-        edit_all
-      end
-    }
+    private
+
+    def validate_spent_on_not_in_past_month
+      return unless TimeEntry.prohibit_logging_for_past_months?
+      return unless restricted_spent_on_dates.any? { it < earliest_open_date }
+
+      errors.add :spent_on, :in_past_month, date: I18n.l(earliest_open_date)
+    end
+
+    # The persisted date is checked alongside the assigned one, so that an entry belonging
+    # to a closed month cannot be pulled out of it by moving it into an open one.
+    def restricted_spent_on_dates
+      [model.spent_on, model.spent_on_was].compact
+    end
+
+    # Months are closed as a whole, so the grace period opens every month that the date
+    # it reaches back to belongs to. Without grace this is the start of the current month.
+    def earliest_open_date
+      (Time.zone.today - TimeEntry.past_month_grace_days).beginning_of_month
+    end
   end
 end
