@@ -106,7 +106,7 @@ module Journable::Timestamps
       attributes[missing_column_name] = nil
     end
     journable = self.class.instantiate(attributes)
-    ::Journable::WithHistoricAttributes.load_custom_values(journable)
+    ::Journable::WithHistoricAttributes.load_journal_associations(journable)
     journable.readonly!
     journable
   end
