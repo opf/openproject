@@ -67,7 +67,8 @@ ro:
       '
     login_with_auth_provider: sau conectaţi-vă cu contul existent
     omniauth_login: Autentifică-te pentru activarea contului tău.
-    signup_with_auth_provider: sau înregistrează-te folosind
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Selectează
   activemodel:
     attributes:

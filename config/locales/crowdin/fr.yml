@@ -67,7 +67,8 @@ fr:
       '
     login_with_auth_provider: ou connectez-vous avec votre compte existant
     omniauth_login: Veuillez vous connecter pour activer votre compte.
-    signup_with_auth_provider: ou inscrivez-vous à l'aide de
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Veuillez sélectionner
   activemodel:
     attributes:

@@ -67,7 +67,8 @@ zh-TW:
       '
     login_with_auth_provider: 或使用您的現有帳號登錄
     omniauth_login: 請登入來啟用您的帳號。
-    signup_with_auth_provider: 或者註冊
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: 請選擇
   activemodel:
     attributes:

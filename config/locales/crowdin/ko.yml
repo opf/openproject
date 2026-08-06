@@ -67,7 +67,8 @@ ko:
       '
     login_with_auth_provider: 또는 이미 있는 계정으로 로그인
     omniauth_login: 계정을 활성화하려면 로그인하시기 바랍니다.
-    signup_with_auth_provider: 또는 사용 가입하기
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: 선택하십시오
   activemodel:
     attributes:

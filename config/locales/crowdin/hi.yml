@@ -67,7 +67,8 @@ hi:
       '
     login_with_auth_provider: या अपने मौजूदा खाते से साइन इन करें
     omniauth_login: Please login to activate your account.
-    signup_with_auth_provider: or sign up using
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: कृपया चयन करें
   activemodel:
     attributes:

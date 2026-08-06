@@ -67,7 +67,8 @@ pt-PT:
       '
     login_with_auth_provider: ou inicie sessão com a sua conta
     omniauth_login: Por favor, inicie a sessão para ativar a sua conta.
-    signup_with_auth_provider: ou registe-se, utilizando
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Por favor, selecione
   activemodel:
     attributes:

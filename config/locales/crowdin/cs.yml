@@ -67,7 +67,8 @@ cs:
       '
     login_with_auth_provider: nebo se přihlaste pomocí stávajícího účtu
     omniauth_login: Prosím přihlaste se pro aktivaci účtu.
-    signup_with_auth_provider: nebo se zaregistrujte pomocí
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Zvolte prosím
   activemodel:
     attributes:

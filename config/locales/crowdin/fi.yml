@@ -67,7 +67,8 @@ fi:
       '
     login_with_auth_provider: tai kirjaudu sisään jo olemassa olevalle tilille
     omniauth_login: Kirjaudu sisään aktivoidaksesi tilisi.
-    signup_with_auth_provider: tai rekisteröidy käyttäen
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Valitse
   activemodel:
     attributes:

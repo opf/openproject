@@ -67,7 +67,8 @@ uk:
       '
     login_with_auth_provider: або ввійдіть у свій існуючий обліковий запис
     omniauth_login: Увійдіть, щоб активувати свій обліковий запис.
-    signup_with_auth_provider: або зареєструйтесь, використовуючи
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Будь ласка, виберіть
   activemodel:
     attributes:

@@ -67,7 +67,8 @@ vi:
       '
     login_with_auth_provider: hoặc đăng nhập bằng tài khoản hiện tại
     omniauth_login: Vui lòng đăng nhập để kích hoạt tài khoản của bạn.
-    signup_with_auth_provider: hoặc sử dụng đăng ký
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Vui lòng chọn
   activemodel:
     attributes:

@@ -67,7 +67,8 @@ hu:
       '
     login_with_auth_provider: vagy jelentkezzen be a meglévő hozzáférésével.
     omniauth_login: Kérjük, jelentkezzen be, hogy aktiválja fiókját.
-    signup_with_auth_provider: vagy jelentkezzen be
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Kérem válasszon
   activemodel:
     attributes:

@@ -67,7 +67,8 @@ lt:
       '
     login_with_auth_provider: arba prisijunkite su jau turima paskyra
     omniauth_login: Prisijunkite, norėdami aktyvuoti savo paskyrą.
-    signup_with_auth_provider: arba prisiregistruokite naudodami
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Prašome pasirinkti
   activemodel:
     attributes:

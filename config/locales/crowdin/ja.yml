@@ -67,7 +67,8 @@ ja:
       '
     login_with_auth_provider: または、既存のアカウントでログインしてください。
     omniauth_login: アカウントをアクティブにするのにログインしてください。
-    signup_with_auth_provider: もしくはこちらでサインアップ
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: 選択してください
   activemodel:
     attributes:

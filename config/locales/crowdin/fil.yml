@@ -67,7 +67,8 @@ fil:
       '
     login_with_auth_provider: o kaya ay mag-sig in sa pamamagitan ng iyong umiiral na akawnt
     omniauth_login: Mangyaring mag-login upang i-aktibo ang iyong akwant.
-    signup_with_auth_provider: o mag-sign up gamit ang
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Pakiusap pumili
   activemodel:
     attributes:

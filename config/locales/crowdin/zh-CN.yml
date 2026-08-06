@@ -67,7 +67,8 @@ zh-CN:
       '
     login_with_auth_provider: 或使用您的现有帐户登录
     omniauth_login: 请登录以激活您的帐户。
-    signup_with_auth_provider: 或注册使用
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: 请选择
   activemodel:
     attributes:

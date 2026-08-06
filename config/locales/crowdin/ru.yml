@@ -67,7 +67,8 @@ ru:
       '
     login_with_auth_provider: или войдите своей учетной записью
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
-    signup_with_auth_provider: Или зарегистрируйтесь с помощью
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Пожалуйста, выберите
   activemodel:
     attributes:

@@ -67,7 +67,8 @@ ar:
       '
     login_with_auth_provider: أو سجل دخولك من خلال حسابك الموجود مسبقا
     omniauth_login: الرجاء تسجيل الدخول لتفعيل حسابك.
-    signup_with_auth_provider: أو قم بالتسجيل مستخدماً
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: من فضلك اختر
   activemodel:
     attributes:

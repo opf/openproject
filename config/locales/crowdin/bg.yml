@@ -67,7 +67,8 @@ bg:
       '
     login_with_auth_provider: или влезте със съществуващ акаунт
     omniauth_login: Моля влезте за да активирате профила си.
-    signup_with_auth_provider: или се регистрирайте за използване
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Моля изберете
   activemodel:
     attributes:

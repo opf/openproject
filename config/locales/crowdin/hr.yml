@@ -67,7 +67,8 @@ hr:
       '
     login_with_auth_provider: ili pristupite s vašim postojećim korinisičkim računom
     omniauth_login: Molim vas prijavite se da bi ste aktivirali vaš korisnički račun.
-    signup_with_auth_provider: ili pristupite koristeći
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Molimo odaberite
   activemodel:
     attributes:

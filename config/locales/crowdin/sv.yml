@@ -67,7 +67,8 @@ sv:
       '
     login_with_auth_provider: eller logga in med ditt befintliga konto
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
-    signup_with_auth_provider: eller registrera dig via
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Välj
   activemodel:
     attributes:

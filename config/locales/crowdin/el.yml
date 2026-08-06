@@ -67,7 +67,8 @@ el:
       '
     login_with_auth_provider: ή συνδεθείτε με τον υπάρχοντα λογαριασμό σας
     omniauth_login: Παρακαλούμε συνδεθείτε για να ενεργοποιήσετε τον λογαριασμό σας.
-    signup_with_auth_provider: ή εγγραφείτε χρησιμοποιώντας
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Παρακαλώ επιλέξτε
   activemodel:
     attributes:

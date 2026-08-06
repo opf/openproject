@@ -67,7 +67,8 @@ si:
       '
     login_with_auth_provider: හෝ ඔබගේ පවතින ගිණුම සමඟ පුරනය වන්න
     omniauth_login: කරුණාකර ඔබගේ ගිණුම සක්රිය කිරීමට පුරනය වන්න.
-    signup_with_auth_provider: හෝ භාවිතා කර ලියාපදිංචි වන්න
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: කරුණාකර තෝරන්න
   activemodel:
     attributes:

@@ -67,7 +67,8 @@ hy:
       '
     login_with_auth_provider: կամ մտեք Ձեր գործող հաշվով
     omniauth_login: Ձեր հաշիվն ակտիվացնելու համար խնդրում ենք մտնել։
-    signup_with_auth_provider: կամ գրանցվեք՝ օգտագործելով
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Ընտրեք
   activemodel:
     attributes:

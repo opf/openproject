@@ -67,7 +67,8 @@ sl:
       '
     login_with_auth_provider: ali se pa prijavite z obstoječim računom.
     omniauth_login: Prosim aktivirajte svoj račun
-    signup_with_auth_provider: ali se prijavite s/z
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Prosimo izberite
   activemodel:
     attributes:

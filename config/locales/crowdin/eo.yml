@@ -67,7 +67,8 @@ eo:
       '
     login_with_auth_provider: aŭ ensalutu per via ekzistanta konto
     omniauth_login: Bonvolu ensaluti por aktivigi vian konton.
-    signup_with_auth_provider: aŭ registriĝu per
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Bonvolu elekti
   activemodel:
     attributes:

@@ -67,7 +67,8 @@ pl:
       '
     login_with_auth_provider: lub zaloguj się za pomocą istniejącego konta
     omniauth_login: Zaloguj się, aby aktywować konto.
-    signup_with_auth_provider: lub zapisz się używając
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Proszę wybrać
   activemodel:
     attributes:
