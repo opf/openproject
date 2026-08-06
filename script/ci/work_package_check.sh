@@ -29,7 +29,7 @@
 
 set -e
 
-# script/ci/version_check
+# script/ci/work_package_check.sh
 
 # Read from the PR_BODY / PR_TITLE environment variables, falling back to
 # positional arguments so the script can still be run manually for testing.

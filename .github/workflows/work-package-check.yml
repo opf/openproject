@@ -31,7 +31,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
 
-      - name: Verify linked version matches core version
+      - name: Verify work package fields are set (linked version matches core version and Enterprise field is set)
         id: work-package-check
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
@@ -96,7 +96,9 @@ jobs:
           delete: true
 
       - name: Enterprise plan check passed
-        if: steps.work-package-check.outputs.enterprise_plan_missing != 'true'
+        if: |
+          steps.work-package-check.outputs.enterprise_plan_missing != 'true'
+          && steps.work-package-check.outputs.no_ticket != 'true'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: enterprise-plan-missing-comment
