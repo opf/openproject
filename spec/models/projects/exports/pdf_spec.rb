@@ -284,7 +284,7 @@ RSpec.describe Projects::Exports::PDF do
           expected_document = [
             *expected_cover_page,
             project.name,
-            "Initiation", "#{format_date(Date.new(2026, 1, 5))} - #{format_date(Date.new(2026, 1, 20))}",
+            "Initiation", "01/05/2026 - 01/20/2026",
             "1/1", export_time_formatted, query.name
           ].join(" ")
 
