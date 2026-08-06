@@ -89,6 +89,10 @@ module Pages
           expect(page.find("[data-test-selector='project-types-switch-impact']")).to have_text(text)
         end
 
+        def expect_no_switch_impact
+          expect(page.find("[data-test-selector='project-types-switch-impact']")).to have_no_text(/\S/)
+        end
+
         def switch_dialog
           page.find_by_id("project-types-switch-dialog")
         end

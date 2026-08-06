@@ -5069,14 +5069,14 @@ en:
           description: "Select a different variant of this type to use in this project."
           impact:
             hidden_heading: "Fields that will no longer be shown"
-            missing_statuses_heading: "Statuses missing from the new workflow"
+            missing_statuses_description: "The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on."
+            missing_statuses_heading: "Work packages that get stuck"
             new_heading: "Fields that become available"
             nothing_affected: "No fields or statuses are affected."
             status_count:
               one: "1 work package"
               other: "%{count} work packages"
             table_suffix: "(table)"
-            unchanged: "Select a different variant to see what will change."
             value_count:
               one: "1 work package has a value"
               other: "%{count} work packages have a value"
@@ -5086,7 +5086,6 @@ en:
           success: "The project now uses %{type}."
           target_label: "Variant"
           title: "%{type}: Switch variant"
-          warning: "If you switch variants, you might lose information associated with custom fields that might not be present in the new one."
         switch_type: "Switch variant"
         type_not_found: "The selected type could not be found."
         # Carries its own punctuation so locales can set their own spacing.

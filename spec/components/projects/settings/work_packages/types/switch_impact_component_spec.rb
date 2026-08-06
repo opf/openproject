@@ -49,21 +49,15 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     Projects::Types::Switch::Impact.new(project:, source: epic, target:) unless target == epic
   end
 
-  # The dialog opens on the member in use, so this is what a freshly opened
-  # dialog renders — not a blank report.
+  # The dialog opens on the member in use, and the field above already asks for a
+  # different one, so a freshly opened dialog reports nothing rather than saying so.
   context "when the selection is still the member in use" do
     let(:target) { epic }
 
-    it "invites the user to pick a different one" do
+    it "renders nothing at all" do
       render_component
 
-      expect(page).to have_text("Select a different variant to see what will change")
-    end
-
-    it "renders no section headings, because there is nothing to report yet" do
-      render_component
-
-      expect(page).to have_no_text("Fields that will no longer be shown")
+      expect(page).to have_no_text(/\S/)
     end
   end
 
@@ -127,7 +121,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "omits the statuses section, since no status in use is missing" do
       render_component
 
-      expect(page).to have_no_text("Statuses missing from the new workflow")
+      expect(page).to have_no_text("Work packages that get stuck")
     end
   end
 
@@ -164,10 +158,11 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
       make_independent(design, Type::ConfigurationLink::FORM_CONFIGURATION)
       make_independent(design, Type::ConfigurationLink::WORKFLOWS)
 
-      # Identical groups, so this example reports the status section alone.
+      # Divergent groups too, so the report carries all three sections and their
+      # order can be told apart.
       epic.attribute_groups = [["Details", %w[assignee]]]
       epic.save!
-      design.attribute_groups = [["Details", %w[assignee]]]
+      design.attribute_groups = [["Details", %w[priority]]]
       design.save!
 
       create(:workflow, type: design, role:, old_status: allowed, new_status: allowed)
@@ -177,9 +172,24 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "reports the status and how many work packages hold it" do
       render_component
 
-      expect(page).to have_text("Statuses missing from the new workflow")
+      expect(page).to have_text("Work packages that get stuck")
       expect(page).to have_text("Blocked")
       expect(page).to have_text("2 work packages")
+    end
+
+    it "names the consequence rather than the mechanism behind it" do
+      render_component
+
+      expect(page).to have_text("nobody will be able to move these work packages on")
+    end
+
+    # This is the only section whose consequence outlives the dialog, so it leads.
+    # That it also renders expanded needs a browser, and is covered by the feature spec.
+    it "puts the statuses ahead of the field sections" do
+      render_component
+
+      rendered = page.text
+      expect(rendered.index("Work packages that get stuck")).to be < rendered.index("Fields that")
     end
   end
 

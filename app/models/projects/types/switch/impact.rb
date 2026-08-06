@@ -70,12 +70,10 @@ module Projects
           hidden_custom_field_counts[custom_field_id(field)]
         end
 
-        # Work packages whose status the target's workflow does not include. The switch no
-        # longer moves them, so this is not a refusal but a trap: status transitions validate
-        # against the effective type, leaving these to break the next time somebody edits them.
-        #
-        # TODO(FND-188): a collapsed section undersells a failure deferred onto whoever hits it
-        # next. Settle the framing with UX before this ships.
+        # Work packages whose status the target's workflow cannot move them out of. Assignable
+        # statuses come from the effective type's workflow and always include the current one,
+        # so a status with no transition leaves a work package with itself as its only choice:
+        # frozen, with no error to explain it. This is why the report gives these top billing.
         def missing_statuses
           @missing_statuses ||= begin
             counts = work_packages
