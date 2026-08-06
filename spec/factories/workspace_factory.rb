@@ -57,11 +57,13 @@ FactoryBot.define do
         enabled_types = [Type.where(is_standard: true).first || build(:type_standard)]
       end
 
-      # The association is deliberately left unprimed: loading its target makes Rails insert a
-      # second join row for every entry on save. #types therefore answers from the rows, which
-      # is only once the project is saved.
-      enabled_types.each do |type|
-        project.project_types.build(type: type.root, variant: (type if type.variant?))
+      # Assigned through the association rather than by building project_types directly, so that
+      # #types answers before the project is saved — the work package factory reads it during its
+      # own build. Only the roots go in; the variant is then named on the join records the
+      # assignment built, which are the same objects the save inserts.
+      project.types = enabled_types.map(&:root)
+      project.project_types.zip(enabled_types).each do |project_type, requested|
+        project_type.variant = requested if requested.variant?
       end
     end
 

@@ -168,7 +168,7 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
       # A project uses the root and resolves to the variant, so the projects have to enable
       # it rather than the variant claiming them.
       before do
-        [project_a, project_b].each { |project| project.types << variant }
+        [project_a, project_b].each { |project| project.project_types.create!(type: root, variant:) }
       end
 
       it "leaves the copy with no enabled projects" do

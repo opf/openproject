@@ -2038,4 +2038,36 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
   end
+
+  # #new_statuses_by_workflow reads the workflows of the type in force, which is the variant the
+  # project resolves the stored root to.
+  describe "#assignable_statuses when the project resolves the type to a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    shared_let(:current_status) { create(:status, name: "Current") }
+    shared_let(:root_target) { create(:status, name: "Root target") }
+    shared_let(:variant_target) { create(:status, name: "Variant target") }
+
+    let(:project) { create(:project, types: [variant]) }
+    let(:type) { family_root }
+    let(:role) { create(:project_role, permissions:) }
+    let(:current_user) { create(:user, member_with_roles: { project => role }) }
+    let(:work_package) { create(:work_package, project:, type: family_root, status: current_status) }
+
+    before do
+      variant.configuration_links.find_by(aspect: Type::ConfigurationLink::WORKFLOWS).destroy!
+      variant.reload
+
+      create(:workflow, type: family_root, role:,
+                        old_status_id: current_status.id, new_status_id: root_target.id)
+      create(:workflow, type: variant, role:,
+                        old_status_id: current_status.id, new_status_id: variant_target.id)
+    end
+
+    it "offers the transitions of the variant, not the stored root's" do
+      expect(contract.assignable_statuses).to include(variant_target)
+      expect(contract.assignable_statuses).not_to include(root_target)
+    end
+  end
 end

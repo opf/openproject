@@ -103,7 +103,8 @@ module WorkPackageTypes
       # Same syncing as WorkPackageTypes::UpdateService: the active custom
       # fields follow from the custom fields placed in the groups.
       def sync_active_custom_fields
-        type.custom_field_ids = type.attribute_groups
+        # The groups just copied onto this type, not whatever a project would resolve it to.
+        type.custom_field_ids = type.attribute_groups # rubocop:disable OpenProject/UseEffectiveTypeForConfiguration
                                     .flat_map(&:members)
                                     .filter_map do |attribute|
                                       if CustomField.custom_field_attribute?(attribute)

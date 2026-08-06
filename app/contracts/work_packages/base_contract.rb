@@ -778,7 +778,7 @@ module WorkPackages
     def new_statuses_by_workflow(status)
       return Status.none unless model.type
 
-      workflows = model.type
+      workflows = model.effective_type
                        .workflows
                        .from_status(status.id,
                                     user_roles.map(&:id),

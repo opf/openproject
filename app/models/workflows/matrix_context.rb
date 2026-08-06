@@ -29,6 +29,9 @@
 #++
 
 module Workflows
+  # The matrix edits one named type, held below as `type`. Every configuration read here is that
+  # member's own and must never resolve to a variant, hence the effective_type disables — the cop
+  # cannot tell an admin's explicit type from a work package's stored root.
   class MatrixContext
     TABS = %w[always author assignee].freeze
     DEFAULT_TAB = "always"
@@ -71,7 +74,7 @@ module Workflows
                     elsif roles.any?
                       Status.where(id: saved_status_ids)
                     else
-                      type.statuses
+                      type.statuses # rubocop:disable OpenProject/UseEffectiveTypeForConfiguration
                     end
     end
 
@@ -109,7 +112,7 @@ module Workflows
     end
 
     def workflows
-      @workflows ||= type
+      @workflows ||= type # rubocop:disable OpenProject/UseEffectiveTypeForConfiguration
                        .workflows
                        .where(role_id: roles.map(&:id))
                        .select { belongs_to_tab?(it) }
@@ -132,7 +135,7 @@ module Workflows
     # The baseline a pending selection is compared against: always what the selected roles
     # have saved, never the pending selection itself.
     def saved_status_ids
-      @saved_status_ids ||= roles.flat_map { type.statuses(role: it, tab:).pluck(:id) }.uniq
+      @saved_status_ids ||= roles.flat_map { type.statuses(role: it, tab:).pluck(:id) }.uniq # rubocop:disable OpenProject/UseEffectiveTypeForConfiguration
     end
   end
 end
