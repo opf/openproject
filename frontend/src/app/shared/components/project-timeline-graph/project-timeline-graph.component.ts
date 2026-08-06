@@ -27,13 +27,13 @@
 //++
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
-  OnDestroy,
   ViewChild,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   effect,
   inject,
@@ -91,7 +91,7 @@ const GROUP_LIFECYCLE = 'lifecycle';
   encapsulation: ViewEncapsulation.None,
   imports: [OpenprojectContentLoaderModule],
 })
-export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
+export class ProjectTimelineGraphComponent {
   @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
 
   readonly phasesData = input.required<string>();
@@ -110,29 +110,20 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   protected readonly ready = signal(false);
 
   private timeline:Timeline | null = null;
-  private destroyed = false;
 
   constructor() {
+    afterNextRender(() => this.initTimeline(this.phases()));
+    inject(DestroyRef).onDestroy(() => {
+      this.timeline?.destroy();
+      this.timeline = null;
+    });
+
     effect(() => {
       const phases = this.phases();
       if (this.timeline) {
         this.updateTimeline(phases);
       }
     });
-  }
-
-  ngAfterViewInit():void {
-    requestAnimationFrame(() => {
-      if (!this.destroyed) {
-        this.initTimeline(this.phases());
-      }
-    });
-  }
-
-  ngOnDestroy():void {
-    this.destroyed = true;
-    this.timeline?.destroy();
-    this.timeline = null;
   }
 
   private buildData(phases:ProjectPhaseData[]) {
@@ -262,7 +253,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   }
 
   private revealTimeline():void {
-    if (!this.timeline || this.destroyed) return;
+    if (!this.timeline) return;
 
     this.timeline.setOptions({
       showCurrentTime: true,

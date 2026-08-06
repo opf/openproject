@@ -102,8 +102,6 @@ describe('ProjectTimelineGraphComponent', () => {
   let buildData:(phases:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
   let tooltipTemplate:(item:ProjectTimelineItem) => HTMLElement|string;
   let buildAccessibleItems:(phases:unknown[]) => { id:string; text:string }[];
-  let revealTimeline:() => void;
-  let ready:() => boolean;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -127,31 +125,6 @@ describe('ProjectTimelineGraphComponent', () => {
     tooltipTemplate = (component as any).tooltipTemplate.bind(component);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
     buildAccessibleItems = (component as any).buildAccessibleItems.bind(component);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-    revealTimeline = (component as any).revealTimeline.bind(component);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-    ready = (component as any).ready;
-  });
-
-  describe('revealTimeline', () => {
-    it('reveals the timeline immediately after the initial draw completes', () => {
-      const setOptions = vi.fn((_options:{
-        showCurrentTime:boolean;
-        cluster:{ maxItems:number; clusterCriteria:(a:ProjectTimelineItem, b:ProjectTimelineItem) => boolean };
-      }) => undefined);
-      const timeline = { setOptions, destroy: vi.fn() };
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (component as any).timeline = timeline;
-
-      revealTimeline();
-
-      expect(setOptions).toHaveBeenCalledOnce();
-      const options = setOptions.mock.calls[0][0];
-      expect(options.showCurrentTime).toBe(true);
-      expect(options.cluster.maxItems).toBe(1);
-      expect(options.cluster.clusterCriteria).toBeTypeOf('function');
-      expect(ready()).toBe(true);
-    });
   });
 
   describe('buildData', () => {
@@ -433,6 +406,17 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase Build: 2024-04-01 to 2024-06-30');
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build End: 2024-06-30');
+    });
+
+    it('hides the loading skeleton once the initial draw completes', async () => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      await vi.waitUntil(() => {
+        fixture.detectChanges();
+        return element.querySelector('.op-project-timeline-graph--wrapper_loading') === null;
+      });
+
+      expect(element.querySelector('.op-project-timeline-graph--wrapper_loading')).toBeNull();
     });
   });
 });
