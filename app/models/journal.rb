@@ -88,9 +88,16 @@ class Journal < ApplicationRecord
                    status_name
                    status_id
                    status_changes
+                   meeting_id
                  ],
                  prefix: true
-  VALID_CAUSE_TYPES = %w[
+
+  MEETING_CAUSE_TYPES = %w[
+    meeting_agenda_item_added
+    meeting_agenda_item_removed
+  ].freeze
+
+  VALID_CAUSE_TYPES = (%w[
     default_attribute_written
     import
     progress_mode_changed_to_status_based
@@ -104,7 +111,7 @@ class Journal < ApplicationRecord
     work_package_related_changed_times
     work_package_duplicate_closed
     working_days_changed
-  ].freeze
+  ] + MEETING_CAUSE_TYPES).freeze
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }

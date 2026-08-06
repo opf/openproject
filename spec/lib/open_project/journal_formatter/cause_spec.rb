@@ -976,4 +976,69 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
   end
+
+  context "when the change was caused by adding the work package to a meeting" do
+    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
+    subject(:cause) do
+      {
+        "type" => "meeting_agenda_item_added",
+        "meeting_id" => meeting.id
+      }
+    end
+
+    context "when the user can access the meeting" do
+      before do
+        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
+        allow(meeting).to receive(:visible?).with(User.current).and_return(true)
+      end
+
+      it do
+        link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_added')}</strong> #{link}"
+        )
+      end
+
+      it do
+        label = "#{meeting.title} – #{format_time(meeting.start_time)}"
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.meeting_agenda_item_added')} #{label}"
+        )
+      end
+    end
+
+    context "when the user cannot access the meeting" do
+      before do
+        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
+        allow(meeting).to receive(:visible?).with(User.current).and_return(false)
+      end
+
+      it "renders nothing at all, leaking neither the meeting nor the action" do
+        expect(cause).to render_html_variant("")
+        expect(cause).to render_raw_variant("")
+      end
+    end
+  end
+
+  context "when the change was caused by removing the work package from a meeting" do
+    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
+    subject(:cause) do
+      {
+        "type" => "meeting_agenda_item_removed",
+        "meeting_id" => meeting.id
+      }
+    end
+
+    before do
+      allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
+      allow(meeting).to receive(:visible?).with(User.current).and_return(true)
+    end
+
+    it do
+      link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_removed')}</strong> #{link}"
+      )
+    end
+  end
 end

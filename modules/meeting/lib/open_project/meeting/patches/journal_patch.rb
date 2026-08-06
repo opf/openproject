@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,21 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class DeleteService < ::BaseServices::Delete
-    include AfterPerformHook
-    include JournalizeWorkPackageActivity
+module OpenProject::Meeting
+  module Patches
+    module JournalPatch
+      extend ActiveSupport::Concern
 
-    alias_method :original_after_perform, :after_perform
+      included do
+        # Meeting activity journals are surfaced only in the work package activity tab and its API,
+        # and only for users that can also see the referenced meeting
+        scope :meeting_cause_visible, ->(user = User.current) {
+          where(
+            "journals.cause->>'meeting_id' IS NULL " \
+            "OR (journals.cause->>'meeting_id')::bigint IN (:visible_meetings)",
+            visible_meetings: Meeting.where(project: Project.allowed_to(user, :view_meetings)).select(:id)
+          )
+        }
 
-    def after_perform(call)
-      original_after_perform(call)
-
-      if call.success?
-        journalize_work_package_activity(call.result, Journal::CausedByMeetingAgendaItemRemoved.new(call.result.meeting))
+        scope :without_meeting_causes, -> { where("journals.cause->>'meeting_id' IS NULL") }
       end
 
-      call
+      def meeting_cause?
+        cause["meeting_id"].present?
+      end
     end
   end
 end

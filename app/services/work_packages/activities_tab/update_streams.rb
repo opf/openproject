@@ -63,7 +63,7 @@ module WorkPackages
 
       def journals
         @journals ||= begin
-          scope = work_package.journals.internal_visible
+          scope = work_package.journals.internal_visible.meeting_cause_visible
           scope = scope.where.not(notes: "") if filter == Filters::ONLY_COMMENTS
           scope
         end

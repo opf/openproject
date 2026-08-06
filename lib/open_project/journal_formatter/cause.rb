@@ -33,12 +33,15 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include WorkPackagesHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
+  include OpenProject::JournalFormatter::CauseMeetingRendering
 
   attr_reader :cause
 
   def render(_key, values, options = { html: true })
     @cause = values.last
     @html = options[:html]
+
+    return "" if hidden_meeting_cause?
 
     "#{caused_change} #{cause_description}"
   end
@@ -87,6 +90,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       import_message
     when "work_package_parent_deleted"
       I18n.t("journals.cause_descriptions.work_package_parent_deleted")
+    when *Journal::MEETING_CAUSE_TYPES
+      meeting_message
     else
       related_work_package_changed_message
     end

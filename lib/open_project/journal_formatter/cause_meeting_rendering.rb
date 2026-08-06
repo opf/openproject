@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,21 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class DeleteService < ::BaseServices::Delete
-    include AfterPerformHook
-    include JournalizeWorkPackageActivity
+module OpenProject::JournalFormatter::CauseMeetingRendering
+  private
 
-    alias_method :original_after_perform, :after_perform
+  def meeting_cause?
+    Journal::MEETING_CAUSE_TYPES.include?(cause["type"])
+  end
 
-    def after_perform(call)
-      original_after_perform(call)
+  def hidden_meeting_cause?
+    return false unless meeting_cause?
 
-      if call.success?
-        journalize_work_package_activity(call.result, Journal::CausedByMeetingAgendaItemRemoved.new(call.result.meeting))
-      end
+    @meeting = Meeting.find_by(id: cause["meeting_id"])
+    !@meeting&.visible?(User.current)
+  end
 
-      call
-    end
+  def meeting_message
+    label = "#{@meeting.title} – #{format_time(@meeting.start_time)}"
+    link = html? ? link_to(label, meeting_path(@meeting)) : label
+    I18n.t("journals.cause_descriptions.#{cause['type']}", link:)
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,20 +29,14 @@
 #++
 
 module MeetingAgendaItems
-  class DeleteService < ::BaseServices::Delete
-    include AfterPerformHook
-    include JournalizeWorkPackageActivity
+  module JournalizeWorkPackageActivity
+    def journalize_work_package_activity(agenda_item, cause)
+      return unless agenda_item.work_package?
 
-    alias_method :original_after_perform, :after_perform
-
-    def after_perform(call)
-      original_after_perform(call)
-
-      if call.success?
-        journalize_work_package_activity(call.result, Journal::CausedByMeetingAgendaItemRemoved.new(call.result.meeting))
-      end
-
-      call
+      work_package = agenda_item.work_package
+      Journals::CreateService
+        .new(work_package, user)
+        .call(cause:)
     end
   end
 end

@@ -224,7 +224,7 @@ class WorkPackages::ActivitiesTab::Paginator
   end
 
   def visible_journals
-    work_package.journals.internal_visible
+    work_package.journals.internal_visible.meeting_cause_visible
   end
 
   def locate_anchor_by_sequence_version(sequence_version)
