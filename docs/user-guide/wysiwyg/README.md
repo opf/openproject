@@ -213,19 +213,23 @@ Example:
 
 **Linking to the current project's status**: `projectValue:status`
 
-### Controlling the layout of multi-value attributes
+### Control how multiple values are displayed
 
-Attributes that hold multiple values (for example target versions or multi-select custom fields) render one value per line in the application and comma-separated in PDF exports. Append a layout argument to the macro to choose a layout explicitly:
+Some attributes can contain multiple values, such as **Target versions** or **multi-select custom fields**. These values are displayed one value per line in the application and are separated by a comma PDF exports. 
 
-- `workPackageValue:1234:targetVersions:multiline` renders one value per line
-- `workPackageValue:1234:targetVersions:singleline` renders all values on a single line, comma-separated
+You can choose whether these values are displayed on separate lines or on a single line within the CKEditor.
 
-The layout argument also works with custom fields (`workPackageValue:1234:"My custom field":singleline`), with project attributes (`projectValue:...`) and with relative references (`workPackageValue:targetVersions:singleline`).
+Add one of the following layout options to the macro:
 
-Only attributes that hold multiple values are affected. On single-value attributes such as `subject`, the layout argument is accepted but does not change the rendering.
+- `workPackageValue:1234:targetVersions:multiline` displays each value on a separate line.
+- `workPackageValue:1234:targetVersions:singleline` displays all values on a single line, separated by commas.
+
+The layout option also works with custom fields (for example, `workPackageValue:1234:"My custom field":singleline`), project attributes (`projectValue:...`), and relative references (`workPackageValue:targetVersions:singleline`).
+
+The layout option only affects attributes that can contain multiple values. For single-value attributes, such as `subject`, it has no effect.
 
 > [!NOTE]
-> The deprecated `version` attribute renders the work package's target versions on a single line by default.
+> The deprecated `version` attribute displays the work package's target versions on a single line by default.
 
 ### Embedding attribute help texts
 
