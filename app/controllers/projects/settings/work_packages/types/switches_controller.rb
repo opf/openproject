@@ -31,6 +31,7 @@
 class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::SettingsController
   include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
+  include WorkPackageTypes::SwitchLookup
 
   menu_item :settings_work_packages
 
@@ -56,20 +57,6 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
   end
 
   private
-
-  # The row names the member in force, which is the variant when the project resolves one, so
-  # the type is looked up globally and checked against the families the project uses. It is
-  # then resolved again: on a page left open across a switch, the id names a member the
-  # project has since moved off.
-  def load_source
-    type = ::Type.find_by(id: params[:type_id])
-    @source = @project.effective_type(type) if type && @project.project_types.exists?(type_id: type.root_id)
-
-    return if @source
-
-    render_error_flash_message_via_turbo_stream(message: t("projects.settings.types.type_not_found"))
-    respond_to_with_turbo_streams(status: :unprocessable_entity)
-  end
 
   # Repainted with the refusal under the select, so the choice can be corrected where it was
   # made. A refusal that belongs to no field is the contract turning away a user the permission

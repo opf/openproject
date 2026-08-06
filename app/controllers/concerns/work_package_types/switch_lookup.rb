@@ -28,29 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Everything the switch asks for and reports, with no container of its
-        # own: the dialog wraps this in Dialog::Body, and a settings page could
-        # wrap the same component in page chrome instead.
-        class SwitchFieldsComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
+module WorkPackageTypes
+  # A switch and its impact are two endpoints onto the same choice, so both resolve the
+  # member being switched away from the same way.
+  module SwitchLookup
+    private
 
-          # The impact starts empty and arrives by turbo stream: the dialog opens on the member
-          # in force, which has nothing to report.
-          def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
-            super()
+    # The row names the member in force, which is the variant when the project resolves one, so
+    # the type is looked up globally and checked against the families the project uses. It is
+    # then resolved again: on a page left open across a switch, the id names a member the
+    # project has since moved off.
+    def load_source
+      type = ::Type.find_by(id: params[:type_id])
+      @source = @project.effective_type(type) if type && @project.project_types.exists?(type_id: type.root_id)
 
-            @form = form
-            @targets = targets
-            @selected = selected
-            @validation_message = validation_message
-            @impact = impact
-          end
-        end
-      end
+      return if @source
+
+      render_error_flash_message_via_turbo_stream(message: t("projects.settings.types.type_not_found"))
+      respond_to_with_turbo_streams(status: :unprocessable_entity)
     end
   end
 end

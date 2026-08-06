@@ -45,4 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
           )
         ) %>
   <% end %>
+  <% body.with_row(mt: 3) do %>
+    <%= render(Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(impact: @impact)) %>
+  <% end %>
 <% end %>

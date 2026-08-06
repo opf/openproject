@@ -28,29 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Everything the switch asks for and reports, with no container of its
-        # own: the dialog wraps this in Dialog::Body, and a settings page could
-        # wrap the same component in page chrome instead.
-        class SwitchFieldsComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
+# What a switch would do, as a subresource of the switch that would do it.
+class Projects::Settings::WorkPackages::Types::Switches::ImpactsController < Projects::SettingsController
+  include WorkPackageTypes::TypeVariantsFeature
+  include OpTurbo::ComponentStream
+  include WorkPackageTypes::SwitchLookup
 
-          # The impact starts empty and arrives by turbo stream: the dialog opens on the member
-          # in force, which has nothing to report.
-          def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
-            super()
+  menu_item :settings_work_packages
 
-            @form = form
-            @targets = targets
-            @selected = selected
-            @validation_message = validation_message
-            @impact = impact
-          end
-        end
-      end
-    end
+  before_action :require_type_variants_feature
+  before_action :load_source
+
+  # POST rather than GET, even though nothing is persisted and nothing changes:
+  # the choice arrives as the switch form's body, which keeps it out of the
+  # address bar and reuses the refresh mechanism every other live preview in
+  # the app is built on.
+  def create
+    update_via_turbo_stream(
+      component: Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(impact: chosen_impact)
+    )
+
+    respond_to_with_turbo_streams
+  end
+
+  private
+
+  # Nothing to report while the selection is still the member in force, which is what the
+  # dialog opens on.
+  def chosen_impact
+    target = ::Type.find_by(id: params[:target_id])
+    return if target.nil? || target == @source
+
+    ::Projects::Types::Switch::Impact.new(project: @project, source: @source, target:)
   end
 end

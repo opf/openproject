@@ -149,6 +149,33 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     settings_page.expect_no_switch_action(bug)
   end
 
+  context "with configurations that differ between the two variants" do
+    before do
+      # Both variants borrow Epic's form configuration until the link is severed,
+      # which would leave nothing for the preview to report.
+      make_independent(design, Type::ConfigurationLink::FORM_CONFIGURATION)
+      make_independent(blueprint, Type::ConfigurationLink::FORM_CONFIGURATION)
+
+      design.attribute_groups = [["Details", %w[assignee]]]
+      design.save!
+      blueprint.attribute_groups = [["Details", %w[priority]]]
+      blueprint.save!
+
+      create(:work_package, project:, type: epic)
+    end
+
+    it "reports the impact once a different variant is chosen" do
+      settings_page.open_switch_dialog(design)
+      settings_page.expect_switch_impact("Select a different variant to see what will change")
+
+      settings_page.choose_switch_target("Epic: Blueprint")
+
+      settings_page.expect_switch_impact("1 work package will use the new configuration")
+      settings_page.expect_switch_impact("Fields that will no longer be shown")
+      settings_page.expect_switch_impact("Fields that become available")
+    end
+  end
+
   # Located by test selector because the tab nav above renders a "Types" link,
   # which Capybara's non-exact text matching would confuse with this button.
   def add_type(query, select_text: query)
@@ -160,5 +187,12 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
                         query:,
                         select_text:)
     click_on "Add"
+  end
+
+  # A variant is created linked to its parent on every aspect, and the readers
+  # resolve through the link once a pending change is saved, so a variant's own
+  # configuration stays invisible until the link is severed.
+  def make_independent(type, aspect)
+    type.configuration_links.where(aspect:).destroy_all
   end
 end
