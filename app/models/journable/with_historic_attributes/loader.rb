@@ -66,22 +66,33 @@ class Journable::WithHistoricAttributes
               "ie: WorkPackage.at_timestamp(1.day.ago) or WorkPackage.find(1).at_timestamp(1.day.ago)"
       end
 
-      customizable_journals_by_journal_id = load_customizable_journals_by_journal_id(journal_ids)
-      version_journals_by_journal_id = load_version_journals_by_journal_id(journal_ids)
+      load_custom_value_associations(journalized, journal_ids)
+      load_target_versions_associations(journalized, journal_ids)
 
-      journalized.each do |work_package|
-        customizable_journals = Array(customizable_journals_by_journal_id[work_package.journal_id])
-        set_custom_value_association_from_journal!(work_package:, customizable_journals:)
-
-        if version_journals_by_journal_id
-          version_journals = Array(version_journals_by_journal_id[work_package.journal_id])
-          set_target_versions_association_from_journal!(work_package:, version_journals:)
-        end
-      end
       journalized
     end
 
     private
+
+    def load_custom_value_associations(journalized, journal_ids)
+      customizable_journals_by_journal_id = load_customizable_journals_by_journal_id(journal_ids)
+
+      journalized.each do |work_package|
+        customizable_journals = Array(customizable_journals_by_journal_id[work_package.journal_id])
+        set_custom_value_association_from_journal!(work_package:, customizable_journals:)
+      end
+    end
+
+    def load_target_versions_associations(journalized, journal_ids)
+      return unless journalized_class.method_defined?(:target_versions)
+
+      version_journals_by_journal_id = load_version_journals_by_journal_id(journal_ids)
+
+      journalized.each do |work_package|
+        version_journals = Array(version_journals_by_journal_id[work_package.journal_id])
+        set_target_versions_association_from_journal!(work_package:, version_journals:)
+      end
+    end
 
     def work_package_ids_of_query_at_timestamp_calculation(query, timestamp)
       query = query.dup
@@ -126,8 +137,6 @@ class Journable::WithHistoricAttributes
     end
 
     def load_version_journals_by_journal_id(journal_ids)
-      return unless journalized_class.method_defined?(:target_versions)
-
       Journal::WorkPackageVersionJournal
         .where(journal_id: journal_ids, kind: "target")
         .includes(:version)
