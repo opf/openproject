@@ -268,18 +268,18 @@ RSpec.describe Projects::Exports::PDF do
   end
 
   describe "project phase columns selected" do
-    let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+    shared_let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+
     let(:query_columns) { %w[name] + ["project_phase_#{phase_definition.id}"] }
+    let!(:project_phase) do
+      create(:project_phase, project:, definition: phase_definition,
+                             start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+    end
 
     context "with view_project_phases permission" do
       let(:permissions) { super() + %i[view_project_phases] }
 
       context "and an active phase" do
-        before do
-          create(:project_phase, project:, definition: phase_definition,
-                                 start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
-        end
-
         it "includes the phase's date range in the export" do
           expected_document = [
             *expected_cover_page,
@@ -293,9 +293,7 @@ RSpec.describe Projects::Exports::PDF do
       end
 
       context "and an inactive phase" do
-        before do
-          create(:project_phase, project:, definition: phase_definition, active: false)
-        end
+        before { project_phase.update!(active: false) }
 
         it "drops the phase attribute instead of rendering it as empty" do
           expected_document = [
@@ -310,11 +308,6 @@ RSpec.describe Projects::Exports::PDF do
     end
 
     context "without view_project_phases permission anywhere" do
-      before do
-        create(:project_phase, project:, definition: phase_definition,
-                               start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
-      end
-
       it "omits the phase column entirely" do
         expected_document = [
           *expected_cover_page,
