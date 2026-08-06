@@ -46,8 +46,12 @@ class LlmConnection < ApplicationRecord
 
   class << self
     # The connection record, whether or not it has been persisted yet.
+    #
+    # Identifying attributes are left unset here and filled in by
+    # LlmConnections::SetAttributesService as system changes, so that they do not
+    # register as user-made changes to non-writable attributes.
     def instance
-      first || new(name: SINGLETON_NAME, type: name)
+      first || new
     end
 
     # Cheap enough to call from a menu visibility lambda.

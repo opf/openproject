@@ -200,6 +200,15 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
+      llm_connection:
+        api_key: "API key"
+        base_url: "Host URL"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
+        # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
+        default_chat_model: "Default chat model"
+        default_embedding_model: "Default embedding model"
+        enabled: "Enable LLMs for this instance"
+        last_connected_at: "Last connected"
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -668,6 +677,8 @@ en:
               request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
               ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
             default_chat_model_id:
+              not_available: "is not offered by the configured LLM server."
+            default_embedding_model_id:
               not_available: "is not offered by the configured LLM server."
             enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
