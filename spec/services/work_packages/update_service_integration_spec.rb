@@ -462,7 +462,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       create(:workflow, type: variant, role:,
                         old_status_id: non_default_status.id, new_status_id: non_default_status.id)
 
-      project.types << variant
+      project.project_types.create!(type: family_root, variant:)
     end
 
     # root_only_status is valid for the root's workflow but not the variant's, so following the
