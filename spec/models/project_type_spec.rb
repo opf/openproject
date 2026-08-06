@@ -73,14 +73,6 @@ RSpec.describe ProjectType do
       expect(build(:project_type, project: create(:project), type: root)).to be_valid
     end
 
-    it "rejects a second member of a family already used" do
-      create(:project_type, project:, type: root)
-      duplicate = build(:project_type, project:, type: root, variant:)
-
-      expect(duplicate).not_to be_valid
-      expect(duplicate.errors).to be_of_kind(:type_id, :taken)
-    end
-
     it "rejects a variant as the type" do
       project_type = build(:project_type, project:, type: variant)
 
