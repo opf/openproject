@@ -37,7 +37,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
 
   self.property_selects = {
     id: {
-      sortable: -> {
+      sortable: ->(_query = nil) {
         if Setting::WorkPackageIdentifier.semantic?
           ["#{Project.table_name}.identifier", "#{WorkPackage.table_name}.sequence_number"]
         else
@@ -102,13 +102,47 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     },
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
-      association: "version",
-      sortable: "name",
-      groupable: "#{WorkPackage.table_name}.version_id"
+      group_by_class_name: "Version",
+      # The primary target version (the lowest version id) represents the work
+      # package, matching the version_id mirror column and the cost report's
+      # primary-version join; the sort key is that version's name.
+      sortable: <<~SQL.squish,
+        (SELECT LOWER(v.name)
+           FROM work_package_versions wpv
+           INNER JOIN versions v ON v.id = wpv.version_id
+          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
+          ORDER BY wpv.version_id
+          LIMIT 1)
+      SQL
+      groupable: <<~SQL.squish
+        (SELECT MIN(wpv.version_id)
+           FROM work_package_versions wpv
+          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+      SQL
     },
     target_versions: {
       if: -> { Setting::WorkPackageMultipleVersions.active? },
-      association: "target_versions"
+      sortable: [
+        <<~SQL.squish,
+          (SELECT STRING_AGG(LOWER(v.name), ' ' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpv.version_id::text, '.' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
+      ],
+      groupable:
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpv.version_id::text, '.' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
     },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date"

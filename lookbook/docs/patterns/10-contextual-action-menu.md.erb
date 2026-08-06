@@ -1,0 +1,35 @@
+An element that already carries a Primer `ActionMenu` can offer that same menu as a context menu, so a right-click on the element opens its actions instead of the browser's own menu. Opt in with the `contextual-action-menu` Stimulus controller — nothing else changes, and the menu keeps its show button.
+
+<%= embed Patterns::ContextualActionMenuPreview, :default, panels: %i[source] %>
+
+Put the controller on a wrapper you own rather than on the `action-menu` element itself, and give the wrapper a tab stop so the keyboard entry points can reach it:
+
+```erb
+<%%= render(Primer::Box.new(
+      tabindex: 0,
+      aria: { label: "…", keyshortcuts: "Shift+F10" },
+      data: { controller: "contextual-action-menu" }
+    )) do %>
+  <%%# … card content, including a Primer::Alpha::ActionMenu … %>
+<%% end %>
+```
+
+Attach it alongside whatever controller already owns the element's ordinary behaviour — the two do not interact.
+
+## What it does
+
+* **Right-click** on the element opens the menu at the pointer, anchored on the element so it keeps following it while the page scrolls.
+* **Shift+F10** and the **Context Menu key** open the menu where its own show button opens it, and hand focus back to the element when it closes. Announce the shortcut with `aria-keyshortcuts="Shift+F10"`; the dedicated Context Menu key needs no announcement.
+* A right-click on the **show button** opens the menu where that button always opens it.
+
+## What it deliberately does not do
+
+* **Interactive descendants keep the browser's menu.** Links, buttons, form fields and the open menu itself all fall through, so copying a link address still works.
+* **Touch and pen keep the native long-press menu.** There is no touch-sized design for the menu, so the gesture is left to the browser.
+* **It never touches the menu's contents.** The controller adds entry points only; what the menu offers, and any selection state, stays with whatever else owns the element.
+
+## Preparing or suppressing an invocation
+
+The controller dispatches a cancelable `contextual-action-menu:beforeOpen` event carrying `{ origin: 'pointer' | 'keyboard' }`. Calling `preventDefault()` on it suppresses the invocation and hands the gesture back to the browser.
+
+Note that the event means *an invocation was attempted*, not *a menu is about to appear*: it fires at gesture time, while the pointer path opens the menu later, at the release. A listener may therefore see it without any menu following, or twice for a single menu. Keep such listeners idempotent.

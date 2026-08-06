@@ -219,6 +219,9 @@ module Import
         uses_existing = false
       end
 
+      # TODO: should go through Projects::Types::AddService. Writing from the type side sets
+      # project_types.type_id directly, bypassing ProjectType#type=, so it cannot enable a
+      # variant — it would build a row whose type is not a root.
       type.projects << project unless type.projects.include?(project)
       jira_issue_type = Import::JiraIssueType.find_by!(jira_issue_type_id: issue_type["id"], jira_id: @jira_id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
@@ -297,7 +300,7 @@ module Import
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
-      _, sequence_number = identifier.split("-")
+      sequence_number = WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier)
       work_package.update_columns(sequence_number:, identifier:)
       work_package_id = work_package.id
       aliases_from_history = jira_issue

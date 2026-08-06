@@ -53,12 +53,6 @@ module API
         def struct
           ParsingStruct.new
         end
-
-        class ParsingStruct < OpenStruct
-          def available_custom_fields
-            @available_custom_fields ||= WorkPackageCustomField.all.to_a
-          end
-        end
       end
     end
   end

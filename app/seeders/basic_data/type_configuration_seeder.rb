@@ -33,17 +33,38 @@ module BasicData
       BasicData::TypeSeeder
     ]
 
-    def seed!
+    def seed_data!
       seed_data.each("type_configuration") do |type_configuration_data|
         type = seed_data.find_reference(type_configuration_data["type"])
-        query_groups = query_groups(type_configuration_data)
-        type.update(
-          attribute_groups: query_groups + type.default_attribute_groups
-        )
+        groups = query_groups(type_configuration_data)
+        groups += type.default_attribute_groups if merge_form_configuration?(type_configuration_data)
+        type.update(attribute_groups: groups)
       end
     end
 
+    # The queries embedded into the form configuration are seeded by the GlobalQuerySeeder within
+    # the same run. When re-seeding an installation whose global queries still exist (but whose
+    # projects were deleted), that seeder is skipped and the references are not registered again.
+    # The seeder is then not applicable: we cannot re-apply the form configuration, but that is
+    # acceptable as the types created in the initial seeding already carry it.
+    def all_required_references
+      references = []
+      seed_data.each("type_configuration") do |type_configuration_data|
+        Array(type_configuration_data["form_configuration"]).each do |form_config_attr|
+          references << form_config_attr["query"]
+        end
+      end
+      references
+    end
+
     private
+
+    # Whether the form configuration defined in the seed data should be merged with the type's
+    # default form configuration as defined in the Ruby code. Defaults to false, in which case
+    # only the query groups from the seed data make up the form configuration.
+    def merge_form_configuration?(type_configuration_data)
+      ActiveModel::Type::Boolean.new.cast(type_configuration_data["merge_form_configuration"])
+    end
 
     def query_groups(type_configuration_data)
       type_configuration_data["form_configuration"].map do |form_config_attr|

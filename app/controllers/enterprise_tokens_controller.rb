@@ -69,7 +69,7 @@ class EnterpriseTokensController < ApplicationController
         format.turbo_stream do
           component = Admin::EnterpriseTokens::FormComponent.new(@token)
           update_via_turbo_stream(component: component)
-          render turbo_stream: turbo_streams, status: :unprocessable_entity
+          render turbo_stream: resolve_turbo_streams, status: :unprocessable_entity
         end
       end
     end

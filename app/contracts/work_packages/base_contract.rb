@@ -143,7 +143,7 @@ module WorkPackages
 
     validates :subject,
               presence: true,
-              unless: -> { model.type&.replacement_pattern_defined_for?(:subject) }
+              unless: -> { model.effective_type&.replacement_pattern_defined_for?(:subject) }
     validates :subject, length: { maximum: 255 }
 
     validates :due_date,
@@ -443,7 +443,13 @@ module WorkPackages
     end
 
     def validate_version_and_target_version_not_contradict
-      if model.version_id_changed? && model.version_id != model.target_version_ids_replacements.first
+      # Only a user writing both fields is a real contradiction. version_id is
+      # also cleared by the system (e.g. on a project move, when the old version
+      # is not shared with the target project); that change is driven by the
+      # target_versions override and must not be flagged here.
+      return unless changed_by_user.include?("version_id")
+
+      if model.version_id != model.target_version_ids_replacements.min
         errors.add :base, :version_and_target_versions_mutually_exclusive
       end
     end
@@ -593,7 +599,9 @@ module WorkPackages
     end
 
     def validate_no_reopen_on_closed_version
-      if model.version_id && model.reopened? && model.version.closed?
+      return unless model.effective_target_versions.any?(&:closed?)
+
+      if model.reopened?
         errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version)
       end
     end
@@ -764,16 +772,18 @@ module WorkPackages
     end
 
     def closed_version_and_status?(status = model.status)
-      model.version&.closed? && status.is_closed?
+      status&.is_closed? && model.effective_target_versions.any?(&:closed?)
     end
 
     def new_statuses_by_workflow(status)
-      workflows = Workflow
-                  .from_status(status.id,
-                               model.type_id,
-                               user_roles.map(&:id),
-                               user_is_author?,
-                               user_was_or_is_assignee?)
+      return Status.none unless model.type
+
+      workflows = model.effective_type
+                       .workflows
+                       .from_status(status.id,
+                                    user_roles.map(&:id),
+                                    author: user_is_author?,
+                                    assignee: user_was_or_is_assignee?)
 
       Status.where(id: workflows.select(:new_status_id))
     end
@@ -806,7 +816,7 @@ module WorkPackages
     def auto_generated_attributes_writable? = false
 
     def auto_generated_attribute_names
-      (model.type && model.type.enabled_patterns&.keys&.map(&:to_s)) || []
+      model.effective_type&.enabled_patterns.to_h.keys.map(&:to_s)
     end
   end
 end

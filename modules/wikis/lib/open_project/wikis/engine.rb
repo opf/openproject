@@ -91,7 +91,7 @@ module OpenProject::Wikis
     register "openproject-wikis", author_url: "https://openproject.org" do
       project_module nil do
         permission :view_wiki_pages,
-                   { wiki: %i[index show special menu export] },
+                   { wiki: %i[index show special menu menu_tree export] },
                    permissible_on: :project
 
         permission :view_wiki_edits,

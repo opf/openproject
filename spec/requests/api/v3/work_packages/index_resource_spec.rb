@@ -106,6 +106,42 @@ RSpec.describe "API v3 Work package resource",
       it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [lorem_ipsum_work_package, ipsum_work_package] }
       end
+
+      context "and sorting by exact_match to rank an identifier match first" do
+        let(:path) do
+          prefix_alias
+          exact_alias
+          api_v3_paths.path_for :work_packages, filters:, sort_by: [["exact_match", "desc"], ["updatedAt", "desc"]]
+        end
+        let(:filters) do
+          [
+            {
+              typeahead: {
+                operator: "**",
+                values: "COM-5"
+              }
+            }
+          ]
+        end
+
+        let(:com_project) { create(:project, members: { current_user => role }) }
+        let!(:prefix_match) do
+          create(:work_package, project: com_project, updated_at: 1.minute.ago, skip_semantic_id_allocation: true)
+        end
+        let!(:exact_match) do
+          create(:work_package, project: com_project, updated_at: 2.days.ago, skip_semantic_id_allocation: true)
+        end
+        let!(:prefix_alias) do
+          create(:work_package_semantic_alias, work_package: prefix_match, identifier: "COM-50")
+        end
+        let!(:exact_alias) do
+          create(:work_package_semantic_alias, work_package: exact_match, identifier: "COM-5")
+        end
+
+        it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
+          let(:elements) { [exact_match, prefix_match] }
+        end
+      end
     end
 
     context "with a user not seeing any work packages" do

@@ -42,6 +42,9 @@ module WorkPackageTypes
     def edit; end
 
     def update
+      # TODO: project_ids writes Type#projects, which should go through
+      # Projects::Types::AddService. This controller has no variant guard, so a variant
+      # reaching here builds a project_types row whose type is not a root.
       result = UpdateService.new(user: current_user, model: @type, contract_class: UpdateProjectsContract)
                             .call(permitted_project_params)
 
@@ -61,6 +64,9 @@ module WorkPackageTypes
                       []
                     end
 
+      # TODO: project_ids writes Type#projects, which should go through
+      # Projects::Types::AddService. This controller has no variant guard, so a variant
+      # reaching here builds a project_types row whose type is not a root.
       result = UpdateService.new(user: current_user, model: @type, contract_class: UpdateProjectsContract)
                             .call({ project_ids: })
 
@@ -98,7 +104,7 @@ module WorkPackageTypes
       deactivated_project_ids = @type.project_ids - Array(project_ids).compact_blank.map(&:to_i)
 
       WorkPackage
-        .where(type_id: @type.id, project_id: deactivated_project_ids)
+        .where(type_id: @type.root_id, project_id: deactivated_project_ids)
         .distinct
         .pluck(:project_id)
     end

@@ -66,7 +66,9 @@ module WorkPackage::Exports
     # association metadata does not match one falls back to lazy loading
     # instead of raising.
     def column_associations
-      column_objects.filter_map { it.association&.to_sym } & WorkPackage.reflections.keys.map(&:to_sym)
+      candidates = column_objects.flat_map { [it.association, it.name] }
+
+      candidates.compact.map(&:to_sym).uniq & WorkPackage.reflections.keys.map(&:to_sym)
     end
   end
 end

@@ -46,6 +46,9 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
 
       [version, other_version].each do |v|
         allow(Version).to receive(:find_by).with(id: v.id).and_return(v)
+        # Withholding names from readers outside the project is covered in the
+        # JournalFormatter::NamedAssociation spec.
+        allow(v).to receive(:visible?).and_return(true)
       end
     end
 

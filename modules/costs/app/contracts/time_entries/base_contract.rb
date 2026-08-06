@@ -32,6 +32,7 @@ module TimeEntries
   class BaseContract < ::ModelContract
     include AssignableValuesContract
     include AssignableCustomFieldValues
+    include PastMonthRestriction
 
     delegate :entity,
              :project,
@@ -44,6 +45,7 @@ module TimeEntries
     end
 
     validate :validate_hours_are_in_range
+    validate :validate_spent_on_is_working_day
     validate :validate_project_is_set
     validate :validate_entity
     validate :validate_user
@@ -107,7 +109,76 @@ module TimeEntries
     end
 
     def validate_hours_are_in_range
-      errors.add :hours, :invalid if model.hours&.negative?
+      return errors.add(:hours, :invalid) if model.hours&.negative?
+
+      validate_hours_within_max_per_entry
+      validate_hours_within_max_per_day
+      validate_hours_within_user_working_hours
+    end
+
+    def validate_hours_within_max_per_entry
+      limit = TimeEntry.max_hours_per_entry
+      return if limit.nil? || model.hours.nil? || model.hours <= limit
+
+      errors.add :hours, :max_hours_per_entry_exceeded, limit:
+    end
+
+    def validate_hours_within_max_per_day
+      limit = TimeEntry.max_hours_per_day
+      return if limit.nil? || !day_total_determinable?
+      return if hours_already_logged_on_day + model.hours <= limit
+
+      errors.add :hours, :max_hours_per_day_exceeded, limit:
+    end
+
+    def day_total_determinable?
+      model.hours.present? && model.spent_on.present? && model.user.present?
+    end
+
+    def hours_already_logged_on_day
+      TimeEntry.of_user_and_day(model.user, model.spent_on, excluding: model).sum(:hours)
+    end
+
+    # Compared in whole minutes, since that is the granularity time is logged in and how the
+    # schedule stores its hours. Users without a working hours schedule are not restricted at
+    # all, so that enabling the setting does not block logging on instances that defined none.
+    def validate_hours_within_user_working_hours
+      return unless TimeEntry.limit_to_user_working_hours?
+      return unless day_total_determinable?
+
+      capacity = user_capacity_in_minutes_on(model.spent_on)
+      return if capacity.nil?
+      return if in_minutes(hours_already_logged_on_day + model.hours) <= capacity
+
+      errors.add :hours, :exceeds_user_working_hours, limit: format_hours(capacity / 60.0)
+    end
+
+    def user_capacity_in_minutes_on(date)
+      model.user.working_hours.valid_for_date(date)&.effective_minutes_on(date)
+    end
+
+    def in_minutes(hours)
+      (hours * 60).round
+    end
+
+    def format_hours(hours)
+      ActiveSupport::NumberHelper.number_to_rounded(hours, precision: 2, strip_insignificant_zeros: true)
+    end
+
+    def validate_spent_on_is_working_day
+      return unless TimeEntry.prohibit_logging_on_non_working_days?
+      return if model.spent_on.nil? || model.user.nil?
+      return unless globally_non_working?(model.spent_on) || personally_non_working?(model.spent_on)
+
+      errors.add :spent_on, :not_a_working_day
+    end
+
+    def globally_non_working?(date)
+      WorkPackages::Shared::WorkingDays.new.non_working?(date)
+    end
+
+    def personally_non_working?(date)
+      model.user.non_working_times.overlapping(date..date).exists?
     end
 
     def validate_project_is_set

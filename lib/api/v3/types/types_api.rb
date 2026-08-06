@@ -39,7 +39,8 @@ module API
           end
 
           get do
-            types = Type.includes(:color).visible
+            # Show roots only as variants are collapsed into them
+            types = Type.roots.includes(:color).visible
             TypeCollectionRepresenter
               .new(types,
                    self_link: api_v3_paths.types,

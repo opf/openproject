@@ -35,7 +35,10 @@ module API
 
           include API::Caching::CachedRepresenter
 
-          cached_representer key_parts: %i[project type],
+          # effective_type is part of the key on top of type: the configuration in force changes
+          # when the project resolves the family to a different variant, which touches neither
+          # the project's nor the type's timestamp.
+          cached_representer key_parts: %i[project type effective_type],
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
@@ -117,11 +120,11 @@ module API
                  min_length: 1,
                  max_length: 255,
                  has_default: -> {
-                   represented.type&.replacement_pattern_defined_for?(:subject)
+                   represented.effective_type&.replacement_pattern_defined_for?(:subject)
                  },
                  placeholder: -> {
-                   if represented.type&.replacement_pattern_defined_for?(:subject)
-                     I18n.t("placeholders.templated_hint", type: represented.type.name)
+                   if represented.effective_type&.replacement_pattern_defined_for?(:subject)
+                     I18n.t("placeholders.templated_hint", type: represented.effective_type.name)
                    end
                  }
 
@@ -360,7 +363,7 @@ module API
                                          }
 
           def attribute_groups
-            (represented.type&.attribute_groups || []).map do |group|
+            (represented.effective_type&.attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)
                 form_config_query_representation(group)
               else
@@ -372,9 +375,9 @@ module API
           ##
           # Return a map of attribute => group name
           def attribute_group_map(key)
-            return nil if represented.type.nil?
+            return nil if represented.effective_type.nil?
 
-            @attribute_group_map ||= represented.type.attribute_groups.each_with_object({}) do |group, hash|
+            @attribute_group_map ||= represented.effective_type.attribute_groups.each_with_object({}) do |group, hash|
               Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
             end
 
@@ -420,7 +423,7 @@ module API
              group.key,
              I18n.locale,
              represented.project,
-             represented.type,
+             represented.effective_type,
              represented.available_custom_fields.sort_by(&:id)]
               .flatten
               .compact

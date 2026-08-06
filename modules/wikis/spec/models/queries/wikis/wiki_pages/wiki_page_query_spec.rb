@@ -50,8 +50,8 @@ RSpec.describe Queries::Wikis::WikiPages::WikiPageQuery do
       sub_page.update_column(:updated_at, 1.hour.ago)
     end
 
-    it "returns the main pages of projects visible to the given user, most recently edited first" do
-      expect(query.results).to eq [newer_main_page, older_main_page]
+    it "returns all pages of projects visible to the given user, most recently edited first" do
+      expect(query.results).to eq [sub_page, newer_main_page, older_main_page]
     end
 
     it "does not return pages of projects the given user cannot see" do
@@ -60,46 +60,46 @@ RSpec.describe Queries::Wikis::WikiPages::WikiPageQuery do
     end
 
     it "selects the number of direct sub-pages alongside each page" do
-      expect(query.results.map(&:sub_pages_count)).to eq [0, 1]
+      expect(query.results.map(&:sub_pages_count)).to eq [0, 0, 1]
     end
 
-    context "with the all query" do
-      before { query.query_id = "all" }
+    context "with the main query" do
+      before { query.query_id = "main" }
 
-      it "returns sub-pages as well" do
-        expect(query.results).to eq [sub_page, newer_main_page, older_main_page]
+      it "returns main pages only" do
+        expect(query.results).to eq [newer_main_page, older_main_page]
       end
     end
   end
 
   describe "#query_id" do
-    it "defaults to main" do
-      expect(query.query_id).to eq "main"
+    it "defaults to all" do
+      expect(query.query_id).to eq "all"
     end
 
     it "accepts registered static query ids" do
-      query.query_id = "all"
-      expect(query.query_id).to eq "all"
+      query.query_id = "main"
+      expect(query.query_id).to eq "main"
     end
 
     it "falls back to the default for unknown values" do
       query.query_id = "everything"
-      expect(query.query_id).to eq "main"
+      expect(query.query_id).to eq "all"
     end
   end
 
   describe "#name" do
     it "returns the localized name of the selected static query" do
-      expect(query.name).to eq I18n.t("wikis.index.queries.main")
-
-      query.query_id = "all"
       expect(query.name).to eq I18n.t("wikis.index.queries.all")
+
+      query.query_id = "main"
+      expect(query.name).to eq I18n.t("wikis.index.queries.main")
     end
   end
 
   describe ".static_queries" do
-    it "returns one query per registered static query" do
-      expect(described_class.static_queries.map(&:query_id)).to eq %w[main all]
+    it "returns one query per registered static query, in sidebar order" do
+      expect(described_class.static_queries.map(&:query_id)).to eq %w[all main]
     end
   end
 end

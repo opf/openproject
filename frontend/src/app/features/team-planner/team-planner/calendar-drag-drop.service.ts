@@ -1,7 +1,34 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { ElementRef, Injectable, inject } from '@angular/core';
-import { ThirdPartyDraggable } from '@fullcalendar/interaction';
-import { DragMetaInput } from '@fullcalendar/common';
-import dragula, { Drake } from 'dragula';
+import { Draggable } from '@fullcalendar/interaction';
+import { DragMetaInput, PointerDragEvent } from '@fullcalendar/core/internal';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { BehaviorSubject } from 'rxjs';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -17,7 +44,9 @@ export class CalendarDragDropService {
   readonly workPackagesCalendarService = inject(OpWorkPackagesCalendarService);
   readonly I18n = inject(I18nService);
 
-  drake:Drake;
+  private draggable:Draggable|undefined;
+
+  private draggedElement:HTMLElement|undefined;
 
   draggableWorkPackages$ = new BehaviorSubject<WorkPackageResource[]>([]);
 
@@ -30,31 +59,35 @@ export class CalendarDragDropService {
     },
   };
 
-  destroyDrake():void {
-    if (this.drake) {
-      this.drake.destroy();
-    }
+  destroyDraggable():void {
+    this.draggable?.destroy();
+    this.draggable = undefined;
   }
 
   registerDrag(container:ElementRef<HTMLElement>, itemSelector:string):void {
-    this.drake = dragula({
-      containers: [container.nativeElement],
-      revertOnSpill: true,
-    });
+    this.destroyDraggable();
 
-    this.drake.on('drag', (el:HTMLElement) => {
-      el.classList.add('gu-transit');
-      this.isDragging$.next(el.dataset.dragHelperId);
-    });
-
-    this.drake.on('dragend', () => {
-      this.isDragging$.next(undefined);
-    });
-
-    new ThirdPartyDraggable(container.nativeElement, {
+    this.draggable = new Draggable(container.nativeElement, {
       itemSelector,
-      mirrorSelector: '.gu-mirror', // the dragging element that dragula renders
       eventData: this.eventData.bind(this),
+    });
+
+    // `dragging` is typed public but undocumented: FullCalendar treats the
+    // pointer-drag engine as internal, so an upgrade may move or rename it.
+    const { emitter } = this.draggable.dragging;
+
+    emitter.on('dragstart', (ev:PointerDragEvent) => {
+      this.draggedElement = ev.subjectEl as HTMLElement;
+      this.draggedElement.classList.add('op-add-existing-pane--wp_dragging');
+      this.isDragging$.next(this.draggedElement.dataset.dragHelperId);
+    });
+
+    // A mid-drag destroy() delivers a dragend without subjectEl, so the
+    // dragged element is tracked in a field instead.
+    emitter.on('dragend', () => {
+      this.draggedElement?.classList.remove('op-add-existing-pane--wp_dragging');
+      this.draggedElement = undefined;
+      this.isDragging$.next(undefined);
     });
   }
 

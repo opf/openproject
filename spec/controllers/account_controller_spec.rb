@@ -682,14 +682,14 @@ RSpec.describe AccountController, :skip_2fa_stage do
     end
   end
 
-  describe "POST #lost_password" do
+  describe "POST #set_recovered_password" do
     context "when the user has been invited but not yet activated" do
       shared_let(:admin) { create(:admin, status: :invited) }
       shared_let(:token) { create(:recovery_token, user: admin) }
 
       context "with a valid token" do
         before do
-          post :lost_password, params: { token: token.value }
+          post :set_recovered_password, params: { token: token.value }
         end
 
         it "redirects to the login page" do
@@ -820,6 +820,36 @@ RSpec.describe AccountController, :skip_2fa_stage do
             user = hook.first_login_user
 
             expect(user.mail).to eq "register@example.com"
+          end
+        end
+
+        context "with a message-only registration failure" do
+          let(:service) do
+            instance_double(
+              Users::RegisterUserService,
+              call: ServiceResult.failure(message: "Registration failed")
+            )
+          end
+
+          before do
+            allow(Users::RegisterUserService).to receive(:new).and_return(service)
+
+            post :register,
+                 params: {
+                   user: {
+                     login: "register",
+                     password: "adminADMIN!",
+                     password_confirmation: "adminADMIN!",
+                     firstname: "John",
+                     lastname: "Doe",
+                     mail: "register@example.com"
+                   }
+                 }
+          end
+
+          it "adds the message to the user base errors" do
+            expect(response).to render_template :register
+            expect(assigns(:user).errors[:base]).to contain_exactly("Registration failed")
           end
         end
 
@@ -1258,8 +1288,8 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
         expect(session[:auth_source_sso_failure]).not_to be_present
 
-        expect(response.body).to have_text "Create a new account"
-        expect(response.body).to have_text "This field is invalid: Email has already been taken."
+        expect(Capybara.string(response.body)).to have_test_selector("registration-form")
+        expect(response.body).to have_text "Email has already been taken."
       end
     end
 
@@ -1279,8 +1309,8 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
         expect(session[:auth_source_sso_failure]).not_to be_present
 
-        expect(response.body).to have_text "Create a new account"
-        expect(response.body).to have_text "This field is invalid: Email can't be blank."
+        expect(Capybara.string(response.body)).to have_test_selector("registration-form")
+        expect(response.body).to have_text "Email can't be blank."
       end
     end
   end
@@ -1333,6 +1363,33 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(user.ldap_auth_source_id).to be_nil
         expect(user.current_password).to be_nil
         expect(user.identity_url).to eql("google:123545")
+      end
+
+      context "with consent required",
+              with_settings: {
+                consent_required: true,
+                consent_info: { en: "# Consent header!" }
+              } do
+        it "renders the registration form with a consent error" do
+          session[:auth_source_registration] = omniauth_hash.merge(
+            omniauth: true,
+            timestamp: Time.current
+          )
+
+          post :register,
+               params: {
+                 user: {
+                   login: "login@bar.com",
+                   firstname: "Foo",
+                   lastname: "Smith",
+                   mail: "foo@bar.com"
+                 }
+               }
+
+          expect(response).to render_template :register
+          expect(assigns(:user).errors[:consent_check]).to contain_exactly(I18n.t("consent.failure_message"))
+          expect(User.find_by_login("login@bar.com")).to be_nil
+        end
       end
 
       context "when after a timeout expired" do

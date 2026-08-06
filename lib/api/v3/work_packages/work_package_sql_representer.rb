@@ -61,7 +61,12 @@ module API
              join: {
                table: :types,
                condition: "types.id = work_packages.type_id",
-               select: ["types.name type_name"]
+               select: <<~SQL.squish
+                 COALESCE(
+                   (SELECT parent.name FROM types parent WHERE parent.id = types.parent_id),
+                   types.name
+                 ) type_name
+               SQL
              }
 
         associated_user_link :author
