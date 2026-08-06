@@ -68,6 +68,20 @@ RSpec.describe Projects::Exports::Formatters::ProjectPhase do
       end
     end
 
+    context "when the phase definition does not exist" do
+      subject(:formatter_instance) { described_class.new(:"project_phase_#{unknown_definition_id}") }
+
+      let(:unknown_definition_id) { 0 }
+
+      before do
+        create(:project_phase, project:, definition:)
+      end
+
+      it "returns an empty string" do
+        expect(formatter_instance.format(project)).to eq("")
+      end
+    end
+
     context "when the project has no active phase for that definition" do
       it "returns an empty string" do
         expect(formatter_instance.format(project)).to eq("")
