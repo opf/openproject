@@ -3907,6 +3907,22 @@ en:
     wiki_child_pages:
       errors:
         page_not_found: "Cannot find the wiki page '%{name}'."
+  llm:
+    capabilities:
+      embeddings:
+        label: "Embeddings"
+        unsupported: "This model returned an error for embedding requests."
+        unknown: "The server does not report whether this model can produce embeddings."
+      structured_output:
+        label: "Structured output"
+        unknown: "The server does not report whether this model supports structured output."
+    features:
+      description_assistant:
+        caption: "Rewrites and restructures work package text on request."
+        label: "Description assistant"
+      semantic_search:
+        caption: "Indexes work packages so they can be found by meaning rather than by keyword."
+        label: "Semantic search"
   mail:
     actions: "Actions"
     digests:
