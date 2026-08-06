@@ -60,7 +60,7 @@ class UserMailer < ApplicationMailer
 
     @token = token
     @reset_password_url = url_for(controller: "/account",
-                                  action: :lost_password,
+                                  action: :password_recovery,
                                   token: @token.value)
 
     open_project_headers "Type" => "Account"

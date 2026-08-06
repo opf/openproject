@@ -28,42 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ::UserConsentHelper
-  def consent_param?
-    raw = params[:consent_check] || params.dig(:user, :consent_check)
-    ActiveModel::Type::Boolean.new.cast(raw)
-  end
-
-  def user_consent_required?
-    # Ensure consent is enabled and a text is provided
-    Setting.consent_required? && consent_configured?
-  end
-
-  ##
-  # Gets consent instructions.
-  #
-  # @param locale [String] ISO-639-1 code for the desired locale (e.g. de, en, fr).
-  #                        `I18n.locale` is set for each request individually depending
-  #                        among other things on the user's Accept-Language headers.
-  # @return [String] Instructions in the respective language.
-  def user_consent_instructions(locale)
-    all = Setting.consent_info
-    all.fetch(locale.to_s) { all.values.first }
-  end
-
-  def consent_checkbox_label(locale: I18n.locale)
-    I18n.t("consent.checkbox_label", locale:)
-  end
-
-  private
-
-  def consent_configured?
-    if Setting.consent_info.count == 0
-      Rails.logger.error "Instance is configured to require consent, but no consent_info has been set."
-
-      false
-    else
-      true
-    end
+class Account::LostPasswordForm < ApplicationForm
+  form do |form|
+    form.text_field(
+      name: :mail,
+      type: :email,
+      label: User.human_attribute_name(:mail),
+      required: true,
+      scope_name_to_model: false,
+      input_width: :large
+    )
+    form.submit(name: :submit, label: I18n.t(:button_submit), scheme: :primary)
   end
 end

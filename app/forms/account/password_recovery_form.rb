@@ -28,42 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ::UserConsentHelper
-  def consent_param?
-    raw = params[:consent_check] || params.dig(:user, :consent_check)
-    ActiveModel::Type::Boolean.new.cast(raw)
-  end
-
-  def user_consent_required?
-    # Ensure consent is enabled and a text is provided
-    Setting.consent_required? && consent_configured?
-  end
-
-  ##
-  # Gets consent instructions.
-  #
-  # @param locale [String] ISO-639-1 code for the desired locale (e.g. de, en, fr).
-  #                        `I18n.locale` is set for each request individually depending
-  #                        among other things on the user's Accept-Language headers.
-  # @return [String] Instructions in the respective language.
-  def user_consent_instructions(locale)
-    all = Setting.consent_info
-    all.fetch(locale.to_s) { all.values.first }
-  end
-
-  def consent_checkbox_label(locale: I18n.locale)
-    I18n.t("consent.checkbox_label", locale:)
-  end
-
-  private
-
-  def consent_configured?
-    if Setting.consent_info.count == 0
-      Rails.logger.error "Instance is configured to require consent, but no consent_info has been set."
-
-      false
-    else
-      true
+class Account::PasswordRecoveryForm < ApplicationForm
+  form do |form|
+    form.group(data: { controller: "password-requirements" }) do |group|
+      group.text_field(
+        name: :new_password,
+        label: User.human_attribute_name(:new_password),
+        type: :password,
+        required: true,
+        autocomplete: "new-password",
+        caption: helpers.password_complexity_requirements,
+        input_width: :large,
+        data: { "password-requirements-target": "passwordInput" }
+      )
+      group.text_field(
+        name: :new_password_confirmation,
+        label: User.human_attribute_name(:password_confirmation),
+        type: :password,
+        required: true,
+        autocomplete: "new-password",
+        input_width: :large
+      )
     end
+    form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
   end
 end
