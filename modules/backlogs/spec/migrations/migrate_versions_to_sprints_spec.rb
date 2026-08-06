@@ -256,7 +256,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
     shared_examples "migrates by the primary version" do
       context "when the sprint version is the primary (version_id) target" do
         let!(:wp_multi) do
-          create(:work_package, project:, version:).tap do |wp|
+          create(:work_package, project:, version_id: version.id).tap do |wp|
             create(:work_package_version, work_package: wp, version: secondary_version, kind: :target)
           end
         end
@@ -271,7 +271,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       context "when the sprint version is only a secondary target" do
         let!(:wp_secondary) do
-          create(:work_package, project:, version: secondary_version).tap do |wp|
+          create(:work_package, project:, version_id: secondary_version.id).tap do |wp|
             create(:work_package_version, work_package: wp, version:, kind: :target)
           end
         end
