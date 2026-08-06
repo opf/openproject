@@ -237,10 +237,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
 
       it "renders the phase's date range in the row" do
         expect(header).to eq %w[Name Description Status Public Initiation]
-
-        formatter = Projects::Exports::Formatters::ProjectPhase.new(nil)
-        expect(rows.first.last)
-          .to eq("#{formatter.format_date(Date.new(2026, 1, 5))} - #{formatter.format_date(Date.new(2026, 1, 20))}")
+        expect(rows.first).to eq [project.name, project.description, "Off track", "false", "01/05/2026 - 01/20/2026"]
       end
     end
 
