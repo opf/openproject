@@ -47,8 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         render(
           Primer::OpenProject::BorderBox::CollapsibleHeader.new(
             collapsible_id:,
-            collapsed:,
-            multi_line:
+            collapsed:
           )
         ) do |collapsible|
       %>
@@ -81,6 +80,12 @@ See COPYRIGHT and LICENSE files for more details.
   <% if description? && !collapsible? %>
     <% grid.with_area(:description) do %>
       <%= description %>
+    <% end %>
+  <% end %>
+
+  <% if label? %>
+    <% grid.with_area(:label) do %>
+      <%= label %>
     <% end %>
   <% end %>
 

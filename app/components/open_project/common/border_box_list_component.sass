@@ -115,19 +115,19 @@
 
 .op-border-box-list-header
   display: grid
-  grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
-  grid-template-areas: "heading actions menu" "description description description"
+  grid-template-columns: minmax(0, 1fr) auto auto auto
+  grid-template-areas: "heading label actions menu" "description description description description"
   align-items: center
 
   &_collapsible
-    grid-template-areas: "heading actions menu"
+    grid-template-areas: "heading label actions menu"
 
   &_with-drag-handle
-    grid-template-columns: 2rem minmax(0, 1fr) minmax(5rem, max-content) auto
-    grid-template-areas: "drag_handle heading actions menu" ". description description description"
+    grid-template-columns: 2rem minmax(0, 1fr) auto auto auto
+    grid-template-areas: "drag_handle heading label actions menu" ". description description description description"
     margin-left: calc(-1 * var(--stack-padding-normal))
     &.op-border-box-list-header_collapsible
-      grid-template-areas: "drag_handle heading actions menu"
+      grid-template-areas: "drag_handle heading label actions menu"
 
   &--drag_handle
     align-self: center
@@ -138,9 +138,13 @@
   &--heading
     min-width: 0
 
+  &--label,
   &--actions,
   &--menu
     margin-left: var(--stack-gap-normal)
+
+  &--actions,
+  &--menu
     align-self: flex-start
 
   &--actions
@@ -148,17 +152,17 @@
     align-items: center
     gap: var(--stack-gap-condensed)
 
-    // A label-only area pins to the track end. It keeps the base flex-start
-    // anchor (not the -6px button nudge) so the label's centre lands on the
-    // same line as the adjacent kebab glyph, independent of the row height.
-    &:not(:has(.Button))
-      justify-self: end
-      margin-top: 0
+  &--label
+    display: flex
+    align-items: center
+    // A label's text is not length-constrained,
+    // so cap it (roughly 35 characters' worth)
+    .Label
+      max-width: 200px
+      @include text-shortener
 
-      // An informational label has no room next to the title on a phone, so it
-      // is dropped there. Action buttons stay, as they are functional.
-      @media screen and (max-width: $breakpoint-sm)
-        display: none
+    @media screen and (max-width: $breakpoint-sm)
+      display: none
 
   &--heading-line
     display: flex

@@ -57,9 +57,9 @@ module WorkPackageTypes
       # collapsed header names it instead.
       def add_default_label(header, root)
         if root.is_default?
-          header.with_action_label { t("types.index.enabled_in_new_projects") }
+          header.with_label { t("types.index.enabled_in_new_projects") }
         elsif (variant = default_variant(root))
-          header.with_action_label(scheme: :secondary) do
+          header.with_label(scheme: :secondary) do
             t("types.index.variant_enabled_in_new_projects", name: variant.own_name)
           end
         end
