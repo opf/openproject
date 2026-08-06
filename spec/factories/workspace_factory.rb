@@ -75,11 +75,6 @@ FactoryBot.define do
     end
 
     callback(:after_create) do |project, evaluator|
-      # Drop what the build primed so both associations answer from the rows just written —
-      # roots for #types, and the (root, variant) pair for #project_types.
-      project.project_types.reset
-      project.association(:types).reset
-
       evaluator.members.each do |user, roles|
         Members::CreateService
           .new(user: User.system, contract_class: EmptyContract)
