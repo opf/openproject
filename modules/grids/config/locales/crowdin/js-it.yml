@@ -37,7 +37,9 @@ it:
           accessible_gate: 'Controllo di fase %{name}: %{date}'
           accessible_phase: 'Fase %{name}: %{date}'
           tooltip_type_gate: Controllo di fase
+          tooltip_type_milestone: Milestone
           tooltip_type_phase: Fase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Sottoelementi
         time_entries_current_user:

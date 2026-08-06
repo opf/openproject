@@ -30,11 +30,11 @@ ja:
         warning_progress_calculation_mode_change_from_status_to_field_html: 進捗計算モードをステータスベースからワークベースに変更すると、「<i>完了率」</i>フィールドが自由に編集できるようになります。オプションで「<i>作業</i>」または「<i>残作業</i>」の値を入力した場合、それらは「<i>完了率」にも</i>リンクされます。<i>残りの作業</i>量を変更すると、<i>完了率が</i>更新されます。
       working_days:
         add_non_working_day: 休業日を追加
-        already_added_error: この日付の非作業日はすでに存在します。それぞれの日付に1つの非作業日が作成されます。
+        already_added_error: この日付の非営業日はすでに存在します。一意の日付に対して作成できる非営業日は1つだけです。
         calendar:
           empty_state_description: 休業日が定義されていません。「休業日を追加」ボタンをクリックして日付を追加してください。
           empty_state_header: 休業日
-          new_date: "(新規)"
+          new_date: "(新)"
     ajax:
       hide: 非表示
       loading: 読み込み中…
@@ -47,12 +47,12 @@ ja:
       draggable_hint: |
         埋め込み画像または添付ファイルをエディタにドラッグします。
         ドラッグしつづけると閉じているエディタ領域が開きます。
-      quarantined_hint: ウイルスが発見されたように、ファイルは隔離されています。ダウンロードできません。
+      quarantined_hint: ウイルスが発見されたため，ファイルは隔離されています。ダウンロードできません。
     autocomplete_ng_select:
-      add_tag: アイテムを追加
+      add_tag: 項目を追加
       clear_all: すべてクリア
       loading: 読み込み中...
-      not_found: アイテムが見つかりません
+      not_found: 見つかりませんでした
       type_to_search: 検索キーワードを入力
     autocomplete_select:
       active: アクティブ %{label} %{name}
@@ -93,7 +93,7 @@ ja:
         none: "-"
         yesterday: 昨日
       from: From
-      header_description: 過去のいずれかの時点からこのリストに加えられた変更を強調する。
+      header_description: 過去の選択した時点からこのリストに加えられた変更をハイライト
       help_description: ベースラインの基準タイムゾーン。
       icon_tooltip:
         added: 比較対象期間内の表示に追加
@@ -118,7 +118,7 @@ ja:
     button_back: 戻る
     button_back_to_list_view: リスト表示に戻る
     button_cancel: キャンセル
-    button_change_project: 別のプロジェクトに移動
+    button_change_project: 他のプロジェクトに移る
     button_check_all: 全てを選択
     button_clear: Clear
     button_close: 閉じる
@@ -131,7 +131,7 @@ ja:
     button_copy_link_to_clipboard: クリップボードにリンクをコピー
     button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: クリップボードにコピー
-    button_copy_to_other_project: 別のプロジェクトで複製
+    button_copy_to_other_project: 別のプロジェクトで複製する
     button_create: 作成
     button_custom-fields: カスタムフィールド
     button_delete: 削除
@@ -142,7 +142,7 @@ ja:
     button_expand_all: 全てを展開
     button_export-atom: Atomをダウンロード
     button_filter: フィルタ
-    button_generate_pdf: PDFを生成
+    button_generate_pdf: PDF作成
     button_list_view: 一覧表示
     button_log_time: 時間を記録
     button_more: 続き
@@ -156,7 +156,7 @@ ja:
     button_show_fullscreen: 全画面表示
     button_show_gantt: ガントビューを表示
     button_show_list: リストビュー表示
-    button_show_table: テーブルビューを表示
+    button_show_table: テーブル表示
     button_show_view: 全画面表示
     button_start_timer: Start timer
     button_stop_timer: タイマー停止
@@ -210,7 +210,7 @@ ja:
           aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
           aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: 選択した属性 '%{name}' は存在しません。
-          nested_macro: このマクロは %{model} %{id} を再帰的に参照しています。
+          nested_macro: このマクロは %{model} %{id}を再帰的に参照している。
           not_found: 要求されたリソースが見つかりませんでした
         child_pages:
           button: List of sub-pages
@@ -254,9 +254,9 @@ ja:
       mode:
         manual: Markdownソースに切り替える
         wysiwyg: WYSIWYGエディタに切り替えます
-      no_revisions: ローカルの変更は見つかりませんでした
+      no_revisions: ローカルでの修正は見つからず
       preview: プレビューモードの切り替え
-      revisions: ローカルの変更を表示
+      revisions: ローカルの修正を表示
       source_code: Markdown ソースモードの切り替え
     enumeration_activities: 作業分類 (時間の追跡)
     enumeration_doc_categories: ドキュメントのカテゴリ
@@ -354,18 +354,18 @@ ja:
         general: エラーが発生しました。
         update_conflict_refresh: リソースを更新して最新のバージョンに更新するには、ここをクリックしてください。
     help_texts:
-      show_modal: ヘルプテキストを表示
+      show_modal: ヘルプテキストを表示する
     ical_sharing_modal:
       copy_url_label: URLをコピー
-      description: URL（iCalendar）を使って外部クライアントでこのカレンダーを購読し、そこから最新のワークパッケージ情報を見ることができます。
-      ical_generation_error_text: カレンダー URL の生成中にエラーが発生しました。
+      description: URL(iCalendar)を使用して、外部クライアントでこのカレンダーを購読し、そこから最新のワークパッケージ情報を表示することができます。
+      ical_generation_error_text: カレンダーのURL生成時にエラーが発生しました。
       inital_setup_error_message: データ取得中にエラーが発生しました。
-      success_message: URL "%{name}" は正常にクリップボードにコピーされました。サブスクリプションを完了するためにカレンダークライアントに貼り付けてください。
+      success_message: URL "%{name}" がクリップボードにコピーされました。カレンダークライアントに貼り付けて購読を完了してください。
       title: カレンダーを購読する
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
-      token_name_label: どこで使うのですか？
+      token_name_label: どこで使うのですか？？
       token_name_placeholder: 名前を入力してください。例："電話"
-      warning: このURLを他のユーザーと共有しないでください。このリンクがあれば、誰でもアカウントやパスワードなしでワークパッケージの詳細を見ることができます。
+      warning: このURLを他のユーザーと共有しないでください。このリンクを持つ誰でもアカウントやパスワードなしでワークパッケージの詳細を表示することができます。
     include_projects:
       apply: 適用
       clear_selection: 選択をクリア
@@ -420,7 +420,7 @@ ja:
     label_add_row_before: 前に行を追加
     label_add_selected_columns: 選択した列を追加
     label_added_by: 追加した人
-    label_added_time_by: <a href="%{authorLink}">%{author}</a> が %{age} に追加しました
+    label_added_time_by: 追加 <a href="%{authorLink}">%{author}</a> %{age}
     label_ago: "○日前"
     label_all: 全て
     label_all_projects: すべてのプロジェクト
@@ -551,7 +551,7 @@ ja:
     label_reset: リセット
     label_resize_project_menu: Resize project menu
     label_save_as: 名前をつけて保存
-    label_search_columns: 列を検索
+    label_search_columns: 列を検索する
     label_select_watcher: ウォッチャーを選択...
     label_selected_filter_list: 選択されたフィルタ
     label_show_attributes: すべての属性を表示
@@ -593,8 +593,8 @@ ja:
     label_watcher_added_successfully: ウォッチャーが正常に追加されました ！
     label_watcher_deleted_successfully: ウォッチャーが正常に削除されました ！
     label_work_package: ワーク パッケージ
-    label_work_package_context_menu: ワークパッケージのコンテキスト メニュー
-    label_work_package_details_you_are_here: あなたは %{tab} %{type} %{subject} のタブにいます。
+    label_work_package_context_menu: ワークパッケージのコンテキストメニュー
+    label_work_package_details_you_are_here: あなたは %{type} %{subject}の %{tab} タブを表示しています。
     label_work_package_parent: 親のワークパッケージ
     label_work_package_plural: ワークパッケージ
     label_work_package_upload_notification: 'ワークパッケージ#%{id}: %{subject} 用ファイルをアップロード中'
@@ -683,7 +683,7 @@ ja:
           lists_kanban: ここでは、ボード内に複数のリスト（列）を作成することができます。この機能により、例えば、<b>カンバンボードを</b>作成することができます。
           overview: "<b>ボードを</b>選択してビューをシフトし、アジャイルボードビューを使ってプロジェクトを管理する。"
         help_menu: ヘルプ(?)メニューは、<b>その他のヘルプリソースを</b>提供します。ここでは、ユーザーガイド、役立つハウツービデオなどを見つけることができます。 <br> OpenProjectでの作業をお楽しみください！
-        members: 新しい <b>メンバー</b> をプロジェクトに招待します。
+        members: 新しい<b>メンバーを</b>プロジェクトに招待する。
         quick_add_button: ヘッダーナビゲーションにあるプラス（＋）アイコンをクリックして、<b>新規プロジェクトを作成</b>したり、<b>同僚を招待</b>したりできます。
         sidebar_arrow: プロジェクトの<b>メインメニューに</b>戻るには、左上の矢印を使います。
         team_planner:
@@ -713,8 +713,8 @@ ja:
       page_navigation: ページネーション・ナビゲーション
       pages:
         page_number: ページ %{number}
-        show_per_page: ページあたり %{number} を表示
-      pages_skipped: ページがスキップされました。
+        show_per_page: ページごとに %{number}
+      pages_skipped: ページスキップ。
       per_page_navigation: ページ毎のアイテム選択
     placeholders:
       default: "-"
@@ -725,7 +725,7 @@ ja:
     project:
       autocompleter:
         label: プロジェクト名の入力補完
-      click_to_switch_to_project: 'プロジェクト: %{projectname}'
+      click_to_switch_to_project: プロジェクト： %{projectname}
       context: プロジェクトのコンテキスト
       not_available: プロジェクトなし
       required_outside_context: 'ワークパッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。

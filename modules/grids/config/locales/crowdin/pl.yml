@@ -32,7 +32,10 @@ pl:
         no_results: Utwórz nowy raport.
       not_available: Ten widżet jest niedostępny.
       project_timeline:
-        no_lifecycle_results: Brak faz cyklu życia
+        footer_actions_label: Zobacz więcej szczegółów
+        gantt_link: Kamienie milowe — wykres Gantta
+        no_results_title: Nie skonfigurowano zawartości osi czasu projektu
+        sprints_link: Przegląd sprintów
         title: Oś czasu projektu
         title_portfolio: Oś czasu portfolio
         title_program: Oś czasu programu

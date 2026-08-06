@@ -126,7 +126,7 @@
     error_no_device: Ingen registrert 2FA-enhet funnet for denne brukeren, til tross for at det kreves for denne forekomsten.
     error_no_matching_strategy: Ingen matchende 2FA-strategi tilgjengelig for denne brukeren. Ta kontakt med administratoren din.
     forced_registration:
-      required_to_add_device: En aktiv sikkerhetspolicy krever at du aktiverer tofaktorautentisering. Vennligst bruk følgende skjema for å registrere en enhet.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Tofaktorautentisering ikke aktiv
     label_2fa_enabled: Tofaktorautentisering er aktiv
     label_default_device: Standard 2FA-enhet
