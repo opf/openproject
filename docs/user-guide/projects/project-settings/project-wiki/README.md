@@ -12,7 +12,7 @@ In OpenProject, project administrators can enable or disable the project wiki fo
 
 A requirement for that is that [project wikis](../../../../system-admin-guide/wikis/#project-wikis) have been enabled by your system administrator. 
 
-To enable the project wiki open **Project settings**, select **Project wiki** and turn on the **Enable the project wiki for this project** toggle switch.
+To enable the project wiki open **Project settings**, select **Project wiki** and turn on the **Enable the OpenProject wiki for this project** toggle switch.
 
 This enables native wiki functionality for all project members. 
 

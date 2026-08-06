@@ -217,7 +217,7 @@ en:
         caption: >-
           This enables native wiki functionality for this project. Members will be able to create and read wiki pages
           that are stored in OpenProject.
-        enable: Enable the project wiki for this project
+        enable: Enable the OpenProject wiki for this project
     provider_types:
       xwiki:
         name: XWiki
