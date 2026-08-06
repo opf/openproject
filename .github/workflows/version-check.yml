@@ -69,7 +69,9 @@ jobs:
 
              - The work package version OR your pull request target branch is correct
       - name: Version check passed
-        if: steps.version-check.outputs.version_mismatch != 'true' && steps.version-check.outputs.no_ticket != 'true'
+        if: |
+          steps.version-check.outputs.behind_feature_flag == 'true' ||
+          (steps.version-check.outputs.version_mismatch != 'true' && steps.version-check.outputs.no_ticket != 'true')
         uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
         with:
           header: version-mismatch-comment
