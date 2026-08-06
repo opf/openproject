@@ -34,6 +34,12 @@ FactoryBot.define do
       no_types { false }
       disable_modules { [] }
       members { [] }
+
+      # Transient on purpose. Assigning the `types` association writes the member handed in
+      # straight into the in-memory collection, so a variant stays there while the association
+      # itself reads the roots the project_types rows name — the two then disagree. Building the
+      # rows and naming (root, variant) explicitly keeps the association the single answer.
+      types { [] }
     end
 
     created_at { Time.zone.now }
@@ -46,12 +52,32 @@ FactoryBot.define do
       disabled_modules = Array(evaluator.disable_modules).map(&:to_s)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
-      if !evaluator.no_types && project.types.empty?
-        project.types << (Type.where(is_standard: true).first || build(:type_standard))
+      enabled_types = evaluator.types
+      if enabled_types.empty? && !evaluator.no_types
+        enabled_types = [Type.where(is_standard: true).first || build(:type_standard)]
+      end
+
+      # The association is deliberately left unprimed: loading its target makes Rails insert a
+      # second join row for every entry on save. #types therefore answers from the rows, which
+      # is only once the project is saved.
+      enabled_types.each do |type|
+        project.project_types.build(type: type.root, variant: (type if type.variant?))
       end
     end
 
+    callback(:after_stub) do |project, evaluator|
+      # No rows exist to read back from, and assigning the association on a record that already
+      # looks persisted would insert them for real.
+      project.association(:types).target = evaluator.types.map(&:root)
+      project.association(:types).loaded!
+    end
+
     callback(:after_create) do |project, evaluator|
+      # Drop what the build primed so both associations answer from the rows just written —
+      # roots for #types, and the (root, variant) pair for #project_types.
+      project.project_types.reset
+      project.association(:types).reset
+
       evaluator.members.each do |user, roles|
         Members::CreateService
           .new(user: User.system, contract_class: EmptyContract)
@@ -65,17 +91,12 @@ FactoryBot.define do
     end
 
     trait :with_types do
-      # using initialize_with types to prevent
-      # the project's initialize function looking for the default type
-      # when we will be setting the type later on anyway
-      initialize_with do
-        types = if instance_variable_get(:@build_strategy).is_a?(FactoryBot::Strategy::Stub)
-                  [build_stubbed(:type)]
-                else
-                  [build(:type)]
-                end
-
-        new(types:)
+      types do
+        if instance_variable_get(:@build_strategy).is_a?(FactoryBot::Strategy::Stub)
+          [build_stubbed(:type)]
+        else
+          [build(:type)]
+        end
       end
     end
 

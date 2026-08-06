@@ -64,7 +64,7 @@ module Projects
       end
 
       def add_type(type)
-        model.project_types.create!(type:)
+        model.project_types.create!(type: type.root, variant: (type if type.variant?))
         enable_work_package_custom_fields(type)
       end
     end

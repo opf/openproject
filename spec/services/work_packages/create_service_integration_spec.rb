@@ -408,9 +408,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
       create(:type, name: "Family root", patterns: { subject: { blueprint: "Root subject", enabled: true } })
     end
     let(:variant) { create(:type, name: "Variant", parent: family_root) }
-    # Reloaded because assigning `types:` leaves the variant in the in-memory collection, while
-    # the association reads the roots the project_types rows name.
-    let(:project) { create(:project, types: [variant, default_type]).reload }
+    let(:project) { create(:project, types: [variant, default_type]) }
     let(:attributes) { { project:, type: family_root, status: default_status, priority: default_priority } }
 
     context "when the variant inherits the root's defaults" do

@@ -145,7 +145,7 @@ RSpec.describe(
       shared_let(:root_type) { create(:type, name: "Copied root") }
       shared_let(:variant) { create(:type, name: "Copied variant", parent: root_type) }
 
-      before { source.project_types.create!(type: variant) }
+      before { source.project_types.create!(type: root_type, variant:) }
 
       it "copies the resolved variant, not just the root the project uses" do
         expect(subject).to be_success
