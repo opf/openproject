@@ -1992,4 +1992,50 @@ RSpec.describe WorkPackages::BaseContract do
   end
 
   it_behaves_like "contract reuses the model errors"
+
+  # The work package stores the family's root, so the subject pattern in force is the one the
+  # project's variant resolves to. Following the stored root would answer with the root's
+  # pattern and silently ignore a variant owning its defaults.
+  describe "subject patterns when the project resolves the type to a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+
+    let(:project) { create(:project, types: [variant]) }
+    let(:type) { family_root }
+    let(:work_package) { build_stubbed(:work_package, project:, type: family_root, subject: nil) }
+    let(:blueprint) { { subject: { blueprint: "{{type}}", enabled: true } } }
+
+    context "when the variant inherits the root's defaults" do
+      before { family_root.update!(patterns: blueprint) }
+
+      it "accepts a blank subject, as the pattern generates it" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:subject)).to be_empty
+      end
+
+      it "makes the subject unwritable" do
+        expect(contract.writable_attributes).not_to include("subject")
+      end
+    end
+
+    context "when the variant owns its defaults and defines no pattern" do
+      before do
+        family_root.update!(patterns: blueprint)
+        variant.configuration_links.find_by(aspect: Type::ConfigurationLink::DEFAULTS).destroy!
+        variant.reload
+      end
+
+      it "requires a subject, as the variant generates none" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:subject)).to include(:blank)
+      end
+
+      it "makes the subject writable" do
+        expect(contract.writable_attributes).to include("subject")
+      end
+    end
+  end
 end

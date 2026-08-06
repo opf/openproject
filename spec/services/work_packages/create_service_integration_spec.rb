@@ -399,4 +399,37 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
       end
     end
   end
+
+  # The work package is created with the family's root, so the subject blueprint applied has to
+  # be the one the project's variant resolves to, not the root's.
+  describe "generating the subject from a pattern when the project resolves the type to a variant",
+           with_flag: { type_variants: true } do
+    let(:family_root) do
+      create(:type, name: "Family root", patterns: { subject: { blueprint: "Root subject", enabled: true } })
+    end
+    let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    # Reloaded because assigning `types:` leaves the variant in the in-memory collection, while
+    # the association reads the roots the project_types rows name.
+    let(:project) { create(:project, types: [variant, default_type]).reload }
+    let(:attributes) { { project:, type: family_root, status: default_status, priority: default_priority } }
+
+    context "when the variant inherits the root's defaults" do
+      it "applies the root's blueprint" do
+        expect(service_result).to be_success
+        expect(new_work_package.subject).to eq("Root subject")
+      end
+    end
+
+    context "when the variant owns its defaults" do
+      before do
+        variant.configuration_links.find_by(aspect: Type::ConfigurationLink::DEFAULTS).destroy!
+        variant.update!(patterns: { subject: { blueprint: "Variant subject", enabled: true } })
+      end
+
+      it "applies the variant's blueprint" do
+        expect(service_result).to be_success
+        expect(new_work_package.subject).to eq("Variant subject")
+      end
+    end
+  end
 end
