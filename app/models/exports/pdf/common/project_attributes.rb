@@ -118,10 +118,7 @@ module Exports::PDF::Common::ProjectAttributes
   end
 
   def process_project_phase_field(project, field)
-    value = format_attribute(project, field[:key], :pdf).presence
-    return if value.blank?
-
-    field.merge(value:)
+    field.merge(value: format_attribute(project, field[:key], :pdf))
   end
 
   def process_custom_attribute_field(project, field)
