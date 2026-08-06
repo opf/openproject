@@ -170,7 +170,7 @@ module CustomField::CalculatedValue
       surplus_cfs = formula_cfs - allowed_cfs
 
       if surplus_cfs.any?
-        custom_field_names = CustomField.where(id: surplus_cfs).pluck(:name)
+        custom_field_names = CustomField.where(id: surplus_cfs).order(:id).pluck(:name)
         errors.add(:formula, :not_allowed_custom_fields_referenced, custom_fields: custom_field_names.join(", "))
       end
     end
