@@ -56,8 +56,8 @@ module Projects::Exports
       end
 
       def format_phase_value(phase)
-        start = phase.start_date.present? ? format_date(phase.start_date) : I18n.t("js.label_no_start_date")
-        finish = phase.finish_date.present? ? format_date(phase.finish_date) : I18n.t("js.label_no_due_date")
+        start = phase.start_date ? format_date(phase.start_date) : I18n.t("js.label_no_start_date")
+        finish = phase.finish_date ? format_date(phase.finish_date) : I18n.t("js.label_no_due_date")
 
         "#{start} - #{finish}"
       end
