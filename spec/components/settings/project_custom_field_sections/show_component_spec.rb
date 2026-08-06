@@ -63,6 +63,17 @@ RSpec.describe Settings::ProjectCustomFieldSections::ShowComponent, type: :compo
     )
   end
 
+  it "wires the BorderBox as the section item's drag preview target" do
+    subject
+
+    # The box, not the row wrapper, is the preview so the native drag
+    # snapshot's margin whitespace and squared-off corners never show.
+    expect(page).to have_css(
+      "[data-sortable-lists--list-type-value='custom_field']" \
+      "[data-sortable-lists--item-target='preview']"
+    )
+  end
+
   it "wires the section-header drag handle as the sortable-lists item handle target" do
     subject
 

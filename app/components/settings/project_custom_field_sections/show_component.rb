@@ -60,7 +60,11 @@ module Settings
           sortable_lists__list_type_value: "custom_field",
           sortable_lists__list_accepted_type_value: "custom_field",
           sortable_lists__list_id_value: @project_custom_field_section.id,
-          sortable_lists__list_name_value: @project_custom_field_section.name
+          sortable_lists__list_name_value: @project_custom_field_section.name,
+          # The section's drag preview snapshots the box itself rather than
+          # the browser's native capture of the row wrapper, which paints the
+          # box's top margin and squares off the rounded corners.
+          sortable_lists__item_target: "preview"
         }
       end
 
