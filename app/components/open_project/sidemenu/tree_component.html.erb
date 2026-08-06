@@ -27,14 +27,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_frame_tag "wiki_main_menu" do %>
-  <%= render OpenProject::Sidemenu::FilterableTreeComponent.new(
-        src: url_for(
-          controller: "/wiki",
-          action: :menu_tree,
-          project_id: @project.identifier,
-          current_page_id: @page&.id
-        ),
-        test_selector: "wiki-sidemenu-tree"
-      ) %>
+<%= render(
+      Primer::Alpha::TreeView.new(
+        node_variant: :anchor,
+        data: {
+          truncate_text: true,
+          target: "filterable-tree-view.treeViewList"
+        }
+      )
+    ) do |tree| %>
+  <% @nodes.each do |node| %>
+    <%= render OpenProject::Sidemenu::TreeNodeComponent.new(
+          component: tree,
+          node:,
+          query_terms: @query_terms
+        ) %>
+  <% end %>
 <% end %>

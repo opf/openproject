@@ -497,6 +497,7 @@ Rails.application.routes.draw do
         get :export
         get "/index" => "wiki#index"
         get :menu
+        get :menu_tree
       end
 
       member do
@@ -512,7 +513,6 @@ Rails.application.routes.draw do
         post :protect
         get :select_main_menu_item, to: "wiki_menu_items#select_main_menu_item"
         post :replace_main_menu_item, to: "wiki_menu_items#replace_main_menu_item"
-        get :menu
       end
     end
 
