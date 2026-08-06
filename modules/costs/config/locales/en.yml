@@ -180,10 +180,10 @@ en:
 
   ee:
     features:
-      time_entry_time_restrictions: Require exact time tracking
+      time_entry_time_restrictions: Time entry restrictions
     upsell:
       time_entry_time_restrictions:
-        description: "Improve your time tracking by requiring exact start and finish times when logging time."
+        description: "Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member."
 
   group_by_others: "not in any group"
 
@@ -201,6 +201,7 @@ en:
   label_current_default_rate: "Current default rate"
   label_date_on: "on"
   label_day: "Day"
+  label_defaults_and_limits: "Defaults and limits"
   label_deleted_cost_types: "Deleted cost types"
   label_display_cost_entries: "Display unit costs"
   label_display_time_entries: "Display reported hours"
