@@ -655,6 +655,22 @@ en:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+        llm_connection:
+          attributes:
+            api_key:
+              invalid_api_key: "was rejected by the LLM server."
+              unknown_error: "could not be validated with the LLM server. Please verify that the connection is functioning properly."
+            base:
+              singleton: "Only one LLM connection can be configured."
+            base_url:
+              cannot_be_connected_to: "could not be reached. Please ensure the LLM server is running and reachable from OpenProject."
+              not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
+              request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
+              ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
+            default_chat_model_id:
+              not_available: "is not offered by the configured LLM server."
+            enabled:
+              requires_connection: "cannot be turned on before a connection has been configured."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         member:
