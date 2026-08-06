@@ -227,7 +227,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
     shared_let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
     shared_let(:query_columns) { %w[name description project_status public] + ["project_phase_#{phase_definition.id}"] }
 
-    before do
+    let!(:project_phase) do
       create(:project_phase, project:, definition: phase_definition,
                              start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
     end
@@ -235,9 +235,20 @@ RSpec.describe Projects::Exports::CSV, "integration" do
     context "with view_project_phases permission" do
       let(:permissions) { super() + %i[view_project_phases] }
 
-      it "renders the phase's date range in the row" do
-        expect(header).to eq %w[Name Description Status Public Initiation]
-        expect(rows.first).to eq [project.name, project.description, "Off track", "false", "01/05/2026 - 01/20/2026"]
+      context "and an active phase" do
+        it "renders the phase's date range in the row" do
+          expect(header).to eq %w[Name Description Status Public Initiation]
+          expect(rows.first).to eq [project.name, project.description, "Off track", "false", "01/05/2026 - 01/20/2026"]
+        end
+      end
+
+      context "and an inactive phase" do
+        before { project_phase.update!(active: false) }
+
+        it "renders an empty value while keeping the phase column" do
+          expect(header).to eq %w[Name Description Status Public Initiation]
+          expect(rows.first).to eq [project.name, project.description, "Off track", "false", ""]
+        end
       end
     end
 
