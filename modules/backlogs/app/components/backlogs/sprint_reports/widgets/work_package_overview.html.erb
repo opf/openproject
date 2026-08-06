@@ -96,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
                           render(Primer::Beta::Text.new(tag: :h4, font_weight: :bold)) { block[:heading] }
                         end
                         flex.with_column do
-                          render(Primer::Beta::Link.new(href: block[:show_all_path])) do
+                          render(Primer::Beta::Link.new(href: block[:show_all_path], data: { turbo: false })) do
                             t(".blocks.show_all")
                           end
                         end
