@@ -729,6 +729,56 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
   end
 
   describe "empty state" do
+    it "renders the default empty state when no items are present" do
+      rendered = render_inline(
+        described_class.new(container: "default-empty-list")
+      ) do |list|
+        list.with_header(title: "Empty list")
+      end
+
+      expect(rendered).to have_css(".blankslate")
+      expect(rendered).to have_heading(I18n.t(:label_nothing_display), level: 4)
+      expect(rendered).to have_text(I18n.t(:no_results_title_text))
+    end
+
+    it "renders the default empty state without requiring a header" do
+      rendered = render_inline(
+        described_class.new(container: "default-empty-list-without-header")
+      )
+
+      expect(rendered).to have_css(".Box#default-empty-list-without-header")
+      expect(rendered).to have_css(".blankslate")
+      expect(rendered).to have_heading(I18n.t(:label_nothing_display), level: 4)
+    end
+
+    it "renders a call-to-action as the blankslate primary action" do
+      rendered = render_inline(
+        described_class.new(container: "empty-list-with-action")
+      ) do |list|
+        list.with_empty_state(
+          title: "Nothing here",
+          action_label: "Add item",
+          action_icon: :plus,
+          action_arguments: { href: "/items/new", scheme: :primary }
+        )
+      end
+
+      expect(rendered).to have_css(".blankslate") do |blankslate|
+        expect(blankslate).to have_link("Add item", href: "/items/new") { |link| link.has_css?(".octicon-plus") }
+      end
+    end
+
+    it "renders no primary action without an action label" do
+      rendered = render_inline(
+        described_class.new(container: "empty-list-without-action")
+      ) do |list|
+        list.with_empty_state(title: "Nothing here", action_label: "", action_arguments: { href: "/items/new" })
+      end
+
+      expect(rendered).to have_css(".blankslate")
+      expect(rendered).to have_no_css(".blankslate a, .blankslate button")
+    end
+
     it "renders a Blankslate when no items are present" do
       rendered = render_inline(
         described_class.new(container: "empty-list")
@@ -770,6 +820,14 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       ) do |list|
         list.with_empty_state(title: "Empty")
       end
+
+      expect(rendered).to have_role(:status, aria: { live: "polite" })
+    end
+
+    it "sets aria role and live attributes on the default empty state when the list is interactive" do
+      rendered = render_inline(
+        described_class.new(container: "default-empty-interactive-aria", interactive: true)
+      )
 
       expect(rendered).to have_role(:status, aria: { live: "polite" })
     end

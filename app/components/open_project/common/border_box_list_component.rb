@@ -134,12 +134,10 @@ module OpenProject
       }
 
       # Optional empty-state content rendered when no items are present.
+      # When omitted, the component renders a generic default empty state.
       #
       # @!parse
-      #   # Adds empty-state content.
-      #   #
-      #   # Interactive lists announce this empty state only when the slot is
-      #   # configured explicitly.
+      #   # Adds custom empty-state content.
       #   #
       #   # @param title [String] empty-state title.
       #   # @param description [String, nil] optional supporting text.
@@ -148,17 +146,28 @@ module OpenProject
       #   #   drop-zone overlay with this label. The overlay becomes visible
       #   #   while a sortable item hovers the surrounding
       #   #   `[data-drop-container="active"]` list.
+      #   # @param action_label [String, nil] optional call-to-action rendered
+      #   #   as the blankslate's primary action.
+      #   # @param action_icon [Symbol, nil] optional leading icon for the
+      #   #   call-to-action.
+      #   # @param action_arguments [Hash] forwarded to the primary-action
+      #   #   button (e.g. `href:`, `scheme:`, `data:`).
       #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Blankslate`.
       #   # @return [ViewComponent::Slot]
-      #   def with_empty_state(title:, description: nil, icon: nil, drop_target_label: nil, **system_arguments)
+      #   def with_empty_state(title:, description: nil, icon: nil, drop_target_label: nil,
+      #                        action_label: nil, action_icon: nil, action_arguments: {}, **system_arguments)
       #   end
-      renders_one :empty_state, ->(title:, description: nil, icon: nil, drop_target_label: nil, **system_arguments) {
+      renders_one :empty_state, ->(title:, description: nil, icon: nil, drop_target_label: nil,
+                                   action_label: nil, action_icon: nil, action_arguments: {}, **system_arguments) {
         EmptyState.new(
           title:,
           description:,
           icon:,
           interactive: interactive?,
           drop_target_label:,
+          action_label:,
+          action_icon:,
+          action_arguments:,
           **system_arguments
         )
       }
@@ -192,8 +201,7 @@ module OpenProject
       #   the header's block padding.
       # @param interactive [Boolean] whether dynamic list updates should be
       #   announced politely to assistive technology. This affects the counter
-      #   and an explicitly configured empty state; it does not create default
-      #   empty-state content for manually composed lists.
+      #   and empty-state content.
       # @param collapsible [Boolean] whether the header renders a collapsible
       #   toggle. Defaults to `false`.
       # @param current_user [User] user context passed to work-package items.
@@ -240,6 +248,7 @@ module OpenProject
 
       def before_render
         content
+        configure_empty_state!
         configure_header!
       end
 
@@ -260,6 +269,15 @@ module OpenProject
         return unless collapsible? && footer?
 
         header.collapsible_id = [list_id, footer_id].compact.join(" ")
+      end
+
+      def configure_empty_state!
+        return if items.any? || empty_state?
+
+        with_empty_state(
+          title: I18n.t(:label_nothing_display),
+          description: I18n.t(:no_results_title_text)
+        )
       end
     end
   end

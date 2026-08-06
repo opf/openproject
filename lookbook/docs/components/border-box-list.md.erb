@@ -18,8 +18,10 @@ of the collapsible header and is hidden when the list is collapsed.
 **Items**
 The list rows. Items can render generic row content or a work package card.
 
-**Empty state** *(optional)*
-Shown when the list has no items.
+**Empty state**
+Shown when the list has no items. The component renders a generic empty state by
+default; use `with_empty_state` only when the list needs domain-specific copy,
+an icon, or custom system arguments.
 
 **Footer** *(optional)*
 Shown below the items. Use it for summary or follow-up content.
@@ -47,7 +49,7 @@ comparable lists should use headers.
 | `with_header` | Optional section header. See [Header parameters](#header-parameters) and [Header slots](#header-slots) below |
 | `with_item` | Generic list row that renders the provided block content |
 | `with_work_package_item` | Work package row that renders a work package card |
-| `with_empty_state` | Empty-state content rendered when no items are present |
+| `with_empty_state` | Custom empty-state content rendered when no items are present |
 | `with_footer` | Optional footer row below the list items |
 
 ## Header
@@ -126,9 +128,11 @@ enough for the list action.
 
 ### Empty state
 
-Use `with_empty_state` when the list can be rendered without items. It renders a
-`Primer::Beta::Blankslate` under the hood, accepting `title:`, `description:`,
-and `icon:` keywords.
+When no items are present, the component renders a generic
+`Primer::Beta::Blankslate` with the global empty-state copy. Use
+`with_empty_state` for domain-specific copy, icons, a call-to-action
+(`action_label:`, `action_icon:`, `action_arguments:`), or custom Blankslate
+system arguments.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :empty_state, panels: %i[source] %>
 
