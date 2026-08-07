@@ -225,7 +225,7 @@ class User < Principal
 
   # create new password if password was set
   def update_password
-    if password && ldap_auth_source_id.blank?
+    if password && ldap_auth_source_id.blank? && password_login_allowed?
       new_password = passwords.build(type: UserPassword.active_type.to_s)
       new_password.plain_password = password
       new_password.save
@@ -289,7 +289,12 @@ class User < Principal
   def self.try_authentication_for_existing_user(user, password, session = nil) # rubocop:disable Metrics/PerceivedComplexity
     activate_user! user, session if session
 
-    return nil if !user.active? || OpenProject::Configuration.disable_password_login?
+    return nil unless user.active?
+
+    unless user.password_login_allowed?
+      Rails.logger.info { "Refused password login for #{user.login} (password_login=#{Users::PasswordLogin.mode})." }
+      return nil
+    end
 
     if user.ldap_auth_source
       # user has an external authentication method
@@ -401,6 +406,8 @@ class User < Principal
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.
   def check_password?(clear_password, update_legacy: true)
+    return false unless password_login_allowed?
+
     if ldap_auth_source.present?
       ldap_auth_source.authenticate(login, clear_password)
     else
@@ -412,7 +419,7 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
-    return false if OpenProject::Configuration.disable_password_login?
+    return false unless password_login_allowed?
     return false if uses_external_authentication? && current_password.nil?
 
     ldap_auth_source_id.blank?
@@ -422,6 +429,10 @@ class User < Principal
   def uses_external_authentication?
     # using #any? instead of #exists? so that it also works on unpersisted auth provider links
     user_auth_provider_links.any?
+  end
+
+  def password_login_allowed?
+    Users::PasswordLogin.allowed?(self)
   end
 
   #

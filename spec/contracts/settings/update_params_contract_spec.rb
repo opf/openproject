@@ -65,4 +65,25 @@ RSpec.describe Settings::UpdateParamsContract do
       it_behaves_like "contract is valid"
     end
   end
+
+  describe "password_login validation" do
+    context "when password login remains available to everyone" do
+      let(:params) { { password_login: Users::PasswordLogin::ALL } }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when password login is restricted without an available SSO provider" do
+      let(:params) { { password_login: Users::PasswordLogin::EXCEPT_SSO } }
+
+      it_behaves_like "contract is invalid", base: :password_login_requires_sso_provider
+    end
+
+    context "when password login is restricted with an available SSO provider" do
+      let!(:provider) { create(:oidc_provider) }
+      let(:params) { { password_login: Users::PasswordLogin::EXCEPT_SSO } }
+
+      it_behaves_like "contract is valid"
+    end
+  end
 end

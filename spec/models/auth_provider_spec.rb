@@ -28,45 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AuthProvider < ApplicationRecord
-  belongs_to :creator, class_name: "User"
+require "spec_helper"
 
-  has_many :scim_clients, dependent: :restrict_with_error
+RSpec.describe AuthProvider do
+  describe "#available=" do
+    it "unsets the direct login provider when disabled" do
+      provider = create(:oidc_provider)
+      Setting.omniauth_direct_login_provider = provider.slug
 
-  has_many :user_auth_provider_links, dependent: :destroy
-  has_many :users,
-           -> { where(type: "User") },
-           through: :user_auth_provider_links,
-           source: :principal
+      provider.update!(available: false)
 
-  validates :display_name, presence: true
-  validates :display_name, uniqueness: true
-
-  after_update :unset_direct_provider, if: -> { saved_change_to_available? && !available? }
-  after_destroy :unset_direct_provider
-
-  def user_count
-    @user_count ||= user_auth_provider_links.count
-  end
-
-  def human_type
-    raise SubclassResponsibilityError
-  end
-
-  def auth_url
-    root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
-    URI.join(root_url, "auth/#{slug}/").to_s
-  end
-
-  def callback_url
-    URI.join(auth_url, "callback").to_s
-  end
-
-  protected
-
-  def unset_direct_provider
-    if Setting.omniauth_direct_login_provider == slug
-      Setting.omniauth_direct_login_provider = ""
+      expect(Setting.omniauth_direct_login_provider).to be_blank
     end
   end
 end

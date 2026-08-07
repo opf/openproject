@@ -69,6 +69,68 @@ RSpec.describe "Authentication Settings",
     end
   end
 
+  describe "GET /admin/settings/authentication?tab=sso", with_ee: %i[sso_auth_providers] do
+    let!(:provider) { create(:oidc_provider) }
+    let!(:bypass_user) { create(:user, login: "breakglass") }
+
+    before do
+      Setting.password_login = "except_sso"
+      Setting.password_login_bypass_principal_ids = [bypass_user.id.to_s]
+      get "/admin/settings/authentication.html?tab=sso"
+    end
+
+    it "shows the password login policy" do
+      expect(response).to have_http_status(:success)
+
+      expect(page).to have_field(I18n.t(:setting_password_login_except_sso), disabled: false)
+      expect(page).to have_link("/login/internal", href: internal_signin_path)
+    end
+
+    it "preselects the exempt principals" do
+      input_value = page.find("opce-user-autocompleter")["data-input-value"]
+
+      expect(JSON.parse(input_value)).to eq [bypass_user.id]
+    end
+
+    it "shows the bypass principals only when password login is disallowed" do
+      expect(page).to have_css("opce-user-autocompleter", visible: :visible)
+
+      Setting.password_login = "all"
+      get "/admin/settings/authentication.html?tab=sso"
+
+      expect(page).to have_no_css("opce-user-autocompleter", visible: :visible)
+    end
+
+    it "explains the bypass principals" do
+      expect(page).to have_text(
+        "Even when password login in disabled, these users and groups will be able to use their password to sign in."
+      )
+    end
+  end
+
+  describe "GET /admin/settings/authentication?tab=sso without an SSO provider",
+           with_ee: %i[sso_auth_providers] do
+    before do
+      Setting.password_login = "except_sso"
+      get "/admin/settings/authentication.html?tab=sso"
+    end
+
+    it "warns that password login restrictions are unavailable" do
+      expect(page).to have_text("Password login restrictions are unavailable because no SSO provider is currently enabled.")
+    end
+
+    it "disables the password login settings" do
+      expect(page).to have_select(
+        I18n.t(:setting_omniauth_direct_login_provider),
+        disabled: true
+      )
+      expect(Setting.omniauth_direct_login_provider).to be_blank
+      expect(page).to have_field(I18n.t(:setting_password_login_all), disabled: true)
+      expect(page).to have_field(I18n.t(:setting_password_login_except_sso), disabled: true)
+      expect(page.find("opce-user-autocompleter", visible: :visible)["data-disabled"]).to eq "true"
+    end
+  end
+
   describe "PATCH /admin/settings/authentication?tab=passwords" do
     context "when all password requirement checkboxes are unchecked" do
       before do

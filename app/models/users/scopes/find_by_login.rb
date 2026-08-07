@@ -38,6 +38,10 @@ module Users::Scopes
         where(["LOWER(login) = ?", login.to_s.downcase])
       end
 
+      def by_logins(logins)
+        where(["LOWER(login) IN (?)", Array(logins).map { it.to_s.downcase }])
+      end
+
       # Find a user scope by matching the exact login and then a case-insensitive
       # version. Exact matches will be given priority.
       def find_by_login(login)

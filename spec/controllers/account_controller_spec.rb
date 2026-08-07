@@ -126,6 +126,24 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(session[:internal_login]).not_to be_present
       end
     end
+
+    context "when password login is none with a whitelist",
+            with_settings: { password_login: "none" } do
+      before do
+        Setting.password_login_bypass_principal_ids = [admin.id.to_s]
+      end
+
+      it "allows the internal login route" do
+        get :internal_login
+
+        expect(response).to render_template "account/login"
+      end
+
+      it "allows to post to login" do
+        post :login, params: { username: admin.login, password: "adminADMIN!" }
+        expect(response).to redirect_to home_path
+      end
+    end
   end
 
   describe "POST #login" do

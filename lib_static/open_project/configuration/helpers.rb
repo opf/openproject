@@ -212,6 +212,21 @@ module OpenProject
         self["lookbook_enabled"]
       end
 
+      # Raw ENV/config value. Defined explicitly so +method_missing+ cannot
+      # overwrite {#disable_password_login?} with a boolean-only predicate.
+      def disable_password_login
+        self["disable_password_login"]
+      end
+
+      # True when password login is off for the whole instance (tri-state mode
+      # +none+, or the legacy ENV +disable_password_login+).
+      def disable_password_login?
+        return true if TRUE_VALUES.include?(disable_password_login)
+        return true if self["password_login"] == "none"
+
+        defined?(Setting) && Setting.respond_to?(:password_login) && Setting.password_login == "none"
+      end
+
       def ssrf_protection_ip_allowlist
         @ssrf_protection_ip_allowlist ||= self["ssrf_protection_ip_allowlist"]
           .split(/[\s,]+/)

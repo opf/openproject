@@ -76,6 +76,7 @@ class AccountController < ApplicationController
   end
 
   def internal_login
+    @show_password_login_form = true
     render "account/login"
   end
 
@@ -292,7 +293,7 @@ class AccountController < ApplicationController
 
   def activate_user(user)
     if omniauth_direct_login?
-      direct_login user
+      direct_login(user)
     elsif OpenProject::Configuration.disable_password_login?
       flash[:notice] = I18n.t("account.omniauth_login")
 
@@ -416,7 +417,7 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    if OpenProject::Configuration.disable_password_login?
+    if OpenProject::Configuration.disable_password_login? && !Users::PasswordLogin.internal_login_available?
       render_404
     else
       password_authentication(params[:username]&.strip, params[:password])
@@ -503,7 +504,7 @@ class AccountController < ApplicationController
   end
 
   def check_internal_login_enabled
-    render_404 unless omniauth_direct_login?
+    render_404 unless omniauth_direct_login? || Users::PasswordLogin.internal_login_available?
   end
 
   def auth_source_sso_failure_user(failure)
