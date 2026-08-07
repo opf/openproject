@@ -142,6 +142,15 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
             .to eq(exact_work_package.id)
         end
       end
+
+      context "when the query is hash-prefixed" do
+        let(:query_string) { "#COM-5" }
+
+        it "still ranks the exact identifier match above one that only shares the prefix" do
+          expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
+            .to eq(exact_work_package.id)
+        end
+      end
     end
   end
 end

@@ -47,9 +47,12 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
   def conditions_for(part)
     conditions = [subject_condition(part),
                   project_name_condition(part),
-                  work_package_identifier_condition(part),
                   type_name_condition(part),
                   status_condition(part)]
+
+    if (match = part.match(/\A(#)?(#{Projects::Identifier::SEMANTIC_FORMAT.source}-?\d*)\z/i))
+      conditions << work_package_identifier_condition(match[2])
+    end
 
     if (match = part.match(/\A(#)?(\d+)\z/))
       conditions << id_or_sequence_number_condition(hash_prefixed: match[1].present?, search_term: match[2])

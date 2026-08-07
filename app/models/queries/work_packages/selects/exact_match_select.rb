@@ -69,13 +69,13 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
     condition =
       if candidate.match?(/\A[1-9]\d*\z/)
         numeric_exact_match_condition(candidate, hash_prefixed: stripped.start_with?("#"))
-      elsif stripped.match?(/\A#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}\z/i)
+      elsif candidate.match?(/\A#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}\z/i)
         # So far, semantic identifiers are always upper case.
         # We can leverage this to match in a way that allows index usage.
         OpenProject::SqlSanitization.sanitize(
           "#{WorkPackage.table_name}.id IN (SELECT work_package_id FROM " \
           "#{WorkPackageSemanticAlias.table_name} WHERE identifier = ?)",
-          stripped.upcase
+          candidate.upcase
         )
       end
 
