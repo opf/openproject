@@ -38,7 +38,7 @@ module Capabilities::Scopes
                   all
                 else
                   where(context_id: nil)
-                    .or(where(context_id: Project.visible(user).select(:id)))
+                    .or(where(context_id: Project.visible_ids(user)))
                 end
 
         scope.where(principal_id: Principal.visible(user).not_builtin.not_locked)

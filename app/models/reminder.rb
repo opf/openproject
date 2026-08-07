@@ -40,7 +40,7 @@ class Reminder < ApplicationRecord
   # and who still has access to the remindable.
   def self.visible(user)
     where(creator: user)
-      .where(remindable_type: WorkPackage.name, remindable_id: WorkPackage.visible(user).select(:id))
+      .where(remindable_type: WorkPackage.name, remindable_id: WorkPackage.visible_ids(user))
   end
 
   def self.upcoming_and_visible_to(user)
