@@ -92,5 +92,29 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
         end
       end
     end
+
+    describe "password_login_sso_bypass_logins" do
+      shared_let(:bypass_user) { create(:user, login: "breakglass") }
+
+      it "stores the logins of the selected users" do
+        patch "update", params: { settings: { password_login_sso_bypass_logins: ["", bypass_user.id.to_s] } }
+
+        expect(Setting.password_login_sso_bypass_logins).to eq ["breakglass"]
+      end
+
+      it "clears the list when the autocompleter submits only its blank entry" do
+        Setting.password_login_sso_bypass_logins = ["breakglass"]
+
+        patch "update", params: { settings: { password_login_sso_bypass_logins: [""] } }
+
+        expect(Setting.password_login_sso_bypass_logins).to eq []
+      end
+
+      it "ignores ids that do not belong to a user" do
+        patch "update", params: { settings: { password_login_sso_bypass_logins: ["", "0"] } }
+
+        expect(Setting.password_login_sso_bypass_logins).to eq []
+      end
+    end
   end
 end

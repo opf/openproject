@@ -31,5 +31,20 @@
 module Admin::Settings
   class AuthenticationSettingsController < ::Admin::SettingsController
     menu_item :authentication_settings
+
+    def settings_params
+      super.tap do |settings|
+        key = "password_login_sso_bypass_logins"
+        settings[key] = bypass_logins_for(settings[key]) if settings.key?(key)
+      end
+    end
+
+    private
+
+    # The user autocompleter submits principal ids, while the setting stores logins so that it
+    # stays usable as an environment variable when nobody can reach the administration anymore.
+    def bypass_logins_for(user_ids)
+      User.where(id: Array(user_ids).compact_blank).pluck(:login)
+    end
   end
 end

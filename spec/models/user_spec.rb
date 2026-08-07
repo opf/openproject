@@ -463,6 +463,55 @@ RSpec.describe User do
         expect(user).not_to be_change_password_allowed
       end
     end
+
+    context "for an external authentication user that still has a password" do
+      let(:provider) { create(:oidc_provider) }
+      let(:user) { create(:user, login: "sso_user", authentication_provider: provider) }
+
+      it "allows a password change so the leftover password can be rotated" do
+        expect(user).to be_change_password_allowed
+      end
+
+      context "with password login disabled for SSO users",
+              with_config: { disable_password_login_for_sso_users: true } do
+        it "does not allow a password change, as the password is unusable" do
+          expect(user).not_to be_change_password_allowed
+        end
+
+        context "and the user on the bypass list",
+                with_config: { password_login_sso_bypass_logins: ["sso_user"] } do
+          it "allows a password change" do
+            expect(user).to be_change_password_allowed
+          end
+        end
+      end
+    end
+  end
+
+  describe "#update_password" do
+    let(:provider) { create(:oidc_provider) }
+
+    context "with password login disabled for SSO users",
+            with_config: { disable_password_login_for_sso_users: true } do
+      it "does not store a password for a user linked to an OmniAuth provider" do
+        user = create(:user, :passwordless, login: "sso_user", authentication_provider: provider)
+
+        user.update!(password: "pwd123Password!", password_confirmation: "pwd123Password!")
+
+        expect(user.passwords).to be_empty
+      end
+
+      context "and the user on the bypass list",
+              with_config: { password_login_sso_bypass_logins: ["sso_user"] } do
+        it "stores a password" do
+          user = create(:user, :passwordless, login: "sso_user", authentication_provider: provider)
+
+          user.update!(password: "pwd123Password!", password_confirmation: "pwd123Password!")
+
+          expect(user.passwords).not_to be_empty
+        end
+      end
+    end
   end
 
   describe "#watches" do
@@ -540,6 +589,41 @@ RSpec.describe User do
     end
   end
 
+  describe "#password_login_disabled_by_sso?" do
+    let(:provider) { create(:oidc_provider) }
+    let(:user) { create(:user, login: "sso_user", authentication_provider: provider) }
+
+    context "when the setting is disabled" do
+      it "is false even for an OmniAuth user" do
+        expect(user).not_to be_password_login_disabled_by_sso
+      end
+    end
+
+    context "when the setting is enabled", with_config: { disable_password_login_for_sso_users: true } do
+      it "is true for an OmniAuth user" do
+        expect(user).to be_password_login_disabled_by_sso
+      end
+
+      it "is false for a user without an OmniAuth link" do
+        expect(create(:user)).not_to be_password_login_disabled_by_sso
+      end
+
+      context "and the user is on the bypass list",
+              with_config: { password_login_sso_bypass_logins: ["SSO_User"] } do
+        it "is false, matching the login case-insensitively" do
+          expect(user).not_to be_password_login_disabled_by_sso
+        end
+      end
+
+      context "and another login is on the bypass list",
+              with_config: { password_login_sso_bypass_logins: ["someone_else"] } do
+        it "is true" do
+          expect(user).to be_password_login_disabled_by_sso
+        end
+      end
+    end
+  end
+
   describe "user create with empty password" do
     let(:user) { described_class.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo") }
 
@@ -580,10 +664,11 @@ RSpec.describe User do
   describe "#try_authentication_for_existing_user" do
     def build_user_double_with_expired_password(is_expired)
       user_double = double("User")
-      allow(user_double).to receive(:check_password?).and_return(true)
-      allow(user_double).to receive(:active?).and_return(true)
-      allow(user_double).to receive(:ldap_auth_source).and_return(nil)
-      allow(user_double).to receive(:force_password_change).and_return(false)
+      allow(user_double).to receive_messages(check_password?: true,
+                                             active?: true,
+                                             ldap_auth_source: nil,
+                                             password_login_disabled_by_sso?: false,
+                                             force_password_change: false)
 
       # check for expired password should always happen
       expect(user_double).to receive(:password_expired?) { is_expired }
@@ -1016,6 +1101,35 @@ RSpec.describe User do
       it "returns the user" do
         expect(described_class.try_to_login(login, new_password))
           .to eq user
+      end
+    end
+
+    context "with the user having been remapped to an OmniAuth provider" do
+      let(:provider) { create(:oidc_provider) }
+
+      before do
+        user.user_auth_provider_links.create!(auth_provider: provider, external_id: "external-id")
+      end
+
+      it "still accepts the password while the setting is disabled" do
+        expect(described_class.try_to_login(login, password))
+          .to eq user
+      end
+
+      context "with password login disabled for SSO users",
+              with_config: { disable_password_login_for_sso_users: true } do
+        it "refuses the password" do
+          expect(described_class.try_to_login(login, password))
+            .to be_nil
+        end
+
+        context "and the login on the bypass list",
+                with_config: { password_login_sso_bypass_logins: ["the_login"] } do
+          it "accepts the password" do
+            expect(described_class.try_to_login(login, password))
+              .to eq user
+          end
+        end
       end
     end
   end

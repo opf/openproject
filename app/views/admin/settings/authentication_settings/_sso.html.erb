@@ -27,11 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<% bypass_user_ids = User.by_logins(Setting.password_login_sso_bypass_logins).pluck(:id) %>
+
 <% with_enterprise_banner_guard(:sso_auth_providers, variant: :large, video: "enterprise/sso-login.mp4") do %>
   <%=
-    settings_primer_form_with(scope: :settings,
-                              url: admin_settings_authentication_path(tab: params[:tab]),
-                              method: :patch) do |f|
+    settings_primer_form_with(
+      scope: :settings,
+      url: admin_settings_authentication_path(tab: params[:tab]),
+      method: :patch
+    ) do |f|
       render_inline_settings_form(f) do |form|
         form.select_list(
           name: :omniauth_direct_login_provider,
@@ -60,6 +64,39 @@ See COPYRIGHT and LICENSE files for more details.
         form.check_box(
           name: :oauth_allow_remapping_of_existing_users,
           caption: I18n.t("settings.authentication.remapping_existing_users_hint")
+        )
+
+        form.check_box(
+          name: :disable_password_login_for_sso_users,
+          caption: I18n.t("settings.authentication.disable_password_login_for_sso_users_hint")
+        )
+
+        # The autocompleter submits nothing when cleared, so a blank entry keeps the key present
+        # and lets the list be emptied again.
+        form.hidden(
+          name: "settings[password_login_sso_bypass_logins][]",
+          value: "",
+          scope_name_to_model: false,
+          scope_id_to_model: false
+        )
+
+        form.autocompleter(
+          name: :password_login_sso_bypass_logins,
+          label: I18n.t(:setting_password_login_sso_bypass_logins),
+          caption: I18n.t("settings.authentication.password_login_sso_bypass_logins_hint"),
+          disabled: form.setting_disabled?(:password_login_sso_bypass_logins),
+          autocomplete_options: {
+            resource: "principals",
+            component: "opce-user-autocompleter",
+            url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+            searchKey: "any_name_attribute",
+            filters: [{ name: "type", operator: "=", values: %w[User] }],
+            multiple: true,
+            defaultData: false,
+            focusDirectly: false,
+            disabled: form.setting_disabled?(:password_login_sso_bypass_logins),
+            inputValue: bypass_user_ids
+          }
         )
 
         form.submit

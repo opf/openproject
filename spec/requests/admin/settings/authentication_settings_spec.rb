@@ -69,6 +69,27 @@ RSpec.describe "Authentication Settings",
     end
   end
 
+  describe "GET /admin/settings/authentication?tab=sso", with_ee: %i[sso_auth_providers] do
+    let!(:bypass_user) { create(:user, login: "breakglass") }
+
+    before do
+      Setting.password_login_sso_bypass_logins = ["BreakGlass"]
+      get "/admin/settings/authentication.html?tab=sso"
+    end
+
+    it "shows the SSO password restriction settings" do
+      expect(response).to have_http_status(:success)
+
+      expect(page).to have_field(I18n.t(:setting_disable_password_login_for_sso_users), disabled: false)
+    end
+
+    it "preselects the exempt users, resolving the stored logins case-insensitively" do
+      input_value = page.find("opce-user-autocompleter")["data-input-value"]
+
+      expect(JSON.parse(input_value)).to eq [bypass_user.id]
+    end
+  end
+
   describe "PATCH /admin/settings/authentication?tab=passwords" do
     context "when all password requirement checkboxes are unchecked" do
       before do

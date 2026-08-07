@@ -357,6 +357,8 @@ OPENPROJECT_SEED_DESIGN_EXPORT__COVER="..."
 - [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 - [`oauth_allow_remapping_of_existing_users`](#prevent-omniauth-remapping-of-existing-users) (default: true)
 - [`disable_password_login`](#disable-password-login) (default: false)
+- [`disable_password_login_for_sso_users`](#disable-password-login-for-sso-users) (default: false)
+- [`password_login_sso_bypass_logins`](#disable-password-login-for-sso-users) (default: [])
 - [`attachments_storage`](#attachments-storage) (default: file)
 - [`direct_uploads`](#direct-uploads) (default: true)
 - [`fog_download_url_expires_in`](#fog-download-url-expires-in) (default: 21600)
@@ -509,6 +511,40 @@ _default: false_
 
 ```yaml
 OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
+```
+
+### Disable password login for SSO users
+
+Unlike `disable_password_login`, which switches off password authentication for the whole
+instance, this option only affects users that are linked to an omniauth provider.
+
+This matters when users existed before the provider was introduced, or when
+[remapping of existing users](#prevent-omniauth-remapping-of-existing-users) is enabled: such a
+user keeps the password they had before, and can keep using it to sign in — bypassing the
+provider and any MFA enforced there. Enabling this option refuses those password logins, and
+also removes the password change and password recovery options for the affected users, since
+their password can no longer be used.
+
+Users that are not linked to an omniauth provider are unaffected and keep their password login.
+
+Both options below are also available in the administration under *Authentication → Settings → Single
+Sign-On*. Setting them here takes precedence and renders them read-only in that form.
+
+_default: false_
+
+```yaml
+OPENPROJECT_DISABLE__PASSWORD__LOGIN__FOR__SSO__USERS="true"
+```
+
+Individual logins can be exempted, so that you keep a break-glass access in case the provider
+becomes unavailable. Logins are matched case-insensitively. This is deliberately a list of logins
+rather than user ids, so that you can still grant yourself access through the environment when
+nobody is able to reach the administration anymore.
+
+_default: []_
+
+```yaml
+OPENPROJECT_PASSWORD__LOGIN__SSO__BYPASS__LOGINS="[admin, breakglass]"
 ```
 
 ### Omniauth direct login provider

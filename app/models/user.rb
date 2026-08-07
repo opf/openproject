@@ -218,7 +218,7 @@ class User < Principal
 
   # create new password if password was set
   def update_password
-    if password && ldap_auth_source_id.blank?
+    if password && ldap_auth_source_id.blank? && !password_login_disabled_by_sso?
       new_password = passwords.build(type: UserPassword.active_type.to_s)
       new_password.plain_password = password
       new_password.save
@@ -287,6 +287,9 @@ class User < Principal
     if user.ldap_auth_source
       # user has an external authentication method
       return nil unless user.ldap_auth_source.authenticate(user.login, password)
+    elsif user.password_login_disabled_by_sso?
+      Rails.logger.info { "Refused password login for #{user.login}, who authenticates through an OmniAuth provider." }
+      return nil
     else
       # authentication with local password
       return nil unless user.check_password?(password)
@@ -397,6 +400,7 @@ class User < Principal
     if ldap_auth_source.present?
       ldap_auth_source.authenticate(login, clear_password)
     else
+      return false if password_login_disabled_by_sso?
       return false if current_password.nil?
 
       current_password.matches_plaintext?(clear_password, update_legacy:)
@@ -406,6 +410,7 @@ class User < Principal
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
     return false if OpenProject::Configuration.disable_password_login?
+    return false if password_login_disabled_by_sso?
     return false if uses_external_authentication? && current_password.nil?
 
     ldap_auth_source_id.blank?
@@ -414,6 +419,15 @@ class User < Principal
   # Is the user authenticated via an external authentication source via OmniAuth?
   def uses_external_authentication?
     user_auth_provider_links.exists?
+  end
+
+  # Instances may forbid OmniAuth users from authenticating with a password, so that a password
+  # predating the OmniAuth link cannot be used to sidestep the provider (and its MFA).
+  def password_login_disabled_by_sso?
+    return false unless OpenProject::Configuration.disable_password_login_for_sso_users?
+    return false if password_login_sso_bypass?
+
+    uses_external_authentication?
   end
 
   #
@@ -726,6 +740,11 @@ class User < Principal
   end
 
   private
+
+  def password_login_sso_bypass?
+    login.present? &&
+      OpenProject::Configuration.password_login_sso_bypass_logins.any? { |exempt| exempt.casecmp?(login) }
+  end
 
   def system_non_working_dates_for_year(year)
     NonWorkingDay.for_year(year).pluck(:date).to_set
