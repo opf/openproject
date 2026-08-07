@@ -51,7 +51,7 @@ module WorkPackageTypes
 
     private
 
-    def default_contract_class = UpdateSettingsContract
+    def default_contract_class = UpdateDetailsContract
 
     def set_attribute_groups(params)
       normalize_result = normalize_attribute_groups_param(params[:attribute_groups])
@@ -138,10 +138,13 @@ module WorkPackageTypes
     def set_active_custom_fields_for_project_ids(project_ids)
       new_project_ids_to_activate_cfs = project_ids.reject(&:empty?).map(&:to_i) - model.project_ids
 
+      # #custom_fields resolves the form configuration link, where #custom_field_ids reads only
+      # the type's own rows — empty for a variant inheriting its configuration, which would
+      # activate nothing on the newly added projects.
       values = Project
                  .where(id: new_project_ids_to_activate_cfs)
                  .to_a
-                 .product(model.custom_field_ids)
+                 .product(model.custom_fields.ids)
                  .map { |p, cf_ids| { project_id: p.id, custom_field_id: cf_ids } }
 
       return if values.empty?

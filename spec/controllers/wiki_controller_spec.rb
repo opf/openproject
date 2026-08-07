@@ -66,6 +66,46 @@ RSpec.describe WikiController do
       end
     end
 
+    describe "menu" do
+      let!(:parent_page) { create(:wiki_page, wiki:, title: "Parent page", author: admin) }
+      let!(:child_page) { create(:wiki_page, wiki:, title: "Child page", parent: parent_page, author: admin) }
+
+      it "renders the lazy frame shell" do
+        get :menu, params: { project_id: project.identifier, current_page_id: child_page.id }
+
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:menu)
+        expect(assigns(:page)).to eq(child_page)
+      end
+
+      it "loads the tree data" do
+        get :menu_tree, params: { project_id: project.identifier, current_page_id: child_page.id, query: "Child" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:menu_tree)
+        expect(assigns(:page)).to eq(child_page)
+        expect(assigns(:query)).to eq("Child")
+        expect(assigns(:query_terms)).to eq(["child"])
+        expect(assigns(:tree)).to all(be_a(OpenProject::Sidemenu::TreeNode))
+      end
+
+      context "with a user without permission to view wiki pages" do
+        current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+        it "is forbidden" do
+          get :menu, params: { project_id: project.identifier }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "is forbidden from loading the tree" do
+          get :menu_tree, params: { project_id: project.identifier }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
+
     shared_examples_for "a 'new' action" do
       it "assigns @project to the current project" do
         get_page

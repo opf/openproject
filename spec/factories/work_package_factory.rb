@@ -40,6 +40,13 @@ FactoryBot.define do
     priority
     project factory: :project_with_types
     status
+    # Semantic identifier and its sequence number always travel together (see
+    # WorkPackage::SemanticIdentifier). Derive the sequence number from the
+    # identifier ("PROJ-42" → 42) so specs only need to set the identifier, using
+    # the same inversion as the functional code. An explicit sequence_number
+    # override still wins.
+    identifier { nil }
+    sequence_number { identifier && WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier) }
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user

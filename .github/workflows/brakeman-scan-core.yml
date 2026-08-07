@@ -6,9 +6,9 @@ on:
       - dev
       - release/*
     paths:
-      - '**.rb'
+      - "**.rb"
   schedule:
-    - cron: '10 6 * * 1'
+    - cron: "10 6 * * 1"
 
 permissions:
   contents: read
@@ -16,8 +16,8 @@ permissions:
 jobs:
   brakeman-scan:
     permissions:
-      contents: read  # for actions/checkout to fetch code
-      security-events: write  # for github/codeql-action/upload-sarif to upload SARIF results
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     if: github.repository == 'opf/openproject'
     name: Brakeman Scan
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1
+        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
 
       - name: Setup Brakeman
         run: |

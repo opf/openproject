@@ -62,57 +62,98 @@ RSpec.describe Projects::Types::AddService do
     end
   end
 
-  context "with a subtype" do
+  context "with a variant" do
     let(:parent_type) { create(:type) }
     let(:type) { create(:type, parent: parent_type) }
 
-    context "and the subtypes feature is not active", with_flag: { subtypes: false } do
+    context "and the variants feature is not active", with_flag: { type_variants: false } do
       it "fails and does not enable the type" do
         expect(service_call).to be_failure
-        expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_subtypes_yet)
+        expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variants_yet)
         expect(project.reload.types).to be_empty
       end
     end
 
-    context "and the subtypes feature is active", with_flag: { subtypes: true } do
-      it "enables the subtype on the project" do
+    context "and the variants feature is active", with_flag: { type_variants: true } do
+      it "uses the parent and resolves the variant" do
         expect(service_call).to be_success
-        expect(project.reload.types).to contain_exactly(type)
+        expect(project.reload.types).to contain_exactly(parent_type)
+        expect(project.project_types.sole.effective_type).to eq(type)
       end
 
-      context "when a sibling subtype is already enabled" do
+      context "when the variant is already the one resolved" do
+        let(:project) { create(:project, types: [type]) }
+
+        it "succeeds without adding a second row" do
+          expect(service_call).to be_success
+          expect(project.reload.project_types.sole.effective_type).to eq(type)
+        end
+      end
+
+      # Without this the work package form is empty for the variant: a variant inheriting its
+      # form configuration owns no custom_fields_types rows of its own.
+      context "when the variant inherits its form configuration" do
+        let!(:parent_custom_field) { create(:text_wp_custom_field, types: [parent_type]) }
+
+        it "enables the fields the variant actually shows, which are the parent's" do
+          expect { service_call }
+            .to change { project.reload.work_package_custom_field_ids }
+            .from([])
+            .to([parent_custom_field.id])
+        end
+      end
+
+      context "when the variant owns its form configuration" do
+        let!(:parent_custom_field) { create(:text_wp_custom_field, types: [parent_type]) }
+        let!(:variant_custom_field) { create(:text_wp_custom_field, types: [type]) }
+
+        before do
+          type.configuration_links
+              .find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+              .destroy!
+        end
+
+        it "enables its own fields rather than the parent's" do
+          expect { service_call }
+            .to change { project.reload.work_package_custom_field_ids }
+            .from([])
+            .to([variant_custom_field.id])
+        end
+      end
+
+      context "when a sibling variant is already enabled" do
         let(:sibling) { create(:type, parent: parent_type) }
         let(:project) { create(:project, types: [sibling]) }
 
-        it "fails and keeps only the sibling enabled" do
+        it "fails and keeps the sibling resolved" do
           expect(service_call).to be_failure
           expect(service_call.errors.symbols_for(:types))
-            .to contain_exactly(:cannot_assign_multiple_subtypes_of_parent)
-          expect(project.reload.types).to contain_exactly(sibling)
+            .to contain_exactly(:cannot_assign_multiple_variants_of_parent)
+          expect(project.reload.project_types.sole.effective_type).to eq(sibling)
         end
       end
 
       context "when the parent type is already enabled" do
         let(:project) { create(:project, types: [parent_type]) }
 
-        it "fails and keeps only the parent enabled" do
+        it "fails and keeps the parent resolved" do
           expect(service_call).to be_failure
-          expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_subtype_and_parent)
-          expect(project.reload.types).to contain_exactly(parent_type)
+          expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variant_and_parent)
+          expect(project.reload.project_types.sole.effective_type).to eq(parent_type)
         end
       end
     end
   end
 
-  context "with a root type whose subtype is already enabled", with_flag: { subtypes: true } do
+  context "with a root type whose variant is already enabled", with_flag: { type_variants: true } do
     let(:type) { create(:type) }
-    let(:subtype) { create(:type, parent: type) }
-    let(:project) { create(:project, types: [subtype]) }
+    let(:variant) { create(:type, parent: type) }
+    let(:project) { create(:project, types: [variant]) }
 
-    it "fails and keeps only the subtype enabled" do
+    it "fails and keeps the variant resolved" do
       expect(service_call).to be_failure
-      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_subtype_and_parent)
-      expect(project.reload.types).to contain_exactly(subtype)
+      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variant_and_parent)
+      expect(project.reload.project_types.sole.effective_type).to eq(variant)
     end
   end
 

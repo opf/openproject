@@ -77,6 +77,12 @@ fi
 
 echo "Version from API: $VERSION_FROM_API"
 
+if [[ "$VERSION_FROM_API" == "Behind feature flag" ]]; then
+  echo "Work package ${WORK_PACKAGE_ID} is assigned to \"Behind feature flag\". Skipping version check."
+  echo "behind_feature_flag=true" >> "$GITHUB_OUTPUT"
+  exit 0
+fi
+
 # Extract version from the Ruby file using 'rake version'
 VERSION_FROM_FILE=$(ruby -e 'require_relative "./lib/open_project/version"; puts OpenProject::VERSION.to_s')
 

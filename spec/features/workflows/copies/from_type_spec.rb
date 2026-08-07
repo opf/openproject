@@ -30,9 +30,11 @@
 
 require "spec_helper"
 
+# TODO: Remove with type_variants feature flag
 RSpec.describe "Workflow copy from type", :js do
   let!(:types) { create_list(:type, 3) }
   let!(:type) { types.first }
+  let!(:role) { create(:project_role) }
   let(:admin) { create(:admin) }
   let(:target_types_autocompleter) { FormFields::Primerized::AutocompleteField.new("target_types", selector: "[data-test-selector='target_types_autocomplete']") }
 
@@ -50,25 +52,13 @@ RSpec.describe "Workflow copy from type", :js do
       click_button "Copy"
 
       expect(page).to have_css(".flash-success", text: "Successfully copied workflow to 2 types.")
-      expect(page).to have_current_path(edit_workflow_path(types.second))
+      expect(page).to have_current_path(edit_type_workflow_path(types.second))
     end
   end
 
-  describe "from the workflows index page" do
+  describe "from the workflow tab" do
     before do
-      visit workflows_path
-      within "li", text: type.name do
-        find("button[aria-haspopup=true]").click
-        click_link "Copy"
-      end
-    end
-
-    it_behaves_like "a copy-to-another-type dialog", with_source_role: false
-  end
-
-  describe "from the workflows edit page" do
-    before do
-      visit edit_workflow_path(type)
+      visit edit_type_workflow_path(type)
       click_link "Copy"
     end
 

@@ -87,7 +87,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       render_component
 
       expect(page).to have_element(:ul, id: /\Awork_package_#{work_package.id}_menu-list\z/)
-      expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_open_details\z/)
+      expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_open_details\z/)
       expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_open_fullscreen\z/)
       expect(page).to have_element(:"clipboard-copy", id: /\Awork_package_#{work_package.id}_menu_copy_url_to_clipboard\z/)
       expect(page).to have_element(:"clipboard-copy", id: /\Awork_package_#{work_package.id}_menu_copy_work_package_id\z/)
@@ -99,7 +99,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_text(I18n.t(:"js.button_open_details"))
       expect(page).to have_octicon(:"op-view-split")
       expect(page).to have_css(
-        "button[data-action='backlogs--work-package#openSplitPane']",
+        "a[href$='/backlogs/backlog/details/#{work_package.id}'][data-action='backlogs--work-package#openSplitPane:prevent']",
         text: I18n.t(:"js.button_open_details")
       )
     end
@@ -171,6 +171,12 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       render_component
 
       expect(page).to have_css(".ActionList-sectionDivider")
+    end
+
+    it "wires the divider up to the item controller, so it can be hidden with the group" do
+      render_component
+
+      expect(page).to have_css(".ActionList-sectionDivider[data-sortable-lists--item-target='moveDivider']")
     end
 
     it "shows the Move to position submenu with incoming-arrow icon" do
@@ -413,7 +419,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "still offers the actions that do not write to it", :aggregate_failures do
         render_component
 
-        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_open_details\z/)
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_open_details\z/)
         expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_open_fullscreen\z/)
         expect(page).to have_element(:"clipboard-copy",
                                      id: /\Awork_package_#{work_package.id}_menu_copy_url_to_clipboard\z/)

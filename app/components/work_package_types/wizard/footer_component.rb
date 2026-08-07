@@ -70,6 +70,10 @@ module WorkPackageTypes
         previous_step = Steps.previous_before(current_step)
         type_creation_wizard_path(type, step: previous_step) if previous_step && type.persisted?
       end
+
+      def cancel_href
+        type.persisted? ? edit_type_details_path(type_id: type.id) : types_path
+      end
     end
   end
 end

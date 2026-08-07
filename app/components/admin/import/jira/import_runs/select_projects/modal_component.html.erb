@@ -11,20 +11,18 @@
         "keep-open-on-submit": true
       }
     )
-  ) do |d|
-    d.with_header(
-      show_divider: true,
-      variant: :medium
-    ) do
-      concat(render(Primer::Beta::Text.new(font_weight: :bold)) do
-        I18n.t(:"admin.jira.run.wizard.select_projects.title")
-      end)
+  ) do |dialog|
+    dialog.with_header(show_divider: true)
+    dialog.with_body(classes: "Overlay-body_autocomplete_height") do
+      concat(
+        render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) do
+          I18n.t(:"admin.jira.run.wizard.select_projects.info")
+        end
+      )
       concat(render(list_header_component))
-    end
-    d.with_body(classes: "Overlay-body_autocomplete_height") do
       concat(render(list_component))
     end
-    d.with_footer(
+    dialog.with_footer(
       show_divider: true
     ) do
       component_collection do |modal_footer|
@@ -39,12 +37,14 @@
           I18n.t(:button_cancel)
         end
         modal_footer.with_component(
-          content_tag(:div, data: { "admin--jira-projects-target": "submitButton" }) {
-            render(Admin::Import::Jira::ImportRuns::SelectProjects::ModalSubmitComponent.new(
-                     jira_import: @jira_import,
-                     count: selected_count
-                   ))
-          }
+          content_tag(:div, data: { "admin--jira-projects-target": "submitButton" }) do
+            render(
+              Admin::Import::Jira::ImportRuns::SelectProjects::ModalSubmitComponent.new(
+                jira_import: @jira_import,
+                count: selected_count
+              )
+            )
+          end
         )
         modal_footer.with_component(
           Primer::Beta::Button.new(
@@ -55,7 +55,7 @@
           )
         ) do |spinner_button|
           spinner_button.with_trailing_visual_icon(icon: :sync, animation: :rotate, style: "min-width: 2rem")
-          I18n.t(:button_continue)
+          I18n.t(:"admin.jira.run.wizard.select_projects.button_select")
         end
       end
     end

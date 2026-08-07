@@ -176,4 +176,24 @@ RSpec.describe "Quick-add menu", :js do
       quick_add.expect_invisible
     end
   end
+
+  context "with a project that has a variant enabled", with_flag: { type_variants: true } do
+    let!(:root_type) { create(:type, name: "Task") }
+    let!(:variant) { create(:type, name: "Bug", parent: root_type) }
+    let!(:add_role) { create(:project_role, permissions: %i[add_work_packages]) }
+    let!(:project) do
+      create(:project, types: [variant], members: { current_user => add_role })
+    end
+
+    current_user { create(:user) }
+
+    it "labels the quick-add entry with the root type's name, not the variant's" do
+      visit project_path(project)
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_work_package_type root_type.name
+      quick_add.expect_work_package_type variant.own_name, present: false
+    end
+  end
 end

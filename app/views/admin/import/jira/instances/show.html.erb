@@ -43,12 +43,22 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_description do
       I18n.t(:"admin.jira.run.index.description")
     end
-    header.with_action_button(
-      mobile_icon: nil,
-      mobile_label: nil,
-      tag: :a,
-      href: edit_admin_import_jira_path(@jira)
-    ) { I18n.t(:"admin.jira.run.index.button_edit_configuration") }
+    header.with_action_menu(
+      menu_arguments: { anchor_align: :end },
+      button_arguments: {
+        icon: "kebab-horizontal",
+        "aria-label": I18n.t(:button_actions),
+        test_selector: "jira-configuration-action-menu"
+      }
+    ) do |menu|
+      menu.with_item(
+        scheme: :default,
+        label: I18n.t(:"admin.jira.run.index.button_edit_configuration"),
+        content_arguments: { tag: :a, href: edit_admin_import_jira_path(@jira) }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
   end
 %>
 
