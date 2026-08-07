@@ -70,3 +70,8 @@ OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
 OpenProject::FeatureDecisions.add :progressive_web_app,
                                   description: "Lets OpenProject be installed as a desktop application (PWA). " \
                                                "See the SE-647 epic for details."
+
+OpenProject::FeatureDecisions.add :shared_permissions_cte,
+                                  description: "OP-18140: materialize the per-user visible id set in a single CTE where it " \
+                                               "is embedded once as a semi-join, so the planner is given a concrete " \
+                                               "cardinality instead of a user-independent heuristic. Kill-switch."
