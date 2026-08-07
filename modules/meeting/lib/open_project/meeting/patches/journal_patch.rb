@@ -39,7 +39,8 @@ module OpenProject::Meeting
         scope :meeting_cause_visible, ->(user = User.current) {
           where(
             "journals.cause->>'meeting_id' IS NULL " \
-            "OR (journals.cause->>'meeting_id')::bigint IN (:visible_meetings)",
+            "OR (journals.cause->>'meeting_id')::bigint IN (:visible_meetings) " \
+            "OR NOT EXISTS (SELECT 1 FROM meetings WHERE meetings.id = (journals.cause->>'meeting_id')::bigint)",
             visible_meetings: Meeting.where(project: Project.allowed_to(user, :view_meetings)).select(:id)
           )
         }

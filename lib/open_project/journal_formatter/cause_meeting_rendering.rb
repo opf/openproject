@@ -39,10 +39,13 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
     return false unless meeting_cause?
 
     @meeting = Meeting.find_by(id: cause["meeting_id"])
-    !@meeting&.visible?(User.current)
+    @meeting.present? && !@meeting.visible?(User.current)
   end
 
   def meeting_message
+    return I18n.t("journals.cause_descriptions.meeting_deleted") if @meeting.nil?
+    return I18n.t("journals.cause_descriptions.meeting_cancelled") if @meeting.cancelled?
+
     label = "#{@meeting.title} – #{format_time(@meeting.start_time)}"
     link = html? ? link_to(label, meeting_path(@meeting)) : label
     I18n.t("journals.cause_descriptions.#{cause['type']}", link:)

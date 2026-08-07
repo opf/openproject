@@ -106,6 +106,14 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
       expect(work_package.journals.meeting_cause_visible(other_user)).to include(initial_journal)
     end
 
+    it "keeps the entry for everyone once the meeting is deleted and its project is unknown" do
+      added_journal
+      other_user = create(:user, member_with_permissions: { project => %i[view_work_packages] })
+      meeting.destroy
+
+      expect(work_package.journals.meeting_cause_visible(other_user)).to include(added_journal)
+    end
+
     describe "the without_meeting_causes scope" do
       it "drops meeting cause journals entirely, regardless of meeting access" do
         expect(work_package.journals.without_meeting_causes).not_to include(added_journal)

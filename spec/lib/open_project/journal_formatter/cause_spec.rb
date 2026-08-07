@@ -1018,6 +1018,34 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         expect(cause).to render_raw_variant("")
       end
     end
+
+    context "when the meeting has been deleted" do
+      before do
+        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(nil)
+      end
+
+      it "keeps the entry with a generic label" do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_added')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.meeting_deleted')}"
+        )
+      end
+    end
+
+    context "when the meeting has been cancelled" do
+      before do
+        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
+        allow(meeting).to receive(:visible?).with(User.current).and_return(true)
+        allow(meeting).to receive(:cancelled?).and_return(true)
+      end
+
+      it "keeps the entry with a generic label" do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_added')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.meeting_cancelled')}"
+        )
+      end
+    end
   end
 
   context "when the change was caused by removing the work package from a meeting" do
