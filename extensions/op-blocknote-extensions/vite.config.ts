@@ -20,12 +20,13 @@ export default defineConfig({
     rollupOptions: {
       // Externalize deps that shouldn't be bundled
       external: [
-        'react',
-        'react-dom',
+        /^react(\/|$)/,
+        /^react-dom(\/|$)/,
         '@blocknote/core',
         '@blocknote/react',
         '@blocknote/mantine',
         'yjs',
+        /^use-sync-external-store(\/|$)/,
       ],
     },
   },
