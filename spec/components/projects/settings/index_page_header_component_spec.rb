@@ -66,6 +66,8 @@ RSpec.describe Projects::Settings::IndexPageHeaderComponent, type: :component do
 
       it "renders permitted project actions but not administrator actions", :aggregate_failures do
         expect(rendered_component).to have_menu do |menu|
+          expect(menu).to have_selector :menuitem, count: 5
+          expect(menu).to have_selector :menuitem, text: "Add to favorites"
           expect(menu).to have_selector :menuitem, text: "Subproject"
           expect(menu).to have_selector :menuitem, text: "Copy"
           expect(menu).to have_selector :menuitem, text: "Make public"
