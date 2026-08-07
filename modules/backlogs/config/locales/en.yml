@@ -58,6 +58,7 @@ en:
 
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: "cannot be started while the project is receiving shared sprints."
         dates_required: "Start and finish dates are required in order to start the sprint."
         must_be_in_planning: "must be in planning to start."
         only_one_active_sprint_allowed: "only one active sprint is allowed per project."

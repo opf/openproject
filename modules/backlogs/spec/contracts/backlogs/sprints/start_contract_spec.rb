@@ -117,12 +117,26 @@ RSpec.describe Backlogs::Sprints::StartContract do
         create(:sprint, project: parent, status: "active")
       end
 
-      it_behaves_like "contract is invalid", status: :only_one_active_sprint_allowed
+      it_behaves_like "contract is invalid",
+                      status: %i[only_one_active_sprint_allowed cannot_start_while_receiving_shared_sprints]
 
       context "when the project allows multiple active sprints" do
         before { project.update!(allow_multiple_active_sprints: true) }
 
-        it_behaves_like "contract is valid"
+        it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
+      end
+    end
+
+    context "when the project is receiving shared sprints" do
+      let(:parent) { create(:project, sprint_sharing: "share_subprojects") }
+      let(:project) { create(:project, parent:, sprint_sharing: "receive_shared") }
+
+      it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
+
+      context "when the project allows multiple active sprints" do
+        before { project.update!(allow_multiple_active_sprints: true) }
+
+        it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
       end
     end
   end
