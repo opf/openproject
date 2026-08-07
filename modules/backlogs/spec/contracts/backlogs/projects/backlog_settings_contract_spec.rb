@@ -295,28 +295,34 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
     end
   end
 
-  describe "#validate_only_one_active_sprint_when_receiving_shared_sprints" do
-    context "when the project has an active sprint of its own" do
+  describe "#validate_no_active_or_borrowed_sprint_when_receiving_shared_sprints" do
+    context "when an active sprint of its own has a work package assigned" do
       let(:project) { create(:project, sprint_sharing: Project::NO_SHARING) }
-      let!(:active_sprint) { create(:sprint, project:, status: "active") }
+      let(:active_sprint) { create(:sprint, project:, status: "active") }
 
       before do
+        create(:work_package, project:, sprint: active_sprint)
         project.sprint_sharing = Project::RECEIVE_SHARED
       end
 
-      it_behaves_like "contract is valid"
+      it_behaves_like "contract is invalid", sprint_sharing: :active_or_borrowed_sprint_blocks_receiving
 
       context "when the project allows multiple active sprints" do
         before { project.allow_multiple_active_sprints = true }
 
         it_behaves_like "contract is invalid", sprint_sharing: :locked_by_multiple_active_sprints
       end
+    end
 
-      context "and a work package is assigned to it" do
-        let!(:work_package) { create(:work_package, project:, sprint: active_sprint) }
+    context "when an active sprint of its own has no work packages assigned" do
+      let(:project) { create(:project, sprint_sharing: Project::NO_SHARING) }
 
-        it_behaves_like "contract is invalid", sprint_sharing: :only_one_active_sprint_allowed
+      before do
+        create(:sprint, project:, status: "active")
+        project.sprint_sharing = Project::RECEIVE_SHARED
       end
+
+      it_behaves_like "contract is valid"
     end
 
     context "when the project has no active sprint of its own" do
@@ -330,7 +336,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       it_behaves_like "contract is valid"
     end
 
-    context "when a work package is assigned to a non-active sprint of its own" do
+    context "when a non-active sprint of its own has a work package assigned" do
       let(:project) { create(:project, sprint_sharing: Project::NO_SHARING) }
       let(:in_planning_sprint) { create(:sprint, project:, status: "in_planning") }
 
@@ -353,7 +359,21 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
         project.sprint_sharing = Project::RECEIVE_SHARED
       end
 
-      it_behaves_like "contract is invalid", sprint_sharing: :only_one_active_sprint_allowed
+      it_behaves_like "contract is invalid", sprint_sharing: :active_or_borrowed_sprint_blocks_receiving
+    end
+
+    context "when a work package is assigned to a non-active sprint borrowed from another project" do
+      let(:project) { create(:project, sprint_sharing: Project::NO_SHARING) }
+      let(:foreign_in_planning_sprint) do
+        create(:sprint, project: create(:project, sprint_sharing: Project::NO_SHARING), status: "in_planning")
+      end
+
+      before do
+        create(:work_package, project:, sprint: foreign_in_planning_sprint)
+        project.sprint_sharing = Project::RECEIVE_SHARED
+      end
+
+      it_behaves_like "contract is invalid", sprint_sharing: :active_or_borrowed_sprint_blocks_receiving
     end
 
     context "when a work package is linked to a borrowed sprint from the sharer" do
@@ -366,16 +386,21 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
         project.sprint_sharing = Project::RECEIVE_SHARED
       end
 
-      it_behaves_like "contract is invalid", sprint_sharing: :only_one_active_sprint_allowed
+      it_behaves_like "contract is invalid", sprint_sharing: :active_or_borrowed_sprint_blocks_receiving
+    end
+
+    context "when no work packages are linked to any foreign sprint" do
+      let(:project) { create(:project, sprint_sharing: Project::NO_SHARING) }
+
+      before { project.sprint_sharing = Project::RECEIVE_SHARED }
+
+      it_behaves_like "contract is valid"
     end
 
     context "when sprint_sharing is unchanged" do
       let(:project) { create(:project, sprint_sharing: Project::RECEIVE_SHARED) }
-      let(:active_sprint) { create(:sprint, project:, status: "active") }
 
-      before do
-        create(:work_package, project:, sprint: active_sprint)
-      end
+      before { create(:sprint, project:, status: "active") }
 
       it_behaves_like "contract is valid"
     end

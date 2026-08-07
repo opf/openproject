@@ -51,7 +51,7 @@ module Backlogs::Projects
     end
 
     with_options if: :sprint_sharing_changed?, unless: :allow_multiple_active_sprints? do
-      validate :validate_only_one_active_sprint_when_receiving_shared_sprints
+      validate :validate_no_active_or_borrowed_sprint_when_receiving_shared_sprints
       validate :validate_no_work_packages_in_shared_sprints_when_leaving_receiving
     end
 
@@ -115,28 +115,37 @@ module Backlogs::Projects
       errors.add :allow_multiple_active_sprints, :locked_by_multiple_active_sprints
     end
 
-    # It raises a validation error when an active sprint has work packages assigned.
-    # Active sprints from this project with no work packages assigned to them will just
-    # silently disappear, once the sharing mode is set to receive.
-    # This also covers the case of "borrowed" sprints via work package assignment.
-    def validate_only_one_active_sprint_when_receiving_shared_sprints
+    # Block enabling sprint receiving if the project has:
+    #   - its own active sprint with a work package assigned.
+    #   - any borrowed sprints from another project via work package assignment.
+    #     A borrowed sprint is not allowed since the foreign project could activate it later,
+    #     leading to multiple active sprints.
+    # Project owned sprints are allowed only if they:
+    #   - have no work packages because once receiving is set, they become invisible.
+    #   - are inactive (with or without work packages assigned), because once receiving is set
+    #     they cannot be activated anymore.
+    def validate_no_active_or_borrowed_sprint_when_receiving_shared_sprints
       return unless model.receive_shared_sprints?
-      return unless WorkPackage.where(project: model).joins(:sprint).merge(Sprint.active).exists?
+      return unless own_active_sprint_with_work_packages? || has_borrowed_sprints_via_work_packages?
 
-      errors.add :sprint_sharing, :only_one_active_sprint_allowed
+      errors.add :sprint_sharing, :active_or_borrowed_sprint_blocks_receiving
     end
 
-    # Once the project stops receiving, the sharer could activate a "borrowed" sprint
-    # at any later point, which could lead to a second active sprint.
-    # A validation error is raised when disabling sprint receiving, if any work package
-    # is still assigned to the shared sprints, regardless of whether the sprint is active or not.
+    def own_active_sprint_with_work_packages?
+      model.sprints.active.joins(:work_packages).exists?
+    end
+
+    def has_borrowed_sprints_via_work_packages?
+      model.work_packages.joins(:sprint).where.not(sprints: { project_id: model.id }).exists?
+    end
+
+    # Block disabling sprint receiving, if any work package is still assigned to a shared sprint
+    # regardless of whether the sprint is active or not.
+    # Once the project stops receiving, the former sharer could activate a "borrowed" sprint
+    # at any later point, which will lead to multiple active sprints.
     def validate_no_work_packages_in_shared_sprints_when_leaving_receiving
       return unless model.receive_shared_sprints_was?
-
-      return unless WorkPackage.where(project: model)
-                               .joins(:sprint)
-                               .where.not(sprints: { project_id: model.id })
-                               .exists?
+      return unless has_borrowed_sprints_via_work_packages?
 
       errors.add :sprint_sharing, :work_packages_still_linked_to_shared_sprints
     end

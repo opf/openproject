@@ -68,6 +68,7 @@ en:
               locked_by_multiple_active_sprints: "cannot be changed while multiple active sprints are running."
               requires_no_sharing: "can only be enabled when sprint sharing is set to 'Don't share'."
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: "cannot be set to receive because the project has an active or borrowed sprint. Close or unassign it first."
               locked_by_multiple_active_sprints: "cannot be changed while multiple active sprints are enabled."
               share_all_projects_already_taken: "cannot be set because project \"%{name}\" is already sharing with all projects."
               share_all_projects_already_taken_anonymous: "cannot be set because another project is already sharing with all projects."
