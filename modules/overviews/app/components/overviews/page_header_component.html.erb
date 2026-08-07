@@ -32,7 +32,7 @@
 
         if allowed_to_copy?
           menu.with_item(
-            label: t(:button_copy),
+            label: t(:label_project_create_copy),
             href: helpers.copy_project_path(project),
             content_arguments: { data: { turbo: false } },
             accesskey: helpers.accesskey(:copy)
@@ -84,7 +84,7 @@
             href: helpers.project_templated_path(project),
             content_arguments: { data: { turbo_method: project.templated ? :delete : :post } }
           ) do |item|
-            item.with_leading_visual_icon(icon: project.templated ? :"file-removed" : :"file-added")
+            item.with_leading_visual_icon(icon: :"project-template")
           end
         end
       end
