@@ -248,6 +248,7 @@ Rails.application.reloader.to_prepare do
       map.permission :manage_project_variants,
                      {
                        "projects/settings/work_packages/types/variants": %i[destroy],
+                       "projects/settings/work_packages/types/variants/creation_wizard": %i[new create show update],
                        "projects/settings/work_packages/types/variants/details_tab": %i[edit update],
                        "projects/settings/work_packages/types/variants/defaults_tab": %i[edit update],
                        "projects/settings/work_packages/types/variants/workflow_tab": %i[edit],

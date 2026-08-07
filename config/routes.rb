@@ -444,6 +444,12 @@ Rails.application.routes.draw do
             # The Projects tab is deliberately absent: activating a type across projects
             # is meaningless for a variant only its owner may use.
             resources :variants, only: %i[destroy] do
+              collection do
+                get "creation_wizard/new", to: "variants/creation_wizard#new", as: :new_creation_wizard
+                post "creation_wizard", to: "variants/creation_wizard#create", as: :creation_wizard
+              end
+              resource :creation_wizard, controller: "variants/creation_wizard", only: %i[show update]
+
               resource :details, controller: "variants/details_tab", only: %i[edit update]
               resource :defaults, controller: "variants/defaults_tab", only: %i[edit update]
               resource :workflow, controller: "variants/workflow_tab", only: %i[edit]
