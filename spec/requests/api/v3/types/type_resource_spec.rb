@@ -122,6 +122,20 @@ RSpec.describe "API v3 Type resource" do
 
           it_behaves_like "not found"
         end
+
+        # Type.visible feeds this endpoint. Without narrowing it, any variant was
+        # fetchable by id regardless of who owned it.
+        context "for a variant owned by a project the user cannot see" do
+          let(:type) { create(:type, parent: create(:type), project: create(:project)) }
+
+          it_behaves_like "not found"
+        end
+
+        context "for a variant owned by a project the user can see" do
+          let(:type) { create(:type, parent: create(:type), project:) }
+
+          it { expect(response).to have_http_status(:ok) }
+        end
       end
 
       context "not logged in user" do

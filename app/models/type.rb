@@ -123,9 +123,11 @@ class Type < ApplicationRecord
   scope :selectable_as_source_for, ->(type) { where(project_id: [nil, type.project_id]) }
   scope :without_standard, -> { where(is_standard: false).order(:position) }
   scope :default, -> { where(is_default: true) }
+  # An owned variant only reaches someone who can see its project. Without this the
+  # /api/v3/types/:id and MCP show paths served any variant by id.
   scope :visible, ->(user = User.current) {
     if user.allowed_in_any_project?(:view_work_packages) || user.allowed_in_any_project?(:manage_types)
-      all
+      global.or(where(project_id: Project.allowed_to(user, :view_work_packages).select(:id)))
     else
       none
     end

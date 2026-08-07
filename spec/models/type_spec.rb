@@ -884,5 +884,34 @@ RSpec.describe Type do
         expect(described_class.in_family_order_available_in(owner)).to include(owned_variant)
       end
     end
+
+    describe ".visible" do
+      shared_let(:member) do
+        create(:user, member_with_permissions: { owner => %i[view_work_packages] })
+      end
+
+      it "shows global types" do
+        expect(described_class.visible(member)).to include(root, global_variant)
+      end
+
+      # The member can already see the project, so its variants are no secret from them.
+      it "shows the variants of a project the user can see" do
+        expect(described_class.visible(member)).to include(owned_variant)
+      end
+
+      # The whole point of the feature: another project's variant is not theirs to see.
+      it "hides the variants of a project the user cannot see" do
+        expect(described_class.visible(member)).not_to include(foreign_variant)
+      end
+
+      it "shows an admin every variant" do
+        expect(described_class.visible(create(:admin)))
+          .to include(root, owned_variant, foreign_variant)
+      end
+
+      it "shows nothing to a user with no work package access at all" do
+        expect(described_class.visible(create(:user))).to be_empty
+      end
+    end
   end
 end
