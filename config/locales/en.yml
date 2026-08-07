@@ -200,6 +200,15 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
+      llm_capability_verdict:
+        capability: "Capability"
+        model_id: "Model"
+        state: "State"
+      llm_feature_binding:
+        dimensions: "Dimensions"
+        feature_key: "Feature"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix.
+        model: "Model"
       llm_connection:
         api_key: "API key"
         base_url: "Host URL"
@@ -664,6 +673,12 @@ en:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+        llm_feature_binding:
+          attributes:
+            feature_key:
+              not_registered: "does not belong to a known AI feature."
+            model_id:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
         llm_connection:
           attributes:
             api_key:
