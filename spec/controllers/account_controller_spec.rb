@@ -1416,5 +1416,84 @@ RSpec.describe AccountController, :skip_2fa_stage do
         end
       end
     end
+
+    context "when there are missing required custom fields" do
+      let(:slug) { "google" }
+      let(:omniauth_strategy) { double("Google Strategy", name: slug) } # rubocop:disable RSpec/VerifiedDoubles
+      let!(:oidc_google) { create(:oidc_provider_google, slug:) }
+      let(:omniauth_hash) do
+        OmniAuth::AuthHash.new(
+          provider: slug,
+          strategy: omniauth_strategy,
+          uid: "123545",
+          info: { name: "foo",
+                  email: "foo@bar.com",
+                  first_name: "foo",
+                  last_name: "bar" }
+        )
+      end
+      let(:custom_field) { create(:user_custom_field, :string, is_required: true) }
+
+      before do
+        custom_field.save!
+
+        request.env["omniauth.auth"] = omniauth_hash
+        request.env["omniauth.strategy"] = omniauth_strategy
+      end
+
+      it "registers user via post" do
+        allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
+
+        auth_source_registration = omniauth_hash.merge(
+          omniauth: true,
+          timestamp: Time.current
+        )
+        session[:auth_source_registration] = auth_source_registration
+        post :register,
+             params: {
+               user: {
+                 login: "login@bar.com",
+                 firstname: "Foo",
+                 lastname: "Smith",
+                 mail: "foo@bar.com",
+                 custom_field_values: { custom_field.id => "A string" }
+               }
+             }
+        expect(response).to redirect_to home_url(first_time_user: true)
+
+        user = User.find_by_login("login@bar.com")
+        expect(OpenProject::OmniAuth::Authorization)
+          .to have_received(:after_login!).with(user, a_hash_including(omniauth_hash), any_args)
+        expect(user).to be_an_instance_of(User)
+        expect(user.ldap_auth_source_id).to be_nil
+        expect(user.current_password).to be_nil
+        expect(user.custom_field_values).to include(have_attributes(custom_field_id: custom_field.id, value: "A string"))
+        expect(user.identity_url).to eql("google:123545")
+      end
+
+      context "when after a timeout expired" do
+        before do
+          session[:auth_source_registration] = omniauth_hash.merge(
+            omniauth: true,
+            timestamp: 42.days.ago
+          )
+        end
+
+        it "does not register the user when providing all the missing fields" do
+          post :register,
+               params: {
+                 user: {
+                   firstname: "Foo",
+                   lastname: "Smith",
+                   mail: "foo@bar.com"
+                 }
+               }
+
+          expect(response).to redirect_to signin_path
+          expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
+          expect(User.find_by_login("foo@bar.com")).to be_nil
+        end
+      end
+    end
   end
 end

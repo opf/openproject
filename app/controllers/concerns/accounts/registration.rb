@@ -74,7 +74,7 @@ module Accounts::Registration
       user.assign_attributes permitted_params.user_register_via_omniauth
       return unless consent_given_for_registration?(user)
 
-      register_via_omniauth(session, user.attributes)
+      register_via_omniauth(session, permitted_params.user_register_via_omniauth)
     else
       user.attributes = permitted_params.user
       user.activate
@@ -85,8 +85,8 @@ module Accounts::Registration
     end
   end
 
-  def register_via_omniauth(session, user_attributes)
-    handle_omniauth_authentication(session[:auth_source_registration], user_params: user_attributes)
+  def register_via_omniauth(session, user_params)
+    handle_omniauth_authentication(session[:auth_source_registration], user_params:)
   end
 
   def handle_omniauth_authentication(auth_hash, user_params: nil) # rubocop:disable Metrics/AbcSize
