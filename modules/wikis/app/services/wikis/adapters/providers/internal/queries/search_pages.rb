@@ -51,18 +51,11 @@ module Wikis
                       .map { PageHierarchy.wiki_page_to_page_hierarchy(it, provider:) }
             end
 
-            # Wikis whose project name matches the query, so that searching for the name of a wiki
-            # (e.g. "Demo" finding "Demo project") surfaces the wiki itself, even when none of its pages
-            # match. A wiki is named after its project, hence that project is needed for every result.
             def matching_wikis(query, user)
-              Wiki.where(enabled: true, project: allowed_projects(query, user))
-                  .eager_load(:project)
+              Wiki.visible(user)
+                  .where("projects.name ILIKE ?", "%#{query}%")
                   .limit(MAXIMUM_RESULTS)
                   .map { PageHierarchy.wiki_to_adapter_wiki(it, provider:) }
-            end
-
-            def allowed_projects(query, user)
-              Project.allowed_to(user, :view_wiki_pages).where("projects.name ILIKE ?", "%#{query}%")
             end
           end
         end
