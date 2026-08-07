@@ -79,6 +79,8 @@ module WorkPackageTypes
     end
 
     def create_variant(project)
+      # TODO: When FND-204 is fully implemented and we can create project specific variants, let's ensure that
+      # we create a project specific variant here.
       CreateService
         .new(user:)
         .call(name: variant_name(project), parent_id: source.root_id)
