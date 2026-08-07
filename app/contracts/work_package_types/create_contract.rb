@@ -40,6 +40,9 @@ module WorkPackageTypes
     attribute :name
     attribute :parent_id
     attribute :attribute_groups
+    # Writable on creation only: transferring a variant between projects is out of scope,
+    # so no update contract declares it.
+    attribute :project_id
 
     validates :is_default, :is_milestone, :is_in_roadmap, inclusion: { in: [true, false] }
   end

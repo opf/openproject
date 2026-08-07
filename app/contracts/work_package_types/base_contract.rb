@@ -30,8 +30,20 @@
 
 module WorkPackageTypes
   class BaseContract < ::ModelContract
-    include RequiresAdminGuard
+    validate :validate_manageable
 
     def self.model = Type
+
+    private
+
+    # Instance administrators manage every type. Everyone else reaches only the variants
+    # their own project owns, and inheriting the rule here is what keeps each write path
+    # from having to remember it.
+    def validate_manageable
+      return if user.admin? && user.active?
+      return if model.project_owned? && user.allowed_in_project?(:manage_project_variants, model.project)
+
+      errors.add :base, :error_unauthorized
+    end
   end
 end

@@ -145,5 +145,49 @@ module WorkPackageTypes
         end
       end
     end
+
+    describe "as a project administrator" do
+      shared_let(:owner) { create(:project) }
+      shared_let(:root) { create(:type) }
+      shared_let(:project_admin) do
+        create(:user, member_with_permissions: { owner => %i[manage_project_variants] })
+      end
+
+      let(:user) { project_admin }
+
+      context "with a variant its own project owns" do
+        let(:attributes) { { name: "Ours", parent_id: root.id, project: owner } }
+
+        it "is valid" do
+          expect(contract.validate).to be_truthy
+        end
+      end
+
+      context "with a variant another project owns" do
+        let(:attributes) { { name: "Theirs", parent_id: root.id, project: create(:project) } }
+
+        it "is invalid" do
+          expect(contract.validate).to be_falsey
+        end
+      end
+
+      # Global types stay an instance-administrator concern.
+      context "with a global variant" do
+        let(:attributes) { { name: "Global", parent_id: root.id } }
+
+        it "is invalid" do
+          expect(contract.validate).to be_falsey
+        end
+      end
+
+      context "without the permission" do
+        let(:user) { create(:user, member_with_permissions: { owner => %i[view_project] }) }
+        let(:attributes) { { name: "Ours", parent_id: root.id, project: owner } }
+
+        it "is invalid" do
+          expect(contract.validate).to be_falsey
+        end
+      end
+    end
   end
 end

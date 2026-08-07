@@ -245,6 +245,11 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
+      map.permission :manage_project_variants,
+                     {},
+                     permissible_on: :project,
+                     require: :member
+
       map.permission :select_custom_fields,
                      {
                        "projects/settings/work_packages/custom_fields": %i[show update]
