@@ -28,28 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
+module API
+  module V3
+    module UserResources
+      class UserResourcesAPI < ::API::OpenProjectAPI
+        resources :user_resources do
+          # Visibility is enforced by the query's default scope rather than the
+          # generic `Principal.visible`, which is membership-based and would
+          # never match a resource.
+          get &::API::V3::Utilities::Endpoints::Index
+            .new(model: UserResource,
+                 scope: -> { UserResource.visible(current_user) })
+            .mount
 
-    attribute :principal
-    attribute :user_resource
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
+          route_param :id, type: Integer, desc: "User resource ID" do
+            after_validation do
+              @user_resource = UserResource.visible(current_user).find(params[:id])
+            end
 
-    validate :user_allowed_to_allocate
-
-    private
-
-    def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
-
-      errors.add :base, :error_unauthorized
+            get &::API::V3::Utilities::Endpoints::Show.new(model: UserResource).mount
+          end
+        end
+      end
     end
   end
 end

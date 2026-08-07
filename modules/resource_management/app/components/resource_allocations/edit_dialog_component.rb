@@ -50,7 +50,7 @@ module ResourceAllocations
     attr_reader :project, :allocation, :view
 
     def allocation_kind
-      allocation.principal_explicit? ? "principal" : "filter"
+      allocation.filter_based? ? "filter" : "principal"
     end
 
     def title

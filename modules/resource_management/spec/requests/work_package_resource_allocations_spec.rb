@@ -51,8 +51,8 @@ RSpec.describe "WorkPackage resource allocations requests", type: :rails_request
     before do
       create(:resource_allocation, entity: work_package, principal: assignee, allocated_time: 720)
       create(:resource_allocation, entity: work_package, principal: hidden_user, allocated_time: 300)
-      create(:resource_allocation,
-             entity: work_package, principal_explicit: false, principal: nil, filter_name: "Full stack developer")
+      create(:resource_allocation, :with_user_filter,
+             entity: work_package, filter_name: "Full stack developer")
     end
 
     it "renders the allocations dialog" do

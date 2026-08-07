@@ -34,7 +34,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
   shared_let(:principal) { create(:user, firstname: "Lisa", lastname: "Anderson") }
 
   it "shows hours and the principal avatar for a visible assigned principal" do
-    allocation = build_stubbed(:resource_allocation, principal:, allocated_time: 60 * 60, principal_explicit: true)
+    allocation = build_stubbed(:resource_allocation, principal:, allocated_time: 60 * 60)
 
     render_inline(described_class.new(allocation:, visible_principal_ids: Set[principal.id]))
 
@@ -46,7 +46,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
   end
 
   it "anonymises an assigned principal the current user may not see" do
-    allocation = build_stubbed(:resource_allocation, principal:, allocated_time: 60 * 60, principal_explicit: true)
+    allocation = build_stubbed(:resource_allocation, principal:, allocated_time: 60 * 60)
 
     render_inline(described_class.new(allocation:, visible_principal_ids: Set.new))
 
@@ -60,7 +60,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
     render_inline(described_class.new(allocation:, visible_principal_ids: Set.new))
 
     expect(page).to have_text("20h")
-    expect(page).to have_text(allocation.filter_name)
+    expect(page).to have_text(allocation.user_resource.name)
   end
 
   describe "the candidate badge" do

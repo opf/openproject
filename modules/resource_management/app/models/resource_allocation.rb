@@ -47,12 +47,16 @@ class ResourceAllocation < ApplicationRecord
   MAX_ALLOCATED_TIME = (5000.hours / 1.minute).to_i
 
   belongs_to :entity, polymorphic: true, optional: false
+  # `user_resource` is the profile that was requested, `principal` the human
+  # that was staffed for it. Both are set once a generic allocation is staffed,
+  # so the original request stays readable.
+  # Autosaved so that a resource built alongside the allocation is validated and
+  # persisted with it, and edits to an existing one are carried along.
+  belongs_to :user_resource, optional: true, inverse_of: :resource_allocations, autosave: true
   belongs_to :principal, class_name: "User", optional: true, inverse_of: :resource_allocations
   belongs_to :requested_by, class_name: "User", optional: true
   belongs_to :reviewed_by, class_name: "User", optional: true
   belongs_to :principal_assigned_by, class_name: "User", optional: true
-
-  serialize :user_filter, coder: Queries::Serialization::Filters.new(UserQuery)
 
   acts_as_journalized
 
@@ -62,9 +66,9 @@ class ResourceAllocation < ApplicationRecord
   # An allocation is about these people, so naming them does not depend on the
   # reader sharing a project with them.
   register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id", "principal_assigned_by_id",
+                                    "user_resource_id",
                                     formatter_key: :public_named_association
   register_journal_formatted_fields "entity_gid", formatter_key: :polymorphic_association
-  register_journal_formatted_fields "filter_name", formatter_key: :plaintext
 
   # State machine is ignored for the current implementation. All allocations go directly to the `allocated` state
   enum :state, {
@@ -74,7 +78,7 @@ class ResourceAllocation < ApplicationRecord
     canceled: "canceled"
   }
 
-  scope :needs_principal_assignment, -> { where(principal_explicit: false, principal_id: nil) }
+  scope :needs_principal_assignment, -> { where.not(user_resource_id: nil).where(principal_id: nil) }
   scope :for_principal, ->(principal) { where(principal:) }
   scope :for_project, ->(project_or_project_id) {
     project_id = project_or_project_id.is_a?(Project) ? project_or_project_id.id : project_or_project_id
@@ -89,7 +93,7 @@ class ResourceAllocation < ApplicationRecord
   def self.allocated_for_work_packages(work_packages)
     allocated
       .where(entity_type: "WorkPackage", entity_id: work_packages.map(&:id))
-      .includes(:principal)
+      .includes(:principal, user_resource: :user_resource_detail)
       .order(:id)
       .group_by(&:entity_id)
   end
@@ -99,7 +103,7 @@ class ResourceAllocation < ApplicationRecord
   def self.allocated_for_principals(principals)
     allocated
       .where(principal_id: principals.map(&:id))
-      .includes(:entity, :principal)
+      .includes(:entity, :principal, user_resource: :user_resource_detail)
       .order(:id)
       .group_by(&:principal_id)
   end
@@ -112,19 +116,18 @@ class ResourceAllocation < ApplicationRecord
   end
 
   # Counts the candidates each filter-based allocation selects, keyed by
-  # allocation id. Allocations commonly share a stored filter, so the candidate
-  # pool is resolved once per distinct filter rather than once per allocation.
+  # allocation id. Allocations commonly request the same user resource, so the
+  # pools are resolved once per resource and in a single round trip.
   def self.candidate_counts(allocations, project:)
     return {} if project.nil?
 
-    counts_by_filter = {}
+    filter_based = allocations.select(&:filter_based?)
+    resources = filter_based.filter_map(&:user_resource).uniq(&:id)
+    UserResource.preload_candidate_counts(resources, project:)
 
-    allocations.select(&:filter_based?).to_h do |allocation|
-      signature = allocation.user_filter.map { |filter| [filter.name, filter.operator, filter.values] }
-      count = counts_by_filter.fetch(signature) { counts_by_filter[signature] = allocation.candidate_count(project:) }
+    counts = resources.to_h { |resource| [resource.id, resource.candidate_count(project:)] }
 
-      [allocation.id, count]
-    end
+    filter_based.to_h { |allocation| [allocation.id, counts.fetch(allocation.user_resource_id, 0)] }
   end
 
   # Users without configured working hours are skipped — their capacity is
@@ -168,13 +171,9 @@ class ResourceAllocation < ApplicationRecord
             inclusion: { in: ALLOWED_ENTITY_TYPES },
             allow_blank: true
 
-  with_options if: :principal_explicit? do
-    validates :principal, presence: true
-    validates :filter_name, absence: true
-    validates :user_filter, absence: true
-  end
-
-  validates :filter_name, presence: true, unless: :principal_explicit?
+  # An allocation either names a person outright or asks for a resource. Once a
+  # generic allocation is staffed it carries both.
+  validates :principal, presence: true, unless: :filter_based?
 
   validate :end_date_after_start_date
 
@@ -196,8 +195,14 @@ class ResourceAllocation < ApplicationRecord
     end
   end
 
+  # An allocation asking for a resource rather than naming a person. Staffing
+  # adds a principal but leaves the resource in place, so this stays true.
+  #
+  # The association is consulted as well as the key: a resource built alongside
+  # a new allocation has no id until both are saved. The key is checked first,
+  # so a persisted resource never costs a query here.
   def filter_based?
-    !principal_explicit?
+    user_resource_id.present? || user_resource.present?
   end
 
   def user_assigned?
@@ -205,30 +210,18 @@ class ResourceAllocation < ApplicationRecord
   end
 
   def needs_principal_assignment?
-    !principal_explicit? && principal_id.blank?
+    filter_based? && principal_id.blank?
   end
 
   # Only project members can be allocated, so the stored criteria are always
   # narrowed to the project's members. Callers that already hold the project pass
-  # it in to avoid loading the entity. Applying the membership filter last means a
-  # `member` value smuggled into the stored filter is overwritten, not honoured.
+  # it in to avoid loading the entity.
   def candidate_query(project: self.project)
-    UserQuery.new.tap do |query|
-      user_filter.each do |filter|
-        query.where(filter.field, filter.operator, filter.values)
-      end
-
-      query.where(:member, "=", [project.id.to_s]) if project
-    end
+    user_resource&.candidate_query(project:)
   end
 
-  # Resolving the query can fail for an incompletely configured filter; a single
-  # broken filter must not take down the whole view it is rendered in.
   def candidate_count(project: self.project)
-    candidate_query(project:).results.count
-  rescue StandardError => e
-    Rails.logger.warn("Candidate count for resource allocation #{id} failed: #{e.class}: #{e.message}")
-    0
+    user_resource&.candidate_count(project:) || 0
   end
 
   def allocated_hours

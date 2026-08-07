@@ -423,6 +423,13 @@ en:
         time_zone: "Time zone"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
         workdays: "Working days"
+      user_resource:
+        description: "Description"
+        name: "Name"
+        user_filter: "User filter"
+      user_resource_detail:
+        description: "Description"
+        user_filter: "User filter"
       user_working_hours:
         availability_factor: "Availability factor"
         days: "Working days"
@@ -1047,6 +1054,7 @@ en:
         one: "Variant"
         other: "Variants"
       user: "User"
+      user_resource: "User resource"
       version: "Version"
       wiki: "Wiki"
       wiki_page: "Wiki page"

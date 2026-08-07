@@ -55,7 +55,7 @@ module ResourceAllocations
       attr_reader :project, :allocation, :candidates, :error
 
       def filter_summary
-        @filter_summary ||= Queries::FilterSummary.new(allocation.user_filter)
+        @filter_summary ||= Queries::FilterSummary.new(allocation.user_resource&.user_filter)
       end
 
       def work_package
