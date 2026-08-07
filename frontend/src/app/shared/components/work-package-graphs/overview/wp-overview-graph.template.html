@@ -1,9 +1,11 @@
-<select [(ngModel)]="groupBy"
-  (ngModelChange)="setQueryProps()">
-  @for (option of availableGroupBy; track option.key) {
+@if (showGroupByOptions) {
+  <select [(ngModel)]="groupBy"
+          (ngModelChange)="setQueryProps()">
+    @for (option of availableGroupBy; track option.key) {
     <option [ngValue]="option.key">{{option.label}}</option>
-  }
-</select>
+    }
+  </select>
+}
 
 @if (error) {
   <div
