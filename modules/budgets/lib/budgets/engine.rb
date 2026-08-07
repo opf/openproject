@@ -94,9 +94,9 @@ module Budgets
       OpenProject::ProjectLatestActivity.register on: "Budget"
 
       # Add to the budget to the costs group
-      ::Type.add_default_mapping(:costs, :budget)
+      ::TypeVariant.add_default_mapping(:costs, :budget)
 
-      ::Type.add_constraint :budget, ->(_type, project: nil) {
+      ::TypeVariant.add_constraint :budget, ->(_type, project: nil) {
         project.nil? || project.module_enabled?(:budgets)
       }
 

@@ -28,30 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Types::Scopes
+module TypeVariants::Scopes
   module WithEffectiveSource
     extend ActiveSupport::Concern
 
-    # The column Types::Scopes::WithEffectiveConfiguration selects per aspect. The
+    # The column TypeVariants::Scopes::WithEffectiveConfiguration selects per aspect. The
     # preloading reads the aspects back off the loaded records instead of being told them,
     # so chaining the scope for several aspects resolves all of them.
     PRELOADED_SOURCE_ID = /\Aeffective_source_id_(?<aspect>.+)\z/
 
-    # Hooks where ActiveRecord runs its own association preloading, so the owning types
-    # are resolved once per relation rather than once per record.
     module Preloading
       def exec_queries(&)
-        super.tap { |records| Type.preload_effective_sources(records) }
+        super.tap { |records| TypeVariant.preload_effective_sources(records) }
       end
     end
 
     class_methods do
-      # Everything .with_effective_configuration resolves, plus the owning Type objects
-      # themselves, so Type#effective_source_for needs no lookup of its own.
+      # Everything .with_effective_configuration resolves, plus the owning TypeVariant objects
+      # themselves, so TypeVariant#effective_source_for needs no lookup of its own.
       #
       # Kept separate from .with_effective_configuration because resolving the ids is
-      # useful on its own — Type::FormConfigurationSql only ever needs those, and should not
-      # pay for instantiating types it will not touch.
+      # useful on its own — TypeVariant::FormConfigurationSql only ever needs those, and should not
+      # pay for instantiating type_variants it will not touch.
       def with_effective_source(aspect)
         with_effective_configuration(aspect).extending(Preloading)
       end
@@ -75,8 +73,6 @@ module Types::Scopes
 
       private
 
-      # Records of the relation serve as their own sources, so the additional query covers
-      # only the owning types the caller did not already load.
       def resolved_sources(records, aspects)
         loaded = records.index_by(&:id)
         source_ids = records.flat_map do |record|

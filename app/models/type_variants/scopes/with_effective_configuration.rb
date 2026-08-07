@@ -28,14 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Types::Scopes
+module TypeVariants::Scopes
   module WithEffectiveConfiguration
     extend ActiveSupport::Concern
 
     class_methods do
       # Resolves each row's link chain for `aspect` in the same query, so iterating the
-      # result doesn't run Type::ConfigurationLinkable's recursive walk per record.
-      # Type#effective_source_id and Type#effective_excluded_elements pick the values up
+      # result doesn't run TypeVariant::ConfigurationLinkable's recursive walk per record.
+      # TypeVariant#effective_source_id and TypeVariant#effective_excluded_elements pick the values up
       # from the selected columns and fall back to their own query when absent.
       #
       # The columns are suffixed with the aspect on purpose: a row loaded for one aspect

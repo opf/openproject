@@ -53,8 +53,9 @@ module WorkPackageTypes
 
     attr_reader :type, :user
 
+    # Exactly one type is preselected for new projects, so promoting one demotes the rest.
     def previous_defaults
-      type.family.select { |member| member != type && member.is_default? }
+      Type.where(is_default: true).where.not(id: type.id)
     end
   end
 end

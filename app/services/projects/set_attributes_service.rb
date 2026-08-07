@@ -81,30 +81,31 @@ module Projects
     def set_default_types(provided)
       return if provided || model.project_types.any?
 
-      model.project_types = default_project_types
-    end
-
-    def default_project_types
-      ::Type.default.group_by(&:root_id).map do |root_id, family|
-        ProjectType.new(type_id: root_id, variant: default_variant(family))
-      end
-    end
-
-    def default_variant(family)
-      family.find(&:variant?) if OpenProject::FeatureDecisions.type_variants_active?
+      # Each row takes the type's base variant, which ProjectType fills in: nothing has chosen a
+      # named one for a project being created.
+      #
+      # TODO: should go through Projects::Types::AddService, which owns the conflict rules
+      # and enables the types' work package custom fields.
+      model.types = ::Type.default
     end
 
     def set_default_active_work_package_custom_fields(provided)
       return if provided
 
+      # The fields come from the configuration each type is applied through, which is the
+      # variant on the join row rather than the type itself.
       model.work_package_custom_fields = WorkPackageCustomField
-        .joins(:types)
-        .where(types: { id: effective_type_ids })
+        .joins(:type_variants)
+        .where(type_variants: { id: applied_variant_ids })
         .distinct
     end
 
-    def effective_type_ids
-      model.project_types.filter_map { |project_type| project_type.variant_id || project_type.type_id }
+    # Rows built a moment ago have not been validated yet, so the base variant they will default
+    # to has to be read off the type rather than off the row.
+    def applied_variant_ids
+      model.project_types.filter_map do |project_type|
+        project_type.variant_id || project_type.type&.default_variant&.id
+      end
     end
 
     def status_code_provided?(params)

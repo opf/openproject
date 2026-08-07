@@ -41,7 +41,8 @@ module WorkPackageTypes
         return result if result.failure?
       end
 
-      set_active_custom_fields
+      # Only a configuration has a form to keep in sync; a type carries identity alone.
+      set_active_custom_fields if model.is_a?(TypeVariant)
 
       super
     end

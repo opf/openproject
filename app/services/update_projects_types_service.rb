@@ -32,22 +32,15 @@
 #   granular Projects::Types::AddService, RemoveService and SwitchVariantService.
 #   This service remains only until the project settings UI is migrated to them.
 class UpdateProjectsTypesService < BaseProjectService
-  def call(type_ids) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+  # The bulk form names types, never variants, so a project keeps whichever variant it
+  # already applies for a type it keeps and gets the base variant for one it gains.
+  def call(type_ids)
     type_ids = standard_types if type_ids.blank?
 
     if types_missing?(type_ids)
       project.errors.add(:types,
                          :in_use_by_work_packages,
                          types: missing_types(type_ids).map(&:name).join(", "))
-      false
-    elsif any_type_is_a_variant?(type_ids) && !OpenProject::FeatureDecisions.type_variants_active?
-      project.errors.add(:types, :cannot_assign_variants_yet)
-      false
-    elsif multiple_variants_of_parent?(type_ids)
-      project.errors.add(:types, :cannot_assign_multiple_variants_of_parent)
-      false
-    elsif variant_and_parent_enabled?(type_ids)
-      project.errors.add(:types, :cannot_assign_variant_and_parent)
       false
     else
       update_project_types(type_ids)
@@ -67,26 +60,6 @@ class UpdateProjectsTypesService < BaseProjectService
     end
   end
 
-  def any_type_is_a_variant?(type_ids)
-    Type.where(id: type_ids).where.not(parent_id: nil).exists?
-  end
-
-  def multiple_variants_of_parent?(type_ids)
-    Type
-      .reorder(nil)
-      .where(id: type_ids)
-      .where.not(parent_id: nil)
-      .group(:parent_id)
-      .having("COUNT(*) > 1")
-      .exists?
-  end
-
-  def variant_and_parent_enabled?(type_ids)
-    parent_ids = Type.where(id: type_ids).pluck(:parent_id).compact
-
-    parent_ids.intersect?(type_ids.map(&:to_i))
-  end
-
   def types_missing?(type_ids)
     !missing_types(type_ids).empty?
   end
@@ -99,17 +72,26 @@ class UpdateProjectsTypesService < BaseProjectService
     @types_used_by_work_packages ||= project.types_used_by_work_packages
   end
 
-  def update_project_types(type_ids)
-    new_types_to_add = type_ids - project.type_ids
-    # TODO: should go through Projects::Types::AddService and RemoveService, which own the
-    # family conflict rules and the custom field enabling this reimplements.
-    project.type_ids = type_ids
-    project.work_package_custom_field_ids |= custom_field_ids_of(new_types_to_add)
+  # The rows are managed directly rather than through `project.type_ids =`: a project_types
+  # row names a variant as well as a type, and the association writer has no variant to give.
+  # A type the project already uses keeps the variant it applies.
+  def update_project_types(type_ids) # rubocop:disable Metrics/AbcSize
+    requested_ids = type_ids.map(&:to_i)
+    added_ids = requested_ids - project.type_ids
+
+    project.project_types.where.not(type_id: requested_ids).destroy_all
+    ::TypeVariant.base.where(type_id: added_ids).find_each do |variant|
+      project.project_types.create!(type_id: variant.type_id, variant:)
+    end
+
+    project.reload
+    project.work_package_custom_field_ids |= custom_field_ids_of(added_ids)
   end
 
-  # Type#custom_fields resolves the form configuration link, so a type inheriting its
-  # configuration contributes the fields it actually shows rather than the none it owns.
+  # TypeVariant#custom_fields resolves the form configuration link, so a variant inheriting
+  # its configuration contributes the fields it actually shows rather than the none it owns.
+  # A type gained here runs its base variant, which is what the project resolves to.
   def custom_field_ids_of(type_ids)
-    ::Type.where(id: type_ids).flat_map { |type| type.custom_fields.ids }.uniq
+    ::TypeVariant.base.where(type_id: type_ids).flat_map { |variant| variant.custom_fields.ids }.uniq
   end
 end

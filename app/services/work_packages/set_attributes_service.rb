@@ -240,12 +240,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = work_package.effective_type&.description
+    work_package.description = work_package.type_variant&.default_work_package_description
   end
 
   def default_description?
-    Type
-      .pluck(:description)
+    TypeVariant
+      .pluck(:default_work_package_description)
       .compact
       .map(&method(:normalize_whitespace))
       .include?(normalize_whitespace(work_package.description))
@@ -440,9 +440,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def reassign_invalid_status_if_type_changed
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
-    if work_package.type_id_changed?
-      reassign_status work_package.effective_type.statuses(include_default: true)
-    end
+    return unless work_package.type_id_changed?
+    return unless work_package.type_variant
+
+    reassign_status work_package.type_variant.statuses(include_default: true)
   end
 
   def new_start_date

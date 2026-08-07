@@ -39,9 +39,10 @@ module WorkPackageTypes
 
     def after_perform(service_call)
       type = service_call.result
-      # TODO: Remove with type_variants feature flag
+      # The workflow is copied onto the new type's base configuration, from the base
+      # configuration of the type chosen as the source.
       if @params[:copy_workflow_from].present? && (copy_from = ::Type.find_by(id: @params[:copy_workflow_from]))
-        type.own_workflows.copy_from_type(copy_from)
+        type.default_variant.own_workflows.copy_from_variant(copy_from.default_variant)
       end
 
       service_call

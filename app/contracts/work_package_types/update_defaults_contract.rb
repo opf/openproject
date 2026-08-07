@@ -30,8 +30,10 @@
 
 module WorkPackageTypes
   class UpdateDefaultsContract < BaseContract
+    def self.model = TypeVariant
+
     attribute :patterns
-    attribute :description
+    attribute :default_work_package_description
 
     validate :enterprise_edition
     validate :validate_subject_generation_pattern
