@@ -98,7 +98,7 @@ export function fetchTypes():Promise<TypeCollection> {
 
 export async function searchWorkPackages(query:string):Promise<WorkPackage[]> {
   const filters = encodeURIComponent(`[{"typeahead":{"operator":"**","values":["${query}"]}}]`);
-  const sortBy = encodeURIComponent('[["updatedAt","desc"]]');
+  const sortBy = encodeURIComponent('[["exactMatch","desc"],["updatedAt","desc"]]');
 
   const endpoint = `/api/v3/work_packages?filters=${filters}&sortBy=${sortBy}`;
   const data = await get<OpenProjectResponse>(endpoint);

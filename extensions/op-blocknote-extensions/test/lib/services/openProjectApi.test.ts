@@ -41,7 +41,7 @@ describe('openProjectApi', () => {
         searchWorkPackages('test query');
 
         const url = calledUrl(fetchSpy.mock.calls);
-        expect(url).toContain('sortBy=%5B%5B%22updatedAt%22%2C%22desc%22%5D%5D');
+        expect(url).toContain('&sortBy=%5B%5B%22exactMatch%22%2C%22desc%22%5D%2C%5B%22updatedAt%22%2C%22desc%22%5D%5D');
       } finally {
         fetchSpy.mockRestore();
       }
