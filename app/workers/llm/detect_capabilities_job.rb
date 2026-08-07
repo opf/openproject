@@ -28,35 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # @param sync_models [Boolean] whether to refresh the model catalogue inline
-    #   after a successful save. Provisioning from the environment passes false:
-    #   seeding must not block on an LLM server that has not started yet, and
-    #   enqueues Llm::SyncModelsJob instead.
-    def initialize(*, sync_models: true, **)
-      super(*, **)
-      @sync_models = sync_models
-    end
+module Llm
+  # Pre-colours the model list after a connect, out of band so that saving the
+  # connection does not wait on one request per candidate model.
+  class DetectCapabilitiesJob < ApplicationJob
+    def perform
+      connection = LlmConnection.first
+      return if connection.nil? || !connection.configured?
 
-    private
-
-    # The contract has already proven the server reachable when the credentials
-    # changed, so refreshing the catalogue here cannot be the thing that fails
-    # the save. A sync failure is therefore logged, not surfaced.
-    def after_perform(service_call)
-      super.tap do
-        next unless @sync_models && service_call.success?
-
-        next unless credentials_changed?(service_call.result)
-
-        SyncModelsService.new(service_call.result).call
-        Llm::DetectCapabilitiesJob.perform_later
-      end
-    end
-
-    def credentials_changed?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CREDENTIAL_ATTRIBUTES)
+      LlmConnections::DetectCapabilitiesService.new(connection).detect_likely_embedding_models
     end
   end
 end

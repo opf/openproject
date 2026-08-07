@@ -97,9 +97,29 @@ module Llm
       body
     end
 
+    # Requests an embedding vector for a single short input.
+    #
+    # Used to determine whether a model can serve embeddings at all: the model
+    # list says nothing about it, and posting a chat completion to an embedding
+    # model (or the reverse) is the only reliable way to find out.
+    #
+    # @return [Hash] the parsed +POST /embeddings+ body
+    def embeddings(model:, input:)
+      post("/embeddings", { model:, input: })
+    end
+
     private
 
     attr_reader :base_url, :api_key, :timeout
+
+    def post(path, payload)
+      response = session.post(uri_for(path), json: payload)
+      handle_transport_error(response) if response.is_a?(HTTPX::ErrorResponse)
+      handle_status(response)
+      parse(response)
+    rescue OpenProject::HttpxSsrfFilter::ServerSideRequestForgeryError
+      raise SsrfError, "Host resolves to a blocked address"
+    end
 
     def get(path)
       response = session.get(uri_for(path))

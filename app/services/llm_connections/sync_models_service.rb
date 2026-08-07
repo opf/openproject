@@ -39,7 +39,7 @@ module LlmConnections
     end
 
     def call
-      connection.update!(catalogue_attributes(client.models))
+      store(catalogue_attributes(client.models))
 
       ServiceResult.success(result: connection)
     rescue Llm::Client::Error => e
@@ -50,6 +50,34 @@ module LlmConnections
     private
 
     attr_reader :connection
+
+    def store(attributes)
+      ActiveRecord::Base.transaction do
+        discard_verdicts_for_a_different_deployment(attributes[:connection_fingerprint])
+        connection.update!(attributes)
+        discard_verdicts_for_vanished_models
+      end
+    end
+
+    # A changed base URL or key means we are talking to a different deployment,
+    # so everything we learned about the old one is void -- including
+    # administrator assertions, which were about that deployment, not this one.
+    def discard_verdicts_for_a_different_deployment(fingerprint)
+      return if connection.connection_fingerprint.blank?
+      return if connection.connection_fingerprint == fingerprint
+
+      connection.capability_verdicts.delete_all
+    end
+
+    # Same deployment, but a model is gone. Its verdict is meaningless now, except
+    # an administrator's assertion: an operator restarting a server must not
+    # silently lose one.
+    def discard_verdicts_for_vanished_models
+      known = connection.catalogue_model_ids
+      return if known.empty?
+
+      connection.capability_verdicts.where.not(model_id: known).where.not(source: "admin").delete_all
+    end
 
     def catalogue_attributes(catalogue)
       now = Time.current
