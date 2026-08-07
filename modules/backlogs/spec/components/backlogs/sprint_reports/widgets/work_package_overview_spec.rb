@@ -36,14 +36,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
   subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
 
-  context "when the sprint has no date range set" do
-    let(:sprint) { build_stubbed(:sprint, project:, start_date: nil, finish_date: nil) }
-
-    it "renders no breakdown blocks" do
-      expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
-    end
-  end
-
   context "when the sprint has a date range set" do
     let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
     let(:planned) do
@@ -82,6 +74,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       expect(rendered_component).to have_text("5")
       expect(rendered_component).to have_text("13 story points")
       expect(rendered_component).to have_text("Show all", count: 4)
+
+      expect(rendered_component).to have_no_css(".blankslate")
     end
 
     it "colors the completed count green and the unfinished count red" do
@@ -167,6 +161,15 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       it "excludes the work package from the title counter" do
         expect(title_counter_text).to eq("0")
       end
+    end
+  end
+
+  context "when the sprint has no date range set" do
+    let(:sprint) { build_stubbed(:sprint, project:, start_date: nil, finish_date: nil) }
+
+    it "renders a blankslate" do
+      expect(rendered_component).to have_css(".blankslate", text: "No sprint data available")
+      expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
     end
   end
 end
