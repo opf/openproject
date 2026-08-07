@@ -155,11 +155,6 @@ class Journable::WithHistoricAttributes
       work_package.association(:custom_values).target = historic_custom_values
     end
 
-    # Marks the target_versions association as loaded with the versions
-    # snapshotted for the journal, so the historic work package exposes the
-    # versions of its time instead of querying the current join rows.
-    # Snapshots outlive deleted versions (no foreign key); those resolve to
-    # nil and are dropped, as in the journal formatter.
     def set_target_versions_association_from_journal!(work_package:, version_journals:)
       historic_versions = version_journals.filter_map(&:version).sort_by(&:id)
 

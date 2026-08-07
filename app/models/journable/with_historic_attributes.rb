@@ -267,9 +267,6 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     changes
   end
 
-  # Version changes are derived from the target_versions sets: the version_id
-  # column is a deprecated mirror of the primary target version (the lowest
-  # version id), so its diff is replaced by one inferred from the sets.
   def merge_target_versions_changes!(changes, historic_journable)
     return unless __getobj__.respond_to?(:target_versions)
 

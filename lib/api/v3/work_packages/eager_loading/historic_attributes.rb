@@ -111,8 +111,6 @@ module API::V3::WorkPackages::EagerLoading
       work_package.readonly!
     end
 
-    # The target_versions association would otherwise read the current join
-    # rows, showing today's versions next to historic attributes.
     def override_target_versions(work_package, source)
       return unless work_package.respond_to?(:target_versions)
 
