@@ -760,4 +760,63 @@ RSpec.describe Type do
       expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "file_link" })).to be_artefact_export_enabled
     end
   end
+
+  describe "project ownership" do
+    shared_let(:owner) { create(:project) }
+    shared_let(:root) { create(:type) }
+
+    it "is global when no project owns it" do
+      expect(create(:type, parent: root)).not_to be_project_owned
+    end
+
+    it "is project owned when a project does" do
+      expect(create(:type, parent: root, project: owner)).to be_project_owned
+    end
+
+    # Owning a root would be owning a global type, which the permission does not grant.
+    it "refuses to own a root" do
+      owned_root = build(:type, parent: nil, project: owner)
+
+      expect(owned_root).not_to be_valid
+      expect(owned_root.errors[:project]).to include("must be set on a variant only.")
+    end
+
+    # Otherwise one project's variant could hang off another project's.
+    it "refuses a parent owned by a project" do
+      owned_parent = create(:type, parent: root, project: owner)
+
+      expect(build(:type, parent: owned_parent, project: owner)).not_to be_valid
+    end
+
+    # Two projects naming their variant the same is the expected case, not a clash.
+    it "allows the same name in a different project" do
+      create(:type, name: "Internal", parent: root, project: owner)
+
+      expect(build(:type, name: "Internal", parent: root, project: create(:project))).to be_valid
+    end
+
+    it "still rejects a duplicate name within the same project" do
+      create(:type, name: "Internal", parent: root, project: owner)
+
+      expect(build(:type, name: "Internal", parent: root, project: owner)).not_to be_valid
+    end
+
+    it "still rejects a duplicate name among global variants" do
+      create(:type, name: "Internal", parent: root)
+
+      expect(build(:type, name: "Internal", parent: root)).not_to be_valid
+    end
+
+    # A work package stores the root's id, so an owned variant never blocks the cascade.
+    it "goes away with its owning project" do
+      doomed = create(:project)
+      variant = create(:type, parent: root, project: doomed)
+      create(:project_type, project: doomed, type: root, variant:)
+
+      doomed.destroy
+
+      expect(described_class).not_to exist(variant.id)
+      expect(described_class).to exist(root.id)
+    end
+  end
 end

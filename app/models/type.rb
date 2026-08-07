@@ -47,6 +47,9 @@ class Type < ApplicationRecord
 
   belongs_to :color, optional: true, class_name: "Color"
 
+  # The owning project, or nil for a global type.
+  belongs_to :project, optional: true
+
   has_many :work_packages
   # The write target and the eager-loadable association.
   # Reads go through #project_custom_field_type_mappings, which resolves the
@@ -91,9 +94,11 @@ class Type < ApplicationRecord
 
   acts_as_list scope: :parent_id
 
+  # Scoped by owner as well as family: two projects naming their own variant the same
+  # is the expected case, not a clash.
   validates :name,
             presence: true,
-            uniqueness: { scope: :parent_id, case_sensitive: false },
+            uniqueness: { scope: %i[parent_id project_id], case_sensitive: false },
             length: { maximum: 255 }
 
   validate :parent_is_a_root
@@ -101,6 +106,8 @@ class Type < ApplicationRecord
   validate :cannot_have_children_when_child
   validate :standard_type_stays_root
   validate :parent_frozen_while_used_by_projects
+  validate :owned_type_is_a_variant
+  validate :owned_type_parent_is_global
 
   scopes :milestone,
          :with_effective_configuration,
@@ -241,6 +248,10 @@ class Type < ApplicationRecord
     parent_id.present?
   end
 
+  def project_owned?
+    project_id.present?
+  end
+
   # A variant's acts_as_list position is append order and users cannot reorder
   # variants, so position is not a display order for them; alphabetical is.
   # Every screen that lists a family reads this, so the orders cannot drift.
@@ -347,6 +358,20 @@ class Type < ApplicationRecord
 
   def standard_type_stays_root
     errors.add(:parent, :standard_type_must_be_root) if is_standard? && parent_id.present?
+  end
+
+  # Owning a root would be owning a global type, which :manage_project_variants
+  # deliberately does not grant.
+  def owned_type_is_a_variant
+    return if project_id.blank? || parent_id.present?
+
+    errors.add(:project, :must_own_a_variant)
+  end
+
+  def owned_type_parent_is_global
+    return if project_id.blank? || parent.nil? || parent.project_id.nil?
+
+    errors.add(:parent, :must_be_global)
   end
 
   # Re-parenting moves a type into another family or out of one, which would leave every

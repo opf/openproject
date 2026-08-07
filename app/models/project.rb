@@ -72,6 +72,8 @@ class Project < ApplicationRecord
 
   has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
   has_many :project_types, dependent: :delete_all
+  # Variants this project owns. They exist nowhere else, so they go when it does.
+  has_many :owned_types, class_name: "Type", dependent: :destroy, inverse_of: :project
 
   # Enabled root-types, variants need to be determined explicitly
   has_many :types, -> { order("#{::Type.table_name}.position") }, through: :project_types

@@ -833,9 +833,12 @@ en:
               cannot_change_while_used_by_projects: "can't be changed while projects still use this type."
               cannot_have_children: "can't be set because this type already has variants."
               must_be_a_root: "must itself be a top-level type. Types can only be nested one level deep."
+              must_be_global: "must be a global type."
               standard_type_must_be_root: "can't be set for the standard type."
             patterns:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
+            project:
+              must_own_a_variant: "must be set on a variant only."
         type/configuration_link:
           attributes:
             source_id:
