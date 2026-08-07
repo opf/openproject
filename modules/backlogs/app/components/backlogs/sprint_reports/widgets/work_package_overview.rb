@@ -37,8 +37,18 @@ module Backlogs
         param :sprint
         param :project
 
-        # We render the title as Subhead in the view instead
-        def title = nil
+        def title
+          # Since we want to render a counter next to the title,
+          # we manually construct the title as Subhead in the view instead
+          return if show_widget_content?
+
+          # There is nothing to show, the view will show a blankslate. Use the regular title
+          title_text
+        end
+
+        def title_text = t("backlogs.show_work_package_overview")
+
+        def show_widget_content? = sprint.date_range_set?
 
         def resolved_percentage
           return 0 if total_work_packages_count.zero?
