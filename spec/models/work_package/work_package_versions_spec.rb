@@ -55,6 +55,13 @@ RSpec.describe WorkPackage, "legacy version_id mirror" do
     expect(preloaded.target_versions.map(&:id)).to eq([lower_version.id, higher_version.id])
   end
 
+  it "raises on #version when there is more than one target version" do
+    work_package.target_version_ids_replacements = [lower_version.id, higher_version.id]
+    work_package.save!
+
+    expect { work_package.version }.to raise_error(/multiple target versions/)
+  end
+
   it "clears the mirror when all target versions are removed" do
     work_package.target_version_ids_replacements = [lower_version.id]
     work_package.save!

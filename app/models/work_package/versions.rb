@@ -153,7 +153,7 @@ module WorkPackage::Versions
             "represented as a single version. Use #target_versions instead."
     end
 
-    target_versions.first
+    target_versions.min
   end
 
   # Versions that the work_package can be assigned to

@@ -582,6 +582,14 @@ module API
         associated_resource :version,
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter,
+                            # representable evaluates the getter before `skip_render`, so we manually
+                            # check if we *can* render the result here before actually doing it
+                            getter: ->(*) {
+                              next if Setting::WorkPackageMultipleVersions.active?
+                              next unless embed_link?(:version) && represented.version
+
+                              ::API::V3::Versions::VersionRepresenter.create(represented.version, current_user:)
+                            },
                             skip_render: ->(*) { Setting::WorkPackageMultipleVersions.active? }
 
         associated_resources :target_versions,
