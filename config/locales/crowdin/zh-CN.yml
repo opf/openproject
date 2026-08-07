@@ -715,6 +715,12 @@ zh-CN:
           attributes:
             project_ids:
               blank: 请选择一个项目。
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -813,7 +819,7 @@ zh-CN:
               query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
             parent:
               cannot_be_self: 不能是类型本身。
-              cannot_change_with_work_packages: 无法更改，因为此类型的工作包已存在。
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: 无法设置，因为此类型已有变体。
               must_be_a_root: 本身必须是顶层类型。类型只能嵌套一层深度。
               standard_type_must_be_root: 无法为标准类型设置。
@@ -1185,9 +1191,6 @@ zh-CN:
           description: 创建导入运行，开始从此 Jira 实例中导入信息
           title: 尚未设置导入运行
         history: 历史记录
-        side_panel:
-          run_status: 运行状态
-          open_history: 打开运行历史记录
         import_blocked_error: 另一个 Jira 导入运行当前正在执行或等待审核。请先完成或撤消当前运行，然后再开始新的导入。
         index:
           button_edit_configuration: 编辑配置
@@ -1195,6 +1198,9 @@ zh-CN:
           description: 每次导入运行都可以导入不同的数据集。可以在审核模式后立即撤消导入运行，但不能在完成后撤消。
         project_identifier_taken: 您尝试导入的项目所使用的标识符 %{taken_identifier} 已经用过。请在 Jira 中更新项目标识符，然后点击“重试”。
         remove_error: 无法移除正在运行的 Jira 导入运行
+        side_panel:
+          open_history: 打开运行历史记录
+          run_status: 运行状态
         status:
           configuring: 选择范围
           finalizing: 正在完成
@@ -2488,6 +2494,7 @@ zh-CN:
   error_failed_to_delete_entry: 无法删除此条目。
   error_in_dependent: '尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}'
   error_in_new_dependent: '尝试创建依赖对象时出错：%{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: 选中的值无效。
   error_journal_attribute_not_present: 日志不包含 %{attribute} 属性。
   error_menu_item_not_created: 不能添加菜单项
@@ -2850,7 +2857,14 @@ zh-CN:
       work_package_parent_deleted: Parent removed
     changes_retracted: 更改已撤回。
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: 辅助功能
   label_account: 帐户

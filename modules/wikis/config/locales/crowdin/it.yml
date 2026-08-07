@@ -164,6 +164,7 @@ it:
     index:
       column_last_edited: Ultima modifica
       column_name: Pagina wiki
+      column_parent: Parent
       column_project: Progetto
       column_sub_pages: Sottopagine
       filter_by_name: Filtra per nome della pagina

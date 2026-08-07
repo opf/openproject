@@ -716,6 +716,12 @@ it:
           attributes:
             project_ids:
               blank: Seleziona un progetto.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -814,7 +820,7 @@ it:
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
             parent:
               cannot_be_self: non può essere il tipo stesso.
-              cannot_change_with_work_packages: non può essere modificato perché esistono già macro-attività di questo tipo.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: non può essere impostato perché questo tipo ha già varianti.
               must_be_a_root: deve essere a sua volta un tipo di primo livello. I tipi possono essere nidificati solo di un livello.
               standard_type_must_be_root: non può essere impostato per il tipo standard.
@@ -1207,9 +1213,6 @@ it:
           description: Crea un'esecuzione di importazione per iniziare a importare informazioni da questa istanza di Jira
           title: Nessuna importazione ancora impostata
         history: Cronologia
-        side_panel:
-          run_status: Stato dell'esecuzione
-          open_history: Apri la cronologia delle esecuzioni
         import_blocked_error: Un'altra importazione Jira è attualmente in corso o in attesa di revisione. Completala o annullala prima di iniziare una nuova importazione.
         index:
           button_edit_configuration: Modifica configurazione
@@ -1217,6 +1220,9 @@ it:
           description: È possibile importare diversi set di dati a ogni importazione. È possibile annullare un'importazione subito dopo in modalità di revisione, ma non dopo la finalizzazione.
         project_identifier_taken: 'Stai tentando di importare un progetto con un identificatore già utilizzato: %{taken_identifier}. Aggiorna l''identificatore del progetto in Jira e poi fai clic su Riprova.'
         remove_error: Un'importazione di Jira non può essere rimossa mentre è in esecuzione
+        side_panel:
+          open_history: Apri la cronologia delle esecuzioni
+          run_status: Stato dell'esecuzione
         status:
           configuring: Seleziona l'ambito
           finalizing: Finalizzazione
@@ -2540,6 +2546,7 @@ it:
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
   error_in_dependent: 'Errore nel tentativo di modificare l''oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Valore selezionato non valido.
   error_journal_attribute_not_present: Il diario non contiene l'attributo %{attribute}.
   error_menu_item_not_created: La voce di menu non può essere aggiunta
@@ -2904,7 +2911,14 @@ it:
       work_package_parent_deleted: Genitore rimosso
     changes_retracted: Le modifiche sono state annullate.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: Accessibilità
   label_account: Account

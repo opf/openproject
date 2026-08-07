@@ -717,6 +717,12 @@ ms:
           attributes:
             project_ids:
               blank: Sila pilih projek.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -815,7 +821,7 @@ ms:
               query_invalid: 'Pencarian yang ditetapkan ''%{group}'' tidak sah: %{details}'
             parent:
               cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
@@ -1189,9 +1195,6 @@ ms:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
         history: History
-        side_panel:
-          run_status: Run status
-          open_history: Open the run history
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         index:
           button_edit_configuration: Edit configuration
@@ -1199,6 +1202,9 @@ ms:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
+        side_panel:
+          open_history: Open the run history
+          run_status: Run status
         status:
           configuring: Select scope
           finalizing: Finalizing
@@ -2494,6 +2500,7 @@ ms:
   error_failed_to_delete_entry: Gagal untuk memadamkan entri ini.
   error_in_dependent: 'Ralat dalam pencubaan untuk mengubah objek yang bergantung: %{dependent_class} #%{related_id} -  %{related_subject}: %{error}'
   error_in_new_dependent: 'Ralat dalam percubaan untuk mencipta objek yang bergantung: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Nilai yang dipilih tidak sah.
   error_journal_attribute_not_present: Jurnal tidak mengandungi atribut %{attribute}.
   error_menu_item_not_created: Item menu tidak dapat ditambah
@@ -2858,7 +2865,14 @@ ms:
       work_package_parent_deleted: Parent removed
     changes_retracted: Perubahan telah ditarik balik.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: Kebolehcapaian
   label_account: Akaun

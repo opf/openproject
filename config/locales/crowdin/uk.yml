@@ -722,6 +722,12 @@ uk:
           attributes:
             project_ids:
               blank: Виберіть проєкт.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -820,7 +826,7 @@ uk:
               query_invalid: 'Вбудований запит %{group} недійсний: %{details}'
             parent:
               cannot_be_self: не може бути самим типом.
-              cannot_change_with_work_packages: не можна змінити, оскільки пакети робіт цього типу вже існують.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: не можна встановити, оскільки цей тип уже має варіанти.
               must_be_a_root: має бути типом верхнього рівня. Типи можуть бути вкладеними лише на один рівень углиб.
               standard_type_must_be_root: не може встановлюватися для стандартного типу.
@@ -1243,9 +1249,6 @@ uk:
           description: Створіть цикл імпорту, щоб почати переносити інформацію із цього екземпляра Jira
           title: Немає налаштованих циклів імпорту
         history: Історія
-        side_panel:
-          run_status: Статус циклу
-          open_history: Відкрити історію циклів
         import_blocked_error: Зараз виконується або очікує на перевірку ще один цикл імпорту Jira. Завершіть або скасуйте його, якщо потрібно почати новий імпорт.
         index:
           button_edit_configuration: Змінити конфігурацію
@@ -1253,6 +1256,9 @@ uk:
           description: Ви можете переносити різні набори даних у різних циклах імпорту. Цикл імпорту можна скасувати відразу після виконання в режимі перевірки, але не після завершення.
         project_identifier_taken: 'Ви намагаєтесь імпортувати проєкт з ідентифікатором, який уже використовується: %{taken_identifier}. Будь ласка, оновіть ідентифікатор проєкту в Jira, а потім натисніть на кнопку «Повторити спробу».'
         remove_error: Цикл імпорту Jira не можна видалити, поки він виконується
+        side_panel:
+          open_history: Відкрити історію циклів
+          run_status: Статус циклу
         status:
           configuring: Вибір обсягу
           finalizing: Завершення
@@ -2642,6 +2648,7 @@ uk:
   error_failed_to_delete_entry: Не вдалося видалити цей запис.
   error_in_dependent: 'Помилка спроби змінити залежний об''єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Не вдалося створити залежний об’єкт: %{dependent_class} – %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Недійсне вибране значення.
   error_journal_attribute_not_present: Журнал не містить атрибута %{attribute}.
   error_menu_item_not_created: Не можна додати пункт меню
@@ -3016,7 +3023,14 @@ uk:
       work_package_parent_deleted: Parent removed
     changes_retracted: Зміни було відхилено.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: Розробникам також потрібно оплачувати свої рахунки. З доступністю
   label_account: Обліковий запис

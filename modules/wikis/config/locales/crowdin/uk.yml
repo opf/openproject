@@ -172,6 +172,7 @@ uk:
     index:
       column_last_edited: Останнє редагування
       column_name: Сторінка Wiki
+      column_parent: Parent
       column_project: Проєкт
       column_sub_pages: Підсторінки
       filter_by_name: Фільтрувати за назвою сторінки

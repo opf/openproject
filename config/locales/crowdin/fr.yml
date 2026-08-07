@@ -716,6 +716,12 @@ fr:
           attributes:
             project_ids:
               blank: Veuillez sélectionner un projet.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -814,7 +820,7 @@ fr:
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
             parent:
               cannot_be_self: ne peut pas être le type lui-même.
-              cannot_change_with_work_packages: ne peut pas être modifié car des lots de travaux de ce type existent déjà.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: ne peut pas être défini car ce type comporte déjà des variantes.
               must_be_a_root: doit être lui-même un type de niveau supérieur. Les types ne peuvent être imbriqués qu'à un seul niveau.
               standard_type_must_be_root: ne peut pas être défini pour le type standard.
@@ -1203,9 +1209,6 @@ fr:
           description: Créez un cycle d'importation pour commencer à importer des informations à partir de cette instance Jira
           title: Aucun cycle d'importation n'a encore été configuré
         history: Historique
-        side_panel:
-          run_status: Statut d'exécution
-          open_history: Ouvrez l'historique des exécutions
         import_blocked_error: Un autre cycle d'importation Jira est actuellement en cours ou en attente de révision. Veuillez le terminer ou l'annuler avant de commencer une nouvelle importation.
         index:
           button_edit_configuration: Éditer la configuration
@@ -1213,6 +1216,9 @@ fr:
           description: Vous pouvez importer différents ensembles de données à chaque cycle d'importation. Il est possible d'annuler un cycle d'importation immédiatement après en mode révision, mais pas après la finalisation.
         project_identifier_taken: 'Vous essayez d''importer un projet avec un identifiant déjà utilisé : %{taken_identifier}. Veuillez mettre à jour l''identifiant du projet dans Jira, puis cliquez sur Réessayer.'
         remove_error: Un cycle d'importation Jira ne peut pas être supprimé pendant son exécution
+        side_panel:
+          open_history: Ouvrez l'historique des exécutions
+          run_status: Statut d'exécution
         status:
           configuring: Sélectionnez la portée
           finalizing: Finalisation
@@ -2536,6 +2542,7 @@ fr:
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
   error_in_dependent: 'Erreur lors de la tentative de modification de l''objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}'
   error_in_new_dependent: 'Erreur lors de la tentative de création d''un objet dépendant : %{dependent_class} - %{related_subject} : %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Valeur sélectionnée invalide.
   error_journal_attribute_not_present: Le journal ne contient pas l'attribut %{attribute}.
   error_menu_item_not_created: L'élément de menu n'a pas pu être ajouté
@@ -2902,7 +2909,14 @@ fr:
       work_package_parent_deleted: Élément parent supprimé
     changes_retracted: Les modifications ont été retirées.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: un projet non visible
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: un lot de travail non visible
   label_accessibility: Accessibilité
   label_account: Compte

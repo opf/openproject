@@ -168,6 +168,7 @@ zh-CN:
     index:
       column_last_edited: 上次编辑
       column_name: Wiki 页面
+      column_parent: Parent
       column_project: 项目
       column_sub_pages: 子页面
       filter_by_name: 按页面名称筛选
