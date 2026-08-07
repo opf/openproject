@@ -147,14 +147,14 @@ module WorkPackage::Versions
   #
   # Returns the work package's single target version, or nil when it has none.
   # Raises an error if target_versions has multiple values
-  def version
-    if target_versions.size > 1
-      raise "WorkPackage##{id} has multiple target versions and cannot be " \
-            "represented as a single version. Use #target_versions instead."
-    end
+  # def version
+  #   if target_versions.size > 1
+  #     raise "WorkPackage##{id} has multiple target versions and cannot be " \
+  #           "represented as a single version. Use #target_versions instead."
+  #   end
 
-    target_versions.first
-  end
+  #   target_versions.first
+  # end
 
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
