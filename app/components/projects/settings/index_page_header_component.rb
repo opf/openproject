@@ -40,4 +40,10 @@ class Projects::Settings::IndexPageHeaderComponent < ApplicationComponent
   attr_reader :project
 
   delegate :public?, to: :project
+
+  private
+
+  def favorited?
+    project.favorited_by?(User.current)
+  end
 end
