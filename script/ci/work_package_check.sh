@@ -29,7 +29,7 @@
 
 set -e
 
-# script/ci/version_check
+# script/ci/work_package_check.sh
 
 # Read from the PR_BODY / PR_TITLE environment variables, falling back to
 # positional arguments so the script can still be run manually for testing.
@@ -69,6 +69,8 @@ if [ "$HTTP_STATUS" -ne 200 ]; then
   exit 0
 fi
 
+# Extract and compare the version from the api response
+
 VERSION_FROM_API=$(jq -r '._links.version.title // "not set"' response.json)
 if [ -z "$VERSION_FROM_API" ]; then
   echo "::warning::Failed to extract version from API response."
@@ -98,4 +100,23 @@ if [[ "$VERSION_FROM_API" != "$VERSION_FROM_FILE" ]]; then
   echo "core_version=${VERSION_FROM_FILE}" >> "$GITHUB_OUTPUT"
 else
   echo "Version from the work package ${WORK_PACKAGE_ID} matches the version in the version file this PR targets."
+fi
+
+# Extract and check the presence of an Enterprise plan field from the api response
+
+ENTERPRISE_PLAN_FROM_API=$(jq -r '._links.customField426.title // "not set"' response.json)
+TYPE_FROM_API=$(jq -r '._links.type.title // "not set"' response.json)
+
+if [[ ! "$TYPE_FROM_API" =~ ^(Feature|Epic)$ ]]; then
+  echo "Work package with type $TYPE_FROM_API does not require an Enterprise plan field to be set."
+  exit 0
+fi
+
+if [ "$ENTERPRISE_PLAN_FROM_API" = "not set" ]; then
+  echo "::warning::Failed to extract Enterprise plan from API response."
+
+  echo "enterprise_plan_missing=true" >> "$GITHUB_OUTPUT"
+  echo "wp_url=${WP_URL}" >> "$GITHUB_OUTPUT"
+else
+  echo "Enterprise Plan is set to ${ENTERPRISE_PLAN_FROM_API} for the work package ${WORK_PACKAGE_ID}."
 fi
