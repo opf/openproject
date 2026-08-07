@@ -236,6 +236,9 @@ en:
         title: "%{sprint} report"
       widgets:
         work_package_overview:
+          blankslate:
+            description: "Set start and end date for the sprint to generate the work package overview."
+            heading: "No sprint data available"
           blocks:
             changed_after_start:
               heading: "Changed after start"
