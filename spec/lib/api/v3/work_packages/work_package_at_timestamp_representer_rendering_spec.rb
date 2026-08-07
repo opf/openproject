@@ -237,7 +237,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
-  context "with the target versions changed together with the primary version" do
+  context "with the target versions changed together with the single-value version" do
     let(:version_b) { build_stubbed(:version) }
     let(:target_versions) { [version, version_b] }
     let(:attributes_changed_to_baseline) { %w[version_id target_versions] }

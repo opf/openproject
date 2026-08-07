@@ -677,7 +677,7 @@ RSpec.describe Journable::WithHistoricAttributes,
     end
 
     describe "#changed_at_timestamp" do
-      context "when the primary target version was swapped" do
+      context "when the target version was swapped" do
         it "marks both the version and the target versions as changed" do
           update_target_versions(version_b)
 
@@ -686,7 +686,7 @@ RSpec.describe Journable::WithHistoricAttributes,
         end
       end
 
-      context "when a secondary target version was added" do
+      context "when a target version was added alongside the existing one" do
         it "marks only the target versions as changed" do
           update_target_versions(version_a, version_b)
 
@@ -695,7 +695,7 @@ RSpec.describe Journable::WithHistoricAttributes,
         end
       end
 
-      context "when a secondary target version was removed" do
+      context "when one of several target versions was removed" do
         it "marks only the target versions as changed" do
           # Journal rows are stamped by the database clock, so a past removal
           # can't be journalled directly; seed the baseline snapshot instead.
