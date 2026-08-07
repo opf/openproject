@@ -553,5 +553,16 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build End: 2024-06-30');
     });
+
+    it('hides the loading skeleton once the initial draw completes', async () => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      await vi.waitUntil(() => {
+        fixture.detectChanges();
+        return element.querySelector('.op-project-timeline-graph--wrapper_loading') === null;
+      });
+
+      expect(element.querySelector('.op-project-timeline-graph--wrapper_loading')).toBeNull();
+    });
   });
 });
