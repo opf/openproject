@@ -1422,6 +1422,19 @@ en:
       caption_with_maximum: >
         User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      index:
+        blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."
+        blank_title: "No LLM server configured"
+        description: "Choose which model each AI feature uses. Features without a choice use the instance default."
+      inherit_with_default: "Use the default (%{model})"
+      inherit_without_default: "Use the default (none set)"
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      option_unknown: "%{model} — not verified"
+      option_unsupported: "%{model} — no %{capability} support"
+      update:
+        success: "The model for %{feature} has been saved."
     llm_connections:
       form:
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
@@ -4165,6 +4178,7 @@ en:
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
       llm_connection: "LLM settings"
+      llm_feature_bindings: "AI models"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"

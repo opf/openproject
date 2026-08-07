@@ -1,0 +1,34 @@
+<%= render(Primer::Box.new(border: true, border_radius: 2, p: 3, mb: 3)) do %>
+  <%= render(Primer::Beta::Text.new(tag: :h3, font_size: 4, font_weight: :bold, mb: 1)) { feature.label } %>
+
+  <% if feature.caption.present? %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { feature.caption } %>
+  <% end %>
+
+  <% if dangling? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :alert)) do %>
+      <%= t("admin.llm_feature_bindings.dangling", model: binding.resolved_model_id) %>
+    <% end %>
+  <% end %>
+
+  <% if locked? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :lock)) do %>
+      <%= t("admin.llm_feature_bindings.locked", model: binding.model_id) %>
+    <% end %>
+  <% end %>
+
+  <%= form_with(url: form_url, method: :patch) do %>
+    <%= label_tag(select_id, LlmFeatureBinding.human_attribute_name(:model_id), class: "FormControl-label") %>
+    <%= select_tag(
+          "llm_feature_binding[model_id]",
+          options_for_select(select_choices, selected: selected_model_id.to_s, disabled: disabled_choices),
+          id: select_id,
+          disabled: locked?,
+          class: "FormControl-select"
+        ) %>
+
+    <% unless locked? %>
+      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :secondary, mt: 2)) { t(:button_save) } %>
+    <% end %>
+  <% end %>
+<% end %>
