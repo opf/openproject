@@ -110,6 +110,74 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
+  describe "expanded family rows" do
+    shared_let(:stranger) { create(:project) }
+    shared_let(:global_variant) { create(:type, name: "Global bug", parent: bug) }
+
+    let(:project) { create(:project, types: [bug]) }
+
+    before do
+      create(:type, name: "Our bug", parent: bug, project:)
+      create(:type, name: "Their bug", parent: bug, project: stranger)
+      render_inline(component)
+    end
+
+    it "names the family" do
+      expect(page).to have_text("Bug")
+    end
+
+    # Global variants apply here too, so the project administrator has to see them.
+    it "lists the global variant" do
+      expect(page).to have_text("Global bug")
+    end
+
+    it "lists the project's own variant" do
+      expect(page).to have_text("Our bug")
+    end
+
+    # The isolation criterion, checked where a user would actually notice it.
+    it "never mentions another project's variant" do
+      expect(page).to have_no_text("Their bug")
+    end
+
+    it "marks the project's own variant as confined to it" do
+      expect(page).to have_text("Only available in this project")
+    end
+  end
+
+  describe "actions on a variant" do
+    let(:project) { create(:project, types: [bug]) }
+    let!(:owned) { create(:type, name: "Our bug", parent: bug, project:) }
+
+    context "with the permission to manage the project's variants" do
+      current_user { create(:user, member_with_permissions: { project => %i[manage_project_variants] }) }
+
+      before { render_inline(component) }
+
+      it "offers to add a variant" do
+        expect(page).to have_link("Add a variant for this project")
+      end
+
+      it "points the edit action at the project-scoped details tab" do
+        expect(page).to have_css(
+          "a[href='#{edit_project_settings_work_packages_types_variant_details_path(project, owned)}']",
+          visible: :all
+        )
+      end
+    end
+
+    # Someone who may only select types for the project has nothing to manage here.
+    context "without the permission" do
+      current_user { create(:user, member_with_permissions: { project => %i[manage_types] }) }
+
+      before { render_inline(component) }
+
+      it "does not offer to add a variant" do
+        expect(page).to have_no_link("Add a variant for this project")
+      end
+    end
+  end
+
   context "when the family's only variant belongs to another project" do
     let(:project) { create(:project, types: [bug]) }
 

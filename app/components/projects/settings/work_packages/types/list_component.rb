@@ -32,8 +32,9 @@ module Projects
   module Settings
     module WorkPackages
       module Types
-        # Lists the type families active in a project: one row per family,
-        # naming the active variant behind the parent type it presents as.
+        # The type families active in a project, each expandable to the variants the
+        # project may use: the global ones plus the ones it owns. One list answers both
+        # "what applies here" and "what do we own".
         class ListComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
@@ -89,6 +90,36 @@ module Projects
             ) do |item|
               item.with_leading_visual_icon(icon: :trash)
             end
+          end
+
+          def variants_for(project_type)
+            project_type.type.variants_available_in(project)
+          end
+
+          def in_use?(project_type, member)
+            project_type.effective_type == member
+          end
+
+          def owned?(variant)
+            variant.project_id == project.id
+          end
+
+          # Only a variant this project owns is one it may configure; the global ones
+          # belong to administration.
+          def manageable?
+            User.current.allowed_in_project?(:manage_project_variants, project)
+          end
+
+          def add_variant_path(root)
+            new_creation_wizard_project_settings_work_packages_types_variants_path(project, parent_id: root.id)
+          end
+
+          def edit_variant_path(variant)
+            edit_project_settings_work_packages_types_variant_details_path(project, variant)
+          end
+
+          def delete_variant_path(variant)
+            project_settings_work_packages_types_variant_path(project, variant)
           end
         end
       end
