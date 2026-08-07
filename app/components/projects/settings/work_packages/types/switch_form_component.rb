@@ -32,27 +32,34 @@ module Projects
   module Settings
     module WorkPackages
       module Types
-        # The switch dialog's contents. Separate from the dialog so a validation
-        # failure can replace it: replacing the dialog component would swap out
-        # the <dialog> element and close it.
+        # The switch dialog's form. Separate from the dialog so a refused switch can replace
+        # it: replacing the dialog component would swap out the <dialog> element and close it.
         class SwitchFormComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
 
-          def initialize(switch:)
+          def initialize(project:, source:, selected: source, validation_message: nil)
             super()
 
-            @switch = switch
+            @project = project
+            @source = source
+            @selected = selected
+            @validation_message = validation_message
           end
 
           private
 
-          delegate :project, :source, to: :@switch
+          attr_reader :project, :source, :selected, :validation_message
 
-          def submit_path
+          def switch_path
             project_settings_work_packages_type_switch_path(project, source)
           end
 
+          def available_targets
+            source.family
+          end
+
+          # Constant lookup in a compiled template does not walk the enclosing modules.
           def dialog_id
             SwitchDialogComponent::DIALOG_ID
           end

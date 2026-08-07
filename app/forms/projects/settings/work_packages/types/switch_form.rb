@@ -33,10 +33,12 @@ module Projects
     module WorkPackages
       module Types
         class SwitchForm < ApplicationForm
-          def initialize(switch:)
+          def initialize(targets:, selected:, validation_message: nil)
             super()
 
-            @switch = switch
+            @targets = targets
+            @selected = selected
+            @validation_message = validation_message
           end
 
           form do |switch_form|
@@ -45,12 +47,13 @@ module Projects
               label: I18n.t("projects.settings.types.switch_dialog.target_label"),
               include_blank: false,
               input_width: :medium,
+              validation_message: @validation_message,
               data: { test_selector: "project-types-switch-select" }
             ) do |list|
               # Composite rather than own names: repeating the family on every
               # option is what makes it evident that nothing outside it is on offer.
-              @switch.available_targets.each do |target|
-                list.option(value: target.id, label: target.composite_name, selected: target == @switch.selected_target)
+              @targets.each do |target|
+                list.option(value: target.id, label: target.composite_name, selected: target == @selected)
               end
             end
           end

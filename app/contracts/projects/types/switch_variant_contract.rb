@@ -30,48 +30,31 @@
 
 module Projects
   module Types
-    # Which member of a type family a project should use. Backs the switch
-    # dialog: the form binds to it, and it owns the preview of the switch it
-    # describes.
-    class Switch
-      include ActiveModel::Model
+    # Whether a project may move from one member of a type family to another.
+    #
+    # The pair being switched arrives through the contract options rather than off the model:
+    # a switch changes which member the project resolves to, which is a row in project_types
+    # rather than an attribute of the project the contract validates.
+    class SwitchVariantContract < ManageTypesContract
+      validate :validate_target_selectable
 
-      attr_accessor :project, :source
-      attr_writer :target_id
+      protected
 
-      validate :target_selectable
-
-      def target_id
-        @target_id.presence&.to_i
-      end
-
-      def target
-        return @target if defined?(@target)
-
-        @target = target_id && ::Type.find_by(id: target_id)
-      end
-
-      def available_targets
-        source.family
-      end
-
-      # The dialog opens on the member the project uses now, so applying without
-      # choosing anything is a visible no-op rather than an empty field.
-      def selected_target
-        target || source
+      def validate_target_selectable
+        if target.nil?
+          errors.add(:types, :switch_target_blank)
+        elsif target == source
+          errors.add(:types, :switch_target_identical)
+        elsif source.root_id != target.root_id
+          errors.add(:types, :switch_target_not_in_family)
+        end
       end
 
       private
 
-      def target_selectable
-        if target_id.blank?
-          errors.add(:target_id, :blank)
-        elsif available_targets.exclude?(target)
-          errors.add(:target_id, :not_in_family)
-        elsif target == source
-          errors.add(:target_id, :unchanged)
-        end
-      end
+      def source = options[:source]
+
+      def target = options[:target]
     end
   end
 end

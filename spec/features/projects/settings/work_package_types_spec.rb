@@ -130,12 +130,15 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     end
   end
 
+  # Reported under the select rather than as a flash, so the choice can be corrected where it
+  # was made.
   it "refuses to apply the variant the project already uses" do
     settings_page.open_switch_dialog(design)
     settings_page.apply_switch
 
     within(settings_page.switch_dialog) do
-      expect(page).to have_text("must be different from the one the project uses now")
+      expect(page).to have_text("The target type must be different from the type the project uses now")
+      expect(page).to have_select("Variant", selected: "Epic: Design")
     end
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(design)
   end

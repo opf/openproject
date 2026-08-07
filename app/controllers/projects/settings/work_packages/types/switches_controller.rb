@@ -31,7 +31,6 @@
 class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::SettingsController
   include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
-  include FlashMessagesOutputSafetyHelper
 
   menu_item :settings_work_packages
 
@@ -39,22 +38,19 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
   before_action :load_source
 
   def new
-    respond_with_dialog Projects::Settings::WorkPackages::Types::SwitchDialogComponent.new(switch: build_switch)
+    respond_with_dialog Projects::Settings::WorkPackages::Types::SwitchDialogComponent
+                          .new(project: @project, source: @source)
   end
 
   def create
-    switch = build_switch
-
-    return render_invalid(switch) unless switch.valid?
+    target = ::Type.find_by(id: params[:target_id])
 
     result = ::Projects::Types::SwitchVariantService
                .new(user: current_user, model: @project)
-               .call(source: switch.source, target: switch.target)
+               .call(source: @source, target:)
 
-    result.on_success { on_switched(switch) }
-    result.on_failure do
-      render_error_flash_message_via_turbo_stream(message: join_flash_messages(result.errors.full_messages))
-    end
+    result.on_success { on_switched(target) }
+    result.on_failure { on_refused(target, result) }
 
     respond_to_with_turbo_streams(status: result)
   end
@@ -75,26 +71,28 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
     respond_to_with_turbo_streams(status: :unprocessable_entity)
   end
 
-  def build_switch
-    ::Projects::Types::Switch.new(project: @project, source: @source, target_id: params.dig(:switch, :target_id))
-  end
+  # Repainted with the refusal under the select, so the choice can be corrected where it was
+  # made. A refusal that belongs to no field is the contract turning away a user the permission
+  # map already turned away, and has nowhere to show.
+  def on_refused(target, result)
+    message = result.errors.messages_for(:types).first
+    return if message.blank?
 
-  def render_invalid(switch)
     update_via_turbo_stream(
-      component: Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(switch:)
+      component: Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(
+        project: @project, source: @source, selected: target || @source, validation_message: message
+      )
     )
-
-    respond_to_with_turbo_streams(status: :unprocessable_entity)
   end
 
   # Reload so the repainted list no longer sees the association's cached types.
-  def on_switched(switch)
+  def on_switched(target)
     close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}")
     replace_via_turbo_stream(
       component: Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project.reload)
     )
     render_success_flash_message_via_turbo_stream(
-      message: t("projects.settings.types.switch_dialog.success", type: switch.target.composite_name)
+      message: t("projects.settings.types.switch_dialog.success", type: target.composite_name)
     )
   end
 end

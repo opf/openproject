@@ -35,20 +35,24 @@ module Projects
     # project's work packages are untouched: they store the root either way, so the switch is
     # a change of which configuration the project resolves to, not a retype.
     class SwitchVariantService < BaseService
+      def initialize(user:, model:, contract_class: SwitchVariantContract)
+        super
+      end
+
       private
 
-      def persist(service_call)
-        source = params[:source]
-        target = params[:target]
+      # The pair is what the contract judges, and it only arrives with the call, so the
+      # options cannot be handed over at construction time like a contract class can.
+      def before_perform(service_call)
+        self.contract_options = params.slice(:source, :target)
 
-        if source == target
-          failure(:switch_target_identical)
-        elsif source.root_id != target.root_id
-          failure(:switch_target_not_in_family)
-        else
-          switch(target)
-          service_call
-        end
+        service_call
+      end
+
+      def persist(service_call)
+        switch(params[:target])
+
+        service_call
       end
 
       def switch(target)

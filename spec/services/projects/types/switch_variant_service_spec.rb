@@ -106,6 +106,18 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
+  # Refused rather than raised on: the caller reaches the service with whatever the request
+  # resolved to, and an unknown id resolves to nothing.
+  context "when no target was given" do
+    let(:target) { nil }
+
+    it "fails without changing anything" do
+      expect(service_call).to be_failure
+      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_blank)
+      expect(resolved_variant).to eq(variant)
+    end
+  end
+
   context "when the user is not allowed to manage types" do
     let(:user) { create(:user) }
 

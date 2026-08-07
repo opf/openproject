@@ -84,15 +84,6 @@ en:
     attributes:
       projects/copy_options:
         dependencies: "Dependencies"
-      projects/types/switch:
-        target_id: "Variant"
-    errors:
-      models:
-        projects/types/switch:
-          attributes:
-            target_id:
-              not_in_family: "must belong to the same type family"
-              unchanged: "must be different from the one the project uses now"
 
   activerecord:
     attributes:
@@ -718,6 +709,7 @@ en:
               cannot_assign_variant_and_parent: "Cannot assign a variant and its parent "
               cannot_assign_variants_yet: "Variants cannot be enabled on a project yet. Enable the feature flag to try out variants"
               in_use_by_work_packages: "still in use by work packages: %{types}"
+              switch_target_blank: "Select the variant to switch to"
               switch_target_identical: "The target type must be different from the type the project uses now"
               switch_target_not_in_family: "Can only switch to another type of the same family"
           cannot_be_assigned_to_artifact_work_package: "The chosen user is not allowed to be assigned to work packages."

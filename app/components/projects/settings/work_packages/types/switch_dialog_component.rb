@@ -39,13 +39,16 @@ module Projects
 
           DIALOG_ID = "project-types-switch-dialog"
 
-          def initialize(switch:)
+          def initialize(project:, source:)
             super()
 
-            @switch = switch
+            @project = project
+            @source = source
           end
 
-          delegate :source, to: :@switch, private: true
+          private
+
+          attr_reader :project, :source
         end
       end
     end
