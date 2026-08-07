@@ -49,7 +49,7 @@ module McpResources
     def enabled_mcp_resources
       McpConfiguration.where(enabled: true).filter_map do |config|
         res = resources_by_name[config.identifier]
-        next nil if res.nil? || res.uri.nil?
+        next unless res&.uri
 
         res.resource(title: config.title, description: config.description)
       end
@@ -58,7 +58,7 @@ module McpResources
     def enabled_mcp_resource_templates
       McpConfiguration.where(enabled: true).filter_map do |config|
         res = resources_by_name[config.identifier]
-        next nil if res.nil? || res.uri_template.nil?
+        next unless res&.uri_template
 
         res.resource_template(title: config.title, description: config.description)
       end
