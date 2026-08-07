@@ -68,6 +68,14 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
     include_examples "contract is invalid", base_url: :request_timed_out
   end
 
+  # A server can speak the OpenAI API for chat and still not expose a model list:
+  # OpenProject's own hosted stack does exactly that while #77512 is unreleased.
+  context "when the server has no model list at that path" do
+    let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+
+    include_examples "contract is invalid", base_url: :models_endpoint_missing
+  end
+
   context "when the endpoint is not OpenAI-compatible" do
     let!(:models_request) { mock_llm_models_response(base_url, body: "<html>login</html>") }
 

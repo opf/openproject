@@ -88,6 +88,19 @@ class LlmServerValidator < ActiveModel::EachValidator
       contract.errors.add(attribute, :request_timed_out)
     when Llm::Client::ConnectionError
       contract.errors.add(attribute, :cannot_be_connected_to)
+    when Llm::Client::ApiError
+      add_api_error(contract, attribute, error)
+    else
+      contract.errors.add(attribute, :not_openai_compatible)
+    end
+  end
+
+  # A 404 is worth separating: the server answered, so it is reachable and the
+  # credentials were not the problem. Either the URL is missing or carries the
+  # wrong version segment, or the server genuinely does not expose a model list.
+  def add_api_error(contract, attribute, error)
+    if error.status == 404
+      contract.errors.add(attribute, :models_endpoint_missing, path: "#{contract.model.base_url}/models")
     else
       contract.errors.add(attribute, :not_openai_compatible)
     end
