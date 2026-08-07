@@ -123,4 +123,35 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
       end
     end
   end
+
+  describe "notifications" do
+    shared_let(:recipient) do
+      create(:user, member_with_permissions: { project => %i[view_work_packages view_meetings] })
+    end
+
+    before do
+      work_package.update_columns(assigned_to_id: recipient.id)
+      Watcher.new(watchable: work_package, user: recipient).save(validate: false)
+    end
+
+    it "does not notify the assignee/watcher when a work package is added to a meeting" do
+      expect do
+        perform_enqueued_jobs do
+          MeetingAgendaItems::CreateService
+            .new(user:)
+            .call(meeting_id: meeting.id, work_package_id: work_package.id, item_type: "work_package")
+        end
+      end.not_to change { Notification.where(recipient:).count }
+    end
+
+    it "does not notify the assignee/watcher when a work package is removed from a meeting" do
+      agenda_item = create(:wp_meeting_agenda_item, meeting:, work_package:, author: user)
+
+      expect do
+        perform_enqueued_jobs do
+          MeetingAgendaItems::DeleteService.new(user:, model: agenda_item).call
+        end
+      end.not_to change { Notification.where(recipient:).count }
+    end
+  end
 end
