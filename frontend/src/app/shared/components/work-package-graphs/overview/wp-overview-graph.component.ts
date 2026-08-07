@@ -68,6 +68,8 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
 
   @Input() groupBy = 'status';
 
+  @Input() showGroupByOptions = true;
+
   @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
 
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
@@ -105,6 +107,14 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
       element.getAttribute('data-global-scope');
 
     this.globalScope = globalScopeAttr === 'true';
+
+    const showGroupByOptionsAttr =
+      element.getAttribute('show-group-by-options') ??
+      element.getAttribute('data-show-group-by-options');
+
+    if (showGroupByOptionsAttr !== null) {
+      this.showGroupByOptions = showGroupByOptionsAttr !== 'false';
+    }
 
     this.setQueryProps();
   }
