@@ -34,4 +34,5 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Grids::WidgetGridComponent.new) do |grid| %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::Goal, @sprint, @project) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageGraph, @sprint, @project) %>
 <% end %>
