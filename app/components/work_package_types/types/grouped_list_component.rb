@@ -69,6 +69,12 @@ module WorkPackageTypes
         root.children.find(&:is_default?)
       end
 
+      # An administrator sees every project's variants side by side, so an unattributed
+      # row would be indistinguishable from a global one.
+      def owner_label(variant)
+        t("types.index.owned_by", project: variant.project.name)
+      end
+
       def add_variant_path(root)
         new_creation_wizard_types_path(parent_id: root.id)
       end

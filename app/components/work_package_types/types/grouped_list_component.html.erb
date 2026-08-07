@@ -62,6 +62,9 @@ See COPYRIGHT and LICENSE files for more details.
                         )
                       ) { child.own_name } %>
                   <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { t("types.index.variant_label") } %>
+                  <% if child.project_owned? %>
+                    <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { owner_label(child) } %>
+                  <% end %>
                 <% end %>
                 <% if child.is_default? %>
                   <% variant.with_column(mr: 3) { render(Primer::Beta::Label.new) { t("types.index.enabled_in_new_projects") } } %>
