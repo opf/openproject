@@ -217,6 +217,7 @@ en:
           This enables native wiki functionality for this project. Members will be able to create and read wiki pages
           that are stored in OpenProject.
         enable: Enable the internal wiki for this project
+        globally_disabled_hint: Project wikis were disabled globally on this OpenProject instance. Thus you can't enable it in this project.
     provider_types:
       xwiki:
         name: XWiki
