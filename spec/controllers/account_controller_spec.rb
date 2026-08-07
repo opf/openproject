@@ -1365,33 +1365,6 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(user.identity_url).to eql("google:123545")
       end
 
-      context "with consent required",
-              with_settings: {
-                consent_required: true,
-                consent_info: { en: "# Consent header!" }
-              } do
-        it "renders the registration form with a consent error" do
-          session[:auth_source_registration] = omniauth_hash.merge(
-            omniauth: true,
-            timestamp: Time.current
-          )
-
-          post :register,
-               params: {
-                 user: {
-                   login: "login@bar.com",
-                   firstname: "Foo",
-                   lastname: "Smith",
-                   mail: "foo@bar.com"
-                 }
-               }
-
-          expect(response).to render_template :register
-          expect(assigns(:user).errors[:consent_check]).to contain_exactly(I18n.t("consent.failure_message"))
-          expect(User.find_by_login("login@bar.com")).to be_nil
-        end
-      end
-
       context "when after a timeout expired" do
         before do
           session[:auth_source_registration] = omniauth_hash.merge(

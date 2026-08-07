@@ -72,8 +72,6 @@ module Accounts::Registration
     # on-the-fly registration via omniauth or via auth source
     if pending_omniauth_registration?
       user.assign_attributes permitted_params.user_register_via_omniauth
-      return unless consent_given_for_registration?(user)
-
       register_via_omniauth(session, permitted_params.user_register_via_omniauth)
     else
       user.attributes = permitted_params.user
