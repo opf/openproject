@@ -441,7 +441,57 @@ Rails.application.routes.draw do
           # Variants this project owns. Not nested under a type id: a variant already
           # knows its parent, and the project is the only scope that matters here.
           namespace :types do
-            resources :variants, only: %i[destroy]
+            # The Projects tab is deliberately absent: activating a type across projects
+            # is meaningless for a variant only its owner may use.
+            resources :variants, only: %i[destroy] do
+              resource :details, controller: "variants/details_tab", only: %i[edit update]
+              resource :defaults, controller: "variants/defaults_tab", only: %i[edit update]
+              resource :workflow, controller: "variants/workflow_tab", only: %i[edit]
+
+              resource :form_configuration, controller: "variants/form_configuration_tab", only: %i[edit update] do
+                get :reset_dialog
+                resources :groups, only: %i[create edit update destroy],
+                                   controller: "variants/form_configuration_groups_tab", param: :key do
+                  collection do
+                    post :add_group
+                  end
+
+                  member do
+                    post :cancel_edit
+                    put :drop
+                    put :move
+                    patch :update_query
+                  end
+                end
+                resources :rows, only: %i[destroy], controller: "variants/form_configuration_tab", param: :row_key do
+                  member do
+                    put :drop
+                    put :move
+                  end
+                end
+              end
+
+              resource :project_attributes, controller: "variants/project_attributes_tab", only: %i[edit] do
+                post :toggle
+                put :enable_all_of_section
+                put :disable_all_of_section
+              end
+
+              resources :pdf_export_template, only: %i[],
+                                              controller: "variants/pdf_export_template",
+                                              path: "pdf_export" do
+                member do
+                  post :toggle
+                  put :drop
+                end
+                collection do
+                  get :edit
+                  put :enable_all
+                  put :disable_all
+                  put :update_artefact_export
+                end
+              end
+            end
           end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]

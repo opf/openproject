@@ -247,7 +247,18 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_project_variants,
                      {
-                       "projects/settings/work_packages/types/variants": %i[destroy]
+                       "projects/settings/work_packages/types/variants": %i[destroy],
+                       "projects/settings/work_packages/types/variants/details_tab": %i[edit update],
+                       "projects/settings/work_packages/types/variants/defaults_tab": %i[edit update],
+                       "projects/settings/work_packages/types/variants/workflow_tab": %i[edit],
+                       "projects/settings/work_packages/types/variants/form_configuration_tab":
+                         %i[edit update reset_dialog destroy drop move],
+                       "projects/settings/work_packages/types/variants/form_configuration_groups_tab":
+                         %i[create edit update destroy add_group cancel_edit drop move update_query],
+                       "projects/settings/work_packages/types/variants/project_attributes_tab":
+                         %i[edit toggle enable_all_of_section disable_all_of_section],
+                       "projects/settings/work_packages/types/variants/pdf_export_template":
+                         %i[edit toggle drop enable_all disable_all update_artefact_export]
                      },
                      permissible_on: :project,
                      require: :member
