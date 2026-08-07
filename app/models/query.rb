@@ -412,6 +412,7 @@ class Query < ApplicationRecord
   def work_package_journals(options = {}) # rubocop:disable Metrics/AbcSize
     Journal.includes(:user)
            .where(journable_type: WorkPackage.to_s, restricted: false)
+           .without_meeting_causes
            .joins("INNER JOIN work_packages ON work_packages.id = journals.journable_id")
            .joins("INNER JOIN projects ON work_packages.project_id = projects.id")
            .joins("INNER JOIN users AS authors ON work_packages.author_id = authors.id")

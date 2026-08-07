@@ -30,11 +30,7 @@
 
 require "spec_helper"
 
-# Security regression guard for the OPT-IN surfaces: meeting-cause work package journals appear in
-# the work package activity tab (load + refresh) only for users who can see the referenced meeting.
-#
-# Each example exercises a real surface's entry point so that removing its filter fails loudly.
-RSpec.describe "Meeting cause journal visibility on opt-in surfaces", type: :model do
+RSpec.describe "Meeting cause journal visible locations", type: :model do
   shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking activity meetings]) }
   shared_let(:author) do
     create(:user, member_with_permissions: { project => %i[view_work_packages view_meetings manage_agendas] })
@@ -56,7 +52,7 @@ RSpec.describe "Meeting cause journal visibility on opt-in surfaces", type: :mod
   end
   let(:initial_journal) { work_package.journals.first }
 
-  describe "work package activity tab (Paginator)" do
+  describe "work package activity tab" do
     def visible_journal_ids(user)
       allow(User).to receive(:current).and_return(user)
       _pagy, records = WorkPackages::ActivitiesTab::Paginator.new(work_package.reload).call
@@ -73,7 +69,7 @@ RSpec.describe "Meeting cause journal visibility on opt-in surfaces", type: :mod
     end
   end
 
-  describe "activity tab refresh (UpdateStreams)" do
+  describe "activity tab refresh" do
     def streamed_journal_ids(user)
       allow(User).to receive(:current).and_return(user)
       WorkPackages::ActivitiesTab::UpdateStreams
