@@ -215,7 +215,7 @@ Example:
 
 ### Control how multiple values are displayed
 
-Some attributes can contain multiple values, such as **Target versions** or **multi-select custom fields**. These values are displayed one value per line in the application and are separated by a comma PDF exports. 
+Some attributes can contain multiple values, such as **Target versions** or **multi-select custom fields**. These values are displayed one value per line in the application and are separated by a comma in PDF exports. 
 
 You can choose whether these values are displayed on separate lines or on a single line within the CKEditor.
 
