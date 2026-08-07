@@ -29,42 +29,35 @@
 #++
 
 module Projects
-  module Types
-    # Moves a project from the member of a type family it uses to another one, in either
-    # direction: a sibling variant, the shared root, or a variant of the root it uses. The
-    # project's work packages are untouched: they store the root either way, so the switch is
-    # a change of which configuration the project resolves to, not a retype.
-    class SwitchVariantService < BaseService
-      def initialize(user:, model:, contract_class: SwitchVariantContract)
-        super
-      end
+  module Settings
+    module WorkPackages
+      module Types
+        class SwitchForm < ApplicationForm
+          def initialize(targets:, selected:, validation_message: nil)
+            super()
 
-      private
+            @targets = targets
+            @selected = selected
+            @validation_message = validation_message
+          end
 
-      # The pair is what the contract judges, and it only arrives with the call, so the
-      # options cannot be handed over at construction time like a contract class can.
-      def before_perform(service_call)
-        self.contract_options = params.slice(:source, :target)
-
-        service_call
-      end
-
-      def persist(service_call)
-        switch(params[:target])
-
-        service_call
-      end
-
-      def switch(target)
-        current_project_type = model.project_types.find_by!(type_id: target.root_id)
-
-        if target.variant?
-          current_project_type.update!(variant: target)
-        else
-          current_project_type.update!(variant: nil)
+          form do |switch_form|
+            switch_form.select_list(
+              name: :target_id,
+              label: I18n.t("projects.settings.types.switch_dialog.target_label"),
+              include_blank: false,
+              input_width: :medium,
+              validation_message: @validation_message,
+              data: { test_selector: "project-types-switch-select" }
+            ) do |list|
+              # Composite rather than own names: repeating the family on every
+              # option is what makes it evident that nothing outside it is on offer.
+              @targets.each do |target|
+                list.option(value: target.id, label: target.composite_name, selected: target == @selected)
+              end
+            end
+          end
         end
-
-        enable_work_package_custom_fields(target)
       end
     end
   end

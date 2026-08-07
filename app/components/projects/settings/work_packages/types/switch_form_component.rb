@@ -29,42 +29,41 @@
 #++
 
 module Projects
-  module Types
-    # Moves a project from the member of a type family it uses to another one, in either
-    # direction: a sibling variant, the shared root, or a variant of the root it uses. The
-    # project's work packages are untouched: they store the root either way, so the switch is
-    # a change of which configuration the project resolves to, not a retype.
-    class SwitchVariantService < BaseService
-      def initialize(user:, model:, contract_class: SwitchVariantContract)
-        super
-      end
+  module Settings
+    module WorkPackages
+      module Types
+        # The switch dialog's form. Separate from the dialog so a refused switch can replace
+        # it: replacing the dialog component would swap out the <dialog> element and close it.
+        class SwitchFormComponent < ApplicationComponent
+          include OpPrimer::ComponentHelpers
+          include OpTurbo::Streamable
 
-      private
+          def initialize(project:, source:, selected: source, validation_message: nil)
+            super()
 
-      # The pair is what the contract judges, and it only arrives with the call, so the
-      # options cannot be handed over at construction time like a contract class can.
-      def before_perform(service_call)
-        self.contract_options = params.slice(:source, :target)
+            @project = project
+            @source = source
+            @selected = selected
+            @validation_message = validation_message
+          end
 
-        service_call
-      end
+          private
 
-      def persist(service_call)
-        switch(params[:target])
+          attr_reader :project, :source, :selected, :validation_message
 
-        service_call
-      end
+          def switch_path
+            project_settings_work_packages_type_switch_path(project, source)
+          end
 
-      def switch(target)
-        current_project_type = model.project_types.find_by!(type_id: target.root_id)
+          def available_targets
+            source.family
+          end
 
-        if target.variant?
-          current_project_type.update!(variant: target)
-        else
-          current_project_type.update!(variant: nil)
+          # Constant lookup in a compiled template does not walk the enclosing modules.
+          def dialog_id
+            SwitchDialogComponent::DIALOG_ID
+          end
         end
-
-        enable_work_package_custom_fields(target)
       end
     end
   end

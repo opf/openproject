@@ -32,6 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% active_project_types.each do |project_type| %>
       <% list.with_item(data: { test_selector: "project-types-row-#{project_type.effective_type.id}" }) do |item| %>
         <% item.with_menu do |menu| %>
+          <% switch_action(menu, project_type.effective_type) if project_type.type.family.many? %>
           <% remove_action(menu, project_type.effective_type) %>
         <% end %>
         <%= flex_layout(align_items: :center) do |row| %>
@@ -42,14 +43,12 @@ See COPYRIGHT and LICENSE files for more details.
             <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { project_type.type.name } %>
           <% end %>
           <% if project_type.variant %>
-            <% row.with_column(mr: 2) do %>
-              <%= render(Primer::Beta::Label.new(scheme: :secondary)) { project_type.variant.own_name } %>
-            <% end %>
-          <% end %>
-          <% if project_type.type.is_in_roadmap? %>
             <% row.with_column do %>
               <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
-                <%= t("projects.settings.types.in_roadmap") %>
+                <%= t("projects.settings.types.variant_prefix") %>
+              <% end %>
+              <%= render(Primer::Beta::Text.new(color: :muted, font_weight: :semibold, font_size: :small)) do %>
+                <%= project_type.variant.own_name %>
               <% end %>
             <% end %>
           <% end %>

@@ -29,42 +29,27 @@
 #++
 
 module Projects
-  module Types
-    # Moves a project from the member of a type family it uses to another one, in either
-    # direction: a sibling variant, the shared root, or a variant of the root it uses. The
-    # project's work packages are untouched: they store the root either way, so the switch is
-    # a change of which configuration the project resolves to, not a retype.
-    class SwitchVariantService < BaseService
-      def initialize(user:, model:, contract_class: SwitchVariantContract)
-        super
-      end
+  module Settings
+    module WorkPackages
+      module Types
+        # Moves a project from the family member it uses now to another one.
+        class SwitchDialogComponent < ApplicationComponent
+          include OpPrimer::ComponentHelpers
+          include OpTurbo::Streamable
 
-      private
+          DIALOG_ID = "project-types-switch-dialog"
 
-      # The pair is what the contract judges, and it only arrives with the call, so the
-      # options cannot be handed over at construction time like a contract class can.
-      def before_perform(service_call)
-        self.contract_options = params.slice(:source, :target)
+          def initialize(project:, source:)
+            super()
 
-        service_call
-      end
+            @project = project
+            @source = source
+          end
 
-      def persist(service_call)
-        switch(params[:target])
+          private
 
-        service_call
-      end
-
-      def switch(target)
-        current_project_type = model.project_types.find_by!(type_id: target.root_id)
-
-        if target.variant?
-          current_project_type.update!(variant: target)
-        else
-          current_project_type.update!(variant: nil)
+          attr_reader :project, :source
         end
-
-        enable_work_package_custom_fields(target)
       end
     end
   end

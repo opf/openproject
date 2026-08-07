@@ -30,42 +30,31 @@
 
 module Projects
   module Types
-    # Moves a project from the member of a type family it uses to another one, in either
-    # direction: a sibling variant, the shared root, or a variant of the root it uses. The
-    # project's work packages are untouched: they store the root either way, so the switch is
-    # a change of which configuration the project resolves to, not a retype.
-    class SwitchVariantService < BaseService
-      def initialize(user:, model:, contract_class: SwitchVariantContract)
-        super
+    # Whether a project may move from one member of a type family to another.
+    #
+    # The pair being switched arrives through the contract options rather than off the model:
+    # a switch changes which member the project resolves to, which is a row in project_types
+    # rather than an attribute of the project the contract validates.
+    class SwitchVariantContract < ManageTypesContract
+      validate :validate_target_selectable
+
+      protected
+
+      def validate_target_selectable
+        if target.nil?
+          errors.add(:types, :switch_target_blank)
+        elsif target == source
+          errors.add(:types, :switch_target_identical)
+        elsif source.root_id != target.root_id
+          errors.add(:types, :switch_target_not_in_family)
+        end
       end
 
       private
 
-      # The pair is what the contract judges, and it only arrives with the call, so the
-      # options cannot be handed over at construction time like a contract class can.
-      def before_perform(service_call)
-        self.contract_options = params.slice(:source, :target)
+      def source = options[:source]
 
-        service_call
-      end
-
-      def persist(service_call)
-        switch(params[:target])
-
-        service_call
-      end
-
-      def switch(target)
-        current_project_type = model.project_types.find_by!(type_id: target.root_id)
-
-        if target.variant?
-          current_project_type.update!(variant: target)
-        else
-          current_project_type.update!(variant: nil)
-        end
-
-        enable_work_package_custom_fields(target)
-      end
+      def target = options[:target]
     end
   end
 end

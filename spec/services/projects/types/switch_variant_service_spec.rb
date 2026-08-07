@@ -70,14 +70,21 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when the source is not a variant" do
+  # A project resolving a family to no variant still has one to offer, so the switch has to
+  # work in this direction too.
+  context "when switching from the parent type to one of its variants" do
+    let(:project) { create(:project, types: [parent_type]) }
     let(:source) { parent_type }
     let(:target) { variant }
 
-    it "fails without changing anything" do
-      expect(service_call).to be_failure
-      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_source_not_a_variant)
+    it "resolves the project to the target" do
+      expect(service_call).to be_success
       expect(resolved_variant).to eq(variant)
+      expect(project.reload.types).to contain_exactly(parent_type)
+    end
+
+    it "leaves the work packages alone" do
+      expect { service_call }.not_to change { work_package.reload.attributes }
     end
   end
 
@@ -96,6 +103,18 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     it "fails" do
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_not_in_family)
+    end
+  end
+
+  # Refused rather than raised on: the caller reaches the service with whatever the request
+  # resolved to, and an unknown id resolves to nothing.
+  context "when no target was given" do
+    let(:target) { nil }
+
+    it "fails without changing anything" do
+      expect(service_call).to be_failure
+      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_blank)
+      expect(resolved_variant).to eq(variant)
     end
   end
 
