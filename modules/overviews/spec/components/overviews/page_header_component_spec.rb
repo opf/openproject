@@ -31,7 +31,6 @@
 require "rails_helper"
 
 RSpec.describe Overviews::PageHeaderComponent, type: :component do
-  include Rails.application.routes.url_helpers
 
   def render_component(...)
     render_inline(described_class.new(...))
