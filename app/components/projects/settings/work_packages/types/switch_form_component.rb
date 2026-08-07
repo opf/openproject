@@ -56,7 +56,7 @@ module Projects
           end
 
           def available_targets
-            source.family
+            [source.root, *source.root.variants_available_in(project)]
           end
 
           # Constant lookup in a compiled template does not walk the enclosing modules.

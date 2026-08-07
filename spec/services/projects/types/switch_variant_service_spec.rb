@@ -127,4 +127,24 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
       expect(resolved_variant).to eq(variant)
     end
   end
+
+  # The dialog never offers a foreign variant, so reaching here means a forged request.
+  context "when the target is a variant of another project" do
+    let(:target) { create(:type, parent: parent_type, project: create(:project)) }
+
+    it "fails without changing anything" do
+      expect(service_call).to be_failure
+      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_not_available)
+      expect(resolved_variant).to eq(variant)
+    end
+  end
+
+  context "when the target is a variant this project owns" do
+    let(:target) { create(:type, parent: parent_type, project:) }
+
+    it "resolves the project to it" do
+      expect(service_call).to be_success
+      expect(resolved_variant).to eq(target)
+    end
+  end
 end

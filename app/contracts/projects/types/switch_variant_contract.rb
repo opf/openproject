@@ -40,17 +40,23 @@ module Projects
 
       protected
 
-      def validate_target_selectable
+      def validate_target_selectable # rubocop:disable Metrics/AbcSize
         if target.nil?
           errors.add(:types, :switch_target_blank)
         elsif target == source
           errors.add(:types, :switch_target_identical)
         elsif source.root_id != target.root_id
           errors.add(:types, :switch_target_not_in_family)
+        elsif !target_available_in_project?
+          errors.add(:types, :switch_target_not_available)
         end
       end
 
       private
+
+      def target_available_in_project?
+        target.project_id.nil? || target.project_id == model.id
+      end
 
       def source = options[:source]
 

@@ -109,4 +109,31 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_text("No types are active in this project")
     end
   end
+
+  context "when the family's only variant belongs to another project" do
+    let(:project) { create(:project, types: [bug]) }
+
+    before do
+      create(:type, name: "Theirs", parent: bug, project: create(:project))
+      render_inline(component)
+    end
+
+    # There is nothing here for this project to switch to, so offering the action would lie.
+    it "hides the switch action" do
+      expect(page).to have_no_link("Switch variant", visible: :all)
+    end
+  end
+
+  context "when the family has a variant this project owns" do
+    let(:project) { create(:project, types: [bug]) }
+
+    before do
+      create(:type, name: "Ours", parent: bug, project:)
+      render_inline(component)
+    end
+
+    it "offers the switch action" do
+      expect(page).to have_link("Switch variant", visible: :all)
+    end
+  end
 end

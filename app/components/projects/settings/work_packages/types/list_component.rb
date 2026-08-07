@@ -57,6 +57,11 @@ module Projects
                                         .sort_by { |project_type| project_type.type.position }
           end
 
+          # A family whose only variants belong to other projects offers this one nothing.
+          def switchable?(project_type)
+            project_type.type.variants_available_in(project).any?
+          end
+
           def switch_path(type)
             new_project_settings_work_packages_type_switch_path(project, type)
           end
