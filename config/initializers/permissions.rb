@@ -246,7 +246,9 @@ Rails.application.reloader.to_prepare do
                      require: :member
 
       map.permission :manage_project_variants,
-                     {},
+                     {
+                       "projects/settings/work_packages/types/variants": %i[destroy]
+                     },
                      permissible_on: :project,
                      require: :member
 

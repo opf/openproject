@@ -438,6 +438,11 @@ Rails.application.routes.draw do
 
             resource :switch, only: %i[new create], controller: "types/switches"
           end
+          # Variants this project owns. Not nested under a type id: a variant already
+          # knows its parent, and the project is the only scope that matters here.
+          namespace :types do
+            resources :variants, only: %i[destroy]
+          end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
