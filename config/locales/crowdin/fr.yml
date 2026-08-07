@@ -67,7 +67,8 @@ fr:
       '
     login_with_auth_provider: ou connectez-vous avec votre compte existant
     omniauth_login: Veuillez vous connecter pour activer votre compte.
-    signup_with_auth_provider: ou inscrivez-vous à l'aide de
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Veuillez sélectionner
   activemodel:
     attributes:
@@ -342,7 +343,7 @@ fr:
         token_name: Nom du jeton
       type:
         attribute_groups: Configuration du formulaire
-        children: Sous-types
+        children: Variantes
         color: Couleur
         dependent_configuration_links: Types liés
         description: Texte par défaut pour la description
@@ -466,6 +467,7 @@ fr:
         spent_hours: Temps passé
         spent_time: Temps passé
         subproject: Sous-projet
+        target_version: Version cible
         target_versions: Versions cibles
         time_entries: Consigner du temps
         type: Type
@@ -693,13 +695,13 @@ fr:
               must_start_with_letter: doit commencer par une lettre
               no_special_characters: ne peut contenir que des lettres majuscules, des chiffres et des traits de soulignement
             types:
-              cannot_assign_multiple_subtypes_of_parent: Un seul sous-type d'un type peut être activé dans le projet
-              cannot_assign_subtype_and_parent: Impossible d'affecter à la fois un sous-type et son type parent
-              cannot_assign_subtypes_yet: Les sous-types ne peuvent pas encore être activés au niveau d'un projet. Activez cette fonctionnalité en version bêta pour tester les sous-types
+              cannot_assign_multiple_variants_of_parent: Une seule variante d'un type peut être activée dans le projet
+              cannot_assign_variant_and_parent: Impossible d'affecter à la fois une variante et son type parent
+              cannot_assign_variants_yet: Les variantes ne peuvent pas encore être activées au niveau d'un projet. Activez l'indicateur de fonctionnalité pour tester les variantes
               in_use_by_work_packages: 'toujours en cours d''utilisation par les lots de travaux : %{types}'
-              switch_source_not_a_subtype: Le changement de type n'est possible qu'à partir d'un sous-type
-              switch_target_identical: Le type cible doit être différent du sous-type actuel
-              switch_target_not_in_family: Vous ne pouvez passer qu'à un autre sous-type du même type ou à son type parent
+              switch_source_not_a_variant: Le changement de type n'est possible qu'à partir d'une variante
+              switch_target_identical: Le type cible doit être différent de la variante actuelle
+              switch_target_not_in_family: Le changement n'est possible que vers une autre variante du même type ou vers son type parent
           cannot_be_assigned_to_artifact_work_package: L'utilisateur sélectionné ne peut pas être assigné à des lots de travaux.
           foreign_wps_reference_version: Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.
         project/phase:
@@ -714,6 +716,12 @@ fr:
           attributes:
             project_ids:
               blank: Veuillez sélectionner un projet.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -812,16 +820,16 @@ fr:
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
             parent:
               cannot_be_self: ne peut pas être le type lui-même.
-              cannot_change_with_work_packages: ne peut pas être modifié car des lots de travaux de ce type existent déjà.
-              cannot_have_children: ne peut pas être défini car ce type possède déjà des sous-types.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
+              cannot_have_children: ne peut pas être défini car ce type comporte déjà des variantes.
               must_be_a_root: doit être lui-même un type de niveau supérieur. Les types ne peuvent être imbriqués qu'à un seul niveau.
               standard_type_must_be_root: ne peut pas être défini pour le type standard.
             patterns:
               invalid_tokens: Un ou plusieurs attributs dans le champ ne sont pas valides. Veuillez corriger les attributs avant d'enregistrer.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: ne peut pas être le type lui-même.
+            source_id:
+              would_create_cycle: créerait une boucle entre ces configurations.
         user:
           attributes:
             base:
@@ -1143,6 +1151,9 @@ fr:
         '
     jemalloc_allocator: Allocateur de mémoire Jemalloc
     jira:
+      actions:
+        button_edit: Éditer la configuration
+        button_open: Séries ouvertes
       banner:
         contribution_callout: 'Aidez-nous à améliorer le Jira Migrator avec vos commentaires et vos dons de données privées. Vous pouvez [rejoindre la communauté de développement](link) du Jira Migrator.
 
@@ -1164,9 +1175,11 @@ fr:
         ssrf_blocked: 'Connexion bloquée : l''hôte Jira se résout en une adresse IP privée. Si votre instance Jira fonctionne sur un réseau interne, autorisez son IP via la variable d''environnement OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Ajouté
+        creator: Créateur
         label_ago: Il y a %{amount}
         last_change: Dernière modification
         projects: Projets
+        server_url: URL du serveur
       configuration:
         new: Nouvelle configuration
         title: Configuration de Jira
@@ -1181,14 +1194,17 @@ fr:
         button_add: Ajouter la configuration
         button_delete_token: Supprimer le jeton d'accès
         button_save: Enregistrer la configuration
-        button_test: Tester la configuration
         delete_token_confirm: Voulez-vous vraiment supprimer le jeton ? Cela désactivera la connexion à Jira.
         fields:
           name: Nom
           personal_access_token: Jeton d'accès personnel
           url: URL du Jira Server / Data Center
         label_testing: Test de la configuration...
+        test_configuration_caption: Vous pouvez test cette configuration en [cliquant ici](test)
       run:
+        actions:
+          button_edit: Modifier l'exécution
+          button_open_history: Afficher l'historique des exécutions
         blank:
           description: Créez un cycle d'importation pour commencer à importer des informations à partir de cette instance Jira
           title: Aucun cycle d'importation n'a encore été configuré
@@ -1200,6 +1216,9 @@ fr:
           description: Vous pouvez importer différents ensembles de données à chaque cycle d'importation. Il est possible d'annuler un cycle d'importation immédiatement après en mode révision, mais pas après la finalisation.
         project_identifier_taken: 'Vous essayez d''importer un projet avec un identifiant déjà utilisé : %{taken_identifier}. Veuillez mettre à jour l''identifiant du projet dans Jira, puis cliquez sur Réessayer.'
         remove_error: Un cycle d'importation Jira ne peut pas être supprimé pendant son exécution
+        side_panel:
+          open_history: Ouvrez l'historique des exécutions
+          run_status: Statut d'exécution
         status:
           configuring: Sélectionnez la portée
           finalizing: Finalisation
@@ -1232,14 +1251,8 @@ fr:
           groups:
             configuration:
               title: Configurer l'importation
-            confirming:
-              title: Confirmer et importer
-            fetch:
-              title: Obtenir les données de base
-            groups_and_users:
-              title: Groupes et utilisateurs
-            review:
-              title: Examiner l'importation
+            run_and_review:
+              title: Lancer et vérifier l'importation
           import_dialog:
             confirm: Je comprends et j'ai une copie de sauvegarde
             confirm_button: Démarrer l'importation
@@ -1275,6 +1288,7 @@ fr:
               button_start: Démarrer l'importation
               caption: Vérifiez vos paramètres d'importation et démarrez l'importation
               caption_done: Terminé
+              caption_done_info: Toutes les données ont été importées
               description: Vous êtes sur le point de lancer un cycle d'importation avec les paramètres suivants.
               label_available_data: Données à importer
               label_import_data: Importation en cours
@@ -1282,9 +1296,12 @@ fr:
               label_users_import_explanation: Utilisateurs impliqués dans les projets sélectionnés (y compris les membres de groupes)
               title: Importation des données
             fetch_data:
+              button_continue: Poursuivre la sélection du champ d'application
               button_fetch: Vérifier les données disponibles
               caption_done: Terminé
+              caption_done_description: Métadonnées extraites de %{server_info}
               description: Vérifiez quelles données sont disponibles pour l'importation dans l'instance Jira hôte.
+              label_available_server_data: Données disponibles sur %{server_info}
               label_progress: Récupération des données de Jira...
               title: Récupérer les métadonnées de l'instance
             groups_and_users:
@@ -1293,7 +1310,6 @@ fr:
               button_done: Approuver l'importation
               button_revert: Annuler l'importation
               caption: Examiner le cycle d'importation ou annuler l'importation
-              info: L'importation a été effectuée avec succès.
               label_finalize_import: Approuver l'importation
               label_finalizing: Approuver l'importation...
               label_finalizing_done: Importation approuvée.
@@ -1302,6 +1318,20 @@ fr:
               label_revert_progress: Annulation de l'importation...
               label_reverted: Importation annulée.
               preview_description: Les données importées sont actuellement en mode révision. Cliquez sur « Approuver l'importation » pour rendre l'importation permanente ou sur « Annuler l'importation » pour annuler toutes les modifications apportées lors de cette importation.
+              stats:
+                other_settings:
+                  label: Autres paramètres
+                  subtitle: Y compris les types et le statut
+                projects:
+                  label: Projets
+                  subtitle: Sélectionné comme périmètre
+                title: Données importées
+                users_and_groups:
+                  label: Utilisateurs et Groupes
+                  subtitle: 'Impliqué dans les projets importés '
+                work_packages:
+                  label: Lots de travaux
+                  subtitle: Avec pièces jointes
               title: Résultats du cycle d'importation
             import_scope:
               button_continue: Continuer
@@ -1309,6 +1339,9 @@ fr:
               button_select_projects: Sélectionnez les projets à importer
               caption: Choisissez ce que vous voulez importer dans OpenProject
               caption_done: Terminé
+              caption_done_description:
+                one: 1 projet sélectionné dans le cadre de ce projet
+                other: "%{count} projets retenus dans le cadre de ce projet"
               description: Sélectionnez les données que vous souhaitez importer parmi les données disponibles extraites de l'instance Jira hôte.
               elements:
                 custom_fields: Un sous-ensemble de champs personnalisés
@@ -1323,19 +1356,21 @@ fr:
                 sprints: Affectation des sprints
                 users: Utilisateurs et groupes concernés
                 workflows: Flux de travail au niveau du projet
-              label_available_server_data: Données disponibles sur %{server_info}
               label_coming_later: À venir
               label_coming_soon: À venir (3e trimestre 2026)
               label_import: Sélectionnez les projets que vous souhaitez importer.
               label_info: Veuillez noter que cet outil d'importation est en version bêta et qu'il ne peut pas importer tous les types de données. Voici un résumé de ce que l'instance Jira hôte offre pour l'importation et de ce que cet outil est capable d'importer pour le moment.
-              label_progress: Récupération des données de Jira...
+              label_progress: Récupération des données
               label_selected_data: Données sélectionnées pour l'importation
               label_supported_data: Données prises en charge
               title: Portée de l'importation
-          select_dialog:
-            filter_projects: Filtrer par texte
           select_projects:
-            title: Sélectionner des projets
+            button_select: Sélectionner
+            button_select_all: Tout sélectionner
+            button_unselect_all: Désélectionner tout
+            filter_projects: Filtrer par texte
+            info: Seuls les projets dont le titulaire du jeton Jira est membre peuvent être sélectionnés comme périmètre d'importation.
+            title: Sélectionnez les projets à importer
       test:
         api_error: L'API Jira a renvoyé le statut d'erreur %{status}. Veuillez vérifier l'URL de votre instance Jira et le jeton d'API.
         connection_error: 'Erreur de connexion : %{message}'
@@ -1524,6 +1559,7 @@ fr:
     workflows:
       blankslate:
         description: Ajouter des statuts pour commencer à configurer des flux de travail pour ce rôle
+        linked_description: Ce type réutilise les flux de travail de son type source associé, pour lequel aucune transition de statut n'est configurée
         title: Aucune transition de statut configurée
       leave_confirmation:
         description: Vous êtes sur le point de quitter cette page mais vous avez des modifications non enregistrées. Souhaitez-vous les enregistrer avant de continuer ?
@@ -1550,9 +1586,15 @@ fr:
           other: Supprimer %{count} statuts ?
         title: Supprimer des statuts
       tabs:
-        default_transitions: Transitions par défaut
-        user_assignee: L'utilisateur est la personne assignée
-        user_author: L'utilisateur est l'auteur
+        always: Transitions par défaut
+        aria_label: Transitions du flux de travail
+        assignee: L'utilisateur est la personne assignée
+        author: L'utilisateur est l'auteur
+        descriptions:
+          always: Transitions disponibles dans tous les cas pour les rôles sélectionnés.
+          assignee: Transitions supplémentaires mises à la disposition du responsable du lot de travaux.
+          author: Transitions supplémentaires mises à la disposition de l'auteur du lot de travaux.
+        menu_label: Transitions affichées
   announcements:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
@@ -1680,6 +1722,7 @@ fr:
     entity_type: Entité
     estimated_hours: Travail
     estimated_time: Travail
+    exact_match: Exact match
     expires_at: Expire le
     filter: Filtrer
     firstname: Prénom
@@ -2499,6 +2542,7 @@ fr:
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
   error_in_dependent: 'Erreur lors de la tentative de modification de l''objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}'
   error_in_new_dependent: 'Erreur lors de la tentative de création d''un objet dépendant : %{dependent_class} - %{related_subject} : %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Valeur sélectionnée invalide.
   error_journal_attribute_not_present: Le journal ne contient pas l'attribut %{attribute}.
   error_menu_item_not_created: L'élément de menu n'a pas pu être ajouté
@@ -2865,7 +2909,14 @@ fr:
       work_package_parent_deleted: Élément parent supprimé
     changes_retracted: Les modifications ont été retirées.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: un projet non visible
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: un lot de travail non visible
   label_accessibility: Accessibilité
   label_account: Compte
@@ -3316,7 +3367,6 @@ fr:
   label_other: Autre
   label_overall_activity: Activité totale
   label_overview: Vue globale
-  label_page_title: Titre de la page
   label_parent_group_caption: 'La définition d''un groupe parent fera de ce groupe un sous-groupe du groupe parent sélectionné. Il héritera également de toutes les adhésions, y compris les autorisations du groupe parent.
 
     '
@@ -3598,7 +3648,7 @@ fr:
   label_workflow: Flux de travail
   label_workflow_copy: Copier le flux de travail
   label_workflow_plural: Flux de travail
-  label_workflow_summary: Résumé
+  label_workflow_summary: Résumé du flux de travail
   label_working_days: Journées de travail
   label_working_days_and_hours: Jours et heures travaillés
   label_working_hours: Horaires de travail
@@ -4577,6 +4627,7 @@ fr:
 
     '
   permission_move_work_packages: Déplacer les Lots de travaux
+  permission_project_identifier_visibility_caution: 'Attention : les utilisateurs disposant de cette autorisation peuvent vérifier si un identifiant de projet est déjà utilisé, même par des projets auxquels ils n''ont pas accès. [En savoir plus](project_identifier_visibility_url)'
   permission_save_bcf_queries: Enregistrer les requêtes BCF
   permission_save_queries: Enregistrer les vues
   permission_search_project: Rechercher un projet
@@ -4859,9 +4910,23 @@ fr:
         menu_title: Modèle
         title: Paramètres du modèle
       types:
+        add_dialog:
+          description: Ce projet utilise une police de chaque famille typographique. Veuillez choisir la police ou la variante que ce projet doit utiliser.
+          none_addable: Tous les types disponibles sont déjà actifs dans ce projet.
+          submit: Ajouter
+          title: Ajouter un type
+          type_label: Type
+          type_placeholder: Sélectionnez un type
+        add_type: Ajouter un type
+        empty_state:
+          description: Ajoutez un type afin de permettre aux utilisateurs de créer des lots de travail de ce type dans ce projet.
+          title: Aucun type n'est actif dans ce projet
         form:
           enable_type_in_project: Autorise le type « %{type} »
+        in_roadmap: Dans la feuille de route
         no_results_title_text: Il n'y a actuellement aucun type disponible.
+        remove_from_project: Supprimer du projet
+        type_not_found: Le type sélectionné est introuvable.
       versions:
         no_results_content_text: Créer une nouvelle version
         no_results_title_text: Aucune version du projet pour le moment.
@@ -5679,6 +5744,7 @@ fr:
   text_journal_changed_plain: "%{label} changé de %{old} %{linebreak}à %{new}"
   text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
+  text_journal_deleted_no_detail: "%{label} supprimé"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
   text_journal_file_link_added: Lien %{label} vers %{value} (%{storage}) ajouté
@@ -5734,8 +5800,9 @@ fr:
   text_user_invited: L'utilisateur a été invité et est en attente d'enregistrement.
   text_user_wrote: "%{value} écrit:"
   text_warn_on_leaving_unsaved: Le lot de travaux contient du texte non sauvegardé qui sera perdu si vous quittez cette page.
-  text_what_did_you_change_click_to_add_comment: Qu'avez-vous changé ? Cliquez ici pour ajouter un commentaire
   text_wiki_destroy_confirmation: Voulez-vous vraiment supprimer ce wiki et tout son contenu?
+  text_wiki_page_comment_caption: Ce commentaire ne sera visible que dans l'historique du wiki.
+  text_wiki_page_comment_placeholder: Vous avez apporté une modification ? Ajoutez un commentaire
   text_wiki_page_destroy_children: Supprimer les pages enfants et toute leur descendance
   text_wiki_page_destroy_question: Cette page possède %{descendants} page(s) enfant et descendant(s). Que voulez vous faire?
   text_wiki_page_nullify_children: Garder les pages enfants en tant que pages d'origine
@@ -5794,35 +5861,48 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      configuration_link_error: Le mode de réutilisation n'a pas pu être enregistré. Veuillez sélectionner un type source.
-      create_subtype: Créer un sous-type
+      create_type: Créer un type
+      create_variant: Créer une variante
       fields:
         inherited_from_parent_html: Hérité du type parent <b>%{parent}</b>.
       finish: Terminer
       placeholder_description: Cette étape sera bientôt disponible.
       progress_label: Étape %{number} sur %{total}
       steps:
-        automations: Automatisations
+        defaults: Valeurs par défaut
         details: Détails
         form_configuration: Configuration du formulaire
         pdf: Génération de PDF
+        project_attributes: Attributs du projet
         projects: Projets
         workflows: Flux de travail
-      success: Le sous-type a été créé avec succès.
-      workflows:
-        copy_caption: Copiez la configuration du flux de travail d'un type existant pour l'utiliser comme point de départ.
+      success: La variante a été créée avec succès.
     edit:
-      configuration_link:
-        independent:
-          caption: Ces paramètres appartiennent à ce type et sont modifiés ici. Ils ne sont liés à aucun autre type.
-          label: Indépendant
-          warning: Le passage au mode indépendant copie sur ce type les paramètres actuels du type source sélectionné, puis supprime le lien. Vous pourrez ensuite les modifier librement. Procédez avec prudence.
-        linked:
-          caption: Ces paramètres sont réutilisés à partir d'un type source et restent synchronisés avec celui-ci. Pour les modifier, modifiez le type source.
-          label: Lié
-          warning: La liaison remplace les paramètres propres à ce type par ceux du type source. Les paramètres actuels sont abandonnés et les lots de travaux de ce type peuvent être affectés. Procédez avec prudence.
-        source:
-          label: Type source
+      breadcrumb_variant: 'Variante : %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: Définissez un modèle utilisant des attributs référencés et du texte pour générer automatiquement les sujets des lots de travaux. Les utilisateurs ne pourront pas modifier les sujets manuellement.
+          label: Sujets générés automatiquement
+        description:
+          caption: Ajoutez le texte qui sera inséré dans le champ « Description » de tous les nouveaux lots de travaux de ce type.
+          label: Texte de description par défaut
+        manually_editable_subjects:
+          caption: Les utilisateurs peuvent saisir et modifier manuellement les sujets des lots de travaux sans restriction.
+          label: Sujets modifiables manuellement
+        pattern:
+          caption: Créez des modèles en ajoutant du texte ou saisissez « / » pour rechercher les [attributs pris en charge](attributes_url).
+          insert_as_text: 'Aucun attribut n''a été trouvé. Ajouter en tant que texte : « %{word} »'
+          label: Modèle de sujet
+        tab: Valeurs par défaut
+        token:
+          context:
+            parent: Parent
+            project: Projet
+            work_package: Lot de travaux
+          label_with_context: "%{attribute_context} : %{attribute_label}"
+      details:
+        tab: Détails
+        type_color_text: La couleur sélectionnée permet de distinguer les différents types dans les diagrammes de Gantt ou les tableaux de lots de travaux. Il est donc recommandé d'utiliser une couleur vive.
       export_configuration:
         artefact_export:
           attachment:
@@ -5862,6 +5942,10 @@ fr:
         drag_to_reorder: Glisser pour réorganiser
         edit_query: Modifier la requête
         empty_group_hint: Glisser les attributs ici
+        exclusions:
+          attribute_label: Hériter %{attribute}
+          excluded: Masqué
+          section_label: Section « Héritage » %{section}
         filter_inactive: Filtrer les attributs
         group_actions: Actions relatives à la section
         group_name_label: Nom de la section
@@ -5887,6 +5971,9 @@ fr:
           label_disable_all: Désactiver tout
           label_enable_all: Activer tout
         description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
+        disabled: Désactivé
+        exclusions:
+          attribute_label: Hériter %{attribute}
         filter: Rechercher par section ou par nom
         tab: Attributs du projet
       projects:
@@ -5894,40 +5981,93 @@ fr:
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
         tab: Projets
-      settings:
-        parent_type_text: Vous pouvez, si vous le souhaitez, imbriquer ce type en tant que sous-type en sélectionnant un type parent.
-        tab: Paramètres
-        type_color_text: La couleur sélectionnée distingue les différents types dans les graphiques de Gantt ou les tableaux des lots de travaux. Il est donc recommandé d'utiliser une couleur forte.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Définissez un modèle utilisant des attributs et du texte référencés pour générer automatiquement des sujets de lots de travaux. Les utilisateurs ne pourront pas modifier manuellement les sujets.
-          label: Sujets générés automatiquement
-        manually_editable_subjects:
-          caption: Les utilisateurs peuvent saisir et modifier manuellement les sujets des lots de travaux sans restrictions.
-          label: Sujets modifiables manuellement
-        pattern:
-          caption: Créez des modèles en ajoutant du texte ou saisissez « / » pour rechercher les [attributs pris en charge](attributes_url).
-          insert_as_text: 'Aucun attribut n''a été trouvé. Ajouter en tant que texte : « %{word} »'
-          label: Modèle de sujet
-        tab: Configuration du sujet
-        token:
-          context:
-            parent: Parent
-            project: Projet
-            work_package: Lot de travaux
-          label_with_context: "%{attribute_context} : %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: Je comprends que cela remplacera les paramètres actuels
+            description_html: En copiant les données depuis %{source_name}, vous écraserez les paramètres actuels et risquez d'altérer les informations existantes des lots de travaux de ce type.
+            title: Copier la configuration ?
+          dialog:
+            description: Copiez la configuration d'un type source et utilisez-la comme base ponctuelle. Cela ne crée pas de lien permanent entre les deux types.
+            source_label: Source de la copie
+            source_placeholder: Sélectionnez un type ou une variante
+            submit: Enregistrer et copier
+            title: Copier la configuration
+          invalid_source: La configuration ne peut pas être copiée depuis le type sélectionné. Veuillez sélectionner un autre type source.
+          success: La configuration a été copiée.
+        exclusions:
+          not_linked: Ce type dispose de sa propre configuration pour cette section ; il n'y a donc rien à exclure. Modifiez plutôt directement la configuration.
+          unknown_aspect: Section de configuration inconnue «%{aspect}».
+        independent:
+          confirm_dialog:
+            check_box: Je comprends que cela remplacera les paramètres actuels
+            description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient affecter les informations existantes des lots de travaux de ce type.
+            title: Changer de mode de configuration ?
+          copy_from_type: Copier à partir du type
+          description: Aucun paramètre n'est hérité. Si vous le souhaitez, vous pouvez toutefois copier ponctuellement les paramètres d'un autre type.
+          dialog:
+            submit: Changer
+            title: Mode indépendant
+          invalid_mode: Le mode sélectionné n'est pas disponible pour cette configuration. Veuillez choisir un autre mode.
+          modes:
+            copy:
+              caption: Commencez par effectuer une copie ponctuelle des paramètres actuels définis en mode lié.
+              label: Copier depuis le mode lié
+            default:
+              caption: Utilisez les paramètres par défaut pour les nouveaux types.
+              label: Paramètres par défaut
+            empty:
+              caption: Configurez tout à partir de zéro, en partant d'une configuration vierge.
+              label: Vide
+          success: Le mode de configuration a été modifié.
+          switch_to_linked: Passer en mode « lié »
+          title: Mode indépendant
+        linked:
+          change_source: Modifier le type source
+          confirm_dialog:
+            change_source:
+              description_html: En remplaçant le type source par %{source_name}, vous écraserez les paramètres actuels, ce qui pourrait affecter les informations existantes des lots de travaux de ce type.
+              title: Modifier le type source ?
+            check_box: Je comprends que cela remplacera les paramètres actuels
+            from_independent:
+              description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient avoir une incidence sur les informations existantes concernant les lots de travaux de ce type.
+              title: Changer de mode de configuration ?
+          description: Cette configuration est liée au type source [%{source_name}](source_url)%{source_suffix}, dont elle hérite les paramètres.
+          dialog:
+            description: Copiez ces paramètres depuis une source et héritez-en. Toute nouvelle configuration ajoutée à la source sera également ajoutée ici.
+            source_label: Source liée
+            source_placeholder: Sélectionnez un type ou une variante
+            submit: Changer
+            title: Mode lié
+          invalid_source: La configuration ne peut pas être liée au type sélectionné. Veuillez sélectionner un autre type source.
+          success: Le mode de configuration a été modifié.
+          switch_to_independent: Passer en mode indépendant
+          title: Mode lié
+        parent_suffix: " (parent)"
+      workflow:
+        tab: Flux de travail
     index:
-      add_subtype: Ajouter un sous-type à %{name}
-      description: 'Chaque zone de configuration des types et sous-types peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
+      add_variant: Ajouter une variante à %{name}
+      add_variant_action: Ajouter une variante
+      description: 'Chaque zone de configuration des types et variantes peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
 
         '
+      duplicate_name: Copie de %{name}
+      duplicate_notice: "%{name} a été dupliqué."
+      enabled_in_new_projects: Actif dans les nouveaux projets
+      make_default: Activer dans les nouveaux projets
+      make_default_notice: "%{name} est désormais activé dans les nouveaux projets."
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
-      subtype_label: Sous-type
-      subtypes_count:
-        one: 1 sous-type
-        other: "%{count} sous-types"
+      remove_default: Ne pas activer dans les nouveaux projets
+      remove_default_notice: "%{name} n'est plus activé dans les nouveaux projets."
       type_label: Type
+      variant_enabled_in_new_projects: Variante %{name} active dans les nouveaux projets
+      variant_label: Variante
+      variants_count:
+        one: 1 variante
+        other: "%{count} variantes"
+    milestone_indicator: Étape
   unsupported_browser:
     close_warning: Ignorer cet avertissement.
     message: Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page.
