@@ -27,7 +27,9 @@ en:
       wikis/inline_page_link:
         one: Inline page link
         other: Inline page links
-      wikis/internal_provider: Project wikis
+      wikis/internal_provider:
+        one: Project wiki
+        other: Project wikis
       wikis/provider:
         one: Wiki provider
         other: Wiki providers
