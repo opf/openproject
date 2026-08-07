@@ -28,28 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
-
-    attribute :principal
-    attribute :user_resource
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
-
-    validate :user_allowed_to_allocate
-
-    private
-
-    def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
-
-      errors.add :base, :error_unauthorized
-    end
+class AddUserResourceToResourceAllocations < ActiveRecord::Migration[8.1]
+  def change
+    # No ON DELETE behaviour on purpose: a UserResource that is still requested
+    # by an allocation must not be removable. The restriction is enforced in the
+    # deletion service, the FK is the backstop.
+    add_reference :resource_allocations, :user_resource, foreign_key: { to_table: :users }, index: true
+    add_column :resource_allocation_journals, :user_resource_id, :bigint
   end
 end

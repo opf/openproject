@@ -123,11 +123,11 @@ module ResourcePlannerViews::WorkPackageList
       identifiable.map { |allocation| member_name(allocation) }.join(", ")
     end
 
-    # The assigned user's name, the filter name for an unassigned filter
+    # The assigned user's name, the resource name for an unassigned filter
     # allocation, or a generic label for an allocation that lost its principal
     # (e.g. the assigned user was deleted) — so the avatar always has a label.
     def member_name(allocation)
-      allocation.principal&.name.presence || allocation.filter_name.presence || unassigned_label
+      allocation.principal&.name.presence || allocation.user_resource&.name.presence || unassigned_label
     end
 
     def unassigned_label

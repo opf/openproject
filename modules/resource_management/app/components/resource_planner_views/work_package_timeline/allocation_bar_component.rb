@@ -65,7 +65,7 @@ module ResourcePlannerViews
 
       def placeholder_label
         if filter_based?
-          allocation.filter_name
+          allocation.user_resource.name
         else
           t("resource_management.work_package_allocations_dialog.hidden_user")
         end

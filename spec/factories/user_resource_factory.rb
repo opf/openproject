@@ -28,28 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
+FactoryBot.define do
+  factory :user_resource, parent: :principal, class: "UserResource" do
+    sequence(:name) { |n| "Senior Developer #{n}" }
 
-    attribute :principal
-    attribute :user_resource
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
-
-    validate :user_allowed_to_allocate
-
-    private
-
-    def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
-
-      errors.add :base, :error_unauthorized
+    user_filter do
+      UserQuery.new.tap { |query| query.where("status", "=", [Principal.statuses[:active].to_s]) }.filters
     end
   end
 end
