@@ -31,48 +31,48 @@
 module ::TypesHelper
   include CustomFieldsHelper
 
-  # rubocop:disable Rails/HelperInstanceVariable
-  def types_tabs
+  # A tab whose route builder answers nil has no destination where the type is being
+  # administered from, and is dropped rather than rendered as a dead link.
+  def types_tabs # rubocop:disable Metrics/AbcSize
     [
       {
         name: "details",
-        path: edit_type_details_path(type_id: @type.id),
+        path: type_routes.details,
         label: I18n.t("types.edit.details.tab")
       },
       {
         name: "defaults",
-        path: edit_type_defaults_path(type_id: @type.id),
+        path: type_routes.defaults,
         label: I18n.t("types.edit.defaults.tab")
       },
       {
         name: "form_configuration",
-        path: edit_type_form_configuration_path(@type),
+        path: type_routes.form_configuration,
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
         name: "workflow",
-        path: edit_type_workflow_path(@type),
+        path: type_routes.workflow,
         label: I18n.t("types.edit.workflow.tab")
       },
       {
         name: "project_attributes",
-        path: edit_type_project_attributes_path(@type),
+        path: type_routes.project_attributes,
         label: I18n.t("types.edit.project_attributes.tab")
       },
       {
         name: "projects",
-        path: edit_type_projects_path(@type),
+        path: type_routes.projects,
         label: I18n.t("types.edit.projects.tab")
       },
       {
         name: "export_configuration",
-        path: edit_type_pdf_export_template_index_path(type_id: @type.id),
+        path: type_routes.pdf_export,
         label: I18n.t("types.edit.export_configuration.tab"),
         view_component: WorkPackageTypes::ExportConfigurationComponent
       }
-    ]
+    ].select { |tab| tab[:path].present? }
   end
-  # rubocop:enable Rails/HelperInstanceVariable
 
   def icon_for_type(type)
     return unless type

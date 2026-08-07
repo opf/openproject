@@ -34,26 +34,28 @@ module Types
     include ApplicationHelper
     include TabsHelper
 
-    def initialize(type:, tabs: nil)
+    def initialize(type:, tabs: nil, routes: nil)
       super
       @type = type
       @tabs = tabs
+      @routes = routes || ::WorkPackageTypes::TypeRoutes.for(type)
     end
 
     def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-       { href: types_path, text: t(:label_type_plural) },
+      [*@routes.breadcrumb_root_items,
        *parent_breadcrumb_item,
        breadcrumb_leaf]
     end
 
     private
 
+    # Inside a project the parent is administered somewhere the reader cannot go, so it
+    # names the family as plain text rather than a link that would refuse them.
     def parent_breadcrumb_item
       return [] if @type.parent.nil?
 
-      [{ href: edit_type_details_path(type_id: @type.parent_id), text: @type.parent.name }]
+      href = @routes.parent_details
+      [href ? { href:, text: @type.parent.name } : @type.parent.name]
     end
 
     def breadcrumb_leaf

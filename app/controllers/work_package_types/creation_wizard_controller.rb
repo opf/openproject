@@ -37,6 +37,7 @@ module WorkPackageTypes
   # persists to that same record (see FND-117).
   class CreationWizardController < ApplicationController
     include TypeVariantsFeature
+    include TypeRouting
 
     layout "no_menu"
 

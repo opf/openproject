@@ -28,19 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class BaseTabController < ApplicationController
-    include TypeRouting
+module Projects::Settings::WorkPackages::Types::Variants
+  # The workflow matrix editor, re-homed inside a project's settings. The parent resolves
+  # its type lazily through #type, which reads the @type this sets.
+  class MatrixController < ::Workflows::MatrixController
+    include ProjectScoped
 
-    layout "admin"
-
-    before_action :require_admin
     before_action :find_type
 
-    private
+    def show
+      return if turbo_frame_request?
 
-    def find_type
-      @type = ::Type.find(params[:type_id])
+      redirect_to type_routes.workflow(role_ids: params[:role_ids], tab: matrix_context.tab)
     end
   end
 end

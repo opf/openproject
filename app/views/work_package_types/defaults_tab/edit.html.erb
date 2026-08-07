@@ -29,18 +29,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs, routes: type_routes) %>
 
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_defaults_path(type_id: @type.id)
+        reload_url: type_routes.defaults
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::DEFAULTS)) %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::DEFAULTS, routes: type_routes)) %>
   <% if @type.linked?(Type::ConfigurationLink::DEFAULTS) %>
-    <%= render WorkPackageTypes::DefaultsComponent.new(@type, readonly: true) %>
+    <%= render WorkPackageTypes::DefaultsComponent.new(@type, readonly: true, routes: type_routes) %>
   <% else %>
     <%= render WorkPackageTypes::DefaultsComponent
-                 .new(@type, subject_configuration_form_data: params[:work_package_types_forms_defaults_form_model]) %>
+                 .new(@type,
+                      subject_configuration_form_data: params[:work_package_types_forms_defaults_form_model],
+                      routes: type_routes) %>
   <% end %>
 <% end %>

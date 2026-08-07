@@ -34,13 +34,16 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(type:, template:, readonly: false)
+    def initialize(type:, template:, readonly: false, routes: nil)
       super
 
       @template = template
       @type = type
       @readonly = readonly
+      @routes = routes || TypeRoutes.for(type)
     end
+
+    attr_reader :routes
 
     def readonly? = @readonly
   end

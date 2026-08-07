@@ -34,8 +34,13 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
+    def initialize(model, routes: nil, **)
+      @routes = routes || TypeRoutes.for(model)
+      super(model, **)
+    end
+
     def form_options
-      { url: type_details_path(type_id: model.id), method: :patch, model: }
+      { url: @routes.details_submit, method: :patch, model: }
     end
   end
 end

@@ -57,5 +57,9 @@ module Projects::Settings::WorkPackages::Types::Variants
 
       render_404 if @type.nil?
     end
+
+    def type_routes
+      @type_routes ||= ::WorkPackageTypes::TypeRoutes.for(@type, project: @project)
+    end
   end
 end

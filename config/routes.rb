@@ -452,7 +452,12 @@ Rails.application.routes.draw do
 
               resource :details, controller: "variants/details_tab", only: %i[edit update]
               resource :defaults, controller: "variants/defaults_tab", only: %i[edit update]
-              resource :workflow, controller: "variants/workflow_tab", only: %i[edit]
+              resource :workflow, controller: "variants/workflow_tab", only: %i[edit] do
+                resource :matrix, only: %i[show update], controller: "variants/matrix" do
+                  get :status_dialog
+                  post :confirm_statuses
+                end
+              end
 
               resource :form_configuration, controller: "variants/form_configuration_tab", only: %i[edit update] do
                 get :reset_dialog

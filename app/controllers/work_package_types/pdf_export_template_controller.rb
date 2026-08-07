@@ -31,6 +31,8 @@
 module WorkPackageTypes
   class PdfExportTemplateController < ApplicationController
     include OpTurbo::ComponentStream
+    include TypeRouting
+
     layout "admin"
 
     before_action :require_admin

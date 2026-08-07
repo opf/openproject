@@ -34,12 +34,15 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(type:, readonly: false)
+    def initialize(type:, readonly: false, routes: nil)
       super
 
       @type = type
       @readonly = readonly
+      @routes = routes || TypeRoutes.for(type)
     end
+
+    attr_reader :routes
 
     def readonly? = @readonly
 
@@ -64,7 +67,7 @@ module WorkPackageTypes
       {
         "draggable-id": template.id,
         "draggable-type": "template",
-        "drop-url": drop_type_pdf_export_template_path(type_id: @type.id, id: template.id),
+        "drop-url": routes.drop_pdf_template(template.id),
         test_selector: "pdf-export-template-row-#{template.id}"
       }
     end

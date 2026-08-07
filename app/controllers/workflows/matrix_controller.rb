@@ -32,6 +32,7 @@
 # that the editor can be modified regardless of the context it is used in
 class Workflows::MatrixController < ApplicationController
   include OpTurbo::ComponentStream
+  include WorkPackageTypes::TypeRouting
 
   layout false
 
@@ -72,6 +73,12 @@ class Workflows::MatrixController < ApplicationController
 
   def type
     @type ||= ::Type.find(params.expect(:type_id))
+  end
+
+  # Resolved off #type rather than @type: this controller finds its type lazily, so the
+  # ivar is not yet set when a view asks for the routes.
+  def type_routes
+    @type_routes ||= ::WorkPackageTypes::TypeRoutes.for(type)
   end
 
   def matrix_context

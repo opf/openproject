@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
                 render(
                   Primer::Beta::Button.new(
                     tag: :a,
-                    href: enable_all_type_pdf_export_template_index_path(type_id: @type.id),
+                    href: routes.enable_all_pdf_templates,
                     scheme: :invisible,
                     font_weight: :bold,
                     color: :subtle,
@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
                 render(
                   Primer::Beta::Button.new(
                     tag: :a,
-                    href: disable_all_type_pdf_export_template_index_path(type_id: @type.id),
+                    href: routes.disable_all_pdf_templates,
                     scheme: :invisible,
                     font_weight: :bold,
                     color: :subtle,
@@ -81,7 +81,8 @@ See COPYRIGHT and LICENSE files for more details.
             WorkPackageTypes::ExportTemplateRowComponent.new(
               type: @type,
               template:,
-              readonly: readonly?
+              readonly: readonly?,
+              routes:
             )
           )
         end

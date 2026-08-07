@@ -33,17 +33,20 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    def initialize(model, readonly: false, **)
+    def initialize(model, readonly: false, routes: nil, **)
       @readonly = readonly
+      @routes = routes || TypeRoutes.for(model)
       super(model, **)
     end
+
+    attr_reader :routes
 
     def readonly? = @readonly
 
     def artefact_export_form_options
       {
         model:,
-        url: update_artefact_export_type_pdf_export_template_index_path(type_id: model.id),
+        url: routes.update_artefact_export,
         method: :put,
         readonly: @readonly,
         data: artefact_export_form_data

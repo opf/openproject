@@ -35,8 +35,9 @@ module WorkPackageTypes
   class ReuseModeBannerComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(type:, aspect:)
+    def initialize(type:, aspect:, routes: nil)
       @aspect = aspect
+      @routes = routes || TypeRoutes.for(type)
       super(type)
     end
 
@@ -54,23 +55,38 @@ module WorkPackageTypes
 
     def source_is_parent? = source.present? && source == type.parent
 
-    def source_path = edit_type_details_path(type_id: source.id)
+    def source_path = @routes.source_details(source)
 
     def copy_supported? = CopyConfiguration.supported?(aspect)
 
-    def copy_dialog_path = type_configuration_copy_dialog_path(type_id: type.id, aspect:)
+    def copy_dialog_path = @routes.configuration_copy_dialog(aspect)
 
-    def link_dialog_path = type_configuration_link_dialog_path(type_id: type.id, aspect:)
+    def link_dialog_path = @routes.configuration_link_dialog(aspect)
 
-    def independent_dialog_path = type_configuration_independence_dialog_path(type_id: type.id, aspect:)
+    def independent_dialog_path = @routes.configuration_independence_dialog(aspect)
+
+    # Reuse mode is an administration concern; where its dialogs are out of reach the
+    # banner reports the mode without offering to change it.
+    def mode_switchable? = link_dialog_path.present?
 
     def linked_description
+      return plain_linked_description if source_path.blank?
+
       helpers.link_translate(
         "types.edit.reuse_mode.linked.description",
         i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
         links: { source_url: source_path },
         external: false
       )
+    end
+
+    # link_translate always renders an anchor, so the unlinked wording unwraps the
+    # translation's own [name](source_url) markup and keeps the name.
+    def plain_linked_description
+      I18n.t("types.edit.reuse_mode.linked.description",
+             source_name: source.composite_name,
+             source_suffix: parent_suffix)
+        .gsub(/\[([^\]]*)\]\(source_url\)/, '\1')
     end
 
     def parent_suffix

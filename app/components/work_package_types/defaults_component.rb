@@ -34,9 +34,10 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(model, subject_configuration_form_data: nil, readonly: false, **)
+    def initialize(model, subject_configuration_form_data: nil, readonly: false, routes: nil, **)
       @subject_configuration_form_data = subject_configuration_form_data
       @readonly = readonly
+      @routes = routes || TypeRoutes.for(model)
       super(model, **)
     end
 
@@ -44,7 +45,7 @@ module WorkPackageTypes
 
     def form_options
       {
-        url: type_defaults_path(type_id: model.id),
+        url: @routes.defaults_submit,
         method: :put,
         model: subject_form_object,
         readonly: @readonly,

@@ -29,18 +29,20 @@
 #++
 
 module WorkPackageTypes
-  class BaseTabController < ApplicationController
-    include TypeRouting
+  # Hands the tab components the paths for wherever this controller administers a type
+  # from. Administration answers with the admin routes whoever owns the type;
+  # Projects::Settings::WorkPackages::Types::Variants::ProjectScoped overrides it.
+  module TypeRouting
+    extend ActiveSupport::Concern
 
-    layout "admin"
-
-    before_action :require_admin
-    before_action :find_type
+    included do
+      helper_method :type_routes
+    end
 
     private
 
-    def find_type
-      @type = ::Type.find(params[:type_id])
+    def type_routes
+      @type_routes ||= ::WorkPackageTypes::TypeRoutes.for(@type)
     end
   end
 end

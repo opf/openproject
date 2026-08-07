@@ -76,6 +76,46 @@ RSpec.describe "Project-scoped variant configuration tabs",
     expect(response.body).to include("Ours")
   end
 
+  describe "the links a tab renders" do
+    before { get edit_project_settings_work_packages_types_variant_details_path(project, owned_variant) }
+
+    # Rendering is not enough: a tab bar pointing at /types strands the project
+    # administrator on the first click, since administration refuses them.
+    it "keeps the tab bar inside the project" do
+      expect(response.body)
+        .to include(edit_project_settings_work_packages_types_variant_workflow_path(project, owned_variant))
+    end
+
+    it "links nowhere into global type administration" do
+      expect(response.body).not_to include('href="/types')
+    end
+
+    it "posts nowhere into global type administration" do
+      expect(response.body).not_to include('action="/types')
+    end
+
+    # Activating a type across projects is meaningless for a variant only its owner uses.
+    it "offers no projects tab" do
+      expect(response.body).not_to include("/projects/edit")
+    end
+
+    it "breadcrumbs through project settings rather than administration" do
+      expect(response.body).to include(project_settings_work_packages_types_path(project))
+    end
+  end
+
+  # Any tab still naming an admin route strands the project administrator on click.
+  it "keeps every tab's links and forms inside the project" do
+    aggregate_failures do
+      tab_paths(owned_variant).each do |name, path|
+        get path
+
+        expect(response.body).not_to include('href="/types'), "the #{name} tab links into administration"
+        expect(response.body).not_to include('action="/types'), "the #{name} tab posts into administration"
+      end
+    end
+  end
+
   it "gives 404 on every tab of another project's variant" do
     tab_paths(foreign_variant).each do |name, path|
       get path
