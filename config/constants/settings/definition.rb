@@ -423,6 +423,11 @@ module Settings
         description: "Disable internal logins and instead only allow SSO through OmniAuth.",
         default: false
       },
+      disable_password_login_for_sso_users: {
+        description: "Disable password login for users linked to an OmniAuth provider, " \
+                     "so a leftover password cannot be used to bypass SSO.",
+        default: false
+      },
       display_subprojects_work_packages: {
         default: true
       },
@@ -846,6 +851,12 @@ module Settings
       },
       password_days_valid: {
         default: 0
+      },
+      password_login_sso_bypass_logins: {
+        description: "Logins exempt from disable_password_login_for_sso_users, " \
+                     "so they keep password login as a break-glass access.",
+        format: :array,
+        default: []
       },
       password_min_length: {
         default: 10,
