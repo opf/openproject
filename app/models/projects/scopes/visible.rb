@@ -46,6 +46,31 @@ module Projects::Scopes
           active.public_projects.or(active.where(id: user.members.select(:project_id)))
         end
       end
+
+      # Ids of the projects visible to +user+, for use as a semi-join operand:
+      # +where(project_id: Project.visible_ids(user))+.
+      #
+      # With +shared_permissions_cte+ on, the set is wrapped in an +AS MATERIALIZED+
+      # CTE and built once instead of re-derived per row; off, it is the plain
+      # +visible(user).select(:id)+ subquery. Both return the same ids. The nested
+      # inner CTE only carries the materialization hint (see
+      # +WorkPackages::Scopes::AllowedTo.visible_ids+).
+      def visible_ids(user = User.current)
+        ids = visible(user).select(:id)
+
+        return ids unless OpenProject::FeatureDecisions.shared_permissions_cte_active?
+
+        visible_projects = Arel::Table.new(:visible_projects)
+
+        with(visible_projects: Arel.sql(<<~SQL.squish))
+          WITH materialized_visible_projects AS MATERIALIZED (
+            #{ids.to_sql}
+          )
+          SELECT id FROM materialized_visible_projects
+        SQL
+          .select(visible_projects[:id])
+          .from(visible_projects)
+      end
     end
   end
 end
