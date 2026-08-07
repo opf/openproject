@@ -80,6 +80,17 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
     end
   end
 
+  context "when the search term matches a parent page" do
+    let(:query) { wiki_page_parent.title }
+    let!(:wiki_page_child) { create(:wiki_page, wiki:, parent: wiki_page, title: "Deeply nested page") }
+
+    it { is_expected.to be_success }
+
+    it "returns the matching page only, not the pages nested below it" do
+      expect(subject.value!.map { it.page.title }).to contain_exactly(wiki_page_parent.title)
+    end
+  end
+
   context "when the search term has wrong casing" do
     let(:query) { wiki_page.title.downcase }
 
@@ -88,6 +99,50 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
     it "returns matching pages" do
       expect(subject.value!).not_to be_empty
       expect(subject.value!.first.page.title).to eq(wiki_page.title)
+    end
+  end
+
+  context "when the search term matches a wiki's project name but none of its pages" do
+    let(:demo_wiki) { create(:wiki, project: create(:project, name: "Demo project")) }
+    let(:query) { "Demo" }
+
+    before do
+      create(:member, project: demo_wiki.project, user:,
+                      roles: [create(:project_role, permissions: %i[view_wiki_pages])])
+    end
+
+    it { is_expected.to be_success }
+
+    it "returns the (page-less) wiki itself as a result" do
+      wikis = subject.value!.grep(Wikis::Adapters::Results::Wiki)
+      expect(wikis.map(&:identifier)).to contain_exactly(demo_wiki.id.to_s)
+    end
+  end
+
+  context "when the search term matches a wiki the user cannot see" do
+    let!(:hidden_wiki) { create(:wiki, project: create(:project, name: "Secret base")) }
+    let(:query) { "Secret base" }
+
+    it { is_expected.to be_success }
+
+    it "does not return that wiki" do
+      expect(subject.value!).to eq([])
+    end
+  end
+
+  context "when the search term matches a disabled wiki" do
+    let!(:disabled_wiki) { create(:wiki, enabled: false, project: create(:project, name: "Retired base")) }
+    let(:query) { "Retired base" }
+
+    before do
+      create(:member, project: disabled_wiki.project, user:,
+                      roles: [create(:project_role, permissions: %i[view_wiki_pages])])
+    end
+
+    it { is_expected.to be_success }
+
+    it "does not return that wiki, as no page can be created in it" do
+      expect(subject.value!).to eq([])
     end
   end
 

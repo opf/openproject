@@ -162,6 +162,44 @@ RSpec.describe Wikis::PageSearchService do
       end
     end
 
+    context "if the search result contains a wiki matched by its own name" do
+      let(:matched_wiki) { new_wiki(identifier: "9", provider:, name: "Demo project", href: "#") }
+      let(:page_hierarchies) { [matched_wiki] }
+
+      it "adds it as a standalone wiki node with no pages" do
+        expect(subject).to be_success
+        search_results = subject.value!
+
+        expect(search_results.size).to eq(1)
+        expect(search_results[0].type).to eq(:wiki)
+        expect(search_results[0].identifier).to eq(matched_wiki.identifier)
+        expect(search_results[0].children).to be_empty
+      end
+    end
+
+    context "if a wiki is matched both by its name and through one of its pages" do
+      let(:wiki) { new_wiki(identifier: "1", provider:, name: "Death Star", href: "#") }
+      let(:page_hierarchies) do
+        [
+          new_page_hierarchy(
+            page: new_page_info(identifier: "42", title: "E-11 Training program", href: "#", provider:),
+            ancestors: [],
+            wiki:
+          ),
+          wiki
+        ]
+      end
+
+      it "inserts the wiki only once and keeps its page" do
+        expect(subject).to be_success
+        search_results = subject.value!
+
+        expect(search_results.size).to eq(1)
+        expect(search_results[0].identifier).to eq(wiki.identifier)
+        expect(search_results[0].children.map(&:identifier)).to eq(["42"])
+      end
+    end
+
     context "if the search result is empty" do
       let(:page_hierarchies) { [] }
 

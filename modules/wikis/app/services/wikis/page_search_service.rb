@@ -86,22 +86,32 @@ module Wikis
                                                 enabled:)
     end
 
-    def build_result_tree(pages)
+    def build_result_tree(results)
       root = Adapters::Results::PageSearchTreeNode.new(identifier: "root",
                                                        type: :root,
                                                        name: "root",
                                                        children: [],
                                                        enabled: false)
 
-      tree_construct = pages.reduce({ root:, all_nodes: [root] }) do |acc, page|
-        insert_wiki_node(acc, page.wiki)
-        insert_ancestor_nodes(acc, page)
-        insert_page_node(acc, page)
+      tree_construct = results.reduce({ root:, all_nodes: [root] }) do |acc, result|
+        insert_result(acc, result)
 
         acc
       end
 
       tree_construct[:root].children
+    end
+
+    # A result is either a page, which is nested below its wiki and its ancestors, or a wiki matched by
+    # its own name, which becomes a node without any pages below it.
+    def insert_result(accumulator, result)
+      if result.is_a?(Adapters::Results::Wiki)
+        insert_wiki_node(accumulator, result)
+      else
+        insert_wiki_node(accumulator, result.wiki)
+        insert_ancestor_nodes(accumulator, result)
+        insert_page_node(accumulator, result)
+      end
     end
 
     def insert_wiki_node(accumulator, wiki)
