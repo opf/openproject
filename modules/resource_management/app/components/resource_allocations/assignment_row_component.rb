@@ -154,13 +154,13 @@ module ResourceAllocations
           row.with_column(mr: 2) do
             render(Primer::Beta::Octicon.new(icon: :"person-add", color: :muted, "aria-hidden": true))
           end
-          row.with_column { allocation.filter_name }
+          row.with_column { allocation.user_resource&.name }
         end
       end
     end
 
     def filter_summary
-      @filter_summary ||= Queries::FilterSummary.new(allocation.user_filter)
+      @filter_summary ||= Queries::FilterSummary.new(allocation.user_resource&.user_filter)
     end
 
     def criteria_tooltip

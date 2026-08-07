@@ -28,28 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
+class Queries::UserResources::UserResourceQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
-    attribute :principal
-    attribute :user_resource
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
+  def self.model
+    UserResource
+  end
 
-    validate :user_allowed_to_allocate
-
-    private
-
-    def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
-
-      errors.add :base, :error_unauthorized
-    end
+  # Deliberately narrower than `Principal.visible`: resources are a global
+  # catalogue rather than project members, so they have their own rule and stay
+  # out of the generic principal scopes.
+  def default_scope
+    UserResource.visible(User.current)
   end
 end

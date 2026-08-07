@@ -78,17 +78,7 @@ module ResourceAllocations
       def form_list_component(form)
         prepends = if filter_based?
                      [
-                       ResourceAllocations::Forms::FilterNameForm.new(form),
-                       ::Filters::FilterFormComponent.new(
-                         builder: form,
-                         query: @allocation.candidate_query,
-                         # Membership in the allocation's project is implied, not a criterion to edit.
-                         excluded_filters: [:member],
-                         wrap_with_controller: true,
-                         hidden_input_name: "filters",
-                         output_format: :json,
-                         autocomplete_append_to: "##{dialog_id}"
-                       )
+                       ResourceAllocations::Forms::UserResourceForm.new(form, dialog_id: dialog_id)
                      ]
                    else
                      [

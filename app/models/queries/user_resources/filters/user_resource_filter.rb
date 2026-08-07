@@ -28,28 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
+class Queries::UserResources::Filters::UserResourceFilter < Queries::Filters::Base
+  self.model = UserResource
 
-    attribute :principal
-    attribute :user_resource
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
-
-    validate :user_allowed_to_allocate
-
-    private
-
-    def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
-
-      errors.add :base, :error_unauthorized
-    end
+  def human_name
+    UserResource.human_attribute_name(name)
   end
 end

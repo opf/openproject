@@ -28,28 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
+module API
+  module V3
+    module UserResources
+      class UserResourceRepresenter < ::API::Decorators::Single
+        self_link
 
-    attribute :principal
-    attribute :user_resource
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
+        property :id, render_nil: true
+        property :name
 
-    validate :user_allowed_to_allocate
-
-    private
-
-    def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
-
-      errors.add :base, :error_unauthorized
+        def _type
+          "UserResource"
+        end
+      end
     end
   end
 end

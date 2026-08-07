@@ -66,5 +66,11 @@ class Queries::Serialization::Filters
     @klass = klass
   end
 
-  attr_reader :klass
+  # Accepts a proc so callers can defer resolving the query class. Filter classes
+  # evaluate scopes in their class body, which reads the schema — that must not
+  # happen while the app is still booting without a database (e.g. db:create).
+  def klass
+    @klass = @klass.call if @klass.is_a?(Proc)
+    @klass
+  end
 end

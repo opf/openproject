@@ -28,28 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
-
-    attribute :principal
-    attribute :user_resource
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
-
-    validate :user_allowed_to_allocate
-
-    private
-
-    def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
-
-      errors.add :base, :error_unauthorized
-    end
-  end
+# The name of a resource lives in `lastname`, so the concatenation this filter
+# searches always covers it — unlike the plain name filter, whose columns depend
+# on `Setting.user_format` and can miss a principal with no first name or login.
+class Queries::UserResources::Filters::AnyNameAttributeFilter < Queries::UserResources::Filters::NameFilter
+  include Queries::Filters::Shared::AnyUserNameAttributeFilter
 end

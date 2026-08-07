@@ -28,28 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
+class CreateUserResourceDetails < ActiveRecord::Migration[8.1]
+  def change
+    create_table :user_resource_details do |t|
+      t.references :principal, null: false, foreign_key: { to_table: :users }, index: { unique: true }
+      t.jsonb :user_filter, null: false, default: []
+      t.text :description
 
-    attribute :principal
-    attribute :user_resource
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
-
-    validate :user_allowed_to_allocate
-
-    private
-
-    def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
-
-      errors.add :base, :error_unauthorized
+      t.timestamps
     end
   end
 end
