@@ -71,6 +71,7 @@ comparable lists should use headers.
 | Slot | Description |
 |---|---|
 | `with_title` | Block-based alternative to `title:`, for titles that need more than plain text. Takes precedence over `title:` |
+| `with_breadcrumbs` | Breadcrumb trail (`Primer::Beta::Breadcrumbs`) rendered in the title position. The title stays mandatory and renders visually hidden, keeping the list's accessible name. Not available on collapsible headers |
 | `with_description` | Secondary content below the title, wrapped in `Primer::Beta::Text` with muted color by default. Accepts Primer system arguments |
 | `with_label` | Informational status label (`Primer::Beta::Label`) shown on the title row. Right-aligned, truncated when long, and hidden on small screens, so use it only for supplementary status, never as the sole affordance for an action |
 | `with_action_button` | Button rendered in the header actions area |
@@ -126,6 +127,17 @@ belongs to `count:` and actions to the header action slots. Use
 enough for the list action.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :custom_header_content, panels: %i[source] %>
+
+### Header breadcrumbs
+
+Use `with_breadcrumbs` when a list header should show a hierarchy trail in the
+title position, such as a department's place in the organization structure.
+The breadcrumbs replace the visible title; `title:` remains mandatory and
+renders as a visually hidden heading, keeping the list's accessible name and
+heading navigation intact. The last crumb is marked as the current page
+automatically. Breadcrumbs are not available on collapsible headers.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :header_breadcrumbs, panels: %i[source] %>
 
 ### Empty state
 

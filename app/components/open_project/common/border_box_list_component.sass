@@ -161,6 +161,15 @@
     .Box-title
       min-width: 0
 
+    // Let an embedded breadcrumb trail shrink instead of overflowing the row
+    > nav
+      min-width: 0
+
+      // The current crumb stands in for the title, so it carries the
+      // title's weight
+      .breadcrumb-item-selected
+        font-weight: var(--base-text-weight-semibold, 600)
+
   &--description
     margin-top: var(--op-border-box-list-header-row-gap)
 
