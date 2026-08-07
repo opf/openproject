@@ -87,7 +87,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
                   assigned_to:,
                   type:,
                   priority:,
-                  version:,
                   parent:,
                   responsible:).tap do |wp|
       allow(wp)
@@ -100,7 +99,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
       allow(wp)
         .to receive_messages(available_custom_fields:,
                              custom_field_values: [custom_value],
-                             effective_target_versions: target_versions)
+                             effective_target_versions: target_versions,
+                             version:,
+                             version_id: version&.id)
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }
@@ -194,7 +195,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
       }.to_json
     end
 
-    it "renders as expected", pending: "Fixing in another PR" do
+    it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
@@ -231,7 +232,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
       }.to_json
     end
 
-    it "renders as expected", pending: "Fixing in another PR" do
+    it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
@@ -580,7 +581,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
       }.to_json
     end
 
-    it "renders as expected", pending: "Fixing in another PR" do
+    it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
