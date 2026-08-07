@@ -819,4 +819,70 @@ RSpec.describe Type do
       expect(described_class).to exist(root.id)
     end
   end
+
+  describe "ownership-aware scopes" do
+    shared_let(:owner) { create(:project) }
+    shared_let(:stranger) { create(:project) }
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:global_variant) { create(:type, name: "Global", parent: root) }
+    shared_let(:owned_variant) { create(:type, name: "Ours", parent: root, project: owner) }
+    shared_let(:foreign_variant) { create(:type, name: "Theirs", parent: root, project: stranger) }
+
+    describe ".global" do
+      it "keeps global types" do
+        expect(described_class.global).to include(root, global_variant)
+      end
+
+      it "drops every owned variant" do
+        expect(described_class.global).not_to include(owned_variant, foreign_variant)
+      end
+    end
+
+    describe ".selectable_as_source_for" do
+      # The chosen reading of the acceptance criteria: same-project sources are allowed.
+      it "offers an owned variant the global types and its own project's" do
+        expect(described_class.selectable_as_source_for(owned_variant))
+          .to include(root, global_variant, owned_variant)
+      end
+
+      it "never offers another project's variant" do
+        expect(described_class.selectable_as_source_for(owned_variant)).not_to include(foreign_variant)
+      end
+
+      # A global type's project_id is nil, so the scope collapses to global-only.
+      it "offers a global type nothing but global sources" do
+        sources = described_class.selectable_as_source_for(global_variant)
+
+        expect(sources).to include(root)
+        expect(sources).not_to include(owned_variant, foreign_variant)
+      end
+    end
+
+    describe "#variants_available_in" do
+      it "lists the global variants and the project's own" do
+        expect(root.variants_available_in(owner)).to contain_exactly(global_variant, owned_variant)
+      end
+
+      it "lists only global variants without a project" do
+        expect(root.variants_available_in(nil)).to contain_exactly(global_variant)
+      end
+    end
+
+    describe ".in_family_order_available_in" do
+      # #family walks #children, which ignores ownership, so this cannot reuse in_family_order.
+      it "puts a root ahead of its own variants" do
+        ordered = described_class.in_family_order_available_in(owner)
+
+        expect(ordered.index(root)).to be < ordered.index(owned_variant)
+      end
+
+      it "hides another project's variant" do
+        expect(described_class.in_family_order_available_in(owner)).not_to include(foreign_variant)
+      end
+
+      it "keeps the project's own variant" do
+        expect(described_class.in_family_order_available_in(owner)).to include(owned_variant)
+      end
+    end
+  end
 end

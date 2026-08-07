@@ -92,7 +92,7 @@ module WorkPackageTypes
     def source
       return @source if defined?(@source)
 
-      @source = Type.global.find_by(id: params[:source_id])
+      @source = Type.selectable_as_source_for(@type).find_by(id: params[:source_id])
     end
 
     def require_supported_aspect

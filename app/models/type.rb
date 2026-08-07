@@ -117,9 +117,10 @@ class Type < ApplicationRecord
 
   scope :roots, -> { where(parent_id: nil) }
   scope :variants, -> { where.not(parent_id: nil) }
-  # All types are global until project-owned variants exist; this is the seam the
-  # configuration source picker and contract scope against (see FND-103 :manage_type_variants).
-  scope :global, -> { all }
+  scope :global, -> { where(project_id: nil) }
+  # A source is a global type, or a variant owned by the same project as the type being
+  # configured. A global type's project_id is nil, so this collapses to global-only.
+  scope :selectable_as_source_for, ->(type) { where(project_id: [nil, type.project_id]) }
   scope :without_standard, -> { where(is_standard: false).order(:position) }
   scope :default, -> { where(is_default: true) }
   scope :visible, ->(user = User.current) {
@@ -137,6 +138,12 @@ class Type < ApplicationRecord
   # over the flat table can keep a family together.
   def self.in_family_order
     roots.includes(:children).flat_map(&:family)
+  end
+
+  # Cannot go through in_family_order: that walks #family, which reads #children and so
+  # would surface variants owned by other projects.
+  def self.in_family_order_available_in(project)
+    global.roots.includes(:children).flat_map { |root| [root, *root.variants_available_in(project)] }
   end
 
   def <=>(other)
@@ -257,6 +264,11 @@ class Type < ApplicationRecord
   # Every screen that lists a family reads this, so the orders cannot drift.
   def sorted_variants
     children.sort_by { |variant| variant.own_name.downcase }
+  end
+
+  # The variants of this root the given project may see: the global ones plus its own.
+  def variants_available_in(project)
+    sorted_variants.select { |variant| variant.project_id.nil? || variant.project_id == project&.id }
   end
 
   def family

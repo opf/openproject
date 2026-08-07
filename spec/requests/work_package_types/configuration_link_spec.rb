@@ -222,6 +222,45 @@ RSpec.describe "Work package type configuration source",
     end
   end
 
+  describe "with project-owned variants" do
+    shared_let(:owner) { create(:project) }
+    shared_let(:stranger) { create(:project) }
+    shared_let(:root) { create(:type, name: "Bug") }
+    shared_let(:owned_variant) { create(:type, name: "Ours", parent: root, project: owner) }
+    shared_let(:sibling) { create(:type, name: "Sibling", parent: root, project: owner) }
+    shared_let(:foreign_variant) { create(:type, name: "Theirs", parent: root, project: stranger) }
+
+    it "keeps another project's variant out of the picker" do
+      get type_configuration_link_dialog_path(type_id: owned_variant.id, aspect:), as: :turbo_stream
+
+      expect(source_option_labels).not_to include("Bug: Theirs")
+    end
+
+    it "offers a variant owned by the same project" do
+      get type_configuration_link_dialog_path(type_id: owned_variant.id, aspect:), as: :turbo_stream
+
+      expect(source_option_labels).to include("Bug: Sibling")
+    end
+
+    # A variant links every aspect to its parent on creation, so isolation shows up as the
+    # source staying put rather than as the type being unlinked.
+    it "refuses another project's variant as a source" do
+      post type_configuration_link_switch_path(type_id: owned_variant.id, aspect:),
+           params: { source_id: foreign_variant.id },
+           as: :turbo_stream
+
+      expect(owned_variant.reload.source_for(aspect)).to eq(root)
+    end
+
+    it "accepts a variant owned by the same project" do
+      post type_configuration_link_switch_path(type_id: owned_variant.id, aspect:),
+           params: { source_id: sibling.id },
+           as: :turbo_stream
+
+      expect(owned_variant.reload.source_for(aspect)).to eq(sibling)
+    end
+  end
+
   # A decorated autocompleter ships its options to the Angular component as a
   # JSON payload rather than rendering them as markup.
   def source_option_labels

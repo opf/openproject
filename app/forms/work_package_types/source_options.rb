@@ -35,7 +35,7 @@ module WorkPackageTypes
     private
 
     def source_options
-      Type.global.in_family_order.reject { |source| source == type }
+      Type.in_family_order_available_in(type.project).reject { |source| source == type }
     end
 
     # Variants carry their parent in the composite name; the current type's own
