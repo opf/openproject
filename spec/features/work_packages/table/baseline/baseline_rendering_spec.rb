@@ -113,16 +113,19 @@ RSpec.describe "baseline rendering",
 
   shared_let(:wp_task_changed) do
     wp = Timecop.travel(5.days.ago) do
-      create(:work_package,
-             project:,
-             type: type_task,
-             assigned_to: assignee,
-             responsible: assignee,
-             priority: default_priority,
-             version: version_a,
-             subject: "Old subject",
-             start_date: "2023-05-01",
-             due_date: "2023-05-02")
+      # make sure the join row exists before the creation journal
+      work_package = build(:work_package,
+                           project:,
+                           type: type_task,
+                           assigned_to: assignee,
+                           responsible: assignee,
+                           priority: default_priority,
+                           subject: "Old subject",
+                           start_date: "2023-05-01",
+                           due_date: "2023-05-02")
+      work_package.target_version_ids_replacements = [version_a.id]
+      work_package.save!
+      work_package
     end
 
     Timecop.travel(1.day.ago) do
@@ -135,7 +138,7 @@ RSpec.describe "baseline rendering",
           assigned_to: user,
           responsible: user,
           priority: high_priority,
-          version: version_b
+          target_version_ids: [version_b.id]
         )
         .on_failure { |result| raise result.message }
         .result
