@@ -33,10 +33,11 @@ module WorkPackageTypes
     class SidebarComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:)
+      def initialize(type:, current_step:, routes: nil)
         super(type)
 
         @current_step = current_step
+        @routes = routes || TypeRoutes.for(type)
       end
 
       LEADING_ICONS = {
@@ -85,7 +86,7 @@ module WorkPackageTypes
       # Only visited/creatable steps are navigable: before the record exists we
       # cannot address a step by its type id.
       def href_for(step)
-        type_creation_wizard_path(type, step:) if type.persisted?
+        @routes.wizard(step:) if type.persisted?
       end
     end
   end

@@ -44,8 +44,7 @@ module WorkPackageTypes
       def type = model
 
       def matrix_url
-        helpers.type_workflow_matrix_path(
-          type,
+        helpers.type_routes.workflow_matrix(
           tab: helpers.params[:tab],
           role_ids: roles.map(&:id),
           status_ids: helpers.params[:status_ids]

@@ -95,6 +95,12 @@ module Pages
           expect(page).to have_no_text("Switch variant")
         end
 
+        # A family's group is collapsed by default, hiding the variants and the
+        # "Add a variant" footer link.
+        def expand_family(type)
+          within(find_row(type)) { find(:button, aria: { expanded: false }).click }
+        end
+
         def find_row(type)
           page.find("[data-test-selector='project-types-row-#{type.id}']")
         end

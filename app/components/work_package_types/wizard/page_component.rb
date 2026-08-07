@@ -33,15 +33,16 @@ module WorkPackageTypes
     class PageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:)
+      def initialize(type:, current_step:, routes: nil)
         super(type)
 
         @current_step = current_step
+        @routes = routes || TypeRoutes.for(type)
       end
 
       private
 
-      attr_reader :current_step
+      attr_reader :current_step, :routes
 
       def type = model
 
@@ -54,33 +55,30 @@ module WorkPackageTypes
       end
 
       def breadcrumb_items
-        [
-          { href: admin_index_path, text: I18n.t("label_administration") },
-          { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
-          { href: types_path, text: I18n.t(:label_type_plural) },
-          *parent_breadcrumb_item,
-          title
-        ]
+        [*routes.breadcrumb_root_items, *parent_breadcrumb_item, title]
       end
 
+      # Inside a project the parent is administered somewhere the reader cannot go, so it
+      # names the family as plain text rather than a link that would refuse them.
       def parent_breadcrumb_item
         return [] if type.parent.nil?
 
-        [{ href: edit_type_details_path(type_id: type.parent_id), text: type.parent.name }]
+        href = routes.parent_details
+        [href ? { href:, text: type.parent.name } : type.parent.name]
       end
 
       def cancel_href
-        type.persisted? ? edit_type_details_path(type_id: type.id) : types_path
+        type.persisted? ? routes.details : routes.index
       end
 
       def step_title = Steps.title(current_step)
 
-      def step_url = type_creation_wizard_path(type, step: current_step)
+      def step_url = routes.wizard(step: current_step)
 
       # A brand-new variant is created on the first step's submit; every later
       # submit patches the existing record for its step.
       def step_form_url
-        type.new_record? ? creation_wizard_types_path : step_url
+        type.new_record? ? routes.wizard_submit : step_url
       end
 
       def step_form_method

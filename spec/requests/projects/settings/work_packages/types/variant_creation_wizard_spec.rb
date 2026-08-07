@@ -52,6 +52,23 @@ RSpec.describe "Creating a project-owned variant",
     expect(response).to have_http_status(:ok)
   end
 
+  describe "the links and forms the wizard renders" do
+    before { get new_creation_wizard_project_settings_work_packages_types_variants_path(project, parent_id: root.id) }
+
+    # The page rendering is not enough: the step form posting to /types is what silently
+    # refused the project administrator on "Continue".
+    it "submits into the project rather than into administration" do
+      expect(response.body).to include(
+        creation_wizard_project_settings_work_packages_types_variants_path(project)
+      )
+      expect(response.body).not_to include('action="/types')
+    end
+
+    it "links nowhere into global type administration" do
+      expect(response.body).not_to include('href="/types')
+    end
+  end
+
   it "stamps the project as the owner of what it creates" do
     create_variant(name: "Internal bug", parent_id: root.id)
 
