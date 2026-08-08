@@ -37,7 +37,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
 
   self.property_selects = {
     id: {
-      sortable: -> {
+      sortable: ->(_query = nil) {
         if Setting::WorkPackageIdentifier.semantic?
           ["#{Project.table_name}.identifier", "#{WorkPackage.table_name}.sequence_number"]
         else
@@ -102,21 +102,22 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     },
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
+      group_by_class_name: "Version",
+      # The lowest-id target version represents the work package, matching the
+      # version_id mirror column and the cost report's single-version join;
+      # the sort key is that version's name.
       sortable: <<~SQL.squish,
         (SELECT LOWER(v.name)
            FROM work_package_versions wpv
            INNER JOIN versions v ON v.id = wpv.version_id
           WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-          ORDER BY LOWER(v.name), wpv.version_id
+          ORDER BY wpv.version_id
           LIMIT 1)
       SQL
       groupable: <<~SQL.squish
-        (SELECT wpv.version_id
+        (SELECT MIN(wpv.version_id)
            FROM work_package_versions wpv
-           INNER JOIN versions v ON v.id = wpv.version_id
-          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-          ORDER BY LOWER(v.name), wpv.version_id
-          LIMIT 1)
+          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
       SQL
     },
     target_versions: {

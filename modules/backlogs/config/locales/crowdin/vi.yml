@@ -94,7 +94,7 @@ vi:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Chúng tôi hiện đang thiết kế lại mô-đun Backlogs. Các thiết lập quản trị cho Sprint và Backlog sẽ hiển thị ở đây trong thời gian tới. Các thiết lập ở cấp độ dự án vẫn khả dụng.
       title: Các thiết lập quản trị Backlog đang được phát triển
@@ -154,6 +154,7 @@ vi:
     label_burndown_chart: Biểu đồ Burndown
     label_is_done_status: Trạng thái %{status_name} nghĩa là đã xong
     label_sprint_board: Bảng Sprint
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Move to backlog bucket
     move_to_sprint_dialog_component:
@@ -189,6 +190,15 @@ vi:
     sprint_form_component:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
@@ -233,11 +243,11 @@ vi:
     story_points_ideal: Story points (ideal)
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Chia sẻ Sprint
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints

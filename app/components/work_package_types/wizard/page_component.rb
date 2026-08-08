@@ -69,6 +69,10 @@ module WorkPackageTypes
         [{ href: edit_type_details_path(type_id: type.parent_id), text: type.parent.name }]
       end
 
+      def cancel_href
+        type.persisted? ? edit_type_details_path(type_id: type.id) : types_path
+      end
+
       def step_title = Steps.title(current_step)
 
       def step_url = type_creation_wizard_path(type, step: current_step)
@@ -108,7 +112,13 @@ module WorkPackageTypes
       def within_step_frame(&)
         return capture(&) unless step_editor.linkable_aspect?
 
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url: step_url), &)
+        render(
+          WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+            reload_url: step_url,
+            reload_from_location: step_editor.reload_from_location?
+          ),
+          &
+        )
       end
 
       def reuse_mode_banner
@@ -122,6 +132,8 @@ module WorkPackageTypes
         case current_step
         when :form_configuration
           FormConfigurationStepComponent.new(type:)
+        when :project_attributes
+          ProjectAttributesStepComponent.new(type:)
         when :projects
           WorkPackageTypes::ProjectsComponent.new(type, projects: Project.all)
         when :pdf

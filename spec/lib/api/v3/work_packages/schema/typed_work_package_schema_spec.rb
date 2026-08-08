@@ -155,4 +155,40 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject.available_custom_fields).to include(source_cf)
     end
   end
+
+  describe "#available_custom_fields when the project resolves a variant",
+           with_flag: { type_variants: true } do
+    let(:root_type) { create(:type) }
+    let(:variant) { create(:type, parent: root_type) }
+    let(:project) { create(:project, types: [variant]) }
+
+    # Activated from the custom field side on purpose: Type#custom_fields resolves through the
+    # form configuration link, so appending to it while the variant is linked would write to
+    # the root instead.
+    let!(:root_cf) { create(:integer_wp_custom_field, projects: [project], types: [root_type]) }
+    let!(:variant_cf) { create(:integer_wp_custom_field, projects: [project], types: [variant]) }
+
+    # The schema is asked for the root, which is what a work package stores.
+    subject { described_class.new(project:, type: root_type) }
+
+    context "when the variant inherits its form configuration" do
+      it "answers with the root's fields" do
+        expect(subject.available_custom_fields).to include(root_cf)
+        expect(subject.available_custom_fields).not_to include(variant_cf)
+      end
+    end
+
+    context "when the variant owns its form configuration" do
+      before do
+        variant.configuration_links
+               .find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
+               .destroy!
+      end
+
+      it "answers with the variant's own fields" do
+        expect(subject.available_custom_fields).to include(variant_cf)
+        expect(subject.available_custom_fields).not_to include(root_cf)
+      end
+    end
+  end
 end

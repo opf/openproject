@@ -43,7 +43,7 @@ module Projects
 
           widget_wrapper do |widget|
             widget.with_body(padding: :default) do
-              render partial: "wiki/text", locals: { page: version.wiki_page }
+              render partial: "wiki/text", locals: { page: version.wiki_page }, formats: [:html]
             end
           end
         end

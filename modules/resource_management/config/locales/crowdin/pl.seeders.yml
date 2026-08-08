@@ -8,14 +8,14 @@ pl:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: Przydziały zespołu
             work_package_list:
-              name: Work packages
+              name: Pakiety robocze
             work_package_timeline:
-              name: Work package timeline
+              name: Oś czasu pakietów roboczych
             user_card:
-              name: Team members
+              name: Członkowie zespołu
             user_timeline:
-              name: Team timeline
+              name: Oś czasu zespołu
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: Programista

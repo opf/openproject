@@ -3,39 +3,42 @@ hy:
   activerecord:
     attributes:
       grids/grid:
-        column_count: Number of columns
-        page: Page
-        row_count: Number of rows
-        scope: Scope
-        widgets: Widgets
+        column_count: Սյունակների թիվ
+        page: Էջ
+        row_count: Տողերի թիվ
+        scope: Շրջանակ
+        widgets: Վիջեթներ
     errors:
       models:
         grids/grid:
-          end_before_start: end value needs to be larger than the start value.
-          outside: is outside of the grid.
-          overlaps: overlap.
+          end_before_start: ավարտի արժեքը պետք է մեծ լինի սկզբի արժեքից։
+          outside: ցանցի սահմաններից դուրս է։
+          overlaps: վերածածկվում են։
   grids:
-    label_widget_in_grid: Widget contained in Grid %{grid_name}
+    label_widget_in_grid: "%{grid_name} ցանցում պարունակվող վիջեթ"
     widgets:
-      empty: This widget is currently empty.
+      empty: Այս վիջեթը ներկայումս դատարկ է։
       members:
-        no_results: No visible members.
-        show_members_count: Show all %{count} members
-        title: Members
-        view_all_members: View all members
+        no_results: Տեսանելի անդամներ չկան։
+        show_members_count: Ցուցադրել բոլոր %{count} անդամներին
+        title: Անդամներ
+        view_all_members: Դիտել բոլոր անդամներին
         x_more:
-          one: and one more member.
-          other: and %{count} more members.
+          one: և ևս մեկ անդամ։
+          other: և ևս %{count} անդամ։
       news:
-        no_results: Nothing new to report.
-      not_available: This widget is not available.
+        no_results: Նոր նորություններ չկան։
+      not_available: Այս վիջեթը հասանելի չէ։
       project_timeline:
-        no_lifecycle_results: No life cycle phases
-        title: Project timeline
-        title_portfolio: Portfolio timeline
-        title_program: Program timeline
+        footer_actions_label: Տեսնել ավելի մանրամասն
+        gantt_link: Հանգրվանների Գանտի գծապատկեր
+        no_results_title: Նախագծի ժամանակագծի բովանդակությունը կազմաձևված չէ
+        sprints_link: Սպրինտների ընդհանուր տեսք
+        title: Նախագծի ժամանակագիծ
+        title_portfolio: Պորտֆոլիոյի ժամանակագիծ
+        title_program: Ծրագրի ժամանակագիծ
       subitems:
-        button_text: Subitem
-        no_results: There are no visible children.
-        title: Subitems
-        view_all_subitems: View all subitems
+        button_text: Ենթատարր
+        no_results: Տեսանելի ենթատարրեր չկան։
+        title: Ենթատարրեր
+        view_all_subitems: Դիտել բոլոր ենթատարրերը

@@ -21,14 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { sortBy } from 'lodash-es';
 import { Injectable, inject } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { InputState } from '@openproject/reactivestates';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -68,10 +67,22 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
   /**
    * Move an item in the list
+   *
+   * Rejects an index it cannot honour before touching `order`: a negative
+   * `fromIndex` or `toIndex` would splice from the END of the list, silently
+   * displacing an unrelated work package and persisting a position for it.
    */
   public async move(order:string[], wpId:string, toIndex:number):Promise<string[]> {
     // Find index of the work package
     const fromIndex:number = order.findIndex((id) => id === wpId);
+
+    if (fromIndex === -1) {
+      throw new Error(`Cannot move work package ${wpId}: not in the current order.`);
+    }
+
+    if (!Number.isInteger(toIndex) || toIndex < 0 || toIndex >= order.length) {
+      throw new Error(`Cannot move work package ${wpId} to index ${toIndex}: out of bounds.`);
+    }
 
     order.splice(fromIndex, 1);
     order.splice(toIndex, 0, wpId);
@@ -85,9 +96,18 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * Pull an item from the rendered list
    */
   public remove(order:string[], wpId:string):string[] {
-    order = order.filter((id) => id !== wpId);
-    this.update({ [wpId]: -1 });
-    return order;
+    const filteredOrder = this.filterOrder(order, wpId);
+    void this.update({ [wpId]: -1 });
+    return filteredOrder;
+  }
+
+  /**
+   * Pull an item from the rendered list and await the update
+   */
+  public async removePersisted(order:string[], wpId:string):Promise<string[]> {
+    const filteredOrder = this.filterOrder(order, wpId);
+    await this.update({ [wpId]: -1 });
+    return filteredOrder;
   }
 
   /**
@@ -218,5 +238,12 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
   hasChanged(query:QueryResource):boolean {
     return false;
+  }
+
+  /**
+   * Filter a work package from the order array
+   */
+  private filterOrder(order:string[], wpId:string):string[] {
+    return order.filter((id) => id !== wpId);
   }
 }

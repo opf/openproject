@@ -68,21 +68,13 @@ RSpec.describe Type::ConfigurationLinkable do
   end
 
   describe "variant default parent links" do
-    it "links the default aspects to the parent when a variant is created" do
+    it "links every aspect to the parent when a variant is created" do
       parent = create(:type)
       child = create(:type, parent:)
 
-      expect(child.source_for(Type::ConfigurationLink::PDF_EXPORT)).to eq(parent)
-      expect(child.source_for(Type::ConfigurationLink::DEFAULTS)).to eq(parent)
-    end
-
-    it "leaves the not-yet-implemented aspects Independent" do
-      child = create(:type, parent: create(:type))
-
-      expect(child).not_to be_linked(Type::ConfigurationLink::WORKFLOWS)
-      expect(child).not_to be_linked(Type::ConfigurationLink::AUTOMATIONS)
-      expect(child).not_to be_linked(Type::ConfigurationLink::PROJECTS)
-      expect(child).not_to be_linked(Type::ConfigurationLink::FORM_CONFIGURATION)
+      Type::ConfigurationLink::ASPECTS.each do |aspect|
+        expect(child.source_for(aspect)).to eq(parent)
+      end
     end
 
     it "leaves a root type Independent for all aspects" do
@@ -358,6 +350,256 @@ RSpec.describe Type::ConfigurationLinkable do
       keys = type.attribute_groups.map(&:key)
       expect(keys).to include("own_group")
       expect(keys).not_to include("source_only_group")
+    end
+  end
+
+  describe "project attributes resolution", with_flag: { type_variants: true } do
+    let(:project_attributes_aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
+    let(:owner_field) { create(:project_custom_field) }
+    let(:own_field) { create(:project_custom_field) }
+    let(:owner) { create(:type) }
+
+    before do
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: owner_field)
+      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: own_field)
+    end
+
+    it "reads its own mappings when Independent" do
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(own_field.id)
+    end
+
+    it "reads the owner's mappings when Linked" do
+      type.link!(project_attributes_aspect, source: owner)
+
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(owner_field.id)
+    end
+
+    it "resolves through a longer link chain to the owning type" do
+      middle = create(:type)
+      middle.link!(project_attributes_aspect, source: owner)
+      type.link!(project_attributes_aspect, source: middle)
+
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(owner_field.id)
+    end
+
+    it "drops an excluded attribute from the inherited mappings" do
+      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
+                                       excluded_elements: [owner_field.attribute_name])
+
+      expect(type.project_custom_field_type_mappings).to be_empty
+    end
+
+    it "keeps the attributes the chain does not exclude" do
+      kept_field = create(:project_custom_field)
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: kept_field)
+      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
+                                       excluded_elements: [owner_field.attribute_name])
+
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(kept_field.id)
+    end
+
+    it "accumulates exclusions over a chain" do
+      second_field = create(:project_custom_field)
+      third_field = create(:project_custom_field)
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: second_field)
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: third_field)
+
+      middle = create(:type)
+      create(:type_configuration_link, type: middle, source: owner, aspect: project_attributes_aspect,
+                                       excluded_elements: [owner_field.attribute_name])
+      create(:type_configuration_link, type:, source: middle, aspect: project_attributes_aspect,
+                                       excluded_elements: [second_field.attribute_name])
+
+      expect(middle.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(second_field.id, third_field.id)
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(third_field.id)
+    end
+
+    it "leaves the owning type's own mappings untouched" do
+      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
+                                       excluded_elements: [owner_field.attribute_name])
+
+      expect(owner.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(owner_field.id)
+    end
+
+    it "keeps writing to its own mappings while Linked" do
+      type.link!(project_attributes_aspect, source: owner)
+      another_field = create(:project_custom_field)
+      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: another_field)
+
+      expect(type.own_project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(own_field.id, another_field.id)
+    end
+  end
+
+  describe "#effective_excluded_elements", with_flag: { type_variants: true } do
+    let(:owner) { create(:type) }
+    let(:middle) { create(:type) }
+
+    it "excludes nothing when Independent" do
+      expect(type.effective_excluded_elements(aspect)).to eq([])
+    end
+
+    it "excludes nothing when Linked without exclusions" do
+      type.link!(aspect, source: owner)
+
+      expect(type.effective_excluded_elements(aspect)).to eq([])
+    end
+
+    it "returns the exclusions of a single link" do
+      create(:type_configuration_link, type:, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1 assignee])
+
+      expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1", "assignee")
+    end
+
+    it "unions the exclusions of every link along the chain" do
+      create(:type_configuration_link, type: middle, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      create(:type_configuration_link, type:, source: middle, aspect:,
+                                       excluded_elements: %w[custom_field_2])
+
+      expect(type.effective_excluded_elements(aspect))
+        .to contain_exactly("custom_field_1", "custom_field_2")
+    end
+
+    it "leaves an intermediate type unaffected by its descendants' exclusions" do
+      create(:type_configuration_link, type: middle, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      create(:type_configuration_link, type:, source: middle, aspect:,
+                                       excluded_elements: %w[custom_field_2])
+
+      expect(middle.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
+    end
+
+    it "reports an element excluded at two levels of the chain only once" do
+      create(:type_configuration_link, type: middle, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      create(:type_configuration_link, type:, source: middle, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+
+      expect(type.effective_excluded_elements(aspect)).to eq(["custom_field_1"])
+    end
+
+    it "keeps exclusions scoped to their own aspect" do
+      create(:type_configuration_link, type:, source: owner, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      create(:type_configuration_link, type:, source: owner,
+                                       aspect: Type::ConfigurationLink::PDF_EXPORT,
+                                       excluded_elements: %w[custom_field_2])
+
+      expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
+    end
+
+    it "excludes nothing on a cyclic chain instead of raising" do
+      # Same legacy-data case as #effective_source_for: a pure cycle owns nothing, so the
+      # walk finds no terminal row to read exclusions from.
+      other = create(:type)
+      create(:type_configuration_link, type:, source: other, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      build(:type_configuration_link, type: other, source: type, aspect:,
+                                      excluded_elements: %w[custom_field_2]).save!(validate: false)
+
+      expect(type.effective_excluded_elements(aspect)).to eq([])
+    end
+
+    it "excludes nothing for a new record" do
+      expect(Type.new.effective_excluded_elements(aspect)).to eq([])
+    end
+
+    context "with the flag off", with_flag: { type_variants: false } do
+      it "ignores the link's exclusions" do
+        create(:type_configuration_link, type:, source: owner, aspect:,
+                                         excluded_elements: %w[custom_field_1])
+
+        expect(type.effective_excluded_elements(aspect)).to eq([])
+      end
+    end
+  end
+
+  # The call sites inline this as `<key> <> ALL (<subquery>)`, so the cases that matter
+  # are the ones where a mis-shaped subquery would silently invert the filter.
+  describe ".effective_excluded_elements_subquery", with_flag: { type_variants: true } do
+    def excluded_by_sql?(element)
+      subquery = Type.effective_excluded_elements_subquery(type.id, aspect)
+
+      Type.connection.select_value("SELECT 1 WHERE '#{element}' <> ALL (#{subquery})").nil?
+    end
+
+    it "excludes an element the chain excludes" do
+      create(:type_configuration_link, type:, source: create(:type), aspect:,
+                                       excluded_elements: %w[custom_field_1])
+
+      expect(excluded_by_sql?("custom_field_1")).to be(true)
+      expect(excluded_by_sql?("custom_field_2")).to be(false)
+    end
+
+    it "excludes nothing when the type owns the aspect" do
+      expect(excluded_by_sql?("custom_field_1")).to be(false)
+    end
+
+    it "excludes nothing when the chain is cyclic" do
+      # A pure cycle yields no rows, and `<> ALL` over no rows is TRUE. An array-scalar
+      # subquery would yield NULL here and exclude every candidate instead of none.
+      other = create(:type)
+      create(:type_configuration_link, type:, source: other, aspect:,
+                                       excluded_elements: %w[custom_field_1])
+      build(:type_configuration_link, type: other, source: type, aspect:).save!(validate: false)
+
+      expect(excluded_by_sql?("custom_field_1")).to be(false)
+    end
+  end
+
+  describe ".excluded_custom_field_condition" do
+    def excluded?(custom_field_id, elements)
+      literal = elements.empty? ? "'{}'::text[]" : "ARRAY[#{elements.map { |e| "'#{e}'" }.join(', ')}]::text[]"
+      condition = Type.excluded_custom_field_condition(custom_field_id.to_s, literal)
+
+      Type.connection.select_value("SELECT 1 WHERE #{condition}").nil?
+    end
+
+    it "excludes a custom field listed under its attribute name" do
+      expect(excluded?(7, %w[custom_field_7])).to be(true)
+    end
+
+    it "keeps a custom field that is not listed" do
+      expect(excluded?(7, %w[custom_field_8 assignee])).to be(false)
+    end
+
+    it "keeps every custom field when nothing is excluded" do
+      expect(excluded?(7, [])).to be(false)
+    end
+
+    it "does not confuse a prefix of another id" do
+      expect(excluded?(7, %w[custom_field_77])).to be(false)
+    end
+
+    it "accepts a subquery yielding one element per row" do
+      type.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: source)
+      subquery = Type.effective_excluded_elements_subquery(type.id, Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+      condition = Type.excluded_custom_field_condition("7", subquery)
+
+      expect(Type.connection.select_value("SELECT 1 WHERE #{condition}")).to eq(1)
+    end
+  end
+
+  describe "project attributes resolution with the flag off", with_flag: { type_variants: false } do
+    it "ignores the link and reads its own mappings" do
+      owner = create(:type)
+      owner_field = create(:project_custom_field)
+      own_field = create(:project_custom_field)
+      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: owner_field)
+      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: own_field)
+      type.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: owner)
+
+      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+        .to contain_exactly(own_field.id)
     end
   end
 end

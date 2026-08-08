@@ -89,7 +89,6 @@ module WorkPackage::Journalized
                   name: JournalizedProcs.event_name,
                   url: JournalizedProcs.event_url
 
-    register_journal_formatted_fields "parent_id", formatter_key: :id
     register_journal_formatted_fields "estimated_hours", "derived_estimated_hours",
                                       "remaining_hours", "derived_remaining_hours",
                                       formatter_key: :chronic_duration
@@ -108,11 +107,14 @@ module WorkPackage::Journalized
     register_journal_formatted_fields :parent_id, :project_id,
                                       :budget_id,
                                       :status_id, :type_id,
-                                      :assigned_to_id, :priority_id,
+                                      :priority_id,
                                       :category_id, :version_id,
-                                      :author_id, :responsible_id,
                                       :sprint_id,
                                       formatter_key: :named_association
+    # People are named in the attribute table of the same work package, so the
+    # journal does not withhold them from readers outside their projects.
+    register_journal_formatted_fields :assigned_to_id, :author_id, :responsible_id,
+                                      formatter_key: :public_named_association
     register_journal_formatted_fields :start_date, :due_date, formatter_key: :datetime
     register_journal_formatted_fields :subject, formatter_key: :plaintext
     register_journal_formatted_fields :duration, formatter_key: :day_count

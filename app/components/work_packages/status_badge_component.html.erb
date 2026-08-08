@@ -1,3 +1,14 @@
-<%=
-  render(Primer::Beta::Label.new(size: :medium, inline: true, **@system_arguments)) { @status.name }
-%>
+<%= render(Primer::Beta::Label.new(size: :medium, inline: true, **@system_arguments)) do -%>
+  <%- if readonly? -%>
+    <%= render(
+          Primer::Beta::Octicon.new(
+            icon: :lock,
+            size: :xsmall,
+            classes: "op-status-badge--icon",
+            aria: { label: Status.human_attribute_name(:is_readonly) }
+          )
+        ) -%>
+  <%- end -%>
+  <%# The name carries its own element so that truncation applies to it alone and cannot swallow the lock %>
+  <%= render(Primer::Beta::Text.new(classes: "op-status-badge--name")) { @status.name } -%>
+<% end %>

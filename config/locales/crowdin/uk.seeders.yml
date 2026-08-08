@@ -460,18 +460,18 @@ uk:
           name: Помилка
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Дочірні об’єкти епіків: історії користувачів і помилки'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'Дочірні об’єкти історій користувачів: завдання'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: Історії користувачів і помилки
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Завдання
       welcome:
         title: Вітаємо в OpenProject!
         text: |

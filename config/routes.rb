@@ -112,6 +112,8 @@ Rails.application.routes.draw do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
     match "/account/lost_password", action: "lost_password", via: %i[get post]
+    get "/account/password_recovery", action: "password_recovery"
+    post "/account/set_recovered_password", action: "set_recovered_password"
     match "/account/register", action: "register", via: %i[get post patch]
     get "/account/activate", action: "activate"
 
@@ -205,17 +207,22 @@ Rails.application.routes.draw do
         post :confirm
         post :copy
       end
+
+      scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
+        post :toggle
+      end
     end
 
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
-      resources :tabs, only: %i[edit update], param: :tab, controller: "/workflows/tabs" do
-        member do
-          get :status_dialog
-          post :confirm_statuses
-        end
+      resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
+        get :status_dialog
+        post :confirm_statuses
       end
+
       resource :copy, only: %i[new], controller: "/workflows/copies" do
+        # TODO: Remove with type_variants feature flag
         resource :from_type, only: %i[create], controller: "/workflows/copies/from_types"
         resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
       end
@@ -237,14 +244,18 @@ Rails.application.routes.draw do
     end
 
     collection do
-      post "move/:id", action: "move"
+      post "move/:id", action: "move", as: :move
       get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
       post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
       get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
+      get :menu
       put :drop
+      post :make_default
+      post :remove_default
+      post :duplicate
     end
   end
 
@@ -422,7 +433,11 @@ Rails.application.routes.draw do
         resource :work_packages, only: %i[show]
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
-          resource :types, only: %i[show update]
+          resources :types, only: %i[index new create destroy] do
+            patch :bulk_update, on: :collection
+
+            resource :switch, only: %i[new create], controller: "types/switches"
+          end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
@@ -486,6 +501,7 @@ Rails.application.routes.draw do
         get :export
         get "/index" => "wiki#index"
         get :menu
+        get :menu_tree
       end
 
       member do
@@ -501,7 +517,6 @@ Rails.application.routes.draw do
         post :protect
         get :select_main_menu_item, to: "wiki_menu_items#select_main_menu_item"
         post :replace_main_menu_item, to: "wiki_menu_items#replace_main_menu_item"
-        get :menu
       end
     end
 

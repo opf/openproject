@@ -56,22 +56,23 @@ module WorkPackageTypes
 
         def model = type
 
-        # Data attributes for the form element, e.g. Stimulus wiring.
+        def editor(_builder)
+          raise SubclassResponsibilityError
+        end
+
         def form_data = {}
+
+        def reload_from_location? = false
 
         def readonly? = linkable_aspect? && type.linked?(aspect)
       end
 
       class Details < Base
-        def form_class = WorkPackageTypes::DetailsForm
-      end
-
-      class Workflows < Base
-        def form_class = WorkflowsForm
+        def editor(builder) = WorkPackageTypes::DetailsForm.new(builder)
       end
 
       class Defaults < Base
-        def form_class = WorkPackageTypes::DefaultsForm
+        def editor(builder) = WorkPackageTypes::DefaultsForm.new(builder)
 
         def aspect = Type::ConfigurationLink::DEFAULTS
 
@@ -81,6 +82,19 @@ module WorkPackageTypes
 
         # Without this the pattern input cannot be toggled as the subject mode changes.
         def form_data = readonly? ? {} : model.stimulus_data
+      end
+
+      class Workflows < Base
+        def aspect = Type::ConfigurationLink::WORKFLOWS
+
+        # The workflow matrix editor is not using a primer form, thus it does not consume the builder
+        # It can internally switch what tab it is editing, those trigger a submit to its own controller action.
+        # The submit of the final page happens through the wizard's continue button
+        def editor(_builder) = WorkflowsStepComponent.new(type:)
+
+        # The matrix keeps the selected roles and transition tab in the page URL, which a
+        # reload from the step path would discard.
+        def reload_from_location? = true
       end
     end
   end

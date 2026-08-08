@@ -59,6 +59,7 @@ module OpenProject::Backlogs
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
                      "backlogs/sprints": :index,
+                     "backlogs/sprint_reports": :show,
                      "backlogs/taskboard": :show },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages show_board_views]
@@ -137,6 +138,8 @@ module OpenProject::Backlogs
            parent: :settings,
            before: :settings_storage
     end
+
+    assets %w(enterprise/multiple-active-sprints-light.png enterprise/multiple-active-sprints-dark.png)
 
     patches %i[PermittedParams
                WorkPackage

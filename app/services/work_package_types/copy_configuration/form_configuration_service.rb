@@ -50,12 +50,10 @@ module WorkPackageTypes
 
       private
 
-      # A Linked source presents its inherited configuration, so the copy takes
-      # the groups from the type that actually owns them.
-      def duplicated_groups(source)
-        owner = source.effective_source_for(Type::ConfigurationLink::FORM_CONFIGURATION)
+      def aspect = Type::ConfigurationLink::FORM_CONFIGURATION
 
-        groups = owner.attribute_groups.map do |group|
+      def duplicated_groups(source)
+        groups = presenting_type(source).attribute_groups.map do |group|
           case group
           when Type::QueryGroup
             query_result = FormConfiguration::EmbeddedQueryBuilder.rebuild(query: group.query, user:)
@@ -68,6 +66,20 @@ module WorkPackageTypes
         end
 
         ServiceResult.success(result: groups)
+      end
+
+      # The type whose *presented* configuration is copied. Reading a presentation rather than
+      # the owner's raw groups is what makes exclusions survive the copy: a link in between may
+      # exclude elements, and going Independent has to freeze what the type was showing instead
+      # of restoring what it was hiding. Excluded query groups are dropped before this runs, so
+      # they are never rebuilt as fresh queries either.
+      #
+      # When the type inherits from `source`, its own link's exclusions apply on top of the
+      # chain's, so the type is the one presenting. When copying from an unrelated type on the
+      # form configuration tab, that type's presentation is what the user picked — and it
+      # resolves through its own links already.
+      def presenting_type(source)
+        type.source_for(aspect) == source ? type : source
       end
 
       def group_entry(group, members)
@@ -91,7 +103,8 @@ module WorkPackageTypes
       # Same syncing as WorkPackageTypes::UpdateService: the active custom
       # fields follow from the custom fields placed in the groups.
       def sync_active_custom_fields
-        type.custom_field_ids = type.attribute_groups
+        # The groups just copied onto this type, not whatever a project would resolve it to.
+        type.custom_field_ids = type.attribute_groups # rubocop:disable OpenProject/UseEffectiveTypeForConfiguration
                                     .flat_map(&:members)
                                     .filter_map do |attribute|
                                       if CustomField.custom_field_attribute?(attribute)

@@ -89,11 +89,16 @@
     border-bottom-right-radius: 0
 
   // Drop container: the whole list outlines while a sortable item hovers it,
-  // signalling the item will land inside this list.
+  // signalling the item will land inside this list. A refused container (a
+  // confined item hovering a foreign list) mutes the outline to a danger tone
+  // instead, signalling the item will not land here.
   &[data-drop-container]
     outline: var(--borderWidth-thick) solid var(--fgColor-accent)
     outline-offset: calc(var(--borderWidth-thick) * -1)
     border-radius: var(--borderRadius-medium)
+
+  &[data-drop-container="refused"]
+    outline-color: var(--borderColor-danger-muted)
 
   // The empty-state row only makes sense while it is alone in the list. Hiding
   // it as soon as a sibling row appears (e.g. dropped by drag and drop) avoids
@@ -110,21 +115,22 @@
 
 .op-border-box-list-header
   display: grid
-  grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
-  grid-template-areas: "heading actions menu" "description description description"
+  grid-template-columns: minmax(0, 1fr) auto auto auto
+  grid-template-areas: "heading label actions menu" "description description description description"
   align-items: center
 
   &_collapsible
-    grid-template-areas: "heading actions menu"
+    grid-template-areas: "heading label actions menu"
 
   &_with-drag-handle
-    grid-template-columns: 2rem minmax(0, 1fr) minmax(5rem, max-content) auto
-    grid-template-areas: "drag_handle heading actions menu" ". description description description"
+    grid-template-columns: 2rem minmax(0, 1fr) auto auto auto
+    grid-template-areas: "drag_handle heading label actions menu" ". description description description description"
     margin-left: calc(-1 * var(--stack-padding-normal))
     &.op-border-box-list-header_collapsible
-      grid-template-areas: "drag_handle heading actions menu"
+      grid-template-areas: "drag_handle heading label actions menu"
+
   &--drag_handle
-    align-self: stretch
+    align-self: center
     cursor: grab
     color: var(--fgColor-muted)
     justify-self: center
@@ -132,12 +138,31 @@
   &--heading
     min-width: 0
 
+  &--label,
   &--actions,
   &--menu
     margin-left: var(--stack-gap-normal)
+
+  &--actions,
+  &--menu
     align-self: flex-start
-    // Unfortunately, the invisible button style bites us here again.
-    margin-top: -6px
+
+  &--actions
+    display: flex
+    align-items: center
+    gap: var(--stack-gap-condensed)
+
+  &--label
+    display: flex
+    align-items: center
+    // A label's text is not length-constrained,
+    // so cap it (roughly 35 characters' worth)
+    .Label
+      max-width: 200px
+      @include text-shortener
+
+    @media screen and (max-width: $breakpoint-sm)
+      display: none
 
   &--heading-line
     display: flex
@@ -259,7 +284,7 @@
     @media (prefers-reduced-motion: no-preference)
       transition: opacity 0.1s ease-in-out, visibility 0s linear 0.1s
 
-.op-border-box-list[data-drop-container] .op-border-box-list-empty-state--drop-overlay
+.op-border-box-list[data-drop-container="active"] .op-border-box-list-empty-state--drop-overlay
   opacity: 1
   visibility: visible
   pointer-events: auto

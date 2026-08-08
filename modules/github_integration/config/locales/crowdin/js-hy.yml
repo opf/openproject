@@ -23,31 +23,31 @@
 hy:
   js:
     github_integration:
-      github_actions: Actions
+      github_actions: Գործողություններ
       pull_requests:
-        merged_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.'
-        message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'
-        referenced_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package.'
+        merged_message: "%{repository_link} պահոցի #%{pr_number} ձգման հարցումը %{pr_link} %{github_user_link}-ի կողմից %{pr_state}։"
+        message: "%{repository_link} պահոցի #%{pr_number} ձգման հարցումը %{pr_link}, որի հեղինակն է %{github_user_link}-ը, %{pr_state}։"
+        referenced_message: "%{repository_link} պահոցի #%{pr_number} ձգման հարցումը %{pr_link}, որի հեղինակն է %{github_user_link}-ը, հղում է կատարել այս աշխատանքային փաթեթին։"
         states:
-          closed: closed
-          draft: drafted
-          merged: merged
-          opened: opened
-          ready_for_review: marked ready for review
+          closed: փակ
+          draft: սևագրվել է
+          merged: միաձուլվել է
+          opened: բացվել է
+          ready_for_review: նշվել է որպես վերանայման պատրաստ
       tab_header:
         copy_menu:
-          description: Copy git snippets to clipboard
-          label: Git snippets
+          description: Պատճենել git-ի հատվածները փոխանակման բուֆեր
+          label: Git-ի հատվածներ
         git_actions:
-          branch_name: Branch name
-          cmd: Create branch with empty commit
-          commit_message: Commit message
-          copy_error: "❌ Copy failed!"
-          copy_success: "✅ Copied!"
-          title: Quick snippets for Git
-        title: Pull requests
+          branch_name: Ճյուղի անվանում
+          cmd: Ստեղծել ճյուղ դատարկ կոմիտով
+          commit_message: Կոմիտի հաղորդագրություն
+          copy_error: "❌ Պատճենումը ձախողվեց։"
+          copy_success: "✅ Պատճենվեց։"
+          title: Git-ի արագ հատվածներ
+        title: Ձգման հարցումներ
       tab_prs:
-        empty: There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.
+        empty: Դեռևս կապակցված ձգման հարցումներ չկան։ Կապակցեք գոյություն ունեցող PR՝ PR-ի նկարագրության մեջ օգտագործելով <code>OP#%{wp_id}</code> կոդը, կամ ստեղծեք նոր PR։
       work_packages:
         tab_name: GitHub
     work_packages:

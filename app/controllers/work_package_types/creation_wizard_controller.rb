@@ -72,8 +72,7 @@ module WorkPackageTypes
       when :defaults
         update_defaults
       when :workflows
-        copy_workflows
-        advance
+        update_workflows
       else
         advance
       end
@@ -110,13 +109,24 @@ module WorkPackageTypes
       end
     end
 
-    # The copy source is only offered in Independent mode; a Linked aspect inherits
-    # its workflows from the source instead.
-    def copy_workflows
-      return if @type.linked?(Type::ConfigurationLink::WORKFLOWS)
+    # The matrix submits its inputs with the wizard form, along with the roles and
+    # transition tab it was showing, so that only that slice is rewritten.
+    def update_workflows
+      matrix_context = ::Workflows::MatrixContext.new(
+        type: @type,
+        tab: params[:tab],
+        role_ids: params[:role_ids]
+      )
 
-      source = ::Type.find_by(id: params.dig(:type, :copy_workflow_from))
-      @type.own_workflows.copy_from_type(source) if source
+      service_call = ::Workflows::MatrixUpdateService
+                       .new(type: @type, roles: matrix_context.roles, tab: matrix_context.tab)
+                       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
+
+      if service_call.success?
+        advance
+      else
+        render :show, status: :unprocessable_entity
+      end
     end
 
     def advance

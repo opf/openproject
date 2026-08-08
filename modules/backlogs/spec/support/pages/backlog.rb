@@ -348,6 +348,135 @@ module Pages
       dismiss_menu(work_package)
     end
 
+    def work_package_card(work_package)
+      find(work_package_card_selector(work_package))
+    end
+
+    # Right-clicks near the card's top-left corner: the offset keeps the
+    # pointer off the subject link and the actions menu button, both of which
+    # keep their native context menu on purpose.
+    def right_click_work_package_card(work_package)
+      work_package_card(work_package).right_click(x: 6, y: 6, offset: :position)
+    end
+
+    # The card's own actions button, right-clicked. It is the one interactive
+    # descendant that does not keep the browser's context menu: the control
+    # whose whole job is to open this menu opens it here too.
+    def right_click_work_package_menu_button(work_package)
+      within_work_package(work_package) do
+        find(:button, accessible_name: "Work package actions").right_click
+      end
+    end
+
+    # Sends keys to whatever currently holds focus. Capybara's
+    # `element.send_keys` focuses its receiver first, which would destroy the
+    # very focus state a menu-dismissal assertion is trying to observe.
+    def send_keys_to_focused_element(*keys)
+      page.driver.browser.action.send_keys(*keys).perform
+    end
+
+    def send_work_package_card_keys(work_package, keys)
+      work_package_card(work_package).send_keys(*keys)
+    end
+
+    def within_work_package_context_menu(work_package, &)
+      within(menu_owner_overlay_selector(work_package)) do
+        yield page.find(:menu)
+      end
+    end
+
+    def expect_no_work_package_context_menu(work_package)
+      expect(page)
+        .to have_no_css(menu_owner_overlay_selector(work_package), visible: :visible)
+    end
+
+    def expect_work_package_card_focused(work_package)
+      expect(page)
+        .to have_css(work_package_card_selector(work_package), focused: true)
+    end
+
+    # The presenter takes the overlay's `anchor` idref away for the duration of
+    # a contextual invocation, so its absence is what distinguishes a menu
+    # opened at the pointer (or on the card) from one opened at the More
+    # button, without measuring pixels.
+    # `page.document` rather than `page`: both are called while the menu is
+    # open, and the More button case runs inside a `within` scoped to the menu
+    # itself, where a plain `page` query would search the menu's descendants.
+    def expect_menu_anchored_contextually(work_package)
+      expect(page.document)
+        .to have_css("#{menu_owner_overlay_selector(work_package)}:not([anchor])")
+    end
+
+    def expect_menu_anchored_at_button(work_package)
+      expect(page.document)
+        .to have_css("#{menu_owner_overlay_selector(work_package)}[anchor]")
+    end
+
+    # Where the open menu sits relative to its card, rounded to whole pixels.
+    # A menu anchored on the card keeps this constant however the page scrolls;
+    # one pinned to a point in the viewport drifts by the scroll distance.
+    def work_package_menu_offset_from_card(work_package)
+      offset = page.evaluate_script(<<~JS)
+        (() => {
+          const overlay = document.querySelector('#{menu_owner_overlay_selector(work_package)}');
+          const card = document.querySelector('#{work_package_card_selector(work_package)}');
+
+          if (!overlay || !card) { return null; }
+
+          const overlayRect = overlay.getBoundingClientRect();
+          const cardRect = card.getBoundingClientRect();
+
+          return {
+            top: Math.round(overlayRect.top - cardRect.top),
+            left: Math.round(overlayRect.left - cardRect.left)
+          };
+        })()
+      JS
+
+      raise "No open menu for work package #{work_package.id}" if offset.nil?
+
+      offset.symbolize_keys
+    end
+
+    # Scrolls whatever actually scrolls this card — the window on a short page,
+    # an overflowing ancestor otherwise — and answers how far the card moved in
+    # viewport space, direction ignored, so a caller can tell a real scroll from
+    # a silent no-op on a page that never overflowed.
+    def scroll_past_work_package_card(work_package, distance:)
+      page.evaluate_script(<<~JS)
+        (() => {
+          const card = document.querySelector('#{work_package_card_selector(work_package)}');
+          const before = card.getBoundingClientRect().top;
+
+          let scroller = document.scrollingElement;
+
+          for (let node = card.parentElement; node; node = node.parentElement) {
+            const overflowY = getComputedStyle(node).overflowY;
+
+            if (/(auto|scroll)/.test(overflowY) && node.scrollHeight > node.clientHeight) {
+              scroller = node;
+              break;
+            }
+          }
+
+          // Whichever direction has room: opening the menu scrolls the card
+          // into view, which may already have the scroller at one end, and
+          // scrolling further that way is a silent no-op.
+          const room = scroller.scrollHeight - scroller.clientHeight;
+          const target = scroller.scrollTop + #{distance} <= room
+            ? scroller.scrollTop + #{distance}
+            : scroller.scrollTop - #{distance};
+
+          // Explicitly instant: a scroll container inheriting
+          // `scroll-behavior: smooth` would animate the change, and the rect
+          // read below would still see the old position.
+          scroller.scrollTo({ top: Math.max(0, target), behavior: 'instant' });
+
+          return Math.abs(Math.round(before - card.getBoundingClientRect().top));
+        })()
+      JS
+    end
+
     def click_in_work_package_menu(work_package, item_name, wait: true)
       within_work_package_menu(work_package) do |submenu|
         wait_for_turbo_stream(wait:) do
@@ -492,6 +621,32 @@ module Pages
         .to have_no_css(draggable_work_package_selector(work_package))
     end
 
+    # A read-only card keeps its drag but is confined to its own list: it can
+    # be reordered in place, while every other container refuses it. The
+    # confined value is what the foreign drop targets read.
+    def expect_work_package_confined(work_package)
+      expect(page)
+        .to have_css("#{draggable_work_package_selector(work_package)}" \
+                     "[data-sortable-lists--item-confined-value='true']")
+      expect(page)
+        .to have_css("#{work_package_selector(work_package)}[draggable]")
+    end
+
+    # The lock on the status badge is what tells the user why the cross-container
+    # moves are gone. Without it a read-only card is indistinguishable from a
+    # movable one until they try to move it and nothing happens.
+    def expect_work_package_locked(work_package)
+      within_work_package(work_package) do
+        expect(page).to have_css(readonly_lock_selector)
+      end
+    end
+
+    def expect_work_package_not_locked(work_package)
+      within_work_package(work_package) do
+        expect(page).to have_no_css(readonly_lock_selector)
+      end
+    end
+
     def pick_up_and_release_work_package(work_package)
       # A mid-drag list refresh can detach the grabbed row, so retry a bounded
       # number of times on a stale node. retry_block no-ops under
@@ -610,6 +765,70 @@ module Pages
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
+    end
+
+    # Drags a confined card over another sprint's list body and releases it
+    # there. The release must resolve to nothing: no drop indicator over the
+    # target, no row of it accepting, no move request. The card's unchanged
+    # position is the caller's assertion.
+    def drag_work_package_without_move(moved, into:)
+      # See pick_up_and_release_work_package for the retry rationale.
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        moved_element = find(draggable_work_package_selector(moved))
+        target_element = find(list_body_selector(sprint_selector(into)))
+        install_backlogs_move_request_probe
+        begin
+          drag_backlogs_item(source: moved_element, target: target_element)
+        ensure
+          stop_backlogs_move_request_probe
+        end
+      end
+
+      expect_backlogs_drag_refused
+      expect_no_backlogs_move_request
+    end
+
+    # The refusal must be observable, or the assertions above would also pass
+    # for a drag that never engaged. The drop has to reach the controller —
+    # the foreign container stays an accepted drop target so the drag keeps
+    # the standard cursor, so it may appear in the drop's target list, but no
+    # row of it may — and the final dragover, the one over the foreign
+    # container, must show no drop position and mark that container refused
+    # (the muted danger outline) rather than active. Earlier dragovers may
+    # legitimately show indicators while the pointer is still crossing the
+    # card's own list, which keeps accepting it for real.
+    def expect_backlogs_drag_refused
+      refusal = page.evaluate_script(<<~JS)
+        (() => {
+          const state = window.__opBacklogsDndProbeState;
+          const call = state?.handleDropCalls?.at(-1);
+          const lastDragover = (state?.events ?? [])
+            .filter((event) => event.type === 'dragover')
+            .at(-1);
+
+          return {
+            handled: Boolean(call),
+            dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? [],
+            observedDragover: Boolean(lastDragover),
+            dropPositions: lastDragover?.dropPositions ?? null,
+            dropContainers: lastDragover?.dropContainers ?? null
+          };
+        })()
+      JS
+
+      expect(refusal.fetch("handled")).to be(true)
+      expect(refusal.fetch("dropTargetTypes")).not_to include("work_package")
+      expect(refusal.fetch("observedDragover")).to be(true)
+      expect(refusal.fetch("dropPositions")).to be_empty
+      expect(refusal.fetch("dropContainers")).to eq(["refused"])
     end
 
     def drag_work_package_to_backlog_inbox(work_package)
@@ -771,8 +990,28 @@ module Pages
       test_selector("work-package-#{work_package.id}")
     end
 
+    # `.op-work-package-card` is the class the card component itself owns;
+    # `.Box-card` is a Primer modifier it happens to compose today, so it is
+    # not something a Backlogs page object should be matching on.
+    def work_package_card_selector(work_package)
+      "#{work_package_selector(work_package)} .op-work-package-card"
+    end
+
+    # Generic over every menu owner `dismiss_menu` handles (sprint, bucket,
+    # work package): `dom_target` needs nothing work-package-specific, so this
+    # is the one place that convention lives.
+    def menu_owner_overlay_selector(menu_owner)
+      "##{ActionView::RecordIdentifier.dom_target(menu_owner, :menu)}-overlay"
+    end
+
     def draggable_work_package_selector(work_package)
       "#{work_package_selector(work_package)}[data-sortable-lists--item-id-value]"
+    end
+
+    # Located by the lock's accessible name so the expectation fails if the
+    # icon ever loses the text that explains it.
+    def readonly_lock_selector
+      "[aria-label='#{Status.human_attribute_name(:is_readonly)}']"
     end
 
     def drag_backlogs_item(source:, target:, edge: nil)
@@ -782,7 +1021,7 @@ module Pages
     def pick_up_and_release_backlogs_item(source)
       install_backlogs_dnd_probe(source:, target: source, edge: nil)
 
-      scroll_to_element(source)
+      scroll_backlogs_source_into_view(source)
 
       page
         .driver
@@ -820,27 +1059,27 @@ module Pages
       expect(drop_summary.fetch("dropTargetTypes")).not_to include("work_package")
     end
 
+    # `block: :nearest` (rather than scroll_to_element's default `:start`)
+    # scrolls the minimum distance needed to bring the row into view, and
+    # does nothing at all if it is already visible, unlike `:start`,
+    # which unconditionally forces the row to the viewport's top edge.
+    # That edge happens to sit inside Pragmatic's auto-scroll trigger zone
+    # (autoScrollForElements): starting the drag right there makes the
+    # (correctly working) auto-scroll feature scroll the list's header
+    # back into view under a stationary pointer, independently of the
+    # drag's own movement, so the drop lands wherever the header
+    # auto-scrolled to, not where the drag aimed.
+    def scroll_backlogs_source_into_view(source)
+      scroll_to_element(source, block: :nearest)
+    end
+
     def selenium_drag_backlogs_item(source:, target:, edge: nil)
       install_backlogs_dnd_probe(source:, target:, edge:)
 
-      scroll_to_element(source)
+      scroll_backlogs_source_into_view(source)
 
-      source_rect = source.native.rect
-      target_rect = target.native.rect
-      target_x, target_y = selenium_target_point(target_rect, edge:)
-      source_x, source_y = selenium_element_center(source_rect)
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(source.native)
-        .click_and_hold(source.native)
-        .pause(duration: 0.1)
-        .move_by(target_x - source_x, target_y - source_y)
-        .pause(duration: 0.1)
-        .release
-        .perform
+      target_x, target_y = selenium_target_point(target.native.rect, edge:)
+      perform_native_drag(source:, target_x:, target_y:)
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here
@@ -862,13 +1101,6 @@ module Pages
         else
           rect.y + (rect.height / 2)
         end
-      ].map(&:round)
-    end
-
-    def selenium_element_center(rect)
-      [
-        rect.x + (rect.width / 2),
-        rect.y + (rect.height / 2)
       ].map(&:round)
     end
 
@@ -1058,6 +1290,9 @@ module Pages
             label,
             draggingCount: document.querySelectorAll('[data-dragging]').length,
             honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
+            dropContainers: Array
+              .from(document.querySelectorAll('[data-drop-container]'))
+              .map((element) => element.getAttribute('data-drop-container')),
             dropTargets: document.querySelectorAll('[data-drop-target-for-element]').length,
             dropPositions: Array
               .from(document.querySelectorAll('[data-drop-position]'))
@@ -1089,6 +1324,9 @@ module Pages
             effectAllowed: event.dataTransfer?.effectAllowed ?? null,
             draggingCount: document.querySelectorAll('[data-dragging]').length,
             honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
+            dropContainers: Array
+              .from(document.querySelectorAll('[data-drop-container]'))
+              .map((element) => element.getAttribute('data-drop-container')),
             dropPositions: Array
               .from(document.querySelectorAll('[data-drop-position]'))
               .map((element) => ({
@@ -1181,8 +1419,7 @@ module Pages
     end
 
     def dismiss_menu(menu_owner)
-      overlay_id = "#{ActionView::RecordIdentifier.dom_target(menu_owner, :menu)}-overlay"
-      selector = "##{overlay_id}"
+      selector = menu_owner_overlay_selector(menu_owner)
 
       return unless page.has_css?(selector, visible: true, wait: 0)
       return if page.has_selector?(:modal, wait: 0)

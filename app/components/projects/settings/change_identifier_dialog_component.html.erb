@@ -27,19 +27,24 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Alpha::Dialog.new(
-      id: "change-identifier-dialog",
-      title: t("projects.settings.change_identifier_dialog_title")
-    )) do |dialog| %>
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: "change-identifier-dialog",
+        title: t("projects.settings.change_identifier_dialog_title"),
+        size: :medium_portrait
+      )
+    ) do |dialog| %>
   <% dialog.with_body do %>
     <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 3)) do %>
       <%= t("projects.settings.change_identifier_warning") %>
     <% end %>
 
-    <%= settings_primer_form_with(model: project,
-                                  url: project_identifier_path(project),
-                                  id: "change-identifier-form",
-                                  mt: 4) do |f| %>
+    <%= settings_primer_form_with(
+          model: project,
+          url: project_identifier_path(project),
+          id: "change-identifier-form",
+          mt: 4
+        ) do |f| %>
       <%= render(Primer::Forms::FormList.new(Projects::Settings::EditableIdentifierForm.new(f))) %>
     <% end %>
   <% end %>

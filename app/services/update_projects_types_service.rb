@@ -101,7 +101,15 @@ class UpdateProjectsTypesService < BaseProjectService
 
   def update_project_types(type_ids)
     new_types_to_add = type_ids - project.type_ids
+    # TODO: should go through Projects::Types::AddService and RemoveService, which own the
+    # family conflict rules and the custom field enabling this reimplements.
     project.type_ids = type_ids
-    project.work_package_custom_field_ids |= WorkPackageCustomField.joins(:types).where(types: { id: new_types_to_add }).ids
+    project.work_package_custom_field_ids |= custom_field_ids_of(new_types_to_add)
+  end
+
+  # Type#custom_fields resolves the form configuration link, so a type inheriting its
+  # configuration contributes the fields it actually shows rather than the none it owns.
+  def custom_field_ids_of(type_ids)
+    ::Type.where(id: type_ids).flat_map { |type| type.custom_fields.ids }.uniq
   end
 end

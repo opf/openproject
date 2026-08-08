@@ -63,7 +63,7 @@ de:
   plugin_openproject_resource_management:
     description: Bietet Ressourcenmanagement und Kapazitätsplanung.
     name: OpenProject Ressourcenmanagement
-  project_module_resource_management: Ressourcen Management
+  project_module_resource_management: Ressourcenmanagement
   resource_management:
     action:
       delete: Löschen

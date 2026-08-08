@@ -120,28 +120,103 @@ sudo service openproject restart
 
 ## Docker-based installation
 
-For Docker-based installations, assuming you have a backup as per the procedure described in the [Backing up](../backing-up) guide, you simply need to restore files into the correct folders (when using the all-in-one container), or restore the docker volumes (when using the Compose file), then start OpenProject using the normal docker or docker-compose command.
+For Docker-based installations, assuming you have a backup as per the procedure described in the [Backing up](../backing-up) guide, you need to restore the database dump into the database container (or `pgdata` volume) and restore attachments into the assets volume, then start OpenProject with the normal `docker` / `docker compose` commands.
 
-### Using docker-compose
+> [!IMPORTANT]
+> **Migrating from a packaged (DEB/RPM) installation?**
+> Follow the dedicated [packaged → Docker Compose migration guide](../../misc/packaged-docker-migration/).
+> That guide covers transferring the SQL dump, attachments, and `SECRET_KEY_BASE`, as well as handling older OpenProject versions.
+
+### Using Docker Compose
 
 Let's assume you want to restore a database dump given in a file, say `openproject.sql`.
+Run the following commands from the directory that contains your `docker-compose.yml`, after you have started the stack at least once with `docker compose up -d`.
 
-This assumes that the database container is called `compose_db_1`. Find out the actual name on your host using `docker ps | grep postgres`.
+> [!WARNING]
+> If the dump comes from an OpenProject version that is **more than one major release** behind the image used by Docker Compose, the `seeder` may crash-loop without a useful error.
+> In that case, first upgrade the dump with the [`bin/migrate`](https://github.com/opf/openproject/blob/dev/bin/migrate) script as described in the [step-wise migration documentation](../upgrading/#step-wise-database-migration-script), then import the migrated dump below.
 
-If you are using docker-compose this is what you do after you started everything for the first time using `docker-compose up -d`:
+1. Stop the application containers to prevent writes to the database during the import:
 
-1. Stop the OpenProject container using `docker-compose stop web worker`.
-2. Drop the existing, seeded database using `docker exec -it compose_db_1 psql -U postgres -c 'drop database openproject;'`
-3. If your database doesn't have an openproject user yet, create it with this command: `docker exec -it compose_db_1 psql -U postgres -c 'create user openproject;'`
-4. Recreate the database using `docker exec -it compose_db_1 psql -U postgres -c 'create database openproject owner openproject;'`
-5. Copy the dump onto the container: `docker cp openproject.sql compose_db_1:/`
-6. Source the dump with psql on the container: `docker exec -it compose_db_1 psql -U postgres` followed first by `\c openproject` and then by `\i openproject.sql`. You can leave this console by entering `\q` once it's done.
-7. Delete the dump on the container: `docker exec -it compose_db_1 rm openproject.sql`
-8. Run the seeder once to perform any migrations `docker-compose start seeder`
-9. Restart the web and worker processes: `docker-compose start web worker`
-10. Confirm with `docker-compose logs -f` that the processes are starting up correctly.
+   ```shell
+   docker compose stop web worker cron seeder
+   ```
 
-> **NOTE:** If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
+2. Drop the existing, seeded database:
+
+   ```shell
+   docker compose exec -T db psql -U postgres -c 'DROP DATABASE IF EXISTS openproject WITH (FORCE);'
+   ```
+
+3. Recreate the database (Compose connects as the `postgres` superuser by default):
+
+   ```shell
+   docker compose exec -T db psql -U postgres -c 'CREATE DATABASE openproject OWNER postgres;'
+   ```
+
+   If your dump expects an `openproject` role, create it first:
+
+   ```shell
+   docker compose exec -T db psql -U postgres -c "DO \$\$ BEGIN CREATE ROLE openproject LOGIN; EXCEPTION WHEN duplicate_object THEN NULL; END \$\$;"
+   ```
+
+4. Import the dump:
+
+   ```shell
+   # Plain SQL dump
+   docker compose exec -T db psql -U postgres -d openproject < openproject.sql
+
+   # Gzipped dump (e.g. from bin/migrate)
+   gunzip -c openproject-migrated.sql.gz | docker compose exec -T db psql -U postgres -d openproject
+   ```
+
+5. Restore attachments into the assets volume (see [Restoring attachments (Docker Compose)](#restoring-attachments-docker-compose) below).
+
+6. Run the seeder once to perform any remaining migrations:
+
+   ```shell
+   docker compose run --rm seeder
+   ```
+
+7. Restart the application processes:
+
+   ```shell
+   docker compose up -d
+   ```
+
+8. Confirm with `docker compose logs -f` that the processes are starting correctly.
+
+> [!NOTE]
+> If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
+
+#### Restoring attachments (Docker Compose)
+
+Packaged and Compose backups store uploads in an `attachments-<timestamp>.tar.gz` archive.
+In Docker Compose, those files belong under `/var/openproject/assets/files` inside the `opdata` volume.
+
+**Bind-mounted assets directory** (for example `OPDATA=/var/openproject/assets` in `.env`):
+
+```shell
+sudo mkdir -p /var/openproject/assets/files
+sudo tar -xzf attachments-<timestamp>.tar.gz -C /var/openproject/assets/files
+sudo chown -R 1000:1000 /var/openproject/assets
+```
+
+**Named Docker volume** (default when `OPDATA` is unset; name is prefixed by your Compose project directory):
+
+```shell
+docker volume ls | grep opdata
+# e.g. openproject_opdata
+
+docker run --rm \
+  -v openproject_opdata:/var/openproject/assets \
+  -v /path/to/backup:/backup:ro \
+  alpine sh -c "
+    mkdir -p /var/openproject/assets/files &&
+    tar -xzf /backup/attachments-<timestamp>.tar.gz -C /var/openproject/assets/files &&
+    chown -R 1000:1000 /var/openproject/assets
+  "
+```
 
 ### Using the all-in-one container
 

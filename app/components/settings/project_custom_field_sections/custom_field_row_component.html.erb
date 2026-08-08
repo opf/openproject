@@ -3,7 +3,7 @@
     flex_layout(justify_content: :space_between, align_items: :center) do |main_container|
       main_container.with_column(flex_layout: true, align_items: :center) do |content_container|
         content_container.with_column(mr: 2) do
-          render(Primer::OpenProject::DragHandle.new(classes: "handle"))
+          render(Primer::OpenProject::DragHandle.new(classes: "handle", data: { sortable_lists__item_target: "handle" }))
         end
         content_container.with_column(mr: 2) do
           render(

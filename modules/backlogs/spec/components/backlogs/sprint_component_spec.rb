@@ -117,7 +117,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
           end
 
           expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
-            expect(card["data-controller"]).to eq("backlogs--work-package")
+            expect(card["data-controller"]).to include("backlogs--work-package")
             expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
             expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
           end
@@ -305,6 +305,19 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
         it "renders the start-sprint link enabled" do
           expect(rendered_component).to have_link("Start sprint")
         end
+
+        context "when params[:all] is true" do
+          before do
+            vc_test_controller.params[:all] = "1"
+          end
+
+          it "preserves ?all=true on the start-sprint link" do
+            expect(rendered_component).to have_link(
+              "Start sprint",
+              href: start_project_backlogs_sprint_path(project, sprint, all: true)
+            )
+          end
+        end
       end
 
       context "when the sprint is in planning without start date" do
@@ -359,6 +372,33 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
           # The three item groups are separated by presentation-only dividers.
           expect(page).to have_css('li[role="presentation"]:nth-child(2)')
           expect(page).to have_css('li[role="presentation"]:nth-child(5)')
+        end
+      end
+
+      context "with sprint_reports feature flag active", with_flag: :sprint_reports do
+        it "shows sprint report in the action menu instead of burndown chart" do
+          rendered_component
+
+          expect(menu_items).to eq(
+            [
+              "Edit sprint",
+              "Add new work package",
+              "Add existing work package",
+              "Sprint report"
+            ]
+          )
+        end
+
+        context "when the user lacks view_sprints permission" do
+          let(:role) { create(:project_role, permissions: %i[view_work_packages create_sprints]) }
+          let(:user) { create(:user, member_with_roles: { project => role }) }
+
+          it "hides both the sprint report and burndown chart menu items" do
+            rendered_component
+
+            expect(menu_items).not_to include("Sprint report")
+            expect(menu_items).not_to include("Burndown chart")
+          end
         end
       end
 

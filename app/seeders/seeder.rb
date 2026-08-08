@@ -95,6 +95,13 @@ class Seeder
     @admin_user ||= User.not_builtin.admin.first
   end
 
+  # Seeders creating users must not run when this is disabled. Environments that re-run the
+  # seeders on every deploy would otherwise have newly added seeders create users on instances
+  # that were seeded long ago, since a seeder can only tell whether its own data is absent.
+  def seed_users_disabled?
+    %w[off false no 0].include? ENV.fetch("OP_DEV_USER_SEEDER_ENABLED", nil)
+  end
+
   protected
 
   def print_status(message)

@@ -81,7 +81,7 @@ module Backlogs
       else
         base_arguments.merge(
           tag: :a,
-          href: start_project_backlogs_sprint_path(project, sprint),
+          href: start_project_backlogs_sprint_path(project, sprint, backlog_filter_params),
           data: { turbo_method: :post }
         )
       end
@@ -180,7 +180,12 @@ module Backlogs
     end
 
     def show_burndown_link?
-      sprint.active?
+      sprint.active? && !OpenProject::FeatureDecisions.sprint_reports_active?
+    end
+
+    def show_report_link?
+      OpenProject::FeatureDecisions.sprint_reports_active? &&
+        user_allowed?(:view_sprints)
     end
 
     def can_open_edit_dialog?

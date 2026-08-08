@@ -8,7 +8,7 @@
            icon: :x,
            mobile_icon: :x,
            label: I18n.t(:button_cancel),
-           href: types_path,
+           href: cancel_href,
            aria: { label: I18n.t(:button_cancel) }
          ) %>
     <% end %>
@@ -27,7 +27,7 @@
           <%= within_step_frame do %>
             <%= reuse_mode_banner %>
             <%= primer_form_with(**step_form_options) do |f| %>
-              <%= render(step_editor.form_class.new(f)) %>
+              <%= render(step_editor.editor(f)) %>
             <% end %>
           <% end %>
         <% else %>

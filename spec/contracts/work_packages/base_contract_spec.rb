@@ -201,6 +201,43 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
+    context "when work_package has multiple versions of which only one is closed" do
+      before do
+        open_version = build_stubbed(:version)
+        closed_version = build_stubbed(:version, status: "closed")
+
+        allow(work_package)
+          .to receive(:effective_target_versions)
+          .and_return([open_version, closed_version])
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
+      end
+
+      it "is not writable" do
+        expect(contract).not_to be_writable(:status)
+      end
+    end
+
+    context "when work_package is being moved out of a closed version while the status is closed" do
+      before do
+        closed_version = build_stubbed(:version, status: "closed")
+        open_version = build_stubbed(:version)
+
+        allow(work_package)
+          .to receive(:target_versions)
+          .and_return([closed_version])
+        work_package.version = open_version
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
+      end
+
+      it "is writable" do
+        expect(contract).to be_writable(:status)
+      end
+    end
+
     context "when status is inexistent" do
       before do
         work_package.status = Status::InexistentStatus.new
@@ -1181,6 +1218,38 @@ RSpec.describe WorkPackages::BaseContract do
           expect(subject.errors).to be_empty
         end
       end
+
+      context "when the closed version is assigned through target_versions" do
+        before do
+          allow(work_package)
+            .to receive(:target_versions)
+            .and_return([assignable_version])
+        end
+
+        context "and reopening the work package" do
+          before do
+            allow(work_package)
+              .to receive(:reopened?)
+              .and_return(true)
+
+            subject.validate
+          end
+
+          it "is invalid" do
+            expect(subject.errors[:base]).to eql [I18n.t(:error_can_not_reopen_work_package_on_closed_version)]
+          end
+        end
+
+        context "and not reopening the work package" do
+          before do
+            subject.validate
+          end
+
+          it "is valid" do
+            expect(subject.errors).to be_empty
+          end
+        end
+      end
     end
   end
 
@@ -1306,6 +1375,34 @@ RSpec.describe WorkPackages::BaseContract do
           work_package.target_version_ids_replacements = [assignable_version.id]
           contract.validate
           expect(contract.errors).to be_empty
+        end
+      end
+
+      # With several target versions, version_id mirrors the primary target
+      # version (the lowest id), so agreement means naming that one - in any
+      # assignment order.
+      context "with multiple target versions enabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        let(:lower_version) { [assignable_version, other_assignable_version].min_by(&:id) }
+        let(:higher_version) { [assignable_version, other_assignable_version].max_by(&:id) }
+
+        it "is valid when version names the lowest target version" do
+          work_package.version = lower_version
+          work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
+          contract.validate
+
+          expect(contract.errors.symbols_for(:base))
+            .not_to include(:version_and_target_versions_mutually_exclusive)
+        end
+
+        it "is invalid when version names a non-lowest target version" do
+          work_package.version = higher_version
+          work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
+          contract.validate
+
+          expect(contract.errors.symbols_for(:base))
+            .to include(:version_and_target_versions_mutually_exclusive)
         end
       end
     end
@@ -1744,6 +1841,12 @@ RSpec.describe WorkPackages::BaseContract do
         let(:version) { build_stubbed(:version, status: "closed") }
         let(:current_status) { build_stubbed(:status, is_closed: true) }
 
+        before do
+          allow(work_package)
+            .to receive(:target_versions)
+            .and_return([version])
+        end
+
         it "only allows the current status" do
           expect(contract.assignable_statuses.to_sql)
             .to eql Status.where(id: current_status.id).to_sql
@@ -1917,4 +2020,82 @@ RSpec.describe WorkPackages::BaseContract do
   end
 
   it_behaves_like "contract reuses the model errors"
+
+  # The work package stores the family's root, so the subject pattern in force is the one the
+  # project's variant resolves to. Following the stored root would answer with the root's
+  # pattern and silently ignore a variant owning its defaults.
+  describe "subject patterns when the project resolves the type to a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+
+    let(:project) { create(:project, types: [variant]) }
+    let(:type) { family_root }
+    let(:work_package) { build_stubbed(:work_package, project:, type: family_root, subject: nil) }
+    let(:blueprint) { { subject: { blueprint: "{{type}}", enabled: true } } }
+
+    context "when the variant inherits the root's defaults" do
+      before { family_root.update!(patterns: blueprint) }
+
+      it "accepts a blank subject, as the pattern generates it" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:subject)).to be_empty
+      end
+
+      it "makes the subject unwritable" do
+        expect(contract.writable_attributes).not_to include("subject")
+      end
+    end
+
+    context "when the variant owns its defaults and defines no pattern" do
+      before do
+        family_root.update!(patterns: blueprint)
+        variant.configuration_links.find_by(aspect: Type::ConfigurationLink::DEFAULTS).destroy!
+        variant.reload
+      end
+
+      it "requires a subject, as the variant generates none" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:subject)).to include(:blank)
+      end
+
+      it "makes the subject writable" do
+        expect(contract.writable_attributes).to include("subject")
+      end
+    end
+  end
+
+  # #new_statuses_by_workflow reads the workflows of the type in force, which is the variant the
+  # project resolves the stored root to.
+  describe "#assignable_statuses when the project resolves the type to a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    shared_let(:current_status) { create(:status, name: "Current") }
+    shared_let(:root_target) { create(:status, name: "Root target") }
+    shared_let(:variant_target) { create(:status, name: "Variant target") }
+
+    let(:project) { create(:project, types: [variant]) }
+    let(:type) { family_root }
+    let(:role) { create(:project_role, permissions:) }
+    let(:current_user) { create(:user, member_with_roles: { project => role }) }
+    let(:work_package) { create(:work_package, project:, type: family_root, status: current_status) }
+
+    before do
+      variant.configuration_links.find_by(aspect: Type::ConfigurationLink::WORKFLOWS).destroy!
+      variant.reload
+
+      create(:workflow, type: family_root, role:,
+                        old_status_id: current_status.id, new_status_id: root_target.id)
+      create(:workflow, type: variant, role:,
+                        old_status_id: current_status.id, new_status_id: variant_target.id)
+    end
+
+    it "offers the transitions of the variant, not the stored root's" do
+      expect(contract.assignable_statuses).to include(variant_target)
+      expect(contract.assignable_statuses).not_to include(root_target)
+    end
+  end
 end

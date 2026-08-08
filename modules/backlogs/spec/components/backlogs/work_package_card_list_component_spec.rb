@@ -141,7 +141,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
         end
 
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
-          expect(card["data-controller"]).to eq("backlogs--work-package")
+          expect(card["data-controller"]).to include("backlogs--work-package")
           expect(card["data-story"]).to be_present
           expect(card["data-backlogs--work-package-id-value"]).to eq(work_package.id.to_s)
           expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
@@ -157,9 +157,9 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
       expect(rendered_component).to have_css(".Box-header")
     end
 
-    it "keeps condensed row padding with spacious header padding" do
+    it "keeps condensed row and header padding" do
       expect(rendered_component).to have_css(
-        ".Box.Box--condensed.op-border-box-list_header-padding-default"
+        ".Box.Box--condensed.op-border-box-list_header-padding-condensed"
       )
     end
 

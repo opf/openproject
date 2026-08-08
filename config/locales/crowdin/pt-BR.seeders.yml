@@ -505,18 +505,18 @@ pt-BR:
           name: Bug
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Filhos do épico: histórias de usuário e bugs'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'Filhos da história de usuário: tarefas'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: Histórias de usuário e bugs
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Tarefas
       welcome:
         title: Boas-vindas ao OpenProject!
         text: |

@@ -70,7 +70,7 @@ module Projects
         errors.add :project_creation_wizard_status_when_submitted_id, :blank
       else
         type = Type.find_by(id: model.project_creation_wizard_work_package_type_id)
-        unless type.statuses.exists?(id: model.project_creation_wizard_status_when_submitted_id)
+        unless model.effective_type(type).statuses.exists?(id: model.project_creation_wizard_status_when_submitted_id)
           errors.add :project_creation_wizard_status_when_submitted_id, :inclusion
         end
       end

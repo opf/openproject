@@ -31,9 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::Beta::Blankslate.new(border: true)) do |blankslate|
     blankslate.with_heading(tag: :h2).with_content(t("admin.workflows.blankslate.title"))
     blankslate.with_description_content(t(description_key))
-    unless read_only?
+    unless readonly?
       blankslate.with_primary_action(
-        href: helpers.status_dialog_type_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id)),
+        href: helpers.status_dialog_type_workflow_matrix_path(type, tab:, role_ids: roles.map(&:id)),
         scheme: :secondary,
         data: { controller: "async-dialog" }
       ) do |button|

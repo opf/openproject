@@ -30,6 +30,7 @@
 
 require "spec_helper"
 
+# TODO: Remove with type_variants feature flag
 RSpec.describe Workflows::Copies::FromTypesController do
   let!(:source_type) do
     build_stubbed(:type) do |stub|
@@ -71,7 +72,7 @@ RSpec.describe Workflows::Copies::FromTypesController do
               .with(source_type, nil, target_types, roles)
     end
 
-    it "redirects with a flash notice" do
+    it "redirects to the first target type with a flash notice" do
       expect(response).to redirect_to(edit_type_workflow_path(target_types.first))
       expect(flash[:notice]).to eq("Successfully copied workflow to 2 types.")
     end

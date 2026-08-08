@@ -146,6 +146,11 @@ RSpec.describe McpTools::SearchVersions do
         expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
       end
 
+      it "indicates the total number of results" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "total")).to eq(version_count)
+      end
+
       context "if another page is requested" do
         let(:call_args) { { name: "beta", page: 2 } }
 

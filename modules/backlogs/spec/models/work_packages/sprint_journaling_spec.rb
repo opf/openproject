@@ -73,6 +73,9 @@ RSpec.describe "WorkPackage sprint association journaling", # rubocop:disable RS
   it "formats the sprint change in the journal" do
     work_package_with_sprint.update!(sprint: sprint2)
 
+    # A sprint is only named to readers who may see its project.
+    login_as(create(:user, member_with_permissions: { project => %i[view_work_packages] }))
+
     last_journal = work_package_with_sprint.journals.last
     formatted = last_journal.render_detail("sprint_id", no_html: true)
 

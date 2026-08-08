@@ -38,19 +38,26 @@ module Wikis
 
     # @return [ServiceResult<ActiveRecord::Relation<Wikis::PageLink>]
     def call
-      metadata = relation.group_by(&:provider).flat_map do |provider, page_links|
-        build_inputs(page_links).filter_map do |(page_link_id, input_data)|
-          request_page_info(input_data, provider).either(->(info) { [page_link_id, info.title] }, ->(*) {})
-        end
-      end
+      @result.result = if relation.any?
+                         enrich_models(fetch_metadata)
+                       else
+                         relation
+                       end
 
-      @result.result = enrich_models(metadata)
       @result
     end
 
     private
 
     attr_reader :relation
+
+    def fetch_metadata
+      relation.group_by(&:provider).flat_map do |provider, page_links|
+        build_inputs(page_links).filter_map do |(page_link_id, input_data)|
+          request_page_info(input_data, provider).either(->(info) { [page_link_id, info.title] }, ->(*) {})
+        end
+      end
+    end
 
     def request_page_info(input_data, provider)
       provider.auth_strategy_for(User.current).bind do |auth_strategy|

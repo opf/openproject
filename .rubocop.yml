@@ -158,6 +158,15 @@ OpenProject/AddPreviewForViewComponent:
     - app/components/open_project/**.rb
     - app/components/concerns/**.rb
 
+# Specs overwhelmingly hold a type the example created itself and assert against that member's
+# own configuration, which is the shape the cop cannot tell apart from a work package's stored
+# root. Note the gap this leaves: a spec that builds a work package and reads configuration off
+# its `type` is the real bug and is no longer flagged here.
+OpenProject/UseEffectiveTypeForConfiguration:
+  Exclude:
+    - "spec/**/*.rb"
+    - "modules/*/spec/**/*.rb"
+
 Performance/Casecmp:
   Enabled: false
 

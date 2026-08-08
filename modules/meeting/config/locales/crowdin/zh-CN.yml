@@ -536,10 +536,10 @@ zh-CN:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: 此系列的第一个事件将是%{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: 这将导致一个在 %{date}结束的系列
       occurrences:
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        other: 这将导致 %{count} 个即将发生的事件
+      occurrences_capped: 这将导致超过 %{count} 个即将发生的事件
     day_of_month_skipping_info: 将跳过天数少于 %{monthly_day} 天的月份
     delete_dialog:
       confirmation_message_html:
@@ -607,7 +607,7 @@ zh-CN:
         third: 第三个
     occurrence:
       error_no_next: 此会议没有下一个发生时间。
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: 会议系列模板仍处于草稿模式。
       first_already_exists: 此会议系列的第一次发生已经被实例化。
       first_created: '第一次会议已成功从模板创建。所有未来的会议将会在上一次发生的时间自动创建。
 

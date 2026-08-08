@@ -65,6 +65,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDates
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDefinition
   register_journal_formatter OpenProject::JournalFormatter::ProjectStatusCode
+  register_journal_formatter OpenProject::JournalFormatter::PublicNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter OpenProject::JournalFormatter::SubprojectNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::TargetVersions
@@ -98,6 +99,7 @@ class Journal < ApplicationRecord
     total_percent_complete_mode_changed_to_work_weighted_average
     work_package_children_changed_times
     work_package_parent_changed_times
+    work_package_parent_deleted
     work_package_predecessor_changed_times
     work_package_related_changed_times
     work_package_duplicate_closed

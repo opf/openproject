@@ -2,28 +2,28 @@
 hy:
   js:
     team_planner:
-      add_assignee: Assignee
-      add_existing: Add existing
-      add_existing_title: Add existing work packages
-      cannot_drag_here: Cannot move the work package due to permissions or editing restrictions.
-      cannot_drag_to_non_working_day: This work package cannot start/finish on a non-working day.
-      create_label: Team planner
-      create_title: Create new team planner
-      drag_here_to_remove: Drag here to remove assignee and start and end dates.
-      eight_weeks: 8-week
-      four_weeks: 4-week
-      label_team_planner_plural: Team planners
+      add_assignee: Պատասխանատու
+      add_existing: Ավելացնել առկա
+      add_existing_title: Ավելացնել առկա աշխատանքային փաթեթներ
+      cannot_drag_here: Հնարավոր չէ տեղափոխել աշխատանքային փաթեթը թույլտվությունների կամ խմբագրման սահմանափակումների պատճառով։
+      cannot_drag_to_non_working_day: Այս աշխատանքային փաթեթը չի կարող սկսվել/ավարտվել ոչ աշխատանքային օրը։
+      create_label: Թիմային պլանավորիչ
+      create_title: Ստեղծել նոր թիմային պլանավորիչ
+      drag_here_to_remove: Քարշ տարեք այստեղ՝ պատասխանատուն և սկզբի ու ավարտի ամսաթվերը հեռացնելու համար։
+      eight_weeks: 8-շաբաթյա
+      four_weeks: 4-շաբաթյա
+      label_team_planner_plural: Թիմային պլանավորիչներ
       modify:
         errors:
-          fallback: This work package cannot be edited.
-          permission_denied: You do not have the necessary permissions to modify this.
-      no_data: Add assignees to set up your team planner.
-      one_week: 1-week
+          fallback: Այս աշխատանքային փաթեթը հնարավոր չէ խմբագրել։
+          permission_denied: Դուք չունեք սա փոփոխելու համար անհրաժեշտ թույլտվությունները։
+      no_data: Ավելացրեք պատասխանատուներ՝ Ձեր թիմային պլանավորիչը կարգավորելու համար։
+      one_week: 1-շաբաթյա
       quick_add:
-        empty_state: Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.
-        search_placeholder: Search...
-      remove_assignee: Remove assignee
-      today: Today
-      two_weeks: 2-week
-      unsaved_title: Unnamed team planner
-      work_week: Work week
+        empty_state: Օգտագործեք որոնման դաշտը՝ աշխատանքային փաթեթներ գտնելու համար, և քարշ տարեք դրանք պլանավորիչ՝ որևէ մեկին նշանակելու և սկզբի ու ավարտի ամսաթվերը սահմանելու համար։
+        search_placeholder: Որոնել...
+      remove_assignee: Հեռացնել պատասխանատուին
+      today: Այսօր
+      two_weeks: 2-շաբաթյա
+      unsaved_title: Անանուն թիմային պլանավորիչ
+      work_week: Աշխատանքային շաբաթ

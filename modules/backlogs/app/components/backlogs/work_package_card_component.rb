@@ -119,7 +119,9 @@ module Backlogs
     def card_data
       data = {
         story: true,
-        controller: "backlogs--work-package",
+        # Non-movable cards opt in too: they have no move actions, but their
+        # singular menu is still worth reaching contextually.
+        controller: "backlogs--work-package contextual-action-menu",
         backlogs__work_package_id_value: work_package.id,
         backlogs__work_package_display_id_value: work_package.display_id,
         backlogs__work_package_split_url_value: split_url,
@@ -133,7 +135,7 @@ module Backlogs
 
     def card_aria
       {
-        keyshortcuts: "Enter",
+        keyshortcuts: "Enter Shift+F10",
         label: work_package.to_fs(:caption)
       }
     end
