@@ -133,4 +133,12 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
     expect(page).to have_text("Add item")
     expect(page).to have_no_css("tool-tip[data-type='label']", text: I18n.t(:label_actions))
   end
+
+  it "renders the sortable wiring preview" do
+    render_preview(:sortable_wiring, from: described_class)
+
+    expect(page).to have_heading("Sprint backlog", level: 4)
+    expect(page).to have_text("Set up CI")
+    expect(page).to have_text("Write docs")
+  end
 end

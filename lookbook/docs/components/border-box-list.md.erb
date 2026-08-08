@@ -40,6 +40,9 @@ comparable lists should use headers.
 | `empty_state_behavior` | `Symbol` | `:static` | Policy for the empty state shown when the list has no items. See [Empty-state behavior](#empty-state-behavior) below |
 | `interactive` | `Boolean` | `false` | Enables polite ARIA live-region announcements for counter and configured empty-state updates |
 | `collapsible` | `Boolean` | `false` | Renders the header as a collapsible toggle when a header is present |
+| `sortable_list` | `OpPrimer::SortableLists::List`, `Hash`, `nil` | - | Marks the box root as a sortable-lists drop target for its rows, providing the type/accepted_type context row items default from. Mutually exclusive with `sortable_item:`. Requires a page-level `sortable-lists` controller root |
+| `sortable_item` | `OpPrimer::SortableLists::Item`, `Hash`, `nil` | - | Marks the whole box as a draggable drag-and-drop item (e.g. a collapsible group nested inside another sortable list). Wires the drag-preview target automatically, and wires the header drag handle automatically when a header with `show_drag_handle: true` is present. Mutually exclusive with `sortable_list:` and redundant with `sortable_handle:` |
+| `sortable_handle` | `Boolean` | `false` | Wires a bare drag-preview target and the header drag handle without a full `sortable_item:` (and its own item Stimulus controller). Use when the group's *rows* are the draggable unit but the group itself still needs a handle driven by some other reordering mechanism. Requires a header with `show_drag_handle: true`; mutually exclusive with `sortable_item:` |
 | `current_user` | `User` | `User.current` | User context forwarded to work package item rows |
 | `system_arguments` | `Hash` | `{}` | Forwarded to the underlying `Primer::Beta::BorderBox` |
 
@@ -48,7 +51,7 @@ comparable lists should use headers.
 | Slot | Description |
 |---|---|
 | `with_header` | Optional section header. See [Header parameters](#header-parameters) and [Header slots](#header-slots) below |
-| `with_item` | Generic list row that renders the provided block content |
+| `with_item` | Generic list row that renders the provided block content. Pass `sortable:` with the row's identity when the list is sortable |
 | `with_work_package_item` | Work package row that renders a work package card |
 | `with_empty_state` | Custom empty-state content rendered when no items are present |
 | `with_footer` | Optional footer row below the list items |
@@ -76,7 +79,8 @@ comparable lists should use headers.
 | `with_label` | Informational status label (`Primer::Beta::Label`) shown on the title row. Right-aligned, truncated when long, and hidden on small screens, so use it only for supplementary status, never as the sole affordance for an action |
 | `with_action_button` | Button rendered in the header actions area |
 | `with_action_icon_button` | Icon button rendered in the header actions area |
-| `with_menu` | Action menu rendered in the header actions area. Pass `button_arguments:` for the default trigger button |
+| `with_action_menu` | Inline labeled action menu in the actions area. The trailing overflow menu stays on `with_menu` |
+| `with_menu` | The single trailing overflow/kebab menu, rendered in its own menu area after the actions — not the actions area used by `with_action_button`/`with_action_icon_button`/`with_action_menu`. Pass `button_arguments:` for the default trigger button |
 
 ### Collapsible headers
 
@@ -138,6 +142,118 @@ heading navigation intact. The last crumb is marked as the current page
 automatically. Breadcrumbs are not available on collapsible headers.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :header_breadcrumbs, panels: %i[source] %>
+
+### Sortable lists
+
+Declare drag-and-drop wiring instead of hand-writing Stimulus data
+attributes. Values come from `OpPrimer::SortableLists::List` / `Item` /
+`Root` (or equivalent hashes); wire `type`s are never derived from
+models — pass the short names your page's URL-template map uses.
+
+**Box-level wiring**
+
+`sortable_list:` always mounts on the box root, marking it a drop target
+for its own rows; each row then passes `sortable:` with its identity.
+`sortable_item:` marks the whole box as a draggable item instead — for a
+box that is itself a draggable row in an outer list, such as a
+collapsible group nested inside another sortable list. `sortable_list:`
+and `sortable_item:` mount on the same element and so cannot be combined:
+`list.controller` and `item.controller` each register their own Pragmatic
+drop target on `this.element`, and Pragmatic's element adapter keys that
+registration by DOM node, so mounting both would make whichever connects
+second silently replace the first's registration.
+
+When a box's rows need to be draggable but the box itself is reordered by
+some other mechanism (move-up/move-down menu items rather than dragging
+the group), use `sortable_handle: true` instead of `sortable_item:`. It
+wires the bare drag-preview target and the header drag handle without a
+full item Stimulus controller. `sortable_handle:` raises unless a header
+with `show_drag_handle: true` is present; `sortable_item:` wires the
+drag handle too, but only when such a header happens to be present — it
+does not require one.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :sortable_wiring, panels: %i[source] %>
+
+**The page-level root**
+
+The component only emits its own wiring — dragging additionally needs a
+page-level element carrying the `sortable-lists` root controller, which
+supplies the move URL(s) and reaches outward to the list/item (and
+optionally scrollable) children through outlets. Build one with
+`OpPrimer::SortableLists::Root` instead of hand-writing the
+`sortable_lists_*` data attributes.
+
+Inside a `BorderBoxListCollectionComponent`, pass `root: true` with
+`move_urls:` (a `->(id) { { type => url } }` lambda) and the collection
+derives a `Root` scoped to its own wrapper id. This is how
+`Settings::ProjectCustomFieldSections::IndexComponent` wires page-level
+dragging for a page mixing two draggable types — sections themselves and
+the custom fields nested inside them:
+
+```ruby
+render(
+  OpenProject::Common::BorderBoxListCollectionComponent.new(
+    container: "project-custom-field-sections",
+    sortable_list: { type: "section" },
+    root: true,
+    move_urls: ->(id) {
+      {
+        section: drop_admin_settings_project_custom_field_section_path(id),
+        custom_field: drop_admin_settings_project_custom_field_path(id)
+      }
+    }
+  )
+) do |collection|
+  @project_custom_field_sections.each do |section|
+    collection.with_item_row(sortable: OpPrimer::SortableLists::Item.for(section, type: "section")) do
+      render(row_component_class.new(project_custom_field_section: section, first_and_last:))
+    end
+  end
+end
+```
+
+See the [Border Box List Collection docs](./border_box_list_collection)
+for the collection component's own parameters and slots. An explicit
+`Root` (rather than `root: true`) is also how several
+`BorderBoxListComponent` boxes on the same page can share one page-level
+root without any single box claiming ownership of it — a pattern this
+codebase doesn't exercise yet, but the intended shape for pages beyond a
+single collection, such as a Backlogs board with one box per sprint
+(part of the same prospective DREAM-806 adoption below).
+
+For a plain view element with a single draggable type, build a `Root`
+directly with `move_url:` (a `->(id) { url }` lambda) and merge it in
+with `#merge_into`, which token-joins onto any existing `controller`/
+`action` values instead of overwriting them — so the root can share an
+element with other Stimulus controllers already wired on it. Backlogs'
+turbo frame is the motivating case: it hand-writes this same
+`sortable_lists_*` data hash today (see
+`modules/backlogs/app/views/backlogs/backlog/show.html.erb`), and
+adopting `Root`/`#merge_into` there is prospective, tracked as a
+follow-up (DREAM-806) rather than done — this is the shape that
+migration would take:
+
+```ruby
+# How a page like the backlogs board — which today hand-writes this data
+# on its turbo frame — would adopt Root/#merge_into (DREAM-806):
+root = OpPrimer::SortableLists::Root.new(
+  scope_id: "backlogs_container",
+  move_url: ->(id) { move_project_backlogs_work_package_path(@project, id) },
+  optimistic: true,
+  outlets: %i[list item scrollable]
+)
+
+turbo_frame_tag(
+  :backlogs_container,
+  refresh: :morph,
+  src: project_backlogs_backlog_path(@project, backlog_filter_params),
+  class: "op-backlogs-page",
+  data: root.merge_into(
+    controller: "backlogs--list-refresh backlogs--split-view-sync",
+    action: "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved"
+  )
+)
+```
 
 ### Empty state
 
