@@ -79,9 +79,10 @@ module OpenProject
       #   selectors (the root's outlets, an explicit root's `scope_id`) are
       #   derived from the resulting id, not from `container` directly.
       # @param sortable_list [OpPrimer::SortableLists::List, Hash, nil]
-      #   sortable wiring for the wrapper, declaring it as a sortable-lists
-      #   drop target for its rows. A Hash is coerced via
-      #   `OpPrimer::SortableLists::List.new(**hash)`.
+      #   sortable wiring for the inner flex container that directly holds
+      #   the item rows (not the wrapper — see {#list_container_arguments}),
+      #   declaring it as a sortable-lists drop target for its rows. A Hash
+      #   is coerced via `OpPrimer::SortableLists::List.new(**hash)`.
       # @param root [true, OpPrimer::SortableLists::Root, nil] page-level
       #   sortable-lists root wiring. `true` derives a
       #   `OpPrimer::SortableLists::Root` scoped to the wrapper's own id, built
@@ -111,11 +112,30 @@ module OpenProject
         content
 
         @root = resolve_root!
-        configure_sortable_list_wiring!
         configure_root_wiring!
       end
 
       private
+
+      # System arguments for the inner flex container whose direct children
+      # are the item rows. Kept a separate element from the wrapper — rather
+      # than merging `sortable_list:`'s `data:` onto the wrapper itself —
+      # because the wrapper also carries the page-level `root:` wiring when
+      # set, and the root's outlet selectors are plain CSS descendant
+      # combinators (`##{wrapper_id} [data-controller~='...']`), which by the
+      # DOM spec can never match the wrapper element they are scoped from.
+      # Mounting the list role on the wrapper would make it invisible to the
+      # root's own outlets; mounting it here, on a genuine descendant, keeps
+      # it reachable.
+      #
+      # @return [Hash] forwarded to the inner `Primer::Box`.
+      def list_container_arguments
+        system_arguments = { display: :flex, direction: :column }
+        return system_arguments unless @sortable_list
+
+        system_arguments[:data] = @sortable_list.to_data
+        system_arguments
+      end
 
       # @return [OpPrimer::SortableLists::Root, nil]
       # @raise [ArgumentError] if `root: true` is given without `move_urls:`,
@@ -146,20 +166,6 @@ module OpenProject
 
         raise ArgumentError,
               "root scope_id (#{root.scope_id.inspect}) must match the wrapper id (#{@wrapper_id.inspect})"
-      end
-
-      # Wires the wrapper as a sortable-lists drop target for its rows.
-      #
-      # @return [void]
-      def configure_sortable_list_wiring!
-        return unless @sortable_list
-
-        list_data = @sortable_list.to_data
-        assert_no_sortable_conflicts!(@system_arguments[:data], list_data)
-        @system_arguments[:data] = merge_data(
-          { data: @system_arguments[:data] || {} },
-          { data: list_data }
-        )
       end
 
       # Wires the wrapper as the page-level sortable-lists root.

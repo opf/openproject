@@ -129,6 +129,31 @@ RSpec.describe "Reordering project attribute sections and fields", :js, :seleniu
     expect_fields_in_order(date_project_custom_field, string_project_custom_field, text_project_custom_field)
   end
 
+  it "still drags a section after its box morphed from a field move, and again after the index morph" do
+    # (a) move a field within the first section -> morphs that ShowComponent
+    drag_field(boolean_project_custom_field, after: string_project_custom_field)
+
+    expect_fields_in_order(string_project_custom_field, boolean_project_custom_field, integer_project_custom_field)
+
+    # (b) drag the morphed section below the next section -> asserts order
+    # persisted. A section drop replaces the whole IndexComponent, morphing
+    # every section's box (including the one just patched by (a)).
+    drag_section(section_for_input_fields, after: section_for_select_fields)
+
+    expect_sections_in_order(section_for_select_fields, section_for_input_fields, section_for_multi_select_fields)
+
+    # (c) drag it again after the index-level morph from (b) settles ->
+    # asserts order again, proving the section's drag handle survived being
+    # patched (not replaced) by that morph.
+    drag_section(section_for_input_fields, after: section_for_multi_select_fields)
+
+    expect_sections_in_order(section_for_select_fields, section_for_multi_select_fields, section_for_input_fields)
+
+    cf_index_page.visit!
+
+    expect_sections_in_order(section_for_select_fields, section_for_multi_select_fields, section_for_input_fields)
+  end
+
   # helper methods:
 
   def within_project_custom_field_section_container(section, &)
@@ -199,8 +224,17 @@ RSpec.describe "Reordering project attribute sections and fields", :js, :seleniu
     expect(page).to have_css(custom_fields.map { |cf| field_row_selector(cf) }.join(" + "))
   end
 
+  # Unlike fields (plain `<li>` siblings inside their section's `<ul>`),
+  # each section is independently turbo-streamable, so its sortable-lists
+  # item wiring sits on its own `component_wrapper`-nested BorderBox root
+  # rather than on a shared direct-sibling row element. A `+`-combinator
+  # adjacency check can't span that per-section wrapper, so order is
+  # asserted from document order instead.
   def expect_sections_in_order(*sections)
-    expect(page).to have_css(sections.map { |s| section_row_selector(s) }.join(" + "))
+    actual_ids = page.all("[data-sortable-lists--item-type-value='section']", visible: :all)
+                      .map { |el| el["data-sortable-lists--item-id-value"] }
+
+    expect(actual_ids).to eq(sections.map { |s| s.id.to_s })
   end
 
   def expect_field_in_section(section, custom_field)

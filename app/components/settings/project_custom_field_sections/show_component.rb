@@ -54,29 +54,6 @@ module Settings
         @project_custom_field_section.id
       end
 
-      def field_list_data
-        {
-          controller: "sortable-lists--list",
-          sortable_lists__list_type_value: "custom_field",
-          sortable_lists__list_accepted_type_value: "custom_field",
-          sortable_lists__list_id_value: @project_custom_field_section.id,
-          sortable_lists__list_name_value: @project_custom_field_section.name,
-          # The section's drag preview snapshots the box itself rather than
-          # the browser's native capture of the row wrapper, which paints the
-          # box's top margin and squares off the rounded corners.
-          sortable_lists__item_target: "preview"
-        }
-      end
-
-      def field_item_data(project_custom_field)
-        {
-          controller: "sortable-lists--item",
-          sortable_lists__item_id_value: project_custom_field.id,
-          sortable_lists__item_type_value: "custom_field",
-          sortable_lists__item_label_value: project_custom_field.name
-        }
-      end
-
       def move_actions(menu)
         unless first?
           move_action_item(menu, :highest, t("label_agenda_item_move_to_top"),
@@ -95,8 +72,7 @@ module Settings
         menu.with_item(label: label_text,
                        href: move_admin_settings_project_custom_field_section_path(@project_custom_field_section, move_to:),
                        form_arguments: {
-                         method: :put, data: { "turbo-stream": true,
-                                               test_selector: "project-custom-field-section-move-#{move_to}" }
+                         method: :put, data: { turbo_stream: true }
                        }) do |item|
           item.with_leading_visual_icon(icon:)
         end
@@ -113,8 +89,7 @@ module Settings
         menu.with_item(label: t("settings.project_attributes.label_edit_section"),
                        tag: :button,
                        content_arguments: {
-                         "data-show-dialog-id": "project-custom-field-section-dialog#{@project_custom_field_section.id}",
-                         "data-test-selector": "project-custom-field-section-edit"
+                         data: { show_dialog_id: "project-custom-field-section-dialog#{@project_custom_field_section.id}" }
                        },
                        value: "") do |item|
           item.with_leading_visual_icon(icon: :pencil)
@@ -129,8 +104,7 @@ module Settings
                          method: :delete,
                          data: {
                            turbo_confirm: t(:text_are_you_sure),
-                           turbo_stream: true,
-                           test_selector: "project-custom-field-section-delete"
+                           turbo_stream: true
                          }
                        }) do |item|
           item.with_leading_visual_icon(icon: :trash)

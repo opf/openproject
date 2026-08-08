@@ -1,13 +1,21 @@
 <%=
-  component_wrapper(data: wrapper_data_attributes) do
-    if @project_custom_field_sections.any?
-      flex_layout(data: sections_list_data) do |flex|
-        @project_custom_field_sections.each do |section|
-          flex.with_row(
-            data: section_item_data(section)
-          ) do
-            render(row_component_class.new(project_custom_field_section: section, first_and_last:))
-          end
+  component_wrapper do
+    render(
+      OpenProject::Common::BorderBoxListCollectionComponent.new(
+        container: "project-custom-field-sections",
+        sortable_list: { type: "section" },
+        root: true,
+        move_urls: ->(id) {
+          {
+            section: drop_admin_settings_project_custom_field_section_path(id),
+            custom_field: drop_admin_settings_project_custom_field_path(id)
+          }
+        }
+      )
+    ) do |collection|
+      @project_custom_field_sections.each do |section|
+        collection.with_item_row(sortable: OpPrimer::SortableLists::Item.for(section, type: "section")) do
+          render(row_component_class.new(project_custom_field_section: section, first_and_last:))
         end
       end
     end

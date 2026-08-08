@@ -28,9 +28,9 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 
 <%= render(Primer::Box.new(**@system_arguments)) do %>
-  <%= flex_layout do |flex| %>
+  <%= render(Primer::Box.new(**list_container_arguments)) do %>
     <% item_rows.each do |row| %>
-      <% flex.with_row(**row.row_args) do %>
+      <%= render(Primer::Box.new(**row.row_args)) do %>
         <%= row %>
       <% end %>
     <% end %>

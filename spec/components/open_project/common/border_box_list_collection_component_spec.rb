@@ -57,6 +57,25 @@ RSpec.describe OpenProject::Common::BorderBoxListCollectionComponent, type: :com
     end
   end
 
+  it "wires the inner list container — never the wrapper itself — as the sortable-lists list" do
+    render_collection(sortable_list: { type: "section" })
+
+    expect(rendered_component).to have_element("div", id: "sections-collection") do |wrapper|
+      expect(wrapper["data-controller"].to_s.split).not_to include("sortable-lists--list")
+    end
+
+    # The exact shape of a root's own outlet selector
+    # (`##{wrapper_id} [data-controller~='sortable-lists--list']`): a plain
+    # CSS descendant combinator, which by the DOM spec can never match the
+    # wrapper element it is scoped from. Asserting the list role resolves
+    # through that selector — not just "somewhere in the markup" — proves it
+    # sits on a genuine descendant the root can actually see.
+    expect(rendered_component).to have_css("#sections-collection [data-controller~='sortable-lists--list']") do |list|
+      expect(list["data-sortable-lists--list-type-value"]).to eq("section")
+      expect(list["data-sortable-lists--list-accepted-type-value"]).to eq("section")
+    end
+  end
+
   it "raises when root: true is given without move_urls" do
     expect { render_collection(sortable_list: { type: "section" }, root: true) }
       .to raise_error(ArgumentError, /move_urls/)
