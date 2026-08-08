@@ -33,6 +33,8 @@ class CustomActions::Actions::Inexistent < CustomActions::Actions::Base
     :inexistent
   end
 
+  def apply(*); end
+
   def validate(errors)
     errors.add :actions, :does_not_exist
   end
