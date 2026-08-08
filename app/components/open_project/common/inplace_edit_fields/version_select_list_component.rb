@@ -61,24 +61,31 @@ module OpenProject
               list.option(
                 label: version.name,
                 value: version.id,
-                selected: version.id == model.version&.id
+                selected: selected_version_ids.include?(version.id)
               )
             end
           end
         end
 
         def assign_defaults!
-          version = model.version
-          @system_arguments[:autocomplete_options][:inputValue] = version&.id
-          @system_arguments[:autocomplete_options][:model] = version_model
+          @system_arguments[:autocomplete_options][:inputValue] = selected_version_ids
+          @system_arguments[:autocomplete_options][:model] = version_models
           @system_arguments[:autocomplete_options][:decorated] = true
           @system_arguments[:autocomplete_options][:closeOnSelect] = true
           # Override inputName to use Rails form builder naming convention
           @system_arguments[:autocomplete_options][:inputName] = input_name
         end
 
-        def version_model
-          version ? { id: version.id, name: version.name } : nil
+        def selected_versions
+          @selected_versions ||= model.effective_target_versions.to_a
+        end
+
+        def selected_version_ids
+          @selected_version_ids ||= selected_versions.map(&:id)
+        end
+
+        def version_models
+          selected_versions.map { |version| { id: version.id, name: version.name } }
         end
 
         def input_name

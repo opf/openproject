@@ -586,10 +586,30 @@ module API
                             # check if we *can* render the result here before actually doing it
                             getter: ->(*) {
                               next if Setting::WorkPackageMultipleVersions.active?
-                              next unless embed_link?(:version) && represented.version
+                              next unless embed_link?(:version)
 
-                              ::API::V3::Versions::VersionRepresenter.create(represented.version, current_user:)
+                              version = represented.effective_target_versions.first
+                              next unless version
+
+                              ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
                             },
+                            link: ->(*) {
+                              next if Setting::WorkPackageMultipleVersions.active?
+
+                              version = represented.effective_target_versions.first
+                              next({ href: nil }) if version.nil?
+
+                              ::API::Decorators::LinkObject
+                                .new(version,
+                                     property_name: :itself,
+                                     path: :version,
+                                     getter: :id,
+                                     title_attribute: :name)
+                                .to_hash
+                            },
+                            setter: ->(fragment:, **) do
+                              represented.target_version_ids = parse_link_ids_from_fragment([fragment], :version).compact
+                            end,
                             skip_render: ->(*) { Setting::WorkPackageMultipleVersions.active? }
 
         associated_resources :target_versions,

@@ -116,7 +116,7 @@ RSpec.describe Query::Results, "Grouping and sorting for version" do
     it "returns the correctly sorted grouped result" do
       # Keys are also sorted by the version
       expect(query_results.work_package_count_by_group.keys)
-        .to eql work_packages_asc.map(&:version)
+        .to eql work_packages_asc.map { it.target_versions.first }
 
       expect(query_results.work_package_count_by_group)
         .to eql(old_version => 1, no_date_version => 1, new_version => 1, nil => 1)

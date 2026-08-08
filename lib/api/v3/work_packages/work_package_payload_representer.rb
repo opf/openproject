@@ -41,7 +41,12 @@ module API
         end
 
         def writable_attributes
-          super + %w[date]
+          attributes = super + %w[date]
+          # `version` is the deprecated single-value alias of `targetVersions` and
+          # writes through to them, so it is writable exactly when those are. It has
+          # no attribute of its own on the contract to be derived from.
+          attributes += %w[version] if attributes.include?("targetVersions")
+          attributes
         end
 
         def load_complete_model(model)

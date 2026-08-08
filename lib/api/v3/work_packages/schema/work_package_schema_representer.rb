@@ -317,6 +317,8 @@ module API
                                          },
                                          required: false,
                                          deprecated: true,
+                                         # writes through to target_versions, so it is writable when target_versions are.
+                                         writable: ->(*) { represented.writable?(:target_versions) },
                                          show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
                                          description: -> { I18n.t("api_v3.attributes.version.deprecated") }
 

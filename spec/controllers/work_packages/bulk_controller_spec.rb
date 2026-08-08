@@ -542,46 +542,6 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         end
 
         describe "#version" do
-          describe "set version_id attribute to some version" do
-            shared_let(:subproject) do
-              create(:project,
-                     parent: project1,
-                     types: [type])
-            end
-            shared_let(:version) do
-              create(:version,
-                     status: "open",
-                     sharing: "tree",
-                     project: subproject)
-            end
-
-            before do
-              put :update,
-                  params: {
-                    ids: work_package_ids,
-                    work_package: { version_id: version.id.to_s }
-                  }
-            end
-
-            subject { response }
-
-            it { is_expected.to be_redirect }
-
-            describe "#work_package" do
-              describe "#version" do
-                subject { work_packages.map(&:version_id).uniq }
-
-                it { is_expected.to contain_exactly(version.id) }
-              end
-
-              describe "#project" do
-                subject { work_packages.map(&:project_id).uniq }
-
-                it { is_expected.not_to contain_exactly(subproject.id) }
-              end
-            end
-          end
-
           describe "set target_version_ids attribute",
                    with_settings: { work_package_multiple_versions: true } do
             shared_let(:target_subproject) do
@@ -608,6 +568,11 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
                 expect(work_packages.map { |wp| wp.target_versions.pluck(:id) }.uniq)
                   .to contain_exactly([target_version.id])
               end
+
+              it "does not move the work packages into the version's project" do
+                expect(work_packages.map(&:project_id).uniq)
+                  .not_to contain_exactly(target_subproject.id)
+              end
             end
 
             describe "to none" do
@@ -631,25 +596,6 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             end
           end
 
-          describe "set version_id to nil" do
-            before do
-              # 'none' is a magic value, setting version_id to nil
-              # will make the controller ignore that param
-              put :update,
-                  params: {
-                    ids: work_package_ids,
-                    work_package: { version_id: "none" }
-                  }
-            end
-
-            describe "#work_package" do
-              describe "#version" do
-                subject { work_packages.map(&:version_id).uniq }
-
-                it { is_expected.to eq([nil]) }
-              end
-            end
-          end
         end
 
         describe "#done_ratio" do
