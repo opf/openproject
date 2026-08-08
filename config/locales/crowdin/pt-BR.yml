@@ -699,9 +699,9 @@ pt-BR:
               cannot_assign_variant_and_parent: 'Não é possível atribuir uma variante e seu tipo pai '
               cannot_assign_variants_yet: As variantes ainda não podem ser habilitadas em um projeto. Ative o recurso experimental para testar as variantes
               in_use_by_work_packages: 'ainda em uso pelos pacotes de trabalho: %{types}'
-              switch_source_not_a_variant: Só é possível mudar de uma variante
-              switch_target_identical: O tipo de destino deve ser diferente da variante atual
-              switch_target_not_in_family: Só é possível mudar para outra variante do mesmo Tipo ou para o Tipo pai
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: O usuário selecionado não tem permissão para ser designado a pacotes de trabalho.
           foreign_wps_reference_version: Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.
         project/phase:
@@ -4849,6 +4849,7 @@ pt-BR:
       header_identifier: Identificador
       header_relations: Relações do projeto
       header_status: Status
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Buscar fase de projeto
@@ -4922,10 +4923,18 @@ pt-BR:
           title: No types are active in this project
         form:
           enable_type_in_project: Habilitar o tipo "%{type}"
-        in_roadmap: In roadmap
         no_results_title_text: Atualmente, não há tipos disponíveis.
         remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Criar uma nova versão
         no_results_title_text: Atualmente, não há versões para o projeto.
