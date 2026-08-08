@@ -140,19 +140,6 @@ module WorkPackage::Versions
     end
   end
 
-  # Read-only replacement for the former +belongs_to :version+ association.
-  #
-  # Returns the work package's single target version, or nil when it has none.
-  # Raises an error if target_versions has multiple values
-  def version
-    if target_versions.size > 1
-      raise "WorkPackage##{id} has multiple target versions and cannot be " \
-            "represented as a single version. Use #target_versions instead."
-    end
-
-    target_versions.min
-  end
-
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
   #   * any open, shared version of the project the wp belongs to
