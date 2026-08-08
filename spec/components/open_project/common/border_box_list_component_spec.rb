@@ -586,6 +586,38 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         aria: { describedby: "goal-text" }
       )
     end
+
+    it "renders an inline action menu in the actions area" do
+      rendered = render_inline(described_class.new(container: "hdr-action-menu")) do |list|
+        list.with_header(title: "Sections") do |header|
+          header.with_action_menu(test_selector: "position-menu") do |menu|
+            menu.with_show_button { "Overview" }
+            menu.with_item(label: "Side panel")
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-header--actions action-menu[data-test-selector='position-menu']")
+    end
+
+    it "lets an inline action menu coexist with the trailing overflow menu" do
+      rendered = render_inline(described_class.new(container: "hdr-two-menus")) do |list|
+        list.with_header(title: "Sections") do |header|
+          header.with_action_menu do |menu|
+            menu.with_show_button { "Position" }
+            menu.with_item(label: "Side panel")
+          end
+          header.with_menu do |menu|
+            menu.with_item(label: "Edit") { |item| item.with_leading_visual_icon(icon: :pencil) }
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-header--actions action-menu")
+      expect(rendered).to have_css(".op-border-box-list-header--menu action-menu")
+    end
   end
 
   describe "header collapsible behavior" do
