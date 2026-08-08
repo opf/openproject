@@ -32,9 +32,6 @@ module WorkPackage::Versions
   extend ActiveSupport::Concern
 
   included do
-    # Deprecated single-version column
-    # belongs_to :version, optional: true
-
     has_many :work_package_versions, dependent: :delete_all
     has_many :versions, through: :work_package_versions, source: :version
     has_many :target_versions,
@@ -141,19 +138,6 @@ module WorkPackage::Versions
         kind
       end
     end
-  end
-
-  # Read-only replacement for the former +belongs_to :version+ association.
-  #
-  # Returns the work package's single target version, or nil when it has none.
-  # Raises an error if target_versions has multiple values
-  def version
-    if target_versions.size > 1
-      raise "WorkPackage##{id} has multiple target versions and cannot be " \
-            "represented as a single version. Use #target_versions instead."
-    end
-
-    target_versions.min
   end
 
   # Versions that the work_package can be assigned to
