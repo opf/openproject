@@ -1,0 +1,43 @@
+# CDE locales (English)
+en:
+  cde:
+    containers:
+      index: "Containers"
+      show: "Container Details"
+      new: "New Container"
+      edit: "Edit Container"
+      share: "Share"
+      publish: "Publish"
+      archive: "Archive"
+      actions:
+        create: "Create Container"
+        update: "Update Container"
+        destroy: "Delete Container"
+        share: "Share Container"
+        publish: "Publish Container"
+        archive: "Archive Container"
+    states:
+      wip: "Work in Progress"
+      shared: "Shared"
+      published: "Published"
+      archived: "Archived"
+    suitability:
+      s0: "Suitable for use without review"
+      s1: "Suitable for review"
+      s2: "Suitable for coordination"
+      a1: "Approved for construction"
+      a2: "Approved as built"
+      d1: "Rejected / Do not use"
+    publication:
+      gate:
+        metadata_incomplete: "Mandatory metadata incomplete"
+        identifier_invalid: "Identifier invalid"
+        suitability_missing: "Suitability not assigned"
+        approvals_incomplete: "Required approvals incomplete"
+    audit:
+      container_created: "Container created"
+      container_shared: "Container shared"
+      container_published: "Container published"
+      container_archived: "Container archived"
+      suitability_assigned: "Suitability assigned"
+      revision_updated: "Revision updated"

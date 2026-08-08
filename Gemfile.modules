@@ -11,6 +11,9 @@ gem 'omniauth-openid-connect',
     ref: '825d06235b64f6bc872bba709f1c2d48fd5cede4'
 
 group :opf_plugins do
+    # CDE Plugin dependencies
+    gem 'aasm', '~> 5.5'
+
     # included so that engines can reference OpenProject::Version
     $:.push File.expand_path("../lib", __FILE__)
 
@@ -46,4 +49,5 @@ group :opf_plugins do
   gem 'openproject-documents',                 path: 'modules/documents'
 
   gem 'openproject-bim',                       path: 'modules/bim'
+  gem 'openproject-cde',                       path: 'modules/cde'
 end
