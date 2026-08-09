@@ -33,7 +33,7 @@ pt-BR:
           invalid_private_key: 'não é uma chave privada no formato PEM válida: %{additional_message}'
           unmatched_private_key: não pertence ao certificado fornecido
   saml:
-    delete_heading: Deseja excluir este provedor SAML?
+    delete_heading: Excluir este provedor SAML?
     delete_title: Excluir provedor SAML
     info:
       description: 'Use esses parâmetros para configurar a conexão do seu provedor de identidade ao OpenProject.
