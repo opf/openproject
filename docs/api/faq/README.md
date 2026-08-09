@@ -11,7 +11,11 @@ keywords: API FAQ, API v3, RestAPI, interface, connector
 
 ## Can I update a wiki page via API?
 
-That's not possible at the moment. You can only [retrieve](../endpoints/wiki-pages/) wiki page infos.
+Yes. Use `PATCH /api/v3/wiki_pages/{id}` and include the current `lockVersion`
+to protect against concurrent edits. To validate a prospective update before
+persisting it, submit the same payload to `POST /api/v3/wiki_pages/{id}/form`.
+Wiki pages can also be created with `POST /api/v3/wiki_pages` and deleted with
+`DELETE /api/v3/wiki_pages/{id}`.
 
 ## (How) can I add work package categories to a project via API?
 

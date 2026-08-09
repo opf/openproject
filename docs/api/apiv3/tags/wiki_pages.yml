@@ -2,13 +2,14 @@
 description: |-
   Represents an individual page in a project's wiki.
 
-  *This resource is currently a stub*
-
   ## Actions
 
-  | Link                | Description                                                          | Condition                                                                                                                        |
-  |:-------------------:|----------------------------------------------------------------------| ---------------------------------------                                                                                          |
-  | addAttachment       | Attach a file to the wiki page                                       | **Permission**: edit wiki page      |
+  | Link                | Description                              | Condition                          |
+  |:-------------------:|------------------------------------------|------------------------------------|
+  | update              | Validate an update                       | **Permission**: edit wiki pages    |
+  | updateImmediately   | Update the wiki page                     | **Permission**: edit wiki pages    |
+  | delete              | Delete the wiki page                     | **Permission**: edit wiki pages    |
+  | addAttachment       | Attach a file to the wiki page           | **Permission**: edit wiki pages    |
 
   ## Linked Properties
 
@@ -23,5 +24,10 @@ description: |-
   | Property         | Description                                 | Type                  | Constraints                          | Supported operations |
   | :--------------: | ------------------------------------------- | -----------           | ------------------------------------ | -------------------- |
   | id               | Identifier of this wiki page                | Integer               | x > 0                                | READ                 |
-  | title            | The wiki page's title                       | String                | not null                             | READ                 |
+  | title            | The wiki page's title                       | String                | not null                             | READ / WRITE         |
+  | slug             | URL-friendly title                          | String                | not null                             | READ                 |
+  | text             | Formattable wiki content                    | Formattable           |                                      | READ / WRITE         |
+  | lockVersion      | Optimistic locking version                  | Integer               |                                      | READ / WRITE         |
+  | version          | Journal version                             | Integer               |                                      | READ                 |
+  | protected        | Whether only wiki managers may edit         | Boolean               |                                      | READ / WRITE         |
 name: Wiki Pages

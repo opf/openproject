@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,21 +26,39 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module API
-  module V3
-    module Workspaces
-      class NestedApis < ::API::OpenProjectAPI
-        mount API::V3::Workspaces::AvailableAssigneesAPI
-        mount API::V3::Types::TypesByWorkspaceAPI
-        mount API::V3::WorkPackages::WorkPackagesByWorkspaceAPI
-        mount API::V3::Categories::CategoriesByWorkspaceAPI
-        mount API::V3::Versions::VersionsByProjectAPI
-        mount API::V3::WikiPages::NestedApis
-        mount API::V3::Queries::QueriesByWorkspaceAPI
-        mount API::V3::Favorites::FavoriteActionsAPI, with: { favorite_object_getter: ->(*) { @project } }
-      end
+class WikiPages::DeleteService < BaseServices::Delete
+  def call(todo: nil, reassign_to_id: nil)
+    @todo = todo.presence || (model.descendants.none? ? "nullify" : nil)
+    @reassign_to = model.wiki.pages.find_by(id: reassign_to_id)
+
+    super()
+  end
+
+  private
+
+  attr_reader :todo, :reassign_to
+
+  def contract_options
+    super.merge(todo:, reassign_to:)
+  end
+
+  def persist(service_result)
+    process_descendants
+    super
+  end
+
+  def process_descendants
+    return if model.descendants.none?
+
+    case todo
+    when "nullify"
+      # acts_as_tree nullifies parent_id on children when the page is destroyed.
+    when "destroy"
+      model.descendants.each(&:destroy)
+    when "reassign"
+      model.children.each { |child| child.update_attribute(:parent, reassign_to) }
     end
   end
 end

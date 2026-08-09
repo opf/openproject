@@ -59,3 +59,50 @@ get:
   description: Retrieve an individual wiki page as identified by the id parameter
   operationId: View_Wiki_Page
   summary: View Wiki Page
+patch:
+  summary: Update wiki page
+  operationId: Update_Wiki_Page
+  tags:
+  - Wiki Pages
+  parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  requestBody:
+    required: true
+    content:
+      application/hal+json:
+        schema:
+          "$ref": "../components/schemas/wiki_page_write_model.yml"
+  responses:
+    '200':
+      description: Updated
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/wiki_page_model.yml"
+delete:
+  summary: Delete wiki page
+  operationId: Delete_Wiki_Page
+  tags:
+  - Wiki Pages
+  parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  - in: query
+    name: todo
+    schema:
+      type: string
+      enum: [nullify, destroy, reassign]
+  - in: query
+    name: reassign_to_id
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: Deleted

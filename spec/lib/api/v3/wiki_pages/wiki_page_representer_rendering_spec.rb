@@ -68,6 +68,27 @@ RSpec.describe API::V3::WikiPages::WikiPageRepresenter, "rendering" do
       let(:method) { :post }
       let(:permission) { :edit_wiki_pages }
     end
+
+    it_behaves_like "has an untitled action link" do
+      let(:link) { :update }
+      let(:href) { api_v3_paths.wiki_page_form wiki_page.id }
+      let(:method) { :post }
+      let(:permission) { :edit_wiki_pages }
+    end
+
+    it_behaves_like "has an untitled action link" do
+      let(:link) { :updateImmediately }
+      let(:href) { api_v3_paths.wiki_page wiki_page.id }
+      let(:method) { :patch }
+      let(:permission) { :edit_wiki_pages }
+    end
+
+    it_behaves_like "has an untitled action link" do
+      let(:link) { :delete }
+      let(:href) { api_v3_paths.wiki_page wiki_page.id }
+      let(:method) { :delete }
+      let(:permission) { :edit_wiki_pages }
+    end
   end
 
   describe "properties" do
@@ -81,6 +102,22 @@ RSpec.describe API::V3::WikiPages::WikiPageRepresenter, "rendering" do
 
     it_behaves_like "property", :title do
       let(:value) { wiki_page.title }
+    end
+
+    it_behaves_like "property", :slug do
+      let(:value) { wiki_page.slug }
+    end
+
+    it_behaves_like "property", :lockVersion do
+      let(:value) { wiki_page.lock_version }
+    end
+
+    it_behaves_like "property", :version do
+      let(:value) { wiki_page.version }
+    end
+
+    it_behaves_like "property", :protected do
+      let(:value) { wiki_page.protected }
     end
   end
 
