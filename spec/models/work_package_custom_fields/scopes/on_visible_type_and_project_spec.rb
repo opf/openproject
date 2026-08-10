@@ -90,7 +90,6 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
         expect(subject).not_to include(linked_own_cf)
       end
 
-      # The feature flag opens the admin surface; it never changes what a link resolves to.
       it "resolves the same with the flag off", with_flag: { type_variants: false } do
         expect(subject).to include(source_cf)
       end
@@ -112,8 +111,6 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     context "with a cyclic chain" do
       before do
         linked_type.default_variant.update!(form_configuration_source: source_type.default_variant)
-        # Cycles cannot be written through validations; this reproduces one that predates
-        # write-time prevention (FND-133).
         source_type.default_variant
                    .update_column(:form_configuration_source_id, linked_type.default_variant.id)
       end

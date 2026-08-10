@@ -36,8 +36,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
   shared_let(:anno_user) { User.anonymous }
   shared_let(:system_user) { User.system }
   shared_let(:priority_low) { create(:priority_low, name: "Low", is_default: true) }
-  # type_with_workflow creates a default status; keep an explicit one so Status.default
-  # is never nil if that factory callback fails to persist.
   shared_let(:default_status) { create(:default_status) }
 
   shared_let(:project) { create(:valid_project, identifier: "onlinestore", name: "OnlineStore", public: false) }

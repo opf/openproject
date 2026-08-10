@@ -88,8 +88,6 @@ RSpec.describe Projects::CustomFields do
           .to contain_exactly(custom_field, kept_field)
       end
 
-      # Links are independent of any type/variant hierarchy: any variant can link to any other,
-      # so a chain can be arbitrarily long.
       it "accumulates the exclusions of a longer chain" do
         leaf = create(:type_variant, type: create(:type))
         link_configuration(leaf, source: variant, aspect: TypeVariant::PROJECT_ATTRIBUTES,
@@ -99,7 +97,6 @@ RSpec.describe Projects::CustomFields do
       end
     end
 
-    # The feature flag opens the admin surface; it never changes what a link resolves to.
     context "when the variant is Linked and the feature flag is off", with_flag: { type_variants: false } do
       it "resolves to the source variant's attributes just the same" do
         link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)

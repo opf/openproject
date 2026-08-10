@@ -104,6 +104,20 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     end
   end
 
+  it "offers configure and delete on a variant" do
+    visit types_path(expand: bug_type.id)
+
+    within(".Box-row", text: alfa_variant.variant_name) do
+      find("action-menu > button").click
+
+      expect(page).to have_link(
+        I18n.t(:button_configure),
+        href: edit_type_form_configuration_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+      )
+      expect(page).to have_button(I18n.t(:button_delete))
+    end
+  end
+
   it "expands the group named by the expand param" do
     visit types_path(expand: bug_type.id)
 

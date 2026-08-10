@@ -341,7 +341,6 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       end
     end
     let(:variant_project) { create(:project, types: [variant]) }
-    # The work package stores the type, as every work package does.
     let(:work_package) { build(:work_package, project: variant_project, type: root_type) }
 
     # Activated from the custom field side: Type#custom_fields resolves through the form

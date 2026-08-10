@@ -1091,8 +1091,6 @@ RSpec.describe WorkPackage do
       end
     end
 
-    # A work package stores its type, never a variant, so the name it renders is the type's
-    # whatever variant the project applies.
     describe "for a project applying a named variant" do
       let(:type) { create(:type, name: "Task") }
       let(:variant) { create(:type_variant, type:, variant_name: "Bug") }

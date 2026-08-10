@@ -48,6 +48,7 @@ class TypeVariant
       end
 
       validate :sources_would_not_create_a_cycle
+      before_destroy :ensure_nothing_links_here
     end
 
     class_methods do
@@ -417,6 +418,23 @@ class TypeVariant
 
         errors.add(:"#{aspect}_source_id", :would_create_cycle) if reaches_self?(source_id, aspect)
       end
+    end
+
+    # The `<aspect>_source_id` foreign keys are ON DELETE RESTRICT, so a variant others borrow
+    # configuration from cannot be deleted. Stopping here rather than at the database turns an
+    # InvalidForeignKey into a message that names what has to be unlinked first.
+    def ensure_nothing_links_here
+      borrowers = self.class.where(links_to_self).distinct
+      return if borrowers.empty?
+
+      errors.add(:base, :borrowed_by_variants, names: borrowers.map(&:composite_name).to_sentence)
+      throw :abort
+    end
+
+    def links_to_self
+      TypeVariant::ASPECTS
+        .map { |aspect| self.class.arel_table[:"#{aspect}_source_id"].eq(id) }
+        .reduce(:or)
     end
 
     def reaches_self?(source_id, aspect)

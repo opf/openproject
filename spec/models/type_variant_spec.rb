@@ -150,7 +150,6 @@ RSpec.describe TypeVariant, with_flag: { type_variants: true } do
     end
   end
 
-  # Only the aspects a variant can narrow have exclusions at all; the rest it inherits whole.
   describe "exclusions" do
     let(:aspect) { TypeVariant::FORM_CONFIGURATION }
     let(:owner) { task.default_variant }
@@ -185,7 +184,6 @@ RSpec.describe TypeVariant, with_flag: { type_variants: true } do
     end
   end
 
-  # The aspect names columns, so it reaches SQL as an identifier rather than a bind.
   describe "the aspect allowlist" do
     it "accepts every known aspect" do
       described_class::ASPECTS.each do |known|

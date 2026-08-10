@@ -83,8 +83,6 @@ RSpec.describe Type do
     end
   end
 
-  # A project names the configuration it applies, so the projects a variant is in force for
-  # read straight off the join rather than needing a resolution step.
   describe "TypeVariant#projects" do
     shared_let(:root) { create(:type, name: "Bug") }
     shared_let(:variant) { create(:type_variant, type: root, variant_name: "Mobile Bug") }
@@ -292,7 +290,6 @@ RSpec.describe Type do
         expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
       end
 
-      # The feature flag opens the admin surface; it never changes what a link resolves to.
       it "resolves the same with the feature disabled", with_flag: { type_variants: false } do
         expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
       end

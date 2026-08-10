@@ -44,7 +44,6 @@ RSpec.describe ProjectType do
       expect(build(:project_type, project:, type: bug, variant:)).to be_valid
     end
 
-    # A row without a variant means the type's own configuration, which is its base variant.
     it "falls back to the type's base variant when none is named" do
       project_type = build(:project_type, project:, type: bug, variant: nil)
 
@@ -82,8 +81,6 @@ RSpec.describe ProjectType do
     end
   end
 
-  # A variant in use configures live work packages, so it cannot be taken away underneath
-  # them; the project has to be switched to another variant first.
   describe "dropping a variant in use" do
     it "is refused" do
       create(:project_type, project:, type: bug, variant:)

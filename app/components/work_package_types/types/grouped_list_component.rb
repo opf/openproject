@@ -75,6 +75,14 @@ module WorkPackageTypes
         menu_type_path(type)
       end
 
+      def variant_menu_id(variant)
+        VariantActionsComponent.menu_id(variant)
+      end
+
+      def variant_menu_src(variant)
+        menu_type_variant_path(type_id: variant.type_id, id: variant.id)
+      end
+
       def reorderable?(type)
         !(type.first? && type.last?)
       end

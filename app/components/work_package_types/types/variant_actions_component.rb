@@ -29,35 +29,54 @@
 #++
 
 module WorkPackageTypes
-  class VariantsController < BaseTabController
-    include TypeVariantsFeature
+  module Types
+    class VariantActionsComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-    before_action :require_type_variants_feature
-
-    current_menu_item do
-      :types
-    end
-
-    def menu
-      render Types::VariantActionsComponent.new(variant: named_variant), layout: false
-    end
-
-    def destroy
-      variant = named_variant
-
-      if variant.destroy
-        redirect_to types_path, notice: t(:notice_successful_delete), status: :see_other
-      else
-        redirect_to types_path, alert: variant.errors.full_messages.to_sentence, status: :see_other
+      def self.menu_id(variant)
+        "variant-#{variant.id}-action-menu"
       end
-    end
 
-    private
+      def initialize(variant:)
+        super()
 
-    def find_variant; end
+        @variant = variant
+      end
 
-    def named_variant
-      @type.variants.named.find(params.expect(:id))
+      def menu_id
+        self.class.menu_id(variant)
+      end
+
+      private
+
+      attr_reader :variant
+
+      def variant_actions(menu)
+        configure_action(menu)
+        menu.with_divider
+
+        delete_action(menu)
+      end
+
+      def configure_action(menu)
+        menu.with_item(
+          label: t(:button_configure),
+          href: edit_type_form_configuration_path(type_id: variant.type_id, variant_id: variant.id)
+        ) do |item|
+          item.with_leading_visual_icon(icon: :gear)
+        end
+      end
+
+      def delete_action(menu)
+        menu.with_item(
+          label: t(:button_delete),
+          scheme: :danger,
+          href: type_variant_path(type_id: variant.type_id, id: variant.id),
+          form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
     end
   end
 end

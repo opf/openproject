@@ -172,7 +172,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
     end
   end
 
-  # The feature flag opens the admin surface; it never changes what a link resolves to.
   context "with the flag off", with_flag: { type_variants: false } do
     it "resolves links and exclusions the same" do
       expect(groups_of(leaf)).to eq(

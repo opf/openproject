@@ -838,6 +838,10 @@ en:
               duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
               group_without_name: "Group name can't be blank."
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
+            base:
+              borrowed_by_variants: "Cannot be deleted while its configuration is reused by %{names}."
+              restrict_dependent_destroy:
+                has_many: "Cannot be deleted while projects are still using it."
             defaults_source_id:
               would_create_cycle: "would link these configurations in a loop."
             form_configuration_source_id:

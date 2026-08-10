@@ -304,8 +304,6 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
         v.save!
       end
     end
-    # The work package stores the type; the project is what resolves the variant.
-    # Pass the variant into types: so the join row is built with it from the start.
     let(:project) do
       create(:project,
              name: "Artefact project",

@@ -31,13 +31,10 @@
 require "spec_helper"
 
 RSpec.describe TypeVariants::Scopes::WithEffectiveSource do
-  # Links are columns now, so writing one means writing the aspect's pair of columns.
   def link(variant, source:, excluded: [])
     variant.update!("#{aspect}_source": source, "#{aspect}_excluded_elements": excluded)
   end
 
-  # Cycles cannot be written through validations; this reproduces one that predates
-  # write-time prevention (FND-133).
   def link_without_validation(variant, source:)
     variant.update_column(:"#{aspect}_source_id", source.id)
   end
@@ -162,7 +159,6 @@ RSpec.describe TypeVariants::Scopes::WithEffectiveSource do
     end
   end
 
-  # The feature flag opens the admin surface; it never changes what the scope resolves to.
   describe "with the flag off", with_flag: { type_variants: false } do
     it "resolves to the source just the same" do
       link(type, source: owner)

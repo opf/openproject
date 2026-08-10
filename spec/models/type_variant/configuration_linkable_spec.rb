@@ -31,13 +31,10 @@
 require "spec_helper"
 
 RSpec.describe TypeVariant::ConfigurationLinkable do
-  # Links are columns now, so writing one means writing the aspect's pair of columns.
   def link(variant, source:, aspect:, excluded: [])
     variant.update!({ "#{aspect}_source": source }.merge(exclusions(aspect, excluded)))
   end
 
-  # Cycles cannot be written through validations; this reproduces one that predates
-  # write-time prevention (FND-133).
   def link_without_validation(variant, source:, aspect:, excluded: [])
     variant.update_columns({ "#{aspect}_source_id": source.id }.merge(exclusions(aspect, excluded)))
   end
@@ -109,11 +106,12 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       expect { type.destroy }.to change(TypeVariant, :count).by(-1)
     end
 
-    # An ON DELETE RESTRICT foreign key per aspect, so this raises rather than validating.
     it "refuses to destroy a variant that is still a source for another" do
       link_configuration(type, source:, aspect:)
 
-      expect { source.destroy }.to raise_error(ActiveRecord::InvalidForeignKey)
+      expect(source.destroy).to be(false)
+      expect(source).to be_persisted
+      expect(source.errors.full_messages.to_sentence).to include(type.composite_name)
     end
   end
 
@@ -281,7 +279,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
     end
   end
 
-  # The feature flag opens the admin surface; it never changes what a link resolves to.
   describe "with the variants flag off", with_flag: { type_variants: false } do
     let(:owner) do
       create(:type).default_variant.tap do |variant|
@@ -450,7 +447,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
   end
 
   describe "#effective_excluded_elements" do
-    # Exclusions only exist for the aspects a variant can narrow; DEFAULTS is a single value.
     let(:aspect) { TypeVariant::FORM_CONFIGURATION }
     let(:owner) { create(:type).default_variant }
     let(:middle) { create(:type).default_variant }
