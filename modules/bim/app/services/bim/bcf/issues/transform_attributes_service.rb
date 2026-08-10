@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -33,8 +35,8 @@ module Bim::Bcf
         self.project = project
       end
 
-      def call(attributes)
-        ServiceResult.success result: work_package_attributes(attributes)
+      def call(attributes, fill_defaults: true)
+        ServiceResult.success result: work_package_attributes(attributes, fill_defaults:)
       end
 
       private
@@ -102,10 +104,25 @@ module Bim::Bcf
 
       ##
       # Get mapped and raw attributes from MarkupExtractor
-      # and return all values that are non-nil
-      def work_package_attributes(attributes)
+      # and return all values that are non-nil.
+      #
+      # +fill_defaults+ applies create-time type/status/priority when omitted. The BCF API
+      # passes false and supplies create vs put defaults itself via reverse_merge, so a PUT
+      # that omits topic_type is not forced onto default_create_type.
+      def work_package_attributes(attributes, fill_defaults: true) # rubocop:disable Metrics/AbcSize
+        import_options = attributes[:import_options] || {}
+        resolved_type = type(attributes)
+        resolved_status = status(attributes)
+        resolved_priority = priority(attributes)
+
+        if fill_defaults && import_options.empty?
+          resolved_type ||= DefaultWorkPackageAttributes.default_create_type(project)
+          resolved_status ||= DefaultWorkPackageAttributes.default_status(project, type: resolved_type)
+          resolved_priority ||= DefaultWorkPackageAttributes.default_priority
+        end
+
         {
-          type: type(attributes),
+          type: resolved_type,
 
           # Native attributes from the extractor
           subject: title(attributes),
@@ -115,14 +132,15 @@ module Bim::Bcf
 
           # Mapped attributes
           assigned_to: assignee(attributes),
-          status: status(attributes),
-          priority: priority(attributes)
+          status: resolved_status,
+          priority: resolved_priority
         }.compact
       end
 
       def missing_status(status_name, import_options)
         if import_options[:unknown_statuses_action] == "use_default"
-          ::Status.default
+          default_type = DefaultWorkPackageAttributes.default_create_type(project)
+          DefaultWorkPackageAttributes.default_status(project, type: default_type)
         elsif import_options[:unknown_statuses_action] == "chose" &&
               import_options[:unknown_statuses_chose_ids].any?
           ::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)

@@ -570,6 +570,7 @@ en:
         regex_match_failed: "does not match the regular expression %{expression}."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         ssrf_filtered: "violates the SSRF policy of this OpenProject instance."
+        status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
         system_wide_non_working_day_exists: "conflicts with an existing system-wide non-working day for this date."
         taken: "has already been taken."
         too_long: "is too long (maximum is %{count} characters)."

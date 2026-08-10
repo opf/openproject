@@ -31,9 +31,8 @@
 # there. To achieve that we need to change how the default form configuration is set up. The default simply shall not
 # not include 'bcf_thumbnail'.
 #
-# The right thing would be to patch the concern Type::AttributeGroups, but somehow I wasn't able to figure out how to do it.
-# Thus I am patching the including Class.
-module OpenProject::Bim::Patches::TypePatch
+# Form configuration lives on TypeVariant, so this patches the including model rather than Type.
+module OpenProject::Bim::Patches::TypeVariantPatch
   def self.included(base) # :nodoc:
     base.prepend InstanceMethods
   end
