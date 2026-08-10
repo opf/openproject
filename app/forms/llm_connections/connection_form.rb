@@ -38,6 +38,19 @@ module LlmConnections
         disabled: read_only?
       )
 
+      f.select_list(
+        name: :api_format,
+        label: LlmConnection.human_attribute_name(:api_format),
+        caption: I18n.t("admin.llm_connections.form.api_format_caption"),
+        include_blank: false,
+        input_width: :medium,
+        disabled: read_only?
+      ) do |select|
+        Llm::Adapters::FORMATS.each do |format|
+          select.option(value: format, label: I18n.t("llm.api_formats.#{format}"))
+        end
+      end
+
       f.text_field(
         name: :base_url,
         label: LlmConnection.human_attribute_name(:base_url),
