@@ -301,7 +301,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     image_attachment_elsewhere.save
   end
 
-  describe "with a request for a PDF" do
+  describe "with a request for a PDF", with_settings: { work_package_multiple_versions: false } do
     describe "with rich text and images" do
       it "contains correct data" do
         # Joining with space for comparison since word wrapping leads to a different array for the same content

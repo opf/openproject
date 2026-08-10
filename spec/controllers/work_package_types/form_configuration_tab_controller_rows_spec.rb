@@ -49,7 +49,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
       expect(type.reload.attribute_groups.flat_map(&:members)).not_to include("priority")
     end
 
-    it "moves the row into another active section at the requested position" do
+    it "moves the row into another active section at the requested position",
+       with_settings: { work_package_multiple_versions: false } do
       type.update_column(:attribute_groups, [
                            [:details, %w[priority]],
                            ["Custom group", %w[version]]

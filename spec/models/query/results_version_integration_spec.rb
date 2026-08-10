@@ -30,7 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe Query::Results, "Grouping and sorting for version" do
+RSpec.describe Query::Results, "Grouping and sorting for version",
+               with_settings: { work_package_multiple_versions: false } do
   let(:query_results) do
     described_class.new query
   end

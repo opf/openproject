@@ -1029,7 +1029,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "targetVersions" do
+    describe "targetVersions", with_settings: { work_package_multiple_versions: false } do
       context "when has permission to assign versions" do
         let(:permissions) { [:assign_versions] }
 

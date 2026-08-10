@@ -221,7 +221,8 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
     end
   end
 
-  context "when grouping by version and sorting by version format cf" do
+  context "when grouping by version and sorting by version format cf",
+          with_settings: { work_package_multiple_versions: false } do
     let(:versions) do
       [
         create(:version, project:, sharing: "system", name: "10.10.10"),

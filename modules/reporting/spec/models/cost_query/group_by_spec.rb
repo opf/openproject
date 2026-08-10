@@ -97,7 +97,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.size).to eq(2)
     end
 
-    it "labels the group 'Version' while multiple versions is off" do
+    it "labels the group 'Version' while multiple versions is off", with_settings: { work_package_multiple_versions: false } do
       expect(CostQuery::GroupBy::VersionId.label).to eq("Version")
     end
 
@@ -105,7 +105,8 @@ RSpec.describe CostQuery, :reporting_query_helper do
     # under its primary target version only (the lowest version id, i.e. what
     # target_versions.first returns) and the grouped total matches the ungrouped
     # entry count.
-    it "computes group_by Version, listing a work package under its primary target version" do
+    it "computes group_by Version, listing a work package under its primary target version",
+       with_settings: { work_package_multiple_versions: false } do
       version1 = create(:version, project: project1)
       version2 = create(:version, project: project1)
       work_package = create(:work_package, project: project1, type:, version: version1)

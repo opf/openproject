@@ -306,7 +306,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     let!(:version1) { create(:version, project:) }
     let!(:version2) { create(:version, project:) }
 
-    context "with multiple target_versions" do
+    context "with multiple target_versions", with_settings: { work_package_multiple_versions: false } do
       let(:attributes) do
         { subject: "test wp", project:, target_version_ids: [version1.id, version2.id] }
       end
