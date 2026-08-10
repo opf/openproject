@@ -162,7 +162,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :variants, controller: "variants", only: %i[create destroy]
+    resources :variants, controller: "variants", only: %i[destroy]
 
     # Everything below configures exactly one variant, so it is addressed by one. A scope
     # rather than a nested resource: the path gains the variant, the helper names do not

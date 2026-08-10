@@ -29,8 +29,6 @@
 #++
 
 module WorkPackageTypes
-  # Named variants of a type. A new one starts out Linked to the type's base variant for every
-  # aspect, which is what makes it a variation of that configuration rather than an empty one.
   class VariantsController < BaseTabController
     include TypeVariantsFeature
 
@@ -38,17 +36,6 @@ module WorkPackageTypes
 
     current_menu_item do
       :types
-    end
-
-    def create
-      variant = build_named_variant
-
-      if variant.save
-        redirect_to edit_type_form_configuration_path(type_id: @type.id, variant_id: variant.id),
-                    notice: t(:notice_successful_create)
-      else
-        redirect_to types_path, alert: variant.errors.full_messages.to_sentence
-      end
     end
 
     def destroy
@@ -63,18 +50,6 @@ module WorkPackageTypes
 
     private
 
-    # The variant is found through the type, so BaseTabController's lookup would resolve the
-    # one being created or deleted.
     def find_variant; end
-
-    def build_named_variant
-      @type.variants.new(variant_params).tap do |variant|
-        TypeVariant::ASPECTS.each { |aspect| variant.public_send(:"#{aspect}_source=", @type.default_variant) }
-      end
-    end
-
-    def variant_params
-      params.expect(type_variant: [:variant_name])
-    end
   end
 end

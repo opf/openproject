@@ -54,8 +54,8 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request, with_fl
   end
 
   it "creates a named variant" do
-    post type_variants_path(type_id: type.id), params: { type_variant: { variant_name: "Hardware" } }
-    expect(response).to have_http_status(:found)
+    post creation_wizard_types_path(type_id: type.id), params: { type_variant: { variant_name: "Hardware" } }
+    expect(response).to have_http_status(:see_other)
     expect(type.reload.variants.named.pluck(:variant_name)).to eq(["Hardware"])
   end
 end

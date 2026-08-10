@@ -98,14 +98,9 @@ module WorkPackageTypes
       end
     end
 
-    # A new variant starts out Linked to the type's base variant for every aspect, which is what
-    # makes it a variation of that configuration rather than an empty one. Each later step
-    # switches its own aspect to Independent if the administrator edits it.
     def create_variant
       @type = ::Type.find(params.expect(:type_id))
-      @variant = @type.variants.new(variant_details_params)
-
-      TypeVariant::ASPECTS.each { @variant.public_send(:"#{it}_source=", @type.default_variant) }
+      @variant = @type.build_variant(variant_details_params)
 
       if @variant.save
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)

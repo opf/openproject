@@ -80,6 +80,15 @@ class Type < ApplicationRecord
     end
   end
 
+  # A new named variant starts out Linked to the base variant for every aspect, which is what
+  # makes it a variation of that configuration rather than an empty one. Each aspect goes
+  # Independent later, when someone edits it.
+  def build_variant(attributes = {})
+    variants.new(attributes).tap do |variant|
+      TypeVariant::ASPECTS.each { |aspect| variant.public_send(:"#{aspect}_source=", default_variant) }
+    end
+  end
+
   # Form custom fields live on the base variant. Prefer `default_variant.custom_fields`.
   # Kept temporarily so the many call sites that still write `type.custom_fields << cf` keep
   # working while they are migrated.
