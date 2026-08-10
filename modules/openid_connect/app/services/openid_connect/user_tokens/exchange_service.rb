@@ -86,7 +86,7 @@ module OpenIDConnect
       end
 
       def exchange_token_request(idp_token, audience)
-        OAuthClients::TokenRequest.for_provider(provider:).exchange(idp_token, audience, @scope).alt_map do
+        OAuthClients::TokenRequest.for_provider(provider).exchange(idp_token, audience, @scope).alt_map do
           it.with(code: :"token_exchange_#{it.code}", source: self.class)
         end
       end
