@@ -43,23 +43,47 @@ class WorkPackages::EnableMultipleVersionsJob < ApplicationJob
 
     # Must run before the flip, or a work package with a version_id but no
     # target row reads as having no target version once multi-value mode is on.
-    backfill_missing_target_versions
+    repaired_ids = backfill_missing_target_versions
+    journal_repaired_work_packages(repaired_ids)
     enable_multiple_versions!
   end
 
   private
 
   def backfill_missing_target_versions
-    result = ActiveRecord::Base.connection.execute(<<~SQL.squish)
+    repaired_ids = ActiveRecord::Base.connection.select_values(<<~SQL.squish)
       INSERT INTO work_package_versions (work_package_id, version_id, kind, created_at, updated_at)
           SELECT work_packages.id, work_packages.version_id, 'target', now(), now()
           FROM work_packages
           INNER JOIN versions ON versions.id = work_packages.version_id
           WHERE work_packages.version_id IS NOT NULL
+            AND NOT EXISTS (
+              SELECT 1 FROM work_package_versions
+              WHERE work_package_versions.work_package_id = work_packages.id
+                AND work_package_versions.version_id = work_packages.version_id
+                AND work_package_versions.kind = 'target'
+            )
       ON CONFLICT (work_package_id, version_id, kind) DO NOTHING
+      RETURNING work_package_id
     SQL
 
-    log_repaired_target_versions(result.cmd_tuples)
+    log_repaired_target_versions(repaired_ids.count)
+    repaired_ids
+  end
+
+  # A repaired row diverges from the last journal's snapshot, so without a
+  # catch-up journal the next unrelated save would record the change as if
+  # that editor had set the target version.
+  def journal_repaired_work_packages(work_package_ids)
+    return if work_package_ids.empty?
+
+    cause = Journal::CausedBySystemUpdate.new(feature: "target_versions_repaired")
+
+    Journal::NotificationConfiguration.with(false) do
+      WorkPackage.where(id: work_package_ids).find_each do |work_package|
+        Journals::CreateService.new(work_package, User.system).call(cause:)
+      end
+    end
   end
 
   # Every write path mirrors version_id into a target row already, so a non-zero

@@ -54,6 +54,27 @@ RSpec.describe WorkPackages::EnableMultipleVersionsJob do
       expect(WorkPackageVersion.find_by(work_package_id: work_package.id, kind: "target").version_id).to eq(version.id)
     end
 
+    it "journals the repair as a system update instead of leaking it into the next editor's save" do
+      version = create(:version, project:)
+      work_package = create(:work_package, project:, version: nil)
+      work_package.update_column(:version_id, version.id)
+
+      expect { job.perform }.to change { work_package.journals.count }.by(1)
+
+      journal = work_package.journals.reload.last
+      expect(journal.user).to eq(User.system)
+      expect(journal.cause_type).to eq("system_update")
+      expect(journal.cause["feature"]).to eq("target_versions_repaired")
+      expect(journal.work_package_version_journals.pluck(:version_id, :kind)).to contain_exactly([version.id, "target"])
+    end
+
+    it "does not journal work packages whose target rows were already in sync" do
+      version = create(:version, project:)
+      work_package = create(:work_package, project:, version:)
+
+      expect { job.perform }.not_to change { work_package.journals.count }
+    end
+
     it "does not duplicate an existing target row" do
       version = create(:version, project:)
       work_package = create(:work_package, project:, version:)
@@ -117,6 +138,17 @@ RSpec.describe WorkPackages::EnableMultipleVersionsJob do
 
       expect { job.perform }.to raise_error(described_class::EnablingFailed, /not writable/i)
       expect(Setting.work_package_multiple_versions?).to be false
+    end
+
+    it "repairs target versions before flipping the setting" do
+      version = create(:version, project:)
+      work_package = create(:work_package, project:, version: nil)
+      work_package.update_column(:version_id, version.id)
+
+      allow(Settings::Definition[:work_package_multiple_versions]).to receive(:writable?).and_return(false)
+
+      expect { job.perform }.to raise_error(described_class::EnablingFailed)
+      expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").count).to eq(1)
     end
   end
 

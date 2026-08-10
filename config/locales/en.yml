@@ -1552,7 +1552,7 @@ en:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Category” field will be renamed “Categories”.
-            single_value: This field is currently single-value. It will both be converted to allow multiple values.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
             upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
         dialog:
           checkbox_label: I understand that this action is not reversible
@@ -1573,7 +1573,7 @@ en:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will both be converted to allow multiple values.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -3008,6 +3008,8 @@ en:
         scheduling_mode_adjusted: >-
           Scheduling mode automatically adjusted with version update.
         sprint_migration: "Version '%{version_name}' has been copied as a sprint."
+        target_versions_repaired: >-
+          Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>.
           This is a maintenance task and can be safely ignored.
