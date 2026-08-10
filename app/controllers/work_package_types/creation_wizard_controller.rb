@@ -44,6 +44,8 @@ module WorkPackageTypes
 
     layout "no_menu"
 
+    helper_method :adding_variant?
+
     before_action :require_admin
     before_action :require_type_variants_feature
     before_action :find_type, only: %i[show update]

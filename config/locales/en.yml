@@ -6174,7 +6174,7 @@ en:
 
   types:
     creation_wizard:
-      add_variant: "Add variant to %{type}"
+      add_variant: "Add variant to %{name}"
       create_type: "Create type"
       create_variant: "Create variant"
       fields:

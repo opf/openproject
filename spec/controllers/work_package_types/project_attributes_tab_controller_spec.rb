@@ -176,24 +176,24 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
 
       describe "PUT disable_all_of_section" do
         it "excludes the section's inherited attributes on the link" do
-          expect(excluded_configuration_elements(link, aspect: aspect)).to be_empty
+          expect(excluded_configuration_elements(link, aspect:)).to be_empty
 
           put :disable_all_of_section, params: params, format: :turbo_stream
 
           expect(response).to have_http_status(:ok)
-          expect(excluded_configuration_elements(link, aspect: aspect)).to contain_exactly(project_custom_field.attribute_name)
+          expect(excluded_configuration_elements(link, aspect:)).to contain_exactly(project_custom_field.attribute_name)
           expect(variant.own_project_custom_field_type_mappings.map(&:custom_field_id)).to be_empty
         end
       end
 
       describe "PUT enable_all_of_section" do
-        before { exclude_configuration_elements(link, aspect: aspect, elements: [project_custom_field.attribute_name]) }
+        before { exclude_configuration_elements(link, aspect:, elements: [project_custom_field.attribute_name]) }
 
         it "re-inherits the section's attributes" do
           put :enable_all_of_section, params: params, format: :turbo_stream
 
           expect(response).to have_http_status(:ok)
-          expect(excluded_configuration_elements(link, aspect: aspect)).to be_empty
+          expect(excluded_configuration_elements(link, aspect:)).to be_empty
           expect(variant.project_custom_field_type_mappings.map(&:custom_field_id))
             .to contain_exactly(project_custom_field.id)
         end

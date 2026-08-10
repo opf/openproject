@@ -51,7 +51,7 @@ module WorkPackageTypes
       def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
       def title
-        return I18n.t("types.creation_wizard.add_variant", type: type.name) if adding_variant?
+        return I18n.t("types.creation_wizard.add_variant", name: type.name) if adding_variant?
 
         I18n.t("types.creation_wizard.create_type")
       end

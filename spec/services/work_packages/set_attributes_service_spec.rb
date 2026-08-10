@@ -2326,21 +2326,20 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
-  context "when the type defines a pattern for subject" do
-    let(:type) { build_stubbed(:type, patterns: { subject: { blueprint: "{{type}} {{project_name}}", enabled: true } }) }
+  context "with subject patterns in play" do
+    let(:type) { build_stubbed(:type) }
     let(:work_package) { WorkPackage.new(type:, project:) }
-    let(:resolved_subject) { "#{type.name} #{project.name}" }
-    let(:pattern_resolver) do
-      instance_double(WorkPackageTypes::PatternResolver, resolve: resolved_subject).tap do |resolver|
-        allow(WorkPackageTypes::PatternResolver).to receive(:new).and_return(resolver)
-      end
+
+    before do
+      resolver = instance_double(WorkPackageTypes::PatternResolver, resolve: "resolved from a pattern")
+      allow(WorkPackageTypes::PatternResolver).to receive(:new).and_return(resolver)
     end
 
-    # Testing this because the behaviour used to be different.
     it "does not set the resolved subject from the pattern" do
       instance.call({})
 
       expect(work_package.subject).to be_blank
+      expect(WorkPackageTypes::PatternResolver).not_to have_received(:new)
     end
 
     it "keeps an overridden subject" do

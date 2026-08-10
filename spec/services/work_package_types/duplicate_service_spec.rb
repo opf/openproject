@@ -128,5 +128,22 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
 
       expect(copy.project_ids).to contain_exactly(project_a.id, project_b.id)
     end
+
+    context "when the source's form configuration holds a custom field" do
+      shared_let(:custom_field) { create(:wp_custom_field) }
+
+      before do
+        source.default_variant.attribute_groups = [["custom group", ["custom_field_#{custom_field.id}"]]]
+        source.default_variant.custom_field_ids = [custom_field.id]
+        source.default_variant.save!
+      end
+
+      it "activates that field in the projects the copy is added to" do
+        service_call
+
+        expect(project_a.reload.work_package_custom_field_ids).to include(custom_field.id)
+        expect(project_b.reload.work_package_custom_field_ids).to include(custom_field.id)
+      end
+    end
   end
 end

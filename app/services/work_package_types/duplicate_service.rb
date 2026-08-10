@@ -49,7 +49,7 @@ module WorkPackageTypes
         copy = result.result
         copy.insert_at(source.position + 1)
 
-        failure = copy_project_assignments(copy) || copy_configuration(copy)
+        failure = copy_configuration(copy) || copy_project_assignments(copy)
         if failure
           result = failure
           raise ActiveRecord::Rollback
@@ -75,7 +75,9 @@ module WorkPackageTypes
     end
 
     # The copy has only a base variant — #copy_configuration writes that one — so that is what
-    # every project inheriting the assignment applies.
+    # every project inheriting the assignment applies. It has to run after the configuration is
+    # in place: adding a variant to a project activates the custom fields that variant shows, and
+    # before the form configuration is copied it shows none.
     def copy_project_assignments(copy)
       source.projects.find_each do |project|
         result = ::Projects::Types::AddService.new(user:, model: project).call(variant: copy.default_variant)
