@@ -35,18 +35,18 @@ module WorkPackageTypes
     class FormConfigurationStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:)
-        super(type)
+      def initialize(variant:)
+        super(variant)
       end
 
       def call
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
           render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::FORM_CONFIGURATION
+                   variant: model,
+                   aspect: TypeVariant::FORM_CONFIGURATION
                  )) +
             render(WorkPackageTypes::FormConfigurationComponent.new(
-                     type: model,
+                     variant: model,
                      form_attributes: helpers.form_configuration_groups(model),
                      no_filter_query:
                    ))

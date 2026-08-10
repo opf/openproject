@@ -41,7 +41,9 @@ module Workflows
 
     attr_reader :context
 
-    delegate :type, :tab, :roles, :readonly?, to: :context
+    delegate :variant, :tab, :roles, :readonly?, to: :context
+
+    def variant_path_args = { type_id: variant.type_id, variant_id: variant.id }
 
     def description_key
       readonly? ? "admin.workflows.blankslate.linked_description" : "admin.workflows.blankslate.description"

@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
         render(
           WorkPackageTypes::FormConfiguration::GroupHeaderComponent.new(
             group: @group,
-            type: @type,
+            variant: @variant,
             ee_available: ee_available?,
             first: first?,
             last: last?,
@@ -79,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
                          attr_translation: attribute[:translation],
                          attr_is_cf: attribute[:is_cf],
                          "draggable-id": attribute[:key],
-                         "draggable-type": "attribute",
+                         "draggable-variant": "attribute",
                          "drop-url": row_drop_path(attribute)
                        }
                      end
@@ -87,7 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
             render(
               WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
                 attribute:,
-                type: @type,
+                variant: @variant,
                 index:,
                 total_count: attributes.length,
                 readonly: readonly?,

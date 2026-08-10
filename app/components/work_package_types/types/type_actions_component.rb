@@ -56,7 +56,7 @@ module WorkPackageTypes
         default_action(menu)
         menu.with_divider
 
-        add_variant_action(menu) unless type.variant?
+        add_variant_action(menu)
         duplicate_action(menu)
         menu.with_divider
 
@@ -70,7 +70,7 @@ module WorkPackageTypes
 
       def add_variant_action(menu)
         menu.with_item(label: t("types.index.add_variant_action"),
-                       href: new_creation_wizard_types_path(parent_id: type.id)) do |item|
+                       href: new_creation_wizard_types_path(type_id: type.id)) do |item|
           item.with_leading_visual_icon(icon: :plus)
         end
       end
@@ -131,7 +131,7 @@ module WorkPackageTypes
       end
 
       def reorderable?
-        !type.variant? && !(type.first? && type.last?)
+        !(type.first? && type.last?)
       end
 
       def move_action(menu)

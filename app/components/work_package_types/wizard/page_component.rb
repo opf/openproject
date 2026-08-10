@@ -33,10 +33,11 @@ module WorkPackageTypes
     class PageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:)
+      def initialize(type:, current_step:, variant: nil)
         super(type)
 
         @current_step = current_step
+        @variant = variant
       end
 
       private
@@ -45,12 +46,14 @@ module WorkPackageTypes
 
       def type = model
 
+      def variant = @variant.is_a?(TypeVariant) ? @variant : type.default_variant
+
+      def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
+
       def title
-        if type.variant?
-          I18n.t("types.creation_wizard.create_variant")
-        else
-          I18n.t("types.creation_wizard.create_type")
-        end
+        return I18n.t("types.creation_wizard.add_variant", type: type.name) if adding_variant?
+
+        I18n.t("types.creation_wizard.create_type")
       end
 
       def breadcrumb_items
@@ -64,33 +67,49 @@ module WorkPackageTypes
       end
 
       def parent_breadcrumb_item
-        return [] if type.parent.nil?
-
-        [{ href: edit_type_details_path(type_id: type.parent_id), text: type.parent.name }]
+        []
       end
 
       def cancel_href
-        type.persisted? ? edit_type_details_path(type_id: type.id) : types_path
+        return types_path unless type.persisted?
+
+        edit_type_details_path(type_id: type.id)
       end
 
       def step_title = Steps.title(current_step)
 
-      def step_url = type_creation_wizard_path(type, step: current_step)
+      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step)
 
-      # A brand-new variant is created on the first step's submit; every later
-      # submit patches the existing record for its step.
+      def variant_path_args
+        return { type_id: type.id } unless adding_variant?
+
+        { type_id: type.id, variant_id: variant.id }
+      end
+
       def step_form_url
-        type.new_record? ? creation_wizard_types_path : step_url
+        return step_url if record_persisted?
+
+        adding_variant? ? creation_wizard_types_path(type_id: type.id) : creation_wizard_types_path
       end
 
       def step_form_method
-        type.new_record? ? :post : :patch
+        record_persisted? ? :patch : :post
+      end
+
+      def record_persisted?
+        adding_variant? ? @variant.persisted? : type.persisted?
       end
 
       # Editors whose fields belong to the wizard form itself, so that "Continue"
       # persists them when advancing to the next step.
       def step_editor
-        @step_editor ||= StepEditors.for(current_step, type)
+        @step_editor ||= StepEditors.for(current_step, editor_record)
+      end
+
+      def editor_record
+        return @variant if adding_variant?
+
+        current_step == :details || type.new_record? ? type : type.default_variant
       end
 
       def step_form_options
@@ -124,20 +143,20 @@ module WorkPackageTypes
       def reuse_mode_banner
         return unless step_editor.linkable_aspect?
 
-        render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect))
+        render(WorkPackageTypes::ReuseModeBannerComponent.new(variant:, aspect: step_editor.aspect))
       end
 
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step
         when :form_configuration
-          FormConfigurationStepComponent.new(type:)
+          FormConfigurationStepComponent.new(variant:)
         when :project_attributes
-          ProjectAttributesStepComponent.new(type:)
+          ProjectAttributesStepComponent.new(variant:)
         when :projects
           WorkPackageTypes::ProjectsComponent.new(type, projects: Project.all)
         when :pdf
-          PdfStepComponent.new(type:)
+          PdfStepComponent.new(variant:)
         else
           PlaceholderComponent.new(step: current_step)
         end

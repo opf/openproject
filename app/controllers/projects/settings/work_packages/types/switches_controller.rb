@@ -43,7 +43,7 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
   end
 
   def create
-    target = ::Type.find_by(id: params[:target_id])
+    target = ::TypeVariant.find_by(id: params[:target_id])
 
     result = ::Projects::Types::SwitchVariantService
                .new(user: current_user, model: @project)
@@ -57,13 +57,9 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   private
 
-  # The row names the member in force, which is the variant when the project resolves one, so
-  # the type is looked up globally and checked against the families the project uses. It is
-  # then resolved again: on a page left open across a switch, the id names a member the
-  # project has since moved off.
   def load_source
-    type = ::Type.find_by(id: params[:type_id])
-    @source = @project.effective_type(type) if type && @project.project_types.exists?(type_id: type.root_id)
+    variant = ::TypeVariant.find_by(id: params[:type_id])
+    @source = @project.type_variant(variant.type) if variant && @project.project_types.exists?(type_id: variant.type_id)
 
     return if @source
 

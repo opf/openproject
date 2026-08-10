@@ -29,45 +29,52 @@
 #++
 
 module WorkPackageTypes
-  class ExcludedElementsController < BaseTabController
+  # Named variants of a type. A new one starts out Linked to the type's base variant for every
+  # aspect, which is what makes it a variation of that configuration rather than an empty one.
+  class VariantsController < BaseTabController
     include TypeVariantsFeature
 
     before_action :require_type_variants_feature
-    before_action :require_valid_aspect
 
     current_menu_item do
       :types
     end
 
-    # For clarification: If we toggle the element on, it means we remove the exclusion from the array.
-    def toggle
-      call = toggle_service
-        .new(user: current_user, variant: @variant)
-        .call(aspect:, elements: [element])
+    def create
+      variant = build_named_variant
 
-      render json: {}, status: call.success? ? :ok : :unprocessable_entity
+      if variant.save
+        redirect_to edit_type_form_configuration_path(type_id: @type.id, variant_id: variant.id),
+                    notice: t(:notice_successful_create)
+      else
+        redirect_to types_path, alert: variant.errors.full_messages.to_sentence
+      end
+    end
+
+    def destroy
+      variant = @type.variants.named.find(params.expect(:id))
+
+      if variant.destroy
+        redirect_to types_path, notice: t(:notice_successful_delete), status: :see_other
+      else
+        redirect_to types_path, alert: variant.errors.full_messages.to_sentence, status: :see_other
+      end
     end
 
     private
 
-    def aspect = params[:aspect]
+    # The variant is found through the type, so BaseTabController's lookup would resolve the
+    # one being created or deleted.
+    def find_variant; end
 
-    def element = params.require(:element)
-
-    def toggle_service
-      if inherit?
-        ExcludedElements::RemoveService
-      else
-        ExcludedElements::AddService
+    def build_named_variant
+      @type.variants.new(variant_params).tap do |variant|
+        TypeVariant::ASPECTS.each { |aspect| variant.public_send(:"#{aspect}_source=", @type.default_variant) }
       end
     end
 
-    def inherit?
-      ActiveRecord::Type::Boolean.new.cast(params.permit(:value)[:value])
-    end
-
-    def require_valid_aspect
-      render_404 unless TypeVariant::ASPECTS.include?(aspect)
+    def variant_params
+      params.expect(type_variant: [:variant_name])
     end
   end
 end

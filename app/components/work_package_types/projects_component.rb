@@ -55,7 +55,7 @@ module WorkPackageTypes
     # A variant is a per-project choice — a project uses at most one member of a family, so
     # enabling one everywhere would collide with every project already using its root or a
     # sibling. The toggle is therefore not offered, and nothing is ever "all projects" for it.
-    def enable_all_available? = !model.variant?
+    def enable_all_available? = true
 
     def enabled_for_all_projects?
       enable_all_available? && enabled_project_ids.sort == projects.pluck(:id).sort
@@ -67,7 +67,7 @@ module WorkPackageTypes
 
     # Not #projects: a project uses the family's root, so a variant never appears there and the
     # tab would render every project unticked no matter where the variant is actually in force.
-    def enabled_project_ids = @enabled_project_ids ||= model.effective_in_projects.pluck(:id)
+    def enabled_project_ids = @enabled_project_ids ||= model.projects.pluck(:id)
 
     def add_sub_tree(tree, project_list)
       project_list.each do |project_hash|

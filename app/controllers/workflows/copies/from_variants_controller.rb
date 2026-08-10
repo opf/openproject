@@ -28,35 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO: Remove with type_variants feature flag
-class Workflows::Copies::FromTypesController < ApplicationController
+# Copies one variant's workflows onto other variants.
+class Workflows::Copies::FromVariantsController < ApplicationController
   include OpTurbo::ComponentStream
 
   layout "admin"
 
   before_action :require_admin
 
-  before_action :set_source_type
-  before_action :set_target_types
+  before_action :set_source_variant
+  before_action :set_target_variants
 
   def create
-    if @source_type.nil?
+    if @source_variant.nil?
       render_flash_message_via_turbo_stream(
         message: I18n.t(:error_workflow_copy_source),
         scheme: :danger
       )
       @turbo_status = :unprocessable_entity
-    elsif @target_types.blank?
+    elsif @target_variants.blank?
       render_flash_message_via_turbo_stream(
         message: I18n.t(:error_workflow_copy_target),
         scheme: :danger
       )
       @turbo_status = :unprocessable_entity
     else
-      Workflow.copy(@source_type, nil, @target_types, Workflow.eligible_roles)
+      Workflow.copy(@source_variant, nil, @target_variants, Workflow.eligible_roles)
 
-      redirect_to edit_type_workflow_path(@target_types.first),
-                  notice: t(".notice", count: @target_types.size, type_name: @target_types.first.name)
+      target = @target_variants.first
+      redirect_to edit_type_workflow_path(**target.path_args),
+                  notice: t(".notice", count: @target_variants.size, type_name: target.display_name)
       return
     end
 
@@ -65,11 +66,11 @@ class Workflows::Copies::FromTypesController < ApplicationController
 
   private
 
-  def set_source_type
-    @source_type = ::Type.find_by(id: params[:type_id])
+  def set_source_variant
+    @source_variant = ::TypeVariant.find_by(id: params[:variant_id])
   end
 
-  def set_target_types
-    @target_types = ::Type.where(id: params[:target_type_ids])
+  def set_target_variants
+    @target_variants = ::TypeVariant.where(id: params[:target_variant_ids])
   end
 end

@@ -47,11 +47,11 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   def create # rubocop:disable Metrics/AbcSize
-    type = ::Type.global.find_by(id: params[:type_id])
+    variant = ::TypeVariant.find_by(id: params[:variant_id])
 
-    return render_type_not_found if type.nil?
+    return render_type_not_found if variant.nil?
 
-    result = ::Projects::Types::AddService.new(user: current_user, model: @project).call(type:)
+    result = ::Projects::Types::AddService.new(user: current_user, model: @project).call(variant:)
 
     result.on_success do
       close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::AddDialogComponent::DIALOG_ID}")
@@ -66,20 +66,18 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
-    # The row names the member in force, which is the variant when the project resolves one,
-    # so the type is looked up globally and checked against the families the project uses.
-    type = ::Type.find_by(id: params[:id])
+    variant = ::TypeVariant.find_by(id: params[:id])
 
-    return render_type_not_found if type.nil? || !@project.project_types.exists?(type_id: type.root_id)
+    return render_type_not_found if variant.nil? || !@project.project_types.exists?(type_id: variant.type_id)
 
-    result = ::Projects::Types::RemoveService.new(user: current_user, model: @project).call(type:)
+    result = ::Projects::Types::RemoveService.new(user: current_user, model: @project).call(variant:)
 
     result.on_success { replace_types_list }
 
     result.on_failure do
       render_error_flash_message_via_turbo_stream(
         message: join_flash_messages(
-          type_deactivation_error_messages(::Type.where(id: type.id), project_ids: [@project.id])
+          type_deactivation_error_messages(::Type.where(id: variant.type_id), project_ids: [@project.id])
         )
       )
     end

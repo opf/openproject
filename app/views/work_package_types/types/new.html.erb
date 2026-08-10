@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render_inline_form(f) do |type_form|
         type_form.text_field(
           name: :name,
-          value: model.own_name,
+          value: model.name,
           label: Type.human_attribute_name(:name),
           placeholder: I18n.t(:label_name),
           input_width: :medium,

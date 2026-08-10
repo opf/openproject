@@ -35,27 +35,33 @@ class Workflows::CopiesController < ApplicationController
 
   before_action :require_admin
 
-  before_action :set_source_type
+  before_action :set_source_variant
   before_action :set_source_role
-  # TODO: Remove with type_variants feature flag
-  before_action :set_other_types
+  before_action :set_other_variants
   before_action :set_all_roles
 
   def new; end
 
   private
 
-  def set_source_type
-    @source_type = ::Type.find(params.expect(:type_id))
+  def set_source_variant
+    @source_variant = if params[:variant_id]
+                        ::TypeVariant.find(params.expect(:variant_id))
+                      else
+                        ::Type.find(params.expect(:type_id)).default_variant
+                      end
   end
 
   def set_source_role
     @source_role = eligible_roles.find_by(id: params[:source_role_id])
   end
 
-  # TODO: Remove with type_variants feature flag
-  def set_other_types
-    @other_types = ::Type.where.not(id: @source_type.id).order(:position)
+  def set_other_variants
+    scope = OpenProject::FeatureDecisions.type_variants_active? ? ::TypeVariant.all : ::TypeVariant.base
+
+    @other_variants = scope.where.not(id: @source_variant.id).includes(:type).sort_by do |variant|
+      [variant.type.position, variant.variant_name.to_s]
+    end
   end
 
   def set_all_roles

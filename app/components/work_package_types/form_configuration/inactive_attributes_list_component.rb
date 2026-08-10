@@ -33,9 +33,9 @@ module WorkPackageTypes
     class InactiveAttributesListComponent < ApplicationComponent
       include OpTurbo::Streamable
 
-      def initialize(type:, inactive_attributes:)
+      def initialize(variant:, inactive_attributes:)
         super
-        @type = type
+        @variant = variant
         @inactive_attributes = inactive_attributes
       end
 
@@ -48,7 +48,7 @@ module WorkPackageTypes
           "admin--type-form-configuration--rows-drag-and-drop-target": "container",
           "target-container-accessor": "[data-test-selector='type-form-configuration-inactive-list']",
           "target-id": "inactive",
-          "target-allowed-drag-type": "attribute"
+          "target-allowed-drag-variant": "attribute"
         }
       end
 
@@ -58,8 +58,9 @@ module WorkPackageTypes
           attr_translation: attribute[:translation],
           attr_is_cf: attribute[:is_cf],
           "draggable-id": attribute[:key],
-          "draggable-type": "attribute",
-          "drop-url": drop_type_form_configuration_row_path(@type, attribute[:key])
+          "draggable-variant": "attribute",
+          "drop-url": drop_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id,
+                                                            row_key: attribute[:key])
         }
       end
     end

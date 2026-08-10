@@ -50,27 +50,21 @@ module WorkPackageTypes
       end
 
       def variants_count_label(root)
-        t("types.index.variants_count", count: root.children.size)
+        t("types.index.variants_count", count: root.variants.named.size)
       end
 
-      # A default variant is only visible once the group is expanded, so the
-      # collapsed header names it instead.
-      def add_default_label(header, root)
-        if root.is_default?
-          header.with_label { t("types.index.enabled_in_new_projects") }
-        elsif (variant = default_variant(root))
-          header.with_label(scheme: :secondary) do
-            t("types.index.variant_enabled_in_new_projects", name: variant.own_name)
-          end
-        end
+      def add_default_label(header, type)
+        return unless type.is_default?
+
+        header.with_label { t("types.index.enabled_in_new_projects") }
       end
 
-      def default_variant(root)
-        root.children.find(&:is_default?)
+      def variant_path(variant)
+        edit_type_form_configuration_path(type_id: variant.type_id, variant_id: variant.id)
       end
 
-      def add_variant_path(root)
-        new_creation_wizard_types_path(parent_id: root.id)
+      def add_variant_path(type)
+        new_creation_wizard_types_path(type_id: type.id)
       end
 
       def menu_id(type)
@@ -82,7 +76,7 @@ module WorkPackageTypes
       end
 
       def reorderable?(type)
-        !type.variant? && !(type.first? && type.last?)
+        !(type.first? && type.last?)
       end
 
       def drop_target_config

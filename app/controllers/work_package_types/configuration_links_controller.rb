@@ -46,7 +46,7 @@ module WorkPackageTypes
     end
 
     def dialog
-      respond_with_dialog ConfigurationLinks::DialogComponent.new(type: @type, aspect:)
+      respond_with_dialog ConfigurationLinks::DialogComponent.new(variant: @variant, aspect:)
     end
 
     def confirm
@@ -54,14 +54,14 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.invalid_source"))
       else
         close_dialog_via_turbo_stream("##{ConfigurationLinks::DialogComponent::DIALOG_ID}")
-        dialog_via_turbo_stream(component: ConfigurationLinks::ConfirmDialogComponent.new(type: @type, aspect:, source:))
+        dialog_via_turbo_stream(component: ConfigurationLinks::ConfirmDialogComponent.new(variant: @variant, aspect:, source:))
       end
 
       respond_with_turbo_streams
     end
 
     def switch
-      result = SwitchToLinkedModeService.new(type: @type, aspect:).call(source:)
+      result = SwitchToLinkedModeService.new(variant: @variant, aspect:).call(source:)
 
       close_dialog_via_turbo_stream("##{ConfigurationLinks::ConfirmDialogComponent::DIALOG_ID}")
 
@@ -77,7 +77,7 @@ module WorkPackageTypes
     def source
       return @source if defined?(@source)
 
-      @source = Type.global.find_by(id: params[:source_id])
+      @source = TypeVariant.find_by(id: params[:source_id])
     end
 
     def respond_to_switch(result)
@@ -93,7 +93,7 @@ module WorkPackageTypes
     end
 
     def require_valid_aspect
-      render_404 unless Type::ConfigurationLink::ASPECTS.include?(aspect)
+      render_404 unless TypeVariant::ASPECTS.include?(aspect)
     end
   end
 end

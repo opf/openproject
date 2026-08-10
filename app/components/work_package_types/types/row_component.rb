@@ -45,14 +45,11 @@ module WorkPackageTypes
       end
 
       def name
-        link = link_to(model.own_name, edit_type_details_path(type_id: model.id))
-        return link unless OpenProject::FeatureDecisions.type_variants_active? && model.parent_id.present?
-
-        render(Primer::Box.new(pl: 4)) { link }
+        link_to(model.name, edit_type_details_path(type_id: model.id))
       end
 
       def workflow_warning
-        return unless model.workflows.empty?
+        return unless model.default_variant&.workflows&.empty?
 
         safe_join([
                     op_icon("icon3 icon-warning"),

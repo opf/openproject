@@ -43,7 +43,10 @@ module WorkPackageTypes
     def artefact_export_form_options
       {
         model:,
-        url: update_artefact_export_type_pdf_export_template_index_path(type_id: model.id),
+        url: update_artefact_export_type_pdf_export_template_index_path(
+          type_id: model.type_id,
+          variant_id: model.id
+        ),
         method: :put,
         readonly: @readonly,
         data: artefact_export_form_data

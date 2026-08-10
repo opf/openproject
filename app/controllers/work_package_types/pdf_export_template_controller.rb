@@ -31,10 +31,12 @@
 module WorkPackageTypes
   class PdfExportTemplateController < ApplicationController
     include OpTurbo::ComponentStream
+
     layout "admin"
 
     before_action :require_admin
     before_action :find_type, only: %i[edit toggle drop enable_all disable_all update_artefact_export]
+    before_action :find_variant, only: %i[edit toggle drop enable_all disable_all update_artefact_export]
     before_action :find_template, only: %i[toggle drop]
 
     current_menu_item do
@@ -52,8 +54,8 @@ module WorkPackageTypes
         return respond_with_turbo_streams(status: :unprocessable_entity)
       end
 
-      @type.artefact_export_mode = mode
-      @type.save!
+      @variant.artefact_export_mode = mode
+      @variant.save!
       render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
       respond_with_turbo_streams
     end
@@ -61,32 +63,32 @@ module WorkPackageTypes
     def enable_all
       return render_404_turbo_stream if @type.nil?
 
-      @type.pdf_export_templates.enable_all
-      @type.save!
+      @variant.pdf_export_templates.enable_all
+      @variant.save!
       respond_section_with_turbo_streams
     end
 
     def disable_all
       return render_404_turbo_stream if @type.nil?
 
-      @type.pdf_export_templates.disable_all
-      @type.save!
+      @variant.pdf_export_templates.disable_all
+      @variant.save!
       respond_section_with_turbo_streams
     end
 
     def toggle
       return render_404_turbo_stream if @template.nil?
 
-      @type.pdf_export_templates.toggle(@template.id)
-      @type.save!
+      @variant.pdf_export_templates.toggle(@template.id)
+      @variant.save!
       respond_with_turbo_streams
     end
 
     def drop
       return render_404_turbo_stream if @template.nil?
 
-      @type.pdf_export_templates.move(@template.id, params[:position].to_i - 1) # drop index starts at 1
-      @type.save!
+      @variant.pdf_export_templates.move(@template.id, params[:position].to_i - 1) # drop index starts at 1
+      @variant.save!
       respond_to_with_turbo_streams
     end
 
@@ -94,7 +96,7 @@ module WorkPackageTypes
 
     def respond_section_with_turbo_streams
       replace_via_turbo_stream(
-        component: ::WorkPackageTypes::ExportTemplateListComponent.new(type: @type)
+        component: ::WorkPackageTypes::ExportTemplateListComponent.new(variant: @variant)
       )
       respond_to_with_turbo_streams
     end
@@ -104,11 +106,19 @@ module WorkPackageTypes
     end
 
     def find_type
-      @type = ::Type.find(params[:type_id])
+      @type = ::Type.find(params.expect(:type_id))
+    end
+
+    def find_variant
+      @variant = if params[:variant_id].present?
+                   @type.variants.find(params.expect(:variant_id))
+                 else
+                   @type.default_variant
+                 end
     end
 
     def find_template
-      @template = @type.pdf_export_templates.find(params[:id])
+      @template = @variant.pdf_export_templates.find(params.expect(:id))
     end
   end
 end

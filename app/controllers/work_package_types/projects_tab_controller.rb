@@ -34,7 +34,6 @@ module WorkPackageTypes
     include TypeDeactivationErrorMessage
 
     before_action :load_projects, only: %i[edit enable_all_projects]
-    before_action :reject_variant, only: :enable_all_projects
 
     current_menu_item [:edit, :update] do
       :types
@@ -74,21 +73,14 @@ module WorkPackageTypes
 
     private
 
-    # The toggle is not rendered for a variant, so reaching this is a crafted request. Enabling a
-    # variant everywhere would collide with every project already using its root or a sibling.
-    def reject_variant
-      render_404 if @type.variant?
-    end
-
     # Written one project at a time through Projects::Types, rather than by assigning
-    # Type#project_ids: a project uses the family's root and names the variant separately, so the
-    # join row a plain assignment builds is invalid for a variant. The services also own the rule
-    # that a project uses at most one member of a family, which is why enabling a variant
-    # somewhere its root — or a sibling — is already in force fails here instead of silently
-    # taking over.
+    # Type#project_ids: a project_types row names a variant as well as a type, so the row a
+    # plain assignment builds has none. The services also own the rule that a project applies
+    # at most one variant per type, which is why enabling this type somewhere another of its
+    # variants is already in force fails here instead of silently taking over.
     def sync_projects(project_ids)
       desired_project_ids = Array(project_ids).compact_blank.map(&:to_i)
-      enabled_project_ids = @type.effective_in_projects.pluck(:id)
+      enabled_project_ids = @type.projects.pluck(:id)
 
       ServiceResult.success(result: @type).tap do |aggregated|
         apply(aggregated, ::Projects::Types::AddService, desired_project_ids - enabled_project_ids)
@@ -99,7 +91,7 @@ module WorkPackageTypes
     def apply(aggregated, service_class, project_ids)
       Project.where(id: project_ids).find_each do |project|
         aggregated.add_dependent!(
-          service_class.new(user: current_user, model: project).call(type: @type)
+          service_class.new(user: current_user, model: project).call(variant: @type.default_variant)
         )
       end
     end
@@ -134,10 +126,10 @@ module WorkPackageTypes
     end
 
     def deactivated_project_ids_with_work_packages(project_ids)
-      deactivated_project_ids = @type.effective_in_projects.pluck(:id) - Array(project_ids).compact_blank.map(&:to_i)
+      deactivated_project_ids = @type.projects.pluck(:id) - Array(project_ids).compact_blank.map(&:to_i)
 
       WorkPackage
-        .where(type_id: @type.root_id, project_id: deactivated_project_ids)
+        .where(type_id: @type.id, project_id: deactivated_project_ids)
         .distinct
         .pluck(:project_id)
     end

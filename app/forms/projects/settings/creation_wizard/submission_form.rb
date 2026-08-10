@@ -64,7 +64,7 @@ module Projects
             type_id = model.project_creation_wizard_work_package_type_id
 
             if type_id.present?
-              type = model.effective_type(Type.find_by(id: type_id))
+              type = model.type_variant(Type.find_by(id: type_id))
               type&.statuses&.each do |status|
                 list.option(
                   value: status.id,
