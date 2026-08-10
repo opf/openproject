@@ -49,7 +49,7 @@ module WorkPackageTypes
 
       def perform(*)
         aspect = params[:aspect].to_s
-        return unknown_aspect_result(aspect) unless TypeVariant::ASPECTS.include?(aspect)
+        return unknown_aspect_result(aspect) unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
         return not_linked_result unless variant.linked?(aspect)
 
         narrow(aspect)
@@ -69,7 +69,7 @@ module WorkPackageTypes
       # taken on the variant rather than per aspect, which serialises concurrent edits to
       # unrelated aspects of the same variant.
       def narrow(aspect)
-        column = :"#{TypeVariant.validated_configuration_aspect(aspect)}_excluded_elements"
+        column = :"#{TypeVariant.validated_excludable_aspect(aspect)}_excluded_elements"
 
         OpenProject::Mutex.with_advisory_lock_transaction(variant, "excluded_elements") do
           variant.reload

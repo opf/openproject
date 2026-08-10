@@ -179,6 +179,17 @@ class TypeVariant
       # An aspect names columns, so it reaches SQL as an identifier rather than a bind. Every
       # interpolation below goes through here, and an unknown aspect raises rather than being
       # spliced in.
+      # For the column-name interpolations that only exist on an excludable aspect. Load-bearing
+      # for injection safety in exactly the same way as .validated_configuration_aspect.
+      def validated_excludable_aspect(aspect)
+        candidate = aspect.to_s
+        unless TypeVariant::EXCLUDABLE_ASPECTS.include?(candidate)
+          raise ArgumentError, "Configuration aspect #{aspect.inspect} has no exclusions"
+        end
+
+        candidate
+      end
+
       def validated_configuration_aspect(aspect)
         aspect.to_s.tap do |candidate|
           raise ArgumentError, "Unknown configuration aspect #{aspect.inspect}" unless TypeVariant::ASPECTS.include?(candidate)
@@ -199,6 +210,13 @@ class TypeVariant
         # Cast rather than trust the seed: an integer literal from a VALUES list would
         # otherwise clash with the bigint the recursive term yields.
         seed = "CAST(#{seed_variant_id} AS bigint)"
+        # An aspect with nothing to narrow has no exclusions column, so the chain carries an
+        # empty array through and every reader of it answers "nothing excluded".
+        accumulated = if TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
+                        "cl.excluded || v.#{aspect}_excluded_elements"
+                      else
+                        "cl.excluded"
+                      end
 
         <<~SQL.squish
           WITH RECURSIVE link_chain(node_id, path, excluded) AS (
@@ -206,7 +224,7 @@ class TypeVariant
             UNION ALL
             SELECT v.#{aspect}_source_id,
                    cl.path || v.#{aspect}_source_id,
-                   cl.excluded || v.#{aspect}_excluded_elements
+                   #{accumulated}
             FROM link_chain cl
             JOIN type_variants v ON v.id = cl.node_id
             WHERE v.#{aspect}_source_id IS NOT NULL
@@ -292,6 +310,7 @@ class TypeVariant
     # CustomField#attribute_name).
     def effective_excluded_elements(aspect)
       return [] unless resolve_aspect_in_sql?
+      return [] unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
 
       preloaded = "effective_excluded_elements_#{aspect}"
       # Uniq only on this branch: the scope selects the raw accumulated array, where the

@@ -36,12 +36,14 @@ module WorkPackageTypes
   # An element in effective but not in own was excluded further up the chain, which is what
   # #excluded_by_source? answers: this variant cannot reach that exclusion to undo it.
   #
-  # Nil for an aspect the variant owns: there is nothing to exclude from.
+  # Nil for an aspect the variant owns: there is nothing to exclude from. Nil too for an aspect
+  # that cannot be narrowed at all, which a variant inherits whole or owns outright.
   ExclusionState = Data.define(:variant, :own, :effective) do
     def self.for(variant, aspect)
+      return unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
       return unless variant.linked?(aspect)
 
-      column = :"#{TypeVariant.validated_configuration_aspect(aspect)}_excluded_elements"
+      column = :"#{TypeVariant.validated_excludable_aspect(aspect)}_excluded_elements"
 
       new(
         variant:,
