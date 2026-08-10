@@ -190,11 +190,17 @@ class ResourceAllocation < ApplicationRecord
     !principal_explicit? && principal_id.blank?
   end
 
-  def candidate_query
+  # Only project members can be allocated, so the stored criteria are always
+  # narrowed to the project's members. Callers that already hold the project pass
+  # it in to avoid loading the entity. Applying the membership filter last means a
+  # `member` value smuggled into the stored filter is overwritten, not honoured.
+  def candidate_query(project: self.project)
     UserQuery.new.tap do |query|
       user_filter.each do |filter|
         query.where(filter.field, filter.operator, filter.values)
       end
+
+      query.where(:member, "=", [project.id.to_s]) if project
     end
   end
 

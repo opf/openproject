@@ -187,7 +187,7 @@ module ::ResourceManagement
 
     # Project members the stored filter selects.
     def candidates_for(allocation)
-      allocation.candidate_query.results.in_project(@project).to_a
+      allocation.candidate_query(project: @project).results.to_a
     end
 
     def candidate_principal
