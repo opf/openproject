@@ -67,6 +67,17 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Demo | [List of approvals](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=67) |
 | Potential product iteration | [#65838](https://community.openproject.org/wp/65838) Show phase gates as separate columns in the project list<br />[#49426](https://community.openproject.org/wp/49426) Review and approval vote for work packages<br />[#68050](https://community.openproject.org/wp/68050) Link meetings with phase gates<br />[#68052](https://community.openproject.org/wp/68052) Link work packages with phase gates |
 
+### Project deliverables
+
+| Aspect | Mapping and guidance |
+| --- | --- |
+| PM² definition | [Project deliverables](../../project-management-guide/9-monitor-and-control/#910-manage-deliverables-acceptance) are the products or services produced by the project. They are formally reviewed and accepted against the criteria in the Deliverables Acceptance Plan. They are distinct from the management artefacts used to govern the project. |
+| OpenProject implementation | Deliverables are represented as [work packages](../../user-guide/work-packages/). Their acceptance criteria and status can be captured in the work package form and documented through related Approval or Decision work packages. |
+| Administration | Create and configure a Deliverable type under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Add any required acceptance fields to its form. |
+| Project configuration | [Enable the Deliverable type and relevant custom fields](../../user-guide/projects/project-settings/work-packages/) for the project. |
+| Demo | — |
+| Potential product iteration | — |
+
 ### PM² artefacts
 
 | Aspect | Mapping and guidance |
@@ -79,15 +90,15 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Demo | [List of all PM² artefacts](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=68) |
 | Potential product iteration | [#67726](https://community.openproject.org/wp/67726) Project business case widget for project overview<br />[#68058](https://community.openproject.org/wp/68058) Stakeholder module to list all relevant project stakeholders<br />[#30528](https://community.openproject.org/wp/30528) Project status reporting module<br />[#66309](https://community.openproject.org/wp/66309) Live collaboration for documents |
 
-### Risk Log
+### Project logs
 
 | Aspect | Mapping and guidance |
 | --- | --- |
-| PM² definition | The [Risk Log](../../project-management-guide/appendices/#b-8-risk-log) records identified risks, their assessment, owners and response actions. |
-| OpenProject implementation | Risk work packages displayed in a [saved work package view](../../user-guide/work-packages/work-package-table-configuration/#save-work-package-views) |
-| Administration | Create a Risk type under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Create additional risk attributes under [Administration → Custom fields](../../system-admin-guide/custom-fields/) and add them to the Risk form. |
-| Project configuration | [Enable the Risk type and its custom fields](../../user-guide/projects/project-settings/work-packages/) for the project, then filter for Risk work packages and save the view as the Risk Log. |
-| Demo | [Risk Log](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) |
+| PM² definition | PM² uses four central project logs: the [Change Log](../../project-management-guide/appendices/#b-7-change-log), [Risk Log](../../project-management-guide/appendices/#b-8-risk-log), [Issue Log](../../project-management-guide/appendices/#b-9-issue-log) and [Decision Log](../../project-management-guide/appendices/#b-10-decision-log). They provide controlled records of changes, risks, issues and decisions throughout the project. |
+| OpenProject implementation | Change Request, Risk, Issue and Decision work packages, each displayed in a corresponding [saved work package view](../../user-guide/work-packages/work-package-table-configuration/#save-work-package-views) |
+| Administration | Create the required log entry types under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Create additional attributes under [Administration → Custom fields](../../system-admin-guide/custom-fields/) and add them to the corresponding forms. |
+| Project configuration | [Enable the log entry types and custom fields](../../user-guide/projects/project-settings/work-packages/) for the project, then configure and save one filtered view for each log. |
+| Demo | [Risk Log example](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) |
 | Potential product iteration | [#38012](https://community.openproject.org/wp/38012) Risk module |
 
 ### Meetings
