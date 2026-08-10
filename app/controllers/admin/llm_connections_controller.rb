@@ -45,7 +45,7 @@ module Admin
                  .new(user: current_user, model: @connection)
                  .call(**llm_connection_params)
 
-      result.on_success { redirect_with_notice(t(".success")) }
+      result.on_success { redirect_after_save }
       result.on_failure { render_form_with_errors }
     end
 
@@ -69,6 +69,19 @@ module Admin
 
     def set_connection
       @connection = LlmConnection.instance
+    end
+
+    # A connection can be perfectly usable without offering a model list, so the
+    # save succeeds either way; the administrator is told what to do next rather
+    # than being left with an empty table and no explanation.
+    def redirect_after_save
+      if @connection.reload.models.none?
+        flash[:warning] = t(".no_models")
+      else
+        flash[:notice] = t(".success")
+      end
+
+      redirect_to llm_connection_path, status: :see_other
     end
 
     def render_form_with_errors

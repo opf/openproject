@@ -82,11 +82,37 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
 
+    # The case that matters for OpenProject's own gateway: chat completions are
+    # routed, the model list is not.
+    context "with a server that exposes no model list" do
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+
+      it "still saves the connection and says models must be added by hand" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(response).to have_http_status(:see_other)
+        expect(LlmConnection.first.base_url).to eq(base_url)
+        expect(flash[:warning]).to be_present
+      end
+    end
+
     context "with an unreachable server" do
       let!(:models_request) { mock_llm_models_response(base_url, timeout: true) }
 
       it "persists nothing" do
         patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(LlmConnection.count).to eq(0)
+      end
+    end
+
+    # Reachability and credentials still gate the save; only the model list is
+    # treated as optional.
+    context "with rejected credentials" do
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 401) }
+
+      it "persists nothing" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-wrong" } }
 
         expect(LlmConnection.count).to eq(0)
       end

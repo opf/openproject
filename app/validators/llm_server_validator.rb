@@ -38,8 +38,13 @@
 class LlmServerValidator < ActiveModel::EachValidator
   CREDENTIAL_ATTRIBUTES = %w[base_url api_key].freeze
 
+  # Statuses that mean "this server has no model list here", as opposed to "this
+  # server is broken". A gateway may route chat completions and nothing else.
+  MODELS_ENDPOINT_ABSENT = [404, 405, 501].freeze
+
   def validate_each(contract, attribute, value)
     return if value.blank?
+    return unless queries_the_server?(contract)
     return unless credentials_changed?(contract)
     return unless host_allowed?(contract, attribute, value)
 
@@ -47,6 +52,13 @@ class LlmServerValidator < ActiveModel::EachValidator
   end
 
   private
+
+  # Only OpenAI-compatible connections discover models from the server. For the
+  # other formats the list comes from the model registry, so there is nothing at
+  # this URL to probe.
+  def queries_the_server?(contract)
+    contract.model.api_format == Llm::Adapters::OPENAI_COMPATIBLE
+  end
 
   def credentials_changed?(contract)
     contract.model.changed_attributes.keys.intersect?(CREDENTIAL_ATTRIBUTES)
@@ -95,15 +107,17 @@ class LlmServerValidator < ActiveModel::EachValidator
     end
   end
 
-  # A 404 is worth separating: the server answered, so it is reachable and the
-  # credentials were not the problem. Either the URL is missing or carries the
-  # wrong version segment, or the server genuinely does not expose a model list.
+  # A missing model list does not block the save.
+  #
+  # The server answered, so it is reachable and the credentials were accepted; it
+  # simply does not offer a list here. OpenProject's own hosted gateway is exactly
+  # this case, and it will not be the only one. Blocking would leave an
+  # administrator unable to save a working connection -- and unable to reach the
+  # manual model entry that exists for precisely this situation.
   def add_api_error(contract, attribute, error)
-    if error.status == 404
-      contract.errors.add(attribute, :models_endpoint_missing, path: "#{contract.model.base_url}/models")
-    else
-      contract.errors.add(attribute, :not_openai_compatible)
-    end
+    return if error.status.in?(MODELS_ENDPOINT_ABSENT)
+
+    contract.errors.add(attribute, :not_openai_compatible)
   end
 
   def client(contract, base_url)
