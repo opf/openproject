@@ -59,7 +59,7 @@ module WorkPackageTypes
           "test-selector": "type-form-configuration-groups-container",
           "admin--type-form-configuration--main-target": "groupsContainer",
           "admin--type-form-configuration--drag-and-drop-target": "container",
-          "target-allowed-drag-variant": "group"
+          "target-allowed-drag-type": "group"
         }
       end
     end

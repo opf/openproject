@@ -88,7 +88,7 @@ module WorkPackageTypes
 
     def respond_to_update_success
       respond_to do |format|
-        format.html { redirect_to edit_type_form_configuration_path(@type), notice: t(:notice_successful_update) }
+        format.html { redirect_to edit_type_form_configuration_path(**@variant.path_args), notice: t(:notice_successful_update) }
         format.turbo_stream do
           update_form_configuration_via_turbo_stream
           respond_with_turbo_streams

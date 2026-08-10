@@ -105,7 +105,7 @@ module WorkPackageTypes
 
         {
           "draggable-id": @group[:key],
-          "draggable-variant": "group",
+          "draggable-type": "group",
           "drop-url": drop_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
                                                               key: @group[:key])
         }
@@ -118,7 +118,7 @@ module WorkPackageTypes
           "admin--type-form-configuration--rows-drag-and-drop-target": "container",
           "target-container-accessor": ".Box > ul",
           "target-id": @group[:key],
-          "target-allowed-drag-variant": "attribute"
+          "target-allowed-drag-type": "attribute"
         }
       end
 
