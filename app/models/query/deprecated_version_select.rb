@@ -35,8 +35,7 @@
 #
 # TODO(COMMS-949): once that migrates the stored names, drop this module and its
 # spec, the `include` in Query, the `version` select, and the calls in
-# WorkPackagesHelper#selected_work_packages_columns_options and
-# Query#default_column_names.
+# WorkPackagesHelper#selected_work_packages_columns_options and Query#columns.
 module Query::DeprecatedVersionSelect
   extend ActiveSupport::Concern
 

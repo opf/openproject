@@ -294,7 +294,14 @@ class Query < ApplicationRecord
   end
 
   def columns
-    column_list = column_names.presence || default_column_names
+    column_list = if has_default_columns?
+                    column_list = normalize_select_names(Setting.work_package_list_default_columns)
+                    # Adds the project column by default for cross-project lists
+                    column_list += [:project] if project.nil? && column_list.exclude?(:project)
+                    column_list
+                  else
+                    column_names
+                  end
 
     # preserve the order
     column_list.filter_map { |name| displayable_columns.find { |col| col.name == name.to_sym } }
@@ -439,13 +446,6 @@ class Query < ApplicationRecord
   end
 
   private
-
-  def default_column_names
-    names = normalize_select_names(Setting.work_package_list_default_columns)
-    # Adds the project column by default for cross-project lists
-    names += [:project] if project.nil? && names.exclude?(:project)
-    names
-  end
 
   ##
   # Determine whether there are explicit filters
