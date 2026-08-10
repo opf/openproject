@@ -3,38 +3,57 @@ import { useWorkPackageSearch } from '../../hooks/useWorkPackageSearch';
 import { createHashWpMenuComponent } from './HashWpMenu';
 import { isHashWpQuery } from './types';
 import { getSizeFromCurrentBlock, insertWpChip } from './editorUtils';
-import type { HashMenuItem } from './types';
+import type { HashMenuItem, HashSearchState } from './types';
 import type { AnyEditor } from './editorUtils';
-import type { WorkPackage } from '../../openProjectTypes';
 import { cacheColors } from '../../services/colors';
 
 export function useHashWpMenu(editor:AnyEditor) {
   const { search } = useWorkPackageSearch();
-  const searchResultsRef = useRef<WorkPackage[]>([]);
+  const searchStateRef = useRef<HashSearchState>({ query: '', results: [], error: null });
+  const latestQueryRef = useRef('');
 
   const getHashItems = useCallback(
     async (query:string):Promise<HashMenuItem[]> => {
-      if (!isHashWpQuery(query)) return [];
+      latestQueryRef.current = query;
+
+      if (!isHashWpQuery(query)) {
+        searchStateRef.current = { query, results: [], error: null };
+        return [];
+      }
 
       await cacheColors();
 
-      const results = await search(query);
-      searchResultsRef.current = results;
+      try {
+        const results = await search(query);
 
-      const size = getSizeFromCurrentBlock(editor);
-      return results.map((wp) => ({
-        title: query,
-        onItemClick: () => {
-          insertWpChip(editor, wp, size);
-        },
-      }));
+        if (latestQueryRef.current !== query) return [];
+        searchStateRef.current = { query, results, error: null };
+
+        const size = getSizeFromCurrentBlock(editor);
+        return results.map((wp) => ({
+          title: query,
+          onItemClick: () => {
+            insertWpChip(editor, wp, size);
+          },
+        }));
+      } catch (error) {
+        console.error('[work package search] Failed to load work packages from OpenProject:', error);
+        if (latestQueryRef.current === query) {
+          searchStateRef.current = {
+            query,
+            results: [],
+            error: error instanceof Error ? error.message : 'Unknown error',
+          };
+        }
+        return [];
+      }
     },
     [editor, search]
   );
 
   /* eslint-disable react-hooks/refs */
   const HashWpMenu = useMemo(
-    () => createHashWpMenuComponent(searchResultsRef),
+    () => createHashWpMenuComponent(searchStateRef),
     []
   );
   /* eslint-enable react-hooks/refs */

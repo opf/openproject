@@ -12,6 +12,8 @@ interface UseWorkPackageSearchDropdownResult {
   searchQuery:string;
   setSearchQuery:(q:string) => void;
   searchResults:WorkPackage[];
+  loading:boolean;
+  error:string | null;
   focusedIndex:number;
   setFocusedIndex:(i:number) => void;
   isDropdownOpen:boolean;
@@ -26,7 +28,7 @@ export function useWorkPackageSearchDropdown({
   onSelect,
   onEscape,
 }:UseWorkPackageSearchDropdownOptions):UseWorkPackageSearchDropdownResult {
-  const { searchQuery, setSearchQuery, searchResults } = useWorkPackageSearch();
+  const { searchQuery, setSearchQuery, searchResults, loading, error } = useWorkPackageSearch();
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -67,6 +69,8 @@ export function useWorkPackageSearchDropdown({
     searchQuery,
     setSearchQuery,
     searchResults,
+    loading,
+    error,
     focusedIndex,
     setFocusedIndex,
     isDropdownOpen,

@@ -3,8 +3,9 @@ import type { SuggestionMenuProps } from '@blocknote/react';
 import styled from 'styled-components';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { defaultWpVariables } from '../WorkPackage/atoms';
-import type { WorkPackage } from '../../openProjectTypes';
-import type { HashMenuItem } from './types';
+import { SearchMessage } from '../Search/SearchContainer';
+import { Spinner } from '../Spinner';
+import type { HashMenuItem, HashSearchState } from './types';
 import { useTranslation } from 'react-i18next';
 
 /*
@@ -45,38 +46,44 @@ const MenuItem = styled.div<{ $selected:boolean }>`
   }
 `;
 
-const EmptyState = styled.div`
-  padding: var(--spacer-m) var(--spacer-l);
-  font-size: 0.85em;
-  color: var(--bn-colors-highlights-gray-text, #888);
-`;
-
 const MAX_RESULTS = 5;
 
 export function createHashWpMenuComponent(
-  resultsRef:RefObject<WorkPackage[]>,
+  searchStateRef:RefObject<HashSearchState>,
 ):FC<SuggestionMenuProps<HashMenuItem>> {
   const HashWpMenuComponent:FC<SuggestionMenuProps<HashMenuItem>> = ({
     items,
+    loadingState,
     selectedIndex,
     onItemClick,
   }) => {
     const { t } = useTranslation();
-    const searchQuery = items[0]?.title ?? '';
-    const visibleResults = (resultsRef.current ?? []).slice(0, MAX_RESULTS);
+    const { query, results, error } = searchStateRef.current;
+    const visibleResults = results.slice(0, MAX_RESULTS);
 
-    if (!searchQuery) {
+    if (loadingState !== 'loaded') {
       return (
         <Menu>
-          <EmptyState>{t('hashMenu.typeToSearch')}</EmptyState>
+          <SearchMessage>
+            {t('hashMenu.typeToSearch')}
+            <Spinner />
+          </SearchMessage>
         </Menu>
       );
     }
 
-    if (visibleResults.length === 0) {
+    if (!query) {
       return (
         <Menu>
-          <EmptyState>{t('hashMenu.noResults', { query: searchQuery })}</EmptyState>
+          <SearchMessage>{t('hashMenu.typeToSearch')}</SearchMessage>
+        </Menu>
+      );
+    }
+
+    if (error || visibleResults.length === 0) {
+      return (
+        <Menu>
+          <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
         </Menu>
       );
     }

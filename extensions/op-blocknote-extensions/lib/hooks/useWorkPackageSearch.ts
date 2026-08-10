@@ -72,16 +72,17 @@ export function useWorkPackageSearch(
         clearTimeout(debounceTimerRef.current);
       }
 
-      return new Promise<WorkPackage[]>((resolve) => {
+      return new Promise<WorkPackage[]>((resolve, reject) => {
         debounceTimerRef.current = setTimeout(async () => {
           debounceTimerRef.current = null;
           try {
             const results = await searchWorkPackages(query);
             setSearchResults(results);
             resolve(results);
-          } catch {
+          } catch (error) {
             setSearchResults([]);
-            resolve([]);
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+            reject(error);
           }
         }, debounce);
       });

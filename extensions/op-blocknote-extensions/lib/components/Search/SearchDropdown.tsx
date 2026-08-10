@@ -7,9 +7,11 @@ import { useWorkPackageSearchDropdown } from '../../hooks/useWorkPackageSearchDr
 import {
   SearchIconWrapper,
   SearchInput,
+  SearchMessage,
   DropdownList,
   DropdownItem,
 } from './SearchContainer';
+import { Spinner } from '../Spinner';
 
 const MAX_RESULTS = 5;
 
@@ -69,6 +71,8 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:Sea
     searchQuery,
     setSearchQuery,
     searchResults,
+    loading,
+    error,
     focusedIndex,
     setFocusedIndex,
     isDropdownOpen,
@@ -114,7 +118,17 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:Sea
             }, 150);
           }}
         />
+
+        {loading && (
+          <SearchIconWrapper>
+            <Spinner />
+          </SearchIconWrapper>
+        )}
       </SearchInputWrapper>
+
+      {isDropdownOpen && !loading && searchResults.length === 0 && (
+        <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
+      )}
 
       {isDropdownOpen && searchResults.length > 0 && (
         <DropdownList role="listbox" aria-label={t('search.dropdownAriaLabel')}>
