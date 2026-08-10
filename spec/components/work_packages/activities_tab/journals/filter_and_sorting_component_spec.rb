@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,50 +26,37 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module WorkPackages
-  module ActivitiesTab
-    module Journals
-      class FilterAndSortingComponent < ApplicationComponent
-        include ApplicationHelper
-        include OpPrimer::ComponentHelpers
-        include OpTurbo::Streamable
-        include WorkPackages::ActivitiesTab::SharedHelpers
+require "rails_helper"
 
-        def initialize(work_package:, filter: Filters::ALL)
-          super
+RSpec.describe WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent, type: :component do
+  shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking meetings]) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
-          @work_package = work_package
-          @filter = filter
-        end
+  let(:hide_meetings_item) { "[data-test-selector='op-wp-journals-filter-hide-meetings']" }
 
-        private
+  subject { render_inline(described_class.new(work_package:)) }
 
-        attr_reader :work_package, :filter
+  before { allow(User).to receive(:current).and_return(user) }
 
-        def show_all?
-          filter == Filters::ALL
-        end
+  context "when the user may view meetings in a project" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages view_meetings] }) }
 
-        def show_only_comments?
-          filter == Filters::ONLY_COMMENTS
-        end
+    it "offers the hide-meetings filter" do
+      subject
 
-        def show_only_changes?
-          filter == Filters::ONLY_CHANGES
-        end
+      expect(page).to have_css(hide_meetings_item, visible: :all)
+    end
+  end
 
-        def hide_meetings?
-          filter == Filters::HIDE_MEETINGS
-        end
+  context "when the user cannot view meetings anywhere" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
-        # Only offer "hide meetings" to users who would see the work package
-        # meetings tab (the same condition used for the WP meetings tab)
-        def show_hide_meetings_filter?
-          User.current.allowed_in_any_project?(:view_meetings)
-        end
-      end
+    it "does not offer the hide-meetings filter, but keeps the other filters" do
+      subject
+
+      expect(page).to have_no_css(hide_meetings_item, visible: :all)
     end
   end
 end

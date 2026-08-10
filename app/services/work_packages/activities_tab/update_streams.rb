@@ -65,6 +65,7 @@ module WorkPackages
         @journals ||= begin
           scope = work_package.journals.internal_visible.meeting_cause_visible
           scope = scope.where.not(notes: "") if filter == Filters::ONLY_COMMENTS
+          scope = scope.without_meeting_causes if filter == Filters::HIDE_MEETINGS
           scope
         end
       end
