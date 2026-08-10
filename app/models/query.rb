@@ -491,8 +491,8 @@ class Query < ApplicationRecord
   def valid_sort_criteria_subset!
     available_criteria = sortable_columns.map(&:name).map(&:to_s)
 
-    # Assigns rather than mutating in place, as `sort_criteria` no longer hands
-    # out the stored array itself. Matches valid_column_subset! below.
+    # Assigns rather than mutating: `sort_criteria` no longer hands out the
+    # stored array itself.
     self.sort_criteria = sort_criteria.select do |criteria|
       available_criteria.include? criteria.first.to_s
     end

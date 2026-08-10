@@ -31,10 +31,8 @@
 require "spec_helper"
 
 RSpec.describe Query::DeprecatedVersionSelect do
-  # The version and target_versions selects replace one another depending on the
-  # multiple-versions feature. A query saved with one of them has to keep working
-  # - and stay valid - once the feature is toggled, instead of silently losing
-  # its column, grouping and sort criterion.
+  # A query saved with either name has to keep working - and stay valid - once
+  # the multiple-versions feature is toggled.
   subject(:query) do
     build(:query,
           column_names: %i[id subject version],

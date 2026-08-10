@@ -28,42 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Translates the interchangeable `version` / `target_versions` select names when
-# reading the stored query attributes, so that validation, `valid_subset!` and
-# SQL generation all see the name that is currently available. Without it, a
-# name stored while Setting::WorkPackageMultipleVersions was in the other state
-# points at a select that no longer exists, and the column, the grouping or the
-# sort criterion is silently dropped from the query.
+# Translates the `version` / `target_versions` select names when reading the
+# stored query attributes: only one of the two is available at a time, so a name
+# stored while Setting::WorkPackageMultipleVersions was in the other state would
+# otherwise be dropped from the columns, the grouping or the sort criterion.
 #
-# This is a transitional shim. It is removed together with the `version` select
-# once the multiple-versions feature stops being switchable, at which point the
-# following go as one unit:
-#
-#   * this module and its spec, and the `include` of it in Query
-#   * the `version` entry in PropertySelect.property_selects, with its subqueries
-#   * the `.normalize_name` call in
-#     WorkPackagesHelper#selected_work_packages_columns_options
-#   * the `normalize_select_names` call in Query#default_column_names, which
-#     goes back to a plain `map(&:to_sym)`
-#
-# Names persisted by then need a backfill migration rewriting `version` to
-# `target_versions` in queries.column_names, .group_by and .sort_criteria.
+# TODO(COMMS-949): once that migrates the stored names, drop this module and its
+# spec, the `include` in Query, the `version` select, and the calls in
+# WorkPackagesHelper#selected_work_packages_columns_options and
+# Query#default_column_names.
 module Query::DeprecatedVersionSelect
   extend ActiveSupport::Concern
 
   INTERCHANGEABLE_NAMES = %w[version target_versions].freeze
 
-  # @param name [String, Symbol, nil]
-  # @return [String, Symbol, nil] the currently available counterpart (as a
-  #   String) of an interchangeable version name, or the given name untouched
+  # @return [String, Symbol, nil] the available counterpart (a String) of an
+  #   interchangeable version name, or the given name untouched
   def self.normalize_name(name)
     return name if INTERCHANGEABLE_NAMES.exclude?(name.to_s)
 
     Setting::WorkPackageMultipleVersions.active? ? "target_versions" : "version"
   end
 
-  # Prepended rather than included: `sort_criteria` is defined in the Query class
-  # body itself, so a plain `include` would sit below it and never be consulted.
+  # Prepended, not included: `sort_criteria` is defined in the Query class body,
+  # so an include would sit below it and never be consulted.
   module PrependNormalizedSelectNames
     def column_names
       normalize_select_names(super)
