@@ -41,15 +41,37 @@ module Llm
   module Adapters
     class UnsupportedFormat < StandardError; end
 
-    FORMATS = {
-      "openai" => "Llm::Adapters::Openai"
-    }.freeze
+    # Formats an administrator can choose. "openai" covers OpenAI itself and the
+    # great majority of gateways and self-hosted inference servers; the rest are
+    # RubyLLM providers whose model lists come from its registry.
+    OPENAI_COMPATIBLE = "openai"
+
+    FORMATS = %w[
+      openai
+      anthropic
+      gemini
+      mistral
+      deepseek
+      openrouter
+      perplexity
+      xai
+      ollama
+      gpustack
+      azure
+      bedrock
+      vertexai
+    ].freeze
 
     def self.for(connection)
-      class_name = FORMATS[connection.api_format.to_s]
-      raise UnsupportedFormat, connection.api_format.to_s if class_name.nil?
+      format = connection.api_format.to_s
+      raise UnsupportedFormat, format unless FORMATS.include?(format)
 
-      class_name.constantize.new(connection)
+      if format == OPENAI_COMPATIBLE
+        # Queried live, so the list is what this endpoint actually serves.
+        Openai.new(connection)
+      else
+        RegistryBacked.new(connection)
+      end
     end
   end
 end

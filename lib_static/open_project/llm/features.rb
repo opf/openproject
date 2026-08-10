@@ -67,17 +67,11 @@ module OpenProject
 
       KINDS = %i[chat embedding].freeze
 
-      # Deliberately small. Every capability is a probe, an admin-facing
-      # explanation and a maintenance burden, so one is only added when a
-      # shipping feature cannot work without it.
-      #
-      # :embeddings          - the only hard gate. Cannot be emulated: it is a
-      #                        different endpoint answering with vectors.
-      # :structured_output   - advisory only. Responses are validated and
-      #                        repaired regardless, so constrained decoding is
-      #                        an optimisation rather than a requirement.
+      # Mirrors Llm::Capabilities, which owns the vocabulary and knows how to
+      # read published values from the model registry. Duplicated as literals
+      # here because lib_static is autoloaded once, before app/ is available.
       CAPABILITIES = {
-        chat: %i[structured_output].freeze,
+        chat: %i[function_calling structured_output vision reasoning].freeze,
         embedding: %i[embeddings].freeze
       }.freeze
 

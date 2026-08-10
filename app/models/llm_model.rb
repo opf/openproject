@@ -46,10 +46,10 @@ class LlmModel < ApplicationRecord
 
   def name = display_name.presence || external_id
 
-  # vLLM and SGLang report the operator's real --max-model-len here, which is
-  # more trustworthy for this deployment than any published figure.
+  # The server's own figure wins: vLLM and SGLang report the operator's actual
+  # --max-model-len, where a registry only knows what some vendor publishes.
   def context_window
-    raw_metadata["max_model_len"]
+    raw_metadata["max_model_len"] || raw_metadata["context_window"]
   end
 
   # Discovered models that the server stopped offering are deactivated rather

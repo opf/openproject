@@ -63,6 +63,8 @@ module LlmConnections
         withdraw_models_absent_from(cards)
         discard_verdicts_for_vanished_models
       end
+
+      EnrichCapabilitiesService.new(connection).call
     end
 
     def connection_attributes
