@@ -39,8 +39,6 @@ RSpec.describe "Work package show with a linked form configuration", :js,
   shared_let(:solo_field) { create(:issue_custom_field, :integer, name: "SoloNumber", is_for_all: true) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
-  # The variant owning the configuration: two groups of custom fields, one of which the leaf
-  # ends up emptying completely.
   let(:owner_type) { create(:type) }
   let(:owner) do
     owner_type.default_variant.tap do |variant|
@@ -68,7 +66,6 @@ RSpec.describe "Work package show with a linked form configuration", :js,
   end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
-  # Links are columns now, so writing one means writing the aspect's pair of columns.
   def link(variant, source:, excluded: [])
     variant.update!("#{aspect}_source": source, "#{aspect}_excluded_elements": excluded)
   end
@@ -256,14 +253,16 @@ RSpec.describe "Work package show with a linked form configuration", :js,
       link(leaf, source: owner, excluded: [kept_field.attribute_name])
     end
 
-    it "ignores the link and renders the type's own configuration" do
+    it "still resolves the link and its exclusions" do
       wp_page.visit!
       wp_page.ensure_page_loaded
 
-      wp_page.expect_group("Own") do
-        expect_field(kept_field, "1")
+      wp_page.expect_group("Numbers") do
+        expect_field(excluded_field, "2")
       end
-      expect_no_section("Numbers")
+
+      expect_no_section("Own")
+      expect_no_field(kept_field)
     end
   end
 end

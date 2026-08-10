@@ -591,7 +591,7 @@ class WorkPackage < ApplicationRecord
   end
   private_class_method :custom_fields_for_all
 
-  # Match custom fields on the variant that owns the form configuration, 
+  # Match custom fields on the variant that owns the form configuration,
   # excluding fields that are hidden somewhere in the source
   def self.form_configuration_custom_fields_join(variant_ids)
     source_table, source_variant_id, excluded = TypeVariant::FormConfigurationSql.source_table(variant_ids)

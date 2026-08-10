@@ -63,6 +63,7 @@ module Workflows
     def state_data
       {
         controller: "admin--workflow-checkbox-state",
+        "admin--workflow-checkbox-state-variant-id-value": variant.id,
         "admin--workflow-checkbox-state-has-status-changes-value": context.status_changes?,
         # for saving the workflow when switching tabs
         "admin--workflow-checkbox-state-save-url-value": helpers.type_workflow_matrix_path(**variant_path_args, tab:)
