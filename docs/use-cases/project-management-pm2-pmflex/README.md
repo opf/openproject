@@ -32,7 +32,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | System-wide configuration | Configure global defaults under [Administration → Projects → New project](../../system-admin-guide/projects/new-project/). |
 | Project-specific configuration | Configure the required modules, members, work package types and project life cycle in a template, then [set the project as a template](../../user-guide/projects/project-templates/#create-a-project-template). |
 | Demo | [PM² demo project](https://pm2.openproject.com/projects/pm2-test); [portfolio example](https://pm2.openproject.com/projects/innovation-initiative-2030) |
-| Potential product iteration | [#67001](https://community.openproject.org/wp/67001) Create seeded PM² projects at runtime |
+| Potential product iteration | [DREAM-467](https://community.openproject.org/projects/OP/work_packages/DREAM-467/activity?query_id=7190) PM² project type with additional project attributes<br />[#67001](https://community.openproject.org/wp/67001) Create seeded PM² projects at runtime |
 
 ### Project roles
 
