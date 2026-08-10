@@ -41,7 +41,8 @@ module WorkPackageTypes
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
           render(WorkPackageTypes::ReuseModeBannerComponent.new(
                    type: model,
-                   aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES
+                   aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES,
+                   routes: helpers.type_routes
                  )) +
             render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
                      type: model,

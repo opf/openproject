@@ -35,15 +35,29 @@ module WorkPackageTypes
     module Steps
       ALL = %i[details defaults form_configuration project_attributes workflows projects pdf].freeze
 
+      # Picking the projects to use a type in has nothing to offer a project-owned variant:
+      # it may only ever be activated in the project owning it. Keyed off the type rather
+      # than off where it is being administered from, because that rule holds for an
+      # instance administrator editing the variant too.
+      OWNED_ONLY_EXCLUDED = %i[projects].freeze
+
       module_function
 
       def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
 
       def all = ALL
 
+      def available_for(type)
+        type.project_owned? ? ALL - OWNED_ONLY_EXCLUDED : ALL
+      end
+
+      def available?(step, type) = available_for(type).include?(step)
+
       def first = ALL.first
 
       def last = ALL.last
+
+      def last_for(type) = available_for(type).last
 
       def for_key(key)
         return nil if key.blank?
@@ -53,14 +67,16 @@ module WorkPackageTypes
 
       def index(step) = ALL.index(step)
 
-      def next_after(step)
-        idx = ALL.index(step)
-        ALL[idx + 1] if idx && idx + 1 < ALL.length
+      def next_after(step, type = nil)
+        steps = type ? available_for(type) : ALL
+        idx = steps.index(step)
+        steps[idx + 1] if idx && idx + 1 < steps.length
       end
 
-      def previous_before(step)
-        idx = ALL.index(step)
-        ALL[idx - 1] if idx&.positive?
+      def previous_before(step, type = nil)
+        steps = type ? available_for(type) : ALL
+        idx = steps.index(step)
+        steps[idx - 1] if idx&.positive?
       end
     end
   end

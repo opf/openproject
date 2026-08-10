@@ -32,7 +32,14 @@ module Projects::Settings::WorkPackages::Types::Variants
   class CreationWizardController < ::WorkPackageTypes::CreationWizardController
     include ProjectScoped
 
+    # set_current_step decides whether the type even has the requested step, so it has to
+    # follow the re-registered lookup rather than keep its inherited position ahead of it.
+    skip_before_action :set_current_step
+
+    # rubocop:disable Rails/LexicallyScopedActionFilter -- both actions are inherited
     before_action :find_type, only: %i[show update]
+    before_action :set_current_step, only: %i[show update]
+    # rubocop:enable Rails/LexicallyScopedActionFilter
 
     # The wizard fills the screen in administration too, and nothing about being inside a
     # project changes that.

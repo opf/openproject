@@ -44,7 +44,8 @@ module WorkPackageTypes
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
           render(WorkPackageTypes::ReuseModeBannerComponent.new(
                    type: model,
-                   aspect: Type::ConfigurationLink::PDF_EXPORT
+                   aspect: Type::ConfigurationLink::PDF_EXPORT,
+                   routes: helpers.type_routes
                  )) +
             render(WorkPackageTypes::ExportConfigurationComponent.new(
                      model,

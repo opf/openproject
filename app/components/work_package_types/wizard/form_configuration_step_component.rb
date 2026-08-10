@@ -43,7 +43,8 @@ module WorkPackageTypes
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
           render(WorkPackageTypes::ReuseModeBannerComponent.new(
                    type: model,
-                   aspect: Type::ConfigurationLink::FORM_CONFIGURATION
+                   aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
+                   routes: helpers.type_routes
                  )) +
             render(WorkPackageTypes::FormConfigurationComponent.new(
                      type: model,

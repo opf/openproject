@@ -52,6 +52,49 @@ RSpec.describe "Creating a project-owned variant",
     expect(response).to have_http_status(:ok)
   end
 
+  describe "the steps an owned variant has" do
+    shared_let(:owned_variant) { create(:type, name: "Ours", parent: root, project:) }
+
+    # The acceptance criterion is that an owned variant is only ever activated in the project
+    # owning it. The step that picks projects offered a checkbox per project in the instance,
+    # so hiding it from the sidebar is not enough — the URL must not serve it either.
+    it "gives 404 for the projects step" do
+      get project_settings_work_packages_types_variant_creation_wizard_path(
+        project, owned_variant, step: "projects"
+      )
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "still serves the steps it does have" do
+      get project_settings_work_packages_types_variant_creation_wizard_path(
+        project, owned_variant, step: "defaults"
+      )
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    # Only owned variants lose the step; a global variant is still activated per project.
+    it "leaves the projects step alone for a global variant" do
+      login_as create(:admin)
+      global_variant = create(:type, name: "Global", parent: root)
+
+      get type_creation_wizard_path(global_variant, step: "projects")
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    # Reuse mode is configured from administration, whose dialogs this user cannot open.
+    it "offers no reuse-mode switch it cannot honour" do
+      get project_settings_work_packages_types_variant_creation_wizard_path(
+        project, owned_variant, step: "defaults"
+      )
+
+      expect(response.body).not_to include("Switch to independent mode")
+      expect(response.body).not_to include("Change source type")
+    end
+  end
+
   describe "the links and forms the wizard renders" do
     before { get new_creation_wizard_project_settings_work_packages_types_variants_path(project, parent_id: root.id) }
 

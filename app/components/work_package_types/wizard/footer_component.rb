@@ -54,11 +54,11 @@ module WorkPackageTypes
 
       def first_step? = current_step == Steps.first
 
-      def last_step? = current_step == Steps.last
+      def last_step? = current_step == Steps.last_for(type)
 
-      def current_number = Steps.index(current_step) + 1
+      def current_number = Steps.available_for(type).index(current_step).to_i + 1
 
-      def total_steps = Steps.all.size
+      def total_steps = Steps.available_for(type).size
 
       def progress_percentage = (current_number.to_f / total_steps * 100).round
 
@@ -68,7 +68,7 @@ module WorkPackageTypes
       end
 
       def back_href
-        previous_step = Steps.previous_before(current_step)
+        previous_step = Steps.previous_before(current_step, type)
         @routes.wizard(step: previous_step) if previous_step && type.persisted?
       end
 

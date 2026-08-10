@@ -59,7 +59,7 @@ module WorkPackageTypes
       @type = service_call.result
 
       if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @type)
       else
         @current_step = Wizard::Steps.first
         render :show, status: :unprocessable_entity
@@ -131,7 +131,7 @@ module WorkPackageTypes
     end
 
     def advance
-      redirect_to_step Wizard::Steps.next_after(@current_step)
+      redirect_to_step Wizard::Steps.next_after(@current_step, @type)
     end
 
     def redirect_to_step(step)
@@ -146,8 +146,12 @@ module WorkPackageTypes
       @type = ::Type.find(params.expect(:type_id))
     end
 
+    # A step the type does not have is not merely hidden from the sidebar: reaching it by
+    # URL must not render it either.
     def set_current_step
       @current_step = Wizard::Steps.for_key(params[:step]) || Wizard::Steps.first
+
+      render_404 unless Wizard::Steps.available?(@current_step, @type)
     end
 
     # The core settings are only editable while creating a root type; a variant

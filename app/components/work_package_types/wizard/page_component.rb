@@ -122,7 +122,7 @@ module WorkPackageTypes
       def reuse_mode_banner
         return unless step_editor.linkable_aspect?
 
-        render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect))
+        render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect, routes:))
       end
 
       # Editors that self-persist through their own turbo endpoints.

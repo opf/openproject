@@ -64,7 +64,7 @@ module WorkPackageTypes
 
       def type = model
 
-      def steps = Steps.all
+      def steps = Steps.available_for(type)
 
       def leading_icon(step) = LEADING_ICONS.fetch(step)
 
