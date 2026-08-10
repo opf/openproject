@@ -330,12 +330,11 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           work_package.reload
         end
 
-        # The project change clears the (now unassignable) source version_id via the
+        # The project change clears the (now unassignable) source version via the
         # system, which must not clash with the user-assigned target version.
         it "moves the work package and swaps in the target version" do
           expect(work_package.project_id).to eq(target_project.id)
           expect(work_package.target_versions.pluck(:id)).to eq([target_version.id])
-          expect(work_package.version_id).to eq(target_version.id)
         end
       end
 

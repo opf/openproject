@@ -703,7 +703,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version_id = version.id
           allow(work_package).to receive(:target_versions).and_return([version])
         end
 
@@ -725,7 +724,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version_id = version.id
           allow(work_package).to receive(:target_versions).and_return([version])
         end
 

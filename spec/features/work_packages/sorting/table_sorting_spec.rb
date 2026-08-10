@@ -69,8 +69,8 @@ RSpec.describe "Select work package row", :js do
 
     context "sorting by version" do
       before do
-        work_package_1.update_attribute(:version_id, version_2.id)
-        work_package_2.update_attribute(:version_id, version_1.id)
+        work_package_1.work_package_versions.create!(version: version_2, kind: "target")
+        work_package_2.work_package_versions.create!(version: version_1, kind: "target")
       end
 
       it "sorts by version although version is not selected as a column" do

@@ -118,7 +118,7 @@ RSpec.describe "Work package copy", :js, :selenium do
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,
                                         Description: "Copied WP Description",
-                                        TargetVersions: original_work_package.version,
+                                        TargetVersions: original_work_package.target_versions.first,
                                         Priority: original_work_package.priority,
                                         Assignee: original_work_package.assigned_to.name,
                                         Responsible: original_work_package.responsible.name

@@ -41,7 +41,11 @@ module API
         end
 
         def writable_attributes
-          super + %w[date]
+          attributes = super + %w[date]
+          # `version` is a deprecated alias that writes through to `targetVersions`.
+          # We have to manually so add it here so the link renders properly under the representer.
+          attributes += %w[version] if attributes.include?("targetVersions")
+          attributes
         end
 
         def load_complete_model(model)

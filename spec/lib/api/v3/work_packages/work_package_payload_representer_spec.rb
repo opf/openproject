@@ -320,15 +320,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:version) { build_stubbed(:version) }
 
         before do
-          work_package.version_id = version.id
+          allow(work_package).to receive(:target_versions).and_return([version])
         end
 
         it_behaves_like "linked property" do
           let(:property) { "version" }
           let(:link) { "/api/v3/versions/#{version.id}" }
         end
-
-        it_behaves_like "linked property with 0 value", :version, :version
       end
 
       describe "category" do
@@ -594,17 +592,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     describe "project" do
       it_behaves_like "linked resource" do
         let(:attribute_name) { "project" }
-      end
-    end
-
-    describe "version" do
-      before do
-        work_package.version_id = 1
-      end
-
-      it_behaves_like "linked resource" do
-        let(:attribute_name) { "version" }
-        let(:association_name) { "version_id" }
       end
     end
 
