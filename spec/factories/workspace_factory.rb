@@ -57,20 +57,26 @@ FactoryBot.define do
         enabled_types = [Type.where(is_standard: true).first || build(:type_standard)]
       end
 
-      # Assigned through the association rather than by building project_types directly, so that
-      # #types answers before the project is saved — the work package factory reads it during its
-      # own build. Only the roots go in; the variant is then named on the join records the
-      # assignment built, which are the same objects the save inserts.
-      project.types = enabled_types.map(&:root)
+      # Callers name either a type or one of its variants. A type contributes its base
+      # variant, which is the configuration it uses where none was chosen.
+      #
+      # An unsaved type has no base variant yet — it creates one on save — and the join row
+      # cannot be inserted without one, so it is persisted first.
+      enabled_types.each { |requested| requested.save! if requested.new_record? }
+
+      # Assigned through the association rather than by building project_types directly, so
+      # that #types answers before the project is saved — the work package factory reads it
+      # during its own build.
+      project.types = enabled_types.map { |requested| type_of(requested) }
       project.project_types.zip(enabled_types).each do |project_type, requested|
-        project_type.variant = requested if requested.variant?
+        project_type.variant = variant_of(requested)
       end
     end
 
     callback(:after_stub) do |project, evaluator|
       # No rows exist to read back from, and assigning the association on a record that already
       # looks persisted would insert them for real.
-      project.association(:types).target = evaluator.types.map(&:root)
+      project.association(:types).target = evaluator.types.map { |requested| type_of(requested) }
       project.association(:types).loaded!
     end
 
@@ -122,4 +128,13 @@ FactoryBot.define do
       end
     end
   end
+end
+
+# A workspace factory accepts a type or one of its variants wherever types are named.
+def type_of(requested)
+  requested.is_a?(TypeVariant) ? requested.type : requested
+end
+
+def variant_of(requested)
+  requested.is_a?(TypeVariant) ? requested : requested.default_variant
 end

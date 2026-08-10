@@ -32,14 +32,34 @@ FactoryBot.define do
   factory :type do
     sequence(:position)
     name { |a| "Type No. #{a.position}" }
-    description { nil }
-    patterns { nil }
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
 
+    # Configuration lives on the variant, not the type. These are kept as aliases so the many
+    # call sites that configure a type keep reading naturally: they write its base variant.
+    transient do
+      custom_fields { [] }
+      patterns { nil }
+      default_work_package_description { nil }
+      attribute_groups { nil }
+    end
+
+    callback(:after_create) do |type, evaluator|
+      configuration = {}
+      configuration[:patterns] = evaluator.patterns unless evaluator.patterns.nil?
+      unless evaluator.default_work_package_description.nil?
+        configuration[:default_work_package_description] = evaluator.default_work_package_description
+      end
+      configuration[:attribute_groups] = evaluator.attribute_groups unless evaluator.attribute_groups.nil?
+
+      type.default_variant.update!(configuration) if configuration.any?
+      type.default_variant.custom_fields = evaluator.custom_fields if evaluator.custom_fields.any?
+    end
+
     factory :type_with_workflow, class: "Type" do
-      callback(:after_build) do |t|
-        t.own_workflows = [build(:workflow_with_default_status)]
+      callback(:after_create) do |t|
+        variant = t.default_variant || t.variants.find_by!(is_default_variant: true)
+        create(:workflow_with_default_status, type_variant: variant)
       end
     end
 
@@ -48,40 +68,44 @@ FactoryBot.define do
         relation_filter { "parent" }
       end
 
-      callback(:after_build) do |t, evaluator|
+      callback(:after_create) do |t, evaluator|
         query = create(:query)
         query.add_filter(evaluator.relation_filter.to_s, "=", [Queries::Filters::TemplatedValue::KEY])
         query.save
-        t.attribute_groups = t.default_attribute_groups + [["Embedded table for #{evaluator.relation_filter}",
-                                                            [:"query_#{query.id}"]]]
+        variant = t.default_variant
+        variant.attribute_groups = variant.default_attribute_groups +
+                                   [["Embedded table for #{evaluator.relation_filter}", [:"query_#{query.id}"]]]
+        variant.save!
       end
     end
   end
 
+  # Patterns live on the configuration, so the trait writes the type's base variant.
   trait :with_subject_pattern do
-    patterns { { subject: { blueprint: "{{author}} - {{status}}/{{type}} - {{id}}", enabled: true } } }
+    callback(:after_create) do |t|
+      t.default_variant.update!(
+        patterns: { subject: { blueprint: "{{author}} - {{status}}/{{type}} - {{id}}", enabled: true } }
+      )
+    end
   end
 
   trait :default do
     is_default { true }
   end
 
-  factory :type_standard, class: "::Type" do
+  factory :type_standard, parent: :type do
     name { "None" }
     is_standard { true }
     is_default { true }
-    created_at { Time.zone.now }
-    updated_at { Time.zone.now }
   end
 
-  factory :type_bug, class: "::Type" do
+  # Named seed types: find-or-create by name so specs that share "Bug" / "Task" do not collide.
+  # Nested under :type so configuration transients (custom_fields, patterns, …) still apply to the
+  # base variant after create.
+  factory :type_bug, parent: :type do
     name { "Bug" }
     position { 1 }
-    created_at { Time.zone.now }
-    updated_at { Time.zone.now }
 
-    # reuse existing type with the given name
-    # this prevents a validation error (name has to be unique)
     initialize_with { Type.find_or_initialize_by(name:) }
 
     factory :type_feature do
@@ -102,7 +126,9 @@ FactoryBot.define do
 
     factory :type_milestone do
       name { "Milestone" }
-      position { 5 }
+      # Do not hard-code position: acts_as_list + Type.order(:position) would otherwise
+      # make this type sort before sequenced types (e.g. type_standard) and become
+      # project.types.first / factory fallbacks.
       is_milestone { true }
     end
   end
