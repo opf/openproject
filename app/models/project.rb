@@ -71,9 +71,10 @@ class Project < ApplicationRecord
   has_many :calculated_value_errors, dependent: :delete_all, as: :customized
 
   has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
-  has_and_belongs_to_many :types, -> {
-    order("#{::Type.table_name}.position")
-  }
+  has_many :project_types, dependent: :delete_all
+
+  # Enabled root-types, variants need to be determined explicitly
+  has_many :types, -> { order("#{::Type.table_name}.position") }, through: :project_types
   has_many :work_packages, -> {
     order("#{WorkPackage.table_name}.created_at DESC")
       .includes(:status, :type)

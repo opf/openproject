@@ -28,7 +28,7 @@ These features are also available independently of the Resource management modul
 
 **Departments**
 
-OpenProject now introduces Departments as a new way to organize users. Under *Administration → Users and permissions → Organization*, administrators can create and manage a hierarchical organizational structure with departments and sub-departments. Departments are also available as a user attribute and help structure users consistently across OpenProject.
+OpenProject now introduces Departments as a new way to organize users. Under *Administration → Users and permissions → Organization*, administrators can create and manage a [hierarchical organizational structure](../../system-admin-guide/users-permissions/organization/) with departments and sub-departments. Departments are also available as a user attribute and help structure users consistently across OpenProject.
 
 Organizations using LDAP (Enterprise add-on) can automatically synchronize departments with their directory service, reducing administrative effort.
 
@@ -70,7 +70,7 @@ The Staffing view allows project managers to assign work while taking each team 
 
 ### Multiple active sprints without sharing (Enterprise add-on)
 
-[feature: multiple_active_sprints]
+[feature: multiple_active_sprints ]
 
 OpenProject 17.7 introduces support for multiple active sprints within a single project, eliminating the need to share sprints across projects. Teams can now manage multiple active sprints while keeping all sprint planning in one project. This also provides a consolidated overview of active sprints and backlog items on the Backlogs and Sprints page.
 
@@ -102,19 +102,19 @@ Project attributes can now be displayed in a dedicated **Project attributes** ta
 
 **PMflex Artefact PDF export**
 
-Work packages can now be exported using a dedicated **PMflex Artefact** PDF template. The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
+Work packages can now be [exported using a dedicated **PMflex Artefact** PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact). The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
 
 Administrators can configure PMflex artefacts to be generated automatically when a work package reaches a defined status. Generated artefacts can either be uploaded to the project's connected Nextcloud folder or added directly as work package attachments.
 
 **Project phases and gates widget**
 
-A new Project phases and gates widget is available for project overviews. It provides a visual representation of the project's current phase and gate status, helping project managers and stakeholders quickly understand project progress at a glance.
+A new [project timeline widget](../../user-guide/projects/project-home/project-widgets/#project-timeline-widget) is available for project overviews. It provides a visual representation of the project's current phase and gate status, helping project managers and stakeholders quickly understand project progress at a glance.
 
 ![OpenProject's Project phases and gates widget visualizes the current project phase and gate status on the project overview page.](openproject-17-7-phases-gates-widget.png)
 
 ### Work package links and previews in Documents
 
-When using the BlockNote editor in Documents, pasting a work package URL now automatically creates a rendered work package link. In addition, tiny work package links display a preview on hover, revealing key information such as the work package type and subject. Together, these improvements make it easier to reference and identify work packages without leaving the document.
+When using the BlockNote editor in [Documents](../../user-guide/documents/), pasting a work package URL now automatically creates a rendered work package link. In addition, tiny work package links display a preview on hover, revealing key information such as the work package type and subject. Together, these improvements make it easier to reference and identify work packages without leaving the document.
 
 ### The BCF import and export now support the semantic identifier (ABC-123)
 
@@ -122,27 +122,29 @@ Semantic identifiers are now considered production-ready and are no longer marke
 
 ### Filter projects by portfolio and program (Enterprise add-on)
 
-[feature: portfolio_management]
+[feature: portfolio_management ]
 
-Project lists now support filtering by portfolio and program. This makes it easier to find projects within large project portfolios and provides greater flexibility when creating project overviews and reports.
+[Project lists](../../user-guide/projects/project-lists/) now support filtering by portfolio and program. This makes it easier to find projects within large project portfolios and provides greater flexibility when creating project overviews and reports.
 
 ### Additional calculation operators for calculated fields (Enterprise add-on)
 
-[feature: calculated_values]
+[feature: calculated_values ]
 
 Calculated custom fields now support additional calculation options, including comparison, logical, and numeric operators such as IF, SUM, MAX, and CASE. This allows you to create more advanced formulas and model a wider range of business logic directly in OpenProject.
 
+Read more about [calculation logic](../../system-admin-guide/projects/project-attributes/#formula-syntax-reference).
+
 ### Wiki improvements
 
-OpenProject 17.7 further enhances the internal wiki and XWiki integration with several usability improvements.
+OpenProject 17.7 further enhances the [internal wiki](../../user-guide/wiki/) and XWiki integration with several usability improvements.
 
 **Global wiki page index**
 
-Get a centralized overview of all wiki pages across your projects with filtering and search capabilities.
+Get a centralized overview of all wiki pages across your projects with filtering and search capabilities in the [global wiki module](../../user-guide/home/global-modules/#wiki).
 
-**Create an internal wiki directly from a project**
+**Enable an internal wiki on a project level**
 
-Project administrators can now create and configure an internal wiki directly from the project settings.
+The Wiki module is no longer found under the modules project settings. Project administrators can now enable an internal wiki on a project level directly from the [project settings](../../user-guide/projects/project-settings/project-wiki/). 
 
 **Improved wiki navigation**
 
@@ -164,7 +166,7 @@ The user administration page now provides improved status filters, making it eas
 
 **SCIM configuration via environment variables**
 
-SCIM configuration options can now be provided through environment variables, making automated deployments and infrastructure management easier.
+[SCIM configuration options can now be provided through environment variables](../../system-admin-guide/authentication/scim/#configuration-using-environment-variables), making automated deployments and infrastructure management easier.
 
 ## Important technical changes
 
@@ -188,6 +190,7 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 - Feature: &quot;Add new work package&quot; option within the context menu for backlog buckets and backlog inbox \[[#76097](https://community.openproject.org/wp/76097)\]
 - Feature: Multiple active sprints without sharing \[[#77079](https://community.openproject.org/wp/77079)\]
 - Feature: Create a work package link when pasting a work package URL into BlockNote editor (Paste from clipboard) \[[#68818](https://community.openproject.org/wp/68818)\]
+- Feature: Preview for tiny work package links in documents \[[#76013](https://community.openproject.org/wp/76013)\]
 - Feature: Adapt BCF Export and Import for semantic identifiers \[[#74362](https://community.openproject.org/wp/74362)\]
 - Feature: Remove the Beta label from semantic identifier mode \[[#75975](https://community.openproject.org/wp/75975)\]
 - Feature: Short WP link should open the canonical URL of a work package \[[#76098](https://community.openproject.org/wp/76098)\]
@@ -199,6 +202,7 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 - Feature: Extend WorkPackage export to include PMflex artefacts export \[[#75702](https://community.openproject.org/wp/75702)\]
 - Feature: User danger dialog when deleting repositories \[[#76540](https://community.openproject.org/wp/76540)\]
 - Feature: Replace outdated danger zone when creating a backup \[[#77184](https://community.openproject.org/wp/77184)\]
+- Feature: Automatically upload PDF artefacts to project folder in Nextcloud or as work package attachment \[[#77321](https://community.openproject.org/wp/77321)\]
 - Feature: Add caption to recurring meeting create/edit forms to show end date/no. of occurrences \[[#71922](https://community.openproject.org/wp/71922)\]
 - Feature: Add ability to fetch agenda items by WorkPackage ID via the API \[[#76296](https://community.openproject.org/wp/76296)\]
 - Feature: Track working hours and availabilities for each user in the system \[[#34911](https://community.openproject.org/wp/34911)\]
@@ -209,9 +213,11 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 - Feature: Build Primer quickfilter \[[#74577](https://community.openproject.org/wp/74577)\]
 - Feature: Add a field to the user profile that can be used to set the department \[[#75959](https://community.openproject.org/wp/75959)\]
 - Feature: Select entire semantic ID on click on the work package ID \[[#76268](https://community.openproject.org/wp/76268)\]
+- Feature: Remove feature flag for resource management \[[#76415](https://community.openproject.org/wp/76415)\]
 - Feature: Extend demo seeds with departments, more users, working schedule \[[#76434](https://community.openproject.org/wp/76434)\]
 - Feature: Special roles for User Attributes \[[#76451](https://community.openproject.org/wp/76451)\]
 - Feature: Additional calculation operators for calculated fields \[[#76642](https://community.openproject.org/wp/76642)\]
+- Feature: Restrict to premium enterprise plans \[[#76717](https://community.openproject.org/wp/76717)\]
 - Feature: Improve date picker of the resource management pages \[[#76557](https://community.openproject.org/wp/76557)\]
 - Feature: Add a setting to disable users editing their own email address \[[#76754](https://community.openproject.org/wp/76754)\]
 - Feature: Improve status filtering for user administration \[[#76862](https://community.openproject.org/wp/76862)\]
@@ -226,27 +232,32 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 - Feature: Show wiki page hierarchy in search dialog \[[#75532](https://community.openproject.org/wp/75532)\]
 - Feature: Add &quot;as parent&quot; badge to referencing wiki pages \[[#76145](https://community.openproject.org/wp/76145)\]
 - Feature: Global wiki page index \[[#76743](https://community.openproject.org/wp/76743)\]
+- Bugfix: &quot;Start sprint&quot; button remains active after browser back button \[[#73749](https://community.openproject.org/wp/73749)\]
+- Bugfix: Moving read-only work package between sprints triggers an error \[[#74531](https://community.openproject.org/wp/74531)\]
 - Bugfix: Backlogs on mobile: cards move on scroll \[[#75139](https://community.openproject.org/wp/75139)\]
-- Bugfix: Starting a sprint fails with HTTP 422 and generic error banner \[[#75958](https://community.openproject.org/wp/75958)\]
+- Bugfix: Backlogs/Mobile web: drag and drop UX issues \[[#75372](https://community.openproject.org/wp/75372)\]
 - Bugfix: Sprint link opens Backlog and sprints page without scrolling to a selected sprint \[[#76559](https://community.openproject.org/wp/76559)\]
 - Bugfix: Backlogs: long title isn&#39;t truncated on &quot;add existing work packages&quot; modal \[[#77334](https://community.openproject.org/wp/77334)\]
 - Bugfix: Backlogs: work packages from subprojects show on &quot;add existing work packages&quot; modal of the parent project \[[#77338](https://community.openproject.org/wp/77338)\]
-- Bugfix: Address remaining open points \[[#77451](https://community.openproject.org/wp/77451)\]
-- Bugfix: Multiple active sprints coexist with sharing if there was one active sprint in the subproject before sharing was enabled \[[#77498](https://community.openproject.org/wp/77498)\]
+- Bugfix: Multiple active sprints: address remaining open points \[[#77451](https://community.openproject.org/wp/77451)\]
+- Bugfix: Work packages are shuffled when dragging a work package to it&#39;s original position. \[[#77755](https://community.openproject.org/wp/77755)\]
+- Bugfix: Work package link with missing permissions is not resizable \[[#76015](https://community.openproject.org/wp/76015)\]
 - Bugfix: Inline work package links which the user can not access should have a speaking message \[[#76016](https://community.openproject.org/wp/76016)\]
-- Bugfix: Documents: block from the pasted link is highlighted  \[[#77456](https://community.openproject.org/wp/77456)\]
-- Bugfix: Documents: cursor misplaced after block is created on work package url copy-paste \[[#77458](https://community.openproject.org/wp/77458)\]
 - Bugfix: Mobile web: When deep linking to a comment the comment is not fully scrolled into view \[[#68221](https://community.openproject.org/wp/68221)\]
 - Bugfix: Updating the activity anchor URL without a page load does not highlight the relevant target element \[[#68262](https://community.openproject.org/wp/68262)\]
 - Bugfix: Quickly clicking &quot;+ Document&quot; several times creates multiple documents \[[#69319](https://community.openproject.org/wp/69319)\]
+- Bugfix: Documents administration: Double line in more menu when only 1 type left \[[#69518](https://community.openproject.org/wp/69518)\]
+- Bugfix: Pasting rich text into CKEditor crashes it \[[#69597](https://community.openproject.org/wp/69597)\]
 - Bugfix: Community contribution: GitHub/GitLab - Fix incorrect linking of MR/PR to work packages \[[#72450](https://community.openproject.org/wp/72450)\]
 - Bugfix: Documents: impossible to delete characters with backspace after adding a wp link \[[#75669](https://community.openproject.org/wp/75669)\]
-- Bugfix: Documents: Drag and drop of blocks only works when dragging over editor content \[[#76200](https://community.openproject.org/wp/76200)\]
+- Bugfix: Documents don&#39;t work properly with rails relative url \[[#75269](https://community.openproject.org/wp/75269)\]
 - Bugfix: Activity tab: a comment arriving via polling is not reliably scrolled into view \[[#76458](https://community.openproject.org/wp/76458)\]
 - Bugfix: Numeric id shown instead of semantic one on the error message while moving work packages between projects \[[#76912](https://community.openproject.org/wp/76912)\]
 - Bugfix: WorkPackage::SemanticIdentifier::UnsupportedLookup in BulkController \[[#77341](https://community.openproject.org/wp/77341)\]
 - Bugfix: Activity tab floods page with &quot;not found&quot; banners after session expiry \[[#77493](https://community.openproject.org/wp/77493)\]
+- Bugfix: Can&#39;t set OPENPROJECT\_EMAILS\_\_SALUTATION env variable \[[#77274](https://community.openproject.org/wp/77274)\]
 - Bugfix: Comment field content overflows tooltip in &#39;My Spent Time&#39; calendar \[[#64175](https://community.openproject.org/wp/64175)\]
+- Bugfix: Capability for Log time for other users is absent in the API \[[#78130](https://community.openproject.org/wp/78130)\]
 - Bugfix: \[minor\] Clarification needed in GitLab integration documentation (user vs role confusion) \[[#71353](https://community.openproject.org/wp/71353)\]
 - Bugfix: Low contrast in dark mode: markdown-text editor \[[#64462](https://community.openproject.org/wp/64462)\]
 - Bugfix: &quot;Subproject of&quot; dropdown border missing at bottom / dropdown cut off \[[#64592](https://community.openproject.org/wp/64592)\]
@@ -255,25 +266,36 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 - Bugfix: Cancelling inplace edit fields results in an error \[[#77246](https://community.openproject.org/wp/77246)\]
 - Bugfix: &quot;New work package&quot; outcome form does not update placeholder description on changing types \[[#76440](https://community.openproject.org/wp/76440)\]
 - Bugfix: For some meetings, moving from Agenda to Backlog cause 422 error \[[#77215](https://community.openproject.org/wp/77215)\]
-- Bugfix: Translation error in &quot;add work package&quot; macro in WYSWIG \[[#40221](https://community.openproject.org/wp/40221)\]
+- Bugfix: Schema API endpoint does not use the correct current\_user  \[[#78067](https://community.openproject.org/wp/78067)\]
 - Bugfix: Misalignment of radio buttons on WP deletion \[[#44467](https://community.openproject.org/wp/44467)\]
+- Bugfix: NoMethodError in TimeEntriesController#update \[[#65822](https://community.openproject.org/wp/65822)\]
 - Bugfix: Custom text widget pagination bug \[[#66419](https://community.openproject.org/wp/66419)\]
 - Bugfix: Arrow for switching years barely visible in dark mode on the calendar \[[#68517](https://community.openproject.org/wp/68517)\]
-- Bugfix: Sign up errors are showing behind new account creation modal \[[#69793](https://community.openproject.org/wp/69793)\]
-- Bugfix: WP search dropdown: wp created by deleted user has a weird layout with missing avatar \[[#70580](https://community.openproject.org/wp/70580)\]
 - Bugfix: Inaccurate/incomplete error messaging when removing a WP type from a project \[[#70921](https://community.openproject.org/wp/70921)\]
 - Bugfix: User sees a success banner if they save a letter/word as integer \[[#71650](https://community.openproject.org/wp/71650)\]
 - Bugfix: Meeting global search resolves links in wrong project context \[[#74626](https://community.openproject.org/wp/74626)\]
+- Bugfix: Meeting series are imported via iCal as one-time meeting only \[[#75435](https://community.openproject.org/wp/75435)\]
 - Bugfix: Multi-select workflows cannot bulk select/unselect rows/columns \[[#76541](https://community.openproject.org/wp/76541)\]
 - Bugfix: Impossible to create team planner as it redirects to work packages page \[[#76651](https://community.openproject.org/wp/76651)\]
 - Bugfix: When user receives a new notification while having the top one open in split view, then both top notifications look active \[[#76693](https://community.openproject.org/wp/76693)\]
 - Bugfix: Users can deleted descendent work packages in projects they are not authorized to \[[#76930](https://community.openproject.org/wp/76930)\]
 - Bugfix: ActionView::MissingTemplate in Search controller on unsupported content type \[[#77081](https://community.openproject.org/wp/77081)\]
 - Bugfix: Use Label component to indicate user status \[[#76263](https://community.openproject.org/wp/76263)\]
+- Bugfix: WebAuthn Form not submitting \[[#77298](https://community.openproject.org/wp/77298)\]
 - Bugfix: Form errors not shown during trial activation \[[#77340](https://community.openproject.org/wp/77340)\]
+- Bugfix: Members: Changing a group&#39;s role results in a 404 error \[[#77450](https://community.openproject.org/wp/77450)\]
+- Bugfix: Boolean calculated value is not properly formatted in input \[[#77487](https://community.openproject.org/wp/77487)\]
+- Bugfix: PDF Export: Empty hierarchy custom fields appear as &quot;not found&quot; in PDF instead of empty \[[#77684](https://community.openproject.org/wp/77684)\]
+- Bugfix: Fix \`XOR\` behaviour \[[#77740](https://community.openproject.org/wp/77740)\]
+- Bugfix: Accidentally using a date for calculated value will cause either 500 or cause &quot;unknown error&quot; \[[#77789](https://community.openproject.org/wp/77789)\]
+- Bugfix: Booleans should be allowed as input for calculated values \[[#77830](https://community.openproject.org/wp/77830)\]
+- Bugfix: A \`CASE\` without default value causes an error on project and projects pages \[[#77874](https://community.openproject.org/wp/77874)\]
+- Bugfix: SSRF protection error when using custom design seeding with URLs \[[#78007](https://community.openproject.org/wp/78007)\]
+- Bugfix: PIR PDF and PMflex artefacts are only shown after 2nd WP status change \[[#71857](https://community.openproject.org/wp/71857)\]
 - Bugfix: Impossible to search for archived projects, page reverts to active projects list on its own \[[#71971](https://community.openproject.org/wp/71971)\]
 - Bugfix: Nextcloud Anbindung Fehler &quot;&lt;Nextcloud-Hostname&gt; has no public IP addresses&quot; \[[#77278](https://community.openproject.org/wp/77278)\]
 - Feature: New frontend for &#39;My account&#39; based on design system \[[#56584](https://community.openproject.org/wp/56584)\]
+- Feature: Automation to create PM²/PMflex artefacts \[[#69055](https://community.openproject.org/wp/69055)\]
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->

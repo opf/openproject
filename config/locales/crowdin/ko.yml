@@ -67,7 +67,8 @@ ko:
       '
     login_with_auth_provider: 또는 이미 있는 계정으로 로그인
     omniauth_login: 계정을 활성화하려면 로그인하시기 바랍니다.
-    signup_with_auth_provider: 또는 사용 가입하기
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: 선택하십시오
   activemodel:
     attributes:
@@ -697,9 +698,9 @@ ko:
               cannot_assign_variant_and_parent: '변형 및 해당 부모를 할당할 수 없습니다 '
               cannot_assign_variants_yet: 아직 프로젝트에서 변형을 활성화할 수 없습니다. 변형을 사용해 보려면 기능 플래그를 활성화하세요
               in_use_by_work_packages: '아직 작업 패키지에 사용됨: %{types}'
-              switch_source_not_a_variant: 변형에서만 전환할 수 있습니다
-              switch_target_identical: 대상 유형은 현재 변형과 달라야 합니다
-              switch_target_not_in_family: 동일한 유형의 다른 변형이나 해당 부모 유형으로만 전환할 수 있습니다
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: 선택한 사용자는 작업 패키지에 할당할 수 없습니다.
           foreign_wps_reference_version: 하위가 아닌 프로젝트의 작업 패키지는 해당 프로젝트 또는 하위 프로젝트의 버전을 참조합니다.
         project/phase:
@@ -714,6 +715,12 @@ ko:
           attributes:
             project_ids:
               blank: 프로젝트를 선택하세요.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -812,7 +819,7 @@ ko:
               query_invalid: 포함된 쿼리 '%{group}'이(가) 잘못되었습니다. %{details}
             parent:
               cannot_be_self: "- 해당 유형 자체일 수는 없습니다."
-              cannot_change_with_work_packages: "- 이 유형의 작업 패키지가 이미 존재하므로 변경할 수 없습니다."
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: "- 이 유형에는 이미 변형이 있으므로 설정할 수 없습니다."
               must_be_a_root: "- 그 자체로 최상위 유형이어야 합니다. 유형은 한 수준까지만 중첩될 수 있습니다."
               standard_type_must_be_root: "- 표준 유형에 대해 설정할 수 없습니다."
@@ -1184,9 +1191,6 @@ ko:
           description: 가져오기 실행을 만들어서 이 Jira 인스턴스에서 정보 가져오기를 시작하세요
           title: 가져오기 실행이 아직 설정되지 않음
         history: 기록
-        side_panel:
-          run_status: 실행 상태
-          open_history: 실행 기록 열기
         import_blocked_error: 다른 Jira 가져오기 실행이 현재 진행 중이거나 검토를 기다리는 중입니다. 새 가져오기를 시작하기 전에 완료하거나 되돌리세요.
         index:
           button_edit_configuration: 구성 편집
@@ -1194,6 +1198,9 @@ ko:
           description: 가져오기를 실행할 때마다 다른 데이터 세트를 가져올 수 있습니다. 검토 모드에서 가져오기 실행은 직후에 실행 취소할 수 있지만 마무리한 후에는 실행 취소할 수 없습니다.
         project_identifier_taken: '이미 사용된 식별자가 있는 프로젝트를 가져오려고 합니다: %{taken_identifier}. Jira에서 프로젝트 식별자를 업데이트한 후에 ''다시 시도''를 클릭하세요.'
         remove_error: 실행되는 동안에는 Jira 가져오기 실행을 제거할 수 없습니다
+        side_panel:
+          open_history: 실행 기록 열기
+          run_status: 실행 상태
         status:
           configuring: 범위 선택
           finalizing: 마무리 중
@@ -1684,6 +1691,7 @@ ko:
     entity_type: 엔티티
     estimated_hours: 작업
     estimated_time: 작업
+    exact_match: Exact match
     expires_at: 만료 날짜
     filter: 필터
     firstname: 이름
@@ -2502,6 +2510,7 @@ ko:
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
   error_in_dependent: '종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: '종속 개체를 생성하려는 중에 오류가 발생했습니다: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: 선택된 값이 유효하지 않습니다.
   error_journal_attribute_not_present: 저널에 %{attribute} 특성이 없습니다.
   error_menu_item_not_created: 메뉴 항목을 추가할 수 없습니다.
@@ -2862,7 +2871,14 @@ ko:
       work_package_parent_deleted: Parent removed
     changes_retracted: 변경 사항이 취소되었습니다.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: 접근성
   label_account: 계정
@@ -4781,6 +4797,7 @@ ko:
       header_identifier: 식별자
       header_relations: 프로젝트 관계
       header_status: 상태
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: 프로젝트 단계 검색
@@ -4854,10 +4871,18 @@ ko:
           title: No types are active in this project
         form:
           enable_type_in_project: 유형 "%{type}" 사용
-        in_roadmap: In roadmap
         no_results_title_text: 사용 가능한 타입이 없습니다.
         remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: 새 버전 생성
         no_results_title_text: 프로젝트에 버전이 없습니다.

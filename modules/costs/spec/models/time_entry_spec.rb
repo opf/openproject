@@ -597,6 +597,96 @@ RSpec.describe TimeEntry do
     end
   end
 
+  describe ".max_hours_per_entry" do
+    context "when the EnterpriseToken does not allow restrictions", with_ee: [] do
+      context "with a limit configured", with_settings: { time_entries_max_hours_per_entry: 8 } do
+        it { expect(described_class.max_hours_per_entry).to be_nil }
+      end
+    end
+
+    context "when the EnterpriseToken allows restrictions", with_ee: [:time_entry_time_restrictions] do
+      context "with a limit configured", with_settings: { time_entries_max_hours_per_entry: 8 } do
+        it { expect(described_class.max_hours_per_entry).to eq(8) }
+      end
+
+      context "with the limit set to 0", with_settings: { time_entries_max_hours_per_entry: 0 } do
+        it { expect(described_class.max_hours_per_entry).to be_nil }
+      end
+    end
+  end
+
+  describe ".max_hours_per_day" do
+    context "when the EnterpriseToken does not allow restrictions", with_ee: [] do
+      context "with a limit configured", with_settings: { time_entries_max_hours_per_day: 10 } do
+        it { expect(described_class.max_hours_per_day).to be_nil }
+      end
+    end
+
+    context "when the EnterpriseToken allows restrictions", with_ee: [:time_entry_time_restrictions] do
+      context "with a limit configured", with_settings: { time_entries_max_hours_per_day: 10 } do
+        it { expect(described_class.max_hours_per_day).to eq(10) }
+      end
+
+      context "with the limit set to 0", with_settings: { time_entries_max_hours_per_day: 0 } do
+        it { expect(described_class.max_hours_per_day).to be_nil }
+      end
+    end
+  end
+
+  describe ".prohibit_logging_on_non_working_days?" do
+    context "when the EnterpriseToken does not allow restrictions", with_ee: [] do
+      context "with the setting enabled", with_settings: { time_entries_prohibit_logging_on_non_working_days: true } do
+        it { expect(described_class).not_to be_prohibit_logging_on_non_working_days }
+      end
+    end
+
+    context "when the EnterpriseToken allows restrictions", with_ee: [:time_entry_time_restrictions] do
+      context "with the setting enabled", with_settings: { time_entries_prohibit_logging_on_non_working_days: true } do
+        it { expect(described_class).to be_prohibit_logging_on_non_working_days }
+      end
+
+      context "with the setting disabled", with_settings: { time_entries_prohibit_logging_on_non_working_days: false } do
+        it { expect(described_class).not_to be_prohibit_logging_on_non_working_days }
+      end
+    end
+  end
+
+  describe ".limit_to_user_working_hours?" do
+    context "when the EnterpriseToken does not allow restrictions", with_ee: [] do
+      context "with the setting enabled", with_settings: { time_entries_limit_to_user_working_hours: true } do
+        it { expect(described_class).not_to be_limit_to_user_working_hours }
+      end
+    end
+
+    context "when the EnterpriseToken allows restrictions", with_ee: [:time_entry_time_restrictions] do
+      context "with the setting enabled", with_settings: { time_entries_limit_to_user_working_hours: true } do
+        it { expect(described_class).to be_limit_to_user_working_hours }
+      end
+
+      context "with the setting disabled", with_settings: { time_entries_limit_to_user_working_hours: false } do
+        it { expect(described_class).not_to be_limit_to_user_working_hours }
+      end
+    end
+  end
+
+  describe ".prohibit_logging_for_past_months?" do
+    context "when the EnterpriseToken does not allow restrictions", with_ee: [] do
+      context "with the setting enabled", with_settings: { time_entries_prohibit_logging_for_past_months: true } do
+        it { expect(described_class).not_to be_prohibit_logging_for_past_months }
+      end
+    end
+
+    context "when the EnterpriseToken allows restrictions", with_ee: [:time_entry_time_restrictions] do
+      context "with the setting enabled", with_settings: { time_entries_prohibit_logging_for_past_months: true } do
+        it { expect(described_class).to be_prohibit_logging_for_past_months }
+      end
+
+      context "with the setting disabled", with_settings: { time_entries_prohibit_logging_for_past_months: false } do
+        it { expect(described_class).not_to be_prohibit_logging_for_past_months }
+      end
+    end
+  end
+
   describe "deprecated work package association" do
     it "ignores the deprecated work package association" do
       expect(described_class.ignored_columns).to include("work_package_id")

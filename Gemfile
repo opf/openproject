@@ -183,7 +183,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.0.0"
+  gem "dalli", "~> 5.0.6"
   gem "redis", "~> 5.4.0"
 end
 
@@ -227,7 +227,7 @@ gem "dry-validation"
 gem "store_attribute", "~> 2.0"
 
 # Appsignal integration
-gem "appsignal", "~> 4.8", require: false
+gem "appsignal", "~> 4.9", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"

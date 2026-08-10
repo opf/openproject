@@ -42,11 +42,12 @@ module WorkPackageTypes
         result = create_copy
         raise ActiveRecord::Rollback if result.failure?
 
-        result.result.insert_at(source.position + 1)
+        copy = result.result
+        copy.insert_at(source.position + 1)
 
-        aspect_failure = copy_configuration(result.result)
-        if aspect_failure
-          result = aspect_failure
+        failure = copy_project_assignments(copy) || copy_configuration(copy)
+        if failure
+          result = failure
           raise ActiveRecord::Rollback
         end
       end
@@ -71,9 +72,22 @@ module WorkPackageTypes
       attributes.merge(
         color_id: source.color_id,
         is_milestone: source.is_milestone,
-        is_in_roadmap: source.is_in_roadmap,
-        project_ids: source.project_ids
+        is_in_roadmap: source.is_in_roadmap
       )
+    end
+
+    # A variant's copy starts with no projects: a project enables the family and resolves the
+    # variant separately, so there is nothing for the copy to claim. A root's copy is its own
+    # family, so no project can be using it yet and AddService always has a free slot to fill.
+    def copy_project_assignments(copy)
+      return if source.variant?
+
+      source.projects.find_each do |project|
+        result = ::Projects::Types::AddService.new(user:, model: project).call(type: copy)
+        return result if result.failure?
+      end
+
+      nil
     end
 
     def copy_configuration(copy)

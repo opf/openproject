@@ -29,27 +29,26 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= component_wrapper do %>
   <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
-    <% active_types.each do |type| %>
-      <% list.with_item(data: { test_selector: "project-types-row-#{type.id}" }) do |item| %>
+    <% active_project_types.each do |project_type| %>
+      <% list.with_item(data: { test_selector: "project-types-row-#{project_type.effective_type.id}" }) do |item| %>
         <% item.with_menu do |menu| %>
-          <% remove_action(menu, type) %>
+          <% switch_action(menu, project_type.effective_type) if project_type.type.family.many? %>
+          <% remove_action(menu, project_type.effective_type) %>
         <% end %>
         <%= flex_layout(align_items: :center) do |row| %>
           <% row.with_column(display: :inline_flex, align_items: :center, mr: 2) do %>
-            <%= helpers.icon_for_type(type.root) %>
+            <%= helpers.icon_for_type(project_type.type) %>
           <% end %>
           <% row.with_column(mr: 2) do %>
-            <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { type.root.name } %>
+            <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { project_type.type.name } %>
           <% end %>
-          <% if type.variant? %>
-            <% row.with_column(mr: 2) do %>
-              <%= render(Primer::Beta::Label.new(scheme: :secondary)) { type.own_name } %>
-            <% end %>
-          <% end %>
-          <% if type.is_in_roadmap? %>
+          <% if project_type.variant %>
             <% row.with_column do %>
               <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
-                <%= t("projects.settings.types.in_roadmap") %>
+                <%= t("projects.settings.types.variant_prefix") %>
+              <% end %>
+              <%= render(Primer::Beta::Text.new(color: :muted, font_weight: :semibold, font_size: :small)) do %>
+                <%= project_type.variant.own_name %>
               <% end %>
             <% end %>
           <% end %>
@@ -57,7 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
 
-    <% if active_types.empty? %>
+    <% if active_project_types.empty? %>
       <% list.with_empty_state(
            title: t("projects.settings.types.empty_state.title"),
            description: t("projects.settings.types.empty_state.description"),

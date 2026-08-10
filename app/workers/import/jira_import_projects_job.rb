@@ -219,6 +219,9 @@ module Import
         uses_existing = false
       end
 
+      # TODO: should go through Projects::Types::AddService. Writing from the type side sets
+      # project_types.type_id directly, bypassing ProjectType#type=, so it cannot enable a
+      # variant — it would build a row whose type is not a root.
       type.projects << project unless type.projects.include?(project)
       jira_issue_type = Import::JiraIssueType.find_by!(jira_issue_type_id: issue_type["id"], jira_id: @jira_id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
@@ -332,18 +335,20 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        author = find_user(comment["author"]["key"])
-        import_member(project, author)
-        journal_service.add_comment(comment:, user: author)
+        key = comment.dig("author", "key")
+        author = find_user(key)
+        import_member(project, author) if author.present?
+        journal_service.add_comment(comment:, user: author || User.system)
       end
 
       journal_service.call
 
       attachments = jira_issue.payload.dig("fields", "attachment") || []
       attachments.each do |attachment|
-        author = find_user(attachment["author"]["key"])
-        import_member(project, author)
-        import_attachment(work_package, attachment, author)
+        key = attachment.dig("author", "key")
+        author = find_user(key)
+        import_member(project, author) if author.present?
+        import_attachment(work_package, attachment, author || User.system)
       end
     end
 

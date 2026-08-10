@@ -46,12 +46,22 @@ module McpResources
       @resources_by_name ||= all.index_by(&:qualified_name)
     end
 
-    def enabled_resources
-      enabled.select(&:uri)
+    def enabled_mcp_resources
+      McpConfiguration.where(enabled: true).filter_map do |config|
+        res = resources_by_name[config.identifier]
+        next unless res&.uri
+
+        res.resource(title: config.title, description: config.description)
+      end
     end
 
-    def enabled_resource_templates
-      enabled.select(&:uri_template)
+    def enabled_mcp_resource_templates
+      McpConfiguration.where(enabled: true).filter_map do |config|
+        res = resources_by_name[config.identifier]
+        next unless res&.uri_template
+
+        res.resource_template(title: config.title, description: config.description)
+      end
     end
 
     def read_resource(uri)

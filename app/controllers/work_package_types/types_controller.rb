@@ -199,7 +199,7 @@ module WorkPackageTypes
       else
         error_message = [
           ApplicationController.helpers.sanitize(
-            t(:"error_can_not_delete_type.explanation", url: belonging_wps_url(@type.id)),
+            t(:"error_can_not_delete_type.explanation", url: belonging_wps_url(@type.root_id)),
             attributes: %w(href target)
           )
         ]

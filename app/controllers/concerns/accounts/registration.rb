@@ -33,6 +33,8 @@ require "uri"
 ##
 # Intended to be used by the AccountController and OmniAuthLoginController to handle registration flows
 module Accounts::Registration
+  include ::UserConsentHelper
+
   ##
   # Sends a user who was just registered to the activation stages
   # or to the signin page if the user could not be activated
@@ -70,7 +72,7 @@ module Accounts::Registration
     # on-the-fly registration via omniauth or via auth source
     if pending_omniauth_registration?
       user.assign_attributes permitted_params.user_register_via_omniauth
-      register_via_omniauth(session, user.attributes)
+      register_via_omniauth(session, permitted_params.user_register_via_omniauth)
     else
       user.attributes = permitted_params.user
       user.activate
@@ -81,8 +83,8 @@ module Accounts::Registration
     end
   end
 
-  def register_via_omniauth(session, user_attributes)
-    handle_omniauth_authentication(session[:auth_source_registration], user_params: user_attributes)
+  def register_via_omniauth(session, user_params)
+    handle_omniauth_authentication(session[:auth_source_registration], user_params:)
   end
 
   def handle_omniauth_authentication(auth_hash, user_params: nil) # rubocop:disable Metrics/AbcSize
@@ -95,7 +97,7 @@ module Accounts::Registration
       flash[:notice] = call.message if call.message.present?
       login_user_if_active(call.result, just_registered: call.result.just_created?)
     elsif call.includes_error?(:base, :failed_to_activate)
-      redirect_omniauth_register_modal(call.result, auth_hash)
+      render_omniauth_registration_form(call.result, auth_hash)
     else
       error = call.message
       Rails.logger.error "Authorization request failed: #{error}"
@@ -103,7 +105,7 @@ module Accounts::Registration
     end
   end
 
-  def redirect_omniauth_register_modal(user, auth_hash)
+  def render_omniauth_registration_form(user, auth_hash)
     # Store a timestamp so we can later make sure that authentication information can
     # only be reused for a short time.
     session[:auth_source_registration] = auth_hash.merge(omniauth: true, timestamp: Time.current)
@@ -111,20 +113,45 @@ module Accounts::Registration
     render template: "/account/register"
   end
 
-  def respond_for_registered_user(user)
-    call = ::Users::RegisterUserService.new(user).call
+  def consent_given_for_registration?(user)
+    return true unless user_consent_required?
 
+    user.consent_check = consent_param?
+    return true if user.consent_check
+
+    # Populate any other field validations so they render inline alongside the
+    # consent error, then flag the missing consent on the checkbox itself.
+    user.validate
+    user.errors.add(:consent_check, I18n.t("consent.failure_message"))
+    onthefly_creation_failed(user)
+
+    false
+  end
+
+  def respond_for_registered_user(user)
+    return unless consent_given_for_registration?(user)
+
+    respond_to_registration_result(::Users::RegisterUserService.new(user).call, user)
+  end
+
+  def respond_to_registration_result(call, user)
     if call.success?
       flash[:notice] = call.message.presence
       login_user_if_active(call.result, just_registered: true)
     else
-      flash[:error] = error = call.message
-      Rails.logger.error "Registration of user #{user.login} failed: #{error}"
-      onthefly_creation_failed(user)
+      registration_failed(call.message, user)
     end
   end
 
-  # Onthefly creation failed, display the registration form to fill/fix attributes
+  def registration_failed(error, user)
+    user.errors.add(:base, error) if error.present? && user.errors.empty?
+    Rails.logger.error "Registration of user #{user.login} failed: #{error}"
+    onthefly_creation_failed(user)
+  end
+
+  # Onthefly creation failed, display the registration form to fill/fix attributes.
+  # Field errors render inline in the form; base errors are shown in a banner
+  # rendered by the register template.
   def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?

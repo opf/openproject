@@ -67,7 +67,8 @@ uk:
       '
     login_with_auth_provider: або ввійдіть у свій існуючий обліковий запис
     omniauth_login: Увійдіть, щоб активувати свій обліковий запис.
-    signup_with_auth_provider: або зареєструйтесь, використовуючи
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Будь ласка, виберіть
   activemodel:
     attributes:
@@ -704,9 +705,9 @@ uk:
               cannot_assign_variant_and_parent: 'Неможливо призначити варіант і його батьківський об’єкт '
               cannot_assign_variants_yet: Зараз на рівні проєкту не можна вмикати варіанти. Активуйте прапорець функції, щоб випробувати варіанти.
               in_use_by_work_packages: 'як і раніше використовуються робочі пакети: %{types}'
-              switch_source_not_a_variant: Доступно лише перемикання із цього варіанта
-              switch_target_identical: Цільовий тип має відрізнятися від поточного варіанта
-              switch_target_not_in_family: Доступно лише перемикання на інший варіант того самого типу або на відповідний батьківський тип
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: Вибраного користувача не дозволяється призначати для пакетів робіт.
           foreign_wps_reference_version: Пакети робіт у ненащадкових проєктах посилаються на версії цього проєкту або його нащадків.
         project/phase:
@@ -721,6 +722,12 @@ uk:
           attributes:
             project_ids:
               blank: Виберіть проєкт.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -819,7 +826,7 @@ uk:
               query_invalid: 'Вбудований запит %{group} недійсний: %{details}'
             parent:
               cannot_be_self: не може бути самим типом.
-              cannot_change_with_work_packages: не можна змінити, оскільки пакети робіт цього типу вже існують.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: не можна встановити, оскільки цей тип уже має варіанти.
               must_be_a_root: має бути типом верхнього рівня. Типи можуть бути вкладеними лише на один рівень углиб.
               standard_type_must_be_root: не може встановлюватися для стандартного типу.
@@ -1242,9 +1249,6 @@ uk:
           description: Створіть цикл імпорту, щоб почати переносити інформацію із цього екземпляра Jira
           title: Немає налаштованих циклів імпорту
         history: Історія
-        side_panel:
-          run_status: Статус циклу
-          open_history: Відкрити історію циклів
         import_blocked_error: Зараз виконується або очікує на перевірку ще один цикл імпорту Jira. Завершіть або скасуйте його, якщо потрібно почати новий імпорт.
         index:
           button_edit_configuration: Змінити конфігурацію
@@ -1252,6 +1256,9 @@ uk:
           description: Ви можете переносити різні набори даних у різних циклах імпорту. Цикл імпорту можна скасувати відразу після виконання в режимі перевірки, але не після завершення.
         project_identifier_taken: 'Ви намагаєтесь імпортувати проєкт з ідентифікатором, який уже використовується: %{taken_identifier}. Будь ласка, оновіть ідентифікатор проєкту в Jira, а потім натисніть на кнопку «Повторити спробу».'
         remove_error: Цикл імпорту Jira не можна видалити, поки він виконується
+        side_panel:
+          open_history: Відкрити історію циклів
+          run_status: Статус циклу
         status:
           configuring: Вибір обсягу
           finalizing: Завершення
@@ -1777,6 +1784,7 @@ uk:
     entity_type: Сутність
     estimated_hours: Робота
     estimated_time: Робота
+    exact_match: Exact match
     expires_at: Термін дії минає
     filter: Фільтр
     firstname: Ім'я
@@ -2640,6 +2648,7 @@ uk:
   error_failed_to_delete_entry: Не вдалося видалити цей запис.
   error_in_dependent: 'Помилка спроби змінити залежний об''єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Не вдалося створити залежний об’єкт: %{dependent_class} – %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Недійсне вибране значення.
   error_journal_attribute_not_present: Журнал не містить атрибута %{attribute}.
   error_menu_item_not_created: Не можна додати пункт меню
@@ -3014,7 +3023,14 @@ uk:
       work_package_parent_deleted: Parent removed
     changes_retracted: Зміни було відхилено.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: Розробникам також потрібно оплачувати свої рахунки. З доступністю
   label_account: Обліковий запис
@@ -4973,6 +4989,7 @@ uk:
       header_identifier: Ідентифікатор
       header_relations: Зв’язки проєкту
       header_status: Статус
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Пошук за назвою етапу
@@ -5046,10 +5063,18 @@ uk:
           title: No types are active in this project
         form:
           enable_type_in_project: Дозволити тип «%{type}»?
-        in_roadmap: In roadmap
         no_results_title_text: Наразі немає доступних типів.
         remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Створіть нову версію
         no_results_title_text: Наразі не існує версій для проекту.

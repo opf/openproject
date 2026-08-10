@@ -160,6 +160,7 @@ ko:
     index:
       column_last_edited: 마지막 편집
       column_name: 위키 페이지
+      column_parent: Parent
       column_project: 프로젝트
       column_sub_pages: 하위 페이지
       filter_by_name: 페이지 이름으로 필터링

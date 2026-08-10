@@ -64,6 +64,7 @@ Rails.application.configure do |application|
       formatter Project, Projects::Exports::Formatters::PDF::Active
       formatter Project, Projects::Exports::Formatters::PDF::Favorited
       formatter Project, Projects::Exports::Formatters::PDF::RequiredDiskSpace
+      formatter Project, Projects::Exports::Formatters::ProjectPhase
     end
   end
 end

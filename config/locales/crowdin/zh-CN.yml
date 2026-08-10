@@ -67,7 +67,8 @@ zh-CN:
       '
     login_with_auth_provider: 或使用您的现有帐户登录
     omniauth_login: 请登录以激活您的帐户。
-    signup_with_auth_provider: 或注册使用
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: 请选择
   activemodel:
     attributes:
@@ -697,9 +698,9 @@ zh-CN:
               cannot_assign_variant_and_parent: 无法指定变体及其父项
               cannot_assign_variants_yet: 目前无法在项目上启用变体。请启用功能标志以试用变体
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
-              switch_source_not_a_variant: 只能从一种变体进行切换
-              switch_target_identical: 目标类型必须不同于当前变体
-              switch_target_not_in_family: 只能切换到同一类型的另一个变体，或切换到其父类型
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: 不允许将所选用户指定至工作包。
           foreign_wps_reference_version: 非子级项目中的工作包会引用此项目或其子级的版本。
         project/phase:
@@ -714,6 +715,12 @@ zh-CN:
           attributes:
             project_ids:
               blank: 请选择一个项目。
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -812,7 +819,7 @@ zh-CN:
               query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
             parent:
               cannot_be_self: 不能是类型本身。
-              cannot_change_with_work_packages: 无法更改，因为此类型的工作包已存在。
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: 无法设置，因为此类型已有变体。
               must_be_a_root: 本身必须是顶层类型。类型只能嵌套一层深度。
               standard_type_must_be_root: 无法为标准类型设置。
@@ -1184,9 +1191,6 @@ zh-CN:
           description: 创建导入运行，开始从此 Jira 实例中导入信息
           title: 尚未设置导入运行
         history: 历史记录
-        side_panel:
-          run_status: 运行状态
-          open_history: 打开运行历史记录
         import_blocked_error: 另一个 Jira 导入运行当前正在执行或等待审核。请先完成或撤消当前运行，然后再开始新的导入。
         index:
           button_edit_configuration: 编辑配置
@@ -1194,6 +1198,9 @@ zh-CN:
           description: 每次导入运行都可以导入不同的数据集。可以在审核模式后立即撤消导入运行，但不能在完成后撤消。
         project_identifier_taken: 您尝试导入的项目所使用的标识符 %{taken_identifier} 已经用过。请在 Jira 中更新项目标识符，然后点击“重试”。
         remove_error: 无法移除正在运行的 Jira 导入运行
+        side_panel:
+          open_history: 打开运行历史记录
+          run_status: 运行状态
         status:
           configuring: 选择范围
           finalizing: 正在完成
@@ -1688,6 +1695,7 @@ zh-CN:
     entity_type: 实体
     estimated_hours: 工时
     estimated_time: 工时
+    exact_match: Exact match
     expires_at: 到期时间
     filter: 筛选器
     firstname: 名字
@@ -2486,6 +2494,7 @@ zh-CN:
   error_failed_to_delete_entry: 无法删除此条目。
   error_in_dependent: '尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}'
   error_in_new_dependent: '尝试创建依赖对象时出错：%{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: 选中的值无效。
   error_journal_attribute_not_present: 日志不包含 %{attribute} 属性。
   error_menu_item_not_created: 不能添加菜单项
@@ -2848,7 +2857,14 @@ zh-CN:
       work_package_parent_deleted: Parent removed
     changes_retracted: 更改已撤回。
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: 辅助功能
   label_account: 帐户
@@ -4768,6 +4784,7 @@ zh-CN:
       header_identifier: 标识符
       header_relations: 项目关系
       header_status: 状态
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: 搜索项目阶段
@@ -4841,10 +4858,18 @@ zh-CN:
           title: No types are active in this project
         form:
           enable_type_in_project: 启用类型“%{type}”
-        in_roadmap: In roadmap
         no_results_title_text: 目前有可用的类型。
         remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: 创建一个新的版本
         no_results_title_text: 目前这个项目没有版本。

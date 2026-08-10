@@ -164,6 +164,7 @@ hy:
     index:
       column_last_edited: Վերջին խմբագրում
       column_name: Վիքի էջ
+      column_parent: Parent
       column_project: Նախագիծ
       column_sub_pages: Ենթաէջեր
       filter_by_name: Զտել ըստ էջի անվանման

@@ -35,7 +35,7 @@ Depending on the sprint status, either a **Start sprint** (for sprints in planni
 
 > [!NOTE]
 > The **Start sprint** button is disabled by default if another sprint is already active or if no sprint dates have been defined. It might also not be available if you do not have the **Start/complete sprints** permission.
-> By default, only one sprint can be active at a time. If your project is configured to allow multiple active sprints in the [project backlog settings](../projects/project-settings/backlogs-settings)](../projects/project-settings/backlogs-settings), the **Start sprint** button remains available for additional sprints.
+> By default, only one sprint can be active at a time. If your project is configured to allow multiple active sprints in the [project backlog settings](../projects/project-settings/backlogs-settings), the **Start sprint** button remains available for additional sprints.
 
 ### Backlog buckets
 
@@ -182,7 +182,7 @@ When editing a shared sprint, OpenProject indicates which fields are shared acro
 Your sprint is set in motion by clicking the **Start sprint** button in the sprint header. Clicking it will open the sprint board. 
 
 > [!NOTE]
-> If your project is not configured to allow multiple active sprints, you cannot start a new sprint while another sprint is already in progress. In this case, the **Start sprint** button is disabled. To allow multiple active sprints, see [project backlog settings](../projects/project-settings/backlogs-settings)](../projects/project-settings/backlogs-settings).
+> If your project is not configured to allow multiple active sprints (Enterprise add-on), you cannot start a new sprint while another sprint is already in progress. In this case, the **Start sprint** button is disabled. To allow multiple active sprints, see [project backlog settings](../projects/project-settings/backlogs-settings)](../projects/project-settings/backlogs-settings).
 
 ![Start sprint button in the Backlogs module interface](openproject_user_guide_backlogs_start_button_sprint.png)
 
@@ -305,6 +305,12 @@ The remaining story points per sprint are displayed in the chart. Optionally, th
 Sprint sharing allows multiple projects to use the same sprint structure. A sprint can be shared with other projects, subprojects, or not shared. This is configured under [project settings](../projects/project-settings/backlogs-settings). 
 
 Shared sprints can help teams coordinate planning across projects and support scaled agile frameworks such as SAFe.
+
+### Multiple active sprints
+
+[feature: multiple_active_sprints ]
+
+You can have more than one sprint active at the same time. This setting needs to be activated under [project settings](../projects/project-settings/backlogs-settings/#multiple-active-sprints).
 
 ## All sprints
 

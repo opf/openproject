@@ -270,7 +270,7 @@ For more information, please visit [this separate guide](../../misc/textile-migr
 
 ## Step-wise database migration script
 
-For migrating database dumps from OpenProject version 10 or later to the current version, you can use the [`bin/migrate`](../../../../bin/migrate) script. This script automates the process of restoring a database dump and sequentially applying migrations through each OpenProject version until the latest version is reached.
+For migrating database dumps from OpenProject version 10 or later to the current version, you can use the [`bin/migrate`](https://github.com/opf/openproject/blob/dev/bin/migrate) script. This script automates the process of restoring a database dump and sequentially applying migrations through each OpenProject version until the latest version is reached.
 
 ### Prerequisites
 

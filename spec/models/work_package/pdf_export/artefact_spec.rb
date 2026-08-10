@@ -284,4 +284,40 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
       expect(joined).to include(source_type.attribute_groups.find { |g| g.key == "borrowed_group" }.translated_key)
     end
   end
+
+  describe "form configuration when the project resolves a variant", with_flag: { type_variants: true } do
+    let(:type) do
+      create(:type_bug).tap do |t|
+        t.attribute_groups = t.default_attribute_groups + [["root_group", %w(assignee)]]
+        t.save!
+      end
+    end
+    let(:variant) do
+      create(:type, name: "Bug variant", parent: type).tap do |v|
+        v.configuration_links.find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION).destroy!
+        v.attribute_groups = v.default_attribute_groups + [["variant_group", %w(assignee)]]
+        v.save!
+      end
+    end
+    # The work package stores the root; the project is what resolves the variant.
+    let(:project) do
+      create(:project,
+             name: "Artefact project",
+             types: [variant],
+             public: true,
+             active: true)
+    end
+
+    def group_caption(owner, key)
+      owner.attribute_groups.find { |group| group.key == key }.translated_key
+    end
+
+    it "renders the variant's groups" do
+      expect(pdf_strings.join(" ")).to include(group_caption(variant, "variant_group"))
+    end
+
+    it "does not render the root's groups" do
+      expect(pdf_strings.join(" ")).not_to include(group_caption(type, "root_group"))
+    end
+  end
 end

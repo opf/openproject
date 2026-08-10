@@ -67,7 +67,8 @@ hy:
       '
     login_with_auth_provider: կամ մտեք Ձեր գործող հաշվով
     omniauth_login: Ձեր հաշիվն ակտիվացնելու համար խնդրում ենք մտնել։
-    signup_with_auth_provider: կամ գրանցվեք՝ օգտագործելով
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Ընտրեք
   activemodel:
     attributes:
@@ -698,9 +699,9 @@ hy:
               cannot_assign_variant_and_parent: 'Հնարավոր չէ միաժամանակ նշանակել տարատեսակը և դրա ծնողը '
               cannot_assign_variants_yet: Տարատեսակները դեռ հնարավոր չէ միացնել նախագծում։ Տարատեսակները փորձարկելու համար միացրեք գործառույթի դրոշակը
               in_use_by_work_packages: դեռ օգտագործվում են աշխատանքային փաթեթների կողմից՝ %{types}
-              switch_source_not_a_variant: Անցում հնարավոր է կատարել միայն տարատեսակից
-              switch_target_identical: Նպատակային Տեսակը պետք է տարբերվի ընթացիկ տարատեսակից
-              switch_target_not_in_family: Անցում հնարավոր է կատարել միայն նույն Տեսակի այլ տարատեսակին կամ դրա ծնող Տեսակին
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: Ընտրված օգտատիրոջը թույլատրված չէ նշանակել աշխատանքային փաթեթներին։
           foreign_wps_reference_version: Ոչ հետնորդ նախագծերի աշխատանքային փաթեթները հղում են կատարում այս նախագծի կամ դրա հետնորդների տարբերակներին։
         project/phase:
@@ -715,6 +716,12 @@ hy:
           attributes:
             project_ids:
               blank: Խնդրում ենք ընտրել նախագիծ։
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -813,7 +820,7 @@ hy:
               query_invalid: "'%{group}' ներդրված հարցումն անվավեր է՝ %{details}"
             parent:
               cannot_be_self: չի կարող լինել տեսակն ինքը։
-              cannot_change_with_work_packages: հնարավոր չէ փոփոխել, քանի որ այս տեսակի աշխատանքային փաթեթներ արդեն գոյություն ունեն։
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: հնարավոր չէ սահմանել, քանի որ այս տեսակն արդեն ունի տարատեսակներ։
               must_be_a_root: ինքը պետք է լինի վերին մակարդակի տեսակ։ Տեսակները կարող են ներդրվել միայն մեկ մակարդակ խորությամբ։
               standard_type_must_be_root: հնարավոր չէ սահմանել ստանդարտ տեսակի համար։
@@ -1202,9 +1209,6 @@ hy:
           description: Ստեղծեք ներմուծման գործարկում՝ այս Jira համակարգից տեղեկությունների ներմուծումը սկսելու համար
           title: Դեռևս ներմուծման գործարկումներ կազմաձևված չեն
         history: Պատմություն
-        side_panel:
-          run_status: Գործարկման կարգավիճակ
-          open_history: Բացել գործարկումների պատմությունը
         import_blocked_error: Jira-ի մեկ այլ ներմուծման գործարկում ընթացքի մեջ է կամ սպասում է վերանայման։ Խնդրում ենք ավարտել կամ հետ շրջել այն՝ նախքան նոր ներմուծում սկսելը։
         index:
           button_edit_configuration: Խմբագրել կազմաձևումը
@@ -1212,6 +1216,9 @@ hy:
           description: Դուք կարող եք յուրաքանչյուր ներմուծման գործարկման ընթացքում ներմուծել տվյալների տարբեր հավաքածուներ։ Ներմուծման գործարկումը հնարավոր է հետարկել անմիջապես դրանից հետո՝ վերանայման ռեժիմում, սակայն ոչ վերջնականացումից հետո։
         project_identifier_taken: Դուք փորձում եք ներմուծել նախագիծ, որի նույնացուցիչն արդեն օգտագործվում է՝ %{taken_identifier}։ Խնդրում ենք թարմացնել նախագծի նույնացուցիչը Jira-ում, ապա սեղմել Կրկին փորձել կոճակը։
         remove_error: Jira-ի ներմուծման գործարկումը հնարավոր չէ հեռացնել, քանի դեռ այն ընթացքի մեջ է
+        side_panel:
+          open_history: Բացել գործարկումների պատմությունը
+          run_status: Գործարկման կարգավիճակ
         status:
           configuring: Ընտրեք շրջանակը
           finalizing: Վերջնականացվում է
@@ -1713,6 +1720,7 @@ hy:
     entity_type: Էություն
     estimated_hours: Աշխատանք
     estimated_time: Աշխատանք
+    exact_match: Exact match
     expires_at: Վավեր է մինչև
     filter: Զտիչ
     firstname: Անուն
@@ -2530,6 +2538,7 @@ hy:
   error_failed_to_delete_entry: Այս գրառումը ջնջելը ձախողվեց։
   error_in_dependent: 'Կախյալ օբյեկտը փոփոխելու փորձի ժամանակ սխալ՝ %{dependent_class} #%{related_id} - %{related_subject}՝ %{error}'
   error_in_new_dependent: Կախյալ օբյեկտը ստեղծելու փորձի ժամանակ սխալ՝ %{dependent_class} - %{related_subject}՝ %{error}
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Ընտրված արժեքն անվավեր է։
   error_journal_attribute_not_present: Մատյանը չի պարունակում %{attribute} հատկանիշը։
   error_menu_item_not_created: Ընտրացանկի տարրը չհաջողվեց ավելացնել
@@ -2896,7 +2905,14 @@ hy:
       work_package_parent_deleted: Ծնողը հեռացվել է
     changes_retracted: Փոփոխությունները հետ են վերցվել։
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: Մատչելիություն
   label_account: Հաշիվ
@@ -4828,6 +4844,7 @@ hy:
       header_identifier: Նույնացուցիչ
       header_relations: Նախագծի կապեր
       header_status: Կարգավիճակ
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Որոնել նախագծի փուլ
@@ -4901,10 +4918,18 @@ hy:
           title: Այս նախագծում ակտիվ տեսակներ չկան
         form:
           enable_type_in_project: Միացնել "%{type}" տեսակը
-        in_roadmap: Ճանապարհային քարտեզում
         no_results_title_text: Ներկայումս հասանելի տեսակներ չկան։
         remove_from_project: Հեռացնել նախագծից
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: Ընտրված տեսակը չհաջողվեց գտնել։
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Ստեղծել նոր տարբերակ
         no_results_title_text: Ներկայումս նախագծում տարբերակներ չկան։

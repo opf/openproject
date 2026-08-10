@@ -67,7 +67,8 @@ pt-PT:
       '
     login_with_auth_provider: ou inicie sessão com a sua conta
     omniauth_login: Por favor, inicie a sessão para ativar a sua conta.
-    signup_with_auth_provider: ou registe-se, utilizando
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Por favor, selecione
   activemodel:
     attributes:
@@ -698,9 +699,9 @@ pt-PT:
               cannot_assign_variant_and_parent: 'Não é possível atribuir uma variante e o seu elemento pai '
               cannot_assign_variants_yet: Ainda não é possível ativar variantes num projeto. Ative o indicador de funcionalidade para experimentar as variantes
               in_use_by_work_packages: 'ainda em uso por pacotes de trabalho: %{types}'
-              switch_source_not_a_variant: Só é possível mudar de uma variante
-              switch_target_identical: O tipo de destino deve ser diferente da variante atual
-              switch_target_not_in_family: Só é possível mudar para outra variante do mesmo Tipo ou para o seu Tipo pai
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: O utilizador selecionado não está autorizado a que pacotes de trabalho lhe sejam atribuídos.
           foreign_wps_reference_version: Pacotes de trabalho em versões de referência do projeto não descendentes ou suas descendentes.
         project/phase:
@@ -715,6 +716,12 @@ pt-PT:
           attributes:
             project_ids:
               blank: Selecione um projeto.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -813,7 +820,7 @@ pt-PT:
               query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
             parent:
               cannot_be_self: não pode ser o próprio tipo.
-              cannot_change_with_work_packages: não pode ser alterado, uma vez que já existem pacotes de trabalho deste tipo.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: não pode ser configurado porque este tipo já possui variantes.
               must_be_a_root: deve ser, por si só, um tipo de nível superior. Os tipos só podem ser aninhados num único nível.
               standard_type_must_be_root: não pode ser definido para o tipo padrão.
@@ -1202,9 +1209,6 @@ pt-PT:
           description: Crie uma execução de importação para começar a importar informações desta instância do Jira
           title: Ainda não foram feitas importações
         history: Histórico
-        side_panel:
-          run_status: Run status
-          open_history: Open the run history
         import_blocked_error: Está em curso ou a aguardar revisão outra importação do Jira. Conclua-a ou reverta-a antes de iniciar uma nova importação.
         index:
           button_edit_configuration: Editar configuração
@@ -1212,6 +1216,9 @@ pt-PT:
           description: Pode importar diferentes conjuntos de dados em cada execução de importação. É possível anular uma execução de importação imediatamente após o modo de revisão, mas não após a finalização.
         project_identifier_taken: 'Está a tentar importar um projeto com um identificador já utilizado: %{taken_identifier}. Atualize o identificador do projeto no Jira e clique em Tentar novamente.'
         remove_error: Uma execução de importação do Jira não pode ser eliminada enquanto estiver em execução
+        side_panel:
+          open_history: Open the run history
+          run_status: Run status
         status:
           configuring: Selecionar âmbito
           finalizing: A finalizar
@@ -1715,6 +1722,7 @@ pt-PT:
     entity_type: Entidade
     estimated_hours: Trabalho
     estimated_time: Trabalho
+    exact_match: Exact match
     expires_at: Expira em
     filter: Filtro
     firstname: Primeiro nome
@@ -2534,6 +2542,7 @@ pt-PT:
   error_failed_to_delete_entry: Falha ao apagar esta entrada.
   error_in_dependent: 'Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Erro ao tentar criar o objeto dependente: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: O valor selecionado é inválido.
   error_journal_attribute_not_present: O diário não contém o atributo %{attribute}.
   error_menu_item_not_created: O item de menu não pôde ser adicionado
@@ -2900,7 +2909,14 @@ pt-PT:
       work_package_parent_deleted: Parent removed
     changes_retracted: As mudanças foram retraídas.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: Accessibilidade
   label_account: Conta
@@ -4830,6 +4846,7 @@ pt-PT:
       header_identifier: Identificador
       header_relations: Relações do projeto
       header_status: Estado
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Pesquisar fase do projeto
@@ -4903,10 +4920,18 @@ pt-PT:
           title: No types are active in this project
         form:
           enable_type_in_project: Ativar tipo "%{type}"
-        in_roadmap: In roadmap
         no_results_title_text: Atualmente, não existem tipos disponíveis.
         remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Crie uma nova versão
         no_results_title_text: Atualmente, não existem versões para o projeto.

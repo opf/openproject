@@ -91,7 +91,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
         // HAL class discriminator: omitting it causes the factory to fall back to a generic
         // HalResource, and getters like `formattedId` on WorkPackageResource never resolve.
         select: 'elements/id,elements/displayId,elements/subject,elements/author,elements/type,elements/project,elements/status,elements/_type',
-        sortBy: '[["updatedAt","desc"]]',
+        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
       };
     }
 

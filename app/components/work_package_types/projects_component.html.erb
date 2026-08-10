@@ -29,19 +29,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= component_wrapper do %>
   <%=
-    render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-form-wrapper")) do
-      render(
-        Primer::Forms::ToggleSwitchForm.new(
-          name: "enable_work_package_type_all_projects",
-          label: t("types.edit.projects.enable_all"),
-          src: enable_all_type_projects_path(model),
-          csrf_token: form_authenticity_token,
-          status_label_position: :start,
-          checked: enabled_for_all_projects?,
-          data: { turbo: true },
-          mb: 3
+    if enable_all_available?
+      render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-form-wrapper")) do
+        render(
+          Primer::Forms::ToggleSwitchForm.new(
+            name: "enable_work_package_type_all_projects",
+            label: t("types.edit.projects.enable_all"),
+            src: enable_all_type_projects_path(model),
+            csrf_token: form_authenticity_token,
+            status_label_position: :start,
+            checked: enabled_for_all_projects?,
+            data: { turbo: true },
+            mb: 3
+          )
         )
-      )
+      end
     end
   %>
   <%=

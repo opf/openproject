@@ -37,15 +37,16 @@ module ResourcePlannerViews
     class AllocationBarComponent < ApplicationComponent
       include AvatarHelper
 
-      def initialize(allocation:, visible_principal_ids: nil)
+      def initialize(allocation:, visible_principal_ids: nil, candidate_count: 0)
         super
         @allocation = allocation
         @visible_principal_ids = visible_principal_ids
+        @candidate_count = candidate_count
       end
 
       private
 
-      attr_reader :allocation, :visible_principal_ids
+      attr_reader :allocation, :visible_principal_ids, :candidate_count
 
       def hours_label
         t("resource_management.allocation.hours", value: allocation.allocated_hours.round)
@@ -70,23 +71,16 @@ module ResourcePlannerViews
         end
       end
 
-      # Resolving the candidate query can fail for an incomplete filter; fall back
-      # to no badge rather than erroring the whole timeline.
-      def candidate_count
-        return 0 unless filter_based?
-
-        allocation.candidate_query.results.count
-      rescue StandardError => e
-        Rails.logger.warn("Resource timeline candidate_count failed: #{e.class}: #{e.message}")
-        0
-      end
-
       def candidate_badge?
         candidate_count.positive?
       end
 
-      def candidate_label
-        t("resource_management.work_package_list.allocated_members.additional", count: candidate_count)
+      def candidate_tooltip
+        t("resource_management.work_package_timeline.allocation_bar.matching_members_description", count: candidate_count)
+      end
+
+      def candidate_tooltip_id
+        "wp-timeline-candidates-#{allocation.id}"
       end
     end
   end

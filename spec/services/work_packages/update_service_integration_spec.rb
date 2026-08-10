@@ -443,6 +443,37 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
+  describe "changing the type when the project resolves it to a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    shared_let(:root_only_status) { create(:status, name: "root_only_status") }
+
+    let(:work_package) { create(:work_package, subject: "work_package", status: root_only_status) }
+    let(:attributes) { { type: family_root } }
+
+    before do
+      variant.configuration_links
+             .find_by(aspect: Type::ConfigurationLink::WORKFLOWS)
+             .destroy!
+
+      create(:workflow, type: family_root, role:,
+                        old_status_id: root_only_status.id, new_status_id: root_only_status.id)
+      create(:workflow, type: variant, role:,
+                        old_status_id: non_default_status.id, new_status_id: non_default_status.id)
+
+      project.project_types.create!(type: family_root, variant:)
+    end
+
+    # root_only_status is valid for the root's workflow but not the variant's, so following the
+    # stored root would leave it in place while following the variant has to reassign it.
+    it "judges the status against the variant's workflow, not the stored root's" do
+      expect(subject).to be_success
+      expect(work_package.reload.type).to eq(family_root)
+      expect(work_package.status).to eq(default_status)
+    end
+  end
+
   describe "inheriting dates" do
     let(:attributes) do
       {
