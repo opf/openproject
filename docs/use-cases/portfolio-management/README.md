@@ -41,9 +41,9 @@ Portfolios in OpenProject are special workspaces that allow you to:
 
 ### 1. Navigate to the portfolios overview
 
-Select **Portfolios** from the left hand or global modules menu.
+Select **Portfolios** from the left-hand or global modules menu.
 
-![Select the portfolios module from the left hand menu in OpenProject](openproject_use_case_select_portfolios_module.png)
+![Select the portfolios module from the left-hand menu in OpenProject](openproject_use_case_select_portfolios_module.png)
 
 The overview page lists all portfolios you can access. Use filters, portfolio status, and aggregated status indicators across subitems to quickly assess portfolio health and identify initiatives that require attention.
 
@@ -60,7 +60,7 @@ A portfolio can contain programs, projects, or a mix of both. Define a structure
 
 ![An example of a portfolio, which includes programs that in turn contain projects, shown in the "all projects" dropdown menu in OpenProject](openproject_use_case_portfolios_hierarchy_examples.png)
 
-Read more about [portfolio hierarchies](../../user-guide/portfolios/). 
+Read more about [portfolio hierarchies](../../user-guide/portfolios/).
 
 ### 3. Manage portfolio subitems
 
