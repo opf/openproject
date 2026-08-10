@@ -32,6 +32,27 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Wikis::Provider do
+  describe "#supports?" do
+    subject { provider.supports?(registry_path) }
+
+    let(:provider) { build(:internal_wiki_provider) }
+    let(:registry_path) { "queries.search_wikis" }
+
+    it { is_expected.to be(true) }
+
+    context "when the provider does not implement the operation" do
+      let(:provider) { build(:xwiki_provider) }
+
+      it { is_expected.to be(false) }
+    end
+
+    context "when the operation does not exist at all" do
+      let(:registry_path) { "queries.search_the_universe" }
+
+      it { is_expected.to be(false) }
+    end
+  end
+
   describe "validations" do
     describe "unique_universal_identifier" do
       let(:existing) { create(:xwiki_provider, universal_identifier: "xwiki-instance-abc123") }

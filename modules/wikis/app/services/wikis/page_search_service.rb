@@ -48,7 +48,7 @@ module Wikis
           ->(failure) { failure.code == :not_found ? Success([]) : Failure(failure) }
         )
       else
-        search_by_query(query).fmap { build_result_tree(it) }
+        search_by_query(query)
       end
     end
 
@@ -73,9 +73,23 @@ module Wikis
     def search_by_query(query)
       Adapters::Input::SearchPages.build(query:).bind do |input_data|
         provider.auth_strategy_for(user).bind do |auth_strategy|
-          provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
+          matching_pages(input_data:, auth_strategy:).bind do |pages|
+            matching_wikis(input_data:, auth_strategy:).fmap { build_result_tree(pages:, wikis: it) }
+          end
         end
       end
+    end
+
+    def matching_pages(input_data:, auth_strategy:)
+      provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
+    end
+
+    # Searching wikis by their name is optional, a provider unable to do so contributes no wikis at all,
+    # e.g. XWiki offers no API for it.
+    def matching_wikis(input_data:, auth_strategy:)
+      return Success([]) unless provider.supports?("queries.search_wikis")
+
+      provider.resolve("queries.search_wikis").call(input_data:, auth_strategy:)
     end
 
     def to_tree_node(page:, enabled:)
@@ -86,32 +100,24 @@ module Wikis
                                                 enabled:)
     end
 
-    def build_result_tree(results)
+    def build_result_tree(pages:, wikis:)
       root = Adapters::Results::PageSearchTreeNode.new(identifier: "root",
                                                        type: :root,
                                                        name: "root",
                                                        children: [],
                                                        enabled: false)
+      accumulator = { root:, all_nodes: [root] }
 
-      tree_construct = results.reduce({ root:, all_nodes: [root] }) do |acc, result|
-        insert_result(acc, result)
+      wikis.each { insert_wiki_node(accumulator, it) }
+      pages.each { insert_page_hierarchy(accumulator, it) }
 
-        acc
-      end
-
-      tree_construct[:root].children
+      root.children
     end
 
-    # A result is either a page, which is nested below its wiki and its ancestors, or a wiki matched by
-    # its own name, which becomes a node without any pages below it.
-    def insert_result(accumulator, result)
-      if result.is_a?(Adapters::Results::Wiki)
-        insert_wiki_node(accumulator, result)
-      else
-        insert_wiki_node(accumulator, result.wiki)
-        insert_ancestor_nodes(accumulator, result)
-        insert_page_node(accumulator, result)
-      end
+    def insert_page_hierarchy(accumulator, page_hierarchy)
+      insert_wiki_node(accumulator, page_hierarchy.wiki)
+      insert_ancestor_nodes(accumulator, page_hierarchy)
+      insert_page_node(accumulator, page_hierarchy)
     end
 
     def insert_wiki_node(accumulator, wiki)

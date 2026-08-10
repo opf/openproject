@@ -43,6 +43,13 @@ RSpec.describe Wikis::PageSearchService do
   let(:search_pages) do
     instance_double(Wikis::Adapters::Providers::XWiki::Queries::SearchPages, call: search_pages_result)
   end
+  # Searching wikis is an optional operation, which XWiki does not support, hence the provider is taught
+  # to support it here instead of swapping in the internal provider and all of its queries.
+  let(:search_wikis) do
+    instance_double(Wikis::Adapters::Providers::Internal::Queries::SearchWikis, call: search_wikis_result)
+  end
+  let(:wikis) { [] }
+  let(:search_wikis_result) { Success(wikis) }
 
   let(:page_info) { new_page_info(identifier: "42", title: "E-11 Training program", href: "#", provider:) }
   let(:page_info_result) { Success(page_info) }
@@ -73,6 +80,10 @@ RSpec.describe Wikis::PageSearchService do
       "xwiki.queries.search_pages",
       class_double(Wikis::Adapters::Providers::XWiki::Queries::SearchPages, new: search_pages)
     )
+
+    allow(provider).to receive(:resolve).and_call_original
+    allow(provider).to receive(:resolve).with("queries.search_wikis").and_return(search_wikis)
+    allow(provider).to receive(:supports?).with("queries.search_wikis").and_return(true)
   end
 
   context "when the query is a normal search term" do
@@ -162,9 +173,15 @@ RSpec.describe Wikis::PageSearchService do
       end
     end
 
-    context "if the search result contains a wiki matched by its own name" do
+    context "if a wiki is matched by its own name" do
       let(:matched_wiki) { new_wiki(identifier: "9", provider:, name: "Demo project", href: "#") }
-      let(:page_hierarchies) { [matched_wiki] }
+      let(:wikis) { [matched_wiki] }
+      let(:page_hierarchies) { [] }
+
+      it "passes the search term along" do
+        subject
+        expect(search_wikis).to have_received(:call).with(input_data: having_attributes(query:), auth_strategy: anything)
+      end
 
       it "adds it as a standalone wiki node with no pages" do
         expect(subject).to be_success
@@ -179,14 +196,14 @@ RSpec.describe Wikis::PageSearchService do
 
     context "if a wiki is matched both by its name and through one of its pages" do
       let(:wiki) { new_wiki(identifier: "1", provider:, name: "Death Star", href: "#") }
+      let(:wikis) { [wiki] }
       let(:page_hierarchies) do
         [
           new_page_hierarchy(
             page: new_page_info(identifier: "42", title: "E-11 Training program", href: "#", provider:),
             ancestors: [],
             wiki:
-          ),
-          wiki
+          )
         ]
       end
 
@@ -197,6 +214,31 @@ RSpec.describe Wikis::PageSearchService do
         expect(search_results.size).to eq(1)
         expect(search_results[0].identifier).to eq(wiki.identifier)
         expect(search_results[0].children.map(&:identifier)).to eq(["42"])
+      end
+    end
+
+    context "if the provider cannot search for wikis" do
+      before do
+        allow(provider).to receive(:supports?).with("queries.search_wikis").and_return(false)
+      end
+
+      it "does not search for wikis" do
+        subject
+
+        expect(search_wikis).not_to have_received(:call)
+      end
+
+      it "still returns the pages" do
+        expect(subject).to be_success
+        expect(subject.value!.size).to eq(2)
+      end
+    end
+
+    context "if searching for wikis fails" do
+      let(:search_wikis_result) { Failure(Wikis::Adapters::Results::Error.new(code: :unexpected, source: self)) }
+
+      it "returns that error" do
+        expect(subject).to eq(search_wikis_result)
       end
     end
 

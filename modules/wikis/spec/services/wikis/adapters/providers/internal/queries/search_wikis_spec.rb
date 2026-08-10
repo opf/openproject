@@ -30,90 +30,66 @@
 
 require "spec_helper"
 
-RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
+RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchWikis do
   subject { described_class.new(model: provider).call(input_data:, auth_strategy:) }
 
   let(:provider) { create(:internal_wiki_provider) }
   let(:input_data) { Wikis::Adapters::Input::SearchPages.build(query:).value! }
   let(:auth_strategy) { provider.auth_strategy_for(user).value! }
-  let(:query) { wiki_page.title }
+  let(:query) { "Demo project" }
 
-  let(:wiki) { create(:wiki) }
-  let(:wiki_project) { wiki.project }
-  let(:wiki_page) { create(:wiki_page, wiki:, parent: wiki_page_parent, title: "Wiki Page with a Title you will love") }
-  let(:wiki_page_parent) { create(:wiki_page, wiki:, title: "Nothing to see here") }
+  let(:wiki) { create(:wiki, project: create(:project, name: "Demo project")) }
   let(:wiki_project_permissions) { %i[view_wiki_pages] }
 
   let(:user) { create(:user) }
 
   before do
-    create(:member, project: wiki_project, user:, roles: [create(:project_role, permissions: wiki_project_permissions)])
-
-    wiki_page
+    create(:member, project: wiki.project, user:, roles: [create(:project_role, permissions: wiki_project_permissions)])
   end
 
   it { is_expected.to be_success }
 
-  it "returns pages matching the search term exactly" do
-    expect(subject.value!).not_to be_empty
-    expect(subject.value!.first.page.title).to eq(wiki_page.title)
+  it "returns wikis whose project name matches the search term exactly" do
+    expect(subject.value!.map(&:identifier)).to contain_exactly(wiki.id.to_s)
   end
 
-  it "returns the page's ancestors" do
-    expect(subject.value!).not_to be_empty
-    expect(subject.value!.first.ancestors.first.identifier).to eq(wiki_page_parent.id.to_s)
-  end
-
-  it "returns the page's wiki" do
-    expect(subject.value!).not_to be_empty
-    expect(subject.value!.first.wiki.identifier).to eq(wiki.id.to_s)
+  it "returns the wiki named after its project" do
+    expect(subject.value!.first.name).to eq("Demo project")
   end
 
   context "when the search term only matches partially" do
-    let(:query) { "a Title" }
+    let(:query) { "emo pro" }
 
     it { is_expected.to be_success }
 
-    it "returns matching pages" do
-      expect(subject.value!).not_to be_empty
-      expect(subject.value!.first.page.title).to eq(wiki_page.title)
-    end
-  end
-
-  context "when the search term matches a parent page" do
-    let(:query) { wiki_page_parent.title }
-    let!(:wiki_page_child) { create(:wiki_page, wiki:, parent: wiki_page, title: "Deeply nested page") }
-
-    it { is_expected.to be_success }
-
-    it "returns the matching page only, not the pages nested below it" do
-      expect(subject.value!.map { it.page.title }).to contain_exactly(wiki_page_parent.title)
+    it "returns matching wikis" do
+      expect(subject.value!.map(&:identifier)).to contain_exactly(wiki.id.to_s)
     end
   end
 
   context "when the search term has wrong casing" do
-    let(:query) { wiki_page.title.downcase }
+    let(:query) { "demo PROJECT" }
 
     it { is_expected.to be_success }
 
-    it "returns matching pages" do
-      expect(subject.value!).not_to be_empty
-      expect(subject.value!.first.page.title).to eq(wiki_page.title)
+    it "returns matching wikis" do
+      expect(subject.value!.map(&:identifier)).to contain_exactly(wiki.id.to_s)
     end
   end
 
-  context "when the search term only matches the name of the page's wiki" do
-    let(:query) { wiki_project.name }
+  context "when the search term only matches a page of the wiki" do
+    let!(:wiki_page) { create(:wiki_page, wiki:, title: "Nothing to see here") }
+    let(:query) { wiki_page.title }
 
     it { is_expected.to be_success }
 
-    it "returns an empty result, as wikis are searched separately" do
+    it "returns an empty result, as pages are searched separately" do
       expect(subject.value!).to eq([])
     end
   end
 
-  context "when there are no matching pages" do
-    let(:query) { "the title" }
+  context "when there are no matching wikis" do
+    let(:query) { "Rebel Alliance" }
 
     it { is_expected.to be_success }
 
@@ -122,12 +98,22 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
     end
   end
 
-  context "when user can't see a matching wiki page" do
+  context "when the user can't see the matching wiki" do
     let(:wiki_project_permissions) { %i[] }
 
     it { is_expected.to be_success }
 
     it "returns an empty result" do
+      expect(subject.value!).to eq([])
+    end
+  end
+
+  context "when the matching wiki is disabled" do
+    let(:wiki) { create(:wiki, enabled: false, project: create(:project, name: "Demo project")) }
+
+    it { is_expected.to be_success }
+
+    it "returns an empty result, as no page can be created in a disabled wiki" do
       expect(subject.value!).to eq([])
     end
   end

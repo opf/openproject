@@ -37,25 +37,12 @@ module Wikis
             MAXIMUM_RESULTS = 50
 
             def call(input_data:, auth_strategy:)
-              user = auth_strategy.user
-
-              success(matching_pages(input_data.query, user) + matching_wikis(input_data.query, user))
-            end
-
-            private
-
-            def matching_pages(query, user)
-              WikiPage.visible(user)
-                      .where("title ILIKE ?", "%#{query}%")
-                      .limit(MAXIMUM_RESULTS)
-                      .map { PageHierarchy.wiki_page_to_page_hierarchy(it, provider:) }
-            end
-
-            def matching_wikis(query, user)
-              Wiki.visible(user)
-                  .where("projects.name ILIKE ?", "%#{query}%")
-                  .limit(MAXIMUM_RESULTS)
-                  .map { PageHierarchy.wiki_to_adapter_wiki(it, provider:) }
+              success(
+                WikiPage.visible(auth_strategy.user)
+                        .where("title ILIKE ?", "%#{input_data.query}%")
+                        .limit(MAXIMUM_RESULTS)
+                        .map { PageHierarchy.wiki_page_to_page_hierarchy(it, provider:) }
+              )
             end
           end
         end

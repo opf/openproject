@@ -72,6 +72,13 @@ module Wikis
       Adapters::Registry["#{self.class.registry_prefix}.#{registry_path}"].new(model: self, **init_options)
     end
 
+    # Whether the provider implements an operation at all, as not every provider supports every operation,
+    # e.g. only the internal provider can search for wikis by name. Resolving an unsupported operation
+    # raises, hence callers of optional operations have to ask beforehand.
+    def supports?(registry_path)
+      Adapters::Registry.key?("#{self.class.registry_prefix}.#{registry_path}")
+    end
+
     def inspect
       "#<#{self.class.name} id: #{id} name: #{name}>"
     end
