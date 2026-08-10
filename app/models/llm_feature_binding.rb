@@ -58,7 +58,7 @@ class LlmFeatureBinding < ApplicationRecord
   # catalogue changed.
   def dangling?
     resolved = resolved_model_id
-    resolved.present? && llm_connection.catalogue_model_ids.exclude?(resolved)
+    resolved.present? && llm_connection.available_model_ids.exclude?(resolved)
   end
 
   def locked? = locked_at.present?
