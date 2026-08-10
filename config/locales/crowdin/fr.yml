@@ -699,9 +699,9 @@ fr:
               cannot_assign_variant_and_parent: Impossible d'affecter à la fois une variante et son type parent
               cannot_assign_variants_yet: Les variantes ne peuvent pas encore être activées au niveau d'un projet. Activez l'indicateur de fonctionnalité pour tester les variantes
               in_use_by_work_packages: 'toujours en cours d''utilisation par les lots de travaux : %{types}'
-              switch_source_not_a_variant: Le changement de type n'est possible qu'à partir d'une variante
-              switch_target_identical: Le type cible doit être différent de la variante actuelle
-              switch_target_not_in_family: Le changement n'est possible que vers une autre variante du même type ou vers son type parent
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: L'utilisateur sélectionné ne peut pas être assigné à des lots de travaux.
           foreign_wps_reference_version: Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.
         project/phase:
@@ -4850,6 +4850,7 @@ fr:
       header_identifier: Identifiant
       header_relations: Relations du projet
       header_status: Statut
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Rechercher une phase de projet
@@ -4923,10 +4924,18 @@ fr:
           title: Aucun type n'est actif dans ce projet
         form:
           enable_type_in_project: Autorise le type « %{type} »
-        in_roadmap: Dans la feuille de route
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         remove_from_project: Supprimer du projet
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: Le type sélectionné est introuvable.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Créer une nouvelle version
         no_results_title_text: Aucune version du projet pour le moment.

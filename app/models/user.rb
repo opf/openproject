@@ -413,7 +413,8 @@ class User < Principal
 
   # Is the user authenticated via an external authentication source via OmniAuth?
   def uses_external_authentication?
-    user_auth_provider_links.exists?
+    # using #any? instead of #exists? so that it also works on unpersisted auth provider links
+    user_auth_provider_links.any?
   end
 
   #

@@ -28,14 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomActions::Actions::Inexistent < CustomActions::Actions::Base
-  def self.key
-    :inexistent
+class AddIndexOnWorkPackageSequenceNumber < ActiveRecord::Migration[8.1]
+  disable_ddl_transaction!
+
+  def up
+    add_index :work_packages, :sequence_number,
+              where: "sequence_number IS NOT NULL",
+              algorithm: :concurrently,
+              if_not_exists: true
   end
 
-  def apply(*); end
-
-  def validate(errors)
-    errors.add :actions, :does_not_exist
+  def down
+    remove_index :work_packages, :sequence_number,
+                 algorithm: :concurrently,
+                 if_exists: true
   end
 end

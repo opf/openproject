@@ -157,7 +157,7 @@ module Storages
                     ancestors.push(drive_root(drive_name))
                   else
                     ancestors.push(
-                      @transformer.build_ancestor(component, "#{CGI.unescape(ancestors.last.location)}/#{component}")
+                      @transformer.build_ancestor(component, "#{ancestors.last.location}/#{CGI.unescape(component)}")
                     )
                   end
                 end

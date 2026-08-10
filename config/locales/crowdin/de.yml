@@ -699,9 +699,9 @@ de:
               cannot_assign_variant_and_parent: 'Eine Variante und deren übergeordnete Variante können nicht beide aktiv sein '
               cannot_assign_variants_yet: Varianten können derzeit noch nicht auf Projektebene aktiviert werden. Aktivieren Sie das Feature Flag, um Varianten auszuprobieren
               in_use_by_work_packages: 'wird noch genutzt von folgenden Arbeitspaketen: %{types}'
-              switch_source_not_a_variant: Es ist nur möglich, von einer Variante auf eine andere zu wechseln
-              switch_target_identical: Der Zieltyp muss sich von der aktuellen Variante unterscheiden
-              switch_target_not_in_family: Kann nur zu einer anderen Variante desselben Typs oder seinem übergeordneten Typ wechseln
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: Der gewählte Nutzer darf im Arbeitspaket nicht zugewiesen werden.
           foreign_wps_reference_version: Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.
         project/phase:
@@ -4851,6 +4851,7 @@ de:
       header_identifier: Kennung
       header_relations: Projektbeziehungen
       header_status: Status
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Projektphase suchen
@@ -4924,10 +4925,18 @@ de:
           title: In diesem Projekt sind keine Typen aktiv
         form:
           enable_type_in_project: Typ "%{type}" aktivieren
-        in_roadmap: In Roadmap anzeigen
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         remove_from_project: Aus dem Projekt entfernen
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: Der ausgewählte Typ konnte nicht gefunden werden.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Neue Version erstellen
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
