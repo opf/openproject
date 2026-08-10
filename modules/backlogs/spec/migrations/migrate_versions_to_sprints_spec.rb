@@ -284,7 +284,6 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
     end
 
     context "when the feature is active",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       include_examples "migrates by the primary version"
     end

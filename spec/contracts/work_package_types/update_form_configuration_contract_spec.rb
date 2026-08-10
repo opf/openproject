@@ -255,7 +255,6 @@ module WorkPackageTypes
         end
 
         context "when the multiple versions feature is active",
-                with_flag: { work_package_multiple_versions: true },
                 with_settings: { work_package_multiple_versions: true } do
           it "accepts target_versions" do
             model.attribute_groups = [["foo", ["target_versions"]]]

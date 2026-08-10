@@ -97,7 +97,6 @@ RSpec.describe "API v3 Query Column resource" do
     end
 
     context "with multiple versions active",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       context "for the targetVersions column" do
         let(:column_name) { "targetVersions" }

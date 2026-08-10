@@ -159,7 +159,6 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
   end
 
   context "with the target versions column",
-          with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true } do
     let(:version_one) { create(:version, project:, name: "1.0") }
     let(:version_two) { create(:version, project:, name: "2.0") }

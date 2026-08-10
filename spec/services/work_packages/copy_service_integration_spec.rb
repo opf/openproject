@@ -115,7 +115,6 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
       end
 
       describe "copied version references",
-               with_flag: { work_package_multiple_versions: true },
                with_settings: { work_package_multiple_versions: true } do
         shared_let(:assign_versions_user) do
           create(:user,

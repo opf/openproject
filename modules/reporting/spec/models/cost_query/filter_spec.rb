@@ -345,7 +345,6 @@ RSpec.describe CostQuery, :reporting_query_helper do
       end
 
       context "with multiple target versions enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         it "labels the filter 'Target versions'" do
           expect(CostQuery::Filter::VersionId.label).to eq("Target versions")

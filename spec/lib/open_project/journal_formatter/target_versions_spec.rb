@@ -85,7 +85,6 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
     end
 
     context "when the multiple versions feature is active",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       it "labels the change with 'Target versions'" do
         expect(instance.render(:target_versions, [version.id.to_s, other_version.id.to_s]))

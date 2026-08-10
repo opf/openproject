@@ -123,7 +123,6 @@ RSpec.describe "work package reports", :js do
   end
 
   context "with the multiple versions feature enabled",
-          with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true } do
     let!(:version_a) { create(:version, project:, name: "Alpha 1.0") }
     let!(:version_b) { create(:version, project:, name: "Beta 2.0") }

@@ -1382,7 +1382,6 @@ RSpec.describe WorkPackages::BaseContract do
       # version (the lowest id), so agreement means naming that one - in any
       # assignment order.
       context "with multiple target versions enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         let(:lower_version) { [assignable_version, other_assignable_version].min_by(&:id) }
         let(:higher_version) { [assignable_version, other_assignable_version].max_by(&:id) }
@@ -1483,7 +1482,6 @@ RSpec.describe WorkPackages::BaseContract do
       end
 
       context "when the multiple-versions feature is enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         before { contract.validate }
 

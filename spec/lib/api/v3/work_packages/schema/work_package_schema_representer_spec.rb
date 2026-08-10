@@ -1061,7 +1061,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context "when multiple versions is active",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         let(:permissions) { [:assign_versions] }
 

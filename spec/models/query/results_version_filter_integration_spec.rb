@@ -62,7 +62,6 @@ RSpec.describe Query::Results, "Filtering by version" do
   before { login_as(user) }
 
   context "with the multiple versions feature active",
-          with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true } do
     let!(:wp_with_searched_as_second_target) do
       create(:work_package, project:, version: other_version).tap do |wp|
@@ -85,7 +84,7 @@ RSpec.describe Query::Results, "Filtering by version" do
   end
 
   context "with the multiple versions feature inactive",
-          with_flag: { work_package_multiple_versions: false } do
+          with_settings: { work_package_multiple_versions: false } do
     it "returns work packages whose synced target version matches" do
       expect(results).to contain_exactly(wp_with_searched_as_only_target)
     end
