@@ -3,7 +3,7 @@
 require "spec_helper"
 require "features/page_objects/notification"
 
-RSpec.describe "edit work package", :js, with_settings: { work_package_multiple_versions: false } do
+RSpec.describe "edit work package", :js do
   let(:current_user) do
     create(:user,
            firstname: "Dev",
@@ -28,7 +28,9 @@ RSpec.describe "edit work package", :js, with_settings: { work_package_multiple_
   let(:status) { work_package.status }
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:version) { create(:version, project:) }
+  # The target versions field resolves its options when the page loads, so the
+  # version has to exist before that.
+  let!(:version) { create(:version, project:) }
 
   def visit!
     wp_page.visit!

@@ -91,6 +91,9 @@ RSpec.describe "edit work package", :js do
     priority2
     workflow
     status
+    # The target versions field resolves its options when the page loads, so the
+    # version has to exist before that.
+    version
 
     if visit_before
       visit!
@@ -117,7 +120,7 @@ RSpec.describe "edit work package", :js do
     end
   end
 
-  it "allows updating and seeing the results", with_settings: { work_package_multiple_versions: false } do
+  it "allows updating and seeing the results" do
     wp_page.update_attributes subject: "a new subject",
                               type: type2.name,
                               combinedDate: ["2013-03-04", "2013-03-20"],
