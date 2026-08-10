@@ -33,9 +33,8 @@
 # stored while Setting::WorkPackageMultipleVersions was in the other state would
 # otherwise be dropped from the columns, the grouping or the sort criterion.
 #
-# TODO(COMMS-949): once that migrates the stored names, drop this module and its
-# spec, the `include` in Query, the `version` select, and the calls in
-# WorkPackagesHelper#selected_work_packages_columns_options and Query#columns.
+# TODO(COMMS-949): remove this and the `version` select once that ticket has
+# migrated the stored names.
 module Query::DeprecatedVersionSelect
   extend ActiveSupport::Concern
 
