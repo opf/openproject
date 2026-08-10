@@ -40,6 +40,7 @@ module ResourceManagement
         allocations = allocations_by_work_package.values.flatten
         overbooked = ResourceAllocation.overbooked_ids(allocations)
         visible = ResourceAllocation.visible_principal_ids(allocations, current_user)
+        candidates = ResourceAllocation.candidate_counts(allocations, project: @project)
 
         events = allocations.map do |allocation|
           {
@@ -50,7 +51,7 @@ module ResourceManagement
             extendedProps: {
               overbooked: overbooked.include?(allocation.id),
               editUrl: edit_url_for(allocation),
-              html: render_bar(allocation, visible)
+              html: render_bar(allocation, visible, candidates.fetch(allocation.id, 0))
             }
           }
         end
@@ -133,9 +134,9 @@ module ResourceManagement
         Date::DAYNAMES.fetch(first_day % 7).downcase.to_sym
       end
 
-      def render_bar(allocation, visible_principal_ids)
+      def render_bar(allocation, visible_principal_ids, candidate_count)
         ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
-          .new(allocation:, visible_principal_ids:)
+          .new(allocation:, visible_principal_ids:, candidate_count:)
           .render_in(view_context)
       end
     end
