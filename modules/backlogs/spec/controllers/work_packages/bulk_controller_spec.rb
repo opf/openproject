@@ -31,13 +31,14 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
-  shared_let(:project) { create(:project, enabled_module_names: %i[backlogs work_package_tracking]) }
-  shared_let(:sprint) { create(:sprint, project:) }
-  shared_let(:bucket) { create(:backlog_bucket, project:) }
+  let!(:sprint) { create(:sprint, project:) }
+  let!(:bucket) { create(:backlog_bucket, project:) }
 
-  shared_let(:work_package1) { create(:work_package, project:) }
-  shared_let(:work_package2) { create(:work_package, project:) }
+  let(:work_package1) { create(:work_package, project:) }
+  let(:work_package2) { create(:work_package, project:) }
 
+  let(:project) { create(:project, enabled_module_names: enabled_modules) }
+  let(:enabled_modules) { %i[backlogs work_package_tracking] }
   let(:permissions) do
     %i[view_work_packages edit_work_packages view_sprints manage_sprint_items]
   end
@@ -51,25 +52,25 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
     before { get :edit, params: { ids: [work_package1.id, work_package2.id] } }
 
     it "displays the sprint and backlog bucket selects" do
-      assert_select "select", attributes: { name: "work_package[sprint_id]" }
-      assert_select "select", attributes: { name: "work_package[backlog_bucket_id]" }
+      expect(response.body).to have_select("Sprint", with_options: [sprint.name])
+      expect(response.body).to have_select("Backlog bucket", with_options: [bucket.name])
     end
 
     context "without the manage_sprint_items permission" do
       let(:permissions) { %i[view_work_packages edit_work_packages view_sprints] }
 
       it "does not display the fields" do
-        assert_select "select", { attributes: { name: "work_package[sprint_id]" } }, false
-        assert_select "select", { attributes: { name: "work_package[backlog_bucket_id]" } }, false
+        expect(response.body).to have_no_select("Sprint")
+        expect(response.body).to have_no_select("Backlog bucket")
       end
     end
 
     context "when the project does not have backlogs enabled" do
-      before { project.enabled_module_names -= ["backlogs"] }
+      let(:enabled_modules) { %i[work_package_tracking] }
 
       it "does not display the fields" do
-        assert_select "select", { attributes: { name: "work_package[sprint_id]" } }, false
-        assert_select "select", { attributes: { name: "work_package[backlog_bucket_id]" } }, false
+        expect(response.body).to have_no_select("Sprint")
+        expect(response.body).to have_no_select("Backlog bucket")
       end
     end
 
@@ -85,8 +86,8 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
       end
 
       it "does not display the fields" do
-        assert_select "select", { attributes: { name: "work_package[sprint_id]" } }, false
-        assert_select "select", { attributes: { name: "work_package[backlog_bucket_id]" } }, false
+        expect(response.body).to have_no_select("Sprint")
+        expect(response.body).to have_no_select("Backlog bucket")
       end
     end
   end
