@@ -30,10 +30,15 @@
 
 module MeetingAgendaItems
   module JournalizeWorkPackageActivity
-    def journalize_work_package_activity(agenda_item, cause)
+    def journalize_agenda_item(agenda_item, cause)
       return unless agenda_item.work_package?
 
-      work_package = agenda_item.work_package
+      journalize_work_package(agenda_item.work_package, cause)
+    end
+
+    def journalize_work_package(work_package, cause)
+      return if work_package.nil?
+
       Journals::CreateService
         .new(work_package, user)
         .call(cause:)

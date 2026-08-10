@@ -2951,10 +2951,12 @@ en:
         header: "changes by %{author}"
         set_with_diff: "%{field} set (%{link})"
       meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
       meeting_agenda_item_moved: "%{link}"
       meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
@@ -2998,8 +3000,10 @@ en:
       default_attribute_written: "Read-only attributes written"
       import: "Imported"
       meeting_agenda_item_added: "Added to meeting"
+      meeting_agenda_item_discussed: "Discussed in meeting"
       meeting_agenda_item_moved: "Moved to meeting"
       meeting_agenda_item_removed: "Removed from meeting"
+      meeting_outcome_recorded: "Added as outcome in meeting"
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"

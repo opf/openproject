@@ -48,7 +48,7 @@ module MeetingAgendaItems
 
       if call.success?
         copy_attachments_from_source(call.result)
-        journalize_work_package_activity(call.result, Journal::CausedByMeetingAgendaItemAdded.new(call.result.meeting))
+        journalize_agenda_item(call.result, Journal::CausedByMeetingAgendaItemAdded.new(call.result.meeting))
       end
 
       call

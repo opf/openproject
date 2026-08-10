@@ -38,7 +38,7 @@ module MeetingAgendaItems
       original_after_perform(call)
 
       if call.success?
-        journalize_work_package_activity(call.result, Journal::CausedByMeetingAgendaItemRemoved.new(call.result.meeting))
+        journalize_agenda_item(call.result, Journal::CausedByMeetingAgendaItemRemoved.new(call.result.meeting))
       end
 
       call

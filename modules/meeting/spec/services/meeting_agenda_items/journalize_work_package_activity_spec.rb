@@ -33,7 +33,8 @@ require "spec_helper"
 RSpec.describe "Journalizing work package meeting activity", type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:user) do
-    create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas view_work_packages] })
+    create(:user,
+           member_with_permissions: { project => %i[view_meetings manage_agendas manage_outcomes view_work_packages] })
   end
   shared_let(:work_package) { create(:work_package, project:, author: user) }
   shared_let(:meeting) { create(:meeting, project:, author: user) }
@@ -206,6 +207,60 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
           MeetingAgendaItems::DeleteService.new(user:, model: agenda_item).call
         end
       end.not_to change { Notification.where(recipient:).count }
+    end
+  end
+
+  describe "recording an outcome on a work package agenda item" do
+    let!(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, work_package:, author: user) }
+
+    before { agenda_item.meeting.update_column(:state, :in_progress) }
+
+    it "records a 'discussed' cause-only journal on the discussed work package" do
+      expect do
+        MeetingOutcomes::CreateService
+          .new(user:)
+          .call(meeting_agenda_item: agenda_item, kind: :information, notes: "We decided to proceed")
+      end.to change { work_package.journals.reload.count }.by(1)
+
+      journal = work_package.journals.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_discussed")
+      expect(journal.cause_meeting_id).to eq(meeting.id)
+    end
+
+    context "when the outcome references a different work package" do
+      shared_let(:outcome_work_package) { create(:work_package, project:, author: user) }
+
+      it "journalizes both work packages with their differing causes" do
+        expect do
+          MeetingOutcomes::CreateService
+            .new(user:)
+            .call(meeting_agenda_item: agenda_item, kind: :work_package, work_package_id: outcome_work_package.id)
+        end.to change { work_package.journals.reload.count }.by(1)
+          .and change { outcome_work_package.journals.reload.count }.by(1)
+
+        expect(work_package.journals.last.cause_type).to eq("meeting_agenda_item_discussed")
+        expect(work_package.journals.last.cause_meeting_id).to eq(meeting.id)
+
+        expect(outcome_work_package.journals.last.cause_type).to eq("meeting_outcome_recorded")
+        expect(outcome_work_package.journals.last.cause_meeting_id).to eq(meeting.id)
+      end
+    end
+
+    context "for a non work package agenda item with a work package outcome" do
+      let!(:agenda_item) { create(:meeting_agenda_item, meeting:, author: user) }
+
+      shared_let(:outcome_work_package) { create(:work_package, project:, author: user) }
+
+      it "journalizes only the outcome work package" do
+        expect do
+          MeetingOutcomes::CreateService
+            .new(user:)
+            .call(meeting_agenda_item: agenda_item, kind: :work_package, work_package_id: outcome_work_package.id)
+        end.to change { outcome_work_package.journals.reload.count }.by(1)
+          .and change { work_package.journals.reload.count }.by(0)
+
+        expect(outcome_work_package.journals.last.cause_type).to eq("meeting_outcome_recorded")
+      end
     end
   end
 end

@@ -101,8 +101,8 @@ module MeetingAgendaItems
     def journalize_move
       return if @old_section.meeting_id == @meeting_agenda_item.meeting_id
 
-      journalize_work_package_activity(@meeting_agenda_item,
-                                       Journal::CausedByMeetingAgendaItemMoved.new(@meeting_agenda_item.meeting))
+      journalize_agenda_item(@meeting_agenda_item,
+                             Journal::CausedByMeetingAgendaItemMoved.new(@meeting_agenda_item.meeting))
     end
 
     def check_and_update_section_if_changed(params)

@@ -58,7 +58,7 @@ module MeetingAgendaItems
     def journalize_move(agenda_item)
       return if @old_meeting_id == agenda_item.meeting_id
 
-      journalize_work_package_activity(agenda_item, Journal::CausedByMeetingAgendaItemMoved.new(agenda_item.meeting))
+      journalize_agenda_item(agenda_item, Journal::CausedByMeetingAgendaItemMoved.new(agenda_item.meeting))
     end
   end
 end
