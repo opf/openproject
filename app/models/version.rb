@@ -33,9 +33,6 @@ class Version < ApplicationRecord
   include ::Scopes::Scoped
 
   belongs_to :project
-  # Deprecated direct relation, replaced by the work_package_versions join
-  # table (see #targeted_work_packages / #observed_in_work_packages).
-  # has_many :work_packages, dependent: :nullify
   has_many :work_package_versions, dependent: :delete_all
   has_many :targeted_work_packages,
            -> { where(work_package_versions: { kind: "target" }) },

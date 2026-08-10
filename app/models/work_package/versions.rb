@@ -32,9 +32,6 @@ module WorkPackage::Versions
   extend ActiveSupport::Concern
 
   included do
-    # Deprecated single-version column
-    # belongs_to :version, optional: true
-
     has_many :work_package_versions, dependent: :delete_all
     has_many :versions, through: :work_package_versions, source: :version
     has_many :target_versions,
