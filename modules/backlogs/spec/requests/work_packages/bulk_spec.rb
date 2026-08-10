@@ -54,6 +54,24 @@ RSpec.describe "Work packages bulk edit: sprint and backlog bucket", :skip_csrf,
       expect(response.body).to have_select("Backlog bucket", with_options: [bucket.name])
     end
 
+    it "orders the assignable sprints chronologically, soonest first" do
+      sprint_later = create(:sprint, project:, name: "Sprint later",
+                                     start_date: Time.zone.today + 30.days, finish_date: Time.zone.today + 44.days)
+      sprint_soon = create(:sprint, project:, name: "Sprint soon",
+                                    start_date: Time.zone.today + 7.days, finish_date: Time.zone.today + 20.days)
+      sprint_latest = create(:sprint, project:, name: "Sprint latest",
+                                      start_date: Time.zone.today + 60.days, finish_date: Time.zone.today + 74.days)
+
+      get edit_work_packages_bulk_path(ids: [work_package1.id, work_package2.id])
+
+      rendered_order = page.all("select[name='work_package[sprint_id]'] option")
+                           .map { |option| option.text.strip }
+                           # Skip blank and "None" options, we are only interested in the sprints to assert the ordering
+                           .intersection([sprint_soon.name, sprint_later.name, sprint_latest.name])
+
+      expect(rendered_order).to eq [sprint_soon.name, sprint_later.name, sprint_latest.name]
+    end
+
     context "without the manage_sprint_items permission" do
       let(:permissions) { %i[view_work_packages edit_work_packages view_sprints] }
 
