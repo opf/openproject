@@ -91,6 +91,27 @@ RSpec.describe WorkPackages::EnableMultipleVersionsJob do
       expect(Setting.work_package_multiple_versions?).to be true
     end
 
+    it "warns with the row count when it had to repair target versions" do
+      version = create(:version, project:)
+      work_package = create(:work_package, project:, version: nil)
+      work_package.update_column(:version_id, version.id)
+
+      allow(Rails.logger).to receive(:warn)
+      job.perform
+
+      expect(Rails.logger).to have_received(:warn).with(/Added 1 missing target version row/)
+    end
+
+    it "stays quiet when every target version is already in place" do
+      version = create(:version, project:)
+      create(:work_package, project:, version:)
+
+      allow(Rails.logger).to receive(:warn)
+      job.perform
+
+      expect(Rails.logger).not_to have_received(:warn).with(/missing target version row/)
+    end
+
     it "raises so GoodJob records the failure when the setting is not writable" do
       allow(Settings::Definition[:work_package_multiple_versions]).to receive(:writable?).and_return(false)
 

@@ -50,7 +50,7 @@ class WorkPackages::EnableMultipleVersionsJob < ApplicationJob
   private
 
   def backfill_missing_target_versions
-    ActiveRecord::Base.connection.execute(<<~SQL.squish)
+    result = ActiveRecord::Base.connection.execute(<<~SQL.squish)
       INSERT INTO work_package_versions (work_package_id, version_id, kind, created_at, updated_at)
           SELECT work_packages.id, work_packages.version_id, 'target', now(), now()
           FROM work_packages
@@ -58,6 +58,18 @@ class WorkPackages::EnableMultipleVersionsJob < ApplicationJob
           WHERE work_packages.version_id IS NOT NULL
       ON CONFLICT (work_package_id, version_id, kind) DO NOTHING
     SQL
+
+    log_repaired_target_versions(result.cmd_tuples)
+  end
+
+  # Every write path mirrors version_id into a target row already, so a non-zero
+  # count means something reached the column directly and is worth investigating.
+  def log_repaired_target_versions(count)
+    return if count.zero?
+
+    Rails.logger.warn(
+      "[#{self.class.name}] Added #{count} missing target version row(s) before enabling multiple versions."
+    )
   end
 
   def enable_multiple_versions!
