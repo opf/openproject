@@ -42,6 +42,7 @@ function buildOnCancel(
   return () => {
     const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid);
     if (found) {
+      editor.focus();
       editor.transact((tr) => {
         tr.delete(found.position, found.position + found.node.nodeSize);
       });
@@ -94,7 +95,7 @@ function insertPendingWorkPackage(editor:AnyEditor, mode:PendingMode):void {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const workPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
+const workPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
   title: i18n.t('slashMenu.title'),
   onItemClick: () => insertPendingWorkPackage(editor, 'link'),
   aliases: [...getAliases('link')],
@@ -104,7 +105,7 @@ export const workPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const createWorkPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
+const createWorkPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
   title: i18n.t('slashMenu.create.title'),
   onItemClick: () => insertPendingWorkPackage(editor, 'create'),
   aliases: [...getAliases('create')],
@@ -112,3 +113,9 @@ export const createWorkPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
   icon: <PlusIcon size={18} />,
   subtext: i18n.t('slashMenu.create.subtext'),
 });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getOpenProjectSlashMenuItems = (editor:BlockNoteEditor<any>) => [
+  workPackageSlashMenu(editor),
+  createWorkPackageSlashMenu(editor),
+];

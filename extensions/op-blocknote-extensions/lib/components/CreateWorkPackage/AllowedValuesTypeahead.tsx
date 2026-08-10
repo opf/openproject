@@ -87,6 +87,8 @@ interface AllowedValuesTypeaheadProps {
   value:string;
   placeholder:string;
   withArrows?:boolean;
+  invalid?:boolean;
+  describedBy?:string;
   onChange:(href:string) => void;
 }
 
@@ -97,6 +99,8 @@ export const AllowedValuesTypeahead = ({
   value,
   placeholder,
   withArrows,
+  invalid,
+  describedBy,
   onChange,
 }:AllowedValuesTypeaheadProps) => {
   const { t } = useTranslation();
@@ -124,9 +128,11 @@ export const AllowedValuesTypeahead = ({
 
     const timer = setTimeout(() => {
       fetchAllowedValues(href, query)
-        .then((resources) => {
+        .then(({ resources, filtered }) => {
           if (!active) return;
-          const term = query.trim().toLowerCase();
+          // Narrowed here only where the API could not: it also matches on what
+          // the option does not read as, an e-mail among it.
+          const term = filtered ? '' : query.trim().toLowerCase();
           setOptions(
             toAllowedValues(resources)
               .filter((option) => !term || option.label.toLowerCase().includes(term))
@@ -199,6 +205,8 @@ export const AllowedValuesTypeahead = ({
         aria-controls={`${id}-list`}
         aria-autocomplete="list"
         aria-activedescendant={isOpen && options[focusedIndex] ? optionId(focusedIndex) : undefined}
+        aria-invalid={invalid ? true : undefined}
+        aria-describedby={describedBy}
         autoComplete="off"
         spellCheck={false}
         placeholder={placeholder}

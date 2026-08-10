@@ -111,9 +111,14 @@ export interface WorkPackageForm {
   };
 }
 
-export interface OpenProjectApiErrorBody {
+export interface OpenProjectApiErrorEntry {
   message?:string;
-  _embedded?:{ errors?:{ message?:string }[] };
+  /*  The attribute is camelized, as in the schema.  */
+  _embedded?:{ details?:{ attribute?:string } };
+}
+
+export interface OpenProjectApiErrorBody extends OpenProjectApiErrorEntry {
+  _embedded?:{ details?:{ attribute?:string }; errors?:OpenProjectApiErrorEntry[] };
 }
 
 export type OpColorMode = 'light' | 'dark';

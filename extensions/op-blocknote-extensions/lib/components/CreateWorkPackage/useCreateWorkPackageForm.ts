@@ -4,14 +4,16 @@ import { createWorkPackage, fetchWorkPackageCreateForm, OpenProjectApiError } fr
 import {
   applyValue,
   buildCreatePayload,
+  clearsOtherValues,
   extraRequiredFields,
   fieldFor,
   fixedFields,
   isValueFilled,
   missingRequiredFields,
+  splitAttributeErrors,
   unsupportedRequiredFields,
 } from './formSchema';
-import type { FieldValue, FieldValues, FormField } from './formSchema';
+import type { FieldErrors, FieldValue, FieldValues, FormField } from './formSchema';
 
 export interface CreateWorkPackageFormState {
   primaryFields:FormField[];
@@ -27,6 +29,7 @@ export interface CreateWorkPackageFormState {
   notAllowed:boolean;
   submitting:boolean;
   submitError:string | null;
+  fieldErrors:FieldErrors;
   unsupportedFields:FormField[];
   canSubmit:boolean;
   submit:() => void;
@@ -68,6 +71,7 @@ export function useCreateWorkPackageForm(
   const [notAllowed, setNotAllowed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   const projectHref = typeof values.project === 'string' && values.project ? values.project : undefined;
   const typeHref = typeof values.type === 'string' && values.type ? values.type : undefined;
@@ -119,7 +123,7 @@ export function useCreateWorkPackageForm(
   const extraFields = selected.type ? extraRequiredFields(schema) : [];
   const allFields = [...primaryFields, ...extraFields];
 
-    const selectedTypeLabel = primaryFields
+  const selectedTypeLabel = primaryFields
     .find((field) => field.key === 'type')
     ?.allowedValues
     ?.find((allowed) => allowed.href === typeHref)
@@ -127,6 +131,15 @@ export function useCreateWorkPackageForm(
 
   const setValue = (key:string, value:FieldValue) => {
     setSubmitError(null);
+    // Only the corrected field loses its complaint, unless the whole form is reloaded.
+    setFieldErrors((previous) => {
+      if (clearsOtherValues(key)) return {};
+      if (!(key in previous)) return previous;
+
+      const next = { ...previous };
+      delete next[key];
+      return next;
+    });
     setValues((previous) => applyValue(previous, key, value));
   };
 
@@ -148,6 +161,7 @@ export function useCreateWorkPackageForm(
 
     setSubmitting(true);
     setSubmitError(null);
+    setFieldErrors({});
 
     createWorkPackage(buildCreatePayload(form._embedded?.payload ?? {}, allFields, values))
       .then(
@@ -159,7 +173,13 @@ export function useCreateWorkPackageForm(
         },
         (error:unknown) => {
           console.error('[create work package] Failed to create the work package:', error);
-          setSubmitError(messageOf(error));
+          const attributed = error instanceof OpenProjectApiError ? error.attributeErrors : {};
+          const split = splitAttributeErrors(allFields, attributed);
+          const shownAtFields = Object.keys(split.fieldErrors).length > 0;
+
+          setFieldErrors(split.fieldErrors);
+          if (shownAtFields) setSubmitError(split.otherMessages.length > 0 ? split.otherMessages.join(' ') : null);
+          else setSubmitError(messageOf(error));
           setSubmitting(false);
         }
       );
@@ -179,6 +199,7 @@ export function useCreateWorkPackageForm(
     notAllowed: loading ? false : notAllowed,
     submitting,
     submitError,
+    fieldErrors,
     unsupportedFields,
     canSubmit,
     submit,

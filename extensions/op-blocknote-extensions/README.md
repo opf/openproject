@@ -73,8 +73,7 @@ const getSlashItems = useCallback(
     filterSuggestionItems(
       [
         ...getDefaultReactSlashMenuItems(editor),
-        workPackageSlashMenu(editor),
-        createWorkPackageSlashMenu(editor),
+        ...getOpenProjectSlashMenuItems(editor),
       ],
       query
     ),
@@ -84,7 +83,7 @@ const getSlashItems = useCallback(
 const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 ```
 
-`workPackageSlashMenu` links an existing work package; `createWorkPackageSlashMenu` creates a new one through a form and links it. Both insert a card on an empty line and an inline chip within a line of text.
+`getOpenProjectSlashMenuItems` returns every item this library offers: linking an existing work package, and creating a new one through a form and linking it. Both insert a card on an empty line and an inline chip within a line of text.
 
 The create form is built from the work package form endpoint of the API, so the attributes it asks for - and their labels - come from the OpenProject instance: subject, project, type, status, assignee, plus every other attribute the selected type requires. Attributes that already have a default (priority, for instance) are left to the API and are not shown.
 

@@ -7,8 +7,7 @@ import { render } from 'vitest-browser-react';
 import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
-  workPackageSlashMenu,
-  createWorkPackageSlashMenu,
+  getOpenProjectSlashMenuItems,
   useHashWpMenu,
 } from '../../lib';
 
@@ -35,8 +34,7 @@ function Editor({ onEditor, schema }:{ onEditor?:(editor:any) => void; schema?:a
       filterSuggestionItems(
         [
           ...getDefaultReactSlashMenuItems(editor),
-          workPackageSlashMenu(editor as any),
-          createWorkPackageSlashMenu(editor as any),
+          ...getOpenProjectSlashMenuItems(editor as any),
         ],
         query
       ),

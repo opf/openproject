@@ -29,12 +29,14 @@ export interface FormField {
   isLink:boolean;
   placeholder?:string;
   maxLength?:number;
+  integer?:boolean;
   allowedValues?:AllowedValue[];
   allowedValuesHref?:string;
 }
 
 export type FieldValue = string | boolean;
 export type FieldValues = Record<string, FieldValue>;
+export type FieldErrors = Record<string, string>;
 
 export type FieldDependency = 'project' | 'type' | undefined;
 
@@ -133,7 +135,11 @@ export function buildField(key:string, property:SchemaProperty):FormField {
 
   if (property.type.startsWith('[]')) return field;
 
-  return { ...field, kind: KIND_BY_TYPE[property.type] ?? 'unsupported' };
+  return {
+    ...field,
+    kind: KIND_BY_TYPE[property.type] ?? 'unsupported',
+    ...(property.type === 'Integer' ? { integer: true } : {}),
+  };
 }
 
 export function fieldFor(schema:WorkPackageSchema | undefined, key:string):FormField | undefined {
@@ -183,10 +189,31 @@ export function unsupportedRequiredFields(fields:FormField[]):FormField[] {
   return fields.filter((field) => field.required && field.kind === 'unsupported');
 }
 
+// A violation no field of this form can carry has to stay in the message on
+// top rather than be dropped.
+export function splitAttributeErrors(
+  fields:FormField[],
+  attributeErrors:FieldErrors
+):{ fieldErrors:FieldErrors; otherMessages:string[] } {
+  const shown = new Set(fields.map((field) => field.key));
+  const fieldErrors:FieldErrors = {};
+  const otherMessages:string[] = [];
+
+  for (const [attribute, message] of Object.entries(attributeErrors)) {
+    if (shown.has(attribute)) fieldErrors[attribute] = message;
+    else otherMessages.push(message);
+  }
+  return { fieldErrors, otherMessages };
+}
+
 const KEPT_ON_CHANGE:Record<string, string[]> = {
   'project': ['subject'],
   'type': ['subject', 'project', 'assignee'],
 };
+
+export function clearsOtherValues(key:string):boolean {
+  return key in KEPT_ON_CHANGE;
+}
 
 export function applyValue(previous:FieldValues, key:string, value:FieldValue):FieldValues {
   const kept = KEPT_ON_CHANGE[key];

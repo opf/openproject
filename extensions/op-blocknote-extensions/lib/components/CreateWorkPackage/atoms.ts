@@ -16,24 +16,25 @@ export const Overlay = styled.div.attrs({
   'data-testid': 'create-wp-overlay',
 })`
   ${defaultWpVariables}
+
   --op-create-wp-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
   --op-create-wp-surface: var(--bgColor-default, #ffffff);
   --op-create-wp-border: var(--borderColor-default, #d1d9e0);
   --op-create-wp-muted: var(--fgColor-muted, #59636e);
   --op-create-wp-danger: var(--fgColor-danger, #d1242f);
   --op-create-wp-link: var(--fgColor-link, #0969da);
-  --op-create-wp-text: #1f2328;
-  --op-create-wp-accent: #1f883d;
-  --op-create-wp-accent-hover: #1a7f37;
-  --op-create-wp-accent-text: #ffffff;
-  --op-create-wp-disabled: #95d8a6;
-  --op-create-wp-disabled-text: #ffffff;
-  --op-create-wp-neutral: #f6f8fa;
-  --op-create-wp-neutral-hover: #eff2f5;
-  --op-create-wp-neutral-border: #d1d9e0;
-  --op-create-wp-control-border: #d0d7de;
-  --op-create-wp-placeholder: #636c76;
-  --op-create-wp-arrow: #636c76;
+  --op-create-wp-text: var(--fgColor-default, #1f2328);
+  --op-create-wp-accent: var(--button-primary-bgColor-rest, #1f883d);
+  --op-create-wp-accent-hover: var(--button-primary-bgColor-hover, #1c8139);
+  --op-create-wp-accent-text: var(--button-primary-fgColor-rest, #ffffff);
+  --op-create-wp-disabled: var(--button-primary-bgColor-disabled, #95d8a6);
+  --op-create-wp-disabled-text: var(--button-primary-fgColor-disabled, #ffffffcc);
+  --op-create-wp-neutral: var(--button-default-bgColor-rest, #f6f8fa);
+  --op-create-wp-neutral-hover: var(--button-default-bgColor-hover, #eff2f5);
+  --op-create-wp-neutral-border: var(--button-default-borderColor-rest, #d1d9e0);
+  --op-create-wp-control-border: var(--control-borderColor-rest, #d1d9e0);
+  --op-create-wp-placeholder: var(--control-fgColor-placeholder, #59636e);
+  --op-create-wp-arrow: var(--fgColor-muted, #59636e);
 
   /*  Native widgets (checkbox, date picker, select popup) follow the modal
       rather than the operating system.  */
@@ -46,17 +47,17 @@ export const Overlay = styled.div.attrs({
     --op-create-wp-muted: var(--fgColor-muted, #9198a1);
     --op-create-wp-danger: var(--fgColor-danger, #f85149);
     --op-create-wp-link: var(--fgColor-link, #4493f8);
-    --op-create-wp-text: #e6edf3;
-    --op-create-wp-accent: #238636;
-    --op-create-wp-accent-hover: #2ea043;
-    --op-create-wp-disabled: rgba(35, 134, 54, 0.6);
-    --op-create-wp-disabled-text: rgba(255, 255, 255, 0.5);
-    --op-create-wp-neutral: #21262d;
-    --op-create-wp-neutral-hover: #30363d;
-    --op-create-wp-neutral-border: #3d444d;
-    --op-create-wp-control-border: #30363d;
-    --op-create-wp-placeholder: #8b949e;
-    --op-create-wp-arrow: #8b949e;
+    --op-create-wp-text: var(--fgColor-default, #f0f6fc);
+    --op-create-wp-accent: var(--button-primary-bgColor-rest, #238636);
+    --op-create-wp-accent-hover: var(--button-primary-bgColor-hover, #29903b);
+    --op-create-wp-disabled: var(--button-primary-bgColor-disabled, #105823);
+    --op-create-wp-disabled-text: var(--button-primary-fgColor-disabled, #ffffff66);
+    --op-create-wp-neutral: var(--button-default-bgColor-rest, #212830);
+    --op-create-wp-neutral-hover: var(--button-default-bgColor-hover, #262c36);
+    --op-create-wp-neutral-border: var(--button-default-borderColor-rest, #3d444d);
+    --op-create-wp-control-border: var(--control-borderColor-rest, #3d444d);
+    --op-create-wp-placeholder: var(--control-fgColor-placeholder, #9198a1);
+    --op-create-wp-arrow: var(--fgColor-muted, #9198a1);
 
     color-scheme: dark;
   }
@@ -73,7 +74,7 @@ export const Overlay = styled.div.attrs({
   overflow-y: auto;
   overscroll-behavior: contain;
   background: rgba(0, 0, 0, 0.45);
-  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--bn-font-family, 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
   line-height: 1.5;
 
   @media (max-width: 30rem) {
@@ -159,7 +160,6 @@ export const IconButton = styled.button`
   }
 `;
 
-
 export const Button = styled.button<{ $primary?:boolean }>`
   display: inline-flex;
   align-items: center;
@@ -209,9 +209,22 @@ const fieldIn = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
-export const FieldRow = styled.div`
+export const FieldRow = styled.div<{ $invalid?:boolean }>`
   margin-bottom: var(--spacer-xl);
   animation: ${fieldIn} 0.18s ease;
+
+  /*  Tripled: the controls carry their own doubled rules, ":focus" among them.  */
+  ${({ $invalid }) => $invalid && css`
+    &&& input, &&& select, &&& textarea {
+      border-color: var(--op-create-wp-danger);
+    }
+  `}
+`;
+
+export const FieldError = styled.div.attrs({ role: 'alert' })`
+  margin-top: var(--spacer-s);
+  font-size: 0.85em;
+  color: var(--op-create-wp-danger);
 `;
 
 export const FieldLabel = styled.label`
@@ -298,17 +311,6 @@ export const CheckboxRow = styled.label`
   gap: var(--spacer-m);
   font-size: 0.9em;
   cursor: pointer;
-`;
-
-export const SectionLabel = styled.div`
-  margin-bottom: var(--spacer-l);
-  padding-top: var(--spacer-l);
-  border-top: 1px solid ${borderColor};
-  font-size: 0.75em;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--op-create-wp-muted);
 `;
 
 export const Notice = styled.div<{ $error?:boolean }>`

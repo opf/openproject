@@ -23,7 +23,6 @@ import {
   NoticeLink,
   Overlay,
   Panel,
-  SectionLabel,
   Spinner,
 } from './atoms';
 
@@ -42,9 +41,20 @@ const Alert = ({ children, ...rest }:{ children:React.ReactNode } & React.Compon
   </Notice>
 );
 
-const FullPagePortal = ({ colorScheme, children }:{ colorScheme?:string; children:React.ReactNode }) => createPortal(
+interface FullPagePortalProps {
+  colorScheme?:string;
+  fontFamily?:string;
+  children:React.ReactNode;
+}
+
+const FullPagePortal = ({ colorScheme, fontFamily, children }:FullPagePortalProps) => createPortal(
   <StyleSheetManager target={document.head}>
-    <div data-color-scheme={colorScheme}>{children}</div>
+    <div
+      data-color-scheme={colorScheme}
+      style={{ '--bn-font-family': fontFamily } as React.CSSProperties}
+    >
+      {children}
+    </div>
   </StyleSheetManager>,
   document.body
 );
@@ -53,9 +63,14 @@ function colorSchemeOf(anchorEl?:HTMLElement | null):string | undefined {
   return anchorEl?.closest('[data-color-scheme]')?.getAttribute('data-color-scheme') ?? undefined;
 }
 
-// The page behind the modal must not move; what scrolls is the form itself. Only
-// the body has to be held: the modal is portalled out of the editor, so nothing
-// the editor scrolls is an ancestor of it any more.
+// BlockNote declares its font on ".bn-root", which the portal leaves behind.
+function fontFamilyOf(anchorEl?:HTMLElement | null):string | undefined {
+  if (!anchorEl) return undefined;
+  return getComputedStyle(anchorEl).getPropertyValue('--bn-font-family').trim() || undefined;
+}
+
+// Only the body has to be held: the modal is portalled out of the editor, so
+// nothing the editor scrolls is an ancestor of it any more.
 function usePageScrollLock():void {
   useEffect(() => {
     const { style } = document.body;
@@ -94,7 +109,6 @@ function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEvent):vo
 }
 
 export interface CreateWorkPackageModalProps {
-  // Element the modal was opened from; the theme is read from it.
   anchorEl?:HTMLElement | null;
   onCreated:(workPackage:WorkPackage) => void;
   onCancel:() => void;
@@ -118,10 +132,17 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
     notAllowed,
     submitting,
     submitError,
+    fieldErrors,
     unsupportedFields,
     canSubmit,
     submit,
   } = useCreateWorkPackageForm(onCreated);
+
+  // A long form scrolls the message on top out of view, so it only points down.
+  const formError = [
+    Object.keys(fieldErrors).length > 0 ? t('createWorkPackage.validationFailed') : null,
+    submitError,
+  ].filter(Boolean).join(' ');
 
   // Remounts a control when the selection its values came from changes.
   const keyOf = (key:string) => {
@@ -136,12 +157,13 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
       field={field}
       value={values[field.key]}
       autoFocus={field.key === 'subject'}
+      error={fieldErrors[field.key]}
       onChange={(value) => setValue(field.key, value)}
     />
   );
 
   return (
-    <FullPagePortal colorScheme={colorSchemeOf(anchorEl)}>
+    <FullPagePortal colorScheme={colorSchemeOf(anchorEl)} fontFamily={fontFamilyOf(anchorEl)}>
       <Overlay
         onMouseDown={() => { if (!isDirty) onCancel(); }}
       >
@@ -173,7 +195,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
 
               {loadError && <Alert>{t('createWorkPackage.loadFailed', { message: loadError })}</Alert>}
 
-              {submitError && <Alert data-testid="create-wp-error">{submitError}</Alert>}
+              {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
 
               {primaryFields.map(renderField)}
 
@@ -186,12 +208,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
                 </LoadingRow>
               )}
 
-              {extraFields.length > 0 && (
-                <>
-                  <SectionLabel>{t('createWorkPackage.requiredFields')}</SectionLabel>
-                  {extraFields.map(renderField)}
-                </>
-              )}
+              {extraFields.map(renderField)}
 
               {unsupportedFields.length > 0 && (
                 <Notice>

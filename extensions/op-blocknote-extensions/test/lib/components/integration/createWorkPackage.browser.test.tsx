@@ -2,7 +2,7 @@ import { afterEach, describe, it, expect } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { fillRequiredFields, openCreateModal, pickProject } from '../../../helpers/createWorkPackageHelpers';
+import { fillRequiredFields, openCreateModal, pickProject, selectOptionNamed } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
 import { mockCreatedWorkPackage } from '../../../mocks/handlers';
 
@@ -56,13 +56,35 @@ describe('Create work package', () => {
     await expect.element(page.getByRole('option', { name: 'Demo project' })).not.toBeInTheDocument();
   });
 
+  it('keeps a match the API made on something the option does not read as', async () => {
+    worker.use(
+      // As the API does: a person is matched on their e-mail as well as their name.
+      http.get('http://localhost:3000/api/v3/projects/:id/available_assignees', ({ request }) => {
+        const filters = new URL(request.url).searchParams.get('filters') ?? '';
+        const elements = filters.includes('elif@example.com')
+          ? [{ id: 5, name: 'Elif Yildiz', _links: { self: { href: '/api/v3/users/5' } } }]
+          : [];
+        return HttpResponse.json({ _embedded: { elements } });
+      })
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+
+    await userEvent.fill(page.getByLabelText('Assignee'), 'elif@example.com');
+
+    await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+  });
+
   it('re-asks for the type dependent fields when the type changes', async () => {
     renderEditor();
     await openCreateModal();
+    // Filled in for the type "Task"; "Bug" is the other one the fixture offers.
     await fillRequiredFields('Fix the header alignment');
     await expect.element(page.getByTestId('create-wp-submit')).toBeEnabled();
 
-    await userEvent.selectOptions(page.getByLabelText('Type *'), '/api/v3/types/2');
+    await selectOptionNamed('Type *', 'Bug');
 
     await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('');
     await expect.element(page.getByTestId('create-wp-submit')).toBeDisabled();
@@ -75,7 +97,7 @@ describe('Create work package', () => {
 
     await userEvent.click(page.getByLabelText('Assignee'));
     await userEvent.click(page.getByRole('option', { name: 'Elif Yildiz' }));
-    await userEvent.selectOptions(page.getByLabelText('Type *'), '/api/v3/types/1');
+    await selectOptionNamed('Type *', 'Task');
 
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
   });
@@ -113,7 +135,7 @@ describe('Create work package', () => {
     });
   });
 
-  it('removes the placeholder again when the modal is dismissed', async () => {
+  it('removes the placeholder again when the modal is dismissed, and takes the cursor back', async () => {
     renderEditor();
     await openCreateModal();
 
@@ -121,6 +143,23 @@ describe('Create work package', () => {
 
     await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
     await expect.element(page.getByTestId('block-wp-wrapper')).not.toBeInTheDocument();
+
+    await userEvent.keyboard('after cancel');
+    expect(document.querySelector('.bn-editor')?.textContent).toContain('after cancel');
+  });
+
+  it('removes a dismissed inline chip and leaves the cursor in the line it was in', async () => {
+    renderEditor();
+    await openCreateModal('Some text ');
+
+    await userEvent.click(page.getByRole('button', { name: 'Cancel' }));
+
+    await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
+    expect(document.querySelector('[data-inline-content-type="openProjectWorkPackageInline"]')).toBeNull();
+
+    await userEvent.keyboard('goes on');
+    expect(document.querySelector('.bn-editor')?.textContent).toContain('Some text');
+    expect(document.querySelector('.bn-editor')?.textContent).toContain('goes on');
   });
 
   it('keeps the form open and shows why the API refused', async () => {
@@ -138,5 +177,40 @@ describe('Create work package', () => {
     await expect.element(page.getByTestId('create-wp-error')).toBeVisible();
     await expect.element(page.getByText('Department is not set to one of the allowed values.')).toBeVisible();
     await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+  });
+
+  it('shows a refused attribute at its own field and points to it from the top', async () => {
+    worker.use(
+      http.post('http://localhost:3000/api/v3/work_packages', () =>
+        HttpResponse.json({
+          message: 'Multiple field constraints have been violated.',
+          _embedded: {
+            errors: [
+              { message: 'Subject is too long.', _embedded: { details: { attribute: 'subject' } } },
+              { message: 'Start date is not in this century.', _embedded: { details: { attribute: 'startDate' } } },
+            ],
+          },
+        }, { status: 422 })
+      )
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+
+    const subject = page.getByLabelText('Subject *');
+    await expect.element(subject).toHaveAttribute('aria-invalid', 'true');
+    await expect.element(page.getByText('Subject is too long.')).toBeVisible();
+    await expect.element(subject).toHaveAccessibleDescription('Subject is too long.');
+
+    // What no field of this form can carry stays in the message on top.
+    await expect.element(page.getByTestId('create-wp-error'))
+      .toHaveTextContent('Please correct the highlighted fields below. Start date is not in this century.');
+
+    // Correcting the field takes its own complaint away, and only that one.
+    await userEvent.fill(subject, 'Fix the header');
+    await expect.element(page.getByText('Subject is too long.')).not.toBeInTheDocument();
+    await expect.element(subject).not.toHaveAttribute('aria-invalid');
   });
 });

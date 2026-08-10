@@ -21,7 +21,6 @@ export const en = {
       'cancel': 'Cancel',
       'create': 'Create',
       'creating': 'Creating…',
-      'requiredFields': 'Required fields',
       'selectPlaceholder': 'Please select…',
       'searchPlaceholder': 'Type to search…',
       'loading': 'Loading…',
@@ -32,6 +31,7 @@ export const en = {
       'loadingTypeFields': 'Loading required fields for {{type}}…',
       'loadFailed': 'The work package form could not be loaded: {{message}}',
       'notAllowed': 'You are not allowed to create work packages.',
+      'validationFailed': 'Please correct the highlighted fields below.',
       'unsupportedField': '"{{field}}" cannot be set here.',
       'unsupportedRequired': 'This work package requires a field that cannot be set here.',
       'createInOpenProject': 'Create it in OpenProject'

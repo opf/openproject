@@ -18,17 +18,29 @@ export async function pickProject(name = 'Demo project') {
   await userEvent.click(page.getByRole('option', { name }));
 }
 
+// Chosen by what the option reads as; a plain string would be matched against
+// its value, which here is an API href. Looked up inside the field, so an
+// option of the same name elsewhere on the form is not what gets picked.
+export async function selectOptionNamed(label:string, option:string) {
+  const select = page.getByLabelText(label).element() as HTMLSelectElement;
+  const choices = Array.from(select.options);
+  const target = choices.find((choice) => choice.text === option);
+  if (!target) throw new Error(`No option "${option}" in "${label}", only: ${choices.map((choice) => choice.text).join(', ')}`);
+
+  await userEvent.selectOptions(page.getByLabelText(label), target);
+}
+
 export async function fillRequiredFields(subject:string) {
   await userEvent.fill(page.getByLabelText('Subject *'), subject);
   await pickProject();
 
   await expect.element(page.getByLabelText('Type *')).toBeVisible();
-  await userEvent.selectOptions(page.getByLabelText('Type *'), '/api/v3/types/1');
+  await selectOptionNamed('Type *', 'Task');
 
   await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
   await userEvent.click(page.getByLabelText('Supervisor *'));
   await expect.element(page.getByRole('option', { name: 'Anna Kovalenko' })).toBeVisible();
   await userEvent.click(page.getByRole('option', { name: 'Anna Kovalenko' }));
 
-  await userEvent.selectOptions(page.getByLabelText('Department *'), '/api/v3/custom_options/7');
+  await selectOptionNamed('Department *', 'Design');
 }

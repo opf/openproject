@@ -144,43 +144,43 @@ function createFormFor(body:FormRequestBody) {
   };
 }
 
+function typeaheadTerm(request:Request):string {
+  const raw = new URL(request.url).searchParams.get('filters');
+  if (!raw) return '';
+
+  try {
+    const filters = JSON.parse(raw) as { typeahead?:{ values?:string[] } }[];
+    return filters.find((filter) => filter.typeahead)?.typeahead?.values?.[0] ?? '';
+  } catch { return ''; }
+}
+
+function narrowed<T extends { name:string }>(elements:T[], request:Request) {
+  const term = typeaheadTerm(request).trim().toLowerCase();
+  const matching = term ? elements.filter((element) => element.name.toLowerCase().includes(term)) : elements;
+  return HttpResponse.json({ _embedded: { elements: matching } });
+}
+
 export const handlers = [
-  http.get('http://localhost:3000/api/v3/work_packages/available_projects', ({ request }) => {
-    const filters = new URL(request.url).searchParams.get('filters') ?? '';
-    const projects = [
+  http.get('http://localhost:3000/api/v3/work_packages/available_projects', ({ request }) =>
+    narrowed([
       { id: 1, name: 'Demo project', _links: { self: { href: '/api/v3/projects/1' } } },
       { id: 2, name: 'Scrum project', _links: { self: { href: '/api/v3/projects/2' } } },
-    ];
-    return HttpResponse.json({
-      _embedded: {
-        elements: filters.includes('Scrum') ? projects.slice(1) : projects,
-      },
-    });
-  }),
-
-  http.get('http://localhost:3000/api/v3/projects/:id/available_assignees', () =>
-    HttpResponse.json({
-      _embedded: {
-        elements: [
-          { id: 5, name: 'Elif Yildiz', _links: { self: { href: '/api/v3/users/5' } } },
-          { id: 6, name: 'Bianca Fuchs', _links: { self: { href: '/api/v3/users/6' } } },
-        ],
-      },
-    })
+    ], request)
   ),
 
-  http.get('http://localhost:3000/api/v3/principals', ({ request }) => {
-    const filters = new URL(request.url).searchParams.get('filters') ?? '';
-    const principals = [
+  http.get('http://localhost:3000/api/v3/projects/:id/available_assignees', ({ request }) =>
+    narrowed([
+      { id: 5, name: 'Elif Yildiz', _links: { self: { href: '/api/v3/users/5' } } },
+      { id: 6, name: 'Bianca Fuchs', _links: { self: { href: '/api/v3/users/6' } } },
+    ], request)
+  ),
+
+  http.get('http://localhost:3000/api/v3/principals', ({ request }) =>
+    narrowed([
       { id: 7, name: 'Anna Kovalenko', _links: { self: { href: '/api/v3/users/7' } } },
       { id: 8, name: 'Peter Lang', _links: { self: { href: '/api/v3/users/8' } } },
-    ];
-    return HttpResponse.json({
-      _embedded: {
-        elements: filters.includes('Peter') ? principals.slice(1) : principals,
-      },
-    });
-  }),
+    ], request)
+  ),
 
   http.post('http://localhost:3000/api/v3/work_packages/form', async ({ request }) =>
     HttpResponse.json(createFormFor(await request.json() as FormRequestBody))

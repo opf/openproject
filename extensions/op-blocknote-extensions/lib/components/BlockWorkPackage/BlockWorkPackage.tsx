@@ -120,8 +120,12 @@ export const BlockWorkPackageComponent = ({
 
   const handleCancelPending = () => {
     resolvePending();
+    // The slash command consumed the paragraph the cursor was in, so cancelling
+    // has to put one back and leave the caret where it started.
+    const [restored] = editor.insertBlocks([{ type: 'paragraph' }], block, 'before');
     editor.removeBlocks([block]);
     editor.focus();
+    if (restored?.id) editor.setTextCursorPosition(restored.id, 'end');
   };
 
   // Delegate the drag to the same mechanism the side menu uses internally,

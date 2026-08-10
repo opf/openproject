@@ -2,7 +2,7 @@ import { afterEach, describe, it, expect } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { fillRequiredFields, openCreateModal, pickProject } from '../../../helpers/createWorkPackageHelpers';
+import { fillRequiredFields, openCreateModal, pickProject, selectOptionNamed } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
 
 afterEach(() => worker.resetHandlers());
@@ -124,7 +124,7 @@ describe('Create work package - form and editor boundaries', () => {
     await userEvent.click(page.getByLabelText('Project *'));
     await userEvent.click(page.getByRole('option', { name: 'Demo project' }));
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
-    await userEvent.selectOptions(page.getByLabelText('Type *'), '/api/v3/types/1');
+    await selectOptionNamed('Type *', 'Task');
     await expect.element(page.getByLabelText('Status *')).toBeVisible();
 
     await userEvent.fill(page.getByLabelText('Project *'), 'Scrum');
@@ -160,6 +160,55 @@ describe('Create work package - form and editor boundaries', () => {
     await openCreateModal();
 
     await expect.element(page.getByText('The work package form could not be loaded: Boom.')).toBeVisible();
+  });
+
+  it('takes no separator in a whole number field', async () => {
+    worker.use(
+      http.post('http://localhost:3000/api/v3/work_packages/form', async ({ request }) => {
+        const body = await request.json() as { _links?:Record<string, { href?:string }> };
+        const schema:Record<string, unknown> = {
+          _type: 'Schema',
+          subject: { type: 'String', name: 'Subject', required: true, hasDefault: false, writable: true },
+          project: {
+            type: 'Project', name: 'Project', required: true, hasDefault: false, writable: true, location: '_links',
+            _links: { allowedValues: { href: '/api/v3/work_packages/available_projects' } },
+          },
+        };
+        if (body._links?.project?.href) {
+          schema.type = {
+            type: 'Type', name: 'Type', required: true, hasDefault: false, writable: true, location: '_links',
+            _links: { allowedValues: [{ href: '/api/v3/types/1', title: 'Task' }] },
+          };
+        }
+        if (body._links?.type?.href) {
+          schema.customField9 = {
+            type: 'Integer', name: 'Pages', required: true, hasDefault: false, writable: true,
+          };
+        }
+        return HttpResponse.json({
+          _type: 'Form',
+          _embedded: { payload: { subject: null, _links: {} }, schema, validationErrors: {} },
+        });
+      })
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+    await expect.element(page.getByLabelText('Type *')).toBeVisible();
+    await selectOptionNamed('Type *', 'Task');
+
+    const pages = page.getByLabelText('Pages *');
+    await expect.element(pages).toBeVisible();
+    await userEvent.click(pages);
+    await userEvent.keyboard('12.5');
+
+    await expect.element(pages).toHaveValue(125);
+
+    // Put there whole, the way a paste arrives, rather than key by key.
+    await userEvent.fill(pages, '12.5');
+
+    await expect.element(pages).toHaveValue(125);
   });
 
   it('refuses to submit a type whose required field it cannot offer', async () => {
@@ -199,7 +248,7 @@ describe('Create work package - form and editor boundaries', () => {
     await userEvent.click(page.getByLabelText('Project *'));
     await userEvent.click(page.getByRole('option', { name: 'Demo project' }));
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
-    await userEvent.selectOptions(page.getByLabelText('Type *'), '/api/v3/types/1');
+    await selectOptionNamed('Type *', 'Task');
 
     await expect.element(page.getByText('"Tags" cannot be set here.')).toBeVisible();
     await expect.element(page.getByRole('link', { name: 'Create it in OpenProject' })).toBeVisible();
@@ -256,11 +305,23 @@ describe('Create work package - form and editor boundaries', () => {
     expect(getComputedStyle(overlay).getPropertyValue('--op-item-hover-bg').trim())
       .toBe('rgba(255, 255, 255, 0.12)');
     expect(getComputedStyle(page.getByTestId('create-wp-submit').element()).color)
-      .toBe('rgba(255, 255, 255, 0.5)');
+      .toBe('rgba(255, 255, 255, 0.4)');
     expect(getComputedStyle(panel).borderTopLeftRadius).toBe('12px');
     expect(getComputedStyle(page.getByTestId('create-wp-submit').element()).borderTopLeftRadius).toBe('6px');
     expect(getComputedStyle(page.getByLabelText('Subject *').element()).borderTopLeftRadius).toBe('6px');
-    expect(getComputedStyle(page.getByLabelText('Subject *').element()).borderTopColor).toBe('rgb(48, 54, 61)');
+    expect(getComputedStyle(page.getByLabelText('Subject *').element()).borderTopColor).toBe('rgb(61, 68, 77)');
+  });
+
+  it('takes the font of the editor with it, rather than one of its own', async () => {
+    renderEditor();
+    await expect.element(page.getByRole('textbox')).toBeVisible();
+    const editorFont = getComputedStyle(page.getByRole('textbox').element()).fontFamily;
+    expect(editorFont).toContain('Inter');
+
+    await openCreateModal();
+
+    const overlay = page.getByTestId('create-wp-overlay').element();
+    expect(getComputedStyle(overlay).fontFamily).toBe(editorFont);
   });
 
   it('paints and sizes the buttons as the design does', async () => {
@@ -307,7 +368,7 @@ describe('Create work package - form and editor boundaries', () => {
     const control = getComputedStyle(subject);
     expect([control.fontSize, control.fontWeight, control.color]).toEqual(['14px', '400', 'rgb(31, 35, 40)']);
     const hint = getComputedStyle(subject, '::placeholder');
-    expect([hint.fontSize, hint.fontWeight, hint.color]).toEqual(['14px', '400', 'rgb(99, 108, 118)']);
+    expect([hint.fontSize, hint.fontWeight, hint.color]).toEqual(['14px', '400', 'rgb(89, 99, 110)']);
 
     const project = page.getByLabelText('Project *').element();
     expect(getComputedStyle(project, '::placeholder').opacity).toBe('1');
@@ -359,7 +420,7 @@ describe('Create work package - form and editor boundaries', () => {
     });
 
     expect(shapes[0]).toEqual(shapes[1]);
-    expect(shapes[0]).toMatchObject({ arrows: 2, color: 'rgb(99, 108, 118)' });
+    expect(shapes[0]).toMatchObject({ arrows: 2, color: 'rgb(89, 99, 110)' });
   });
 
   it('holds the page still while the form scrolls, and lets it go again', async () => {

@@ -49,7 +49,7 @@ function objectTypes() {
 }
 
 function functionNames(functionName:SlashMenuFunction) {
-  const names = new Set<string>;
+  const names = new Set<string>();
   names.add(functionName);
   names.add(i18n.t(`slashMenu.aliases.${functionName}`));
 

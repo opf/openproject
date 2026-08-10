@@ -50,6 +50,26 @@ describe('openProjectApi', () => {
         fetchSpy.mockRestore();
       }
     });
+
+    it('takes no filter of its own from the search term', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+
+      try {
+        await searchWorkPackages('a"]}},{"id":{"operator":"=","values":["1');
+
+        const params = new URL(calledUrl(fetchSpy.mock.calls)).searchParams;
+        // The term stayed one value of one filter, quotes and braces included.
+        expect(JSON.parse(params.get('filters')!)).toEqual([
+          { typeahead: { operator: '**', values: ['a"]}},{"id":{"operator":"=","values":["1'] } },
+        ]);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
   });
 
   describe('linkToWorkPackage', () => {
@@ -329,6 +349,54 @@ describe('openProjectApi', () => {
       }
     });
 
+    it('keeps every violation under the property it is about', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: false,
+        status: 422,
+        statusText: 'Unprocessable Entity',
+        json: async () => ({
+          message: 'Multiple field constraints have been violated.',
+          _embedded: {
+            errors: [
+              { message: 'Subject can\'t be blank.', _embedded: { details: { attribute: 'subject' } } },
+              { message: 'Pages must be greater than 0.', _embedded: { details: { attribute: 'customField9' } } },
+              { message: 'Something else went wrong.' },
+            ],
+          },
+        }),
+      }));
+
+      try {
+        await expect(createWorkPackage({})).rejects.toHaveProperty('attributeErrors', {
+          subject: 'Subject can\'t be blank.',
+          customField9: 'Pages must be greater than 0.',
+        });
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('reads the property of a lone violation, which carries no nested errors', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: false,
+        status: 422,
+        statusText: 'Unprocessable Entity',
+        json: async () => ({
+          message: 'Subject can\'t be blank.',
+          _embedded: { details: { attribute: 'subject' } },
+        }),
+      }));
+
+      try {
+        await expect(createWorkPackage({})).rejects
+          .toHaveProperty('attributeErrors', { subject: 'Subject can\'t be blank.' });
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
     it('reports the message the API returns instead of the status line', async () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
       const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
@@ -364,6 +432,30 @@ describe('openProjectApi', () => {
           { typeahead: { operator: '**', values: ['eli'] } },
         ]);
         expect(new URL(calledUrl).searchParams.get('pageSize')).toBe('-1');
+        // The JSON is percent encoded, braces and quotes included.
+        expect(calledUrl).not.toMatch(/[{}"]/);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('cannot be broken out of by the search term', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+
+      try {
+        await fetchAllowedValues('/api/v3/principals', '"}]&pageSize=999#x');
+
+        const calledUrl = fetchSpy.mock.calls[0][0] as string;
+        const params = new URL(calledUrl).searchParams;
+        expect(JSON.parse(params.get('filters')!))
+          .toEqual([{ typeahead: { operator: '**', values: ['"}]&pageSize=999#x'] } }]);
+        // The term stayed inside its parameter: no second pageSize, no fragment.
+        expect(params.getAll('pageSize')).toEqual(['20']);
+        expect(new URL(calledUrl).hash).toBe('');
       } finally {
         fetchSpy.mockRestore();
       }
@@ -417,11 +509,31 @@ describe('openProjectApi', () => {
       const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
       try {
-        await expect(fetchAllowedValues('/api/v3/custom_fields/3/items', 'design')).resolves.toEqual([{ id: 1 }]);
+        // Unfiltered, and said to be: the caller has to narrow the answer itself.
+        await expect(fetchAllowedValues('/api/v3/custom_fields/3/items', 'design'))
+          .resolves.toEqual({ resources: [{ id: 1 }], filtered: false });
         expect(fetchSpy.mock.calls[1][0]).toBe('http://localhost:3000/api/v3/custom_fields/3/items');
       } finally {
         fetchSpy.mockRestore();
         consoleSpy.mockRestore();
+      }
+    });
+
+    it('reports whether the term reached the API', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [{ id: 7 }] } }),
+      }));
+
+      try {
+        await expect(fetchAllowedValues('/api/v3/principals', 'anna@example.com'))
+          .resolves.toEqual({ resources: [{ id: 7 }], filtered: true });
+        // With no term there is nothing to narrow by, and nothing is claimed to be.
+        await expect(fetchAllowedValues('/api/v3/principals'))
+          .resolves.toEqual({ resources: [{ id: 7 }], filtered: false });
+      } finally {
+        fetchSpy.mockRestore();
       }
     });
 

@@ -5,11 +5,13 @@ import {
   applyValue,
   buildCreatePayload,
   buildField,
+  clearsOtherValues,
   dependencyOf,
   extraRequiredFields,
   fieldFor,
   fixedFields,
   missingRequiredFields,
+  splitAttributeErrors,
   unsupportedRequiredFields,
 } from '../../../../lib/components/CreateWorkPackage/formSchema';
 import type { SchemaProperty, WorkPackageSchema } from '../../../../lib/openProjectTypes';
@@ -287,6 +289,42 @@ describe('formSchema', () => {
 
     it('reports required attributes without a control', () => {
       expect(unsupportedRequiredFields(fields).map((field) => field.key)).toEqual(['customField5']);
+    });
+  });
+
+  describe('splitAttributeErrors', () => {
+    const fields = [fieldFor(schema, 'subject'), fieldFor(schema, 'assignee')]
+      .flatMap((field) => (field ? [field] : []));
+
+    it('hands each violation to the field it belongs to', () => {
+      const { fieldErrors, otherMessages } = splitAttributeErrors(fields, {
+        subject: 'Subject can\'t be blank.',
+        assignee: 'Assignee is not set to one of the allowed values.',
+      });
+
+      expect(fieldErrors).toEqual({
+        subject: 'Subject can\'t be blank.',
+        assignee: 'Assignee is not set to one of the allowed values.',
+      });
+      expect(otherMessages).toEqual([]);
+    });
+
+    it('keeps a violation no field can show, rather than dropping it', () => {
+      const { fieldErrors, otherMessages } = splitAttributeErrors(fields, {
+        subject: 'Subject can\'t be blank.',
+        startDate: 'Start date must be before the finish date.',
+      });
+
+      expect(Object.keys(fieldErrors)).toEqual(['subject']);
+      expect(otherMessages).toEqual(['Start date must be before the finish date.']);
+    });
+  });
+
+  describe('clearsOtherValues', () => {
+    it('knows which selections the rest of the form hangs on', () => {
+      expect(clearsOtherValues('project')).toBe(true);
+      expect(clearsOtherValues('type')).toBe(true);
+      expect(clearsOtherValues('subject')).toBe(false);
     });
   });
 
