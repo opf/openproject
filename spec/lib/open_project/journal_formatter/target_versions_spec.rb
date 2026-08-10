@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::TargetVersions do
-  describe "#render" do
+  describe "#render", with_settings: { work_package_multiple_versions: false } do
     let(:version) { build_stubbed(:version, name: "Alpha") }
     let(:other_version) { build_stubbed(:version, name: "Beta") }
     let(:work_package) { build_stubbed(:work_package) }
