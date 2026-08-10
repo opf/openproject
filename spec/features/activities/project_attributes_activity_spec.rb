@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Project attributes activity", :js do
+RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) do
     create(:user, member_with_permissions: {
              project => %i[view_work_packages edit_work_packages view_project_attributes],
@@ -141,6 +141,10 @@ RSpec.describe "Project attributes activity", :js do
     let(:cf_project) { create(:project) }
     let!(:string_cf) { create(:string_project_custom_field) }
     let!(:comment_cf) { create(:string_project_custom_field, :has_comment, projects: [cf_project]) }
+    let!(:admin_only_cf) { create(:string_project_custom_field, :admin_only) }
+    let!(:admin_only_comment_cf) do
+      create(:string_project_custom_field, :has_comment, :admin_only, projects: [cf_project])
+    end
     let(:activity_page) { Pages::Projects::Activity.new(cf_project) }
 
     let(:user_without_cf_permission) do
@@ -155,31 +159,54 @@ RSpec.describe "Project attributes activity", :js do
       cf_project.update!(custom_field_values: { "#{string_cf.id}": "changed" })
       cf_project.update!(custom_comments: { comment_cf.id => "initial comment" })
       cf_project.update!(custom_comments: { comment_cf.id => "updated comment" })
+      cf_project.update!(custom_field_values: { "#{admin_only_cf.id}": "initial admin value" })
+      cf_project.update!(custom_field_values: { "#{admin_only_cf.id}": "changed admin value" })
+      cf_project.update!(custom_comments: { admin_only_comment_cf.id => "initial admin comment" })
+      cf_project.update!(custom_comments: { admin_only_comment_cf.id => "updated admin comment" })
     end
 
     context "when the user lacks view_project_attributes" do
       current_user { user_without_cf_permission }
 
-      it "does not show the custom field or comment change in the activity feed" do
+      it "does not show any custom field or comment change in the activity feed" do
         activity_page.visit!
         activity_page.show_details
 
         expect(page).to have_no_text(string_cf.name)
         expect(page).to have_no_text(comment_cf.name)
-        expect(page).to have_text(I18n.t(:text_journal_permission_denied))
+        expect(page).to have_no_text(admin_only_cf.name)
+        expect(page).to have_no_text(admin_only_comment_cf.name)
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
       end
     end
 
-    context "when the user has view_project_attributes" do
+    context "when the user has view_project_attributes but is not an admin" do
       current_user { user_with_cf_permission }
 
-      it "shows the custom field and comment change in the activity feed" do
+      it "shows the regular custom field and comment, but withholds the admin_only ones" do
         activity_page.visit!
         activity_page.show_details
 
         expect(page).to have_text(string_cf.name)
         expect(page).to have_text(comment_cf.name)
-        expect(page).to have_no_text(I18n.t(:text_journal_permission_denied))
+        expect(page).to have_no_text(admin_only_cf.name)
+        expect(page).to have_no_text(admin_only_comment_cf.name)
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
+      end
+    end
+
+    context "when the user is an admin" do
+      current_user { create(:admin) }
+
+      it "shows every custom field and comment change, including admin_only ones" do
+        activity_page.visit!
+        activity_page.show_details
+
+        expect(page).to have_text(string_cf.name)
+        expect(page).to have_text(comment_cf.name)
+        expect(page).to have_text(admin_only_cf.name)
+        expect(page).to have_text(admin_only_comment_cf.name)
+        expect(page).to have_no_text(I18n.t(:"journals.changes_retracted"))
       end
     end
   end

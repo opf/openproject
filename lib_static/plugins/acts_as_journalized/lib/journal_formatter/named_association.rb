@@ -31,7 +31,7 @@
 module JournalFormatter
   class NamedAssociation < Attribute
     def render(key_with_id, values, options = { html: true })
-      return render_permission_denied_message(options) if permission_denied?(options)
+      return render_permission_denied_message(options) if permission_denied?(options.merge(key: key_with_id))
 
       key = key_with_id.to_s.delete_suffix("_id")
       label, old_value, value = format_details(key, values, cache: options[:cache])
