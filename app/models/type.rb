@@ -125,11 +125,31 @@ class Type < ApplicationRecord
 
   delegate :to_s, to: :name
 
-  # Roots each immediately followed by their own variants. Reads one acts_as_list
-  # list at a time on purpose: positions are numbered per family, so no ORDER BY
-  # over the flat table can keep a family together.
-  def self.in_family_order
-    roots.includes(:children).flat_map(&:family)
+  # Form custom fields live on the base variant. Prefer `default_variant.custom_fields`.
+  # Kept temporarily so the many call sites that still write `type.custom_fields << cf` keep
+  # working while they are migrated.
+  def custom_fields
+    OpenProject::Deprecation.replaced("Type#custom_fields", "Type#default_variant.custom_fields", caller_locations)
+
+    default_variant.custom_fields
+  end
+
+  def custom_fields=(values)
+    OpenProject::Deprecation.replaced("Type#custom_fields=", "Type#default_variant.custom_fields=", caller_locations)
+
+    default_variant.custom_fields = values
+  end
+
+  def custom_field_ids
+    OpenProject::Deprecation.replaced("Type#custom_field_ids", "Type#default_variant.custom_field_ids", caller_locations)
+
+    default_variant.custom_field_ids
+  end
+
+  def custom_field_ids=(values)
+    OpenProject::Deprecation.replaced("Type#custom_field_ids=", "Type#default_variant.custom_field_ids=", caller_locations)
+
+    default_variant.custom_field_ids = values
   end
 
   def <=>(other)
