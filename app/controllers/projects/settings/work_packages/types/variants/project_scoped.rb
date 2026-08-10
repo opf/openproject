@@ -33,8 +33,11 @@ module Projects::Settings::WorkPackages::Types::Variants
   # are the administration ones untouched; what changes is who may reach them and which
   # types they can name at all.
   #
-  # The project lookup is prepended because the inherited find_type runs before anything
-  # a subclass appends, and it needs the project to scope against.
+  # The inherited lookup is dropped and re-registered rather than prepended. Prepending put
+  # it and #authorize ahead of ApplicationController's user_setup, so User.current was still
+  # anonymous, Project.visible found nothing and every request bounced to the login page.
+  # Request specs cannot see that: login_as sets User.current directly, so they pass either
+  # way. Each including controller re-adds :find_type for the actions that need one.
   module ProjectScoped
     extend ActiveSupport::Concern
     include ::WorkPackageTypes::TypeVariantsFeature
@@ -44,7 +47,10 @@ module Projects::Settings::WorkPackages::Types::Variants
       menu_item :settings_work_packages
 
       skip_before_action :require_admin
-      prepend_before_action :find_project_by_project_id, :authorize
+      skip_before_action :find_type, raise: false
+
+      before_action :find_project_by_project_id
+      before_action :authorize
       before_action :require_type_variants_feature
     end
 

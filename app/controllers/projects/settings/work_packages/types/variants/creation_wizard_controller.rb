@@ -32,6 +32,8 @@ module Projects::Settings::WorkPackages::Types::Variants
   class CreationWizardController < ::WorkPackageTypes::CreationWizardController
     include ProjectScoped
 
+    before_action :find_type, only: %i[show update]
+
     # The wizard fills the screen in administration too, and nothing about being inside a
     # project changes that.
     layout "no_menu"

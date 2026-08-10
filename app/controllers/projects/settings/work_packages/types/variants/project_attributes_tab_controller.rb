@@ -31,5 +31,7 @@
 module Projects::Settings::WorkPackages::Types::Variants
   class ProjectAttributesTabController < ::WorkPackageTypes::ProjectAttributesTabController
     include ProjectScoped
+
+    before_action :find_type
   end
 end

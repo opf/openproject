@@ -31,5 +31,7 @@
 module Projects::Settings::WorkPackages::Types::Variants
   class FormConfigurationGroupsTabController < ::WorkPackageTypes::FormConfigurationGroupsTabController
     include ProjectScoped
+
+    before_action :find_type
   end
 end

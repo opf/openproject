@@ -31,5 +31,13 @@
 module Projects::Settings::WorkPackages::Types::Variants
   class PdfExportTemplateController < ::WorkPackageTypes::PdfExportTemplateController
     include ProjectScoped
+
+    # find_template reads @type, so it has to follow the re-registered lookup rather than
+    # keep its inherited position ahead of it.
+    skip_before_action :find_template
+    before_action :find_type
+    # rubocop:disable Rails/LexicallyScopedActionFilter -- both actions are inherited
+    before_action :find_template, only: %i[toggle drop]
+    # rubocop:enable Rails/LexicallyScopedActionFilter
   end
 end
