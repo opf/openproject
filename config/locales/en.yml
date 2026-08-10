@@ -214,6 +214,7 @@ en:
         # ActiveRecord::Base.human_attribute_name strips the _id suffix.
         model: "Model"
       llm_connection:
+        api_format: "API format"
         api_key: "API key"
         base_url: "Host URL"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
@@ -1442,6 +1443,7 @@ en:
         success: "The model for %{feature} has been saved."
     llm_connections:
       form:
+        api_format_caption: "Which API the server speaks. Choose OpenAI-compatible for most gateways and self-hosted servers."
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
         api_key_caption_stored: "A key is stored. Leave blank to keep it, or enter a new one to replace it."
         base_url_caption: >
@@ -1479,6 +1481,16 @@ en:
         success: "%{model} has been added."
       destroy:
         success: "%{model} has been removed."
+      edit:
+        capabilities_description: "Set what this model can do. Leave a capability unspecified to let OpenProject determine it."
+        capabilities_heading: "Capabilities"
+        current_verdict: "Currently %{state}, %{source}."
+        description: "Edit how OpenProject uses this model."
+        state_supported: "Supported"
+        state_unspecified: "Not specified"
+        state_unsupported: "Not supported"
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -3953,14 +3965,40 @@ en:
       errors:
         page_not_found: "Cannot find the wiki page '%{name}'."
   llm:
+    api_formats:
+      anthropic: "Anthropic"
+      azure: "Azure OpenAI"
+      bedrock: "AWS Bedrock"
+      deepseek: "DeepSeek"
+      gemini: "Google Gemini"
+      gpustack: "GPUStack"
+      mistral: "Mistral"
+      ollama: "Ollama"
+      openai: "OpenAI-compatible"
+      openrouter: "OpenRouter"
+      perplexity: "Perplexity"
+      vertexai: "Google Vertex AI"
+      xai: "xAI"
     capabilities:
       embeddings:
         label: "Embeddings"
-        unsupported: "This model returned an error for embedding requests."
-        unknown: "The server does not report whether this model can produce embeddings."
+      function_calling:
+        label: "Tool calling"
+      reasoning:
+        label: "Reasoning"
       structured_output:
         label: "Structured output"
-        unknown: "The server does not report whether this model supports structured output."
+      vision:
+        label: "Vision"
+    verdict_sources:
+      admin: "set by an administrator"
+      metadata: "from the model registry"
+      observed: "observed in use"
+      probe: "verified against the server"
+    verdict_states:
+      supported: "Supported"
+      unknown: "Not verified"
+      unsupported: "Not supported"
     features:
       description_assistant:
         caption: "Rewrites and restructures work package text on request."

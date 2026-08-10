@@ -41,6 +41,11 @@ module Admin
     before_action :require_admin
     before_action :set_connection
 
+    def edit
+      @llm_model = @connection.models.find(params.expect(:id))
+      @verdicts = @connection.capability_verdicts.for_model(@llm_model.external_id).index_by(&:capability)
+    end
+
     def create
       llm_model = @connection.models.new(model_params.merge(manual: true))
 
@@ -50,6 +55,18 @@ module Admin
         flash[:error] = llm_model.errors.full_messages.join(", ")
       end
 
+      redirect_to llm_connection_path, status: :see_other
+    end
+
+    def update
+      @llm_model = @connection.models.find(params.expect(:id))
+
+      ActiveRecord::Base.transaction do
+        @llm_model.update!(display_name: params.dig(:llm_model, :display_name))
+        apply_capabilities(@llm_model)
+      end
+
+      flash[:notice] = t(".success", model: @llm_model.external_id)
       redirect_to llm_connection_path, status: :see_other
     end
 
@@ -69,6 +86,30 @@ module Admin
 
     def model_params
       params.expect(llm_model: %i[external_id display_name])
+    end
+
+    # Stored as admin-sourced verdicts, which survive re-detection: an
+    # administrator knows things about their deployment that neither a published
+    # registry nor a probe can determine.
+    def apply_capabilities(llm_model)
+      submitted = params.fetch(:capabilities, {}).permit!.to_h
+
+      Llm::Capabilities::ALL.each do |capability|
+        assert(llm_model.external_id, capability, submitted[capability.to_s].presence)
+      end
+    end
+
+    def assert(model_id, capability, state)
+      verdict = @connection.capability_verdicts
+                           .find_or_initialize_by(model_id:, capability: capability.to_s)
+
+      if state.blank?
+        # "Not specified" clears an assertion rather than recording ignorance as
+        # fact; detection may fill it in later.
+        verdict.destroy! if verdict.persisted? && verdict.source_admin?
+      else
+        verdict.update!(state:, source: "admin", checked_at: Time.current)
+      end
     end
   end
 end

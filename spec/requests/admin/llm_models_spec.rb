@@ -82,6 +82,51 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
     end
   end
 
+  describe "PATCH /admin/llm_models/:id" do
+    let!(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+
+    it "stores capabilities an administrator asserts" do
+      patch llm_model_path(llm_model),
+            params: { llm_model: { display_name: "Hand typed" },
+                      capabilities: { embeddings: "supported", vision: "unsupported" } }
+
+      expect(response).to have_http_status(:see_other)
+      expect(llm_model.reload.display_name).to eq("Hand typed")
+
+      verdicts = connection.capability_verdicts.for_model("hand-typed").pluck(:capability, :state, :source)
+      expect(verdicts).to include(["embeddings", "supported", "admin"], ["vision", "unsupported", "admin"])
+    end
+
+    it "makes an asserted capability satisfy a feature that requires it" do
+      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
+
+      patch llm_feature_binding_path("semantic_search"),
+            params: { llm_feature_binding: { model_id: "hand-typed" } }
+
+      expect(connection.feature_bindings.find_by(feature_key: "semantic_search").model_id).to eq("hand-typed")
+    end
+
+    # Clearing an assertion records nothing rather than recording ignorance as
+    # fact, so detection can still fill it in later.
+    it "clears an assertion when set back to unspecified" do
+      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
+      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "" } }
+
+      expect(connection.capability_verdicts.for_model("hand-typed").for_capability(:embeddings)).to be_empty
+    end
+
+    # An administrator looked at this deployment; a published registry did not.
+    it "is not overwritten by registry enrichment" do
+      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
+
+      LlmConnections::EnrichCapabilitiesService.new(connection).call
+
+      verdict = connection.capability_verdicts.find_by(model_id: "hand-typed", capability: "embeddings")
+      expect(verdict.source).to eq("admin")
+      expect(verdict.state).to eq("supported")
+    end
+  end
+
   describe "DELETE /admin/llm_models/:id" do
     it "removes a manual model" do
       llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")

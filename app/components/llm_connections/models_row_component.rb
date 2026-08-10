@@ -59,14 +59,20 @@ module LlmConnections
     end
 
     def button_links
-      return [] unless llm_model.manual?
+      llm_model.manual? ? [edit_link, delete_link] : [edit_link]
+    end
 
-      [
-        link_to(helpers.op_icon("icon-delete"),
-                url_helpers.llm_model_path(llm_model),
-                data: { turbo_method: :delete, turbo_confirm: I18n.t(:text_are_you_sure) },
-                title: I18n.t(:button_delete))
-      ]
+    def edit_link
+      link_to(helpers.op_icon("icon-edit"),
+              url_helpers.edit_llm_model_path(llm_model),
+              title: I18n.t(:button_edit))
+    end
+
+    def delete_link
+      link_to(helpers.op_icon("icon-delete"),
+              url_helpers.llm_model_path(llm_model),
+              data: { turbo_method: :delete, turbo_confirm: I18n.t(:text_are_you_sure) },
+              title: I18n.t(:button_delete))
     end
   end
 end

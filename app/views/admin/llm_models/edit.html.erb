@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t("menus.admin.llm_connection"), @llm_model.external_id %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { @llm_model.external_id }
+    header.with_description { t(".description") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: mcp_configurations_path, text: t("menus.admin.ai") },
+       { href: llm_connection_path, text: t("menus.admin.llm_connection") },
+       @llm_model.external_id]
+    )
+  end
+%>
+
+<%= form_with(url: llm_model_path(@llm_model), method: :patch) do %>
+  <%= render(Primer::Box.new(mb: 3)) do %>
+    <%= label_tag("llm_model_display_name", LlmModel.human_attribute_name(:display_name), class: "FormControl-label") %>
+    <%= text_field_tag(
+          "llm_model[display_name]", @llm_model.display_name,
+          id: "llm_model_display_name",
+          autocomplete: "off",
+          class: "FormControl-input"
+        ) %>
+  <% end %>
+
+  <%= render(Primer::Beta::Subhead.new(mt: 4)) do |component| %>
+    <% component.with_heading(tag: :h3) { t(".capabilities_heading") } %>
+    <% component.with_description { t(".capabilities_description") } %>
+  <% end %>
+
+  <% Llm::Capabilities::ALL.each do |capability| %>
+    <% verdict = @verdicts[capability.to_s] %>
+    <%= render(Primer::Box.new(mb: 2)) do %>
+      <%= label_tag("capability_#{capability}", Llm::Capabilities.label(capability), class: "FormControl-label") %>
+      <%= select_tag(
+            "capabilities[#{capability}]",
+            options_for_select(
+              [[t(".state_unspecified"), ""],
+               [t(".state_supported"), "supported"],
+               [t(".state_unsupported"), "unsupported"]],
+              verdict&.source_admin? ? verdict.state : ""
+            ),
+            id: "capability_#{capability}",
+            class: "FormControl-select"
+          ) %>
+      <% if verdict.present? && !verdict.source_admin? %>
+        <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do %>
+          <%= t(
+                ".current_verdict",
+                state: t("llm.verdict_states.#{verdict.state}"),
+                source: t("llm.verdict_sources.#{verdict.source}")
+              ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 3)) { t(:button_save) } %>
+  <%= render(Primer::Beta::Button.new(tag: :a, href: llm_connection_path, ml: 2, mt: 3)) { t(:button_cancel) } %>
+<% end %>

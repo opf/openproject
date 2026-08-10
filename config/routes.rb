@@ -697,7 +697,7 @@ Rails.application.routes.draw do
     end
 
     # Manual entries only; discovered models are managed by the sync.
-    resources :llm_models, only: %i[create destroy], controller: "admin/llm_models"
+    resources :llm_models, only: %i[create edit update destroy], controller: "admin/llm_models"
 
     # Keyed by feature key rather than by record id: the binding is an attribute
     # of a registered feature, and a feature may not have a row yet.
