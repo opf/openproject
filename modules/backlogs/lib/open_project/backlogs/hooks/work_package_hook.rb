@@ -44,7 +44,7 @@ module OpenProject::Backlogs
         context[:hook_caller].render(
           partial: "work_packages/bulk/sprint_and_backlog_bucket_fields",
           locals: {
-            assignable_sprints: Sprint.assignable(project:, user: User.current),
+            assignable_sprints: Sprint.assignable(project:, user: User.current).order_by_date,
             backlog_buckets: BacklogBucket.visible(User.current).for_project(project)
           }
         )
