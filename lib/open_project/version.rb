@@ -33,7 +33,7 @@ module OpenProject
   module VERSION # :nodoc:
     MAJOR = 17
     MINOR = 7
-    PATCH = 1
+    PATCH = 2
 
     class << self
       def revision

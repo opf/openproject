@@ -27,21 +27,19 @@
 //++
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
-  OnDestroy,
   ViewChild,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   effect,
   inject,
   input,
   signal,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
@@ -93,7 +91,7 @@ const GROUP_LIFECYCLE = 'lifecycle';
   encapsulation: ViewEncapsulation.None,
   imports: [OpenprojectContentLoaderModule],
 })
-export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
+export class ProjectTimelineGraphComponent {
   @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
 
   readonly phasesData = input.required<string>();
@@ -112,34 +110,20 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   protected readonly ready = signal(false);
 
   private timeline:Timeline | null = null;
-  private destroyed = false;
-  private readyHandler:(() => void) | null = null;
-  private readonly destroyed$ = new Subject<void>();
 
   constructor() {
+    afterNextRender(() => this.initTimeline(this.phases()));
+    inject(DestroyRef).onDestroy(() => {
+      this.timeline?.destroy();
+      this.timeline = null;
+    });
+
     effect(() => {
       const phases = this.phases();
       if (this.timeline) {
         this.updateTimeline(phases);
       }
     });
-  }
-
-  ngAfterViewInit():void {
-    requestAnimationFrame(() => {
-      if (!this.destroyed) {
-        this.initTimeline(this.phases());
-      }
-    });
-  }
-
-  ngOnDestroy():void {
-    this.destroyed = true;
-    this.destroyed$.next();
-    this.destroyed$.complete();
-    if (this.readyHandler) this.timeline?.off('changed', this.readyHandler);
-    this.timeline?.destroy();
-    this.timeline = null;
   }
 
   private buildData(phases:ProjectPhaseData[]) {
@@ -258,37 +242,24 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         showMajorLabels: true,
         showMinorLabels: true,
         margin: { item: { horizontal: 0, vertical: 16 } },
-        showCurrentTime: false, // enabled after reveal; avoids periodic changed events interfering with the ready debounce
+        showCurrentTime: false, // enabled after the initial draw to avoid unnecessary redraws while loading
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years days maximum zoom
+        onInitialDrawComplete: () => this.revealTimeline(),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
         tooltip: { template: this.tooltipTemplate.bind(this) } as any,
       },
     );
-    this.revealWhenReady();
   }
 
-  // Hides the skeleton once vis-timeline has stopped firing 'changed' events.
-  // Multiple render passes occur on an initial load, so we debounce
-  private revealWhenReady():void {
-    const changed$ = new Subject<void>();
+  private revealTimeline():void {
+    if (!this.timeline) return;
 
-    this.readyHandler = () => changed$.next();
-    this.timeline!.on('changed', this.readyHandler);
-
-    changed$.pipe(
-      debounceTime(1000),
-      take(1),
-      takeUntil(this.destroyed$),
-    ).subscribe(() => {
-      this.timeline!.off('changed', this.readyHandler!);
-      this.readyHandler = null;
-      this.timeline!.setOptions({
-        showCurrentTime: true,
-        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
-      });
-      this.ready.set(true);
+    this.timeline.setOptions({
+      showCurrentTime: true,
+      cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
     });
+    this.ready.set(true);
   }
 
   private tooltipTemplate(item:ProjectTimelineItem):HTMLElement | string {
