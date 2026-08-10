@@ -28,34 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class UserQuery < PersistedQuery
-  scope :visible, ->(user = User.current) { where(principal: user) }
+class Queries::Users::Filters::MemberFilter < Queries::Users::Filters::UserFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
 
-  def self.model
-    User
+  def self.key
+    :member
   end
 
-  def default_scope
-    # Excludes the SystemUser, DeletedUser, AnonymousUser STI descendants of User.
-    User.user.visible
+  def human_name
+    I18n.t(:label_member_of_project)
   end
 
-  register_query do
-    filter Queries::Users::Filters::NameFilter
-    filter Queries::Users::Filters::AnyNameAttributeFilter
-    filter Queries::Users::Filters::GroupFilter
-    filter Queries::Users::Filters::MemberFilter
-    filter Queries::Users::Filters::StatusFilter
-    filter Queries::Users::Filters::LoginFilter
-    filter Queries::Users::Filters::BlockedFilter
-    filter Queries::Users::Filters::CustomFieldFilter
-
-    order Queries::Users::Orders::DefaultOrder
-    order Queries::Users::Orders::NameOrder
-    order Queries::Users::Orders::GroupOrder
-    order Queries::Users::Orders::CustomFieldOrder
-
-    select Queries::Users::Selects::Default
-    select Queries::Users::Selects::CustomField
+  def apply_to(query_scope)
+    case operator
+    when "="
+      query_scope.in_project(values)
+    when "!"
+      query_scope.not_in_project(values)
+    when "*"
+      query_scope.where(id: Member.of_any_project.select(:user_id))
+    when "!*"
+      query_scope.where.not(id: Member.of_any_project.select(:user_id))
+    end
   end
 end
