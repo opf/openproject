@@ -39,7 +39,7 @@ import { Injectable, Injector, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import { attributeNameForFilter, WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { Observable } from 'rxjs';
@@ -75,11 +75,13 @@ export abstract class BoardActionService {
 
   /**
    * The work package attribute written when a card is assigned to a list.
-   * Defaults to the filter name, but may differ from it while a deprecated
+   * Usually the filter name, but it may differ from it while a deprecated
    * attribute is replaced (e.g. the version filter writes targetVersions).
+   * Derived from the same mapping WorkPackageFilterValues applies, so the
+   * attribute this service writes and the one it reports can never disagree.
    */
   get attributeName():string {
-    return this.filterName;
+    return attributeNameForFilter(this.filterName);
   }
 
   /**

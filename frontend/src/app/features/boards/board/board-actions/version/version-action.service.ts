@@ -39,7 +39,6 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { attributeNameForFilter } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   firstValueFrom,
@@ -55,14 +54,19 @@ export class BoardVersionActionService extends CachedBoardActionService {
   filterName = 'version';
 
   /**
-   * The list-defining filter stays "version" (stored in board queries), but
-   * assigning a card writes the targetVersions attribute replacing the
-   * deprecated single version attribute. Derived from the same mapping that
-   * WorkPackageFilterValues applies, so the writability check below and the
-   * attribute actually written can never disagree.
+   * The list-defining filter stays "version" (stored in board queries), while
+   * assigning a card writes the targetVersions attribute (see attributeName).
+   *
+   * Both keys have to be watched: with Setting::WorkPackageMultipleVersions
+   * disabled, Type::Attributes still offers the deprecated single "version" in
+   * the work package form, so an edit in the full or split view commits that
+   * key and a card would otherwise stay in its old list until a page reload.
+   *
+   * TODO: reduce this to the default [this.attributeName] once the deprecated
+   * version attribute is no longer offered in the form.
    */
-  override get attributeName():string {
-    return attributeNameForFilter(this.filterName);
+  override get watchedAttributes():string[] {
+    return [this.attributeName, this.filterName];
   }
 
   resourceName = 'version';
