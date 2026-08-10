@@ -70,8 +70,8 @@ Depending on the selected frequency, one or more of the following additional fie
 **Meeting series ends** field is a dropdown field that defines when a recurring meeting series should come to an end. The following options are available:
 
 - **Never** - the meeting series runs indefinitely
-- **After a specific date** – lets you specify an **end date** (the final occurrence will be scheduled on or before this date, depending on the recurrence pattern)
-- **After a number of occurrences** – lets you specify the number of individual **occurrences** after which the series will end
+- **After a specific date** – lets you specify an **end date** (the final occurrence will be scheduled on or before this date, depending on the recurrence pattern). The total number of occurrences up to the specified date is displayed in a caption below the **End date** field.
+- **After a number of occurrences** – lets you specify the number of individual **occurrences** after which the series will end. The end date corresponding to the specified number of occurrences is displayed in a caption below the **Occurrences** field.
 
 > [!NOTE]
 > If the scheduled start time does not match the actual first occurrence, the caption is extended to state: "The first occurrence of this series will be on (date/time)".

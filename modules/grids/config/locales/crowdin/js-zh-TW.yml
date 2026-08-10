@@ -32,6 +32,14 @@ zh-TW:
           off_track: 進度落後
           on_track: 如期進行
           title: 狀態
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: 子項目
         time_entries_current_user:

@@ -31,6 +31,14 @@ ru:
       news:
         no_results: Ничего нового для отчета.
       not_available: Этот виджет недоступен.
+      project_timeline:
+        footer_actions_label: See more details
+        gantt_link: Milestones Gantt
+        no_results_title: No project timeline content configured
+        sprints_link: Sprints overview
+        title: График проекта
+        title_portfolio: График портфолио
+        title_program: График программы
       subitems:
         button_text: Подпроект
         no_results: Нет видимых потомков.

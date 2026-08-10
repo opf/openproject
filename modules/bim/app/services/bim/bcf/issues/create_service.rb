@@ -57,7 +57,7 @@ module Bim::Bcf
       end
 
       def use_work_package(links:, params:)
-        work_package = WorkPackage.visible(user).find_by(id: work_package_id_from_links(links))
+        work_package = WorkPackage.visible(user).find_by_display_id(work_package_identifier_from_links(links))
         return work_package_not_found_result if work_package.nil?
 
         ::WorkPackages::UpdateService
@@ -71,10 +71,10 @@ module Bim::Bcf
           .call(**params)
       end
 
-      def work_package_id_from_links(links)
+      def work_package_identifier_from_links(links)
         links
           .take(1)
-          .map { |link| link.split("/").last.to_i }
+          .map { |link| link.split("/").last }
           .first
       end
 

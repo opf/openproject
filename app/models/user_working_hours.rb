@@ -32,6 +32,8 @@ class UserWorkingHours < ApplicationRecord
   DAYS = %i[monday tuesday wednesday thursday friday saturday sunday].freeze
   # Maps each day symbol to the Rails I18n date.abbr_day_names index (Sunday = 0)
   DAY_ABBR_INDEX = { monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6, sunday: 0 }.freeze
+  # Date#wday shares the Sunday = 0 numbering of DAY_ABBR_INDEX
+  WDAY_TO_DAY = DAY_ABBR_INDEX.invert.freeze
 
   belongs_to :user, inverse_of: :working_hours
 
@@ -77,6 +79,15 @@ class UserWorkingHours < ApplicationRecord
       hours = value.is_a?(String) ? (value.to_hours || value) : value
       public_send("#{day}=", (hours.to_f * 60).round)
     end
+  end
+
+  def minutes_on(date)
+    public_send(WDAY_TO_DAY.fetch(date.wday))
+  end
+
+  # The capacity for that day, i.e. the working minutes reduced by the availability factor.
+  def effective_minutes_on(date)
+    ((minutes_on(date) * availability_factor) / 100.0).round
   end
 
   def weekly_working_hours

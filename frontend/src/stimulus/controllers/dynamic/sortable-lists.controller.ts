@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,6 +32,7 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
+import { announce } from '@primer/live-region-element';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
@@ -47,20 +48,32 @@ import {
 import {
   captureRowPositions,
   reorderRows,
+  resolveDirectionalPreviousItemId,
+  resolveItemId,
+  resolveItemLabel,
+  resolveItemPosition,
+  resolveItemType,
+  resolveMoveAvailability,
   restoreRowPositions,
+  rowOf,
   rowsRemainAt,
   sortableListsBusyAttribute,
+  type MoveAvailability,
+  type MoveDirection,
 } from './sortable-lists/list-dom';
 
 type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];
 type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
+interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
 
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot {
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
 
   static values = {
     moveUrlTemplate: String,
+    moveUrlTemplates: Object,
+    optimistic: { type: Boolean, default: false },
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
@@ -69,6 +82,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
+  declare readonly moveUrlTemplatesValue:Record<string, string>;
+  declare readonly hasMoveUrlTemplatesValue:boolean;
+  declare readonly optimisticValue:boolean;
 
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
@@ -159,6 +175,72 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.element.hasAttribute(sortableListsBusyAttribute);
   }
 
+  // Availability mirrors executability: a direction is offered exactly when the
+  // move resolver can produce a target for it. This keeps the menu honest about
+  // truncated lists, where a one-step move across the hidden block is not
+  // addressable. Null means the item is not in an owned list (yet). The result
+  // is a snapshot for menu gating; the click path re-resolves the live DOM.
+  moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
+    const list = this.ownerListOf(itemElement);
+
+    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+  }
+
+  moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
+    if (this.busy) {
+      return;
+    }
+
+    const list = this.ownerListOf(itemElement);
+    if (!list) {
+      return;
+    }
+
+    const itemId = resolveItemId(itemElement);
+    if (!itemId) {
+      return;
+    }
+
+    const previousItemId = resolveDirectionalPreviousItemId({ itemElement, direction, rowsContainer: list.rowsContainer });
+    if (previousItemId === undefined) {
+      return;
+    }
+
+    const moveUrl = this.resolveMoveUrl({ itemId, type: resolveItemType(itemElement) });
+    const sourceRow = rowOf(list.rowsContainer, itemElement);
+    if (!moveUrl || !sourceRow) {
+      return;
+    }
+
+    void this.performMove({
+      sourceRow,
+      rowsContainer: list.rowsContainer,
+      listData: list.listData,
+      previousItemId,
+      moveUrl,
+    });
+  }
+
+  // The list element an item currently belongs to, for the confinement field
+  // on the drag payload; null outside any registered list.
+  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null {
+    return this.ownerListOf(itemElement)?.element ?? null;
+  }
+
+  // The owning list of an item is the innermost list outlet containing its
+  // element: in nested topologies (a section item hosting a field list) the
+  // item is contained by every ancestor list, and only the innermost one
+  // holds its row.
+  private ownerListOf(itemElement:HTMLElement) {
+    const containing = this.sortableListsListOutlets.filter((list) => list.element.contains(itemElement));
+
+    return containing.find((list) => !containing.some((other) => other !== list && list.element.contains(other.element))) ?? null;
+  }
+
+  ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null {
+    return this.ownerListOf(itemElement)?.rowsContainer ?? null;
+  }
+
   private async handleDrop({ location, source }:ElementDropPayload) {
     if (this.busy) {
       debugLog('sortable-lists: ignoring drop, a move is already in progress');
@@ -175,7 +257,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const moveUrl = this.resolveMoveUrl(source.data);
+    const moveUrl = this.resolveMoveUrl({ itemId: source.data.itemId, type: source.data.type });
     if (!moveUrl) {
       debugLog('sortable-lists: ignoring drop, no move URL for item', source.data.itemId);
       return;
@@ -187,51 +269,80 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       sourceData: source.data,
     });
     if (!intent) {
-      debugLog('sortable-lists: ignoring drop, it did not resolve to a move (dropped outside a list)');
+      debugLog('sortable-lists: ignoring drop, it did not resolve to a move');
       return;
     }
 
-    // The dragged source row is still resolved as an <li>, the one place the
-    // subsystem is not yet tag-agnostic: reaching its rows container structurally
-    // needs the source list (not the root) on the item payload. Backlogs rows are
-    // <li>, so this holds today; generalising it is a tracked follow-up.
-    const sourceRow = source.element.closest('li');
-    if (!(sourceRow instanceof HTMLElement)) {
+    const sourceList = this.ownerListOf(source.element);
+    const sourceRow = sourceList ? rowOf(sourceList.rowsContainer, source.element) : null;
+    if (!sourceRow) {
       debugLog('sortable-lists: ignoring drop, could not resolve the source row element');
       return;
     }
 
-    // Move the row optimistically, then persist. The server response (a
-    // turbo-stream) reconciles the list on success; a failure rolls the row
-    // back to where it started.
-    const rows = [sourceRow];
-    const rollback = captureRowPositions(rows);
-    reorderRows({ rows, rowsContainer: intent.rowsContainer, previousItemId: intent.previousItemId });
-
-    // The reorder resolving back to the source's current DOM position means
-    // the drop is a no-op — nothing to persist, so no request. Comparing DOM
-    // placement (not predecessor ids) keeps non-item rows such as truncation
-    // markers out of the equation.
-    if (rowsRemainAt(rollback)) {
-      debugLog('sortable-lists: ignoring drop, the item landed at its original position');
-      return;
-    }
-
-    const optimisticPlacement = captureRowPositions(rows);
-
-    const result = await this.moveItem({
+    await this.performMove({
+      sourceRow,
+      rowsContainer: intent.rowsContainer,
       listData: intent.listData,
       previousItemId: intent.previousItemId,
       moveUrl,
     });
+  }
+
+  // Optimistically reorder a single row, persist the move, and roll the row
+  // back (with a FLIP animation and an error toast) if the server rejects it.
+  // Shared by drag drops and programmatic menu moves.
+  private async performMove({
+    sourceRow,
+    rowsContainer,
+    listData,
+    previousItemId,
+    moveUrl,
+  }:{
+    sourceRow:HTMLElement;
+    rowsContainer:HTMLElement;
+    listData:SortableListData;
+    previousItemId:string|null;
+    moveUrl:string;
+  }):Promise<void> {
+    const rows = [sourceRow];
+    // Captured before the reorder: afterwards the row already belongs to the
+    // target list, so source-relative facts would be lost.
+    const announcementContext:MoveAnnouncementContext = {
+      label: resolveItemLabel(sourceRow),
+      listName: listData.name,
+      crossList: sourceRow.parentElement !== rowsContainer,
+    };
+    const rollback = captureRowPositions(rows);
+    reorderRows({ rows, rowsContainer, previousItemId });
+
+    // The reorder resolving back to the source's current DOM position means
+    // the move is a no-op — nothing to persist, so no request. Comparing DOM
+    // placement (not predecessor ids) keeps non-item rows such as truncation
+    // markers out of the equation.
+    if (rowsRemainAt(rollback)) {
+      debugLog('sortable-lists: ignoring move, the item landed at its original position');
+      return;
+    }
+
+    this.announceMove(announcementContext, sourceRow, rowsContainer);
+
+    const optimisticPlacement = captureRowPositions(rows);
+
+    const result = await this.moveItem({ listData, previousItemId, moveUrl });
 
     if (!result.ok) {
+      let rolledBack = false;
       try {
         // A concurrent morph that removed or repositioned the rows carries
         // fresher server state than the pre-move snapshot; roll back only
         // while the rows still sit where the optimistic move put them.
         if (rowsRemainAt(optimisticPlacement)) {
           flipMove(rows, () => restoreRowPositions(rollback));
+          // restoreRowPositions silently skips rows whose captured parent
+          // disconnected, so verify the postcondition instead of trusting
+          // the absence of an exception.
+          rolledBack = rowsRemainAt(rollback);
         }
       } catch (error) {
         debugLog('Failed to roll back sortable list item move', error);
@@ -239,16 +350,39 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
       if (result.showToast) {
         this.dispatchErrorToast();
+        this.announceMoveFailure(announcementContext, rolledBack);
       }
     }
   }
 
-  private resolveMoveUrl(data:{ itemId:string }):string|null {
-    if (!this.hasMoveUrlTemplateValue) {
+  // The template must expand to a same-origin relative URL: the expansion is
+  // reduced to path + search + hash, so an absolute template's origin would
+  // be dropped silently.
+  private resolveMoveUrl({ itemId, type }:{ itemId:string; type:string|null }):string|null {
+    const template = this.moveUrlTemplateFor(type);
+    if (!template) {
       return null;
     }
 
-    return parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
+    const expanded = parseTemplate(template).expand({ id: itemId });
+    const url = new URL(expanded, window.location.href);
+    // Only consumers whose success response is event-only (Backlogs) opt in;
+    // morph-reconciled surfaces need the server to stream the canonical order.
+    if (this.optimisticValue) {
+      url.searchParams.set('optimistic', 'true');
+    }
+
+    return `${url.pathname}${url.search}${url.hash}`;
+  }
+
+  // The dragged item's type keys the template: the move endpoint belongs to
+  // the item being moved, not to the destination list.
+  private moveUrlTemplateFor(type:string|null):string|null {
+    if (type !== null && this.hasMoveUrlTemplatesValue && this.moveUrlTemplatesValue[type]) {
+      return this.moveUrlTemplatesValue[type];
+    }
+
+    return this.hasMoveUrlTemplateValue ? this.moveUrlTemplateValue : null;
   }
 
   private async moveItem({
@@ -298,7 +432,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     } else {
       this.element.removeAttribute(sortableListsBusyAttribute);
     }
-    this.sortableListsListOutlets.forEach((list) => list.reflectBusy(busy));
   }
 
   private dispatchErrorToast():void {
@@ -308,5 +441,46 @@ export default class SortableListsController extends Controller<HTMLElement> imp
         type: 'error',
       },
     }));
+  }
+
+  // The one meaningful message for the whole optimistic move; spoken from the
+  // global live region, in sync with what sighted users see. Failure paths
+  // append their own message below. A 422 stays silent here: its error flash
+  // is streamed by the server and self-announces (matching the toast rule).
+  private announceMove(context:MoveAnnouncementContext, sourceRow:HTMLElement, rowsContainer:HTMLElement):void {
+    const placement = resolveItemPosition({ row: sourceRow, rowsContainer });
+    if (!placement) {
+      return;
+    }
+
+    // Resolved outside the options object literal below: nested inside it,
+    // the call's generic return type would be inferred from the object's
+    // contextual `TranslateOptions` index signature (`any`) instead of its
+    // own `string` default.
+    const label = context.label ?? I18n.t('js.sortable_lists.announcements.fallback_item_label');
+    const listName = context.listName ?? I18n.t('js.sortable_lists.announcements.fallback_list_name');
+    const message = context.crossList
+      ? I18n.t('js.sortable_lists.announcements.moved_to_list', {
+        label,
+        list: listName,
+        position: placement.position,
+        total: placement.total,
+      })
+      : I18n.t('js.sortable_lists.announcements.moved', {
+        label,
+        position: placement.position,
+        total: placement.total,
+      });
+
+    void announce(message, { politeness: 'polite' });
+  }
+
+  private announceMoveFailure(context:MoveAnnouncementContext, rolledBack:boolean):void {
+    const label = context.label ?? I18n.t('js.sortable_lists.announcements.fallback_item_label');
+    const message = rolledBack
+      ? I18n.t('js.sortable_lists.announcements.move_failed_rolled_back', { label })
+      : I18n.t('js.sortable_lists.announcements.move_failed_check_position');
+
+    void announce(message, { politeness: 'assertive' });
   }
 }

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -48,6 +48,7 @@ interface ColorItem {
                [ngClass]="classes"
                (change)="onModelChange($event)"
                [clearable]="false"
+               [readonly]="disabled"
                appendTo="body">
       <ng-template ng-label-tmp let-item="item">
         <span [ngClass]="highlightColor(item)">{{ item.name }}</span>
@@ -73,6 +74,8 @@ export class ColorsAutocompleterComponent implements OnInit {
 
   public classes:string;
 
+  public disabled = false;
+
   private updateInputField:HTMLInputElement|undefined;
 
   private selectedColorId:string;
@@ -81,8 +84,9 @@ export class ColorsAutocompleterComponent implements OnInit {
     this.setColorOptions();
 
     this.updateInputField = document.getElementsByName(this.elementRef.nativeElement.dataset.updateInput!)[0] as HTMLInputElement|undefined;
-    this.highlightTextInline = JSON.parse(this.elementRef.nativeElement.dataset.highlightTextInline || 'false') as boolean;
-    this.classes = this.elementRef.nativeElement.dataset.classes || '';
+    this.highlightTextInline = JSON.parse(this.elementRef.nativeElement.dataset.highlightTextInline ?? 'false') as boolean;
+    this.classes = this.elementRef.nativeElement.dataset.classes ?? '';
+    this.disabled = JSON.parse(this.elementRef.nativeElement.dataset.disabled ?? 'false') as boolean;
   }
 
   public onModelChange(color:{ name:string, value:string }) {

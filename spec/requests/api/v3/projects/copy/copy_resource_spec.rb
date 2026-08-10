@@ -43,7 +43,8 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
   shared_let(:source_project) do
     create(:project,
-           enabled_module_names: %w[work_package_tracking wiki],
+           :with_internal_wiki,
+           enabled_module_names: %w[work_package_tracking],
            custom_field_values: {
              text_custom_field.id => "source text",
              list_custom_field.id => list_custom_field.custom_options.last.id
@@ -158,7 +159,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
         expect(project).to be_present
 
         expect(source_project.wiki.pages.count).to eq 1
-        expect(project.wiki.pages.count).to eq 0
+        expect(project.wiki).to be_nil
 
         expect(source_project.work_packages.count).to eq 1
         expect(project.work_packages.count).to eq 1

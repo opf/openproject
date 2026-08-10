@@ -62,7 +62,7 @@ es:
       idp_cert: 'Introduzca el certificado público con formato X509 PEM del proveedor de identidad. Puede introducir varios certificados separándolos con una nueva línea.
 
         '
-      idp_entity_id: 'Opcional: resulta útil cuando la URL de metadatos apunta a un conjunto federado con muchas entradas. Introduce el ID de entidad del proveedor de identidad de tu institución. Déjalo en blanco para las URL de metadatos de una sola entidad.
+      idp_entity_id: 'Opcional: resulta de utilidad cuando la URL de metadatos apunta a un conjunto federado con muchas entradas. Introduce el ID de entidad del proveedor de identidad de tu institución. Déjalo en blanco para las URL de metadatos de una sola entidad.
 
         '
       idp_slo_service_url: 'La URL del terminal de cierre de sesión del proveedor de identidad.

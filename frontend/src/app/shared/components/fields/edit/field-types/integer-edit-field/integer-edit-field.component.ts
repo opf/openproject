@@ -1,3 +1,4 @@
+//-- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -20,10 +21,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
-// ++
+//++
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
@@ -32,11 +33,13 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
   template: `
     <input type="number"
            class="inline-edit--field op-input"
+           #input
            [attr.aria-required]="required"
            [attr.required]="required"
            [disabled]="inFlight"
            [attr.lang]="locale"
-           [(ngModel)]="value"
+           [ngModel]="value"
+           (ngModelChange)="value = parseIntegerInput($event, input)"
            (keydown)="handler.handleUserKeydown($event)"
            [id]="handler.htmlId" />
   `,
@@ -48,4 +51,15 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
 })
 export class IntegerEditFieldComponent extends EditFieldComponent {
   public locale = I18n.locale;
+
+  public parseIntegerInput(this:void, value:number|null, input:HTMLInputElement):number|string|null {
+    if (!input.validity.badInput) {
+      return value;
+    }
+
+    // Number inputs report invalid text as `null` (and Chromium also hides the
+    // text from `input.value`). Keep the change invalid so that it reaches the
+    // custom value validation instead of being mistaken for clearing the field.
+    return input.value || 'invalid';
+  }
 }

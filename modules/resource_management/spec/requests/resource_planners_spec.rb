@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "ResourcePlanners requests",
-               :skip_csrf,
-               type: :rails_request do
+               :skip_csrf, type: :rails_request, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_resource_planners] })
@@ -41,6 +40,22 @@ RSpec.describe "ResourcePlanners requests",
   let(:resource_planner) { create(:resource_planner, project:, principal: user, name: "Original") }
 
   before { login_as user }
+
+  describe "without the resource_management enterprise feature", with_ee: false do
+    it "renders the index with an upsell banner instead of the planners" do
+      get project_resource_planners_path(project)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("op-enterprise-banner")
+    end
+
+    it "still guards the other actions with 403" do
+      get new_project_resource_planner_path(project),
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
 
   describe "GET edit" do
     it "responds with the edit dialog turbo stream" do
@@ -51,6 +66,19 @@ RSpec.describe "ResourcePlanners requests",
       expect(response.body).to include(ResourcePlanners::EditDialogComponent::DIALOG_ID)
       # The default-view field is excluded in edit mode.
       expect(response.body).not_to include("resource_planner_default_view_class_name")
+    end
+
+    it "renders the timeframe as a clearable range picker holding the planner's dates" do
+      resource_planner.update!(start_date: Date.new(2026, 8, 1), end_date: Date.new(2026, 8, 14))
+
+      get edit_project_resource_planner_path(project, resource_planner),
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response.body).to include("opce-range-date-picker")
+      expect(response.body).to include("resource_planner[date_range]")
+      expect(response.body).to include("2026-08-01 - 2026-08-14")
+      # The timeframe is optional, so the range has to be removable again.
+      expect(response.body).to include("data-show-clear-button")
     end
   end
 
@@ -77,6 +105,33 @@ RSpec.describe "ResourcePlanners requests",
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(resource_planner.reload.name).to eq("Original")
+    end
+
+    it "splits the picked range into a start and a finish date" do
+      patch project_resource_planner_path(project, resource_planner),
+            params: { resource_planner: { name: "Original", date_range: "2026-08-01 - 2026-08-14" } }
+
+      expect(resource_planner.reload.start_date).to eq(Date.new(2026, 8, 1))
+      expect(resource_planner.end_date).to eq(Date.new(2026, 8, 14))
+    end
+
+    it "unsets both dates when the range is cleared" do
+      resource_planner.update!(start_date: Date.new(2026, 8, 1), end_date: Date.new(2026, 8, 14))
+
+      patch project_resource_planner_path(project, resource_planner),
+            params: { resource_planner: { name: "Original", date_range: "" } }
+
+      expect(resource_planner.reload.start_date).to be_nil
+      expect(resource_planner.end_date).to be_nil
+    end
+
+    it "rejects a half-open range, as the timeframe is picked as a range" do
+      patch project_resource_planner_path(project, resource_planner),
+            params: { resource_planner: { name: "Original", date_range: "2026-08-01 - " } },
+            headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(resource_planner.reload.start_date).to be_nil
     end
   end
 

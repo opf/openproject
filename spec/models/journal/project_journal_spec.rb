@@ -35,6 +35,9 @@ RSpec.describe Journal::ProjectJournal do
     let(:project) { build(:project) }
     let(:journal) { build(:project_journal, journable: project) }
 
+    # The parent of a project is only named to readers who may see it.
+    current_user { build_stubbed(:admin) }
+
     it "renders identifier field correctly" do
       html = journal.render_detail(["identifier", [nil, "my-project"]], html: true)
       expect(html).to eq("<strong>Identifier</strong> set to " \

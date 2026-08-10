@@ -200,7 +200,13 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     @work_package = WorkPackage.visible.find(params[:work_package_id])
     @project = @work_package.project
   rescue ActiveRecord::RecordNotFound
-    respond_with_error(I18n.t("label_not_found"))
+    # Background polls get a bare 404; a flash stream would add a new error
+    # banner on every polling interval once the session or visibility is gone.
+    if action_name == "update_streams"
+      head :not_found
+    else
+      respond_with_error(I18n.t("label_not_found"))
+    end
   end
 
   def initialize_pagination

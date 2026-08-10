@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -93,6 +93,12 @@ export class ApiV3Service {
 
   // /api/v3/principals
   public readonly principals = this.apiV3CollectionEndpoint('principals');
+
+  // /api/v3/portfolios
+  public readonly portfolios = this.apiV3CollectionEndpoint('portfolios');
+
+  // /api/v3/programs
+  public readonly programs = this.apiV3CollectionEndpoint('programs');
 
   // /api/v3/root
   public readonly root = this.apiV3SingularEndpoint<RootResource>('');

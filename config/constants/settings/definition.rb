@@ -473,7 +473,7 @@ module Settings
         env_alias: "EMAIL_DELIVERY_METHOD"
       },
       emails_salutation: {
-        allowed: %w[firstname name],
+        allowed: %i[firstname name],
         default: :firstname
       },
       emails_footer: {
@@ -1363,6 +1363,12 @@ module Settings
         description: "Enable multiple version assignments on work packages.",
         format: :boolean,
         default: false
+      },
+      work_packages_activities_tab_polling_interval_in_ms: {
+        description: "Interval in milliseconds at which the work package activities tab polls for updates.",
+        format: :integer,
+        default: 10_000,
+        allowed: 1000..10_000
       },
       work_packages_projects_export_limit: {
         default: 500

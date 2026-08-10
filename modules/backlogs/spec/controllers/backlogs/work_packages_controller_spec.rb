@@ -58,6 +58,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       expect(response).to have_http_status :ok
       expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
       expect(turbo_stream_template(action: "flash")).to include(message)
+      expect(response).not_to have_turbo_stream action: "liveRegion"
     end
   end
 
@@ -89,12 +90,12 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:prev_id) { nil }
     let(:position) { nil }
     let(:all) { nil }
-    let(:direction) { nil }
     # The move URL carries the page's active backlog filters (see move_path).
     let(:filter_params) { {} }
+    let(:optimistic) { nil }
 
     subject(:response) do
-      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, direction:,
+      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, optimistic:,
                            **filter_params },
                  format: :turbo_stream
     end
@@ -269,38 +270,135 @@ RSpec.describe Backlogs::WorkPackagesController do
           expect(work_package_in_sprint.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
       end
+    end
 
-      context "with direction param" do
-        let(:direction) { "highest" }
+    context "with an optimistic same-list move (drag)" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "true" }
 
-        it "replaces the sprint component and responds with turbo streams", :aggregate_failures do
-          expect(response).to be_successful
-          expect(response).to have_http_status :ok
-          expect(response).to have_turbo_stream action: "turbo_frame_reload",
-                                                target: "backlogs_container"
-          expect(assigns(:work_package)).to eq(work_package_in_sprint)
-        end
+      it "dispatches the moved event and does not reload the frame", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "dispatchEvent"
+        expect(response).not_to have_turbo_stream action: "turbo_frame_reload"
+      end
+    end
 
-        it "moves the inbox item to the first position" do
-          response
+    context "with an optimistic blank-anchor move that did not land on top" do
+      let!(:other_item) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "true" }
 
-          expect(work_package_in_sprint.reload).to have_attributes(backlog_bucket_id: nil, sprint:, position: 1)
-        end
+      before do
+        # The real service always prepends on a blank prev_id, so the anchor
+        # check's failure branch is unreachable through it; inject a result
+        # that stayed mid-list (as a concurrent reorder could leave it).
+        other_item.update_column(:position, 1)
+        work_package_in_sprint.update_column(:position, 2)
 
-        context "when service call fails" do
-          before do
-            allow(Backlogs::WorkPackages::UpdateService)
-              .to receive(:new)
-              .and_return(instance_double(Backlogs::WorkPackages::UpdateService, call: ServiceResult.failure(message: "Error")))
-          end
+        service = instance_double(Backlogs::WorkPackages::UpdateService)
+        allow(Backlogs::WorkPackages::UpdateService).to receive(:new).and_return(service)
+        allow(service).to receive(:call).and_return(ServiceResult.success(result: work_package_in_sprint.reload))
+      end
 
-          it "renders an error flash with 422", :aggregate_failures do
-            expect(response).to have_http_status :unprocessable_entity
-            expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
-            expect(response).not_to have_turbo_stream action: "turbo_frame_reload",
-                                                      target: "backlogs_container"
-          end
-        end
+      it "reloads the frame instead of trusting the top insert", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
+    context "with an optimistic same-list move after a valid predecessor" do
+      let!(:first_item) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { first_item.id }
+      let(:optimistic) { "true" }
+
+      it "skips the reload because the requested anchor was honoured", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "dispatchEvent"
+        expect(response).not_to have_turbo_stream action: "turbo_frame_reload"
+      end
+    end
+
+    context "with an optimistic same-list move whose prev_id has left the list" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      # A predecessor that is not in the target sprint: move_after cannot
+      # resolve it and silently falls back to the top, so the persisted order
+      # diverges from the optimistic client order. The frame must reload to
+      # reconcile rather than trust the stale client placement.
+      let(:stray_prev) { create(:work_package, status:, project:) }
+      let(:prev_id) { stray_prev.id }
+      let(:optimistic) { "true" }
+
+      it "reloads the frame instead of trusting the client order", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
+    context "with an optimistic same-list move without any anchor (malformed)" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:optimistic) { "true" }
+
+      # A nil param still reaches the controller as a blank string, but blank
+      # means "insert at the top"; a missing anchor needs the key to be absent.
+      subject(:response) do
+        put :move, params: { project_id:, id:, list_type:, list_id:, optimistic: }, format: :turbo_stream
+      end
+
+      it "reloads the frame because the claimed order cannot be verified", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
+    context "with an optimistic same-list move by position instead of prev_id" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { nil }
+      let(:position) { "1" }
+      let(:optimistic) { "true" }
+
+      it "reloads the frame instead of trusting the client order", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
+    context "with a same-list move from a client not flagging it optimistic" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "false" }
+
+      it "reloads the frame", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
+    context "with an optimistic cross-list move" do
+      let(:other_sprint) { create(:sprint, name: "Agile Sprint 2", project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { other_sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "true" }
+
+      it "reloads the frame because the list changed", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
       end
     end
 
@@ -367,25 +465,6 @@ RSpec.describe Backlogs::WorkPackagesController do
           response
 
           expect(inbox_work_package.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
-        end
-      end
-
-      context "with direction param" do
-        let!(:inbox_items) { create_list(:work_package, 4, project:, status:) }
-        let(:direction) { "highest" }
-
-        it "replaces the backlog component and responds with turbo streams", :aggregate_failures do
-          expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "turbo_frame_reload",
-                                                target: "backlogs_container"
-
-          expect(assigns(:work_package)).to eq(inbox_work_package)
-        end
-
-        it "moves the inbox item to the first position" do
-          response
-
-          expect(inbox_work_package.reload).to have_attributes(backlog_bucket_id: nil, sprint_id: nil, position: 1)
         end
       end
     end
@@ -475,23 +554,6 @@ RSpec.describe Backlogs::WorkPackagesController do
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket: other_bucket, sprint_id: nil, position: 2)
         end
       end
-
-      context "with direction param" do
-        let(:direction) { "highest" }
-
-        it "replaces the backlog component and responds with turbo streams", :aggregate_failures do
-          expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "turbo_frame_reload",
-                                                target: "backlogs_container"
-          expect(assigns(:work_package)).to eq(bucket_work_package)
-        end
-
-        it "moves the work_package to the first position within the bucket" do
-          response
-
-          expect(bucket_work_package.reload).to have_attributes(backlog_bucket_id: bucket.id, sprint_id: nil, position: 1)
-        end
-      end
     end
 
     context "when service call fails" do
@@ -512,6 +574,87 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_http_status :unprocessable_entity
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
+        expect(response).not_to have_turbo_stream action: "liveRegion"
+      end
+    end
+
+    context "with a non-optimistic move to another sprint (dialog move)" do
+      let(:other_sprint) { create(:sprint, name: "Sprint 2", project:) }
+      let!(:wp_in_target) { create(:work_package, status:, sprint: other_sprint, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { other_sprint.id }
+      let(:prev_id) { wp_in_target.id }
+
+      it "streams a live region announcement with the new position" do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "liveRegion"
+        # The liveRegion stream carries its message as an attribute on the
+        # <turbo-stream> element itself (see render_live_region_update_message),
+        # not inside a <template>, so we assert against the raw body.
+        expect(response.body).to include("#{work_package_in_sprint.to_fs(:caption)} moved to Sprint 2, position 2 of 2")
+      end
+    end
+
+    context "with a non-optimistic same-list move that changes only the position" do
+      let!(:predecessor) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { predecessor.id }
+
+      before do
+        # Start the moved work package at the top so moving it after the
+        # predecessor changes its position without changing its list.
+        work_package_in_sprint.move_after(prev_id: nil)
+      end
+
+      it "streams a live region announcement with the new position" do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "liveRegion"
+        expect(response.body).to include("#{work_package_in_sprint.to_fs(:caption)} moved to Agile Sprint 1, position 2 of 2")
+      end
+    end
+
+    context "with an optimistic move (client announces)" do
+      let!(:other_wp_in_sprint) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { other_wp_in_sprint.id }
+      let(:optimistic) { "true" }
+
+      it "does not stream a live region announcement" do
+        expect(response).to be_successful
+        expect(response).not_to have_turbo_stream action: "liveRegion"
+      end
+    end
+
+    context "with an optimistic cross-list move (client announces)" do
+      let(:other_sprint) { create(:sprint, name: "Sprint 2", project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { other_sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "true" }
+
+      it "does not stream a live region announcement" do
+        expect(response).to be_successful
+        expect(response).not_to have_turbo_stream action: "liveRegion"
+      end
+    end
+
+    context "with a non-optimistic same-list move that changes nothing" do
+      let!(:predecessor) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { predecessor.id }
+
+      before do
+        # Put the moved work package right after its requested predecessor
+        # already, so the move is a persisted no-op.
+        work_package_in_sprint.move_after(prev_id: predecessor.id)
+      end
+
+      it "does not stream a live region announcement" do
+        expect(response).to be_successful
+        expect(response).not_to have_turbo_stream action: "liveRegion"
       end
     end
   end
@@ -597,120 +740,44 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
+    # The client-side sortable-lists--item controller now gates first/last availability at
+    # runtime (see AGILE-322); the server always renders all four move items when the user
+    # may manage sprint items, regardless of the work package's position in its list.
     context "with sprint source" do
-      let!(:sprint_items)       { create_list(:work_package, 3, status:, sprint:, project:) }
-      let!(:other_sprint)       { create(:sprint, name: "Other Sprint", project:) }
-      let!(:other_sprint_items) { create_list(:work_package, 10, status:, sprint: other_sprint, project:) }
-      let!(:inbox_items)        { create_list(:work_package, 10, status:, project:) }
+      let!(:sprint_items) { create_list(:work_package, 3, status:, sprint:, project:) }
+      let(:work_package_id) { sprint_items.first.id }
 
-      context "for the first item" do
-        let(:work_package_id) { sprint_items.first.id }
-
-        it "scopes max_position to the sprint (first item has only downward actions)" do
-          expect(body).not_to include(I18n.t(:label_sort_highest))
-          expect(body).to include(I18n.t(:label_sort_lower))
-        end
-      end
-
-      context "for the last item" do
-        let(:work_package_id) { sprint_items.last.id }
-
-        it "scopes max_position to the sprint (last item has only upward actions)" do
-          expect(body).to include(I18n.t(:label_sort_highest))
-          expect(body).not_to include(I18n.t(:label_sort_lower))
-        end
-
-        context "when a closed work package exists in the sprint" do
-          let!(:closed_status) { create(:status, name: "Closed", is_closed: true) }
-          let!(:closed_sprint_item) { create(:work_package, status: closed_status, sprint:, project:) }
-
-          it "includes closed work packages in max_position so the last open item can still move down" do
-            # sprint_items.last is at position 3; closed_sprint_item occupies position 4
-            # max_position = 4 (closed included) → last open item is not at the bottom
-            expect(body).to include(I18n.t(:label_sort_lower))
-          end
-        end
+      it "renders all four move items regardless of position", :aggregate_failures do
+        expect(body).to include(I18n.t(:label_sort_highest))
+        expect(body).to include(I18n.t(:label_sort_higher))
+        expect(body).to include(I18n.t(:label_sort_lower))
+        expect(body).to include(I18n.t(:label_sort_lowest))
       end
     end
 
     context "with inbox source" do
-      let!(:inbox_items)  { create_list(:work_package, 3, status:, project:) }
-      let!(:sprint_items) { create_list(:work_package, 10, status:, project:, sprint:) }
+      let!(:inbox_items) { create_list(:work_package, 3, status:, project:) }
+      let(:work_package_id) { inbox_items.last.id }
 
-      context "for the first item" do
-        let(:work_package_id) { inbox_items.first.id }
-
-        it "scopes max_position to the inbox (first item has only downward actions)" do
-          expect(body).not_to include(I18n.t(:label_sort_highest))
-          expect(body).to include(I18n.t(:label_sort_lower))
-        end
-      end
-
-      context "for the last item" do
-        let(:work_package_id) { inbox_items.last.id }
-
-        it "scopes max_position to the inbox (last item has only upward actions)" do
-          expect(body).to include(I18n.t(:label_sort_highest))
-          expect(body).not_to include(I18n.t(:label_sort_lower))
-        end
-
-        context "when a closed work package exists in the inbox" do
-          let!(:closed_status) { create(:status, name: "Closed", is_closed: true) }
-          let!(:closed_inbox_item) { create(:work_package, status: closed_status, project:) }
-
-          it "excludes closed work packages from max_position so the last open item is at the bottom" do
-            # inbox_items.last is at position 3; closed_inbox_item occupies position 4
-            # max_position = 3 (closed excluded) → last open item is at the bottom
-            expect(body).not_to include(I18n.t(:label_sort_lower))
-          end
-        end
+      it "renders all four move items regardless of position", :aggregate_failures do
+        expect(body).to include(I18n.t(:label_sort_highest))
+        expect(body).to include(I18n.t(:label_sort_higher))
+        expect(body).to include(I18n.t(:label_sort_lower))
+        expect(body).to include(I18n.t(:label_sort_lowest))
       end
     end
 
     context "with backlog bucket source" do
       let!(:backlog_bucket) { create(:backlog_bucket, project:) }
-      let!(:bucket_items) { create_list(:work_package, 3, project:, status:, backlog_bucket:) }
+      let(:lone_item) { create(:work_package, project:, status:, backlog_bucket:) }
+      let(:work_package_id) { lone_item.id }
 
-      context "with a single item" do
-        let(:lone_bucket) { create(:backlog_bucket, project:) }
-        let(:lone_item) { create(:work_package, project:, status:, backlog_bucket: lone_bucket) }
-        let(:work_package_id) { lone_item.id }
-
-        it "scopes max_position to the bucket (lone item has no move actions)" do
-          expect(response).to have_http_status :ok
-          expect(body).not_to include(I18n.t(:label_sort_highest))
-          expect(body).not_to include(I18n.t(:label_sort_lower))
-        end
-      end
-
-      context "for the first item" do
-        let(:work_package_id) { bucket_items.first.id }
-
-        it "scopes max_position to the bucket (first item has only downward actions)" do
-          expect(body).not_to include(I18n.t(:label_sort_highest))
-          expect(body).to include(I18n.t(:label_sort_lower))
-        end
-      end
-
-      context "for the last item" do
-        let(:work_package_id) { bucket_items.last.id }
-
-        it "scopes max_position to the bucket (last item has only upward actions)" do
-          expect(body).to include(I18n.t(:label_sort_highest))
-          expect(body).not_to include(I18n.t(:label_sort_lower))
-        end
-
-        context "when a closed work package exists in the bucket" do
-          let!(:closed_status) { create(:status, name: "Closed", is_closed: true) }
-          let!(:closed_bucket_item) { create(:work_package, status: closed_status, project:, backlog_bucket:) }
-
-          it "excludes closed work packages from max_position so the last open item is at the bottom" do
-            # bucket_items.last is at position 3; closed_bucket_item occupies position 4
-            # max_position = 3 (closed excluded) → last open item is at the bottom
-
-            expect(body).not_to include(I18n.t(:label_sort_lower))
-          end
-        end
+      it "renders all four move items even for a lone item in its list", :aggregate_failures do
+        expect(response).to have_http_status :ok
+        expect(body).to include(I18n.t(:label_sort_highest))
+        expect(body).to include(I18n.t(:label_sort_higher))
+        expect(body).to include(I18n.t(:label_sort_lower))
+        expect(body).to include(I18n.t(:label_sort_lowest))
       end
     end
   end
@@ -731,8 +798,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_turbo_stream action: "dialog"
       end
 
-      it "includes the sprint name in the dialog title" do
-        expect(body).to include(sprint.name)
+      it "has a dialog title" do
+        expect(body).to include("Add existing work package")
       end
 
       it "sets the form action to the add_existing endpoint with the sprint target" do
@@ -748,8 +815,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_turbo_stream action: "dialog"
       end
 
-      it "includes the bucket name in the dialog title" do
-        expect(body).to include(bucket.name)
+      it "has a dialog title" do
+        expect(body).to include("Add existing work package")
       end
 
       it "sets the form action to the add_existing endpoint with the bucket target" do
@@ -765,8 +832,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_turbo_stream action: "dialog"
       end
 
-      it "includes 'Inbox' in the dialog title" do
-        expect(body).to include(I18n.t(:label_inbox))
+      it "has a dialog title" do
+        expect(body).to include("Add existing work package")
       end
 
       it "sets the form action to the add_existing endpoint with the inbox target" do
@@ -1060,6 +1127,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_http_status :unprocessable_entity
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
+        expect(response).not_to have_turbo_stream action: "liveRegion"
       end
     end
 

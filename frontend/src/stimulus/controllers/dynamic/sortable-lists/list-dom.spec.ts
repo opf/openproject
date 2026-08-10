@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +29,12 @@
 import {
   captureRowPositions,
   reorderRows,
+  resolveDirectionalPreviousItemId,
+  resolveMoveAvailability,
   resolveListAppendPreviousItemId,
+  resolveItemPosition,
+  resolveItemLabel,
+  resolveItemType,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
@@ -89,6 +94,22 @@ describe('sortable lists DOM helpers', () => {
 
       expect(resolveListAppendPreviousItemId({ sourceItemId: '1', rowsContainer: list })).toBeNull();
     });
+
+    it('returns null for an empty list nested inside an outer item, not the outer item\'s id', () => {
+      // Nested topology: a section item hosting its own field list. The only
+      // row is a non-item placeholder (no item id, no prev-item-id marker),
+      // and every ancestor up to the root belongs to the outer (section)
+      // item/list pair. Regression: resolving a "previous item" here must not
+      // climb past the list boundary and match the outer section's item id.
+      const outerItem = divItemRow('outer-section');
+      const list = listElement();
+      const placeholder = document.createElement('li');
+
+      list.append(placeholder);
+      outerItem.append(list);
+
+      expect(resolveListAppendPreviousItemId({ sourceItemId: 'field-1', rowsContainer: list })).toBeNull();
+    });
   });
 
   describe('reorderRows', () => {
@@ -142,6 +163,25 @@ describe('sortable lists DOM helpers', () => {
       reorderRows({ rows: [three, four], rowsContainer: list, previousItemId: '1' });
 
       expect(itemIdOrder(list)).toEqual(['1', '3', '4', '2']);
+    });
+
+    it('anchors on the outer list row, not a nested item with a colliding id', () => {
+      // Section and custom-field ids come from different tables, so a field
+      // nested inside section "1" may carry the same id as section "2".
+      // Resolving section "2" as the anchor must match the outer row, never
+      // descend into the nested field list.
+      const list = listElement();
+      const [sectionOne, sectionTwo, sectionThree] = ['1', '2', '3'].map(divItemRow);
+      const nestedList = listElement();
+      const collidingField = itemRow('2');
+
+      nestedList.append(collidingField);
+      sectionOne.append(nestedList);
+      list.append(sectionOne, sectionTwo, sectionThree);
+
+      reorderRows({ rows: [sectionThree], rowsContainer: list, previousItemId: '2' });
+
+      expect(Array.from(list.children)).toEqual([sectionOne, sectionTwo, sectionThree]);
     });
 
     it('anchors on a truncation marker row when the previous item is hidden', () => {
@@ -315,5 +355,234 @@ describe('sortable lists DOM helpers', () => {
 
       expect(rowsRemainAt(optimistic)).toBe(false);
     });
+  });
+});
+
+describe('directional move helpers', () => {
+  function container(ids:string[]):HTMLElement {
+    const ul = document.createElement('ul');
+    ul.innerHTML = ids.map((id) => `<li data-sortable-lists--item-id-value="${id}"></li>`).join('');
+    return ul;
+  }
+  const itemAt = (ul:HTMLElement, index:number) => ul.children[index] as HTMLElement;
+
+  it('reports per-direction availability', () => {
+    const ul = container(['1', '2', '3']);
+    expect(resolveMoveAvailability({ itemElement: itemAt(ul, 0), rowsContainer: ul }))
+      .toEqual({ top: false, up: false, down: true, bottom: true });
+    expect(resolveMoveAvailability({ itemElement: itemAt(ul, 1), rowsContainer: ul }))
+      .toEqual({ top: true, up: true, down: true, bottom: true });
+    expect(resolveMoveAvailability({ itemElement: itemAt(ul, 2), rowsContainer: ul }))
+      .toEqual({ top: true, up: true, down: false, bottom: false });
+  });
+
+  it('returns null availability when the item is not in the container', () => {
+    const ul = container(['1']);
+    const stray = document.createElement('li');
+    expect(resolveMoveAvailability({ itemElement: stray, rowsContainer: ul })).toBeNull();
+  });
+
+  it('maps each direction to a previous item id', () => {
+    const ul = container(['1', '2', '3', '4']);
+    const at = (i:number) => ({ itemElement: itemAt(ul, i), rowsContainer: ul });
+    // item '3' (index 2)
+    expect(resolveDirectionalPreviousItemId({ ...at(2), direction: 'top' })).toBeNull();
+    expect(resolveDirectionalPreviousItemId({ ...at(2), direction: 'up' })).toBe('1');
+    expect(resolveDirectionalPreviousItemId({ ...at(2), direction: 'down' })).toBe('4');
+    expect(resolveDirectionalPreviousItemId({ ...at(2), direction: 'bottom' })).toBe('4');
+    // second item moving up lands at the top
+    expect(resolveDirectionalPreviousItemId({ ...at(1), direction: 'up' })).toBeNull();
+  });
+
+  it('returns undefined when the direction is unavailable', () => {
+    const ul = container(['1', '2']);
+    const first = { itemElement: itemAt(ul, 0), rowsContainer: ul };
+    const last = { itemElement: itemAt(ul, 1), rowsContainer: ul };
+    expect(resolveDirectionalPreviousItemId({ ...first, direction: 'top' })).toBeUndefined();
+    expect(resolveDirectionalPreviousItemId({ ...first, direction: 'up' })).toBeUndefined();
+    expect(resolveDirectionalPreviousItemId({ ...last, direction: 'down' })).toBeUndefined();
+    expect(resolveDirectionalPreviousItemId({ ...last, direction: 'bottom' })).toBeUndefined();
+  });
+
+  describe('across a truncation marker (sparse list: head + hidden block + tail)', () => {
+    // Rows: h1, h2, <marker prev=last-hidden>, t1, t2. The marker stands in for
+    // a block of hidden work packages the client cannot address one item at a
+    // time.
+    function truncatedContainer():HTMLElement {
+      const ul = document.createElement('ul');
+      ul.innerHTML = [
+        '<li data-sortable-lists--item-id-value="h1"></li>',
+        '<li data-sortable-lists--item-id-value="h2"></li>',
+        '<li data-sortable-lists-prev-item-id="last-hidden"></li>',
+        '<li data-sortable-lists--item-id-value="t1"></li>',
+        '<li data-sortable-lists--item-id-value="t2"></li>',
+      ].join('');
+      return ul;
+    }
+    const byId = (ul:HTMLElement, id:string) =>
+      ul.querySelector<HTMLElement>(`[data-sortable-lists--item-id-value="${id}"]`)!;
+    const at = (ul:HTMLElement, id:string) => ({ itemElement: byId(ul, id), rowsContainer: ul });
+
+    it('disables a one-step move that would cross the hidden block', () => {
+      const ul = truncatedContainer();
+      // "down" from the last head item and "up" from the first tail item would
+      // jump the whole hidden block, so they are unavailable.
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'h2'), direction: 'down' })).toBeUndefined();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 't1'), direction: 'up' })).toBeUndefined();
+    });
+
+    it('keeps one-step moves within a visible chunk', () => {
+      const ul = truncatedContainer();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'h1'), direction: 'down' })).toBe('h2');
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'h2'), direction: 'up' })).toBeNull();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 't1'), direction: 'down' })).toBe('t2');
+    });
+
+    it('anchors a tail item stepping up onto the hidden block via the marker id', () => {
+      const ul = truncatedContainer();
+      // t2 up one slot lands just after the hidden block, before t1.
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 't2'), direction: 'up' })).toBe('last-hidden');
+    });
+
+    it('still allows the addressable extremes across the block', () => {
+      const ul = truncatedContainer();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'h1'), direction: 'top' })).toBeUndefined();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'h1'), direction: 'bottom' })).toBe('t2');
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 't2'), direction: 'top' })).toBeNull();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 't2'), direction: 'bottom' })).toBeUndefined();
+    });
+  });
+
+  describe('across an unannotated non-item row (a divider between items)', () => {
+    // Rows: a, b, <divider with no prev-item-id>, c, d. Unlike a truncation
+    // marker the divider gives no anchor, so one-step moves cannot cross or
+    // land next to it; only the extremes stay available.
+    function dividedContainer():HTMLElement {
+      const ul = document.createElement('ul');
+      ul.innerHTML = [
+        '<li data-sortable-lists--item-id-value="a"></li>',
+        '<li data-sortable-lists--item-id-value="b"></li>',
+        '<li class="divider"></li>',
+        '<li data-sortable-lists--item-id-value="c"></li>',
+        '<li data-sortable-lists--item-id-value="d"></li>',
+      ].join('');
+      return ul;
+    }
+    const byId = (ul:HTMLElement, id:string) =>
+      ul.querySelector<HTMLElement>(`[data-sortable-lists--item-id-value="${id}"]`)!;
+    const at = (ul:HTMLElement, id:string) => ({ itemElement: byId(ul, id), rowsContainer: ul });
+
+    it('disables one-step moves whose neighbouring row is the divider', () => {
+      const ul = dividedContainer();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'b'), direction: 'down' })).toBeUndefined();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'c'), direction: 'up' })).toBeUndefined();
+    });
+
+    it('disables a one-step up whose would-be predecessor is the divider', () => {
+      const ul = dividedContainer();
+      // "before c but after the divider" cannot be expressed as a previous
+      // item id, so d moving up one slot is unavailable.
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'd'), direction: 'up' })).toBeUndefined();
+    });
+
+    it('keeps the extremes and same-chunk steps available', () => {
+      const ul = dividedContainer();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'a'), direction: 'down' })).toBe('b');
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'c'), direction: 'down' })).toBe('d');
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'b'), direction: 'top' })).toBeNull();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'a'), direction: 'bottom' })).toBe('d');
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'd'), direction: 'top' })).toBeNull();
+    });
+  });
+});
+
+describe('resolveItemPosition', () => {
+  function item(id:string, label?:string):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-sortable-lists--item-id-value', id);
+    if (label) {
+      row.setAttribute('data-sortable-lists--item-label-value', label);
+    }
+    return row;
+  }
+
+  function marker(omittedCount:number, prevItemId = '99'):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-sortable-lists-prev-item-id', prevItemId);
+    row.setAttribute('data-sortable-lists-omitted-count', String(omittedCount));
+    return row;
+  }
+
+  it('returns the 1-based position and total of an item row', () => {
+    const container = document.createElement('ul');
+    const rows = [item('1'), item('2'), item('3')];
+    container.append(...rows);
+
+    expect(resolveItemPosition({ row: rows[1], rowsContainer: container }))
+      .toEqual({ position: 2, total: 3 });
+  });
+
+  it('counts the hidden items a truncation marker stands in for', () => {
+    const container = document.createElement('ul');
+    const before = item('1');
+    const after = item('2');
+    container.append(before, marker(40), after);
+
+    expect(resolveItemPosition({ row: before, rowsContainer: container }))
+      .toEqual({ position: 1, total: 42 });
+    expect(resolveItemPosition({ row: after, rowsContainer: container }))
+      .toEqual({ position: 42, total: 42 });
+  });
+
+  it('ignores non-item rows without an omitted count', () => {
+    const container = document.createElement('ul');
+    const divider = document.createElement('li');
+    const row = item('1');
+    container.append(divider, row);
+
+    expect(resolveItemPosition({ row, rowsContainer: container }))
+      .toEqual({ position: 1, total: 1 });
+  });
+
+  it('returns null for a row that is not an item row of the container', () => {
+    const container = document.createElement('ul');
+    container.append(item('1'));
+    const foreign = item('2');
+
+    expect(resolveItemPosition({ row: foreign, rowsContainer: container })).toBeNull();
+    expect(resolveItemPosition({ row: marker(3), rowsContainer: container })).toBeNull();
+
+    // Also test an in-container marker row
+    const inContainerMarker = marker(5);
+    container.append(inContainerMarker);
+    expect(resolveItemPosition({ row: inContainerMarker, rowsContainer: container })).toBeNull();
+  });
+});
+
+describe('resolveItemLabel', () => {
+  it('reads the label from the row item element and returns null without one', () => {
+    const labelled = document.createElement('li');
+    labelled.setAttribute('data-sortable-lists--item-id-value', '1');
+    labelled.setAttribute('data-sortable-lists--item-label-value', 'Story one');
+    const bare = document.createElement('li');
+    bare.setAttribute('data-sortable-lists--item-id-value', '2');
+
+    expect(resolveItemLabel(labelled)).toEqual('Story one');
+    expect(resolveItemLabel(bare)).toBeNull();
+  });
+});
+
+describe('resolveItemType', () => {
+  it('reads the item type value attribute', () => {
+    const el = document.createElement('div');
+    el.setAttribute('data-sortable-lists--item-type-value', 'custom_field');
+    expect(resolveItemType(el)).toBe('custom_field');
+  });
+
+  it('returns null when the attribute is absent or empty', () => {
+    const el = document.createElement('div');
+    expect(resolveItemType(el)).toBeNull();
+    el.setAttribute('data-sortable-lists--item-type-value', '');
+    expect(resolveItemType(el)).toBeNull();
   });
 });

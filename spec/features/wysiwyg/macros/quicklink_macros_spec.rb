@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Wysiwyg work package quicklink macros", :js do
   shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project_with_types) }
+  shared_let(:project) { create(:project_with_types, :with_internal_wiki).reload }
   let(:work_package) do
     create(:work_package,
            subject: "My subject",
@@ -50,7 +50,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
 
   it "renders work package quicklink macro # with id linking to work package" do
     editor.set_markdown "##{work_package.id}"
-    click_on "Save"
+    click_on "Create"
 
     expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -70,7 +70,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
 
   it "renders work package quicklink macro ## with id link, subject and type" do
     editor.set_markdown "###{work_package.id}"
-    click_on "Save"
+    click_on "Create"
 
     expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -95,7 +95,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
 
   it "renders work package quicklink macro ### with id link, subject, type, status, and dates" do
     editor.set_markdown "####{work_package.id}"
-    click_on "Save"
+    click_on "Create"
 
     expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -171,7 +171,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
       ####{wp_milestone_without_date.id}
     MD
 
-    wait_for_turbo { click_on "Save" }
+    click_on "Create"
 
     expect_and_dismiss_flash(message: "Successful creation.")
 

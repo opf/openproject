@@ -120,6 +120,7 @@ pt-BR:
     button_cancel: Cancelar
     button_change_project: Mover para outro projeto
     button_check_all: Marcar todos
+    button_clear: Remover
     button_close: Fechar
     button_close_details: Fechar visão detalhada
     button_collapse_all: Recolher todos
@@ -204,8 +205,11 @@ pt-BR:
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: Um atributo de projeto para um grupo inserido usando uma macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: Um atributo de pacote de trabalho para um grupo inserido usando uma macro.
+          aria_label_work_package_link: Um link dinâmico para um pacote de trabalho inserido usando uma macro.
           invalid_attribute: O atributo selecionado '%{name}' não existe.
-          macro_help_tooltip: Esse segmento de texto está sendo dinamicamente renderizado por uma macro.
           nested_macro: Esta macro está fazendo referência recursiva a %{model} %{id}.
           not_found: Não foi possível encontrar o recurso solicitado
         child_pages:
@@ -800,6 +804,14 @@ pt-BR:
       sorted_dsc: 'Ordenação decrescente aplicada, '
       sorted_no: 'Nenhuma ordenação aplicada, '
       sorting_disabled: ordenação está desativada
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: outra lista
+        move_failed_check_position: Falha ao mover. Verifique a posição atual do item.
+        move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
+        moved: "%{label} foi movido para a posição %{position} de %{total}"
+        moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
     spot:
       drop_modal:
         close: Fechar o modal
@@ -1099,7 +1111,7 @@ pt-BR:
         activity: Atividade
         files: Arquivos
         overview: Visão geral
-        project_attributes: Project attributes
+        project_attributes: Atributos do projeto
         relations: Relações
         watchers: Observadores
       time_relative:

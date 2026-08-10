@@ -21,6 +21,24 @@
 #++
 ---
 ar:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: حذف الحساب
@@ -49,7 +67,8 @@ ar:
       '
     login_with_auth_provider: أو سجل دخولك من خلال حسابك الموجود مسبقا
     omniauth_login: الرجاء تسجيل الدخول لتفعيل حسابك.
-    signup_with_auth_provider: أو قم بالتسجيل مستخدماً
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: من فضلك اختر
   activemodel:
     attributes:
@@ -208,6 +227,8 @@ ar:
         identifier: المعرّف
         latest_activity_at: آخر نشاط في
         parent: المشروع الفرعي من
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
         project_creation_wizard_enabled: Project initiation request
         project_creation_wizard_notification_text: Notification text
@@ -322,7 +343,7 @@ ar:
         token_name: Token name
       type:
         attribute_groups: تشكيل النموذج
-        children: Sub-types
+        children: Variants
         color: اللون
         dependent_configuration_links: Linked types
         description: Default text for description
@@ -446,6 +467,7 @@ ar:
         spent_hours: الوقت المستهلك
         spent_time: الوقت المستهلك
         subproject: مشروع فرعي
+        target_version: Target version
         target_versions: Target versions
         time_entries: وقت السجل
         type: النّوع
@@ -571,7 +593,7 @@ ar:
               blank: Formula can't be blank.
               format: "%{message}"
               invalid: Formula is invalid.
-              invalid_characters: Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             required:
               cannot_be_true: cannot be set to true.
@@ -677,13 +699,13 @@ ar:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
+              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
+              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'لا يزال قيد الاستخدام من قبل مجموعات العمل: %{types}'
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Work packages in non descendant projects reference versions of the project or its descendants.
         project/phase:
@@ -698,6 +720,12 @@ ar:
           attributes:
             project_ids:
               blank: Please select a project.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -796,16 +824,16 @@ ar:
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             parent:
               cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1153,6 +1181,7 @@ ar:
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: تعديل خيارات تحديد اللون
       tab_branding: Branding
+      tab_default_colors: Default colors
       tab_interface: Interface
       tab_pdf_export_font: PDF export font
       tab_pdf_export_styles: PDF export styles
@@ -1194,12 +1223,14 @@ ar:
         '
     jemalloc_allocator: Jemalloc memory allocator
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
           '
         description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
-        supported_versions: ''
         title: Beta - Try it out!
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
@@ -1216,9 +1247,11 @@ ar:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Added
+        creator: Creator
         label_ago: "%{amount} ago"
         last_change: Last change
         projects: Projects
+        server_url: Server URL
       configuration:
         new: New configuration
         title: Jira configuration
@@ -1233,14 +1266,17 @@ ar:
         button_add: Add configuration
         button_delete_token: Delete token
         button_save: Save configuration
-        button_test: Test configuration
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
         fields:
           name: Name
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
         label_testing: Testing configuration...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
@@ -1252,6 +1288,9 @@ ar:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
+        side_panel:
+          open_history: Open the run history
+          run_status: Run status
         status:
           configuring: Select scope
           finalizing: Finalizing
@@ -1284,14 +1323,8 @@ ar:
           groups:
             configuration:
               title: Configure import
-            confirming:
-              title: Confirm and import
-            fetch:
-              title: Get base data
-            groups_and_users:
-              title: Groups and Users
-            review:
-              title: Review import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
             confirm_button: Start import
@@ -1351,6 +1384,7 @@ ar:
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
+              caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
               label_available_data: Data to be imported
               label_import_data: Currently importing
@@ -1358,9 +1392,12 @@ ar:
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Check available data
               caption_done: Completed
+              caption_done_description: Meta data fetched from %{server_info}
               description: Check what data is available for import in the host Jira instance.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Fetching data from Jira...
               title: Fetch instance meta data
             groups_and_users:
@@ -1369,7 +1406,6 @@ ar:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
-              info: Import run was successful.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1378,6 +1414,20 @@ ar:
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1385,6 +1435,13 @@ ar:
               button_select_projects: Select projects to import
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
+              caption_done_description:
+                zero: "%{count} projects selected as scope"
+                one: 1 project selected as scope
+                two: "%{count} projects selected as scope"
+                few: "%{count} projects selected as scope"
+                many: "%{count} projects selected as scope"
+                other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
@@ -1399,19 +1456,21 @@ ar:
                 sprints: Sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
               label_coming_later: Coming later
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Select which projects you would like to import.
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
-              label_progress: Fetching data from Jira...
+              label_progress: Fetching data
               label_selected_data: Selected data for import
               label_supported_data: Supported data
               title: Import scope
-          select_dialog:
-            filter_projects: Filter by text
           select_projects:
-            title: Select projects
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
         connection_error: 'Connection error: %{message}'
@@ -1608,6 +1667,7 @@ ar:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -1642,9 +1702,15 @@ ar:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
-        default_transitions: Default transitions
-        user_assignee: User is assignee
-        user_author: User is author
+        always: Default transitions
+        aria_label: Workflow transitions
+        assignee: User is assignee
+        author: User is author
+        descriptions:
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
   announcements:
     is_active: معروض حاليًا
     is_inactive: غير معروض حاليًا
@@ -1772,6 +1838,7 @@ ar:
     entity_type: Entity
     estimated_hours: Work
     estimated_time: Work
+    exact_match: Exact match
     expires_at: Expires on
     filter: فلترة
     firstname: الاسم الأول
@@ -1856,6 +1923,8 @@ ar:
     reset_token:
       action_create: إنشاء
       action_reset: إعادة تعيين
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Create backup token
       heading_reset: Reset backup token
       implications: 'Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
@@ -2125,7 +2194,7 @@ ar:
       editable:
         all: Allow the field to be editable by users themselves.
       formula:
-        project: Add numeric values or type / to search for an attribute or a mathematical operator.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -2673,6 +2742,7 @@ ar:
   error_failed_to_delete_entry: Failed to delete this entry.
   error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Invalid selected value.
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_menu_item_not_created: لا يمكن إضافة عنصر للقائمة
@@ -2954,15 +3024,14 @@ ar:
     blocks:
       community: مجتمع أوبِن بروجِكت
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: XWiki integration (Corporate plan).
-            line_1: Sprint goals.
-            line_2: "'All sprints' overview page."
-            line_3: Display backlog buckets in work packages and work package tables.
-            line_4: Improved support for project-based (semantic) identifiers.
-            line_5: Convert meeting agenda items into work packages.
-            line_6: Configure cost types per project.
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3029,6 +3098,7 @@ ar:
       work_package_children_changed_times: by changes to child %{link}
       work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       work_package_parent_changed_times: by changes to parent %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_related_changed_times: by changes to related %{link}
       working_days_changed:
@@ -3050,7 +3120,18 @@ ar:
       total_percent_complete_mode_changed_to_simple_average: Calculation of % Complete totals now based on a simple average of only % Complete values.
       total_percent_complete_mode_changed_to_work_weighted_average: Calculation of % Complete totals now weighted by Work.
       work_package_duplicate_closed: 'Duplicate work package updated:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: The changes were retracted.
+    non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
+      project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
+      work_package: a non-visible work package
   label_accessibility: Accessibility
   label_account: الحساب
   label_actions: Actions
@@ -3117,6 +3198,8 @@ ar:
   label_blog: مدونة
   label_board_plural: لوحات
   label_boolean: قيمة منطقية
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: فرع
   label_browse: تصفّح
   label_builtin: Built-in
@@ -3163,6 +3246,7 @@ ar:
   label_configuration: الإعدادات
   label_confirmation: تأكيد
   label_consent_settings: User Consent
+  label_constant_plural: Constants
   label_contains: يحتوي على
   label_content: المحتوى
   label_continued_from_previous_year: continued from previous year
@@ -3300,6 +3384,7 @@ ar:
   label_forum_plural: منتديات
   label_forum_sticky: مثبت
   label_forums_locked: مقفل
+  label_function_plural: Functions
   label_gantt_chart: Gantt chart
   label_gantt_chart_plural: Gantt charts
   label_general: عام
@@ -3399,7 +3484,6 @@ ar:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: إدارة %{vendor} مستودعات البيانات
   label_mapping_for: 'Mapping for: %{attribute}'
-  label_mathematical_operators: Mathematical operators
   label_max_size: الحجم الأقصى
   label_me: لي
   label_member_all_admin: "(All roles due to admin status)"
@@ -3490,13 +3574,13 @@ ar:
   label_operator_equals_all: is (AND)
   label_operator_equals_or: is (OR)
   label_operator_none: is empty
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: أي
   label_optional_description: الوصف
   label_options: خيارات
   label_other: اخرى
   label_overall_activity: النشاط الإجمالي
   label_overview: نظرة عامة
-  label_page_title: Page title
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -3570,6 +3654,7 @@ ar:
   label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_projects_menu: المشاريع
   label_public_projects: المشاريع العامة
+  label_punctuation: Punctuation
   label_query_new: استعلام جديد
   label_query_plural: استعلامات مخصصة
   label_read: قراءة...
@@ -3777,7 +3862,7 @@ ar:
   label_workflow: سير العمل
   label_workflow_copy: Copy workflow
   label_workflow_plural: تدفقات العمل
-  label_workflow_summary: مُلخّص
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Working days and hours
   label_working_hours: Work schedule
@@ -4580,7 +4665,6 @@ ar:
       oauth_code_not_present_explanation: 'This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be ''code'' or similar.
 
         '
-      oauth_issue_contact_admin: OAuth2 reported an error. Please contact your system administrator.
       oauth_reported: OAuth2 provider reported
       oauth_returned_error: OAuth2 returned an error
       oauth_returned_http_error: OAuth2 returned a network error
@@ -4714,7 +4798,13 @@ ar:
         label: Template
         none_enabled: No template has been enabled for this work package type
       title: Generate PDF
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
     page_nr_footer: Page %{page} of %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form configuration using the default template.
       label: Attributes and description
@@ -4805,6 +4895,7 @@ ar:
 
     '
   permission_move_work_packages: نقل مجموعات العمل
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Save BCF queries
   permission_save_queries: Save views
   permission_search_project: Search project
@@ -4866,6 +4957,8 @@ ar:
       one: 1 portfolio
       other: "%{count} portfolios"
       zero: 0 portfolios
+    filters:
+      name: Part of Portfolio
   portfolios:
     index:
       search:
@@ -4894,6 +4987,8 @@ ar:
       one: 1 program
       other: "%{count} programs"
       zero: 0 programs
+    filters:
+      name: Part of Program
   project:
     archive:
       archived: Archived
@@ -5005,11 +5100,11 @@ ar:
           no_status_when_submitted: Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type.
           no_work_package_type: Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Select which of the configured external file storages should be used.
           external_file_storage: External file storage
-          label_artifact_export: Artifact export
+          label_artifact_export: Artefact export
           label_attachment_export: Save as work package file attachment
           label_file_link_export: Upload file to external file storage and add file link to work package
           pdf_file_storage: PDF file storage
@@ -5027,6 +5122,7 @@ ar:
       header_identifier: Identifier
       header_relations: Project relations
       header_status: Status
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Search project phase
@@ -5087,9 +5183,31 @@ ar:
         menu_title: Template
         title: Template settings
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: تمكين نوع "%{type}"
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
+        remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
+        type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: إنشاء إصدار جديد
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
@@ -5100,13 +5218,13 @@ ar:
     status:
       button_edit: Edit status
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
       sidebar_content_title: Content
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Project initiation request
   queries:
     apply_filter: تطبيق عامل التصفية الذي تم تكوينه مسبقاً
@@ -5473,6 +5591,7 @@ ar:
   setting_total_percent_complete_mode_work_weighted_average: Weighted by work
   setting_total_percent_complete_mode_work_weighted_average_caption_html: The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Users default time zone
   setting_user_format: Users name format
   setting_users_deletable_by_admins: حسابات المستخدم المحذوفة بواسطة المسؤولين
@@ -5609,12 +5728,12 @@ ar:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Project creation wizard
           project_initiation_request: Project initiation request
@@ -5634,8 +5753,8 @@ ar:
           You submitted a project initiation request for **%{project_name}**. It is now awaiting review.
           Click the link below to access the work package with your request.
         confirmation_email_text: Confirmation email text
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Status when submitted
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -5643,7 +5762,7 @@ ar:
         work_package_comment_caption: The assignee selected above will automatically be @mentioned in the comment.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -5673,6 +5792,7 @@ ar:
       section_project_overview: Settings for project lists
     session: الجلسة
     user:
+      account: Account
       default_preferences: Default preferences
       deletion: Deletion
       display_format: Display format
@@ -5906,6 +6026,7 @@ ar:
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_with_diff: "%{label} تغير (%{link})"
   text_journal_deleted: "%{label} تم حذفه (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} تم حذفه (%{link})"
   text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
@@ -5927,8 +6048,8 @@ ar:
     '
   text_notice_too_many_values_are_inperformant: 'ملاحظة: عرض أكثر من 100 عنصر في الصفحة الواحدة يمكن أن يزيد وقت تحميل الصفحة.'
   text_own_membership_delete_confirmation: أنت على وشك إزالة بعض أو كافة الأذونات الخاصة بك، وقد لن تكون قادراً على تحرير هذا المشروع بعد ذلك. هل أنت متأكد من أنك تريد المتابعة؟
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: دليل أصول البرنامج المساعدة القابل للكتابة
   text_powered_by: بواسطة %{link}
   text_project_custom_field_html: 'ستضيف النسخة المؤسسية هذه الإضافات الإضافية للحقول المخصصة للمشاريع: <br> <ul> <li><b>إضافة حقول مخصصة للمشاريع إلى قائمة مشروعك لإنشاء عرض محفظة المشاريع</b></li> </ul>
@@ -5957,8 +6078,9 @@ ar:
   text_user_invited: وقد دعي المستخدم وهو انتظار التسجيل.
   text_user_wrote: "%{value} كتب:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be lost if you leave this page.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add comment
   text_wiki_destroy_confirmation: هل أنت متأكد من أنك تريد حذف هذا wikiوكافة محتوياته؟
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: حذف الصفحات المرتبطة وجميع ذريتهم
   text_wiki_page_destroy_question: تحتوي هذه الصفحة على صفحة /صفحات مرتبطة %{descendants} و descendant(s). ماذا تريد أن تفعل؟
   text_wiki_page_nullify_children: الاحتفاظ بصفحات الفرعية كصفحات الجذر
@@ -6017,37 +6139,64 @@ ar:
   total_progress: التقدم الإجمالي
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      create_type: Create type
+      create_variant: Create variant
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
+        defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Sub-type created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+      success: Variant created successfully.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
+      breadcrumb_variant: 'Variant: %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
+          label: Automatically generated subjects
+        description:
+          caption: Add the text that will be added to the description field of all new work packages with this type.
+          label: Default description text
+        manually_editable_subjects:
+          caption: Users can manually enter and edit work package subjects without restrictions.
+          label: Manually editable subjects
+        pattern:
+          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          insert_as_text: 'No attributes found. Add as text: "%{word}"'
+          label: Subject pattern
+        tab: Defaults
+        token:
+          context:
+            parent: Parent
+            project: Project
+            work_package: Work package
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Details
+        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
         pdf_export_templates:
           actions:
@@ -6055,6 +6204,8 @@ ar:
             label_enable_all: Enable all
           label: PDF Export templates
         tab: Generate PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -6069,6 +6220,10 @@ ar:
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
         empty_group_hint: Drag attributes here
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
         group_name_label: Section name
@@ -6094,6 +6249,9 @@ ar:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:
@@ -6101,44 +6259,97 @@ ar:
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
         tab: المشاريع
-      settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
-        tab: إعدادات
-        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
-          label: Automatically generated subjects
-        manually_editable_subjects:
-          caption: Users can manually enter and edit work package subjects without restrictions.
-          label: Manually editable subjects
-        pattern:
-          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
-          insert_as_text: 'No attributes found. Add as text: "%{word}"'
-          label: Subject pattern
-        tab: Subject configuration
-        token:
-          context:
-            parent: الجذر
-            project: مشروع
-            work_package: مجموعة العمل
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or variant
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        independent:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            title: Switch configuration mode?
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          dialog:
+            submit: Switch
+            title: Independent mode
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the current settings set in the linked mode.
+              label: Copy from linked
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              title: Change source type?
+            check_box: I understand that this will override the current settings
+            from_independent:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              title: Switch configuration mode?
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          dialog:
+            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
+            source_label: Linked source
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Linked mode
+          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
+      workflow:
+        tab: Workflows
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Add variant to %{name}
+      add_variant_action: Add variant
+      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: إنشاء نوع جديد
       no_results_title_text: لا يوجد حالياً أي أنواع.
-      subtype_label: Sub-type
-      subtypes_count:
-        zero: "%{count} sub-types"
-        one: 1 sub-type
-        two: "%{count} sub-types"
-        few: "%{count} sub-types"
-        many: "%{count} sub-types"
-        other: "%{count} sub-types"
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
+      variant_label: Variant
+      variants_count:
+        zero: "%{count} variants"
+        one: 1 variant
+        two: "%{count} variants"
+        few: "%{count} variants"
+        many: "%{count} variants"
+        other: "%{count} variants"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: تجاهل هذا التحذير.
     message: You may run into errors and degraded experience on this page.
@@ -6192,6 +6403,7 @@ ar:
     status_change: Status change
     status_user_and_brute_force: "%{user} و %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: فتح القفل
     unlock_and_reset_failed_logins: فتح وإعادة تعيين تسجيلات الدخول الفاشلة
   user_preferences:
@@ -6515,20 +6727,59 @@ ar:
   work_packages:
     bulk:
       copy_failed: The work packages could not be copied.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'The following work packages could not be saved:'
+      deletion_successful:
+        zero: Successfully deleted %{count} work packages.
+        one: Successfully deleted 1 work package.
+        two: Successfully deleted %{count} work packages.
+        few: Successfully deleted %{count} work packages.
+        many: Successfully deleted %{count} work packages.
+        other: Successfully deleted %{count} work packages.
       descendant: descendant of selected
       move_failed: The work packages could not be moved.
       none_could_be_saved: None of the %{total} work packages could be updated.
       selected_because_descendants: While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants.
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
     bulk_delete_dialog:
-      children_label: 'The following children will also be deleted:'
-      confirm_children_deletion: I acknowledge that all selected work packages and their children will be permanently deleted.
-      cross_project_warning: 'These work packages span multiple projects: %{projects}'
-      description: 'The following work packages and all associated data will be permanently deleted:'
-      description_with_children: 'The following work packages, including children and all associated data, will be permanently deleted:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
+      hidden_descendants_only_warning:
+        zero: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        two: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        zero: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        two: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
+      undeletable_descendants_warning:
+        zero: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        two: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        zero: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        two: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6572,11 +6823,40 @@ ar:
         successors: Successors
       update_inputs_aria_live_message: Date picker updated. %{message}
     delete_dialog:
-      confirm_descendants_deletion: I acknowledge that ALL descendants of this work package will be recursively removed.
-      cross_project_warning: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete the work package "%{name}"?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
+      hidden_descendants_only_warning:
+        zero: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        two: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        zero: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        two: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
+      undeletable_descendants_warning:
+        zero: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        two: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        zero: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        two: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 

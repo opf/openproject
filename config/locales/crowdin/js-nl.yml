@@ -120,6 +120,7 @@ nl:
     button_cancel: Annuleren
     button_change_project: Move to another project
     button_check_all: Selecteer alles
+    button_clear: Clear
     button_close: Sluiten
     button_close_details: Sluit detailweergave
     button_collapse_all: Alles inklappen
@@ -204,8 +205,11 @@ nl:
       error_saving_failed: Het opslaan van het document is mislukt met de volgende foutmelding:%{error}
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Het geselecteerde attribuut '%{name}' bestaat niet.
-          macro_help_tooltip: Dit tekstsegment wordt dynamisch weergegeven door een macro.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Gevraagde bron kan niet worden gevonden
         child_pages:
@@ -800,6 +804,14 @@ nl:
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '
       sorted_no: 'Geen sortering toegepast, '
       sorting_disabled: sorteren is uitgeschakeld
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal

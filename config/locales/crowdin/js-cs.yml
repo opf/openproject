@@ -120,6 +120,7 @@ cs:
     button_cancel: Zrušit
     button_change_project: Přesunout do jiného projektu
     button_check_all: Zaškrtnout vše
+    button_clear: Clear
     button_close: Zavřít
     button_close_details: Zavřít zobrazení podrobností
     button_collapse_all: Sbalit vše
@@ -128,7 +129,7 @@ cs:
     button_continue: Pokračovat
     button_copy: Kopírovat
     button_copy_link_to_clipboard: Kopírovat odkaz do schránky
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Kopírovat numerické ID do schránky
     button_copy_to_clipboard: Kopírovat do schránky
     button_copy_to_other_project: Duplikovat v jiném projektu
     button_create: Vytvořit
@@ -141,9 +142,9 @@ cs:
     button_expand_all: Rozbalit vše
     button_export-atom: Stáhnout Atom
     button_filter: Filtr
-    button_generate_pdf: ''
+    button_generate_pdf: Generovat PDF
     button_list_view: Zobrazit jako seznam
-    button_log_time: Čas protokolu
+    button_log_time: Vykázat čas
     button_more: Více
     button_more_actions: Další akce
     button_open_details: Otevřít podrobností - panel
@@ -204,8 +205,11 @@ cs:
       error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Vybraný atribut '%{name}' neexistuje.
-          macro_help_tooltip: Tento textový segment je dynamicky rendrován makrem.
           nested_macro: Tento makro rekurzivně odkazuje na %{model} %{id}.
           not_found: Požadovaný zdroj nebyl nalezen.
         child_pages:
@@ -578,7 +582,7 @@ cs:
     label_uploaded_by: Nahrál
     label_user_plural: Uživatelé
     label_validation_error: 'Pracovní balíček nemohl být uložen z důvodu následujících chyb:'
-    label_value_derived_from_children: "(hodnota odvozená od dětí)"
+    label_value_derived_from_children: "(hodnota odvozená od potomků)"
     label_version_plural: Verze
     label_view_has_changed: Toto zobrazení obsahuje neuložené změny. Klepnutím je uložíte.
     label_visibility_settings: Viditelnost zobrazení
@@ -613,7 +617,7 @@ cs:
     notice_bad_request: Chybný požadavek.
     notice_job_started: Úloha byla zahájena
     notice_no_results_to_display: Žádné viditelné výsledky k zobrazení.
-    notice_successful_create: Úspěšné vytvoření.
+    notice_successful_create: Úspěšně vytvořeno.
     notice_successful_delete: Úspěšné odstranění.
     notice_successful_update: Úspěšná aktualizace.
     notifications:
@@ -806,6 +810,14 @@ cs:
       sorted_dsc: 'Použité sestupně '
       sorted_no: 'Není použito žádné třídění, '
       sorting_disabled: řazení zakázáno
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Zavřít modal
@@ -820,7 +832,7 @@ cs:
     text_work_packages_destroy_confirmation: Jste si jisti, že chcete odstranit vybrané pracovní balíčky?
     time_entry:
       stop: Zastavit
-      title: Čas protokolu
+      title: Vykázat čas
       tracking: Sledování času
       work_package_required: Vyžaduje nejprve výběr pracovního balíčku.
     timer:

@@ -73,7 +73,7 @@ RSpec.describe "LDAP group sync administration spec", :js do
       find(".buttons a", text: "Delete").click
 
       SeleniumHubWaiter.wait
-      check "I understand that this deletion cannot be reversed"
+      check "I understand that this deletion cannot be reversed."
       click_on "Delete permanently"
 
       SeleniumHubWaiter.wait

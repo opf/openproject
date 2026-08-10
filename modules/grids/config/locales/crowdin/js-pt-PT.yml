@@ -32,6 +32,14 @@ pt-PT:
           off_track: Fora de controlo
           on_track: Sob controlo
           title: Estado
+        project_timeline:
+          accessible_date_range: "%{start} a %{end}"
+          accessible_gate: 'Porta de fase %{name}: %{date}'
+          accessible_phase: 'Fase %{name}: %{date}'
+          tooltip_type_gate: Porta de fase
+          tooltip_type_milestone: Marco
+          tooltip_type_phase: Fase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Sub-elementos
         time_entries_current_user:

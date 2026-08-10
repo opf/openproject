@@ -187,7 +187,7 @@ cs:
   label_initial_meeting_details: Schůzka
   label_invitations: Pozvánky
   label_invited_user: Pozvaný uživatel
-  label_involvement: Zapojení
+  label_involvement: Dle účasti
   label_meeting: Schůzka
   label_meeting_actions: 'volby pro Schůzku
 
@@ -309,7 +309,7 @@ cs:
   meeting:
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
-      series_template: These attached files will be included in all future meetings in the series.
+      series_template: Tyto přiložené soubory budou zahrnuty do všech budoucích schůzek v rámci série.
       text: Přiložené soubory jsou k dispozici všem účastníkům schůzky. Můžete je také přetáhnout do poznámek k pořadu jednání.
     blankslate:
       desc: Můžete vytvořit novou schůzku nebo změnit kritéria filtru
@@ -449,8 +449,8 @@ cs:
         title:
           disable: Zakázat e-mailové aktualizace kalendáře?
           enable: Povolit e-mailové aktualizace kalendáře?
-      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
-      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      disabled: Účastníci nebudou dostávat e-mailové zprávy s informacemi o změnách data, času nebo seznamu účastníků.
+      enabled: Všichni účastníci obdrží aktualizované pozvánky kalendáře a informují je o změnách data, času nebo seznamu účastníků.
       sidepanel:
         description:
           change_via_template: Chcete-li provést změnu, upravte šablonu série.
@@ -460,7 +460,7 @@ cs:
         description: There are no participants yet.
         heading: Nikdo tu není
       label:
-        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
+        apply_to_upcoming_meetings: Aplikovat tyto změny na všechny nadcházející schůzky v této sérii
         attended: Zúčastnil se
         manage_participants: Spravovat účastníky
         mark_all_as_attended: Označte všechny jako zúčastněné
@@ -484,14 +484,14 @@ cs:
       title: Prezentační mód
       total_items: "%{current} z %{total}"
     types:
-      one_time: Jednorázový
-      recurring: Opakované
+      one_time: Jednorázová
+      recurring: Opakovaná
       recurring_text: Vytvořte sérii schůzek s dynamickou šablonou pro každou událost.
-      structured_text: Organize your meeting as a dynamic list of agenda items, optionally linking them to a work package.
+      structured_text: Uspořádat schůzku jako dynamický seznam bodů agendy, které lze propojit s pracovními balíčky.
       structured_text_copy: Kopírování schůzky v současné době nezkopíruje související body pořadu jednání, jen podrobnosti
     widgets:
       blankslate:
-        description: Upcoming meetings you are participating in will appear here.
+        description: Zde se zobrazí nadcházející schůzky, kterých se účastníte.
         heading: Žádné nadcházející schůzky
       view_details: Zobrazit všechny schůzky
   meeting_participant:
@@ -559,11 +559,11 @@ cs:
     caption:
       ends_on: This results in a series ending on %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        few: This results in %{count} upcoming occurrences
-        many: This results in %{count} upcoming occurrences
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        one: Výsledkem bude 1 nadcházející událost
+        few: Výsledkem budou %{count} nadcházející události
+        many: Výsledkem bude %{count} nadcházejících událostí
+        other: Výsledkem bude %{count} nadcházejících událostí
+      occurrences_capped: Výsledkem je více než %{count} nadcházejících událostí
     day_of_month_skipping_info: Měsíce s méně než %{monthly_day} dny budou vynechány
     delete_dialog:
       confirmation_message_html:
@@ -585,7 +585,7 @@ cs:
     end_series_dialog:
       title: Ukončení série schůzek
     ended_blankslate:
-      action: You can still view past occurrences or edit the meeting series to extend it.
+      action: Stále si můžete prohlédnout předchozí události nebo upravit sérii schůzek a prodloužit ji.
       message: 'Tato série schůzek skončila a žádná nadcházející setkání se nekonají. '
       title: Řada schůzek skončila
     frequency:
@@ -704,7 +704,7 @@ cs:
   text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
   text_agenda_item_move_next_meeting: Tento bod bude přesunut na příští schůzi v %{date} %{time}.
   text_agenda_item_moved_to_next_meeting: Bod programu přesunut na příští schůzi %{date}
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
+  text_agenda_item_no_available_occurrence: Nejsou k dispozici žádné nadcházející výskyty událostí.
   text_agenda_item_no_notes: Nebyly poskytnuty žádné poznámky
   text_agenda_item_not_editable_anymore: Tento bod pořadu jednání již není upravitelný.
   text_agenda_item_title: Bod programu "%{title}"
@@ -722,7 +722,7 @@ cs:
   text_meeting_agenda_for_meeting: Agenda schůzky "%{meeting}"
   text_meeting_agenda_open_are_you_sure: Toto přepíše všechny změny v zápisech! Chcete pokračovat?
   text_meeting_closed_description: Tato schůzka je ukončena. Položky agendy již nelze přidávat/odstranit.
-  text_meeting_closed_dropdown_description: This meeting is closed. You cannot modify agenda items or outcomes anymore.
+  text_meeting_closed_dropdown_description: Tato schůzka je ukončena. Položky agendy a výsledky již nelze upravit.
   text_meeting_closing_are_you_sure: Jste si jisti, že chcete ukončit program schůzky?
   text_meeting_draft_banner: Aktuálně se nacházíte v režimu konceptu. Tato schůzka nebude odesílat žádné aktualizace kalendáře ani pozvánky, a to ani v případě, že změníte podrobnosti schůzky nebo přidáte/odstraníte účastníky.
   text_meeting_draft_description: Připravte si program v režimu návrhu. Tato schůzka nebude odesílat žádné aktualizace kalendáře ani pozvánky, a to ani v případě, že změníte podrobnosti schůzky nebo přidáte/odstraníte účastníky.
@@ -732,7 +732,7 @@ cs:
   text_meeting_ics_description: 'Odkaz na schůzku: %{url}'
   text_meeting_ics_meeting_series_description: 'Odkaz na sérii schůzek: %{url}'
   text_meeting_in_progress_description: Můžete upravovat program jednání, dokumentovat výsledky jednotlivých bodů a sledovat účast účastníků. Po dokončení schůzky ji můžete označit jako uzavřenou, čímž se uzamkne.
-  text_meeting_in_progress_dropdown_description: Document outcomes like information needs or decisions taken during the meeting.
+  text_meeting_in_progress_dropdown_description: Zaznamenejte výsledky, jako jsou informační potřeby nebo rozhodnutí přijatá během schůzky.
   text_meeting_minutes_for_meeting: zápis pro schůzku "%{meeting}"
   text_meeting_not_editable_anymore: Tato schůzka již není upravitelná.
   text_meeting_not_present_anymore: Tato schůzka byla odstraněna. Vyberte prosím jinou schůzku.

@@ -34,6 +34,7 @@ module Backlogs
   class WorkPackageCardMenuComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include CommonHelper
+    include Concerns::WorkPackageMovability
 
     attr_reader :work_package, :project, :open_sprints_exist, :other_buckets_exist, :current_user
 
@@ -53,72 +54,53 @@ module Backlogs
 
     private
 
+    # Positional moves reorder within the card's own list, which the server
+    # allows even for a read-only work package, so they gate on the page-level
+    # permission alone. Only the cross-container moves below require movable?.
     def show_move_items?
-      allowed_to_manage_sprint_items? &&
-        !(first_item? && last_item?)
+      sortable?
     end
 
     def show_move_to_inbox?
-      allowed_to_manage_sprint_items? && (work_package.sprint_id? || work_package.backlog_bucket_id?)
+      movable? && (work_package.sprint_id? || work_package.backlog_bucket_id?)
     end
 
     def show_move_to_backlog_bucket?
-      allowed_to_manage_sprint_items? && other_buckets_exist
+      movable? && other_buckets_exist
     end
 
     def show_move_to_sprint?
-      allowed_to_manage_sprint_items? && open_sprints_exist
+      movable? && open_sprints_exist
     end
 
     def show_move_submenu?
       show_move_items? || show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
     end
 
-    def allowed_to_manage_sprint_items?
-      user_allowed?(:manage_sprint_items)
-    end
-
     def build_move_menu(menu)
-      unless first_item?
-        build_move_item(menu, label: :label_sort_highest, direction: "highest", icon: :"move-to-top")
-        build_move_item(menu, label: :label_sort_higher, prev_id: work_package.prev_prev_id, icon: :"chevron-up")
-      end
-      unless last_item?
-        build_move_item(menu, label: :label_sort_lower, prev_id: work_package.next_id, icon: :"chevron-down")
-        build_move_item(menu, label: :label_sort_lowest, direction: "lowest", icon: :"move-to-bottom")
-      end
+      build_move_item(menu, label: :label_sort_highest, direction: "top", icon: :"move-to-top")
+      build_move_item(menu, label: :label_sort_higher, direction: "up", icon: :"chevron-up")
+      build_move_item(menu, label: :label_sort_lower, direction: "down", icon: :"chevron-down")
+      build_move_item(menu, label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom")
     end
 
-    def build_move_item(menu, label:, icon:, direction: nil, prev_id: nil)
-      inputs = if direction
-                 [{ name: "direction", value: direction }]
-               else
-                 current_list_inputs + [{ name: "prev_id", value: prev_id }]
-               end
-
+    def build_move_item(menu, label:, icon:, direction:)
+      # The `data:` hash must live on the item level so Primer renders it on
+      # the ActionList `<li>`: the controller's `<li>` targets and the
+      # action-menu API's `disableItem`/`enableItem` both address that element,
+      # and the click action rides it via the bubbled button click.
       menu.with_item(
         id: dom_target(work_package, :menu, label),
         label: I18n.t(label),
         tag: :button,
-        href: move_project_backlogs_work_package_path(project, work_package),
-        form_arguments: { method: :put, inputs: }
+        data: {
+          sortable_lists__item_target: "moveItem",
+          sortable_lists__item_direction_param: direction,
+          action: "click->sortable-lists--item#move"
+        }
       ) do |item|
         item.with_leading_visual_icon(icon:)
       end
-    end
-
-    def first_item?
-      work_package.prev_id.nil?
-    end
-
-    def last_item?
-      work_package.next_id.nil?
-    end
-
-    def current_list_inputs
-      target = Backlogs::Target.for_work_package(work_package)
-
-      [{ name: "list_type", value: target.list_type }, { name: "list_id", value: target.list_id }]
     end
 
     def inbox_list_type

@@ -52,10 +52,10 @@ pl:
         heading: Brak synchronizacji LDAP działów
       destroy:
         confirmation_message:
-          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
-          few: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
-          many: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
-          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          one: Jeśli będziesz kontynuować, synchronizacja %{name} zostanie usunięta, a jej %{count} dział nie będzie już zarządzany za pomocą usługi LDAP.
+          few: Jeśli będziesz kontynuować, synchronizacja %{name} zostanie usunięta, a jej %{count} działy nie będą już zarządzane za pomocą usługi LDAP.
+          many: Jeśli będziesz kontynuować, synchronizacja %{name} zostanie usunięta, a jej %{count} działów nie będzie już zarządzane za pomocą usługi LDAP.
+          other: Jeśli będziesz kontynuować, synchronizacja %{name} zostanie usunięta, a jej %{count} działu nie będzie już zarządzane za pomocą usługi LDAP.
         heading: Usunąć synchronizację %{name}?
         info: Działy zostają zachowane wraz z członkami i stają się zwykłymi działami. Można je później ręcznie edytować lub usunąć w sekcji Administracja → Użytkownicy i uprawnienia → Organizacja.
         title: Usuń synchronizację %{name}

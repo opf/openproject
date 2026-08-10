@@ -33,7 +33,7 @@ module Backlogs::Sprints
     validate :validate_permission
     validate :validate_status_in_planning
     validate :validate_dates_present
-    validate :validate_no_other_active_sprint
+    validate :validate_only_one_active_sprint, unless: -> { model.allow_multiple_active_sprints? }
 
     def self.can_start_or_complete?(user:, sprint:)
       user.allowed_in_project?(:start_complete_sprint, sprint.project)
@@ -65,7 +65,7 @@ module Backlogs::Sprints
       errors.add :base, :dates_required
     end
 
-    def validate_no_other_active_sprint
+    def validate_only_one_active_sprint
       return unless model.in_planning?
       return unless Sprint.where(project: model.project).active.where.not(id: model.id).exists?
 

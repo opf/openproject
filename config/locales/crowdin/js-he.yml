@@ -120,6 +120,7 @@ he:
     button_cancel: ביטול
     button_change_project: Move to another project
     button_check_all: סמן את כולם
+    button_clear: Clear
     button_close: סגירה
     button_close_details: סגור
     button_collapse_all: סגור הכל
@@ -204,8 +205,11 @@ he:
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: The selected attribute '%{name}' does not exist.
-          macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Requested resource could not be found
         child_pages:
@@ -802,6 +806,14 @@ he:
       sorted_dsc: 'Descending sort applied, '
       sorted_no: 'No sort applied, '
       sorting_disabled: sorting is disabled
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal

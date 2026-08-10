@@ -52,8 +52,8 @@ fr:
         heading: Aucune synchronisation LDAP entre les services
       destroy:
         confirmation_message:
-          one: Si vous continuez, la synchronisation %{name} sera supprimée et son %{count} département ne sera plus géré par LDAP.
-          other: Si vous continuez, la synchronisation %{name} sera supprimée et ses %{count} départements ne seront plus gérés par LDAP.
+          one: Si vous continuez, la synchronisation %{name} sera supprimée et son service (%{count}) ne sera plus géré par LDAP.
+          other: Si vous continuez, la synchronisation %{name} sera supprimée et ses %{count} services ne seront plus gérés par LDAP.
         heading: Supprimer la synchronisation %{name} ?
         info: Les services et leurs membres sont conservés et deviennent des services permanents. Vous pouvez ensuite les modifier ou les supprimer manuellement dans la rubrique Administration → Utilisateurs et autorisations → Organisation.
         title: Supprimer la synchronisation %{name}

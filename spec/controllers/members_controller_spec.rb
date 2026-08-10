@@ -498,5 +498,28 @@ RSpec.describe MembersController do
       expect { action }.not_to change(Member, :count)
       expect(response).to redirect_to "/projects/pet_project/members"
     end
+
+    context "when the member is a group" do
+      let(:group) { create(:group) }
+      let(:member) do
+        create(:member, project:,
+                        principal: group,
+                        roles: [role])
+      end
+      let(:action) do
+        post :update,
+             params: {
+               project_id: project.id,
+               id: member.id,
+               member: { role_ids: [role2.id] }
+             }
+      end
+
+      it "updates the group member instead of returning a 404" do
+        action
+        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(member.reload.roles).to contain_exactly(role2)
+      end
+    end
   end
 end

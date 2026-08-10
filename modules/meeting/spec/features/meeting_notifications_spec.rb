@@ -366,7 +366,7 @@ RSpec.describe "Meeting notifications", :js do
       show_page.delete_meeting_series
       retry_block do
         show_page.within_modal "Delete meeting series" do
-          check "I understand that this deletion cannot be reversed", allow_label_click: true
+          check "I understand that this deletion cannot be reversed.", allow_label_click: true
           click_on "Delete permanently"
         end
       end

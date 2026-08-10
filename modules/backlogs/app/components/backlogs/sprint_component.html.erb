@@ -37,6 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
         drag_and_drop: {
           list_type:,
           list_id: sprint.id,
+          name: sprint.name,
           accepted_type: "work_package",
           drop_position: "start"
         },
@@ -125,6 +126,14 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :a,
                 href: project_backlogs_sprint_burndown_chart_path(project, sprint),
                 disabled: !sprint.date_range_set?
+              ) do |item|
+                item.with_leading_visual_icon(icon: :graph)
+              end
+            elsif show_report_link?
+              menu.with_item(
+                label: t("backlogs.label_sprint_report"),
+                tag: :a,
+                href: project_backlogs_sprint_report_path(project, sprint)
               ) do |item|
                 item.with_leading_visual_icon(icon: :graph)
               end

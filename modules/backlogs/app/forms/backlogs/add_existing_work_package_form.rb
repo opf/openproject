@@ -60,6 +60,9 @@ module Backlogs
     def filters
       [
         { name: "status", operator: Queries::Operators::OpenWorkPackages.symbol },
+        # Exclude work packages from subprojects. They are not visible within the backlog/sprints
+        # and should thus not be searchable here:
+        { name: "subprojectId", operator: Queries::Operators::None.symbol },
         @target.to_filter
       ]
     end

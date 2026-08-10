@@ -5,6 +5,7 @@ de:
       resource_allocation:
         allocated_hours: Stunden
         allocated_time: Zugewiesene Zeit
+        date_range: Daten
         end_date: Endtermin
         entity: Entität
         filter_name: Name des Ressourcenfilters
@@ -13,6 +14,7 @@ de:
         state: Status
         user_filter: Benutzerfilter
       resource_planner:
+        date_range: Daten
         default_view_class_name: Standardansicht
         end_date: Endtermin
         favorite: Favorit
@@ -29,6 +31,9 @@ de:
           attributes:
             end_date:
               greater_than_start_date: muss nach dem Anfangstermin liegen.
+              required_with_start_date: muss gesetzt sein, wenn ein Starttermin gesetzt ist.
+            start_date:
+              required_with_end_date: muss gesetzt sein, wenn ein Endtermin gesetzt ist.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ de:
       resource_planner: Ressourcenplanung
       resource_user_card: Benutzerkarten
       resource_work_package_list: Liste von Arbeitspaketen
+  ee:
+    features:
+      resource_management: Ressourcenmanagement
+    upsell:
+      resource_management:
+        description: Planen und verteilen Sie die Arbeitsverteilung Ihres Teams mithilfe von Ressourcenplanern. Weisen Sie Mitarbeitern Arbeitspakete zu, verfolgen Sie die Kapazitäten im Zeitverlauf und erkennen Sie Über- und Unterauslastung auf einen Blick.
+        title: Ressourcenmanagement
   button_next: Weiter
   label_resource_management: Ressourcenmanagement
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
@@ -51,7 +63,7 @@ de:
   plugin_openproject_resource_management:
     description: Bietet Ressourcenmanagement und Kapazitätsplanung.
     name: OpenProject Ressourcenmanagement
-  project_module_resource_management: Ressourcen Management
+  project_module_resource_management: Ressourcenmanagement
   resource_management:
     action:
       delete: Löschen
@@ -149,9 +161,7 @@ de:
       title: Ressourcenzuweisung
     sub_views: Ansichten in dieser Ressourcenplanung
     timeframe:
-      end_only: Bis %{end}
       full: von %{start} bis %{end}
-      start_only: Ab %{start}
     timeline:
       granularity:
         day: Tag

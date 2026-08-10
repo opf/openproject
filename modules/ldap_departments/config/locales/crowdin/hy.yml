@@ -4,86 +4,86 @@ hy:
     attributes:
       ldap_departments/synchronized_department:
         dn: DN
-        group: Department
-        ldap_auth_source: LDAP connection
-        users_count: Members
+        group: Ստորաբաժանում
+        ldap_auth_source: LDAP կապ
+        users_count: Անդամներ
       ldap_departments/synchronized_tree:
         base_dn: Base DN
-        guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
-        ou_name_attribute: OU name attribute
-        structure_filter_string: Organizational unit filter
-        sync_users: Sync users
-        user_filter_string: User filter
+        guid_attribute: Եզակի նույնացուցիչի հատկանիշ
+        ldap_auth_source: LDAP կապ
+        name: Անվանում
+        ou_name_attribute: OU-ի անվան հատկանիշ
+        structure_filter_string: Կազմակերպական միավորի զտիչ
+        sync_users: Համաժամացնել օգտատերերին
+        user_filter_string: Օգտատերերի զտիչ
     errors:
       models:
         ldap_departments/synchronized_tree:
-          must_contain_base_dn: The base DN must be contained within the LDAP connection's base DN.
-          overlaps_other_tree: Overlaps the base DN of another synchronization on the same LDAP connection.
+          must_contain_base_dn: Base DN-ը պետք է ներառված լինի LDAP կապի base DN-ի մեջ։
+          overlaps_other_tree: Համընկնում է նույն LDAP կապի մեկ այլ համաժամացման base DN-ի հետ։
     models:
-      ldap_departments/synchronized_department: Synchronized department
-      ldap_departments/synchronized_tree: LDAP department synchronization
+      ldap_departments/synchronized_department: Համաժամացված ստորաբաժանում
+      ldap_departments/synchronized_tree: LDAP ստորաբաժանումների համաժամացում
   ee:
     upsell:
       ldap_departments:
-        description: Mirror your LDAP organizational unit structure into the OpenProject department hierarchy and keep department members in sync automatically.
-        title: LDAP department synchronization
+        description: Արտացոլեք Ձեր LDAP-ի կազմակերպական միավորների կառուցվածքը OpenProject-ի ստորաբաժանումների հիերարխիայում և ավտոմատ կերպով պահպանեք ստորաբաժանումների անդամների համաժամացումը։
+        title: LDAP ստորաբաժանումների համաժամացում
   ldap_departments:
-    label_menu_item: LDAP department synchronization
-    label_synchronize: Synchronize organizational units
+    label_menu_item: LDAP ստորաբաժանումների համաժամացում
+    label_synchronize: Համաժամացնել կազմակերպական միավորները
     synchronized_departments:
       blankslate:
-        description: Run the synchronization to import the organizational units of this base DN as departments.
-        heading: No departments synchronized yet
+        description: Գործարկեք համաժամացումը՝ այս base DN-ի կազմակերպական միավորները որպես ստորաբաժանումներ ներմուծելու համար։
+        heading: Դեռ համաժամացված ստորաբաժանումներ չկան
       destroy:
-        confirmation: If you continue, %{name} is no longer managed by LDAP synchronization.
-        heading: Stop managing %{name}?
-        info: The department and its members are kept. It becomes a regular department that you can edit or delete manually.
-        title: Stop managing %{name}
-      managed_notice: Managed by LDAP synchronization
-      no_results: No departments have been synchronized yet.
-      plural: Synchronized departments
-      singular: Synchronized department
+        confirmation: Եթե շարունակեք, %{name}-ն այլևս չի կառավարվի LDAP համաժամացման միջոցով։
+        heading: Դադարեցնե՞լ %{name}-ի կառավարումը։
+        info: Ստորաբաժանումը և դրա անդամները պահպանվում են։ Այն դառնում է սովորական ստորաբաժանում, որը կարող եք ձեռքով խմբագրել կամ ջնջել։
+        title: Դադարեցնել %{name}-ի կառավարումը
+      managed_notice: Կառավարվում է LDAP համաժամացման միջոցով
+      no_results: Դեռ ոչ մի ստորաբաժանում համաժամացված չէ։
+      plural: Համաժամացված ստորաբաժանումներ
+      singular: Համաժամացված ստորաբաժանում
     synchronized_trees:
-      add_new: Add LDAP department synchronization
+      add_new: Ավելացնել LDAP ստորաբաժանումների համաժամացում
       blankslate:
-        description: Set up a synchronization to mirror your LDAP organizational unit structure into the OpenProject department hierarchy.
-        heading: No LDAP department synchronizations
+        description: Կարգավորեք համաժամացում՝ Ձեր LDAP-ի կազմակերպական միավորների կառուցվածքը OpenProject-ի ստորաբաժանումների հիերարխիայում արտացոլելու համար։
+        heading: LDAP ստորաբաժանումների համաժամացումներ չկան
       destroy:
         confirmation_message:
-          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
-          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
-        heading: Remove synchronization %{name}?
-        info: The departments and their members are kept and become regular departments. You can edit or delete them manually afterwards under Administration → Users and permissions → Organization.
-        title: Remove synchronization %{name}
+          one: Եթե շարունակեք, %{name} համաժամացումը կհեռացվի, և դրա %{count} ստորաբաժանումն այլևս չի կառավարվի LDAP-ի կողմից։
+          other: Եթե շարունակեք, %{name} համաժամացումը կհեռացվի, և դրա %{count} ստորաբաժանումն այլևս չի կառավարվի LDAP-ի կողմից։
+        heading: Հեռացնե՞լ %{name} համաժամացումը։
+        info: Ստորաբաժանումները և դրանց անդամները պահպանվում են և դառնում սովորական ստորաբաժանումներ։ Այնուհետև կարող եք դրանք ձեռքով խմբագրել կամ ջնջել Ադմինիստրավորում → Օգտատերեր և թույլտվություններ → Կազմակերպություն բաժնում։
+        title: Հեռացնել %{name} համաժամացումը
       form:
-        auth_source_text: Select which LDAP connection should be used.
-        base_dn_text: 'Enter the base DN whose organizational units should be synchronized. Its direct child OUs become top-level departments. It must be below the base DN of the selected LDAP connection.
+        auth_source_text: Ընտրեք, թե որ LDAP կապը պետք է օգտագործվի։
+        base_dn_text: 'Մուտքագրեք այն base DN-ը, որի կազմակերպական միավորները պետք է համաժամացվեն։ Դրա անմիջական դուստր OU-ները դառնում են վերին մակարդակի ստորաբաժանումներ։ Այն պետք է լինի ընտրված LDAP կապի base DN-ից ներքև։
 
           '
-        guid_attribute_text: 'Optional. The LDAP attribute holding a stable unique identifier (e.g. "objectGUID" or "entryUUID"). When set, departments survive OU renames and moves. Leave empty to match by DN.
+        guid_attribute_text: 'Ոչ պարտադիր։ LDAP-ի հատկանիշ, որը պարունակում է կայուն եզակի նույնացուցիչ (օրինակ՝ "objectGUID" կամ "entryUUID")։ Երբ սահմանված է, ստորաբաժանումները պահպանվում են OU-ների վերանվանման և տեղափոխման դեպքում։ Թողեք դատարկ՝ ըստ DN-ի համապատասխանեցնելու համար։
 
           '
-        ou_name_attribute_text: The LDAP attribute used to name the department (e.g. "ou").
+        ou_name_attribute_text: LDAP-ի հատկանիշը, որն օգտագործվում է ստորաբաժանումն անվանելու համար (օրինակ՝ "ou")։
         sections:
-          connection: LDAP connection
-          structure: Organizational units
-          users: Users
-        structure_filter_string_text: RFC4515 LDAP filter identifying organizational unit entries.
-        sync_users_text: 'If enabled, users found below the base DN are also created in OpenProject. Without it, only existing accounts are assigned to departments.
+          connection: LDAP կապ
+          structure: Կազմակերպական միավորներ
+          users: Օգտատերեր
+        structure_filter_string_text: RFC4515 LDAP զտիչ, որը նույնականացնում է կազմակերպական միավորների գրառումները։
+        sync_users_text: 'Եթե միացված է, base DN-ից ներքև գտնված օգտատերերը նույնպես ստեղծվում են OpenProject-ում։ Առանց դրա ստորաբաժանումներին նշանակվում են միայն առկա հաշիվները։
 
           '
-        user_filter_string_text: 'Optional RFC4515 LDAP filter identifying user entries. Leave empty to use the connection filter, or a generic person filter when none is set.
+        user_filter_string_text: 'Ոչ պարտադիր RFC4515 LDAP զտիչ, որը նույնականացնում է օգտատերերի գրառումները։ Թողեք դատարկ՝ կապի զտիչն օգտագործելու համար, իսկ եթե այն սահմանված չէ՝ անձի ընդհանուր զտիչը։
 
           '
-      help_text: 'This module mirrors the organizational unit (OU) structure of your LDAP directory into the OpenProject department hierarchy. Each OU below the configured base DN becomes a department, and users are assigned to the department of the OU they reside in. Departments are synchronized regularly through a cron job.
+      help_text: 'Այս մոդուլն արտացոլում է Ձեր LDAP-ի կազմակերպական միավորների (OU) կառուցվածքը OpenProject-ի ստորաբաժանումների հիերարխիայում։ Կազմաձևված base DN-ից ներքև գտնվող յուրաքանչյուր OU դառնում է ստորաբաժանում, իսկ օգտատերերը նշանակվում են այն OU-ի ստորաբաժանմանը, որտեղ գտնվում են։ Ստորաբաժանումները պարբերաբար համաժամացվում են cron աշխատանքի միջոցով։
 
         '
-      no_results: No LDAP department synchronizations configured yet.
-      plural: LDAP department synchronizations
-      singular: LDAP department synchronization
-      synchronization_started: Synchronization started in the background. Departments will appear once it completes.
+      no_results: Դեռ ոչ մի LDAP ստորաբաժանումների համաժամացում կազմաձևված չէ։
+      plural: LDAP ստորաբաժանումների համաժամացումներ
+      singular: LDAP ստորաբաժանումների համաժամացում
+      synchronization_started: Համաժամացումը սկսվել է ֆոնային ռեժիմում։ Ստորաբաժանումները կհայտնվեն այն ավարտվելուց հետո։
   plugin_openproject_ldap_departments:
-    description: Synchronization of LDAP organizational units into OpenProject departments.
-    name: OpenProject LDAP departments
+    description: LDAP-ի կազմակերպական միավորների համաժամացում OpenProject-ի ստորաբաժանումների հետ։
+    name: OpenProject LDAP ստորաբաժանումներ

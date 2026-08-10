@@ -126,6 +126,7 @@ hu:
     button_cancel: Mégsem
     button_change_project: Move to another project
     button_check_all: Az összes kijelölése
+    button_clear: Clear
     button_close: Bezár
     button_close_details: Részletes nézet bezárása
     button_collapse_all: Az összes bezárása
@@ -216,8 +217,11 @@ hu:
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: A kiválasztott "%{name}" attribútum nem létezik.
-          macro_help_tooltip: Ezt a szövegrészt dinamikusan megjeleníti egy makró.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: A kért erőforrás nem található.
         child_pages:
@@ -664,7 +668,7 @@ hu:
       date_alerts:
         milestone_date: Milestone date
         overdue: Overdue
-        overdue_since: for %{difference_in_days}.
+        overdue_since: "%{difference_in_days} napja."
         property_is: "%{difference_in_days} napon belül."
         property_is_deleted: törölve.
         property_today: ma van.
@@ -743,12 +747,12 @@ hu:
         timeout: Időtúllépés
     pagination:
       no_other_page: Csak egyetlen oldalon tartózkodik.
-      page_navigation: Pagination navigation
+      page_navigation: Oldalszámozásos navigáció
       pages:
         page_number: Page %{number}
         show_per_page: Show %{number} per page
       pages_skipped: Pages skipped.
-      per_page_navigation: Items per page selection
+      per_page_navigation: Oldalankénti tételek száma
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
@@ -836,6 +840,14 @@ hu:
       sorted_dsc: 'Csökkenő rendezés alkalmazva, '
       sorted_no: 'Ne rendezze alkalmazva, '
       sorting_disabled: rendezés kikapcsolva
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal
@@ -940,7 +952,7 @@ hu:
         removal_label: Removed from view within the comparison time period
       bulk_actions:
         delete: Tömeges törlés
-        duplicate: Bulk duplicate
+        duplicate: Tömeges duplikátumok
         edit: Tömeges szerkesztés
         move: A projekt tömeges megváltoztatása
       button_clear: Törlés

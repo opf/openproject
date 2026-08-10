@@ -50,7 +50,7 @@ module Wikis
                     fetch_json(json, "searchResults")
                       .uniq { |r| fetch_json(r, "id") }
                       .map do |r|
-                        result = canonical_page_info(identifier: fetch_json(r, "id"), auth_strategy:)
+                        result = canonical_page_hierarchy(identifier: fetch_json(r, "id"), auth_strategy:)
                         return result if result.failure?
 
                         result.value!

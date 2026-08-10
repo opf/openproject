@@ -126,7 +126,7 @@ lt:
     error_no_device: Šiam naudotojui nerastas joks 2FA įrenginys, nors tai ir reikalaujama.
     error_no_matching_strategy: Nėra atitinkančios 2FA strategijos šiam naudotojui. Prašome susisiekti su administratoriumi.
     forced_registration:
-      required_to_add_device: Saugumo tvarka reikalauja jus įjungti dviejų-dalių autentifikavimą. Prašome šioje formoje užregistruoti savo įrangą.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Dviejų veiksnių autentifikacija neaktyvi
     label_2fa_enabled: Dviejų veiksnių autentifikacija aktyvi
     label_default_device: Numatytasis 2FA įrenginys

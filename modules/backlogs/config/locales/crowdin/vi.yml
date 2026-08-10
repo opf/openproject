@@ -24,6 +24,7 @@ vi:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: Allow multiple active sprints
         backlog_excluded_types: Các loại gói công việc bị loại trừ khỏi Backlog
         sprint_sharing: Chia sẻ Sprint
         statuses_considered_closed: Các trạng thái được xem là đã đóng
@@ -55,7 +56,11 @@ vi:
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: không thể thiết lập vì dự án "%{name}" đã được chia sẻ với tất cả các dự án.
               share_all_projects_already_taken_anonymous: không thể thiết lập vì một dự án khác đã được chia sẻ với tất cả các dự án.
           receiving_sprints: đang nhận các Sprint được chia sẻ. Không thể tạo Sprint riêng.
@@ -89,7 +94,7 @@ vi:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Chúng tôi hiện đang thiết kế lại mô-đun Backlogs. Các thiết lập quản trị cho Sprint và Backlog sẽ hiển thị ở đây trong thời gian tới. Các thiết lập ở cấp độ dự án vẫn khả dụng.
       title: Các thiết lập quản trị Backlog đang được phát triển
@@ -111,8 +116,9 @@ vi:
         add_new_work_package: Add new work package
         delete_backlog_bucket: Xóa nhóm Backlog
         edit_backlog_bucket: Chỉnh sửa nhóm Backlog
-      blankslate_description: Kéo các mục vào đây để thêm.
+      blankslate_description: Drag items here to add them
       blankslate_title: Nhóm Backlog đang trống
+      drop_zone_label: Drop here to add this item
       label_actions: Thao tác với nhóm Backlog
     bucket_destroy_modal_component:
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -138,8 +144,9 @@ vi:
       action_menu:
         add_existing_work_package: Add existing work package
         add_new_work_package: Add new work package
-      blankslate_description: Tất cả các gói công việc đang mở trong dự án này sẽ tự động xuất hiện ở đây.
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Hộp thư đến Backlog đang trống
+      drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
         other: Hiển thị thêm %{count} mục
@@ -147,11 +154,13 @@ vi:
     label_burndown_chart: Biểu đồ Burndown
     label_is_done_status: Trạng thái %{status_name} nghĩa là đã xong
     label_sprint_board: Bảng Sprint
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Move to backlog bucket
     move_to_sprint_dialog_component:
       label_sprint: Sprint
       title: Di chuyển sang Sprint
+    multiple_active_sprints: Multiple active sprints
     points_label:
       other: điểm (points)
     positions_could_not_be_rebuilt: Không thể tạo lại vị trí.
@@ -159,7 +168,7 @@ vi:
     rebuild: Dựng lại
     rebuild_positions: Xây dựng lại vị trí
     remaining_hours: Công việc còn lại
-    sharing: Chia sẻ
+    sharing: Sprint sharing
     show_burndown_chart: Biểu đồ Burndown
     sprint_component:
       action_menu:
@@ -168,17 +177,28 @@ vi:
         edit_sprint: Edit sprint
       blankslate_description: No items planned yet. Drag items here to add them.
       blankslate_title: "%{name} is empty"
+      drop_zone_label: Drop here to add this item
       label_actions: Sprint actions
       label_complete_sprint: Hoàn thành Sprint
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Another sprint is already active.
       start_sprint_disabled_reason_missing_dates: Bắt buộc phải có ngày bắt đầu và ngày kết thúc để bắt đầu Sprint.
+      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
       goal_for_this_project_label: "%{attribute} (for this project)"
     sprint_form_component:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
@@ -213,18 +233,21 @@ vi:
       add_existing_dialog:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: Story points
     story_points_ideal: Story points (ideal)
   ee:
     features:
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Chia sẻ Sprint
     upsell:
+      multiple_active_sprints:
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints
@@ -264,6 +287,9 @@ vi:
     name: Tồn đọng dự án mở
   project_module_backlogs: Backlog
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:
@@ -285,7 +311,14 @@ vi:
             label: Subprojects
         sprint_sharing: Share sprints
       backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Number of active sprints
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
   query_fields:

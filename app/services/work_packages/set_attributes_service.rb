@@ -33,6 +33,13 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   private
 
+  def validate_and_result
+    result = super
+    # restore identifier for error messages
+    work_package.restore_identifier_after_failed_move unless result.success?
+    result
+  end
+
   def set_attributes(attributes)
     validate_custom_fields = attributes.delete(:validate_custom_fields)
 
@@ -233,7 +240,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = work_package.type&.description
+    work_package.description = work_package.effective_type&.description
   end
 
   def default_description?
@@ -372,8 +379,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def clear_unassignable_versions
-    return unless work_package.persisted?
-
     assignable_ids = work_package.project&.shared_versions&.pluck(:id) || []
 
     %w[target observed_in].each do |kind|
@@ -385,8 +390,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     attr = :"#{kind}_version_ids_replacements"
     current_replacements = work_package.send(attr)
 
-    current_ids = current_replacements ||
-      work_package.work_package_versions.where(kind:).pluck(:version_id)
+    current_ids = current_replacements || persisted_version_ids(kind)
     filtered_ids = current_ids & assignable_ids
 
     return if filtered_ids.sort == current_ids.sort
@@ -399,6 +403,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # is marked as such and exempted from that permission. A user-requested
     # set that merely got filtered stays attributed to the user.
     work_package.mark_system_version_override(kind) if current_replacements.nil?
+  end
+
+  def persisted_version_ids(kind)
+    return [] unless work_package.persisted?
+
+    work_package.work_package_versions.where(kind:).pluck(:version_id)
   end
 
   def set_parent_to_nil
@@ -440,7 +450,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
     if work_package.type_id_changed?
-      reassign_status work_package.type.statuses(include_default: true)
+      reassign_status work_package.effective_type.statuses(include_default: true)
     end
   end
 

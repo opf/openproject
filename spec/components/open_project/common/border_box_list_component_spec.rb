@@ -230,6 +230,23 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_button("Edit")
     end
 
+    it "renders a status label in its own header area" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-label")
+      ) do |list|
+        list.with_header(title: "Bug") do |header|
+          header.with_label(scheme: :success) { "Enabled" }
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(
+        ".op-border-box-list-header--label .Label.Label--success",
+        text: "Enabled"
+      )
+      expect(rendered).to have_no_css(".op-border-box-list-header--actions .Label")
+    end
+
     it "renders a menu in the header" do
       rendered = render_inline(
         described_class.new(container: "hdr-menu")
@@ -641,7 +658,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_text("Add some items")
     end
 
-    it "does not render the empty state when items are present" do
+    it "renders the empty state in the DOM even when items are present (hidden by CSS for drag support)" do
       rendered = render_inline(
         described_class.new(container: "non-empty-list")
       ) do |list|
@@ -649,7 +666,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         list.with_item { "Has content" }
       end
 
-      expect(rendered).to have_no_css(".blankslate")
+      expect(rendered).to have_css(".blankslate")
       expect(rendered).to have_text("Has content")
     end
 

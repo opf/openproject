@@ -602,6 +602,27 @@ RSpec.describe Version do
     end
   end
 
+  describe "shared_via_work_packages scope" do
+    subject { described_class.shared_via_work_packages(user) }
+
+    let(:user) { create(:user) }
+    let(:visible_project) { create(:project, member_with_permissions: { user => [:view_work_packages] }) }
+    let(:invisible_project) { create(:project) }
+    let(:version) { create(:version, project: invisible_project) }
+
+    context "when a visible work package targets the version" do
+      before { create(:work_package, project: visible_project, version:) }
+
+      it { is_expected.to contain_exactly(version) }
+    end
+
+    context "when only an invisible work package targets the version" do
+      before { create(:work_package, project: invisible_project, version:) }
+
+      it { is_expected.to be_empty }
+    end
+  end
+
   describe "#visible?" do
     subject { version.visible?(user) }
 

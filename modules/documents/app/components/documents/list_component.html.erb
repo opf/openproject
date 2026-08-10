@@ -70,7 +70,7 @@
             scheme: :primary,
             label: I18n.t(:label_document_new),
             tag: :a,
-            data: { turbo_method: :post },
+            data: { turbo_method: :post, controller: "disable-when-clicked" },
             href: project_documents_path(project)
           ) do |button|
             button.with_leading_visual_icon(icon: :plus)

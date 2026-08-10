@@ -55,26 +55,26 @@ class Project < ApplicationRecord
     portfolio: %i[]
   }.with_indifferent_access
 
-  has_many :members, -> {
-    # TODO: check whether this should
-    # remain to be limited to User only
+  # rubocop:disable Rails/HasManyOrHasOneDependent, Rails/InverseOf
+  has_many :members, -> { not_locked }
+
+  has_many :member_users, -> {
     includes(:principal, :roles)
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
-  }
+  }, class_name: "Member"
+  # rubocop:enable Rails/HasManyOrHasOneDependent, Rails/InverseOf
 
   has_many :memberships, class_name: "Member"
-  has_many :member_principals,
-           -> { not_locked },
-           class_name: "Member"
-  has_many :users, through: :members, source: :principal
-  has_many :principals, through: :member_principals, source: :principal
+  has_many :users, through: :member_users, source: :principal
+  has_many :principals, through: :members, source: :principal
   has_many :calculated_value_errors, dependent: :delete_all, as: :customized
 
   has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
-  has_and_belongs_to_many :types, -> {
-    order("#{::Type.table_name}.position")
-  }
+  has_many :project_types, dependent: :delete_all
+
+  # Enabled root-types, variants need to be determined explicitly
+  has_many :types, -> { order("#{::Type.table_name}.position") }, through: :project_types
   has_many :work_packages, -> {
     order("#{WorkPackage.table_name}.created_at DESC")
       .includes(:status, :type)
@@ -88,6 +88,7 @@ class Project < ApplicationRecord
   has_many :cost_types_projects, dependent: :delete_all
   has_many :cost_types, through: :cost_types_projects
   has_many :queries, dependent: :destroy
+  has_many :persisted_views, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
   has_many :forums, -> { order("position ASC") }, dependent: :destroy
@@ -173,7 +174,7 @@ class Project < ApplicationRecord
   # neither development nor deployment setups are prepared for this
   # validates_presence_of :types
 
-  validates_associated :repository, :wiki
+  validates_associated :repository
 
   scopes :activated_in_storage,
          :allowed_to,

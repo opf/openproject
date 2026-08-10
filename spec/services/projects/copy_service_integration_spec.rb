@@ -40,8 +40,9 @@ RSpec.describe(
   shared_let(:status_locked) { create(:status, is_readonly: true) }
   shared_let(:source) do
     create(:project,
+           :with_internal_wiki,
            name: "Source Project Name",
-           enabled_module_names: %i[wiki work_package_tracking storages])
+           enabled_module_names: %i[work_package_tracking storages])
   end
   shared_let(:source_wp) { create(:work_package, project: source, subject: "source wp") }
   shared_let(:source_wp_locked) do
@@ -101,24 +102,26 @@ RSpec.describe(
 
   describe ".copyable_dependencies" do
     it "includes the list of dependencies" do
-      expect(described_class.copyable_dependencies.pluck(:identifier)).to eq(
+      expect(described_class.copyable_dependencies.pluck(:identifier)).to match_array(
         %w(
-          members
-          versions
-          categories
-          work_packages
-          work_package_attachments
-          work_package_shares
-          wiki
-          wiki_page_attachments
-          forums
-          queries
+          backlog_buckets
           boards
+          categories
+          file_links
+          forums
+          members
           overview
           phases
-          storages
+          queries
+          sprints
           storage_project_folders
-          file_links
+          storages
+          versions
+          wiki
+          wiki_page_attachments
+          work_package_attachments
+          work_package_shares
+          work_packages
         )
       )
     end
@@ -136,6 +139,42 @@ RSpec.describe(
                                          "Expected work package '#{original_work_package.subject}' to be copied to " \
                                          "project '#{project_copy.name}' but was not"
       copied_work_package
+    end
+
+    describe "the variant a family resolves to", with_flag: { type_variants: true } do
+      shared_let(:root_type) { create(:type, name: "Copied root") }
+      shared_let(:variant) { create(:type, name: "Copied variant", parent: root_type) }
+
+      before { source.project_types.create!(type: root_type, variant:) }
+
+      it "copies the resolved variant, not just the root the project uses" do
+        expect(subject).to be_success
+
+        copied = project_copy.project_types.find_by(type: root_type)
+
+        expect(copied.variant).to eq(variant)
+        expect(copied.effective_type).to eq(variant)
+      end
+
+      it "keeps the copy pointing at its own project" do
+        expect(subject).to be_success
+
+        expect(project_copy.project_types.pluck(:project_id).uniq).to eq([project_copy.id])
+      end
+
+      context "when the caller names the types itself" do
+        shared_let(:other_type) { create(:type, name: "Chosen type") }
+
+        let(:target_project_params) { { "name" => "Copy", "identifier" => "copy", "type_ids" => [other_type.id] } }
+
+        # project_types and type_ids write the same rows, so the source's must stand aside
+        # rather than compete with what the caller asked for.
+        it "uses the caller's types instead of the source's" do
+          expect(subject).to be_success
+
+          expect(project_copy.types).to contain_exactly(other_type)
+        end
+      end
     end
 
     shared_examples_for "copies public attribute" do
@@ -579,11 +618,11 @@ RSpec.describe(
           expect(source.users).to include current_user
           expect(source.users).to include user
           expect(project_copy.groups).to include group
-          expect(source.member_principals.count).to eq 3
+          expect(source.members.count).to eq 3
 
           expect(subject).to be_success
 
-          expect(project_copy.member_principals.count).to eq 3
+          expect(project_copy.members.count).to eq 3
           expect(project_copy.groups).to include group
           expect(project_copy.users).to include current_user
           expect(project_copy.users).to include user
@@ -1049,16 +1088,16 @@ RSpec.describe(
           let(:only_args) { %w[versions work_packages] }
 
           before do
-            work_package.update_column(:version_id, version.id)
-            work_package2.update_column(:version_id, version2.id)
+            work_package.update!(version:)
+            work_package2.update!(version: version2)
             work_package3
           end
 
           it "assigns the work packages to copies of the versions" do
             expect(subject).to be_success
-            expect(copy_of(work_package).version.name).to eq version.name
-            expect(copy_of(work_package2).version.name).to eq version2.name
-            expect(copy_of(work_package3).version).to be_nil
+            expect(copy_of(work_package).target_versions.map(&:name)).to eq [version.name]
+            expect(copy_of(work_package2).target_versions.map(&:name)).to eq [version2.name]
+            expect(copy_of(work_package3).target_versions).to be_empty
           end
         end
 
@@ -1297,9 +1336,7 @@ RSpec.describe(
         expect(project_copy.work_packages.count).to eq 0
         expect(project_copy.forums.count).to eq 0
         # Default wiki page
-        expect(project_copy.wiki).to be_present
-        expect(project_copy.wiki.pages.count).to eq 0
-        expect(project_copy.wiki.wiki_menu_items.count).to eq 1
+        expect(project_copy.wiki).to be_nil
         expect(project_copy.queries.count).to eq 0
         expect(project_copy.versions.count).to eq 0
         expect(project_copy.phases.count).to eq 0
@@ -1344,11 +1381,11 @@ RSpec.describe(
           expect(source.users).to include current_user
           expect(source.users).to include user
           expect(project_copy.groups).to be_empty
-          expect(source.member_principals.count).to eq 4
+          expect(source.members.count).to eq 4
 
           expect(subject).to be_success
 
-          expect(project_copy.member_principals.count).to eq 1
+          expect(project_copy.members.count).to eq 1
           expect(project_copy.groups).to be_empty
           expect(project_copy.users).to contain_exactly current_user
 

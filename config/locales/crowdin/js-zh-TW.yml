@@ -120,6 +120,7 @@ zh-TW:
     button_cancel: 取消
     button_change_project: 移動到其它專案
     button_check_all: 勾選全部
+    button_clear: Clear
     button_close: 關閉
     button_close_details: 關閉詳細檢視
     button_collapse_all: 全部收合
@@ -204,8 +205,11 @@ zh-TW:
       error_saving_failed: '保存文件失敗, 出現以下錯誤: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: 所選屬性 '%{name}' 不存在。
-          macro_help_tooltip: 此文本段正由macro動態呈現。
           nested_macro: 該macro遞歸引用 %{model} %{id}。
           not_found: 無法找到請求的資源
         child_pages:
@@ -799,6 +803,14 @@ zh-TW:
       sorted_dsc: '已套用降冪排序， '
       sorted_no: '不需排序, '
       sorting_disabled: 已停用排序
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: 關閉模式

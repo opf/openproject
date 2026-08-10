@@ -32,7 +32,16 @@ module ::ResourceManagement
   class BaseController < ::ApplicationController
     include PaginationHelper
 
+    before_action :ensure_resource_management_licensed
+
     private
+
+    # Named (rather than the `guard_enterprise_feature` macro) so individual
+    # actions can opt out via `skip_before_action` — the planners index renders
+    # an upsell banner instead of a 403 when the feature is not licensed.
+    def ensure_resource_management_licensed
+      perform_enterprise_feature_guard(:resource_management)
+    end
 
     def find_resource_planner(param_key = :resource_planner_id)
       @resource_planner = ResourcePlanner

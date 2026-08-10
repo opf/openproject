@@ -3,203 +3,229 @@ hy:
   activerecord:
     attributes:
       wikis/page_link:
-        identifier: Identifier
-        provider: Wiki Provider
+        identifier: Նույնացուցիչ
+        provider: Վիքի մատակարար
       wikis/provider:
-        name: Name
-        universal_identifier: Universal identifier
+        name: Անվանում
+        universal_identifier: Ունիվերսալ նույնացուցիչ
       wikis/xwiki_provider:
-        authentication_method: Authentication method
+        authentication_method: Նույնականացման եղանակ
         authentication_methods:
-          oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
-          two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        token_exchange_scope: XWiki Scope
-        url: Instance URL
+          oauth2_sso: Single-Sign-On OpenID Connect ինքնության մատակարարի միջոցով
+          two_way_oauth2: Երկկողմանի OAuth 2.0 լիազորման կոդի հոսք
+        token_exchange_scope: XWiki շրջանակ
+        url: Համակարգի URL
         wiki_audience: XWiki Audience
     errors:
       models:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: պատկանում է վիքի մատակարարին, որն արդեն հայտնի է որպես "%{name}"։
+              wiki_provider_unreachable: հասանելի չէր։
     models:
       wikis/inline_page_link:
-        one: Inline page link
-        other: Inline page links
-      wikis/internal_provider: Internal wiki
+        one: Ներդրված էջի հղում
+        other: Ներդրված էջի հղումներ
+      wikis/internal_provider: Ներքին վիքի
       wikis/provider:
-        one: Wiki provider
-        other: Wiki providers
+        one: Վիքի մատակարար
+        other: Վիքի մատակարարներ
       wikis/relation_page_link:
-        one: Relation page link
-        other: Relation page links
+        one: Կապի էջի հղում
+        other: Կապի էջի հղումներ
       wikis/xwiki_provider:
-        one: XWiki provider
-        other: XWiki providers
+        one: XWiki մատակարար
+        other: XWiki մատակարարներ
   menus:
     admin:
-      external_wiki_providers: Wiki providers
-      internal_wiki_provider: Internal wiki
-      wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_platforms: Wiki providers
+      external_wiki_providers: Վիքի մատակարարներ
+      internal_wiki_provider: Ներքին վիքի
+      wikis: Վիքիներ
+  permission_manage_wiki_page_links: Կառավարել վիքի էջերի հղումները
+  project_module_wiki_internal: Նախագծի վիքի
+  project_module_wiki_platforms: Վիքի մատակարարներ
+  projects_settings_wiki:
+    title: Նախագծի վիքի
   wikis:
     admin:
       destroy_confirmation_dialog_component:
-        description_html: The wiki provider %{wiki_provider} and all the related wiki page links will be deleted. In addition, every inline wiki page link will no longer be accessible. This action is irreversible.
-        heading: Permanently delete this wiki provider?
-        title: Delete wiki provider
+        description_html: "%{wiki_provider} վիքի մատակարարը և բոլոր կապակցված վիքի էջերի հղումները կջնջվեն։ Բացի այդ, ներդրված վիքի էջերի բոլոր հղումներն այլևս հասանելի չեն լինի։ Այս գործողությունն անշրջելի է։"
+        heading: Ընդմիշտ ջնջե՞լ այս վիքի մատակարարը։
+        title: Ջնջել վիքի մատակարարը
       forms:
         general_info_form_component:
-          provider_description: Please make sure you have administration privileges in your XWiki instance before doing the setup.
+          provider_description: Խնդրում ենք նախքան կարգավորումը համոզվել, որ Ձեր XWiki համակարգում ունեք ադմինիստրատորի արտոնություններ։
         oauth_application_form_component:
-          application_id: OpenProject OAuth Application ID
-          application_secret: OpenProject OAuth Application secret
+          application_id: OpenProject OAuth հավելվածի ID
+          application_secret: OpenProject OAuth հավելվածի գաղտնիք
         oauth_client_form_component:
-          client_id: Wiki OAuth Client ID
-          client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          client_id: Վիքի OAuth հաճախորդի ID
+          client_secret: Վիքի OAuth հաճախորդի գաղտնիք
+          redirect_uri: Վերահղման URI
+          redirect_uri_caption: Պատճենեք այս արժեքը Ձեր XWiki OIDC հաճախորդի գրանցման Redirect URI դաշտում։
       health_status:
         show:
           actions:
-            download_report: Download
-            rerun_checks: Re-run all checks
-            run_checks: Run checks now
-          last_check: 'Last check: %{datetime}'
-          no_health_report: No report available
-          no_health_report_description: Run the checks now for a full health status report for this wiki provider.
-          title: Health Report
+            download_report: Ներբեռնել
+            rerun_checks: Կրկին գործարկել բոլոր ստուգումները
+            run_checks: Գործարկել ստուգումներն այժմ
+          last_check: Վերջին ստուգումը՝ %{datetime}
+          no_health_report: Հաշվետվություն հասանելի չէ
+          no_health_report_description: Գործարկեք ստուգումներն այժմ՝ այս վիքի մատակարարի առողջության կարգավիճակի ամբողջական հաշվետվությունը ստանալու համար։
+          title: Առողջության հաշվետվություն
       internal_provider_form:
-        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
-        checkbox_label: Enable the internal OpenProject wiki
+        checkbox_caption: Թույլատրել նախագծերին օգտագործել OpenProject-ի ներքին վիքին արտաքին վիքի մատակարարների հետ միասին
+        checkbox_label: Միացնել OpenProject-ի ներքին վիքին
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable the internal OpenProject wiki
+          description: Ընտրեք՝ միացնել, թե անջատել OpenProject-ի ներքին վիքին
       oauth_application_info_component:
-        confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in your XWiki instance and all users will have to reauthorize. Are you sure you want to proceed?
-        label_oauth_client_id: OAuth Client ID
-        replace_oauth_application: Replace OpenProject OAuth application
+        confirm_replace_oauth_application: Այս գործողությունը կվերակայի ընթացիկ OAuth հավատարմագրերը։ Հաստատելուց հետո Դուք պետք է կրկին մուտքագրեք հավատարմագրերը Ձեր XWiki համակարգում, և բոլոր օգտատերերը պետք է կրկին լիազորվեն։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
+        label_oauth_client_id: OAuth հաճախորդի ID
+        replace_oauth_application: Փոխարինել OpenProject OAuth հավելվածը
       oauth_client_info_component:
-        confirm_replace_oauth_client: This action will reset the current XWiki OAuth credentials. All users will need to reauthorize against XWiki. Are you sure you want to proceed?
-        label_oauth_client_id: OAuth Client ID
-        replace_oauth_client: Replace XWiki OAuth application
+        confirm_replace_oauth_client: Այս գործողությունը կվերակայի ընթացիկ XWiki OAuth հավատարմագրերը։ Բոլոր օգտատերերը պետք է կրկին լիազորվեն XWiki-ում։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
+        label_oauth_client_id: OAuth հաճախորդի ID
+        replace_oauth_client: Փոխարինել XWiki OAuth հավելվածը
       side_panel:
         health_status_component:
-          last_check: 'Last check: %{datetime}'
-          open_report: Open full health report
-          run_checks: Run checks now
-          title: Health status report
+          last_check: Վերջին ստուգումը՝ %{datetime}
+          open_report: Բացել առողջության ամբողջական հաշվետվությունը
+          run_checks: Գործարկել ստուգումներն այժմ
+          title: Առողջության կարգավիճակի հաշվետվություն
       wiki_provider_list_component:
-        label_creation_time: Created
-        label_name: Name
-        label_provider: Provider
-        no_results_description: Add a wiki provider to see them here.
-        no_results_title: You don't have any wiki providers set up yet.
+        label_creation_time: Ստեղծված
+        label_name: Անվանում
+        label_provider: Մատակարար
+        no_results_description: Ավելացրեք վիքի մատակարար՝ դրանք այստեղ տեսնելու համար։
+        no_results_title: Դուք դեռ չունեք կարգավորված վիքի մատակարարներ։
       wiki_providers:
-        index_description: Add an external wiki service to link work packages to existing wiki pages or create new ones directly from OpenProject.
-        label_add_new: Add new wiki provider
-        label_edit: Edit XWiki provider
-        label_new_provider: New XWiki provider
-        label_wiki_platform: Wiki provider
-        name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
-        name_placeholder: XWiki knowledge base
-        new_provider_html: Read our documentation on [setting up an XWiki integration](docs_url) for more information.
+        index_description: Ավելացրեք արտաքին վիքի ծառայություն՝ աշխատանքային փաթեթներն առկա վիքի էջերին հղելու կամ նորերն ուղղակիորեն OpenProject-ից ստեղծելու համար։
+        label_add_new: Ավելացնել նոր վիքի մատակարար
+        label_edit: Խմբագրել XWiki մատակարարը
+        label_new_provider: Նոր XWiki մատակարար
+        label_wiki_platform: Վիքի մատակարար
+        name_caption: Տվեք Ձեր վիքի մատակարարին անվանում, որպեսզի օգտատերերը կարողանան տարբերել մի քանի վիքի հարթակներ։
+        name_placeholder: XWiki գիտելիքների բազա
+        new_provider_html: Լրացուցիչ տեղեկությունների համար կարդացեք մեր փաստաթղթերը [XWiki ինտեգրման կարգավորման մասին](docs_url)։
         oauth:
           openproject_oauth: OpenProject OAuth
         sections:
-          general_information: General information
-          oauth_configuration: OAuth configuration
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+          general_information: Ընդհանուր տեղեկություններ
+          oauth_configuration: OAuth կազմաձևում
+        url_caption: Ձեր վիքի հարթակի հոսթի հասցեն՝ ներառյալ https://։ Այն չպետք է լինի 255 նշանից երկար։
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
-            provider_oauth: Wiki OAuth
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
-          openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth.
+            openproject_oauth_description: Թույլատրել XWiki-ին OAuth հավելվածի միջոցով հասանելիություն ունենալ OpenProject-ի տվյալներին։
+            provider_oauth: Վիքի OAuth
+            provider_oauth_configuration: Պատճենեք այս արժեքները [XWiki OIDC Connection հաճախորդում](xwiki_oidc_link)։
+            provider_oauth_description: Թույլատրել OpenProject-ին OAuth-ի միջոցով հասանելիություն ունենալ XWiki-ի տվյալներին։
+          openproject_oauth_description: Թույլատրել XWiki-ին OAuth-ի միջոցով հասանելիություն ունենալ OpenProject-ի տվյալներին։
           xwiki_oauth: XWiki OAuth
-          xwiki_oauth_description: Allow OpenProject to access XWiki data using an OAuth.
+          xwiki_oauth_description: Թույլատրել OpenProject-ին OAuth-ի միջոցով հասանելիություն ունենալ XWiki-ի տվյալներին։
     buttons:
-      connect_account: Connect %{provider} account
-      done_continue: Done, continue
-      open_wiki: Open wiki
-      save_and_continue: Save and continue
-      wiki_page: Wiki page
+      connect_account: Միացնել %{provider} հաշիվը
+      done_continue: Պատրաստ է, շարունակել
+      open_wiki: Բացել վիքին
+      save_and_continue: Պահպանել և շարունակել
+      wiki_page: Վիքի էջ
     create_new_wiki_page_dialog:
-      title: Create new wiki page
+      title: Ստեղծել նոր վիքի էջ
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: Բեռնվում է…
     delete_relation_page_link_confirmation_dialog:
-      heading: Delete related wiki page link?
-      title: Delete related wiki page link
+      heading: Ջնջե՞լ կապակցված վիքի էջի հղումը։
+      title: Ջնջել կապակցված վիքի էջի հղումը
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
-      unauthorized: An authorization error occured.
+      connection_error: Չհաջողվեց միանալ վիքի մատակարարին։
+      invalid_parent: Ընտրված էջը վավեր ծնող էջ չէ։
+      invalid_response: Վիքի մատակարարն անսպասելի պատասխան է տվել։
+      missing_token: Օգտատիրոջ հաշիվը դեռ միացված չէ վիքի մատակարարին։
+      request_failed: Վիքի մատակարարը հանդիպել է անսպասելի սխալի։
+      unauthorized: Լիազորման սխալ է տեղի ունեցել։
     health_checks:
       authentication:
-        existing_token: User token
-        header: Authentication
-        user_bound_request: User-based request authentication
+        existing_token: Օգտատիրոջ թոքեն
+        header: Նույնականացում
+        user_bound_request: Օգտատիրոջ անունից կատարվող հարցման նույնականացում
       base_configuration:
-        header: Configuration
-        provider_configured: Configuration complete
-        universal_id_known: Provider recognized
+        header: Կազմաձևում
+        provider_configured: Կազմաձևումն ամբողջական է
+        universal_id_known: Մատակարարը ճանաչված է
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
-        xwiki_oauth_connection_error: OpenProject could not connect to the configured XWiki instance.
-        xwiki_oauth_request_error: An unexpected error occured when trying to communicate with the XWiki instance.
-        xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
-        xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
+        connection_error: OpenProject-ին չհաջողվեց միանալ վիքի մատակարարին։
+        not_configured: Կապը չհաջողվեց վավերացնել։ Խնդրում ենք նախ ավարտել կազմաձևումը։
+        uid_mismatch: Վիքի մատակարարի հաղորդած ունիվերսալ նույնացուցիչը չի համապատասխանում այն նույնացուցիչին, որը OpenProject-ը գրանցել է կարգավորման ժամանակ։
+        xwiki_oauth_connection_error: OpenProject-ին չհաջողվեց միանալ կազմաձևված XWiki համակարգին։
+        xwiki_oauth_request_error: Անսպասելի սխալ է տեղի ունեցել XWiki համակարգի հետ հաղորդակցվելու փորձի ժամանակ։
+        xwiki_oauth_token_missing: OpenProject-ը չի կարող ստուգել XWiki-ի հետ օգտատիրոջ մակարդակի հաղորդակցությունը, քանի որ օգտատերը դեռ չի միացրել իր XWiki հաշիվը։
+        xwiki_oauth_unauthorized: Օգտատիրոջ թոքենը չի ճանաչվել XWiki-ի կողմից։
+    index:
+      column_last_edited: Վերջին խմբագրում
+      column_name: Վիքի էջ
+      column_parent: Parent
+      column_project: Նախագիծ
+      column_sub_pages: Ենթաէջեր
+      filter_by_name: Զտել ըստ էջի անվանման
+      filter_placeholder: Որոնել ըստ անվան
+      menu_title: Վիքի
+      no_results_description: Վիքի էջեր հասանելի չեն։
+      no_results_title: Դեռ վիքի էջեր չկան
+      queries:
+        all: Բոլոր վիքի էջերը
+        main: Հիմնական վիքի էջերը
+      sub_pages_count:
+        one: 1 ենթաէջ
+        other: "%{count} ենթաէջ"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Ավելացնել առկա վիքի էջ
+      title_create: Ստեղծել նոր վիքի էջ
     instructions:
       xwiki:
-        integration: XWiki Administration
-        oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [XWiki OpenProject Integration settings](xwiki_admin_link).
+        integration: XWiki-ի ադմինիստրավորում
+        oauth_application_details_html: Հաճախորդի գաղտնիքի արժեքն այս պատուհանը փակելուց հետո այլևս հասանելի չի լինի։ Խնդրում ենք պատճենել այս արժեքները [XWiki-ի OpenProject Integration կարգավորումներում](xwiki_admin_link)։
     link_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: Ավելացնել առկա վիքի էջ
     oauth_login_component:
-      connect_button: Connect %{provider} account
-      description: Log in to %{provider} to view and manage related wiki pages from this OpenProject instance.
-      heading: Not connected to %{provider}
+      connect_button: Միացնել %{provider} հաշիվը
+      description: Մտեք %{provider}-ում՝ այս OpenProject համակարգից կապակցված վիքի էջերը դիտելու և կառավարելու համար։
+      heading: Միացված չէ %{provider}-ին
     page_link_component:
-      remove: Remove page link
+      add_to_related_pages: Ավելացնել կապակցված էջերին
+      remove: Հեռացնել էջի հղումը
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent wiki page
-        wiki_page: Wiki page
+        page_title: Վերնագիր
+        parent: Ծնող վիքի էջ
+        wiki_page: Վիքի էջ
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: Վիքի էջեր չեն գտնվել
+        placeholder: Որոնեք վիքի էջ (կամ մուտքագրեք դրա URL-ը)
     page_links:
+      aria_label: Մակրոյի միջոցով տեղադրված դինամիկ հղում վիքի էջին։
       errors:
-        page_access_forbidden: You do not have permission to access this wiki page
-        page_not_found: Linked wiki page no longer available
-        unexpected: An unexpected error occurred
+        page_access_forbidden: Դուք չունեք այս վիքի էջին հասանելիության թույլտվություն
+        page_not_found: Հղված վիքի էջն այլևս հասանելի չէ
+        unexpected: Անսպասելի սխալ է տեղի ունեցել
       source:
-        parent: As parent
+        parent: Որպես ծնող
+    project_settings:
+      project_internal_wiki_component:
+        caption: Սա միացնում է ներկառուցված վիքիի ֆունկցիոնալությունը այս նախագծի համար։ Անդամները կկարողանան ստեղծել և ընթերցել OpenProject-ում պահվող վիքի էջեր։
+        enable: Միացնել ներքին վիքին այս նախագծի համար
     provider_types:
       xwiki:
         name: XWiki
     relation_page_links_component:
-      empty_heading: No related pages
-      empty_text: Add wiki pages that are relevant to this work package.
-      link_existing: Existing wiki page
-      link_new: New wiki page
+      empty_heading: Կապակցված էջեր չկան
+      empty_text: Ավելացրեք այս աշխատանքային փաթեթին առնչվող վիքի էջեր։
+      link_existing: Առկա վիքի էջ
+      link_new: Նոր վիքի էջ
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: Միացրեք XWiki-ն OpenProject-ին և պահեք փաստաթղթերն ու աշխատանքը համաժամացված, կապեք էջերը, հետևեք հղումներին և կառավարեք ամեն ինչ մեկ տեղում։
+        title: XWiki-ի ինտեգրացիա
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
-      referencing_pages: Referenced in
+      inline_page_links: Հիշատակված է նկարագրության մեջ
+      referencing_pages: Հղվող էջեր

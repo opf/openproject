@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,6 +30,7 @@ import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller } from '@hotwired/stimulus';
 import {
+  confinementAllowsDrop,
   isItemFromRoot,
   isSortableItemData,
   sortableListData,
@@ -49,6 +50,7 @@ export default class ListController extends Controller<HTMLElement> implements R
     id: String,
     dropPosition: { type: String, default: 'end' },
     acceptedType: String,
+    name: String,
   };
 
   static elements = { rowsContainer: ':scope > ul' };
@@ -60,6 +62,8 @@ export default class ListController extends Controller<HTMLElement> implements R
   declare readonly dropPositionValue:string;
   declare readonly acceptedTypeValue:string;
   declare readonly hasAcceptedTypeValue:boolean;
+  declare readonly nameValue:string;
+  declare readonly hasNameValue:boolean;
 
   // Provided by the stimulus-elements blessing, declared manually in the same
   // style as the controller's values/targets.
@@ -92,14 +96,22 @@ export default class ListController extends Controller<HTMLElement> implements R
 
     this.cleanupFn = dropTargetForElements({
       element: this.element,
+      // A confined item from another list stays accepted here on purpose,
+      // even though releasing it resolves to nothing (see acceptsDrop): only
+      // an accepted target lets Pragmatic keep the standard 'move' drop
+      // effect on the dragover, and with it the standard cursor. Refused, the
+      // container falls through to the browser default, which Chrome renders
+      // as a copy cursor — promising an "add" that will never happen.
+      // Pragmatic's getDropEffect cannot express 'none', so acceptance is the
+      // only supported way to control the cursor over these containers.
       canDrop: ({ source }) => this.canDrop(source.data),
       getData: () => this.listData,
       getIsSticky: () => false,
-      onDragEnter: ({ location }) => {
-        this.syncDropIndicator(location);
+      onDragEnter: ({ location, source }) => {
+        this.syncDropIndicator(location, source.data);
       },
-      onDrag: ({ location }) => {
-        this.syncDropIndicator(location);
+      onDrag: ({ location, source }) => {
+        this.syncDropIndicator(location, source.data);
       },
       onDragLeave: () => {
         this.clearDropIndicator();
@@ -127,22 +139,10 @@ export default class ListController extends Controller<HTMLElement> implements R
   // Called by the root controller's outlet-connected callback.
   connectRoot(root:SortableListsRoot):void {
     this.root = root;
-    this.reflectBusy(root.busy);
   }
 
   disconnectRoot():void {
     this.root = undefined;
-    // The root only reaches still-connected list outlets when it ends a move, so
-    // a list that disconnects mid-move would otherwise keep aria-busy forever.
-    this.reflectBusy(false);
-  }
-
-  reflectBusy(busy:boolean):void {
-    if (busy) {
-      this.element.setAttribute('aria-busy', 'true');
-    } else {
-      this.element.removeAttribute('aria-busy');
-    }
   }
 
   private get dropPosition():SortableListDropPosition {
@@ -152,16 +152,17 @@ export default class ListController extends Controller<HTMLElement> implements R
   // Rows sit inside a child rows container (the Box list's <ul>). Lists that
   // render rows directly under their own element have no such child, so fall
   // back to the list element itself.
-  private get rowsContainer():HTMLElement {
+  get rowsContainer():HTMLElement {
     return this.hasRowsContainerElement ? this.rowsContainerElement! : this.element;
   }
 
-  private get listData():SortableListData {
+  get listData():SortableListData {
     return sortableListData({
       type: this.typeValue,
       listId: this.hasIdValue ? this.idValue : null,
       dropPosition: this.dropPosition,
       rowsContainer: this.rowsContainer,
+      name: this.hasNameValue ? this.nameValue : null,
     });
   }
 
@@ -175,18 +176,27 @@ export default class ListController extends Controller<HTMLElement> implements R
   }
 
   // The list is the item targets' parent drop target, so its onDrag keeps firing
-  // while the pointer is over a row. Outline the container only for a list-only
-  // drop (no item target in play), so the row gap indicator owns that case.
-  private syncDropIndicator(location:DragLocationHistory):void {
-    if (location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
+  // while the pointer is over a row. Indicate only for a list-only drop (no item
+  // target in play), so the row gap indicator owns the over-a-row case. Whether
+  // a release would amount to a move decides the indicator's state: a confined
+  // item's source list counts as a move (containment includes the list element
+  // itself, keeping within-list reorder alive), while a foreign container stays
+  // an accepted drop target (see canDrop above) whose release resolves to
+  // nothing — resolveDropIntent applies the same confinement filter — and is
+  // marked refused so it can signal that a drop will not land here.
+  private syncDropIndicator(location:DragLocationHistory, sourceData:Record<string|symbol, unknown>):void {
+    if (!isItemFromRoot(this.root?.element ?? null, sourceData)
+      || location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
       this.clearDropIndicator();
+    } else if (confinementAllowsDrop(sourceData, this.element)) {
+      this.renderDropIndicator('active');
     } else {
-      this.renderDropIndicator();
+      this.renderDropIndicator('refused');
     }
   }
 
-  private renderDropIndicator():void {
-    this.element.dataset.dropContainer = 'active';
+  private renderDropIndicator(state:'active'|'refused'):void {
+    this.element.dataset.dropContainer = state;
   }
 
   private clearDropIndicator():void {

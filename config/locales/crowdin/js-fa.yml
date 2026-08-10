@@ -120,6 +120,7 @@ fa:
     button_cancel: لغو
     button_change_project: Move to another project
     button_check_all: بررسی همه
+    button_clear: Clear
     button_close: Close
     button_close_details: بستن نمایش جزئیات
     button_collapse_all: بستن همه
@@ -204,8 +205,11 @@ fa:
       error_saving_failed: 'ذخیره سازی مستند، ناموفق بود، خطا: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: The selected attribute '%{name}' does not exist.
-          macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Requested resource could not be found
         child_pages:
@@ -800,6 +804,14 @@ fa:
       sorted_dsc: 'Descending sort applied, '
       sorted_no: 'No sort applied, '
       sorting_disabled: sorting is disabled
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal
@@ -1057,7 +1069,7 @@ fa:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
       sharing:
-        show_all_users: Show all users with whom the work package has been shared with
+        show_all_users: نمایش همهٔ کاربرانی که بستهٔ کاری با آن‌ها به اشتراک گذاشته شده است
         title: Share work package
       table:
         configure_button: Configure work package table

@@ -293,4 +293,94 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       end
     end
   end
+
+  describe "#available_custom_fields with a linked form configuration", with_flag: { type_variants: true } do
+    let(:source_type) { create(:type) }
+    let(:linked_type) { create(:type) }
+    let(:project) { create(:project, types: [linked_type]) }
+    let(:work_package) { build(:work_package, project:, type: linked_type) }
+
+    let!(:source_cf) do
+      create(:work_package_custom_field, name: "Source CF").tap do |cf|
+        project.work_package_custom_fields << cf
+        source_type.custom_fields << cf
+      end
+    end
+    let!(:linked_own_cf) do
+      create(:work_package_custom_field, name: "Linked own CF").tap do |cf|
+        project.work_package_custom_fields << cf
+        linked_type.custom_fields << cf
+      end
+    end
+
+    before do
+      linked_type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+    end
+
+    it "surfaces the source type's custom fields for the linked type's work package" do
+      expect(described_class.available_custom_fields(work_package)).to include(source_cf)
+    end
+
+    it "does not surface the linked type's own leftover custom fields" do
+      expect(described_class.available_custom_fields(work_package)).not_to include(linked_own_cf)
+    end
+
+    it "matches on the physical type id when preloading a batch" do
+      described_class.preload_available_custom_fields([work_package])
+
+      expect(described_class.available_custom_fields(work_package)).to include(source_cf)
+    end
+  end
+
+  describe "#available_custom_fields when the project resolves a variant",
+           with_flag: { type_variants: true } do
+    let(:root_type) { create(:type) }
+    let(:variant) do
+      create(:type, parent: root_type).tap do |v|
+        v.configuration_links.find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION).destroy!
+      end
+    end
+    let(:variant_project) { create(:project, types: [variant]) }
+    # The work package stores the root, as every work package does.
+    let(:work_package) { build(:work_package, project: variant_project, type: root_type) }
+
+    # Activated from the custom field side: Type#custom_fields resolves through the form
+    # configuration link, so appending to it could write to the wrong member.
+    let!(:root_cf) do
+      create(:work_package_custom_field, name: "Root CF",
+                                         projects: [variant_project], types: [root_type])
+    end
+    let!(:variant_cf) do
+      create(:work_package_custom_field, name: "Variant CF",
+                                         projects: [variant_project], types: [variant])
+    end
+
+    it "surfaces the variant's fields" do
+      expect(described_class.available_custom_fields(work_package)).to include(variant_cf)
+    end
+
+    it "does not surface the root's fields" do
+      expect(described_class.available_custom_fields(work_package)).not_to include(root_cf)
+    end
+
+    it "resolves the variant when preloading a batch too" do
+      described_class.preload_available_custom_fields([work_package])
+
+      expect(described_class.available_custom_fields(work_package)).to include(variant_cf)
+      expect(described_class.available_custom_fields(work_package)).not_to include(root_cf)
+    end
+
+    it "keeps work packages in projects using the root on the root's fields" do
+      root_project = create(:project, types: [root_type])
+      root_work_package = build(:work_package, project: root_project, type: root_type)
+      create(:work_package_custom_field, name: "Root project CF",
+                                         projects: [root_project], types: [root_type])
+
+      described_class.preload_available_custom_fields([work_package, root_work_package])
+
+      expect(described_class.available_custom_fields(work_package)).to include(variant_cf)
+      expect(described_class.available_custom_fields(root_work_package).map(&:name))
+        .to include("Root project CF")
+    end
+  end
 end

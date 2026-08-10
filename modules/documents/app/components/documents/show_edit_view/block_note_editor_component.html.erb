@@ -66,6 +66,7 @@
             tag.div(
               render(Documents::ShowEditView::ConnectionErrorNoticeComponent.new(document)),
               hidden: true,
+              class: "op-document-view--editor-notice",
               data: { "documents--editor-connection-target": "error" }
             ),
             tag.div(data: { "documents--editor-connection-target": "editor" }) do

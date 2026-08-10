@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -53,6 +53,7 @@ import type { draggable as draggableFn, dropTargetForElements as dropTargetForEl
 import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
 
@@ -90,15 +91,38 @@ describe('Sortable lists item controller', () => {
 
   function fakeRoot(
     element = document.createElement('div'),
-    { busy = false } = {},
+    { busy = false, ownerListElement = null, ownerRowsContainer = () => null }:{
+      busy?:boolean;
+      ownerListElement?:HTMLElement|null;
+      ownerRowsContainer?:(itemElement:HTMLElement) => HTMLElement|null;
+    } = {},
   ):SortableListsRoot {
     Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
-    return { element, busy };
+    return {
+      element,
+      busy,
+      moveInDirection: vi.fn(),
+      moveAvailability: vi.fn(() => null),
+      ownerListElementOf: vi.fn(() => ownerListElement),
+      ownerRowsContainer: vi.fn(ownerRowsContainer),
+    };
   }
 
   function connectedControllerFor(
     element:HTMLElement,
-    { handle = null, root = fakeRoot() }:{ handle?:HTMLElement|null; root?:SortableListsRoot|null } = {},
+    {
+      handle = null,
+      root = fakeRoot(),
+      confinedValue = false,
+      externalUrl = null,
+      label = null,
+    }:{
+      handle?:HTMLElement|null;
+      root?:SortableListsRoot|null;
+      confinedValue?:boolean;
+      externalUrl?:string|null;
+      label?:string|null;
+    } = {},
   ) {
     const controller = Object.create(ItemController.prototype) as InstanceType<typeof ItemControllerType>;
 
@@ -107,6 +131,11 @@ describe('Sortable lists item controller', () => {
     Object.defineProperty(controller, 'hasIdValue', { value: true });
     Object.defineProperty(controller, 'typeValue', { value: 'item' });
     Object.defineProperty(controller, 'hasTypeValue', { value: true });
+    Object.defineProperty(controller, 'confinedValue', { value: confinedValue });
+    Object.defineProperty(controller, 'externalUrlValue', { value: externalUrl ?? '' });
+    Object.defineProperty(controller, 'hasExternalUrlValue', { value: externalUrl !== null });
+    Object.defineProperty(controller, 'labelValue', { value: label ?? '' });
+    Object.defineProperty(controller, 'hasLabelValue', { value: label !== null });
     Object.defineProperty(controller, 'hasHandleTarget', { value: handle !== null });
     if (handle) {
       Object.defineProperty(controller, 'handleTarget', { value: handle });
@@ -159,12 +188,21 @@ describe('Sortable lists item controller', () => {
     Object.defineProperty(controller, 'hasIdValue', { value: id !== '' });
     Object.defineProperty(controller, 'typeValue', { value: type });
     Object.defineProperty(controller, 'hasTypeValue', { value: type !== '' });
+    Object.defineProperty(controller, 'confinedValue', { value: false });
     Object.defineProperty(controller, 'hasHandleTarget', { value: false });
 
     controller.connect();
 
     return warn;
   }
+
+  it('registers a drag source', () => {
+    const element = document.createElement('li');
+
+    connectedControllerFor(element);
+
+    expect(draggable).toHaveBeenCalledWith(expect.objectContaining({ element }));
+  });
 
   it('warns when connected without an item id', () => {
     const warn = connectItem({ id: '', type: 'work_package' });
@@ -351,6 +389,24 @@ describe('Sortable lists item controller', () => {
 
       expect(stickyAt(row, 0)).toBe(false);
     });
+
+    it('uses the root-resolved rows container when the DOM parent is not the rows container', () => {
+      const [first, , third] = mountedRows();
+      const list = first.parentElement!;
+      // Wrap the item in an intermediate div, so its DOM parent (the wrapper,
+      // holding only itself) no longer matches its actual rows container
+      // (the list, holding all three rows). Only a root-resolved lookup can
+      // still see the full rows span.
+      const wrapper = document.createElement('div');
+      first.replaceWith(wrapper);
+      wrapper.append(first);
+
+      connectedControllerFor(first, { root: fakeRoot(document.createElement('div'), { ownerRowsContainer: () => list }) });
+
+      // Reachable only if the sticky bounds span the whole list (root-resolved);
+      // the DOM-parent fallback (the one-row wrapper) would release well before it.
+      expect(stickyAt(first, third.getBoundingClientRect().bottom - 1)).toBe(true);
+    });
   });
 
   it('does not accept itself as an item drop target', () => {
@@ -418,6 +474,88 @@ describe('Sortable lists item controller', () => {
     })).toBe(true);
   });
 
+  // A confined item may only land in its source list. Rows of that list keep
+  // accepting it (within-list reorder), rows of any other list refuse it, and
+  // with no payload list there is nothing it may land on.
+  describe('a confined drag source', () => {
+    function canDropOnto(targetElement:HTMLElement, root:HTMLElement, sourceListElement:HTMLElement|null) {
+      return vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+        element: targetElement,
+        input: {} as never,
+        source: {
+          data: sortableItemData({
+            type: 'item',
+            itemId: '456',
+            rootElement: root,
+            sourceListElement,
+            confined: true,
+          }),
+          element: document.createElement('article'),
+        } as never,
+      });
+    }
+
+    it('still registers a drag source', () => {
+      const element = document.createElement('li');
+
+      connectedControllerFor(element, { confinedValue: true });
+
+      expect(draggable).toHaveBeenCalledWith(expect.objectContaining({ element }));
+    });
+
+    it('is accepted by a row inside its source list', () => {
+      const root = document.createElement('div');
+      const sourceList = document.createElement('div');
+      const targetElement = document.createElement('article');
+      sourceList.appendChild(targetElement);
+
+      connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+      expect(canDropOnto(targetElement, root, sourceList)).toBe(true);
+    });
+
+    it('is refused by a row of a foreign list', () => {
+      const root = document.createElement('div');
+      const sourceList = document.createElement('div');
+      const targetElement = document.createElement('article');
+
+      connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+      expect(canDropOnto(targetElement, root, sourceList)).toBe(false);
+    });
+
+    it('is refused everywhere when its payload carries no source list', () => {
+      const root = document.createElement('div');
+      const targetElement = document.createElement('article');
+
+      connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+      expect(canDropOnto(targetElement, root, null)).toBe(false);
+    });
+  });
+
+  it('accepts an unconfined drop from a row of another list', () => {
+    const root = document.createElement('div');
+    const foreignList = document.createElement('div');
+    const targetElement = document.createElement('article');
+
+    connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+      element: targetElement,
+      input: {} as never,
+      source: {
+        data: sortableItemData({
+          type: 'item',
+          itemId: '456',
+          rootElement: root,
+          sourceListElement: foreignList,
+        }),
+        element: document.createElement('article'),
+      } as never,
+    })).toBe(true);
+  });
+
   it('does not accept drops while the root is busy moving another item', () => {
     const root = document.createElement('div');
     const targetElement = document.createElement('article');
@@ -434,10 +572,66 @@ describe('Sortable lists item controller', () => {
     })).toBe(false);
   });
 
-  it('does not expose native external drag data', () => {
+  it('exposes the external URL as native drag data for external consumers', () => {
+    const element = document.createElement('article');
+
+    connectedControllerFor(element, { externalUrl: 'http://example.org/work_packages/123' });
+
+    const externalData = vi.mocked(draggable).mock.lastCall?.[0]
+      .getInitialDataForExternal?.(draggableArgs(element));
+
+    expect(externalData).toEqual({
+      'text/uri-list': 'http://example.org/work_packages/123',
+      'text/plain': 'http://example.org/work_packages/123',
+    });
+  });
+
+  it('adds a text/html link flavour when the item has a label', () => {
+    const element = document.createElement('article');
+
+    connectedControllerFor(element, {
+      externalUrl: 'http://example.org/work_packages/123',
+      label: 'Feature #123: Card subject',
+    });
+
+    const externalData = vi.mocked(draggable).mock.lastCall?.[0]
+      .getInitialDataForExternal?.(draggableArgs(element));
+
+    expect(externalData).toEqual({
+      'text/uri-list': 'http://example.org/work_packages/123',
+      'text/plain': 'http://example.org/work_packages/123',
+      'text/html': '<a href="http://example.org/work_packages/123">Feature #123: Card subject</a>',
+    });
+  });
+
+  it('escapes HTML-sensitive characters in the external link label', () => {
+    const element = document.createElement('article');
+
+    connectedControllerFor(element, {
+      externalUrl: 'http://example.org/work_packages/123',
+      label: '<script>alert("x")</script> & more',
+    });
+
+    const externalData = vi.mocked(draggable).mock.lastCall?.[0]
+      .getInitialDataForExternal?.(draggableArgs(element));
+
+    expect(externalData?.['text/html']).toBe(
+      '<a href="http://example.org/work_packages/123">&lt;script&gt;alert("x")&lt;/script&gt; &amp; more</a>',
+    );
+  });
+
+  it('does not expose native external drag data without an external URL', () => {
     const element = document.createElement('article');
 
     connectedControllerFor(element);
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal).toBeUndefined();
+  });
+
+  it('does not expose native external drag data for a blank external URL', () => {
+    const element = document.createElement('article');
+
+    connectedControllerFor(element, { externalUrl: '' });
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal).toBeUndefined();
   });
@@ -538,6 +732,27 @@ describe('Sortable lists item controller', () => {
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
       .toEqual(expect.objectContaining({ itemId: '123', type: 'item', rootElement: root }));
+  });
+
+  it('includes the root-resolved source list and confinement in the drag payload', () => {
+    const root = document.createElement('div');
+    const sourceList = document.createElement('div');
+    const element = document.createElement('article');
+    connectedControllerFor(element, {
+      root: fakeRoot(root, { ownerListElement: sourceList }),
+      confinedValue: true,
+    });
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
+      .toEqual(expect.objectContaining({ sourceListElement: sourceList, confined: true }));
+  });
+
+  it('defaults the payload to unconfined with no source list', () => {
+    const element = document.createElement('article');
+    connectedControllerFor(element);
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
+      .toEqual(expect.objectContaining({ sourceListElement: null, confined: false }));
   });
 
   describe('Stimulus application wiring', () => {
@@ -782,6 +997,234 @@ describe('Sortable lists item controller', () => {
 
       expect(container.classList.contains('Box--condensed')).toBe(false);
       expect(container.classList.contains('Box--spacious')).toBe(false);
+    });
+  });
+
+  describe('move menu', () => {
+    let menuCtx:StimulusTestContext|undefined;
+
+    afterEach(() => {
+      menuCtx?.dispose();
+      menuCtx = undefined;
+    });
+
+    // Mounts the element through Stimulus (the same setupStimulusTest harness
+    // the file's other wiring tests use), so targets/actions/elements wire the
+    // way they do in production rather than being newed up directly.
+    async function mountItemController(el:HTMLElement):Promise<InstanceType<typeof ItemControllerType>> {
+      menuCtx = await setupStimulusTest({
+        controllers: {
+          'sortable-lists--item': ItemController,
+        },
+      });
+      menuCtx.container.appendChild(el);
+      await menuCtx.nextFrame();
+
+      return menuCtx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', el);
+    }
+
+    // Builds an item element containing a fake <action-menu> whose four move
+    // items are <li> targets (direction + move action on the li). The menu
+    // stub exposes the Primer item-state API the controller calls;
+    // isItemDisabled is driven by a live class check so the click-guard test
+    // is realistic.
+    interface FakeActionMenu {
+      enableItem:ReturnType<typeof vi.fn>;
+      disableItem:ReturnType<typeof vi.fn>;
+      showItem:ReturnType<typeof vi.fn>;
+      hideItem:ReturnType<typeof vi.fn>;
+      isItemDisabled:ReturnType<typeof vi.fn>;
+      isItemHidden:ReturnType<typeof vi.fn>;
+    }
+
+    function renderItemWithMenu(idNumber:number, withDivider = false):{ el:HTMLElement; menu:FakeActionMenu } {
+      const el = document.createElement('div');
+      el.dataset.controller = 'sortable-lists--item';
+      el.setAttribute('data-sortable-lists--item-id-value', String(idNumber));
+      el.setAttribute('data-sortable-lists--item-type-value', 'work_package');
+
+      const menuElement = document.createElement('action-menu');
+      // The divider opens the move group, so everything below it is what
+      // decides whether it still separates anything.
+      menuElement.innerHTML = (withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '')
+        + ['top', 'up', 'down', 'bottom'].map((direction) => (
+          `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
+          + ' data-action="click->sortable-lists--item#move"><button></button></li>'
+        )).join('');
+      const parent = document.createElement('li');
+      parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
+      menuElement.appendChild(parent);
+      el.appendChild(menuElement);
+
+      const menu:FakeActionMenu = {
+        enableItem: vi.fn((li:Element|null) => li?.classList.remove('ActionListItem--disabled')),
+        disableItem: vi.fn((li:Element|null) => li?.classList.add('ActionListItem--disabled')),
+        // Primer's own implementations, so the hidden attribute the divider
+        // check reads is as real here as the disabled class above.
+        showItem: vi.fn((li:Element|null) => li?.removeAttribute('hidden')),
+        hideItem: vi.fn((li:Element|null) => li?.setAttribute('hidden', 'hidden')),
+        isItemDisabled: vi.fn((li:Element|null) => !!li?.classList.contains('ActionListItem--disabled')),
+        isItemHidden: vi.fn((li:Element|null) => !!li?.hasAttribute('hidden')),
+      };
+      Object.assign(menuElement, menu);
+
+      return { el, menu };
+    }
+
+    const liFor = (el:HTMLElement, direction:string) => el.querySelector<HTMLElement>(`li[data-sortable-lists--item-direction-param="${direction}"]`)!;
+    // Availability defaults to the first/last extremes so the position-driven
+    // specs read naturally; individual tests can override the map to exercise
+    // the marker-aware (truncated list) wiring.
+    const availabilityFromPosition = (position:{ isFirst:boolean; isLast:boolean }) => ({
+      top: !position.isFirst,
+      up: !position.isFirst,
+      down: !position.isLast,
+      bottom: !position.isLast,
+    });
+    const stubRoot = (
+      el:HTMLElement,
+      position:{ isFirst:boolean; isLast:boolean },
+      moveInDirection = vi.fn(),
+      availability = availabilityFromPosition(position),
+    ) => ({
+      element: el, busy: false, moveAvailability: () => availability, moveInDirection,
+    } as unknown as SortableListsRoot);
+
+    it('hides up/top for a first item and shows the rest', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+      controller.moveItemTargetConnected();
+
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'up'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
+    });
+
+    it('hides a mid-list direction the root reports unavailable (truncation gap)', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      // Not an extreme (neither first nor last), but the root deems "down"
+      // unavailable because it would cross a hidden block.
+      const gappedAvailability = { top: true, up: true, down: false, bottom: true };
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), gappedAvailability));
+      controller.moveItemTargetConnected();
+
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'up'));
+    });
+
+    it('disables unavailable items instead of hiding them when hideUnavailable is off', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'false');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+      controller.moveItemTargetConnected();
+
+      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'up'));
+      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
+      expect(menu.hideItem).not.toHaveBeenCalled();
+      expect(menu.showItem).not.toHaveBeenCalled();
+    });
+
+    it('hides the parent submenu when nothing is available (single item)', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      const parent = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
+      expect(menu.hideItem).toHaveBeenCalledWith(parent);
+    });
+
+    // Regression: the divider is rendered server-side from a permission check
+    // alone, so an item with nowhere to move used to be left with a separator
+    // and nothing below it.
+    it('hides the divider when nothing below it is left visible', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+      expect(divider.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('keeps the divider while something below it is still visible', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+      controller.moveItemTargetConnected();
+
+      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+      expect(divider.hasAttribute('hidden')).toBe(false);
+    });
+
+    // A divider has no `.ActionListContent`, so routing it through
+    // `disableItem` would throw — and in this mode the group stays visible
+    // anyway, only disabled.
+    it('leaves the divider alone when hideUnavailable is off', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'false');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+      expect(divider.hasAttribute('hidden')).toBe(false);
+    });
+
+    it('delegates an enabled click to the root and no-ops a disabled one', async () => {
+      const { el } = renderItemWithMenu(2);
+      document.body.appendChild(el);
+      const moveInDirection = vi.fn();
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
+      controller.moveItemTargetConnected();
+
+      liFor(el, 'down').click();
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down');
+
+      liFor(el, 'up').classList.add('ActionListItem--disabled'); // menu.isItemDisabled now returns true for it
+      moveInDirection.mockClear();
+      liFor(el, 'up').click();
+      expect(moveInDirection).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when there is no action-menu (drag-only consumer)', async () => {
+      const el = document.createElement('div');
+      el.dataset.controller = 'sortable-lists--item';
+      el.setAttribute('data-sortable-lists--item-id-value', '1');
+      el.setAttribute('data-sortable-lists--item-type-value', 'work_package');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const moveInDirection = vi.fn();
+
+      // No moveItem targets and no <action-menu>: the availability refresh
+      // must no-op, not throw.
+      expect(() => {
+        controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }, moveInDirection));
+        // @ts-expect-error exercising the guard directly
+        controller.refreshMoveMenuAvailability?.();
+      }).not.toThrow();
+
+      // move() must also no-op rather than throw: there is no menu to read
+      // isItemDisabled/isItemHidden from, and no move should reach the root.
+      const moveEvent:ActionEvent = Object.assign(new Event('click'), { params: {} });
+      Object.defineProperty(moveEvent, 'currentTarget', { value: el });
+
+      expect(() => controller.move(moveEvent)).not.toThrow();
+      expect(moveInDirection).not.toHaveBeenCalled();
     });
   });
 });
