@@ -75,10 +75,6 @@ module ResourcePlannerViews
         candidate_count.positive?
       end
 
-      def candidate_label
-        t("resource_management.work_package_timeline.allocation_bar.matching_members", count: candidate_count)
-      end
-
       def candidate_tooltip
         t("resource_management.work_package_timeline.allocation_bar.matching_members_description", count: candidate_count)
       end
