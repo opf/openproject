@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "baseline rendering",
                :js,
-               with_settings: { date_format: "%Y-%m-%d" } do
+               with_settings: { date_format: "%Y-%m-%d", work_package_multiple_versions: false } do
   shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
   shared_let(:multi_list_wp_custom_field) { create(:list_wp_custom_field, multi_value: true) }
   shared_let(:version_wp_custom_field) { create(:version_wp_custom_field) }

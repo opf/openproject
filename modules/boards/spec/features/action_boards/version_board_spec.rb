@@ -97,7 +97,7 @@ RSpec.describe "Version action board",
       login_as(user)
     end
 
-    it "allows management of boards" do
+    it "allows management of boards", with_settings: { work_package_multiple_versions: false } do
       board_page = create_new_version_board
 
       board_page.expect_card "Open version", work_package.subject, present: true

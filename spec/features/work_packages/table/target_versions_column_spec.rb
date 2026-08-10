@@ -96,7 +96,7 @@ RSpec.describe "Work package table target versions column", :js do
     end
   end
 
-  context "with multiple versions inactive" do
+  context "with multiple versions inactive", with_settings: { work_package_multiple_versions: false } do
     let!(:query) do
       create(:query, user:, project:, column_names: %w[id subject version])
     end

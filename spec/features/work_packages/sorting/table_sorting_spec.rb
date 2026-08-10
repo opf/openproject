@@ -73,7 +73,8 @@ RSpec.describe "Select work package row", :js do
         work_package_2.update_attribute(:version_id, version_1.id)
       end
 
-      it "sorts by version although version is not selected as a column" do
+      it "sorts by version although version is not selected as a column",
+         with_settings: { work_package_multiple_versions: false } do
         sort_by.open_modal
         sort_by.update_nth_criteria(0, "Version")
         expect_work_packages_to_be_in_order([work_package_1, work_package_2])
