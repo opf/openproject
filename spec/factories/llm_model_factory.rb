@@ -29,27 +29,20 @@
 #++
 
 FactoryBot.define do
-  factory :llm_connection do
-    name { LlmConnection::SINGLETON_NAME }
-    type { "LlmConnection" }
-    base_url { "https://example.com/v1" }
-    api_key { "sk-test-key" }
-    enabled { false }
+  factory :llm_model do
+    llm_connection
+    sequence(:external_id) { |n| "model-#{n}" }
+    active { true }
+    manual { false }
+    last_seen_at { Time.current }
 
-    trait :enabled do
-      enabled { true }
+    trait :manual do
+      manual { true }
+      last_seen_at { nil }
     end
 
-    trait :with_models do
-      catalogue_fetched_at { Time.current }
-      last_connected_at { Time.current }
-
-      after(:create) do |connection|
-        create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b",
-                           raw_metadata: { "owned_by" => "vllm", "max_model_len" => 262_144 })
-        create(:llm_model, llm_connection: connection, external_id: "bge-m3",
-                           raw_metadata: { "owned_by" => "vllm", "max_model_len" => 8_192 })
-      end
+    trait :withdrawn do
+      active { false }
     end
   end
 end

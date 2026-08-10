@@ -73,7 +73,7 @@ module LlmConnections
           input_width: :large,
           disabled: read_only?
         ) do |select|
-          model.catalogue_model_ids.each do |model_id|
+          model.available_model_ids.each do |model_id|
             select.option(value: model_id, label: model_id)
           end
         end
@@ -96,7 +96,7 @@ module LlmConnections
     end
 
     def models_available?
-      model.catalogue_model_ids.any?
+      model.available_model_ids.any?
     end
 
     def submit_label

@@ -68,7 +68,7 @@ module Llm
 
       model_id = resolved_model_id
       return resolution(:unbound) if model_id.blank?
-      return resolution(:model_missing, model_id:) unless connection.catalogue_model_ids.include?(model_id)
+      return resolution(:model_missing, model_id:) unless connection.available_model_ids.include?(model_id)
 
       missing = unsupported_capabilities(model_id)
       return resolution(:incapable, model_id:, missing_capabilities: missing) if missing.any?

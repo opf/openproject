@@ -40,6 +40,7 @@ class LlmConnection < ApplicationRecord
   SINGLETON_NAME = "default"
 
   has_many :health_reports, as: :subject, dependent: :delete_all
+  has_many :models, class_name: "LlmModel", dependent: :delete_all
   has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
   has_many :feature_bindings, class_name: "LlmFeatureBinding", dependent: :delete_all
 
@@ -88,9 +89,10 @@ class LlmConnection < ApplicationRecord
     Setting.llm_connection.present?
   end
 
-  # The model ids the remote server last reported, in the order it reported them.
-  def catalogue_model_ids
-    Array(catalogue["data"]).filter_map { |model| model["id"] }
+  # Every model that can be addressed today: discovered and still offered, plus
+  # anything an administrator entered by hand.
+  def available_model_ids
+    models.active.by_identifier.pluck(:external_id)
   end
 
   def server_flavour

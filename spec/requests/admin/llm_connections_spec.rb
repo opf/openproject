@@ -78,7 +78,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         connection = LlmConnection.first
         expect(connection.base_url).to eq(base_url)
         expect(connection.api_key).to eq("sk-test")
-        expect(connection.catalogue_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
+        expect(connection.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
       end
     end
 
@@ -134,7 +134,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       post refresh_models_llm_connection_path
 
       expect(request).to have_been_made.once
-      expect(LlmConnection.first.catalogue_model_ids).to include("bge-m3")
+      expect(LlmConnection.first.available_model_ids).to include("bge-m3")
     end
   end
 end

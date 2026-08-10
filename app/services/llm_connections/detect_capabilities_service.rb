@@ -69,7 +69,7 @@ module LlmConnections
     end
 
     def candidates
-      connection.catalogue_model_ids
+      connection.available_model_ids
                 .grep(EMBEDDING_NAME_HINT)
                 .reject { |model_id| admin_asserted?(model_id) }
                 .first(BACKGROUND_LIMIT)

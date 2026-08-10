@@ -77,10 +77,11 @@ module Llm
       timeout: { connect_timeout: 5, read_timeout: 120, request_timeout: 180 }
     }.freeze
 
-    def initialize(base_url:, api_key: nil, timeout: PROBE_TIMEOUT)
+    def initialize(base_url:, api_key: nil, timeout: PROBE_TIMEOUT, headers: {})
       @base_url = base_url.to_s.chomp("/")
       @api_key = api_key
       @timeout = timeout
+      @headers = (headers || {}).compact_blank
     end
 
     # The model catalogue as the server reports it, verbatim.
@@ -110,7 +111,7 @@ module Llm
 
     private
 
-    attr_reader :base_url, :api_key, :timeout
+    attr_reader :base_url, :api_key, :timeout, :headers
 
     def post(path, payload)
       response = session.post(uri_for(path), json: payload)
@@ -138,6 +139,7 @@ module Llm
 
     def session
       request = OpenProject.httpx.with(timeout)
+      request = request.with(headers:) if headers.any?
       api_key.present? ? request.plugin(:auth).bearer_auth(api_key) : request
     end
 

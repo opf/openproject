@@ -1,0 +1,60 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+# A model this connection can address.
+#
+# Rows come from two places: discovered from the server's model list, or entered
+# by an administrator. Both are addressed by +external_id+, which is whatever the
+# deployment calls the model -- provider-specific and not comparable across
+# vendors, which is why it is never used as a lookup key into a public catalogue.
+class LlmModel < ApplicationRecord
+  belongs_to :llm_connection
+
+  validates :external_id, presence: true, uniqueness: { scope: :llm_connection_id }
+
+  scope :active, -> { where(active: true) }
+  scope :discovered, -> { where(manual: false) }
+  scope :manual, -> { where(manual: true) }
+  scope :by_identifier, -> { order(:external_id) }
+
+  def name = display_name.presence || external_id
+
+  # vLLM and SGLang report the operator's real --max-model-len here, which is
+  # more trustworthy for this deployment than any published figure.
+  def context_window
+    raw_metadata["max_model_len"]
+  end
+
+  # Discovered models that the server stopped offering are deactivated rather
+  # than deleted, so a binding or verdict pointing at one still has something to
+  # name. Manual entries are never deactivated by a refresh: nothing confirms
+  # them, so nothing can un-confirm them either.
+  def withdrawn? = !active? && !manual?
+end

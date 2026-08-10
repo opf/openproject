@@ -49,7 +49,7 @@ module LlmConnections
     end
 
     def call
-      connection.catalogue_model_ids.map { |model_id| option_for(model_id) }
+      connection.available_model_ids.map { |model_id| option_for(model_id) }
     end
 
     private

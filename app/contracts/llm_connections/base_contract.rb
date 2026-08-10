@@ -72,7 +72,7 @@ module LlmConnections
         value = model.public_send(attribute)
         next if value.blank?
         next unless model.changed_attributes.include?(attribute.to_s)
-        next if model.catalogue_model_ids.include?(value)
+        next if model.available_model_ids.include?(value)
 
         errors.add attribute, :not_available
       end

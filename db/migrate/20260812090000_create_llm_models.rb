@@ -28,28 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :llm_connection do
-    name { LlmConnection::SINGLETON_NAME }
-    type { "LlmConnection" }
-    base_url { "https://example.com/v1" }
-    api_key { "sk-test-key" }
-    enabled { false }
+class CreateLlmModels < ActiveRecord::Migration[8.1]
+  def change
+    create_table :llm_models do |t|
+      t.references :llm_connection, null: false, foreign_key: true
+      # Whatever this deployment calls the model. Provider-specific: Scaleway
+      # serves "qwen3.6-35b-a3b" for weights another catalogue lists as
+      # "Qwen/Qwen3.6-35B-A3B".
+      t.string :external_id, null: false
+      t.string :display_name
+      t.boolean :active, null: false, default: true
+      # Entered by an administrator rather than discovered. Survives a refresh
+      # that cannot see it, which is what makes a server offering
+      # /v1/chat/completions but no /v1/models usable.
+      t.boolean :manual, null: false, default: false
+      t.datetime :last_seen_at
+      t.jsonb :raw_metadata, null: false, default: {}
 
-    trait :enabled do
-      enabled { true }
+      t.timestamps null: false
     end
 
-    trait :with_models do
-      catalogue_fetched_at { Time.current }
-      last_connected_at { Time.current }
+    add_index :llm_models, %i[llm_connection_id external_id], unique: true
 
-      after(:create) do |connection|
-        create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b",
-                           raw_metadata: { "owned_by" => "vllm", "max_model_len" => 262_144 })
-        create(:llm_model, llm_connection: connection, external_id: "bge-m3",
-                           raw_metadata: { "owned_by" => "vllm", "max_model_len" => 8_192 })
-      end
-    end
+    # Superseded by the table above.
+    remove_column :llm_connections, :catalogue, :jsonb, null: false, default: {}
   end
 end

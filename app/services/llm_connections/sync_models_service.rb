@@ -29,17 +29,17 @@
 #++
 
 module LlmConnections
-  # Refreshes the cached model catalogue from the remote server.
+  # Refreshes the model list from the remote server.
   #
-  # Kept separate from the contract probe so that the same code path serves the
-  # "Refresh models" button, the update service and the environment seeder.
+  # Kept separate from the contract probe so the same path serves the "Refresh
+  # models" button, the update service and the environment seeder.
   class SyncModelsService
     def initialize(connection)
       @connection = connection
     end
 
     def call
-      store(catalogue_attributes(client.models))
+      store(adapter.models)
 
       ServiceResult.success(result: connection)
     rescue Llm::Client::Error => e
@@ -51,66 +51,75 @@ module LlmConnections
 
     attr_reader :connection
 
-    def store(attributes)
+    def adapter
+      @adapter ||= Llm::Adapters.for(connection)
+    end
+
+    def store(cards)
       ActiveRecord::Base.transaction do
-        discard_verdicts_for_a_different_deployment(attributes[:connection_fingerprint])
-        connection.update!(attributes)
+        discard_verdicts_for_a_different_deployment(fingerprint)
+        connection.update!(connection_attributes)
+        upsert(cards)
+        withdraw_models_absent_from(cards)
         discard_verdicts_for_vanished_models
       end
     end
 
-    # A changed base URL or key means we are talking to a different deployment,
-    # so everything we learned about the old one is void -- including
-    # administrator assertions, which were about that deployment, not this one.
-    def discard_verdicts_for_a_different_deployment(fingerprint)
+    def connection_attributes
+      now = Time.current
+
+      {
+        catalogue_fetched_at: now,
+        last_connected_at: now,
+        connection_fingerprint: fingerprint,
+        options: connection.options.merge("server_flavour" => adapter.server_flavour)
+      }
+    end
+
+    def fingerprint
+      @fingerprint ||= Digest::SHA256.hexdigest("#{connection.base_url}\0#{connection.api_key}")
+    end
+
+    def upsert(cards)
+      now = Time.current
+
+      cards.each do |card|
+        model = connection.models.find_or_initialize_by(external_id: card.fetch(:id))
+        model.update!(display_name: card[:display_name],
+                      raw_metadata: card.fetch(:raw, {}),
+                      last_seen_at: now,
+                      active: true)
+      end
+    end
+
+    # Deactivated rather than deleted, so a binding or verdict pointing at one
+    # still has something to name. Manual entries are left alone: the server was
+    # never the thing that confirmed them.
+    def withdraw_models_absent_from(cards)
+      connection.models
+                .discovered
+                .where.not(external_id: cards.map { |card| card.fetch(:id) })
+                .update_all(active: false)
+    end
+
+    # A changed base URL or key means a different deployment, so everything we
+    # learned about the old one is void -- including administrator assertions,
+    # which were about that deployment.
+    def discard_verdicts_for_a_different_deployment(new_fingerprint)
       return if connection.connection_fingerprint.blank?
-      return if connection.connection_fingerprint == fingerprint
+      return if connection.connection_fingerprint == new_fingerprint
 
       connection.capability_verdicts.delete_all
     end
 
-    # Same deployment, but a model is gone. Its verdict is meaningless now, except
-    # an administrator's assertion: an operator restarting a server must not
-    # silently lose one.
+    # Same deployment, but a model is gone. Its verdict is meaningless now,
+    # except an administrator's assertion: an operator restarting a server must
+    # not silently lose one.
     def discard_verdicts_for_vanished_models
-      known = connection.catalogue_model_ids
+      known = connection.available_model_ids
       return if known.empty?
 
       connection.capability_verdicts.where.not(model_id: known).where.not(source: "admin").delete_all
-    end
-
-    def catalogue_attributes(catalogue)
-      now = Time.current
-
-      {
-        catalogue:,
-        catalogue_fetched_at: now,
-        last_connected_at: now,
-        connection_fingerprint: fingerprint,
-        options: connection.options.merge("server_flavour" => detect_server_flavour(catalogue))
-      }
-    end
-
-    def client
-      Llm::Client.new(base_url: connection.base_url, api_key: connection.api_key)
-    end
-
-    def fingerprint
-      Digest::SHA256.hexdigest("#{connection.base_url}\0#{connection.api_key}")
-    end
-
-    # Which server we are talking to decides which non-standard metadata endpoint
-    # is worth asking later. +owned_by+ is the documented hint; the structural
-    # fallback catches servers whose operator overrode it.
-    def detect_server_flavour(catalogue)
-      cards = Array(catalogue["data"])
-      owner = cards.first&.dig("owned_by").to_s.downcase
-
-      case owner
-      when "vllm", "sglang", "llamacpp", "openai" then owner
-      else
-        cards.any? { |card| card.key?("max_model_len") || card.key?("root") } ? "vllm" : "unknown"
-      end
     end
   end
 end

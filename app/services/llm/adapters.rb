@@ -28,28 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :llm_connection do
-    name { LlmConnection::SINGLETON_NAME }
-    type { "LlmConnection" }
-    base_url { "https://example.com/v1" }
-    api_key { "sk-test-key" }
-    enabled { false }
+module Llm
+  # Resolves a connection's api_format to the adapter that speaks it.
+  #
+  # There is no universal model-discovery standard, so each dialect needs its own
+  # translation: OpenAI-compatible servers answer GET /models with data[].id,
+  # Gemini uses /v1beta/models with richer metadata, Bedrock needs AWS signing
+  # rather than a bearer token, and Azure indirects through deployment names.
+  #
+  # Only the OpenAI adapter is implemented. The seam exists so that adding one is
+  # a new class rather than a migration.
+  module Adapters
+    class UnsupportedFormat < StandardError; end
 
-    trait :enabled do
-      enabled { true }
-    end
+    FORMATS = {
+      "openai" => "Llm::Adapters::Openai"
+    }.freeze
 
-    trait :with_models do
-      catalogue_fetched_at { Time.current }
-      last_connected_at { Time.current }
+    def self.for(connection)
+      class_name = FORMATS[connection.api_format.to_s]
+      raise UnsupportedFormat, connection.api_format.to_s if class_name.nil?
 
-      after(:create) do |connection|
-        create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b",
-                           raw_metadata: { "owned_by" => "vllm", "max_model_len" => 262_144 })
-        create(:llm_model, llm_connection: connection, external_id: "bge-m3",
-                           raw_metadata: { "owned_by" => "vllm", "max_model_len" => 8_192 })
-      end
+      class_name.constantize.new(connection)
     end
   end
 end

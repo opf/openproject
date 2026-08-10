@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(LlmConnections::FormComponent.new(@connection)) %>
 
-<% if @connection.catalogue_model_ids.any? %>
+<% if @connection.persisted? %>
   <%=
     render(Primer::Beta::Subhead.new(mt: 4)) do |component|
       component.with_heading(tag: :h3) { t(".models_heading") }
@@ -63,5 +63,23 @@ See COPYRIGHT and LICENSE files for more details.
     end
   %>
 
-  <%= render(LlmConnections::ModelsTableComponent.new(rows: @connection.catalogue["data"])) %>
+  <%= render(LlmConnections::ModelsTableComponent.new(rows: @connection.models.by_identifier)) %>
+
+  <%= render(Primer::Box.new(mt: 3, p: 3, border: true, border_radius: 2)) do %>
+    <%= render(Primer::Beta::Text.new(tag: :h4, font_weight: :bold, mb: 1)) { t(".add_model_heading") } %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { t(".add_model_description") } %>
+
+    <%= form_with(url: llm_models_path, method: :post) do %>
+      <%= label_tag("llm_model_external_id", LlmModel.human_attribute_name(:external_id), class: "FormControl-label") %>
+      <%= text_field_tag(
+            "llm_model[external_id]", nil,
+            id: "llm_model_external_id",
+            required: true,
+            autocomplete: "off",
+            placeholder: "qwen3.6-35b-a3b",
+            class: "FormControl-input"
+          ) %>
+      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :secondary, ml: 2)) { t(".add_model_submit") } %>
+    <% end %>
+  <% end %>
 <% end %>
