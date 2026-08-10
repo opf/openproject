@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
+RSpec.describe "Work packages bulk edit: sprint and backlog bucket", :skip_csrf, type: :rails_request do
   let!(:sprint) { create(:sprint, project:) }
   let!(:bucket) { create(:backlog_bucket, project:) }
 
@@ -46,10 +46,8 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
 
   current_user { user }
 
-  describe "#edit" do
-    render_views
-
-    before { get :edit, params: { ids: [work_package1.id, work_package2.id] } }
+  describe "GET edit" do
+    before { get edit_work_packages_bulk_path(ids: [work_package1.id, work_package2.id]) }
 
     it "displays the sprint and backlog bucket selects" do
       expect(response.body).to have_select("Sprint", with_options: [sprint.name])
@@ -82,7 +80,7 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
         create(:member, project: other_project, principal: user,
                         roles: [create(:project_role, permissions:)])
 
-        get :edit, params: { ids: [work_package1.id, work_package2.id, work_package3.id] }
+        get edit_work_packages_bulk_path(ids: [work_package1.id, work_package2.id, work_package3.id])
       end
 
       it "does not display the fields" do
@@ -92,18 +90,18 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
     end
   end
 
-  describe "#update" do
+  describe "PUT update" do
     let(:work_package_ids) { [work_package1.id, work_package2.id] }
 
     it "assigns the sprint to all selected work packages" do
-      put :update, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
+      put work_packages_bulk_path, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
 
       expect(work_package1.reload.sprint).to eq sprint
       expect(work_package2.reload.sprint).to eq sprint
     end
 
     it "assigns the backlog bucket to all selected work packages" do
-      put :update, params: { ids: work_package_ids, work_package: { backlog_bucket_id: bucket.id } }
+      put work_packages_bulk_path, params: { ids: work_package_ids, work_package: { backlog_bucket_id: bucket.id } }
 
       expect(work_package1.reload.backlog_bucket).to eq bucket
       expect(work_package2.reload.backlog_bucket).to eq bucket
@@ -112,7 +110,7 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
     it "clears the sprint when 'none' is selected" do
       work_package1.update!(sprint:)
 
-      put :update, params: { ids: work_package_ids, work_package: { sprint_id: "none" } }
+      put work_packages_bulk_path, params: { ids: work_package_ids, work_package: { sprint_id: "none" } }
 
       expect(work_package1.reload.sprint).to be_nil
     end
@@ -120,7 +118,7 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
     it "clears an existing sprint when a backlog bucket is assigned instead" do
       work_package1.update!(sprint:)
 
-      put :update, params: { ids: work_package_ids, work_package: { backlog_bucket_id: bucket.id } }
+      put work_packages_bulk_path, params: { ids: work_package_ids, work_package: { backlog_bucket_id: bucket.id } }
 
       expect(work_package1.reload).to have_attributes(sprint: nil, backlog_bucket: bucket)
     end
@@ -128,13 +126,13 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
     it "clears an existing backlog bucket when a sprint is assigned instead" do
       work_package1.update!(backlog_bucket: bucket)
 
-      put :update, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
+      put work_packages_bulk_path, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
 
       expect(work_package1.reload).to have_attributes(sprint:, backlog_bucket: nil)
     end
 
     it "rejects assigning both a sprint and a backlog bucket in the same submission" do
-      put :update,
+      put work_packages_bulk_path,
           params: { ids: work_package_ids, work_package: { sprint_id: sprint.id, backlog_bucket_id: bucket.id } }
 
       expect(flash[:error])
@@ -147,7 +145,7 @@ RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
       let(:permissions) { %i[view_work_packages edit_work_packages view_sprints] }
 
       it "does not assign the sprint" do
-        put :update, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
+        put work_packages_bulk_path, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
 
         expect(work_package1.reload.sprint).to be_nil
       end
