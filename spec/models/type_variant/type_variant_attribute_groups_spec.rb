@@ -30,8 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe Type do
-  let(:type) { build(:type) }
+RSpec.describe TypeVariant do
+  let(:type) { create(:type).default_variant }
 
   shared_let(:admin) { create(:admin) }
 
@@ -45,7 +45,7 @@ RSpec.describe Type do
       it do
         expect(type.read_attribute(:attribute_groups)).to be_empty
 
-        attribute_groups = type.attribute_groups.select { |g| g.is_a?(Type::AttributeGroup) }.map do |group|
+        attribute_groups = type.attribute_groups.grep(Type::AttributeGroup).map do |group|
           [group.key, group.attributes]
         end
 
@@ -92,7 +92,7 @@ RSpec.describe Type do
     end
 
     context "with a query group" do
-      let(:type) { create(:type) }
+      let(:type) { create(:type).default_variant }
       let(:query) { build(:global_query, user_id: 0) }
 
       before do
@@ -132,7 +132,7 @@ RSpec.describe Type do
     subject { type.default_attribute_groups }
 
     it "returns an array" do
-      expect(subject.any?).to be_truthy
+      expect(subject).to be_any
     end
 
     it "each attribute group is an array" do
@@ -152,7 +152,7 @@ RSpec.describe Type do
       # Thus the `other` group shall not be returned.
       expect(subject.detect do |attribute_group|
         group_members = attribute_group[1]
-        group_members.nil? || group_members.size.zero?
+        group_members.blank?
       end).to be_falsey
     end
   end
@@ -271,7 +271,7 @@ RSpec.describe Type do
         is_for_all: true
       )
     end
-    let!(:type) { create(:type, custom_fields: [custom_field]) }
+    let!(:type) { create(:type).default_variant.tap { it.update!(custom_fields: [custom_field]) } }
 
     it "has the custom field in the default group" do
       OpenProject::Cache.clear

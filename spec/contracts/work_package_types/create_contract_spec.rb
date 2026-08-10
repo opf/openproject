@@ -34,7 +34,7 @@ module WorkPackageTypes
   RSpec.describe CreateContract do
     let(:user) { create(:admin) }
     let(:base_attributes) do
-      { name: "O-Negative", description: nil, is_milestone: true, is_default: false, is_in_roadmap: true }
+      { name: "O-Negative", is_milestone: true, is_default: false, is_in_roadmap: true }
     end
     let(:attributes) { base_attributes }
     let(:model) { Type.new(attributes) }

@@ -136,5 +136,7 @@ def type_of(requested)
 end
 
 def variant_of(requested)
-  requested.is_a?(TypeVariant) ? requested : requested.default_variant
+  return requested if requested.is_a?(TypeVariant)
+
+  requested.default_variant || requested.variants.detect(&:is_default_variant?)
 end

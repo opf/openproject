@@ -68,7 +68,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     set_factory_default(:type, type)
     set_factory_default(:user, user)
   end
-
   let(:work_package) do
     create(:work_package,
            subject: "work_package")
@@ -352,14 +351,14 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       before do
         project.types << other_type
 
-        # reset types of target project
-        # types will be added in each context depending on the test.
-        target_project.types.delete_all
+        target_project.project_types.delete_all
+        target_project.types.reset
       end
 
       context "with the type existing in the target project" do
         before do
           target_project.types << type
+          target_project.types.reset
         end
 
         it "keeps the type" do
@@ -374,6 +373,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       context "with a default type existing in the target project" do
         before do
           target_project.types << default_type
+          target_project.types.reset
         end
 
         it "uses the default type" do
@@ -388,6 +388,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       context "with only non default types" do
         before do
           target_project.types << other_type
+          target_project.types.reset
         end
 
         it "is unsuccessful" do
@@ -399,6 +400,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       context "with an invalid type being provided" do
         before do
           target_project.types << type
+          target_project.types.reset
         end
 
         let(:attributes) do
@@ -446,16 +448,14 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   describe "changing the type when the project resolves it to a variant",
            with_flag: { type_variants: true } do
     shared_let(:family_root) { create(:type, name: "Family root") }
-    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    shared_let(:variant) { create(:type_variant, type: family_root, variant_name: "Variant") }
     shared_let(:root_only_status) { create(:status, name: "root_only_status") }
 
     let(:work_package) { create(:work_package, subject: "work_package", status: root_only_status) }
     let(:attributes) { { type: family_root } }
 
     before do
-      variant.configuration_links
-             .find_by(aspect: Type::ConfigurationLink::WORKFLOWS)
-             .destroy!
+      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
 
       create(:workflow, type: family_root, role:,
                         old_status_id: root_only_status.id, new_status_id: root_only_status.id)
@@ -1263,9 +1263,15 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
     context "with work packages having automatically generated subjects, " \
             "when the work package is automatically scheduled, has a child and no dates" do
+      # rubocop:disable RSpec/BeforeAfterAll
       before_all do
         set_factory_default(:type, autosubject_type)
       end
+
+      after(:all) do
+        set_factory_default(:type, type)
+      end
+      # rubocop:enable RSpec/BeforeAfterAll
 
       let_work_packages(<<~TABLE)
         hierarchy              | MTWTFSS        | scheduling mode | predecessors
@@ -1321,9 +1327,15 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     context "with work packages having automatically generated subjects" do
+      # rubocop:disable RSpec/BeforeAfterAll
       before_all do
         set_factory_default(:type, autosubject_type)
       end
+
+      after(:all) do
+        set_factory_default(:type, type)
+      end
+      # rubocop:enable RSpec/BeforeAfterAll
 
       let_work_packages(<<~TABLE)
         | hierarchy      | MTWTFSS | scheduling mode
@@ -1800,9 +1812,15 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   end
 
   context "with work packages having automatically generated subjects" do
+    # rubocop:disable RSpec/BeforeAfterAll
     before_all do
       set_factory_default(:type, autosubject_type)
     end
+
+    after(:all) do
+      set_factory_default(:type, type)
+    end
+    # rubocop:enable RSpec/BeforeAfterAll
 
     shared_let(:work_package, reload: true) { create(:work_package, type: autosubject_type) }
     let(:attributes) { { description: "new description" } }
@@ -1821,7 +1839,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       let(:attributes) { {} }
 
       before do
-        work_package.subject = autosubject_type.enabled_patterns[:subject].resolve(work_package)
+        work_package.subject = autosubject_type.default_variant.enabled_patterns[:subject].resolve(work_package)
         work_package.save!
       end
 
@@ -1836,7 +1854,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           with_flag: { type_variants: true } do
     shared_let(:linked_type) do
       create(:type, name: "Linked").tap do |t|
-        t.link!(Type::ConfigurationLink::DEFAULTS, source: autosubject_type)
+        link_configuration(t, source: autosubject_type, aspect: TypeVariant::DEFAULTS)
         project.types << t
       end
     end
@@ -1967,7 +1985,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       it "does not change the status" do
         expect(subject).to be_success
 
-        expect(new_type.statuses).to include(default_status)
+        expect(new_type.default_variant.statuses).to include(default_status)
 
         expect(work_package)
           .not_to be_saved_change_to_status_id

@@ -736,7 +736,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     before do
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+      link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
       visit_workflow_edit(roles: [role])
     end
 
@@ -767,7 +767,7 @@ RSpec.describe "Workflow edit", :js do
 
     context "when the workflow configuration is linked to a source" do
       before do
-        type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+        link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
         visit_workflow_edit(roles: [role])
       end
 

@@ -13,18 +13,18 @@
 require "spec_helper"
 
 RSpec.describe ProjectCustomFieldTypeMapping do
-  describe "uniqueness by type" do
-    let(:type) { create(:type) }
+  describe "uniqueness by type variant" do
+    let(:variant) { create(:type).default_variant }
     let(:project_custom_field) { create(:project_custom_field) }
 
-    it "maps a project custom field to a type only once" do
-      type.project_custom_fields << project_custom_field
+    it "maps a project custom field to a type variant only once" do
+      variant.project_custom_fields << project_custom_field
 
       expect(described_class).to exist(custom_field_id: project_custom_field.id,
-                                       type_id: type.id)
+                                       type_variant_id: variant.id)
 
       expect do
-        type.project_custom_fields << project_custom_field
+        variant.project_custom_fields << project_custom_field
       end.to raise_error(ActiveRecord::RecordInvalid, /Custom field has already been taken/)
     end
   end

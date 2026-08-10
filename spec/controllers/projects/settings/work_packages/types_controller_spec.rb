@@ -80,7 +80,7 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
       end
 
       it "activates the type" do
-        post :create, params: { project_id: project.identifier, type_id: type.id }, format: :turbo_stream
+        post :create, params: { project_id: project.identifier, variant_id: type.default_variant.id }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(project.reload.types).to include(type)

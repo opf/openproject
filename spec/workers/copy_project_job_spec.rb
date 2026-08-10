@@ -93,7 +93,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
 
     context "when the source project has automatically generated subjects" do
       before do
-        type.update(patterns: { subject: { blueprint: "wp {{id}} in project {{project_id}}", enabled: true } })
+        type.default_variant.update!(patterns: { subject: { blueprint: "wp {{id}} in project {{project_id}}", enabled: true } })
       end
 
       it "copies the project without reporting any errors and generates subjects different from source project" do

@@ -30,10 +30,11 @@
 require "spec_helper"
 
 RSpec.describe Projects::Types::RemoveService do
-  subject(:service_call) { described_class.new(user:, model: project).call(type:) }
+  subject(:service_call) { described_class.new(user:, model: project).call(variant:) }
 
   let(:user) { create(:admin) }
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
   let(:other_type) { create(:type) }
   let(:project) { create(:project, types: [type, other_type]) }
 
@@ -68,7 +69,6 @@ RSpec.describe Projects::Types::RemoveService do
   end
 
   context "when the type is not enabled on the project" do
-    let(:type) { create(:type) }
     let(:project) { create(:project, types: [other_type]) }
 
     it "succeeds as a no-op" do
@@ -77,27 +77,26 @@ RSpec.describe Projects::Types::RemoveService do
     end
   end
 
-  context "when the project resolves the family to a variant", with_flag: { type_variants: true } do
-    let(:root) { create(:type) }
-    let(:type) { create(:type, parent: root) }
-    let(:project) { create(:project, types: [type, other_type]) }
+  context "when the project applies a named variant", with_flag: { type_variants: true } do
+    let(:variant) { create(:type_variant, type:) }
+    let(:project) { create(:project, types: [variant, other_type]) }
 
-    it "stops using the family when given the variant" do
+    it "stops using the type when given the applied variant" do
       expect(service_call).to be_success
       expect(project.reload.types).to contain_exactly(other_type)
     end
 
-    it "stops using the family when given the root" do
-      expect(described_class.new(user:, model: project).call(type: root)).to be_success
+    it "stops using the type when given its base variant" do
+      expect(described_class.new(user:, model: project).call(variant: type.default_variant)).to be_success
       expect(project.reload.types).to contain_exactly(other_type)
     end
 
-    it "refuses while a work package of the family exists" do
-      create(:work_package, project:, type: root)
+    it "refuses while a work package of the type exists" do
+      create(:work_package, project:, type:)
 
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:types)).to contain_exactly(:in_use_by_work_packages)
-      expect(project.reload.types).to contain_exactly(root, other_type)
+      expect(project.reload.types).to contain_exactly(type, other_type)
     end
   end
 

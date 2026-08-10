@@ -34,6 +34,7 @@ RSpec.describe "form configuration", :js, :selenium,
                with_settings: { work_package_multiple_versions: false } do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
 
   let!(:project) { create(:project, types: [type]) }
   let(:category) { create(:category, project:) }
@@ -57,12 +58,12 @@ RSpec.describe "form configuration", :js, :selenium,
         visit edit_type_form_configuration_path(type)
       end
 
-      def persisted_group_order(type)
-        type.reload.attribute_groups.reject { |group| group.key == :__empty }.map(&:translated_key)
+      def persisted_group_order
+        variant.reload.attribute_groups.reject { |group| group.key == :__empty }.map(&:translated_key)
       end
 
-      def persisted_attribute_order(type, group_key)
-        type.reload.attribute_groups.find { |group| group.key.to_s == group_key.to_s }&.attributes
+      def persisted_attribute_order(group_key)
+        variant.reload.attribute_groups.find { |group| group.key.to_s == group_key.to_s }&.attributes
       end
 
       it "resets the form properly after changes" do
@@ -103,10 +104,10 @@ RSpec.describe "form configuration", :js, :selenium,
         form.expect_empty
 
         # Test the actual type backend
-        type.reload
-        expect(type.attribute_groups.count).to eq 1
-        expect(type.attribute_groups.first.key).to eq :__empty
-        expect(type.attribute_groups.first.attributes).to be_empty
+        variant.reload
+        expect(variant.attribute_groups.count).to eq 1
+        expect(variant.attribute_groups.first.key).to eq :__empty
+        expect(variant.attribute_groups.first.attributes).to be_empty
 
         # Visit work package with that type
         wp_page.visit!
@@ -203,11 +204,11 @@ RSpec.describe "form configuration", :js, :selenium,
         form.expect_inactive(:version)
 
         # Test the actual type backend
-        type.reload
-        expect(type.attribute_groups.map(&:key))
+        variant.reload
+        expect(variant.attribute_groups.map(&:key))
           .to include(:people, :estimates_and_progress, :details, "New Group")
-        expect(type.attribute_groups.detect { |g| g.key == :people }&.display_name).to eq("Cool Stuff")
-        expect(type.attribute_groups.detect { |g| g.key == :details }&.display_name).to eq("Whatever")
+        expect(variant.attribute_groups.detect { |g| g.key == :people }&.display_name).to eq("Cool Stuff")
+        expect(variant.attribute_groups.detect { |g| g.key == :details }&.display_name).to eq("Whatever")
 
         # Visit work package with that type
         wp_page.visit!
@@ -392,7 +393,7 @@ RSpec.describe "form configuration", :js, :selenium,
       end
 
       it "reorders and deletes groups via group actions" do
-        expected_order = persisted_group_order(type)
+        expected_order = persisted_group_order
         moving_group = expected_order.second
         initial_updated_at = type.updated_at
 
@@ -400,28 +401,28 @@ RSpec.describe "form configuration", :js, :selenium,
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_group)
         expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        expect(persisted_group_order(type)).to eq(expected_order)
+        expect(persisted_group_order).to eq(expected_order)
 
         initial_updated_at = type.updated_at
         form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_to_bottom"))
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_group)
         expected_order << moving_group
-        expect(persisted_group_order(type)).to eq(expected_order)
+        expect(persisted_group_order).to eq(expected_order)
 
         initial_updated_at = type.updated_at
         form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_up"))
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_group)
         expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        expect(persisted_group_order(type)).to eq(expected_order)
+        expect(persisted_group_order).to eq(expected_order)
 
         initial_updated_at = type.updated_at
         form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_to_top"))
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_group)
         expected_order.unshift(moving_group)
-        expect(persisted_group_order(type)).to eq(expected_order)
+        expect(persisted_group_order).to eq(expected_order)
 
         deleted_group = expected_order.last
         initial_updated_at = type.updated_at
@@ -430,11 +431,11 @@ RSpec.describe "form configuration", :js, :selenium,
         end
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(deleted_group)
-        expect(persisted_group_order(type)).to eq(expected_order)
+        expect(persisted_group_order).to eq(expected_order)
       end
 
       it "reorders and deletes attribute rows via row actions" do
-        expected_order = persisted_attribute_order(type, :details)
+        expected_order = persisted_attribute_order(:details)
         moving_attribute = expected_order.second
         initial_updated_at = type.updated_at
 
@@ -442,41 +443,41 @@ RSpec.describe "form configuration", :js, :selenium,
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_attribute)
         expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+        expect(persisted_attribute_order(:details)).to eq(expected_order)
 
         initial_updated_at = type.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_down"))
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_attribute)
         expected_order[index], expected_order[index + 1] = expected_order[index + 1], expected_order[index]
-        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+        expect(persisted_attribute_order(:details)).to eq(expected_order)
 
         initial_updated_at = type.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_to_bottom"))
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_attribute)
         expected_order << moving_attribute
-        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+        expect(persisted_attribute_order(:details)).to eq(expected_order)
 
         initial_updated_at = type.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_up"))
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_attribute)
         expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+        expect(persisted_attribute_order(:details)).to eq(expected_order)
 
         initial_updated_at = type.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_to_top"))
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_attribute)
         expected_order.unshift(moving_attribute)
-        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+        expect(persisted_attribute_order(:details)).to eq(expected_order)
 
         initial_updated_at = type.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("button_delete"))
         wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_attribute)
-        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+        expect(persisted_attribute_order(:details)).to eq(expected_order)
       end
     end
 
@@ -611,8 +612,8 @@ RSpec.describe "form configuration", :js, :selenium,
 
     it "hides protected query group actions" do
       query = build(:global_query, user_id: 0)
-      type.attribute_groups = [["Subtasks", [query]]]
-      type.save!
+      variant.attribute_groups = [["Subtasks", [query]]]
+      variant.save!
 
       login_as(admin)
       visit edit_type_form_configuration_path(type)

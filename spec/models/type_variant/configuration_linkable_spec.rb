@@ -30,10 +30,27 @@
 
 require "spec_helper"
 
-RSpec.describe Type::ConfigurationLinkable do
-  let(:type) { create(:type) }
-  let(:source) { create(:type) }
-  let(:aspect) { Type::ConfigurationLink::DEFAULTS }
+RSpec.describe TypeVariant::ConfigurationLinkable do
+  # Links are columns now, so writing one means writing the aspect's pair of columns.
+  def link(variant, source:, aspect:, excluded: [])
+    variant.update!({ "#{aspect}_source": source }.merge(exclusions(aspect, excluded)))
+  end
+
+  # Cycles cannot be written through validations; this reproduces one that predates
+  # write-time prevention (FND-133).
+  def link_without_validation(variant, source:, aspect:, excluded: [])
+    variant.update_columns({ "#{aspect}_source_id": source.id }.merge(exclusions(aspect, excluded)))
+  end
+
+  def exclusions(aspect, elements)
+    return {} unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
+
+    { "#{aspect}_excluded_elements": elements }
+  end
+
+  let(:type) { create(:type).default_variant }
+  let(:source) { create(:type).default_variant }
+  let(:aspect) { TypeVariant::DEFAULTS }
 
   describe "#linked? and #source_for" do
     it "reports Independent (no link) by default" do
@@ -42,77 +59,74 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "reports Linked once a link exists" do
-      type.link!(aspect, source:)
+      link_configuration(type, source:, aspect:)
 
       expect(type).to be_linked(aspect)
       expect(type.source_for(aspect)).to eq(source)
     end
 
     it "tracks each aspect independently" do
-      type.link!(Type::ConfigurationLink::DEFAULTS, source:)
+      link_configuration(type, source:, aspect: TypeVariant::DEFAULTS)
 
-      expect(type).to be_linked(Type::ConfigurationLink::DEFAULTS)
-      expect(type).not_to be_linked(Type::ConfigurationLink::PDF_EXPORT)
+      expect(type).to be_linked(TypeVariant::DEFAULTS)
+      expect(type).not_to be_linked(TypeVariant::PDF_EXPORT)
     end
   end
 
   describe "#link!" do
-    it "re-points an existing link rather than creating a duplicate" do
-      other_source = create(:type)
-      type.link!(aspect, source:)
+    it "re-points an existing link" do
+      other_source = create(:type).default_variant
+      link_configuration(type, source:, aspect:)
 
-      expect { type.link!(aspect, source: other_source) }
-        .not_to change { type.configuration_links.where(aspect:).count }.from(1)
+      link_configuration(type, source: other_source, aspect:)
+
       expect(type.source_for(aspect)).to eq(other_source)
     end
   end
 
-  describe "variant default parent links" do
-    it "links every aspect to the parent when a variant is created" do
-      parent = create(:type)
-      child = create(:type, parent:)
+  describe "a freshly created variant" do
+    it "is Independent for every aspect" do
+      variant = create(:type_variant)
 
-      Type::ConfigurationLink::ASPECTS.each do |aspect|
-        expect(child.source_for(aspect)).to eq(parent)
+      TypeVariant::ASPECTS.each do |aspect|
+        expect(variant).not_to be_linked(aspect)
       end
     end
 
-    it "leaves a root type Independent for all aspects" do
-      root = create(:type)
+    it "leaves a type's base variant Independent for every aspect" do
+      base = create(:type).default_variant
 
-      Type::ConfigurationLink::ASPECTS.each do |aspect|
-        expect(root).not_to be_linked(aspect)
+      TypeVariant::ASPECTS.each do |aspect|
+        expect(base).not_to be_linked(aspect)
       end
     end
   end
 
   describe "deletion" do
-    it "destroys the type's own links when the type is destroyed" do
-      type.link!(aspect, source:)
+    it "takes the variant's own links with it" do
+      link_configuration(type, source:, aspect:)
 
-      type.destroy
-
-      expect(Type::ConfigurationLink.where(type_id: type.id)).to be_empty
+      expect { type.destroy }.to change(TypeVariant, :count).by(-1)
     end
 
-    it "prevents destroying a type that is still a source for another type" do
-      type.link!(aspect, source:)
+    # An ON DELETE RESTRICT foreign key per aspect, so this raises rather than validating.
+    it "refuses to destroy a variant that is still a source for another" do
+      link_configuration(type, source:, aspect:)
 
-      expect(source.destroy).to be_falsey
-      expect(source.errors[:base]).to be_present
+      expect { source.destroy }.to raise_error(ActiveRecord::InvalidForeignKey)
     end
   end
 
-  describe "#effective_source_for", with_flag: { type_variants: true } do
+  describe "#effective_source_for" do
     it "returns itself when Independent" do
       expect(type.effective_source_for(aspect)).to eq(type)
     end
 
     it "walks the link chain to the owning Independent type" do
-      owner = create(:type)
-      middle = create(:type)
-      middle.link!(aspect, source: owner)
-      type.link!(aspect, source: middle)
+      owner = create(:type).default_variant
+      middle = create(:type).default_variant
+      link_configuration(middle, source: owner, aspect:)
+      link_configuration(type, source: middle, aspect:)
 
       expect(type.effective_source_for(aspect)).to eq(owner)
     end
@@ -120,9 +134,9 @@ RSpec.describe Type::ConfigurationLinkable do
     it "terminates on a cycle instead of looping forever" do
       # A cycle can no longer be created through validated writes, so bypass validation
       # to reproduce a cyclic row that predates write-time prevention (FND-133).
-      other = create(:type)
-      type.link!(aspect, source: other)
-      build(:type_configuration_link, type: other, source: type, aspect:).save!(validate: false)
+      other = create(:type).default_variant
+      link_configuration(type, source: other, aspect:)
+      link_without_validation(other, source: type, aspect:)
 
       expect { type.effective_source_for(aspect) }.not_to raise_error
     end
@@ -131,11 +145,11 @@ RSpec.describe Type::ConfigurationLinkable do
   # Each aspect's readers are overridden so that plain `type.patterns` etc. is the
   # configuration in force. The own_* attributes below are what the type stores
   # itself, and must stay visible through read_attribute even while linked.
-  describe "resolved configuration readers", with_flag: { type_variants: true } do
+  describe "resolved configuration readers" do
     let(:owner_attributes) do
       {
         patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
-        description: "Owner description",
+        default_work_package_description: "Owner description",
         artefact_export_mode: Type::ArtefactExport::ATTACHMENT,
         export_templates_disabled: %w[contract],
         export_templates_order: %w[artefact attributes contract]
@@ -144,21 +158,21 @@ RSpec.describe Type::ConfigurationLinkable do
     let(:own_attributes) do
       {
         patterns: { subject: { blueprint: "Own {{id}}", enabled: true } },
-        description: "Own description",
+        default_work_package_description: "Own description",
         artefact_export_mode: Type::ArtefactExport::FILE_LINK,
         export_templates_disabled: %w[artefact],
         export_templates_order: %w[contract attributes artefact]
       }
     end
 
-    let(:owner) { create(:type, **owner_attributes) }
+    let(:owner) { create(:type).default_variant.tap { it.update!(owner_attributes) } }
 
     before { type.update!(own_attributes) }
 
     context "when Independent" do
       it "reads the DEFAULTS attributes it stores itself" do
         expect(type.patterns.subject.blueprint).to eq("Own {{id}}")
-        expect(type.description).to eq("Own description")
+        expect(type.default_work_package_description).to eq("Own description")
       end
 
       it "reads the PDF_EXPORT attributes it stores itself" do
@@ -169,11 +183,11 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     context "when Linked for DEFAULTS only" do
-      before { type.link!(Type::ConfigurationLink::DEFAULTS, source: owner) }
+      before { link_configuration(type, source: owner, aspect: TypeVariant::DEFAULTS) }
 
       it "reads the DEFAULTS attributes from the owner" do
         expect(type.patterns.subject.blueprint).to eq("Owner {{id}}")
-        expect(type.description).to eq("Owner description")
+        expect(type.default_work_package_description).to eq("Owner description")
       end
 
       it "leaves the PDF_EXPORT attributes on this type" do
@@ -182,15 +196,15 @@ RSpec.describe Type::ConfigurationLinkable do
       end
 
       it "keeps writing to its own record" do
-        type.update!(description: "Rewritten")
+        type.update!(default_work_package_description: "Rewritten")
 
-        expect(type.read_attribute(:description)).to eq("Rewritten")
-        expect(owner.reload.description).to eq("Owner description")
+        expect(type.read_attribute(:default_work_package_description)).to eq("Rewritten")
+        expect(owner.reload.default_work_package_description).to eq("Owner description")
       end
     end
 
     context "when Linked for PDF_EXPORT only" do
-      before { type.link!(Type::ConfigurationLink::PDF_EXPORT, source: owner) }
+      before { link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT) }
 
       it "reads the PDF_EXPORT attributes from the owner" do
         expect(type.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
@@ -200,7 +214,7 @@ RSpec.describe Type::ConfigurationLinkable do
 
       it "leaves the DEFAULTS attributes on this type" do
         expect(type.patterns.subject.blueprint).to eq("Own {{id}}")
-        expect(type.description).to eq("Own description")
+        expect(type.default_work_package_description).to eq("Own description")
       end
 
       it "falls back to the artefact export default when the owner has none" do
@@ -211,26 +225,27 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "reads from the type at the end of the link chain, not the one in the middle" do
-      middle = create(:type, description: "Middle description")
-      middle.link!(Type::ConfigurationLink::DEFAULTS, source: owner)
-      type.link!(Type::ConfigurationLink::DEFAULTS, source: middle)
+      middle = create(:type).default_variant.tap { it.update!(default_work_package_description: "Middle description") }
+      link_configuration(middle, source: owner, aspect: TypeVariant::DEFAULTS)
+      link_configuration(type, source: middle, aspect: TypeVariant::DEFAULTS)
 
-      expect(type.description).to eq("Owner description")
+      expect(type.default_work_package_description).to eq("Owner description")
     end
   end
 
   # These read through the overridden attribute readers rather than resolving a
   # source themselves, so they are what proves the indirection actually pays off.
-  describe "consumers of the resolved readers", with_flag: { type_variants: true } do
+  describe "consumers of the resolved readers" do
     let(:owner) do
-      create(:type,
-             patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
-             artefact_export_mode: Type::ArtefactExport::ATTACHMENT,
-             export_templates_disabled: %w[contract])
+      create(:type).default_variant.tap do |variant|
+        variant.update!(patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
+                        artefact_export_mode: Type::ArtefactExport::ATTACHMENT,
+                        export_templates_disabled: %w[contract])
+      end
     end
 
     it "resolves #enabled_patterns and #replacement_pattern_defined_for? through the link" do
-      type.link!(Type::ConfigurationLink::DEFAULTS, source: owner)
+      link_configuration(type, source: owner, aspect: TypeVariant::DEFAULTS)
 
       expect(type.enabled_patterns.keys).to include(:subject)
       expect(type).to be_replacement_pattern_defined_for(:subject)
@@ -242,13 +257,13 @@ RSpec.describe Type::ConfigurationLinkable do
 
     it "resolves #artefact_export_enabled? through the link" do
       expect(type).not_to be_artefact_export_enabled
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source: owner)
+      link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
 
       expect(type).to be_artefact_export_enabled
     end
 
     it "lists the owner's enabled templates while wrapping this type" do
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source: owner)
+      link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
 
       expect(type.pdf_export_templates.list_enabled.map(&:id)).to contain_exactly("attributes", "artefact")
     end
@@ -256,7 +271,7 @@ RSpec.describe Type::ConfigurationLinkable do
     # The templates object mutates whatever type it wraps, so it must never be the
     # owner's — otherwise a linked variant would rewrite the source's configuration.
     it "writes template changes to this type rather than the owner" do
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source: owner)
+      link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
       type.pdf_export_templates.disable_all
       type.save!
 
@@ -266,32 +281,33 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "feature flag gating", with_flag: { type_variants: false } do
+  # The feature flag opens the admin surface; it never changes what a link resolves to.
+  describe "with the variants flag off", with_flag: { type_variants: false } do
     let(:owner) do
-      create(:type,
-             patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
-             description: "Owner description",
-             artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+      create(:type).default_variant.tap do |variant|
+        variant.update!(patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
+                        default_work_package_description: "Owner description",
+                        artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+      end
     end
 
     before do
-      type.link!(Type::ConfigurationLink::DEFAULTS, source: owner)
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source: owner)
+      link_configuration(type, source: owner, aspect: TypeVariant::DEFAULTS)
+      link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
     end
 
-    it "ignores links and resolves to the type's own configuration" do
-      expect(type.effective_source_for(Type::ConfigurationLink::DEFAULTS)).to eq(type)
-      expect(type.patterns).to eq(WorkPackageTypes::Patterns::Collection.empty)
-      expect(type.description).to be_nil
-      expect(type.artefact_export_mode).to eq(Type::ArtefactExport::DEFAULT)
-      expect(type).not_to be_replacement_pattern_defined_for(:subject)
+    it "resolves links exactly as it does with the flag on" do
+      expect(type.effective_source_for(TypeVariant::DEFAULTS)).to eq(owner)
+      expect(type.default_work_package_description).to eq("Owner description")
+      expect(type.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
+      expect(type).to be_replacement_pattern_defined_for(:subject)
     end
   end
 
-  describe "form configuration resolution", with_flag: { type_variants: true } do
-    let(:form_aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
+  describe "form configuration resolution" do
+    let(:form_aspect) { TypeVariant::FORM_CONFIGURATION }
     let(:source) do
-      create(:type).tap do |t|
+      create(:type).default_variant.tap do |t|
         t.attribute_groups = [["source_only_group", %w(assignee)]]
         t.save!
       end
@@ -300,7 +316,7 @@ RSpec.describe Type::ConfigurationLinkable do
     before { type.update!(attribute_groups: [["own_group", %w(assignee)]]) }
 
     it "reads attribute_groups from the linked owner" do
-      type.link!(form_aspect, source:)
+      link_configuration(type, source:, aspect: form_aspect)
 
       keys = type.attribute_groups.map(&:key)
       expect(keys).to include("source_only_group")
@@ -314,7 +330,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "reads its own attribute_groups while an assignment is pending, even when linked" do
-      type.link!(form_aspect, source:)
+      link_configuration(type, source:, aspect: form_aspect)
       type.attribute_groups = [["pending_group", %w(assignee)]]
 
       keys = type.attribute_groups.map(&:key)
@@ -325,7 +341,7 @@ RSpec.describe Type::ConfigurationLinkable do
     it "reads custom_fields from the linked owner" do
       cf = create(:integer_wp_custom_field)
       source.custom_fields << cf
-      type.link!(form_aspect, source:)
+      link_configuration(type, source:, aspect: form_aspect)
 
       expect(type.custom_fields).to include(cf)
     end
@@ -339,29 +355,29 @@ RSpec.describe Type::ConfigurationLinkable do
   end
 
   describe "form configuration with the flag off", with_flag: { type_variants: false } do
-    it "ignores the link and reads its own attribute_groups" do
-      source = create(:type).tap do |t|
+    it "reads the linked owner's attribute_groups just the same" do
+      source = create(:type).default_variant.tap do |t|
         t.attribute_groups = [["source_only_group", %w(assignee)]]
         t.save!
       end
       type.update!(attribute_groups: [["own_group", %w(assignee)]])
-      type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source:)
+      link_configuration(type, source:, aspect: TypeVariant::FORM_CONFIGURATION)
 
       keys = type.attribute_groups.map(&:key)
-      expect(keys).to include("own_group")
-      expect(keys).not_to include("source_only_group")
+      expect(keys).to include("source_only_group")
+      expect(keys).not_to include("own_group")
     end
   end
 
-  describe "project attributes resolution", with_flag: { type_variants: true } do
-    let(:project_attributes_aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
+  describe "project attributes resolution" do
+    let(:project_attributes_aspect) { TypeVariant::PROJECT_ATTRIBUTES }
     let(:owner_field) { create(:project_custom_field) }
     let(:own_field) { create(:project_custom_field) }
-    let(:owner) { create(:type) }
+    let(:owner) { create(:type).default_variant }
 
     before do
-      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: owner_field)
-      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: own_field)
+      ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: owner_field)
+      ProjectCustomFieldTypeMapping.create!(type_variant: type, project_custom_field: own_field)
     end
 
     it "reads its own mappings when Independent" do
@@ -370,33 +386,31 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "reads the owner's mappings when Linked" do
-      type.link!(project_attributes_aspect, source: owner)
+      link_configuration(type, source: owner, aspect: project_attributes_aspect)
 
       expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
         .to contain_exactly(owner_field.id)
     end
 
     it "resolves through a longer link chain to the owning type" do
-      middle = create(:type)
-      middle.link!(project_attributes_aspect, source: owner)
-      type.link!(project_attributes_aspect, source: middle)
+      middle = create(:type).default_variant
+      link_configuration(middle, source: owner, aspect: project_attributes_aspect)
+      link_configuration(type, source: middle, aspect: project_attributes_aspect)
 
       expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
         .to contain_exactly(owner_field.id)
     end
 
     it "drops an excluded attribute from the inherited mappings" do
-      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
-                                       excluded_elements: [owner_field.attribute_name])
+      link(type, source: owner, aspect: project_attributes_aspect, excluded: [owner_field.attribute_name])
 
       expect(type.project_custom_field_type_mappings).to be_empty
     end
 
     it "keeps the attributes the chain does not exclude" do
       kept_field = create(:project_custom_field)
-      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: kept_field)
-      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
-                                       excluded_elements: [owner_field.attribute_name])
+      ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: kept_field)
+      link(type, source: owner, aspect: project_attributes_aspect, excluded: [owner_field.attribute_name])
 
       expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
         .to contain_exactly(kept_field.id)
@@ -405,14 +419,12 @@ RSpec.describe Type::ConfigurationLinkable do
     it "accumulates exclusions over a chain" do
       second_field = create(:project_custom_field)
       third_field = create(:project_custom_field)
-      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: second_field)
-      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: third_field)
+      ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: second_field)
+      ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: third_field)
 
-      middle = create(:type)
-      create(:type_configuration_link, type: middle, source: owner, aspect: project_attributes_aspect,
-                                       excluded_elements: [owner_field.attribute_name])
-      create(:type_configuration_link, type:, source: middle, aspect: project_attributes_aspect,
-                                       excluded_elements: [second_field.attribute_name])
+      middle = create(:type).default_variant
+      link(middle, source: owner, aspect: project_attributes_aspect, excluded: [owner_field.attribute_name])
+      link(type, source: middle, aspect: project_attributes_aspect, excluded: [second_field.attribute_name])
 
       expect(middle.project_custom_field_type_mappings.map(&:custom_field_id))
         .to contain_exactly(second_field.id, third_field.id)
@@ -421,78 +433,69 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "leaves the owning type's own mappings untouched" do
-      create(:type_configuration_link, type:, source: owner, aspect: project_attributes_aspect,
-                                       excluded_elements: [owner_field.attribute_name])
+      link(type, source: owner, aspect: project_attributes_aspect, excluded: [owner_field.attribute_name])
 
       expect(owner.project_custom_field_type_mappings.map(&:custom_field_id))
         .to contain_exactly(owner_field.id)
     end
 
     it "keeps writing to its own mappings while Linked" do
-      type.link!(project_attributes_aspect, source: owner)
+      link_configuration(type, source: owner, aspect: project_attributes_aspect)
       another_field = create(:project_custom_field)
-      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: another_field)
+      ProjectCustomFieldTypeMapping.create!(type_variant: type, project_custom_field: another_field)
 
       expect(type.own_project_custom_field_type_mappings.map(&:custom_field_id))
         .to contain_exactly(own_field.id, another_field.id)
     end
   end
 
-  describe "#effective_excluded_elements", with_flag: { type_variants: true } do
-    let(:owner) { create(:type) }
-    let(:middle) { create(:type) }
+  describe "#effective_excluded_elements" do
+    # Exclusions only exist for the aspects a variant can narrow; DEFAULTS is a single value.
+    let(:aspect) { TypeVariant::FORM_CONFIGURATION }
+    let(:owner) { create(:type).default_variant }
+    let(:middle) { create(:type).default_variant }
 
     it "excludes nothing when Independent" do
       expect(type.effective_excluded_elements(aspect)).to eq([])
     end
 
     it "excludes nothing when Linked without exclusions" do
-      type.link!(aspect, source: owner)
+      link_configuration(type, source: owner, aspect:)
 
       expect(type.effective_excluded_elements(aspect)).to eq([])
     end
 
     it "returns the exclusions of a single link" do
-      create(:type_configuration_link, type:, source: owner, aspect:,
-                                       excluded_elements: %w[custom_field_1 assignee])
+      link(type, source: owner, aspect:, excluded: %w[custom_field_1 assignee])
 
       expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1", "assignee")
     end
 
     it "unions the exclusions of every link along the chain" do
-      create(:type_configuration_link, type: middle, source: owner, aspect:,
-                                       excluded_elements: %w[custom_field_1])
-      create(:type_configuration_link, type:, source: middle, aspect:,
-                                       excluded_elements: %w[custom_field_2])
+      link(middle, source: owner, aspect:, excluded: %w[custom_field_1])
+      link(type, source: middle, aspect:, excluded: %w[custom_field_2])
 
       expect(type.effective_excluded_elements(aspect))
         .to contain_exactly("custom_field_1", "custom_field_2")
     end
 
     it "leaves an intermediate type unaffected by its descendants' exclusions" do
-      create(:type_configuration_link, type: middle, source: owner, aspect:,
-                                       excluded_elements: %w[custom_field_1])
-      create(:type_configuration_link, type:, source: middle, aspect:,
-                                       excluded_elements: %w[custom_field_2])
+      link(middle, source: owner, aspect:, excluded: %w[custom_field_1])
+      link(type, source: middle, aspect:, excluded: %w[custom_field_2])
 
       expect(middle.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
     end
 
     it "reports an element excluded at two levels of the chain only once" do
-      create(:type_configuration_link, type: middle, source: owner, aspect:,
-                                       excluded_elements: %w[custom_field_1])
-      create(:type_configuration_link, type:, source: middle, aspect:,
-                                       excluded_elements: %w[custom_field_1])
+      link(middle, source: owner, aspect:, excluded: %w[custom_field_1])
+      link(type, source: middle, aspect:, excluded: %w[custom_field_1])
 
       expect(type.effective_excluded_elements(aspect)).to eq(["custom_field_1"])
     end
 
     it "keeps exclusions scoped to their own aspect" do
-      create(:type_configuration_link, type:, source: owner, aspect:,
-                                       excluded_elements: %w[custom_field_1])
-      create(:type_configuration_link, type:, source: owner,
-                                       aspect: Type::ConfigurationLink::PDF_EXPORT,
-                                       excluded_elements: %w[custom_field_2])
+      link(type, source: owner, aspect:, excluded: %w[custom_field_1])
+      link(type, source: owner, aspect: TypeVariant::PROJECT_ATTRIBUTES, excluded: %w[custom_field_2])
 
       expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
     end
@@ -500,41 +503,39 @@ RSpec.describe Type::ConfigurationLinkable do
     it "excludes nothing on a cyclic chain instead of raising" do
       # Same legacy-data case as #effective_source_for: a pure cycle owns nothing, so the
       # walk finds no terminal row to read exclusions from.
-      other = create(:type)
-      create(:type_configuration_link, type:, source: other, aspect:,
-                                       excluded_elements: %w[custom_field_1])
-      build(:type_configuration_link, type: other, source: type, aspect:,
-                                      excluded_elements: %w[custom_field_2]).save!(validate: false)
+      other = create(:type).default_variant
+      link(type, source: other, aspect:, excluded: %w[custom_field_1])
+      link_without_validation(other, source: type, aspect:, excluded: %w[custom_field_2])
 
       expect(type.effective_excluded_elements(aspect)).to eq([])
     end
 
     it "excludes nothing for a new record" do
-      expect(Type.new.effective_excluded_elements(aspect)).to eq([])
+      expect(TypeVariant.new.effective_excluded_elements(aspect)).to eq([])
     end
 
     context "with the flag off", with_flag: { type_variants: false } do
-      it "ignores the link's exclusions" do
-        create(:type_configuration_link, type:, source: owner, aspect:,
-                                         excluded_elements: %w[custom_field_1])
+      it "resolves the chain's exclusions the same" do
+        link(type, source: owner, aspect:, excluded: %w[custom_field_1])
 
-        expect(type.effective_excluded_elements(aspect)).to eq([])
+        expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
       end
     end
   end
 
   # The call sites inline this as `<key> <> ALL (<subquery>)`, so the cases that matter
   # are the ones where a mis-shaped subquery would silently invert the filter.
-  describe ".effective_excluded_elements_subquery", with_flag: { type_variants: true } do
-    def excluded_by_sql?(element)
-      subquery = Type.effective_excluded_elements_subquery(type.id, aspect)
+  describe ".effective_excluded_elements_subquery" do
+    let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
-      Type.connection.select_value("SELECT 1 WHERE '#{element}' <> ALL (#{subquery})").nil?
+    def excluded_by_sql?(element)
+      subquery = TypeVariant.effective_excluded_elements_subquery(type.id, aspect)
+
+      TypeVariant.connection.select_value("SELECT 1 WHERE '#{element}' <> ALL (#{subquery})").nil?
     end
 
     it "excludes an element the chain excludes" do
-      create(:type_configuration_link, type:, source: create(:type), aspect:,
-                                       excluded_elements: %w[custom_field_1])
+      link(type, source: create(:type).default_variant, aspect:, excluded: %w[custom_field_1])
 
       expect(excluded_by_sql?("custom_field_1")).to be(true)
       expect(excluded_by_sql?("custom_field_2")).to be(false)
@@ -547,10 +548,9 @@ RSpec.describe Type::ConfigurationLinkable do
     it "excludes nothing when the chain is cyclic" do
       # A pure cycle yields no rows, and `<> ALL` over no rows is TRUE. An array-scalar
       # subquery would yield NULL here and exclude every candidate instead of none.
-      other = create(:type)
-      create(:type_configuration_link, type:, source: other, aspect:,
-                                       excluded_elements: %w[custom_field_1])
-      build(:type_configuration_link, type: other, source: type, aspect:).save!(validate: false)
+      other = create(:type).default_variant
+      link(type, source: other, aspect:, excluded: %w[custom_field_1])
+      link_without_validation(other, source: type, aspect:)
 
       expect(excluded_by_sql?("custom_field_1")).to be(false)
     end
@@ -559,9 +559,9 @@ RSpec.describe Type::ConfigurationLinkable do
   describe ".excluded_custom_field_condition" do
     def excluded?(custom_field_id, elements)
       literal = elements.empty? ? "'{}'::text[]" : "ARRAY[#{elements.map { |e| "'#{e}'" }.join(', ')}]::text[]"
-      condition = Type.excluded_custom_field_condition(custom_field_id.to_s, literal)
+      condition = TypeVariant.excluded_custom_field_condition(custom_field_id.to_s, literal)
 
-      Type.connection.select_value("SELECT 1 WHERE #{condition}").nil?
+      TypeVariant.connection.select_value("SELECT 1 WHERE #{condition}").nil?
     end
 
     it "excludes a custom field listed under its attribute name" do
@@ -581,25 +581,25 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "accepts a subquery yielding one element per row" do
-      type.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: source)
-      subquery = Type.effective_excluded_elements_subquery(type.id, Type::ConfigurationLink::PROJECT_ATTRIBUTES)
-      condition = Type.excluded_custom_field_condition("7", subquery)
+      link_configuration(type, source: source, aspect: TypeVariant::PROJECT_ATTRIBUTES)
+      subquery = TypeVariant.effective_excluded_elements_subquery(type.id, TypeVariant::PROJECT_ATTRIBUTES)
+      condition = TypeVariant.excluded_custom_field_condition("7", subquery)
 
-      expect(Type.connection.select_value("SELECT 1 WHERE #{condition}")).to eq(1)
+      expect(TypeVariant.connection.select_value("SELECT 1 WHERE #{condition}")).to eq(1)
     end
   end
 
   describe "project attributes resolution with the flag off", with_flag: { type_variants: false } do
-    it "ignores the link and reads its own mappings" do
-      owner = create(:type)
+    it "reads the linked owner's mappings just the same" do
+      owner = create(:type).default_variant
       owner_field = create(:project_custom_field)
       own_field = create(:project_custom_field)
-      ProjectCustomFieldTypeMapping.create!(type: owner, project_custom_field: owner_field)
-      ProjectCustomFieldTypeMapping.create!(type:, project_custom_field: own_field)
-      type.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: owner)
+      ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: owner_field)
+      ProjectCustomFieldTypeMapping.create!(type_variant: type, project_custom_field: own_field)
+      link_configuration(type, source: owner, aspect: TypeVariant::PROJECT_ATTRIBUTES)
 
       expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
-        .to contain_exactly(own_field.id)
+        .to contain_exactly(owner_field.id)
     end
   end
 end

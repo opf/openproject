@@ -33,15 +33,13 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_variants: true } do
   render_views
 
-  shared_let(:parent_type) { create(:type, name: "Bug") }
-
   before { login_as user }
 
   context "with admin access" do
     let(:user) { create(:admin) }
 
     describe "GET new" do
-      before { get :new, params: { parent_id: parent_type.id } }
+      before { get :new }
 
       it { expect(response).to have_http_status(:ok) }
       it { expect(response).to render_template "show" }
@@ -52,20 +50,19 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
     end
 
     describe "POST create" do
-      it "creates the variant and advances to the next step" do
+      it "creates the type and advances to the next step" do
         expect do
-          post :create, params: { type: { name: "Critical", parent_id: parent_type.id } }
+          post :create, params: { type: { name: "Critical" } }
         end.to change(Type, :count).by(1)
 
-        variant = Type.find_by!(name: "Critical")
-        expect(variant.parent).to eq(parent_type)
-        expect(response).to redirect_to(type_creation_wizard_path(variant, step: :defaults))
+        type = Type.find_by!(name: "Critical")
+        expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
       end
 
       context "with invalid params" do
         it "does not create and re-renders the details step" do
           expect do
-            post :create, params: { type: { name: "", parent_id: parent_type.id } }
+            post :create, params: { type: { name: "" } }
           end.not_to change(Type, :count)
 
           expect(response).to have_http_status(:unprocessable_entity)
@@ -73,12 +70,12 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
       end
     end
 
-    describe "existing variant" do
-      shared_let(:variant) { create(:type, name: "Critical", parent: parent_type) }
+    describe "existing type" do
+      shared_let(:type) { create(:type, name: "Critical") }
       shared_let(:role) { create(:project_role) }
 
       describe "GET show" do
-        before { get :show, params: { type_id: variant.id, step: :projects } }
+        before { get :show, params: { type_id: type.id, step: :projects } }
 
         it { expect(response).to have_http_status(:ok) }
 
@@ -90,7 +87,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
       describe "GET show for every step" do
         WorkPackageTypes::Wizard::Steps.all.each do |step|
           it "renders the #{step} step without error" do
-            get :show, params: { type_id: variant.id, step: }
+            get :show, params: { type_id: type.id, step: }
 
             expect(response).to have_http_status(:ok)
           end
@@ -99,7 +96,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
 
       describe "GET show with an unrecognised step" do
         it "falls back to the first step" do
-          get :show, params: { type_id: variant.id, step: "does-not-exist" }
+          get :show, params: { type_id: type.id, step: "does-not-exist" }
 
           expect(assigns(:current_step)).to eq(WorkPackageTypes::Wizard::Steps.first)
         end
@@ -107,24 +104,24 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
 
       describe "PATCH update on the details step" do
         it "updates and advances to the next step" do
-          patch :update, params: { type_id: variant.id, step: :details, type: { name: "Blocker" } }
+          patch :update, params: { type_id: type.id, step: :details, type: { name: "Blocker" } }
 
-          expect(variant.reload.own_name).to eq("Blocker")
-          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :defaults))
+          expect(type.reload.name).to eq("Blocker")
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
         end
       end
 
       describe "PATCH update on the workflows step" do
         # The wizard step only advances as the matrix saves via its own turbo endpoint
         it "advances to the next step" do
-          patch :update, params: { type_id: variant.id, step: :workflows }
+          patch :update, params: { type_id: type.id, step: :workflows }
 
-          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :projects))
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
         end
       end
 
       describe "PATCH update on the last step" do
-        before { patch :update, params: { type_id: variant.id, step: WorkPackageTypes::Wizard::Steps.last } }
+        before { patch :update, params: { type_id: type.id, step: WorkPackageTypes::Wizard::Steps.last } }
 
         it { expect(response).to redirect_to(types_path) }
 
@@ -137,7 +134,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
     let(:user) { create(:user) }
 
     describe "GET new" do
-      before { get :new, params: { parent_id: parent_type.id } }
+      before { get :new }
 
       it { expect(response).to have_http_status(:forbidden) }
     end
@@ -147,7 +144,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
     let(:user) { create(:admin) }
 
     describe "GET new" do
-      before { get :new, params: { parent_id: parent_type.id } }
+      before { get :new }
 
       it { expect(response).to have_http_status(:not_found) }
     end

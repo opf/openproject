@@ -30,14 +30,25 @@
 
 require "spec_helper"
 
-RSpec.describe Types::Scopes::WithEffectiveSource, with_flag: { type_variants: true } do
-  let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
-  let(:owner) { create(:type) }
-  let(:middle) { create(:type) }
-  let(:type) { create(:type) }
+RSpec.describe TypeVariants::Scopes::WithEffectiveSource do
+  # Links are columns now, so writing one means writing the aspect's pair of columns.
+  def link(variant, source:, excluded: [])
+    variant.update!("#{aspect}_source": source, "#{aspect}_excluded_elements": excluded)
+  end
+
+  # Cycles cannot be written through validations; this reproduces one that predates
+  # write-time prevention (FND-133).
+  def link_without_validation(variant, source:)
+    variant.update_column(:"#{aspect}_source_id", source.id)
+  end
+
+  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
+  let(:owner) { create(:type).default_variant }
+  let(:middle) { create(:type).default_variant }
+  let(:type) { create(:type).default_variant }
 
   def loaded(ids, for_aspect = aspect)
-    Type.with_effective_source(for_aspect).where(id: ids)
+    TypeVariant.with_effective_source(for_aspect).where(id: ids)
   end
 
   describe "the resolved source" do
@@ -48,10 +59,8 @@ RSpec.describe Types::Scopes::WithEffectiveSource, with_flag: { type_variants: t
     end
 
     it "hands back the owning type at the end of the chain" do
-      create(:type_configuration_link, type: middle, source: owner, aspect:,
-                                       excluded_elements: %w[custom_field_1])
-      create(:type_configuration_link, type:, source: middle, aspect:,
-                                       excluded_elements: %w[custom_field_2])
+      link(middle, source: owner, excluded: %w[custom_field_1])
+      link(type, source: middle, excluded: %w[custom_field_2])
 
       record = loaded(type.id).first
 
@@ -61,16 +70,16 @@ RSpec.describe Types::Scopes::WithEffectiveSource, with_flag: { type_variants: t
     end
 
     it "hands back the type itself on a cyclic chain" do
-      other = create(:type)
-      create(:type_configuration_link, type:, source: other, aspect:)
-      build(:type_configuration_link, type: other, source: type, aspect:).save!(validate: false)
+      other = create(:type).default_variant
+      link(type, source: other)
+      link_without_validation(other, source: type)
 
       expect(loaded(type.id).first.effective_source_for(aspect)).to eq(type)
     end
 
     it "resolves each record of a collection to its own source" do
-      create(:type_configuration_link, type: middle, source: owner, aspect:)
-      create(:type_configuration_link, type:, source: middle, aspect:)
+      link(middle, source: owner)
+      link(type, source: middle)
 
       records = loaded([owner.id, middle.id, type.id]).index_by(&:id)
 
@@ -82,8 +91,8 @@ RSpec.describe Types::Scopes::WithEffectiveSource, with_flag: { type_variants: t
 
   describe "query count" do
     before do
-      create(:type_configuration_link, type: middle, source: owner, aspect:)
-      create(:type_configuration_link, type:, source: middle, aspect:)
+      link(middle, source: owner)
+      link(type, source: middle)
     end
 
     it "resolves the whole collection in one query when it contains its own sources" do
@@ -106,17 +115,16 @@ RSpec.describe Types::Scopes::WithEffectiveSource, with_flag: { type_variants: t
     end
 
     it "resolves several chained aspects without a query per aspect" do
-      create(:type_configuration_link, type:, source: owner,
-                                       aspect: Type::ConfigurationLink::PDF_EXPORT)
+      type.update!(pdf_export_source: owner)
 
-      relation = Type.with_effective_source(aspect)
-                     .with_effective_source(Type::ConfigurationLink::PDF_EXPORT)
+      relation = TypeVariant.with_effective_source(aspect)
+                     .with_effective_source(TypeVariant::PDF_EXPORT)
                      .where(id: [owner.id, middle.id, type.id])
 
       expect do
         relation.each do |record|
           record.effective_source_for(aspect)
-          record.effective_source_for(Type::ConfigurationLink::PDF_EXPORT)
+          record.effective_source_for(TypeVariant::PDF_EXPORT)
         end
       end.to have_a_query_limit(1)
     end
@@ -124,42 +132,42 @@ RSpec.describe Types::Scopes::WithEffectiveSource, with_flag: { type_variants: t
 
   describe "without the scope" do
     before do
-      create(:type_configuration_link, type:, source: owner, aspect:)
+      link(type, source: owner)
     end
 
     it "resolves by querying instead" do
-      expect(Type.find(type.id).effective_source_for(aspect)).to eq(owner)
+      expect(TypeVariant.find(type.id).effective_source_for(aspect)).to eq(owner)
     end
 
     it "resolves an aspect the relation did not preload" do
-      create(:type_configuration_link, type:, source: middle,
-                                       aspect: Type::ConfigurationLink::PDF_EXPORT)
+      type.update!(pdf_export_source: middle)
 
       record = loaded(type.id).first
 
-      expect(record.effective_source_for(Type::ConfigurationLink::PDF_EXPORT)).to eq(middle)
+      expect(record.effective_source_for(TypeVariant::PDF_EXPORT)).to eq(middle)
     end
   end
 
   describe "staleness" do
     it "stops answering from the preloaded source after a reload" do
-      create(:type_configuration_link, type:, source: owner, aspect:)
+      link(type, source: owner)
 
       record = loaded(type.id).first
       expect(record.effective_source_for(aspect)).to eq(owner)
 
-      record.configuration_links.destroy_all
+      record.update!("#{aspect}_source": nil)
       record.reload
 
       expect(record.effective_source_for(aspect)).to eq(type)
     end
   end
 
+  # The feature flag opens the admin surface; it never changes what the scope resolves to.
   describe "with the flag off", with_flag: { type_variants: false } do
-    it "hands back the type itself" do
-      create(:type_configuration_link, type:, source: owner, aspect:)
+    it "resolves to the source just the same" do
+      link(type, source: owner)
 
-      expect(loaded(type.id).first.effective_source_for(aspect)).to eq(type)
+      expect(loaded(type.id).first.effective_source_for(aspect)).to eq(owner)
     end
   end
 end

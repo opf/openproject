@@ -141,9 +141,9 @@ RSpec.describe(
       copied_work_package
     end
 
-    describe "the variant a family resolves to", with_flag: { type_variants: true } do
+    describe "the variant a type resolves to", with_flag: { type_variants: true } do
       shared_let(:root_type) { create(:type, name: "Copied root") }
-      shared_let(:variant) { create(:type, name: "Copied variant", parent: root_type) }
+      shared_let(:variant) { create(:type_variant, type: root_type, variant_name: "Copied variant") }
 
       before { source.project_types.create!(type: root_type, variant:) }
 
@@ -153,7 +153,7 @@ RSpec.describe(
         copied = project_copy.project_types.find_by(type: root_type)
 
         expect(copied.variant).to eq(variant)
-        expect(copied.effective_type).to eq(variant)
+        expect(copied.variant).to eq(variant)
       end
 
       it "keeps the copy pointing at its own project" do

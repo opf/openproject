@@ -35,7 +35,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
     # Need to clear the request store after every creation as the available attributes are cached
     RequestStore.clear!
     # need to clear the cache to free the memoized
-    # Type.translated_work_package_form_attributes
+    # TypeVariant.translated_work_package_form_attributes
     Rails.cache.clear
     create(:work_package_help_text, attribute_name: custom_field.attribute_name)
   end

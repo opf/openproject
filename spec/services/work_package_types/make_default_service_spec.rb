@@ -36,7 +36,7 @@ RSpec.describe WorkPackageTypes::MakeDefaultService do
   subject(:service) { described_class.new(type:, user:) }
 
   describe "#call" do
-    context "when no family member is the default yet" do
+    context "when no type is the default yet" do
       let(:type) { create(:type, is_default: false) }
 
       it "marks the type as the default" do
@@ -54,11 +54,11 @@ RSpec.describe WorkPackageTypes::MakeDefaultService do
       end
     end
 
-    context "when the root is the default and a variant is promoted" do
-      let(:root) { create(:type, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: false) }
+    context "when another type is the default and this one is promoted" do
+      let!(:root) { create(:type, is_default: true) }
+      let(:type) { create(:type, is_default: false) }
 
-      it "moves the flag from the root to the variant" do
+      it "moves the flag to the promoted type" do
         expect(service.call).to be_success
         expect(type.reload).to be_is_default
         expect(root.reload).not_to be_is_default
@@ -67,8 +67,8 @@ RSpec.describe WorkPackageTypes::MakeDefaultService do
 
     context "when a sibling variant is the default" do
       let(:root) { create(:type, is_default: false) }
-      let!(:sibling) { create(:type, parent: root, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: false) }
+      let!(:sibling) { create(:type, is_default: true) }
+      let(:type) { create(:type, is_default: false) }
 
       it "moves the flag from the sibling to the type" do
         expect(service.call).to be_success
@@ -77,23 +77,23 @@ RSpec.describe WorkPackageTypes::MakeDefaultService do
       end
     end
 
-    context "when a variant is the default and the root is promoted" do
+    context "when this type is promoted over an existing default" do
       let(:type) { create(:type, is_default: false) }
-      let!(:variant) { create(:type, parent: type, is_default: true) }
+      let!(:variant) { create(:type, is_default: true) }
 
-      it "moves the flag from the variant to the root" do
+      it "moves the flag to the promoted type" do
         expect(service.call).to be_success
         expect(type.reload).to be_is_default
         expect(variant.reload).not_to be_is_default
       end
     end
 
-    context "when several family members carry the flag" do
-      let(:root) { create(:type, is_default: true) }
-      let!(:sibling) { create(:type, parent: root, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: false) }
+    context "when several types carry the flag" do
+      let!(:root) { create(:type, is_default: true) }
+      let!(:sibling) { create(:type, is_default: true) }
+      let(:type) { create(:type, is_default: false) }
 
-      it "leaves the type as the only default in the family" do
+      it "leaves the type as the only default" do
         expect(service.call).to be_success
         expect(type.reload).to be_is_default
         expect(root.reload).not_to be_is_default
@@ -112,15 +112,15 @@ RSpec.describe WorkPackageTypes::MakeDefaultService do
     end
 
     context "when unmarking the previous default fails" do
-      let(:root) { create(:type, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: false) }
+      let!(:root) { create(:type, is_default: true) }
+      let(:type) { create(:type, is_default: false) }
 
       before do
         type
         root.update_column(:name, "")
       end
 
-      it "fails and rolls the whole family back" do
+      it "fails and rolls everything back" do
         expect(service.call).to be_failure
         expect(type.reload).not_to be_is_default
         expect(root.reload).to be_is_default

@@ -33,9 +33,8 @@ require "spec_helper"
 # End-to-end resolution of a form configuration down a chain of links: the groups come from
 # the type owning the aspect, narrowed by the exclusions accumulated on every link between
 # it and the type being read.
-RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
-               with_flag: { type_variants: true } do
-  let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
+RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusions" do
+  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
   let(:field_a) { create(:integer_wp_custom_field) }
   let(:field_b) { create(:integer_wp_custom_field) }
@@ -44,32 +43,32 @@ RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
 
   # owner ← middle ← leaf, each link dropping a little more of the owner's configuration.
   let(:owner) do
-    create(:type).tap do |type|
-      type.attribute_groups = [
+    create(:type).default_variant.tap do |variant|
+      variant.attribute_groups = [
         ["details", [field_a.attribute_name, field_b.attribute_name]],
         ["people", %W[assignee #{field_c.attribute_name}]],
         ["solo", [field_d.attribute_name]]
       ]
-      type.custom_field_ids = [field_a.id, field_b.id, field_c.id, field_d.id]
-      type.save!
+      variant.custom_field_ids = [field_a.id, field_b.id, field_c.id, field_d.id]
+      variant.save!
     end
   end
 
-  let(:middle) { create(:type) }
-  let(:leaf) { create(:type) }
+  let(:middle) { create(:type).default_variant }
+  let(:leaf) { create(:type).default_variant }
 
   before do
-    create(:type_configuration_link, type: middle, source: owner, aspect:,
-                                     excluded_elements: [field_a.attribute_name])
-    create(:type_configuration_link, type: leaf, source: middle, aspect:,
-                                     excluded_elements: ["assignee", field_d.attribute_name])
+    middle.update!(form_configuration_source: owner,
+                   form_configuration_excluded_elements: [field_a.attribute_name])
+    leaf.update!(form_configuration_source: middle,
+                 form_configuration_excluded_elements: ["assignee", field_d.attribute_name])
   end
 
-  def groups_of(type)
-    type.attribute_groups.to_h { |group| [group.key, group.attributes] }
+  def groups_of(variant)
+    variant.attribute_groups.to_h { |group| [group.key, group.attributes] }
   end
 
-  it "leaves the owning type's own configuration untouched" do
+  it "leaves the owning variant's own configuration untouched" do
     expect(groups_of(owner)).to eq(
       "details" => [field_a.attribute_name, field_b.attribute_name],
       "people" => ["assignee", field_c.attribute_name],
@@ -78,7 +77,7 @@ RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
     expect(owner.custom_fields).to contain_exactly(field_a, field_b, field_c, field_d)
   end
 
-  it "applies one link's exclusions to the intermediate type" do
+  it "applies one link's exclusions to the intermediate variant" do
     expect(groups_of(middle)).to eq(
       "details" => [field_b.attribute_name],
       "people" => ["assignee", field_c.attribute_name],
@@ -113,8 +112,8 @@ RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
     expect(groups_of(owner).keys).to include("solo")
   end
 
-  it "resolves the same configuration when the type came from the preloading scope" do
-    preloaded = Type.with_effective_source(aspect).find(leaf.id)
+  it "resolves the same configuration when the variant came from the preloading scope" do
+    preloaded = TypeVariant.with_effective_source(aspect).find(leaf.id)
 
     expect(groups_of(preloaded)).to eq(groups_of(leaf))
     expect(preloaded.effective_source_for(aspect)).to eq(owner)
@@ -125,7 +124,7 @@ RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
   it "reads its own configuration once switched to Independent" do
     leaf.attribute_groups = [["own", %w[assignee]]]
     leaf.save!
-    leaf.configuration_links.destroy_all
+    leaf.update!(form_configuration_source: nil, form_configuration_excluded_elements: [])
 
     expect(groups_of(leaf.reload)).to eq("own" => ["assignee"])
   end
@@ -133,8 +132,8 @@ RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
   context "with a query group in the owner's configuration" do
     let(:query) { create(:query) }
 
-    def query_group_of(type)
-      type.attribute_groups.detect { |group| group.group_type == :query }
+    def query_group_of(variant)
+      variant.attribute_groups.detect { |group| group.group_type == :query }
     end
 
     before do
@@ -151,39 +150,35 @@ RSpec.describe Type::ConfigurationLinkable, "form configuration exclusions",
       expect(groups_of(leaf)["details"]).to eq([field_b.attribute_name])
     end
 
-    it "drops the whole section when the query is excluded on the type's own link" do
-      leaf.configuration_links
-          .find_by(aspect:)
-          .update!(excluded_elements: ["query_#{query.id}"])
+    it "drops the whole section when the query is excluded on the variant's own link" do
+      leaf.update!(form_configuration_excluded_elements: ["query_#{query.id}"])
 
       expect(query_group_of(leaf)).to be_nil
       expect(leaf.attribute_groups.map(&:key)).not_to include("Related work packages")
     end
 
     it "drops it for the leaf when an ancestor's link excludes the query" do
-      middle.configuration_links
-            .find_by(aspect:)
-            .update!(excluded_elements: [field_a.attribute_name, "query_#{query.id}"])
+      middle.update!(form_configuration_excluded_elements: [field_a.attribute_name, "query_#{query.id}"])
 
       expect(query_group_of(middle)).to be_nil
       expect(query_group_of(leaf)).to be_nil
     end
 
-    it "leaves the owning type's query group in place" do
-      leaf.configuration_links
-          .find_by(aspect:)
-          .update!(excluded_elements: ["query_#{query.id}"])
+    it "leaves the owning variant's query group in place" do
+      leaf.update!(form_configuration_excluded_elements: ["query_#{query.id}"])
 
       expect(query_group_of(owner)).to be_present
       expect(query_group_of(owner).query).to eq(query)
     end
   end
 
+  # The feature flag opens the admin surface; it never changes what a link resolves to.
   context "with the flag off", with_flag: { type_variants: false } do
-    it "ignores links and exclusions entirely" do
-      leaf.update!(attribute_groups: [["own", %w[assignee]]])
-
-      expect(groups_of(leaf)).to eq("own" => ["assignee"])
+    it "resolves links and exclusions the same" do
+      expect(groups_of(leaf)).to eq(
+        "details" => [field_b.attribute_name],
+        "people" => [field_c.attribute_name]
+      )
     end
   end
 end

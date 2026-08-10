@@ -54,7 +54,7 @@ RSpec.describe "Start and finish sprints", :js do
 
     type
   end
-  let(:task_statuses) { task_type.statuses }
+  let(:task_statuses) { task_type.default_variant.statuses }
   let!(:first_sprint) do
     create(:sprint,
            project:,

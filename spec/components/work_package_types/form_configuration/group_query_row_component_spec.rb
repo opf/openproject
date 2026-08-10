@@ -20,9 +20,10 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
 
   describe "the exclusion toggle" do
     let(:type) { create(:type) }
+    let(:variant) { type.default_variant }
     let(:exclusions) do
       WorkPackageTypes::ExclusionState.new(
-        type:, own: [], effective: []
+        variant:, own: [], effective: []
       )
     end
 

@@ -79,7 +79,7 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     let(:custom_field) { create(:string_wp_custom_field) }
     let(:multi_value_field) { create(:multi_list_wp_custom_field) }
     let(:custom_field_not_configured) { create(:string_wp_custom_field) }
-    let(:type) { create(:type, custom_fields: [custom_field, multi_value_field]) }
+    let(:type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [custom_field, multi_value_field]) } }
     let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field, multi_value_field]) }
     let(:project_custom_field) { create(:project_custom_field, projects: [project], field_format: "string") }
 
@@ -121,7 +121,7 @@ RSpec.describe WorkPackageTypes::PatternResolver do
 
   context "when the type links its form configuration to a source type", with_flag: { type_variants: true } do
     let(:source_cf) { create(:string_wp_custom_field) }
-    let(:source_type) { create(:type, custom_fields: [source_cf]) }
+    let(:source_type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [source_cf]) } }
     let(:linked_type) { create(:type) }
     let(:project) { create(:project, types: [linked_type], work_package_custom_fields: [source_cf]) }
     let(:subject_pattern) { "CF: {{custom_field_#{source_cf.id}}}" }
@@ -131,7 +131,7 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     end
 
     before do
-      linked_type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+      link_configuration(linked_type.default_variant, source: source_type.default_variant, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "resolves the custom field token via the linked source type" do

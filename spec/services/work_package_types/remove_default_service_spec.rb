@@ -54,14 +54,14 @@ RSpec.describe WorkPackageTypes::RemoveDefaultService do
       end
     end
 
-    context "with a default elsewhere in the family" do
-      let(:root) { create(:type, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: true) }
+    context "with a default on another type" do
+      let(:other) { create(:type, is_default: true) }
+      let(:type) { create(:type, is_default: true) }
 
       it "only clears the flag on the given type" do
         expect(service.call).to be_success
         expect(type.reload).not_to be_is_default
-        expect(root.reload).to be_is_default
+        expect(other.reload).to be_is_default
       end
     end
 

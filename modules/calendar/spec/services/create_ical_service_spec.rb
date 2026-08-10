@@ -214,15 +214,16 @@ RSpec.describe Calendar::CreateICalService, type: :model do
     end
   end
 
-  context "with a work package of a variant" do
+  context "with a work package whose project applies a named variant" do
     let(:root_type) { create(:type, name: "Task") }
-    let(:variant) { create(:type, name: "Bug", parent: root_type) }
+    let(:variant) { create(:type_variant, type: root_type, variant_name: "Bug") }
+    let(:project) { create(:project, types: [variant]) }
     let(:sub_work_package) do
-      create(:work_package, project:, type: variant, due_date: Time.zone.today + 7.days)
+      create(:work_package, project:, type: root_type, due_date: Time.zone.today + 7.days)
     end
     let(:work_packages) { [sub_work_package] }
 
-    it "shows the root type's name in the description but keeps other attributes' own names" do
+    it "shows the type's name in the description, not the variant's" do
       expect(formatted_result).to include("Type: Task")
       expect(formatted_result).not_to include("Type: Bug")
       expect(formatted_result).to include("Status: #{sub_work_package.status.name}")

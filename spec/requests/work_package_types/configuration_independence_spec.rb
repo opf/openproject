@@ -42,7 +42,7 @@ RSpec.describe "Work package type configuration independence",
 
   describe "GET dialog" do
     it "renders the independent mode picker with the aspect's modes" do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::FORM_CONFIGURATION),
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::FORM_CONFIGURATION),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -53,7 +53,7 @@ RSpec.describe "Work package type configuration independence",
     end
 
     it "offers copy and empty for patterns" do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::DEFAULTS),
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::DEFAULTS),
           as: :turbo_stream
 
       expect(response.body).to include("Copy from linked")
@@ -62,7 +62,7 @@ RSpec.describe "Work package type configuration independence",
     end
 
     it "offers copy and default for PDF export" do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::PDF_EXPORT),
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::PDF_EXPORT),
           as: :turbo_stream
 
       expect(response.body).to include("Copy from linked")
@@ -77,7 +77,7 @@ RSpec.describe "Work package type configuration independence",
     end
 
     it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::DEFAULTS),
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::DEFAULTS),
           as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
@@ -86,7 +86,7 @@ RSpec.describe "Work package type configuration independence",
 
   describe "POST confirm" do
     it "closes the picker and renders the danger confirmation" do
-      post type_configuration_independence_confirm_path(type_id: type.id, aspect: Type::ConfigurationLink::DEFAULTS),
+      post type_configuration_independence_confirm_path(type_id: type.id, aspect: TypeVariant::DEFAULTS),
            params: { mode: WorkPackageTypes::IndependentMode::EMPTY },
            as: :turbo_stream
 
@@ -97,7 +97,7 @@ RSpec.describe "Work package type configuration independence",
     end
 
     it "flashes an error for a mode the aspect does not offer" do
-      post type_configuration_independence_confirm_path(type_id: type.id, aspect: Type::ConfigurationLink::DEFAULTS),
+      post type_configuration_independence_confirm_path(type_id: type.id, aspect: TypeVariant::DEFAULTS),
            params: { mode: WorkPackageTypes::IndependentMode::DEFAULT },
            as: :turbo_stream
 
@@ -107,17 +107,18 @@ RSpec.describe "Work package type configuration independence",
   end
 
   describe "POST switch" do
-    let(:aspect) { Type::ConfigurationLink::DEFAULTS }
+    let(:aspect) { TypeVariant::DEFAULTS }
+    let(:variant) { type.default_variant }
 
     it "switches to independent, severs the link and reloads the frame" do
-      type.link!(aspect, source:)
+      link_configuration(type, source:, aspect:)
 
       post type_configuration_independence_switch_path(type_id: type.id, aspect:),
            params: { mode: WorkPackageTypes::IndependentMode::EMPTY },
            as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(type.reload).not_to be_linked(aspect)
+      expect(variant.reload).not_to be_linked(aspect)
       expect(response.body).to include("closeDialog")
       expect(response.body).to include("dispatchEvent")
       expect(response.body)
@@ -126,26 +127,26 @@ RSpec.describe "Work package type configuration independence",
     end
 
     it "flashes an error and keeps the link for an unavailable mode" do
-      type.link!(aspect, source:)
+      link_configuration(type, source:, aspect:)
 
       post type_configuration_independence_switch_path(type_id: type.id, aspect:),
            params: { mode: WorkPackageTypes::IndependentMode::DEFAULT },
            as: :turbo_stream
 
       expect(response.body).not_to include("dispatchEvent")
-      expect(type.reload).to be_linked(aspect)
+      expect(variant.reload).to be_linked(aspect)
     end
 
     it "requires admin" do
       login_as create(:user)
-      type.link!(aspect, source:)
+      link_configuration(type, source:, aspect:)
 
       post type_configuration_independence_switch_path(type_id: type.id, aspect:),
            params: { mode: WorkPackageTypes::IndependentMode::EMPTY },
            as: :turbo_stream
 
       expect(response).not_to be_successful
-      expect(type.reload).to be_linked(aspect)
+      expect(variant.reload).to be_linked(aspect)
     end
   end
 end
