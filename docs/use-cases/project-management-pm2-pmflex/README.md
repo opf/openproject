@@ -28,7 +28,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Aspect | Mapping and guidance |
 | --- | --- |
 | PM² definition | A [PM² project](../../project-management-guide/3-overview-pm2/#34-what-is-a-pm-project) is implemented as an individual OpenProject project. |
-| OpenProject implementation | [Project](../../user-guide/projects/); use a [project template](../../user-guide/projects/project-templates) to standardize the PM² setup. |
+| Representation in OpenProject | [Project](../../user-guide/projects/); use a [project template](../../user-guide/projects/project-templates) to standardize the PM² setup. |
 | Administration | Configure global defaults under [Administration → Projects → New project](../../system-admin-guide/projects/new-project/). |
 | Project configuration | Configure the required modules, members, work package types and project life cycle in a template, then [set the project as a template](../../user-guide/projects/project-templates/#create-a-project-template). |
 | Demo | [PM² demo project](https://pm2.openproject.com/projects/pm2-test) |
@@ -39,7 +39,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Aspect | Mapping and guidance |
 | --- | --- |
 | PM² definition | [Project roles](../../project-management-guide/4-project-organisation-and-roles/#42-project-organisation-layers-and-roles) define the responsibilities and decision-making authority within the PM² governance model. |
-| OpenProject implementation | [Project members with roles](../../user-guide/members/) |
+| Representation in OpenProject | [Project members with roles](../../user-guide/members/) |
 | Administration | Create project roles and assign permissions under [Administration → Users and permissions → Roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/#customize-roles-with-individual-permissions). |
 | Project configuration | Add members and assign the appropriate PM² role in the project's [Members module](../../user-guide/members/). |
 | Demo | [Members of the PM² demo project](https://pm2.openproject.com/projects/pm2-test/members) |
@@ -50,7 +50,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Aspect | Mapping and guidance |
 | --- | --- |
 | PM² definition | The [PM² project lifecycle](../../project-management-guide/3-overview-pm2/#32-the-pm-lifecycle) consists of the Initiating, Planning, Executing and Closing phases. |
-| OpenProject implementation | [Project life cycle](../../user-guide/projects/project-home/project-life-cycle) and [project timeline widget](../../user-guide/projects/project-home/project-widgets/#project-timeline-widget) |
+| Representation in OpenProject | [Project life cycle](../../user-guide/projects/project-home/project-life-cycle) and [project timeline widget](../../user-guide/projects/project-home/project-widgets/#project-timeline-widget) |
 | Administration | Define the globally available phases under [Administration → Projects → Project life cycle](../../system-admin-guide/projects/project-life-cycle/). The four PM² phases are available by default. |
 | Project configuration | [Enable the required phases](../../user-guide/projects/project-settings/project-life-cycle/) for the project. |
 | Demo | [Project overview](https://pm2.openproject.com/projects/pm2-test) |
@@ -61,7 +61,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Aspect | Mapping and guidance |
 | --- | --- |
 | PM² definition | [Phase gates and approvals](../../project-management-guide/3-overview-pm2/#326-phase-gates-and-approvals) are formal review and decision points between phases. The PM² gates are [RfP](../../project-management-guide/5-initiating-phase/#55-phase-gate-rfp-ready-for-planning), [RfE](../../project-management-guide/6-planning-phase/#69-phase-gate-rfe-ready-for-executing) and [RfC](../../project-management-guide/7-executing-phase/#76-phase-gate-rfc-ready-for-closing). |
-| OpenProject implementation | [Phase gates](../../user-guide/projects/project-home/project-life-cycle) in the project life cycle; approval activities can additionally be documented with an Approval work package and a [meeting](../../user-guide/meetings/). |
+| Representation in OpenProject | [Phase gates](../../user-guide/projects/project-home/project-life-cycle) in the project life cycle; approval activities can additionally be documented with an Approval work package and a [meeting](../../user-guide/meetings/). |
 | Administration | Configure gates together with their phases under [Administration → Projects → Project life cycle](../../system-admin-guide/projects/project-life-cycle/#add-a-phase-gate). |
 | Project configuration | [Enable the corresponding phases and gates](../../user-guide/projects/project-settings/project-life-cycle/) for the project. |
 | Demo | [List of approvals](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=67) |
@@ -72,7 +72,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Aspect | Mapping and guidance |
 | --- | --- |
 | PM² definition | [Project deliverables](../../project-management-guide/9-monitor-and-control/#910-manage-deliverables-acceptance) are the products or services produced by the project. They are formally reviewed and accepted against the criteria in the Deliverables Acceptance Plan. They are distinct from the management artefacts used to govern the project. |
-| OpenProject implementation | Deliverables are represented as [work packages](../../user-guide/work-packages/). Their acceptance criteria and status can be captured in the work package form and documented through related Approval or Decision work packages. |
+| Representation in OpenProject | Deliverables are represented as [work packages](../../user-guide/work-packages/). Their acceptance criteria and status can be captured in the work package form and documented through related Approval or Decision work packages. |
 | Administration | Create and configure a Deliverable type under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Add any required acceptance fields to its form. |
 | Project configuration | [Enable the Deliverable type and relevant custom fields](../../user-guide/projects/project-settings/work-packages/) for the project. |
 | Demo | — |
@@ -84,7 +84,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | --- | --- |
 | PM² definition | [PM² artefacts](../../project-management-guide/appendices/#e-1-pm-artefacts--activities-summary-tables-and-diagrams) document the information and decisions produced while managing a project. |
 | Included terms | [Project Initiation Request](../../project-management-guide/5-initiating-phase/#52-project-initiation-request), [Business Case](../../project-management-guide/5-initiating-phase/#53-business-case), [Project Charter](../../project-management-guide/5-initiating-phase/#54-project-charter), [Project Handbook](../../project-management-guide/6-planning-phase/#62-project-handbook), [Project Stakeholder Matrix](../../project-management-guide/6-planning-phase/#63-project-stakeholder-matrix), [Project Work Plan](../../project-management-guide/6-planning-phase/#64-project-work-plan), [Outsourcing Plan](../../project-management-guide/6-planning-phase/#65-outsourcing-plan), [Deliverables Acceptance Plan](../../project-management-guide/6-planning-phase/#66-deliverables-acceptance-plan), [Transition Plan](../../project-management-guide/6-planning-phase/#67-transition-plan), [Business Implementation Plan](../../project-management-guide/6-planning-phase/#68-business-implementation-plan), [Project Status Report](../../project-management-guide/7-executing-phase/#74-project-reporting), [Project-End Report](../../project-management-guide/8-closing-phase/#83-project-end-report), [Quality Review Report](../../project-management-guide/9-monitor-and-control/#99-manage-quality) and [Change Request](../../project-management-guide/9-monitor-and-control/#96-manage-project-change) |
-| OpenProject implementation | Each artefact is a [custom work package type](../../system-admin-guide/manage-work-packages/work-package-types/) with a pre-filled description. Artefacts can include [project attributes](../../user-guide/work-packages/edit-work-package/#project-attributes-in-work-packages) and be exported with the [PMflex Artefact PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact). |
+| Representation in OpenProject | Each artefact is a [custom work package type](../../system-admin-guide/manage-work-packages/work-package-types/) with a pre-filled description. Artefacts can include [project attributes](../../user-guide/work-packages/edit-work-package/#project-attributes-in-work-packages) and be exported with the [PMflex Artefact PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact). |
 | Administration | Create and configure artefact types under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Configure their form, project attributes, PDF templates and [automatic artefact export](../../system-admin-guide/manage-work-packages/work-package-types/#automatic-artefact-export) on the same administration page. |
 | Project configuration | [Enable the artefact work package types](../../user-guide/projects/project-settings/work-packages/#work-package-types) for the project. A project template is recommended. |
 | Demo | [List of all PM² artefacts](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=68) |
@@ -95,7 +95,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Aspect | Mapping and guidance |
 | --- | --- |
 | PM² definition | PM² uses four central project logs: the [Change Log](../../project-management-guide/appendices/#b-7-change-log), [Risk Log](../../project-management-guide/appendices/#b-8-risk-log), [Issue Log](../../project-management-guide/appendices/#b-9-issue-log) and [Decision Log](../../project-management-guide/appendices/#b-10-decision-log). They provide controlled records of changes, risks, issues and decisions throughout the project. |
-| OpenProject implementation | Change Request, Risk, Issue and Decision work packages, each displayed in a corresponding [saved work package view](../../user-guide/work-packages/work-package-table-configuration/#save-work-package-views) |
+| Representation in OpenProject | Change Request, Risk, Issue and Decision work packages, each displayed in a corresponding [saved work package view](../../user-guide/work-packages/work-package-table-configuration/#save-work-package-views) |
 | Administration | Create the required log entry types under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Create additional attributes under [Administration → Custom fields](../../system-admin-guide/custom-fields/) and add them to the corresponding forms. |
 | Project configuration | [Enable the log entry types and custom fields](../../user-guide/projects/project-settings/work-packages/) for the project, then configure and save one filtered view for each log. |
 | Demo | [Risk Log example](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) |
@@ -106,7 +106,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Aspect | Mapping and guidance |
 | --- | --- |
 | PM² definition | PM² uses meetings such as the [Planning Kick-off Meeting](../../project-management-guide/6-planning-phase/#61-planning-kick-off-meeting) and [Executing Kick-off Meeting](../../project-management-guide/7-executing-phase/#71-executing-kick-off-meeting) to align participants, review information and document decisions. |
-| OpenProject implementation | [Meetings module](../../user-guide/meetings/) |
+| Representation in OpenProject | [Meetings module](../../user-guide/meetings/) |
 | Administration | Enable Meetings by default for new projects under [Administration → Projects → New project](../../system-admin-guide/projects/new-project/#new-project-settings). |
 | Project configuration | [Enable the Meetings module](../../user-guide/projects/project-settings/modules/) for the project. |
 | Demo | [Ready for Planning meeting](https://pm2.openproject.com/projects/pm2-test/meetings/2) |
