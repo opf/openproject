@@ -737,7 +737,7 @@ RSpec.describe "API v3 Work package resource",
           end
 
           it "responds with a link per target version" do
-            hrefs = response.parsed_body.dig("_links", "targetVersions").pluck("href")
+            hrefs = parse_json(response.body, "_links/targetVersions").pluck("href")
 
             expect(hrefs)
               .to contain_exactly(api_v3_paths.version(target_version.id),
