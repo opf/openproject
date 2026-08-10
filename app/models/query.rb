@@ -33,6 +33,7 @@ class Query < ApplicationRecord
   include Timestamps
   include Highlighting
   include ManualSorting
+  include DeprecatedVersionSelect
   include Queries::Filters::AvailableFilters
 
   belongs_to :project
@@ -293,14 +294,7 @@ class Query < ApplicationRecord
   end
 
   def columns
-    column_list = if has_default_columns?
-                    column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
-                    # Adds the project column by default for cross-project lists
-                    column_list += [:project] if project.nil? && column_list.exclude?(:project)
-                    column_list
-                  else
-                    column_names
-                  end
+    column_list = column_names.presence || default_column_names
 
     # preserve the order
     column_list.filter_map { |name| displayable_columns.find { |col| col.name == name.to_sym } }
@@ -446,6 +440,13 @@ class Query < ApplicationRecord
 
   private
 
+  def default_column_names
+    names = normalize_select_names(Setting.work_package_list_default_columns)
+    # Adds the project column by default for cross-project lists
+    names += [:project] if project.nil? && names.exclude?(:project)
+    names
+  end
+
   ##
   # Determine whether there are explicit filters
   # on whether work packages from
@@ -490,7 +491,9 @@ class Query < ApplicationRecord
   def valid_sort_criteria_subset!
     available_criteria = sortable_columns.map(&:name).map(&:to_s)
 
-    sort_criteria.select! do |criteria|
+    # Assigns rather than mutating in place, as `sort_criteria` no longer hands
+    # out the stored array itself. Matches valid_column_subset! below.
+    self.sort_criteria = sort_criteria.select do |criteria|
       available_criteria.include? criteria.first.to_s
     end
   end
