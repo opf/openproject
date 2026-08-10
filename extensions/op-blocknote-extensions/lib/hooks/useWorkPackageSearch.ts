@@ -18,6 +18,7 @@ export function useWorkPackageSearch(
 
   // Used to cancel debounce in imperative search()
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingResolveRef = useRef<((results:WorkPackage[]) => void) | null>(null);
 
   // Reactive search (used by SearchDropdown)
   useEffect(() => {
@@ -63,26 +64,31 @@ export function useWorkPackageSearch(
   // Imperative search (used by BlockNote getItems — must return results immediately)
   const search = useCallback(
     (query:string):Promise<WorkPackage[]> => {
+      // A superseded call must still settle, otherwise its caller awaits forever
+      if (debounceTimerRef.current !== null) {
+        clearTimeout(debounceTimerRef.current);
+        debounceTimerRef.current = null;
+      }
+      pendingResolveRef.current?.([]);
+      pendingResolveRef.current = null;
+
       if (!query.trim()) {
         setSearchResults([]);
         return Promise.resolve([]);
       }
 
-      if (debounceTimerRef.current !== null) {
-        clearTimeout(debounceTimerRef.current);
-      }
-
       return new Promise<WorkPackage[]>((resolve, reject) => {
+        pendingResolveRef.current = resolve;
         debounceTimerRef.current = setTimeout(async () => {
           debounceTimerRef.current = null;
+          pendingResolveRef.current = null;
           try {
             const results = await searchWorkPackages(query);
             setSearchResults(results);
             resolve(results);
           } catch (error) {
             setSearchResults([]);
-            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-            reject(error);
+            reject(error instanceof Error ? error : new Error(String(error)));
           }
         }, debounce);
       });
