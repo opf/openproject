@@ -95,6 +95,7 @@ class Journal < ApplicationRecord
   MEETING_CAUSE_TYPES = %w[
     meeting_agenda_item_added
     meeting_agenda_item_removed
+    meeting_agenda_item_moved
   ].freeze
 
   VALID_CAUSE_TYPES = (%w[

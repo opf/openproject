@@ -83,6 +83,52 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
     end
   end
 
+  describe "moving a work package to another meeting" do
+    shared_let(:other_meeting) { create(:meeting, project:, author: user) }
+    let!(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, work_package:, author: user) }
+
+    it "records a cause-only journal referencing the destination meeting" do
+      expect do
+        MeetingAgendaItems::UpdateService
+          .new(user:, model: agenda_item)
+          .call(meeting_id: other_meeting.id, meeting_section: nil)
+      end.to change { work_package.journals.reload.count }.by(1)
+
+      journal = work_package.journals.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_moved")
+      expect(journal.cause_meeting_id).to eq(other_meeting.id)
+    end
+
+    it "does not journalize an update that leaves the meeting unchanged" do
+      expect do
+        MeetingAgendaItems::UpdateService
+          .new(user:, model: agenda_item)
+          .call(notes: "edited")
+      end.not_to change { work_package.journals.reload.count }
+    end
+  end
+
+  describe "moving a work package across a recurring series via drag-and-drop" do
+    shared_let(:recurring_meeting) { create(:recurring_meeting, project:) }
+    shared_let(:occurrence) { create(:recurring_meeting_occurrence, project:, recurring_meeting:) }
+    shared_let(:occurrence_section) { create(:meeting_section, meeting: occurrence) }
+    let!(:agenda_item) do
+      create(:wp_meeting_agenda_item, meeting: occurrence, meeting_section: occurrence_section, work_package:, author: user)
+    end
+
+    it "records a cause-only journal referencing the destination meeting" do
+      expect do
+        MeetingAgendaItems::DropService
+          .new(user:, meeting_agenda_item: agenda_item)
+          .call(target_id: occurrence.backlog.id, position: 1)
+      end.to change { work_package.journals.reload.count }.by(1)
+
+      journal = work_package.journals.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_moved")
+      expect(journal.cause_meeting_id).to eq(recurring_meeting.template.id)
+    end
+  end
+
   describe "visibility of the recorded journals" do
     let(:added_journal) do
       MeetingAgendaItems::CreateService

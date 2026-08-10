@@ -31,6 +31,9 @@
 module MeetingAgendaItems
   class DropService < ::BaseServices::BaseCallable
     include AfterPerformHook
+    include JournalizeWorkPackageActivity
+
+    attr_reader :user
 
     def initialize(user:, meeting_agenda_item:)
       super()
@@ -46,6 +49,8 @@ module MeetingAgendaItems
       service_call = validate_meeting_agenda_item_editable if service_call.success?
 
       service_call = perform_drop(service_call, params) if service_call.success?
+
+      journalize_move if service_call.success?
 
       # after_perform(service_call) if service_call.success? # TODO properly integrate after_perform_hook
 
@@ -92,6 +97,13 @@ module MeetingAgendaItems
     end
 
     private
+
+    def journalize_move
+      return if @old_section.meeting_id == @meeting_agenda_item.meeting_id
+
+      journalize_work_package_activity(@meeting_agenda_item,
+                                       Journal::CausedByMeetingAgendaItemMoved.new(@meeting_agenda_item.meeting))
+    end
 
     def check_and_update_section_if_changed(params)
       current_section = @meeting_agenda_item.meeting_section

@@ -1069,4 +1069,26 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       )
     end
   end
+
+  context "when the change was caused by moving the work package to another meeting" do
+    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
+    subject(:cause) do
+      {
+        "type" => "meeting_agenda_item_moved",
+        "meeting_id" => meeting.id
+      }
+    end
+
+    before do
+      allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
+      allow(meeting).to receive(:visible?).with(User.current).and_return(true)
+    end
+
+    it do
+      link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_moved')}</strong> #{link}"
+      )
+    end
+  end
 end

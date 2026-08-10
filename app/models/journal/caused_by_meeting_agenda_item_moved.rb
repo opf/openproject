@@ -28,37 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class UpdateService < ::BaseServices::Update
-    include AfterPerformHook
-    include JournalizeWorkPackageActivity
-    include Concerns::CopyAttachments
-
-    alias_method :original_after_perform, :after_perform
-
-    private
-
-    def before_perform(params)
-      @old_meeting_id = model.meeting_id if model.persisted?
-
-      super
-    end
-
-    def after_perform(call)
-      original_after_perform(call)
-
-      if call.success?
-        copy_attachments_from_meeting(call.result, @old_meeting_id)
-        journalize_move(call.result)
-      end
-
-      call
-    end
-
-    def journalize_move(agenda_item)
-      return if @old_meeting_id == agenda_item.meeting_id
-
-      journalize_work_package_activity(agenda_item, Journal::CausedByMeetingAgendaItemMoved.new(agenda_item.meeting))
-    end
+class Journal::CausedByMeetingAgendaItemMoved < CauseOfChange::Base
+  def initialize(meeting)
+    super("meeting_agenda_item_moved", "meeting_id" => meeting.id)
   end
 end
