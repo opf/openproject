@@ -30,15 +30,6 @@
 
 module WorkPackageTypes
   # Guided, multi-step creation of a work package type, or of a variant of one.
-  #
-  # Both modes are the same walk: the first step names the thing being created, and every step
-  # after it configures exactly one variant — the type's base variant when creating a type, the
-  # new named variant when adding one. `@variant` is that configuration throughout, so the later
-  # steps do not care which mode they are in.
-  #
-  # Deliberately self-contained: it never reuses the tabbed type controllers so
-  # the existing tabbed creation/editing flow keeps working unchanged next to it.
-  # The record is created after the first step and each later step persists to it (see FND-117).
   class CreationWizardController < ApplicationController
     include TypeVariantsFeature
 
@@ -54,7 +45,6 @@ module WorkPackageTypes
 
     def show; end
 
-    # Naming a type creates one; naming a type that already exists adds a variant to it.
     def new
       if params[:type_id]
         @type = ::Type.find(params.expect(:type_id))
@@ -182,12 +172,9 @@ module WorkPackageTypes
       end
     end
 
-    # The variant only reaches the path while a named one is being added: the base variant is
-    # implied by its type, and naming it would make every type-creation URL carry a redundant id.
+    # @variant is the type itself while a type is being created until there is a variant to be used
     def variant_path_args
-      return { type_id: @type.id } unless adding_variant?
-
-      { type_id: @type.id, variant_id: @variant.id }
+      adding_variant? ? @variant.path_args : { type_id: @type.id }
     end
 
     def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
@@ -196,7 +183,6 @@ module WorkPackageTypes
       @type = ::Type.find(params.expect(:type_id))
     end
 
-    # Always the configuration the later steps edit, whichever mode the wizard is in.
     def find_variant
       @variant = if params[:variant_id]
                    @type.variants.named.find(params.expect(:variant_id))
@@ -209,8 +195,6 @@ module WorkPackageTypes
       @current_step = Wizard::Steps.for_key(params[:step]) || Wizard::Steps.first
     end
 
-    # The wizard creates a type, which is identity only. Its configuration lands on the base
-    # variant the type creates for itself.
     def details_params
       params.expect(type: %i[name color_id is_milestone is_in_roadmap])
     end

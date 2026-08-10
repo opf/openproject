@@ -155,25 +155,24 @@ Rails.application.routes.draw do
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
   resources :types, module: "work_package_types", except: [:update] do
-    # Identity, and which projects use the type: properties of the type itself.
-    resource :projects, controller: "projects_tab", only: %i[update edit] do
-      collection do
-        post :enable_all, to: "projects_tab#enable_all_projects"
-      end
-    end
-
     resources :variants, controller: "variants", only: %i[destroy] do
       member do
         get :menu
       end
     end
 
-    # Everything below configures exactly one variant, so it is addressed by one. A scope
-    # rather than a nested resource: the path gains the variant, the helper names do not
-    # change, and every call site simply names which configuration it means. `nested` is what
-    # puts it under the type member rather than in front of it.
+    # Everything below is about exactly one variant, so it is addressed by one. A scope rather
+    # than a nested resource: the path gains the variant, the helper names do not change, and
+    # every call site simply names which configuration it means. `nested` is what puts it under
+    # the type member rather than in front of it.
     nested do
       scope "(variants/:variant_id)" do
+        resource :projects, controller: "projects_tab", only: %i[update edit] do
+          collection do
+            post :enable_all, to: "projects_tab#enable_all_projects"
+          end
+        end
+
         resource :details, controller: "details_tab", only: %i[update edit]
 
         resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
@@ -255,8 +254,6 @@ Rails.application.routes.draw do
           end
         end
 
-        # The wizard configures one variant too: the type's base one when creating a type, the
-        # new named one when adding a variant to an existing type.
         resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
       end
     end

@@ -31,11 +31,8 @@
 module ::TypesHelper
   include CustomFieldsHelper
 
-  # Every tab but Projects addresses the variant in force, so that moving between them keeps
-  # editing the same one instead of falling back to the base.
   # rubocop:disable Rails/HelperInstanceVariable
   def types_tabs
-    type_args = { type_id: @type.id }
     variant_args = type_variant_tab_args
 
     [
@@ -66,7 +63,7 @@ module ::TypesHelper
       },
       {
         name: "projects",
-        path: edit_type_projects_path(**type_args),
+        path: edit_type_projects_path(**variant_args),
         label: I18n.t("types.edit.projects.tab")
       },
       {
@@ -78,11 +75,8 @@ module ::TypesHelper
     ]
   end
 
-  # The base variant is implied by its type, so only a named one reaches the path.
   def type_variant_tab_args
-    return { type_id: @type.id } if @variant.nil? || @variant.is_default_variant?
-
-    { type_id: @type.id, variant_id: @variant.id }
+    @variant&.path_args || { type_id: @type.id }
   end
   # rubocop:enable Rails/HelperInstanceVariable
 

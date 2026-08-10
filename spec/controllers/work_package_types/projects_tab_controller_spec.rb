@@ -144,6 +144,92 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
         end
       end
 
+      # A ticked project is one applying the variant the tab addresses, so where the project
+      # stands on the type decides which service runs for it.
+      context "on a named variant's tab", with_flag: { type_variants: true } do
+        let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
+        let(:params) do
+          {
+            "type_id" => type.id,
+            "variant_id" => variant.id,
+            "type" => { "project_ids" => project_ids.to_json }
+          }
+        end
+
+        it "redirects to the variant's own projects tab" do
+          update_projects
+
+          expect(response).to redirect_to(edit_type_projects_path(type_id: type.id, variant_id: variant.id))
+        end
+
+        it "puts a project that does not use the type on this variant" do
+          update_projects
+
+          expect(project.reload.type_variant(type)).to eq(variant)
+        end
+
+        context "when the project applies another variant of the type" do
+          let(:other_variant) { create(:type_variant, type:, variant_name: "Firmware") }
+
+          before { create(:project_type, project:, type:, variant: other_variant) }
+
+          it "switches it over rather than adding a second row" do
+            update_projects
+
+            expect(project.project_types.where(type_id: type.id).count).to eq(1)
+            expect(project.reload.type_variant(type)).to eq(variant)
+          end
+        end
+
+        context "when a project applying this variant is unticked" do
+          let(:project_ids) { [] }
+
+          before { create(:project_type, project:, type:, variant:) }
+
+          it "drops the type from the project" do
+            update_projects
+
+            expect(project.reload.types).not_to include(type)
+          end
+        end
+
+        context "when another variant's project holds work packages of the type" do
+          let(:other_variant) { create(:type_variant, type:, variant_name: "Firmware") }
+          let(:sibling_project) { create(:project) }
+
+          before do
+            create(:project_type, project: sibling_project, type:, variant: other_variant)
+            create(:work_package, project: sibling_project, type:)
+          end
+
+          it "leaves it alone" do
+            update_projects
+
+            expect(response).to redirect_to(edit_type_projects_path(type_id: type.id, variant_id: variant.id))
+            expect(sibling_project.reload.type_variant(type)).to eq(other_variant)
+          end
+        end
+      end
+    end
+
+    describe "POST enable_all" do
+      before { project }
+
+      it "puts every project on the base variant" do
+        post :enable_all_projects, params: { type_id: type.id, value: "1" }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(project.reload.type_variant(type)).to eq(type.default_variant)
+      end
+
+      it "drops the type everywhere when toggled off" do
+        create(:project_type, project:, type:)
+
+        post :enable_all_projects, params: { type_id: type.id, value: "0" }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(project.reload.types).not_to include(type)
+      end
     end
   end
 end

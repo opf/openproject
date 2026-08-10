@@ -49,7 +49,7 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request, with_fl
   end
 
   it "renders the projects tab" do
-    get edit_type_projects_path(type_id: type.id)
+    get edit_type_projects_path(type_id: type.id, variant_id: variant.id)
     expect(response).to have_http_status(:ok)
   end
 

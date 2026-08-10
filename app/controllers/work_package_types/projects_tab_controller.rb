@@ -42,57 +42,72 @@ module WorkPackageTypes
     def edit; end
 
     def update
-      result = sync_projects(permitted_project_params[:project_ids])
+      result = sync_projects(desired_project_ids)
 
       if result.success?
-        redirect_to edit_type_projects_path(@type), notice: I18n.t(:notice_successful_update)
+        redirect_to edit_type_projects_path(**@variant.path_args), notice: I18n.t(:notice_successful_update)
       else
-        flash_error(result, permitted_project_params[:project_ids])
+        flash_error(result, desired_project_ids)
         load_projects
         render :edit, status: :unprocessable_entity
       end
     end
 
     def enable_all_projects
-      project_ids = if params[:value] == "1"
-                      @projects.pluck(:id).map(&:to_s)
-                    else
-                      []
-                    end
-
-      result = sync_projects(project_ids)
+      desired = params[:value] == "1" ? @projects.pluck(:id) : []
+      result = sync_projects(desired)
 
       if result.success?
-        replace_via_turbo_stream(component: ProjectsComponent.new(@type, projects: @projects))
+        replace_via_turbo_stream(component: ProjectsComponent.new(@type, variant: @variant, projects: @projects))
         respond_with_turbo_streams
       else
-        flash_error(result, project_ids)
+        flash_error(result, desired)
         render :edit, status: :unprocessable_entity
       end
     end
 
     private
 
-    # Written one project at a time through Projects::Types, rather than by assigning
-    # Type#project_ids: a project_types row names a variant as well as a type, so the row a
-    # plain assignment builds has none. The services also own the rule that a project applies
-    # at most one variant per type, which is why enabling this type somewhere another of its
-    # variants is already in force fails here instead of silently taking over.
-    def sync_projects(project_ids)
-      desired_project_ids = Array(project_ids).compact_blank.map(&:to_i)
-      enabled_project_ids = @type.projects.pluck(:id)
+    # Updates one project at a time through Projects::Types
+    #
+    # A checked project is applying this variant, resulting in three cases:
+    # 1. Adding a new type with this variant
+    # 2. Switching another variant
+    # 3. Removing when unchecked (only possible if no work packages exist)
+    def sync_projects(desired)
+      applying = @variant.projects.pluck(:id)
+      using_type = @type.projects.pluck(:id)
 
       ServiceResult.success(result: @type).tap do |aggregated|
-        apply(aggregated, ::Projects::Types::AddService, desired_project_ids - enabled_project_ids)
-        apply(aggregated, ::Projects::Types::RemoveService, enabled_project_ids - desired_project_ids)
+        add_variant(aggregated, desired - using_type)
+        switch_variant(aggregated, (desired & using_type) - applying)
+        remove_type(aggregated, applying - desired)
       end
     end
 
-    def apply(aggregated, service_class, project_ids)
+    def add_variant(aggregated, project_ids)
+      apply(aggregated, project_ids) do |project|
+        ::Projects::Types::AddService.new(user: current_user, model: project).call(variant: @variant)
+      end
+    end
+
+    def switch_variant(aggregated, project_ids)
+      apply(aggregated, project_ids) do |project|
+        ::Projects::Types::SwitchVariantService
+          .new(user: current_user, model: project)
+          .call(source: project.type_variant(@type), target: @variant)
+      end
+    end
+
+    def remove_type(aggregated, project_ids)
+      apply(aggregated, project_ids) do |project|
+        ::Projects::Types::RemoveService.new(user: current_user, model: project).call(variant: @variant)
+      end
+    end
+
+    def apply(aggregated, project_ids)
       Project.where(id: project_ids).find_each do |project|
-        aggregated.add_dependent!(
-          service_class.new(user: current_user, model: project).call(variant: @type.default_variant)
-        )
+        aggregated.add_dependent!(yield(project))
       end
     end
 
@@ -119,14 +134,15 @@ module WorkPackageTypes
       @projects = Project.all
     end
 
-    def permitted_project_params
-      # TODO: once the input is correctly delivered just return: params.expect(type: [:project_ids])
-
-      { project_ids: JSON.parse(params.expect(type: [:project_ids])[:project_ids]) }
+    # TODO: once the input is correctly delivered, read params.expect(type: [:project_ids])
+    # directly instead of parsing it out of a JSON string.
+    def desired_project_ids
+      @desired_project_ids ||=
+        Array(JSON.parse(params.expect(type: [:project_ids])[:project_ids])).compact_blank.map(&:to_i)
     end
 
-    def deactivated_project_ids_with_work_packages(project_ids)
-      deactivated_project_ids = @type.projects.pluck(:id) - Array(project_ids).compact_blank.map(&:to_i)
+    def deactivated_project_ids_with_work_packages(desired)
+      deactivated_project_ids = @variant.projects.pluck(:id) - desired
 
       WorkPackage
         .where(type_id: @type.id, project_id: deactivated_project_ids)
