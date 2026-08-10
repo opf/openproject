@@ -1,0 +1,74 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%= component_wrapper(**wrapper_data_attrs) do %>
+  <% if action_required? %>
+    <%= render(WorkPackages::Admin::Settings::NoticeBoxComponent.new(heading: scoped_t(:"planned_changes.heading"))) do |box| %>
+      <% box.with_row(icon: :info) { scoped_t(:"planned_changes.renamed") } %>
+      <% box.with_row(icon: :info) { scoped_t(:"planned_changes.single_value") } %>
+    <% end %>
+
+    <%= render(WorkPackages::Admin::Settings::NoticeBoxComponent.new(heading: scoped_t(:"action_required.heading"), mt: 3)) do |box| %>
+      <% if multiple_versions_writable? %>
+        <% box.with_row(icon: :tools) { scoped_t(:"action_required.manual_conversion_hint") } %>
+      <% else %>
+        <% box.with_row(icon: :alert) { scoped_t(:"action_required.not_writable_hint") } %>
+      <% end %>
+    <% end %>
+
+    <% if multiple_versions_writable? %>
+      <%=
+        render(
+          Primer::Beta::Button.new(
+            tag: :a,
+            scheme: :secondary,
+            mt: 3,
+            href: confirm_dialog_admin_settings_versions_and_categories_path,
+            data: { turbo_stream: true }
+          )
+        ) { scoped_t(:"action_required.button") }
+      %>
+    <% end %>
+  <% elsif in_progress? %>
+    <%= render(OpPrimer::InsetBoxComponent.new) do %>
+      <%= render(Primer::Box.new(display: :flex, align_items: :center)) do %>
+        <%= render(Primer::Beta::Spinner.new(size: :small, mr: 2)) %>
+        <%= render(Primer::Beta::Text.new(font_weight: :bold)) { scoped_t(:"in_progress.heading") } %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= render(WorkPackages::Admin::Settings::NoticeBoxComponent.new(heading: scoped_t(:"recent_changes.heading"))) do |box| %>
+      <% box.with_row(icon: :check, color: :success) { scoped_t(:"recent_changes.renamed") } %>
+      <% box.with_row(icon: :check, color: :success) { scoped_t(:"recent_changes.multiple_values") } %>
+      <% box.with_row(icon: :info) { scoped_t(:"recent_changes.documentation_html", link: documentation_url) } %>
+    <% end %>
+  <% end %>
+<% end %>
