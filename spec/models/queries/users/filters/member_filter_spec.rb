@@ -37,33 +37,42 @@ RSpec.describe Queries::Users::Filters::MemberFilter do
     let(:name) { I18n.t(:label_member_of_project) }
   end
 
-  describe "#allowed_values" do
+  describe "the project values" do
     shared_let(:public_project) { create(:public_project) }
     shared_let(:private_project) { create(:project) }
-    shared_let(:archived_project) { create(:public_project, active: false) }
     shared_let(:user) { create(:user, member_with_permissions: { private_project => %i[view_work_packages] }) }
 
-    subject(:allowed_ids) do
-      described_class.create!(name: :member, operator: "=", values: []).allowed_values.map(&:last)
-    end
+    let(:instance) { described_class.create!(name: :member, operator: "=", values: [private_project.id.to_s]) }
+
+    before { login_as(user) }
 
     it "offers the projects the current user may see" do
-      login_as(user)
-
-      expect(allowed_ids).to contain_exactly(public_project.id, private_project.id)
+      expect(instance.allowed_values.map(&:last))
+        .to contain_exactly(public_project.id.to_s, private_project.id.to_s)
     end
 
     it "omits projects the current user cannot see" do
       login_as(create(:user))
 
-      expect(allowed_ids).to contain_exactly(public_project.id)
+      expect(instance.allowed_values.map(&:last)).to contain_exactly(public_project.id.to_s)
     end
 
-    it "omits archived projects even for an admin" do
-      login_as(create(:admin))
+    it "resolves the selected values to visible projects" do
+      expect(instance.value_objects).to contain_exactly(private_project)
+    end
 
-      expect(allowed_ids).to include(public_project.id, private_project.id)
-      expect(allowed_ids).not_to include(archived_project.id)
+    # The UI picks projects through the autocompleter, so the filter does not have
+    # to enumerate them for validation.
+    it "is validated as a list of integers rather than against the project list" do
+      expect(instance.type_strategy).to be_a(Queries::Filters::Strategies::IntegerListOptional)
+      expect(described_class.create!(name: :member, operator: "=", values: ["-42"])).to be_valid
+    end
+
+    it "autocompletes against the active projects" do
+      expect(instance.autocomplete_options)
+        .to include(component: "opce-project-autocompleter",
+                    resource: "projects",
+                    filters: [{ name: "active", operator: "=", values: ["t"] }])
     end
   end
 

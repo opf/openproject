@@ -28,24 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Mirrors Queries::Principals::Filters::MemberFilter for user queries. The
-# enclosing query's default scope already restricts visibility, so membership is
-# the only condition applied here.
 class Queries::Users::Filters::MemberFilter < Queries::Users::Filters::UserFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
+
   def self.key
     :member
   end
 
-  def type
-    :list_optional
-  end
-
   def human_name
     I18n.t(:label_member_of_project)
-  end
-
-  def allowed_values
-    Project.visible.active.pluck(:name, :id)
   end
 
   def apply_to(query_scope)
