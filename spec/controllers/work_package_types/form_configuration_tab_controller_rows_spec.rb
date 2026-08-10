@@ -36,7 +36,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
 
   before do
     allow(User).to receive(:current).and_return(user)
-    type.update_column(:attribute_groups, [[:details, %w[priority version]]])
+    type.update_column(:attribute_groups, [[:details, %w[priority category]]])
   end
 
   describe "PUT #drop", with_ee: %i[edit_attribute_groups] do
@@ -49,11 +49,10 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
       expect(type.reload.attribute_groups.flat_map(&:members)).not_to include("priority")
     end
 
-    it "moves the row into another active section at the requested position",
-       with_settings: { work_package_multiple_versions: false } do
+    it "moves the row into another active section at the requested position" do
       type.update_column(:attribute_groups, [
                            [:details, %w[priority]],
-                           ["Custom group", %w[version]]
+                           ["Custom group", %w[category]]
                          ])
 
       put :drop,
@@ -63,7 +62,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
       expect(response).to have_http_status(:ok)
 
       target_group = type.reload.attribute_groups.find { |group| group.key == "Custom group" }
-      expect(target_group.members).to eq(%w[priority version])
+      expect(target_group.members).to eq(%w[priority category])
     end
   end
 end

@@ -322,6 +322,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       end
     end
 
+    describe "with multiple versions enabled",
+             with_settings: { work_package_multiple_versions: true } do
+      it "renders the target versions attribute instead of the deprecated version" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+
+        expect(result).to include("#{WorkPackage.human_attribute_name(:target_versions)} #{version.name}")
+      end
+    end
+
     describe "with faulty images" do
       before do
         # simulate a null pointer exception
