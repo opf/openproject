@@ -200,6 +200,10 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
+      llm_model:
+        display_name: "Display name"
+        # human_attribute_name strips the _id suffix, so the key omits it.
+        external: "Model name"
       llm_capability_verdict:
         capability: "Capability"
         model_id: "Model"
@@ -1449,20 +1453,32 @@ en:
       delete_api_key:
         success: "The API key has been removed."
       models:
-        blank_description: "Save the connection to retrieve the models the server offers."
-        blank_title: "No models retrieved yet"
+        blank_description: "The server reported no models. If it does not offer a model list, add the model names you want to use below."
+        blank_title: "No models available"
         context_window: "Context window"
         identifier: "Model"
+        source: "Source"
+        source_discovered: "Reported by server"
+        source_manual: "Added manually"
+        source_withdrawn: "No longer reported"
       refresh_models:
         failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
         success: "The model list has been refreshed."
       show:
+        add_model_description: "If the server does not expose a model list, enter the model name exactly as the server expects it. Manually added models are kept when the list is refreshed."
+        add_model_heading: "Add a model manually"
+        add_model_submit: "Add model"
         description: "Connect OpenProject to a server that speaks the OpenAI API, so AI features can use it."
         models_description: "Reported by the server on %{fetched_at}."
         models_heading: "Available models"
         refresh_models: "Refresh models"
       update:
         success: "Successfully connected to the LLM server."
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        success: "%{model} has been removed."
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."

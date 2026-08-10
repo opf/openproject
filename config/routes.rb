@@ -696,6 +696,9 @@ Rails.application.routes.draw do
       delete :api_key, action: :delete_api_key
     end
 
+    # Manual entries only; discovered models are managed by the sync.
+    resources :llm_models, only: %i[create destroy], controller: "admin/llm_models"
+
     # Keyed by feature key rather than by record id: the binding is an attribute
     # of a registered feature, and a feature may not have a row yet.
     resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
