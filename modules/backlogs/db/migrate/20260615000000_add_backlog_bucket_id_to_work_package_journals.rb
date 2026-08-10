@@ -31,5 +31,31 @@
 class AddBacklogBucketIdToWorkPackageJournals < ActiveRecord::Migration[8.1]
   def change
     add_reference :work_package_journals, :backlog_bucket, foreign_key: { on_delete: :nullify }
+
+    # Buckets predate this column, so historical journals have no record of
+    # when a work package's bucket was actually set. We cannot reconstruct
+    # that history, so we pragmatically backfill every journal of a work
+    # package that currently has a bucket with that same, current bucket.
+    # This makes it look as if the bucket had been set since the work
+    # package's creation, but means no spurious "bucket set" change will show
+    # up until the bucket is actually changed going forward. On rollback the
+    # column goes away, so nothing to undo here.
+    reversible do |dir|
+      dir.up do
+        say_with_time "Backfilling work_package_journals.backlog_bucket_id from the work package's current bucket" do
+          execute(<<~SQL.squish)
+            UPDATE work_package_journals
+            SET backlog_bucket_id = work_packages.backlog_bucket_id
+            FROM journals
+            INNER JOIN work_packages
+              ON work_packages.id = journals.journable_id
+             AND journals.journable_type = 'WorkPackage'
+            WHERE journals.data_id = work_package_journals.id
+              AND journals.data_type = 'Journal::WorkPackageJournal'
+              AND work_packages.backlog_bucket_id IS NOT NULL
+          SQL
+        end
+      end
+    end
   end
 end
