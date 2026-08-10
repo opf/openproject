@@ -21,6 +21,15 @@
   "files": [
     "dist"
   ],
+  "buildExternals": [
+    "react",
+    "react-dom",
+    "@blocknote/core",
+    "@blocknote/react",
+    "@blocknote/mantine",
+    "yjs",
+    "use-sync-external-store"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -b tsconfig.lib.json",

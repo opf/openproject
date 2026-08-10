@@ -1,8 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
+import { readFileSync } from 'node:fs';
 
 const __dirname = path.resolve();
+
+const { buildExternals } = JSON.parse(
+  readFileSync(path.resolve(__dirname, 'package.json'), 'utf8'),
+) as { buildExternals:string[] };
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,16 +23,8 @@ export default defineConfig({
       fileName: (format, entryName) => `${entryName}.${format}.js`,
     },
     rollupOptions: {
-      // Externalize deps that shouldn't be bundled
-      external: [
-        /^react(\/|$)/,
-        /^react-dom(\/|$)/,
-        '@blocknote/core',
-        '@blocknote/react',
-        '@blocknote/mantine',
-        'yjs',
-        /^use-sync-external-store(\/|$)/,
-      ],
+      // Externalize deps that shouldn't be bundled, including their subpaths
+      external: buildExternals.map((name) => new RegExp(`^${name}(/|$)`)),
     },
   },
 });
