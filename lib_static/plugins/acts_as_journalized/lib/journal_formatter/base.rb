@@ -103,6 +103,10 @@ module JournalFormatter
              new: value)
     end
 
+    # @param options [Hash] the rendering options.
+    # @option options [Symbol, Proc] :permission a permission to check via
+    #   User.current.allowed_in_project?, or a lambda/proc performing a custom
+    #   permission check, instance_exec'd against this formatter.
     def permission_denied?(options)
       permission = options[:permission]
       return false unless permission
