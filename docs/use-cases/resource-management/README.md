@@ -16,9 +16,9 @@ OpenProject brings resource planning together with project planning and executio
 
 If your organization manages many projects simultaneously, **[Portfolio management](../portfolio-management)** provides a strategic overview of projects and initiatives. This use case focuses on the operational side: planning and allocating the people who deliver that work.
 
-## Before you start
+## 1. Build the foundation
 
-Successful resource planning depends on accurate organizational information.
+Resource management starts with understanding who is available, what they can contribute, and how much capacity they have. Successful resource planning depends on accurate organizational information.
 
 Before creating resource plans, configure:
 
@@ -29,17 +29,7 @@ Before creating resource plans, configure:
 
 Keeping this information up to date ensures capacity planning reflects reality rather than assumptions.
 
-> [!TIP]
-> Before introducing Resource management, decide who is responsible for maintaining organizational data, creating resource plans, and staffing projects. Clear ownership helps keep your planning accurate and up to date.
-
-
-## 1. Build the foundation
-
-Resource management starts with understanding who is available, what they can contribute, and how much capacity they have.
-
-### Organize your people
-
-#### Specify roles and permissions
+### Specify roles and permissions
 
 Before you start planning resources, make sure that appropriate **[roles and permissions](../../system-admin-guide/users-permissions/)** are set up in OpenProject.
 
@@ -50,7 +40,7 @@ Ensure that each role has the permissions needed for its responsibilities and ac
 > [!TIP]
 > Keep responsibilities clear. Decide who can create and adjust resource allocations and who only needs to view capacity and availability.
 
-#### Specify organizational structure
+### Specify organizational structure
 
 Create departments that reflect your organization, such as Engineering, Marketing, Customer Success, or Professional Services.
 
@@ -59,7 +49,7 @@ Navigate to **[System administration → Users and permissions → Organization]
 
 Departments can also be added directly to projects and assigned global roles, making it easier to manage access for groups of users.
 
-#### Define user attributes and key user skills
+### Define user attributes and key user skills
 
 Navigate to **[System administration → Users and permissions → User attributes](../../system-admin-guide/users-permissions/user-attributes/)** to create and group attributes that describe your users and help identify suitable people when staffing projects.
 
@@ -95,21 +85,21 @@ Planning against effective availability helps create realistic resource plans an
 
 ![User working schedule in OpenProject showing weekly working hours and availability for project work](openproject_use_case_user_profile_work_schedule_tab.png)
 
-## 2. Set up  your project
+## 2. Set up your project
 
-Before allocating resources, define the work that needs to be done.
+Before allocating resources, create or open the relevant project and make sure the **Resource management** module is activated under the project settings.
 
-Use OpenProject's **[Work packages](../../user-guide/work-packages/)** to break the project down into tasks and plan the desired timeline. At this stage, you can define the work and target dates without necessarily knowing who will perform each task.
+Before allocating resources, define the work that needs to be done. 
+
+Use OpenProject's **[Work packages](../../user-guide/work-packages/)** to break the project down into tasks and plan the desired timeline. At this stage, define the work and target dates. You do not need to know who will perform each task yet, resource requirements and staffing can be planned in the next steps.
 
 For example, imagine you are organizing the **Annual Customer Conference 2026**. Create a project for the conference and add the required activities as work packages, such as defining the event concept, preparing the venue, creating the event website, running the registration campaign, and testing the registration workflow.
 
 Set the planned start and finish dates for these work packages so that the resource requirements can later be evaluated against people's availability.
 
-Finally, make sure the **Resource management** module is activated under the project settings.
-
 ![Annual Customer Conference 2026 project in OpenProject showing planned work packages and their dates](openproject_use_case_work_packages.png) 
 
-## 3. Plan your team's capacity
+## 3. Plan resource allocations
 
 Once the work and timeline are defined, open the **Resource management** module.
 
@@ -136,7 +126,6 @@ Using filter criteria is useful when you know **what capabilities you need**, bu
 
 ### Define the resource requirements
 
-
 For example, the work package **Define event concept and format** requires 12 hours of work between August 10 and August 14.
 
 If you cannot immediately assign a specific person, define the requirements for the resource:
@@ -147,19 +136,37 @@ If you cannot immediately assign a specific person, define the requirements for 
 - **Required capacity:** 12 hours
 - **Period:** August 10–14
 
-OpenProject can use these criteria together with user availability to help identify suitable people for the work.
+These criteria are later used to identify users who match the requirements and evaluate their availability.
 
-![Resource request for Define event concept and format requiring event planning skills, English and French language skills, and 12 hours of capacity]resource-management-planner-allocation-form-options-filters.png)
+![Resource request for Define event concept and format requiring event planning skills, English and French language skills, and 12 hours of capacity](resource-management-planner-allocation-form-options-filters.png)
 
 ### Review open resource requests
 
-After saving the allocation, the requirement appears in the Resource planner as an open resource request.
+After saving, the allocation appears in the Resource planner as an **open resource allocation request**. It is also available in the **Staffing** view, where open requests can later be matched with suitable people.
 
-This allows you to plan the required capacity before deciding on a specific assignee. The request remains connected to the work package and its planned time period, making outstanding staffing needs visible alongside already allocated work.
+This allows you to plan the required capacity before deciding on a specific person. The request remains connected to the work package and its planned time period, making outstanding resource needs visible alongside allocations that have already been staffed.
 
-![Resource planner showing an open resource request for the Define event concept and format work package]()
+![Resource planner showing open resource requests in OpenProject resource management module](openproject_use_case_rm_open_allocations.png)
 
-As you add allocations and staff resource requests, the Resource planner compares planned work with each person's effective availability. This helps you identify:
+As you add resource allocations, the Resource planner gives you an overview of planned demand. You can see which work already has a specific person allocated and which resource requirements still need to be staffed.
+
+## 4. Staff your projects
+
+Once resource requirements have been planned, use **Staffing** to resolve open resource requests. Click **Staffing** in the left-hand menu to see all current requests.
+
+![Staffing view showing suitable resources for an open resource request](openproject_use_case_rm_staffing_list.png)
+
+Open a resource request to review potential matches. OpenProject automatically matches the requirements defined in the request with your users and shows their availability during the requested period. If a user meets the requirements but does not have enough capacity for the requested hours, a warning indicates the conflict.
+
+Use this information to decide whether to adjust existing allocations, change the requested period or capacity, or select another suitable person. Once you have found the right match, select the user and assign them to the resource request. 
+
+![Staffing view showing suitable resources for an open resource request](openproject_use_case_rm_allocation_details_open.png)
+
+Once the request is staffed, the selected person is added to the resource allocation. Return to the Resource planner to see the updated allocation in the context of the overall project plan.
+
+![Resource planner showing staffed allocations and available capacity](openproject_use_case_resource_planner_allocations.png)
+
+As you staff additional requests, use the Resource planner to identify:
 
 - People who are overallocated
 - Remaining capacity
@@ -167,23 +174,9 @@ As you add allocations and staff resource requests, the Resource planner compare
 - Work that still needs to be staffed
 - Opportunities to redistribute work
 
-## 4. Staff your projects
+## 5. Turn plans into project work
 
-Project planning often begins before every team member has been identified.
-
-Instead of assigning work immediately, create resource requests describing the required qualifications or role. Resource managers can then review these requests and match them with suitable people based on their availability and user attributes.
-
-This separates project planning from staffing decisions while providing visibility into future resource needs.
-
-As priorities change, allocations can be adjusted, reassigned, or redistributed to maintain balanced workloads across projects.
-
-
-
-## 5. Turn plans into scheduled work
-
-Once resources have been allocated, translate the plan into executable work.
-
-Use the **Resource planners** to schedule work packages, coordinate assignments, and balance workloads over time. This gives team leads and project managers a clear view of who is working on what and when.
+Once resources have been allocated and staffing decisions are made, assign the corresponding work packages to the selected team members.
 
 Work packages remain the central place for managing project execution, including:
 
@@ -192,21 +185,21 @@ Work packages remain the central place for managing project execution, including
 - Managing dependencies
 - Tracking estimates and remaining work
 
-Because planning and execution happen in the same platform, changes to schedules or priorities can easily be reflected in resource planning.
-
-
+![A detailed view of a work package, showing assignee, accountable, work estimates](openproject_use_case_rm_wp_detailed_view.png)
 
 ## 6. Monitor progress and actual effort
 
 Resource planning is an ongoing process rather than a one-time activity.
 
-As work progresses, team members update their work packages, report progress, and record spent time where applicable.
+As work progresses, team members update their work packages, [report progress](../../user-guide/time-and-costs/progress-tracking/), and [record spent time](../../user-guide/time-and-costs/time-tracking/) where applicable.
 
-Project managers can monitor delivery using OpenProject's progress tracking capabilities and compare planned work with actual effort. Time tracking and reporting provide additional insights into resource utilization, helping teams identify trends and improve future planning.
+Comparing planned capacity with actual effort can help you identify where estimates differ from reality and make more informed resource plans for future work. 
 
+[Time and cost tracking](../..//user-guide/time-and-costs/) and reporting provide additional insights into resource utilization, helping teams identify trends and improve future planning. 
 
+Use these insights when reviewing upcoming allocations and capacity in your Resource planners.
 
-## 7. Continuously optimize your plans
+## 7. Review and adjust your resource plans
 
 Projects, priorities, and team availability change over time.
 
@@ -222,24 +215,23 @@ Because resource planning, project execution, and reporting are connected, adjus
 
 ## Outcome
 
-By combining organizational data, capacity planning, project execution, and reporting in one platform, OpenProject helps organizations make informed staffing decisions and deliver projects with greater confidence.
+You now have a resource plan that connects project demand with the people and capacity available to deliver it. Resource requirements are visible early, open requests can be matched with suitable people based on their skills and availability, and potential capacity conflicts can be identified before they affect project delivery.
 
-Project managers gain realistic insight into available capacity before committing work. Resource managers can coordinate staffing across teams, while team members benefit from balanced workloads and transparent planning.
+As work progresses, you can review allocations alongside actual effort and changing availability, and adjust your resource plans when priorities, schedules, or staffing needs change.
 
-## Related features
+## Related resources
 
 Resource management works together with several other OpenProject capabilities:
 
-- **Portfolio management** for strategic oversight across projects and initiatives.
-- **Team planner** for scheduling and coordinating day-to-day work.
-- **Work packages** for managing project execution.
-- **Time tracking and costs** for analyzing actual effort and utilization.
-- **Progress tracking** for monitoring project delivery.
+- [**Portfolio management**](../../user-guide/portfolios/) for strategic oversight across projects and initiatives.
+- [**Work packages**](../../user-guide/work-packages/) for managing project execution.
+- [**Time tracking and costs**](../../user-guide/time-and-costs/time-tracking/)  for analyzing actual effort and utilization.
+- [**Progress tracking**](../../user-guide/time-and-costs/progress-tracking/) for monitoring project delivery.
 
 Together, these capabilities support the complete lifecycle from planning capacity to delivering successful projects.
 
 ## Summary
 
-Resource management helps organizations match available capacity with project demand. By organizing users, defining availability, planning allocations, staffing projects, scheduling work, and reviewing actual effort, teams can make more informed planning decisions and adapt as priorities evolve.
+Resource management helps organizations match available capacity with project demand. By organizing users, defining availability, planning allocations, staffing projects, assigning work, and reviewing actual effort, teams can make more informed planning decisions and adapt as priorities evolve.
 
 OpenProject connects these activities in a single platform, reducing manual coordination and providing a shared, up-to-date view of people, projects, and capacity. While **Portfolio management** supports strategic decision-making across projects, **Resource management** focuses on ensuring the right people are available to deliver the work successfully.
