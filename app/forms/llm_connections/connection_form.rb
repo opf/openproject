@@ -46,7 +46,9 @@ module LlmConnections
         input_width: :medium,
         disabled: read_only?
       ) do |select|
-        Llm::Adapters::FORMATS.each do |format|
+        # Only formats a request can actually be sent in. The contract rejects
+        # the rest as a backstop, but they should not be offered in the first place.
+        Llm::Adapters::FORMATS.select { |format| Llm::Session.supports?(format) }.each do |format|
           select.option(value: format, label: I18n.t("llm.api_formats.#{format}"))
         end
       end

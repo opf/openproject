@@ -52,6 +52,64 @@ module LlmServerHelpers
     )
   end
 
+  DEFAULT_CHAT_BODY = {
+    id: "chatcmpl-test",
+    object: "chat.completion",
+    model: "qwen3.6-27b",
+    choices: [{ index: 0, message: { role: "assistant", content: "pong" }, finish_reason: "stop" }],
+    usage: { prompt_tokens: 1, completion_tokens: 1, total_tokens: 2 }
+  }.freeze
+
+  # Stubs POST <base_url>/chat/completions.
+  #
+  # Note that RubyLLM retries POSTs up to max_retries times on 429 and 5xx, so a
+  # spec stubbing one of those against a session built with the default
+  # max_retries sees more than one request. Build the session with an explicit
+  # max_retries when the request count matters.
+  def mock_llm_chat_response(base_url,
+                             content: "pong",
+                             response_code: 200,
+                             body: nil,
+                             timeout: false)
+    stub = stub_request(:post, "#{base_url.chomp('/')}/chat/completions")
+
+    return stub.to_timeout if timeout
+
+    payload = body || DEFAULT_CHAT_BODY.merge(
+      choices: [{ index: 0, message: { role: "assistant", content: }, finish_reason: "stop" }]
+    ).to_json
+
+    stub.to_return(
+      status: response_code,
+      headers: { "Content-Type" => "application/json" },
+      body: payload.is_a?(String) ? payload : payload.to_json
+    )
+  end
+
+  # Stubs POST <base_url>/embeddings, returning a vector of the requested size.
+  def mock_llm_embeddings_response(base_url,
+                                   dimensions: 4,
+                                   response_code: 200,
+                                   body: nil,
+                                   timeout: false)
+    stub = stub_request(:post, "#{base_url.chomp('/')}/embeddings")
+
+    return stub.to_timeout if timeout
+
+    payload = body || {
+      object: "list",
+      model: "bge-m3",
+      data: [{ object: "embedding", index: 0, embedding: Array.new(dimensions) { 0.1 } }],
+      usage: { prompt_tokens: 1, total_tokens: 1 }
+    }
+
+    stub.to_return(
+      status: response_code,
+      headers: { "Content-Type" => "application/json" },
+      body: payload.is_a?(String) ? payload : payload.to_json
+    )
+  end
+
   # example.com resolves publicly, but a spec that needs a literal or private
   # host has to say so explicitly rather than opening the allowlist to 0.0.0.0/0.
   def allow_llm_host(*hosts)

@@ -36,35 +36,17 @@ module Llm
   # and what every OpenAI client library expects. This client only appends the
   # endpoint path.
   #
-  # Errors are raised as a small taxonomy so that callers can map them onto
-  # per-attribute contract errors rather than leaking transport detail into the UI.
-  # Response bodies are never included in error messages: an OpenAI-compatible
-  # gateway routinely echoes the submitted Authorization header, upstream provider
-  # URLs and internal hostnames in its error payloads.
+  # Errors come from Llm::Errors, which is shared with the RubyLLM-backed
+  # inference path. They are aliased here because every existing caller rescues
+  # them by their Llm::Client:: name, and both names refer to the same classes.
   class Client
-    class Error < StandardError; end
-
-    # The server could not be reached at all.
-    class ConnectionError < Error; end
-    # The host resolved to an address blocked by the SSRF policy.
-    class SsrfError < ConnectionError; end
-    # The server took too long to answer.
-    class TimeoutError < ConnectionError; end
-    # The server answered, but rejected our credentials.
-    class AuthenticationError < Error; end
-
-    # The server answered with an unexpected status.
-    class ApiError < Error
-      attr_reader :status
-
-      def initialize(message, status: nil)
-        super(message)
-        @status = status
-      end
-    end
-
-    # The server answered successfully with something that is not an OpenAI model list.
-    class ParseError < Error; end
+    Error = Llm::Errors::Error
+    ConnectionError = Llm::Errors::ConnectionError
+    SsrfError = Llm::Errors::SsrfError
+    TimeoutError = Llm::Errors::TimeoutError
+    AuthenticationError = Llm::Errors::AuthenticationError
+    ApiError = Llm::Errors::ApiError
+    ParseError = Llm::Errors::ParseError
 
     # The global httpx defaults (connect 3s / read 3s / request 10s, all
     # writable: false) are tuned for storage and webhook calls and are far too

@@ -686,6 +686,8 @@ en:
               locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
         llm_connection:
           attributes:
+            api_format:
+              not_supported: "needs credentials that OpenProject cannot store, such as a separate secret key or region."
             api_key:
               invalid_api_key: "was rejected by the LLM server."
               unknown_error: "could not be validated with the LLM server. Please verify that the connection is functioning properly."
