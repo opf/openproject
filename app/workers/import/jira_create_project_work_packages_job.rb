@@ -145,7 +145,6 @@ module Import
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
     def update_custom_fields_in_project(project, jira_project, custom_field_registry)
       applicable_cfs = Import::JiraIssue
                          .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
@@ -154,7 +153,6 @@ module Import
       new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
       project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
-    # rubocop:enable Metrics/AbcSize
 
     # rubocop:disable Metrics/AbcSize
     def create_type(jira_issue, project)

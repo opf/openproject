@@ -75,6 +75,7 @@ module Import
     end
     # rubocop:enable Metrics/AbcSize
 
+    # rubocop:disable Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
@@ -92,6 +93,7 @@ module Import
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 

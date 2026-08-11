@@ -99,6 +99,7 @@ module Import
       import_user_groups(jira_user)
     end
 
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def handle_create_user_failure(call, user_attrs, jira_user)
       taken_errors = call.errors.select { |error| error.type == :taken }
 
@@ -124,7 +125,9 @@ module Import
 
       raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
+    # rubocop:disable Metrics/AbcSize
     def handle_referenced_user_mail_conflict(user_attrs, jira_user)
       unique_mail, reusable_user = resolve_jira_email(user_attrs[:mail], jira_user.jira_user_key)
       if reusable_user
@@ -156,6 +159,7 @@ module Import
         )
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def handle_referenced_user_login_conflict(user_attrs, jira_user)
       unique_login = resolve_jira_login(user_attrs[:login], jira_user.jira_user_key)
@@ -181,6 +185,7 @@ module Import
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def import_user_group(group_name, jira_user)
       call = Groups::CreateService
                .new(user: User.system, contract_class: EmptyContract)
@@ -206,7 +211,9 @@ module Import
         .new(group, current_user: User.system)
         .call(ids: [member_id], send_notifications: false)
     end
+    # rubocop:enable Metrics/AbcSize
 
+    # rubocop:disable Metrics/AbcSize
     def handle_create_group_failure(call, group_name)
       if call.errors.find { |error| error.type == :taken }.blank?
         raise "Error creating a group #{group_name}: #{call.message}"
@@ -233,6 +240,7 @@ module Import
         raise "Existing Group is expected to be found. Group name: #{group_name}"
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def jira_user_already_referenced?(op_user)
       Import::JiraOpenProjectReference.exists?(
