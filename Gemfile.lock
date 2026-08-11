@@ -17,10 +17,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 0cb4597becd2243b810e7ce53bbbbf28b5f05844
-  ref: 0cb4597becd2243b810e7ce53bbbbf28b5f05844
+  revision: a0c4345367e4b9fc869e0da191ec56bcc24bd877
+  ref: a0c4345367e4b9fc869e0da191ec56bcc24bd877
   specs:
-    md_to_pdf (0.2.6)
+    md_to_pdf (0.2.7)
       base64 (~> 0.3)
       bigdecimal (~> 4.0)
       color_conversion (~> 0.1)
@@ -2006,7 +2006,7 @@ CHECKSUMS
   markly (0.16.0) sha256=6f70d79e385b1efc9e171f74c81628826259039fe6c778e03c3924c71dac5511
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
   mcp (0.24.0) sha256=ef13596f13aad7720940a3fd6ab6f4f5e618d0b0fdb587549a90c22579626500
-  md_to_pdf (0.2.6)
+  md_to_pdf (0.2.7)
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.23.0) sha256=ffe78b5bee398de4ff5ac3316f5a786049538a651643b8476def06c3acc762c1
   method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
