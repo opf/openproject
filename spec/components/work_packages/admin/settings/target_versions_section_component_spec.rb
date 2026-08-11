@@ -68,8 +68,9 @@ RSpec.describe WorkPackages::Admin::Settings::TargetVersionsSectionComponent, ty
       render_inline(component)
 
       expect(page).to have_text(
-        "This setting is configured via environment variables or the configuration.yml file and cannot be changed here. " \
-        "Remove the override to enable multiple values from this page."
+        "These settings are configured via environment variables. " \
+        "If you would like to manually run the conversion to enable multiple values before the automatic migration, " \
+        "update your configuration.yml file."
       )
       expect(page).to have_no_text(
         "You can choose to manually run the conversion to enable multiple values before this automatic migration happens."
