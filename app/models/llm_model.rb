@@ -46,10 +46,31 @@ class LlmModel < ApplicationRecord
 
   def name = display_name.presence || external_id
 
-  # The server's own figure wins: vLLM and SGLang report the operator's actual
-  # --max-model-len, where a registry only knows what some vendor publishes.
+  # Precedence: what an administrator set, then what the server reported (vLLM
+  # and SGLang publish the operator's actual --max-model-len), then what a
+  # registry believes about the model in general.
   def context_window
-    raw_metadata["max_model_len"] || raw_metadata["context_window"]
+    raw_metadata["admin_context_window"] ||
+      raw_metadata["max_model_len"] ||
+      raw_metadata["context_window"]
+  end
+
+  def admin_context_window = raw_metadata["admin_context_window"]
+
+  def context_window_source
+    return :admin if raw_metadata["admin_context_window"].present?
+    return :server if raw_metadata["max_model_len"].present?
+    return :registry if raw_metadata["context_window"].present?
+
+    nil
+  end
+
+  def admin_context_window=(value)
+    self.raw_metadata = if value.blank?
+                          raw_metadata.except("admin_context_window")
+                        else
+                          raw_metadata.merge("admin_context_window" => value.to_i)
+                        end
   end
 
   # Discovered models that the server stopped offering are deactivated rather

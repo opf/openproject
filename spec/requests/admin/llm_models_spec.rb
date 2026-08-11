@@ -97,6 +97,31 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
       expect(verdicts).to include(["embeddings", "supported", "admin"], ["vision", "unsupported", "admin"])
     end
 
+    it "stores a context window an administrator supplies" do
+      patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "32768" } }
+
+      expect(llm_model.reload.context_window).to eq(32_768)
+      expect(llm_model.context_window_source).to eq(:admin)
+    end
+
+    # The administrator's figure wins over whatever the server or a registry said.
+    it "prefers the administrator's context window over a reported one" do
+      llm_model.update!(raw_metadata: { "max_model_len" => 8192 })
+
+      patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "32768" } }
+
+      expect(llm_model.reload.context_window).to eq(32_768)
+    end
+
+    it "falls back to the reported figure when cleared" do
+      llm_model.update!(raw_metadata: { "max_model_len" => 8192, "admin_context_window" => 32_768 })
+
+      patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "" } }
+
+      expect(llm_model.reload.context_window).to eq(8192)
+      expect(llm_model.context_window_source).to eq(:server)
+    end
+
     it "makes an asserted capability satisfy a feature that requires it" do
       patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
 
@@ -124,6 +149,26 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
       verdict = connection.capability_verdicts.find_by(model_id: "hand-typed", capability: "embeddings")
       expect(verdict.source).to eq("admin")
       expect(verdict.state).to eq("supported")
+    end
+  end
+
+  describe "the model type shown in the list" do
+    it "reads as an embedding model once embeddings are supported" do
+      llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "bge-m3")
+      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
+
+      get llm_connection_path
+
+      expect(response.body).to include("Embedding")
+    end
+
+    it "reads as a chat model when embeddings are not supported" do
+      llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "qwen")
+      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "unsupported" } }
+
+      get llm_connection_path
+
+      expect(response.body).to include("Chat")
     end
   end
 

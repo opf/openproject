@@ -62,7 +62,7 @@ module Admin
       @llm_model = @connection.models.find(params.expect(:id))
 
       ActiveRecord::Base.transaction do
-        @llm_model.update!(display_name: params.dig(:llm_model, :display_name))
+        apply_attributes(@llm_model)
         apply_capabilities(@llm_model)
       end
 
@@ -82,6 +82,12 @@ module Admin
 
     def set_connection
       @connection = LlmConnection.instance
+    end
+
+    def apply_attributes(llm_model)
+      llm_model.assign_attributes(display_name: params.dig(:llm_model, :display_name))
+      llm_model.admin_context_window = params.dig(:llm_model, :admin_context_window)
+      llm_model.save!
     end
 
     def model_params

@@ -34,13 +34,16 @@ module LlmConnections
   # Rendering never issues an HTTP request: the catalogue is refreshed explicitly
   # through the "Refresh models" action.
   class ModelsTableComponent < OpPrimer::BorderBoxTableComponent
-    columns :identifier, :context_window, :source
+    columns :identifier, :kind, :context_window, :source
 
     mobile_columns :identifier
 
     def initial_sort = %i[identifier asc]
 
     def has_footer? = false
+
+    # Without this the row's button_links are never rendered.
+    def has_actions? = true
 
     def mobile_title = I18n.t("admin.llm_connections.show.models_heading")
 
@@ -50,9 +53,23 @@ module LlmConnections
     def headers
       [
         [:identifier, { caption: I18n.t("admin.llm_connections.models.identifier") }],
+        [:kind, { caption: I18n.t("admin.llm_connections.models.kind") }],
         [:context_window, { caption: I18n.t("admin.llm_connections.models.context_window") }],
         [:source, { caption: I18n.t("admin.llm_connections.models.source") }]
       ]
+    end
+
+    # Built once for the whole table so each row does not query for its own
+    # verdict. Rows reach this through their +table+ accessor.
+    def embeddings_states
+      @embeddings_states ||= load_embeddings_states
+    end
+
+    def load_embeddings_states
+      connection = rows.first&.llm_connection
+      return {} if connection.nil?
+
+      connection.capability_verdicts.for_capability(:embeddings).pluck(:model_id, :state).to_h
     end
 
     def blank_title = I18n.t("admin.llm_connections.models.blank_title")

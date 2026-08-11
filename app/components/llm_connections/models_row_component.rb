@@ -48,6 +48,19 @@ module LlmConnections
       number_with_delimiter(window)
     end
 
+    # Derived from the embeddings verdict rather than stored separately: a model
+    # that produces vectors is an embedding model, and that is the same fact.
+    def kind
+      case table.embeddings_states[llm_model.external_id]
+      when "supported"
+        render(Primer::Beta::Label.new(scheme: :success)) { I18n.t("llm.model_kinds.embedding") }
+      when "unsupported"
+        render(Primer::Beta::Label.new(scheme: :secondary)) { I18n.t("llm.model_kinds.chat") }
+      else
+        render(Primer::Beta::Label.new(scheme: :secondary, inline: true)) { I18n.t("llm.model_kinds.unknown") }
+      end
+    end
+
     def source
       if llm_model.manual?
         render(Primer::Beta::Label.new(scheme: :accent)) { I18n.t("admin.llm_connections.models.source_manual") }

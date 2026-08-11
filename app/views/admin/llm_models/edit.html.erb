@@ -53,6 +53,28 @@ See COPYRIGHT and LICENSE files for more details.
         ) %>
   <% end %>
 
+  <%= render(Primer::Box.new(mb: 3)) do %>
+    <%= label_tag("llm_model_admin_context_window", t(".context_window"), class: "FormControl-label") %>
+    <%= number_field_tag(
+          "llm_model[admin_context_window]", @llm_model.admin_context_window,
+          id: "llm_model_admin_context_window",
+          min: 1,
+          autocomplete: "off",
+          class: "FormControl-input"
+        ) %>
+    <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do %>
+      <% if @llm_model.context_window_source.present? && @llm_model.context_window_source != :admin %>
+        <%= t(
+              ".context_window_known",
+              value: number_with_delimiter(@llm_model.context_window),
+              source: t("llm.context_window_sources.#{@llm_model.context_window_source}")
+            ) %>
+      <% else %>
+        <%= t(".context_window_caption") %>
+      <% end %>
+    <% end %>
+  <% end %>
+
   <%= render(Primer::Beta::Subhead.new(mt: 4)) do |component| %>
     <% component.with_heading(tag: :h3) { t(".capabilities_heading") } %>
     <% component.with_description { t(".capabilities_description") } %>

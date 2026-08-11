@@ -1458,6 +1458,7 @@ en:
         blank_title: "No models available"
         context_window: "Context window"
         identifier: "Model"
+        kind: "Type"
         source: "Source"
         source_discovered: "Reported by server"
         source_manual: "Added manually"
@@ -1482,8 +1483,11 @@ en:
       destroy:
         success: "%{model} has been removed."
       edit:
-        capabilities_description: "Set what this model can do. Leave a capability unspecified to let OpenProject determine it."
+        capabilities_description: "Set what this model can do. Leave a capability unspecified to let OpenProject determine it. Marking Embeddings as supported makes this an embedding model, and it will only be offered to features that need one."
         capabilities_heading: "Capabilities"
+        context_window: "Context window"
+        context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
+        context_window_known: "Leave blank to use %{value}, %{source}."
         current_verdict: "Currently %{state}, %{source}."
         description: "Edit how OpenProject uses this model."
         state_supported: "Supported"
@@ -3990,6 +3994,13 @@ en:
         label: "Structured output"
       vision:
         label: "Vision"
+    context_window_sources:
+      registry: "the figure published for this model"
+      server: "reported by the server"
+    model_kinds:
+      chat: "Chat"
+      embedding: "Embedding"
+      unknown: "Unknown"
     verdict_sources:
       admin: "set by an administrator"
       metadata: "from the model registry"
