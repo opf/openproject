@@ -70,6 +70,10 @@ export function renderDragPreview({
     preview.style.width = `${previewWidth}px`;
   }
 
+  // Margin utility classes on the source (e.g. mt-3 on a section box) would
+  // render as whitespace inside the preview container.
+  preview.style.margin = '0';
+
   const box = sourceElement.closest('.Box');
 
   BOX_DENSITY_VARIANT_CLASSES.forEach((variant) => {

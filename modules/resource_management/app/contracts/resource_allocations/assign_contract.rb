@@ -64,7 +64,7 @@ module ResourceAllocations
     end
 
     def principal_selected_by_filter?
-      model.candidate_query.results.in_project(model.project).exists?(id: model.principal_id)
+      model.candidate_query.results.exists?(id: model.principal_id)
     end
   end
 end

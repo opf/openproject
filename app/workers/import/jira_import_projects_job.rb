@@ -151,15 +151,7 @@ module Import
 
     def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
       existing_cf_ids = type.custom_field_ids
-      cfs = custom_field_registry.filter_map do |entry|
-        field_key = entry[:jira_field].jira_field_id
-        raw_value = jira_issue.payload["fields"][field_key]
-        next if raw_value.blank?
-
-        context = find_context_for_issue(entry, jira_issue)
-        context&.dig(:custom_field)
-      end
-      cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
+      custom_fields_for_issue(custom_field_registry, jira_issue).reject { |cf| existing_cf_ids.include?(cf.id) }
     end
 
     def update_custom_fields_in_type(type, new_custom_fields)
@@ -193,12 +185,9 @@ module Import
     end
 
     def update_custom_fields_in_project(project, jira_project, custom_field_registry)
-      project_key = jira_project.payload["key"]
-      applicable_cfs = custom_field_registry.flat_map do |entry|
-        entry[:contexts]
-          .select { |ctx| context_applies_to_project?(ctx, project_key) }
-          .map { |ctx| ctx[:custom_field] }
-      end
+      applicable_cfs = Import::JiraIssue
+                         .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
+                         .flat_map { |jira_issue| custom_fields_for_issue(custom_field_registry, jira_issue) }
       existing_cf_ids = project.work_package_custom_fields.pluck(:id).to_set
       new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
       project.work_package_custom_fields << new_cfs if new_cfs.any?
@@ -219,6 +208,9 @@ module Import
         uses_existing = false
       end
 
+      # TODO: should go through Projects::Types::AddService. Writing from the type side sets
+      # project_types.type_id directly, bypassing ProjectType#type=, so it cannot enable a
+      # variant — it would build a row whose type is not a root.
       type.projects << project unless type.projects.include?(project)
       jira_issue_type = Import::JiraIssueType.find_by!(jira_issue_type_id: issue_type["id"], jira_id: @jira_id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)

@@ -112,6 +112,8 @@ Rails.application.routes.draw do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
     match "/account/lost_password", action: "lost_password", via: %i[get post]
+    get "/account/password_recovery", action: "password_recovery"
+    post "/account/set_recovered_password", action: "set_recovered_password"
     match "/account/register", action: "register", via: %i[get post patch]
     get "/account/activate", action: "activate"
 
@@ -433,6 +435,8 @@ Rails.application.routes.draw do
           resource :internal_comments, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
             patch :bulk_update, on: :collection
+
+            resource :switch, only: %i[new create], controller: "types/switches"
           end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
@@ -497,6 +501,7 @@ Rails.application.routes.draw do
         get :export
         get "/index" => "wiki#index"
         get :menu
+        get :menu_tree
       end
 
       member do
@@ -512,7 +517,6 @@ Rails.application.routes.draw do
         post :protect
         get :select_main_menu_item, to: "wiki_menu_items#select_main_menu_item"
         post :replace_main_menu_item, to: "wiki_menu_items#replace_main_menu_item"
-        get :menu
       end
     end
 

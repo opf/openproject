@@ -329,11 +329,6 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
         service_result
         expect(new_work_package.target_versions).to contain_exactly(version1)
       end
-
-      it "sets the version" do
-        service_result
-        expect(new_work_package.version).to eq version1
-      end
     end
 
     context "with observed_in_version_ids" do
@@ -348,41 +343,10 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
         expect(new_work_package.target_versions).to be_empty
       end
 
-      it "does not change the version" do
-        service_result
-        expect(new_work_package.version).to be_nil
-      end
-
       it "sets observed in versions" do
         service_result
         expect(new_work_package.observed_in_versions).to contain_exactly(version1)
       end
-    end
-
-    context "with only version_id" do
-      let(:attributes) do
-        { subject: "test wp", project:, version_id: version1.id }
-      end
-
-      it { expect(service_result).to be_success }
-
-      it "sets target versions" do
-        service_result
-        expect(new_work_package.target_versions).to contain_exactly(version1)
-      end
-
-      it "sets the version" do
-        service_result
-        expect(new_work_package.version).to eq version1
-      end
-    end
-
-    context "with both version_id and target_version_ids" do
-      let(:attributes) do
-        { subject: "test wp", project:, version_id: version1.id, target_version_ids: [version2.id] }
-      end
-
-      it { expect(service_result).to be_failure }
     end
 
     context "with non-assignable version IDs" do
@@ -395,7 +359,37 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
 
       it "drops the unnassignable version" do
         expect(new_work_package.target_versions).to be_empty
-        expect(new_work_package.version).to be_nil
+      end
+    end
+  end
+
+  # The work package is created with the family's root, so the subject blueprint applied has to
+  # be the one the project's variant resolves to, not the root's.
+  describe "generating the subject from a pattern when the project resolves the type to a variant",
+           with_flag: { type_variants: true } do
+    let(:family_root) do
+      create(:type, name: "Family root", patterns: { subject: { blueprint: "Root subject", enabled: true } })
+    end
+    let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    let(:project) { create(:project, types: [variant, default_type]) }
+    let(:attributes) { { project:, type: family_root, status: default_status, priority: default_priority } }
+
+    context "when the variant inherits the root's defaults" do
+      it "applies the root's blueprint" do
+        expect(service_result).to be_success
+        expect(new_work_package.subject).to eq("Root subject")
+      end
+    end
+
+    context "when the variant owns its defaults" do
+      before do
+        variant.configuration_links.find_by(aspect: Type::ConfigurationLink::DEFAULTS).destroy!
+        variant.update!(patterns: { subject: { blueprint: "Variant subject", enabled: true } })
+      end
+
+      it "applies the variant's blueprint" do
+        expect(service_result).to be_success
+        expect(new_work_package.subject).to eq("Variant subject")
       end
     end
   end

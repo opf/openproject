@@ -131,7 +131,7 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it "produces a different checksum on changes to the target version" do
-      work_package.version.update_attribute(:updated_at, 10.seconds.from_now)
+      work_package.target_versions.first.update_attribute(:updated_at, 10.seconds.from_now)
 
       expect(new_checksum)
         .not_to eql orig_checksum

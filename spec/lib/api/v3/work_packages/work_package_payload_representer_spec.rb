@@ -320,7 +320,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:version) { build_stubbed(:version) }
 
         before do
-          work_package.version = version
+          allow(work_package).to receive(:target_versions).and_return([version])
         end
 
         it_behaves_like "linked property" do
@@ -328,7 +328,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:link) { "/api/v3/versions/#{version.id}" }
         end
 
-        it_behaves_like "linked property with 0 value", :version, :version
+        context "when multiple versions is active",
+                with_flag: { work_package_multiple_versions: true },
+                with_settings: { work_package_multiple_versions: true } do
+          it "does not offer the deprecated property as writable" do
+            expect(representer.writable_attributes).not_to include("version")
+            expect(subject).not_to have_json_path("_links/version")
+          end
+        end
       end
 
       describe "category" do
@@ -594,17 +601,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     describe "project" do
       it_behaves_like "linked resource" do
         let(:attribute_name) { "project" }
-      end
-    end
-
-    describe "version" do
-      before do
-        work_package.version_id = 1
-      end
-
-      it_behaves_like "linked resource" do
-        let(:attribute_name) { "version" }
-        let(:association_name) { "version_id" }
       end
     end
 

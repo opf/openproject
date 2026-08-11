@@ -43,6 +43,7 @@ hy:
       resource_planner: Ռեսուրսների պլանավորիչ
       resource_user_card: Օգտատերերի քարտեր
       resource_work_package_list: Աշխատանքային փաթեթների ցուցակ
+  button_next: Հաջորդ
   ee:
     features:
       resource_management: Ռեսուրսների կառավարում
@@ -50,7 +51,6 @@ hy:
       resource_management:
         description: Պլանավորեք և հավասարակշռեք Ձեր թիմի ծանրաբեռնվածությունը ռեսուրսների պլանավորիչների միջոցով։ Հատկացրեք մարդկանց աշխատանքային փաթեթներին, հետևեք հզորությանը ժամանակի ընթացքում և մեկ հայացքով նկատեք գերհատկացումն ու թերհատկացումը։
         title: Ռեսուրսների կառավարում
-  button_next: Հաջորդ
   label_resource_management: Ռեսուրսների կառավարում
   permission_allocate_user_resources: Հատկացնել օգտատերերի ռեսուրսները
   permission_allocate_user_resources_explanation: Թույլ է տալիս օգտատերերին ստեղծել, թարմացնել և ջնջել ռեսուրսների հատկացումները ռեսուրսների պլանավորիչի ներսում։ Սա ներառում է օգտատերերի (կամ օգտատերերի զտիչների) նշանակումը պլանավորիչին և հատկացված ժամանակի ու ամսաթվերի միջակայքի ճշգրտումը։
@@ -283,6 +283,10 @@ hy:
         allocate: Հատկացնել
         settings: Կազմաձևել տեսքը
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Ավելացնել աշխատանքային փաթեթ
         configure_view: Կազմաձևել տեսքը

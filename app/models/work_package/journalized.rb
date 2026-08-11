@@ -105,14 +105,17 @@ module WorkPackage::Journalized
 
     # Joined
     register_journal_formatted_fields :parent_id, :project_id,
-                                      formatter_key: :visible_named_association
-    register_journal_formatted_fields :budget_id,
+                                      :budget_id,
                                       :status_id, :type_id,
-                                      :assigned_to_id, :priority_id,
+                                      :priority_id,
+                                      # version_id is no longer written. To be dropped with the db column.
                                       :category_id, :version_id,
-                                      :author_id, :responsible_id,
                                       :sprint_id,
                                       formatter_key: :named_association
+    # People are named in the attribute table of the same work package, so the
+    # journal does not withhold them from readers outside their projects.
+    register_journal_formatted_fields :assigned_to_id, :author_id, :responsible_id,
+                                      formatter_key: :public_named_association
     register_journal_formatted_fields :start_date, :due_date, formatter_key: :datetime
     register_journal_formatted_fields :subject, formatter_key: :plaintext
     register_journal_formatted_fields :duration, formatter_key: :day_count

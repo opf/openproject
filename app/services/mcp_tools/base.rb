@@ -148,15 +148,12 @@ module McpTools
         @annotations
       end
 
-      def tool
-        config = McpConfiguration.find_by(identifier: qualified_name)
-        return nil if config.nil?
-
+      def tool(title:, description:)
         implementation = self
         MCP::Tool.define(
           name:,
-          title: config.title,
-          description: config.description,
+          title:,
+          description:,
           input_schema:,
           annotations: read_annotations
         ) do |server_context: {}, **opts|

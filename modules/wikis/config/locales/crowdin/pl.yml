@@ -172,6 +172,7 @@ pl:
     index:
       column_last_edited: Ostatnio edytowano
       column_name: Strona wiki
+      column_parent: Parent
       column_project: Projekt
       column_sub_pages: Podstrony
       filter_by_name: Filtruj według nazwy strony

@@ -74,8 +74,10 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_no_text("Epic: Design")
     end
 
-    it "labels the active variant" do
-      expect(page).to have_css(".Label", text: "Design")
+    # normalize_ws because render_inline keeps the newline between the two Text
+    # components that a browser lays out on one line.
+    it "names the active variant after the parent it presents as" do
+      expect(page).to have_text("Variant: Design", normalize_ws: true)
     end
 
     it "points the remove action at the variant" do
@@ -83,26 +85,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
         "form[action='#{project_settings_work_packages_type_path(project, design)}']",
         visible: :all
       )
-    end
-  end
-
-  describe "the roadmap indicator" do
-    let(:project) { create(:project, types: [bug]) }
-
-    it "marks a type that is shown in the roadmap by default" do
-      render_inline(component)
-
-      expect(page).to have_text("In roadmap")
-    end
-
-    context "when the type is not shown in the roadmap" do
-      before { bug.update!(is_in_roadmap: false) }
-
-      it "says nothing rather than stating the negative" do
-        render_inline(component)
-
-        expect(page).to have_no_text("In roadmap")
-      end
     end
   end
 

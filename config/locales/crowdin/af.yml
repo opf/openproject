@@ -67,7 +67,8 @@ af:
       '
     login_with_auth_provider: of teken in met jou bestaande rekening
     omniauth_login: Please login to activate your account.
-    signup_with_auth_provider: or sign up using
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Kies asseblief
   activemodel:
     attributes:
@@ -698,9 +699,9 @@ af:
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
               cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'still in use by work packages: %{types}'
-              switch_source_not_a_variant: Can only switch away from a variant
-              switch_target_identical: The target Type must be different from the current variant
-              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Work packages in non descendant projects reference versions of the project or its descendants.
         project/phase:
@@ -715,6 +716,12 @@ af:
           attributes:
             project_ids:
               blank: Please select a project.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -813,7 +820,7 @@ af:
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             parent:
               cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
@@ -1202,9 +1209,6 @@ af:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
         history: History
-        side_panel:
-          run_status: Run status
-          open_history: Open the run history
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         index:
           button_edit_configuration: Edit configuration
@@ -1212,6 +1216,9 @@ af:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
+        side_panel:
+          open_history: Open the run history
+          run_status: Run status
         status:
           configuring: Select scope
           finalizing: Finalizing
@@ -1715,6 +1722,7 @@ af:
     entity_type: Entity
     estimated_hours: Work
     estimated_time: Work
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filtreer
     firstname: Voornaam
@@ -2534,6 +2542,7 @@ af:
   error_failed_to_delete_entry: Failed to delete this entry.
   error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Invalid selected value.
   error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
   error_menu_item_not_created: Kieslysitem kon nie bygevoeg word nie
@@ -2900,7 +2909,14 @@ af:
       work_package_parent_deleted: Parent removed
     changes_retracted: The changes were retracted.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: Accessibility
   label_account: Rekening
@@ -3258,6 +3274,7 @@ af:
   label_me: ek
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: Nuwe lid
+  label_member_of_project: Member of project
   label_member_plural: Lede
   label_member_role: Project role
   label_membership_added: Member added
@@ -4834,6 +4851,7 @@ af:
       header_identifier: Identifier
       header_relations: Project relations
       header_status: Status
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Search project phase
@@ -4907,10 +4925,18 @@ af:
           title: No types are active in this project
         form:
           enable_type_in_project: Enable type "%{type}"
-        in_roadmap: In roadmap
         no_results_title_text: There are currently no types available.
         remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
         type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Create a new version
         no_results_title_text: There are currently no versions for the project.

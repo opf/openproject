@@ -65,6 +65,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDates
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDefinition
   register_journal_formatter OpenProject::JournalFormatter::ProjectStatusCode
+  register_journal_formatter OpenProject::JournalFormatter::PublicNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter OpenProject::JournalFormatter::SubprojectNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::TargetVersions
@@ -72,7 +73,6 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::TimeEntryHours
   register_journal_formatter OpenProject::JournalFormatter::TimeEntryNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::Visibility
-  register_journal_formatter OpenProject::JournalFormatter::VisibleNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::WikiDiff
 
   # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related

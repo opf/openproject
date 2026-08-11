@@ -63,7 +63,7 @@ RSpec.describe Wikis::InlinePageLinkMacroComponent, type: :component do
   context "when retrieving the page information fails" do
     let(:page_info_result) do
       Failure(
-        Wikis::Adapters::Results::Error.new(
+        SimpleError.new(
           source: Wikis::Adapters::Providers::Internal::Queries::PageInfo,
           code: error_code
         )

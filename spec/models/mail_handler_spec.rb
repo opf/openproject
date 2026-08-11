@@ -592,16 +592,9 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             .to eql(status)
         end
 
-        it "sets the version" do
-          expect(subject.version)
-            .to eql(version)
-        end
-
-        it "sets the target version, keeping the legacy version in sync" do
+        it "sets the target version" do
           expect(subject.target_versions)
             .to contain_exactly(version)
-          expect(subject.version)
-            .to eql(version)
         end
 
         it "sets the estimated_hours" do
@@ -961,7 +954,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
         it "assigns the status to the created work package" do
           expect(subject.status).to eq(status)
-          expect(subject.version).to eq(version)
+          expect(subject.target_versions).to contain_exactly(version)
           expect(subject.priority).to eq priority_low
         end
       end
@@ -1213,7 +1206,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
           expect(subject.subject).to eq("New ticket with full attributes")
           expect(subject.type).to eq(feature_type)
           expect(subject.status).to eq(resolved_status)
-          expect(subject.version).to eq(version)
+          expect(subject.target_versions).to contain_exactly(version)
           expect(subject.priority).to eq(urgent_priority)
           expect(subject.assigned_to).to eq(user)
           expect(subject.responsible).to eq(user)
@@ -1238,7 +1231,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             expect(subject.subject).to eq("Neues Arbeitspaket")
             expect(subject.type).to eq(feature_type)
             expect(subject.status).to eq(resolved_status)
-            expect(subject.version).to eq(version)
+            expect(subject.target_versions).to contain_exactly(version)
             expect(subject.priority).to eq(urgent_priority)
             expect(subject.assigned_to).to eq(user)
             expect(subject.responsible).to eq(user)
@@ -1272,11 +1265,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         it "assigns every named target version" do
           expect(subject.target_versions)
             .to contain_exactly(alpha, beta)
-        end
-
-        it "keeps the legacy version in sync with the first target version" do
-          expect(subject.version)
-            .to eql(alpha)
         end
 
         it "removes the keyword from the description" do

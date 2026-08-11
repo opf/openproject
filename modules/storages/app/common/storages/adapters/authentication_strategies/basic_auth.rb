@@ -46,7 +46,7 @@ module Storages
         private
 
         def build_failure(storage)
-          Failure(Results::Error.new(source: self.class, payload: storage, code: :missing_credentials))
+          Failure(SimpleError.new(source: self.class, payload: storage, code: :missing_credentials))
         end
       end
     end

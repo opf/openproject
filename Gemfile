@@ -112,7 +112,7 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "msgpack", "~> 1.8.3"
+gem "msgpack", "~> 1.8.4"
 gem "ruby-duration", "~> 3.2.0"
 
 gem "mail", "2.9.1"
@@ -154,7 +154,7 @@ gem "structured_warnings", "~> 0.5.0"
 gem "airbrake", "~> 13.0.0", require: false
 
 gem "markly", "~> 0.15" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "0cb4597becd2243b810e7ce53bbbbf28b5f05844"
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "a0c4345367e4b9fc869e0da191ec56bcc24bd877"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
@@ -183,7 +183,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.0.0"
+  gem "dalli", "~> 5.0.6"
   gem "redis", "~> 5.4.0"
 end
 
@@ -227,7 +227,7 @@ gem "dry-validation"
 gem "store_attribute", "~> 2.0"
 
 # Appsignal integration
-gem "appsignal", "~> 4.8", require: false
+gem "appsignal", "~> 4.9", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"

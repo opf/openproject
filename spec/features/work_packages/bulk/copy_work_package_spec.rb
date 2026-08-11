@@ -100,7 +100,7 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
         # Check project of last two created wps
         copied_wps = WorkPackage.last(2)
         expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
-        expect(copied_wps.map(&:version_id).uniq).to eq([version.id])
+        expect(copied_wps.map { |wp| wp.target_versions.pluck(:id) }.uniq).to eq([[version.id]])
         expect(copied_wps.map { |wp| wp.journals.last.notes }.uniq).to eq(["A note on duplicate"])
       end
 

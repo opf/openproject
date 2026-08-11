@@ -43,6 +43,7 @@ zh-CN:
       resource_planner: 资源规划工具
       resource_user_card: 用户卡
       resource_work_package_list: 工作包列表
+  button_next: 下一步
   ee:
     features:
       resource_management: 资源管理
@@ -50,7 +51,6 @@ zh-CN:
       resource_management:
         description: 利用资源规划工具规划和平衡团队的工作量。将人员分配到工作包中，跟踪一段时间内的产能，并一目了然地发现资源分配过多或不足的情况。
         title: 资源管理
-  button_next: 下一步
   label_resource_management: 资源管理
   permission_allocate_user_resources: 分配用户资源
   permission_allocate_user_resources_explanation: 允许用户在资源规划工具中创建、更新和删除资源分配。这包括为规划工具分配用户（或用户筛选器），以及调整分配的时间和日期范围。
@@ -281,6 +281,9 @@ zh-CN:
         allocate: 分配
         settings: 配置视图
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: 添加工作包
         configure_view: 配置视图

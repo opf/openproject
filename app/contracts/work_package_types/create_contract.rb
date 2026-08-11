@@ -39,7 +39,6 @@ module WorkPackageTypes
     end
     attribute :name
     attribute :parent_id
-    attribute :project_ids
     attribute :attribute_groups
 
     validates :is_default, :is_milestone, :is_in_roadmap, inclusion: { in: [true, false] }

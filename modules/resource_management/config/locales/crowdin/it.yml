@@ -43,6 +43,7 @@ it:
       resource_planner: Pianificatore di risorse
       resource_user_card: Schede utente
       resource_work_package_list: Elenco macro-attività
+  button_next: Avanti
   ee:
     features:
       resource_management: Gestione risorse
@@ -50,7 +51,6 @@ it:
       resource_management:
         description: Pianifica e bilancia il carico di lavoro del team con i pianificatori delle risorse. Assegna le persone alle macro-attività, monitora la capacità nel tempo e individua a colpo d'occhio le sovrallocazioni e le sottoallocazioni.
         title: Gestione risorse
-  button_next: Avanti
   label_resource_management: Gestione risorse
   permission_allocate_user_resources: Allocazione delle risorse utente
   permission_allocate_user_resources_explanation: Consente di creare, aggiornare ed eliminare allocazioni delle risorse all'interno di un pianificatore risorse. Ciò include l'assegnazione di utenti o filtri utente a un pianificatore e la regolazione del tempo allocato e dell'intervallo di date.
@@ -283,6 +283,10 @@ it:
         allocate: Alloca
         settings: Configura vista
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Aggiungi macro-attività
         configure_view: Configura vista

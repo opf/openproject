@@ -57,8 +57,9 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
 
   current_user { user }
 
-  def wp_with(custom_field_value: nil, **attributes)
+  def wp_with(custom_field_value: nil, version_id: nil, **attributes)
     attributes[:custom_values] = { custom_field.id => custom_field_value } if custom_field_value
+    attributes[:version] = Version.find(version_id) if version_id
 
     create(:work_package, type:, project:, **attributes)
   end

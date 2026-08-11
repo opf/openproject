@@ -128,25 +128,5 @@ module WorkPackageTypes
         expect(model).not_to be_changed
       end
     end
-
-    context "if project ids contain a not existent id" do
-      let(:project) { create(:project) }
-      let(:params) { { project_ids: [project.id.to_s, "1337"] } }
-
-      it "fails" do
-        result = service.call(params)
-        expect(result).to be_failure
-      end
-
-      it "adds an error on the project_ids attribute" do
-        result = service.call(params)
-        expect(result.errors.details).to eq(project_ids: [{ error: "Projects with ids 1337 do not exist." }])
-      end
-
-      it "does not override the already existing value on the model" do
-        service.call(params)
-        expect(model).not_to be_changed
-      end
-    end
   end
 end
