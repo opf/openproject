@@ -44,8 +44,8 @@ module MeetingAgendaItems
         .call(cause:)
     end
 
-    def journalize_occurrence_agenda(meeting)
-      return unless meeting.recurring_meeting_id.present? && !meeting.template?
+    def journalize_copied_agenda(meeting)
+      return if meeting.template?
 
       meeting.agenda_items.reload.each do |agenda_item|
         journalize_agenda_item(agenda_item, Journal::CausedByMeetingAgendaItemAdded.new(meeting))

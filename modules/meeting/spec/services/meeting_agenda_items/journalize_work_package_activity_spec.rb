@@ -34,7 +34,8 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:user) do
     create(:user,
-           member_with_permissions: { project => %i[view_meetings manage_agendas manage_outcomes view_work_packages] })
+           member_with_permissions: { project => %i[view_meetings create_meetings manage_agendas manage_outcomes
+                                                    add_work_packages view_work_packages] })
   end
   shared_let(:work_package) { create(:work_package, project:, author: user) }
   shared_let(:meeting) { create(:meeting, project:, author: user) }
@@ -176,6 +177,54 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
       journal = work_package.journals.last
       expect(journal.cause_type).to eq("meeting_agenda_item_added")
       expect(journal.cause_meeting_id).to eq(result.result.id)
+    end
+  end
+
+  describe "converting a simple agenda item into a work package" do
+    shared_let(:status) { create(:default_status) }
+    shared_let(:priority) { create(:default_priority) }
+    let!(:agenda_item) { create(:meeting_agenda_item, meeting:, author: user, title: "Discuss the roadmap") }
+
+    it "records an 'added' journal on the newly created work package" do
+      result = MeetingAgendaItems::ConvertToWorkPackageService
+        .new(user:, project:)
+        .call(meeting_agenda_item: agenda_item,
+              work_package_params: { subject: "Discuss the roadmap", type: project.types.first })
+
+      expect(result).to be_success
+      journal = result.result.journals.reload.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_added")
+      expect(journal.cause_meeting_id).to eq(meeting.id)
+    end
+  end
+
+  describe "duplicating a meeting that contains a work package" do
+    let!(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, work_package:, author: user) }
+
+    it "records an 'added' journal on the work package referencing the copied meeting" do
+      copy = nil
+      expect do
+        copy = Meetings::CopyService.new(user:, model: meeting).call(copy_agenda: true).result
+      end.to change { work_package.journals.reload.count }.by(1)
+
+      journal = work_package.journals.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_added")
+      expect(journal.cause_meeting_id).to eq(copy.id)
+    end
+  end
+
+  describe "deleting a section that contains a work package" do
+    shared_let(:section) { create(:meeting_section, meeting:) }
+    let!(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, meeting_section: section, work_package:, author: user) }
+
+    it "records a 'removed' journal on the work package" do
+      expect do
+        MeetingSections::DeleteService.new(user:, model: section).call
+      end.to change { work_package.journals.reload.count }.by(1)
+
+      journal = work_package.journals.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_removed")
+      expect(journal.cause_meeting_id).to eq(meeting.id)
     end
   end
 

@@ -91,9 +91,8 @@ module RecurringMeetings
           { title: template.title, location: template.location, duration: template.duration }
             .merge(extra_params)
         )
+        journalize_copied_agenda(meeting)
       end
-
-      journalize_occurrence_agenda(meeting)
 
       true
     end
