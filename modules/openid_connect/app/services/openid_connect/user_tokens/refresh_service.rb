@@ -68,8 +68,8 @@ module OpenIDConnect
       end
 
       def refresh_token_request(refresh_token)
-        OAuthClients::TokenRequest.for_provider(provider).refresh(refresh_token).alt_map do
-          it.with(code: :"token_refresh_#{it.code}", source: self.class)
+        OAuthClients::TokenRequest.for_provider(provider).refresh(refresh_token).alt_map do |error|
+          error.with(code: :"token_refresh_#{error.code}", source: self.class)
         end
       end
 
