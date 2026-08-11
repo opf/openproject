@@ -104,7 +104,7 @@ module JournalFormatter
     end
 
     # @param options [Hash] the rendering options.
-    # @option options [Symbol, Proc] :permission a permission to check via
+    # @option options [Symbol, Proc] :view_permission a permission to check via
     #   User.current.allowed_in_project?, or a lambda/proc performing a custom
     #   permission check, instance_exec'd against this formatter with no
     #   arguments. Subclasses may override this method to instance_exec the
@@ -113,7 +113,7 @@ module JournalFormatter
     # @option options [String] :key the field being rendered, made available
     #   to such overrides.
     def permission_granted?(options)
-      permission = options[:permission]
+      permission = options[:view_permission]
       return true unless permission
 
       if permission.is_a?(Symbol)

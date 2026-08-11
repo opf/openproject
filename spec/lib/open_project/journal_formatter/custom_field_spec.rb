@@ -489,13 +489,13 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     end
   end
 
-  context "with a Proc-based :permission option" do
+  context "with a Proc-based :view_permission option" do
     let(:values) { [nil, "1"] }
 
     context "when the proc, receiving the resolved custom field, allows" do
       let(:options) do
         expected_custom_field = custom_field
-        { permission: ->(field) { field == expected_custom_field } }
+        { view_permission: ->(field) { field == expected_custom_field } }
       end
 
       it "renders normally" do
@@ -506,7 +506,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     context "when the proc, receiving the resolved custom field, denies" do
       let(:options) do
         expected_custom_field = custom_field
-        { permission: ->(field) { field != expected_custom_field } }
+        { view_permission: ->(field) { field != expected_custom_field } }
       end
 
       it "renders the permission denied message" do

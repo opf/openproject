@@ -56,7 +56,7 @@ module Acts::Journalized
     module ClassMethods
       # Shortcut to register a formatter for a number of fields
       #
-      # @param field_names [Array<Symbol>] the fields to register the formatter for.
+      # @param field_names [Array<String, Symbol, Regexp>] the fields to register the formatter for.
       # @param formatter_key [Symbol] the key of the formatter to use for these fields.
       # @param view_permission [Symbol, Proc, nil] a permission to check via
       #   User.current.allowed_in_project?, or a lambda/proc performing a custom
@@ -68,7 +68,7 @@ module Acts::Journalized
       def register_journal_formatted_fields(*field_names, formatter_key:, view_permission: nil)
         journal_data_type = journal_class.name
         field_names.each do |field|
-          JournalFormatter.register_formatted_field(journal_data_type, field, formatter_key, view_permission)
+          JournalFormatter.register_formatted_field(journal_data_type:, field:, formatter_key:, view_permission:)
         end
       end
 

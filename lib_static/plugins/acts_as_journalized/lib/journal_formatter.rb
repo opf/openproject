@@ -72,7 +72,7 @@ module JournalFormatter
     formatters.merge!(hash)
   end
 
-  def self.register_formatted_field(journal_data_type, field, formatter_key, view_permission)
+  def self.register_formatted_field(journal_data_type:, field:, formatter_key:, view_permission:)
     field_key = field.is_a?(Regexp) ? field : Regexp.new("^#{field}$")
 
     registered_fields[journal_data_type].merge!(
@@ -117,7 +117,7 @@ module JournalFormatter
     formatter = formatter_instance(config[:formatter_key])
     return if formatter.nil?
 
-    formatter_options = options.merge(permission: config[:view_permission])
+    formatter_options = options.merge(view_permission: config[:view_permission])
 
     formatter
       .render(field, values, formatter_options)

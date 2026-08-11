@@ -116,13 +116,13 @@ RSpec.describe OpenProject::JournalFormatter::CustomComment do
     include_examples "results are expected"
   end
 
-  context "with a Proc-based :permission option" do
+  context "with a Proc-based :view_permission option" do
     let(:values) { [nil, "new value"] }
 
     context "when the proc, receiving the resolved custom field, allows" do
       let(:options) do
         expected_custom_field = custom_field
-        { permission: ->(field) { field == expected_custom_field } }
+        { view_permission: ->(field) { field == expected_custom_field } }
       end
 
       it "renders normally" do
@@ -133,7 +133,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomComment do
     context "when the proc, receiving the resolved custom field, denies" do
       let(:options) do
         expected_custom_field = custom_field
-        { permission: ->(field) { field != expected_custom_field } }
+        { view_permission: ->(field) { field != expected_custom_field } }
       end
 
       it "renders the permission denied message" do
