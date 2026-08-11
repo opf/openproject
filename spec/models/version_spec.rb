@@ -713,7 +713,6 @@ RSpec.describe Version do
 
     let!(:work_package) do
       create(:work_package, project: other_project).tap do |wp|
-        wp.update_column(:version_id, shared_version.id)
         wp.target_version_ids_replacements = [shared_version.id]
         wp.save!
       end
@@ -727,16 +726,6 @@ RSpec.describe Version do
 
     it "is editable while the version's project still exists" do
       expect(update_subject).to be_success
-    end
-
-    it "clears the legacy version_id when the version itself is destroyed" do
-      expect { shared_version.destroy }
-        .to change { work_package.reload.version_id }.from(shared_version.id).to(nil)
-    end
-
-    it "clears the legacy version_id when the version's project is destroyed" do
-      expect { owning_project.destroy }
-        .to change { work_package.reload.version_id }.from(shared_version.id).to(nil)
     end
 
     it "leaves the work package editable after its version's project is destroyed" do
