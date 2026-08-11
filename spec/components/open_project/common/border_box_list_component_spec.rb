@@ -1183,4 +1183,40 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_no_css(".op-border-box-list-header--drag_handle")
     end
   end
+
+  describe "empty_state_behavior" do
+    it "renders the generic default when static and empty" do
+      render_inline(described_class.new(container: "c"))
+      expect(page).to have_css("[data-empty-list-item]", text: I18n.t(:label_nothing_display))
+    end
+
+    it "renders nothing for the :none behavior when empty" do
+      render_inline(described_class.new(container: "c", empty_state_behavior: :none))
+      expect(page).to have_no_css("[data-empty-list-item]")
+    end
+
+    it "ignores a declared empty state under :none" do
+      render_inline(described_class.new(container: "c", empty_state_behavior: :none)) do |list|
+        list.with_empty_state(title: "Declared")
+      end
+      expect(page).to have_no_css("[data-empty-list-item]")
+      expect(page).to have_no_text("Declared")
+    end
+
+    it "does not render an empty box shell for :none with only a declared empty state" do
+      # render? must treat the ignored slot as absent, or a bare bordered Box renders
+      render_inline(described_class.new(container: "c", empty_state_behavior: :none)) do |list|
+        list.with_empty_state(title: "Declared")
+      end
+      expect(page).to have_no_css(".Box")
+    end
+
+    it "raises for unsupported values in test" do
+      # fetch_or_fallback only falls back to :static silently in production;
+      # in test/development it raises so an unsupported value is caught early.
+      expect do
+        described_class.new(container: "c", empty_state_behavior: :bogus)
+      end.to raise_error Primer::FetchOrFallbackHelper::InvalidValueError
+    end
+  end
 end

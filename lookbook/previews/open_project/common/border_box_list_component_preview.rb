@@ -257,6 +257,22 @@ module OpenProject
         end
       end
 
+      # @label Empty state (behavior: none)
+      # A grouped outlier that suppresses the generic empty state entirely via
+      # `empty_state_behavior: :none`, even with a header and no items.
+      # @param padding [Symbol] select [default, condensed, spacious]
+      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
+      def with_behavior_none(padding: :default, header_padding: :inherit)
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-behavior-none-preview",
+          empty_state_behavior: :none,
+          padding:,
+          header_padding:
+        ) do |list|
+          list.with_header(title: "Empty group", count: 0)
+        end
+      end
+
       # @label With header label
       # Header holding a status label, optionally next to an action button.
       # @param label text

@@ -34,7 +34,8 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(
               OpenProject::Common::BorderBoxListComponent.new(
                 container: "op-types-group-#{root.id}",
-                collapsible: true
+                collapsible: true,
+                empty_state_behavior: :none
               )
             ) do |list| %>
           <% list.with_header(collapsed: collapsed?(root), show_drag_handle: reorderable?(root)) do |header| %>

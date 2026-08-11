@@ -43,8 +43,11 @@ module OpenProject
       SCHEME_OPTIONS = [SCHEME_DEFAULT, :transparent].freeze
       HEADER_PADDING_DEFAULT = :inherit
       HEADER_PADDING_OPTIONS = [HEADER_PADDING_DEFAULT, :condensed, :default, :spacious].freeze
+      EMPTY_STATE_BEHAVIOR_DEFAULT = :static
+      EMPTY_STATE_BEHAVIOR_OPTIONS = [EMPTY_STATE_BEHAVIOR_DEFAULT, :none, :dynamic].freeze
 
-      attr_reader :container, :scheme, :header_padding, :collapsible, :current_user, :header_id, :footer_id, :list_id
+      attr_reader :container, :scheme, :header_padding, :empty_state_behavior, :collapsible, :current_user,
+                  :header_id, :footer_id, :list_id
 
       alias_method :collapsible?, :collapsible
 
@@ -199,6 +202,12 @@ module OpenProject
       #   the header. `:inherit` keeps Primer's padding from the underlying
       #   BorderBox. `:condensed`, `:default`, and `:spacious` override only
       #   the header's block padding.
+      # @param empty_state_behavior [Symbol] policy for the empty state shown
+      #   when the list has no items. `:static` (default) renders the generic
+      #   empty state unless a custom one is declared via `with_empty_state`.
+      #   `:none` suppresses the empty state entirely, including any declared
+      #   slot. `:dynamic` reserves client-side lifecycle handling for
+      #   sortable and filtered lists; no markup is added by this param yet.
       # @param interactive [Boolean] whether dynamic list updates should be
       #   announced politely to assistive technology. This affects the counter
       #   and empty-state content.
@@ -211,6 +220,7 @@ module OpenProject
         container:,
         scheme: SCHEME_DEFAULT,
         header_padding: HEADER_PADDING_DEFAULT,
+        empty_state_behavior: EMPTY_STATE_BEHAVIOR_DEFAULT,
         interactive: false,
         collapsible: false,
         current_user: User.current,
@@ -224,6 +234,9 @@ module OpenProject
         )
         @header_padding = ActiveSupport::StringInquirer.new(
           fetch_or_fallback(HEADER_PADDING_OPTIONS, header_padding, HEADER_PADDING_DEFAULT).to_s
+        )
+        @empty_state_behavior = ActiveSupport::StringInquirer.new(
+          fetch_or_fallback(EMPTY_STATE_BEHAVIOR_OPTIONS, empty_state_behavior, EMPTY_STATE_BEHAVIOR_DEFAULT).to_s
         )
         @interactive = interactive
         @collapsible = collapsible
@@ -253,7 +266,9 @@ module OpenProject
       end
 
       def render?
-        header? || items.any? || empty_state? || footer?
+        # rubocop:disable Style/InverseMethods -- `none?` is StringInquirer#none?, not Enumerable#none?
+        header? || items.any? || (empty_state? && !empty_state_behavior.none?) || footer?
+        # rubocop:enable Style/InverseMethods
       end
 
       private
@@ -272,6 +287,7 @@ module OpenProject
       end
 
       def configure_empty_state!
+        return unless empty_state_behavior.static? || empty_state_behavior.dynamic?
         return if items.any? || empty_state?
 
         with_empty_state(

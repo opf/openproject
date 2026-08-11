@@ -37,6 +37,7 @@ comparable lists should use headers.
 | `scheme` | `Symbol` | `:default` | Visual scheme. Use `:transparent` for list containers that should blend into their surrounding surface |
 | `padding` | `Symbol` | `:default` | Row padding forwarded to the underlying `Primer::Beta::BorderBox`. Supports Primer BorderBox padding values such as `:condensed`, `:default`, and `:spacious` |
 | `header_padding` | `Symbol` | `:inherit` | Header-only vertical padding override. Supports `:inherit`, `:condensed`, `:default`, and `:spacious` |
+| `empty_state_behavior` | `Symbol` | `:static` | Policy for the empty state shown when the list has no items. See [Empty-state behavior](#empty-state-behavior) below |
 | `interactive` | `Boolean` | `false` | Enables polite ARIA live-region announcements for counter and configured empty-state updates |
 | `collapsible` | `Boolean` | `false` | Renders the header as a collapsible toggle when a header is present |
 | `current_user` | `User` | `User.current` | User context forwarded to work package item rows |
@@ -135,6 +136,16 @@ When no items are present, the component renders a generic
 system arguments.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :empty_state, panels: %i[source] %>
+
+### Empty-state behavior
+
+`empty_state_behavior:` controls what happens when the list has no items:
+
+- `:static` (default) — renders the generic empty state described above, unless a custom one is declared via `with_empty_state`.
+- `:none` — suppresses the empty state entirely, including any declared `with_empty_state` slot. Use this for grouped lists where a generic blankslate per empty group would be noisy.
+- `:dynamic` — reserved for client-side lifecycle handling on sortable and filtered lists; see lifecycle controller.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :with_behavior_none, panels: %i[source] %>
 
 ## Usage guidelines
 
