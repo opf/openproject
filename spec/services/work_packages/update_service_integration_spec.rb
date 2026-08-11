@@ -267,8 +267,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           expect(subject)
             .to be_success
 
-          expect(subject.result.version)
-            .to be_nil
+          expect(subject.result.target_versions.reload)
+            .to be_empty
         end
 
         it "still requires assign_versions for a later version change on the same instance" do
@@ -290,8 +290,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           expect(subject)
             .to be_success
 
-          expect(subject.result.version)
-            .to eql version
+          expect(subject.result.target_versions.reload)
+            .to contain_exactly(version)
         end
       end
 
@@ -320,8 +320,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             expect(subject)
               .to be_success
 
-            expect(subject.result.version)
-              .to be_nil
+            expect(subject.result.target_versions.reload)
+              .to be_empty
           end
         end
 
@@ -332,8 +332,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             expect(subject)
               .to be_success
 
-            expect(subject.result.version)
-              .to eql version
+            expect(subject.result.target_versions.reload)
+              .to contain_exactly(version)
           end
         end
       end
@@ -2201,11 +2201,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         service
         expect(work_package.reload.target_versions).to contain_exactly(version1)
       end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to eq(version1)
-      end
     end
 
     context "when replacing existing target versions" do
@@ -2221,11 +2216,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         service
         expect(work_package.reload.target_versions).to contain_exactly(version2)
       end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to eq(version2)
-      end
     end
 
     context "when removing target versions" do
@@ -2240,11 +2230,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       it "updates the target versions" do
         service
         expect(work_package.reload.target_versions).to be_empty
-      end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to be_nil
       end
     end
 
@@ -2284,78 +2269,10 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         expect { service }.not_to change(work_package, :target_versions)
       end
 
-      it "does not change version" do
-        expect { service }.not_to change(work_package, :version)
-      end
-
       it "creates observed_in_versions" do
         service
         expect(work_package.reload.observed_in_versions).to contain_exactly(version1)
       end
-    end
-
-    context "when writing new versions" do
-      subject(:service) { instance.call(version_id: version1.id, send_notifications: false) }
-
-      it { expect(service).to be_success }
-
-      it "updates the target versions" do
-        service
-        expect(work_package.reload.target_versions).to contain_exactly(version1)
-      end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to eq(version1)
-      end
-    end
-
-    context "when replacing existing version" do
-      subject(:service) { instance.call(version_id: version2.id, send_notifications: false) }
-
-      before do
-        work_package.target_versions = [version1]
-      end
-
-      it { expect(service).to be_success }
-
-      it "updates the target versions" do
-        service
-        expect(work_package.reload.target_versions).to contain_exactly(version2)
-      end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to eq(version2)
-      end
-    end
-
-    context "when removing versions" do
-      subject(:service) { instance.call(version_id: nil, send_notifications: false) }
-
-      before do
-        work_package.target_versions = []
-      end
-
-      it { expect(service).to be_success }
-
-      it "updates the target versions" do
-        service
-        expect(work_package.reload.target_versions).to be_empty
-      end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to be_nil
-      end
-    end
-
-    context "when writing both versions and target versions" do
-      subject(:service) do
-        instance.call(target_version_ids: [version1.id, version2.id], version_id: version3.id, send_notifications: false)
-      end
-
-      it { expect(service).to be_failure }
     end
   end
 end

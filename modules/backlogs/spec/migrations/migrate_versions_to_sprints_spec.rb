@@ -43,7 +43,13 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
   let!(:version) do
     create(:version, project:, name: "Test Sprint", start_date:, effective_date:, status:)
   end
-  let!(:wp1) { create(:work_package, version_id: version.id, project:) }
+  let!(:wp1) { legacy_versioned_work_package(version, project:) }
+
+  def legacy_versioned_work_package(version, **attributes)
+    create(:work_package, version:, **attributes).tap do |work_package|
+      work_package.update_column(:version_id, version.id)
+    end
+  end
 
   def use_version(as:, version: self.version, project: self.project)
     display = case as
@@ -187,7 +193,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
   end
 
   describe "work package association" do
-    let!(:wp2) { create(:work_package, version_id: version.id, project:) }
+    let!(:wp2) { legacy_versioned_work_package(version, project:) }
 
     it "sets sprint_id on all associated work packages" do
       migrate
@@ -256,7 +262,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
     shared_examples "migrates by the primary version" do
       context "when the sprint version is the primary (version_id) target" do
         let!(:wp_multi) do
-          create(:work_package, project:, version_id: version.id).tap do |wp|
+          legacy_versioned_work_package(version, project:).tap do |wp|
             create(:work_package_version, work_package: wp, version: secondary_version, kind: :target)
           end
         end
@@ -271,7 +277,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       context "when the sprint version is only a secondary target" do
         let!(:wp_secondary) do
-          create(:work_package, project:, version_id: secondary_version.id).tap do |wp|
+          legacy_versioned_work_package(secondary_version, project:).tap do |wp|
             create(:work_package_version, work_package: wp, version:, kind: :target)
           end
         end

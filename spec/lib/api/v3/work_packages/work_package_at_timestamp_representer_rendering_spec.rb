@@ -99,9 +99,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
       allow(wp)
         .to receive_messages(available_custom_fields:,
                              custom_field_values: [custom_value],
-                             effective_target_versions: target_versions,
-                             version:,
-                             version_id: version&.id)
+                             effective_target_versions: target_versions)
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }

@@ -546,7 +546,8 @@ RSpec.describe "Projects copy", :js,
       expect(copied_work_package.done_ratio).to eql work_package.done_ratio
       expect(copied_work_package.description).to eql work_package.description
       expect(copied_work_package.category).to eql copied_project.categories.find_by(name: category.name)
-      expect(copied_work_package.version).to eql copied_project.versions.find_by(name: version.name)
+      expect(copied_work_package.target_versions)
+        .to contain_exactly(copied_project.versions.find_by(name: version.name))
       expect(copied_work_package.custom_value_attributes).to eql(wp_custom_field.id => "Some wp cf text")
       expect(copied_work_package.attachments.map(&:filename)).to eq ["work_package_attachment.pdf"]
 
