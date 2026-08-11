@@ -87,7 +87,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
                   assigned_to:,
                   type:,
                   priority:,
-                  version:,
                   parent:,
                   responsible:).tap do |wp|
       allow(wp)

@@ -53,7 +53,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
       end
 
       context "if project folder deletion request fails" do
-        let(:error) { Storages::Adapters::Results::Error.new(code: :conflict, source: command_class_reference) }
+        let(:error) { SimpleError.new(code: :conflict, source: command_class_reference) }
         let(:command_double) { class_double(command_class_reference, call: Failure(error)) }
 
         it "tries to remove the project folder at the remote storage and still succeed with deletion" do

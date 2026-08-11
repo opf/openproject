@@ -172,8 +172,6 @@ module DemoData
       end
     end
 
-    # The legacy version_id column is kept in sync from the replacements on
-    # save (WorkPackage::Versions#update_legacy_version_field).
     def set_target_versions!(wp_attr, attributes)
       version_ids = Array(attributes["target_versions"]).filter_map do |reference|
         seed_data.find_reference(reference)&.id

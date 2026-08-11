@@ -3382,6 +3382,7 @@ ru:
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_new: Новый участник
+  label_member_of_project: Member of project
   label_member_plural: Участники
   label_member_role: Роль в проекте
   label_membership_added: Участник добавлен

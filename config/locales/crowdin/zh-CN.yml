@@ -3222,6 +3222,7 @@ zh-CN:
   label_me: 我
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_new: 新成员
+  label_member_of_project: Member of project
   label_member_plural: 成员
   label_member_role: 项目角色
   label_membership_added: 成员已添加

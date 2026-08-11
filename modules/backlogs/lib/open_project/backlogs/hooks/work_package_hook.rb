@@ -28,10 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenIDConnect
-  TokenOperationError = Data.define(:code, :payload, :source) do
-    def initialize(source:, payload: nil, code: nil)
-      super
+module OpenProject::Backlogs
+  module Hooks
+    class WorkPackageHook < ::OpenProject::Hook::ViewListener
+      # Adds the Sprint and Backlog bucket fields to the work package bulk-edit form.
+      #
+      # Only shown when all selected work packages share a single project (context[:project]
+      # is only set in that case, see WorkPackages::BulkController#find_work_packages), that
+      # project has backlogs enabled, and the current user is allowed to manage sprint items.
+      def view_work_packages_bulk_edit_details_bottom(context = {})
+        project = context[:project]
+        return "" unless project&.backlogs_enabled? &&
+                          User.current.allowed_in_project?(:manage_sprint_items, project)
+
+        context[:hook_caller].render(
+          partial: "work_packages/bulk/sprint_and_backlog_bucket_fields",
+          locals: {
+            assignable_sprints: Sprint.assignable(project:, user: User.current).order_by_date,
+            backlog_buckets: BacklogBucket.visible(User.current).for_project(project)
+          }
+        )
+      end
     end
   end
 end

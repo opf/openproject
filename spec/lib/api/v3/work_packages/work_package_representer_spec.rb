@@ -700,10 +700,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context "when version is set" do
-        let!(:version) { create(:version, project: workspace) }
+        let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version = version
+          allow(work_package).to receive(:target_versions).and_return([version])
         end
 
         it_behaves_like "has a titled link" do
@@ -715,6 +715,21 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it "has the version embedded" do
           expect(subject).to be_json_eql("Version".to_json).at_path("#{embedded_path}/_type")
           expect(subject).to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
+        end
+      end
+
+      context "when multiple versions is active",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        let(:version) { build_stubbed(:version, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:target_versions).and_return([version])
+        end
+
+        it "renders neither the deprecated version link nor the embedded resource" do
+          expect(subject).not_to have_json_path("_links/version")
+          expect(subject).not_to have_json_path("_embedded/version")
         end
       end
     end
@@ -1938,6 +1953,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         semantic_key = representer.json_cache_key
 
         expect(semantic_key).not_to eq(classic_key)
+      end
+
+      it "changes when multiple versions is toggled",
+         with_flag: { work_package_multiple_versions: true } do
+        with_settings(work_package_multiple_versions: false)
+        single_version_key = representer.json_cache_key
+
+        with_settings(work_package_multiple_versions: true)
+        multiple_versions_key = representer.json_cache_key
+
+        expect(multiple_versions_key).not_to eq(single_version_key)
       end
 
       it "factors in the eager loaded cache_checksum" do

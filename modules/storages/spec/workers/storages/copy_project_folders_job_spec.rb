@@ -238,7 +238,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job: S
         Storages::Adapters::Registry
           .stub("#{storage}.commands.copy_template_folder",
                 lambda { |auth_strategy:, storage:, input_data:|
-                  Failure(Storages::Adapters::Results::Error.new(code: :error, source: self.class))
+                  Failure(SimpleError.new(code: :error, source: self.class))
                 })
       end
 

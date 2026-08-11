@@ -1839,32 +1839,6 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
 
     shared_examples_for "updating the project" do
-      context "for version" do
-        before do
-          work_package.version = version
-        end
-
-        context "when not shared in new project" do
-          it "sets to nil" do
-            subject
-
-            expect(work_package.version)
-              .to be_nil
-          end
-        end
-
-        context "when shared in the new project" do
-          let(:new_versions) { [version] }
-
-          it "keeps the version" do
-            subject
-
-            expect(work_package.version)
-              .to eql version
-          end
-        end
-      end
-
       context "for multiple versions" do
         before do
           work_package.target_version_ids_replacements = [version.id]

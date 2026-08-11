@@ -3378,6 +3378,7 @@ pl:
   label_me: ja
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_new: Nowy członek
+  label_member_of_project: Member of project
   label_member_plural: Członkowie
   label_member_role: Rola w projekcie
   label_membership_added: Dodano członka

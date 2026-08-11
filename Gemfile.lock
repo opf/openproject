@@ -17,10 +17,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 0cb4597becd2243b810e7ce53bbbbf28b5f05844
-  ref: 0cb4597becd2243b810e7ce53bbbbf28b5f05844
+  revision: a0c4345367e4b9fc869e0da191ec56bcc24bd877
+  ref: a0c4345367e4b9fc869e0da191ec56bcc24bd877
   specs:
-    md_to_pdf (0.2.6)
+    md_to_pdf (0.2.7)
       base64 (~> 0.3)
       bigdecimal (~> 4.0)
       color_conversion (~> 0.1)
@@ -731,7 +731,7 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.8, >= 1.8.1)
       terminal-table (>= 1.5.1)
-    icalendar (2.12.3)
+    icalendar (2.12.4)
       base64
       ice_cube (~> 0.16)
       logger
@@ -846,7 +846,7 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    msgpack (1.8.3)
+    msgpack (1.8.4)
     multi_json (1.21.1)
     mustermann (4.0.0)
     net-http (0.9.1)
@@ -1654,7 +1654,7 @@ DEPENDENCIES
   md_to_pdf!
   meta-tags (~> 2.23.0)
   mini_magick (~> 5.3.2)
-  msgpack (~> 1.8.3)
+  msgpack (~> 1.8.4)
   multi_json (~> 1.21.0)
   my_page!
   net-ldap (~> 0.20.0)
@@ -1972,7 +1972,7 @@ CHECKSUMS
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   i18n-js (4.2.4) sha256=61390d372f8fa68c495c5907d577657e8cc3a7031f4945db1e91f935e1391355
   i18n-tasks (1.1.2) sha256=4dcfba49e52a623f30661cb316cb80d84fbba5cb8c6d88ef5e02545fffa3637a
-  icalendar (2.12.3) sha256=37dea76c36f5b21dd745bcd3cb53e7bacfbb4ad0a8d9c2a1c0aa9d39af83c850
+  icalendar (2.12.4) sha256=acf9b8b166dad4679b8be2cc3202260896c199ab7302f748c760c97e9d32e3a2
   ice_cube (0.17.0) sha256=32deb45dda4b4acc53505c2f581f6d32b5afc04d29b9004769944a0df5a5fcbe
   ice_nine (0.11.2) sha256=5d506a7d2723d5592dc121b9928e4931742730131f22a1a37649df1c1e2e63db
   image_processing (1.14.0) sha256=754cc169c9c262980889bec6bfd325ed1dafad34f85242b5a07b60af004742fb
@@ -2006,7 +2006,7 @@ CHECKSUMS
   markly (0.16.0) sha256=6f70d79e385b1efc9e171f74c81628826259039fe6c778e03c3924c71dac5511
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
   mcp (0.24.0) sha256=ef13596f13aad7720940a3fd6ab6f4f5e618d0b0fdb587549a90c22579626500
-  md_to_pdf (0.2.6)
+  md_to_pdf (0.2.7)
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.23.0) sha256=ffe78b5bee398de4ff5ac3316f5a786049538a651643b8476def06c3acc762c1
   method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
@@ -2015,7 +2015,7 @@ CHECKSUMS
   mini_magick (5.3.2) sha256=a7ef54b480b15283c396eb8343d9e088471f54b31d9974cb7e523cc57598609f
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   minitest (6.0.6) sha256=153ea36d1d987a62942382b61075745042a2b3123b1cd48f4c3675af9cc7d6f1
-  msgpack (1.8.3) sha256=8bda4a6428d3244e50d6bd55854d354edbada88a4e1f4f5731a39a0f86bee6a1
+  msgpack (1.8.4) sha256=4411c22d350dd1c20250f7eada3cca2695438c2f769cf0782f0cd065d90a3e7b
   multi_json (1.21.1) sha256=e6126a31808e3b4d19f483c775ceac34df190dffa62adfb63a165ee14ba68080
   mustermann (4.0.0) sha256=91f67411bb208d1d93c41e6128cb3b0f8ddd9ec7c45966f1007e1c43c08040d7
   my_page (1.0.0)

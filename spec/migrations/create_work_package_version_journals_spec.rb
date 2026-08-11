@@ -39,13 +39,13 @@ RSpec.describe CreateWorkPackageVersionJournals, type: :model,
   let(:version) { create(:version, project:) }
   let(:other_version) { create(:version, project:) }
 
-  let!(:work_package_with_version) { create(:work_package, project:, version:) }
-  let!(:work_package_without_version) { create(:work_package, project:, version: nil) }
+  let!(:work_package_with_version) { create(:work_package, project:, version_id: version.id) }
+  let!(:work_package_without_version) { create(:work_package, project:, version_id: nil) }
 
   before do
     # A second journal with a different version, so the backfill has to
     # reconstruct a distinct target set per journal, not per work package.
-    work_package_with_version.update!(version: other_version)
+    work_package_with_version.update!(version_id: other_version.id)
 
     # Journals exist but the snapshot table does not yet.
     ActiveRecord::Base.connection.drop_table(:work_package_version_journals)

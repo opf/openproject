@@ -47,7 +47,6 @@ RSpec.describe WorkPackage, ".update_versions keeping target_versions consistent
     described_class.update_versions_from_sharing_change(shared_version)
 
     work_package.reload
-    expect(work_package.version_id).to be_nil
     expect(target_version_ids(work_package)).to be_empty
   end
 
@@ -58,7 +57,6 @@ RSpec.describe WorkPackage, ".update_versions keeping target_versions consistent
     described_class.update_versions_from_hierarchy_change(child_project)
 
     work_package.reload
-    expect(work_package.version_id).to be_nil
     expect(target_version_ids(work_package)).to be_empty
   end
 
@@ -71,7 +69,6 @@ RSpec.describe WorkPackage, ".update_versions keeping target_versions consistent
 
     work_package.reload
     expect(target_version_ids(work_package)).to contain_exactly(own_version.id)
-    expect(work_package.version_id).to eq(own_version.id)
   end
 
   it "drops an unshared observed_in version" do
@@ -91,6 +88,5 @@ RSpec.describe WorkPackage, ".update_versions keeping target_versions consistent
 
     work_package.reload
     expect(target_version_ids(work_package)).to contain_exactly(shared_version.id)
-    expect(work_package.version_id).to eq(shared_version.id)
   end
 end

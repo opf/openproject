@@ -3222,6 +3222,7 @@ ja:
   label_me: 自分
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_new: 新規メンバー
+  label_member_of_project: Member of project
   label_member_plural: メンバー
   label_member_role: プロジェクトロール
   label_membership_added: メンバーが追加されました

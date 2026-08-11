@@ -98,7 +98,7 @@ module Storages
         end
 
         def error(code)
-          Failure(Results::Error.new(source: "EXECUTING_QUERY", code:))
+          Failure(SimpleError.new(source: "EXECUTING_QUERY", code:))
         end
       end
     end

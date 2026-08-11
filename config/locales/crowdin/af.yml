@@ -3274,6 +3274,7 @@ af:
   label_me: ek
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: Nuwe lid
+  label_member_of_project: Member of project
   label_member_plural: Lede
   label_member_role: Project role
   label_membership_added: Member added

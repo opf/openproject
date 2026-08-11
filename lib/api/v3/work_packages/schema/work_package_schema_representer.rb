@@ -305,6 +305,8 @@ module API
                                          },
                                          required: false
 
+          # Deprecated in favour of `targetVersions`
+          # Removed from the API if multiple_versions is enabled on the instance
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,
                                          link_factory: ->(version) {
@@ -315,6 +317,9 @@ module API
                                          },
                                          required: false,
                                          deprecated: true,
+                                         # writes through to target_versions, so it is writable when target_versions are.
+                                         writable: ->(*) { represented.writable?(:target_versions) },
+                                         show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
                                          description: -> { I18n.t("api_v3.attributes.version.deprecated") }
 
           # While multiple versions is not enabled, the field keeps the label of the

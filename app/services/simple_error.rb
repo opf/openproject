@@ -28,14 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Results
-      Error = Data.define(:code, :source) do
-        def initialize(source:, code: nil)
-          super
-        end
-      end
-    end
+SimpleError = Data.define(:code, :payload, :source) do
+  def initialize(source:, code:, payload: nil)
+    super
   end
 end
