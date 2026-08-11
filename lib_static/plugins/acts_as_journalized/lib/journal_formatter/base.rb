@@ -125,7 +125,7 @@ module JournalFormatter
       message = I18n.t(:text_journal_permission_denied)
 
       if options[:html]
-        content_tag("span", message, class: %w(text-italic color-fg-subtle mt-1 tmp-mt-1))
+        content_tag("em", message)
       else
         "_#{message}_"
       end
