@@ -35,11 +35,12 @@ module Wikis
 
     alias_method :tree_nodes, :model
 
-    attr_reader :builder, :form_name
+    attr_reader :builder, :form_name, :wikis_selectable
 
-    def initialize(model = [], builder:, form_name:, **)
+    def initialize(model = [], builder:, form_name:, wikis_selectable: false, **)
       @builder = builder
       @form_name = form_name
+      @wikis_selectable = wikis_selectable
       super(model, **)
     end
 
@@ -68,10 +69,14 @@ module Wikis
       {
         label: node.name,
         select_variant: :single,
-        disabled: !node.enabled,
+        disabled: !selectable?(node),
         expanded: true,
-        data: { node_id: node.identifier }
+        data: { node_id: node.key.to_s }
       }
+    end
+
+    def selectable?(node)
+      wikis_selectable || node.type != :wiki
     end
 
     def item_icon(node)
