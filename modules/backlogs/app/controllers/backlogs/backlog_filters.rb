@@ -32,14 +32,30 @@ module Backlogs
   BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all, :filters_string) do
     def self.from_params(params) # rubocop:disable Metrics/AbcSize
       new(
-        bucket_ids: Array(params[:bucket_ids]).filter_map do |id|
-                      id == "inbox" ? "inbox" : id.to_i.nonzero?
-                    end.presence,
-        sprint_ids: Array(params[:sprint_ids]).filter_map { |id| id.to_i.nonzero? }.presence,
+        bucket_ids: parse_ids(params[:bucket_ids]) { |id| id == "inbox" ? "inbox" : id.to_i.nonzero? },
+        sprint_ids: parse_ids(params[:sprint_ids]) { |id| id.to_i.nonzero? },
         show_all: ActiveRecord::Type::Boolean.new.cast(params[:all]) || false,
         filters_string: params[:filters].presence
       )
     end
+
+    # Coerces a raw filter param into a deduplicated list of ids, or nil when
+    # empty. Accepts both the compact comma-delimited form ("1,2,inbox") and a
+    # plain array (["1", "2"]). Tampered or nested structures (e.g. the URL
+    # +?bucket_ids[0]=5+, which arrives as a Hash/ActionController::Parameters)
+    # are ignored rather than raising.
+    def self.parse_ids(raw, &)
+      tokenize(raw).filter_map(&).uniq.presence
+    end
+
+    def self.tokenize(raw)
+      case raw
+      when String then raw.split(",")
+      when Array then raw
+      else []
+      end.filter_map { |value| value.to_s.strip.presence }
+    end
+    private_class_method :tokenize
 
     def show_inbox?
       bucket_ids.nil? || bucket_ids.include?("inbox")
@@ -53,10 +69,11 @@ module Backlogs
       bucket_ids&.excluding("inbox")
     end
 
+    # Serializes id lists into compact comma-delimited query params.
     def to_h
       result = show_all? ? { all: true } : {}
-      result[:bucket_ids] = bucket_ids if bucket_ids
-      result[:sprint_ids] = sprint_ids if sprint_ids
+      result[:bucket_ids] = bucket_ids.join(",") if bucket_ids
+      result[:sprint_ids] = sprint_ids.join(",") if sprint_ids
       result[:filters] = filters_string if filters_string
       result
     end
