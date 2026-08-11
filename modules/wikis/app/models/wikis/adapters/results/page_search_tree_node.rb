@@ -42,8 +42,6 @@ module Wikis::Adapters::Results
 
       def to_s = "#{type}:#{identifier}"
 
-      def wiki? = type == :wiki
-
       def page? = type == :page
     end
 
