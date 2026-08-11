@@ -61,10 +61,23 @@ A work package response contains both:
 ```json
 {
   "_links": {
-    "version": { "href": "/api/v3/versions/11", "title": "Sprint 3" },
+    "version": {
+      "href": "/api/v3/versions/10",
+      "title": "Sprint 3"
+    },
     "targetVersions": [
-      { "href": "/api/v3/versions/11", "title": "Sprint 3" },
-      { "href": "/api/v3/versions/13", "title": "Sprint 4" }
+      {
+        "href": "/api/v3/versions/10",
+        "title": "Sprint 3"
+      },
+      {
+        "href": "/api/v3/versions/479",
+        "title": "Sprint 1"
+      },
+      {
+        "href": "/api/v3/versions/520",
+        "title": "Version shared globally in project"
+      }
     ]
   }
 }
@@ -74,10 +87,11 @@ To write target versions, send the array in a form or PATCH request:
 
 ```json
 {
+  "lockVersion": 2,
   "_links": {
     "targetVersions": [
-      { "href": "/api/v3/versions/11" },
-      { "href": "/api/v3/versions/13" }
+      { "href": "/api/v3/versions/10" },
+      { "href": "/api/v3/versions/479" }
     ]
   }
 }
