@@ -582,10 +582,8 @@ module API
         associated_resource :version,
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter,
-                            # representable evaluates the getter before `skip_render`, so we manually
-                            # check if we *can* render the result here before actually doing it
+                            show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
                             getter: ->(*) {
-                              next if Setting::WorkPackageMultipleVersions.active?
                               next unless embed_link?(:version)
 
                               version = represented.effective_target_versions.first
@@ -609,8 +607,7 @@ module API
                             },
                             setter: ->(fragment:, **) do
                               represented.target_version_ids = parse_link_ids_from_fragment([fragment], :version).compact
-                            end,
-                            skip_render: ->(*) { Setting::WorkPackageMultipleVersions.active? }
+                            end
 
         associated_resources :target_versions,
                              v3_path: :version,
@@ -877,7 +874,8 @@ module API
            Setting.work_package_done_ratio,
            Setting.show_work_package_attachments,
            Setting.feeds_enabled?,
-           Setting::WorkPackageIdentifier.semantic?]
+           Setting::WorkPackageIdentifier.semantic?,
+           Setting::WorkPackageMultipleVersions.active?]
         end
 
         def load_complete_model(model)

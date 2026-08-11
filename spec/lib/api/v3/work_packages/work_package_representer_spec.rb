@@ -1955,6 +1955,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         expect(semantic_key).not_to eq(classic_key)
       end
 
+      it "changes when multiple versions is toggled",
+         with_flag: { work_package_multiple_versions: true } do
+        with_settings(work_package_multiple_versions: false)
+        single_version_key = representer.json_cache_key
+
+        with_settings(work_package_multiple_versions: true)
+        multiple_versions_key = representer.json_cache_key
+
+        expect(multiple_versions_key).not_to eq(single_version_key)
+      end
+
       it "factors in the eager loaded cache_checksum" do
         without_partial_double_verification do
           allow(work_package)

@@ -42,9 +42,7 @@ module API
 
         def writable_attributes
           attributes = super + %w[date]
-          # `version` is a deprecated alias that writes through to `targetVersions`.
-          # We have to manually so add it here so the link renders properly under the representer.
-          attributes += %w[version] if attributes.include?("targetVersions")
+          attributes += %w[version] if attributes.include?("targetVersions") && !Setting::WorkPackageMultipleVersions.active?
           attributes
         end
 

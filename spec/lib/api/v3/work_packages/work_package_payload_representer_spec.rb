@@ -327,6 +327,15 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:property) { "version" }
           let(:link) { "/api/v3/versions/#{version.id}" }
         end
+
+        context "when multiple versions is active",
+                with_flag: { work_package_multiple_versions: true },
+                with_settings: { work_package_multiple_versions: true } do
+          it "does not offer the deprecated property as writable" do
+            expect(representer.writable_attributes).not_to include("version")
+            expect(subject).not_to have_json_path("_links/version")
+          end
+        end
       end
 
       describe "category" do
