@@ -40,11 +40,11 @@ class OpenProject::JournalFormatter::CustomComment < OpenProject::JournalFormatt
   # A Proc :permission is instance_exec'd with the CustomField being
   # rendered (or nil, if it has since been deleted) as its sole argument,
   # rather than with no arguments as JournalFormatter::Base does.
-  def permission_denied?(options)
+  def permission_granted?(options)
     permission = options[:permission]
     return super unless permission.is_a?(Proc)
 
-    !instance_exec(custom_field_for_key(options[:key]), &permission)
+    instance_exec(custom_field_for_key(options[:key]), &permission)
   end
 
   def label(key, html: true)

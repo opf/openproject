@@ -61,9 +61,9 @@ module Acts::Journalized
       # @param view_permission [Symbol, Proc, nil] a permission to check via
       #   User.current.allowed_in_project?, or a lambda/proc performing a custom
       #   permission check, instance_exec'd against the formatter (see
-      #   JournalFormatter::Base#permission_denied?). Whether the proc receives
+      #   JournalFormatter::Base#permission_granted?). Whether the proc receives
       #   arguments, and what they are, depends on the formatter's own
-      #   permission_denied? implementation (e.g. the CustomField/CustomComment
+      #   permission_granted? implementation (e.g. the CustomField/CustomComment
       #   formatters instance_exec it with the CustomField being rendered).
       def register_journal_formatted_fields(*field_names, formatter_key:, view_permission: nil)
         journal_data_type = journal_class.name
