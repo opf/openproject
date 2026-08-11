@@ -689,7 +689,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "version" do
+    describe "version", with_settings: { work_package_multiple_versions: false } do
       let(:embedded_path) { "_embedded/version" }
       let(:href_path) { "_links/version/href" }
 

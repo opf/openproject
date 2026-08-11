@@ -986,7 +986,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "versions" do
+    describe "versions", with_settings: { work_package_multiple_versions: false } do
       context "if having the assign_versions permission" do
         let(:permissions) { [:assign_versions] }
 

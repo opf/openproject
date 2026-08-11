@@ -613,7 +613,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      describe "version" do
+      describe "version", with_settings: { work_package_multiple_versions: false } do
         let(:target_version) { create(:version, project:) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }

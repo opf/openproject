@@ -130,7 +130,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
 
   subject(:generated) { representer.to_json }
 
-  context "with all supported properties requested" do
+  context "with all supported properties requested",
+          with_settings: { work_package_multiple_versions: false } do
     let(:expected_json) do
       {
         "subject" => work_package.subject,
@@ -199,7 +200,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
-  context "with a subset of supported properties" do
+  context "with a subset of supported properties",
+          with_settings: { work_package_multiple_versions: false } do
     let(:attributes_changed_to_baseline) { %w[start_date assigned_to_id version_id] }
 
     let(:expected_json) do
@@ -236,7 +238,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
-  context "with the target versions changed together with the single-value version" do
+  context "with the target versions changed together with the single-value version",
+          with_settings: { work_package_multiple_versions: false } do
     let(:version_b) { build_stubbed(:version) }
     let(:target_versions) { [version, version_b] }
     let(:attributes_changed_to_baseline) { %w[version_id target_versions] }
@@ -320,7 +323,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
-  context "with all target versions removed" do
+  context "with all target versions removed",
+          with_settings: { work_package_multiple_versions: false } do
     let(:version) { nil }
     let(:target_versions) { [] }
     let(:attributes_changed_to_baseline) { %w[version_id target_versions] }
@@ -472,7 +476,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
-  context "with only one attribute changed to baseline but with the work package not existing (not visible) at current time" do
+  context "with only one attribute changed to baseline but with the work package not existing (not visible) at current time",
+          with_settings: { work_package_multiple_versions: false } do
     # Note that while the work package in this test is configured to not exist at the current time (not visible),
     # the timestamp passed in isn't the current time. So this represents a case where the work package is no longer
     # visible but was visible at the timestamp provided.
