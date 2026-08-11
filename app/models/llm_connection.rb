@@ -99,6 +99,47 @@ class LlmConnection < ApplicationRecord
     options["server_flavour"].presence&.to_sym
   end
 
+  # Whether a health check run may spend a real completion.
+  #
+  # Not a column: it describes the run, not the connection. An administrator
+  # asking to test the connection wants it; the scheduled re-check leaves it off
+  # so that a connection to a paid provider is not billed four times a day.
+  attr_accessor :deep_health_check
+
+  def deep_health_check? = ActiveModel::Type::Boolean.new.cast(deep_health_check).present?
+
+  def latest_health_report
+    health_reports.order(created_at: :asc).last
+  end
+
+  # Derived rather than stored, for the same reason LlmFeatureBinding#dangling?
+  # is: a status column would be a cache with no invalidation trigger, and would
+  # be stale exactly when it matters.
+  def health_state
+    report = latest_health_report
+
+    return :unknown if report.nil?
+    return :unhealthy if report.unhealthy?
+    return :warning if report.warning?
+
+    :healthy
+  end
+
+  # Feeds the downloadable health report. Deliberately excludes api_key *and*
+  # custom_headers: a gateway header routinely carries a second credential.
+  def non_confidential_configuration
+    {
+      base_url:,
+      api_format:,
+      enabled:,
+      server_flavour:,
+      catalogue_fetched_at:,
+      last_connected_at:,
+      model_count: models.count,
+      manual_model_count: models.where(manual: true).count
+    }
+  end
+
   private
 
   def only_one_connection

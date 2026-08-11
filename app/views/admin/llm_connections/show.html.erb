@@ -41,6 +41,14 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
+<% if @connection.persisted? %>
+  <%=
+    render(Primer::OpenProject::SidePanel.new(mb: 3)) do |panel|
+      panel.with_section(LlmConnections::SidePanel::HealthStatusComponent.new(@connection))
+    end
+  %>
+<% end %>
+
 <%= render(LlmConnections::FormComponent.new(@connection)) %>
 
 <% if @connection.persisted? %>
