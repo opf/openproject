@@ -44,21 +44,21 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
     parts.map { |part| "(#{conditions_for(part).join(' OR ')})" }.join(" AND ")
   end
 
-  def conditions_for(part)
+  def conditions_for(part) # rubocop:disable Metrics/AbcSize
     conditions = [subject_condition(part),
                   project_name_condition(part),
                   type_name_condition(part),
                   status_condition(part)]
 
     if (match = part.match(/\A(#)?(#{Projects::Identifier::SEMANTIC_FORMAT.source}-?\d*)\z/i))
-      conditions << work_package_identifier_condition(match[2])
+      conditions << work_package_identifier_condition(hash_prefixed: match[1].present?, search_term: match[2])
     end
 
     if (match = part.match(/\A(#)?(\d+)\z/))
       conditions << id_or_sequence_number_condition(hash_prefixed: match[1].present?, search_term: match[2])
     end
 
-    conditions
+    conditions.compact
   end
 
   def subject_condition(string)
@@ -67,14 +67,6 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
 
   def project_name_condition(string)
     Queries::Operators::Contains.sql_for_field([string], Project.table_name, "name")
-  end
-
-  def work_package_identifier_condition(string)
-    alias_condition = Queries::Operators::StartsWith.sql_for_field(
-      [string], WorkPackageSemanticAlias.table_name, "identifier"
-    )
-    "#{WorkPackage.table_name}.id IN " \
-      "(SELECT work_package_id FROM #{WorkPackageSemanticAlias.table_name} WHERE #{alias_condition})"
   end
 
   def type_name_condition(string)
@@ -97,6 +89,16 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
       # Match statuses by name
       Queries::Operators::Contains.sql_for_field([string], Status.table_name, "name")
     end
+  end
+
+  def work_package_identifier_condition(hash_prefixed:, search_term:)
+    return unless Setting::WorkPackageIdentifier.semantic? || hash_prefixed
+
+    alias_condition = Queries::Operators::StartsWith.sql_for_field(
+      [search_term], WorkPackageSemanticAlias.table_name, "identifier"
+    )
+    "#{WorkPackage.table_name}.id IN " \
+      "(SELECT work_package_id FROM #{WorkPackageSemanticAlias.table_name} WHERE #{alias_condition})"
   end
 
   def id_or_sequence_number_condition(hash_prefixed:, search_term:)

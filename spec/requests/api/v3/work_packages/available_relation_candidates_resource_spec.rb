@@ -138,7 +138,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
 
     describe "relation candidates for wp1 (in hierarchy) with exact_match sorting" do
       let(:href) do
-        "/api/v3/work_packages/#{wp1.id}/available_relation_candidates?query=RELCAND-5" \
+        "/api/v3/work_packages/#{wp1.id}/available_relation_candidates?query=%23RELCAND-5" \
           "&sortBy=[[\"exactMatch\",\"desc\"],[\"updatedAt\",\"desc\"]]"
       end
 

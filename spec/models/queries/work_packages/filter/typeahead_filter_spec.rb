@@ -352,11 +352,20 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
                identifier: "PHO-2")
       end
 
-      context "and there are still entries in the semantic alias registry" do
-        let(:values) { [identifier_work_package1_semantic_alias.identifier] }
+      context "when searching by a semantic identifier prefixed with '#'" do
+        let(:values) { ["##{identifier_work_package1_semantic_alias.identifier}"] }
 
         it "still finds by existing identifiers" do
           expect(subject).to include(identifier_work_package1)
+          expect(subject).not_to include(identifier_work_package2)
+        end
+      end
+
+      context "when searching by a semantic identifier not prefixed with '#'" do
+        let(:values) { [identifier_work_package1_semantic_alias.identifier] }
+
+        it "does not find by existing identifiers" do
+          expect(subject).not_to include(identifier_work_package1)
           expect(subject).not_to include(identifier_work_package2)
         end
       end

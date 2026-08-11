@@ -121,34 +121,46 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
       end
       let(:query_string) { "COM-5" }
 
-      it "ranks the exact identifier match above one that only shares the prefix" do
-        expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
-          .to eq(exact_work_package.id)
-      end
-
-      context "when the query is given in lower case" do
-        let(:query_string) { "com-5" }
-
-        it "still matches COM-5" do
+      context "and the instance is in semantic identifier mode",
+              with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+        it "ranks the exact identifier match above one that only shares the prefix" do
           expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
             .to eq(exact_work_package.id)
         end
-      end
 
-      context "when matching a historical alias in classic mode",
-              with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::CLASSIC } do
-        it "still matches through the alias table" do
-          expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
-            .to eq(exact_work_package.id)
+        context "when the query is given in lower case" do
+          let(:query_string) { "com-5" }
+
+          it "still matches COM-5" do
+            expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
+              .to eq(exact_work_package.id)
+          end
+        end
+
+        context "when the query is hash-prefixed" do
+          let(:query_string) { "#COM-5" }
+
+          it "still ranks the exact identifier match above one that only shares the prefix" do
+            expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
+              .to eq(exact_work_package.id)
+          end
         end
       end
 
-      context "when the query is hash-prefixed" do
-        let(:query_string) { "#COM-5" }
+      context "and the instance is in classic identifier mode" do
+        context "when the query is hash-prefixed" do
+          let(:query_string) { "#COM-5" }
 
-        it "still ranks the exact identifier match above one that only shares the prefix" do
-          expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
-            .to eq(exact_work_package.id)
+          it "still ranks the exact identifier match above one that only shares the prefix" do
+            expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
+              .to eq(exact_work_package.id)
+          end
+        end
+
+        context "when the query is not hash-prefixed" do
+          let(:query_string) { "COM-5" }
+
+          it { is_expected.to be_nil }
         end
       end
     end
