@@ -68,18 +68,31 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
   describe "POST #enable_multiple_versions",
            with_flag: { work_package_multiple_versions: true },
            with_settings: { work_package_multiple_versions: false } do
-    it "enqueues the job and redirects to show" do
+    let(:component_target) { "work-packages-admin-settings-target-versions-section-component" }
+
+    it "enqueues the job and streams the section in the in_progress state" do
       expect do
-        post :enable_multiple_versions
+        post :enable_multiple_versions, format: :turbo_stream
       end.to have_enqueued_job(WorkPackages::EnableMultipleVersionsJob)
 
-      expect(response).to redirect_to(action: "show")
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(action: "replace", target: component_target)
+      expect(response.body).to include("Enabling multiple versions")
+    end
+
+    # The response asserts in_progress instead of re-deriving the state, so the admin
+    # sees the spinner even when the job finishes before the first poll.
+    it "streams the in_progress state although the job is not yet visible as running" do
+      post :enable_multiple_versions, format: :turbo_stream
+
+      expect(WorkPackages::EnableMultipleVersionsJob.in_progress?).to be false
+      expect(response.body).to include("Enabling multiple versions")
     end
 
     context "when the work_package_multiple_versions flag is disabled", with_flag: { work_package_multiple_versions: false } do
       it "renders 404 without enqueueing the job" do
         expect do
-          post :enable_multiple_versions
+          post :enable_multiple_versions, format: :turbo_stream
         end.not_to have_enqueued_job(WorkPackages::EnableMultipleVersionsJob)
 
         expect(response).to have_http_status(:not_found)
@@ -91,22 +104,24 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
         allow(WorkPackages::EnableMultipleVersionsJob).to receive(:in_progress?).and_return(true)
       end
 
-      it "does not enqueue another job but still redirects" do
+      it "does not enqueue another job and streams the in_progress state" do
         expect do
-          post :enable_multiple_versions
+          post :enable_multiple_versions, format: :turbo_stream
         end.not_to have_enqueued_job(WorkPackages::EnableMultipleVersionsJob)
 
-        expect(response).to redirect_to(action: "show")
+        expect(response).to have_turbo_stream(action: "replace", target: component_target)
+        expect(response.body).to include("Enabling multiple versions")
       end
     end
 
     context "when the setting is already on", with_settings: { work_package_multiple_versions: true } do
-      it "does not enqueue another job but still redirects" do
+      it "does not enqueue another job and streams the completed state" do
         expect do
-          post :enable_multiple_versions
+          post :enable_multiple_versions, format: :turbo_stream
         end.not_to have_enqueued_job(WorkPackages::EnableMultipleVersionsJob)
 
-        expect(response).to redirect_to(action: "show")
+        expect(response).to have_turbo_stream(action: "replace", target: component_target)
+        expect(response.body).to include("Recent changes")
       end
     end
 
@@ -115,12 +130,13 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
         allow(Settings::Definition[:work_package_multiple_versions]).to receive(:writable?).and_return(false)
       end
 
-      it "does not enqueue the job but still redirects" do
+      it "does not enqueue the job and streams the action_required state" do
         expect do
-          post :enable_multiple_versions
+          post :enable_multiple_versions, format: :turbo_stream
         end.not_to have_enqueued_job(WorkPackages::EnableMultipleVersionsJob)
 
-        expect(response).to redirect_to(action: "show")
+        expect(response).to have_turbo_stream(action: "replace", target: component_target)
+        expect(response.body).to include("Action required")
       end
     end
   end

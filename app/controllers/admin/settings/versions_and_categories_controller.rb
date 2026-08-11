@@ -43,19 +43,19 @@ module Admin::Settings
     end
 
     def enable_multiple_versions
-      unless WorkPackages::EnableMultipleVersionsJob.in_progress? ||
-             Setting.work_package_multiple_versions? ||
-             !Setting.work_package_multiple_versions_writable?
+      state = target_versions_state
+
+      if state == :action_required && Setting.work_package_multiple_versions_writable?
         WorkPackages::EnableMultipleVersionsJob.perform_later
+        state = :in_progress
       end
 
-      redirect_to action: :show
+      replace_target_versions_section_via_turbo_stream(state)
+      respond_with_turbo_streams
     end
 
     def status
-      replace_via_turbo_stream(
-        component: WorkPackages::Admin::Settings::TargetVersionsSectionComponent.new(state: target_versions_state)
-      )
+      replace_target_versions_section_via_turbo_stream(target_versions_state)
       respond_with_turbo_streams
     end
 
@@ -67,6 +67,12 @@ module Admin::Settings
 
     def require_feature_flag
       render_404 unless OpenProject::FeatureDecisions.work_package_multiple_versions_active?
+    end
+
+    def replace_target_versions_section_via_turbo_stream(state)
+      replace_via_turbo_stream(
+        component: WorkPackages::Admin::Settings::TargetVersionsSectionComponent.new(state:)
+      )
     end
 
     # The job is checked before the setting because the setting only flips once the job
