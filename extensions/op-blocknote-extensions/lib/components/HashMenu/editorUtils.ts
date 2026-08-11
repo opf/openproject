@@ -1,8 +1,6 @@
-import type { BlockNoteEditor } from '@blocknote/core';
+import type { AnyEditor } from '../../editorTypes';
 import type { InlineWpSize } from '../WorkPackage/types';
 import type { WorkPackage } from '../../openProjectTypes';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyEditor = BlockNoteEditor<any, any, any>;
 
 interface RawNode {
   type:string;

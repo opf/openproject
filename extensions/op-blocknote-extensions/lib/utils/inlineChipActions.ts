@@ -1,6 +1,7 @@
-import type { BlockNoteEditor, InlineContentFromConfig } from '@blocknote/core';
+import type { InlineContentFromConfig } from '@blocknote/core';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { NodeSelection } from 'prosemirror-state';
+import type { AnyEditor } from '../editorTypes';
 import type { InlineWpSize, BlockWpSize } from '../components/WorkPackage/types';
 import { moveCursorAfterBlock } from './cursor';
 import { hideSafariPhantomSelection } from './selection';
@@ -15,8 +16,6 @@ import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 // paste-time deduplication. A position uniquely identifies one node instance,
 // so copies are independent by construction.
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyEditor = BlockNoteEditor<any, any, any>;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyInlineNode = InlineContentFromConfig<any, any>;
 

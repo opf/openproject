@@ -1,5 +1,5 @@
-import type { BlockNoteEditor } from '@blocknote/core';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
+import type { AnyEditor } from '../editorTypes';
 
 /**
  * Selection utilities.
@@ -8,9 +8,6 @@ import type { Node as ProsemirrorNode } from 'prosemirror-model';
  * `window.getSelection()`; it exposes a non-standard `ShadowRoot.getSelection()`
  * instead. Firefox works through `window.getSelection()`.
  */
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyEditor = BlockNoteEditor<any, any, any>;
 
 type ShadowRootWithSelection = ShadowRoot & {
   getSelection:() => Selection | null;

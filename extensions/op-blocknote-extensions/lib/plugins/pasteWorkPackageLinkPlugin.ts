@@ -1,14 +1,13 @@
 import { Plugin, PluginKey } from 'prosemirror-state';
 import type { Fragment, Node } from 'prosemirror-model';
 import { contentNodeToInlineContent, isLinkInlineContent, isStyledTextInlineContent } from '@blocknote/core';
-import type { BlockNoteEditor, InlineContent, StyleSchema, StyledText } from '@blocknote/core';
+import type { InlineContent, StyleSchema, StyledText } from '@blocknote/core';
+import type { AnyEditor } from '../editorTypes';
 import type { WorkPackageBlockProps } from '../components/BlockWorkPackage/externalHtml';
 import { fetchWorkPackage, parseWorkPackageUrl } from '../services/openProjectApi';
 import { isCurrentBlockEmpty } from '../utils/blockContent';
 import { moveCursorAfterBlock } from '../utils/cursor';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyEditor = BlockNoteEditor<any, any, any>;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyInline = InlineContent<any, StyleSchema>;
 
