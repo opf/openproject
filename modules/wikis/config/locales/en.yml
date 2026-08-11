@@ -216,6 +216,8 @@ en:
         parent: As parent
     project_settings:
       project_internal_wiki_component:
+        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
+        blankslate_title: Project wikis are disabled globally
         caption: >-
           This enables native wiki functionality for this project. Members will be able to create and read wiki pages
           that are stored in OpenProject.

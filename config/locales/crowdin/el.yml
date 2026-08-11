@@ -3274,6 +3274,7 @@ el:
   label_me: εγώ
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_new: Νέο μέλος
+  label_member_of_project: Member of project
   label_member_plural: Μέλη
   label_member_role: Project role
   label_membership_added: Το μέλος προστέθηκε

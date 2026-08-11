@@ -43,6 +43,7 @@ pt-BR:
       resource_planner: Planejador de recursos
       resource_user_card: Cartões de usuário
       resource_work_package_list: Lista de Pacotes de trabalho
+  button_next: Próximo
   ee:
     features:
       resource_management: Gerenciamento de recursos
@@ -50,7 +51,6 @@ pt-BR:
       resource_management:
         description: Planeje e equilibre a carga de trabalho da sua equipe com planejadores de recursos. Aloque pessoas a pacotes de trabalho, acompanhe a capacidade ao longo do tempo e identifique rapidamente a superalocação e a subalocação.
         title: Gerenciamento de recursos
-  button_next: Próximo
   label_resource_management: Gerenciamento de recursos
   permission_allocate_user_resources: Alocar recursos do usuário
   permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
@@ -283,6 +283,10 @@ pt-BR:
         allocate: Alocar
         settings: Configurar exibição
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Adicionar pacote de trabalho
         configure_view: Configurar exibição

@@ -28,10 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenIDConnect
-  TokenOperationError = Data.define(:code, :payload, :source) do
-    def initialize(source:, payload: nil, code: nil)
-      super
+class Queries::Users::Filters::MemberFilter < Queries::Users::Filters::UserFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
+
+  def self.key
+    :member
+  end
+
+  def human_name
+    I18n.t(:label_member_of_project)
+  end
+
+  def apply_to(query_scope)
+    case operator
+    when "="
+      query_scope.in_project(values)
+    when "!"
+      query_scope.not_in_project(values)
+    when "*"
+      query_scope.where(id: Member.of_any_project.select(:user_id))
+    when "!*"
+      query_scope.where.not(id: Member.of_any_project.select(:user_id))
     end
   end
 end

@@ -3274,6 +3274,7 @@ pt-BR:
   label_me: eu
   label_member_all_admin: "(Todos os papéis devidos ao status de administrador)"
   label_member_new: Novo membro
+  label_member_of_project: Member of project
   label_member_plural: Membros
   label_member_role: Função do projeto
   label_membership_added: Membro adicionado

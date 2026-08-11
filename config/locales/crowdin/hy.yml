@@ -3270,6 +3270,7 @@ hy:
   label_me: ես
   label_member_all_admin: "(Բոլոր դերերը՝ ադմինիստրատորի կարգավիճակի շնորհիվ)"
   label_member_new: Նոր անդամ
+  label_member_of_project: Member of project
   label_member_plural: Անդամներ
   label_member_role: Նախագծի դեր
   label_membership_added: Անդամն ավելացվել է

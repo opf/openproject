@@ -118,7 +118,7 @@ module Storages
     end
 
     def collision_error
-      ::Storages::Adapters::Results::Error.new(source: self.class, code: :folder_id_collision)
+      SimpleError.new(source: self.class, code: :folder_id_collision)
     end
 
     def client_remote_identities_scope

@@ -43,6 +43,7 @@ uk:
       resource_planner: Планувальник ресурсів
       resource_user_card: Картки користувачів
       resource_work_package_list: Список пакетів робіт
+  button_next: Далі
   ee:
     features:
       resource_management: Керування ресурсами
@@ -50,7 +51,6 @@ uk:
       resource_management:
         description: Плануйте й збалансовуйте робоче навантаження команди за допомогою інструментів планування ресурсів. Виділяйте кадри для пакетів робіт, відстежуйте завантаження в динаміці й виявляйте випадки надмірного або недостатнього виділення ресурсів із першого погляду.
         title: Керування ресурсами
-  button_next: Далі
   label_resource_management: Керування ресурсами
   permission_allocate_user_resources: Призначати ресурси користувачів
   permission_allocate_user_resources_explanation: Дозволяє користувачам створювати, оновлювати й видаляти виділення ресурсів у планувальнику ресурсів. Це, зокрема, стосується призначення користувачів (або фільтрів користувачів) планувальнику й коригування виділеного часу й діапазону дат.
@@ -287,6 +287,12 @@ uk:
         allocate: Призначити
         settings: Налаштувати подання
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          few: "%{count} members of this project match the allocation's filter criteria."
+          many: "%{count} members of this project match the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Додати пакет робіт
         configure_view: Налаштувати подання

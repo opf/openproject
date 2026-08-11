@@ -3272,6 +3272,7 @@ bg:
   label_me: мен
   label_member_all_admin: "(Всички роли се дължат на статута на администратор)"
   label_member_new: Нов потребител
+  label_member_of_project: Member of project
   label_member_plural: Потребители
   label_member_role: Project role
   label_membership_added: Добавен член

@@ -3326,6 +3326,7 @@ hr:
   label_me: ja
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: Novi član
+  label_member_of_project: Member of project
   label_member_plural: Članovi
   label_member_role: Project role
   label_membership_added: Member added

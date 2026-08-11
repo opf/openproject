@@ -65,7 +65,7 @@ module Storages
               it "fails when folders can't be created" do
                 create_cmd = class_double(Commands::CreateFolderCommand)
                 input_data = Input::CreateFolder.build(folder_name:, parent_location: storage.managed_drive_id).value!
-                error = Results::Error.new(source: self, code: :error)
+                error = SimpleError.new(source: self, code: :error)
                 allow(create_cmd).to receive(:call).with(storage:, auth_strategy:, input_data:).and_return(Failure(error))
 
                 Registry.stub("sharepoint.commands.create_folder", create_cmd)
