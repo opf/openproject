@@ -70,6 +70,15 @@ module Import
     private
 
     def import_user(jira_user)
+      # A retried run re-processes every Jira user. Without this the OP user created by the
+      # previous attempt is seen as a login/email collision and a duplicate is created.
+      already_imported = Import::JiraOpenProjectReference.exists?(
+        jira_import_id: @jira_import.id,
+        jira_entity_class: Import::JiraUser.to_s,
+        jira_entity_id: jira_user.id
+      )
+      return import_user_groups(jira_user) if already_imported
+
       user_attrs = jira_user.to_op_attributes
       call = Users::CreateService
                .new(user: User.system, contract_class: EmptyContract)
@@ -90,7 +99,6 @@ module Import
       import_user_groups(jira_user)
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def handle_create_user_failure(call, user_attrs, jira_user)
       taken_errors = call.errors.select { |error| error.type == :taken }
 
@@ -116,9 +124,7 @@ module Import
 
       raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
-    # rubocop:disable Metrics/AbcSize
     def handle_referenced_user_mail_conflict(user_attrs, jira_user)
       unique_mail, reusable_user = resolve_jira_email(user_attrs[:mail], jira_user.jira_user_key)
       if reusable_user
@@ -135,8 +141,8 @@ module Import
         }
 
         new_call = Users::CreateService
-                     .new(user: User.system, contract_class: EmptyContract)
-                     .call(user_attrs.merge(overrides))
+         .new(user: User.system, contract_class: EmptyContract)
+         .call(user_attrs.merge(overrides))
         unless new_call.success?
           raise "Error creating a user with modified email '#{unique_mail}' " \
                 "(#{user_attrs.except(:password)}): #{new_call.message}"
@@ -150,7 +156,6 @@ module Import
         )
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     def handle_referenced_user_login_conflict(user_attrs, jira_user)
       unique_login = resolve_jira_login(user_attrs[:login], jira_user.jira_user_key)
@@ -176,7 +181,6 @@ module Import
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
     def import_user_group(group_name, jira_user)
       call = Groups::CreateService
                .new(user: User.system, contract_class: EmptyContract)
@@ -202,7 +206,6 @@ module Import
         .new(group, current_user: User.system)
         .call(ids: [member_id], send_notifications: false)
     end
-    # rubocop:enable Metrics/AbcSize
 
     def handle_create_group_failure(call, group_name)
       if call.errors.find { |error| error.type == :taken }.blank?
@@ -211,6 +214,15 @@ module Import
 
       group = Group.where(name: group_name).first
       if group.present?
+        # The group is imported once per member. Overwriting the reference would clear
+        # uses_existing and make the revert skip a group this run created.
+        already_referenced = Import::JiraOpenProjectReference.exists?(
+          jira_import_id: @jira_import.id,
+          op_entity_class: group.class.to_s,
+          op_entity_id: group.id
+        )
+        return if already_referenced
+
         create_reference!(
           op_leg: group,
           jira_leg: nil,

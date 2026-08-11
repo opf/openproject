@@ -913,7 +913,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                                   "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select" })
       end
 
-      before { described_class.new.perform(jira_import.id) }
+      before { import_project }
 
       it "collects the option from the imported issues and sets the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
@@ -930,7 +930,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                                   "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:multiselect" })
       end
 
-      before { described_class.new.perform(jira_import.id) }
+      before { import_project }
 
       it "collects all options from the imported issues and sets both values" do
         cf = WorkPackageCustomField.find_by!(name: "CF Multi-List")
@@ -947,7 +947,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                                   "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes" })
       end
 
-      before { described_class.new.perform(jira_import.id) }
+      before { import_project }
 
       it "becomes a boolean because the issues only use one option" do
         cf = WorkPackageCustomField.find_by!(name: "CF Booleans - Check 1")
@@ -966,7 +966,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                         )])
       end
 
-      before { described_class.new.perform(jira_import.id) }
+      before { import_project }
 
       it "adds the missing option next to the reported ones and sets the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
@@ -990,7 +990,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                         )])
       end
 
-      before { described_class.new.perform(jira_import.id) }
+      before { import_project }
 
       it "matches the stripped option instead of dropping the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
@@ -1011,7 +1011,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                                            "allowedValues" => [{ "id" => "10141", "value" => "Cat" }] }])
       end
 
-      before { described_class.new.perform(jira_import.id) }
+      before { import_project }
 
       it "activates the fallback custom field in the project and keeps the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
@@ -1041,7 +1041,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                             end)
       end
 
-      before { described_class.new.perform(jira_import.id) }
+      before { import_project }
 
       it "still sets the value on the issue that has one" do
         expect(cf_value("CF List")).to eq("Cat")

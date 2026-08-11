@@ -84,9 +84,10 @@ module Import
           ).op_leg
           attachments = jira_issue.payload.dig("fields", "attachment") || []
           attachments.each do |attachment|
-            author = find_user(attachment["author"]["key"])
-            create_member(@project, author)
-            create_attachment(work_package, attachment, author)
+            key = attachment.dig("author", "key")
+            author = find_user(key)
+            create_member(@project, author) if author.present?
+            create_attachment(work_package, attachment, author || User.system)
           end
         end
       end
