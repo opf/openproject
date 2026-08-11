@@ -91,6 +91,6 @@ RSpec.describe WorkPackage, ".update_versions keeping target_versions consistent
 
     work_package.reload
     expect(target_version_ids(work_package)).to contain_exactly(shared_version.id)
-    expect(work_package.version_id).to eq(shared_version.id)
+    expect(work_package.version).to eq(shared_version)
   end
 end

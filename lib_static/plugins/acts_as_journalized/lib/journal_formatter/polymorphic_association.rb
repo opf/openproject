@@ -65,14 +65,25 @@ module JournalFormatter
     end
 
     def associated_object(gid, cache:)
+      global_id = GlobalID.parse(gid)
+      return if global_id.nil?
+
       if cache
-        go = GlobalID.new(gid)
-        cache.fetch(go.model_name, go.model_id) do # rubocop:disable Lint/UselessDefaultValueArgument
-          GlobalID::Locator.locate(gid)
+        cache.fetch(global_id.model_name, global_id.model_id) do # rubocop:disable Lint/UselessDefaultValueArgument
+          locate(global_id)
         end
       else
-        GlobalID::Locator.locate(gid)
+        locate(global_id)
       end
+    end
+
+    # The referenced record may have been destroyed after the journal was written,
+    # e.g. a time entry logged on a work package that has since been deleted.
+    # The detail is then rendered as if the value had been removed.
+    def locate(global_id)
+      GlobalID::Locator.locate(global_id)
+    rescue ActiveRecord::RecordNotFound
+      nil
     end
   end
 end

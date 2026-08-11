@@ -62,6 +62,34 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::ProjectAttributesService do
       end
     end
 
+    # Going Independent has to preserve the configuration the type was presenting, so the
+    # attributes its link chain excluded must not come back as owned rows.
+    context "when the type's link excludes some of the source's attributes",
+            with_flag: { type_variants: true } do
+      let(:source) { create(:type) }
+      let(:kept_field) { create(:project_custom_field) }
+      let(:excluded_field) { create(:project_custom_field) }
+
+      before do
+        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: kept_field)
+        ProjectCustomFieldTypeMapping.create!(type: source, project_custom_field: excluded_field)
+        create(:type_configuration_link, type:, source:,
+                                         aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES,
+                                         excluded_elements: [excluded_field.attribute_name])
+      end
+
+      it "copies only the attributes the type was actually presenting" do
+        expect(service_call).to be_success
+        expect(enabled_field_ids(type)).to contain_exactly(kept_field.id)
+      end
+
+      it "leaves the source's own mappings complete" do
+        service_call
+
+        expect(enabled_field_ids(source)).to contain_exactly(kept_field.id, excluded_field.id)
+      end
+    end
+
     context "when the type already has enabled attributes" do
       let(:source) { create(:type) }
       let(:source_field) { create(:project_custom_field) }

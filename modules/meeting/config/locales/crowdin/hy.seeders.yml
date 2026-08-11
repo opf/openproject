@@ -9,21 +9,21 @@ hy:
         demo-project:
           meeting_series:
             item_0:
-              title: Weekly
+              title: Շաբաթական
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Բարի լուր
             item_1:
-              title: Updates from development team
+              title: Թարմացումներ մշակման թիմից
             item_2:
-              title: Updates from product team
+              title: Թարմացումներ արտադրանքի թիմից
             item_3:
-              title: Updates from marketing team
+              title: Թարմացումներ մարքեթինգի թիմից
             item_5:
-              title: Updates from sales team
+              title: Թարմացումներ վաճառքի թիմից
             item_6:
-              title: Review of quarterly goals
+              title: Եռամսյակային նպատակների վերանայում
             item_7:
-              title: Core values feedback
+              title: Հիմնական արժեքների վերաբերյալ արձագանք
             item_8:
-              title: General topics
+              title: Ընդհանուր թեմաներ

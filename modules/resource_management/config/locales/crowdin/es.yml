@@ -5,7 +5,7 @@ es:
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tiempo asignado
-        date_range: Dates
+        date_range: Fechas
         end_date: Fecha de finalización
         entity: Entidad
         filter_name: Nombre del filtro de recursos
@@ -14,7 +14,7 @@ es:
         state: Estado
         user_filter: Filtro de usuarios
       resource_planner:
-        date_range: Dates
+        date_range: Fechas
         default_view_class_name: Vista por defecto
         end_date: Fecha de finalización
         favorite: Favorito
@@ -31,9 +31,9 @@ es:
           attributes:
             end_date:
               greater_than_start_date: debe ser posterior a la fecha de inicio.
-              required_with_start_date: must be set when a start date is set.
+              required_with_start_date: debe establecerse cuando se fija una fecha de inicio.
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: debe establecerse cuando se fija una fecha de finalización.
         resource_work_package_list:
           attributes:
             query:
@@ -43,15 +43,15 @@ es:
       resource_planner: Planificador de recursos
       resource_user_card: Tarjetas de usuario
       resource_work_package_list: Lista de paquetes de trabajo
+  button_next: Siguiente
   ee:
     features:
-      resource_management: Resource management
+      resource_management: Gestión de recursos
     upsell:
       resource_management:
-        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
-        title: Resource management
-  button_next: Siguiente
-  label_resource_management: Administración de recursos
+        description: Planifica y equilibra la carga de trabajo de tu equipo con herramientas de planificación de recursos. Asigna personal a los paquetes de trabajo, haz un seguimiento de la capacidad a lo largo del tiempo y detecta de un vistazo si hay exceso o falta de asignación.
+        title: Gestión de recursos
+  label_resource_management: Gestión de recursos
   permission_allocate_user_resources: Asignar recursos de usuario
   permission_allocate_user_resources_explanation: Permite a los usuarios crear, actualizar y eliminar asignaciones de recursos dentro de un planificador de recursos. Esto incluye asignar usuarios (o filtros de usuarios) a un planificador y ajustar el intervalo de tiempo y fecha asignado.
   permission_assign_users_to_generic_allocations: Asociar usuarios a asignaciones genéricas
@@ -75,7 +75,7 @@ es:
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Establece criterios de filtrado basados en los atributos del usuario para crear un recurso de marcador de posición.
+          caption: Establece criterios de filtrado basados en los atributos de usuarios para crear un recurso de marcador de posición.
           label: Criterios de filtrado
         label: Tipo de asignación
         principal:
@@ -106,10 +106,10 @@ es:
       no_candidates:
         description: Ningún miembro del proyecto cumple los criterios de filtrado de esta asignación.
         title: No hay miembros que coincidan
-      no_schedule: Este usuario no tiene ningún programa de trabajo configurado, por lo que no podemos determinar si esta asignación encaja.
+      no_schedule: Este usuario no tiene ningún programa de trabajo configurado, por lo que no podemos determinar si esta asignación es adecuada.
       overbooked_detail: Este usuario tiene %{available} disponible en este período, el paquete de trabajo requiere %{requested}.
       requested_for: Solicitado para
-      select_user: Por favor, seleccione un usuario a asignar.
+      select_user: Selecciona un usuario a asignar.
       submit: Asignar
       title: Asignar %{filter_name}
     blankslate:
@@ -147,14 +147,14 @@ es:
       assign: Asignar usuario
       blank:
         description: Todas las asignaciones genéricas de este proyecto tienen un usuario asignado.
-        title: Nada para dotar de recursos
+        title: Nada para dotar de personal
       columns:
         dates: Fechas
         requested_time: Hora deseada
         resource: Recurso
         work_package: Paquete de trabajo
       context_menu_label: Acciones de asignación
-      delete_confirmation: "¿Está seguro de que desea eliminar esta asignación?"
+      delete_confirmation: "¿Seguro que quieres eliminar esta asignación?"
       menu_item: Dotación de personal
       starts_in_past: Esta asignación ya ha comenzado y aún no está asignada.
       success_message: Usuario asignado.
@@ -212,9 +212,9 @@ es:
       blank:
         add_user: Añadir usuario
         configure_view: Configurar vista
-        description: Aún no hay usuarios que coincidan con los filtros de esta vista.
-        manual_description: Añadir usuarios a esta vista para ver su asignación con el tiempo.
-        title: No hay usuarios para mostrar
+        description: Todavía no hay usuarios que se ajusten a los filtros de esta vista.
+        manual_description: Añade usuarios a esta vista para ver su asignación con el tiempo.
+        title: No hay usuarios que mostrar
       no_work_schedule: No hay ningún cronograma de trabajo previsto para este usuario
       overbooked: Este usuario ha superado su asignación total en el periodo seleccionado.
       overbooked_tooltip:
@@ -226,13 +226,13 @@ es:
         caption: Crea una vista basada en los usuarios y consulta sus datos y su asignación en una lista de fichas de usuario
         label: Lista de tarjetas de usuario
       resource_user_timeline:
-        caption: Crear una vista basada en los usuarios y ver sus asignaciones con el tiempo en una línea de tiempo
+        caption: Crea una vista basada en los usuarios y consulta sus asignaciones a lo largo del tiempo en un cronograma
         label: Línea de tiempo de usuarios
       resource_work_package_list:
         caption: Crea una vista basada en los paquetes de trabajo y consulta sus detalles y su asignación en una lista
         label: Lista de paquetes de trabajo
       resource_work_package_timeline:
-        caption: Crea una vista basada en los paquetes de trabajo y consulta su distribución a lo largo del tiempo en un calendario
+        caption: Crea una vista basada en los paquetes de trabajo y consulta su asignación a lo largo del tiempo en un cronograma
         label: Calendario de los paquetes de trabajo
       user_card:
         caption: Crea una vista basada en los usuarios y consulta sus datos y su asignación en una lista de fichas de usuario
@@ -283,6 +283,10 @@ es:
         allocate: Asignar
         settings: Configurar vista
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Añadir paquete de trabajo
         configure_view: Configurar vista

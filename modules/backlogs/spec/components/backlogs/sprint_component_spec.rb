@@ -125,7 +125,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         end
 
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
-          expect(card["data-controller"]).to eq("backlogs--work-package")
+          expect(card["data-controller"].split).to include("backlogs--work-package")
           expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
           expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
         end
@@ -295,6 +295,19 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
         it "renders the start-sprint link enabled" do
           expect(rendered_component).to have_link("Start sprint")
+        end
+
+        context "when params[:all] is true" do
+          before do
+            vc_test_controller.params[:all] = "1"
+          end
+
+          it "preserves ?all=true on the start-sprint link" do
+            expect(rendered_component).to have_link(
+              "Start sprint",
+              href: start_project_backlogs_sprint_path(project, sprint, all: true)
+            )
+          end
         end
       end
 

@@ -28,8 +28,9 @@ module WorkPackageTypes::TypeDeactivationErrorMessage
     )
   end
 
+  # Work packages store the root, so a variant has to be filtered by the family it belongs to.
   def affected_work_packages_path(type, project_ids:)
-    filters = [{ n: "type", o: "=", v: [type.id] }]
+    filters = [{ n: "type", o: "=", v: [type.root_id] }]
     filters << { n: "project", o: "=", v: project_ids.map(&:to_s) } if project_ids.present?
 
     work_packages_path query_props: { f: filters }.to_json

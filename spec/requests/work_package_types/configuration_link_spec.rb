@@ -124,13 +124,17 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("Switch")
     end
 
-    it "leads with the parent type for variants" do
+    it "lists every source by composite name, families kept together, the parent flagged" do
       parent = create(:type, name: "Feature")
-      variant = create(:type, parent:)
+      create(:type, name: "Small", parent:)
+      create(:type, name: "Big", parent:)
+      variant = create(:type, name: "Mobile", parent:)
 
       get type_configuration_link_dialog_path(type_id: variant.id, aspect:), as: :turbo_stream
 
-      expect(response.body).to include("Feature (parent)")
+      expect(source_option_labels).to eq(
+        [type.name, source.name, "Feature (parent)", "Feature: Big", "Feature: Small"]
+      )
     end
 
     it "is not found for an unknown aspect" do
@@ -216,5 +220,13 @@ RSpec.describe "Work package type configuration source",
       expect(response).not_to be_successful
       expect(type.reload).not_to be_linked(aspect)
     end
+  end
+
+  # A decorated autocompleter ships its options to the Angular component as a
+  # JSON payload rather than rendering them as markup.
+  def source_option_labels
+    autocompleter = Nokogiri::HTML5.fragment(response.body).at_css("opce-autocompleter")
+
+    JSON.parse(autocompleter["data-items"]).pluck("name")
   end
 end

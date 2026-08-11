@@ -259,7 +259,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
 
       before do
-        work_package.update(version:)
+        work_package.target_versions = [version]
       end
 
       context "with an unshared version" do
@@ -297,7 +297,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "with an unshared observed in version" do
         before do
-          work_package.update(version: nil)
+          work_package.target_versions = []
           WorkPackageVersion.create!(work_package:, version:, kind: "observed_in")
         end
 
@@ -440,6 +440,37 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             .to be_nil
         end
       end
+    end
+  end
+
+  describe "changing the type when the project resolves it to a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    shared_let(:root_only_status) { create(:status, name: "root_only_status") }
+
+    let(:work_package) { create(:work_package, subject: "work_package", status: root_only_status) }
+    let(:attributes) { { type: family_root } }
+
+    before do
+      variant.configuration_links
+             .find_by(aspect: Type::ConfigurationLink::WORKFLOWS)
+             .destroy!
+
+      create(:workflow, type: family_root, role:,
+                        old_status_id: root_only_status.id, new_status_id: root_only_status.id)
+      create(:workflow, type: variant, role:,
+                        old_status_id: non_default_status.id, new_status_id: non_default_status.id)
+
+      project.project_types.create!(type: family_root, variant:)
+    end
+
+    # root_only_status is valid for the root's workflow but not the variant's, so following the
+    # stored root would leave it in place while following the variant has to reassign it.
+    it "judges the status against the variant's workflow, not the stored root's" do
+      expect(subject).to be_success
+      expect(work_package.reload.type).to eq(family_root)
+      expect(work_package.status).to eq(default_status)
     end
   end
 
@@ -2283,8 +2314,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       subject(:service) { instance.call(version_id: version2.id, send_notifications: false) }
 
       before do
-        work_package.version = version1
-        work_package.save!
+        work_package.target_versions = [version1]
       end
 
       it { expect(service).to be_success }
@@ -2304,8 +2334,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       subject(:service) { instance.call(version_id: nil, send_notifications: false) }
 
       before do
-        work_package.version = nil
-        work_package.save!
+        work_package.target_versions = []
       end
 
       it { expect(service).to be_success }

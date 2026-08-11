@@ -22,7 +22,6 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%= render WorkPackageTypes::ProjectAttributes::IndexComponent.new(
         type: @type,
-        project_custom_field_sections: @project_custom_field_sections,
-        readonly: @type.linked?(Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+        project_custom_field_sections: @project_custom_field_sections
       ) %>
 <% end %>

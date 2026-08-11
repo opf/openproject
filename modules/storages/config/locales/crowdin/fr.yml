@@ -560,5 +560,5 @@ fr:
           des lots de travaux dans un projet.
         title: Intégration de OneDrive
       sharepoint:
-        description: Intégrez votre OneDrive/SharePoint en tant qu'espace de stockage de fichiers avec OpenProject. Importez des fichiers et liez-les directement aux lots de travaux d'un projet.
+        description: Intégrez votre site SharePoint à OpenProject comme espace de stockage de fichiers. Chargez des fichiers et liez-les directement aux lots de travaux d'un projet.
         title: Intégration de SharePoint

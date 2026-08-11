@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,8 +30,17 @@ import {
   type Edge,
   extractClosestEdge,
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+// Pragmatic drives native drag/drop through an invisible, pointer-tracking
+// overlay (a "honey pot") that works around a real cross-browser bug:
+// browsers incorrectly keep native "hover" active at the drag's start
+// position for its whole duration. A raw document.elementsFromPoint can
+// resolve to that overlay instead of the element actually under the
+// pointer; this helper reads past it the same way Pragmatic's own target
+// resolution (lifecycle-manager) does.
+import { getElementFromPointWithoutHoneypot } from '@atlaskit/pragmatic-drag-and-drop/private/get-element-from-point-without-honey-pot';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
+  resolveClosestItemElement,
   resolveItemElement,
   resolveItemId,
   resolveListAppendPreviousItemId,
@@ -51,6 +60,14 @@ export interface SortableItemData extends Record<string|symbol, unknown> {
   type:string;
   itemId:string;
   rootElement:HTMLElement|null;
+  // The list element the drag started in, resolved by the root at drag start
+  // (items hold no list reference themselves). Null when the item is not in a
+  // registered list. Mirrors the rootElement pattern: identity is carried on
+  // the payload so drop targets can decide without walking the DOM.
+  sourceListElement:HTMLElement|null;
+  // A confined item may only land in sourceListElement or one of its rows;
+  // every other container refuses it. See confinementAllowsDrop.
+  confined:boolean;
 }
 
 export type SortableListDropPosition = 'start'|'end';
@@ -78,6 +95,12 @@ export interface SortableListsRoot {
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
+  // The element of the list an item currently belongs to; null outside any
+  // registered list. Items carry no list reference, so the root resolves it.
+  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null;
+  // The rows container of the item's innermost owning list, or null when the
+  // item is not (yet) inside a list the root knows about.
+  ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
@@ -109,16 +132,22 @@ export function sortableItemData({
   type,
   itemId,
   rootElement = null,
+  sourceListElement = null,
+  confined = false,
 }:{
   type:string;
   itemId:string;
   rootElement?:HTMLElement|null;
+  sourceListElement?:HTMLElement|null;
+  confined?:boolean;
 }):SortableItemData {
   return {
     [sortableItemDataKey]: true,
     type,
     itemId,
     rootElement,
+    sourceListElement,
+    confined,
   };
 }
 
@@ -175,6 +204,27 @@ export function isItemFromRoot(
     && data.rootElement === rootElement;
 }
 
+// Whether a drop on the given target may amount to a move under the source's
+// confinement. contains() includes the element itself, so one predicate passes
+// both the source list element and every row inside it while failing every
+// foreign container. The source list passing is load-bearing: a drop resolves
+// through the list target (resolveDropIntent returns null without one), so
+// failing it would kill within-list reorder, not just cross-list moves.
+//
+// Item drop targets consult this in canDrop and refuse outright; list drop
+// targets stay accepted regardless (an accepted target is what keeps the
+// standard 'move' cursor on the dragover — refused, Chrome falls back to a
+// copy cursor) and the refusal is enforced here in resolveDropIntent: a
+// release over a container this fails for resolves to no move at all, and
+// the drop-indicator layers consult it too — rows never show a drop position
+// for it, and the list marks its container refused instead of active.
+export function confinementAllowsDrop(
+  data:SortableItemData,
+  targetElement:Element,
+):boolean {
+  return !data.confined || (data.sourceListElement?.contains(targetElement) ?? false);
+}
+
 export function resolvePreviousSortableItemId({
   sourceItemId,
   targetItem,
@@ -186,7 +236,7 @@ export function resolvePreviousSortableItemId({
   closestEdge:Edge|null;
   rowsContainer:Element;
 }):string|null {
-  const targetItemElement = resolveItemElement(targetItem);
+  const targetItemElement = resolveItemElement(targetItem, rowsContainer);
   const targetItemId = targetItemElement ? resolveItemId(targetItemElement) : null;
 
   if (closestEdge === 'bottom' && targetItemId !== sourceItemId) {
@@ -197,7 +247,7 @@ export function resolvePreviousSortableItemId({
   let row = targetRow?.previousElementSibling ?? null;
 
   while (row) {
-    const itemId = resolvePreviousItemId(row);
+    const itemId = resolvePreviousItemId(row, rowsContainer);
     if (itemId && itemId !== sourceItemId) {
       return itemId;
     }
@@ -252,11 +302,13 @@ export function resolveDropIntent({
   const targetItem = location.current.dropTargets.find(
     (target):target is typeof target & { data:SortableItemData; element:HTMLElement } => (
       isSortableItemData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
+        && confinementAllowsDrop(sourceData, target.element)
     ),
   );
   const targetList = location.current.dropTargets.find(
     (target):target is typeof target & { data:SortableListData; element:HTMLElement } => (
       isSortableListData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
+        && confinementAllowsDrop(sourceData, target.element)
     ),
   );
   if (!targetList) {
@@ -266,6 +318,28 @@ export function resolveDropIntent({
   const listElement = targetList.element;
   const listData = targetList.data;
   const rowsContainer = listData.rowsContainer ?? listElement;
+
+  // An item never accepts itself as a drop target (see ItemController's
+  // canDrop: source.data.itemId !== this.idValue), so a drag that is
+  // released without ever leaving its own row resolves no item target here,
+  // exactly like a genuine drop on the list's background. Tell the two
+  // apart by asking what is actually under the pointer: if it is still the
+  // source's own row, nothing has moved and there is no signal to act on.
+  // Unlike the null for a drop outside the root above, this null rejects a
+  // drop the root does own; it must stay behind the target resolution so a
+  // background drop keeps resolving. Only an ancestor of the hit-tested
+  // element can be "the row under the pointer" -- descending into a
+  // container would resolve its first item and swallow that item's genuine
+  // list-only drops (a send-to-bottom of the first row).
+  if (!targetItem) {
+    const { input } = location.current;
+    const elementAtPoint = getElementFromPointWithoutHoneypot({ x: input.clientX, y: input.clientY });
+    const itemAtPoint = elementAtPoint ? resolveClosestItemElement(elementAtPoint, rowsContainer) : null;
+
+    if (itemAtPoint && root.contains(itemAtPoint) && resolveItemId(itemAtPoint) === sourceData.itemId) {
+      return null;
+    }
+  }
 
   const previousItemId = targetItem
     ? resolvePreviousSortableItemId({

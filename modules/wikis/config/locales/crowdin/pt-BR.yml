@@ -164,6 +164,7 @@ pt-BR:
     index:
       column_last_edited: Última edição
       column_name: Página Wiki
+      column_parent: Parent
       column_project: Projeto
       column_sub_pages: Subpáginas
       filter_by_name: Filtrar por nome de página
@@ -202,7 +203,7 @@ pt-BR:
         no_results: Nenhuma página de wiki encontrada
         placeholder: Pesquisar uma página de wiki (ou inserir URL)
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: Um link dinâmico para uma página wiki inserido usando uma macro.
       errors:
         page_access_forbidden: Você não tem permissão para acessar esta página wiki
         page_not_found: Página wiki vinculada não está mais disponível
@@ -211,8 +212,8 @@ pt-BR:
         parent: Como pai
     project_settings:
       project_internal_wiki_component:
-        caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
-        enable: Enable the internal wiki for this project
+        caption: Isso habilita a funcionalidade nativa de wiki para este projeto. Os membros poderão criar e ler páginas de wiki armazenadas no OpenProject.
+        enable: Habilitar a wiki interna deste projeto
     provider_types:
       xwiki:
         name: XWiki

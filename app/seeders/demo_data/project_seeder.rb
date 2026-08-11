@@ -63,8 +63,7 @@ module DemoData
         ::Meetings::DemoData::MeetingAgendaItemsSeeder,
         ::Meetings::DemoData::MeetingParticipantsSeeder,
         ::Meetings::DemoData::MeetingSeriesFinalizerSeeder,
-        ::Meetings::DemoData::MeetingOccurrencesSeeder,
-        ::ResourceManagement::DemoData::ResourcePlannerSeeder
+        ::Meetings::DemoData::MeetingOccurrencesSeeder
       ]
     end
 
@@ -129,6 +128,8 @@ module DemoData
     def set_types
       print_status "   -Assigning types."
 
+      # TODO: should go through Projects::Types::AddService, which owns the family conflict
+      # rules and enables the types' work package custom fields.
       project.types = seed_data.find_references(types_seed_data)
     end
 

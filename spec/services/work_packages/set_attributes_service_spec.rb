@@ -1839,32 +1839,6 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
 
     shared_examples_for "updating the project" do
-      context "for version" do
-        before do
-          work_package.version = version
-        end
-
-        context "when not shared in new project" do
-          it "sets to nil" do
-            subject
-
-            expect(work_package.version)
-              .to be_nil
-          end
-        end
-
-        context "when shared in the new project" do
-          let(:new_versions) { [version] }
-
-          it "keeps the version" do
-            subject
-
-            expect(work_package.version)
-              .to eql version
-          end
-        end
-      end
-
       context "for multiple versions" do
         before do
           work_package.target_version_ids_replacements = [version.id]
@@ -2460,6 +2434,26 @@ RSpec.describe WorkPackages::SetAttributesService,
       it "keeps the user's description" do
         service_result
         expect(work_package.description).to eq("Something the user typed")
+      end
+    end
+
+    # Type#description resolves through the defaults link, so a variant owning its defaults
+    # carries a template of its own while the work package still stores the root.
+    context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+      let(:family_root) { create(:type, description: "Root template") }
+      let(:variant) { create(:type, parent: family_root) }
+      let(:variant_project) { create(:project, types: [variant]) }
+      let(:call_attributes) { { project: variant_project, type: family_root } }
+
+      before do
+        variant.configuration_links.find_by(aspect: Type::ConfigurationLink::DEFAULTS).destroy!
+        variant.update!(description: "Variant template")
+      end
+
+      it "uses the variant's template, not the stored root's" do
+        service_result
+
+        expect(work_package.description).to eq("Variant template")
       end
     end
   end

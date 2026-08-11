@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -552,6 +552,17 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase Build: 2024-04-01 to 2024-06-30');
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build End: 2024-06-30');
+    });
+
+    it('hides the loading skeleton once the initial draw completes', async () => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      await vi.waitUntil(() => {
+        fixture.detectChanges();
+        return element.querySelector('.op-project-timeline-graph--wrapper_loading') === null;
+      });
+
+      expect(element.querySelector('.op-project-timeline-graph--wrapper_loading')).toBeNull();
     });
   });
 });

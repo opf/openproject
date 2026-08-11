@@ -49,6 +49,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
   let(:type) { build_stubbed(:type) }
   let(:priority) { build_stubbed(:priority) }
   let(:version) { build_stubbed(:version) }
+  let(:target_versions) { [version] }
   let(:parent) do
     build_stubbed(:work_package).tap do |wp|
       allow(wp)
@@ -86,7 +87,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
                   assigned_to:,
                   type:,
                   priority:,
-                  version:,
                   parent:,
                   responsible:).tap do |wp|
       allow(wp)
@@ -97,12 +97,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
               .with(:wrapped?)
               .and_return(true)
       allow(wp)
-        .to receive_messages(available_custom_fields:, custom_field_values: [custom_value])
+        .to receive_messages(available_custom_fields:,
+                             custom_field_values: [custom_value],
+                             effective_target_versions: target_versions,
+                             version:,
+                             version_id: version&.id)
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }
 
-  let(:attributes_changed_to_baseline) { work_package.attributes.keys + ["custom_field_#{custom_field.id}"] }
+  let(:attributes_changed_to_baseline) { work_package.attributes.keys + ["custom_field_#{custom_field.id}", "target_versions"] }
   let(:exists_at_timestamp) { true }
   let(:with_query) { true }
   let(:matches_filters_at_timestamp) { true }
@@ -169,6 +173,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
             "href" => api_v3_paths.version(version.id),
             "title" => version.name
           },
+          "targetVersions" => [
+            {
+              "href" => api_v3_paths.version(version.id),
+              "title" => version.name
+            }
+          ],
           "parent" => {
             "displayId" => parent.display_id.to_s,
             "href" => api_v3_paths.work_package(parent.id),
@@ -211,6 +221,124 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
             "href" => api_v3_paths.version(version.id),
             "title" => version.name
           },
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
+          },
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          }
+        }
+      }.to_json
+    end
+
+    it "renders as expected" do
+      expect(subject)
+        .to be_json_eql(expected_json)
+    end
+  end
+
+  context "with the target versions changed together with the single-value version" do
+    let(:version_b) { build_stubbed(:version) }
+    let(:target_versions) { [version, version_b] }
+    let(:attributes_changed_to_baseline) { %w[version_id target_versions] }
+
+    let(:expected_json) do
+      {
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
+        },
+        "_links" => {
+          "version" => {
+            "href" => api_v3_paths.version(version.id),
+            "title" => version.name
+          },
+          "targetVersions" => [
+            {
+              "href" => api_v3_paths.version(version.id),
+              "title" => version.name
+            },
+            {
+              "href" => api_v3_paths.version(version_b.id),
+              "title" => version_b.name
+            }
+          ],
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
+          },
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          }
+        }
+      }.to_json
+    end
+
+    it "renders as expected" do
+      expect(subject)
+        .to be_json_eql(expected_json)
+    end
+  end
+
+  context "with only the target versions changed" do
+    let(:version_b) { build_stubbed(:version) }
+    let(:target_versions) { [version, version_b] }
+    let(:attributes_changed_to_baseline) { %w[target_versions] }
+
+    let(:expected_json) do
+      {
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
+        },
+        "_links" => {
+          "targetVersions" => [
+            {
+              "href" => api_v3_paths.version(version.id),
+              "title" => version.name
+            },
+            {
+              "href" => api_v3_paths.version(version_b.id),
+              "title" => version_b.name
+            }
+          ],
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
+          },
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          }
+        }
+      }.to_json
+    end
+
+    it "renders as expected" do
+      expect(subject)
+        .to be_json_eql(expected_json)
+    end
+  end
+
+  context "with all target versions removed" do
+    let(:version) { nil }
+    let(:target_versions) { [] }
+    let(:attributes_changed_to_baseline) { %w[version_id target_versions] }
+
+    let(:expected_json) do
+      {
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
+        },
+        "_links" => {
+          "version" => {
+            "href" => nil
+          },
+          "targetVersions" => [],
           "self" => {
             "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
             "title" => work_package.subject
@@ -431,6 +559,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
             "href" => api_v3_paths.version(version.id),
             "title" => version.name
           },
+          "targetVersions" => [
+            {
+              "href" => api_v3_paths.version(version.id),
+              "title" => version.name
+            }
+          ],
           "parent" => {
             "displayId" => parent.display_id.to_s,
             "href" => api_v3_paths.work_package(parent.id),

@@ -64,7 +64,11 @@ RSpec.describe "Version action board",
   let!(:shared_version) { create(:version, project: second_project, name: "Shared version", sharing: "system") }
   let!(:closed_version) { create(:version, project:, status: "closed", name: "Closed version") }
 
-  let!(:work_package) { create(:work_package, project:, subject: "Foo", version: open_version) }
+  let!(:work_package) do
+    create(:work_package, project:, subject: "Foo", version_id: open_version.id).tap do |wp|
+      wp.target_versions = [open_version]
+    end
+  end
   let!(:closed_version_wp) { create(:work_package, project:, subject: "Closed", version: closed_version) }
   let(:filters) { Components::WorkPackages::Filters.new }
 

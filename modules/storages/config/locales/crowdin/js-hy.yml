@@ -2,106 +2,102 @@
 hy:
   js:
     storages:
-      authentication_error: Authentication with %{storageType} failed
-      choose_location: Choose location
-      drop_files: Drop files here to upload them to %{name}.
-      drop_or_click_files: Drop files here or click to upload them to %{name}.
+      authentication_error: "%{storageType}-ով նույնականացումը ձախողվեց"
+      choose_location: Ընտրեք տեղադրությունը
+      drop_files: Քաշեք նիշքերն այստեղ՝ դրանք %{name}-ում վերբեռնելու համար։
+      drop_or_click_files: Քաշեք նիշքերն այստեղ կամ սեղմեք՝ դրանք %{name}-ում վերբեռնելու համար։
       file_links:
-        already_linked_directory: This directory is already linked to this work package.
-        already_linked_file: This file is already linked to this work package.
-        download: Download %{fileName}
-        empty: 'Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+        already_linked_directory: Այս պանակն արդեն հղված է այս աշխատանքային փաթեթին։
+        already_linked_file: Այս նիշքն արդեն հղված է այս աշխատանքային փաթեթին։
+        download: Ներբեռնել %{fileName}
+        empty: 'Ներկայումս այս աշխատանքային փաթեթին հղված նիշքեր չկան։ Սկսեք նիշքեր հղել ստորև բերված գործողությամբ կամ %{storageType}-ի միջոցով։
 
           '
-        link_uploaded_file_error: 'An error occurred linking the recently uploaded file ''%{fileName}'' to the work package %{workPackageId}.
+        link_uploaded_file_error: 'Վերջերս վերբեռնված ''%{fileName}'' նիշքը %{workPackageId} աշխատանքային փաթեթին հղելիս սխալ առաջացավ։
 
           '
-        open: Open file on storage
-        open_location: Open file in location
-        remove: Remove file link
-        remove_confirmation: 'Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        open: Բացել նիշքը պահեստում
+        open_location: Բացել նիշքն իր տեղադրության մեջ
+        remove: Հեռացնել նիշքի հղումը
+        remove_confirmation: 'Համոզվա՞ծ եք, որ ցանկանում եք հեռացնել նիշքի հղումն այս աշխատանքային փաթեթից։ Հղման հեռացումը չի ազդում սկզբնական նիշքի վրա և միայն վերացնում է կապն այս աշխատանքային փաթեթի հետ։
 
           '
-        remove_short: Remove link
-        select: Select files
-        select_all: Select all
+        remove_short: Հեռացնել հղումը
+        select: Ընտրել նիշքեր
+        select_all: Ընտրել բոլորը
         selection:
-          zero: Select files to link
-          one: Link 1 file
-          other: Link %{count} files
+          zero: Ընտրել նիշքեր հղելու համար
+          one: Հղել 1 նիշք
+          other: Հղել %{count} նիշք
         success_create:
-          one: Successfully created 1 file link.
-          other: Successfully created %{count} file links.
+          one: Հաջողությամբ ստեղծվել է 1 նիշքի հղում։
+          other: Հաջողությամբ ստեղծվել է %{count} նիշքի հղում։
         tooltip:
-          not_found: This file cannot be found.
-          not_logged_in: Please log in to the storage to access this file.
-          view_not_allowed: You have no permission to see this file.
+          not_found: Այս նիշքը չի գտնվել։
+          not_logged_in: Այս նիշքին հասանելիություն ստանալու համար խնդրում ենք մտնել պահեստ։
+          view_not_allowed: Դուք չունեք այս նիշքը տեսնելու թույլտվություն։
         upload_error:
-          403: 'Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          403: 'Ձեր նիշքը (%{fileName}) չհաջողվեց վերբեռնել համակարգային սահմանափակումների պատճառով։ Լրացուցիչ տեղեկությունների համար խնդրում ենք դիմել Ձեր ադմինիստրատորին։
 
             '
-          413: 'Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          413: 'Ձեր նիշքը (%{fileName}) ավելի մեծ է, քան OpenProject-ը կարող է վերբեռնել %{storageType}-ում։ Կարող եք այն նախ ուղղակիորեն վերբեռնել %{storageType}-ում և ապա հղել նիշքը։
 
             '
-          507: 'Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+          507: 'Ձեր նիշքը (%{fileName}) ավելի մեծ է, քան թույլ է տալիս պահեստի քվոտան։ Այս քվոտան փոփոխելու համար դիմեք Ձեր ադմինիստրատորին։
 
             '
-          default: 'Your file (%{fileName}) could not be uploaded.
+          default: 'Ձեր նիշքը (%{fileName}) չհաջողվեց վերբեռնել։
 
             '
           detail:
-            nextcloud: 'Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            nextcloud: 'Խնդրում ենք ստուգել, որ տեղադրված է Nextcloud-ի "OpenProject Integration" հավելվածի վերջին տարբերակը, և լրացուցիչ տեղեկությունների համար դիմել Ձեր ադմինիստրատորին։
 
               '
       files:
-        already_existing_body: 'A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+        already_existing_body: '"%{fileName}" անունով նիշք արդեն գոյություն ունի այն տեղադրությունում, ուր փորձում եք վերբեռնել այս նիշքը։ Ի՞նչ եք ցանկանում անել։
 
           '
-        already_existing_header: This file already exists
-        cannot_create_folder: Failed to create folder. Avoid using special characters and symbols and make sure the folder does not exist already.
-        directory_not_writeable: You do not have permission to add files to this folder.
-        dragging_folder: The upload to %{storageType} does not support folders.
-        dragging_many_files: The upload to %{storageType} supports only one file at once.
-        empty_folder: This folder is empty.
-        empty_folder_location_hint: Click the button below to upload the file to this location.
-        file_not_selectable_location: Selecting a file is not possible in the process of choosing a location.
-        managed_project_folder_no_access: 'You have no access yet to the managed project folder. Please wait a bit and try again.
+        already_existing_header: Այս նիշքն արդեն գոյություն ունի
+        cannot_create_folder: Չհաջողվեց ստեղծել պանակը։ Խուսափեք հատուկ նշաններից և սիմվոլներից և համոզվեք, որ պանակն արդեն գոյություն չունի։
+        directory_not_writeable: Դուք չունեք այս պանակում նիշքեր ավելացնելու թույլտվություն։
+        dragging_folder: "%{storageType}-ում վերբեռնումը չի աջակցում պանակներին։"
+        dragging_many_files: "%{storageType}-ում վերբեռնումը միաժամանակ աջակցում է միայն մեկ նիշքի։"
+        empty_folder: Այս պանակը դատարկ է։
+        empty_folder_location_hint: Սեղմեք ստորև բերված կոճակը՝ նիշքն այս տեղադրությունում վերբեռնելու համար։
+        file_not_selectable_location: Տեղադրություն ընտրելու ընթացքում նիշք ընտրել հնարավոր չէ։
+        managed_project_folder_no_access: 'Դուք դեռ հասանելիություն չունեք կառավարվող նախագծի պանակին։ Խնդրում ենք մի փոքր սպասել և կրկին փորձել։
 
           '
-        managed_project_folder_not_available: 'The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_not_available: 'Ավտոմատ կառավարվող նախագծի պանակը դեռ չի գտնվել։ Խնդրում ենք մի փոքր սպասել, վերաբեռնել էջը՝ նորագույն տվյալները ստանալու համար, և կրկին փորձել։
 
           '
-        project_folder_no_access: 'You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
+        project_folder_no_access: 'Դուք հասանելիություն չունեք նախագծի պանակին։ Խնդրում ենք դիմել Ձեր ադմինիստրատորին՝ հասանելիություն ստանալու համար, կամ վերբեռնել նիշքն այլ տեղադրությունում։
 
           '
-        upload_keep_both: Keep both
-        upload_replace: Replace
+        upload_keep_both: Պահել երկուսն էլ
+        upload_replace: Փոխարինել
       information:
-        authentication_error: The request to %{storageType} could not be authenticated, that's an error.
-        connection_error: 'Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
+        authentication_error: "%{storageType}-ին ուղղված հարցումը չհաջողվեց նույնականացնել, դա սխալ է։"
+        connection_error: "%{storageType}-ի որոշ կարգավորումներ չեն աշխատում։ Խնդրում ենք դիմել Ձեր %{storageType} ադմինիստրատորին։\n"
+        live_data_error: Նիշքի մանրամասների ստացման սխալ
+        live_data_error_description: "%{storageType}-ի որոշ տվյալներ չհաջողվեց ստանալ։ Խնդրում ենք փորձել վերաբեռնել այս էջը կամ դիմել Ձեր %{storageType} ադմինիստրատորին։\n"
+        no_file_links: Այս աշխատանքային փաթեթին նիշքեր հղելու համար խնդրում ենք դա անել %{storageType}-ի միջոցով։
+        not_logged_in: 'Այս աշխատանքային փաթեթին առնչվող նիշքեր հղելու, դիտելու կամ վերբեռնելու համար խնդրում ենք մտնել %{storageType}-ում։
 
           '
-        live_data_error: Error fetching file details
-        live_data_error_description: 'Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-
-          '
-        no_file_links: In order to link files to this work package please do it via %{storageType}.
-        not_logged_in: 'To add a link, see or upload files related to this work package, please login to %{storageType}.
-
-          '
-        suggest_logout: You can try whether logging out and back in fixes this problem.
-        suggest_relink: You can try whether re-linking your account via the login button below fixes this problem.
-      link_existing_files: Link existing files
-      link_files_in_storage: Link files in %{storageType}
-      login: "%{storageType} login"
-      login_to: Login to %{storageType}
-      new_folder: New folder
-      no_connection: No %{storageType} connection
-      open_storage: Open %{storageType}
-      select_location: Select location
+        suggest_logout: Կարող եք փորձել դուրս գալ և կրկին մտնել՝ տեսնելու, թե արդյոք դա կլուծի խնդիրը։
+        suggest_relink: Կարող եք փորձել կրկին կապել Ձեր հաշիվը ստորև բերված մուտքի կոճակի միջոցով՝ տեսնելու, թե արդյոք դա կլուծի խնդիրը։
+      link_existing_files: Հղել առկա նիշքերը
+      link_files_in_storage: Հղել նիշքեր %{storageType}-ում
+      login: Մուտք %{storageType}-ում
+      login_to: Մտնել %{storageType}-ում
+      new_folder: Նոր պանակ
+      no_connection: "%{storageType}-ի հետ միացում չկա"
+      open_storage: Բացել %{storageType}-ը
+      select_location: Ընտրել տեղադրությունը
       types:
-        default: Storage
+        default: Պահեստ
         nextcloud: Nextcloud
         one_drive: OneDrive
         sharepoint: SharePoint
-      upload_files: Upload files
+      upload_files: Վերբեռնել նիշքեր

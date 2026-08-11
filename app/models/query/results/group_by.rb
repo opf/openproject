@@ -163,16 +163,24 @@ module ::Query::Results::GroupBy
     association = find_association_for_group
 
     if association.nil?
-      groups
+      transform_declared_class_keys(groups)
     elsif association.collection?
       transform_collection_association_property_keys(association, groups)
     else
-      transform_association_property_keys(association, groups)
+      transform_record_keys(association.class_name.constantize, groups)
     end
   end
 
-  def transform_association_property_keys(association, groups)
-    ar_keys = association.class_name.constantize.find(groups.keys.compact)
+  def transform_declared_class_keys(groups)
+    klass = query.group_by_column.group_by_class_name&.constantize
+
+    return groups if klass.nil?
+
+    transform_record_keys(klass, groups)
+  end
+
+  def transform_record_keys(klass, groups)
+    ar_keys = klass.find(groups.keys.compact)
 
     groups.transform_keys do |key|
       ar_keys.detect { |ar_key| ar_key.id == key }

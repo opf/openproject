@@ -28,6 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# TODO: Remove with type_variants feature flag
 class Workflows::Copies::FromTypesController < ApplicationController
   include OpTurbo::ComponentStream
 

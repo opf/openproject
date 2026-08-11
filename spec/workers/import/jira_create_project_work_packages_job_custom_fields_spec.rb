@@ -889,6 +889,172 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
   end
 
+  describe "option lists whose allowed values are missing from the Jira field contexts" do
+    # editmeta only reports the options an issue's edit screen currently offers, so contextGroups
+    # can be absent altogether or lack options that issues still carry. The options actually used
+    # by the imported issues must be recovered so their values survive the import.
+    let!(:jira_issue) do
+      create(:jira_issue, jira:, jira_import:,
+                          jira_issue_id: "10200",
+                          jira_project_id: jira_project.id,
+                          payload: issue_payload)
+    end
+
+    def jira_list_field(id:, name:, schema:, context_groups: nil)
+      payload = { "id" => id, "name" => name, "schema" => schema }
+      payload["contextGroups"] = context_groups if context_groups
+      create(:jira_field, jira:, jira_import:, jira_field_id: id, payload:)
+    end
+
+    context "with a single-select field and no contextGroups at all" do
+      let!(:jira_field) do
+        jira_list_field(id: "customfield_10264", name: "CF List",
+                        schema: { "type" => "option",
+                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select" })
+      end
+
+      before { described_class.new.perform(jira_import.id) }
+
+      it "collects the option from the imported issues and sets the value" do
+        cf = WorkPackageCustomField.find_by!(name: "CF List")
+        expect(cf.custom_options.pluck(:value)).to contain_exactly("Cat")
+        expect(cf.multi_value).to be false
+        expect(cf_value("CF List")).to eq("Cat")
+      end
+    end
+
+    context "with a multi-select field and no contextGroups at all" do
+      let!(:jira_field) do
+        jira_list_field(id: "customfield_10265", name: "CF Multi-List",
+                        schema: { "type" => "array", "items" => "option",
+                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:multiselect" })
+      end
+
+      before { described_class.new.perform(jira_import.id) }
+
+      it "collects all options from the imported issues and sets both values" do
+        cf = WorkPackageCustomField.find_by!(name: "CF Multi-List")
+        expect(cf.custom_options.pluck(:value)).to contain_exactly("Mouse", "Turtle")
+        expect(cf.multi_value).to be true
+        expect(cf_value("CF Multi-List")).to contain_exactly("Mouse", "Turtle")
+      end
+    end
+
+    context "with a multicheckboxes field and no contextGroups at all" do
+      let!(:jira_field) do
+        jira_list_field(id: "customfield_10260", name: "CF Booleans",
+                        schema: { "type" => "array", "items" => "option",
+                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes" })
+      end
+
+      before { described_class.new.perform(jira_import.id) }
+
+      it "becomes a boolean because the issues only use one option" do
+        cf = WorkPackageCustomField.find_by!(name: "CF Booleans - Check 1")
+        expect(cf.field_format).to eq("bool")
+        expect(cf_value("CF Booleans - Check 1")).to be true
+      end
+    end
+
+    context "when the value on the issue is no longer an allowed value of its context" do
+      let!(:jira_field) do
+        jira_list_field(id: "customfield_10264", name: "CF List",
+                        schema: { "type" => "option",
+                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select" },
+                        context_groups: [global_context.merge(
+                          "allowedValues" => [{ "id" => "10142", "value" => "Dog" }]
+                        )])
+      end
+
+      before { described_class.new.perform(jira_import.id) }
+
+      it "adds the missing option next to the reported ones and sets the value" do
+        cf = WorkPackageCustomField.find_by!(name: "CF List")
+        expect(cf.custom_options.pluck(:value)).to contain_exactly("Dog", "Cat")
+        expect(cf_value("CF List")).to eq("Cat")
+      end
+    end
+
+    context "when the option label carries surrounding whitespace" do
+      let(:issue_payload) do
+        payload = JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_with_custom_fields.json").read)
+        payload["fields"]["customfield_10264"] = { "id" => "10141", "value" => " Cat " }
+        payload
+      end
+      let!(:jira_field) do
+        jira_list_field(id: "customfield_10264", name: "CF List",
+                        schema: { "type" => "option",
+                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select" },
+                        context_groups: [global_context.merge(
+                          "allowedValues" => [{ "id" => "10141", "value" => " Cat " }]
+                        )])
+      end
+
+      before { described_class.new.perform(jira_import.id) }
+
+      it "matches the stripped option instead of dropping the value" do
+        cf = WorkPackageCustomField.find_by!(name: "CF List")
+        expect(cf.custom_options.pluck(:value)).to contain_exactly("Cat")
+        expect(cf_value("CF List")).to eq("Cat")
+      end
+    end
+
+    context "when no context group covers the issue's project key" do
+      # The issue fixture reports project key DYX while the imported project's key is DPPP, so the
+      # issue falls back to the first context. The resolved custom field still has to be activated
+      # in the project or the work package would silently discard its value.
+      let!(:jira_field) do
+        jira_list_field(id: "customfield_10264", name: "CF List",
+                        schema: { "type" => "option",
+                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select" },
+                        context_groups: [{ "projects" => ["OTHER"], "issuetypes" => ["10100"],
+                                           "allowedValues" => [{ "id" => "10141", "value" => "Cat" }] }])
+      end
+
+      before { described_class.new.perform(jira_import.id) }
+
+      it "activates the fallback custom field in the project and keeps the value" do
+        cf = WorkPackageCustomField.find_by!(name: "CF List")
+        expect(imported_wp.project.work_package_custom_fields).to include(cf)
+        expect(imported_wp.type.custom_fields).to include(cf)
+        expect(cf_value("CF List")).to eq("Cat")
+      end
+    end
+
+    context "when a context group covers a project without any issue using the field" do
+      let!(:jira_field) do
+        jira_list_field(id: "customfield_10264", name: "CF List",
+                        schema: { "type" => "option",
+                                  "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select" },
+                        context_groups: [global_context.merge(
+                          "allowedValues" => [{ "id" => "10141", "value" => "Cat" }]
+                        )])
+      end
+      let!(:jira_issue_without_value) do
+        create(:jira_issue, jira:, jira_import:,
+                            jira_issue_id: "10201",
+                            jira_project_id: jira_project.id,
+                            payload: issue_payload.deep_dup.tap do |p|
+                              p["key"] = "DYX-3"
+                              p["fields"]["summary"] = "Issue without the list value"
+                              p["fields"].delete("customfield_10264")
+                            end)
+      end
+
+      before { described_class.new.perform(jira_import.id) }
+
+      it "still sets the value on the issue that has one" do
+        expect(cf_value("CF List")).to eq("Cat")
+      end
+
+      it "leaves the other work package without a value" do
+        cf = WorkPackageCustomField.find_by!(name: "CF List")
+        other_wp = WorkPackage.find_by!(subject: "Issue without the list value")
+        expect(other_wp.send(cf.attribute_getter)).to be_nil
+      end
+    end
+  end
+
   describe "all custom field types in a single import run", with_ee: [:custom_field_hierarchies] do
     # Registers all field types at once and verifies the correct number of
     # OP custom fields are created:

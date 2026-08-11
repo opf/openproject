@@ -8,7 +8,7 @@ turbo-frame#workflow-table
   width: 100%
   overflow-x: auto
 
-  #workflows-status-matrix-form-component
+  #workflows-matrix-editor-component
     display: contents
 
   sub-header
@@ -16,7 +16,9 @@ turbo-frame#workflow-table
     left: 0
     background: var(--body-background)
 
-#workflow_form
+// Mirrors Workflows::MatrixEditorComponent::STATE_ID, the element wrapping the matrix in
+// every host of the editor
+#workflow_matrix
   .generic-table--results-container
     position: relative
     overflow: visible
@@ -79,6 +81,9 @@ turbo-frame#workflow-table
 
 // Edit tab pins the save button; wizard step keeps it together to not mess with the footer
 .workflow-table--pinned-save-bar
+  // This form computes to display: inline, where the padding below would paint but reserve
+  // no space, leaving the last rows stuck behind the pinned bar with nothing left to scroll
+  display: block
   // Clear the pinned save bar so the last rows aren't hidden behind it
   padding-bottom: 72px // 16px (mt: 3) + 32px (button) + 24px (mb: 4)
 

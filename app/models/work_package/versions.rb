@@ -32,15 +32,10 @@ module WorkPackage::Versions
   extend ActiveSupport::Concern
 
   included do
-    # Deprecated single-version column, kept in sync with the first target
-    # version (see #update_legacy_version_field). Can be dropped once all
-    # subsystems read target_versions instead.
-    belongs_to :version, optional: true
-
     has_many :work_package_versions, dependent: :delete_all
     has_many :versions, through: :work_package_versions, source: :version
     has_many :target_versions,
-             -> { where(work_package_versions: { kind: "target" }) },
+             -> { where(work_package_versions: { kind: "target" }).order(:id) },
              through: :work_package_versions, source: :version
     has_many :observed_in_versions,
              -> { where(work_package_versions: { kind: "observed_in" }) },
@@ -145,6 +140,19 @@ module WorkPackage::Versions
     end
   end
 
+  # Read-only replacement for the former +belongs_to :version+ association.
+  #
+  # Returns the work package's single target version, or nil when it has none.
+  # Raises an error if target_versions has multiple values
+  def version
+    if target_versions.size > 1
+      raise "WorkPackage##{id} has multiple target versions and cannot be " \
+            "represented as a single version. Use #target_versions instead."
+    end
+
+    target_versions.min
+  end
+
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
   #   * any open, shared version of the project the wp belongs to
@@ -179,8 +187,8 @@ module WorkPackage::Versions
   #   * actual written target_versions
   def effective_target_versions
     if target_version_ids_replacements.nil?
-      # TODO(COMMS-863)
-      return version_id_changed? ? Array(version) : target_versions
+      # TODO(COMMS-863): drop this branch once nothing writes version_id directly
+      return version_id_changed? ? Array(Version.find_by(id: version_id)) : target_versions
     end
 
     versions_by_id = Version.where(id: target_version_ids_replacements).index_by(&:id)
@@ -244,13 +252,22 @@ module WorkPackage::Versions
     system_version_overrides.clear
   end
 
-  # Keeps the deprecated single version_id column in sync with the first
-  # target version, so code still reading version_id sees a sensible value.
+  # Keeps the deprecated single version_id column in sync with the lowest-id
+  # target version (what target_versions.first reads), so code still reading
+  # version_id sees the same version.
   # Can be dropped once the version_id column is removed.
   def update_legacy_version_field
-    new_version_id = target_version_ids_replacements.first
+    new_version_id = target_version_ids_replacements.min
 
     update_columns(version_id: new_version_id) unless version_id == new_version_id
+  end
+
+  # Resets any cached values. Necessary because we do insert_all.
+  def reset_version_associations
+    work_package_versions.reset
+    versions.reset
+    target_versions.reset
+    observed_in_versions.reset
   end
 
   # Sets the work package's associations of the given kind to exactly the
@@ -261,9 +278,16 @@ module WorkPackage::Versions
     to_remove = existing - version_ids
     to_add    = version_ids - existing
 
-    # remove associations that are not present in the new list of versions
+    return if to_remove.empty? && to_add.empty?
+
+    apply_version_changes(kind, to_remove, to_add)
+    reset_version_associations
+  end
+
+  # remove associations that are not present in the new list of versions and
+  # add those that were not already there
+  def apply_version_changes(kind, to_remove, to_add)
     work_package_versions.where(kind:, version_id: to_remove).delete_all if to_remove.any?
-    # add new associations that were not already there
     work_package_versions.insert_all(to_add.map { |vid| { version_id: vid, kind: } }) if to_add.any?
   end
 end

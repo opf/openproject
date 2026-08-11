@@ -41,6 +41,7 @@ RSpec.describe "Workflow copy from role", :js do
 
   shared_examples "a copy-to-other-roles dialog" do |with_source_role:, host:|
     it "permits to select a source role and target roles" do
+      # TODO: Remove with type_variants feature flag
       unless with_source_role
         choose "Copy to other roles"
 

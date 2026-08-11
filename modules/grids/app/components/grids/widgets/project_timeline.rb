@@ -46,7 +46,7 @@ module Grids
       def phases_data
         return [].to_json unless view_project_phases_allowed?
 
-        project.phases.active
+        active_project_phases
                .eager_load(definition: :color)
                .order("project_phase_definitions.position")
                .map { |phase| phase_data(phase) }
@@ -71,15 +71,22 @@ module Grids
       end
 
       def any_content?
-        any_phases? || milestones_scope.exists? || any_sprints?
+        @any_content ||= any_phases? || milestones_scope.exists? || any_sprints?
       end
 
       def render?
-        view_project_phases_allowed? || view_work_packages_allowed? || view_sprints_allowed?
+        (view_project_phases_allowed? && active_project_phases.any?) ||
+          view_work_packages_allowed? ||
+          view_sprints_allowed?
+      end
+
+      def show_footer?
+        any_content? && (gantt_link || sprints_link)
       end
 
       def gantt_link
         return unless view_work_packages_allowed?
+        return unless project.module_enabled?(:gantt)
 
         result = ::Gantt::DefaultQueryGeneratorService.new(with_project: project).call(query_key: :milestones)
         return unless result
@@ -115,11 +122,11 @@ module Grids
       end
 
       def any_phases?
-        view_project_phases_allowed? && project.phases.active.with_timeline_content.exists?
+        @any_phases ||= view_project_phases_allowed? && active_project_phases.with_timeline_content.exists?
       end
 
       def any_sprints?
-        view_sprints_allowed? && sprints_scope.exists?
+        @any_sprints ||= view_sprints_allowed? && sprints_scope.exists?
       end
 
       def milestones_scope
@@ -174,6 +181,10 @@ module Grids
           finishGate: phase.definition.finish_gate && phase.date_range_set?,
           finishGateName: phase.definition.finish_gate_name
         }
+      end
+
+      def active_project_phases
+        @active_project_phases ||= project.phases.active
       end
     end
   end

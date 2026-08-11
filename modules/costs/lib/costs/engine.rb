@@ -38,7 +38,8 @@ module Costs
       project_module :costs do
         permission :view_time_entries,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { time_entries: %i[read] }
         permission :view_own_time_entries,
                    {},
                    permissible_on: %i[work_package project],
@@ -54,7 +55,8 @@ module Costs
                    {},
                    permissible_on: :project,
                    require: :loggedin,
-                   dependencies: :view_time_entries
+                   dependencies: :view_time_entries,
+                   contract_actions: { time_entries: %i[create] }
 
         permission :edit_own_time_entries,
                    {},
@@ -64,7 +66,8 @@ module Costs
         permission :edit_time_entries,
                    {},
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { time_entries: %i[edit destroy] }
 
         permission :manage_project_activities,
                    {
@@ -129,7 +132,7 @@ module Costs
            :costs_settings,
            { controller: "/admin/costs_settings", action: :show },
            if: Proc.new { User.current.admin? },
-           caption: :label_defaults,
+           caption: :label_defaults_and_limits,
            parent: :admin_costs
 
       menu :admin_menu,
@@ -173,6 +176,12 @@ module Costs
       ::Settings::Definition.add "costs_currency_format", default: "%n %u", format: :string, allowed: ["%u %n", "%n %u"]
       ::Settings::Definition.add "allow_tracking_start_and_end_times", default: false, format: :boolean
       ::Settings::Definition.add "enforce_tracking_start_and_end_times", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_max_hours_per_entry", default: 0, format: :integer, allowed: (0..)
+      ::Settings::Definition.add "time_entries_max_hours_per_day", default: 0, format: :integer, allowed: (0..)
+      ::Settings::Definition.add "time_entries_prohibit_logging_on_non_working_days", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_limit_to_user_working_hours", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_prohibit_logging_for_past_months", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_past_month_grace_days", default: 0, format: :integer, allowed: (0..)
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false

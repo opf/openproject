@@ -3,146 +3,146 @@ hy:
   activerecord:
     attributes:
       bim/bcf/issue:
-        bcf_comment: BCF comment
-        bim_snippet: BIM snippet
-        reference_links: Reference links
-        stage: Stage
-        viewpoint: Viewpoint
+        bcf_comment: BCF մեկնաբանություն
+        bim_snippet: BIM հատված
+        reference_links: Տեղեկատու հղումներ
+        stage: Փուլ
+        viewpoint: Դիտակետ
       bim/ifc_models/ifc_model:
-        attachments: IFC file
-        ifc_attachment: IFC file
-        is_default: Default model
+        attachments: IFC նիշք
+        ifc_attachment: IFC նիշք
+        is_default: Կանխադրված մոդել
     errors:
       models:
         bim/bcf/issue:
-          uuid_already_taken: Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?
+          uuid_already_taken: Հնարավոր չէ ներմուծել այս BCF խնդիրը, քանի որ նույն GUID-ով արդեն կա մեկ ուրիշը։ Հնարավո՞ր է, որ այս BCF խնդիրն արդեն ներմուծվել է այլ նախագիծ։
         bim/bcf/viewpoint:
-          bitmaps_not_writable: bitmaps is not writable as it is not yet implemented.
-          index_not_integer: index is not an integer.
-          invalid_clipping_planes: clipping_planes is invalid.
-          invalid_components: components is invalid.
-          invalid_lines: lines is invalid.
-          invalid_orthogonal_camera: orthogonal_camera is invalid.
-          invalid_perspective_camera: perspective_camera is invalid.
-          mismatching_guid: The guid in the json_viewpoint does not match the model's guid.
-          no_json: Is not a well structured json.
-          snapshot_data_blank: snapshot_data needs to be provided.
-          snapshot_type_unsupported: snapshot_type needs to be either 'png' or 'jpg'.
-          unsupported_key: An unsupported json property is included.
+          bitmaps_not_writable: bitmaps-ը գրելի չէ, քանի որ դեռ իրականացված չէ։
+          index_not_integer: index-ը ամբողջ թիվ չէ։
+          invalid_clipping_planes: clipping_planes-ը անվավեր է։
+          invalid_components: components-ը անվավեր է։
+          invalid_lines: lines-ը անվավեր է։
+          invalid_orthogonal_camera: orthogonal_camera-ը անվավեր է։
+          invalid_perspective_camera: perspective_camera-ը անվավեր է։
+          mismatching_guid: json_viewpoint-ում նշված guid-ը չի համապատասխանում մոդելի guid-ին։
+          no_json: Ճիշտ կառուցվածքով json չէ։
+          snapshot_data_blank: snapshot_data-ը պետք է տրամադրվի։
+          snapshot_type_unsupported: snapshot_type-ը պետք է լինի 'png' կամ 'jpg'։
+          unsupported_key: Ներառված է չաջակցվող json հատկություն։
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: No ifc file attached.
-              invalid_ifc_file: The provided file is not a valid IFC file.
+              ifc_attachment_missing: IFC նիշք կցված չէ։
+              invalid_ifc_file: Տրամադրված նիշքը վավեր IFC նիշք չէ։
     models:
-      bim/ifc_models/ifc_model: IFC model
+      bim/ifc_models/ifc_model: IFC մոդել
   attributes:
-    bcf_thumbnail: BCF snapshot
+    bcf_thumbnail: BCF պատկեր
   bcf:
     bcf_xml:
-      export: Export
+      export: Արտահանել
       import:
-        add_as_members_with_role: Add them as members to the project "%{project}" with role
-        bcf_file_not_found: Failed to locate BCF file. Please start the upload process again.
-        button_back_to_list: Back to list
-        button_perform_import: Confirm import
-        button_prepare: Prepare import
-        button_proceed: Proceed with import
-        contact_project_admin: Contact your project admin to add them as members and start this import again.
-        continue_anyways: Do you want to proceed and finish the import anyways?
-        description: Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import.
-        import_as_system_user: Import them as "System" user.
-        import_priorities_as: Set all these priorities to
-        import_statuses_as: Set all these statuses to
-        import_types_as: Set all these types to
-        invalid_emails_found: Invalid email addresses found
-        invalid_priorities_found: Invalid priority names found
-        invalid_statuses_found: Invalid status names found
-        invalid_types_found: Invalid topic type names found
-        invite_as_members_with_role: Invite them as members to the project "%{project}" with role
-        no_permission_to_add_members: You do not have sufficient permissions to add them as members to the project.
-        no_priority_provided: No priority provided
-        no_status_provided: No status provided
-        no_type_provided: No type provided
-        non_members_found: Non project members found
-        num_issues_found: "%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below."
-        perform_description: Do you want to import or update the issues listed above?
-        replace_with_system_user: Replace them with "System" user
-        unknown_emails_found: Unknown email addresses found
-        unknown_property: Unknown property
-        what_to_do: What do you want to do?
-        work_package_has_newer_changes: Outdated! This topic was not updated as the latest changes on the server were newer than the "ModifiedDate" of the imported topic. However, comments to the topic were imported.
-      import_canceled: BCF-XML import canceled.
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
-      import_successful: Imported %{count} BCF issues
-      import_title: Import
-      import_update_comment: "(Updated in BCF import)"
-      type_not_active: The issue type is not activated for this project.
-      xml_file: BCF XML File
+        add_as_members_with_role: Ավելացնել նրանց "%{project}" նախագծին որպես անդամներ՝ հետևյալ դերով
+        bcf_file_not_found: BCF նիշքը գտնել չհաջողվեց։ Խնդրում ենք նորից սկսել վերբեռնման գործընթացը։
+        button_back_to_list: Վերադառնալ ցանկ
+        button_perform_import: Հաստատել ներմուծումը
+        button_prepare: Պատրաստել ներմուծումը
+        button_proceed: Շարունակել ներմուծումը
+        contact_project_admin: Դիմեք նախագծի ադմինիստրատորին, որպեսզի նրանք ավելացվեն որպես անդամներ, և նորից սկսեք այս ներմուծումը։
+        continue_anyways: Ցանկանո՞ւմ եք շարունակել և ամեն դեպքում ավարտել ներմուծումը։
+        description: Տրամադրեք BCF-XML v2.1 նիշք՝ այս նախագիծ ներմուծելու համար։ Մինչև ներմուծումը կատարելը կարող եք ուսումնասիրել դրա բովանդակությունը։
+        import_as_system_user: Ներմուծել նրանց որպես "System" օգտատեր։
+        import_priorities_as: Սահմանել այս բոլոր առաջնահերթությունները որպես
+        import_statuses_as: Սահմանել այս բոլոր կարգավիճակները որպես
+        import_types_as: Սահմանել այս բոլոր տեսակները որպես
+        invalid_emails_found: Հայտնաբերվել են անվավեր էլ. փոստի հասցեներ
+        invalid_priorities_found: Հայտնաբերվել են առաջնահերթությունների անվավեր անվանումներ
+        invalid_statuses_found: Հայտնաբերվել են կարգավիճակների անվավեր անվանումներ
+        invalid_types_found: Հայտնաբերվել են թեմայի տեսակների անվավեր անվանումներ
+        invite_as_members_with_role: Հրավիրել նրանց "%{project}" նախագիծ որպես անդամներ՝ հետևյալ դերով
+        no_permission_to_add_members: Դուք չունեք բավարար թույլտվություններ նրանց նախագծին որպես անդամներ ավելացնելու համար։
+        no_priority_provided: Առաջնահերթություն նշված չէ
+        no_status_provided: Կարգավիճակ նշված չէ
+        no_type_provided: Տեսակ նշված չէ
+        non_members_found: Հայտնաբերվել են նախագծի անդամ չհանդիսացող օգտատերեր
+        num_issues_found: BCF-XML նիշքը պարունակում է %{x_bcf_issues}, որոնց մանրամասները ներկայացված են ստորև։
+        perform_description: Ցանկանո՞ւմ եք ներմուծել կամ թարմացնել վերևում թվարկված խնդիրները։
+        replace_with_system_user: Փոխարինել նրանց "System" օգտատիրով
+        unknown_emails_found: Հայտնաբերվել են անհայտ էլ. փոստի հասցեներ
+        unknown_property: Անհայտ հատկություն
+        what_to_do: Ի՞նչ եք ցանկանում անել։
+        work_package_has_newer_changes: Հնացած է։ Այս թեման չի թարմացվել, քանի որ սերվերի վրա վերջին փոփոխություններն ավելի նոր էին, քան ներմուծված թեմայի "ModifiedDate"-ը։ Սակայն թեմայի մեկնաբանությունները ներմուծվել են։
+      import_canceled: BCF-XML ներմուծումը չեղարկվել է։
+      import_failed: Հնարավոր չէ ներմուծել BCF նիշքը՝ %{error}
+      import_failed_unsupported_bcf_version: BCF նիշքը կարդալ չհաջողվեց՝ BCF տարբերակը չի աջակցվում։ Խնդրում ենք համոզվել, որ տարբերակը առնվազն %{minimal_version} է կամ ավելի բարձր։
+      import_successful: Ներմուծվել է %{count} BCF խնդիր
+      import_title: Ներմուծել
+      import_update_comment: "(Թարմացվել է BCF ներմուծման ընթացքում)"
+      type_not_active: Խնդրի տեսակը ակտիվացված չէ այս նախագծի համար։
+      xml_file: BCF XML նիշք
     exceptions:
-      file_invalid: BCF file invalid
-    issues: Issues
+      file_invalid: BCF նիշքն անվավեր է
+    issues: Խնդիրներ
     label_bcf: BCF
-    label_bcf_issue_associated: BCF issue associated
-    label_imported_failed: Failed imports of BCF topics
-    label_imported_successfully: Successfully imported BCF topics
-    new_badge: New
-    no_viewpoints: No viewpoints
-    not_recommended: not recommended
-    recommended: recommended
+    label_bcf_issue_associated: Կապակցված BCF խնդիր
+    label_imported_failed: BCF թեմաների ձախողված ներմուծումներ
+    label_imported_successfully: Հաջողությամբ ներմուծված BCF թեմաներ
+    new_badge: Նոր
+    no_viewpoints: Դիտակետեր չկան
+    not_recommended: խորհուրդ չի տրվում
+    recommended: խորհուրդ է տրվում
     x_bcf_issues:
-      one: One BCF issue
-      other: "%{count} BCF issues"
-      zero: No BCF issues
+      one: Մեկ BCF խնդիր
+      other: "%{count} BCF խնդիր"
+      zero: BCF խնդիրներ չկան
   bim:
-    error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_failed: Ուղիղ վերբեռնումը ձախողվեց։
     label_bim: BIM
   export:
     format:
       bcf: BCF-XML
   extraction:
     available:
-      ifc_convert: IFC conversion pipeline available
+      ifc_convert: IFC փոխարկման հոսքագիծը հասանելի է
   ifc_models:
     conversion:
-      missing_commands: 'The following IFC converter commands are missing on this system: %{names}'
+      missing_commands: Այս համակարգում բացակայում են IFC փոխարկիչի հետևյալ հրամանները՝ %{names}
     conversion_status:
-      completed: Completed
-      error: Error
-      label: Processing?
-      pending: Pending
-      processing: Processing
+      completed: Ավարտված
+      error: Սխալ
+      label: Մշակվո՞ւմ է
+      pending: Սպասման մեջ
+      processing: Մշակվում է
     flash_messages:
-      upload_successful: Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.
-    label_default_ifc_models: Default IFC models
-    label_edit_defaults: Edit defaults
-    label_ifc_models: IFC models
-    label_new_ifc_model: New IFC model
-    label_show_defaults: Show defaults
+      upload_successful: Վերբեռնումը հաջողվեց։ Այն այժմ կմշակվի և մի քանի րոպեից պատրաստ կլինի օգտագործման։
+    label_default_ifc_models: Կանխադրված IFC մոդելներ
+    label_edit_defaults: Խմբագրել կանխադրվածները
+    label_ifc_models: IFC մոդելներ
+    label_new_ifc_model: Նոր IFC մոդել
+    label_show_defaults: Ցուցադրել կանխադրվածները
     no_defaults_warning:
-      check_1: Check that you have uploaded at least one IFC model.
-      check_2: Check that at least one IFC model is set to "Default".
-      title: No IFC model was set as default for this project.
-    no_results: No IFC models have been uploaded in this project.
+      check_1: Ստուգեք, որ վերբեռնել եք առնվազն մեկ IFC մոդել։
+      check_2: Ստուգեք, որ առնվազն մեկ IFC մոդել նշված է որպես "Կանխադրված"։
+      title: Այս նախագծի համար ոչ մի IFC մոդել կանխադրված չի նշվել։
+    no_results: Այս նախագծում IFC մոդելներ չեն վերբեռնվել։
     processing_notice:
-      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+      processing_default: Հետևյալ կանխադրված IFC մոդելները դեռ մշակվում են և այդ պատճառով դեռ հասանելի չեն՝
   oauth:
     scopes:
-      bcf_v2_1: Full access to the BCF v2.1 API
-      bcf_v2_1_text: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf.
-  permission_delete_bcf: Delete BCF issues
-  permission_manage_bcf: Import and manage BCF issues
+      bcf_v2_1: Լիարժեք մուտք BCF v2.1 API-ին
+      bcf_v2_1_text: Հավելվածը Ձեր անունից գործողություններ կատարելու համար կստանա OpenProject BCF API v2.1-ի ընթերցման և գրառման լիարժեք իրավունք։
+  permission_delete_bcf: Ջնջել BCF խնդիրները
+  permission_manage_bcf: Ներմուծել և կառավարել BCF խնդիրները
   permission_manage_bcf_explanation: |
-    Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
-    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
-  permission_manage_ifc_models: Import and manage IFC models
-  permission_view_ifc_models: View IFC models
-  permission_view_linked_issues: View BCF issues
+    Թույլ է տալիս կառավարել BCF խնդիրները, ներառյալ զանգվածային ներմուծումն ու թարմացումները։
+    BCF ներմուծումը նիշքի մետատվյալները համապատասխանեցնում է նախագծի ռեսուրսներին և կարող է ստեղծել կամ թարմացնել աշխատանքային փաթեթներ
+    և մեկնաբանություններ՝ օգտագործելով ներմուծված նիշքի հեղինակի և ժամանակի դրոշմի արժեքները, փաստացի գործելով օգտատերերի անունից։
+  permission_manage_ifc_models: Ներմուծել և կառավարել IFC մոդելները
+  permission_view_ifc_models: Դիտել IFC մոդելները
+  permission_view_linked_issues: Դիտել BCF խնդիրները
   plugin_openproject_bim:
-    description: This OpenProject plugin introduces BIM and BCF functionality.
-    name: OpenProject BIM and BCF functionality
+    description: Այս OpenProject հավելումը ներկայացնում է BIM և BCF ֆունկցիոնալությունը։
+    name: OpenProject-ի BIM և BCF ֆունկցիոնալություն
   project_module_bcf: BCF
   project_module_bim: BCF
-  project_module_ifc_models: IFC models
+  project_module_ifc_models: IFC մոդելներ

@@ -35,6 +35,88 @@ RSpec.describe Import::JiraFetchUsersJob do
   let(:jira_client) { instance_double(Import::JiraClient) }
   let(:user_keys) { Set.new }
 
+  describe "#collect_attachment_user_keys" do
+    it "adds the author key of every attachment" do
+      payload = {
+        "attachment" => [
+          { "filename" => "a.png", "author" => { "key" => "JIRAUSER100" } },
+          { "filename" => "b.png", "author" => { "key" => "JIRAUSER200" } }
+        ]
+      }
+
+      job.send(:collect_attachment_user_keys, user_keys, payload)
+      expect(user_keys).to contain_exactly("JIRAUSER100", "JIRAUSER200")
+    end
+
+    it "does not add duplicates" do
+      payload = {
+        "attachment" => [
+          { "filename" => "a.png", "author" => { "key" => "JIRAUSER100" } },
+          { "filename" => "b.png", "author" => { "key" => "JIRAUSER100" } }
+        ]
+      }
+
+      job.send(:collect_attachment_user_keys, user_keys, payload)
+      expect(user_keys).to contain_exactly("JIRAUSER100")
+    end
+
+    it "skips attachments without an author" do
+      payload = {
+        "attachment" => [
+          { "filename" => "a.png" },
+          { "filename" => "b.png", "author" => nil },
+          { "filename" => "c.png", "author" => { "key" => nil } },
+          { "filename" => "d.png", "author" => { "key" => "JIRAUSER100" } }
+        ]
+      }
+
+      job.send(:collect_attachment_user_keys, user_keys, payload)
+      expect(user_keys).to contain_exactly("JIRAUSER100")
+    end
+
+    it "handles issues without attachments" do
+      expect { job.send(:collect_attachment_user_keys, user_keys, {}) }.not_to raise_error
+      expect(user_keys).to be_empty
+    end
+  end
+
+  describe "#collect_user_keys_from_issue" do
+    let(:mention_usernames) { Set.new }
+    let(:issue) do
+      instance_double(Import::JiraIssue, payload: {
+                        "fields" => {
+                          "description" => "no mentions here",
+                          "creator" => { "key" => "JIRAUSER_CREATOR" },
+                          "reporter" => { "key" => "JIRAUSER_REPORTER" },
+                          "assignee" => { "key" => "JIRAUSER_ASSIGNEE" },
+                          "comment" => {
+                            "comments" => [{ "author" => { "key" => "JIRAUSER_COMMENTER" }, "body" => "a comment" }]
+                          },
+                          "attachment" => [
+                            { "filename" => "a.png", "author" => { "key" => "JIRAUSER_UPLOADER" } }
+                          ]
+                        },
+                        "changelog" => {
+                          "histories" => [{ "author" => { "key" => "JIRAUSER_EDITOR" }, "items" => [] }]
+                        }
+                      })
+    end
+
+    it "collects attachment authors alongside the other involved users" do
+      job.send(:collect_user_keys_from_issue, user_keys, mention_usernames, issue)
+
+      expect(user_keys).to include("JIRAUSER_UPLOADER")
+      expect(user_keys).to contain_exactly(
+        "JIRAUSER_CREATOR",
+        "JIRAUSER_REPORTER",
+        "JIRAUSER_ASSIGNEE",
+        "JIRAUSER_COMMENTER",
+        "JIRAUSER_UPLOADER",
+        "JIRAUSER_EDITOR"
+      )
+    end
+  end
+
   describe "#resolve_mention_user_keys" do
     context "when all mentioned users exist" do
       before do

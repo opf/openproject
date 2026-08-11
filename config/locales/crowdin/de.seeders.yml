@@ -508,16 +508,16 @@ de:
         item_0:
           name: 'Epic children: User stories and bugs'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'User-Story Elemente: Aufgaben'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: User Stories und Bugs
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Aufgaben
       welcome:
         title: Willkommen bei OpenProject!
         text: |

@@ -55,6 +55,6 @@ module OpenProject
   end
 end
 
-OpenProject::Patches.patch_gem_version "activesupport", "8.1.3" do
+OpenProject::Patches.patch_gem_version "activesupport", "8.1.3.1" do
   MessagePack::Factory.prepend OpenProject::Patches::MessagePackSafeBufferFix
 end

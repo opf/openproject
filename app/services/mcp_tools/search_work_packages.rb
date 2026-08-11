@@ -90,8 +90,8 @@ module McpTools
       }
     )
 
-    output_filter McpOutputFilters::RemoveFormattableHtml
-    output_filter McpOutputFilters::RemoveWorkPackageActionLinks
+    output_filter McpOutputFilters::RemoveFormattableHtml.new
+    output_filter McpOutputFilters::RemoveWorkPackageActionLinks.new
 
     def call(page: nil, **filters)
       filtered = apply_filters(WorkPackage.visible, filters)

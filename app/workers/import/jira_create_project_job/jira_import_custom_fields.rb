@@ -47,6 +47,15 @@ module Import
         end
       end
 
+      def custom_fields_for_issue(custom_field_registry, jira_issue)
+        custom_field_registry.filter_map do |entry|
+          raw_value = jira_issue.payload["fields"][entry[:jira_field].jira_field_id]
+          next if raw_value.blank?
+
+          find_context_for_issue(entry, jira_issue)&.dig(:custom_field)
+        end.uniq
+      end
+
       # Builds one OP custom field per (Jira field, context group) combination, before any
       # per-project import begins. Context groups describe which (project_key, issuetype_id)
       # tuples share an allowedValues set.
@@ -94,57 +103,28 @@ module Import
         schema["type"] == "array" && schema["items"] == "string"
       end
 
-      def build_string_array_registry_entries(jira_field)
-        string_values = collect_string_values_from_issues(jira_field)
-        allowed_values = string_values.map { |v| { "value" => v } }
-        groups = jira_field.payload["contextGroups"]
+      def option_field?(jira_field)
+        schema = jira_field.payload["schema"] || {}
+        %w[option option-with-child].include?(schema["type"]) ||
+          (schema["type"] == "array" && schema["items"] == "option")
+      end
 
-        contexts = if groups.present?
-                     groups.map { |g| build_context_entry(jira_field, g.merge("allowedValues" => allowed_values)) }
-                   else
-                     [
-                       build_context_entry(
-                         jira_field,
-                         {
-                           "projects" => [],
-                           "issuetypes" => [],
-                           "allowedValues" => allowed_values
-                         }
-                       )
-                     ]
-                   end
+      def build_string_array_registry_entries(jira_field)
+        allowed_values = Array(jira_field.payload["contextGroups"]).flat_map { |group| Array(group["allowedValues"]) }
+        allowed_values = issue_string_values(jira_field).reduce(allowed_values) do |values, string_value|
+          merge_allowed_value(values, { "value" => string_value })
+        end
+        contexts = [
+          build_context_entry(jira_field, { "projects" => [], "issuetypes" => [], "allowedValues" => allowed_values })
+        ]
         [{ jira_field:, contexts: }]
       end
 
-      def collect_string_values_from_issues(jira_field)
-        field_key = jira_field.jira_field_id
-        values = Set.new
-        Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: all_jira_import_project_ids).find_each do |issue|
-          raw = issue.payload["fields"][field_key]
-          next unless raw.is_a?(Array)
-
-          raw.each { |v| values << v.to_s if v.present? }
-        end
-        values.to_a.sort
-      end
-
       def build_multicheckbox_registry_entries(jira_field)
-        groups = jira_field.payload["contextGroups"]
-
-        return build_multicheckbox_entries_without_context_groups(jira_field) if groups.blank?
+        groups = augmented_context_groups(jira_field)
+        return [] if groups.blank?
 
         build_multicheckbox_entries_with_context_groups(jira_field, groups)
-      end
-
-      def build_multicheckbox_entries_without_context_groups(jira_field)
-        option_values = collect_option_values_from_issues(jira_field)
-        return [] if option_values.empty?
-
-        if option_values.size == 1
-          [{ jira_field:, contexts: [build_context_entry(jira_field, nil, option_value: option_values.first)] }]
-        else
-          [{ jira_field:, contexts: [build_context_entry(jira_field, nil)] }]
-        end
       end
 
       def build_multicheckbox_entries_with_context_groups(jira_field, groups)
@@ -158,7 +138,7 @@ module Import
         list_groups = []
 
         groups.each do |group|
-          option_values = Array(group["allowedValues"]).pluck("value").compact.uniq
+          option_values = option_labels(group["allowedValues"])
           if option_values.size == 1
             boolean_groups << { group:, option_value: option_values.first }
           elsif option_values.size > 1
@@ -193,25 +173,129 @@ module Import
           .pluck(:id)
       end
 
-      def collect_option_values_from_issues(jira_field)
-        values = Set.new
-        Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: all_jira_import_project_ids).find_each do |issue|
-          raw = issue.payload["fields"][jira_field.jira_field_id]
-          next unless raw.is_a?(Array)
-
-          raw.each { |v| values << v["value"] if v["value"].present? }
-        end
-        values.to_a.sort
-      end
-
       def build_contexts_for_field(jira_field)
-        groups = jira_field.payload["contextGroups"]
+        groups = augmented_context_groups(jira_field)
         if groups.present?
           needs_disambiguation = groups.size > 1
           groups.map { |group| build_context_entry(jira_field, group, needs_disambiguation:) }
         else
           [build_context_entry(jira_field, nil)]
         end
+      end
+
+      def augmented_context_groups(jira_field)
+        groups = dup_context_groups(jira_field)
+        return groups unless option_field?(jira_field)
+
+        issue_options = issue_option_values(jira_field)
+        return groups if issue_options.empty?
+
+        groups << global_context_group if groups.empty?
+        issue_options.each { |option, *scope| add_option_to_context_group(groups, option, scope) }
+        groups
+      end
+
+      def dup_context_groups(jira_field)
+        Array(jira_field.payload["contextGroups"]).map do |group|
+          group.merge("allowedValues" => Array(group["allowedValues"]))
+        end
+      end
+
+      def global_context_group
+        { "projects" => [], "issuetypes" => [], "allowedValues" => [] }
+      end
+
+      def add_option_to_context_group(groups, option, scope)
+        group = groups[matching_context_group_index(groups, *scope)]
+        group["allowedValues"] = merge_allowed_value(group["allowedValues"], option)
+      end
+
+      def merge_allowed_value(allowed_values, option)
+        label = option["value"].to_s.strip
+        return allowed_values if label.blank?
+
+        existing = allowed_values.find { |av| av["value"].to_s.strip == label }
+        return allowed_values + [build_allowed_value(label, option["child"])] if existing.nil?
+
+        merge_allowed_child(allowed_values, existing, option["child"])
+      end
+
+      def merge_allowed_child(allowed_values, existing, child)
+        return allowed_values if child.blank?
+
+        merged = existing.merge("children" => merge_allowed_value(Array(existing["children"]), child))
+        allowed_values.map { |av| av.equal?(existing) ? merged : av }
+      end
+
+      def build_allowed_value(label, child)
+        entry = { "value" => label }
+        entry["children"] = merge_allowed_value([], child) if child.present?
+        entry
+      end
+
+      def matching_context_group_index(groups, project_key, issuetype_id)
+        groups.index do |group|
+          scope_applies?(group["projects"], project_key) && scope_applies?(group["issuetypes"], issuetype_id)
+        end || 0
+      end
+
+      def option_labels(allowed_values)
+        Array(allowed_values).pluck("value").compact.map { |value| value.to_s.strip }.compact_blank.uniq
+      end
+
+      def issue_option_values(jira_field)
+        issue_field_values_index[:options][jira_field.jira_field_id].values
+      end
+
+      def issue_string_values(jira_field)
+        issue_field_values_index[:strings][jira_field.jira_field_id].to_a.sort
+      end
+
+      def issue_field_values_index
+        @issue_field_values_index ||= build_issue_field_values_index
+      end
+
+      def build_issue_field_values_index
+        index = { options: Hash.new { |h, k| h[k] = {} }, strings: Hash.new { |h, k| h[k] = Set.new } }
+        Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: all_jira_import_project_ids).find_each do |issue|
+          scope = issue_context_scope(issue)
+          used_custom_field_values(issue).each { |field_key, raw| record_issue_field_values(index, field_key, raw, scope) }
+        end
+        index
+      end
+
+      def issue_context_scope(issue)
+        [issue.payload.dig("fields", "project", "key"), issue.payload.dig("fields", "issuetype", "id")]
+      end
+
+      def used_custom_field_values(issue)
+        issue.payload["fields"].select { |field_key, raw| field_key.start_with?("customfield_") && raw.present? }
+      end
+
+      def record_issue_field_values(index, field_key, raw, scope)
+        Array.wrap(raw).each do |value|
+          if value.is_a?(Hash)
+            record_issue_option_value(index[:options][field_key], value, scope)
+          elsif raw.is_a?(Array) && value.is_a?(String)
+            index[:strings][field_key] << value.strip if value.strip.present?
+          end
+        end
+      end
+
+      def record_issue_option_value(field_options, option, scope)
+        return if option["value"].blank?
+
+        field_options[scope + [option_chain_signature(option)]] ||= [option, *scope]
+      end
+
+      def option_chain_signature(option)
+        labels = []
+        node = option
+        while node.is_a?(Hash) && node["value"].present?
+          labels << node["value"].to_s.strip
+          node = node["child"]
+        end
+        labels.join(" / ")
       end
 
       def build_context_entry(jira_field, context_group, option_value: nil, needs_disambiguation: false)
@@ -299,11 +383,17 @@ module Import
       end
 
       def context_applies_to_project?(context, project_key)
-        context[:projects].empty? || context[:projects].include?(project_key)
+        scope_applies?(context[:projects], project_key)
       end
 
       def context_applies_to_issuetype?(context, issuetype_id)
-        context[:issuetypes].empty? || context[:issuetypes].include?(issuetype_id)
+        scope_applies?(context[:issuetypes], issuetype_id)
+      end
+
+      # An empty scope means "applies to all projects" / "applies to all issue types".
+      def scope_applies?(scope, value)
+        scope = Array(scope)
+        scope.empty? || scope.include?(value)
       end
     end
   end

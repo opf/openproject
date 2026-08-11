@@ -1274,9 +1274,8 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             .to contain_exactly(alpha, beta)
         end
 
-        it "keeps the legacy version in sync with the first target version" do
-          expect(subject.version)
-            .to eql(alpha)
+        it "keeps the breaks the legacy version if target version has many entries" do
+          expect { subject.version }.to raise_error(/multiple target versions and cannot be represented/)
         end
 
         it "removes the keyword from the description" do

@@ -89,21 +89,26 @@ module OpenProject
         #   # @return [ViewComponent::Slot]
         #   def with_action_button(**system_arguments, &block)
         #   end
-        #
-        #   # Adds a label to the header actions area.
-        #   #
-        #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Label`.
-        #   # @return [ViewComponent::Slot]
-        #   def with_action_label(**system_arguments, &block)
-        #   end
         renders_many :actions, types: {
           button: ->(scheme: DEFAULT_ACTION_SCHEME, **system_arguments) do
             Primer::Beta::Button.new(scheme:, **system_arguments)
-          end,
-          label: ->(**system_arguments) do
-            Primer::Beta::Label.new(**system_arguments)
           end
         }
+
+        # @!parse
+        #   # Adds an informational status label to the header.
+        #   #
+        #   # The label is right-aligned in the header and hidden on small
+        #   # screens, so it must only carry supplementary status and never be
+        #   # the sole affordance for an action.
+        #   #
+        #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Label`.
+        #   # @return [ViewComponent::Slot]
+        #   def with_label(**system_arguments, &block)
+        #   end
+        renders_one :label, ->(**system_arguments) do
+          Primer::Beta::Label.new(**system_arguments)
+        end
 
         attr_reader :count,
                     :count_label,
@@ -114,11 +119,9 @@ module OpenProject
                     :interactive,
                     :collapsed,
                     :collapsible,
-                    :show_drag_handle,
-                    :multi_line
+                    :show_drag_handle
 
         alias_method :show_drag_handle?, :show_drag_handle
-        alias_method :multi_line?, :multi_line
 
         attr_writer :collapsible_id
 
@@ -142,9 +145,6 @@ module OpenProject
         #   with a toggle button.
         # @param show_drag_handle [Boolean] whether the header renders a leading
         #   drag handle. Defaults to `false`.
-        # @param multi_line [Boolean] for collapsible headers, whether the
-        #   description renders on its own line and may wrap. Pass `false` to
-        #   render the description inline on the title row. Defaults to `true`.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
           title: nil,
@@ -158,7 +158,6 @@ module OpenProject
           collapsed: false,
           collapsible: false,
           show_drag_handle: false,
-          multi_line: true,
           **system_arguments
         )
           super()
@@ -175,7 +174,6 @@ module OpenProject
           @collapsed = collapsed
           @collapsible = collapsible
           @show_drag_handle = show_drag_handle
-          @multi_line = multi_line
           @system_arguments = system_arguments
         end
 

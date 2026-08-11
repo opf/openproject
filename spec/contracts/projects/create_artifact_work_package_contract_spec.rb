@@ -157,6 +157,35 @@ RSpec.describe Projects::CreateArtifactWorkPackageContract, :check_errors_i18n d
     end
   end
 
+  context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+    shared_let(:variant) { create(:type, name: "Project initiation variant", parent: type) }
+    shared_let(:variant_only_status) { create(:status, name: "Variant only") }
+
+    before do
+      variant.configuration_links
+             .find_by(aspect: Type::ConfigurationLink::WORKFLOWS)
+             .destroy!
+      create(:workflow, type: variant, role: role_for_assignee,
+                        old_status: variant_only_status, new_status: variant_only_status)
+
+      # The family is already used, so switching the resolved variant is an update of that row
+      # rather than adding a second one.
+      project.project_types.find_by(type:).update!(variant:)
+    end
+
+    # status_new is in the root's workflow but not the variant's, so following the stored root
+    # would wrongly accept it.
+    it_behaves_like "contract is invalid", project_creation_wizard_status_when_submitted_id: :inclusion
+
+    context "with a status from the variant's own workflow" do
+      before do
+        project.update!(project_creation_wizard_status_when_submitted_id: variant_only_status.id)
+      end
+
+      it_behaves_like "contract is valid"
+    end
+  end
+
   context "with 'Assignee when submitted' not set" do
     before do
       project.update(project_creation_wizard_assignee_custom_field_id: nil)

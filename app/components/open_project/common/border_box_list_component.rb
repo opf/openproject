@@ -56,13 +56,10 @@ module OpenProject
       #   # @param title [String] header title.
       #   # @param show_drag_handle [Boolean] whether the header renders a
       #   #   leading drag handle.
-      #   # @param multi_line [Boolean] for collapsible headers, whether the
-      #   #   description renders on its own line. Pass `false` to render it
-      #   #   inline on the title row.
       #   # @param system_arguments [Hash] forwarded to {Header}. List wiring
       #   #   arguments are supplied internally.
       #   # @return [ViewComponent::Slot]
-      #   def with_header(title: nil, show_drag_handle: false, multi_line: true, **system_arguments, &block)
+      #   def with_header(title: nil, show_drag_handle: false, **system_arguments, &block)
       #   end
       renders_one :header, ->(**system_arguments) {
         system_arguments = system_arguments.except(:id, :list_id)
@@ -150,7 +147,7 @@ module OpenProject
       #   # @param drop_target_label [String, nil] when given, renders a
       #   #   drop-zone overlay with this label. The overlay becomes visible
       #   #   while a sortable item hovers the surrounding
-      #   #   `[data-drop-container]` list.
+      #   #   `[data-drop-container="active"]` list.
       #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Blankslate`.
       #   # @return [ViewComponent::Slot]
       #   def with_empty_state(title:, description: nil, icon: nil, drop_target_label: nil, **system_arguments)

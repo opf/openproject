@@ -82,7 +82,7 @@ module Backlogs
       else
         base_arguments.merge(
           tag: :a,
-          href: start_project_backlogs_sprint_path(project, sprint),
+          href: start_project_backlogs_sprint_path(project, sprint, backlog_filter_params),
           data: { turbo_method: :post }
         )
       end

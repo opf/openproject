@@ -67,7 +67,8 @@ vi:
       '
     login_with_auth_provider: hoặc đăng nhập bằng tài khoản hiện tại
     omniauth_login: Vui lòng đăng nhập để kích hoạt tài khoản của bạn.
-    signup_with_auth_provider: hoặc sử dụng đăng ký
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Vui lòng chọn
   activemodel:
     attributes:
@@ -697,9 +698,9 @@ vi:
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
               cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'gói công việc vẫn được sử dụng: %{types}'
-              switch_source_not_a_variant: Can only switch away from a variant
-              switch_target_identical: The target Type must be different from the current variant
-              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: Người dùng đã chọn không được phép gán cho các gói công việc.
           foreign_wps_reference_version: Các gói công việc trong các phiên bản tham chiếu không kế thừa của dự án hoặc kế thừa nó.
         project/phase:
@@ -714,6 +715,12 @@ vi:
           attributes:
             project_ids:
               blank: Vui lòng chọn một dự án.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -812,7 +819,7 @@ vi:
               query_invalid: 'Truy vấn nhúng ''%{group}'' là không hợp lệ: %{details}'
             parent:
               cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
               cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
@@ -1126,6 +1133,9 @@ vi:
         '
     jemalloc_allocator: Bộ cấp phát bộ nhớ Jemalloc
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
@@ -1147,9 +1157,11 @@ vi:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Added
+        creator: Creator
         label_ago: "%{amount} ago"
         last_change: Last change
         projects: Projects
+        server_url: Server URL
       configuration:
         new: New cấu hình
         title: Jira cấu hình
@@ -1164,14 +1176,17 @@ vi:
         button_add: Add cấu hình
         button_delete_token: Delete token
         button_save: Save cấu hình
-        button_test: Test cấu hình
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
         fields:
           name: Name
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
         label_testing: Testing cấu hình...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
@@ -1183,6 +1198,9 @@ vi:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
+        side_panel:
+          open_history: Open the run history
+          run_status: Run status
         status:
           configuring: Select scope
           finalizing: Finalizing
@@ -1215,14 +1233,8 @@ vi:
           groups:
             configuration:
               title: Configure import
-            confirming:
-              title: Confirm and import
-            fetch:
-              title: Get base data
-            groups_and_users:
-              title: Groups and Users
-            review:
-              title: Review import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
             confirm_button: Start import
@@ -1252,6 +1264,7 @@ vi:
               button_start: Start import
               caption: Review your import thiết lập and start the import
               caption_done: Đã hoàn thành
+              caption_done_info: All data has been imported
               description: You are about to start an import run with the following thiết lập.
               label_available_data: Data to be imported
               label_import_data: Currently importing
@@ -1259,9 +1272,12 @@ vi:
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Check available data
               caption_done: Đã hoàn thành
+              caption_done_description: Meta data fetched from %{server_info}
               description: Check what data is available for import in the host Jira instance.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Fetching data from Jira...
               title: Fetch instance meta data
             groups_and_users:
@@ -1270,7 +1286,6 @@ vi:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
-              info: Import run was successful.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1279,6 +1294,20 @@ vi:
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1286,6 +1315,8 @@ vi:
               button_select_projects: Select projects to import
               caption: Choose what you want to import into OpenProject
               caption_done: Đã hoàn thành
+              caption_done_description:
+                other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
@@ -1300,19 +1331,21 @@ vi:
                 sprints: Sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
               label_coming_later: Coming later
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Select which projects you would like to import.
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
-              label_progress: Fetching data from Jira...
+              label_progress: Fetching data
               label_selected_data: Selected data for import
               label_supported_data: Supported data
               title: Import scope
-          select_dialog:
-            filter_projects: Filter by text
           select_projects:
-            title: Select projects
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
         connection_error: 'Connection error: %{message}'
@@ -1524,15 +1557,15 @@ vi:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        always: Default transitions
         aria_label: Workflow transitions
-        default_transitions: Chuyển tiếp mặc định
+        assignee: User is assignee
+        author: User is author
         descriptions:
-          default_transitions: Transitions available to the selected role(s) in all cases.
-          user_assignee: Additional transitions available to the work package's assignee.
-          user_author: Additional transitions available to the work package's author.
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
-        user_assignee: Người dùng là người được chuyển nhượng
-        user_author: Người dùng là tác giả
   announcements:
     is_active: Đang hiển thị
     is_inactive: hiện tại không hiển thị
@@ -1660,6 +1693,7 @@ vi:
     entity_type: thực thể
     estimated_hours: làm việc
     estimated_time: làm việc
+    exact_match: Exact match
     expires_at: Hết hạn vào
     filter: bộ lọc
     firstname: Tên
@@ -2458,6 +2492,7 @@ vi:
   error_failed_to_delete_entry: Không xóa được mục này.
   error_in_dependent: 'Lỗi khi cố gắng thay đổi đối tượng phụ thuộc: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Lỗi khi tạo đối tượng phụ thuộc: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Giá trị đã chọn không hợp lệ.
   error_journal_attribute_not_present: Tạp chí không chứa thuộc tính %{attribute}.
   error_menu_item_not_created: Không thể thêm mục trình đơn
@@ -2795,6 +2830,7 @@ vi:
       work_package_children_changed_times: bởi những thay đổi đối với con %{link}
       work_package_duplicate_closed: Trạng thái được cập nhật tự động bởi gói công việc trùng lặp %{link}
       work_package_parent_changed_times: bằng những thay đổi đối với cha mẹ %{link}
+      work_package_parent_deleted: because the parent work package was deleted
       work_package_predecessor_changed_times: bằng những thay đổi đối với người tiền nhiệm %{link}
       work_package_related_changed_times: bởi những thay đổi đối với %{link} có liên quan
       working_days_changed:
@@ -2816,7 +2852,18 @@ vi:
       total_percent_complete_mode_changed_to_simple_average: Tính toán tổng số % Hoàn thành hiện dựa trên mức trung bình đơn giản chỉ là các giá trị % Hoàn thành.
       total_percent_complete_mode_changed_to_work_weighted_average: Tính toán % tổng số hoàn thành hiện được tính theo Công việc.
       work_package_duplicate_closed: 'Gói công việc trùng lặp được cập nhật:'
+      work_package_parent_deleted: Parent removed
     changes_retracted: Những thay đổi đã bị rút lại
+    non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
+      project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
+      work_package: a non-visible work package
   label_accessibility: Trợ năng
   label_account: tài khoản
   label_actions: hành động
@@ -3173,6 +3220,7 @@ vi:
   label_me: tôi
   label_member_all_admin: "(Tất cả các vai trò do tư cách quản trị viên)"
   label_member_new: Thành viên mới
+  label_member_of_project: Member of project
   label_member_plural: thành viên
   label_member_role: Vai trò dự án
   label_membership_added: Đã thêm thành viên
@@ -4521,6 +4569,7 @@ vi:
 
     '
   permission_move_work_packages: Di chuyển gói công việc
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Lưu truy vấn BCF
   permission_save_queries: Lưu các chế độ xem
   permission_search_project: Tìm kiếm dự án
@@ -4742,6 +4791,7 @@ vi:
       header_identifier: Identifier
       header_relations: Quan hệ dự án
       header_status: trạng thái
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Tìm kiếm giai đoạn dự án
@@ -4802,9 +4852,31 @@ vi:
         menu_title: mẫu
         title: Cài đặt mẫu
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: Kích hoạt loại "%{type}"
         no_results_title_text: Không có phân loại.
+        remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
+        type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Tạo ra một phiên bản mới
         no_results_title_text: Hiện đang có phiên bản dự án.
@@ -5628,6 +5700,7 @@ vi:
   text_journal_changed_plain: "%{label} đã thay đổi từ %{old} %{linebreak}thành %{new}"
   text_journal_changed_with_diff: "%{label} đã thay đổi (%{link})"
   text_journal_deleted: "%{label} đã xóa (%{old})"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} đã xóa (%{link})"
   text_journal_file_link_added: Đã thêm %{label} liên kết tới %{value} (%{storage})
@@ -5825,6 +5898,10 @@ vi:
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
         empty_group_hint: Drag attributes here
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
         group_name_label: Section name
@@ -5850,6 +5927,9 @@ vi:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:
@@ -5871,6 +5951,9 @@ vi:
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
         independent:
           confirm_dialog:
             check_box: I understand that this will override the current settings
@@ -5921,21 +6004,25 @@ vi:
         tab: Workflows
     index:
       add_variant: Add variant to %{name}
+      add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
       make_default: Activate in new projects
-      make_default_notice: "%{name} is now activated in new projects"
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Tạo loại mới
       no_results_title_text: Hiện tại không có loại nào.
       remove_default: Do not activate in new projects
-      remove_default_notice: "%{name} is no longer activated in new projects"
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
       variants_count:
         other: "%{count} variants"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Bỏ qua cảnh báo này.
     message: Bạn có thể gặp phải lỗi và trải nghiệm không mong muốn trên trang này.
@@ -6291,20 +6378,34 @@ vi:
   work_packages:
     bulk:
       copy_failed: Các gói công việc không thể được sao chép.
+      could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Không thể lưu các gói công việc sau:'
+      deletion_successful:
+        other: Successfully deleted %{count} work packages.
       descendant: hậu duệ của người được chọn
       move_failed: Các gói công việc không thể được di chuyển.
       none_could_be_saved: Không có gói công việc %{total} nào có thể được cập nhật.
       selected_because_descendants: Mặc dù các gói công việc %{selected} đã được chọn nhưng tổng số các gói công việc %{total} đều bị ảnh hưởng, bao gồm cả các gói công việc con.
       x_out_of_y_could_be_saved: Không thể cập nhật %{failing} trong số %{total} gói công việc trong khi %{success} thì có thể.
     bulk_delete_dialog:
-      children_label: 'The following children will also be deleted:'
-      confirm_children_deletion: I acknowledge that all selected gói công việc (work package)s and their children will be permanently deleted.
-      cross_project_warning: 'These gói công việc (work package)s span multiple projects: %{projects}'
-      description: 'The following gói công việc (work package)s and all associated data will be permanently deleted:'
-      description_with_children: 'The following gói công việc (work package)s, including children and all associated data, will be permanently deleted:'
+      children_label: 'The following descendants will also be deleted:'
+      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      description: Are you sure you want to delete the selected work packages and all associated data?
+      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
+      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
+      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} gói công việc (work package)s?
+      hidden_descendants_only_warning:
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} gói công việc (work package)s
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -6348,11 +6449,20 @@ vi:
         successors: người kế nhiệm
       update_inputs_aria_live_message: Đã cập nhật bộ chọn ngày. %{message}
     delete_dialog:
-      confirm_descendants_deletion: I acknowledge that ALL descendants of this gói công việc (work package) will be recursively removed.
-      cross_project_warning: 'Gói công việc (Work Package)s from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete the gói công việc (work package) "%{name}"?
+      confirm_deletion: I confirm that the work package and all associated data will be deleted.
+      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
+      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this gói công việc (work package)?
+      hidden_descendants_only_warning:
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+      hidden_descendants_warning:
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete gói công việc (work package)
+      undeletable_descendants_warning:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+      undeletable_descendants_warning_html:
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 

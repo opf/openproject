@@ -504,14 +504,14 @@ fr:
           name: Bug
       global_queries:
         item_0:
-          name: 'Des enfants exceptionnels : témoignages d''utilisateurs et bugs'
+          name: 'Sous-éléments de l''epic : user stories et bugs'
         item_1:
           name: 'Sous-éléments d''une user story : tâches'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: Cas d'utilisation et bogues
+              group_name: User stories et bugs
         item_1:
           form_configuration:
             item_0:

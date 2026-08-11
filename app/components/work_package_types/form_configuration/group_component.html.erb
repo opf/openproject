@@ -53,7 +53,8 @@ See COPYRIGHT and LICENSE files for more details.
             WorkPackageTypes::FormConfiguration::GroupQueryRowComponent.new(
               group: @group,
               ee_available: ee_available?,
-              readonly: readonly?
+              readonly: readonly?,
+              exclusions: @exclusions
             )
           )
         end
@@ -89,7 +90,8 @@ See COPYRIGHT and LICENSE files for more details.
                 type: @type,
                 index:,
                 total_count: attributes.length,
-                readonly: readonly?
+                readonly: readonly?,
+                exclusions: @exclusions
               )
             )
           end

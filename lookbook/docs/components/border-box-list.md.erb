@@ -69,6 +69,7 @@ comparable lists should use headers.
 |---|---|
 | `with_title` | Block-based alternative to `title:`, for titles that need more than plain text. Takes precedence over `title:` |
 | `with_description` | Secondary content below the title, wrapped in `Primer::Beta::Text` with muted color by default. Accepts Primer system arguments |
+| `with_label` | Informational status label (`Primer::Beta::Label`) shown on the title row. Right-aligned, truncated when long, and hidden on small screens, so use it only for supplementary status, never as the sole affordance for an action |
 | `with_action_button` | Button rendered in the header actions area |
 | `with_menu` | Action menu rendered in the header actions area. Pass `button_aria_label:` for the trigger button |
 

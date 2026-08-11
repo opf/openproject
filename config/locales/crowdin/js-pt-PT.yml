@@ -120,7 +120,7 @@ pt-PT:
     button_cancel: Cancelar
     button_change_project: Mover para outro projeto
     button_check_all: Seleccionar Todos
-    button_clear: Clear
+    button_clear: Limpar
     button_close: Fechar
     button_close_details: Fechar visão detalhada
     button_collapse_all: Ocultar tudo
@@ -205,10 +205,10 @@ pt-PT:
       error_saving_failed: 'Ao guardar o documento ocorreu o seguinte erro: %{error}'
       macro:
         attribute_reference:
-          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_project_attribute: Um atributo dinâmico do projeto inserido através de uma macro.
           aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
-          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
+          aria_label_work_package_attribute: Um atributo dinâmico do pacote de trabalho inserido através de uma macro.
+          aria_label_work_package_link: Uma ligação dinâmica a um pacote de trabalho inserida através de uma macro.
           invalid_attribute: O atributo selecionado '%{name}' não existe.
           nested_macro: Esta macro faz referência de forma recursiva a %{model} %{id}.
           not_found: Não foi possível encontrar o recurso solicitado
@@ -806,12 +806,12 @@ pt-PT:
       sorting_disabled: ordenação desativada
     sortable_lists:
       announcements:
-        fallback_item_label: Item
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the item's current position.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
-        moved: "%{label} moved to position %{position} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+        fallback_item_label: Elemento
+        fallback_list_name: outra lista
+        move_failed_check_position: Erro ao mover. Verifique a posição atual do elemento.
+        move_failed_rolled_back: Erro ao mover. %{label} voltou à sua posição anterior.
+        moved: "%{label} movido para a posição %{position} de %{total}"
+        moved_to_list: "%{label} transferido para %{list}, cargo %{position} de %{total}"
     spot:
       drop_modal:
         close: Fechar modal
@@ -1111,7 +1111,7 @@ pt-PT:
         activity: Atividade
         files: Ficheiros
         overview: Sinopse
-        project_attributes: Project attributes
+        project_attributes: Atributos do projeto
         relations: Relações
         watchers: Observadores
       time_relative:

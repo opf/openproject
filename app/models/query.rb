@@ -33,6 +33,7 @@ class Query < ApplicationRecord
   include Timestamps
   include Highlighting
   include ManualSorting
+  include DeprecatedVersionSelect
   include Queries::Filters::AvailableFilters
 
   belongs_to :project
@@ -280,7 +281,7 @@ class Query < ApplicationRecord
   # Returns a Hash of sql columns for sorting by column
   def sortable_key_by_column_name
     column_sortability = sortable_columns.inject({}) do |h, column|
-      h[column.name.to_s] = column.sortable
+      h[column.name.to_s] = column.sortable(self)
       h
     end
 
@@ -294,7 +295,7 @@ class Query < ApplicationRecord
 
   def columns
     column_list = if has_default_columns?
-                    column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
+                    column_list = normalize_select_names(Setting.work_package_list_default_columns)
                     # Adds the project column by default for cross-project lists
                     column_list += [:project] if project.nil? && column_list.exclude?(:project)
                     column_list
@@ -490,7 +491,9 @@ class Query < ApplicationRecord
   def valid_sort_criteria_subset!
     available_criteria = sortable_columns.map(&:name).map(&:to_s)
 
-    sort_criteria.select! do |criteria|
+    # Assigns rather than mutating: `sort_criteria` no longer hands out the
+    # stored array itself.
+    self.sort_criteria = sort_criteria.select do |criteria|
       available_criteria.include? criteria.first.to_s
     end
   end

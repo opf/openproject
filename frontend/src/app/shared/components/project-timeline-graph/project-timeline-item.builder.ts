@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -119,7 +119,7 @@ export class ProjectTimelineItemBuilder {
     }
 
     const groups = [
-      { id: GROUP_GATES, content: '' },
+      { id: GROUP_GATES, content: '', className: 'op-timeline-group--gates' },
       { id: GROUP_PHASES, content: '' },
       { id: GROUP_MILESTONES, content: '' },
       { id: GROUP_SPRINTS, content: '' },

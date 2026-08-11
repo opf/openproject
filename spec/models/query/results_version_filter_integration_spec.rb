@@ -90,4 +90,38 @@ RSpec.describe Query::Results, "Filtering by version" do
       expect(results).to contain_exactly(wp_with_searched_as_only_target)
     end
   end
+
+  context "with a version status operator" do
+    let(:values) { [] }
+    let(:closed_version) { create(:version, project:, name: "Closed version", status: "closed") }
+    let(:locked_version) { create(:version, project:, name: "Locked version", status: "locked") }
+
+    let!(:wp_with_closed_target) { create(:work_package, project:, version: closed_version) }
+    let!(:wp_with_locked_target) { create(:work_package, project:, version: locked_version) }
+    let!(:wp_without_target_version) { create(:work_package, project:) }
+
+    context 'with the "o" operator' do
+      let(:operator) { "o" }
+
+      it "returns work packages targeting an open version" do
+        expect(results).to contain_exactly(wp_with_searched_as_only_target, wp_with_other_target)
+      end
+    end
+
+    context 'with the "c" operator' do
+      let(:operator) { "c" }
+
+      it "returns work packages targeting a closed version" do
+        expect(results).to contain_exactly(wp_with_closed_target)
+      end
+    end
+
+    context 'with the "l" operator' do
+      let(:operator) { "l" }
+
+      it "returns work packages targeting a locked version" do
+        expect(results).to contain_exactly(wp_with_locked_target)
+      end
+    end
+  end
 end
