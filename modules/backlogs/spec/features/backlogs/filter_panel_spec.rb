@@ -157,6 +157,27 @@ RSpec.describe "Backlog filter panel", :js do
     end
   end
 
+  describe "with the work package details pane open" do
+    # Exercises filtering from the split-view route (/backlog/details/:id),
+    # where the page URL is no longer the backlog list. This is coverage for the
+    # scenario, not a tight regression guard: the backlogs_container frame is a
+    # lazy frame whose src always points at the list endpoint, so the list
+    # recovers even if navigation aims elsewhere. The controller-level guard for
+    # the navigation target lives in the Stimulus controller spec.
+    it "applies a filter while the details pane is open" do
+      backlogs_page.open_work_package_details(sprint_a_wp)
+
+      backlogs_page.apply_bucket_filter(bucket_a)
+
+      expect(page).to have_css("#owner_backlogs_container")
+      expect(page).to have_css("#sprint_backlogs_container")
+      backlogs_page.expect_backlog_bucket(bucket_a)
+      backlogs_page.expect_no_backlog_bucket(bucket_b)
+      backlogs_page.expect_sprint(sprint_a)
+      backlogs_page.expect_sprint(sprint_b)
+    end
+  end
+
   describe "filter counter" do
     it "shows no counter when no filter is active and the count when items are selected" do
       backlogs_page.expect_no_filter_count(:sprint)
