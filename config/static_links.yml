@@ -106,7 +106,7 @@ manual_installation:
   label: Manual installation
 multiple_versions_documentation:
   # Placeholder until the documentation team publishes the multiple target versions page.
-  href: https://www.openproject.org/docs/system-admin-guide/multiple-target-versions/
+  href: https://www.openproject.org/docs/system-admin-guide/
 newsletter:
   href: https://www.openproject.org/newsletter
   label: homescreen.links.newsletter

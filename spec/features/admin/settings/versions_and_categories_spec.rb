@@ -62,7 +62,7 @@ RSpec.describe "Versions and categories admin settings" do
       )
       expect(page).to have_link(
         "More information",
-        href: %r{\Ahttps://www\.openproject\.org/docs/system-admin-guide/multiple-target-versions/}
+        href: %r{\Ahttps://www\.openproject\.org/docs/system-admin-guide/}
       )
       expect(page).to have_css(
         "a.Button--invisible[target='_blank'][rel='noopener']",
@@ -129,7 +129,7 @@ RSpec.describe "Versions and categories admin settings" do
       expect(page).to have_text("The “Target versions” field now allows multiple values.")
       expect(page).to have_link(
         "our documentation",
-        href: %r{\Ahttps://www\.openproject\.org/docs/system-admin-guide/multiple-target-versions/}
+        href: %r{\Ahttps://www\.openproject\.org/docs/system-admin-guide/}
       )
       expect(page).to have_no_link("Enable multiple values")
     end
