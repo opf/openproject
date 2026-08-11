@@ -3,6 +3,7 @@ import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { NodeSelection } from 'prosemirror-state';
 import type { InlineWpSize, BlockWpSize } from '../components/WorkPackage/types';
 import { moveCursorAfterBlock } from './cursor';
+import { hideSafariPhantomSelection } from './selection';
 import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 
 // Direct, position-based operations on inline work package chips.
@@ -21,12 +22,6 @@ type AnyInlineNode = InlineContentFromConfig<any, any>;
 
 const INLINE_WP_TYPE = 'openProjectWorkPackageInline';
 const BLOCK_WP_TYPE = 'openProjectWorkPackageBlock';
-
-const isSafari =
-  typeof navigator !== 'undefined' &&
-  /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-interface DomObserver { disconnectSelection:() => void; connectSelection:() => void; setCurSelection:() => void }
 
 export interface FoundInlineChip {
   position:number;
@@ -88,24 +83,7 @@ export function selectInlineChipAt(editor:AnyEditor, position:number):void {
   editor.transact((tr) => {
     tr.setSelection(NodeSelection.create(tr.doc, position));
   });
-  if (!isSafari) return;
-  // Safari renders a phantom selection on contenteditable=false atoms when PM syncs
-  // NodeSelection to the DOM. Collapse the native selection to hide it while keeping
-  // PM's NodeSelection intact (so Cmd+C and Delete still work).
-  // Uses PM's own disconnect→collapseToEnd→setCurSelection→connect bracket to prevent
-  // the selectionchange from being re-read as a state change. collapseToEnd not
-  // removeAllRanges — removeAllRanges blurs the editor and breaks Cmd+C in Safari.
-  // domObserver is a PM internal — missing it degrades to the visual glitch, not a crash.
-  requestAnimationFrame(() => {
-    const domObserver = (editor.prosemirrorView as unknown as { domObserver?:DomObserver }).domObserver;
-    if (!domObserver) return;
-    const nativeSel = window.getSelection();
-    if (!nativeSel || nativeSel.rangeCount === 0) return;
-    domObserver.disconnectSelection();
-    nativeSel.collapseToEnd();
-    domObserver.setCurSelection();
-    domObserver.connectSelection();
-  });
+  hideSafariPhantomSelection(editor);
 }
 
 export function removeInlineChipAt(editor:AnyEditor, position:number):void {
