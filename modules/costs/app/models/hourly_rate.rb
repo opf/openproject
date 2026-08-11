@@ -44,7 +44,7 @@ class HourlyRate < Rate
       .first
   end
 
-  def self.history_for_user(usr)
+  def self.history_for_user(usr) # rubocop:disable Metrics/AbcSize
     projects_with_costs = Project.has_module(:costs)
                                         .active
                                         .visible
