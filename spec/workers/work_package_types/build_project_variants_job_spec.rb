@@ -129,6 +129,21 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
     end
   end
 
+  context "when the project is archived" do
+    let!(:narrowing_project) do
+      create(:project, :archived, name: "Website Relaunch", types: [type], work_package_custom_fields: [kept_field])
+    end
+
+    it "builds the variant anyway, as an archived project cannot be configured by hand" do
+      run_job
+
+      variant = resolved_type(narrowing_project)
+
+      expect(variant).to be_variant
+      expect(variant.custom_fields).to contain_exactly(kept_field)
+    end
+  end
+
   context "when the type_variants feature is inactive", with_flag: { type_variants: false } do
     it "refuses to run, as exclusions would have no effect" do
       expect { run_job }.to raise_error(/type_variants/)
@@ -149,6 +164,12 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
 
       expect { run_job }.not_to raise_error
       expect(Rails.logger).to have_received(:error)
+    end
+
+    it "leaves no variant behind that no project resolves to" do
+      allow(Rails.logger).to receive(:error)
+
+      expect { run_job }.not_to change(Type, :count)
     end
   end
 end

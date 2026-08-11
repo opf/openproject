@@ -67,24 +67,32 @@ module WorkPackageTypes
       project = project_type.project
       type = project_type.effective_type
 
-      result = BuildVariantFromProjectService.new(user:, type:).call(project:)
-      return log_failure(project, type, result) if result.failure?
+      ApplicationRecord.transaction do
+        result = BuildVariantFromProjectService.new(user:, type:).call(project:)
+        rollback(project, type, result) if result.failure?
 
-      # The service returns the type it was given when the project narrows nothing, which is the
-      # signal that no variant is needed here.
-      return @unchanged += 1 if result.result == type
+        # The service returns the type it was given when the project narrows nothing, which is the
+        # signal that no variant is needed here.
+        next @unchanged += 1 if result.result == type
 
-      resolve(project, type, result.result, user)
+        resolve(project, type, result.result, user)
+      end
     end
 
     def resolve(project, type, variant, user)
       result = Projects::Types::SwitchVariantService
-                 .new(user:, model: project)
+                 .new(user:, model: project, contract_class: EmptyContract)
                  .call(source: type, target: variant)
 
-      return log_failure(project, type, result) if result.failure?
+      rollback(project, type, result) if result.failure?
 
       @built += 1
+    end
+
+    def rollback(project, type, result)
+      log_failure(project, type, result)
+
+      raise ActiveRecord::Rollback
     end
 
     def log_failure(project, type, result)
