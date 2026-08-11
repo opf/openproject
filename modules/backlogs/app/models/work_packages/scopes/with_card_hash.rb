@@ -45,6 +45,13 @@
 # the instance is updated, covering changes to the card markup itself between
 # releases.
 #
+# The locale is mixed in so that switching the user's language busts every
+# card, since the card's translated labels would otherwise stay cached.
+#
+# Whether the user is allowed to +manage_sprint_items+ is mixed in because it
+# toggles the card's drag handle and contextual move actions, matching
+# +Backlogs::WorkPackageCardComponent#draggable?+.
+#
 # The hash is used as the cache-busting +version+ of the card's lazily loaded
 # turbo-frame: as long as the hash is stable the client keeps the cached card,
 # and a changed hash points the frame at a fresh URL.
@@ -54,19 +61,24 @@ module WorkPackages::Scopes::WithCardHash
   class_methods do
     def with_card_hash(user = User.current)
       instance_version = connection.quote(OpenProject::VERSION.to_s)
+      locale = connection.quote(I18n.locale.to_s)
 
       left_outer_joins(:status, :assigned_to, :type, :priority)
         .joins("LEFT JOIN (#{visible_parent(user)}) card_hash_parents ON card_hash_parents.id = work_packages.parent_id")
+        .joins("LEFT JOIN (#{manage_sprint_items_grants(user)}) card_hash_manage_sprint_items " \
+               "ON card_hash_manage_sprint_items.id = work_packages.project_id")
         .select(WorkPackage.arel_table[Arel.star], Arel.sql(<<~SQL.squish))
           md5(concat_ws(
             #{instance_version},
+            #{locale},
             work_packages.updated_at,
             work_packages.lock_version,
             card_hash_parents.updated_at,
             statuses.updated_at,
             users.updated_at,
             types.updated_at,
-            enumerations.updated_at
+            enumerations.updated_at,
+            card_hash_manage_sprint_items.id
           )) AS card_hash
         SQL
     end
@@ -83,6 +95,17 @@ module WorkPackages::Scopes::WithCardHash
           .visible(user)
           .to_sql
       end
+    end
+
+    # The card's drag handle and move actions depend on this permission, checked
+    # against the work package's own project. manage_sprint_items is only
+    # permissible_on: :project (not :work_package), hence Project.allowed_to
+    # rather than WorkPackage.allowed_to; querying Project is unaffected by the
+    # surrounding WorkPackage relation, so no +unscoped+ is needed here.
+    def manage_sprint_items_grants(user)
+      Project
+        .allowed_to(user, :manage_sprint_items)
+        .to_sql
     end
   end
 end

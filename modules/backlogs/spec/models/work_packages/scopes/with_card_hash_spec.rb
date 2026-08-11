@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::Scopes::WithCardHash do
-  shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
+  shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking backlogs]) }
   shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
   shared_let(:assignee) { create(:user) }
   shared_let(:priority) { create(:priority) }
@@ -92,6 +92,19 @@ RSpec.describe WorkPackages::Scopes::WithCardHash do
       hidden_hash = WorkPackage.where(id: work_package.id).with_card_hash(other_user).first.card_hash
 
       expect(hidden_hash).not_to eq(visible_hash)
+    end
+
+    it "differs depending on whether the user may manage sprint items" do
+      manager = create(:user, member_with_permissions: { project => %i[view_work_packages manage_sprint_items] })
+
+      unprivileged_hash = WorkPackage.where(id: work_package.id).with_card_hash(user).first.card_hash
+      manager_hash = WorkPackage.where(id: work_package.id).with_card_hash(manager).first.card_hash
+
+      expect(manager_hash).not_to eq(unprivileged_hash)
+    end
+
+    it "changes when the locale changes" do
+      expect_hash_change { I18n.locale = :de }
     end
 
     context "when re-reading after a change" do
