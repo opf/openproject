@@ -56,7 +56,7 @@ RSpec.describe Wikis::Adapters::Results::PageSearchTreeNode do
 
         it { is_expected.to eq(described_class.new(type: :wiki, identifier: "7")) }
 
-        it { is_expected.to be_wiki }
+        it { is_expected.not_to be_page }
       end
 
       context "when the opaque identifier contains colons itself" do
