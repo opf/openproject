@@ -63,7 +63,7 @@ class HourlyRate < Rate
 
     projects_with_costs.each do |project|
       project_rates = rates_by_project.fetch(project, [])
-      next if project_rates.empty? && usr.members.none? { |m| m.project_id == project.id }
+      next if project_rates.empty? && usr.projects.exclude?(project)
 
       rates[project] = project_rates
     end
