@@ -29,7 +29,14 @@
 #++
 
 module Llm
-  # A thin client for an OpenAI-API-compatible server.
+  # A thin model-discovery client for an OpenAI-API-compatible server.
+  #
+  # Inference goes through Llm::Session and RubyLLM. Discovery deliberately
+  # stays here, for two reasons. RubyLLM's model parsing discards max_model_len
+  # and root, which are the only trustworthy statement of a self-hosted
+  # deployment's real context window, and it substitutes OpenAI's capability
+  # heuristics for arbitrary model ids. And this path runs on OpenProject.httpx,
+  # so it is covered by the SSRF filter that RubyLLM's own Faraday stack bypasses.
   #
   # The configured base URL is expected to already contain the API version segment
   # (for example +https://example.com/v1+), matching what every provider documents
@@ -55,10 +62,6 @@ module Llm
       timeout: { connect_timeout: 5, read_timeout: 15, request_timeout: 20 }
     }.freeze
 
-    INFERENCE_TIMEOUT = {
-      timeout: { connect_timeout: 5, read_timeout: 120, request_timeout: 180 }
-    }.freeze
-
     def initialize(base_url:, api_key: nil, timeout: PROBE_TIMEOUT, headers: {})
       @base_url = base_url.to_s.chomp("/")
       @api_key = api_key
@@ -80,29 +83,9 @@ module Llm
       body
     end
 
-    # Requests an embedding vector for a single short input.
-    #
-    # Used to determine whether a model can serve embeddings at all: the model
-    # list says nothing about it, and posting a chat completion to an embedding
-    # model (or the reverse) is the only reliable way to find out.
-    #
-    # @return [Hash] the parsed +POST /embeddings+ body
-    def embeddings(model:, input:)
-      post("/embeddings", { model:, input: })
-    end
-
     private
 
     attr_reader :base_url, :api_key, :timeout, :headers
-
-    def post(path, payload)
-      response = session.post(uri_for(path), json: payload)
-      handle_transport_error(response) if response.is_a?(HTTPX::ErrorResponse)
-      handle_status(response)
-      parse(response)
-    rescue OpenProject::HttpxSsrfFilter::ServerSideRequestForgeryError
-      raise SsrfError, "Host resolves to a blocked address"
-    end
 
     def get(path)
       response = session.get(uri_for(path))

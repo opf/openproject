@@ -45,6 +45,10 @@ module Llm
     class EmbeddingsProbe
       PROBE_INPUT = "openproject"
 
+      # The server understood the request and refused it for this model. Anything
+      # else -- 5xx, throttling -- says something about the server, not the model.
+      REFUSED_STATUSES = [400, 404, 405, 501].freeze
+
       Result = Data.define(:state, :detail) do
         def supported? = state == :supported
       end
@@ -54,17 +58,14 @@ module Llm
       end
 
       def call(model_id)
-        body = client.embeddings(model: model_id, input: PROBE_INPUT)
-        classify(body)
-      rescue Llm::Client::ApiError => e
-        # The server understood the request and refused it for this model.
-        return unsupported(e.status) if e.status.in?([400, 404, 405, 501])
+        classify(session.embed(PROBE_INPUT, model: model_id))
+      rescue Llm::Errors::ApiError => e
+        return unsupported(e.status) if e.status.in?(REFUSED_STATUSES)
 
-        # 5xx and anything else says something about the server, not the model.
         unknown("http_#{e.status}")
-      rescue Llm::Client::AuthenticationError
+      rescue Llm::Errors::AuthenticationError
         unknown("unauthorized")
-      rescue Llm::Client::Error => e
+      rescue Llm::Errors::Error => e
         unknown(e.class.name.demodulize.underscore)
       end
 
@@ -72,12 +73,15 @@ module Llm
 
       attr_reader :connection
 
-      def client
-        @client ||= Llm::Client.new(base_url: connection.base_url, api_key: connection.api_key)
+      # Never retried: a refusal is the answer we are looking for, and repeating
+      # it would only slow the probe down.
+      def session
+        @session ||= Llm::Session.for(connection, timeout: Llm::Session::PROBE_TIMEOUT, max_retries: 0)
       end
 
-      def classify(body)
-        vector = Array(body["data"]).first&.dig("embedding")
+      def classify(embedding)
+        vector = embedding.vectors
+        vector = vector.first if vector.is_a?(Array) && vector.first.is_a?(Array)
 
         if vector.is_a?(Array) && vector.any? && vector.all?(Numeric)
           Result.new(state: :supported, detail: { "dimensions" => vector.length })

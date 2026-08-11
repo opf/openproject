@@ -46,6 +46,42 @@ module Llm
     # :incapable        - the chosen model is known not to support what is needed
     Resolution = Data.define(:feature, :connection, :model_id, :status, :missing_capabilities) do
       def ready? = status == :ready
+
+      # A chat builder for the resolved model.
+      #
+      # Note that RubyLLM enforces none of the feature's declared requirements:
+      # Chat#with_schema performs no capability check, and a model absent from
+      # RubyLLM's registry is described by Model::Info.default, which claims
+      # structured output, vision and function calling for everything. The
+      # capability verdicts consulted in #call above are the only real gate.
+      #
+      # @return [RubyLLM::Chat]
+      def chat(**)
+        ensure_usable!(:chat)
+        session(**).chat(model_id)
+      end
+
+      # @return [RubyLLM::Embedding]
+      def embed(input, dimensions: nil, **)
+        ensure_usable!(:embedding)
+        session(**).embed(input, model: model_id, dimensions:)
+      end
+
+      # @return [Llm::Session]
+      def session(**)
+        Llm::Session.for(connection, **)
+      end
+
+      private
+
+      # Features are resolved by kind, so asking a chat feature to embed means a
+      # caller has confused two features -- a bug, not a configuration problem.
+      def ensure_usable!(kind)
+        raise Llm::Errors::NotReady, status unless ready?
+        return if feature.public_send(:"#{kind}?")
+
+        raise Llm::Errors::NotReady, :wrong_kind
+      end
     end
 
     class << self

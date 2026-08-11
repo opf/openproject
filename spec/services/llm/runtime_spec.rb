@@ -119,4 +119,46 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
       expect(resolution).to be_ready
     end
   end
+
+  describe "running a request", :llm_server_helpers, :webmock do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, default_chat_model_id: "qwen3.6-27b") }
+
+    it "sends a completion for the resolved model" do
+      mock_llm_chat_response("https://example.com/v1", content: "pong")
+
+      expect(resolution.chat(max_retries: 0).ask("ping").content).to eq("pong")
+      expect(WebMock).to have_requested(:post, "https://example.com/v1/chat/completions")
+        .with(body: hash_including("model" => "qwen3.6-27b"))
+    end
+
+    it "refuses when the feature is not ready" do
+      connection.update!(enabled: false)
+
+      expect { resolution.chat }.to raise_error(Llm::Errors::NotReady) { |e| expect(e.status).to eq(:no_connection) }
+    end
+
+    # Features are resolved by kind, so asking a chat feature to embed means a
+    # caller has confused two features.
+    it "refuses to embed through a chat feature" do
+      expect { resolution.embed("hello") }
+        .to raise_error(Llm::Errors::NotReady) { |e| expect(e.status).to eq(:wrong_kind) }
+    end
+
+    context "with an embedding feature" do
+      let(:feature_key) { :semantic_search }
+
+      before { connection.update!(default_embedding_model_id: "bge-m3") }
+
+      it "requests a vector for the resolved model" do
+        mock_llm_embeddings_response("https://example.com/v1", dimensions: 8)
+
+        expect(resolution.embed("hello", max_retries: 0).vectors.length).to eq(8)
+      end
+
+      it "refuses to chat through an embedding feature" do
+        expect { resolution.chat }
+          .to raise_error(Llm::Errors::NotReady) { |e| expect(e.status).to eq(:wrong_kind) }
+      end
+    end
+  end
 end
