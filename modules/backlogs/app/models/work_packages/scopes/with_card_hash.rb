@@ -59,7 +59,7 @@ module WorkPackages::Scopes::WithCardHash
   extend ActiveSupport::Concern
 
   class_methods do
-    def with_card_hash(user = User.current)
+    def with_card_hash(user = User.current) # rubocop:disable Metrics/AbcSize
       instance_version = connection.quote(OpenProject::VERSION.to_s)
       locale = connection.quote(I18n.locale.to_s)
 
