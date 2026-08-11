@@ -791,7 +791,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_text("Add some items")
     end
 
-    it "renders the empty state in the DOM even when items are present (hidden by CSS for drag support)" do
+    it "omits the empty state when items are present" do
       rendered = render_inline(
         described_class.new(container: "non-empty-list")
       ) do |list|
@@ -799,7 +799,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         list.with_item { "Has content" }
       end
 
-      expect(rendered).to have_css(".blankslate")
+      expect(rendered).to have_no_css(".blankslate")
       expect(rendered).to have_text("Has content")
     end
 

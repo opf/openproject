@@ -34,13 +34,13 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% items.each do |item| %>
-    <% border_box.with_row(**item.row_args) do %>
-      <%= item %>
+  <% if items.any? %>
+    <% items.each do |item| %>
+      <% border_box.with_row(**item.row_args) do %>
+        <%= item %>
+      <% end %>
     <% end %>
-  <% end %>
-
-  <% if empty_state? %>
+  <% elsif empty_state? %>
     <% border_box.with_row(data: { empty_list_item: true }) do %>
       <%= empty_state %>
     <% end %>

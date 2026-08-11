@@ -17,9 +17,8 @@
 
   & + .Box-row
     border-top-color: $color
-  // Display the selected state margin for the last child, or the penultimate child,
-  // if the last one is the hidden blankslate.
-  &:is(:last-child, :has(+ [data-empty-list-item]))
+
+  &:last-child
     margin-bottom: calc(var(--borderWidth-thin) * -1)
     border-bottom: var(--borderWidth-thin) solid $color
 
@@ -99,19 +98,6 @@
 
   &[data-drop-container="refused"]
     outline-color: var(--borderColor-danger-muted)
-
-  // The empty-state row only makes sense while it is alone in the list. Hiding
-  // it as soon as a sibling row appears (e.g. dropped by drag and drop) avoids
-  // a flicker between the drop and the server render removing it.
-  > .Box-list
-    > .Box-row
-      &[data-empty-list-item]:not(:only-child)
-        display: none
-      // Display rounded corners for the penultimate child, if the last child is the
-      // hidden blankslate.
-      &:has(+ [data-empty-list-item])
-        border-bottom-right-radius: var(--borderRadius-medium)
-        border-bottom-left-radius: var(--borderRadius-medium)
 
 .op-border-box-list-header
   display: grid
