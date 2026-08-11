@@ -9,6 +9,17 @@
     height: 7.5rem
     overflow: hidden
 
+// The hover tooltip must live outside the dashboard grid: each grid cell
+// (`.grid--area`) clips with `overflow: hidden` and owns a `z-index` stacking
+// context, so a tooltip rendered inside a widget is both clipped and painted
+// behind the widget in the next row. The component moves the tooltip into this
+// body-level layer instead.
+.op-project-timeline-graph--tooltip-layer
+  position: fixed
+  overflow: visible
+  pointer-events: none
+  z-index: 10000
+
 .op-project-timeline-graph
   width: 100%
 

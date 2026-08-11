@@ -92,6 +92,7 @@ export class ProjectTimelineGraphComponent {
 
   private timeline:Timeline | null = null;
   private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
+  private tooltipLayer:HTMLElement | null = null;
 
   protected readonly ready = signal(false);
 
@@ -100,6 +101,8 @@ export class ProjectTimelineGraphComponent {
     inject(DestroyRef).onDestroy(() => {
       this.timeline?.destroy();
       this.timeline = null;
+      this.tooltipLayer?.remove();
+      this.tooltipLayer = null;
     });
 
     effect(() => {
@@ -145,6 +148,40 @@ export class ProjectTimelineGraphComponent {
         window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
       }
     });
+
+    this.timeline.on('itemover', () => this.liftTooltip());
+  }
+
+  // vis-timeline renders its hover tooltip inside `.vis-timeline`, which sits in a
+  // dashboard grid cell that clips (`overflow: hidden`) and owns a stacking context
+  // (`z-index`). A long milestone name would therefore be cut off or hidden behind
+  // the widget below. We move the tooltip into a body-level layer anchored to the
+  // timeline origin but stretched to the viewport edges, so vis-timeline's
+  // `overflowMethod: 'cap'` keeps it on screen.
+  private liftTooltip():void {
+    const root = this.containerRef.nativeElement.querySelector<HTMLElement>('.vis-timeline');
+    if (!root) return;
+
+    if (!this.tooltipLayer) {
+      this.tooltipLayer = document.createElement('div');
+      this.tooltipLayer.className = 'op-project-timeline-graph op-project-timeline-graph--tooltip-layer';
+      document.body.appendChild(this.tooltipLayer);
+    }
+
+    // Relocate the tooltip out of the clipped grid cell on first hover; afterwards
+    // vis-timeline reuses the same element, so it is no longer found under the root.
+    const tooltip = root.querySelector<HTMLElement>('.vis-tooltip');
+    if (tooltip) {
+      this.tooltipLayer.appendChild(tooltip);
+    }
+
+    // Keep the layer aligned with the timeline origin and extended to the viewport
+    // edges, so the tooltip's capped position stays fully visible.
+    const rect = root.getBoundingClientRect();
+    this.tooltipLayer.style.left = `${rect.left}px`;
+    this.tooltipLayer.style.top = `${rect.top}px`;
+    this.tooltipLayer.style.width = `${Math.max(0, window.innerWidth - rect.left)}px`;
+    this.tooltipLayer.style.height = `${Math.max(0, window.innerHeight - rect.top)}px`;
   }
 
   private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {

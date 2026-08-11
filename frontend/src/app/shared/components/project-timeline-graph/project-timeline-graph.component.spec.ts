@@ -565,4 +565,34 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(element.querySelector('.op-project-timeline-graph--wrapper_loading')).toBeNull();
     });
   });
+
+  describe('hover tooltip', () => {
+    it('lifts the tooltip into a body-level layer so the grid cell cannot clip it', async () => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      let root:Element | null = null;
+      await vi.waitUntil(() => {
+        fixture.detectChanges();
+        root = element.querySelector('.vis-timeline');
+        return root !== null;
+      });
+
+      // Simulate vis-timeline having created its tooltip inside the clipped root.
+      const tooltip = document.createElement('div');
+      tooltip.className = 'vis-tooltip';
+      root!.appendChild(tooltip);
+
+      (fixture.componentInstance as unknown as { liftTooltip:() => void }).liftTooltip();
+
+      const layer = document.querySelector('.op-project-timeline-graph--tooltip-layer');
+      expect(layer).toBeTruthy();
+      expect(layer!.parentElement).toBe(document.body);
+      expect(layer!.contains(tooltip)).toBe(true);
+      expect(root!.contains(tooltip)).toBe(false);
+
+      // The layer is removed together with the component.
+      fixture.destroy();
+      expect(document.querySelector('.op-project-timeline-graph--tooltip-layer')).toBeNull();
+    });
+  });
 });
