@@ -1135,4 +1135,66 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       )
     end
   end
+
+  context "when the change references a recurring meeting series template" do
+    shared_let(:recurring_meeting) { create(:recurring_meeting, title: "Weekly series") }
+    let(:template) { recurring_meeting.reload.template }
+    let(:series_link) { link_to(template.title, meeting_path(template)) }
+
+    before do
+      allow(Meeting).to receive(:find_by).with(id: template.id).and_return(template)
+      allow(template).to receive(:visible?).with(User.current).and_return(true)
+    end
+
+    context "when added to the template" do
+      subject(:cause) { { "type" => "meeting_agenda_item_added", "meeting_id" => template.id } }
+
+      it do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_added_template')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.meeting_series_template', link: series_link)}"
+        )
+      end
+    end
+
+    context "when removed from the template" do
+      subject(:cause) { { "type" => "meeting_agenda_item_removed", "meeting_id" => template.id } }
+
+      it do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_removed_template')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.meeting_series_template', link: series_link)}"
+        )
+      end
+    end
+
+    context "when moved to the series backlog" do
+      subject(:cause) { { "type" => "meeting_agenda_item_moved", "meeting_id" => template.id } }
+
+      it do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_moved_template')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.meeting_series_backlog', link: series_link)}"
+        )
+      end
+    end
+  end
+
+  context "when the change references a onetime meeting template" do
+    shared_let(:template) { create(:onetime_template, title: "Sprint review template") }
+    subject(:cause) { { "type" => "meeting_agenda_item_added", "meeting_id" => template.id } }
+
+    before do
+      allow(Meeting).to receive(:find_by).with(id: template.id).and_return(template)
+      allow(template).to receive(:visible?).with(User.current).and_return(true)
+    end
+
+    it do
+      link = link_to(template.title, meeting_path(template))
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_added_template')}</strong> " \
+        "#{I18n.t('journals.cause_descriptions.meeting_template', link:)}"
+      )
+    end
+  end
 end

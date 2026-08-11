@@ -130,6 +130,55 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
     end
   end
 
+  describe "adding a work package to a recurring series template" do
+    shared_let(:recurring_meeting) { create(:recurring_meeting, project:) }
+
+    it "records a cause-only journal referencing the template" do
+      expect do
+        MeetingAgendaItems::CreateService
+          .new(user:)
+          .call(meeting_id: recurring_meeting.template.id, work_package_id: work_package.id, item_type: "work_package")
+      end.to change { work_package.journals.reload.count }.by(1)
+
+      journal = work_package.journals.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_added")
+      expect(journal.cause_meeting_id).to eq(recurring_meeting.template.id)
+    end
+  end
+
+  describe "creating an occurrence from a series template with a work package" do
+    shared_let(:recurring_meeting) do
+      create(:recurring_meeting,
+             project:,
+             start_time: Time.zone.tomorrow + 10.hours,
+             frequency: "daily",
+             interval: 1,
+             end_after: "specific_date",
+             end_date: 1.month.from_now)
+    end
+
+    before do
+      create(:wp_meeting_agenda_item,
+             meeting: recurring_meeting.template,
+             meeting_section: recurring_meeting.template.sections.first,
+             work_package:,
+             author: user)
+    end
+
+    it "records an 'added' journal referencing the new occurrence" do
+      result = nil
+      expect do
+        result = RecurringMeetings::InitOccurrenceService
+          .new(user: User.system, recurring_meeting:)
+          .call(start_time: recurring_meeting.start_time + 3.days)
+      end.to change { work_package.journals.reload.count }.by(1)
+
+      journal = work_package.journals.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_added")
+      expect(journal.cause_meeting_id).to eq(result.result.id)
+    end
+  end
+
   describe "visibility of the recorded journals" do
     let(:added_journal) do
       MeetingAgendaItems::CreateService

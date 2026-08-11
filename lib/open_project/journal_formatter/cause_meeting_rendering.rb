@@ -42,12 +42,29 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
     @meeting.present? && !@meeting.visible?(User.current)
   end
 
+  def meeting_template_cause?
+    meeting_cause? && @meeting&.templated?
+  end
+
   def meeting_message
     return I18n.t("journals.cause_descriptions.meeting_deleted") if @meeting.nil?
     return I18n.t("journals.cause_descriptions.meeting_cancelled") if @meeting.cancelled?
+    return meeting_template_message if @meeting.templated?
 
     label = "#{@meeting.title} – #{format_time(@meeting.start_time)}"
     link = html? ? link_to(label, meeting_path(@meeting)) : label
     I18n.t("journals.cause_descriptions.#{cause['type']}", link:)
+  end
+
+  def meeting_template_message
+    link = html? ? link_to(@meeting.title, meeting_path(@meeting)) : @meeting.title
+    I18n.t("journals.cause_descriptions.#{template_description_key}", link:)
+  end
+
+  def template_description_key
+    return "meeting_template" unless @meeting.series_template?
+
+    # A move onto a series template is always a move into its backlog
+    cause["type"] == "meeting_agenda_item_moved" ? "meeting_series_backlog" : "meeting_series_template"
   end
 end

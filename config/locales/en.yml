@@ -2957,6 +2957,9 @@ en:
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
       meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: "backlog for meeting series %{link}"
+      meeting_series_template: "template for meeting series %{link}"
+      meeting_template: "meeting template %{link}"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
@@ -3000,9 +3003,12 @@ en:
       default_attribute_written: "Read-only attributes written"
       import: "Imported"
       meeting_agenda_item_added: "Added to meeting"
+      meeting_agenda_item_added_template: "Added to"
       meeting_agenda_item_discussed: "Discussed in meeting"
       meeting_agenda_item_moved: "Moved to meeting"
+      meeting_agenda_item_moved_template: "Moved to"
       meeting_agenda_item_removed: "Removed from meeting"
+      meeting_agenda_item_removed_template: "Removed from"
       meeting_outcome_recorded: "Added as outcome in meeting"
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
