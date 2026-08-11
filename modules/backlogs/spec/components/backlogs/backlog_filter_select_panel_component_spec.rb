@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
+  include Rails.application.routes.url_helpers
+
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
 
@@ -61,6 +63,12 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
       expect(page).to have_css("[aria-selected='true']", text: "Alpha Sprint")
       expect(page).to have_css("[aria-selected='false']", text: "Beta Sprint")
     end
+
+    it "scopes each item id under the panel id" do
+      render_component(field_name: :sprint_ids)
+      expect(page).to have_css("#sprint_filter_select_panel_item_#{sprint1.id}", visible: :all, text: "Alpha Sprint")
+      expect(page).to have_css("#sprint_filter_select_panel_item_#{sprint2.id}", visible: :all, text: "Beta Sprint")
+    end
   end
 
   describe "bucket panel" do
@@ -83,31 +91,84 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
       expect(page).to have_element(aria: { selected: false }, text: "Ideas")
       expect(page).to have_element(aria: { selected: true }, text: "Backlog")
     end
+
+    it "scopes each item id under the panel id, including the inbox sentinel" do
+      render_component(field_name: :bucket_ids)
+      expect(page).to have_css("#backlog_bucket_filter_select_panel_item_#{bucket1.id}", visible: :all, text: "Ideas")
+      expect(page).to have_css("#backlog_bucket_filter_select_panel_item_#{bucket2.id}", visible: :all, text: "Backlog")
+      expect(page).to have_css("#backlog_bucket_filter_select_panel_item_inbox", visible: :all, text: I18n.t(:label_inbox))
+    end
   end
 
-  describe "hidden filter fields" do
-    it "passes through sprint_ids when rendering the bucket panel" do
-      render_component(field_name: :bucket_ids, sprint_ids: ["1"])
-      expect(page).to have_field("sprint_ids[]", type: :hidden, with: "1", visible: :all)
+  describe "stable DOM ids" do
+    it "derives the sprint panel and its trigger button ids from the field name" do
+      render_component(field_name: :sprint_ids)
+
+      expect(page).to have_css("#sprint_filter_select_panel", visible: :all)
+      expect(page).to have_css("#sprint_filter_select_panel-button", visible: :all)
     end
 
-    it "passes through bucket_ids when rendering the sprint panel" do
-      render_component(field_name: :sprint_ids, bucket_ids: ["2"])
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "2", visible: :all)
+    it "derives the bucket panel and its trigger button ids from the field name" do
+      render_component(field_name: :bucket_ids)
+
+      expect(page).to have_css("#backlog_bucket_filter_select_panel", visible: :all)
+      expect(page).to have_css("#backlog_bucket_filter_select_panel-button", visible: :all)
+    end
+  end
+
+  describe "submission wiring" do
+    it "wires the panel root to refresh buttons on change and revert on close" do
+      render_component(field_name: :bucket_ids)
+
+      expect(page).to have_css(
+        "[data-controller='backlogs--backlog-filter-select-panel']" \
+        "[data-backlogs--backlog-filter-select-panel-filter-key-value='bucket_ids']" \
+        "[data-action*='itemActivated->backlogs--backlog-filter-select-panel#refreshButtons']" \
+        "[data-action*='panelClosed->backlogs--backlog-filter-select-panel#revertOnClose']"
+      )
     end
 
-    it "expands array values into multiple hidden inputs" do
-      render_component(field_name: :sprint_ids, bucket_ids: [1, 2])
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "1", visible: :all)
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "2", visible: :all)
+    it "exposes the backlog show path as the navigation base url" do
+      render_component(field_name: :bucket_ids)
+
+      expect(page).to have_css(
+        "[data-controller='backlogs--backlog-filter-select-panel']" \
+        "[data-backlogs--backlog-filter-select-panel-base-url-value=" \
+        "'#{project_backlogs_backlog_path(project)}']"
+      )
     end
 
-    it "passes through scalar params as a single hidden input without brackets" do
-      render_component(field_name: :sprint_ids, all: true)
-      # The clear form has 1 `all`, the filter form has 1 `all` and 1 `sprint_ids[]` parameter
-      expect(page).to have_field(type: :hidden, count: 3, visible: :all)
-      expect(page).to have_field("all", type: :hidden, with: "true", count: 2, visible: :all)
-      expect(page).to have_field("sprint_ids[]", type: :hidden, count: 1, visible: :all)
+    it "renders the Apply button disabled and wired to the apply action" do
+      render_component(field_name: :sprint_ids)
+
+      apply = page.find(
+        "button[data-action='click->backlogs--backlog-filter-select-panel#apply']",
+        visible: :all
+      )
+      expect(apply).to be_disabled
+      expect(apply).to have_text(I18n.t(:button_apply))
+      expect(apply["data-backlogs--backlog-filter-select-panel-target"]).to eq("applyButton")
+    end
+
+    it "disables the Clear button when no filter is selected" do
+      render_component(field_name: :bucket_ids)
+
+      clear = page.find(
+        "button[data-action='click->backlogs--backlog-filter-select-panel#clear']",
+        visible: :all
+      )
+      expect(clear).to be_disabled
+      expect(clear["data-backlogs--backlog-filter-select-panel-target"]).to eq("clearButton")
+    end
+
+    it "enables the Clear button when a filter is already selected" do
+      render_component(field_name: :bucket_ids, bucket_ids: ["1"])
+
+      clear = page.find(
+        "button[data-action='click->backlogs--backlog-filter-select-panel#clear']",
+        visible: :all
+      )
+      expect(clear).not_to be_disabled
     end
   end
 end
