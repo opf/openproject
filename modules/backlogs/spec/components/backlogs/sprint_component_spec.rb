@@ -559,6 +559,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "in_planning")
         end
 
+        # This testcase is reproducible on the UI, only if the owned sprint has work packages associated to it.
+        # Otherwise it won't show up when the project sprint sharing mode is set to receive sprints.
         it "disables the start-sprint button for own sprints" do
           expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
         end

@@ -59,9 +59,10 @@ module Backlogs::Projects
 
     protected
 
-    def allow_multiple_active_sprints? = model.allow_multiple_active_sprints?
-    def allow_multiple_active_sprints_changed? = model.allow_multiple_active_sprints_changed?
-    def sprint_sharing_changed? = model.sprint_sharing_changed?
+    delegate :allow_multiple_active_sprints?,
+             :allow_multiple_active_sprints_changed?,
+             :sprint_sharing_changed?,
+             to: :model
 
     def validate_permissions
       unless user.allowed_in_project?(:share_sprint, model)
@@ -144,7 +145,7 @@ module Backlogs::Projects
     # Once the project stops receiving, the former sharer could activate a "borrowed" sprint
     # at any later point, which will lead to multiple active sprints.
     def validate_no_work_packages_in_shared_sprints_when_leaving_receiving
-      return unless model.receive_shared_sprints_was?
+      return unless model.sprint_sharing_was_receiving?
       return unless has_borrowed_sprints_via_work_packages?
 
       errors.add :sprint_sharing, :work_packages_still_linked_to_shared_sprints
