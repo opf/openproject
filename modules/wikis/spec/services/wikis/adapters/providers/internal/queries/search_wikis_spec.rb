@@ -41,11 +41,7 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchWikis do
   let(:wiki) { create(:wiki, project: create(:project, name: "Demo project")) }
   let(:wiki_project_permissions) { %i[view_wiki_pages] }
 
-  let(:user) { create(:user) }
-
-  before do
-    create(:member, project: wiki.project, user:, roles: [create(:project_role, permissions: wiki_project_permissions)])
-  end
+  let(:user) { create(:user, member_with_permissions: { wiki.project => wiki_project_permissions }) }
 
   it { is_expected.to be_success }
 
