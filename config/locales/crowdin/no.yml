@@ -3274,6 +3274,7 @@
   label_me: meg
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_new: Nytt medlem
+  label_member_of_project: Member of project
   label_member_plural: Medlemmer
   label_member_role: Prosjektrolle
   label_membership_added: Medlem lagt til

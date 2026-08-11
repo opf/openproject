@@ -3274,6 +3274,7 @@ eo:
   label_me: mi
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: Nova membro
+  label_member_of_project: Member of project
   label_member_plural: Membroj
   label_member_role: Project role
   label_membership_added: Member added

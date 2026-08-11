@@ -3330,6 +3330,7 @@ hu:
   label_me: Nekem
   label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_new: Új tag
+  label_member_of_project: Member of project
   label_member_plural: Tagok
   label_member_role: Projekt szerepkör
   label_membership_added: Felhasználó hozzáadva
