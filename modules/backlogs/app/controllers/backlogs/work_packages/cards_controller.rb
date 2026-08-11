@@ -43,7 +43,9 @@ module Backlogs
         # Caveat here: If the user were to lose the permissions to see a work package,
         # they would still have it cached locally, if they ever looked at the card.
         # But the same would be true for every screenshot or PDF export.
-        expires_in 1.year, public: false, immutable: true
+        unless OpenProject::Configuration["disable_browser_cache"]
+          expires_in 1.hour, public: false, immutable: true
+        end
 
         render(Backlogs::WorkPackageCardComponent.new(
                  work_package: @work_package,

@@ -57,10 +57,23 @@ RSpec.describe Backlogs::WorkPackages::CardsController, with_flag: { backlogs_la
         expect(response.body).to have_css(".sr-only", text: "5 story points")
       end
 
-      it "marks the response as privately cacheable and immutable" do
+      it "does not caches the response when the browser cache setting is disabled" do
         request
 
-        expect(response.headers["Cache-Control"]).to include("max-age=#{1.year.to_i}", "private", "immutable")
+        expect(response.headers["Cache-Control"]).to include("max-age=0", "private", "must-revalidate")
+      end
+
+      context "when the browser cache is allowed" do
+        before do
+          allow(OpenProject::Configuration).to receive(:[]).and_call_original
+          allow(OpenProject::Configuration).to receive(:[]).with("disable_browser_cache").and_return false
+        end
+
+        it "marks the response as privately cacheable and immutable" do
+          request
+
+          expect(response.headers["Cache-Control"]).to include("max-age=#{1.hour.to_i}", "private", "immutable")
+        end
       end
 
       context "when the work package is not in the requested project" do
