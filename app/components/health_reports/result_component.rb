@@ -32,10 +32,16 @@ module HealthReports
   class ResultComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(group:, result:, i18n_scope:)
+    # Where "More information" points. Defaults to the file storages
+    # documentation because that was this component's only consumer for a long
+    # time; a subject with its own troubleshooting page passes its own.
+    DEFAULT_DOCS_HREF = -> { ::OpenProject::Static::Links.url_for(:storage_docs, :health_status) }
+
+    def initialize(group:, result:, i18n_scope:, docs_href: nil)
       super(result)
       @group = group
       @i18n_scope = i18n_scope
+      @docs_href = docs_href
     end
 
     private
@@ -49,7 +55,7 @@ module HealthReports
       I18n.t("errors.#{model.code}", scope: @i18n_scope, **model.context&.symbolize_keys)
     end
 
-    def docs_href = ::OpenProject::Static::Links.url_for(:storage_docs, :health_status)
+    def docs_href = @docs_href || DEFAULT_DOCS_HREF.call
 
     def error_code
       if model.failure?
