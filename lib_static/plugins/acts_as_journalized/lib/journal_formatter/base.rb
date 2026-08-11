@@ -37,9 +37,7 @@ module JournalFormatter
     include Rails.application.routes.url_helpers
     include ERB::Util
 
-    attr_reader :journal
-
-    delegate :project, to: :journal
+    delegate :project, to: :@journal
 
     # We break the values between from and to values
     # in the formatter if the length of one of the values
