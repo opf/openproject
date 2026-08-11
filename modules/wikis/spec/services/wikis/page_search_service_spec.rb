@@ -200,7 +200,7 @@ RSpec.describe Wikis::PageSearchService do
     end
 
     context "and when no page with the URL can be found" do
-      let(:page_info_result) { Failure(Wikis::Adapters::Results::Error.new(code: :not_found, source: self)) }
+      let(:page_info_result) { Failure(SimpleError.new(code: :not_found, source: self)) }
 
       it "returns an empty success" do
         expect(subject).to eq(Success([]))
@@ -208,7 +208,7 @@ RSpec.describe Wikis::PageSearchService do
     end
 
     context "and when finding the page by URL fails" do
-      let(:page_info_result) { Failure(Wikis::Adapters::Results::Error.new(code: :unexpected, source: self)) }
+      let(:page_info_result) { Failure(SimpleError.new(code: :unexpected, source: self)) }
 
       it "returns an error" do
         expect(subject).to eq(page_info_result)

@@ -93,7 +93,7 @@ RSpec.describe Wikis::CollapsiblePageLinksComponent, type: :component do
   context "when the page info could not be resolved" do
     let(:page_info_result) do
       Failure(
-        Wikis::Adapters::Results::Error.new(
+        SimpleError.new(
           source: Wikis::Adapters::Providers::Internal::Queries::PageInfo,
           code: :not_found
         )
