@@ -62,7 +62,10 @@ class HourlyRate < Rate
     rates = {}
 
     projects_with_costs.each do |project|
-      rates[project] = rates_by_project.fetch(project, [])
+      project_rates = rates_by_project.fetch(project, [])
+      next if project_rates.empty? && usr.members.none? { |m| m.project_id == project.id }
+
+      rates[project] = project_rates
     end
 
     # FIXME: What permissions to apply here?
