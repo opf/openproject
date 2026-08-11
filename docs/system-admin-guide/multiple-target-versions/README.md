@@ -8,79 +8,87 @@ keywords: target versions, multiple versions, version field, versions and catego
 
 # Multiple target versions
 
-The **Version** field on work packages is being renamed **Target versions** and converted from a single-value field to a multi-value field. This lets a work package be assigned to more than one version at a time, for example when a fix ships in several release lines.
+The **Version** field on work packages is being renamed **Target versions** and converted from a single-value field to a multi-value field. A work package can then be assigned to more than one version at a time, for example when a fix ships in several release lines or a feature spans two milestones.
 
-For existing instances this conversion does not happen silently. Administrators are informed about the upcoming changes and can choose to run the conversion manually before it is applied automatically in a future release. This page explains what changes, how to enable multiple values, and what API clients need to know.
+For existing instances this conversion does not happen silently. Administrators can run it manually at a time of their choosing, before it is applied automatically in a future release. This page describes the change, how it affects users and API clients, and how to run the migration.
 
-> **Note**: Enabling multiple target versions is **not reversible**. Once a work package can hold several target versions, there is no unambiguous way to reduce it back to a single value.
+> **Note**: Enabling multiple target versions is **not reversible**. Once work packages can hold several target versions, there is no unambiguous way to reduce them back to a single value.
 
 ## What is changing
 
-| Before | After |
-|--------|-------|
-| Field is named **Version** | Field is named **Target versions** |
+| Before                                 | After                                                 |
+| -------------------------------------- | ----------------------------------------------------- |
+| Field is named **Version**             | Field is named **Target versions**                    |
 | A work package has at most one version | A work package can have any number of target versions |
 
 The **Category** field will undergo a similar change (renamed **Categories**, converted to multiple values) in a later release. The settings page already announces this; no action is possible or required for categories yet.
 
-## Versions and categories settings page
+## How users are impacted
 
-Navigate to _Administration → Work packages → Versions and categories_.
+- The field appears as **Target versions** everywhere it was previously labelled **Version**: work package forms, tables, filters, exports and notifications.
+- The field accepts multiple values. Users who only ever assign one version can keep working exactly as before.
+- Existing assignments are untouched: a work package that had version "Sprint 3" before the conversion has the target version "Sprint 3" after it.
 
-A warning banner at the top of the page announces the upcoming changes. The **More information** button leads back to this page.
+## Migration guide
 
-The **Target versions** section shows one of three states:
+The conversion happens in one of three ways, whichever comes first:
 
-### Action required
+1. **Manually from the administration UI.** Navigate to _Administration → Work packages → Versions and categories_. While the conversion is still pending, the **Target versions** section offers an **Enable multiple values** button behind a confirmation dialog that spells out the irreversibility. The conversion then runs as a background job; the page reports progress and completion by itself. On most instances it finishes within seconds.
 
-The conversion has not run yet. The section lists the planned changes and offers an **Enable multiple values** button.
+   ![Versions and categories settings page in the action required state](openproject_system_admin_guide_target_versions_action_required.png)
 
-![Versions and categories settings page in the action required state](openproject_system_admin_guide_target_versions_action_required.png)
+   ![Confirmation dialog for enabling multiple target versions](openproject_system_admin_guide_target_versions_dialog.png)
 
-Clicking **Enable multiple values** opens a confirmation dialog. Because the conversion cannot be undone, you have to confirm a checkbox before the **Enable** button becomes active.
+2. **Through the configuration.** The setting behind the switch is `work_package_multiple_versions` and can be set through the configuration file or an environment variable, like any other setting (see [advanced configuration](../../installation-and-operations/configuration/)). When overridden this way, the settings page explains that the switch is controlled by the configuration and does not offer the button.
 
-![Confirmation dialog for enabling multiple target versions](openproject_system_admin_guide_target_versions_dialog.png)
+   ```shell
+   OPENPROJECT_WORK__PACKAGE__MULTIPLE__VERSIONS=true
+   ```
 
-### Conversion in progress
+3. **Automatically.** A future OpenProject release will apply the conversion during the upgrade on instances that have not enabled it yet. The release notes will announce which version this is. Enabling manually beforehand lets you pick the moment and validate your integrations at your own pace.
 
-After confirming, the conversion runs as a background job and the section shows a progress indicator. The page updates itself; there is no need to reload. On most instances the conversion completes within seconds.
-
-### Recent changes
-
-Once the conversion has finished, the section confirms that the field has been renamed and now allows multiple values.
-
-![Versions and categories settings page after the conversion](openproject_system_admin_guide_target_versions_completed.png)
-
-## What the conversion does
-
-- Every existing version assignment is preserved: a work package that had version "Sprint 3" before the conversion has the target version "Sprint 3" after it.
-- Work packages whose version assignment needed to be repaired during the conversion receive a system-generated journal entry, so their change history stays consistent. No notifications are sent for these entries.
-- The conversion is one-way. There is no switch to return to single-value versions.
-
-## Enabling via configuration file
-
-The setting behind the switch is `work_package_multiple_versions`. Like any other setting it can be set through the configuration file or an environment variable instead of the user interface:
-
-```yaml
-# config/configuration.yml
-work_package_multiple_versions: true
-```
-
-```shell
-OPENPROJECT_WORK__PACKAGE__MULTIPLE__VERSIONS=true
-```
-
-When the setting is overridden this way, the settings page explains that the switch is controlled by the configuration and does not offer the **Enable multiple values** button. See [advanced configuration](../../installation-and-operations/configuration/) for how settings map to environment variables.
+During the conversion, work packages whose version assignment needed to be repaired receive a system-generated journal entry so their change history stays consistent. No notifications are sent for these entries.
 
 ## Updating API clients
 
-Work packages in API v3 expose target versions in two ways:
+Work packages in API v3 carry versions in two link properties:
 
-- The `targetVersions` link collection carries all target versions of a work package. Clients can write it by sending an array of version links.
-- The single `version` link remains available for compatibility with existing clients.
+- **`targetVersions`** is the new authoritative property: an array of version links.
+- **`version`** remains for compatibility and continues to hold a single version link derived from the target versions.
 
-The work package schema advertises which of the two attributes forms should present, depending on whether multiple target versions are enabled on the instance.
+A work package response contains both:
 
-Clients that only read the `version` link keep working after the conversion. Clients that manage version assignments should switch to `targetVersions` to see and set all values.
+```json
+{
+  "_links": {
+    "version": { "href": "/api/v3/versions/11", "title": "Sprint 3" },
+    "targetVersions": [
+      { "href": "/api/v3/versions/11", "title": "Sprint 3" },
+      { "href": "/api/v3/versions/13", "title": "Sprint 4" }
+    ]
+  }
+}
+```
 
-<!-- TODO (docs team): expand with request/response examples and filter guidance once the API changes are finalized. -->
+To write target versions, send the array in a form or PATCH request:
+
+```json
+{
+  "_links": {
+    "targetVersions": [
+      { "href": "/api/v3/versions/11" },
+      { "href": "/api/v3/versions/13" }
+    ]
+  }
+}
+```
+
+Clients that read or write only the single `version` link keep working after the conversion. Clients that manage version assignments should switch to `targetVersions` to see and set all values. The work package schema advertises which of the two attributes forms should present, so schema-driven clients adapt automatically.
+
+### Filters
+
+- The existing `version` filter matches work packages that have the given version among their target versions.
+- Once multiple target versions are enabled, an additional `targetVersion` filter is available with the same semantics.
+- Both filters support the usual list operators as well as the open, closed and locked version status operators.
+
+<!-- TODO (docs team): please review the API section and expand it once the remaining API changes are finalized. -->
