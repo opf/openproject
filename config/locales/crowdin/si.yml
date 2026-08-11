@@ -3223,6 +3223,7 @@ si:
   label_me: මට
   label_member_all_admin: "(පරිපාලක තත්ත්වය නිසා සියලුම භූමිකාවන්)"
   label_member_new: නව සාමාජිකයෙක්
+  label_member_of_project: Member of project
   label_member_plural: සාමාජිකයන්
   label_member_role: Project role
   label_membership_added: Member added

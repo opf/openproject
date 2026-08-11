@@ -3329,6 +3329,7 @@ he:
   label_me: אני
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: חבר חדש
+  label_member_of_project: Member of project
   label_member_plural: חברים
   label_member_role: Project role
   label_membership_added: Member added

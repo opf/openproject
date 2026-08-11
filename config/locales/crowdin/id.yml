@@ -3177,6 +3177,7 @@ id:
   label_me: saya
   label_member_all_admin: "(Semua peran karena status admin)"
   label_member_new: Member baru
+  label_member_of_project: Member of project
   label_member_plural: Member
   label_member_role: Project role
   label_membership_added: Anggota ditambahkan

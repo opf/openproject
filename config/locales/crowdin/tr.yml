@@ -3229,6 +3229,7 @@ tr:
   label_me: ben
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
   label_member_new: Yeni Üye
+  label_member_of_project: Member of project
   label_member_plural: Üyeler
   label_member_role: Proje rolü
   label_membership_added: Üye eklendi

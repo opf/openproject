@@ -3335,6 +3335,7 @@ uk:
   label_me: мені
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_new: Новий учасник
+  label_member_of_project: Member of project
   label_member_plural: Учасники
   label_member_role: Роль у проєкті
   label_membership_added: Учасника додано

@@ -3221,6 +3221,7 @@ nl:
   label_me: ik
   label_member_all_admin: "(Alle rollen vanwege de admin status)"
   label_member_new: Nieuw lid
+  label_member_of_project: Member of project
   label_member_plural: Leden
   label_member_role: Projectrol
   label_membership_added: Lid toegevoegd

@@ -3433,6 +3433,7 @@ ar:
   label_me: لي
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: عضو جديد
+  label_member_of_project: Member of project
   label_member_plural: أعضاء
   label_member_role: Project role
   label_membership_added: Member added

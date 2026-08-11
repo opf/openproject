@@ -3331,6 +3331,7 @@ cs:
   label_me: já
   label_member_all_admin: "(Všechny role z důvodu stavu správce)"
   label_member_new: Nový člen
+  label_member_of_project: Member of project
   label_member_plural: Členové
   label_member_role: Projektová role
   label_membership_added: Člen přidán

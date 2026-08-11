@@ -3223,6 +3223,7 @@ pt-PT:
   label_me: eu
   label_member_all_admin: "(Todas as funções devidas ao status do administrador)"
   label_member_new: Novo Membro
+  label_member_of_project: Member of project
   label_member_plural: Membros
   label_member_role: Função do projeto
   label_membership_added: Membro adicionado

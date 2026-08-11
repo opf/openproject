@@ -1790,7 +1790,7 @@ fr:
   button_add_item_below: Ajouter un élément ci-dessous
   button_add_member: Ajouter un membre
   button_add_menu_entry: Ajouter un élément de menu
-  button_add_non_working_time: Temps libre
+  button_add_non_working_time: Congés
   button_add_sub_item: Ajouter un sous-élément
   button_add_watcher: Ajouter observateur
   button_all_filters: Tous les filtres
@@ -1830,7 +1830,7 @@ fr:
   button_duplicate_and_follow: Dupliquer et suivre
   button_edit: Éditer
   button_edit_associated_wikipage: 'Modifier la page wiki associée : %{page_title}'
-  button_edit_non_working_time: Modifier les temps libres
+  button_edit_non_working_time: Modifier les congés
   button_enable: Activer
   button_expand_all: Tout déplier
   button_favorite: Ajouter aux favoris
@@ -3223,6 +3223,7 @@ fr:
   label_me: moi
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
   label_member_new: Nouveau membre
+  label_member_of_project: Member of project
   label_member_plural: Membres
   label_member_role: Rôle dans le projet
   label_membership_added: Membre ajouté
@@ -3289,7 +3290,7 @@ fr:
   label_non_working_days_summary: Résumé
   label_non_working_days_with_count: Jours non ouvrables (%{count})
   label_non_working_times_summary: Résumé de %{year}
-  label_non_working_times_with_count: "%{year} de temps libre (%{count})"
+  label_non_working_times_with_count: Congés %{year} (%{count})
   label_none: aucune
   label_none_parentheses: "(aucun)"
   label_not_changeable: "(non modifiable)"
@@ -3601,7 +3602,7 @@ fr:
   label_workflow_summary: Résumé
   label_working_days: Journées de travail
   label_working_days_and_hours: Jours et heures travaillés
-  label_working_hours: Horaires de travail
+  label_working_hours: Horaire de travail
   label_x_closed_work_packages_abbr:
     one: 1 fermée
     other: "%{count} fermées"
@@ -3640,8 +3641,8 @@ fr:
     one: 1 jour ouvrable
     other: "%{count} jours ouvrables"
   label_x_working_days_time_off:
-    one: 'Temps libre : 1 jour ouvrable'
-    other: 'Temps libre : %{count} jours ouvrables'
+    one: 'Congés : 1 jour ouvré'
+    other: 'Congés : %{count} jours ouvrés'
   label_yesterday: hier
   label_zen_mode: Mode zen
   ldap_auth_sources:
@@ -6057,11 +6058,11 @@ fr:
       current_schedule:
         availability_factor: Facteur de disponibilité
         availability_subtitle: Dédié au travail de projet
-        effective_hours: Horaire de travail effectif
+        effective_hours: Heures de travail effectives
         effective_subtitle: Par semaine
         not_set: Non défini
-        title: Planification actuelle
-        work_days: Journées de travail
+        title: Horaire actuel
+        work_days: Jours de travail
         work_hours: Heures de travail
       destroy:
         confirm: Voulez-vous vraiment supprimer cet horaire de travail ?
@@ -6083,27 +6084,27 @@ fr:
         title_days_and_hours: Jours et heures
         title_future_dates: Dates futures
         total_available_hours: Total des heures de travail disponibles
-        total_work_hours: Heures de travail totales 
-        work_days: Journées de travail
+        total_work_hours: Heures de travail totales
+        work_days: Jours de travail
         work_hours: Heures de travail
         working_hours_label: Heures de travail
       future:
-        add_button: Ajouter un futur horaire
-        blank_description: Créer un calendrier futur pour planifier les changements à l'avance
-        blank_title: Aucun calendrier futur n'est prévu
-        description: Planifiez à l'avance les changements d'horaires de travail. Une fois la date arrivée, vos horaires de travail seront automatiquement mis à jour.
-        title: Futures planifications
+        add_button: Ajouter un horaire futur
+        blank_description: Créez un horaire futur pour planifier les changements à l'avance
+        blank_title: Aucun horaire futur prévu
+        description: Planifiez à l'avance les changements d'horaire de travail. Une fois la date arrivée, votre horaire de travail sera automatiquement mis à jour.
+        title: Horaires futurs
       history:
         blank_description: Les changements d'horaire antérieurs seront affichés ici
         blank_title: Pas encore d'historique des horaires
-        description: Visualisez vos calendriers de travail passés.
+        description: Visualisez vos horaires de travail passés.
         title: Historique des horaires
       table:
         availability_factor: Facteur de disponibilité
         effective_work_hours: Heures de travail effectives
         mobile_title: Horaires de travail
         start_date: Date de début
-        work_days: Journées de travail
+        work_days: Jours de travail
         work_days_count:
           one: 1 jour ouvrable
           other: "%{count} jours ouvrables"

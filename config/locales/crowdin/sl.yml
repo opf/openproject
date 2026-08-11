@@ -3345,6 +3345,7 @@ sl:
   label_me: jaz
   label_member_all_admin: "(Vse vloge zaradi statusa skrbnika)"
   label_member_new: Nov član
+  label_member_of_project: Member of project
   label_member_plural: Člani
   label_member_role: Project role
   label_membership_added: Član dodan

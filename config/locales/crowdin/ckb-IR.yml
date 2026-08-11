@@ -3223,6 +3223,7 @@ ckb-IR:
   label_me: me
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: New member
+  label_member_of_project: Member of project
   label_member_plural: Members
   label_member_role: Project role
   label_membership_added: Member added

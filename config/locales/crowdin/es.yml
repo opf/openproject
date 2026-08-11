@@ -3217,6 +3217,7 @@ es:
   label_me: mi
   label_member_all_admin: "(Todos los roles se deben al estado del administrador)"
   label_member_new: Nuevo miembro
+  label_member_of_project: Member of project
   label_member_plural: Miembros
   label_member_role: Rol del proyecto
   label_membership_added: Miembro añadido

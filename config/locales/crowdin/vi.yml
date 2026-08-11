@@ -3170,6 +3170,7 @@ vi:
   label_me: tôi
   label_member_all_admin: "(Tất cả các vai trò do tư cách quản trị viên)"
   label_member_new: Thành viên mới
+  label_member_of_project: Member of project
   label_member_plural: thành viên
   label_member_role: Vai trò dự án
   label_membership_added: Đã thêm thành viên

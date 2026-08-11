@@ -3174,6 +3174,7 @@ zh-TW:
   label_me: 我
   label_member_all_admin: "(所有角色都由管理員狀態決定)"
   label_member_new: 新成員
+  label_member_of_project: Member of project
   label_member_plural: 成員
   label_member_role: 專案角色
   label_membership_added: 成員已新增

@@ -3182,6 +3182,7 @@ ms:
   label_me: saya
   label_member_all_admin: "(Semua peranan disebabkan oleh status pentadbir)"
   label_member_new: Ahli baru
+  label_member_of_project: Member of project
   label_member_plural: Ahli-ahli
   label_member_role: Peranan projek
   label_membership_added: Ahli ditambah

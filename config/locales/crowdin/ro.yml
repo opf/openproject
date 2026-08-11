@@ -3276,6 +3276,7 @@ ro:
   label_me: eu
   label_member_all_admin: "(Toate rolurile datorită statutului de administrator)"
   label_member_new: Membru nou
+  label_member_of_project: Member of project
   label_member_plural: Membri
   label_member_role: Rol proiect
   label_membership_added: Membru adăugat
