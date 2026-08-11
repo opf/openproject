@@ -73,6 +73,35 @@ class LlmModel < ApplicationRecord
                         end
   end
 
+  # Capability assertions are stored as verdicts, not columns. These virtual
+  # attributes let the edit form treat them as ordinary fields, so the whole
+  # screen can be a single Primer form rather than hand-written inputs.
+  Llm::Capabilities::ALL.each do |capability|
+    define_method(:"capability_#{capability}") do
+      capability_overrides.fetch(capability.to_s) { admin_capability_state(capability) }
+    end
+
+    define_method(:"capability_#{capability}=") do |value|
+      capability_overrides[capability.to_s] = value.presence
+    end
+  end
+
+  def capability_overrides = @capability_overrides ||= {}
+
+  # Only an administrator's own assertion is shown as the field's value. A
+  # verdict from a probe or a registry is displayed alongside instead, so that
+  # saving the form does not silently adopt it as the administrator's.
+  def admin_capability_state(capability)
+    verdict_for(capability)&.then { |verdict| verdict.source_admin? ? verdict.state : nil }
+  end
+
+  def verdict_for(capability)
+    llm_connection.capability_verdicts
+                  .for_model(external_id)
+                  .for_capability(capability)
+                  .first
+  end
+
   # Discovered models that the server stopped offering are deactivated rather
   # than deleted, so a binding or verdict pointing at one still has something to
   # name. Manual entries are never deactivated by a refresh: nothing confirms

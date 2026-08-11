@@ -41,20 +41,16 @@ module LlmConnections
       @binding = binding
     end
 
-    private
-
-    attr_reader :feature, :connection, :binding
+    # The record the select binds to. A feature without a stored binding still
+    # needs one so the form has a model_id to read.
+    def form_model
+      binding || connection.feature_bindings.new(feature_key: feature.key.to_s)
+    end
 
     # Not named +options+: ApplicationComponent already owns that name and
     # initialises it to an empty hash, which silently swallowed the memoisation.
     def model_options
       @model_options ||= SelectableModelsQuery.new(connection, feature).call
-    end
-
-    def selected_model_id = binding&.model_id
-
-    def default_model_id
-      feature.embedding? ? connection.default_embedding_model_id : connection.default_chat_model_id
     end
 
     def inherit_label
@@ -69,40 +65,16 @@ module LlmConnections
 
     def dangling? = binding&.dangling?
 
-    # Built as label/value pairs rather than through a block, because the block
-    # form of Rails' select writes to the template's output buffer instead of
-    # into the select element.
-    def select_choices
-      [[inherit_label, ""]] + model_options.map { |option| [option_label(option), option.model_id] }
-    end
+    private
 
-    # Listed but not choosable: a model whose required capability is known to be
-    # missing. It stays visible so the reason is visible with it.
-    def disabled_choices
-      model_options.reject(&:selectable?).map(&:model_id)
-    end
+    attr_reader :feature, :connection, :binding
 
-    def option_label(option)
-      case option.state
-      when :unsupported
-        I18n.t("admin.llm_feature_bindings.option_unsupported",
-               model: option.model_id,
-               capability: capability_labels(option.reasons))
-      when :unknown
-        I18n.t("admin.llm_feature_bindings.option_unknown", model: option.model_id)
-      else
-        option.model_id
-      end
-    end
-
-    def capability_labels(capabilities)
-      capabilities.map { |capability| I18n.t("llm.capabilities.#{capability}.label") }.join(", ")
+    def default_model_id
+      feature.embedding? ? connection.default_embedding_model_id : connection.default_chat_model_id
     end
 
     def form_url
       url_helpers.llm_feature_binding_path(feature.key)
     end
-
-    def select_id = "llm_feature_binding_model_id_#{feature.key}"
   end
 end

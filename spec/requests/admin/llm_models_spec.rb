@@ -40,6 +40,21 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
   before { login_as admin }
 
   describe "POST /admin/llm_models" do
+    it "accepts everything the edit screen accepts" do
+      post llm_models_path, params: { llm_model: { external_id: "bge-m3",
+                                                   display_name: "BGE M3",
+                                                   admin_context_window: "8192",
+                                                   capability_embeddings: "supported",
+                                                   capability_vision: "unsupported" } }
+
+      llm_model = connection.models.find_by(external_id: "bge-m3")
+      expect(llm_model.display_name).to eq("BGE M3")
+      expect(llm_model.context_window).to eq(8192)
+
+      verdicts = connection.capability_verdicts.for_model("bge-m3").pluck(:capability, :state, :source)
+      expect(verdicts).to include(["embeddings", "supported", "admin"], ["vision", "unsupported", "admin"])
+    end
+
     it "adds a model an administrator names" do
       post llm_models_path, params: { llm_model: { external_id: "qwen3.6-35b-a3b" } }
 
@@ -87,8 +102,9 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
 
     it "stores capabilities an administrator asserts" do
       patch llm_model_path(llm_model),
-            params: { llm_model: { display_name: "Hand typed" },
-                      capabilities: { embeddings: "supported", vision: "unsupported" } }
+            params: { llm_model: { display_name: "Hand typed",
+                                   capability_embeddings: "supported",
+                                   capability_vision: "unsupported" } }
 
       expect(response).to have_http_status(:see_other)
       expect(llm_model.reload.display_name).to eq("Hand typed")
@@ -123,7 +139,7 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
     end
 
     it "makes an asserted capability satisfy a feature that requires it" do
-      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
+      patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "supported" } }
 
       patch llm_feature_binding_path("semantic_search"),
             params: { llm_feature_binding: { model_id: "hand-typed" } }
@@ -134,15 +150,15 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
     # Clearing an assertion records nothing rather than recording ignorance as
     # fact, so detection can still fill it in later.
     it "clears an assertion when set back to unspecified" do
-      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
-      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "" } }
+      patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "supported" } }
+      patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "" } }
 
       expect(connection.capability_verdicts.for_model("hand-typed").for_capability(:embeddings)).to be_empty
     end
 
     # An administrator looked at this deployment; a published registry did not.
     it "is not overwritten by registry enrichment" do
-      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
+      patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "supported" } }
 
       LlmConnections::EnrichCapabilitiesService.new(connection).call
 
@@ -155,7 +171,7 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
   describe "the model type shown in the list" do
     it "reads as an embedding model once embeddings are supported" do
       llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "bge-m3")
-      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "supported" } }
+      patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "supported" } }
 
       get llm_connection_path
 
@@ -164,11 +180,44 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
 
     it "reads as a chat model when embeddings are not supported" do
       llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "qwen")
-      patch llm_model_path(llm_model), params: { capabilities: { embeddings: "unsupported" } }
+      patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "unsupported" } }
 
       get llm_connection_path
 
       expect(response.body).to include("Chat")
+    end
+  end
+
+  describe "GET /admin/llm_models/new" do
+    it "renders the add-model form" do
+      get new_llm_model_path
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Model name")
+    end
+
+    it "re-renders with the error inline when the name is taken" do
+      create(:llm_model, llm_connection: connection, external_id: "already-there")
+
+      post llm_models_path, params: { llm_model: { external_id: "already-there" } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(connection.models.where(external_id: "already-there").count).to eq(1)
+    end
+  end
+
+  describe "GET /admin/llm_models/:id/delete_dialog" do
+    it "offers a confirmation naming the features that would break" do
+      llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "hand-typed")
+
+      # Requested by the async-dialog Stimulus controller, which asks for a
+      # turbo stream rather than HTML.
+      get delete_dialog_llm_model_path(llm_model),
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Description assistant")
     end
   end
 

@@ -35,11 +35,17 @@ module Admin
   # A gateway may route /v1/chat/completions and nothing else, in which case the
   # operator knows the model name and OpenProject cannot discover it.
   class LlmModelsController < ApplicationController
+    include OpTurbo::ComponentStream
+
     layout "admin"
     menu_item :llm_connection
 
     before_action :require_admin
     before_action :set_connection
+
+    def new
+      @llm_model = @connection.models.new
+    end
 
     def edit
       @llm_model = @connection.models.find(params.expect(:id))
@@ -47,15 +53,17 @@ module Admin
     end
 
     def create
-      llm_model = @connection.models.new(model_params.merge(manual: true))
+      llm_model = @connection.models.new(llm_model_params.except(*capability_param_names).merge(manual: true))
 
-      if llm_model.save
+      if save_with_capabilities(llm_model)
         flash[:notice] = t(".success", model: llm_model.external_id)
+        redirect_to llm_connection_path, status: :see_other
       else
-        flash[:error] = llm_model.errors.full_messages.join(", ")
+        # Re-rendered rather than redirected so the Primer form shows the error
+        # inline against the field that caused it.
+        @llm_model = llm_model
+        render :new, status: :unprocessable_entity
       end
-
-      redirect_to llm_connection_path, status: :see_other
     end
 
     def update
@@ -68,6 +76,12 @@ module Admin
 
       flash[:notice] = t(".success", model: @llm_model.external_id)
       redirect_to llm_connection_path, status: :see_other
+    end
+
+    def delete_dialog
+      llm_model = @connection.models.manual.find(params.expect(:id))
+
+      respond_with_dialog LlmConnections::DeleteModelDialogComponent.new(llm_model)
     end
 
     def destroy
@@ -85,23 +99,39 @@ module Admin
     end
 
     def apply_attributes(llm_model)
-      llm_model.assign_attributes(display_name: params.dig(:llm_model, :display_name))
-      llm_model.admin_context_window = params.dig(:llm_model, :admin_context_window)
+      llm_model.assign_attributes(llm_model_params.except(:external_id, *capability_param_names))
       llm_model.save!
     end
 
-    def model_params
-      params.expect(llm_model: %i[external_id display_name])
+    # external_id is only accepted when creating: verdicts and bindings reference
+    # a model by that string, so renaming one would orphan both.
+    def llm_model_params
+      params.expect(llm_model: [:external_id, :display_name, :admin_context_window, *capability_param_names])
+    end
+
+    def capability_param_names
+      Llm::Capabilities::ALL.map { |capability| :"capability_#{capability}" }
+    end
+
+    def save_with_capabilities(llm_model)
+      ActiveRecord::Base.transaction do
+        llm_model.save!
+        apply_capabilities(llm_model)
+      end
+
+      true
+    rescue ActiveRecord::RecordInvalid
+      false
     end
 
     # Stored as admin-sourced verdicts, which survive re-detection: an
     # administrator knows things about their deployment that neither a published
     # registry nor a probe can determine.
     def apply_capabilities(llm_model)
-      submitted = params.fetch(:capabilities, {}).permit!.to_h
+      submitted = llm_model_params
 
       Llm::Capabilities::ALL.each do |capability|
-        assert(llm_model.external_id, capability, submitted[capability.to_s].presence)
+        assert(llm_model.external_id, capability, submitted[:"capability_#{capability}"].presence)
       end
     end
 

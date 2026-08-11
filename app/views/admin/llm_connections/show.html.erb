@@ -49,37 +49,40 @@ See COPYRIGHT and LICENSE files for more details.
       component.with_heading(tag: :h3) { t(".models_heading") }
       component.with_description { t(".models_description", fetched_at: format_time(@connection.catalogue_fetched_at)) }
       component.with_actions do
-        render(
-          Primer::Beta::Button.new(
-            tag: :a,
-            href: refresh_models_llm_connection_path,
-            data: { turbo_method: :post, controller: "disable-when-clicked" }
-          )
-        ) do |button|
-          button.with_leading_visual_icon(icon: :sync)
-          t(".refresh_models")
-        end
+        concat(
+          render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: new_llm_model_path,
+              scheme: :primary,
+              mr: 2,
+              data: { test_selector: "llm-model--add-button" }
+            )
+          ) do |button|
+            button.with_leading_visual_icon(icon: :plus)
+            t(".add_model_submit")
+          end
+        )
+        concat(
+          render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: refresh_models_llm_connection_path,
+              data: {
+                turbo_method: :post,
+                controller: "disable-when-clicked",
+                test_selector: "llm-model--refresh-button"
+              }
+            )
+          ) do |button|
+            button.with_leading_visual_icon(icon: :sync)
+            t(".refresh_models")
+          end
+        )
       end
     end
   %>
 
   <%= render(LlmConnections::ModelsTableComponent.new(rows: @connection.models.by_identifier)) %>
 
-  <%= render(Primer::Box.new(mt: 3, p: 3, border: true, border_radius: 2)) do %>
-    <%= render(Primer::Beta::Text.new(tag: :h4, font_weight: :bold, mb: 1)) { t(".add_model_heading") } %>
-    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { t(".add_model_description") } %>
-
-    <%= form_with(url: llm_models_path, method: :post) do %>
-      <%= label_tag("llm_model_external_id", LlmModel.human_attribute_name(:external_id), class: "FormControl-label") %>
-      <%= text_field_tag(
-            "llm_model[external_id]", nil,
-            id: "llm_model_external_id",
-            required: true,
-            autocomplete: "off",
-            placeholder: "qwen3.6-35b-a3b",
-            class: "FormControl-input"
-          ) %>
-      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :secondary, ml: 2)) { t(".add_model_submit") } %>
-    <% end %>
-  <% end %>
 <% end %>

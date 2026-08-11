@@ -1457,6 +1457,7 @@ en:
         blank_description: "The server reported no models. If it does not offer a model list, add the model names you want to use below."
         blank_title: "No models available"
         context_window: "Context window"
+        display_name_caption: "An optional friendly name shown instead of the model id."
         identifier: "Model"
         kind: "Type"
         source: "Source"
@@ -1468,7 +1469,6 @@ en:
         success: "The model list has been refreshed."
       show:
         add_model_description: "If the server does not expose a model list, enter the model name exactly as the server expects it. Manually added models are kept when the list is refreshed."
-        add_model_heading: "Add a model manually"
         add_model_submit: "Add model"
         description: "Connect OpenProject to a server that speaks the OpenAI API, so AI features can use it."
         models_description: "Reported by the server on %{fetched_at}."
@@ -1481,18 +1481,28 @@ en:
       create:
         success: "%{model} has been added."
       destroy:
+        description: "The model will no longer be offered to AI features."
+        description_bound: "This model is currently used by %{features}. Those features will stop working until another model is selected."
+        heading: "Remove %{model}?"
         success: "%{model} has been removed."
+        title: "Remove model"
       edit:
-        capabilities_description: "Set what this model can do. Leave a capability unspecified to let OpenProject determine it. Marking Embeddings as supported makes this an embedding model, and it will only be offered to features that need one."
-        capabilities_heading: "Capabilities"
+        description: "Edit how OpenProject uses this model."
+      form:
+        capabilities_description: "Leave a capability unspecified to let OpenProject determine it. Marking Embeddings as supported makes this an embedding model, offered only to features that need one."
         context_window: "Context window"
         context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
         context_window_known: "Leave blank to use %{value}, %{source}."
+        create_submit: "Add model"
         current_verdict: "Currently %{state}, %{source}."
-        description: "Edit how OpenProject uses this model."
+        display_name_caption: "An optional friendly name shown instead of the model id."
+        external_id_caption: "The model name exactly as the server expects it."
         state_supported: "Supported"
         state_unspecified: "Not specified"
         state_unsupported: "Not supported"
+      new:
+        description: "Name a model this server can use but does not advertise, and describe what it can do."
+        title: "Add a model"
       update:
         success: "%{model} has been updated."
     mcp_configurations:

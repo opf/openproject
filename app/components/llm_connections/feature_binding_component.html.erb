@@ -17,18 +17,15 @@
     <% end %>
   <% end %>
 
-  <%= form_with(url: form_url, method: :patch) do %>
-    <%= label_tag(select_id, LlmFeatureBinding.human_attribute_name(:model_id), class: "FormControl-label") %>
-    <%= select_tag(
-          "llm_feature_binding[model_id]",
-          options_for_select(select_choices, selected: selected_model_id.to_s, disabled: disabled_choices),
-          id: select_id,
-          disabled: locked?,
-          class: "FormControl-select"
+  <%= primer_form_with(model: form_model, url: form_url, method: :patch, scope: :llm_feature_binding) do |f| %>
+    <%= render(
+          LlmConnections::FeatureBindingForm.new(
+            f,
+            options: model_options,
+            inherit_label:,
+            feature_key: feature.key,
+            locked: locked?
+          )
         ) %>
-
-    <% unless locked? %>
-      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :secondary, mt: 2)) { t(:button_save) } %>
-    <% end %>
   <% end %>
 <% end %>
