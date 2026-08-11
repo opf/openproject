@@ -43,10 +43,8 @@ RSpec.describe Wikis::PageSearchService do
   let(:search_pages) do
     instance_double(Wikis::Adapters::Providers::XWiki::Queries::SearchPages, call: search_pages_result)
   end
-  # Searching wikis is an optional operation, which XWiki does not support, hence the provider is taught
-  # to support it here instead of swapping in the internal provider and all of its queries.
   let(:search_wikis) do
-    instance_double(Wikis::Adapters::Providers::Internal::Queries::SearchWikis, call: search_wikis_result)
+    instance_double(Wikis::Adapters::Providers::XWiki::Queries::SearchWikis, call: search_wikis_result)
   end
   let(:wikis) { [] }
   let(:search_wikis_result) { Success(wikis) }
@@ -80,10 +78,10 @@ RSpec.describe Wikis::PageSearchService do
       "xwiki.queries.search_pages",
       class_double(Wikis::Adapters::Providers::XWiki::Queries::SearchPages, new: search_pages)
     )
-
-    allow(provider).to receive(:resolve).and_call_original
-    allow(provider).to receive(:resolve).with("queries.search_wikis").and_return(search_wikis)
-    allow(provider).to receive(:supports?).with("queries.search_wikis").and_return(true)
+    Wikis::Adapters::Registry.stub(
+      "xwiki.queries.search_wikis",
+      class_double(Wikis::Adapters::Providers::XWiki::Queries::SearchWikis, new: search_wikis)
+    )
   end
 
   context "when the query is a normal search term" do
@@ -214,23 +212,6 @@ RSpec.describe Wikis::PageSearchService do
         expect(search_results.size).to eq(1)
         expect(search_results[0].identifier).to eq(wiki.identifier)
         expect(search_results[0].children.map(&:identifier)).to eq(["42"])
-      end
-    end
-
-    context "if the provider cannot search for wikis" do
-      before do
-        allow(provider).to receive(:supports?).with("queries.search_wikis").and_return(false)
-      end
-
-      it "does not search for wikis" do
-        subject
-
-        expect(search_wikis).not_to have_received(:call)
-      end
-
-      it "still returns the pages" do
-        expect(subject).to be_success
-        expect(subject.value!.size).to eq(2)
       end
     end
 

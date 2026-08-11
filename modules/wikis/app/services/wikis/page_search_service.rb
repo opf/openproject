@@ -84,11 +84,7 @@ module Wikis
       provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
     end
 
-    # Searching wikis by their name is optional, a provider unable to do so contributes no wikis at all,
-    # e.g. XWiki offers no API for it.
     def matching_wikis(input_data:, auth_strategy:)
-      return Success([]) unless provider.supports?("queries.search_wikis")
-
       provider.resolve("queries.search_wikis").call(input_data:, auth_strategy:)
     end
 

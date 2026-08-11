@@ -28,36 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_module_spec_helper
+module Wikis
+  module Adapters
+    module Providers
+      module XWiki
+        module Queries
+          class SearchWikis < BaseQuery
+            include Concerns::XWikiRequest
 
-RSpec.describe Wikis::Provider do
-  describe "validations" do
-    describe "unique_universal_identifier" do
-      let(:existing) { create(:xwiki_provider, universal_identifier: "xwiki-instance-abc123") }
-      let(:duplicate) { build(:xwiki_provider, universal_identifier: existing.universal_identifier) }
+            MAXIMUM_RESULTS = 10
 
-      before { existing }
+            def call(input_data:, auth_strategy:)
+              authenticated(auth_strategy) do |http|
+                handle_response(http.get(rest_url("wikis"))) do |json|
+                  success(matching_wikis(fetch_json(json, "wikis"), input_data.query))
+                end
+              end
+            end
 
-      it "is invalid when universal_identifier is already taken" do
-        expect(duplicate).not_to be_valid
-        expect(duplicate.errors[:url]).to include(
-          "belongs to the wiki provider that's already known as \"#{existing.name}\"."
-        )
-      end
+            private
 
-      it "is valid when universal_identifier is unique" do
-        provider = build(:xwiki_provider, universal_identifier: "different-id")
-        expect(provider).to be_valid
-      end
+            def matching_wikis(wikis, query)
+              wikis.select { fetch_json(it, "name").downcase.include?(query.downcase) }
+                   .first(MAXIMUM_RESULTS)
+                   .map { json_to_wiki(it) }
+            end
 
-      it "is valid when universal_identifier is blank" do
-        provider = build(:xwiki_provider, universal_identifier: nil)
-        expect(provider).to be_valid
-      end
+            def json_to_wiki(wiki)
+              name = fetch_json(wiki, "name")
 
-      it "does not flag itself as a duplicate on update" do
-        expect(existing).to be_valid
+              Results::Wiki.new(identifier: name, provider:, name:, href: home_url)
+            end
+
+            def home_url
+              "#{provider.url.chomp('/')}/bin/view/Main/"
+            end
+          end
+        end
       end
     end
   end
