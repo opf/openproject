@@ -30,22 +30,11 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackage, "legacy version_id mirror" do
+RSpec.describe WorkPackage, "target versions" do
   let(:project) { create(:project) }
   let!(:lower_version) { create(:version, project:) }
   let!(:higher_version) { create(:version, project:) }
   let(:work_package) { create(:work_package, project:) }
-
-  # The interim primary version is `target_versions.first`, which reads the
-  # lowest version id. The mirror column must agree regardless of the order
-  # the target versions were assigned in.
-  it "mirrors the lowest target version id regardless of assignment order" do
-    work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
-    work_package.save!
-
-    expect(work_package.reload.version_id).to eq(lower_version.id)
-    expect(work_package.version_id).to eq(work_package.target_versions.first.id)
-  end
 
   it "returns target versions in id order even when preloaded" do
     work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
@@ -55,13 +44,20 @@ RSpec.describe WorkPackage, "legacy version_id mirror" do
     expect(preloaded.target_versions.map(&:id)).to eq([lower_version.id, higher_version.id])
   end
 
-  it "clears the mirror when all target versions are removed" do
+  it "does not write the deprecated version_id column" do
+    work_package.target_version_ids_replacements = [lower_version.id]
+    work_package.save!
+
+    expect(work_package.reload.version_id).to be_nil
+  end
+
+  it "clears the target versions when they are replaced by an empty set" do
     work_package.target_version_ids_replacements = [lower_version.id]
     work_package.save!
 
     work_package.target_version_ids_replacements = []
     work_package.save!
 
-    expect(work_package.reload.version_id).to be_nil
+    expect(work_package.reload.target_versions).to be_empty
   end
 end

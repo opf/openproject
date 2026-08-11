@@ -666,10 +666,6 @@ RSpec.describe "API v3 Work package resource",
             expect(work_package.reload.target_versions).to contain_exactly(target_version)
           end
 
-          it "mirrors the version into the legacy version_id" do
-            expect(work_package.reload.version_id).to eq(target_version.id)
-          end
-
           it "responds with the target version link" do
             expect(response.body)
               .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
@@ -691,10 +687,6 @@ RSpec.describe "API v3 Work package resource",
 
           it "clears the target versions" do
             expect(work_package.reload.target_versions).to be_empty
-          end
-
-          it "sets the legacy version_id to nil" do
-            expect(work_package.reload.version).to be_nil
           end
         end
 

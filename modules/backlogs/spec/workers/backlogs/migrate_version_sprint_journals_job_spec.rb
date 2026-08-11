@@ -136,6 +136,8 @@ RSpec.describe Backlogs::MigrateVersionSprintJournalsJob, type: :model do
     context "when the work_package_versions table does not exist yet" do
       before do
         allow(job).to receive(:work_package_versions_available?).and_return(false)
+        wp1.update_column(:version_id, version_a.id)
+        wp2.update_column(:version_id, version_b.id)
       end
 
       it "journals via the legacy version_id column" do

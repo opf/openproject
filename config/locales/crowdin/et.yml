@@ -3274,6 +3274,7 @@ et:
   label_me: mina
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: Uus liige
+  label_member_of_project: Member of project
   label_member_plural: Liikmed
   label_member_role: Project role
   label_membership_added: Liige on lisatud

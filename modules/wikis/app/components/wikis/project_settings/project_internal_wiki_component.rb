@@ -42,6 +42,8 @@ module Wikis
       def wiki_enabled?
         !!@project.wiki&.enabled?
       end
+
+      def globally_disabled? = !Wikis::InternalProvider.enabled?
     end
   end
 end

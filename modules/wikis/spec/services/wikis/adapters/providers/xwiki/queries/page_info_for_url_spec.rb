@@ -42,7 +42,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::PageInfoForUrl,
   let(:canonical_page_info_query) do
     instance_double(
       Wikis::Adapters::Providers::XWiki::Queries::CanonicalPageInfo,
-      call: Failure(Wikis::Adapters::Results::Error.new(source: self, code: :not_found))
+      call: Failure(SimpleError.new(source: self, code: :not_found))
     )
   end
 
@@ -61,7 +61,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::PageInfoForUrl,
         else
           Failure(
             # misusing #source a bit to allow for better spec-failure output
-            Wikis::Adapters::Results::Error.new(code: :not_found, source: "Unexpected identifier #{input_data.identifier}")
+            SimpleError.new(code: :not_found, source: "Unexpected identifier #{input_data.identifier}")
           )
         end
       end

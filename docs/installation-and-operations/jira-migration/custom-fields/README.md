@@ -76,9 +76,19 @@ Jira cascading select fields have two import modes depending on your OpenProject
 
 Jira Labels fields and any String list custom fields do not expose all their allowed values within [Field contexts](#field-contexts) through the Jira API. 
 Instead, the migrator scans all imported issues and collects every distinct string value actually used. 
-These collected values become the option list for a multi-value List custom field in OpenProject.
+These collected values become the option list for a single multi-value List custom field in OpenProject.
 
 Values that do not appear in any issue are not added to the option list.
+
+### Option lists with incomplete allowed values
+
+The Jira API only reports the options a field currently offers on an issue's edit screen. Options removed from a field 
+context after issues were set - and fields that sit on no edit screen at all - therefore report no allowed values, or 
+fewer than the imported issues actually use.
+
+To avoid losing those values, the migrator also collects the options found on the imported issues themselves and adds 
+any that the API did not report to the option list of the custom field the issue is imported into. This applies to 
+single select, radio button, multi-select, checkbox and cascading select fields.
 
 ### Text areas and wiki markup
 
@@ -102,7 +112,8 @@ The migrator handles this as follows:
   The migrator uses project keys as suffixes to disambiguate contexts, but the original context names are not preserved.
 
 During issue import, each issue is matched to the context whose projects and issue types fit. 
-If no context matches (for example, the field was removed from a screen after values were set), the first available context is used as a fallback so no data is silently lost.
+If no context matches (for example, the field was removed from a screen after values were set), the first available context is used as a fallback so no data is silently lost. 
+The custom field an issue resolves to is activated in that issue's project, whether it was matched or used as a fallback.
 
 ### Deduplication with existing custom fields
 

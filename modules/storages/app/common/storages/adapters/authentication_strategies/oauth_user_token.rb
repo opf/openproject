@@ -36,7 +36,7 @@ module Storages
           super()
           @user = user
           @retried = false
-          @error_data = Results::Error.new(source: self.class, code: :error)
+          @error_data = SimpleError.new(source: self.class, code: :error)
         end
 
         def call(storage:, http_options: {}, &)

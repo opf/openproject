@@ -43,6 +43,7 @@ fr:
       resource_planner: Planificateur de ressources
       resource_user_card: Fiches des utilisateurs
       resource_work_package_list: Liste des lots de travaux
+  button_next: Suivant
   ee:
     features:
       resource_management: Gestion des ressources
@@ -50,7 +51,6 @@ fr:
       resource_management:
         description: Planifiez et équilibrez la charge de travail de votre équipe à l'aide d'outils de planification des ressources. Affectez les collaborateurs aux lots de travaux, suivez l'évolution des capacités au fil du temps et identifiez d'un seul coup d'œil les cas de surcharge ou de sous-utilisation.
         title: Gestion des ressources
-  button_next: Suivant
   label_resource_management: Gestion des ressources
   permission_allocate_user_resources: Attribuer des ressources aux utilisateurs
   permission_allocate_user_resources_explanation: Permet aux utilisateurs de créer, mettre à jour et supprimer les allocations de ressources dans un planificateur de ressources. Cela inclut l'assignation d'utilisateurs (ou des filtres d'utilisateurs) à un planificateur et l'ajustement de la plage de temps et de dates allouées.
@@ -285,6 +285,10 @@ fr:
         allocate: Attribuer
         settings: Configurer la vue
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Ajouter un lot de travaux
         configure_view: Configurer la vue

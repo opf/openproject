@@ -108,6 +108,7 @@ module WorkPackage::Journalized
                                       :budget_id,
                                       :status_id, :type_id,
                                       :priority_id,
+                                      # version_id is no longer written. To be dropped with the db column.
                                       :category_id, :version_id,
                                       :sprint_id,
                                       formatter_key: :named_association

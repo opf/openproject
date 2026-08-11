@@ -3272,6 +3272,7 @@ de:
   label_me: ich
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_new: Neues Mitglied
+  label_member_of_project: Member of project
   label_member_plural: Mitglieder
   label_member_role: Projektrolle
   label_membership_added: Mitglied hinzugefügt

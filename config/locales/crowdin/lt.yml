@@ -3386,6 +3386,7 @@ lt:
   label_me: aš
   label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_new: Naujas narys
+  label_member_of_project: Member of project
   label_member_plural: Nariai
   label_member_role: Vaidmuo projekte
   label_membership_added: Narys pridėtas
