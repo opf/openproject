@@ -62,4 +62,28 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
     expect(page).to have_text("20h")
     expect(page).to have_text(allocation.filter_name)
   end
+
+  describe "the candidate badge" do
+    let(:allocation) { create(:resource_allocation, :with_user_filter, allocated_time: 20 * 60) }
+
+    it "shows the bare count, with the meaning carried by the tooltip" do
+      render_inline(described_class.new(allocation:, visible_principal_ids: Set.new, candidate_count: 3))
+
+      expect(page).to have_css(".op-rm-timeline-bar--badge", text: "3")
+      expect(page).to have_css("tool-tip", text: "3 members of this project match the allocation's filter criteria.")
+    end
+
+    it "describes a single match in the singular" do
+      render_inline(described_class.new(allocation:, visible_principal_ids: Set.new, candidate_count: 1))
+
+      expect(page).to have_css(".op-rm-timeline-bar--badge", text: "1")
+      expect(page).to have_css("tool-tip", text: "1 member of this project matches the allocation's filter criteria.")
+    end
+
+    it "is omitted when nothing matches" do
+      render_inline(described_class.new(allocation:, visible_principal_ids: Set.new, candidate_count: 0))
+
+      expect(page).to have_no_css(".op-rm-timeline-bar--badge")
+    end
+  end
 end

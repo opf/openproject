@@ -43,7 +43,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
   let!(:version) do
     create(:version, project:, name: "Test Sprint", start_date:, effective_date:, status:)
   end
-  let!(:wp1) { create(:work_package, version:, project:) }
+  let!(:wp1) { create(:work_package, version_id: version.id, project:) }
 
   def use_version(as:, version: self.version, project: self.project)
     display = case as
@@ -187,7 +187,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
   end
 
   describe "work package association" do
-    let!(:wp2) { create(:work_package, version:, project:) }
+    let!(:wp2) { create(:work_package, version_id: version.id, project:) }
 
     it "sets sprint_id on all associated work packages" do
       migrate
@@ -206,7 +206,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
     context "with multiple versions" do
       let!(:version2) { create(:version, project:, status: "closed") }
-      let!(:wp3) { create(:work_package, version: version2, project:) }
+      let!(:wp3) { create(:work_package, version_id: version2.id, project:) }
 
       before { use_version(as: :sprint, version: version2) }
 
@@ -221,7 +221,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
     context "when the version is shared with another project that displays it as backlog" do
       let(:other_project) { create(:project) }
-      let!(:wp_in_other_project) { create(:work_package, version:, project: other_project) }
+      let!(:wp_in_other_project) { create(:work_package, version_id: version.id, project: other_project) }
 
       before { use_version(as: :backlog, project: other_project) }
 
@@ -236,7 +236,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
     context "when the version is shared with another project where it is not displayed" do
       let(:other_project) { create(:project) }
-      let!(:wp_in_other_project) { create(:work_package, version:, project: other_project) }
+      let!(:wp_in_other_project) { create(:work_package, version_id: version.id, project: other_project) }
 
       before { use_version(as: :display_none, project: other_project) }
 
@@ -256,7 +256,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
     shared_examples "migrates by the primary version" do
       context "when the sprint version is the primary (version_id) target" do
         let!(:wp_multi) do
-          create(:work_package, project:, version:).tap do |wp|
+          create(:work_package, project:, version_id: version.id).tap do |wp|
             create(:work_package_version, work_package: wp, version: secondary_version, kind: :target)
           end
         end
@@ -271,7 +271,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       context "when the sprint version is only a secondary target" do
         let!(:wp_secondary) do
-          create(:work_package, project:, version: secondary_version).tap do |wp|
+          create(:work_package, project:, version_id: secondary_version.id).tap do |wp|
             create(:work_package_version, work_package: wp, version:, kind: :target)
           end
         end

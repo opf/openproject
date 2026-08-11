@@ -577,9 +577,20 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
+        # Deprecated in favour of `targetVersions`
+        # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
-                            representer: ::API::V3::Versions::VersionRepresenter
+                            representer: ::API::V3::Versions::VersionRepresenter,
+                            # representable evaluates the getter before `skip_render`, so we manually
+                            # check if we *can* render the result here before actually doing it
+                            getter: ->(*) {
+                              next if Setting::WorkPackageMultipleVersions.active?
+                              next unless embed_link?(:version) && represented.version
+
+                              ::API::V3::Versions::VersionRepresenter.create(represented.version, current_user:)
+                            },
+                            skip_render: ->(*) { Setting::WorkPackageMultipleVersions.active? }
 
         associated_resources :target_versions,
                              v3_path: :version,

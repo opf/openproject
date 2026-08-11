@@ -104,7 +104,7 @@ module JournalFormatter
     def class_from_field(field)
       association = @journal.journable.class.reflect_on_association(field)
 
-      association&.klass
+      association&.klass || field.to_s.camelize.safe_constantize
     end
   end
 end

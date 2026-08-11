@@ -3274,6 +3274,7 @@ sv:
   label_me: mig
   label_member_all_admin: "(Alla roller på grund av admin status)"
   label_member_new: Ny medlem
+  label_member_of_project: Member of project
   label_member_plural: Medlemmar
   label_member_role: Projektroll
   label_membership_added: Medlem tillagd

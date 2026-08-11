@@ -112,7 +112,7 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "msgpack", "~> 1.8.3"
+gem "msgpack", "~> 1.8.4"
 gem "ruby-duration", "~> 3.2.0"
 
 gem "mail", "2.9.1"
@@ -183,7 +183,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.0.0"
+  gem "dalli", "~> 5.0.6"
   gem "redis", "~> 5.4.0"
 end
 

@@ -23,19 +23,24 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Results
-      Error = Data.define(:code, :source) do
-        def initialize(source:, code: nil)
-          super
-        end
-      end
-    end
+class AddIndexOnWorkPackageSequenceNumber < ActiveRecord::Migration[8.1]
+  disable_ddl_transaction!
+
+  def up
+    add_index :work_packages, :sequence_number,
+              where: "sequence_number IS NOT NULL",
+              algorithm: :concurrently,
+              if_not_exists: true
+  end
+
+  def down
+    remove_index :work_packages, :sequence_number,
+                 algorithm: :concurrently,
+                 if_exists: true
   end
 end

@@ -33,7 +33,6 @@ class Version < ApplicationRecord
   include ::Scopes::Scoped
 
   belongs_to :project
-  has_many :work_packages, dependent: :nullify
   has_many :work_package_versions, dependent: :delete_all
   has_many :targeted_work_packages,
            -> { where(work_package_versions: { kind: "target" }) },
@@ -42,6 +41,9 @@ class Version < ApplicationRecord
            -> { where(work_package_versions: { kind: "observed_in" }) },
            through: :work_package_versions, source: :work_package
   acts_as_customizable
+
+  # manually clear association, since the has_many/belongs_to were removed
+  before_destroy :nullify_work_package_version_mirror
 
   VERSION_STATUSES = %w(open locked closed).freeze
   VERSION_SHARINGS = %w(none descendants hierarchy tree system).freeze
@@ -208,6 +210,10 @@ class Version < ApplicationRecord
     if effective_date && start_date && effective_date < start_date
       errors.add :effective_date, :greater_than_start_date
     end
+  end
+
+  def nullify_work_package_version_mirror
+    WorkPackage.where(version_id: id).update_all(version_id: nil)
   end
 
   # Returns the average estimated time of assigned issues

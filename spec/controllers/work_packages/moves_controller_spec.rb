@@ -319,7 +319,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         before do
           target_project.types << work_package.type
           target_project.save
-          work_package.update!(version: source_version)
+          work_package.target_versions = [source_version]
 
           post :create,
                params: {
