@@ -38,7 +38,9 @@ module Wikis
     end
 
     def call(parent_identifier)
-      browse_pages(parent_identifier).bind { build_result_tree(it, parent_identifier) }
+      browse_pages(parent_identifier)
+        .either(->(pages) { build_result_tree(pages, parent_identifier) },
+                ->(error) { error.code == :not_found ? Success([]) : Failure(error) })
     end
 
     private

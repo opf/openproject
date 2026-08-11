@@ -84,9 +84,17 @@ module Wikis
       end
     end
 
-    describe "error handling" do
+    describe "error handling", :webmock, vcr: "services/browse_pages_xwiki_not_found" do
+      let(:parent_identifier) { "matte-banana-blue" }
+      let(:provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
+
       context "when the identifier does not exist" do
-        it "explodes badly"
+        it "returns an empty collection" do
+          result = service.call(parent_identifier)
+
+          expect(result).to be_success
+          expect(result.value!).to be_empty
+        end
       end
     end
   end
