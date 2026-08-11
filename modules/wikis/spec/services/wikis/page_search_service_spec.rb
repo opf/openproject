@@ -216,7 +216,7 @@ RSpec.describe Wikis::PageSearchService do
     end
 
     context "if searching for wikis fails" do
-      let(:search_wikis_result) { Failure(Wikis::Adapters::Results::Error.new(code: :unexpected, source: self)) }
+      let(:search_wikis_result) { Failure(SimpleError.new(code: :unexpected, source: self)) }
 
       it "returns that error" do
         expect(subject).to eq(search_wikis_result)
