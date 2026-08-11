@@ -1566,7 +1566,7 @@ en:
             button: Enable multiple values
             heading: Action required
             manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
-            not_writable_hint: This setting is configured via environment variables or the configuration.yml file and cannot be changed here. Remove the override to enable multiple values from this page.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
           heading: Target versions
           in_progress:
             heading: Enabling multiple versions

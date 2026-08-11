@@ -109,8 +109,9 @@ RSpec.describe "Versions and categories admin settings" do
     it "shows the not writable explanation instead of the enable button" do
       expect(page).to have_no_link("Enable multiple values")
       expect(page).to have_text(
-        "This setting is configured via environment variables or the configuration.yml file and cannot be changed here. " \
-        "Remove the override to enable multiple values from this page."
+        "These settings are configured via environment variables. " \
+        "If you would like to manually run the conversion to enable multiple values before the automatic migration, " \
+        "update your configuration.yml file."
       )
     end
   end
