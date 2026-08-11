@@ -156,8 +156,11 @@ class Project < ApplicationRecord
   # In addition to :view_project_attributes, admin_only custom fields/comments
   # are only visible to admins, regardless of :view_project_attributes.
   custom_field_view_permission = lambda { |custom_field|
-    User.current.allowed_in_project?(:view_project_attributes, project) &&
-      (custom_field.nil? || !custom_field.admin_only? || User.current.admin?)
+    User.current.admin? ||
+    (
+      User.current.allowed_in_project?(:view_project_attributes, project) &&
+      (custom_field.nil? || !custom_field.admin_only?)
+    )
   }
 
   register_journal_formatted_fields /\Acustom_fields_\d+\z/,
