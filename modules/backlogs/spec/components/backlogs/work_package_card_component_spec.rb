@@ -58,7 +58,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component, with_flag: 
 
   context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
     it "renders the card inline without a turbo-frame" do
-      expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
+      expect(rendered_component).to have_no_css("turbo-frame#card_work_package_#{work_package.id}")
       expect(rendered_component).to have_text("Backlogs card")
     end
   end

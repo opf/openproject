@@ -38,7 +38,7 @@ module Backlogs
       # Backlogs::WorkPackageCardListItemLoadingComponent with a +version+ derived
       # from the card's state hash, so each distinct state maps to a distinct URL
       # that the client can cache.
-      # Cards are permission scoped, so the cache has to stays private to the browser.
+      # Cards are permission scoped, so the cache has to stay private to the browser.
       def show
         # Caveat here: If the user were to lose the permissions to see a work package,
         # they would still have it cached locally, if they ever looked at the card.

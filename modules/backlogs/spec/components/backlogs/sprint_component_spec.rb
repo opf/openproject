@@ -101,7 +101,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
       context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
         it "renders the cards inline without turbo-frames" do
           [work_package1, work_package2].each do |work_package|
-            expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
+            expect(rendered_component).to have_no_css("turbo-frame#card_work_package_#{work_package.id}")
 
             expect(rendered_component).to have_text(work_package.subject)
             expect(rendered_component).to have_css(".sr-only", text: "#{work_package.story_points} story points")

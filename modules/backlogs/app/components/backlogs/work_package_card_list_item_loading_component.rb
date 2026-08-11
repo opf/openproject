@@ -40,7 +40,7 @@ module Backlogs
   # Row behaviour (dragging, selection, urls) is inherited from
   # WorkPackageCardListItemComponent; only the rendered content differs.
   class WorkPackageCardListItemLoadingComponent < WorkPackageCardListItemComponent
-    # Magic number for the skelton's height. It is based on work packages not having a parent.
+    # Magic number for the skeleton's height. It is based on work packages not having a parent.
     # There is no way to get this completely right without loading the content as other factors like
     # the subject length and the screen width would also need to be factored in.
     SKELETON_HEIGHT = "50px"

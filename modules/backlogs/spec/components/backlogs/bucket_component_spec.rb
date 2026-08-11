@@ -137,7 +137,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component, with_flag: { backlog
             ".Box-row#work_package_#{work_package.id} .sr-only", text: "3 story points"
           )
 
-          expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
+          expect(rendered_component).to have_no_css("turbo-frame#card_work_package_#{work_package.id}")
         end
       end
 
