@@ -124,10 +124,10 @@ RSpec.describe "API v3 Work package form resource" do
               .at_path("_embedded/schema/subject/writable")
           end
 
-          it "denotes version to be writable" do
+          it "denotes target versions to be writable" do
             expect(subject)
               .to be_json_eql(true)
-              .at_path("_embedded/schema/version/writable")
+              .at_path("_embedded/schema/targetVersions/writable")
           end
 
           it "denotes string custom_field to be writable" do
@@ -549,7 +549,7 @@ RSpec.describe "API v3 Work package form resource" do
               it_behaves_like "handling people", "responsible"
             end
 
-            describe "version" do
+            describe "version", with_settings: { work_package_multiple_versions: false } do
               let(:path) { "_embedded/payload/_links/version/href" }
               let(:target_version) { create(:version, project:, start_date: Time.zone.today - 2.days) }
               let(:other_version) { create(:version, project:, start_date: Time.zone.today - 1.day) }
@@ -931,7 +931,7 @@ RSpec.describe "API v3 Work package form resource" do
 
         it { is_expected.to have_json_path("_embedded/payload/lockVersion") }
 
-        it { is_expected.to have_json_path("_embedded/payload/_links/version") }
+        it { is_expected.to have_json_path("_embedded/payload/_links/targetVersions") }
 
         it { is_expected.not_to have_json_path("_embedded/payload/subject") }
       end
@@ -944,10 +944,10 @@ RSpec.describe "API v3 Work package form resource" do
           .at_path("_embedded/schema/subject/writable")
       end
 
-      it "denotes version to be writable" do
+      it "denotes target versions to be writable" do
         expect(subject)
           .to be_json_eql(true)
-          .at_path("_embedded/schema/version/writable")
+          .at_path("_embedded/schema/targetVersions/writable")
       end
 
       it "denotes custom_field to not be writable" do

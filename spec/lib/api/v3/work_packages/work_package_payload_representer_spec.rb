@@ -316,7 +316,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
       end
 
-      describe "version" do
+      describe "version", with_settings: { work_package_multiple_versions: false } do
         let(:version) { build_stubbed(:version) }
 
         before do

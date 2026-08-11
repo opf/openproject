@@ -1272,7 +1272,8 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         end
       end
 
-      context "when the multiple-versions feature is disabled" do
+      context "when the multiple-versions feature is disabled",
+              with_settings: { work_package_multiple_versions: false } do
         context "with a single named version" do
           subject { submit_email("wp_with_target_version.eml", issue: { project: "onlinestore" }) }
 

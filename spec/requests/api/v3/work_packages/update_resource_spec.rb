@@ -613,7 +613,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      describe "version" do
+      describe "version", with_settings: { work_package_multiple_versions: false } do
         let(:target_version) { create(:version, project:) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
@@ -690,7 +690,8 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
-        context "with more than one version" do
+        context "with more than one version while multiple versions is disabled",
+                with_settings: { work_package_multiple_versions: false } do
           let(:other_version) { create(:version, project:) }
           let(:target_versions_links) do
             [{ href: api_v3_paths.version(target_version.id) },
@@ -707,6 +708,32 @@ RSpec.describe "API v3 Work package resource",
 
           it "does not assign any target version" do
             expect(work_package.reload.target_versions).to be_empty
+          end
+        end
+
+        context "with more than one version while multiple versions is enabled",
+                with_settings: { work_package_multiple_versions: true } do
+          let(:other_version) { create(:version, project:) }
+          let(:target_versions_links) do
+            [{ href: api_v3_paths.version(target_version.id) },
+             { href: api_v3_paths.version(other_version.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns all target versions" do
+            expect(work_package.reload.target_versions)
+              .to contain_exactly(target_version, other_version)
+          end
+
+          it "responds with a link per target version" do
+            hrefs = parse_json(response.body, "_links/targetVersions").pluck("href")
+
+            expect(hrefs)
+              .to contain_exactly(api_v3_paths.version(target_version.id),
+                                  api_v3_paths.version(other_version.id))
           end
         end
 

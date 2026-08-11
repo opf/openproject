@@ -1362,7 +1362,7 @@ module Settings
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",
         format: :boolean,
-        default: false
+        default: true
       },
       work_packages_activities_tab_polling_interval_in_ms: {
         description: "Interval in milliseconds at which the work package activities tab polls for updates.",

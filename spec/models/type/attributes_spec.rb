@@ -36,7 +36,8 @@ RSpec.describe Type::Attributes do
   describe ".all_work_package_form_attributes" do
     subject(:attributes) { Type.all_work_package_form_attributes }
 
-    context "when the multiple versions feature is inactive" do
+    context "when the multiple versions feature is inactive",
+            with_settings: { work_package_multiple_versions: false } do
       it "offers the deprecated version and hides target_versions" do
         expect(attributes).to have_key("version")
         expect(attributes).not_to have_key("target_versions")
@@ -53,7 +54,8 @@ RSpec.describe Type::Attributes do
   end
 
   describe ".translated_work_package_form_attributes" do
-    context "when the multiple versions feature is inactive" do
+    context "when the multiple versions feature is inactive",
+            with_settings: { work_package_multiple_versions: false } do
       it "labels the deprecated version field" do
         expect(Type.translated_work_package_form_attributes["version"])
           .to eq(I18n.t("activerecord.attributes.work_package.version"))

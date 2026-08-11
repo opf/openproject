@@ -1326,7 +1326,8 @@ RSpec.describe WorkPackages::BaseContract do
         work_package.target_version_ids_replacements = [assignable_version.id, other_assignable_version.id]
       end
 
-      context "when the multiple-versions feature is disabled" do
+      context "when the multiple-versions feature is disabled",
+              with_settings: { work_package_multiple_versions: false } do
         before { contract.validate }
 
         it "rejects more than one target version" do

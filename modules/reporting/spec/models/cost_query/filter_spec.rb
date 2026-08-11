@@ -291,14 +291,14 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(query.result.count).to eq(3)
       end
 
-      it "labels the filter 'Version' while multiple versions is off" do
+      it "labels the filter 'Version' while multiple versions is off", with_settings: { work_package_multiple_versions: false } do
         expect(CostQuery::Filter::VersionId.label).to eq("Version")
       end
 
       # While the feature is off a work package is single-version, so the filter
       # only sees its primary target version (the lowest version id, i.e. what
       # target_versions.first returns).
-      it "matches a work package through its primary target version" do
+      it "matches a work package through its primary target version", with_settings: { work_package_multiple_versions: false } do
         primary_version = create(:version, project:)
         secondary_version = create(:version, project:)
         work_package = create_work_package_with_time_entry(version: primary_version)
@@ -308,7 +308,8 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(query.result.count).to eq(1)
       end
 
-      it "ignores a non-primary target version while multiple versions is off" do
+      it "ignores a non-primary target version while multiple versions is off",
+         with_settings: { work_package_multiple_versions: false } do
         primary_version = create(:version, project:)
         secondary_version = create(:version, project:)
         work_package = create_work_package_with_time_entry(version: primary_version)
@@ -321,7 +322,8 @@ RSpec.describe CostQuery, :reporting_query_helper do
       # Off-mode negation runs on the primary-only (one-to-one) join, so the
       # default "is not" operator is already correct without the multi-version
       # NOT EXISTS override.
-      it "negates on the primary target version while multiple versions is off" do
+      it "negates on the primary target version while multiple versions is off",
+         with_settings: { work_package_multiple_versions: false } do
         primary_version = create(:version, project:)
         secondary_version = create(:version, project:)
         work_package = create_work_package_with_time_entry(version: primary_version)
@@ -332,7 +334,8 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(query.result.count).to eq(0)
       end
 
-      it "keeps a work package when negating a non-primary target version while off" do
+      it "keeps a work package when negating a non-primary target version while off",
+         with_settings: { work_package_multiple_versions: false } do
         primary_version = create(:version, project:)
         secondary_version = create(:version, project:)
         work_package = create_work_package_with_time_entry(version: primary_version)
