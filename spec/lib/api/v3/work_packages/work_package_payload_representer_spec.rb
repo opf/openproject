@@ -320,7 +320,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:version) { build_stubbed(:version) }
 
         before do
-          work_package.version = version
+          work_package.version_id = version.id
         end
 
         it_behaves_like "linked property" do
