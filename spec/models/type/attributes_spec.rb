@@ -44,7 +44,6 @@ RSpec.describe Type::Attributes do
     end
 
     context "when the multiple versions feature is active",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       it "offers target_versions and hides the deprecated version" do
         expect(attributes).to have_key("target_versions")
@@ -62,7 +61,6 @@ RSpec.describe Type::Attributes do
     end
 
     context "when the multiple versions feature is active",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       it "labels the target versions field" do
         expect(Type.translated_work_package_form_attributes["target_versions"])

@@ -37,7 +37,6 @@ RSpec.describe Reports::VersionReport do
 
   describe "#title" do
     context "with the multiple versions feature enabled",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       it "labels the report with the singular target version attribute" do
         expect(report.title).to eq(WorkPackage.human_attribute_name(:target_version))
@@ -45,7 +44,7 @@ RSpec.describe Reports::VersionReport do
     end
 
     context "with the multiple versions feature disabled",
-            with_flag: { work_package_multiple_versions: false } do
+            with_settings: { work_package_multiple_versions: false } do
       it "labels the report as the deprecated single version attribute" do
         expect(report.title).to eq(WorkPackage.human_attribute_name(:version))
       end

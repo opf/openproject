@@ -111,9 +111,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
       end
     end
 
-    context "when multiple versions is active",
-            with_flag: { work_package_multiple_versions: true },
-            with_settings: { work_package_multiple_versions: true } do
+    context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
       it "does not write, as the deprecated property no longer exists" do
         expect(subject.target_version_ids).to be_nil
       end

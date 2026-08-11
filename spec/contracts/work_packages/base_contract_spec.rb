@@ -1335,7 +1335,6 @@ RSpec.describe WorkPackages::BaseContract do
       end
 
       context "when the multiple-versions feature is enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         before { contract.validate }
 
