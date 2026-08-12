@@ -102,12 +102,13 @@ module CustomStyles
         build_attachable_file(key.to_s, data) do |file|
           style.public_send("#{key}=", file)
           style.save!
+
+          # CarrierWave only uploads in after_commit. Inside RootSeeder's transaction,
+          # Rails runs those callbacks on only one AR instance of this row, so force
+          # the upload now
+          style.public_send(:"store_#{key}!")
         end
 
-        # CarrierWave defers the real fog/disk write to after_commit. Force it
-        # while the cached file is still on this instance so an enclosing
-        # transaction (or another save of the same row) cannot drop the upload.
-        style.public_send(:"store_#{key}!")
         style
       end
     end
