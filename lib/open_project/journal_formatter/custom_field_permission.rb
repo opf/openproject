@@ -28,32 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::CustomComment < OpenProject::JournalFormatter::Diff
-  include OpenProject::JournalFormatter::CustomFieldPermission
-
+# Shared by formatters whose rendered field resolves to a CustomField
+# (OpenProject::JournalFormatter::CustomComment and the
+# OpenProject::JournalFormatter::CustomField::* formatters). Requires the
+# including class to implement +custom_field_for_key(key)+.
+module OpenProject::JournalFormatter::CustomFieldPermission
   private
 
-  def custom_field_for_key(key)
-    id = key.to_s.delete_prefix("custom_comment_").to_i
+  # A Proc :view_permission is instance_exec'd with the CustomField being
+  # rendered (or nil, if it has since been deleted) as its sole argument,
+  # rather than with no arguments as JournalFormatter::Base does.
+  def permission_granted?(options)
+    permission = options[:view_permission]
+    return super unless permission.is_a?(Proc)
 
-    ::CustomField.find_by(id:)
-  end
-
-  def label(key, html: true)
-    custom_field = custom_field_for_key(key)
-
-    name = if custom_field
-             custom_field.name
-           else
-             I18n.t(:label_deleted_custom_field)
-           end
-
-    label = I18n.t(:label_custom_comment, name:)
-
-    if html
-      content_tag("strong", label)
-    else
-      label
-    end
+    instance_exec(custom_field_for_key(options[:key]), &permission)
   end
 end
