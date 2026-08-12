@@ -38,8 +38,12 @@ class AddBacklogBucketIdToWorkPackageJournals < ActiveRecord::Migration[8.1]
     # package that currently has a bucket with that same, current bucket.
     # This makes it look as if the bucket had been set since the work
     # package's creation, but means no spurious "bucket set" change will show
-    # up until the bucket is actually changed going forward. On rollback the
-    # column goes away, so nothing to undo here.
+    # up until the bucket is actually changed going forward. A work
+    # package's sprint and bucket are mutually exclusive, so journals
+    # recorded while the work package still had a sprint are skipped: their
+    # sprint_id being set proves they predate the bucket, and backfilling
+    # them would misrepresent that history. On rollback the column goes
+    # away, so nothing to undo here.
     reversible do |dir|
       dir.up do
         say_with_time "Backfilling work_package_journals.backlog_bucket_id from the work package's current bucket" do
@@ -53,6 +57,7 @@ class AddBacklogBucketIdToWorkPackageJournals < ActiveRecord::Migration[8.1]
             WHERE journals.data_id = work_package_journals.id
               AND journals.data_type = 'Journal::WorkPackageJournal'
               AND work_packages.backlog_bucket_id IS NOT NULL
+              AND work_package_journals.sprint_id IS NULL
           SQL
         end
       end
