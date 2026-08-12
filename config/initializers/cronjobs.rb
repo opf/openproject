@@ -68,6 +68,14 @@ Rails.application.config.after_initialize do
         cron: "30 23 * * *",
         class: Ldap::SynchronizationJob.name
       },
+      "Llm::HealthCheckJob": {
+        cron: "7 */6 * * *", # every six hours at xx:07
+        class: Llm::HealthCheckJob.name
+      },
+      "Llm::PruneHealthReportsJob": {
+        cron: "25 3 * * *", # runs at 3:25 nightly
+        class: Llm::PruneHealthReportsJob.name
+      },
       "RecurringMeetings::InitNextOccurrenceWatchdogJob": {
         cron: "11 05 * * *",
         class: RecurringMeetings::InitNextOccurrenceWatchdogJob.name

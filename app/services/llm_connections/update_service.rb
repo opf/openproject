@@ -46,8 +46,13 @@ module LlmConnections
     # the save. A sync failure is therefore logged, not surfaced.
     def after_perform(service_call)
       super.tap do
-        next unless @sync_models && service_call.success?
+        next unless service_call.success?
 
+        # Enabling or disabling the connection decides whether the scheduled
+        # health check has anything to do.
+        Llm::HealthCheckJob.toggle_cron_job
+
+        next unless @sync_models
         next unless credentials_changed?(service_call.result)
 
         SyncModelsService.new(service_call.result).call
