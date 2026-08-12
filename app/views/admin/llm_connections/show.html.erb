@@ -132,6 +132,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
   %>
 
-  <%= render(LlmConnections::ModelsTableComponent.new(rows: @connection.models.by_identifier)) %>
+  <%= render(LlmConnections::Models::SubHeaderComponent.new(@query)) %>
+  <%= render(LlmConnections::Models::IndexComponent.new(@models, connection: @connection)) %>
 
 <% end %>

@@ -33,8 +33,10 @@ module LlmConnections
   class FeatureBindingForm < ApplicationForm
     # Primer::Forms::Base.new assigns the builder itself and calls this with the
     # remaining keywords, so the builder must not appear in the signature.
-    def initialize(options:, inherit_label:, feature_key:, locked: false, embedding: false, dimensions_hint: nil)
+    def initialize(options:, inherit_label:, feature_key:, locked: false, embedding: false, dimensions_hint: nil,
+                   selected_model_id: nil)
       super()
+      @selected_model_id = selected_model_id
       @model_options = options
       @inherit_label = inherit_label
       @feature_key = feature_key
@@ -44,20 +46,29 @@ module LlmConnections
     end
 
     form do |f|
-      f.select_list(
+      # An autocompleter rather than a select, so a model can be found by typing
+      # among the hundreds a gateway reports. decorated: true serialises the list
+      # into the element, so no endpoint is needed.
+      f.autocompleter(
         name: :model_id,
         label: LlmFeatureBinding.human_attribute_name(:model_id),
-        include_blank: false,
-        input_width: :large,
         disabled: locked,
+        autocomplete_options: {
+          decorated: true,
+          inputValue: selected_model_id,
+          placeholder: inherit_label
+        },
         data: { test_selector: "llm-feature-binding--model-#{feature_key}" }
-      ) do |select|
-        select.option(value: "", label: inherit_label)
+      ) do |list|
+        list.option(label: inherit_label, value: "", selected: selected_model_id.blank?)
 
         model_options.each do |option|
           # Listed but not choosable when a required capability is known to be
           # missing: hiding it would leave the reason invisible too.
-          select.option(value: option.model_id, label: option_label(option), disabled: !option.selectable?)
+          list.option(label: option_label(option),
+                      value: option.model_id,
+                      selected: selected_model_id == option.model_id,
+                      disabled: !option.selectable?)
         end
       end
 
@@ -104,7 +115,8 @@ module LlmConnections
 
     private
 
-    attr_reader :model_options, :inherit_label, :feature_key, :locked, :embedding, :dimensions_hint
+    attr_reader :model_options, :inherit_label, :feature_key, :locked, :embedding, :dimensions_hint,
+                :selected_model_id
 
     # Blank is the right default: the server decides the vector size, and baking
     # in a number it may contradict helps nobody. Where the probe has already

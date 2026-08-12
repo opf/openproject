@@ -31,6 +31,7 @@
 module Admin
   class LlmConnectionsController < ApplicationController
     include OpTurbo::ComponentStream
+    include PaginationHelper
 
     layout "admin"
     menu_item :llm_connection
@@ -38,7 +39,24 @@ module Admin
     before_action :require_admin
     before_action :set_connection
 
-    def show; end
+    def show
+      @query = ParamsToQueryService
+                 .new(LlmModel, current_user, query_class: Queries::LlmModels::LlmModelQuery)
+                 .call(params)
+      @models = @query.results.paginate(page: page_param, per_page: per_page_param)
+    end
+
+    # Answers the sub-header's filter input, replacing just the table.
+    def search_models
+      show
+
+      replace_via_turbo_stream(
+        component: LlmConnections::Models::IndexComponent.new(@models, connection: @connection)
+      )
+      turbo_streams << turbo_stream.push_state(llm_connection_path(params.permit(:filters)))
+
+      respond_with_turbo_streams
+    end
 
     def update
       result = ::LlmConnections::UpdateService

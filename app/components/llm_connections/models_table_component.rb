@@ -38,6 +38,16 @@ module LlmConnections
 
     mobile_columns :identifier
 
+    # The connection is passed in rather than derived from the first row: with a
+    # paginated, filtered list a page can legitimately be empty, and deriving it
+    # would silently degrade the kind column to "Unknown".
+    def initialize(connection:, **)
+      super(**)
+      @connection = connection
+    end
+
+    attr_reader :connection
+
     def initial_sort = %i[identifier asc]
 
     def has_footer? = false
@@ -67,9 +77,6 @@ module LlmConnections
     end
 
     def load_embeddings_states
-      connection = rows.first&.llm_connection
-      return {} if connection.nil?
-
       connection.capability_verdicts.for_capability(:embeddings).pluck(:model_id, :state).to_h
     end
 

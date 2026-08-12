@@ -269,4 +269,96 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection.reload.api_key).to eq("sk-test")
     end
   end
+
+  describe "the default embedding model field" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url: "https://example.com/v1") }
+
+    before { login_as admin }
+
+    # Column, contract attribute, validation, error key, locale key and permitted
+    # param all existed; the input was never rendered, so the value could not be
+    # set through the UI at all.
+    it "is rendered once something embeds" do
+      get llm_connection_path
+
+      expect(response.body).to include("llm_connection[default_embedding_model_id]")
+    end
+
+    it "is saved" do
+      patch llm_connection_path,
+            params: { llm_connection: { base_url: "https://example.com/v1",
+                                        default_embedding_model_id: "bge-m3" } }
+
+      expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
+    end
+  end
+
+  describe "paginating the model list" do
+    let!(:connection) { create(:llm_connection, :enabled, base_url: "https://example.com/v1") }
+
+    before do
+      login_as admin
+      # A gateway can report hundreds; OpenRouter returns 341.
+      25.times { |n| create(:llm_model, llm_connection: connection, external_id: format("model-%03d", n)) }
+    end
+
+    # Counted by row, not by model id: the default-model select still lists
+    # every model, so the ids appear in the body regardless of the table.
+    def rendered_rows(body) = body.scan("llm-model--toggle-").size
+
+    it "shows one page of rows at a time rather than every model" do
+      get llm_connection_path, params: { per_page: 20 }
+
+      expect(rendered_rows(response.body)).to eq(20)
+      expect(response.body).to include("op-pagination")
+    end
+
+    it "serves the remainder on the next page" do
+      get llm_connection_path, params: { per_page: 20, page: 2 }
+
+      expect(rendered_rows(response.body)).to eq(5)
+    end
+  end
+
+  describe "filtering the model list" do
+    let!(:connection) { create(:llm_connection, :enabled, base_url: "https://example.com/v1") }
+    let(:filters) { [{ name: { operator: "~", values: ["bge"] } }].to_json }
+
+    before do
+      login_as admin
+      create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b")
+      create(:llm_model, llm_connection: connection, external_id: "bge-m3")
+      create(:llm_model, llm_connection: connection, external_id: "e5-large", display_name: "BGE compatible")
+    end
+
+    def rendered_rows(body) = body.scan("llm-model--toggle-").size
+
+    it "narrows the table to matching models" do
+      get search_models_llm_connection_path, params: { filters: }
+
+      expect(response).to have_http_status(:ok)
+      # The identifier and the friendly name both match, since either is what
+      # somebody would type.
+      expect(rendered_rows(response.body)).to eq(2)
+      expect(response.body).to include("bge-m3")
+    end
+
+    it "answers with a turbo stream so only the table is replaced" do
+      get search_models_llm_connection_path, params: { filters: }
+
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+    end
+
+    it "applies the filter to the full page too, so a shared link works" do
+      get llm_connection_path, params: { filters: }
+
+      expect(rendered_rows(response.body)).to eq(2)
+    end
+
+    it "shows everything without a filter" do
+      get llm_connection_path
+
+      expect(rendered_rows(response.body)).to eq(3)
+    end
+  end
 end
