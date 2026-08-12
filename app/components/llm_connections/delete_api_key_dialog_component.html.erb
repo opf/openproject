@@ -3,6 +3,8 @@
     Primer::OpenProject::DangerDialog.new(
       title: t("admin.llm_connections.delete_api_key.title"),
       form_arguments:,
+      # Defaults to "Delete", which is wrong here: neither action deletes anything.
+      confirm_button_text: t("admin.llm_connections.delete_api_key.title"),
       test_selector: TEST_SELECTOR
     )
   ) do |dialog|
