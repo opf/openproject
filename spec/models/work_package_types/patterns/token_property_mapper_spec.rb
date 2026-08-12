@@ -210,7 +210,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       end
 
       context "when work package multiple versions is active",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         it "renders an array of values" do
           enabled, = subject

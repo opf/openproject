@@ -986,7 +986,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "versions" do
+    describe "versions", with_settings: { work_package_multiple_versions: false } do
       context "if having the assign_versions permission" do
         let(:permissions) { [:assign_versions] }
 
@@ -1028,9 +1028,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           .at_path("version/description/raw")
       end
 
-      context "when multiple versions is active",
-              with_flag: { work_package_multiple_versions: true },
-              with_settings: { work_package_multiple_versions: true } do
+      context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
         let(:permissions) { [:assign_versions] }
 
         it "drops the deprecated version field from the schema" do
@@ -1039,7 +1037,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "targetVersions" do
+    describe "targetVersions", with_settings: { work_package_multiple_versions: false } do
       context "when has permission to assign versions" do
         let(:permissions) { [:assign_versions] }
 
@@ -1071,7 +1069,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context "when multiple versions is active",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         let(:permissions) { [:assign_versions] }
 

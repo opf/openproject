@@ -57,7 +57,6 @@ RSpec.describe "Work package table target versions column", :js do
   end
 
   context "with multiple versions active",
-          with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true } do
     let!(:work_package) { work_package_with_target_versions(version_one, version_two) }
 
@@ -124,7 +123,8 @@ RSpec.describe "Work package table target versions column", :js do
     end
   end
 
-  context "with multiple versions inactive" do
+  context "with multiple versions inactive",
+          with_settings: { work_package_multiple_versions: false } do
     let!(:work_package) { work_package_with_target_versions(version_one) }
 
     let!(:query) do

@@ -2182,7 +2182,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let!(:version2) { create(:version, project:) }
     let!(:version3) { create(:version, project:) }
 
-    context "with multiple target_versions" do
+    context "with multiple target_versions", with_settings: { work_package_multiple_versions: false } do
       subject(:service) { instance.call(target_version_ids: [version1.id, version2.id, version3.id], send_notifications: false) }
 
       it { expect(service).to be_failure }

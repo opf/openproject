@@ -158,7 +158,8 @@ RSpec.describe Type do
   end
 
   describe "target versions in the form configuration" do
-    context "when the multiple versions feature is inactive" do
+    context "when the multiple versions feature is inactive",
+            with_settings: { work_package_multiple_versions: false } do
       it "offers the deprecated version in the default configuration" do
         members = type.default_attribute_groups.to_h
 
@@ -178,7 +179,6 @@ RSpec.describe Type do
     end
 
     context "when the multiple versions feature is active",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       it "offers target_versions in the default configuration" do
         members = type.default_attribute_groups.to_h

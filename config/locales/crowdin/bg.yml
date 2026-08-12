@@ -942,7 +942,6 @@ bg:
           is_not_a_valid_target_for_time_entries: 'Работен пакет #%{id} не е валидна цел за преразпределяне на времевите записи.'
           readonly_status: Работният пакет е в състояние само за четене, така че атрибутите му не могат да бъдат променяни.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Моля проверете следните полета:'
         header:

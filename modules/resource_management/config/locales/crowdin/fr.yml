@@ -79,7 +79,7 @@ fr:
 
             '
           label: Critères de filtrage
-        label: Type d'attribution
+        label: Type d'allocation
         principal:
           caption: Attribuer des heures à un utilisateur spécifique.
           label: Utilisateur
@@ -157,10 +157,10 @@ fr:
         work_package: Lot de travaux
       context_menu_label: Actions d'affectation
       delete_confirmation: Voulez-vous vraiment supprimer cette affectation ?
-      menu_item: Effectifs
-      starts_in_past: Cette affectation a déjà commencé et n'est toujours attribuée à aucun utilisateur.
+      menu_item: Affectations
+      starts_in_past: Cette affectation a déjà commencé et n'est toujours pas attribuée à un utilisateur.
       success_message: Utilisateur affecté.
-      title: Effectifs
+      title: Affectations
     sub_views: Vues de ce planificateur de ressources
     timeframe:
       full: De %{start} à %{end}

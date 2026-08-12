@@ -1258,7 +1258,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       let!(:beta) { create(:version, name: "beta", project:) }
 
       context "when the multiple-versions feature is enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: "onlinestore" }) }
 
@@ -1273,7 +1272,8 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         end
       end
 
-      context "when the multiple-versions feature is disabled" do
+      context "when the multiple-versions feature is disabled",
+              with_settings: { work_package_multiple_versions: false } do
         context "with a single named version" do
           subject { submit_email("wp_with_target_version.eml", issue: { project: "onlinestore" }) }
 
@@ -1296,7 +1296,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       end
 
       context "when both version and target versions keywords are present",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         subject { submit_email("wp_with_version_and_target_versions.eml", issue: { project: "onlinestore" }) }
 

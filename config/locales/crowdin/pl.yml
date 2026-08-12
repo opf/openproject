@@ -946,7 +946,6 @@ pl:
           is_not_a_valid_target_for_time_entries: 'Zadanie #%{id} jest niepoprawnym celem do ponownego rozpisania czasu.'
           readonly_status: Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić.
           target_versions_only_allow_single_value: Wersje docelowe mogą mieć tylko jedną wartość.
-          version_and_target_versions_mutually_exclusive: Nie można jednocześnie zmienić zarówno wersji, jak i wersji docelowej.
       template:
         body: 'Sprawdź następujące pola:'
         header:

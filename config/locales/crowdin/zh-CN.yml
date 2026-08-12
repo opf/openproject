@@ -940,7 +940,6 @@ zh-CN:
           is_not_a_valid_target_for_time_entries: '工作包 #%{id} 不是重新分配时间条目的有效目标。'
           readonly_status: 工作包处于只读状态，因此无法更改其属性。
           target_versions_only_allow_single_value: 目标版本只能保存一个值。
-          version_and_target_versions_mutually_exclusive: 版本和目标版本不能同时更改。
       template:
         body: 请检查以下字段：
         header:
