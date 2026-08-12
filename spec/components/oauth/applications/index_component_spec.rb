@@ -28,27 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module Departments
-    class BlankslateComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
+require "rails_helper"
 
-      def call
-        render(Primer::Beta::Blankslate.new(border: false)) do |component|
-          component.with_visual_icon(icon: :people, size: :medium)
-          component.with_heading(tag: :h2) { t("departments.blankslate.heading") }
-          component.with_description { t("departments.blankslate.description") }
-          component.with_primary_action(
-            href: new_department_admin_departments_path,
-            scheme: :primary,
-            data: { turbo_frame: Admin::Departments::DetailComponent.wrapper_key }
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus)
-            t("departments.blankslate.add_button")
-          end
+RSpec.describe OAuth::Applications::IndexComponent, type: :component do
+  subject(:rendered_component) { render_inline(described_class.new(oauth_applications:)) }
+
+  context "with applications" do
+    let(:oauth_applications) { [create(:oauth_application, name: "My external app")] }
+
+    it "renders the other-applications list with a header and a row per application", :aggregate_failures do
+      expect(rendered_component).to have_css("#op-admin-oauth--other-applications.Box") do |box|
+        expect(box).to have_css(".Box-header") do |header|
+          expect(header).to have_heading(I18n.t("oauth.header.other_applications"))
         end
+        expect(box).to have_css(".Box-row", text: "My external app")
       end
+    end
+
+    it "renders no empty-state row once rows exist" do
+      expect(rendered_component).to have_no_css("#op-admin-oauth--other-applications .Box-row[data-empty-list-item]")
+    end
+  end
+
+  context "without applications" do
+    let(:oauth_applications) { [] }
+
+    it_behaves_like "rendering Blank Slate", heading: I18n.t("oauth.empty_application_lists")
+
+    it "renders the empty state inside the other-applications list" do
+      expect(rendered_component).to have_css("#op-admin-oauth--other-applications .blankslate")
     end
   end
 end

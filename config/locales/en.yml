@@ -6217,6 +6217,7 @@ en:
           actions:
             label_disable_all: "Disable all"
             label_enable_all: "Enable all"
+            label_toggle_template: "Toggle %{template}"
           label: "PDF Export templates"
         tab: "Generate PDF"
         templates:

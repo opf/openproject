@@ -215,6 +215,59 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_no_text("String title")
     end
 
+    it "renders header breadcrumbs in the title position with a visually hidden title" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-breadcrumbs")
+      ) do |list|
+        list.with_header(title: "Design & Content") do |header|
+          header.with_breadcrumbs do |crumbs|
+            crumbs.with_item(href: "/departments") { "My Organization" }
+            crumbs.with_item(href: "/departments/42") { "Design & Content" }
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(
+        ".op-border-box-list-header--heading-line nav[aria-label='Breadcrumb'] li.breadcrumb-item",
+        count: 2
+      )
+      expect(rendered).to have_css("h4.Box-title.sr-only", text: "Design & Content", visible: :all)
+      expect(rendered).to have_no_css(".op-border-box-list-header--heading-line .Truncate")
+    end
+
+    it "keeps the list labelled by a header that contains the title text" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-breadcrumbs-label")
+      ) do |list|
+        list.with_header(title: "Design & Content") do |header|
+          header.with_breadcrumbs do |crumbs|
+            crumbs.with_item(href: "/departments") { "My Organization" }
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      labelledby = rendered.css("ul").first["aria-labelledby"]
+      expect(labelledby).to be_present
+      expect(rendered.css("##{labelledby}").text).to include("Design & Content")
+    end
+
+    it "raises when breadcrumbs are combined with a collapsible header" do
+      expect do
+        render_inline(
+          described_class.new(container: "hdr-breadcrumbs-collapsible", collapsible: true)
+        ) do |list|
+          list.with_header(title: "Title") do |header|
+            header.with_breadcrumbs do |crumbs|
+              crumbs.with_item(href: "/somewhere") { "Somewhere" }
+            end
+          end
+          list.with_item { "row" }
+        end
+      end.to raise_error(ArgumentError, /collapsible/)
+    end
+
     it "raises when the header has neither a title nor title slot" do
       expect do
         render_inline(

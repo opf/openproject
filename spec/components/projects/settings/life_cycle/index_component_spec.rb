@@ -28,35 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module Departments
-    class DetailBlankslateComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+require "rails_helper"
 
-      def initialize(group: nil)
-        super()
-        @group = group
-      end
+RSpec.describe Projects::Settings::LifeCycle::IndexComponent, type: :component do
+  let(:project) { create(:project) }
 
-      def call
-        render(Primer::Beta::Blankslate.new(border: false)) do |component|
-          if managed?
-            component.with_visual_icon(icon: :lock, size: :medium)
-            component.with_heading(tag: :h2) { t("departments.detail_blankslate.managed_heading") }
-            component.with_description { t("departments.detail_blankslate.managed_description") }
-          else
-            component.with_visual_icon(icon: :people, size: :medium)
-            component.with_heading(tag: :h2) { t("departments.detail_blankslate.heading") }
-            component.with_description { t("departments.detail_blankslate.description") }
-          end
-        end
-      end
-
-      private
-
-      def managed?
-        @group&.ldap_managed?
-      end
+  subject(:rendered_component) do
+    with_request_url("/projects/#{project.id}/settings/life_cycle") do
+      render_inline(
+        described_class.new(project:, life_cycle_definitions: Project::PhaseDefinition.order(position: :asc))
+      )
     end
+  end
+
+  context "with definitions" do
+    let!(:definition) { create(:project_phase_definition) }
+
+    it_behaves_like "rendering Box", row_count: 1
+
+    it "renders a row per definition" do
+      expect(rendered_component).to have_css(".Box-row", text: definition.name)
+    end
+
+    it "renders the enable-all and disable-all header actions", :aggregate_failures do
+      expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_enable_all"))
+      expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_disable_all"))
+    end
+  end
+
+  context "without definitions" do
+    it_behaves_like "rendering an empty Border Box List",
+                    heading: I18n.t("projects.settings.life_cycle.non_defined")
   end
 end

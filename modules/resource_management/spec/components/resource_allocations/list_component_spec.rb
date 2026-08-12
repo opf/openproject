@@ -28,38 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectPhaseDefinitions
-    class IndexComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-      include Projects::PhaseDefinitionHelper
+require "rails_helper"
 
-      options :definitions
+RSpec.describe ResourceAllocations::ListComponent, type: :component do
+  shared_let(:work_package) { create(:work_package) }
+  shared_let(:member) { create(:user, firstname: "Sarah", lastname: "Smith") }
 
-      private
+  before { login_as(create(:admin)) }
 
-      def wrapper_data_attributes
-        {
-          controller: "projects--settings--border-box-filter generic-drag-and-drop"
-        }
-      end
+  subject(:rendered_component) do
+    render_inline(
+      described_class.new(
+        project: work_package.project,
+        work_package:,
+        allocations:,
+        visible_principal_ids: [member.id]
+      )
+    )
+  end
 
-      def drop_target_config
-        {
-          generic_drag_and_drop_target: "container",
-          target_container_accessor: ":scope > ul",
-          target_allowed_drag_type: "life-cycle-step-definition"
-        }
-      end
+  context "with allocations" do
+    let!(:allocation) { create(:resource_allocation, entity: work_package, principal: member) }
+    let(:allocations) { [allocation] }
 
-      def draggable_item_config(definition)
-        {
-          draggable_id: definition.id,
-          draggable_type: "life-cycle-step-definition",
-          drop_url: drop_admin_settings_project_phase_definition_path(definition)
-        }
-      end
+    it_behaves_like "rendering Box", row_count: 1, header: false
+
+    it "renders a row per allocation" do
+      expect(rendered_component).to have_css(".Box-row", text: "Sarah Smith")
+    end
+  end
+
+  context "without allocations" do
+    let(:allocations) { [] }
+
+    it "does not render the list box" do
+      expect(rendered_component).to have_no_css("#resource-allocations-#{work_package.id}")
     end
   end
 end

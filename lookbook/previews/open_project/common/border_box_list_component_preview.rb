@@ -173,6 +173,25 @@ module OpenProject
         end
       end
 
+      # @label Header breadcrumbs
+      # List with a hierarchy breadcrumb trail in the title position.
+      def header_breadcrumbs
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-header-breadcrumbs-preview"
+        ) do |list|
+          list.with_header(title: "Design & Content") do |header|
+            header.with_breadcrumbs do |crumbs|
+              crumbs.with_item(href: "#") { "My Organization" }
+              crumbs.with_item(href: "#") { "Marketing & Communications" }
+              crumbs.with_item(href: "#") { "Design & Content" }
+            end
+          end
+
+          list.with_item { "Dora Design" }
+          list.with_item { "Carl Content" }
+        end
+      end
+
       # @label Playground
       # @param title_tag [Symbol] select [h2, h3, h4, h5]
       # @param count [Symbol] select [inferred, hidden, explicit, zero]

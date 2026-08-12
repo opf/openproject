@@ -28,23 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class Participants::BoxHeaderComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpenProject::FormTagHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+require "rails_helper"
 
-    def initialize(meeting:)
-      super
+RSpec.describe Settings::ProjectPhaseDefinitions::IndexComponent, type: :component do
+  include Rails.application.routes.url_helpers
 
-      @meeting = meeting
-    end
+  subject(:rendered_component) { render_inline(described_class.new(definitions:)) }
 
-    private
+  # The row component reads the +project_count+ column added by the
+  # +with_project_count+ scope, so definitions are loaded through it.
+  let(:definitions) { Project::PhaseDefinition.with_project_count }
 
-    def show_mark_all_attended?
-      !@meeting.participants.all?(&:attended?) && @meeting.in_progress?
-    end
+  def drop_url_for(definition)
+    drop_admin_settings_project_phase_definition_path(definition)
+  end
+
+  context "with definitions" do
+    let!(:draggable_records) { create_list(:project_phase_definition, 2) }
+
+    it_behaves_like "rendering Box", row_count: 2
+    it_behaves_like "a reorderable Border Box List", drag_type: "life-cycle-step-definition"
+  end
+
+  context "without definitions" do
+    it_behaves_like "rendering an empty Border Box List",
+                    heading: I18n.t("settings.project_phase_definitions.non_defined")
   end
 end

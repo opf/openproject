@@ -28,38 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectPhaseDefinitions
-    class IndexComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-      include Projects::PhaseDefinitionHelper
+require "spec_helper"
+require_module_spec_helper
 
-      options :definitions
+RSpec.describe Projects::Settings::CostTypes::IndexComponent, type: :component do
+  shared_let(:admin) { create(:admin) }
+  let(:project) { create(:project) }
 
-      private
+  current_user { admin }
 
-      def wrapper_data_attributes
-        {
-          controller: "projects--settings--border-box-filter generic-drag-and-drop"
-        }
-      end
+  subject(:rendered_component) { render_inline(described_class.new(project:, cost_types:)) }
 
-      def drop_target_config
-        {
-          generic_drag_and_drop_target: "container",
-          target_container_accessor: ":scope > ul",
-          target_allowed_drag_type: "life-cycle-step-definition"
-        }
-      end
+  context "with cost types" do
+    let!(:cost_type) { create(:cost_type, name: "Consulting") }
+    let(:cost_types) { CostType.where(id: cost_type.id) }
 
-      def draggable_item_config(definition)
-        {
-          draggable_id: definition.id,
-          draggable_type: "life-cycle-step-definition",
-          drop_url: drop_admin_settings_project_phase_definition_path(definition)
-        }
+    it_behaves_like "rendering Box", row_count: 1
+
+    it "renders the cost types header" do
+      expect(rendered_component).to have_css(".Box-header") do |header|
+        expect(header).to have_heading(CostType.model_name.human(count: 2))
       end
     end
+
+    it "renders a row per cost type" do
+      expect(rendered_component).to have_css(".Box-row", text: "Consulting")
+    end
+  end
+
+  context "without cost types" do
+    let(:cost_types) { CostType.none }
+
+    it_behaves_like "rendering an empty Border Box List",
+                    heading: I18n.t("cost_types.settings.cost_types.heading")
   end
 end

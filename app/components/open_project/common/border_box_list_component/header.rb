@@ -69,6 +69,24 @@ module OpenProject
         renders_one :title
 
         # @!parse
+        #   # Renders a breadcrumb trail in the title position.
+        #   #
+        #   # The trail replaces the visible title: `title:` stays mandatory
+        #   # and renders as a visually hidden heading, so the list keeps its
+        #   # accessible name and heading navigation. Compose crumbs on the
+        #   # yielded `Primer::Beta::Breadcrumbs`; the last crumb is marked as
+        #   # the current page automatically. Not available on collapsible
+        #   # headers.
+        #   #
+        #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Breadcrumbs`.
+        #   # @return [ViewComponent::Slot]
+        #   def with_breadcrumbs(**system_arguments, &block)
+        #   end
+        renders_one :breadcrumbs, ->(**system_arguments) do
+          Primer::Beta::Breadcrumbs.new(**system_arguments)
+        end
+
+        # @!parse
         #   # Adds secondary content below the header title.
         #   #
         #   # The content is wrapped in `Primer::Beta::Text` with muted text
@@ -210,6 +228,7 @@ module OpenProject
 
         def before_render
           raise ArgumentError, "A header title is required: pass `title:` or use the `with_title` slot." unless title?
+          raise ArgumentError, "Breadcrumbs are not supported on collapsible headers." if breadcrumbs? && collapsible?
         end
 
         # Resolves inferred counts after the list slots have been captured.
@@ -246,6 +265,12 @@ module OpenProject
         # @return [String] classes forwarded to the non-collapsible title.
         def title_classes
           class_names("Box-title", title_arguments[:classes])
+        end
+
+        # @return [String] classes for the visually hidden title rendered
+        #   alongside header breadcrumbs.
+        def hidden_title_classes
+          class_names(title_classes, "sr-only")
         end
 
         # @return [String, nil] ids controlled by the collapsible header.
