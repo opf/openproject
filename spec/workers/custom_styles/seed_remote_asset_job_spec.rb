@@ -76,21 +76,29 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
       stub_request(:get, url).to_return(status: 404)
     end
 
-    it "swallows the error and reschedules itself instead" do
+    it "logs the failed attempt and reschedules itself" do
+      allow(Rails.logger).to receive(:error)
+
       expect { perform }.not_to raise_error
 
       expect(described_class).to have_been_enqueued.with(custom_style, :logo, url)
       expect(custom_style.reload.logo.file).to be_nil
-    end
-
-    it "logs the failed attempt" do
-      allow(Rails.logger).to receive(:error)
-
-      perform
-
       expect(Rails.logger)
         .to have_received(:error)
         .with(a_string_starting_with("Failed to seed design asset 'logo' from #{url} on attempt 1: HTTP Error: 404"))
+    end
+
+    it "discards and logs after retries are exhausted" do
+      allow(Rails.logger).to receive(:error)
+
+      job = described_class.new(custom_style, :logo, url)
+      allow(job).to receive_messages(executions: 5, executions_for: 5)
+
+      expect { job.perform_now }.not_to raise_error
+      expect(described_class).not_to have_been_enqueued
+      expect(Rails.logger)
+        .to have_received(:error)
+        .with(a_string_starting_with("Discarding design asset seed for 'logo' from #{url} after 5 attempt(s): HTTP Error: 404"))
     end
   end
 
@@ -121,7 +129,7 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
       expect(custom_style.reload.logo.file).to be_nil
     end
 
-    it "logs why it was blocked" do
+    it "logs why it was blocked and that the job is discarded" do
       allow(Rails.logger).to receive(:error)
 
       perform
@@ -130,6 +138,9 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
         .to have_received(:error)
         .with(a_string_including("resolves only to private IP addresses",
                                  "OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST"))
+      expect(Rails.logger)
+        .to have_received(:error)
+        .with(a_string_starting_with("Discarding design asset seed for 'logo' from #{url} after"))
     end
 
     context "when the IP address is on the SSRF allowlist", with_ssrf_ip_allowlist: %w[127.0.0.1] do

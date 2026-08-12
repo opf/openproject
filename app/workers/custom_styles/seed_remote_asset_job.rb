@@ -31,11 +31,33 @@
 module CustomStyles
   # Downloads a design asset seeded through OPENPROJECT_SEED_DESIGN_* as a remote URL.
   class SeedRemoteAssetJob < ApplicationJob
-    retry_on StandardError, wait: :polynomially_longer, attempts: 5
+    include GoodJob::ActiveJobExtensions::Concurrency
+
+    # Only one asset for a given CustomStyle may be stored at a time. During seed,
+    # GoodJob runs inline so jobs are mostly serial already, but retries and
+    # non-inline enqueues could create a race condition for the same record/fog uploads.
+    good_job_control_concurrency_with(
+      perform_limit: 1,
+      key: -> { "#{self.class.name}-#{arguments.first.id}" }
+    )
+
+    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
+             wait: 5.seconds,
+             attempts: :unlimited
+
+    # Retry transient HTTP failures a few times, after which we discard with a log entry.
+    retry_on StandardError, wait: :polynomially_longer, attempts: 5, report: true do |job, error|
+      job.log_discard(error)
+    end
 
     # Declared after retry_on StandardError so they take precedence
-    discard_on ActiveJob::DeserializationError
-    discard_on OpenProject::ServerSideRequestForgeryError
+    discard_on ActiveJob::DeserializationError do |job, error|
+      job.log_discard(error)
+    end
+
+    discard_on OpenProject::ServerSideRequestForgeryError do |job, error|
+      job.log_discard(error)
+    end
 
     queue_with_priority :low
 
@@ -43,10 +65,17 @@ module CustomStyles
       download(custom_style, key, url)
 
       Rails.logger.info "Seeded design asset '#{key}' from #{url}."
-    rescue StandardError => e
-      Rails.logger.error "Failed to seed design asset '#{key}' from #{url} " \
-                         "on attempt #{executions}: #{e.message}"
+    rescue OpenProject::ServerSideRequestForgeryError, ActiveJob::DeserializationError
       raise
+    rescue StandardError => e
+      log_attempt_failure(key, url, e)
+      raise
+    end
+
+    def log_discard(error)
+      _custom_style, key, url = arguments
+      Rails.logger.error "Discarding design asset seed for '#{key}' from #{url} " \
+                         "after #{executions} attempt(s): #{error.message}"
     end
 
     private
@@ -55,9 +84,17 @@ module CustomStyles
       response = OpenProject.httpx.get(url)
       response.raise_for_status
 
-      build_attachable_file(key.to_s, response.body.to_s) do |file|
-        custom_style.public_send("#{key}=", file)
-        custom_style.save!
+      CustomStyle.transaction do
+        style = CustomStyle.lock.find(custom_style.id)
+
+        build_attachable_file(key.to_s, response.body.to_s) do |file|
+          style.public_send("#{key}=", file)
+          style.save!
+        end
+
+        unless style.public_send(key).readable?
+          raise "Stored design asset '#{key}' is not readable in file storage"
+        end
       end
     end
 
@@ -77,6 +114,11 @@ module CustomStyles
 
         yield(file)
       end
+    end
+
+    def log_attempt_failure(key, url, error)
+      Rails.logger.error "Failed to seed design asset '#{key}' from #{url} " \
+                         "on attempt #{executions}: #{error.message}"
     end
   end
 end
