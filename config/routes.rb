@@ -702,7 +702,10 @@ Rails.application.routes.draw do
 
     # Manual entries only; discovered models are managed by the sync.
     resources :llm_models, only: %i[new create edit update destroy], controller: "admin/llm_models" do
-      member { get :delete_dialog }
+      member do
+        get :delete_dialog
+        post :toggle
+      end
     end
 
     # Keyed by feature key rather than by record id: the binding is an attribute

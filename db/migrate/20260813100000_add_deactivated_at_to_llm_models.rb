@@ -28,26 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :llm_model do
-    llm_connection
-    sequence(:external_id) { |n| "model-#{n}" }
-    active { true }
-    manual { false }
-    last_seen_at { Time.current }
-
-    trait :manual do
-      manual { true }
-      last_seen_at { nil }
-    end
-
-    trait :withdrawn do
-      active { false }
-    end
-
-    # Still offered by the server; hidden by an administrator.
-    trait :deactivated do
-      deactivated_at { Time.current }
-    end
+# Separates "the server stopped offering this" from "an administrator does not
+# want this used".
+#
+# +active+ is owned by the catalogue sync, which sets it on every refresh and
+# clears it for models the server no longer reports. An administrator's choice
+# cannot live there: the next "Refresh models" would silently undo it, and the
+# model would be labelled "no longer reported" when it is merely hidden.
+class AddDeactivatedAtToLlmModels < ActiveRecord::Migration[8.1]
+  def change
+    add_column :llm_models, :deactivated_at, :datetime
   end
 end

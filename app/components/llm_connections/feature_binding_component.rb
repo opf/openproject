@@ -65,6 +65,15 @@ module LlmConnections
 
     def dangling? = binding&.dangling?
 
+    # Still resolvable, so not dangling -- but an administrator has hidden it
+    # from the pickers, so say so rather than let the choice look unremarkable.
+    def deactivated?
+      model_id = binding&.resolved_model_id
+      return false if model_id.blank?
+
+      connection.models.deactivated.exists?(external_id: model_id)
+    end
+
     private
 
     attr_reader :feature, :connection, :binding

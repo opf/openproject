@@ -88,7 +88,7 @@ module LlmConnections
           input_width: :large,
           disabled: read_only?
         ) do |select|
-          model.available_model_ids.each do |model_id|
+          default_chat_model_options.each do |model_id|
             select.option(value: model_id, label: model_id)
           end
         end
@@ -112,6 +112,12 @@ module LlmConnections
 
     def models_available?
       model.available_model_ids.any?
+    end
+
+    # Deactivated models are hidden, except the one already chosen -- dropping
+    # that would silently blank the field on the next save.
+    def default_chat_model_options
+      (model.selectable_model_ids + [model.default_chat_model_id]).compact_blank.uniq
     end
 
     def submit_label

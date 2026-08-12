@@ -1431,6 +1431,7 @@ en:
 
     llm_feature_bindings:
       dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      deactivated: "%{model} has been hidden by an administrator. This feature keeps using it, but it can no longer be chosen elsewhere."
       index:
         blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."
         blank_title: "No LLM server configured"
@@ -1463,8 +1464,11 @@ en:
         identifier: "Model"
         kind: "Type"
         source: "Source"
+        source_deactivated: "Hidden by administrator"
         source_discovered: "Reported by server"
         source_manual: "Added manually"
+        status: "Available for use"
+        toggle_aria_label: "Make %{model} available to AI features"
         source_withdrawn: "No longer reported"
       refresh_models:
         failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."

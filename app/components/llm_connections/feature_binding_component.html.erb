@@ -11,6 +11,12 @@
     <% end %>
   <% end %>
 
+  <% if deactivated? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :alert)) do %>
+      <%= t("admin.llm_feature_bindings.deactivated", model: binding.resolved_model_id) %>
+    <% end %>
+  <% end %>
+
   <% if locked? %>
     <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :lock)) do %>
       <%= t("admin.llm_feature_bindings.locked", model: binding.model_id) %>

@@ -44,6 +44,19 @@ class LlmModel < ApplicationRecord
   scope :manual, -> { where(manual: true) }
   scope :by_identifier, -> { order(:external_id) }
 
+  # What an administrator is willing to have chosen. Distinct from +active+,
+  # which the catalogue sync owns and rewrites on every refresh.
+  scope :deactivated, -> { where.not(deactivated_at: nil) }
+  scope :selectable, -> { active.where(deactivated_at: nil) }
+
+  def deactivated? = deactivated_at.present?
+
+  # Offerable in a picker. Note that this is *not* what decides whether a model
+  # still resolves: a feature already bound to a deactivated model keeps working,
+  # and is surfaced as a warning instead. Switching a row off must never silently
+  # break a running feature.
+  def selectable? = active? && !deactivated?
+
   def name = display_name.presence || external_id
 
   # Precedence: what an administrator set, then what the server reported (vLLM

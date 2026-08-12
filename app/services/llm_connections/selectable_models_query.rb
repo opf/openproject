@@ -49,12 +49,23 @@ module LlmConnections
     end
 
     def call
-      connection.available_model_ids.map { |model_id| option_for(model_id) }
+      offerable_model_ids.map { |model_id| option_for(model_id) }
     end
 
     private
 
     attr_reader :connection, :feature
+
+    # Models an administrator has switched off are not offered, but the one this
+    # feature is already bound to stays listed -- otherwise the select silently
+    # shows nothing where a working binding exists.
+    def offerable_model_ids
+      (connection.selectable_model_ids + [bound_model_id]).compact_blank.uniq
+    end
+
+    def bound_model_id
+      connection.feature_bindings.find_by(feature_key: feature.key.to_s)&.model_id
+    end
 
     def option_for(model_id)
       states = feature.requires.index_with { |capability| verdict_state(model_id, capability) }

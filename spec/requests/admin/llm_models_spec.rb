@@ -241,4 +241,48 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
       expect(LlmModel.where(id: llm_model.id)).to exist
     end
   end
+
+  describe "POST /admin/llm_models/:id/toggle" do
+    let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b") }
+
+    it "hides the model from the pickers and puts it back" do
+      post toggle_llm_model_path(llm_model)
+
+      expect(response).to have_http_status(:ok)
+      expect(llm_model.reload).to be_deactivated
+      expect(connection.selectable_model_ids).not_to include("qwen3.6-27b")
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(llm_model.reload).not_to be_deactivated
+      expect(connection.selectable_model_ids).to include("qwen3.6-27b")
+    end
+
+    # Curation, not enforcement: a feature already pointing at the model keeps
+    # resolving, so switching a row off cannot silently break anything.
+    it "leaves an existing binding working" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(connection.available_model_ids).to include("qwen3.6-27b")
+    end
+
+    it "refuses a model the server has withdrawn" do
+      withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
+
+      post toggle_llm_model_path(withdrawn)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(withdrawn.reload).not_to be_deactivated
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(llm_model.reload).not_to be_deactivated
+    end
+  end
 end

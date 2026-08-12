@@ -62,14 +62,49 @@ module LlmConnections
     end
 
     def source
-      if llm_model.manual?
-        render(Primer::Beta::Label.new(scheme: :accent)) { I18n.t("admin.llm_connections.models.source_manual") }
-      elsif llm_model.withdrawn?
-        render(Primer::Beta::Label.new(scheme: :attention)) { I18n.t("admin.llm_connections.models.source_withdrawn") }
-      else
-        render(Primer::Beta::Label.new(scheme: :secondary)) { I18n.t("admin.llm_connections.models.source_discovered") }
-      end
+      scheme, key = source_label
+
+      render(Primer::Beta::Label.new(scheme:)) { I18n.t("admin.llm_connections.models.#{key}") }
     end
+
+    def source_label
+      return %i[attention source_deactivated] if llm_model.deactivated?
+      return %i[accent source_manual] if llm_model.manual?
+      return %i[attention source_withdrawn] if llm_model.withdrawn?
+
+      %i[secondary source_discovered]
+    end
+
+    # Whether a feature may choose this model. A withdrawn model has nothing to
+    # switch on -- the server stopped offering it -- so its toggle is inert
+    # rather than absent, which keeps the column aligned and says why.
+    def status
+      render(Primer::Alpha::ToggleSwitch.new(**toggle_options))
+    end
+
+    def toggle_options
+      options = {
+        checked: llm_model.selectable?,
+        enabled: togglable?,
+        size: :small,
+        # A bare ToggleSwitch has no accessible name, and axe fails without one.
+        aria: { label: I18n.t("admin.llm_connections.models.toggle_aria_label", model: llm_model.name) },
+        test_selector: "llm-model--toggle-#{llm_model.id}"
+      }
+
+      togglable? ? options.merge(mutation_options) : options
+    end
+
+    def mutation_options
+      {
+        src: url_helpers.toggle_llm_model_path(llm_model),
+        csrf_token: helpers.form_authenticity_token,
+        data: { "turbo-method": :post, "turbo-stream": true },
+        classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+      }
+    end
+
+    def togglable? = llm_model.active?
 
     def button_links
       llm_model.manual? ? [edit_link, delete_link] : [edit_link]
