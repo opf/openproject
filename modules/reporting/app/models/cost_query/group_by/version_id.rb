@@ -33,7 +33,7 @@ class CostQuery::GroupBy::VersionId < Report::GroupBy::Base
   applies_for :label_work_package_attributes
 
   # Resolved per report-build rather than via the join_table DSL (which freezes
-  # the join at class load) so the multiple-versions feature flag can switch
+  # the join at class load) so the multiple-versions setting can switch
   # between all target versions and the primary one. Must return the same string
   # as the filter so the engine collapses them into a single join.
   def self.table_joins

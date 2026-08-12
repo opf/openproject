@@ -32,7 +32,7 @@ class CostQuery::Filter::VersionId < Report::Filter::Base
   applies_for :label_work_package_attributes
 
   # Resolved per report-build rather than via the join_table DSL (which freezes
-  # the join at class load) so the multiple-versions feature flag can switch
+  # the join at class load) so the multiple-versions setting can switch
   # between all target versions and the primary one.
   def self.table_joins
     [[CostQuery::WorkPackageTargetVersionJoin.sql]]
