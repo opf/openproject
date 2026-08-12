@@ -54,6 +54,19 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
       expect(Rails.logger).to have_received(:info).with("Seeded design asset 'logo' from #{url}.")
     end
 
+    it "stores the file even when invoked inside an open transaction" do
+      # Mimics RootSeeder: CarrierWave only uploads in after_commit, and Rails
+      # drops after_commit on earlier instances of the same row in a transaction.
+      CustomStyle.transaction do
+        described_class.perform_now(custom_style, :favicon, url)
+        described_class.perform_now(custom_style, :logo, url)
+      end
+
+      custom_style.reload
+      expect(custom_style.favicon).to be_readable
+      expect(custom_style.logo).to be_readable
+    end
+
     context "when it is an svg" do
       let(:url) { "https://example.com/image.svg" }
 

@@ -33,6 +33,13 @@ module CustomStyles
   class SeedRemoteAssetJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency
 
+    # RootSeeder wraps seeding in a single transaction.
+    # At the same time, CarrierWave only actually _saves_ the file in an after_commit callback.
+    # Rails will however only run after_commit callbacks on the last instance to save a given row.
+    # Since introduction of this job, we are now saving multiple times, so some uploads were lost.
+    # By enqueueing the job after the transaction commit, we ensure that the file is saved to fog/disk.
+    self.enqueue_after_transaction_commit = true
+
     # Only one asset for a given CustomStyle may be stored at a time. During seed,
     # GoodJob runs inline so jobs are mostly serial already, but retries and
     # non-inline enqueues could create a race condition for the same record/fog uploads.
@@ -84,18 +91,31 @@ module CustomStyles
       response = OpenProject.httpx.get(url)
       response.raise_for_status
 
+      style = store_asset(custom_style, key, response.body.to_s)
+      ensure_readable!(style, key)
+    end
+
+    def store_asset(custom_style, key, data)
       CustomStyle.transaction do
         style = CustomStyle.lock.find(custom_style.id)
 
-        build_attachable_file(key.to_s, response.body.to_s) do |file|
+        build_attachable_file(key.to_s, data) do |file|
           style.public_send("#{key}=", file)
           style.save!
         end
 
-        unless style.public_send(key).readable?
-          raise "Stored design asset '#{key}' is not readable in file storage"
-        end
+        # CarrierWave defers the real fog/disk write to after_commit. Force it
+        # while the cached file is still on this instance so an enclosing
+        # transaction (or another save of the same row) cannot drop the upload.
+        style.public_send(:"store_#{key}!")
+        style
       end
+    end
+
+    def ensure_readable!(style, key)
+      return if style.public_send(key).readable?
+
+      raise "Stored design asset '#{key}' is not readable in file storage"
     end
 
     def build_attachable_file(file_name, data)
