@@ -1,0 +1,38 @@
+<div class="op-step-wizard-footer">
+  <div class="op-step-wizard-footer--actions-left">
+    <% unless first_step? %>
+      <%= render(Primer::Beta::Button.new(tag: :a, href: back_href, scheme: :invisible, color: :muted)) do |button| %>
+        <% button.with_leading_visual_icon(icon: :"arrow-left") %>
+        <%= I18n.t(:button_back) %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-step-wizard-footer--progress")) do %>
+    <%= flex_layout(justify_content: :center, align_items: :center) do |progress_wrapper| %>
+      <% progress_wrapper.with_column(classes: "op-step-wizard-footer--progress-bar") do %>
+        <%= render(Primer::Beta::ProgressBar.new(size: :small)) do |bar| %>
+          <% bar.with_item(percentage: progress_percentage) %>
+        <% end %>
+      <% end %>
+
+      <% progress_wrapper.with_column(ml: 2) do %>
+        <%= render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) do %>
+          <%= I18n.t("types.creation_wizard.progress_label", number: current_number, total: total_steps) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <div class="op-step-wizard-footer--actions-right">
+    <%= render(Primer::Beta::Button.new(tag: :a, href: cancel_href)) { I18n.t(:button_cancel) } %>
+
+    <%= render(
+          Primer::Beta::Button.new(
+            type: :submit,
+            form: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
+            scheme: :primary
+          )
+        ) { primary_action_label } %>
+  </div>
+</div>

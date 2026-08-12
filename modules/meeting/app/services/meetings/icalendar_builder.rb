@@ -32,6 +32,11 @@ require "icalendar/tzinfo"
 
 module Meetings
   class IcalendarBuilder
+    # Emit at most this many meetings from a previous schedule as RECURRENCE-ID
+    # overrides. Older instantiated meetings (before `current_schedule_start`) are
+    # silently dropped from the feed to keep it bounded.
+    PAST_OCCURRENCES_LIMIT = 10
+
     attr_reader :builder_internal_timezone, :calendar, :all_times, :calendar_generated_for_user
 
     delegate :publish, to: :calendar
@@ -271,9 +276,8 @@ module Meetings
       all_times.each do |timezone, times|
         calendar.timezone do |tz|
           tz.tzid = timezone.tzinfo.canonical_identifier
-          transitions = timezone.tzinfo.transitions_up_to(times.max + 6.months, times.min - 6.months)
 
-          transitions.each do |tr|
+          relevant_transitions(timezone.tzinfo, times).each do |tr|
             if tr.offset.dst?
               tz.daylight { |d| transition_to_component(d, tr) }
             else
@@ -282,6 +286,17 @@ module Meetings
           end
         end
       end
+    end
+
+    # `transitions_up_to(to, from)` only returns transitions at or after `from`, so a
+    # fixed lookback (e.g. `times.min - 6.months`) can skip past the transition that
+    # established the offset currently in effect. When that happens the VTIMEZONE has
+    # no observance preceding the event and clients fall back to the wrong offset
+    def relevant_transitions(tzinfo, times)
+      transitions = tzinfo.transitions_up_to(times.max + 6.months, times.min)
+      active = tzinfo.transitions_up_to(times.min).last
+      transitions.unshift(active) if active
+      transitions
     end
 
     def transition_to_component(component, transition)
@@ -301,9 +316,30 @@ module Meetings
 
     # Methods for recurring meetings
     def add_instantiated_occurrences(recurring_meeting:)
-      upcoming_instantiated_schedules(recurring_meeting).each do |meeting|
+      instantiated_occurrences_for_export(recurring_meeting).each do |meeting|
         add_single_recurring_occurrence(meeting:)
       end
+    end
+
+    def instantiated_occurrences_for_export(recurring_meeting)
+      # We should not emit previous-schedule instances as individual VEVENTs as some implementations (such as OpenXchange)
+      # reject the whole series if an event is < master DTSTART.
+      upcoming_schedule_occurrences(recurring_meeting)
+    end
+
+    def upcoming_schedule_occurrences(recurring_meeting)
+      instantiated_schedules_partitioned(recurring_meeting).second
+    end
+
+    def instantiated_schedules_partitioned(recurring_meeting)
+      @instantiated_schedules_partition_cache ||= {}
+      @instantiated_schedules_partition_cache[recurring_meeting.id] ||=
+        instantiated_schedules(recurring_meeting)
+          .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
+    end
+
+    def in_previous_schedule?(meeting, recurring_meeting)
+      meeting.recurrence_start_time < recurring_meeting.current_schedule_start
     end
 
     def add_virtual_occurences_for_interim_responses(recurring_meeting:) # rubocop:disable Metrics/AbcSize
@@ -342,20 +378,30 @@ module Meetings
       end
     end
 
+    # Only emit EXDATE for cancelled meetings: their dates are still in the RRULE
+    # expansion (if at or after current_schedule_start) and need to be suppressed.
+    # Meetings from a previous schedule are already outside the RRULE expansion
+    # because DTSTART = current_schedule_start, so EXDATE'ing them would be a no-op.
     def set_excluded_recurrence_dates(event:, recurring_meeting:)
-      event.exdate = if series_cache_loaded?
-                       @excluded_dates_cache[recurring_meeting.id] || []
-                     else
-                       recurring_meeting
-                         .meetings
-                         .not_templated
-                         .cancelled
-                         .where.not(recurrence_start_time: nil)
-                         .pluck(:recurrence_start_time)
-                     end.map { ical_datetime(it, timezone: recurring_meeting.time_zone) }
+      event.exdate = cancelled_recurrence_dates(recurring_meeting)
+                       .map { ical_datetime(it, timezone: recurring_meeting.time_zone) }
     end
 
-    def upcoming_instantiated_schedules(recurring_meeting)
+    def cancelled_recurrence_dates(recurring_meeting)
+      if series_cache_loaded?
+        (@excluded_dates_cache[recurring_meeting.id] || [])
+          .select { it >= recurring_meeting.current_schedule_start }
+      else
+        recurring_meeting
+          .meetings
+          .not_templated
+          .cancelled
+          .where(recurrence_start_time: recurring_meeting.current_schedule_start...)
+          .pluck(:recurrence_start_time)
+      end
+    end
+
+    def instantiated_schedules(recurring_meeting)
       if series_cache_loaded?
         @instantiated_occurrences_cache[recurring_meeting.id] || []
       else

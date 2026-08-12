@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, HostListener, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -40,7 +40,6 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TOpAutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
@@ -49,6 +48,8 @@ export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
 }
 
 @Component({
+  // Please address the disabled eslint rule when making major changes to this file.
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-autocomplete',
   templateUrl: '../../../../../../shared/components/autocompleter/op-autocompleter/op-autocompleter.component.html',
   styleUrls: ['../../../../../../shared/components/autocompleter/op-autocompleter/op-autocompleter.component.sass'],
@@ -64,9 +65,9 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
 
   @Input() hiddenOverflowContainer = 'body';
 
-  @InjectField(WorkPackageNotificationService) notificationService:WorkPackageNotificationService;
+  readonly notificationService = inject(WorkPackageNotificationService);
 
-  @InjectField(SchemaCacheService) schemaCacheService:SchemaCacheService;
+  readonly schemaCacheService = inject(SchemaCacheService);
 
   resource:TOpAutocompleterResource = 'work_packages';
 
@@ -103,11 +104,13 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
     }
 
     return from(
+      // Please address the disabled eslint rule when making major changes to this file.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       this.workPackage.availableRelationCandidates.$link.$fetch({
         query,
         filters: JSON.stringify(this.createFilters()),
         type: this.filterCandidatesFor || this.selectedRelationType,
-        sortBy: JSON.stringify([['updatedAt', 'desc']]),
+        sortBy: JSON.stringify([['exactMatch', 'desc'], ['updatedAt', 'desc']]),
       }) as Promise<WorkPackageCollectionResource>,
     )
       .pipe(

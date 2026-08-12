@@ -30,6 +30,7 @@
 
 require "spec_helper"
 require Rails.root.join("modules/backlogs/db/migrate/20260313164539_migrate_versions_to_sprints")
+require Rails.root.join("modules/backlogs/db/migrate/20260420160236_remove_version_settings")
 
 RSpec.describe MigrateVersionsToSprints, type: :model do
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) } }
@@ -42,15 +43,36 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
   let!(:version) do
     create(:version, project:, name: "Test Sprint", start_date:, effective_date:, status:)
   end
-  let!(:wp1) { create(:work_package, version:, project:) }
+  let!(:wp1) { legacy_versioned_work_package(version, project:) }
+
+  def legacy_versioned_work_package(version, **attributes)
+    create(:work_package, version:, **attributes).tap do |work_package|
+      work_package.update_column(:version_id, version.id)
+    end
+  end
 
   def use_version(as:, version: self.version, project: self.project)
     display = case as
-              when :sprint then VersionSetting::DISPLAY_LEFT
-              when :backlog then VersionSetting::DISPLAY_RIGHT
-              else VersionSetting::DISPLAY_NONE
+              when :sprint then described_class::MigrationVersionSetting::DISPLAY_LEFT
+              when :backlog then described_class::MigrationVersionSetting::DISPLAY_RIGHT
+              else 1
               end
-    create(:version_setting, version:, project:, display:)
+
+    ActiveRecord::Migration.suppress_messages do
+      ActiveRecord::Migration.execute(<<~SQL.squish)
+        INSERT INTO version_settings
+          (project_id, version_id, display, created_at, updated_at)
+        VALUES (#{project.id}, #{version.id}, #{display}, NOW(), NOW())
+      SQL
+    end
+  end
+
+  around(:all) do |example|
+    # In this test: RemoveVersionSettings has already run.
+    # In production: RemoveVersionSettings runs after MigrateVersionsToSprints.
+    ActiveRecord::Migration.suppress_messages { RemoveVersionSettings.migrate(:down) }
+    example.run
+    ActiveRecord::Migration.suppress_messages { RemoveVersionSettings.migrate(:up) }
   end
 
   before { use_version(as: version_type) }
@@ -62,12 +84,12 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
     context "when all criteria are met (used in the backlog and work package present)" do
       context "when version is used as a sprint (DISPLAY_LEFT)" do
         it "creates one sprint" do
-          expect { migrate }.to change(Agile::Sprint, :count).by(1)
+          expect { migrate }.to change(Sprint, :count).by(1)
         end
 
         it "copies name, start_date and finish_date" do
           migrate
-          sprint = Agile::Sprint.last
+          sprint = Sprint.last
           expect(sprint.name).to eq("Test Sprint")
           expect(sprint.start_date).to eq(Date.new(2026, 1, 1))
           expect(sprint.finish_date).to eq(Date.new(2026, 1, 14))
@@ -78,12 +100,12 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
         let(:version_type) { :backlog }
 
         it "creates one sprint" do
-          expect { migrate }.to change(Agile::Sprint, :count).by(1)
+          expect { migrate }.to change(Sprint, :count).by(1)
         end
 
         it "copies name, start_date and finish_date" do
           migrate
-          sprint = Agile::Sprint.last
+          sprint = Sprint.last
           expect(sprint.name).to eq("Test Sprint")
           expect(sprint.start_date).to eq(Date.new(2026, 1, 1))
           expect(sprint.finish_date).to eq(Date.new(2026, 1, 14))
@@ -95,7 +117,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
       let(:version_type) { :display_none }
 
       it "does not create a sprint" do
-        expect { migrate }.not_to change(Agile::Sprint, :count)
+        expect { migrate }.not_to change(Sprint, :count)
       end
     end
 
@@ -103,7 +125,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
       let!(:wp1) { nil }
 
       it "does not create a sprint" do
-        expect { migrate }.not_to change(Agile::Sprint, :count)
+        expect { migrate }.not_to change(Sprint, :count)
       end
     end
   end
@@ -111,8 +133,8 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
   describe "date handling" do
     context "when both start_date and effective_date are null" do
       it "creates a sprint with nil dates" do
-        expect { migrate }.to change(Agile::Sprint, :count).by(1)
-        sprint = Agile::Sprint.last
+        expect { migrate }.to change(Sprint, :count).by(1)
+        sprint = Sprint.last
         expect(sprint.start_date).to be_nil
         expect(sprint.finish_date).to be_nil
       end
@@ -123,7 +145,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "sets effective_date for finish_date" do
         migrate
-        sprint = Agile::Sprint.last
+        sprint = Sprint.last
         expect(sprint.start_date).to be_nil
         expect(sprint.finish_date).to eq(Date.new(2026, 2, 28))
       end
@@ -134,7 +156,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "sets start_date for start_date" do
         migrate
-        sprint = Agile::Sprint.last
+        sprint = Sprint.last
         expect(sprint.start_date).to eq(Date.new(2026, 2, 1))
         expect(sprint.finish_date).to be_nil
       end
@@ -147,7 +169,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with in_planning status" do
         migrate
-        expect(Agile::Sprint.last.status).to eq("in_planning")
+        expect(Sprint.last.status).to eq("in_planning")
       end
     end
 
@@ -156,7 +178,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with completed status" do
         migrate
-        expect(Agile::Sprint.last.status).to eq("completed")
+        expect(Sprint.last.status).to eq("completed")
       end
     end
 
@@ -165,36 +187,38 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with completed status" do
         migrate
-        expect(Agile::Sprint.last.status).to eq("completed")
+        expect(Sprint.last.status).to eq("completed")
       end
     end
   end
 
   describe "work package association" do
-    let!(:wp2) { create(:work_package, version:, project:) }
+    let!(:wp2) { legacy_versioned_work_package(version, project:) }
 
     it "sets sprint_id on all associated work packages" do
       migrate
-      sprint = Agile::Sprint.last
+      sprint = Sprint.last
       expect(wp1.reload.sprint_id).to eq(sprint.id)
       expect(wp2.reload.sprint_id).to eq(sprint.id)
     end
 
-    it "keeps the version_id on associated work packages" do
+    it "keeps the version associations on associated work packages" do
       migrate
-      expect(wp1.reload.version_id).to eq(version.id)
-      expect(wp2.reload.version_id).to eq(version.id)
+      expect(wp1.reload.target_versions).to contain_exactly(version)
+      expect(wp2.reload.target_versions).to contain_exactly(version)
+      expect(wp1.version_id).to eq(version.id)
+      expect(wp2.version_id).to eq(version.id)
     end
 
     context "with multiple versions" do
       let!(:version2) { create(:version, project:, status: "closed") }
-      let!(:wp3) { create(:work_package, version: version2, project:) }
+      let!(:wp3) { create(:work_package, version_id: version2.id, project:) }
 
       before { use_version(as: :sprint, version: version2) }
 
       it "assigns work packages to their respective sprints" do
         migrate
-        sprints = Agile::Sprint.all.index_by(&:name)
+        sprints = Sprint.all.index_by(&:name)
         expect(wp1.reload.sprint_id).to eq(sprints[version.name].id)
         expect(wp2.reload.sprint_id).to eq(sprints[version.name].id)
         expect(wp3.reload.sprint_id).to eq(sprints[version2.name].id)
@@ -203,13 +227,13 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
     context "when the version is shared with another project that displays it as backlog" do
       let(:other_project) { create(:project) }
-      let!(:wp_in_other_project) { create(:work_package, version:, project: other_project) }
+      let!(:wp_in_other_project) { create(:work_package, version_id: version.id, project: other_project) }
 
       before { use_version(as: :backlog, project: other_project) }
 
       it "assigns work packages from both projects" do
         migrate
-        sprint = Agile::Sprint.last
+        sprint = Sprint.last
         expect(wp1.reload.sprint_id).to eq(sprint.id)
         expect(wp2.reload.sprint_id).to eq(sprint.id)
         expect(wp_in_other_project.reload.sprint_id).to eq(sprint.id)
@@ -218,17 +242,60 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
     context "when the version is shared with another project where it is not displayed" do
       let(:other_project) { create(:project) }
-      let!(:wp_in_other_project) { create(:work_package, version:, project: other_project) }
+      let!(:wp_in_other_project) { create(:work_package, version_id: version.id, project: other_project) }
 
       before { use_version(as: :display_none, project: other_project) }
 
       it "only assigns work packages from the sprint project" do
         migrate
-        sprint = Agile::Sprint.last
+        sprint = Sprint.last
         expect(wp1.reload.sprint_id).to eq(sprint.id)
         expect(wp2.reload.sprint_id).to eq(sprint.id)
         expect(wp_in_other_project.reload.sprint_id).to be_nil
       end
+    end
+  end
+
+  describe "multiple versions feature" do
+    let!(:secondary_version) { create(:version, project:, name: "Secondary") }
+
+    shared_examples "migrates by the primary version" do
+      context "when the sprint version is the primary (version_id) target" do
+        let!(:wp_multi) do
+          legacy_versioned_work_package(version, project:).tap do |wp|
+            create(:work_package_version, work_package: wp, version: secondary_version, kind: :target)
+          end
+        end
+
+        it "assigns the work package to the sprint and keeps all target versions" do
+          migrate
+          expect(wp_multi.reload.sprint_id).to eq(Sprint.last.id)
+          expect(wp_multi.sprint.name).to eq(version.name)
+          expect(wp_multi.target_versions).to contain_exactly(version, secondary_version)
+        end
+      end
+
+      context "when the sprint version is only a secondary target" do
+        let!(:wp_secondary) do
+          legacy_versioned_work_package(secondary_version, project:).tap do |wp|
+            create(:work_package_version, work_package: wp, version:, kind: :target)
+          end
+        end
+
+        it "does not assign the work package to the sprint" do
+          migrate
+          expect(wp_secondary.reload.sprint_id).to be_nil
+        end
+      end
+    end
+
+    context "when the feature is active",
+            with_settings: { work_package_multiple_versions: true } do
+      include_examples "migrates by the primary version"
+    end
+
+    context "when the feature is inactive" do
+      include_examples "migrates by the primary version"
     end
   end
 

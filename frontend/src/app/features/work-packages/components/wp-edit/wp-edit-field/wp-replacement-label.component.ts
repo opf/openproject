@@ -21,14 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, Component, ElementRef, Input, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 
 @Component({
@@ -38,16 +36,15 @@ import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-f
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageReplacementLabelComponent implements OnInit {
+  protected wpeditForm = inject(EditFormComponent);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   @Input() public fieldName:string;
 
   private element:HTMLElement;
-
-  constructor(protected wpeditForm:EditFormComponent,
-    protected elementRef:ElementRef) {
-  }
 
   ngOnInit() {
     this.element = this.elementRef.nativeElement;

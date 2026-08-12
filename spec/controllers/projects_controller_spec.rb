@@ -270,7 +270,7 @@ RSpec.describe ProjectsController do
             end
           end
 
-          context "when the parent is invalid", with_flag: { portfolio_models: true } do
+          context "when the parent is invalid" do
             shared_let(:invalid_parent) { create(:project, workspace_type: :program) }
             let(:project_params) { { name: "Valid Project", parent_id: invalid_parent.id, workspace_type: :portfolio } }
 
@@ -385,7 +385,7 @@ RSpec.describe ProjectsController do
                .with(user: admin, model: template)
                .and_return(copy_service)
         dependencies = %w[
-          boards storages storage_project_folders forums phases members overview
+          backlog_buckets boards storages storage_project_folders forums phases members overview sprints
           versions wiki wiki_page_attachments work_packages work_package_attachments
           categories file_links queries work_package_shares
         ]
@@ -417,7 +417,7 @@ RSpec.describe ProjectsController do
         end
       end
 
-      context "when service call fails", with_flag: { portfolio_models: true } do
+      context "when service call fails" do
         let(:name) { "" }
         let(:project) { Project.new }
         let(:service_result) { ServiceResult.failure(result: project, message: "") }

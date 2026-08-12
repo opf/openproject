@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -39,20 +39,18 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageBreadcrumbComponent {
+  private I18n = inject(I18nService);
+  private pathHelper = inject(PathHelperService);
+
   @Input() workPackage:WorkPackageResource;
 
   public text = {
     parent: this.I18n.t('js.relations_hierarchy.parent_headline'),
     hierarchy: this.I18n.t('js.relations_hierarchy.hierarchy_headline'),
   };
-
-  constructor(
-    private I18n:I18nService,
-    private pathHelper:PathHelperService,
-  ) {}
 
   public inputActive = false;
 
@@ -65,7 +63,7 @@ export class WorkPackageBreadcrumbComponent {
   }
 
   public ancestorPath(ancestor:WorkPackageResource):string {
-    return this.pathHelper.genericWorkPackagePath(this.workPackage.project?.identifier, ancestor.id!) + window.location.search;
+    return this.pathHelper.genericWorkPackagePath(this.workPackage.project?.identifier, ancestor.displayId) + window.location.search;
   }
 
   public updateActiveInput(val:boolean) {

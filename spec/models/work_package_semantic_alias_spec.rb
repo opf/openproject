@@ -66,6 +66,33 @@ RSpec.describe WorkPackageSemanticAlias do
     end
   end
 
+  describe ".for_slug_prefix" do
+    def alias_for(identifier)
+      described_class.create!(identifier:, work_package:)
+    end
+
+    it "matches identifiers of the exact form <slug>-<digits>" do
+      matching = alias_for("my-1")
+      alias_for("my-abc")
+
+      expect(described_class.for_slug_prefix("my")).to contain_exactly(matching)
+    end
+
+    it "does not over-match when another slug starts with the given slug plus a dash" do
+      matching = alias_for("my-2")
+      alias_for("my-project-42")
+
+      expect(described_class.for_slug_prefix("my")).to contain_exactly(matching)
+    end
+
+    it "matches case-sensitively" do
+      matching = alias_for("PROJ-1")
+      alias_for("proj-1")
+
+      expect(described_class.for_slug_prefix("PROJ")).to contain_exactly(matching)
+    end
+  end
+
   describe WorkPackage do
     describe "#semantic_aliases" do
       let(:wp) { create(:work_package) }

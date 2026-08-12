@@ -1,22 +1,21 @@
-#English strings go here
 ---
 uk:
-  plugin_openproject_team_planner:
-    name: Планувальник команд OpenProject
-    description: Дає змогу переглядати дані планувальника команд.
-  permission_view_team_planner: Перегляд командного планувальника
-  permission_manage_team_planner: Керування командним планувальником
-  project_module_team_planner_view: Командні планувальники
   ee:
     feature_names:
       team_planner_view: Командний планувальник
     upsell:
       team_planner_view:
-        title: Командний планувальник
         description: Командний планувальник надає повний огляд планування вашої команди. Розтягуйте, скорочуйте й перетягуйте пакети робіт, щоб переміщувати їх, змінювати дати або перепризначати виконавців.
+        title: Командний планувальник
+  permission_manage_team_planner: Керування командним планувальником
+  permission_view_team_planner: Перегляд командного планувальника
+  plugin_openproject_team_planner:
+    description: Дає змогу переглядати дані планувальника команд.
+    name: Планувальник команд OpenProject
+  project_module_team_planner_view: Командні планувальники
   team_planner:
-    label_team_planner: Командний планувальник
-    label_new_team_planner: Новий командний планувальник
-    label_create_new_team_planner: Створити новий командний планувальник
-    label_team_planner_plural: Командні планувальники
     label_assignees: Виконавці
+    label_create_new_team_planner: Створити новий командний планувальник
+    label_new_team_planner: Новий командний планувальник
+    label_team_planner: Командний планувальник
+    label_team_planner_plural: Командні планувальники

@@ -53,6 +53,10 @@ module CustomFields
 
     validate :not_referenced
 
+    def validate_model?
+      false
+    end
+
     def not_referenced
       referencing = model.class.with_formula_referencing(model)
       return if referencing.empty?

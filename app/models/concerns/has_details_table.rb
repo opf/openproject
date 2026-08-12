@@ -263,6 +263,9 @@ module HasDetailsTable
 
     def finalize_detail_delegation!(detail_class, foreign_key)
       return if @_detail_delegation_set_up
+      # The detail table may not yet exist during early migrations on a fresh
+      # database. Skip — the next instance will retry once the table is there.
+      return unless ActiveRecord::Base.connected? && detail_class.table_exists?
 
       @_detail_delegation_set_up = true
 

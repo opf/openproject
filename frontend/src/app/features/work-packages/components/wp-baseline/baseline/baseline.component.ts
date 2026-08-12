@@ -21,20 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { isEqual } from 'lodash-es';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output, inject } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -71,6 +64,15 @@ const DEFAULT_SELECTED_TIME = '08:00';
   standalone: false,
 })
 export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
+  readonly halResourceService = inject(HalResourceService);
+  readonly weekdaysService = inject(WeekdayService);
+  readonly daysService = inject(DayResourceService);
+  readonly timezoneService = inject(TimezoneService);
+  readonly configuration = inject(ConfigurationService);
+  readonly Banner = inject(BannersService);
+
   @HostBinding('class.op-baseline') className = true;
 
   @Output() submitted = new EventEmitter<void>();
@@ -162,19 +164,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     },
   ];
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly wpTableBaseline:WorkPackageViewBaselineService,
-    readonly halResourceService:HalResourceService,
-    readonly weekdaysService:WeekdayService,
-    readonly daysService:DayResourceService,
-    readonly timezoneService:TimezoneService,
-    readonly configuration:ConfigurationService,
-    readonly Banner:BannersService,
-  ) {
-    super();
-  }
-
   public ngOnInit():void {
     this.userTimezone = this.timezoneService.userTimezone();
     this.userOffset = moment().tz(this.userTimezone).format('Z');
@@ -195,7 +184,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.wpTableBaseline
       .pristine$()
       .subscribe((timestamps) => {
-        if (_.isEqual(timestamps, [DEFAULT_TIMESTAMP])) {
+        if (isEqual(timestamps, [DEFAULT_TIMESTAMP])) {
           this.resetSelection();
           this.wpTableBaseline.disable();
         }
@@ -238,7 +227,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public dateChange(values:string[]):void {
-    if (_.every(values, validDate)) {
+    if (values.every(validDate)) {
       this.selectedDates = values;
     }
   }

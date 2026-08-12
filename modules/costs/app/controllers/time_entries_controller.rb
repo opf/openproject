@@ -119,7 +119,7 @@ class TimeEntriesController < ApplicationController
                                                              errors: call.errors.full_messages.join(", ")))
     end
 
-    respond_with_turbo_streams(status: call.success? ? :ok : :bad_request)
+    respond_with_turbo_streams(status: call)
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
@@ -141,7 +141,7 @@ class TimeEntriesController < ApplicationController
                                                              errors: call.errors.full_messages.join(", ")))
     end
 
-    respond_with_turbo_streams(status: call.success? ? :ok : :bad_request)
+    respond_with_turbo_streams(status: call)
   end
 
   private

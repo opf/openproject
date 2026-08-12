@@ -158,6 +158,49 @@ RSpec.describe AllMeetings::ICalService, type: :model do
         expect(uids).to contain_exactly(meeting.uid, past_meeting.uid)
       end
     end
+
+    context "without historic meetings but with recently started past meetings" do
+      let(:include_historic) { false }
+
+      let!(:closed_recent_meeting) do
+        create(:meeting,
+               author: user,
+               project:,
+               title: "Closed recent meeting",
+               state: :closed,
+               participants: [MeetingParticipant.new(user:)],
+               start_time: relevant_time - 1.week,
+               duration: 1.0)
+      end
+
+      let!(:in_progress_recent_meeting) do
+        create(:meeting,
+               author: user,
+               project:,
+               title: "In progress recent meeting",
+               state: :in_progress,
+               participants: [MeetingParticipant.new(user:)],
+               start_time: relevant_time - 3.days,
+               duration: 1.0)
+      end
+
+      let!(:closed_old_meeting) do
+        create(:meeting,
+               author: user,
+               project:,
+               title: "Closed old meeting",
+               state: :closed,
+               participants: [MeetingParticipant.new(user:)],
+               start_time: relevant_time - 2.months,
+               duration: 1.0)
+      end
+
+      it "includes closed and in_progress meetings within the past month, but not older ones" do
+        uids = ical.events.map(&:uid)
+        expect(uids).to include(closed_recent_meeting.uid, in_progress_recent_meeting.uid)
+        expect(uids).not_to include(closed_old_meeting.uid)
+      end
+    end
   end
 
   context "with recurring meetings" do
@@ -262,6 +305,48 @@ RSpec.describe AllMeetings::ICalService, type: :model do
           expect(recurring_entry.recurrence_id).to be_blank
           expect(recurring_entry.exdate).to contain_exactly(meeting.recurrence_start_time)
         end
+      end
+    end
+
+    context "with a recently started, still-open occurrence" do
+      let!(:past_recurring_meeting) do
+        create(:recurring_meeting,
+               author: user,
+               title: "Weekly standup",
+               start_time: relevant_time - 4.weeks,
+               end_date: relevant_time.advance(week: 8).to_date,
+               iterations: 12,
+               project:,
+               time_zone: user.time_zone).tap do |rm|
+          rm.template.participants = [MeetingParticipant.new(user:)]
+        end
+      end
+
+      let!(:recent_occurrence) do
+        RecurringMeetings::InitOccurrenceService
+          .new(user: User.system, recurring_meeting: past_recurring_meeting)
+          .call(start_time: relevant_time - 1.week)
+          .result
+          .tap do |m|
+            m.participants.create!(user:)
+            m.update_column(:state, Meeting.states[:closed])
+          end
+      end
+
+      # Regression: +from_today_or_recently_started+ previously resetted the scope in its .or
+      # branch, so a recently started occurrence was output a second time under its own UID next to the series.
+      it "does not leak the occurrence back into single_meetings" do
+        expect(Meeting.not_recurring.from_today_or_recently_started).not_to include(recent_occurrence)
+      end
+
+      it "emits the occurrence only once, as a series override, never as a standalone event", :aggregate_failures do
+        overrides = ical.events.select do |e|
+          e.recurrence_id.present? && e.recurrence_id == recent_occurrence.recurrence_start_time
+        end
+
+        expect(overrides.size).to eq(1)
+        expect(overrides.first.uid).to eq(past_recurring_meeting.uid)
+        expect(ical.events.map(&:uid)).not_to include(recent_occurrence.uid)
       end
     end
   end

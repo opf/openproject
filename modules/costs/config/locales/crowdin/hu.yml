@@ -21,24 +21,42 @@
 #++
 ---
 hu:
-  plugin_costs:
-    name: Idő és költség
-    description: This module adds features for planning and tracking costs of projects.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Munkacsomag
+        entity: Következőnek naplózva
+        entity_gid: Következőnek naplózva
+        entity_id: Következőnek naplózva
+        logged_by: Naplózta
         overridden_costs: Felülbírált költségek
         spent: Elköltve
         spent_on: Dátum
-        logged_by: Naplózta
-        entity: Következőnek naplózva
-        entity_id: Következőnek naplózva
-        entity_gid: Következőnek naplózva
+        work_package: Munkacsomag
       cost_type:
+        default: Költségtípus alapértelmezés szerint
+        for_all_projects: For all projects
+        rates: Rates
         unit: Egység neve
         unit_plural: Többes számú egység neve
-        default: Költségtípus alapértelmezés szerint
+      rate:
+        rate: Díj
+      time_entry:
+        activity: Tevékenység
+        comments: Vélemény
+        end_time: Befejezési idő
+        entity: Következőnek naplózva
+        entity_gid: Következőnek naplózva
+        entity_id: Következőnek naplózva
+        hours: órák
+        project: Projekt
+        spent_on: dátum
+        start_time: Kezdés
+        subject: Tárgy
+        time: Idő
+        user: Felhasználó
+        work_package: Feladatcsoport
+      user:
+        default_rates: Alapértelmezett díj
       work_package:
         costs_by_type: Elköltött egység
         labor_costs: Munkaerő költségek
@@ -46,67 +64,66 @@ hu:
         overall_costs: Összes költség
         spent_costs: Elköltött költség
         spent_units: Elköltött egység
-      rate:
-        rate: Díj
-      user:
-        default_rates: Alapértelmezett díj
-      time_entry:
-        project: Projekt
-        user: Felhasználó
-        work_package: Feladatcsoport
-        subject: Tárgy
-        hours: órák
-        comments: Vélemény
-        activity: Tevékenység
-        spent_on: dátum
-        start_time: Kezdés
-        end_time: Befejezési idő
-        time: Idő
-        entity: Következőnek naplózva
-        entity_id: Következőnek naplózva
-        entity_gid: Következőnek naplózva
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: nem lehet letiltani, mert ehhez a projekthez már rögzítettek költségeket.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Erre a munkacsomagra nem lehet időt naplózni.
+          duplicate_ongoing: Erre a felhasználóra már létezik egy folyamatban lévő időbejegyzés.
+          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
+          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
+          invalid_time: 00:00 és 23:59 között kell lennie.
+          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
+          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
+          not_a_working_day: is not a working day for the user.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Munkacsomag #%{id} nem érvényes cél a költség újrahozzárendeléséhez.'
+          nullify_is_not_valid_for_cost_entries: Költségek nem hozzárendelhetőek a projekthez.
     models:
-      time_entry:
-        one: Belépési idő
-        other: Idők rögzítése
       cost_entry:
         one: Költség tétel
         other: Költségek rögzítése
       cost_type:
         one: Költségtípus
         other: Költségtípusok
+      rate: Díj
+      time_entry:
+        one: Belépési idő
+        other: Idők rögzítése
       time_entry_activity:
         one: Időkövetési tevékenység
         other: Időnyilvántartási tevékenységek
-      rate: Díj
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: 00:00 és 23:59 között kell lennie.
-          cannot_log_for_this_work_package: Erre a munkacsomagra nem lehet időt naplózni.
-          duplicate_ongoing: Erre a felhasználóra már létezik egy folyamatban lévő időbejegyzés.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Munkacsomag #%{id} nem érvényes cél a költség újrahozzárendeléséhez.'
-          nullify_is_not_valid_for_cost_entries: Költségek nem hozzárendelhetőek a projekthez.
+      validation:
+        start_time_different_date: A startTime (%{start_time}) dátumrészének meg kell egyeznie a spentOn (%{spent_on}) dátummal.
   attributes:
     comment: Komment
     cost_type: Költségtípus
     costs: Költségek
     current_rate: Jelenlegi állapot
+    fixed_date: Fix dátum
     hours: Óra
     units: Egységek
     valid_from: Innentől érvényes
-    fixed_date: Fix dátum
+  button_add_activity: Tevékenység
   button_add_rate: Új díj
+  button_add_time_entry: Eltöltött idő rögzítése
   button_log_costs: Költségek naplózása
   button_log_time: Napló
-  button_add_activity: Tevékenység
-  button_add_time_entry: Eltöltött idő rögzítése
   button_stop_timer: Időzítő leállítása
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Foglalt projekt
   caption_default: Alapértelmezett
   caption_default_rate_history_for: Alapértelmezett díj történet %{user}-nek
   caption_locked_on: Lezárás ideje
+  caption_log_time_dialog: Eltöltött idő rögzítése
   caption_materials: Egységek
   caption_rate_history: Díj előzmények
   caption_rate_history_for: Alapértelmezett díj történet %{user}-nek
@@ -114,22 +131,63 @@ hu:
   caption_save_rate: Díj mentése
   caption_set_rate: Aktuális díj beállítása
   caption_show_locked: Zárolt nemek mutatása
-  caption_log_time_dialog: Eltöltött idő rögzítése
-  description_date_for_new_rate: Új díj dátuma
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: Ez a költségtípus nem kapcsolható ki, mivel ehhez a projekthez már rögzítettek költségeket.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: Határozza meg az összes projektben a költségek kívánt formátumát.
-  description_time_settings: Határozza meg, hogy mely mezők kitöltése kötelező az idő naplózásakor minden projektben.
+  description_date_for_new_rate: Új díj dátuma
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  ee:
+    features:
+      time_entry_time_restrictions: Time entry restrictions
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
   group_by_others: nincs egy csoportban sem
+  label_available_cost_types_projects: Available cost types projects
   label_between: között
+  label_cost: Költség
   label_cost_filter_add: Költség tétel szűrő hozzáadása
-  label_costlog: Naplózott fajlagos költségek
   label_cost_plural: Költségek
   label_cost_type_plural: Költségtípusok
   label_cost_type_specific: Költség típus%{id}%{name}
+  label_costlog: Naplózott fajlagos költségek
+  label_costs: Költségek
   label_costs_per_page: Költések oldalanként
   label_current_default_rate: Jelenlegi alapértelmezett díj
   label_date_on: mikor
+  label_day: Nap
+  label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Törölt költségnemek
-  label_locked_cost_types: Zárolt költségnemek
   label_display_cost_entries: Fajlagos költségek megjelenítése
   label_display_time_entries: Jelentett órák megjelenítése
   label_display_types: Nemek megjelenítése
@@ -140,59 +198,55 @@ hu:
   label_group_by_add: Csoportosítási mező hozzáadása
   label_hourly_rate: Óradíj
   label_include_deleted: Töröltekkel együtt
-  label_work_package_filter_add: Munkacsomag szűrő hozzáadása
   label_kind: Típus
   label_less_or_equal: "<="
+  label_list: Lista
   label_log_costs: Költségek naplózása
-  label_new_time_entry_activity: Új időrögzítési tevékenység
-  label_time_entry_activity_form_description: A munkaidő-nyilvántartási tevékenység változásai minden olyan projektben tükröződnek, ahol ez engedélyezve van.
-  label_no: Nem
-  label_option_plural: Beállítások
-  label_overall_costs: Összes költség
-  label_rate: Díj
-  label_rate_plural: Díjak
-  label_status_finished: Kész
-  label_show: Mutat
-  label_units: Költség egységek
-  label_user: Felhasználó
-  label_until: "-ig"
-  label_valid_from: Innentől érvényes
-  label_yes: Igen
-  label_time: Idő
-  label_cost: Költség
-  label_costs: Költségek
-  label_mandatory_fields: Kötelező mezők
+  label_month: Havi
   label_my_time_tracking: Időnaplóm
-  label_no_time: Nincs naplózott idő
+  label_new_time_entry_activity: Új időrögzítési tevékenység
   label_next_day: Holnap
+  label_next_month: Következő hónap
   label_next_week: A jövő héten
   label_next_workweek: Következő munkahét
-  label_next_month: Következő hónap
+  label_no: Nem
+  label_no_time: Nincs naplózott idő
+  label_option_plural: Beállítások
+  label_overall_costs: Összes költség
   label_previous_day: Tegnap
-  label_previous_workweek: Előző munkahét
-  label_previous_week: Előző héten
   label_previous_month: Előző hónap
+  label_previous_week: Előző héten
+  label_previous_workweek: Előző munkahét
+  label_rate: Díj
+  label_rate_plural: Díjak
+  label_show: Mutat
   label_specific_day: Nap %{day}
-  label_specific_week: Naptári hét %{week}
   label_specific_month: Hónap %{month}
-  label_list: Lista
-  label_month: Havi
-  label_workweek: Munkahét
-  label_day: Nap
-  label_today_capitalized: Ma
-  label_view_mode_switcher: Nézet módosítása
+  label_start_and_finished: Start and finish times
+  label_status_finished: Kész
+  label_time: Idő
+  label_time_entry_activity_form_description: A munkaidő-nyilvántartási tevékenység változásai minden olyan projektben tükröződnek, ahol ez engedélyezve van.
+  label_time_entry_restrictions: Limits
   label_timer_since: Elkezdődött %{time}-kor
-  placeholder_activity_select_work_package_first: Először a munkacsomag(ok) kiválasztása szükséges
-  notice_something_wrong: Valami hiba történt. Kérlek próbáld újra.
-  notice_successful_restore: Sikeres visszaállítás.
-  notice_successful_lock: Sikeresen zárolt.
+  label_today_capitalized: Ma
+  label_units: Költség egységek
+  label_until: "-ig"
+  label_user: Felhasználó
+  label_valid_from: Innentől érvényes
+  label_view_mode_switcher: Nézet módosítása
+  label_work_package_filter_add: Munkacsomag szűrő hozzáadása
+  label_workweek: Munkahét
+  label_yes: Igen
   notice_cost_logged_successfully: Egységköltség sikeresen naplózva.
   notice_different_time_zones: 'Ez a felhasználó más időzónában van: (%{tz}). Az idő az ő időzónájával lesz naplózva.'
-  notice_time_entry_update_failed: 'Nem sikerült frissíteni az időbejegyzést. Hibák: %{errors}'
+  notice_something_wrong: Valami hiba történt. Kérlek próbáld újra.
+  notice_successful_lock: Sikeresen zárolt.
+  notice_successful_restore: Sikeres visszaállítás.
   notice_time_entry_delete_failed: 'Nem sikerült törölni az időbejegyzést. Hibák: %{errors}'
+  notice_time_entry_update_failed: 'Nem sikerült frissíteni az időbejegyzést. Hibák: %{errors}'
   permission_edit_cost_entries: Könyvelt egységköltségek szerkesztése
-  permission_edit_own_cost_entries: Saját könyvelt egységköltségek szerkesztése
   permission_edit_hourly_rates: Órabérek szerkesztése
+  permission_edit_own_cost_entries: Saját könyvelt egységköltségek szerkesztése
   permission_edit_own_hourly_rate: Saját óradíj szerkeztése
   permission_edit_rates: Díjak szerkeztése
   permission_log_costs: Egységre könyvelt költségek
@@ -203,45 +257,42 @@ hu:
   permission_view_own_cost_entries: Saját részre könyvelt költségek
   permission_view_own_hourly_rate: Saját óradíj megtekintése
   permission_view_own_time_entries: Az eltöltött idő megtekintése
+  placeholder_activity_select_work_package_first: Először a munkacsomag(ok) kiválasztása szükséges
+  plugin_costs:
+    description: Ez a modul a projektek költségeinek tervezéséhez és nyomon követéséhez szükséges funkciókat biztosít.
+    name: Idő és költség
   project_module_costs: Idő és költség
   setting_allow_tracking_start_and_end_times: Engedélyezze a kezdési és befejezési időpontokat
+  setting_allow_tracking_start_and_end_times_caption: Lehetővé teszi a kezdési és befejezési idők megadását az időnyilvántartás során.
   setting_costs_currency: Pénznem
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Kezdési és befejezési idő megadása kötelező
+  setting_enforce_tracking_start_and_end_times_caption: A munkaidő-nyilvántartás során kötelezővé teszi a kezdési és befejezési idők megadását.
   setting_enforce_without_allow: A kezdési és befejezési idő megkövetelése nem lehetséges anélkül, hogy engedélyeznénk azok megadását
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
-  setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
   text_assign_time_and_cost_entries_to_project: Idők és költségek projekthez rendelése
   text_destroy_cost_entries_question: A work package-hez rögzített %{cost_entries} törlése. Mit szeretnél tenni?
   text_destroy_time_and_cost_entries: Idők és költségek törlése
   text_destroy_time_and_cost_entries_question: A work package-hez rögzített %{hours} óra és %{cost_entries} törlése. Mit szeretnél tenni?
   text_reassign_time_and_cost_entries: 'A work packege-hez jelentett órák és költségek újrafelvitele:'
   text_warning_hidden_elements: Néhány bejegyzés lehet, hogy kimaradt az összesítésből.
-  week: hét
   total_times:
-    workweek: 'Munkahét összesen: %{hours}'
-    week: 'Hét összesen: %{hours}'
-    month: 'Hónap Összesen: %{hours}'
     day: 'Nap összesen: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: A startTime (%{start_time}) dátumrészének meg kell egyeznie a spentOn (%{spent_on}) dátummal.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Pontos időnaplózást igényel
-    upsell:
-      time_entry_time_restrictions:
-        description: Javítsa az időnyilvántartást azáltal, hogy pontos kezdési és befejezési időpontokat követel meg az időnaplózás során.
+    month: 'Hónap Összesen: %{hours}'
+    week: 'Hét összesen: %{hours}'
+    workweek: 'Munkahét összesen: %{hours}'
+  week: hét

@@ -110,5 +110,40 @@ module WorkPackageTypes
         end
       end
     end
+
+    describe "inherited core settings on a variant" do
+      let(:parent) { create(:type) }
+
+      context "when core settings are provided" do
+        let(:attributes) do
+          { name: "Variant",
+            parent_id: parent.id,
+            color_id: create(:color).id,
+            is_milestone: true,
+            is_in_roadmap: false,
+            is_default: true }
+        end
+
+        it "is invalid" do
+          expect(contract.validate).to be_falsey
+        end
+
+        it "marks each inherited setting as readonly" do
+          contract.validate
+
+          %i[color_id is_milestone is_in_roadmap is_default].each do |attribute|
+            expect(contract.errors.details[attribute]).to eq([{ error: :error_readonly }])
+          end
+        end
+      end
+
+      context "when only the variant's own attributes are set" do
+        let(:attributes) { { name: "Variant", parent_id: parent.id } }
+
+        it "is valid" do
+          expect(contract.validate).to be_truthy
+        end
+      end
+    end
   end
 end

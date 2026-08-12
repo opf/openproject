@@ -106,6 +106,73 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
     end
   end
 
+  describe "monthly by nth weekday" do
+    shared_let(:series) do
+      create(:recurring_meeting,
+             author: user,
+             project:,
+             title: "Monthly Strategy",
+             frequency: "monthly_nth_weekday",
+             monthly_ordinal: 1,
+             monthly_weekday: "tuesday",
+             interval: 1,
+             time_zone: "America/New_York",
+             start_time: DateTime.parse("2024-12-01T10:00:00Z"),
+             end_date: "2025-12-01")
+    end
+
+    it "exports monthly RRULE with nth weekday" do
+      expect(parsed_events.count).to eq(1)
+      expect(series_ical).to include("RRULE:FREQ=MONTHLY")
+      expect(series_ical).to match(/BYDAY=1TU|BYDAY=TU;BYSETPOS=1/)
+    end
+  end
+
+  describe "monthly by day of month" do
+    shared_let(:series) do
+      create(:recurring_meeting,
+             author: user,
+             project:,
+             title: "Monthly Billing",
+             frequency: "monthly_day_of_month",
+             monthly_day: 16,
+             interval: 2,
+             time_zone: "America/New_York",
+             start_time: DateTime.parse("2024-12-01T10:00:00Z"),
+             end_date: "2025-12-01")
+    end
+
+    it "exports monthly RRULE with month day and interval" do
+      expect(parsed_events.count).to eq(1)
+      expect(series_ical).to include("RRULE:FREQ=MONTHLY")
+      expect(series_ical).to include("BYMONTHDAY=16")
+      expect(series_ical).to include("INTERVAL=2")
+    end
+  end
+
+  describe "monthly by last weekday" do
+    shared_let(:series) do
+      create(:recurring_meeting,
+             author: user,
+             project:,
+             title: "Monthly Review",
+             frequency: "monthly_nth_weekday",
+             monthly_ordinal: -1,
+             monthly_weekday: "friday",
+             interval: 2,
+             time_zone: "America/New_York",
+             start_time: DateTime.parse("2024-12-01T10:00:00Z"),
+             end_date: "2025-12-01")
+    end
+
+    it "exports monthly RRULE with last weekday and interval" do
+      expect(parsed_events.count).to eq(1)
+      expect(series_ical).to include("RRULE:FREQ=MONTHLY")
+      expect(series_ical).to include("INTERVAL=2")
+      expect(series_ical).to match(/BYDAY=-1FR|BYDAY=FR;BYSETPOS=-1/)
+    end
+  end
+
   describe "cancelled schedules" do
     shared_let(:cancelled_schedule1) do
       create(:meeting,

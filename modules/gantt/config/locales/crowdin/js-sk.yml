@@ -2,6 +2,6 @@
 sk:
   js:
     work_packages:
-      label_gantt_chart_plural: Gantt charts
       default_queries:
         milestones: Míľniky
+      label_gantt_chart_plural: Gantt charts

@@ -132,7 +132,10 @@ RSpec.describe CostlogController do
     end
 
     describe "WHEN user allowed to create new cost_entry" do
+      let(:expected_cost_type) { cost_type }
+
       before do
+        cost_type.save!
         grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
       end
 
@@ -154,7 +157,10 @@ RSpec.describe CostlogController do
     end
 
     describe "WHEN user is allowed to create new own cost_entry" do
+      let(:expected_cost_type) { cost_type }
+
       before do
+        cost_type.save!
         grant_current_user_permissions user, %i[view_project view_work_packages log_own_costs]
       end
 
@@ -171,6 +177,53 @@ RSpec.describe CostlogController do
 
     describe "WHEN user is not a project member" do
       it_behaves_like "not_found new"
+    end
+
+    describe "WHEN no cost type is available in the project" do
+      let(:scoped_cost_type) { create(:cost_type, for_all_projects: false) }
+
+      before do
+        CostType.destroy_all
+        scoped_cost_type # only project-scoped cost type, not mapped to this project
+        grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
+        get :new, params:
+      end
+
+      it "redirects with an error flash explaining no cost types are available" do
+        expect(response).to be_redirect
+        expect(flash[:error]).to eq(I18n.t("cost_types.errors.no_cost_types_available"))
+      end
+    end
+
+    describe "WHEN the project's default cost type is global" do
+      let(:expected_cost_type) { cost_type }
+
+      before do
+        CostType.destroy_all
+        cost_type.for_all_projects = true
+        cost_type.default = true
+        cost_type.save!
+        grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
+      end
+
+      it_behaves_like "successful new"
+    end
+
+    describe "WHEN the global default cost type is unavailable in the project, " \
+             "but another non-global cost type is enabled" do
+      let(:scoped_cost_type) { create(:cost_type, for_all_projects: false) }
+      let(:global_default) { create(:cost_type, for_all_projects: false, default: true) }
+      let(:expected_cost_type) { scoped_cost_type }
+
+      before do
+        CostType.destroy_all
+        global_default
+        scoped_cost_type
+        CostTypesProject.create!(project:, cost_type: scoped_cost_type)
+        grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
+      end
+
+      it_behaves_like "successful new"
     end
   end
 
@@ -471,7 +524,7 @@ RSpec.describe CostlogController do
         params["cost_entry"]["user_id"] = user.id.to_s
       end
 
-      let(:expected_user) { nil } # user isn't member so won't be found
+      let(:expected_user) { user } # assigned but rejected because the user is not a project member
 
       it_behaves_like "invalid create"
     end
@@ -484,7 +537,7 @@ RSpec.describe CostlogController do
                               type: project2.types.first,
                               author: user)
       end
-      let(:expected_entity) { nil } # user has no access to the WP so it won't be found
+      let(:expected_entity) { work_package2 } # assigned but rejected because it is not in the project
 
       before do
         grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
@@ -525,6 +578,19 @@ RSpec.describe CostlogController do
       end
 
       it_behaves_like "forbidden create"
+    end
+  end
+
+  describe "DELETE destroy" do
+    before do
+      cost_entry.save(validate: false)
+      grant_current_user_permissions user, %i[view_project view_work_packages view_cost_entries edit_cost_entries]
+      request.env["HTTP_REFERER"] = "http://example.com/work_packages"
+    end
+
+    it "redirects with see_other status" do
+      delete :destroy, params: { id: cost_entry.id }
+      expect(response).to have_http_status(:see_other)
     end
   end
 
@@ -653,7 +719,7 @@ RSpec.describe CostlogController do
              "WHEN updating the user " \
              "WHEN the new user isn't a member of the project" do
       let(:user2) { create(:user) }
-      let(:expected_user) { nil } # user is not allowed to see the user so we cannot expect it to be assigned
+      let(:expected_user) { user2 } # assigned but rejected because the user is not a project member
 
       before do
         grant_current_user_permissions user, %i[view_project view_work_packages view_cost_entries edit_cost_entries]
@@ -672,7 +738,7 @@ RSpec.describe CostlogController do
         create(:work_package, project: project2,
                               type: project2.types.first)
       end
-      let(:expected_entity) { nil } # user has no access to the WP so it won't be found
+      let(:expected_entity) { work_package2 } # assigned but rejected because it is not in the project
 
       before do
         grant_current_user_permissions user, %i[view_project view_work_packages view_cost_entries edit_cost_entries]

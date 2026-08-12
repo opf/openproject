@@ -75,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
       }
     ) do |menu|
       if @editable
-        if User.current.allowed_in_project?(:protect_wiki_pages, @project)
+        if User.current.allowed_in_project?(:manage_wiki, @project)
           menu.with_item(
             label: lock_data[:label],
             tag: :a,
@@ -87,7 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
         if @page.current_version?
-          if User.current.allowed_in_project?(:rename_wiki_pages, @project)
+          if User.current.allowed_in_project?(:edit_wiki_pages, @project)
             menu.with_item(
               label: t(:button_rename),
               tag: :a,
@@ -98,7 +98,7 @@ See COPYRIGHT and LICENSE files for more details.
               item.with_leading_visual_icon(icon: "arrow-switch")
             end
           end
-          if User.current.allowed_in_project?(:change_wiki_parent_page, @project)
+          if User.current.allowed_in_project?(:manage_wiki, @project)
             menu.with_item(
               label: t(:button_change_parent_page),
               tag: :a,
@@ -110,7 +110,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        if User.current.allowed_in_project?(:delete_wiki_pages, @project)
+        if User.current.allowed_in_project?(:manage_wiki, @project)
           menu.with_item(
             label: t(:button_delete),
             scheme: :danger,
@@ -140,7 +140,7 @@ See COPYRIGHT and LICENSE files for more details.
             item.with_leading_visual_icon(icon: :history)
           end
         end
-        if User.current.allowed_in_project?(:manage_wiki_menu, @project)
+        if User.current.allowed_in_project?(:manage_wiki, @project)
           menu.with_item(
             label: t(:button_manage_menu_entry),
             href: url_for(controller: "/wiki_menu_items", action: "edit", project_id: @project.identifier, id: @page),
@@ -161,7 +161,7 @@ See COPYRIGHT and LICENSE files for more details.
         ) do |item|
           item.with_leading_visual_icon(icon: "op-printer")
         end
-        if User.current.allowed_in_project?(:export_wiki_pages, @project)
+        if User.current.allowed_in_project?(:view_wiki_pages, @project)
           menu.with_sub_menu_item(
             tag: :a,
             label: t("js.label_export"),

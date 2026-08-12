@@ -35,7 +35,7 @@ class ProjectIdentifiers::ConvertInstanceToSemanticIdsJob < ApplicationJob
   queue_with_priority :above_normal
 
   def perform
-    GoodJob::Batch.enqueue(on_success: ProjectIdentifiers::FinishSemanticConversionJob) do
+    GoodJob::Batch.enqueue(on_finish: ProjectIdentifiers::FinishSemanticConversionJob) do
       ProjectIdentifiers::PendingProjectsFinder.project_ids.each do |project_id|
         ProjectIdentifiers::ConvertProjectToSemanticIdsJob.perform_later(project_id)
       end

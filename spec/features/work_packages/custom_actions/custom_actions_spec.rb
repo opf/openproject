@@ -572,4 +572,44 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
       edit_ca_page.expect_action(multi_user_custom_field.name, [other_member_user.name])
     end
   end
+
+  context "when staying on the page for multiple changes (Bug#OP-19472)",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let!(:unassign_ca) do
+      create(:custom_action,
+             actions: [CustomActions::Actions::AssignedTo.new(nil)],
+             name: "Unassign")
+    end
+
+    let!(:responsible_ca) do
+      create(:member,
+             principal: admin,
+             project: project,
+             roles: [role])
+      create(:custom_action,
+             actions: [CustomActions::Actions::Responsible.new("current_user")],
+             name: "Be responsible")
+    end
+
+    before do
+      # This is done to fix the id that breaks because the wp is created outside of the
+      # semantic identifier scope.
+      previous_identifier = project.identifier
+      project.update!(identifier: "RENAMED")
+      project.handle_semantic_rename(previous_identifier)
+    end
+
+    it "works when clicking two buttons" do
+      wp_page.visit!
+
+      wp_page.click_custom_action(unassign_ca.name, expect_success: true)
+
+      wp_page.click_custom_action(responsible_ca.name, expect_success: true)
+
+      wp_page.expect_attributes(
+        assignee: "-",
+        responsible: admin.name
+      )
+    end
+  end
 end

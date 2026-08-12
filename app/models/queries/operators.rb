@@ -37,6 +37,7 @@ module Queries::Operators
     Queries::Operators::None,
     Queries::Operators::All,
     Queries::Operators::Contains,
+    Queries::Operators::StartsWith,
     Queries::Operators::NotContains,
     Queries::Operators::InLessThan,
     Queries::Operators::InMoreThan,
@@ -62,6 +63,8 @@ module Queries::Operators
     Queries::Operators::Required,
     Queries::Operators::Parent,
     Queries::Operators::Children,
-    Queries::Operators::Child
+    Queries::Operators::Child,
+    Queries::Operators::Upcoming,
+    Queries::Operators::Past
   ].index_by { |o| o.symbol.to_s }.freeze
 end

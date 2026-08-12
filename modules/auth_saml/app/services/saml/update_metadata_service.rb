@@ -30,6 +30,8 @@
 
 module Saml
   class UpdateMetadataService
+    class MetadataHostNotAllowedError < StandardError; end
+
     attr_reader :user, :provider
 
     def initialize(user:, provider:)
@@ -37,8 +39,14 @@ module Saml
       @provider = provider
     end
 
-    def call
+    def call # rubocop:disable Metrics/AbcSize
       apply_metadata(merge_certificates(fetch_metadata))
+    rescue MetadataDocument::FederationMetadataError => e
+      OpenProject.logger.error(e)
+      ServiceResult.failure(result: provider, message: I18n.t("saml.metadata_parser.federation_metadata"))
+    rescue MetadataDocument::MetadataTooLargeError => e
+      OpenProject.logger.error(e)
+      ServiceResult.failure(result: provider, message: I18n.t("saml.metadata_parser.metadata_too_large"))
     rescue StandardError => e
       OpenProject.logger.error(e)
       ServiceResult.failure(result: provider,
@@ -67,11 +75,24 @@ module Saml
     end
 
     def parse_xml
-      parser_instance.parse_to_hash(provider.metadata_xml)
+      xml = MetadataDocument.prepare(provider.metadata_xml, entity_id: provider.idp_entity_id)
+      parser_instance.parse_to_hash(xml)
     end
 
     def parse_url
-      parser_instance.parse_remote_to_hash(provider.metadata_url)
+      validate_metadata_url_host!
+      MetadataFetcher.fetch(provider.metadata_url) do |file|
+        xml = MetadataDocument.prepare(file, entity_id: provider.idp_entity_id)
+        parser_instance.parse_to_hash(xml)
+      end
+    end
+
+    def validate_metadata_url_host!
+      host = URI.parse(provider.metadata_url).host
+      raise URI::InvalidURIError, provider.metadata_url if host.blank?
+      return if OpenProject::SsrfProtection.safe_ip?(host)
+
+      raise MetadataHostNotAllowedError, host
     end
 
     def parser_instance

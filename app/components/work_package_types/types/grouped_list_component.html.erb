@@ -1,0 +1,92 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper(data: { controller: "generic-drag-and-drop" }) do %>
+  <%= flex_layout(data: drop_target_config) do |container| %>
+    <% types.each do |root| %>
+      <% container.with_row(mt: 3, data: draggable_item_config(root)) do %>
+        <%= render(
+              OpenProject::Common::BorderBoxListComponent.new(
+                container: "op-types-group-#{root.id}",
+                collapsible: true
+              )
+            ) do |list| %>
+          <% list.with_header(collapsed: collapsed?(root), show_drag_handle: reorderable?(root)) do |header| %>
+            <% header.with_title do %>
+              <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(root) } %>
+              <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :semibold)) { root.name } %>
+              <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_weight: :normal, ml: 2)) { t("types.index.type_label") } %>
+              <% if root.children.any? %>
+                <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { variants_count_label(root) } %>
+              <% end %>
+            <% end %>
+            <% add_default_label(header, root) %>
+            <% header.with_menu(menu_id: menu_id(root), src: menu_src(root)) %>
+          <% end %>
+
+          <% root.sorted_variants.each do |child| %>
+            <% list.with_item do |item| %>
+              <% item.with_menu(menu_id: menu_id(child), src: menu_src(child)) %>
+              <%= flex_layout(align_items: :center, justify_content: :space_between) do |variant| %>
+                <% variant.with_column(display: :inline_flex, align_items: :center) do %>
+                  <%= render(
+                        Primer::Beta::Link.new(
+                          href: edit_type_details_path(type_id: child.id),
+                          font_weight: :bold
+                        )
+                      ) { child.own_name } %>
+                  <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { t("types.index.variant_label") } %>
+                <% end %>
+                <% if child.is_default? %>
+                  <% variant.with_column(mr: 3) { render(Primer::Beta::Label.new) { t("types.index.enabled_in_new_projects") } } %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% list.with_footer do %>
+            <%= render(
+                  Primer::Beta::Link.new(
+                    href: add_variant_path(root),
+                    muted: true,
+                    display: :inline_flex,
+                    align_items: :center
+                  )
+                ) do %>
+              <%= render(Primer::Beta::Octicon.new(icon: :plus, mr: 1)) %>
+              <%= t("types.index.add_variant", name: root.name) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= helpers.pagination_links_full(types) %>

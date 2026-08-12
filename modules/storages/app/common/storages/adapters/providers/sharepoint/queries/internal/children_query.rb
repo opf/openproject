@@ -77,7 +77,7 @@ module Storages
               end
 
               def handle_response(response)
-                error = Results::Error.new(source: self.class, payload: response)
+                error = SimpleError.new(source: self.class, payload: response, code: :error)
 
                 case response
                 in { status: 200..299 }
@@ -91,7 +91,7 @@ module Storages
                 in { status: 401 }
                   Failure(error.with(code: :unauthorized))
                 else
-                  Failure(error.with(code: :error))
+                  Failure(error)
                 end
               end
 
@@ -121,12 +121,14 @@ module Storages
               end
 
               def build_empty_root_folder(json)
+                name = CGI.unescapeURIComponent(json[:webUrl].delete_prefix(host_uri))
+
                 Results::StorageFileCollection.build(
                   files: [],
                   parent: Results::StorageFile.new(
-                    name: CGI.unescape(json[:webUrl].gsub(/.*#{site_name}\//, "")),
+                    name:,
                     id: json[:parentReference][:driveId],
-                    location: json[:webUrl].gsub(/.*#{site_name}/, ""),
+                    location: "/#{name}",
                     permissions: %i[readable writeable]
                   ),
                   ancestors: [site_root]
@@ -155,7 +157,7 @@ module Storages
                     ancestors.push(drive_root(drive_name))
                   else
                     ancestors.push(
-                      @transformer.build_ancestor(component, "#{CGI.unescape(ancestors.last.location)}/#{component}")
+                      @transformer.build_ancestor(component, "#{ancestors.last.location}/#{CGI.unescape(component)}")
                     )
                   end
                 end

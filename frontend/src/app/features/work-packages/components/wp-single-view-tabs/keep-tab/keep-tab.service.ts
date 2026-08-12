@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,24 +33,26 @@ import {
   UIRouterGlobals,
 } from '@uirouter/core';
 import { ReplaySubject } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Injectable({ providedIn: 'root' })
 export class KeepTabService {
+  protected $state = inject(StateService);
+  protected uiRouterGlobals = inject(UIRouterGlobals);
+  protected $transitions = inject(TransitionService);
+  protected pathHelper = inject(PathHelperService);
+  protected currentProject = inject(CurrentProjectService);
+
   protected currentTab = 'overview';
 
   protected subject = new ReplaySubject<Record<string, string>>(1);
 
-  constructor(
-    protected $state:StateService,
-    protected uiRouterGlobals:UIRouterGlobals,
-    protected $transitions:TransitionService,
-    protected pathHelper:PathHelperService,
-    protected currentProject:CurrentProjectService,
-    ) {
+  constructor() {
+    const $transitions = this.$transitions;
+
     this.updateTabs();
     $transitions.onSuccess({}, (transition:Transition) => {
       this.updateTabs(transition.params('to').tabIdentifier);

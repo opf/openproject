@@ -1,0 +1,39 @@
+List items can have three visual states. The states are expressed via CSS classes on the row element (`<tr>` or equivalent) and are driven by CSS custom properties defined in `_variable_defaults.scss`.
+
+![Box list item color states overview](<%= image_path("lookbook/box_list_color_states.png") %>)
+
+## States
+
+### Default
+
+The item uses the base background (`--box-list-item-bg-color`) and a neutral border (`--box-list-item-border-color`).
+
+### Selected
+
+Applied when an item is part of the active **(multi-)selection** - e.g. for bulk actions or drag & drop. The background is blue (`--box-list-item-selected-bg-color`). A subtle blue border is added at the top and the bottom (`--box-list-item-selected-border-color`).
+
+### Pressed
+
+Applied to the item that is currently **open in the split-screen**. A stronger blue border is added at the top and bottom (`--box-list-item-pressed-border-color`) to indicate the active detail context. The background colour remains unchanged.
+
+An item can carry both states simultaneously when it is selected *and* currently shown in the detail panel.
+
+## CSS custom properties
+
+| Property | Used by |
+|---|---|
+| `--box-list-item-bg-color` | default background |
+| `--box-list-item-bg-hover-color` | hover background |
+| `--box-list-item-border-color` | default border |
+| `--box-list-item-selected-bg-color` | `selected` background |
+| `--box-list-item-selected-bg-hover-color` | `selected` hover background |
+| `--box-list-item-selected-border-color` | `selected` border |
+| `--box-list-item-pressed-border-color` | `pressed` border |
+
+## Usages
+
+This pattern is currently used in:
+
+* WorkPackage list
+* Notification center
+* Backlogs

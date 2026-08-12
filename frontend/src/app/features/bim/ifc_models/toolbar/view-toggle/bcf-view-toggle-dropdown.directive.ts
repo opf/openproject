@@ -21,13 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { StateService } from '@uirouter/core';
@@ -48,15 +47,11 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
   standalone: false,
 })
 export class BcfViewToggleDropdownDirective extends OpContextMenuTrigger {
-  constructor(readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly bcfView:BcfViewService,
-    readonly I18n:I18nService,
-    readonly state:StateService,
-    readonly wpFiltersService:WorkPackageFiltersService,
-    readonly viewerBridgeService:ViewerBridgeService) {
-    super(elementRef, opContextMenu);
-  }
+  readonly bcfView = inject(BcfViewService);
+  readonly I18n = inject(I18nService);
+  readonly state = inject(StateService);
+  readonly wpFiltersService = inject(WorkPackageFiltersService);
+  readonly viewerBridgeService = inject(ViewerBridgeService);
 
   protected open(evt:Event):void {
     this.buildItems();

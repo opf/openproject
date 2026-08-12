@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
       form_arguments: {
         action: project_meeting_path(@project, @meeting, back_url: @back_url),
         method: :delete,
-        data: { turbo: true }
+        data: { turbo: false }
       }
     )
   ) do |dialog|

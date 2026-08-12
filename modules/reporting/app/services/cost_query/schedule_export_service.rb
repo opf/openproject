@@ -47,10 +47,7 @@ class CostQuery::ScheduleExportService
     job.perform_later(export: export_storage,
                       user:,
                       mime_type: format,
-                      query_id:,
-                      query_name:,
                       query: filter_params,
-                      project:,
-                      cost_types:)
+                      options: { query_id:, query_name:, project:, cost_types: })
   end
 end

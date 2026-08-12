@@ -37,7 +37,7 @@ module API
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
-        cached_representer key_parts: %i[project]
+        cached_representer key_parts: %i[project template]
 
         self.to_eager_load = [:author, :template, { project: :enabled_modules }]
 
@@ -97,6 +97,12 @@ module API
         property :title
 
         property :frequency
+
+        property :monthly_day
+
+        property :monthly_ordinal
+
+        property :monthly_weekday
 
         property :interval
 

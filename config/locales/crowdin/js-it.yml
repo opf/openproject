@@ -22,6 +22,19 @@
 ---
 it:
   js:
+    admin:
+      type_form:
+        edit_query: Modifica query
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_field_to_status_html: Cambiando la modalità di calcolo dell'avanzamento da basata sul lavoro a basata sullo stato porvocherà la perdita di tutti i valori <i>% Complete</i> esistenti e saranno sostituiti con i valori associati ad ogni stato. I valori esistenti per il lavoro <i>rimanente</i> potrebbero anche essere ricalcolati per riflettere questo cambiamento. Questa azione non è reversibile.
+        warning_progress_calculation_mode_change_from_status_to_field_html: La modifica della modalità di calcolo dei progressi da basata sullo stato a basata sul lavoro renderà il campo <i>% completamento</i> liberamente modificabile. Se inserisci facoltativamente valori per <i>Lavoro</i> o <i>Lavoro residuo</i>, questi verranno collegati anche a <i>% completamento</i>. La modifica di <i>Lavoro residuo</i> può quindi aggiornare <i>% completamento</i>.
+      working_days:
+        add_non_working_day: Giorno non lavorativo
+        already_added_error: Esiste già un giorno non lavorativo per questa data. Può essere creato un solo giorno non lavorativo per ogni data univoca.
+        calendar:
+          empty_state_description: Per quest'anno non sono definiti giorni non lavorativi specifici. Fai clic su "+ Giorno non lavorativo" di seguito per aggiungere una data.
+          empty_state_header: Giorni non lavorativi
+          new_date: "(nuovo)"
     ajax:
       hide: Nascondi
       loading: Caricamento…
@@ -42,281 +55,367 @@ it:
       not_found: Nessun elemento trovato
       type_to_search: Digita per cercare
     autocomplete_select:
+      active: Attiva %{label} %{name}
       placeholder:
         multi: Aggiungi "%{name}"
         single: Seleziona "%{name}"
       remove: Rimuovi %{name}
-      active: Attiva %{label} %{name}
+    autocompleter:
+      notFoundText: Nessun elemento trovato
+      placeholder: Digita per cercare
+      project:
+        placeholder: Seleziona progetto
+      search: Cerca
     backup:
       attachments_disabled: Gli allegati non sono includibili poiché possono eccedere la dimensione complessiva massima consentita. Puoi modificare ciò tramite la configurazione (richiede un riavvio del server).
+      download_backup: Scarica backup
+      include_attachments: Includi allegati
       info: 'Qui puoi causare un backup. Il processo può impiegare un po'' di tempo in base alla quantità di dati (specialmente allegati) che hai. Riceverai un''email una volta pronto.
-
-        '
-      note: 'Un nuovo backup sovrascriverà ogni suo precedente. Sono richiedibili solo un numero limitato di backup giornalieri.
 
         '
       last_backup: Ultimo backup
       last_backup_from: Ultimo backup da
-      title: Backup OpenProject
+      note: 'Un nuovo backup sovrascriverà ogni suo precedente. Sono richiedibili solo un numero limitato di backup giornalieri.
+
+        '
       options: Opzioni
-      include_attachments: Includi allegati
-      download_backup: Scarica backup
       request_backup: Richiedi backup
-    close_popup_title: Chiudi popup
-    close_filter_title: Chiudi il filtro
-    close_form_title: Chiudi il modulo
-    button_add_watcher: Aggiungi osservatore
+      title: Backup OpenProject
+    baseline:
+      apply: Applica
+      clear: Pulisci
+      drop_down:
+        a_specific_date: una data specifica
+        between_two_specific_dates: tra due date specifiche
+        last_month: il mese scorso
+        last_week: ultima settimana
+        last_working_day: ultimo giorno lavorativo
+        none: "-"
+        yesterday: ieri
+      from: Da
+      header_description: Evidenzia le modifiche apportate a questo elenco da qualsiasi punto nel passato.
+      help_description: Fuso orario di riferimento per la base di riferimento.
+      icon_tooltip:
+        added: Aggiunto per la visualizzazione entro il periodo di confronto
+        changed: Mantenuto con modifiche
+        removed: Rimosso dalla vista entro il periodo di confronto
+      legends:
+        changes_between: Modifiche tra
+        changes_since: Modifiche dal
+        in_your_timezone: 'Nel tuo fuso orario locale:'
+        maintained_with_changes: Mantenuto con le modifiche
+        no_longer_meets_filter_criteria: Non soddisfa più i criteri del filtro
+        now_meets_filter_criteria: Ora soddisfa i criteri del filtro
+      show_changes_since: Mostra le modifiche da
+      time: Ora
+      time_description: 'Nella tua ora locale: %{datetime}'
+      to: A
+      toggle_title: Base di riferimento
+    breadcrumb: Percorso di navigazione
     button_add: Aggiungi
+    button_add_watcher: Aggiungi osservatore
+    button_advanced_filter: Filtro avanzato
     button_back: Indietro
     button_back_to_list_view: Torna alla visualizzazione in lista
     button_cancel: Cancella
-    button_close: Chiudi
     button_change_project: Sposta su un altro progetto
     button_check_all: Seleziona tutti
+    button_clear: Cancella
+    button_close: Chiudi
+    button_close_details: Nascondi dettagli
+    button_collapse_all: Comprimi Tutto
     button_configure-form: Configura modulo
     button_confirm: Conferma
     button_continue: Continua
     button_copy: Copia
-    button_copy_to_clipboard: Copia negli appunti
     button_copy_link_to_clipboard: Copia link negli appunti
+    button_copy_numeric_id_to_clipboard: Copia l'ID numerico negli appunti
+    button_copy_to_clipboard: Copia negli appunti
     button_copy_to_other_project: Duplica in un altro progetto
+    button_create: Crea
     button_custom-fields: Campo personalizzato
     button_delete: Cancella
     button_delete_watcher: Elimina osservatore
     button_details_view: Mostra dettagli
     button_duplicate: Duplica
     button_edit: Modifica
-    button_filter: Filtro
-    button_collapse_all: Comprimi Tutto
     button_expand_all: Espandi tutto
-    button_advanced_filter: Filtro avanzato
+    button_export-atom: Scarica Atom
+    button_filter: Filtro
+    button_generate_pdf: Genera PDF
     button_list_view: Vista elenco
-    button_show_view: Visualizzazione a schermo intero
     button_log_time: Registra l'orario effettuato
-    button_start_timer: Avvia il timer
-    button_stop_timer: Ferma il timer
     button_more: Più
-    button_open_details: Mostra dettagli
-    button_close_details: Nascondi dettagli
-    button_open_fullscreen: Apri la visualizzazione a schermo intero
-    button_show_cards: Mostra la visualizzazione a schede
-    button_show_list: Mostra la visualizzazione a elenco
-    button_show_table: Mostra la visualizzazione a tabella
-    button_show_gantt: Mostra la visualizzazione Gantt
-    button_show_fullscreen: Mostra la visualizzazione a schermo intero
     button_more_actions: Altre azioni
+    button_open_details: Mostra dettagli
+    button_open_fullscreen: Apri la visualizzazione a schermo intero
     button_quote: Cita
     button_save: Salva
     button_settings: Impostazioni
+    button_show_cards: Mostra la visualizzazione a schede
+    button_show_fullscreen: Mostra la visualizzazione a schermo intero
+    button_show_gantt: Mostra la visualizzazione Gantt
+    button_show_list: Mostra la visualizzazione a elenco
+    button_show_table: Mostra la visualizzazione a tabella
+    button_show_view: Visualizzazione a schermo intero
+    button_start_timer: Avvia il timer
+    button_stop_timer: Ferma il timer
     button_uncheck_all: Deseleziona tutti
     button_update: Aggiorna
-    button_export-atom: Scarica Atom
-    button_generate_pdf: Genera PDF
-    button_create: Crea
+    caption_rate_history: Cronologia tariffe
     card:
       add_new: Aggiungi una nuova carta
       highlighting:
-        inline: 'Evidenzia in linea:'
         entire_card_by: Tutta la carta per
+        inline: 'Evidenzia in linea:'
       remove_from_list: Rimuovi la carta dall'elenco
-    caption_rate_history: Cronologia tariffe
+    chart:
+      axis_criteria: Criteri dell'asse
+      errors:
+        could_not_load: I dati per visualizzare il grafico non possono essere caricati. Potrebbero mancare i permessi necessari.
+      modal_title: Configurazione grafico macro-attività
+      tabs:
+        dataset: Dataset %{number}
+        graph_settings: Generale
+      type: Tipo di grafico
+      types:
+        bar: Barra
+        doughnut: Ciambella
+        horizontal_bar: Barra Orizzontale
+        line: Linea
+        pie: Torta
+        polar_area: Area polare
+        radar: Radar
     clipboard:
       browser_error: 'Il tuo browser non supporta la copia negli appunti. Copia manualmente: %{content}'
       copied_successful: Copia negli appunti completata con successo!
-    chart:
-      type: Tipo di grafico
-      axis_criteria: Criteri dell'asse
-      modal_title: Configurazione grafico macro-attività
-      types:
-        line: Linea
-        horizontal_bar: Barra Orizzontale
-        bar: Barra
-        pie: Torta
-        doughnut: Ciambella
-        radar: Radar
-        polar_area: Area polare
-      tabs:
-        graph_settings: Generale
-        dataset: Dataset %{number}
-      errors:
-        could_not_load: I dati per visualizzare il grafico non possono essere caricati. Potrebbero mancare i permessi necessari.
+    close_filter_title: Chiudi il filtro
+    close_form_title: Chiudi il modulo
+    close_popup_title: Chiudi popup
+    custom_actions:
+      date:
+        current_date: Data corrente
+        specific: il
     description_available_columns: Colonne disponibili
     description_current_position: 'Sei qui: '
     description_select_work_package: 'Seleziona la macro-attività #%{id}'
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     editor:
-      revisions: Mostra le modifiche locali
-      no_revisions: Nessuna modifica locale trovata
-      preview: Attiva/disattiva modalità anteprima
-      source_code: Attiva/Disattiva modalità origine Marcatura
-      error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
       ckeditor_error: Si è verificato un errore all'interno di CKEditor
-      mode:
-        manual: Passa alla risorsa Markdown
-        wysiwyg: Passa all'editor WYSIWYG
+      error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
       macro:
-        error: 'Impossibile espandere la macro: %{message}'
         attribute_reference:
-          macro_help_tooltip: Questo segmento di testo viene renderizzato dinamicamente da una macro.
-          not_found: Impossibile trovare la risorsa richiesta
-          nested_macro: Questa macro fa riferimento in modo ricorsivo a %{model} %{id}.
+          aria_label_project_attribute: Un collegamento dinamico a un attributo di progetto inserito tramite una macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: Un attributo dinamico a una macro-attività inserito tramite una macro.
+          aria_label_work_package_link: Un collegamento dinamico a una macro-attività inserito tramite una macro.
           invalid_attribute: L'attributo selezionato '%{name}' non esiste.
+          nested_macro: Questa macro fa riferimento in modo ricorsivo a %{model} %{id}.
+          not_found: Impossibile trovare la risorsa richiesta
         child_pages:
-          button: Collegamenti alle pagine discendenti
-          include_parent: Includi genitore
-          text: "[Placeholder] Collegamenti alle pagine discendenti di"
-          page: Pagina wiki
-          this_page: questa pagina
+          button: Elenco delle sottopagine
           hint: 'Lascia questo campo vuoto per elencare tutte le pagine discendenti dalla pagina attuale. Se desideri referenziare un''altra pagina, specifica il titolo o lo slug di pagina.
 
             '
+          include_parent: Includi genitore
+          page: Pagina wiki
+          text: "[Placeholder] Elenco delle sottopagine di"
+          this_page: questa pagina
         code_block:
           button: Inserisci frammento di codice
-          title: Inserisci / modifica frammento di codice
           language: Linguaggio di formattazione
           language_hint: Specifica il linguaggio di formattazione che verrà utilizzato per evidenziare (se supportato).
-        dropdown:
-          macros: Macro
-          chose_macro: Scegli macro
+          title: Inserisci / modifica frammento di codice
+        embedded_calendar:
+          text: "[Placeholder] Calendario incorporato"
+        embedded_table:
+          button: Incorpora la tabella della macro-attività
+          text: "[Placeholder] Tabella della macro-attività incorporata"
+        error: 'Impossibile espandere la macro: %{message}'
+        macro_dropdown:
+          caption: Inserisci
         toc: Indice
         toolbar_help: Clicca per selezionare widget e visualizzare la barra degli strumenti. Fai doppio clic per modificare i widget
         wiki_page_include:
           button: Includi il contenuto di un'altra pagina wiki
-          text: "[Placeholder] Inclusa pagina wiki di"
-          page: Pagina wiki
-          not_set: "(Pagina non ancora impostata)"
           hint: |
             Includi il contenuto di un'altra pagina wiki specificando il titolo o lo slug di pagina.
             È possibile includere pagine wiki di un altro progetto separandole con una virgola, come nell'esempio seguente.
+          not_set: "(Pagina non ancora impostata)"
+          page: Pagina wiki
+          text: "[Placeholder] Inclusa pagina wiki di"
         work_package_button:
           button: Inserisci il tasto Crea macro-attività
-          type: Tipo di macro-attività
           button_style: Mostra come pulsante
           button_style_hint: 'Facoltativo: Spunta per far apparire la macro come un pulsante e non come collegamento.'
-          without_type: Crea macro-attività
+          type: Tipo di macro-attività
           with_type: 'Crea macro-attività (Tipo: %{typename})'
-        embedded_table:
-          button: Incorpora la tabella della macro-attività
-          text: "[Placeholder] Tabella della macro-attività incorporata"
-        embedded_calendar:
-          text: "[Placeholder] Calendario incorporato"
-    admin:
-      type_form:
-        custom_field: Campo personalizzato
-        inactive: Inattivo
-        drag_to_activate: Trascina i campi da qui per attivarli
-        add_group: Aggiungi gruppo di attributi
-        add_table: Aggiungi la tabella dei pacchetti di lavoro correlati
-        edit_query: Modifica query
-        new_group: Nuovo gruppo
-        delete_group: Elimina gruppo
-        remove_attribute: Rimuovi dal gruppo
-        reset_to_defaults: Ripristino predefinite
-      working_days:
-        calendar:
-          empty_state_header: Giorni non lavorativi
-          empty_state_description: Per quest'anno non sono definiti giorni non lavorativi specifici. Fai clic su "+ Giorno non lavorativo" di seguito per aggiungere una data.
-          new_date: "(nuovo)"
-        add_non_working_day: Giorno non lavorativo
-        already_added_error: Esiste già un giorno non lavorativo per questa data. Può essere creato un solo giorno non lavorativo per ogni data univoca.
-        change_button: Salva e riprogramma
-        change_title: Cambia giorni lavorativi
-        removed_title: 'Rimuoverai i seguenti giorni dall''elenco dei giorni non lavorativi:'
-        change_description: Cambiare quali giorni della settimana sono considerati giorni lavorativi o giorni non lavorativi può influenzare l'inizio e la fine di tutte le macro-attività e i cicli di vita in tutti i progetti in questo caso.
-        warning: 'L''applicazione delle modifiche potrebbe richiedere del tempo. Riceverai una notifica quando tutte le macro-attività e i cicli di vita dei progetti pertinenti saranno aggiornati. Vuoi davvero continuare?
-
-          '
-      work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: La modifica della modalità di calcolo dei progressi da basata sullo stato a basata sul lavoro renderà il campo <i>% completamento</i> liberamente modificabile. Se inserisci facoltativamente valori per <i>Lavoro</i> o <i>Lavoro residuo</i>, questi verranno collegati anche a <i>% completamento</i>. La modifica di <i>Lavoro residuo</i> può quindi aggiornare <i>% completamento</i>.
-        warning_progress_calculation_mode_change_from_field_to_status_html: Cambiando la modalità di calcolo dell'avanzamento da basata sul lavoro a basata sullo stato porvocherà la perdita di tutti i valori <i>% Complete</i> esistenti e saranno sostituiti con i valori associati ad ogni stato. I valori esistenti per il lavoro <i>rimanente</i> potrebbero anche essere ricalcolati per riflettere questo cambiamento. Questa azione non è reversibile.
-    custom_actions:
-      date:
-        specific: il
-        current_date: Data corrente
-    error:
-      internal: Si è verificato un errore interno.
-      cannot_save_changes_with_message: 'Impossibile salvare le modifiche a causa del seguente errore: %{error}'
-      query_saving: Impossibile salvare la vista.
-      embedded_table_loading: 'La vista incorporata non può essere caricata: %{message}'
+          without_type: Crea macro-attività
+      mode:
+        manual: Passa alla risorsa Markdown
+        wysiwyg: Passa all'editor WYSIWYG
+      no_revisions: Nessuna modifica locale trovata
+      preview: Attiva/disattiva modalità anteprima
+      revisions: Mostra le modifiche locali
+      source_code: Attiva/Disattiva modalità origine Marcatura
     enumeration_activities: Attività (monitoraggio tempi)
     enumeration_doc_categories: Categorie di documenti
     enumeration_work_package_priorities: Priorità della macro-attività
+    error:
+      cannot_save_changes_with_message: 'Impossibile salvare le modifiche a causa del seguente errore: %{error}'
+      embedded_table_loading: 'La vista incorporata non può essere caricata: %{message}'
+      internal: Si è verificato un errore interno.
+      query_saving: Impossibile salvare la vista.
+    error_attachment_upload: 'Impossibile caricare il file: %{error}'
+    error_attachment_upload_permission: Non hai il permesso per caricare file su questa risorsa.
+    error_could_not_resolve_user_name: Impossibile determinare il nome utente
+    error_could_not_resolve_version_name: Impossibile determinare il nome della versione
+    exclusion_info:
+      modal:
+        content: Lo stato '%{status_name}' è stato configurato per essere escluso dai totali delle gerarchie di Lavoro, Lavoro Rimanente e % Completamento. I totali non tengono conto di questo valore.
+        title: Stato escluso dai totali della gerarchia
+    favorite_projects:
+      no_results: Non hai progetti preferiti
+      no_results_subtext: Aggiungi uno o più progetti come preferiti dalla rispettiva panoramica o da una lista di progetti.
+    field_value_enter_prompt: Inserisci un valore per '%{field}'
     filter:
-      more_values_not_shown: Ci sono altri %{total} risultati, effettua una ricerca per filtrare i risultati.
       description:
-        text_open_filter: Apri questo filtro con i tasti 'ALT' e le frecce.
         text_close_filter: Per selezionare una voce, lascia vuoto lo stato attivo per esempio premendo 'Invio'. Per uscire senza un filtro seleziona la prima voce (vuota).
+        text_open_filter: Apri questo filtro con i tasti 'ALT' e le frecce.
+      more_values_not_shown: Ci sono altri %{total} risultati, effettua una ricerca per filtrare i risultati.
       noneElement: "(nessuno)"
-      time_zone_converted:
-        two_values: "%{from} - %{to} sul tuo fuso orario."
-        only_start: Dalle %{from} sul tuo fuso orario.
-        only_end: Alle %{to} sul tuo fuso orario.
-      value_spacer: "-"
       sorting:
         criteria:
           one: Primo criterio di ordinamento
-          two: Secondo criterio di ordinamento
           three: Terzo criterio di ordinamento
+          two: Secondo criterio di ordinamento
+      time_zone_converted:
+        only_end: Alle %{to} sul tuo fuso orario.
+        only_start: Dalle %{from} sul tuo fuso orario.
+        two_values: "%{from} - %{to} sul tuo fuso orario."
+      value_spacer: "-"
+    forms:
+      advanced_settings: Impostazioni avanzate
+      load_error_message: Si è verificato un errore caricando il modulo
+      submit_success_message: Il modulo è stato inviato correttamente
+      validation_error_message: Sei pregato di risolvere gli errori presenti nel modulo
     gantt_chart:
-      label: Diagramma di Gantt
-      quarter_label: T%{quarter_number}
-      labels:
-        title: Configurazione etichetta
-        bar: Etichette di barra
-        left: Sinistra
-        right: Destra
-        farRight: Estrema destra
-        description: 'Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
-
-          '
       button_activate: Mostra diagramma di Gantt
       button_deactivate: Nascondi diagramma di Gantt
       filter:
         noneSelection: "(nessuno)"
+      label: Diagramma di Gantt
+      labels:
+        bar: Etichette di barra
+        description: 'Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
+
+          '
+        farRight: Estrema destra
+        left: Sinistra
+        right: Destra
+        title: Configurazione etichetta
+      quarter_label: T%{quarter_number}
       selection_mode:
         notification: Clicca su qualsiasi macro-attività evidenziata per creare una relazione. Premi ESC per annullare.
       zoom:
-        in: Zoom avanti
-        out: Zoom indietro
         auto: Zoom automatico
         days: Giorni
-        weeks: Settimane
-        months: Mesi
-        quarters: Trimestri
-        years: Anni
         description: 'Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
 
           '
-    general_text_no: 'no'
-    general_text_yes: si
+        in: Zoom avanti
+        months: Mesi
+        out: Zoom indietro
+        quarters: Trimestri
+        weeks: Settimane
+        years: Anni
     general_text_No: 'No'
     general_text_Yes: Si
+    general_text_no: 'no'
+    general_text_yes: si
+    global_search:
+      all_projects: In tutti progetti
+      close_search: Chiudi ricerca
+      current_project: In questo progetto
+      current_project_and_all_descendants: In questo progetto + sottoprogetti
+      direct_hit_available: Macro-attività con ID esatto trovata. Premi Invio per aprirla.
+      items_available: "%{count} elementi disponibili"
+      recently_viewed: Visualizzati di recente
+      search_placeholder_expanded: Cerca macro-attività per oggetto, progetto, tipo, stato o ID
+      title:
+        all_projects: tutti i progetti
+        project_and_subprojects: e tutti i sottoprogetti
+        search_for: Cerca per
     hal:
       error:
-        update_conflict_refresh: Clicca qui per ricaricare il pacchetto di lavoro e aggiornare alla versione più recente.
         edit_prohibited: La modifica di %{attribute} è bloccata per questa macro-attività. Questo attributo o deriva da relazioni (ad es., con attività subordinate) oppure non è configurabile.
         format:
           date: "%{attribute} data non valida - atteso YYYY-MM-DD."
         general: Si è verificato un errore.
+        update_conflict_refresh: Clicca qui per ricaricare il pacchetto di lavoro e aggiornare alla versione più recente.
+    help_texts:
+      show_modal: Mostra testo guida
     ical_sharing_modal:
-      title: Iscriviti al calendario
-      inital_setup_error_message: Si è verificato un errore recuperando i dati.
+      copy_url_label: Copia URL
       description: Puoi utilizzare l'URL (iCalendar) per iscriverti a questo calendario su un client esterno e per visualizzare le informazioni sul pacchetto di lavoro aggiornate da lì.
-      warning: Sei pregato di non condividerlo con altri utenti. Chiunque abbia questo link potrà visualizzare i dettagli del pacchetto di lavoro senza un profilo o una password.
+      ical_generation_error_text: Si è verificato un errore nella creazione dell'URL del calendario.
+      inital_setup_error_message: Si è verificato un errore recuperando i dati.
+      success_message: L'URL "%{name}" è stato copiato con successo negli appunti. Incollalo nel tuo client di calendario per completare l'iscrizione.
+      title: Iscriviti al calendario
+      token_name_description_text: Se ti iscrivi a questo calendario da più dispositivi, questo nome ti aiuterà a distinguerli nel tuo elenco di <a href="%{myAccessTokensUrl}" target="_blank">token di accesso</a>.
       token_name_label: Dove lo userai?
       token_name_placeholder: Digita un nome, ad esempio "Telefono"
-      token_name_description_text: Se ti iscrivi a questo calendario da più dispositivi, questo nome ti aiuterà a distinguerli nel tuo elenco di <a href="%{myAccessTokensUrl}" target="_blank">token di accesso</a>.
-      copy_url_label: Copia URL
-      ical_generation_error_text: Si è verificato un errore nella creazione dell'URL del calendario.
-      success_message: L'URL "%{name}" è stato copiato con successo negli appunti. Incollalo nel tuo client di calendario per completare l'iscrizione.
+      warning: Sei pregato di non condividerlo con altri utenti. Chiunque abbia questo link potrà visualizzare i dettagli del pacchetto di lavoro senza un profilo o una password.
+    include_projects:
+      apply: Applica
+      clear_selection: Annulla selezione
+      include_subprojects: Includi tutti i sotto-progetti
+      no_results: Nessun progetto corrisponde ai tuoi criteri di ricerca
+      search_placeholder: Cerca progetti...
+      selected_filter:
+        all: Tutti i progetti
+        selected: Solo selezionati
+      title: Progetti
+      toggle_title: Includi progetti
+      tooltip:
+        current_project: Questo è il progetto corrente in cui ti trovi.
+        does_not_match_search: Il progetto non corrisponde ai criteri di ricerca.
+        include_all_selected: Il progetto già stato incluso poiché è abilitata l'opzione Includi tutti i sotto-progetti.
+    include_workspaces:
+      types:
+        portfolio: Portfolio
+        program: Programma
+    inplace:
+      btn_preview_disable: Disabilita anteprima
+      btn_preview_enable: Anteprima
+      button_cancel: "%{attribute}: Annulla"
+      button_cancel_all: Cancella
+      button_edit: "%{attribute}: Modifica"
+      button_save: "%{attribute}: Salva"
+      button_save_all: Salva
+      clear_value_label: "-"
+      errors:
+        maxlength: "%{field} non può contenere più di %{maxLength} cifra/e"
+        messages_on_field: 'Questo campo non è valido: %{messages}'
+        minlength: "%{field} non può contenere meno di %{minLength} cifra/e"
+        number: "%{field} non è un numero valido"
+        required: "%{field} non può essere vuoto"
+      link_formatting_help: Guida di formattazione del testo
+      null_value_label: Nessun valore
+    invalid_job_response: Risposta dal server non valida.
+    invite_user_modal:
+      invite: Invita
+      placeholder_add_tag: Crea un utente segnaposto
     label_activate: Attiva
-    label_assignee: Assegnatario
-    label_assignee_alt_text: Questa macro-attività è assegnata a %{name}
+    label_activity_show_all: Mostra tutte le attività
+    label_activity_show_only_comments: Mostra solo le attività con commenti
+    label_add_attachments: Allega file
     label_add_column_after: Aggiungi colonna dopo
     label_add_column_before: Aggiungi colonna prima
     label_add_columns: Aggiungi colonne
     label_add_comment: Aggiungi un commento
     label_add_comment_title: Commenta e digita @ per notificare altre persone
+    label_add_description: Aggiunge una descrizione per %{file}
     label_add_row_after: Aggiungi riga dopo
     label_add_row_before: Aggiungi riga prima
     label_add_selected_columns: Aggiungi colonne selezionate
@@ -329,6 +428,9 @@ it:
     label_all_work_packages: tutte le macro-attività
     label_and: e
     label_ascending: Crescente
+    label_assignee: Assegnatario
+    label_assignee_alt_text: Questa macro-attività è assegnata a %{name}
+    label_attachments: Allegati
     label_author: 'Autore: %{user}'
     label_avatar: Avatar
     label_between: tra
@@ -336,42 +438,52 @@ it:
     label_board_locked: Chiuso
     label_board_plural: Tabelloni
     label_board_sticky: In evidenza
+    label_cancel_comment: Cancella il commento
     label_change: Cambia
+    label_children_derived_duration: Durata derivata dei figli della macro-attività
+    label_closed_work_packages: chiuso
+    label_collapse: Comprimi
+    label_collapse_all: Comprimi Tutto
+    label_collapse_text: Comprimi testo
+    label_collapsed: collassato
+    label_columns: Colonne
+    label_comment: Commento
+    label_contains: contiene
     label_create: Crea
     label_create_work_package: Crea una nuova macro-attività
     label_created_by: Creato da
+    label_created_on: creato il
     label_current: attuale
+    label_custom_queries: Privato
     label_date: Data
     label_date_with_format: 'Immettere il %{date_attribute} utilizzando il seguente formato: %{format}'
     label_deactivate: Disattivare
+    label_default_queries: Predefinito
     label_descending: Decrescente
     label_description: Descrizione
     label_details: Dettagli
     label_display: Visualizza
-    label_cancel_comment: Cancella il commento
-    label_closed_work_packages: chiuso
-    label_collapse: Comprimi
-    label_collapsed: collassato
-    label_collapse_all: Comprimi Tutto
-    label_collapse_text: Comprimi testo
-    label_comment: Commento
-    label_contains: contiene
-    label_created_on: creato il
+    label_drop_files: Rilascia qui i file per allegarli.
+    label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega di selezionare singoli file.
+    label_drop_or_click_files: Rilascia qui i file o clicca per allegarli.
     label_edit_comment: Modifica questo commento
     label_edit_status: Modifica lo stato della macro-attività
     label_email: Email
     label_equals: è
     label_expand: Espandi
-    label_expanded: espanso
     label_expand_all: Espandi tutto
-    label_expand_text: Mostra il testo completo
     label_expand_project_menu: Espandi il menù di progetto
+    label_expand_text: Mostra il testo completo
+    label_expanded: espanso
     label_export: Esporta
     label_export_preparing: L'esportazione è in fase di preparazione e il download partirà a breve.
     label_favorites: Preferiti
     label_filename: File
+    label_files_to_upload: 'Verranno caricati questi files:'
     label_filesize: Dimensione
+    label_formattable_attachment_hint: Allega e collega i file trascinandoli in questo campo, o incollandoli dagli appunti.
     label_general: Generale
+    label_global_queries: Pubblico
     label_greater_or_equal: ">="
     label_group: Gruppo
     label_group_by: Raggruppa per
@@ -379,15 +491,16 @@ it:
     label_hide_attributes: Meno suggerimenti
     label_hide_column: Nascondi la colonna
     label_hide_project_menu: Comprimi il menù di progetto
+    label_import: Importazione
     label_in: in
     label_in_less_than: in meno di
     label_in_more_than: in più di
     label_incoming_emails: Email in arrivo
+    label_infinity: Infinito
     label_information_plural: Informazioni
     label_invalid: Non valido
-    label_import: Importazione
-    label_latest_activity: Ultima attività
     label_last_updated_on: Ultimo aggiornamento il
+    label_latest_activity: Ultima attività
     label_learn_more_link: Scopri di più
     label_less_or_equal: "<="
     label_less_than_ago: meno di qualche giorno fa
@@ -397,39 +510,45 @@ it:
     label_me: io
     label_meeting_agenda: Ordine del giorno
     label_meeting_minutes: Verbali
-    label_more_than_ago: più di qualche giorno fa
     label_moderate_comment: Modera i commenti
+    label_more_than_ago: più di qualche giorno fa
     label_next: Prossimo
     label_no_color: Nessun colore
     label_no_data: Nessun dato da visualizzare
+    label_no_date: Nessuna data
     label_no_due_date: nessuna data di fine
     label_no_start_date: nessuna data di inizio
-    label_no_date: Nessuna data
     label_no_value: Nessun valore
     label_none: nessuno
+    label_not_available: Non disponibile
     label_not_contains: non contiene
     label_not_equals: non è
     label_on: il
-    label_open_menu: Apri menu
     label_open_context_menu: Apri il menu di scelta rapida
+    label_open_menu: Apri menu
     label_open_work_packages: aperte
     label_password: Password
-    label_previous: Precedente
     label_per_page: 'Per pagina:'
     label_please_wait: Attendere
+    label_press_enter_to_save: Premi Invio per salvare.
+    label_previous: Precedente
     label_project: Progetto
-    label_project_list: Elenchi progetti
     label_project_plural: Progetti
-    label_visibility_settings: Impostazioni di visibilità
+    label_public_query: Pubblico
     label_quote_comment: Annota questo commento
     label_recent: Recenti
-    label_reset: Reimposta
+    label_rejected_files: 'Questi file non possono essere caricati:'
+    label_rejected_files_reason: Questi file non possono essere caricati perchè la loro dimensione è maggiore di %{maximumFilesize}
     label_remove: Rimuovi
+    label_remove_all_files: Elimina tutti i file
     label_remove_column: Rimuovi colonna
     label_remove_columns: Rimuovi le colonne selezionate
+    label_remove_file: Cancella %{fileName}
     label_remove_row: Rimuovi riga
+    label_remove_watcher: Rimuovi watcher %{name}
     label_report: Segnalano
     label_repository_plural: Archivi
+    label_reset: Reimposta
     label_resize_project_menu: Ridimensiona il menu del progetto
     label_save_as: Salva come
     label_search_columns: Cerca una colonna
@@ -438,168 +557,172 @@ it:
     label_show_attributes: Mostra tutti gli attributi
     label_show_in_menu: Mostra la vista nel menù
     label_sort_by: Ordina per
-    label_sorted_by: ordinati per
     label_sort_higher: Sposta su
     label_sort_lower: Sposta giu
+    label_sorted_by: ordinati per
     label_sorting: Ordinamento
     label_spent_time: Tempo speso
     label_star_query: Preferiti
-    label_press_enter_to_save: Premi Invio per salvare.
-    label_public_query: Pubblico
+    label_starred_queries: Preferito
+    label_subject: Soggetto
     label_sum: Somma
     label_sum_for: Somma per
-    label_total_sum: Somma totale
-    label_subject: Soggetto
     label_this_week: questa settimana
-    label_today: Oggi
     label_time_entry_plural: Tempo speso
-    label_up: Su
-    label_user_plural: Utenti
-    label_activity_show_only_comments: Mostra solo le attività con commenti
-    label_activity_show_all: Mostra tutte le attività
-    label_total_progress: "%{percent}% Progresso totale"
+    label_today: Oggi
     label_total_amount: 'Totale: %{amount}'
+    label_total_progress: "%{percent}% Progresso totale"
+    label_total_sum: Somma totale
+    label_unwatch: Smetti di Osservare
+    label_unwatch_work_package: Smetti di osservare macro-attività
+    label_up: Su
     label_updated_on: aggiornato il
+    label_upload_counter: "%{done} di %{count} file completati"
+    label_upload_notification: Caricamento dei file...
+    label_uploaded_by: Caricato da
+    label_user_plural: Utenti
+    label_validation_error: 'La macro-attività non può essere salvata a causa dei seguenti errori:'
     label_value_derived_from_children: "(valore derivato dai figli)"
-    label_children_derived_duration: Durata derivata dei figli della macro-attività
+    label_version_plural: Versioni
+    label_view_has_changed: Questa vista ha modifiche non salvate. Clicca per salvarle.
+    label_visibility_settings: Impostazioni di visibilità
+    label_wait: Prego, attendi per la configurazione...
     label_warning: Attenzione
-    label_work_package: Macro-attività
-    label_work_package_parent: Macro-attività genitore
-    label_work_package_plural: Macro-attività
     label_watch: Osserva
     label_watch_work_package: Osserva macro-attività
     label_watcher_added_successfully: Osservatore aggiunto correttamente!
     label_watcher_deleted_successfully: Osservatore eliminato correttamente!
-    label_work_package_details_you_are_here: Sei nella scheda %{tab} per %{type} %{subject}.
+    label_work_package: Macro-attività
     label_work_package_context_menu: Menu contestuale macro-attività
-    label_unwatch: Smetti di Osservare
-    label_unwatch_work_package: Smetti di osservare macro-attività
-    label_uploaded_by: Caricato da
-    label_default_queries: Predefinito
-    label_starred_queries: Preferito
-    label_global_queries: Pubblico
-    label_custom_queries: Privato
-    label_columns: Colonne
-    label_attachments: Allegati
-    label_drop_files: Rilascia qui i file per allegarli.
-    label_drop_or_click_files: Rilascia qui i file o clicca per allegarli.
-    label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega di selezionare singoli file.
-    label_add_attachments: Allega file
-    label_formattable_attachment_hint: Allega e collega i file trascinandoli in questo campo, o incollandoli dagli appunti.
-    label_remove_file: Cancella %{fileName}
-    label_remove_watcher: Rimuovi watcher %{name}
-    label_remove_all_files: Elimina tutti i file
-    label_add_description: Aggiunge una descrizione per %{file}
-    label_upload_notification: Caricamento dei file...
+    label_work_package_details_you_are_here: Sei nella scheda %{tab} per %{type} %{subject}.
+    label_work_package_parent: Macro-attività genitore
+    label_work_package_plural: Macro-attività
     label_work_package_upload_notification: 'Caricamento dei file per la macro-attività #%{id}: %{subject} in corso'
     label_wp_id_added_by: "#%{id} aggiunto da%{author}"
-    label_files_to_upload: 'Verranno caricati questi files:'
-    label_rejected_files: 'Questi file non possono essere caricati:'
-    label_rejected_files_reason: Questi file non possono essere caricati perchè la loro dimensione è maggiore di %{maximumFilesize}
-    label_wait: Prego, attendi per la configurazione...
-    label_upload_counter: "%{done} di %{count} file completati"
-    label_validation_error: 'La macro-attività non può essere salvata a causa dei seguenti errori:'
-    label_version_plural: Versioni
-    label_view_has_changed: Questa vista ha modifiche non salvate. Clicca per salvarle.
-    help_texts:
-      show_modal: Mostra testo guida
-    onboarding:
-      buttons:
-        skip: Salta
-        next: Prossimo
-        got_it: Capito
-      steps:
-        help_menu: Il menu Aiuto (?) fornisce <b>ulteriori risorse di aiuto</b>. Qui puoi trovare una guida utente, video utili e altro ancora. <br> Goditi il tuo lavoro con OpenProject!
-        members: Invita nuovi <b>membri</b> per entrare al tuo progetto.
-        quick_add_button: Clicca sull'icona più (+) nella navigazione dell'intestazione per <b>creare un nuovo progetto</b> o per <b>invitare colleghi</b>.
-        sidebar_arrow: Utilizza la freccia di ritorno nell'angolo in alto a sinistra per tornare al <b>menu principale</b> del progetto.
-        welcome: Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine. Puoi riavviare il tour in qualsiasi momento.
-        wiki: Nella <b>wiki</b> puoi documentare e condividere la conoscenza con il tuo team.
-        boards:
-          overview: Seleziona <b>board</b> per cambiare visualizzazione e gestire il tuo progetto utilizzando la visualizzazione agile delle schede.
-          lists_kanban: Qui puoi creare più liste  (colonne) all'interno della tua board. Questa funzione ti consente di creare una <b>board Kanban</b>, ad esempio.
-          lists_basic: Qui puoi creare più liste (colonne) all'interno della tua agile board.
-          add: Fai clic sull'icona più (+) per <b>creare una nuova scheda</b> o <b>aggiungere una scheda esistente</b> all'elenco sulla board.
-          drag: Trascina e rilascia le tue schede all'interno di un determinato elenco per riordinarle o per spostarle in un altro elenco. <br> Puoi fare clic sull'icona delle informazioni (i) nell'angolo in alto a destra o fare doppio clic su una scheda per aprirne i dettagli.
-        wp:
-          toggler: Ora dai un'occhiata alla sezione <b>macro-attività</b>, che ti dà una più dettagliata vista del tuo lavoro.
-          list: Questa panoramica della <b>macro-attività</b> fornisce un elenco di tutto il lavoro nel progetto, come attività, pietre miliari, fasi e altro. <br> Le macro-attività possono essere create e modificate direttamente da questa vista. Per accedere ai dettagli di una particolare macro-attività, è sufficiente fare doppio clic sulla sua riga.
-          full_view: La visualizzazione dei <b>dettagli delle macro-attività</b> fornisce tutte le informazioni rilevanti relative a un determinato pacchetto di lavoro, come descrizione, stato, priorità, attività, dipendenze e commenti.
-          back_button: Utilizza la freccia di ritorno nell'angolo in alto a sinistra per uscire e tornare all'elenco delle macro-attività.
-          create_button: Il pulsante <b>+ Crea</b> aggiungerà una nuova macro-attività al tuo progetto.
-          gantt_menu: Crea pianificazioni e sequenze temporali di progetto senza sforzo utilizzando il modulo diagramma di Gantt.
-          timeline: Qui puoi <b>modificare il tuo piano di progetto</b>, creare nuove macro-attività, come attività, pietre miliari, fasi e altro, nonché <b>aggiungere dipendenze</b>. Tutti i membri del team possono visualizzare e aggiornare il piano più recente in qualsiasi momento.
-        team_planner:
-          overview: Il pianificatore di team consente di assegnare visivamente compiti ai membri del team e ottenere una panoramica di chi sta lavorando su cosa.
-          calendar: La scheda di pianificazione settimanale o bisettimanale visualizza tutte le macro-attività assegnate ai membri del tuo team.
-          add_assignee: Per iniziare, aggiungi gli assegnatari al team planner.
-          add_existing: Cerca macro-attività esistenti e trascinale nel team planner per assegnarle istantaneamente a un membro del team e definire le date di inizio e fine.
-          card: Trascina le macro-attività orizzontalmente per spostarle indietro o avanti nel tempo, trascina i bordi per cambiare le date di inizio o di fine, trascina le macro-attività verticalmente su una riga diversa per assegnarle ad un altro membro.
+    modals:
+      button_apply: Applica
+      button_cancel: Cancella
+      button_delete: Elimina
+      button_save: Salva
+      button_submit: Invia
+      destroy_time_entry:
+        text: Eliminare la seguente voce temporale?
+        title: Conferma l'eliminazione della voce temporale
+      form_submit:
+        text: Eseguire questa azione?
+        title: Conferma per continuare
+      label_delete_page: Elimina pagina corrente
+      label_name: Nome
+    no_job_id: Nessun ID job restituito dal server.
+    notice_bad_request: Richiesta non valida.
+    notice_job_started: job partito.
+    notice_no_results_to_display: Nessun risultato visibile da mostrare.
+    notice_successful_create: Creato con successo.
+    notice_successful_delete: Cancellato con successo.
+    notice_successful_update: Aggiornato con successo.
     notifications:
-      title: Notifiche
-      no_unread: Nessuna nuova notifica
-      reasons:
-        mentioned: Menzionato
-        watched: Osservatore
-        assigned: Assegnatario
-        responsible: Responsabile
-        created: Creato
-        scheduled: Programmato
-        commented: Commentato
-        processed: Elaborato
-        prioritized: Assegnata priorità
-        dateAlert: Avviso data
-        shared: Condiviso
-        reminder: Promemoria
+      center:
+        and_more_users:
+          one: e 1 altro
+          other: e altri %{count}
+        empty_state:
+          no_notification: Sembra che siate tutti coinvolti.
+          no_notification_for_filter: A quanto pare ti piace molto questo filtro.
+          no_notification_with_current_filter: A quanto pare ti piace molto il filtro %{filter}.
+          no_notification_with_current_project_filter: Sembra che siate tutti coinvolti nel progetto selezionato.
+          no_selection: Clicca su una notifica per visualizzare tutti i dettagli dell'attività.
+        label_actor_and: e
+        mark_all_read: Segna tutti come letti
+        mark_all_read_confirmation: Questa operazione contrassegnerà tutte le notifiche in questa vista come lette. Procedere?
+        mark_as_read: Segna come letto
+        new_notifications:
+          link_text: Clicca qui per caricarli.
+          message: Ci sono nuove notifiche.
+        no_results:
+          at_all: Le nuove notifiche appariranno qui quando si verificherà dell'attività che ti riguardi.
+          with_current_filter: Non ci sono notifiche in questa vista al momento
+        text_update_date_by: "%{date} da"
+        total_count_warning: Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate.
       date_alerts:
         milestone_date: Data inizio
         overdue: In ritardo
         overdue_since: per %{difference_in_days}.
-        property_today: è oggi.
         property_is: tra %{difference_in_days}.
-        property_was: era %{difference_in_days} fa.
         property_is_deleted: eliminato.
-      center:
-        label_actor_and: e
-        and_more_users:
-          one: e 1 altro
-          other: e altri %{count}
-        no_results:
-          at_all: Le nuove notifiche appariranno qui quando si verificherà dell'attività che ti riguardi.
-          with_current_filter: Non ci sono notifiche in questa vista al momento
-        mark_all_read: Segna tutti come letti
-        mark_as_read: Segna come letto
-        mark_all_read_confirmation: Questa operazione contrassegnerà tutte le notifiche in questa vista come lette. Procedere?
-        text_update_date_by: "%{date} da"
-        total_count_warning: Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate.
-        empty_state:
-          no_notification: Sembra che siate tutti coinvolti.
-          no_notification_with_current_project_filter: Sembra che siate tutti coinvolti nel progetto selezionato.
-          no_notification_with_current_filter: A quanto pare ti piace molto il filtro %{filter}.
-          no_notification_for_filter: A quanto pare ti piace molto questo filtro.
-          no_selection: Clicca su una notifica per visualizzare tutti i dettagli dell'attività.
-        new_notifications:
-          message: Ci sono nuove notifiche.
-          link_text: Clicca qui per caricarli.
+        property_today: è oggi.
+        property_was: era %{difference_in_days} fa.
+      no_unread: Nessuna nuova notifica
+      reasons:
+        assigned: Assegnatario
+        commented: Commentato
+        created: Creato
+        dateAlert: Avviso data
+        mentioned: Menzionato
+        prioritized: Assegnata priorità
+        processed: Elaborato
+        reminder: Promemoria
+        responsible: Responsabile
+        scheduled: Programmato
+        shared: Condiviso
+        watched: Osservatore
       reminders:
         note: 'Nota: "%{note}"'
       settings:
         change_notification_settings: Puoi modificare le tue <a target="_blank" href="%{url}">impostazioni di notifica</a> per assicurarti di non perderti mai un aggiornamento importante.
         title: Impostazioni notifiche
+      title: Notifiche
+    onboarding:
+      buttons:
+        got_it: Capito
+        next: Prossimo
+        skip: Salta
+      steps:
+        boards:
+          add: Fai clic sull'icona più (+) per <b>creare una nuova scheda</b> o <b>aggiungere una scheda esistente</b> all'elenco sulla board.
+          drag: Trascina e rilascia le tue schede all'interno di un determinato elenco per riordinarle o per spostarle in un altro elenco. <br> Puoi fare clic sull'icona delle informazioni (i) nell'angolo in alto a destra o fare doppio clic su una scheda per aprirne i dettagli.
+          lists_basic: Qui puoi creare più liste (colonne) all'interno della tua agile board.
+          lists_kanban: Qui puoi creare più liste  (colonne) all'interno della tua board. Questa funzione ti consente di creare una <b>board Kanban</b>, ad esempio.
+          overview: Seleziona <b>board</b> per cambiare visualizzazione e gestire il tuo progetto utilizzando la visualizzazione agile delle schede.
+        help_menu: Il menu Aiuto (?) fornisce <b>ulteriori risorse di aiuto</b>. Qui puoi trovare una guida utente, video utili e altro ancora. <br> Goditi il tuo lavoro con OpenProject!
+        members: Invita nuovi <b>membri</b> per entrare al tuo progetto.
+        quick_add_button: Clicca sull'icona più (+) nella navigazione dell'intestazione per <b>creare un nuovo progetto</b> o per <b>invitare colleghi</b>.
+        sidebar_arrow: Utilizza la freccia di ritorno nell'angolo in alto a sinistra per tornare al <b>menu principale</b> del progetto.
+        team_planner:
+          add_assignee: Per iniziare, aggiungi gli assegnatari al team planner.
+          add_existing: Cerca macro-attività esistenti e trascinale nel team planner per assegnarle istantaneamente a un membro del team e definire le date di inizio e fine.
+          calendar: La scheda di pianificazione settimanale o bisettimanale visualizza tutte le macro-attività assegnate ai membri del tuo team.
+          card: Trascina le macro-attività orizzontalmente per spostarle indietro o avanti nel tempo, trascina i bordi per cambiare le date di inizio o di fine, trascina le macro-attività verticalmente su una riga diversa per assegnarle ad un altro membro.
+          overview: Il pianificatore di team consente di assegnare visivamente compiti ai membri del team e ottenere una panoramica di chi sta lavorando su cosa.
+        welcome: Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine. Puoi riavviare il tour in qualsiasi momento.
+        wiki: Nella <b>wiki</b> puoi documentare e condividere la conoscenza con il tuo team.
+        wp:
+          back_button: Utilizza la freccia di ritorno nell'angolo in alto a sinistra per uscire e tornare all'elenco delle macro-attività.
+          create_button: Il pulsante <b>+ Crea</b> aggiungerà una nuova macro-attività al tuo progetto.
+          full_view: La visualizzazione dei <b>dettagli delle macro-attività</b> fornisce tutte le informazioni rilevanti relative a un determinato pacchetto di lavoro, come descrizione, stato, priorità, attività, dipendenze e commenti.
+          gantt_menu: Crea pianificazioni e sequenze temporali di progetto senza sforzo utilizzando il modulo diagramma di Gantt.
+          list: Questa panoramica della <b>macro-attività</b> fornisce un elenco di tutto il lavoro nel progetto, come attività, pietre miliari, fasi e altro. <br> Le macro-attività possono essere create e modificate direttamente da questa vista. Per accedere ai dettagli di una particolare macro-attività, è sufficiente fare doppio clic sulla sua riga.
+          timeline: Qui puoi <b>modificare il tuo piano di progetto</b>, creare nuove macro-attività, come attività, pietre miliari, fasi e altro, nonché <b>aggiungere dipendenze</b>. Tutti i membri del team possono visualizzare e aggiornare il piano più recente in qualsiasi momento.
+          toggler: Ora dai un'occhiata alla sezione <b>macro-attività</b>, che ti dà una più dettagliata vista del tuo lavoro.
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: C'è un problema di rete.
+        network_on: La rete è tornata. Stiamo provando.
+      waiting_title:
+        timeout: Timeout
     pagination:
       no_other_page: Sei nella pagina unica.
-      pages_skipped: Pagine saltate.
       page_navigation: Navigazione pagine
-      per_page_navigation: Selezione di elementi per pagina
       pages:
         page_number: Pagina %{number}
         show_per_page: Mostra %{number} per pagina
+      pages_skipped: Pagine saltate.
+      per_page_navigation: Selezione di elementi per pagina
     placeholders:
       default: "-"
-      subject: Inserisci l'oggetto qui
-      selection: Si prega di selezionare
       description: 'Descrizione: Clicca per modificare...'
       relation_description: Clicca per aggiungere una descrizione per la relazione
+      selection: Si prega di selezionare
+      subject: Inserisci l'oggetto qui
     project:
       autocompleter:
         label: Autocompletamento del progetto
@@ -609,226 +732,285 @@ it:
       required_outside_context: 'Scegli un progetto per creare una macro-attività e vederne tutti gli attributi. Puoi selezionare solo progetti che hanno il tipo sopra indicato attivato.
 
         '
-    text_are_you_sure: Sei sicuro/a?
-    text_are_you_sure_to_cancel: Ci sono modifiche non salvate in questa pagina. Vuoi davvero eliminarle?
-    breadcrumb: Percorso di navigazione
-    text_data_lost: Tutti i dati inseriti andranno persi.
-    text_user_wrote: "%{value} ha scritto:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Il nome %{group} è usato più di una volta. I nomi dei gruppi devono essere univoci.
-        error_no_table_configured: Si prega di configurare una tabella per %{group}.
-        reset_title: Reimposta la configurazione del modulo
-        confirm_reset: 'Attenzione: vuoi reimpostare la configurazione del modulo? Tutti gli attributi torneranno al loro gruppo predefinito e TUTTI i campi personalizzati verranno disattivati.
-
-          '
-        upgrade_to_ee: Passa all'edizione Enterprise in sede
-        upgrade_to_ee_text: Wow! Se hai bisogno di questa aggiunta sei un vero professionista! Ti andrebbe di aiutare noi sviluppatori OpenSource diventando un cliente dell'edizione Enterprise?
-        more_information: Altre informazioni
-        nevermind: Lascia stare
-    time_entry:
-      work_package_required: Richiede prima di selezionare una macro-attività.
-      title: Registra l'orario effettuato
-      tracking: Monitoraggio tempi
-      stop: Interrompi
-    timer:
-      start_new_timer: Avvia nuovo timer
-      timer_already_running: 'Per avviare un nuovo timer, devi prima interrompere il timer corrente:'
-      timer_already_stopped: Nessun timer attivo per questa macro-attività, lo hai interrotto in un'altra finestra?
-      tracking_time: Monitoraggio tempo
-      button_stop: Interrompi il timer corrente
-    two_factor_authentication:
-      label_two_factor_authentication: Autenticazione a due fattori
-    watchers:
-      label_loading: caricamento osservatori in corso...
-      label_error_loading: Si è verificato un errore nel caricamento degli osservatori
-      label_search_watchers: Ricerca osservatori
-      label_add: Aggiungere osservatori
-      label_discard: Annulla la selezione
-      typeahead_placeholder: Ricerca possibili osservatori
-    relation_labels:
-      parent: Superiore
-      child: Figlio
-      children: Figli
-      relates: Riferito a
-      duplicates: Duplica
-      duplicated: Duplicato da
-      blocks: Blocca
-      blocked: Bloccato da
-      precedes: Precede
-      follows: Segue
-      includes: Include
-      partof: Parte di
-      requires: Richiede
-      required: Richiesto da
-      relation_type: tipo di relazione
-    relations_hierarchy:
-      parent_headline: Superiore
-      hierarchy_headline: Gerarchia
-      children_headline: Figli
+    project_menu_details: Dettagli
+    projects:
+      identifier_suggestion:
+        loading: Caricamento suggerimento...
+        set_name_first: Inserisci prima il nome.
     relation_buttons:
-      set_parent: Imposta genitore
-      change_parent: Cambia genitore
-      remove_parent: Rimuovi genitore
-      hierarchy_indent: Indenta gerarchia
-      hierarchy_outdent: Rimuovi indentazione gerarchia
-      group_by_wp_type: Raggruppa per tipo di macro-attività
-      group_by_relation_type: Raggruppa per tipo di relazione
-      add_parent: Aggiungi genitore esistente
-      add_new_child: Crea nuovo figlio
-      create_new: Crea nuovo
+      abort: Interrompi
       add_existing: Aggiungi esistente
       add_existing_child: Aggiungi figlio
-      remove_child: Rimuovi figlio
-      add_new_relation: Crea nuova relazione
       add_existing_relation: Aggiungere relazione esistente
-      update_description: Inserisci o aggiorna la descrizione della relazione
-      toggle_description: Attiva/disattiva descrizione della relazione
-      update_relation: Clicca per modificare il tipo di relazione
-      show_relations: Visualizza relazioni
+      add_new_child: Crea nuovo figlio
+      add_new_relation: Crea nuova relazione
+      add_parent: Aggiungi genitore esistente
       add_predecessor: Aggiungi predecessore
       add_successor: Aggiungi successore
+      change_parent: Cambia genitore
+      create_new: Crea nuovo
+      group_by_relation_type: Raggruppa per tipo di relazione
+      group_by_wp_type: Raggruppa per tipo di macro-attività
+      hierarchy_indent: Indenta gerarchia
+      hierarchy_outdent: Rimuovi indentazione gerarchia
       remove: Rimuovi la relazione
+      remove_child: Rimuovi figlio
+      remove_parent: Rimuovi genitore
       save: Salva la relazione
-      abort: Interrompi
+      set_parent: Imposta genitore
+      show_relations: Visualizza relazioni
+      toggle_description: Attiva/disattiva descrizione della relazione
+      update_description: Inserisci o aggiorna la descrizione della relazione
+      update_relation: Clicca per modificare il tipo di relazione
+    relation_labels:
+      blocked: Bloccato da
+      blocks: Blocca
+      child: Figlio
+      children: Figli
+      duplicated: Duplicato da
+      duplicates: Duplica
+      follows: Segue
+      includes: Include
+      parent: Superiore
+      partof: Parte di
+      precedes: Precede
+      relates: Riferito a
+      relation_type: tipo di relazione
+      required: Richiesto da
+      requires: Richiede
+    relations:
+      empty: Non esiste alcuna relazione
+      remove: Rimuovi la relazione
     relations_autocomplete:
-      placeholder: Digita per cercare
       parent_placeholder: Scegli un nuovo genitore o premi il tasto Esc per annullare.
-    autocompleter:
       placeholder: Digita per cercare
-      notFoundText: Nessun elemento trovato
-      search: Cerca
-      project:
-        placeholder: Seleziona progetto
+    relations_hierarchy:
+      children_headline: Figli
+      hierarchy_headline: Gerarchia
+      parent_headline: Superiore
     repositories:
-      select_tag: Selezionare tag
       select_branch: Selezionare ramo
-    field_value_enter_prompt: Inserisci un valore per '%{field}'
-    project_menu_details: Dettagli
+      select_tag: Selezionare tag
+    sharing:
+      selected_count: "%{count} selezionati"
+      selection:
+        mixed: Misto
+      share: Condividi
     sort:
+      activate_asc: attivalo per applicare l'ordinamento crescente
+      activate_dsc: attivalo per applicare l'ordinamento decrescente
+      activate_no: attivalo per rimuovere l'ordinamento
       sorted_asc: 'Ordinamento crescente applicato, '
       sorted_dsc: 'Ordinamento decrescente applicato, '
       sorted_no: 'Nessun ordinamento applicato, '
       sorting_disabled: ordinamento disabilitato
-      activate_asc: attivalo per applicare l'ordinamento crescente
-      activate_dsc: attivalo per applicare l'ordinamento decrescente
-      activate_no: attivalo per rimuovere l'ordinamento
-    text_work_packages_destroy_confirmation: Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?
+    sortable_lists:
+      announcements:
+        fallback_item_label: Elemento
+        fallback_list_name: un'altra lista
+        move_failed_check_position: Spostamento non riuscito. Verifica la posizione attuale dell'elemento.
+        move_failed_rolled_back: Spostamento non riuscito. %{label} è tornato alla posizione precedente.
+        moved: "%{label} spostato in posizione %{position} di %{total}"
+        moved_to_list: "%{label} spostato in %{list}, posizione %{position} di %{total}"
+    spot:
+      drop_modal:
+        close: Chiusura modale
+        focus_grab: Questo è un punto focale per i modali. Premere MAIUSC+TAB per tornare all'elemento scatenante modale.
+      filter_chip:
+        remove: Rimuovi
+    text_are_you_sure: Sei sicuro/a?
+    text_are_you_sure_to_cancel: Ci sono modifiche non salvate in questa pagina. Vuoi davvero eliminarle?
+    text_data_lost: Tutti i dati inseriti andranno persi.
     text_query_destroy_confirmation: Sei sicuro di voler eliminare la vista selezionata?
+    text_user_wrote: "%{value} ha scritto:"
+    text_work_packages_destroy_confirmation: Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?
+    time_entry:
+      stop: Interrompi
+      title: Registra l'orario effettuato
+      tracking: Monitoraggio tempi
+      work_package_required: Richiede prima di selezionare una macro-attività.
+    timer:
+      button_stop: Interrompi il timer corrente
+      start_new_timer: Avvia nuovo timer
+      timer_already_running: 'Per avviare un nuovo timer, devi prima interrompere il timer corrente:'
+      timer_already_stopped: Nessun timer attivo per questa macro-attività, lo hai interrotto in un'altra finestra?
+      tracking_time: Monitoraggio tempo
     tl_toolbar:
-      zooms: Livello di zoom
       outlines: Livello della gerarchia
+      zooms: Livello di zoom
+    toolbar:
+      filter: Filtro
+      search_query_label: Ricerca viste memorizzate
+      settings:
+        columns: Colonne
+        configure_view: Configura vista
+        delete: Cancella
+        display_hierarchy: Visualizza gerarchia
+        display_sums: Visualizza somme
+        export: Esporta
+        group_by: Raggruppa per
+        hide_hierarchy: Nascondi gerarchia
+        hide_sums: Nascondi le somme
+        page_settings: Rinomina vista
+        save: Salva
+        save_as: Salva come
+        share_calendar: Iscriviti al calendario
+        sort_by: Ordina per
+        visibility_settings: Impostazioni di visibilità
+      unselected_title: Macro-attività
+    two_factor_authentication:
+      label_two_factor_authentication: Autenticazione a due fattori
+    units:
+      child_work_packages:
+        one: una macro-attività subordinata
+        other: "%{count} macro-attività subordinate"
+      day:
+        one: 1 giorno
+        other: "%{count} giorni"
+        zero: 0 giorni
+      hour:
+        one: 1 o
+        other: "%{count} o"
+        zero: 0 o
+      hour_string: "%{hours} h"
+      word:
+        one: 1 parola
+        other: "%{count} parole"
+      workPackage:
+        one: macro-attività
+        other: macro-attività
     upsell:
       ee_only: Addon dell'edizione per Imprese
+    views:
+      card: Carte
+      list: Tabella
+      timeline: Gantt
+    watchers:
+      label_add: Aggiungere osservatori
+      label_discard: Annulla la selezione
+      label_error_loading: Si è verificato un errore nel caricamento degli osservatori
+      label_loading: caricamento osservatori in corso...
+      label_search_watchers: Ricerca osservatori
+      typeahead_placeholder: Ricerca possibili osservatori
     wiki_formatting:
-      strong: Grassetto
-      italic: Corsivo
-      underline: Sottolineato
-      deleted: Eliminato
       code: Codice inline
+      deleted: Eliminato
       heading1: Intestazione 1
       heading2: Intestazione 2
       heading3: Intestazione 3
-      unordered_list: Elenco non ordinato
-      ordered_list: Elenco ordinato
-      quote: Cita
-      unquote: Rimuovi citazione
-      preformatted_text: Testo preformattato
-      wiki_link: Collega ad una pagina Wiki
       image: Immagine
-    sharing:
-      share: Condividi
-      selected_count: "%{count} selezionati"
-      selection:
-        mixed: Misto
+      italic: Corsivo
+      ordered_list: Elenco ordinato
+      preformatted_text: Testo preformattato
+      quote: Cita
+      strong: Grassetto
+      underline: Sottolineato
+      unordered_list: Elenco non ordinato
+      unquote: Rimuovi citazione
+      wiki_link: Collega ad una pagina Wiki
     work_packages:
+      baseline:
+        addition_label: Aggiunto alla visualizzazione entro il periodo di confronto
+        column_incompatible: Questa colonna non mostra le modifiche nella modalità Base di riferimento.
+        modification_label: Modificato entro il periodo di confronto
+        removal_label: Rimosso dalla visualizzazione entro il periodo di confronto
       bulk_actions:
-        edit: Modifica di massa
         delete: Eliminazione di massa
         duplicate: Duplicazione collettiva
+        edit: Modifica di massa
         move: Modifica complessiva del progetto
       button_clear: Pulisci
       comment_added: Il commento è stato aggiunto con successo.
       comment_send_failed: Si è verificato un errore. Impossibile inviare il commento.
       comment_updated: Il commento è stato aggiornato correttamente.
       confirm_edit_cancel: Sicuro di voler eliminare questa macro-attività?
-      description_filter: Filtro
+      create:
+        button: Crea
+        header: Nuovo %{type}
+        header_no_type: Nuova macro-attività (Tipo non inserito)
+        header_with_parent: 'Nuovo %{type} (Figlio di %{parent_type} #%{id})'
+        title: Nuova macro-attività
+      default_queries:
+        all_open: Apri tutto
+        assigned_to_me: Assegnato a me
+        created_by_me: Creato da me
+        latest_activity: Ultima attività
+        manually_sorted: Nuovo elenco progetti ordinato manualmente
+        overdue: In ritardo
+        recently_created: Creato di recente
+        shared_with_me: Condivisi con me
+        shared_with_users: Condiviso con gli utenti
+        summary: Sommario
       description_enter_text: Inserisci testo
+      description_filter: Filtro
       description_options_hide: Nascondi opzioni
       description_options_show: Mostra opzioni
+      duplicate:
+        title: Duplica macro-attività
       edit_attribute: "%{attribute} - Modifica"
+      faulty_query:
+        description: La vista è errata e non può essere elaborata.
+        title: Le macro-attività non possono essere caricate.
+      filters:
+        baseline_incompatible: Questo attributo del filtro non viene preso in considerazione nella modalità Base di riferimento.
+        baseline_warning: La modalità di base di riferimento è attiva, ma alcuni dei tuoi filtri attivi non sono inclusi nel confronto.
+        title: Filtra le macro-attività
+      hierarchy:
+        children_collapsed: Livello di gerarchia %{level}, collassato. Clicca per visualizzare i dipendenti filtrati
+        children_expanded: Livello di gerarchia %{level}, espanso. Clicca per collassare i dipendenti filtrati
+        hide: Nascondi modalità gerarchica
+        leaf: Foglia di Macro-attività a livello %{level}.
+        show: Visualizza modalità gerarchica
+        toggle_button: Clicca per cambiare modalità gerarchica.
+      inline_create:
+        title: Clicca qui per aggiungere un nuovo work package a questa lista
+      jump_marks:
+        content: Vai al contenuto
+        label_content: Clicca qui per saltare il menu ed andare al contenuto
+        label_pagination: Clicca qui per saltare la tabella macro-attività e passare alla impaginazione
+        pagination: Salta alla impaginazione tabella
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: Abilita multiseleziona
+      label_column_multiselect: 'Campo a discesa combinata: selezionare con i tasti freccia, confermare la selezione con invio, eliminare con backspace'
       label_disable_multi_select: Disabilita multiseleziona
+      label_enable_multi_select: Abilita multiseleziona
       label_filter_add: Aggiungi filtro
       label_filter_by_text: Filtra per testo
       label_options: Opzioni
-      label_column_multiselect: 'Campo a discesa combinata: selezionare con i tasti freccia, confermare la selezione con invio, eliminare con backspace'
+      limited_results: Solo %{count} macro-attività possono essere visualizzate nella modalità di ordinamento manuale. Riduci i risultati filtrando o passa all'ordinamento automatico.
       message_error_during_bulk_delete: Errore durante il tentativo d'eliminazione della macro-attività.
       message_successful_bulk_delete: Macro-attività eliminata con successo.
       message_successful_show_in_fullscreen: Clicca qui per aprire questa macro-attività in una visualizzazione a schermo intero.
       message_view_spent_time: Visualizza il tempo speso sulla macro-attività
       message_work_package_read_only: Il pacchetto di lavoro è bloccato in questo stato. Nessun attributo eccetto lo stato può essere alterato.
       message_work_package_status_blocked: Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata.
+      no_results:
+        description: E' possibile che non ne sia stata creata alcuna o che tutte le macro-attività vengano filtrate.
+        title: Nessuna macro-attività da visualizzare.
       placeholder_filter_by_text: Oggetto, descrizione, commenti, ...
+      placeholders:
+        date: Seleziona data
+        default: "-"
       progress:
         title: Stime e progressi del lavoro
-      baseline:
-        addition_label: Aggiunto alla visualizzazione entro il periodo di confronto
-        removal_label: Rimosso dalla visualizzazione entro il periodo di confronto
-        modification_label: Modificato entro il periodo di confronto
-        column_incompatible: Questa colonna non mostra le modifiche nella modalità Base di riferimento.
-      filters:
-        title: Filtra le macro-attività
-        baseline_incompatible: Questo attributo del filtro non viene preso in considerazione nella modalità Base di riferimento.
-        baseline_warning: La modalità di base di riferimento è attiva, ma alcuni dei tuoi filtri attivi non sono inclusi nel confronto.
-      inline_create:
-        title: Clicca qui per aggiungere un nuovo work package a questa lista
-      create:
-        title: Nuova macro-attività
-        header: Nuovo %{type}
-        header_no_type: Nuova macro-attività (Tipo non inserito)
-        header_with_parent: 'Nuovo %{type} (Figlio di %{parent_type} #%{id})'
-        button: Crea
-      duplicate:
-        title: Duplica macro-attività
-      hierarchy:
-        show: Visualizza modalità gerarchica
-        hide: Nascondi modalità gerarchica
-        toggle_button: Clicca per cambiare modalità gerarchica.
-        leaf: Foglia di Macro-attività a livello %{level}.
-        children_collapsed: Livello di gerarchia %{level}, collassato. Clicca per visualizzare i dipendenti filtrati
-        children_expanded: Livello di gerarchia %{level}, espanso. Clicca per collassare i dipendenti filtrati
-      faulty_query:
-        title: Le macro-attività non possono essere caricate.
-        description: La vista è errata e non può essere elaborata.
-      no_results:
-        title: Nessuna macro-attività da visualizzare.
-        description: E' possibile che non ne sia stata creata alcuna o che tutte le macro-attività vengano filtrate.
-      limited_results: Solo %{count} macro-attività possono essere visualizzate nella modalità di ordinamento manuale. Riduci i risultati filtrando o passa all'ordinamento automatico.
-      property_groups:
-        details: Dettagli
-        people: Persone
-        estimatesAndTime: Stime & Tempo
-        other: Altro
       properties:
         assignee: Assegnatario
         author: Autore
+        category: Categoria
         createdAt: Creato il
-        description: Descrizione
         date: Data
-        percentComplete: "% completamento"
-        percentCompleteAlternative: Avanzamento
+        description: Descrizione
         dueDate: Data di fine
         duration: Durata
-        spentTime: Tempo speso
-        category: Categoria
+        percentComplete: "% completamento"
+        percentCompleteAlternative: Avanzamento
         percentageDone: Percentuale di completamento
         priority: Priorità
         projectName: Progetto
+        remainingTime: Lavoro rimanente
         remainingWork: Lavoro residuo
         remainingWorkAlternative: Ore rimanenti
         responsible: Responsabile
+        spentTime: Tempo speso
         startDate: Data di inizio
         status: Stato
         subject: Soggetto
@@ -836,305 +1018,106 @@ it:
         title: Titolo
         type: Tipo
         updatedAt: Aggiornato il
-        versionName: Versione
         version: Versione
+        versionName: Versione
         work: Lavoro
         workAlternative: Tempo stimato
-        remainingTime: Lavoro rimanente
-      default_queries:
-        manually_sorted: Nuovo elenco progetti ordinato manualmente
-        latest_activity: Ultima attività
-        created_by_me: Creato da me
-        assigned_to_me: Assegnato a me
-        recently_created: Creato di recente
-        all_open: Apri tutto
-        overdue: In ritardo
-        summary: Sommario
-        shared_with_users: Condiviso con gli utenti
-        shared_with_me: Condivisi con me
-      jump_marks:
-        pagination: Salta alla impaginazione tabella
-        label_pagination: Clicca qui per saltare la tabella macro-attività e passare alla impaginazione
-        content: Vai al contenuto
-        label_content: Clicca qui per saltare il menu ed andare al contenuto
-      placeholders:
-        default: "-"
-        date: Seleziona data
+      property_groups:
+        details: Dettagli
+        estimatesAndTime: Stime & Tempo
+        other: Altro
+        people: Persone
       query:
+        click_to_edit_query_name: Clicca per modificare il titolo della vista.
         column_names: Colonne
-        group_by: Raggruppa i risultati per
+        confirm_edit_cancel: Sei sicuro di voler annullare la modifica del nome di questa vista? Il titolo verrà impostato sul valore precedente.
+        display_sums: Visualizza somme
+        errors:
+          duplicate_query_title: Il nome di questa vista è già esistente. Cambiarlo comunque?
+          not_found: La vista non esiste
+          unretrievable_query: Impossibile recuperare la vista dall'URL
+        filters: Filtri
         group: Raggruppa per
+        group_by: Raggruppa i risultati per
         group_by_disabled_by_hierarchy: Raggruppamento disabilitato durante la modalità gerarchica.
+        hide_column: Nascondi la colonna
         hierarchy_disabled_by_group_by: Modalità gerarchica disabilitata a causa di un raggruppamento sulla colonna %{column}.
-        sort_ascending: Ordinamento crescente
-        sort_descending: Ordinamento decrescente
+        insert_columns: Inserisci colonne
         move_column_left: Spostare la colonna a sinistra
         move_column_right: Spostare la colonna a destra
-        hide_column: Nascondi la colonna
-        insert_columns: Inserisci colonne
-        filters: Filtri
-        display_sums: Visualizza somme
-        confirm_edit_cancel: Sei sicuro di voler annullare la modifica del nome di questa vista? Il titolo verrà impostato sul valore precedente.
-        click_to_edit_query_name: Clicca per modificare il titolo della vista.
-        rename_query_placeholder: Nome di questa vista
-        star_text: Segna questa vista come preferita e aggiungila alla barra laterale delle viste salvate a sinistra.
         public_text: 'Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso "Gestisci viste pubbliche" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi.
 
           '
-        errors:
-          unretrievable_query: Impossibile recuperare la vista dall'URL
-          not_found: La vista non esiste
-          duplicate_query_title: Il nome di questa vista è già esistente. Cambiarlo comunque?
+        rename_query_placeholder: Nome di questa vista
+        sort_ascending: Ordinamento crescente
+        sort_descending: Ordinamento decrescente
+        star_text: Segna questa vista come preferita e aggiungila alla barra laterale delle viste salvate a sinistra.
         text_no_results: Nessuna vista corrispondente trovata.
       reminders:
         button_label: Imposta promemoria
-        title:
-          new: Imposta un promemoria
-          edit: Modifica promemoria
-        subtitle: Riceverai una notifica per questa macro-attività all'ora scelta.
         presets:
-          tomorrow: Domani
-          three_days: Tra 3 giorni
-          week: Tra una settimana
-          month: Tra un mese
           custom: A una data/ora particolare
+          month: Tra un mese
+          three_days: Tra 3 giorni
+          tomorrow: Domani
+          week: Tra una settimana
+        subtitle: Riceverai una notifica per questa macro-attività all'ora scelta.
+        title:
+          edit: Modifica promemoria
+          new: Imposta un promemoria
       scheduling:
         is_parent: Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date.
         is_switched_from_manual_to_automatic: Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività.
       sharing:
-        title: Condividi macro-attività
         show_all_users: Mostra tutti gli utenti con i quali la macro-attività è stata condivisa
+        title: Condividi macro-attività
       table:
         configure_button: Configura la tabella della macro-attività
         summary: Tabella con righe di macro-attività e colonne dei loro attributi.
         text_inline_edit: Molte celle di questa tabella sono pulsanti che attivano le funzionalità di modifica in linea di tale attributo.
-        text_sort_hint: Con i collegamenti nelle intestazioni di tabella puoi ordinare, raggruppare, riordinare, rimuovere e aggiungere le colonne della tabella.
         text_select_hint: Le caselle di selezione devono essere aperte con ' ALT ' e i tasti freccia.
+        text_sort_hint: Con i collegamenti nelle intestazioni di tabella puoi ordinare, raggruppare, riordinare, rimuovere e aggiungere le colonne della tabella.
       table_configuration:
         button: Configura questa tabella di macro-attività
         choose_display_mode: Visualizza la macro-attività come
-        modal_title: Configurazione della tabella della macro-attività
-        embedded_tab_disabled: La scheda di configurazione non è disponibile per la visualizzazione incorporata che stai modificando.
+        columns_help_text: Utilizza il campo di input sopra per aggiungere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle.
         default: predefinito
-        display_settings: Impostazioni di visualizzazione
         default_mode: Elenco semplice
-        hierarchy_mode: Gerarchia
-        hierarchy_hint: Tutti i risultati della tabella filtrata verranno ampliati con i loro antenati. Le gerarchie possono essere espanse e compresse.
+        display_settings: Impostazioni di visualizzazione
         display_sums_hint: Visualizza i totali degli attributi sommabili in una riga sotto i risultati della tabella.
-        show_timeline_hint: Visualizza un Diagramma di Gantt interattivo a destra della tabella. È possibile modificare la larghezza trascinando il separatore tra tabella ed il Diagramma di Gantt.
+        embedded_tab_disabled: La scheda di configurazione non è disponibile per la visualizzazione incorporata che stai modificando.
+        hierarchy_hint: Tutti i risultati della tabella filtrata verranno ampliati con i loro antenati. Le gerarchie possono essere espanse e compresse.
+        hierarchy_mode: Gerarchia
         highlighting: Evidenziazione
         highlighting_mode:
           description: Evidenzia con colore
-          none: Non evidenziare
+          entire_row_by: Tutta la riga per
           inline: Attibuto/i sottolineato/i
           inline_all: Tutti gli attributi
-          entire_row_by: Tutta la riga per
-          status: Stato
+          none: Non evidenziare
           priority: Priorità
+          status: Stato
           type: Tipo
-        sorting_mode:
-          description: 'Scegli la modalità per ordinare i pacchetti di lavoro:'
-          automatic: Automatico
-          manually: Manuale
-          warning: Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico.
-        columns_help_text: Utilizza il campo di input sopra per aggiungere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle.
+        modal_title: Configurazione della tabella della macro-attività
         relation_filters:
           filter_work_packages_by_relation_type: Filtra le macro-attività per tipo di relazione
+        show_timeline_hint: Visualizza un Diagramma di Gantt interattivo a destra della tabella. È possibile modificare la larghezza trascinando il separatore tra tabella ed il Diagramma di Gantt.
+        sorting_mode:
+          automatic: Automatico
+          description: 'Scegli la modalità per ordinare i pacchetti di lavoro:'
+          manually: Manuale
+          warning: Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico.
       tabs:
-        overview: Panoramica
         activity: Attività
+        files: File
+        overview: Panoramica
+        project_attributes: Attributi del progetto
         relations: Relazioni
         watchers: Osservatori
-        files: File
       time_relative:
         days: giorni
-        weeks: Settimane
         months: mesi
-    toolbar:
-      settings:
-        configure_view: Configura vista
-        columns: Colonne
-        sort_by: Ordina per
-        group_by: Raggruppa per
-        display_sums: Visualizza somme
-        display_hierarchy: Visualizza gerarchia
-        hide_hierarchy: Nascondi gerarchia
-        hide_sums: Nascondi le somme
-        save: Salva
-        save_as: Salva come
-        export: Esporta
-        visibility_settings: Impostazioni di visibilità
-        share_calendar: Iscriviti al calendario
-        page_settings: Rinomina vista
-        delete: Cancella
-      filter: Filtro
-      unselected_title: Macro-attività
-      search_query_label: Ricerca viste memorizzate
-    modals:
-      label_name: Nome
-      label_delete_page: Elimina pagina corrente
-      button_apply: Applica
-      button_save: Salva
-      button_submit: Invia
-      button_cancel: Cancella
-      button_delete: Elimina
-      form_submit:
-        title: Conferma per continuare
-        text: Eseguire questa azione?
-      destroy_time_entry:
-        title: Conferma l'eliminazione della voce temporale
-        text: Eliminare la seguente voce temporale?
-    notice_no_results_to_display: Nessun risultato visibile da mostrare.
-    notice_successful_create: Creato con successo.
-    notice_successful_delete: Cancellato con successo.
-    notice_successful_update: Aggiornato con successo.
-    notice_job_started: job partito.
-    no_job_id: Nessun ID job restituito dal server.
-    invalid_job_response: Risposta dal server non valida.
-    notice_bad_request: Richiesta non valida.
-    relations:
-      empty: Non esiste alcuna relazione
-      remove: Rimuovi la relazione
-    inplace:
-      button_edit: "%{attribute}: Modifica"
-      button_save: "%{attribute}: Salva"
-      button_cancel: "%{attribute}: Annulla"
-      button_save_all: Salva
-      button_cancel_all: Cancella
-      link_formatting_help: Guida di formattazione del testo
-      btn_preview_enable: Anteprima
-      btn_preview_disable: Disabilita anteprima
-      null_value_label: Nessun valore
-      clear_value_label: "-"
-      errors:
-        required: "%{field} non può essere vuoto"
-        number: "%{field} non è un numero valido"
-        maxlength: "%{field} non può contenere più di %{maxLength} cifra/e"
-        minlength: "%{field} non può contenere meno di %{minLength} cifra/e"
-        messages_on_field: 'Questo campo non è valido: %{messages}'
-    error_could_not_resolve_version_name: Impossibile determinare il nome della versione
-    error_could_not_resolve_user_name: Impossibile determinare il nome utente
-    error_attachment_upload: 'Impossibile caricare il file: %{error}'
-    error_attachment_upload_permission: Non hai il permesso per caricare file su questa risorsa.
-    units:
-      workPackage:
-        one: macro-attività
-        other: macro-attività
-      child_work_packages:
-        one: una macro-attività subordinata
-        other: "%{count} macro-attività subordinate"
-      hour_string: "%{hours} h"
-      hour:
-        one: 1 o
-        other: "%{count} o"
-        zero: 0 o
-      day:
-        one: 1 giorno
-        other: "%{count} giorni"
-        zero: 0 giorni
-      word:
-        one: 1 parola
-        other: "%{count} parole"
+        weeks: Settimane
     zen_mode:
       button_activate: Attiva modalità zen
       button_deactivate: Disattiva modalità zen
-    global_search:
-      all_projects: In tutti progetti
-      close_search: Chiudi ricerca
-      items_available: "%{count} elementi disponibili"
-      direct_hit_available: Macro-attività con ID esatto trovata. Premi Invio per aprirla.
-      current_project_and_all_descendants: In questo progetto + sottoprogetti
-      current_project: In questo progetto
-      recently_viewed: Visualizzati di recente
-      search_placeholder_expanded: Cerca macro-attività per oggetto, progetto, tipo, stato o ID
-      title:
-        all_projects: tutti i progetti
-        project_and_subprojects: e tutti i sottoprogetti
-        search_for: Cerca per
-    views:
-      card: Carte
-      list: Tabella
-      timeline: Gantt
-    invite_user_modal:
-      invite: Invita
-      placeholder_add_tag: Crea un utente segnaposto
-    exclusion_info:
-      modal:
-        title: Stato escluso dai totali della gerarchia
-        content: Lo stato '%{status_name}' è stato configurato per essere escluso dai totali delle gerarchie di Lavoro, Lavoro Rimanente e % Completamento. I totali non tengono conto di questo valore.
-    favorite_projects:
-      no_results: Non hai progetti preferiti
-      no_results_subtext: Aggiungi uno o più progetti come preferiti dalla rispettiva panoramica o da una lista di progetti.
-    include_projects:
-      toggle_title: Includi progetti
-      title: Progetti
-      clear_selection: Annulla selezione
-      apply: Applica
-      selected_filter:
-        all: Tutti i progetti
-        selected: Solo selezionati
-      search_placeholder: Cerca progetti...
-      search_placeholder_favorites: Cerca tra i preferiti...
-      include_subprojects: Includi tutti i sotto-progetti
-      tooltip:
-        include_all_selected: Il progetto già stato incluso poiché è abilitata l'opzione Includi tutti i sotto-progetti.
-        current_project: Questo è il progetto corrente in cui ti trovi.
-        does_not_match_search: Il progetto non corrisponde ai criteri di ricerca.
-      no_results: Nessun progetto corrisponde ai tuoi criteri di ricerca
-      no_favorite_results: Nessun progetto preferito corrisponde ai tuoi criteri di ricerca.
-    include_workspaces:
-      search_placeholder: Cerca...
-      types:
-        program: Programma
-        portfolio: Portfolio
-    baseline:
-      toggle_title: Base di riferimento
-      clear: Pulisci
-      apply: Applica
-      header_description: Evidenzia le modifiche apportate a questo elenco da qualsiasi punto nel passato.
-      show_changes_since: Mostra le modifiche da
-      help_description: Fuso orario di riferimento per la base di riferimento.
-      time_description: 'Nella tua ora locale: %{datetime}'
-      time: Ora
-      from: Da
-      to: A
-      drop_down:
-        none: "-"
-        yesterday: ieri
-        last_working_day: ultimo giorno lavorativo
-        last_week: ultima settimana
-        last_month: il mese scorso
-        a_specific_date: una data specifica
-        between_two_specific_dates: tra due date specifiche
-      legends:
-        changes_since: Modifiche dal
-        changes_between: Modifiche tra
-        now_meets_filter_criteria: Ora soddisfa i criteri del filtro
-        no_longer_meets_filter_criteria: Non soddisfa più i criteri del filtro
-        maintained_with_changes: Mantenuto con le modifiche
-        in_your_timezone: 'Nel tuo fuso orario locale:'
-      icon_tooltip:
-        added: Aggiunto per la visualizzazione entro il periodo di confronto
-        removed: Rimosso dalla vista entro il periodo di confronto
-        changed: Mantenuto con modifiche
-    forms:
-      submit_success_message: Il modulo è stato inviato correttamente
-      load_error_message: Si è verificato un errore caricando il modulo
-      validation_error_message: Sei pregato di risolvere gli errori presenti nel modulo
-      advanced_settings: Impostazioni avanzate
-    spot:
-      filter_chip:
-        remove: Rimuovi
-      drop_modal:
-        focus_grab: Questo è un punto focale per i modali. Premere MAIUSC+TAB per tornare all'elemento scatenante modale.
-        close: Chiusura modale
-    open_project_storage_modal:
-      waiting_title:
-        timeout: Timeout
-      waiting_subtitle:
-        network_off: C'è un problema di rete.
-        network_on: La rete è tornata. Stiamo provando.
-    projects:
-      identifier_suggestion:
-        loading: Caricamento suggerimento...
-        set_name_first: Inserisci prima il nome.

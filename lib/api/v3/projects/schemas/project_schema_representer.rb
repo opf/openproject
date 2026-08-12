@@ -138,13 +138,14 @@ module API
                                                 .includes(:custom_fields)
                                                 .merge(ProjectCustomField.visible(current_user))
                                                 .group(:id, "custom_fields.id")
-                                                .order(:position, :position_in_custom_field_section)
+                                                .order(:position)
           end
 
           def section_representation(section)
             OpenProject::Cache.fetch(*section_cache_key(section)) do
               ::API::V3::Projects::Schemas::ProjectCustomFieldSectionRepresenter
                 .new(section, current_user:)
+                .to_hash
             end
           end
 

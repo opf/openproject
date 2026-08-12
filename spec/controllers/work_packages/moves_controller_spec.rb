@@ -116,6 +116,36 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           expect(response).to render_template("work_packages/moves/new")
         end
       end
+
+      describe "with a semantic work package identifier",
+               with_settings: { work_packages_identifier: "semantic" } do
+        let(:semantic_project) { create(:project, :semantic, public: false, types: [type, type2]) }
+        let(:semantic_target_project) { create(:project, :semantic, public: false, types: [type, type2]) }
+        let(:semantic_work_package) do
+          create(:work_package, project: semantic_project, type:, author: user, priority:)
+        end
+        let!(:semantic_member) { create(:member, user: current_user, project: semantic_project, roles: [role]) }
+        let!(:semantic_target_member) { create(:member, user: current_user, project: semantic_target_project, roles: [role]) }
+
+        it "resolves the semantic identifier and renders the new builder template" do
+          get "new", params: { work_package_id: semantic_work_package.display_id }
+
+          expect(response).to render_template("work_packages/moves/new")
+        end
+
+        it "resolves the semantic identifier on create and moves the work package" do
+          post :create, params: {
+            work_package_id: semantic_work_package.display_id,
+            new_project_id: semantic_target_project.id,
+            new_type_id: semantic_target_project.types.first.id,
+            follow: "1"
+          }
+
+          expect(response).to be_redirect
+          expect(semantic_work_package.reload.project_id).to eq(semantic_target_project.id)
+          expect(response.location).to match(%r{/work_packages/#{semantic_target_project.identifier}-\d+})
+        end
+      end
     end
   end
 
@@ -195,6 +225,40 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           expect(subject).to redirect_to(work_package_path(work_package))
         end
       end
+
+      context "when the move fails validation, with semantic identifiers",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:outsider) { create(:user) }
+        let(:unmovable_work_package) do
+          create(:work_package,
+                 project_id: project.id,
+                 type:,
+                 author: user,
+                 priority:,
+                 responsible: outsider)
+        end
+
+        before do
+          # outsider is not a member of target_project, so the move fails
+          # contract validation before anything is persisted.
+          unmovable_work_package.update_columns(identifier: "SRC-1", sequence_number: 1)
+
+          post :create,
+               params: {
+                 work_package_id: unmovable_work_package.id,
+                 new_project_id: target_project.id
+               }
+        end
+
+        it "shows the semantic identifier in the error flash, not the bare numeric id" do
+          expect(flash[:error]).to include("SRC-1")
+          expect(flash[:error]).not_to include("##{unmovable_work_package.id}")
+        end
+
+        it "does not persist the move" do
+          expect(unmovable_work_package.reload.project_id).to eq(project.id)
+        end
+      end
     end
 
     describe "bulk move" do
@@ -248,6 +312,32 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         end
       end
 
+      context "when the moved work package has a version not shared with the target project" do
+        let(:source_version) { create(:version, project:) }
+        let(:target_version) { create(:version, project: target_project) }
+
+        before do
+          target_project.types << work_package.type
+          target_project.save
+          work_package.target_versions = [source_version]
+
+          post :create,
+               params: {
+                 ids: [work_package.id],
+                 new_project_id: target_project.id,
+                 target_version_ids: [target_version.id]
+               }
+          work_package.reload
+        end
+
+        # The project change clears the (now unassignable) source version via the
+        # system, which must not clash with the user-assigned target version.
+        it "moves the work package and swaps in the target version" do
+          expect(work_package.project_id).to eq(target_project.id)
+          expect(work_package.target_versions.pluck(:id)).to eq([target_version.id])
+        end
+      end
+
       context "to another type" do
         before do
           post :create,
@@ -279,6 +369,25 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         it "changed work packages' priority" do
           expect(work_package.priority_id).to eq(target_priority.id)
           expect(work_package_2.priority_id).to eq(target_priority.id)
+        end
+      end
+
+      context "with another budget" do
+        let(:target_budget) { create(:budget, project:) }
+
+        before do
+          post :create,
+               params: {
+                 ids: [work_package.id, work_package_2.id],
+                 budget_id: target_budget.id
+               }
+          work_package.reload
+          work_package_2.reload
+        end
+
+        it "assigns the budget to the work packages" do
+          expect(work_package.budget_id).to eq(target_budget.id)
+          expect(work_package_2.budget_id).to eq(target_budget.id)
         end
       end
 
@@ -361,7 +470,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           end
 
           it "did not change the version" do
-            expect(subject.version_id).to eq(work_package.version_id)
+            expect(subject.target_versions.pluck(:id)).to eq(work_package.target_versions.pluck(:id))
           end
 
           it "did not change the assignee" do
@@ -401,7 +510,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                    assigned_to_id: target_user.id,
                    responsible_id: target_user.id,
                    status_id: target_status,
-                   version_id: target_version.id,
+                   target_version_ids: [target_version.id],
                    start_date:,
                    due_date:
                  }
@@ -438,8 +547,8 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           end
 
           it "did change the version" do
-            subject.map(&:version_id).each do |id|
-              expect(id).to eq(target_version.id)
+            subject.each do |work_package|
+              expect(work_package.target_versions.pluck(:id)).to eq([target_version.id])
             end
           end
 

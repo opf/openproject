@@ -32,7 +32,7 @@ class Workflow < ApplicationRecord
   belongs_to :role
   belongs_to :old_status, class_name: "Status"
   belongs_to :new_status, class_name: "Status"
-  belongs_to :type, inverse_of: "workflows"
+  belongs_to :type, inverse_of: "own_workflows"
 
   validates :role, :old_status, :new_status, presence: true
 
@@ -56,16 +56,11 @@ class Workflow < ApplicationRecord
     result
   end
 
-  # Gets all work flows originating from the provided status
-  # that:
-  #   * are defined for the type
-  #   * are defined for any of the roles
-  #
+  # Gets all work flows originating from the provided status that are defined for any of the roles.
   # Workflows specific to author or assignee are ignored unless author and/or assignee are set to true. In
   # such a case, those work flows are additionally returned.
-  def self.from_status(old_status_id, type_id, role_ids, author = false, assignee = false)
-    workflows = Workflow
-                .where(old_status_id:, type_id:, role_id: role_ids)
+  def self.from_status(old_status_id, role_ids, author: false, assignee: false)
+    workflows = where(old_status_id:, role_id: role_ids)
 
     if author && assignee
       workflows
@@ -135,5 +130,25 @@ class Workflow < ApplicationRecord
       end
       true
     end
+  end
+
+  def self.eligible_roles
+    roles = Role.where(type: ProjectRole.name)
+
+    if EnterpriseToken.allows_to?(:work_package_sharing)
+      roles.or(Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR))
+    else
+      roles
+    end
+  end
+
+  def self.ordered_eligible_roles
+    eligible_roles.order(:builtin, :position)
+  end
+
+  def self.selected_roles(role_ids)
+    ordered = ordered_eligible_roles
+    selected = ordered.where(id: role_ids)
+    selected.any? ? selected : [ordered.first].compact
   end
 end

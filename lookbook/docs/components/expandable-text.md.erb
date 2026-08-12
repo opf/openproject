@@ -1,0 +1,94 @@
+**ExpandableText** detects when its content is truncated and shows an expand/collapse button — the button stays hidden while the content fits. It has two independent axes you choose between:
+
+- **Truncation** — `single_line` (clip one line with an ellipsis) or `multi_line` (clamp to a fixed number of lines)
+- **Expansion mode** — `inline` (reveal in place) or `dialog` (open a dialog with the full text)
+
+<%= embed OpPrimer::ExpandableTextComponentPreview, :default %>
+
+For more variations, browse the [preview examples](/lookbook/inspect/OpenProject/Primer/expandable_text/default) in Lookbook.
+
+## Choosing what to truncate
+
+`truncate:` controls how the text is clipped — not which way it expands.
+Expansion always reveals the full text (in place or in a dialog); `single_line`
+versus `multi_line` only decides how much shows while collapsed.
+
+| `truncate:` | What you get | Reach for it when |
+|-------------|--------------|-------------------|
+| `single_line` (default) | A single line, cut off with an ellipsis (`…`) | Short labels in table cells or list rows — permission names, statuses |
+| `multi_line` | The first `lines:` rows, then clamped | Multi-line descriptions or rich-text previews |
+
+`multi_line` takes a `lines:` count (2 or more, default 3):
+
+<%= embed OpPrimer::ExpandableTextComponentPreview, :multi_line %>
+
+## Choosing an expansion mode
+
+| Mode | Behaviour | Reach for it when |
+|------|-----------|-------------------|
+| `inline` (default) | Clicking the expander toggles the full text in place | Short content that reads fine expanded inline |
+| `dialog` | The expander opens a dialog showing the full content | Long-form or formatted content better shown in a focused dialog |
+
+In `dialog` mode the component owns the dialog and wires the expander button to
+it. By default — with no `dialog` slot — it renders a dialog showing the full
+content, which is all most callers need:
+
+```erb
+<%%= render(OpPrimer::ExpandableTextComponent.new(truncate: :multi_line, lines: 2, expansion: :dialog)) do %>
+  <%%= full_text %>
+<%% end %>
+```
+
+<%= embed OpPrimer::ExpandableTextComponentPreview, :dialog %>
+
+Supply a `dialog` slot only when you need a custom title, header or body:
+
+```erb
+<%%= render(OpPrimer::ExpandableTextComponent.new(truncate: :multi_line, lines: 2, expansion: :dialog)) do |component| %>
+  <%% component.with_dialog(title: "Full description", size: :large) do |dialog| %>
+    <%% dialog.with_header(variant: :large) %>
+    <%% dialog.with_body_content(full_text) %>
+  <%% end %>
+  <%%= truncated_preview %>
+<%% end %>
+```
+
+The two axes are independent. In practice two combinations cover almost every
+case: **single_line + inline** (table and list labels) and **multi_line + dialog**
+(long project attributes). The other combinations are valid too.
+
+## Used in
+
+- **Administration > Users and permissions > Permissions report** — single-line inline (permission names in table cells)
+- **Administration > Work packages > Edit workflow** — single-line inline (status names)
+- **Project attributes** — multi-line dialog (via `AttributeComponent`, which composes `ExpandableTextComponent`)
+
+<%= embed OpPrimer::ExpandableTextComponentPreview, :in_table %>
+
+## Best practices
+
+**Do**
+
+- Always place the component inside a width-constrained parent so truncation can trigger
+- Pass `flex: 1` when using inside a flex container to allow the truncation wrapper to shrink
+- Use the component even for text that might not truncate — the expander stays hidden when content fits
+
+**Don't**
+
+- Don't set a fixed width on the component itself — constrain the parent container
+- Don't use `single_line` for multi-line content — use `truncate: :multi_line` with a `lines:` count
+
+## Technical notes
+
+The component is a flex container with two children:
+
+- **Truncation wrapper** — `Primer::Beta::Truncate` for `single_line` (`text-overflow: ellipsis`) or `OpPrimer::VerticalTruncateComponent` for `multi_line` (`-webkit-line-clamp` driven by the inline `--op-vertical-truncate-lines` custom property)
+- **Expander button** — a `Primer::Alpha::HiddenTextExpander`, initially hidden, shown by the private `expandable-text` Stimulus controller when overflow is detected
+
+The private `expandable-text` Stimulus controller (for `ExpandableTextComponent` only):
+
+- Uses `ResizeObserver` (via `stimulus-use`) to reactively detect when content overflows its container
+- **`single_line`:** compares `scrollWidth > clientWidth` on the `.Truncate-text` element
+- **`multi_line`:** compares `scrollHeight > clientHeight` on the truncation target (works with `-webkit-line-clamp`)
+- Toggles `Truncate--expanded` (`single_line`) or `op-vertical-truncate--expanded` (`multi_line`) for inline expansion
+- Updates `aria-label` and `aria-expanded` for accessibility

@@ -36,16 +36,16 @@ RSpec.describe "Sprint displayed and selectable on work package table", :js do
   let(:finish_date) { Date.new(2025, 10, 25) }
   let(:other_start_date) { start_date + 20.days }
   let(:other_finish_date) { finish_date + 20.days }
-  let(:sprint) { create(:agile_sprint, project:, name: "Sprint", start_date:, finish_date:) }
+  let(:sprint) { create(:sprint, project:, name: "Sprint", start_date:, finish_date:) }
   let(:other_sprint_name) { "Other sprint" }
   let(:other_sprint) do
-    create(:agile_sprint,
+    create(:sprint,
            project:,
            name: other_sprint_name,
            start_date: other_start_date,
            finish_date: other_finish_date)
   end
-  let(:sprint_from_other_project) { create(:agile_sprint, project: another_project, name: "Sprint from other project") }
+  let(:sprint_from_other_project) { create(:sprint, project: another_project, name: "Sprint from other project") }
   let(:project) { create(:project, name: "Project", enabled_module_names:) }
   let(:project_sharing) do
     create(:project,
@@ -294,7 +294,7 @@ RSpec.describe "Sprint displayed and selectable on work package table", :js do
   context "without being a member in a project at all" do
     let!(:query) { build(:global_query, user: current_user) }
     let!(:project_where_user_is_no_member) { create(:project) }
-    let!(:sprint_that_user_cannot_see) { create(:agile_sprint, project: project_where_user_is_no_member) }
+    let!(:sprint_that_user_cannot_see) { create(:sprint, project: project_where_user_is_no_member) }
     let!(:work_package_that_user_cannot_see) do
       create(:work_package, project: project_where_user_is_no_member, sprint: sprint_that_user_cannot_see)
     end
@@ -315,7 +315,7 @@ RSpec.describe "Sprint displayed and selectable on work package table", :js do
   end
 
   context "when a sprint is shared" do
-    let(:shared_sprint) { create(:agile_sprint, project: project_sharing, name: "Shared sprint") }
+    let(:shared_sprint) { create(:sprint, project: project_sharing, name: "Shared sprint") }
     let!(:query) { build(:global_query, user: current_user) }
     let!(:wp_with_shared_sprint) do
       create(:work_package,

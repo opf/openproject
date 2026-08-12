@@ -31,6 +31,7 @@
 module Admin::Import::Jira::ImportRuns
   class ErrorBannerComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include Redmine::I18n
 
     attr_reader :import_run, :step
 

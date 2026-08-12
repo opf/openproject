@@ -41,18 +41,21 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
   def where
     parts = values.map(&:split).flatten
 
-    parts.map do |part|
-      conditions = [subject_condition(part),
-                    project_name_condition(part),
-                    type_name_condition(part),
-                    status_condition(part)]
+    parts.map { |part| "(#{conditions_for(part).join(' OR ')})" }.join(" AND ")
+  end
 
-      if (match = part.match(/^#?(\d+)$/))
-        conditions << id_condition(match[1])
-      end
+  def conditions_for(part)
+    conditions = [subject_condition(part),
+                  project_name_condition(part),
+                  work_package_identifier_condition(part),
+                  type_name_condition(part),
+                  status_condition(part)]
 
-      "(#{conditions.join(' OR ')})"
-    end.join(" AND ")
+    if (match = part.match(/\A(#)?(\d+)\z/))
+      conditions << id_or_sequence_number_condition(hash_prefixed: match[1].present?, search_term: match[2])
+    end
+
+    conditions
   end
 
   def subject_condition(string)
@@ -61,6 +64,14 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
 
   def project_name_condition(string)
     Queries::Operators::Contains.sql_for_field([string], Project.table_name, "name")
+  end
+
+  def work_package_identifier_condition(string)
+    alias_condition = Queries::Operators::StartsWith.sql_for_field(
+      [string], WorkPackageSemanticAlias.table_name, "identifier"
+    )
+    "#{WorkPackage.table_name}.id IN " \
+      "(SELECT work_package_id FROM #{WorkPackageSemanticAlias.table_name} WHERE #{alias_condition})"
   end
 
   def type_name_condition(string)
@@ -85,7 +96,20 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
     end
   end
 
+  def id_or_sequence_number_condition(hash_prefixed:, search_term:)
+    if Setting::WorkPackageIdentifier.classic? || hash_prefixed
+      id_condition(search_term)
+    else
+      sequence_number_condition(search_term)
+    end
+  end
+
   def id_condition(string)
     "#{WorkPackage.table_name}.id::varchar(20) LIKE '%#{string}%'"
+  end
+
+  def sequence_number_condition(string)
+    "#{WorkPackage.table_name}.id IN " \
+      "(SELECT id FROM #{WorkPackage.table_name} WHERE sequence_number = #{string})"
   end
 end

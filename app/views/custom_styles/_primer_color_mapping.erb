@@ -39,6 +39,7 @@
     --ck-color-button-default-hover-background: var(--button-default-bgColor-hover);
     --ck-color-toolbar-background: var(--body-background);
     --ck-color-text: var(--body-font-color);
+    --ck-content-font-color: var(--body-font-color);
     --ck-color-dropdown-panel-background: var(--overlay-bgColor);
     --ck-color-list-button-hover-background: var(--control-transparent-bgColor-hover);
     --ck-color-panel-background: var(--overlay-bgColor);
@@ -60,6 +61,13 @@
     --main-menu-font-color: var(--fgColor-default);
     --main-menu-selected-font-color: var(--fgColor-default);
     --main-menu-bg-color: var(--body-background);
+    --box-list-item-bg-color: var(--body-background);
+    --box-list-item-bg-hover-color: var(--bgColor-muted) !important;
+    --box-list-item-border-color: var(--borderColor-default) !important;
+    --box-list-item-selected-bg-color: hsl(from var(--display-blue-bgColor-muted) h calc(s - 30) calc(l + 2)) !important;
+    --box-list-item-selected-bg-hover-color: var(--display-blue-bgColor-muted) !important;
+    --box-list-item-selected-border-color: var(--borderColor-accent-muted) !important;
+    --box-list-item-pressed-border-color: var(--borderColor-accent-emphasis) !important;
   }
 
   /* For accessibility themes we are also overriding the header and the sidebar */
@@ -83,7 +91,6 @@
       --primary-button-color: var(--primary-button-color--dark-mode);
       --button--primary-background-disabled-color: var(--primary-button-color--major1);
       --button--primary-border-disabled-color: var(--primary-button-color--major1);
-      --type-form-conf-attribute--background: var(--overlay-bgColor);
       --select-arrow-bg-color-url: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
       --ck-color-mention-text: var(--display-red-fgColor);
       --ck-color-button-on-background: var(--button-default-bgColor-active);

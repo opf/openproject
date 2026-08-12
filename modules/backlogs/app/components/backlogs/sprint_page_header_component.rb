@@ -31,7 +31,7 @@
 module Backlogs
   class SprintPageHeaderComponent < ApplicationComponent
     include ApplicationHelper
-    include Backlogs::CommonHelper
+    include CommonHelper
 
     delegate :with_action_button, to: :@page_header
 

@@ -107,7 +107,7 @@ RSpec.describe "Team planner error handling",
           .perform
       end
 
-      team_planner.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_409"))
+      expect_flash(type: :error, message: I18n.t("notice_locking_conflict_danger"))
 
       work_package.reload
       expect(work_package.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))

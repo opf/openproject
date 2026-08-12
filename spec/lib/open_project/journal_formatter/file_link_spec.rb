@@ -60,7 +60,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
         expect(instance.render(key, [nil, changes]))
           .to eq(I18n.t(:text_journal_file_link_added,
                         label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
-                        value: "<a href=\"#{link}\">#{file_link.origin_name}</a>",
+                        value: "<a target=\"_blank\" href=\"#{link}\">#{file_link.origin_name}</a>",
                         storage: file_link.storage.name))
       end
 
@@ -83,7 +83,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
           expect(instance.render(key, [nil, changes]))
             .to eq(I18n.t(:text_journal_file_link_added,
                           label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
-                          value: "<a href=\"#{link}\">#{file_link.origin_name}</a>",
+                          value: "<a target=\"_blank\" href=\"#{link}\">#{file_link.origin_name}</a>",
                           storage: file_link.storage.name))
         end
 
@@ -95,7 +95,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
             expect(instance.render(key, [nil, changes]))
               .to eq(I18n.t(:text_journal_file_link_added,
                             label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
-                            value: "<a href=\"#{link}\">#{file_link.origin_name}</a>",
+                            value: "<a target=\"_blank\" href=\"#{link}\">#{file_link.origin_name}</a>",
                             storage: file_link.storage.name))
           end
         end

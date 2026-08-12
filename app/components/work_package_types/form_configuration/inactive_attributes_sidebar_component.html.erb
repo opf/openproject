@@ -1,0 +1,42 @@
+<%=
+  flex_layout(data: { controller: "filter--filter-list" }) do |flex|
+    flex.with_row(mb: 1) do
+      render(Primer::Beta::Heading.new(tag: :h3, font_size: 4)) do
+        t("types.edit.form_configuration.inactive_attributes_heading")
+      end
+    end
+
+    flex.with_row(mb: 3) do
+      render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
+        t("types.edit.form_configuration.drag_to_activate")
+      end
+    end
+
+    flex.with_row(mb: 3) do
+      render(
+        Primer::Alpha::TextField.new(
+          name: "inactive-filter",
+          label: t("types.edit.form_configuration.filter_inactive"),
+          visually_hide_label: true,
+          placeholder: t("types.edit.form_configuration.filter_inactive"),
+          leading_visual: { icon: :search },
+          size: :medium,
+          "full-width": true,
+          data: {
+            action: "input->filter--filter-list#filterLists",
+            "filter--filter-list-target": "filter"
+          }
+        )
+      )
+    end
+
+    flex.with_row do
+      render(
+        WorkPackageTypes::FormConfiguration::InactiveAttributesListComponent.new(
+          inactive_attributes: @inactive_attributes,
+          type: @type
+        )
+      )
+    end
+  end
+%>

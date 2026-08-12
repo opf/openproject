@@ -21,19 +21,17 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Component, ChangeDetectionStrategy, OnInit, ViewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ViewChild, inject } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
@@ -46,9 +44,7 @@ import { repositionDropdownBugfix } from 'core-app/shared/components/autocomplet
 export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
-  @InjectField() I18n!:I18nService;
-
-  @InjectField() pathHelperService:PathHelperService;
+  readonly pathHelperService = inject(PathHelperService);
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;
@@ -114,7 +110,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    */
   public buildSelectedOption() {
     const value:HalResource[] = this.resource[this.name];
-    return value ? _.castArray(value).map((val) => this.findValueOption(val)) : [];
+    return value ? (Array.isArray(value) ? value : [value]).map((val) => this.findValueOption(val)) : [];
   }
 
   public get selectedOption() {
@@ -128,7 +124,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   public set selectedOption(val:ValueOption[]) {
     this._selectedOption = val;
     const mapper = (val:ValueOption) => {
-      const option = _.find(this.availableOptions, (o) => o.href === val.href) || this.nullOption;
+      const option = (this.availableOptions as ValueOption[]).find((o) => o.href === val.href) ?? this.nullOption;
 
       // Special case 'null' value, which angular
       // only understands in ng-options as an empty string.
@@ -139,7 +135,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       return option;
     };
 
-    this.resource[this.name] = _.castArray(val).map((el) => mapper(el));
+    (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el) as ValueOption);
   }
 
   public onOpen() {
@@ -165,10 +161,10 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   private findValueOption(option?:HalResource):ValueOption {
-    let result;
+    let result:ValueOption|undefined;
 
     if (option) {
-      result = _.find(this.availableOptions, (valueOption) => valueOption.href === option.href)!;
+      result = (this.availableOptions as ValueOption[]).find((valueOption) => valueOption.href === option.href)!;
     }
 
     return result || this.nullOption;
@@ -229,11 +225,11 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   private checkCurrentValueValidity() {
     if (this.value) {
-      this.currentValueInvalid = !!(
-        // (If value AND)
-        // MultiSelect AND there is no value which href is not in the options hrefs
-        (!_.some(this.value, (value:HalResource) => _.some(this.availableOptions, (option) => (option.href === value.href))))
-      );
+      const resourceValue = (this.resource as Record<string, HalResource[]|HalResource>)[this.name];
+      const values = Array.isArray(resourceValue) ? resourceValue : [resourceValue];
+      // (If value AND)
+      // MultiSelect AND there is no value which href is not in the options hrefs
+      this.currentValueInvalid = !values.some((value:HalResource) => (this.availableOptions as ValueOption[]).some((option) => (option.href === value.href)));
     } else {
       // If no value but required
       this.currentValueInvalid = !!this.schema.required;

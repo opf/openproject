@@ -30,16 +30,22 @@
 
 module OpenProject::Backlogs::Patches::ProjectPatch
   extend ActiveSupport::Concern
-  include Projects::SprintSharing
+  include Projects::SprintSettings
 
   included do
-    has_and_belongs_to_many :done_statuses, join_table: :done_statuses_for_project, class_name: "::Status"
-    has_many :sprints, class_name: "Agile::Sprint", dependent: :destroy
+    has_and_belongs_to_many :done_statuses, join_table: "done_statuses_for_project", class_name: "::Status"
+    has_and_belongs_to_many :backlog_excluded_types,
+                            join_table: "backlog_excluded_types",
+                            class_name: "::Type"
+    has_many :sprints, dependent: :destroy
+    has_many :backlog_buckets, dependent: :destroy
   end
 
   def backlogs_enabled?
     module_enabled? "backlogs"
   end
-end
 
-Project.include OpenProject::Backlogs::Patches::ProjectPatch
+  def many_active_sprints?
+    sprints.active.many?
+  end
+end

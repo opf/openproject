@@ -1,0 +1,93 @@
+---
+hy:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_filter:
+        auth_source: Նույնականացման աղբյուր
+        base_dn: Որոնման base DN
+        filter_string: LDAP զտիչ
+        group_name_attribute: Խմբի անվան հատկանիշ
+        ldap_auth_source: LDAP կապ
+        member_lookup_attribute: Խմբի անդամի հատկանիշ
+        sync_users: Համաժամացնել օգտատերերին
+      ldap_groups/synchronized_group:
+        auth_source: Նույնականացման աղբյուր
+        dn: DN
+        ldap_auth_source: LDAP կապ
+        sync_users: Համաժամացնել օգտատերերին
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: Զտիչի base DN-ը պետք է ներառված լինի LDAP կապի base DN-ի մեջ
+    models:
+      ldap_groups/synchronized_filter: LDAP խմբերի համաժամացման զտիչ
+      ldap_groups/synchronized_group: Համաժամացված LDAP խումբ
+  ee:
+    upsell:
+      ldap_groups:
+        description: Համաժամացրեք LDAP խմբերը OpenProject-ի խմբերի հետ՝ օգտատերերին կառավարելու, նրանց թույլտվությունները փոփոխելու և խմբերի միջև օգտատերերի կառավարումը հեշտացնելու համար։
+        title: LDAP խմբերի համաժամացում
+  ldap_groups:
+    label_group_key: LDAP խմբի զտիչի բանալի
+    label_menu_item: LDAP խմբերի համաժամացում
+    label_synchronize: Հայտնաբերել LDAP խմբերը
+    settings:
+      name_attribute: LDAP խմբերի անվան հատկանիշ
+      name_attribute_text: LDAP-ի հատկանիշը, որն օգտագործվում է OpenProject-ի խումբն անվանելու համար, երբ այն ստեղծվում է զտիչի միջոցով
+    synchronized_filters:
+      add_new: Ավելացնել համաժամացված LDAP զտիչ
+      destroy:
+        confirmation: Եթե շարունակեք, %{name} համաժամացված զտիչը և դրա միջոցով ստեղծված բոլոր %{groups_count} խմբերը կհեռացվեն։
+        heading: Հեռացնե՞լ %{name} համաժամացված զտիչը։
+        removed_groups: Նախազգուշացում՝ Սա կհեռացնի հետևյալ խմբերը OpenProject-ից և կհեռացնի դրանք բոլոր նախագծերից։
+        title: Հեռացնել %{name} համաժամացված զտիչը
+        verification_html: Ջնջումը հաստատելու համար մուտքագրեք զտիչի անվանումը՝ %{name}։
+      form:
+        base_dn_text: 'Մուտքագրեք որոնման base DN-ը, որը պետք է օգտագործվի այս զտիչի համար։ Այն պետք է լինի ընտրված LDAP կապի base DN-ից ներքև։ Թողեք այս ընտրանքը դատարկ՝ կապի base DN-ը կրկին օգտագործելու համար
+
+          '
+        filter_string_text: Մուտքագրեք RFC4515 LDAP զտիչը, որը վերադարձնում է Ձեր LDAP-ի այն խմբերը, որոնք պետք է համաժամացվեն OpenProject-ի հետ։
+        group_name_attribute_text: Մուտքագրեք LDAP խմբի այն հատկանիշը, որն օգտագործվում է OpenProject-ի խմբի անվանումը սահմանելու համար։
+        member_lookup_attribute_text: 'Թողեք դատարկ՝ կանխադրված հակադարձ որոնումն օգտագործելու համար՝ OpenProject-ը որոնում է այն օգտատերերին, որոնց memberOf հատկանիշը համապատասխանում է խմբի DN-ին։ Դրա համար անհրաժեշտ է, որ memberOf հատկանիշն առկա լինի օգտատերերի գրառումներում (Active Directory, OpenLDAP՝ memberof overlay-ով)։ Ուղիղ որոնում օգտագործելու համար այստեղ նշեք խմբերի գրառումների այն հատկանիշի անվանումը, որը թվարկում է անդամների DN-երը։ Օրինակներ՝ "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames)։ Օգտագործեք սա այն LDAP սերվերների համար, որոնք օգտատերերի գրառումներում memberOf հատկանիշ չեն պահպանում։
+
+          '
+      label_n_groups_found:
+        one: Զտիչով գտնվել է 1 խումբ
+        other: Զտիչով գտնվել է %{count} խումբ
+        zero: Զտիչով խմբեր չեն գտնվել
+      plural: LDAP խմբերի համաժամացման զտիչներ
+      singular: LDAP խմբերի համաժամացման զտիչ
+    synchronized_groups:
+      add_new: Ավելացնել համաժամացված LDAP խումբ
+      destroy:
+        confirmation: Եթե շարունակեք, %{name} համաժամացված խումբը և դրա միջոցով համաժամացված բոլոր %{users_count} օգտատերերը կհեռացվեն։
+        heading: Հեռացնե՞լ %{name} համաժամացված խումբը։
+        info: OpenProject-ի խումբը և այս LDAP համաժամացումից դուրս ավելացված անդամները չեն հեռացվի։
+        title: Հեռացնել %{name} համաժամացված խումբը
+      form:
+        auth_source_text: Ընտրեք, թե որ LDAP կապը պետք է օգտագործվի։
+        dn_text: Մուտքագրեք LDAP-ում խմբի ամբողջական DN-ը
+        group_text: Ընտրեք OpenProject-ի առկա խումբը, որի հետ պետք է համաժամացվեն LDAP խմբի անդամները
+        sync_users_text: 'Եթե միացնեք այս ընտրանքը, գտնված օգտատերերը նույնպես ավտոմատ կստեղծվեն OpenProject-ում։ Առանց դրա խմբերում կավելացվեն միայն OpenProject-ում առկա հաշիվները։
+
+          '
+      help_text_html: |
+        Այս մոդուլը թույլ է տալիս կարգավորել համաժամացում LDAP-ի և OpenProject-ի խմբերի միջև։
+        <br/>
+        Ըստ կանխադրման՝ OpenProject-ն օգտագործում է <strong>հակադարձ որոնում</strong>՝ այն որոնում է այն օգտատերերին, որոնց <em>memberOf</em> հատկանիշը համապատասխանում է խմբի DN-ին։
+        Դրա համար անհրաժեշտ է, որ <em>memberOf</em> հատկանիշն առկա լինի օգտատերերի գրառումներում (Active Directory, OpenLDAP՝ memberof overlay-ով)։
+        <br/>
+        Եթե Ձեր LDAP սերվերը չի պահպանում <em>memberOf</em>-ը օգտատերերի գրառումներում (օրինակ՝ օգտագործում է <em>groupOfUniqueNames</em>՝ <em>uniqueMember</em>-ով),
+        Դուք կարող եք կազմաձևել <strong>ուղիղ որոնում</strong>՝ համաժամացման զտիչում սահմանելով <em>Խմբի անդամի հատկանիշ</em> դաշտը։
+        <br/>
+        Խմբերը համաժամացվում են ամեն ժամ՝ cron աշխատանքի միջոցով։
+        [Խնդրում ենք դիտել այս թեմայի վերաբերյալ մեր փաստաթղթերը](docs_url)։
+      no_members: Այս խումբը դեռ չունի համաժամացված անդամներ։
+      no_results: Համաժամացված խմբեր չեն գտնվել։
+      plural: Համաժամացված LDAP խմբեր
+      singular: Համաժամացված LDAP խումբ
+      upsell:
+        description: Օգտվեք համաժամացված LDAP խմբերի առավելություններից՝ օգտատերերին կառավարելու, նրանց թույլտվությունները փոփոխելու և խմբերի միջև օգտատերերի կառավարումը հեշտացնելու համար։
+  plugin_openproject_ldap_groups:
+    description: LDAP խմբերի անդամակցությունների համաժամացում։
+    name: OpenProject LDAP խմբեր

@@ -106,19 +106,19 @@ Please be aware that the actual installation of a specific Ruby version takes so
 ```
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.2` and install that version.
+Read the first line e.g. `4.0.6` and install that version.
 
 ```shell
-[openproject@host] rbenv install 4.0.2
+[openproject@host] rbenv install 4.0.6
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 4.0.2
+[openproject@host] rbenv global 4.0.6
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```text
-ruby 4.0.2 (2026-03-17 revision d3da9fec82) +PRISM [arm64-darwin25]
+ruby 4.0.6 (2026-07-14 revision 03b6d3f889) +PRISM [arm64-darwin25]
 ```
 
 ## Installation of Node
@@ -137,15 +137,15 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
-[openproject@host] nodenv install 14.16.0
+[openproject@host] nodenv install 24.18.0
 [openproject@host] nodenv rehash
-[openproject@host] nodenv global 14.16.0
+[openproject@host] nodenv global 24.18.0
 ```
 
 To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```text
-v22.21.0
+v24.18.0
 ```
 
 ## Installation of OpenProject

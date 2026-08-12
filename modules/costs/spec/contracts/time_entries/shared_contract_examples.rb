@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -46,7 +48,7 @@ RSpec.shared_examples_for "time entry contract" do
   let(:time_entry_hours) { 5 }
   let(:time_entry_comments) { "A comment" }
   let(:time_entry_ongoing) { false }
-  let(:work_package_visible) { true }
+  let(:entity_visible) { true }
   let(:user_visible) { true }
   let(:time_entry_day_sum) { 5 }
   let(:activities_scope) do
@@ -67,7 +69,7 @@ RSpec.shared_examples_for "time entry contract" do
       allow(time_entry_entity)
         .to receive(:visible?)
         .with(current_user)
-        .and_return(work_package_visible)
+        .and_return(entity_visible)
     end
 
     allow(TimeEntryActivity)
@@ -117,6 +119,24 @@ RSpec.shared_examples_for "time entry contract" do
   context "when the work_package is within a different project than the provided project" do
     let(:another_project) { build_stubbed(:project) }
     let(:time_entry_entity) { build_stubbed(:work_package, project: another_project) }
+
+    it "is invalid" do
+      expect_valid(false, entity: %i(invalid))
+    end
+  end
+
+  context "when the meeting is within a different project than the provided project" do
+    let(:another_project) { build_stubbed(:project) }
+    let(:time_entry_entity) { build_stubbed(:meeting, project: another_project) }
+
+    it "is invalid" do
+      expect_valid(false, entity: %i(invalid))
+    end
+  end
+
+  context "when the meeting is not visible to the user" do
+    let(:time_entry_entity) { build_stubbed(:meeting, project: time_entry_project) }
+    let(:entity_visible) { false }
 
     it "is invalid" do
       expect_valid(false, entity: %i(invalid))
@@ -206,6 +226,68 @@ RSpec.shared_examples_for "time entry contract" do
 
     it "is invalid" do
       expect_valid(false, hours: %i(invalid))
+    end
+  end
+
+  context "with a maximum number of hours per time entry configured" do
+    let(:max_hours_per_entry) { 4 }
+
+    before do
+      allow(Setting).to receive(:time_entries_max_hours_per_entry).and_return(max_hours_per_entry)
+    end
+
+    it_behaves_like "is valid" # without an Enterprise token, the restriction is not enforced
+
+    context "with an Enterprise token", with_ee: %i[time_entry_time_restrictions] do
+      context "when hours exceed the maximum" do
+        it "is invalid" do
+          expect_valid(false, hours: %i(max_hours_per_entry_exceeded))
+        end
+      end
+
+      context "when hours equal the maximum" do
+        let(:time_entry_hours) { max_hours_per_entry }
+
+        it_behaves_like "is valid"
+      end
+
+      context "when the maximum is 0" do
+        let(:max_hours_per_entry) { 0 }
+
+        it_behaves_like "is valid"
+      end
+    end
+  end
+
+  context "with a maximum number of hours per day configured" do
+    let(:max_hours_per_day) { 8 }
+    let(:time_entry_hours) { 5 }
+    let(:time_entry_day_sum) { 4 }
+
+    before do
+      allow(Setting).to receive(:time_entries_max_hours_per_day).and_return(max_hours_per_day)
+    end
+
+    it_behaves_like "is valid" # without an Enterprise token, the restriction is not enforced
+
+    context "with an Enterprise token", with_ee: %i[time_entry_time_restrictions] do
+      context "when the hours already logged plus the entry's hours exceed the maximum" do
+        it "is invalid" do
+          expect_valid(false, hours: %i(max_hours_per_day_exceeded))
+        end
+      end
+
+      context "when the hours already logged plus the entry's hours equal the maximum" do
+        let(:time_entry_day_sum) { max_hours_per_day - time_entry_hours }
+
+        it_behaves_like "is valid"
+      end
+
+      context "when the maximum is 0" do
+        let(:max_hours_per_day) { 0 }
+
+        it_behaves_like "is valid"
+      end
     end
   end
 

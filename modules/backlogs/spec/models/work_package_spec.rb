@@ -31,6 +31,88 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage do
+  describe "associations" do
+    it { is_expected.to belong_to(:backlog_bucket).class_name("BacklogBucket").optional(true) }
+    it { is_expected.to belong_to(:sprint).class_name("Sprint").optional(true) }
+  end
+
+  describe "validations" do
+    let(:work_package) do
+      build(:work_package)
+    end
+
+    describe "story points" do
+      before do
+        work_package.project.enabled_module_names += ["backlogs"]
+      end
+
+      it "allows empty values" do
+        expect(work_package.story_points).to be_nil
+        expect(work_package).to be_valid
+      end
+
+      it "allows values greater than or equal to 0" do
+        work_package.story_points = "0"
+        expect(work_package).to be_valid
+
+        work_package.story_points = "1"
+        expect(work_package).to be_valid
+      end
+
+      it "allows values less than 10.000" do
+        work_package.story_points = "9999"
+        expect(work_package).to be_valid
+      end
+
+      it "disallows negative values" do
+        work_package.story_points = "-1"
+        expect(work_package).not_to be_valid
+      end
+
+      it "disallows greater or equal than 10.000" do
+        work_package.story_points = "10000"
+        expect(work_package).not_to be_valid
+
+        work_package.story_points = "10001"
+        expect(work_package).not_to be_valid
+      end
+
+      it "disallows string values, that are not numbers" do
+        work_package.story_points = "abc"
+        expect(work_package).not_to be_valid
+      end
+
+      it "disallows non-integers" do
+        work_package.story_points = "1.3"
+        expect(work_package).not_to be_valid
+      end
+    end
+  end
+
+  describe "#backlogs_enabled?" do
+    let(:project) { build(:project) }
+    let(:work_package) { build(:work_package) }
+
+    it "is false without a project" do
+      work_package.project = nil
+      expect(work_package).not_to be_backlogs_enabled
+    end
+
+    it "is true with a project having the backlogs module" do
+      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
+      work_package.project = project
+
+      expect(work_package).to be_backlogs_enabled
+    end
+
+    it "is false with a project not having the backlogs module" do
+      work_package.project = project
+      work_package.project.enabled_module_names = nil
+
+      expect(work_package).not_to be_backlogs_enabled
+    end
+  end
+
   describe ".order_by_position" do
     let(:work_packages) { create_list(:work_package, 3) }
 

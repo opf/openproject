@@ -106,7 +106,7 @@ RSpec.describe Redmine::MenuManager do
     context "for the my_menu" do
       it "includes the expected items" do
         expect(described_class.items(:my_menu).map(&:name))
-          .to include(:account, :locale, :password, :access_tokens, :notifications)
+          .to include(:account, :locale, :security, :access_tokens, :notifications)
       end
     end
 

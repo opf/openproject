@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "dry/container"
+require "dry/core/container"
 
 module Wikis
   module Adapters
     class Registry
-      extend Dry::Container::Mixin
+      extend Dry::Core::Container::Mixin
 
       class Error < StandardError
       end
@@ -51,13 +51,13 @@ module Wikis
         keys.map { it.split(".").first }.uniq
       end
 
-      class Resolver < Dry::Container::Resolver
+      class Resolver < Dry::Core::Container::Resolver
         def call(container, key)
           Rails.logger.tagged("Wikis::Adapters::Registry") do
             Rails.logger.info "Resolving #{key}"
             super
           end
-        rescue Dry::Container::KeyError => e
+        rescue Dry::Core::Container::KeyError => e
           error = registry_error_for(key)
 
           Rails.logger.tagged("Wikis::Adapters::Registry") { Rails.logger.error (error || e).message }

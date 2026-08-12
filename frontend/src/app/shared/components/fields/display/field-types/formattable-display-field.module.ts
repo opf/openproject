@@ -21,18 +21,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { ApplicationRef } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ExpressionService } from 'core-app/core/expression/expression.service';
 
 export class FormattableDisplayField extends DisplayField {
-  @InjectField() readonly appRef:ApplicationRef;
+  @LazyInject() readonly appRef:ApplicationRef;
 
   public render(element:HTMLElement, displayText:string, options:any = {}):void {
     const div = document.createElement('div');

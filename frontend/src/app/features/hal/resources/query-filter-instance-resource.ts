@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
@@ -44,9 +44,9 @@ export class QueryFilterInstanceResource extends HalResource {
 
   private memoizedCurrentSchemas:Record<string, QueryFilterInstanceSchemaResource> = {};
 
-  @InjectField(SchemaCacheService) schemaCache:SchemaCacheService;
+  @LazyInject(SchemaCacheService) schemaCache:SchemaCacheService;
 
-  @InjectField(PathHelperService) pathHelper:PathHelperService;
+  @LazyInject(PathHelperService) pathHelper:PathHelperService;
 
   public $initialize(source:any) {
     super.$initialize(source);
@@ -94,7 +94,7 @@ export class QueryFilterInstanceResource extends HalResource {
   }
 
   public findOperator(operatorSymbol:string):QueryOperatorResource|undefined {
-    return _.find(this.schemaCache.of(this).availableOperators, (operator:QueryOperatorResource) => operator.id === operatorSymbol) as QueryOperatorResource|undefined;
+    return (this.schemaCache.of(this).availableOperators as QueryOperatorResource[]|undefined)?.find((operator:QueryOperatorResource) => operator.id === operatorSymbol);
   }
 
   public isTemplated() {

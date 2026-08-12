@@ -1,0 +1,160 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+---
+hy:
+  activerecord:
+    attributes:
+      document:
+        content_binary: Երկուական բովանդակություն
+        title: Վերնագիր
+    errors:
+      models:
+        document_type:
+          one_or_more_required: Հնարավոր չէ ջնջել փաստաթղթի վերջին տեսակը
+    models:
+      document: Փաստաթուղթ
+      documents: Փաստաթղթեր
+  activity:
+    filter:
+      document: Փաստաթղթեր
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus սերվերի URL
+  default_doc_category_tech: Տեխնիկական փաստաթղթավորում
+  default_doc_category_user: Օգտատիրոջ փաստաթղթավորում
+  documents:
+    active_editors: Ակտիվ խմբագրողներ
+    active_editors_count:
+      one: 1 ակտիվ խմբագրող
+      other: "%{count} ակտիվ խմբագրող"
+    admin:
+      collaboration_settings:
+        banner:
+          none_writable: Այս արժեքները կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
+          some_unwritable: Որոշ արժեքներ կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
+        hocuspocus_server: Hocuspocus սերվեր
+        hocuspocus_server_secret:
+          caption: Տեղադրեք Hocuspocus սերվերի կողմից տրամադրված գաղտնիքը։
+          label: Հաճախորդի գաղտնիք
+        hocuspocus_server_url:
+          caption: Աշխատող Hocuspocus սերվերի WebSocket հասցեն։
+          invalid_scheme: Պետք է օգտագործվի WebSocket արձանագրություն (ws:// կամ wss://)։
+          label: Hocuspocus սերվերի URL
+        page_header:
+          description: |-
+            Միացված վիճակում իրական ժամանակի համագործակցությունը թույլ է տալիս մի քանի օգտատերերի միաժամանակ խմբագրել փաստաթուղթը։
+            Աշխատելու համար անհրաժեշտ է գործող %{hocuspocus_server_link}։
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Հասկանում եմ, որ կարող եմ ընդմիշտ կորցնել տվյալները
+        confirmation_message: |-
+          Բոլոր առկա փաստաթղթերը կարող են դառնալ անհասանելի։ Խնդրում ենք դա անել միայն այն դեպքում, եթե համոզված եք, որ ցանկանում եք անջատել
+          իրական ժամանակի համագործակցությունը և BlockNote խմբագրիչն այս համակարգում։
+        heading: Անջատե՞լ իրական ժամանակի համագործակցությունը։
+        success: Իրական ժամանակի համագործակցությունն անջատվել է։
+        title: Անջատել իրական ժամանակի համագործակցությունը
+      enable_text_collaboration:
+        description: |-
+          Միացնելուց հետո մի քանի օգտատեր կկարողանան միաժամանակ միասին աշխատել փաստաթղթի վրա։
+          Բոլոր նոր փաստաթղթերը կհիմնվեն նոր խմբագրիչի (BlockNote) վրա և կպահանջեն գործող կապ
+          Hocuspocus սերվերի հետ։
+        heading: Իրական ժամանակի համագործակցությունը միացված չէ
+        primary_action: Միացնել իրական ժամանակի համագործակցությունը
+        success: Իրական ժամանակի համագործակցությունը միացվել է։
+    button_add_type: Տեսակ
+    delete_dialog:
+      confirmation_message_html: Սա ընդմիշտ կջնջի այս փաստաթուղթը և բոլոր կցված նիշքերը։ Համոզվա՞ծ եք, որ ցանկանում եք դա անել։
+      heading: Ջնջե՞լ այս փաստաթուղթը։
+      title: Ջնջել փաստաթուղթը
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Հնարավոր չէ ջնջել փաստաթղթի վերջին տեսակը
+        message: Միշտ պետք է կազմաձևված լինի փաստաթղթի առնվազն մեկ տեսակ։ Եթե ցանկանում եք ջնջել այս մեկը, նախ ստեղծեք մեկ ուրիշը։
+        title: Հնարավոր չէ ջնջել փաստաթղթի տեսակը
+      confirmation_message: '"%{type_name}" տեսակը ներկայումս չի օգտագործվում։ Այս տեսակի ջնջումը չի ազդի առկա փաստաթղթերի վրա։'
+      heading: Ջնջե՞լ փաստաթղթի այս տեսակը։
+      reassign_message:
+        one: '"%{type_name}" տեսակը ներկայումս օգտագործվում է %{document_count} փաստաթղթում։ Խնդրում ենք ընտրել, թե որ տեսակին վերանշանակել դրանք։'
+        other: '"%{type_name}" տեսակը ներկայումս օգտագործվում է %{document_count} փաստաթղթում։ Խնդրում ենք ընտրել, թե որ տեսակին վերանշանակել դրանք։'
+      select_reassign_to_label: Վերանշանակել փաստաթղթերը հետևյալ տեսակին
+      title: Ջնջել փաստաթղթի տեսակը
+    document_categories_deprecation_notice:
+      description: |-
+        Ձեր առկա նիշքերի կատեգորիաները փոխարկվել են փաստաթղթերի տեսակների՝ նոր Փաստաթղթեր մոդուլի ներդրման հետ։
+        Բոլոր առկա փաստաթղթերը նույնպես տեղափոխվել են այս նոր տեսակներին։
+      heading: Նիշքերի կատեգորիաներն այժմ կոչվում են 'Փաստաթղթերի տեսակներ'
+      primary_action: Կազմաձևել փաստաթղթերի տեսակները
+      secondary_action: Իմանալ ավելին Փաստաթղթերի մոդուլի մասին
+    document_type_actions: Փաստաթղթի տեսակի գործողություններ
+    documents_list_blank_slate:
+      description: Այս տեսքում փաստաթղթեր չկան։ Ավելացնելու համար կարող եք սեղմել ստորև գտնվող կոճակը։
+      heading: Դեռ փաստաթղթեր չկան
+    index_page:
+      label_legacy: Հնացած
+      name: Անվանում
+      type: Տեսակ
+      updated_at: Վերջին խմբագրում
+    info_line:
+      connection_restored: Դուք կրկին առցանց եք։
+      currently_offline: Դուք ներկայումս անցանց եք։
+    label_attachment_author: Կցորդի հեղինակ
+    label_categories: Կատեգորիաներ
+    last_updated_at: Վերջին անգամ պահպանվել է %{time}։
+    menu:
+      all: Բոլոր փաստաթղթերը
+      collaboration_settings: Իրական ժամանակի համագործակցություն
+      types: Տեսակներ
+    new_category: Նոր կատեգորիա
+    new_type: Նոր տեսակ
+    page_header:
+      action_menu:
+        document_actions: Փաստաթղթի գործողություններ
+        edit_title: Խմբագրել վերնագիրը
+      heading: Բոլոր փաստաթղթերը
+    show_edit_view:
+      connection_error_notice:
+        action: Փորձել կրկին
+        description_server_unavailable: |-
+          Հնարավոր չէ բացել փաստաթուղթը, քանի որ իրական ժամանակի տեքստային համագործակցության սերվերն անհասանելի է։
+          Խնդրում ենք դիմել ադմինիստրատորին, եթե խնդիրը շարունակվում է։
+      tabs: Փաստաթղթի ներդիրներ
+    subheader:
+      filter:
+        label: Փաստաթղթի անվան զտիչ
+        placeholder: Մուտքագրեք այստեղ՝ փաստաթղթերի անունները որոնելու համար
+    text_collaboration_disabled_notice:
+      description: |-
+        Հնարավոր չէ բացել փաստաթուղթը, քանի որ իրական ժամանակի տեքստային համագործակցությունն անջատված է։
+        Եթե ցանկանում եք հասանելիություն ունենալ այս փաստաթղթին, խնդրում ենք դիմել Ձեր ադմինիստրատորին՝ իրական ժամանակի տեքստային համագործակցությունը միացնելու համար։
+  enumeration_doc_categories: Փաստաթղթերի կատեգորիաներ
+  label_document_added: Փաստաթուղթն ավելացվել է
+  label_document_category: Կատեգորիա
+  label_document_description: Նկարագրություն
+  label_document_new: Նոր փաստաթուղթ
+  label_document_plural: Փաստաթղթեր
+  label_document_title: Վերնագիր
+  label_document_type: Տեսակ
+  label_documents: Փաստաթղթեր
+  permission_manage_documents: Կառավարել փաստաթղթերը
+  permission_view_documents: Դիտել փաստաթղթերը
+  plugin_openproject_documents:
+    description: OpenProject-ի հավելում՝ նախագծերում փաստաթղթեր ստեղծելու հնարավորության համար։
+    name: OpenProject-ի փաստաթղթեր
+  project_module_documents: Փաստաթղթեր

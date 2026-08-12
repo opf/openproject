@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -51,6 +53,7 @@ RSpec.describe WorkPackages::CreateContract do
       view_work_packages
       add_work_packages
       manage_sprint_items
+      view_sprints
     ]
   end
 

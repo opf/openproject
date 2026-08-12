@@ -1,19 +1,12 @@
-# /api/v3/meetings/{meeting_id}/agenda_items/{id}
+# /api/v3/meeting_agenda_items/{id}
 ---
 get:
   summary: Get a meeting agenda item
   operationId: get_meeting_agenda_item
   tags:
     - Meetings
-  description: Retrieve an individual agenda item of a meeting.
+  description: Retrieve an individual agenda item.
   parameters:
-    - description: Meeting identifier
-      example: 1
-      in: path
-      name: meeting_id
-      required: true
-      schema:
-        type: integer
     - description: Agenda item identifier
       example: 1
       in: path
@@ -40,7 +33,7 @@ get:
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The requested resource could not be found.
       description: |-
-        Returned if the agenda item or meeting does not exist or the client does not have sufficient permissions.
+        Returned if the agenda item does not exist or the client does not have sufficient permissions.
 
 patch:
   summary: Update a meeting agenda item
@@ -49,13 +42,6 @@ patch:
     - Meetings
   description: Updates the given agenda item.
   parameters:
-    - description: Meeting identifier
-      example: 1
-      in: path
-      name: meeting_id
-      required: true
-      schema:
-        type: integer
     - description: Agenda item identifier
       example: 1
       in: path
@@ -82,12 +68,6 @@ patch:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 
@@ -97,14 +77,8 @@ patch:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
       description: |-
-        Returned if the agenda item or meeting does not exist.
+        Returned if the agenda item does not exist or the client does not have sufficient permissions.
     '406':
       $ref: "../components/responses/missing_content_type.yml"
     '415':
@@ -122,13 +96,6 @@ delete:
     - Meetings
   description: Deletes the agenda item.
   parameters:
-    - description: Meeting identifier
-      example: 1
-      in: path
-      name: meeting_id
-      required: true
-      schema:
-        type: integer
     - description: Agenda item identifier
       example: 1
       in: path
@@ -144,12 +111,6 @@ delete:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 
@@ -159,11 +120,5 @@ delete:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
       description: |-
-        Returned if the agenda item or meeting does not exist.
+        Returned if the agenda item does not exist or the client does not have sufficient permissions.

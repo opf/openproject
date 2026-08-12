@@ -33,15 +33,9 @@ require "features/page_objects/notification"
 require "features/work_packages/shared_contexts"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "Wiki menu items",
-               :js do
-  let(:user) do
-    create(:user,
-           member_with_permissions: { project => %i[view_wiki_pages
-                                                    manage_wiki_menu
-                                                    delete_wiki_pages] })
-  end
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+RSpec.describe "Wiki menu items", :js do
+  let(:user) { create(:user, member_with_permissions: { project => %i[view_wiki_pages manage_wiki] }) }
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:wiki) { project.wiki }
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: "wiki") }
   let(:wiki_page) { create(:wiki_page, wiki:) }
@@ -145,7 +139,7 @@ RSpec.describe "Wiki menu items",
     end
 
     within "#menu-sidebar" do
-      expect(page).to have_no_content("Custom page name")
+      expect(page).to have_no_text("Custom page name")
     end
 
     # removing the menu item which is also the last wiki menu item

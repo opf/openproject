@@ -1,0 +1,250 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%= component_wrapper do %>
+  <%= styled_form_tag(
+        { action: "create" },
+        id: "move_form",
+        data: {
+          controller: "refresh-on-form-changes",
+          refresh_on_form_changes_target: "form",
+          refresh_on_form_changes_turbo_stream_url_value: turbo_stream_url
+        },
+        class: "-wide-labels"
+      ) do %>
+    <% work_packages.each do |wp| %>
+      <%= hidden_field_tag "ids[]", wp.id %>
+    <% end %>
+    <%= back_url_hidden_field_tag %>
+    <section class="form--section">
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>
+        <div class="grid-block grid-block_visible-overflow">
+          <div class="grid-content medium-6">
+            <div class="form--field">
+              <label class="form--label" for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
+              <div class="form--field-container">
+                <%= angular_component_tag "opce-project-autocompleter",
+                                          inputs: {
+                                            filters: [{ name: "user_action", operator: "=", values: ["work_packages/#{copy ? 'copy' : 'move'}"] }],
+                                            inputName: "new_project_id",
+                                            model: target_project,
+                                            hiddenFieldAction: "change->refresh-on-form-changes#triggerTurboStream",
+                                            clearable: false
+                                          },
+                                          id: "new_project_id",
+                                          class: "remote-field--input",
+                                          data: {
+                                            "test-selector": "new_project_id"
+                                          } %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
+              <div class="form--field-container">
+                <%= styled_select_tag(
+                      "new_type_id",
+                      content_tag("option", t(:label_no_change_option), value: "") +
+                        options_from_collection_for_select(available_types, "id", "name", target_type&.id),
+                      data: {
+                        action: "change->refresh-on-form-changes#triggerTurboStream"
+                      }
+                    ) %>
+              </div>
+              <% if unavailable_type_in_target_project? %>
+                <div class="op-toast -warning icon-warning">
+                  <div class="op-toast--content">
+                    <p>
+                      <% if work_packages.size > 1 %>
+                        <%= t("work_packages.move.bulk_current_type_not_available_in_target_project") %>
+                      <% else %>
+                        <%= t("work_packages.move.current_type_not_available_in_target_project") %>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for="status_id"><%= WorkPackage.human_attribute_name(:status) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag(
+                      "status_id",
+                      content_tag("option", t(:label_no_change_option), value: "") +
+                        options_from_collection_for_select(available_statuses, :id, :name, selected_values[:status_id])
+                    ) %>
+              </div>
+            </div>
+            <%# Always write through target_version_ids (version_id is synced from it on save); the feature only toggles single vs. multiple select. %>
+            <% multiple_versions = Setting::WorkPackageMultipleVersions.active? %>
+            <% selected_versions = selected_target_versions %>
+            <div class="form--field">
+              <label class="form--label" for="target_version_ids">
+                <%= WorkPackage.human_attribute_name(multiple_versions ? :target_versions : :version) %>
+              </label>
+              <div class="form--field-container">
+                <%# Preselect "(no change)" so the multi-select defaults to it instead of an empty selection. %>
+                <%= styled_select_tag(
+                      "target_version_ids[]",
+                      content_tag("option", t(:label_no_change_option), value: "", selected: selected_versions.empty?) +
+                        version_options_for_select(available_versions, selected_versions),
+                      id: "target_version_ids",
+                      multiple: multiple_versions
+                    ) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for="priority_id"><%= WorkPackage.human_attribute_name(:priority) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag(
+                      "priority_id",
+                      content_tag("option", t(:label_no_change_option), value: "") +
+                        options_from_collection_for_select(
+                          IssuePriority.active,
+                          :id,
+                          :name,
+                          selected_values[:priority_id]
+                        )
+                    ) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for="assigned_to_id"><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag(
+                      "assigned_to_id",
+                      options_for_select(
+                        [[t(:label_no_change_option), ""], [t(:label_nobody), "none"]],
+                        selected_values[:assigned_to_id]
+                      ) +
+                        options_from_collection_for_select(
+                          possible_assignees,
+                          :id,
+                          :name,
+                          selected_values[:assigned_to_id]
+                        )
+                    ) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for="responsible_id"><%= WorkPackage.human_attribute_name(:responsible) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag(
+                      "responsible_id",
+                      options_for_select(
+                        [[t(:label_no_change_option), ""], [t(:label_nobody), "none"]],
+                        selected_values[:responsible_id]
+                      ) +
+                        options_from_collection_for_select(
+                          possible_assignees,
+                          :id,
+                          :name,
+                          selected_values[:responsible_id]
+                        )
+                    ) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <%= styled_label_tag :budget_id, Budget.model_name.human %>
+              <%= styled_select_tag(
+                    "budget_id",
+                    options_for_select(
+                      [
+                        ([t(:label_no_change_option), ""] if target_project == project),
+                        [t(:label_none), "none"]
+                      ].compact,
+                      selected_values[:budget_id]
+                    ) +
+                    options_from_collection_for_select(
+                      target_project.budgets,
+                      :id,
+                      :subject,
+                      selected_values[:budget_id]
+                    )
+                  ) %>
+            </div>
+          </div>
+          <div class="grid-content medium-6">
+            <div class="form--field">
+              <label class="form--label" for="start_date"><%= WorkPackage.human_attribute_name(:start_date) %></label>
+              <div class="form--field-container -visible-overflow">
+                <%= angular_component_tag "opce-basic-single-date-picker",
+                                          inputs: {
+                                            id: "start_date",
+                                            name: "start_date",
+                                            value: selected_values[:start_date]
+                                          } %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for="due_date"><%= WorkPackage.human_attribute_name(:due_date) %></label>
+              <div class="form--field-container -visible-overflow">
+                <%= angular_component_tag "opce-basic-single-date-picker",
+                                          inputs: {
+                                            id: "due_date",
+                                            name: "due_date",
+                                            value: selected_values[:due_date]
+                                          } %>
+              </div>
+            </div>
+            <% if target_type %>
+              <% target_type.custom_fields.required.each do |custom_field| %>
+                <div class="form--field">
+                  <%= blank_custom_field_label_tag("", custom_field) %>
+                  <div class="form--field-container">
+                    <%= custom_field_tag_for_bulk_edit(
+                          "",
+                          custom_field,
+                          target_project,
+                          selected_custom_field_value(custom_field)
+                        ) %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
+        <%= label_tag "notes", Journal.human_attribute_name(:notes), class: "sr-only" %>
+        <%= styled_text_area_tag "notes", notes, cols: 60, rows: 10, class: "wiki-edit", with_text_formatting: true %>
+      </fieldset>
+      <%= call_hook(:view_work_packages_move_bottom, work_packages: work_packages, target_project: target_project, copy: !!copy) %>
+    </section>
+    <% if copy %>
+      <%= hidden_field_tag("copy") %>
+      <%= styled_submit_tag t(:button_duplicate), class: "-primary" %>
+      <%= styled_submit_tag t(:button_duplicate_and_follow), name: "follow", class: "-primary" %>
+    <% else %>
+      <%= styled_submit_tag t(:button_move), class: "-primary" %>
+      <%= styled_submit_tag t(:button_move_and_follow), name: "follow", class: "-primary" %>
+    <% end %>
+  <% end %>
+<% end %>

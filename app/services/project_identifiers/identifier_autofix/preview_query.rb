@@ -53,7 +53,7 @@ module ProjectIdentifiers
       def generate_suggestions(analysis)
         ProjectIdentifierSuggestionGenerator.call(
           preview_projects(analysis.scope),
-          exclude: analysis.exclusion_set.to_set(&:upcase)
+          exclude: analysis.reserved_identifiers_for_admin_preview.to_set(&:upcase)
         )
       end
 

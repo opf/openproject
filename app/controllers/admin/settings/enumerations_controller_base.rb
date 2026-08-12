@@ -74,10 +74,10 @@ module Admin
           handle_reassignment_on_deletion
         elsif @enumeration.destroy
           flash[:notice] = I18n.t(:notice_successful_delete)
-          redirect_to(action: :index)
+          redirect_to(action: :index, status: :see_other)
         else
           flash.now[:error] = I18n.t(:error_can_not_delete_entry)
-          redirect_to(action: :index)
+          redirect_to(action: :index, status: :see_other)
         end
       end
 

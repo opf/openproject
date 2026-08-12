@@ -34,7 +34,7 @@ require_module_spec_helper
 module Storages
   module Adapters
     module AuthenticationStrategies
-      RSpec.describe BasicAuth, :webmock do
+      RSpec.describe BasicAuth, :disable_ssrf_filter, :webmock do
         let(:user) { create(:user) }
 
         let(:storage) do
@@ -111,7 +111,7 @@ module Storages
         end
 
         def error(code)
-          Failure(Results::Error.new(source: "EXECUTING_QUERY", code:))
+          Failure(SimpleError.new(source: "EXECUTING_QUERY", code:))
         end
       end
     end

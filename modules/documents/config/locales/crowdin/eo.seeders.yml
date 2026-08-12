@@ -7,14 +7,14 @@ eo:
     common:
       document_types:
         item_0:
-          name: Note
+          name: Noto
         item_1:
-          name: Idea
+          name: Ideo
         item_2:
-          name: Proposal
+          name: Propono
         item_3:
-          name: Specification
+          name: Specifo
         item_4:
-          name: Report
+          name: Raporto
         item_5:
-          name: Documentation
+          name: Dokumentado

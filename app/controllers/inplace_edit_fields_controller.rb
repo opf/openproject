@@ -33,6 +33,7 @@ class InplaceEditFieldsController < ApplicationController
 
   before_action :find_model
   before_action :set_attribute
+  before_action :authorize_project_custom_field_visibility!, if: :custom_field_attribute?
   no_authorization_required! :edit, :update, :reset, :dialog
 
   def edit
@@ -123,6 +124,15 @@ class InplaceEditFieldsController < ApplicationController
 
   def set_attribute
     @attribute = params[:attribute].to_sym
+  end
+
+  def authorize_project_custom_field_visibility!
+    return unless @model.is_a?(Project)
+
+    custom_field_id = @attribute.to_s.delete_prefix("custom_field_").to_i
+    unless ProjectCustomField.visible(current_user, project: @model).exists?(custom_field_id)
+      head :not_found
+    end
   end
 
   def permitted_params

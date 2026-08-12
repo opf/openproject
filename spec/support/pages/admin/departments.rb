@@ -84,8 +84,8 @@ module Pages
 
       def expect_breadcrumbs(*names)
         within_detail_component do
-          breadcrumb_items = page.all("li.breadcrumb-item")
-          actual = breadcrumb_items.map(&:text)
+          expect(page).to have_css("li.breadcrumb-item", text: names.last)
+          actual = page.all("li.breadcrumb-item").map(&:text)
           expect(actual).to eq(names)
         end
       end

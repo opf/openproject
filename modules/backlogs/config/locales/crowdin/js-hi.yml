@@ -22,9 +22,9 @@
 ---
 hi:
   js:
-    work_packages:
-      properties:
-        storyPoints: कहानी अंक
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: कहानी अंक

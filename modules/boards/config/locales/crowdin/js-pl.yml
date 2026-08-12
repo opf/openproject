@@ -1,4 +1,3 @@
-#English strings go here
 ---
 pl:
   ee:
@@ -7,42 +6,32 @@ pl:
         description: Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja dodatku Enterprise. Przejdź na płatny plan.
   js:
     boards:
-      create_new: Utwórz nową tablicę
-      label_unnamed_board: Tablica bez nazwy
-      label_unnamed_list: Lista bez nazwy
-      label_board_type: Typ tablicy
-      lists:
-        delete: Usuń listę
-      version:
-        is_locked: Wersja jest zablokowana. Do tej wersji nie można dodać żadnych elementów.
-        is_closed: Wersja jest zamknięta. Do tej wersji nie można dodać żadnych elementów.
-        close_version: Zamknij wersję
-        open_version: Otwórz wersję
-        lock_version: Zablokuj wersję
-        unlock_version: Odblokuj wersję
-        edit_version: Edytuj wersję
-        show_version: Pokaż wersję
-        locked: Zablokowany
-        closed: Zamknięte
-      new_board: Nowa tablica
-      add_list: Dodaj listę do tablicy
       add_card: Dodaj kartę
-      error_attribute_not_writable: Nie można przenieść pakietu roboczego, nie można zapisać %{attribute}.
-      error_loading_the_list: 'Błąd podczas ładowania listy: %{error_message}'
-      error_permission_missing: Brakuje uprawnienia do tworzenia zapytań publicznych
-      error_cannot_move_into_self: Nie możesz przenieść pakietu roboczego do jego własnej kolumny.
-      text_hidden_list_warning: Nie wszystkie listy są wyświetlane, ponieważ nie masz uprawnień. Aby uzyskać więcej informacji, skontaktuj się z administratorem.
-      click_to_remove_list: Kliknij, aby usunąć tę listę
+      add_list: Dodaj listę do tablicy
+      add_list_modal:
+        labels:
+          assignee: Wybierz użytkownika do dodania jako nową listę przypisanych
+          status: Wybierz status do dodania jako nową listę
+          subproject: Wybierz podprojekt do dodania jako nową listę
+          subtasks: Wybierz pakiet roboczy do dodania jako nową listę
+          version: Wybierz wersję do dodania jako nową listę
+        warning:
+          add_members: <a href="%{link}">Dodaj nowego członka do tego projektu</a>, aby ponownie wybrać użytkowników.
+          assignee: Nie ma żadnego członka pasującego do tej wartości filtru.  <br>
+          no_member: W tym projekcie nie ma obecnie żadnych członków, których można dodać. <br>
+          status: |
+            Obecnie nie jest dostępny żaden status. <br>
+            Albo nie istnieją, albo wszystkie zostały już dodane do tablicy.
       board_type:
-        text: Typ tablicy
-        free: podstawowy
-        select_board_type: Wybierz typ tablicy, którego potrzebujesz.
-        free_text: 'Zacznij od zera z pustą tablicą. Ręcznie dodaj karty i kolumny do tej tablicy.
-
-          '
         action: Tablica działania
         action_by_attribute: Tablica działania (%{attribute})
         action_text: 'Tablica z listami filtrowanymi w atrybucie %{attribute}. Przeniesienie pakietów roboczych na inne listy zaktualizuje ich atrybut.
+
+          '
+        action_text_assignee: 'Tablica z zautomatyzowanymi kolumnami odpowiadającymi przypisanym użytkownikom. Idealna do rozsyłania pakietów roboczych.
+
+          '
+        action_text_status: 'Podstawowa tablica w stylu kanban z kolumnami statusu, takimi jak Do wykonania, W toku, Gotowe.
 
           '
         action_text_subprojects: 'Tablica z zautomatyzowanymi kolumnami projektów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje (pod)projekt.
@@ -51,45 +40,55 @@ pl:
         action_text_subtasks: 'Tablica z zautomatyzowanymi kolumnami elementów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje elementy nadrzędne.
 
           '
-        action_text_status: 'Podstawowa tablica w stylu kanban z kolumnami statusu, takimi jak Do wykonania, W toku, Gotowe.
-
-          '
-        action_text_assignee: 'Tablica z zautomatyzowanymi kolumnami odpowiadającymi przypisanym użytkownikom. Idealna do rozsyłania pakietów roboczych.
-
-          '
         action_text_version: 'Tablica z automatycznymi kolumnami na podstawie atrybutu wersji. Idealna do planowania rozwoju produktu.
 
           '
         action_type:
           assignee: przypisana osoba
           status: Status
-          version: wersja
           subproject: podprojekt
           subtasks: nadrzędny-podrzędny
+          version: wersja
         board_type_title:
           assignee: Przypisany do
+          basic: Podstawowa
           status: Status
-          version: Wersja
           subproject: Podprojekt
           subtasks: Nadrzędny-podrzędny
-          basic: Podstawowa
+          version: Wersja
+        free: podstawowy
+        free_text: 'Zacznij od zera z pustą tablicą. Ręcznie dodaj karty i kolumny do tej tablicy.
+
+          '
         select_attribute: Atrybut działania
-      add_list_modal:
-        labels:
-          assignee: Wybierz użytkownika do dodania jako nową listę przypisanych
-          status: Wybierz status do dodania jako nową listę
-          version: Wybierz wersję do dodania jako nową listę
-          subproject: Wybierz podprojekt do dodania jako nową listę
-          subtasks: Wybierz pakiet roboczy do dodania jako nową listę
-        warning:
-          status: |
-            Obecnie nie jest dostępny żaden status. <br>
-            Albo nie istnieją, albo wszystkie zostały już dodane do tablicy.
-          assignee: Nie ma żadnego członka pasującego do tej wartości filtru.  <br>
-          no_member: W tym projekcie nie ma obecnie żadnych członków, których można dodać. <br>
-          add_members: <a href="%{link}">Dodaj nowego członka do tego projektu</a>, aby ponownie wybrać użytkowników.
+        select_board_type: Wybierz typ tablicy, którego potrzebujesz.
+        text: Typ tablicy
+      click_to_remove_list: Kliknij, aby usunąć tę listę
       configuration_modal:
-        title: Skonfiguruj tę tablicę
         display_settings:
           card_mode: Wyświetlaj jako karty
           table_mode: Wyświetlaj jako tabelę
+        title: Skonfiguruj tę tablicę
+      create_new: Utwórz nową tablicę
+      error_attribute_not_writable: Nie można przenieść pakietu roboczego, nie można zapisać %{attribute}.
+      error_cannot_move_into_self: Nie możesz przenieść pakietu roboczego do jego własnej kolumny.
+      error_loading_the_list: 'Błąd podczas ładowania listy: %{error_message}'
+      error_permission_missing: Brakuje uprawnienia do tworzenia zapytań publicznych
+      label_board_type: Typ tablicy
+      label_unnamed_board: Tablica bez nazwy
+      label_unnamed_list: Lista bez nazwy
+      lists:
+        delete: Usuń listę
+      new_board: Nowa tablica
+      text_hidden_list_warning: Nie wszystkie listy są wyświetlane, ponieważ nie masz uprawnień. Aby uzyskać więcej informacji, skontaktuj się z administratorem.
+      version:
+        close_version: Zamknij wersję
+        closed: Zamknięte
+        edit_version: Edytuj wersję
+        is_closed: Wersja jest zamknięta. Do tej wersji nie można dodać żadnych elementów.
+        is_locked: Wersja jest zablokowana. Do tej wersji nie można dodać żadnych elementów.
+        lock_version: Zablokuj wersję
+        locked: Zablokowany
+        open_version: Otwórz wersję
+        show_version: Pokaż wersję
+        unlock_version: Odblokuj wersję

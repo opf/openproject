@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,7 +33,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { Observable, of } from 'rxjs';
-import { HttpEvent, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpEvent, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('ToastService', () => {
   let toastService:ToastService;
@@ -45,7 +45,7 @@ describe('ToastService', () => {
         { provide: ConfigurationService, useValue: { autoHidePopups: () => true } },
         I18nService,
         ToastService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
     ]
 }).compileComponents();

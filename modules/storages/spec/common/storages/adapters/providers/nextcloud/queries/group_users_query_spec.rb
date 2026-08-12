@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Nextcloud
         module Queries
-          RSpec.describe GroupUsersQuery, :webmock do
+          RSpec.describe GroupUsersQuery, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:nextcloud_storage_with_local_connection, :as_automatically_managed, username: "vcr") }
             let(:auth_strategy) { Registry.resolve("nextcloud.authentication.userless").call }
 

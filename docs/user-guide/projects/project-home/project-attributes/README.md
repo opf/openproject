@@ -14,7 +14,7 @@ keywords: project attribute, attribute, project custom field, project overview, 
 
 Project attributes must first be created [on an instance level administration](../../../../system-admin-guide/projects/project-attributes/) and then activated for a specific project under [project settings](../../project-settings/project-attributes/).
 
-The location of project attribute sections can be either in a pane on the right side under *project life cycle phases*, or in the main area under the project related widgets. The location of project attribute sections is determined under [project attribute settings in system administration](../../../../system-admin-guide/projects/project-attributes/).
+The location of project attribute sections can be either in a pane on the right side under _project life cycle phases_, or in the main area under the project related widgets. The location of project attribute sections is determined under [project attribute settings in system administration](../../../../system-admin-guide/projects/project-attributes/).
 
 Project attributes are always grouped in sections.
 
@@ -24,11 +24,11 @@ Project attributes are always grouped in sections.
 
 ![Project home page showing project attributes on the right side pane in OpenProject](openproject_user_guide_project_overview_project_attributes_section.png)
 
-------
+![Additional information section of the project overview tab](openproject_user_guide_project_overview_project_attributes_section2.png)
 
 To edit the value of any visible project attribute, simply click on that value. For most attributes, you can edit the value directly in place.
 
-Depending on the field type, changes are saved differently. For example, text fields can be confirmed with Enter or canceled with Escape, while checkboxes are saved automatically when changed.
+Depending on the field type, changes are saved differently. For example, text fields can be confirmed with Enter or cancelled with Escape, while checkboxes are saved automatically when changed.
 
 ![Inline edit of a project attribute on project overview page in OpenProject](openproject_user_guide_project_overview_project_attributes_section_edit_inline.png)
 
@@ -43,9 +43,20 @@ Edit the values for each project attribute and click the **Save** button where a
 
 ## Project attribute settings 
 
-To adjust the project attribute settings for a specific project click the **More** (three dots) icon and select *Manage project attributes*. This will lead you directly to the [project attribute settings](../../project-settings/project-attributes/).
+To adjust the project attribute settings for a specific project click the **More** (three dots) icon and select _Manage project attributes_. This will lead you directly to the [project attribute settings](../../project-settings/project-attributes/).
 
 ![Link to project attribute settings from project overview page in OpenProject](openproject_user_guide_project_overview_project_attributes_settings.png)
 
 > [!NOTE]
-> This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *select_project_attributes* permission for that role via the [Roles and permissions page](../../../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
+> This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the _select_project_attributes_ permission for that role via the [Roles and permissions page](../../../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
+
+## Display project attributes in work packages
+
+Project attributes can also be displayed in a dedicated **Project attributes** tab within work packages, if configured.
+
+To configure this, navigate to **Administration → Work packages → Types**, open the **Project attributes** tab, and select which project attributes should be displayed for a specific work package type.
+
+> [!NOTE]
+> The visibility of project attributes in work packages is configured independently from the project overview page. Changing where a project attribute is displayed does not affect the attribute itself or its value. Any changes made to a project attribute are reflected everywhere it is displayed.
+
+For more information, see the documentation on [displaying project attributes in work package forms](../../../../system-admin-guide/manage-work-packages/work-package-types#display-project-attributes-in-work-package-forms).

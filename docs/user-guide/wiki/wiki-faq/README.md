@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Wiki FAQ
   priority: 001
-description: Frequently asked questions regarding wiki
+description: Frequently asked questions about the OpenProject wiki.
 keywords: wiki faq
 ---
 
@@ -34,14 +34,8 @@ You have probably unchecked the option “show as menu item in project navigatio
 
 ## What is the markup language of the wiki in OpenProject?
 
-The wiki syntax used in OpenProject is Textile.
+The wiki syntax that is used internally in OpenProject is GitHub-flavored Markdown (GFM) + HTML for specific widgets. Prior to OpenProject 8.0, the platform used Textile. However, any legacy Textile content is automatically migrated to the GFM Markdown format during system upgrades.
 
-## I am not used to Textile - is there any documentation where I can get help?
+## Can I use an external wiki instead of the internal wiki?
 
-Next to the field to enter the page content, some of the basic formatting commands are included.
-Above you see the commands for text styles, headline options and lists, as well as the command to include an image.
-On the right, there is also a help link which displays all commands which can be used for formatting.
-
-## How to create a table of content?
-
-The macro to create a table of content is `{{toc}}`.
+Yes. OpenProject supports integrations with external wiki providers, such as XWiki. For more information, see the **[Wiki providers](../../../system-admin-guide/wikis/wiki-providers)** documentation.

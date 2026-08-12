@@ -71,6 +71,7 @@ RSpec.describe TypesHelper do
 
       it "has a proper structure" do
         # The group's name/key
+        expect(subject.first[:key]).to eq "group one"
         expect(subject.first[:name]).to eq "group one"
 
         # The groups attributes
@@ -78,6 +79,93 @@ RSpec.describe TypesHelper do
         expect(subject.first[:attributes].first[:key]).to eq "date"
         expect(subject.first[:attributes].first[:translation]).to eq "Date"
       end
+
+      it "includes the key for built-in groups" do
+        allow(type)
+          .to receive(:attribute_groups)
+          .and_return [Type::AttributeGroup.new(type, :details, ["date"])]
+
+        expect(subject.first[:key]).to eq :details
+      end
+
+      it "carries no exclusion element key for attribute groups" do
+        expect(subject.first[:element_key]).to be_nil
+      end
+
+      context "with a query group" do
+        let(:query) { create(:query) }
+
+        before do
+          allow(type)
+            .to receive(:attribute_groups)
+            .and_return [Type::QueryGroup.new(type, "Related", query)]
+        end
+
+        it "carries the query key the group is excluded by" do
+          expect(subject.first[:element_key]).to eq "query_#{query.id}"
+        end
+      end
+
+      context "with a query group whose query was deleted" do
+        before do
+          allow(type)
+            .to receive(:attribute_groups)
+            .and_return [Type::QueryGroup.new(type, "Related", nil)]
+        end
+
+        it "renders without a query or an element key", :aggregate_failures do
+          expect { subject }.not_to raise_error
+          expect(subject.first[:element_key]).to be_nil
+          expect(subject.first[:query]).to be_nil
+        end
+      end
+    end
+
+    describe "field_format_label" do
+      subject(:groups) { helper.form_configuration_groups(type) }
+
+      before do
+        allow(type).to receive(:attribute_groups).and_return []
+      end
+
+      it "returns 'Builtin field' for built-in attributes" do
+        builtin = groups[:inactives].find { |a| a[:key] == "date" }
+        expect(builtin[:field_format_label]).to eq I18n.t("types.edit.form_configuration.builtin_field")
+      end
+
+      context "with a custom field" do
+        let!(:custom_field) { create(:wp_custom_field, :string, name: "My CF") }
+
+        it "returns the custom field format label" do
+          cf_attr = groups[:inactives].find { |a| a[:key] == custom_field.attribute_name }
+          expect(cf_attr[:field_format_label]).to eq I18n.t(:label_string)
+        end
+      end
+    end
+  end
+
+  describe "#icon_for_type" do
+    subject(:icon) { helper.icon_for_type(type) }
+
+    context "with a milestone type" do
+      let(:type) { build_stubbed(:type, is_milestone: true) }
+
+      it "names the shape, which is otherwise the only milestone cue" do
+        expect(icon).to have_css("span.color--milestone-icon[role='img'][title='Milestone']", visible: :all)
+      end
+    end
+
+    context "with an ordinary type" do
+      let(:type) { build_stubbed(:type, is_milestone: false) }
+
+      it "stays decorative, since the type name follows in text" do
+        expect(icon).to have_css("span.color--phase-icon[aria-hidden='true']", visible: :all)
+        expect(icon).to have_no_css("span[title]", visible: :all)
+      end
+    end
+
+    it "renders nothing without a type" do
+      expect(helper.icon_for_type(nil)).to be_nil
     end
   end
 end

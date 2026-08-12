@@ -34,30 +34,49 @@ class Projects::Settings::BacklogsController < Projects::SettingsController
   def show; end
 
   def update
-    @project.update!(params.expect(project: { done_status_ids: [] }))
+    call = Projects::UpdateService
+      .new(model: @project,
+           user: current_user,
+           contract_class: ::Backlogs::Projects::BacklogsTypesAndStatusesContract)
+      .call(backlogs_settings_params)
 
-    flash[:notice] = I18n.t(:notice_successful_update)
-
-    redirect_to_backlogs_settings
+    if call.success?
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_back_or_to_backlogs_settings
+    else
+      flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
+      render action: :show, status: :unprocessable_entity
+    end
   end
 
   def rebuild_positions
-    WorkPackages::RebuildPositionsService.new(project: @project).call
+    ::Backlogs::WorkPackages::RebuildPositionsService.new(project: @project).call
     flash[:notice] = I18n.t("backlogs.positions_rebuilt_successfully")
 
-    redirect_to_backlogs_settings
+    redirect_back_or_to_backlogs_settings
   rescue ActiveRecord::ActiveRecordError
     flash[:error] = I18n.t("backlogs.positions_could_not_be_rebuilt")
 
     log_rebuild_position_error
 
-    redirect_to_backlogs_settings
+    redirect_back_or_to_backlogs_settings
   end
 
   private
 
-  def redirect_to_backlogs_settings
-    redirect_to project_settings_backlogs_path(@project)
+  def backlogs_settings_params
+    permitted = params.expect(project: { done_status_ids: [], backlog_excluded_type_ids: [] })
+
+    %i[done_status_ids backlog_excluded_type_ids].each do |key|
+      # De-duplicate submitted values:
+      permitted[key] = permitted[key]&.uniq
+    end
+
+    permitted
+  end
+
+  def redirect_back_or_to_backlogs_settings
+    redirect_back_or_to project_settings_backlogs_path(@project)
   end
 
   def log_rebuild_position_error

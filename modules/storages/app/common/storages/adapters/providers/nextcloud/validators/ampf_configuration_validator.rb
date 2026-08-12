@@ -33,7 +33,9 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          class AmpfConfigurationValidator < ConnectionValidators::BaseValidatorGroup
+          class AmpfConfigurationValidator < HealthReports::ValidatorGroup
+            include TaggedLogging
+
             def self.key = :ampf_configuration
 
             private
@@ -68,7 +70,7 @@ module Storages
                 nextcloud_dependencies.dig("dependencies", "team_folders_app", "min_version")
               )
 
-              capabilities = Registry["nextcloud.queries.capabilities"].call(storage: @storage, auth_strategy: noop).value!
+              capabilities = Registry["nextcloud.queries.capabilities"].call(storage: subject, auth_strategy: noop).value!
               dependency = I18n.t("storages.dependencies.nextcloud.group_folders_app")
 
               if capabilities.group_folder_disabled?
@@ -89,7 +91,7 @@ module Storages
               files.or do |failure|
                 if failure.code == :error
                   error "Connection validation failed with unknown error:\n" \
-                        "\tstorage: ##{@storage.id} #{@storage.name}\n" \
+                        "\tstorage: ##{subject.id} #{subject.name}\n" \
                         "\trequest: Team folder content\n" \
                         "\tstatus: #{failure}\n" \
                         "\tresponse: #{failure.payload}"
@@ -101,7 +103,7 @@ module Storages
             end
 
             def project_folders_linked
-              ampf_project_storages = @storage.project_storages.active.automatic
+              ampf_project_storages = subject.project_storages.active.automatic
               expected = ampf_project_storages.count
               actual = ampf_project_storages.with_project_folder.count
               return pass_check(:project_folders_linked) if actual == expected
@@ -110,7 +112,7 @@ module Storages
             end
 
             def project_folders_exist
-              @storage.project_storages.active.automatic.with_project_folder.each do |project_storage|
+              subject.project_storages.active.automatic.with_project_folder.each do |project_storage|
                 next if existing_folder_ids.include?(project_storage.project_folder_id)
 
                 return fail_check(
@@ -140,13 +142,13 @@ module Storages
             def auth_strategy = Registry["nextcloud.authentication.userless"].call
 
             def managed_project_folder_ids
-              @managed_project_folder_ids ||= ProjectStorage.automatic.where(storage: @storage)
+              @managed_project_folder_ids ||= ProjectStorage.automatic.where(storage: subject)
                                                             .pluck(:project_folder_id).to_set
             end
 
             def files
-              @files ||= Input::Files.build(folder: @storage.group_folder).bind do |input_data|
-                Registry.resolve("#{@storage}.queries.files").call(storage: @storage, auth_strategy:, input_data:)
+              @files ||= Input::Files.build(folder: subject.group_folder).bind do |input_data|
+                Registry.resolve("#{subject}.queries.files").call(storage: subject, auth_strategy:, input_data:)
               end
             end
 

@@ -31,7 +31,7 @@
 module OpPrimer
   class InlineMacroComponent < Primer::Component
     renders_one :leading_visual_icon, ->(icon:, color: :muted) do
-      Primer::Beta::Octicon.new(icon:, color:, mr: 2, vertical_align: :middle)
+      Primer::Beta::Octicon.new(icon:, color:, size: :xsmall, mr: 2)
     end
 
     def initialize(**system_arguments)

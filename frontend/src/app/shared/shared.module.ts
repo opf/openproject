@@ -21,12 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
 import { FormsModule } from '@angular/forms';
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -34,7 +35,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { NgOptionHighlightDirective } from '@ng-select/ng-option-highlight';
-import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
 import { UIRouterModule } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
@@ -84,6 +84,7 @@ import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.m
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
 import { OpBreadcrumbsComponent } from './components/breadcrumbs/op-breadcrumbs.component';
+import { PrimerCounterComponent } from './components/primer/counter.component';
 import { PrimerIconButtonComponent } from './components/primer/icon-button.component';
 
 export function bootstrapModule(injector:Injector):void {
@@ -110,7 +111,6 @@ export function bootstrapModule(injector:Injector):void {
     A11yModule,
     PortalModule,
     DragDropModule,
-    DragulaModule,
     CurrentUserModule,
     FormsModule,
     NgSelectModule,
@@ -127,6 +127,7 @@ export function bootstrapModule(injector:Injector):void {
     FullCalendarModule,
     OpDatePickerModule,
 
+    PrimerCounterComponent,
     PrimerIconButtonComponent
   ],
   exports: [
@@ -181,6 +182,7 @@ export function bootstrapModule(injector:Injector):void {
 
     OpNonWorkingDaysListComponent,
 
+    PrimerCounterComponent,
     PrimerIconButtonComponent
   ],
   providers: [
@@ -222,7 +224,9 @@ export function bootstrapModule(injector:Injector):void {
   ],
 })
 export class OpSharedModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     bootstrapModule(injector);
   }
 }

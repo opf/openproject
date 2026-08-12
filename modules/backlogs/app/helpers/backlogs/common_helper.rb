@@ -30,13 +30,60 @@
 
 module Backlogs
   module CommonHelper
-    def allow_sprint_creation?(project)
-      current_user.allowed_in_project?(:create_sprints, project) &&
+    include PermittedParamsHelper
+
+    def user_allowed?(permission, project: nil)
+      current_user.allowed_in_project?(permission, project || self.project)
+    end
+
+    def backlog_bucket_creation_allowed?
+      user_allowed?(:create_sprints)
+    end
+
+    def sprint_creation_allowed?
+      user_allowed?(:create_sprints) &&
         !project.receive_shared_sprints?
     end
 
-    def show_all_backlog
-      ActiveRecord::Type::Boolean.new.cast(params[:all]) || false
+    def sprint_management_allowed?
+      user_allowed?(:share_sprint)
+    end
+
+    def backlog_filters
+      RequestStore.fetch(:backlog_filters) do
+        Backlogs::BacklogFilters.from_params(permitted_params.backlog_filters)
+      end
+    end
+
+    def backlog_filter_params
+      backlog_filters.to_h
+    end
+
+    def all_sprints_for(project)
+      Sprint.for_project(project).not_completed.order_by_date.includes(:project, :task_boards, :goals)
+    end
+
+    def all_buckets_for(project)
+      BacklogBucket.for_project(project)
+    end
+
+    def filtered_sprints_for(project)
+      relation = all_sprints_for(project)
+      backlog_filters.sprint_ids.present? ? relation.where(id: backlog_filters.sprint_ids) : relation
+    end
+
+    def filtered_buckets_for(project)
+      return all_buckets_for(project) if backlog_filters.bucket_ids.nil?
+
+      bucket_ids = backlog_filters.bucket_ids.reject { |id| id == "inbox" }
+      all_buckets_for(project).where(id: bucket_ids)
+    end
+
+    def backlogs_move_url_template(project)
+      id_placeholder = "__work_package_id__"
+
+      move_project_backlogs_work_package_path(project, id_placeholder)
+        .sub(id_placeholder, "{id}")
     end
   end
 end

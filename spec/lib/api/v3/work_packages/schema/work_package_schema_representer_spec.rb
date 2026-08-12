@@ -986,7 +986,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "versions" do
+    describe "versions", with_settings: { work_package_multiple_versions: false } do
       context "if having the assign_versions permission" do
         let(:permissions) { [:assign_versions] }
 
@@ -997,6 +997,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:required) { false }
           let(:writable) { true }
           let(:location) { "_links" }
+          let(:description) { I18n.t("api_v3.attributes.version.deprecated") }
         end
 
         it_behaves_like "has a collection of allowed values" do
@@ -1016,6 +1017,72 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:required) { false }
           let(:writable) { false }
           let(:location) { "_links" }
+          let(:description) { I18n.t("api_v3.attributes.version.deprecated") }
+        end
+      end
+
+      it "marks the deprecated version field as deprecated" do
+        expect(subject).to be_json_eql(true.to_json).at_path("version/deprecated")
+        expect(subject)
+          .to be_json_eql(I18n.t("api_v3.attributes.version.deprecated").to_json)
+          .at_path("version/description/raw")
+      end
+
+      context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
+        let(:permissions) { [:assign_versions] }
+
+        it "drops the deprecated version field from the schema" do
+          expect(subject).not_to have_json_path("version")
+        end
+      end
+    end
+
+    describe "targetVersions", with_settings: { work_package_multiple_versions: false } do
+      context "when has permission to assign versions" do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "targetVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.version") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+
+        it "announces the single value restriction while multiple versions is inactive" do
+          expect(subject).to be_json_eql(false.to_json).at_path("targetVersions/options/multiple")
+        end
+      end
+
+      context "when does not have permission to assign versions" do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "targetVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.version") }
+          let(:required) { false }
+          let(:writable) { false }
+          let(:location) { "_links" }
+        end
+      end
+
+      context "when multiple versions is active",
+              with_settings: { work_package_multiple_versions: true } do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "targetVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+
+        it "announces that multiple values are allowed" do
+          expect(subject).to be_json_eql(true.to_json).at_path("targetVersions/options/multiple")
         end
       end
     end
@@ -1346,6 +1413,116 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
             cache_perms << :manage_versions
           end
         end
+      end
+    end
+  end
+
+  # A work package stores the family's root, so the representer is always handed the root and
+  # has to resolve the configuration in force itself. Every example below configures the root
+  # and the variant differently, so following the stored root is a visible failure.
+  describe "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+
+    let(:project) { create(:project, types: [variant]) }
+    let(:wp_type) { family_root }
+    let(:work_package) { build_stubbed(:work_package, project:, type: family_root) }
+    let(:schema) { API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:) }
+    let(:embedded) { false }
+
+    # Variants are created linked to their parent for every aspect, so an aspect only differs
+    # once its link is dropped.
+    def make_independent(aspect)
+      variant.configuration_links.find_by(aspect:).destroy!
+      variant.reload
+    end
+
+    describe "_attributeGroups" do
+      subject(:generated) { representer.to_json }
+
+      before do
+        family_root.update!(attribute_groups: [["Root group", %w(assignee)]])
+      end
+
+      context "when the variant inherits its form configuration" do
+        it "renders the root's groups" do
+          expect(generated).to be_json_eql("Root group".to_json).at_path("_attributeGroups/0/name")
+        end
+      end
+
+      context "when the variant owns its form configuration" do
+        before do
+          make_independent(Type::ConfigurationLink::FORM_CONFIGURATION)
+          variant.update!(attribute_groups: [["Variant group", %w(responsible)]])
+        end
+
+        it "renders the variant's groups" do
+          expect(generated).to be_json_eql("Variant group".to_json).at_path("_attributeGroups/0/name")
+          expect(generated).to be_json_eql(%w(responsible).to_json).at_path("_attributeGroups/0/attributes")
+        end
+
+        it "places each attribute in the variant's group" do
+          expect(generated).to be_json_eql("Variant group".to_json).at_path("responsible/attributeGroup")
+        end
+      end
+    end
+
+    describe "subject" do
+      subject(:generated) { representer.to_json }
+
+      let(:blueprint) { { subject: { blueprint: "{{type}}", enabled: true } } }
+
+      context "when the variant inherits its defaults" do
+        before { family_root.update!(patterns: blueprint) }
+
+        it "auto-generates the subject from the root's pattern" do
+          expect(generated).to be_json_eql(true.to_json).at_path("subject/hasDefault")
+          expect(generated).to be_json_eql(false.to_json).at_path("subject/writable")
+        end
+      end
+
+      context "when the variant owns its defaults" do
+        before do
+          family_root.update!(patterns: blueprint)
+          make_independent(Type::ConfigurationLink::DEFAULTS)
+        end
+
+        it "does not auto-generate the subject, as the variant defines no pattern" do
+          expect(generated).to be_json_eql(false.to_json).at_path("subject/hasDefault")
+          expect(generated).to be_json_eql(true.to_json).at_path("subject/writable")
+        end
+      end
+    end
+
+    describe "caching" do
+      let(:schema) { API::V3::WorkPackages::Schema::TypedWorkPackageSchema.new(project:, type: family_root) }
+
+      def joined_cache_key
+        described_class.create(schema, self_link:, form_embedded: embedded, current_user:)
+                       .json_cache_key
+                       .join("/")
+      end
+
+      # Resolving the family to another variant touches neither the project's nor the type's
+      # timestamp, so without effective_type in the key the previous form configuration would
+      # keep being served.
+      it "changes the cache key when the project resolves the family to another variant" do
+        original = joined_cache_key
+
+        other_variant = create(:type, name: "Other variant", parent: family_root)
+        project.project_types.find_by(type_id: family_root.id).update!(variant: other_variant)
+        project.reload
+
+        expect(joined_cache_key).not_to eql(original)
+      end
+
+      it "changes the cache key when the variant in force is updated" do
+        original = joined_cache_key
+
+        variant.update!(updated_at: 1.hour.from_now)
+        project.reload
+
+        expect(joined_cache_key).not_to eql(original)
       end
     end
   end

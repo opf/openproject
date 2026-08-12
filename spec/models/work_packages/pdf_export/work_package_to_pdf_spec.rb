@@ -235,7 +235,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:expected_details) do
     [
-      "#{type.name} ##{work_package.id} - #{work_package.subject}",
+      "#{type.name} #{work_package.formatted_id} - #{work_package.subject}",
       " ", exporter.prawn_badge_text_stuffing(work_package.status.name.downcase), # badge & padding
       "People",
       "Assignee", user.name,
@@ -249,7 +249,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Details",
       "Priority", "Normal",
       *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
-      "Version", work_package.version,
+      *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
+      "Version", work_package.target_versions.first,
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
@@ -300,7 +301,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     image_attachment_elsewhere.save
   end
 
-  describe "with a request for a PDF" do
+  describe "with a request for a PDF", with_settings: { work_package_multiple_versions: false } do
     describe "with rich text and images" do
       it "contains correct data" do
         # Joining with space for comparison since word wrapping leads to a different array for the same content
@@ -318,6 +319,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         expect(result).to eq(expected_result)
         expect(result).not_to include("DisabledCustomField")
         expect(pdf[:images].length).to eq(4)
+      end
+    end
+
+    describe "with multiple versions enabled",
+             with_settings: { work_package_multiple_versions: true } do
+      it "renders the target versions attribute instead of the deprecated version" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+
+        expect(result).to include("#{WorkPackage.human_attribute_name(:target_versions)} #{version.name}")
       end
     end
 
@@ -632,7 +642,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
     context "with the backlogs module enabled" do
       let(:enabled_module_names) { %i[backlogs] }
-      let(:sprint) { create(:agile_sprint, name: "Sprint name for export", project:) }
+      let(:sprint) { create(:sprint, name: "Sprint name for export", project:) }
 
       before do
         work_package.sprint = sprint

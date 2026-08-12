@@ -82,6 +82,19 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       .at_path("name")
   end
 
+  context "with an all-numeric name and no identifier",
+          with_settings: { work_packages_identifier: "classic" } do
+    let(:body) { { name: "12345" }.to_json }
+
+    it "responds with 201 CREATED" do
+      expect(last_response).to have_http_status(:created)
+    end
+
+    it "creates the project with a valid non-all-numeric identifier" do
+      expect(Project.last.identifier).to match(Projects::Identifier::CLASSIC_FORMAT)
+    end
+  end
+
   context "with a status" do
     let(:body) do
       {

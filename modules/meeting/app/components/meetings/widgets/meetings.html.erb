@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
 
-      container.with_row do
+      container.with_footer do
         render(Primer::Beta::Link.new(href: all_meetings_link)) { t("meeting.widgets.view_details") }
       end
     end

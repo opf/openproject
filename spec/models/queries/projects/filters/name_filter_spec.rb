@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Queries::Projects::Filters::NameFilter do
   include_context "filter tests"
-  let(:values) { ["A name"] }
+  let(:values) { ["A name", "Another name"] }
   let(:model) { Project }
 
   it_behaves_like "basic query filter" do
@@ -44,6 +44,48 @@ RSpec.describe Queries::Projects::Filters::NameFilter do
     describe "#allowed_values" do
       it "is nil" do
         expect(instance.allowed_values).to be_nil
+      end
+    end
+  end
+
+  describe "#apply_to" do
+    context 'for "="' do
+      let(:operator) { "=" }
+
+      it "is the same as handwriting the query" do
+        expected = model.where("LOWER(projects.name) IN ('a name', 'another name')")
+
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "!"' do
+      let(:operator) { "!" }
+
+      it "is the same as handwriting the query" do
+        expected = model.where("LOWER(projects.name) NOT IN ('a name', 'another name')")
+
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "~"' do
+      let(:operator) { "~" }
+
+      it "is the same as handwriting the query" do
+        expected = model.where("LOWER(projects.name) LIKE '%a name%'")
+
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "!~"' do
+      let(:operator) { "!~" }
+
+      it "is the same as handwriting the query" do
+        expected = model.where("LOWER(projects.name) NOT LIKE '%a name%'")
+
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end

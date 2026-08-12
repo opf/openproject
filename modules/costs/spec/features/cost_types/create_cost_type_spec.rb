@@ -46,11 +46,11 @@ RSpec.describe "creating a cost type", :js do
     fill_in "cost_type_name", with: "Test day rate"
     fill_in "cost_type_unit", with: "dayUnit"
     fill_in "cost_type_unit_plural", with: "dayUnitPlural"
-    fill_in "cost_type_new_rate_attributes_0_rate", with: "1,000.25"
+    fill_in "cost_type_current_rate", with: "1,000.25"
 
     sleep 1
 
-    scroll_to_and_click(find("button.-with-icon.icon-checkmark"))
+    scroll_to_and_click(find("[data-test-selector='op-cost-type-form--submit']"))
 
     expect_angular_frontend_initialized
     expect(page).to have_css ".generic-table", wait: 10
@@ -77,11 +77,11 @@ RSpec.describe "creating a cost type", :js do
       fill_in "cost_type_name", with: "Test day rate"
       fill_in "cost_type_unit", with: "dayUnit"
       fill_in "cost_type_unit_plural", with: "dayUnitPlural"
-      fill_in "cost_type_new_rate_attributes_0_rate", with: "1.000,25"
+      fill_in "cost_type_current_rate", with: "1.000,25"
 
       sleep 1
 
-      scroll_to_and_click(find("button.-with-icon.icon-checkmark"))
+      scroll_to_and_click(find("[data-test-selector='op-cost-type-form--submit']"))
 
       expect_angular_frontend_initialized
       expect(page).to have_css ".generic-table", wait: 10

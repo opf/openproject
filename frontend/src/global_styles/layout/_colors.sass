@@ -86,7 +86,6 @@
   a.-dark
     color: white
 
-
 // -------------------------- Highlighting colors -----------------------------
 // Inline: type
 [class^='__hl_inline_type'],
@@ -109,6 +108,11 @@
     .-small-font &
       width: 10px
       height: 10px
+
+  &.__hl_inline__small_dot:before
+    width: 6px
+    height: 6px
+    vertical-align: 1px
 
 @mixin dot_border_width_style
   [class^='__hl_inline_'],

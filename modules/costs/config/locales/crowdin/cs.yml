@@ -21,24 +21,42 @@
 #++
 ---
 cs:
-  plugin_costs:
-    name: Čas a náklady
-    description: Tento modul přidává funkce pro plánování a sledování projektů.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Pracovní balíček
+        entity: Přihlášen
+        entity_gid: Přihlášen
+        entity_id: Přihlášen
+        logged_by: Zadáno
         overridden_costs: Přepsané náklady
         spent: Strávený čas
         spent_on: Datum
-        logged_by: Zadáno
-        entity: Přihlášen
-        entity_id: Přihlášen
-        entity_gid: Přihlášen
+        work_package: Pracovní balíček
       cost_type:
+        default: Typ nákladů ve výchozím nastavení
+        for_all_projects: Pro všechny projekty
+        rates: Sazby
         unit: Název jednotky
         unit_plural: Název Pluralizované jednotky
-        default: Typ nákladů ve výchozím nastavení
+      rate:
+        rate: Kurz
+      time_entry:
+        activity: Aktivita
+        comments: Komentář
+        end_time: Čas dokončení
+        entity: Přihlášen
+        entity_gid: Přihlášen
+        entity_id: Přihlášen
+        hours: Hodiny
+        project: Projekt
+        spent_on: Datum
+        start_time: Čas zahájení
+        subject: Předmět
+        time: Čas
+        user: Uživatel
+        work_package: Pracovní balíček
+      user:
+        default_rates: Výchozí sazby
       work_package:
         costs_by_type: Strávené jednotky
         labor_costs: Náklady práce
@@ -46,75 +64,74 @@ cs:
         overall_costs: Celkové náklady
         spent_costs: Utracené náklady
         spent_units: Strávené jednotky
-      rate:
-        rate: Kurz
-      user:
-        default_rates: Výchozí sazby
-      time_entry:
-        project: Projekt
-        user: Uživatel
-        work_package: Pracovní balíček
-        subject: Předmět
-        hours: Hodiny
-        comments: Komentář
-        activity: Aktivita
-        spent_on: Datum
-        start_time: Čas zahájení
-        end_time: Čas dokončení
-        time: Čas
-        entity: Přihlášen
-        entity_id: Přihlášen
-        entity_gid: Přihlášen
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Prosím vyberte projekt.
+        time_entry:
+          cannot_log_for_this_work_package: Nelze zaznamenat čas pro tento pracovní balíček.
+          duplicate_ongoing: Pro tohoto uživatele již existuje průběžný časový záznam.
+          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
+          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
+          invalid_time: musí být mezi 00:00 a 23:59.
+          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
+          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
+          not_a_working_day: is not a working day for the user.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Pracovní balíček #%{id} není platný cíl pro přeřazení nákladových položek.'
+          nullify_is_not_valid_for_cost_entries: K projektu nelze přiřadit položky nákladů.
     models:
-      time_entry:
-        one: Vstup času
-        few: Time entries
-        many: Time entries
-        other: Time entries
       cost_entry:
         one: Nákladová položka
-        few: Cost entries
-        many: Cost entries
-        other: Cost entries
+        few: Nákladové položky
+        many: Nákladových položek
+        other: Nákladových položek
       cost_type:
         one: Druh nákladů
         few: Typy nákladů
         many: Typy nákladů
         other: Typy nákladů
-      time_entry_activity:
-        one: Time tracking activity
-        few: Sledování času
-        many: Sledování času
-        other: Sledování času
       rate: Sazba
+      time_entry:
+        one: Časová položka
+        few: Časové položky
+        many: Časové položky
+        other: Časové položky
+      time_entry_activity:
+        one: Položka výkazu
+        few: Položky výkazu
+        many: Položek výkazu
+        other: Položek výkazu
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: musí být mezi 00:00 a 23:59.
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Pracovní balíček #%{id} není platný cíl pro přeřazení nákladových položek.'
-          nullify_is_not_valid_for_cost_entries: K projektu nelze přiřadit položky nákladů.
+      validation:
+        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
   attributes:
     comment: Komentář
     cost_type: Typ nákladu
     costs: Náklady
     current_rate: Aktuální sazba
+    fixed_date: Pevné datum
     hours: Hodiny
     units: Jednotky
     valid_from: Platné od
-    fixed_date: Pevné datum
+  button_add_activity: Aktivita
   button_add_rate: Přidat kurz
+  button_add_time_entry: Vykázat čas
   button_log_costs: Logovat jednotkové náklady
   button_log_time: Log
-  button_add_activity: Aktivita
-  button_add_time_entry: Čas protokolu
   button_stop_timer: Zastavit časovač
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Rezervováno v projektu
   caption_default: Výchozí
   caption_default_rate_history_for: Výchozí historie sazeb  pro %{user}
   caption_locked_on: Uzamčeno
+  caption_log_time_dialog: Vykázat čas
   caption_materials: Jednotky
   caption_rate_history: Historie sazeb
   caption_rate_history_for: Histgoprie kurzů pro %{user}
@@ -122,22 +139,63 @@ cs:
   caption_save_rate: Uložit kurz
   caption_set_rate: Nastavit aktuální sazbu.
   caption_show_locked: Zobrazit uzamčené typy
-  caption_log_time_dialog: Čas logu
+  cost_types:
+    admin:
+      columns:
+        active_projects: Aktivní projekty
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Vykázat čas
+          description: Získejte přehled o vašich nákladech a zalogovaném čase pro sledování průběhu vašeho projektu. Ujistěte se, že pracovní balíčky jsou přiřazeny ke správnému rozpočtu.
+          heading: Začněte sledovat svůj čas a náklady
+        title: Skutečné náklady podle měsíce
+        view_details: View actual costs details
+  description_costs_settings: Definujte požadovaný formát nákladů ve všech projektech.
   description_date_for_new_rate: Datum pro nový kurz
-  description_costs_settings: Define the desired format for the costs in all projects.
-  description_time_settings: Define which fields are mandatory to fill when logging time in all projects.
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  ee:
+    features:
+      time_entry_time_restrictions: Time entry restrictions
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
   group_by_others: není v žádné skupině
+  label_available_cost_types_projects: Available cost types projects
   label_between: mezi
+  label_cost: Náklady
   label_cost_filter_add: Přidat filtr nákladového vstupu
-  label_costlog: Logované jednotkové náklady
   label_cost_plural: Náklady
   label_cost_type_plural: Typy nákladů
   label_cost_type_specific: 'Typ nákladu #%{id}: %{name}'
+  label_costlog: Logované jednotkové náklady
+  label_costs: Náklady
   label_costs_per_page: Náklady na stránku
   label_current_default_rate: Aktuální výchozí sazba
   label_date_on: ''
+  label_day: Den
+  label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Odstraněné typy nákladů
-  label_locked_cost_types: Uzamčené typy nákladů
   label_display_cost_entries: Zobrazit jednotkové náklady
   label_display_time_entries: Zobrazit nahlášené hodiny
   label_display_types: Typy zobrazení
@@ -148,59 +206,55 @@ cs:
   label_group_by_add: Přidat skupinové pole
   label_hourly_rate: Hodinová sazba
   label_include_deleted: Zahrnout smazané
-  label_work_package_filter_add: Přidat filtr pracovního balíčku
   label_kind: Typ
   label_less_or_equal: "<="
+  label_list: Seznam
   label_log_costs: Logovat jednotkové náklady
-  label_new_time_entry_activity: New time entry activity
-  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
-  label_no: Ne
-  label_option_plural: Možnosti
-  label_overall_costs: Celkové náklady
-  label_rate: Sazba
-  label_rate_plural: Kurzy
-  label_status_finished: Ukončeno
-  label_show: Zobrazit
-  label_units: Jednotky nákladu
-  label_user: Uživatel
-  label_until: do
-  label_valid_from: Platné od
-  label_yes: Ano
-  label_time: Čas
-  label_cost: Náklady
-  label_costs: Náklady
-  label_mandatory_fields: Povinné pole
+  label_month: Měsíc
   label_my_time_tracking: Sledování mého času
-  label_no_time: Není zaznamenán žádný čas
+  label_new_time_entry_activity: Nová časová položka
   label_next_day: Následující den
+  label_next_month: Následující měsíc
   label_next_week: Příští týden
   label_next_workweek: Příští pracovní týden
-  label_next_month: Následující měsíc
+  label_no: Ne
+  label_no_time: Není zaznamenán žádný čas
+  label_option_plural: Možnosti
+  label_overall_costs: Celkové náklady
   label_previous_day: Předchozí den
-  label_previous_workweek: Předchozí pracovní týden
-  label_previous_week: Předchozí týden
   label_previous_month: Předchozí měsíc
+  label_previous_week: Předchozí týden
+  label_previous_workweek: Předchozí pracovní týden
+  label_rate: Sazba
+  label_rate_plural: Kurzy
+  label_show: Zobrazit
   label_specific_day: Den %{day}
-  label_specific_week: Kalendářní týden %{week}
   label_specific_month: Měsíc %{month}
-  label_list: Seznam
-  label_month: Měsíc
-  label_workweek: Pracovní týden
-  label_day: Den
+  label_start_and_finished: Start and finish times
+  label_status_finished: Ukončeno
+  label_time: Čas
+  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_restrictions: Limits
+  label_timer_since: Začalo v %{time}
   label_today_capitalized: Dnes
+  label_units: Jednotky nákladu
+  label_until: do
+  label_user: Uživatel
+  label_valid_from: Platné od
   label_view_mode_switcher: Změnit zobrazení
-  label_timer_since: Started at %{time}
-  placeholder_activity_select_work_package_first: Nejprve je nutné vybrat pracovní balíček
-  notice_something_wrong: Něco se pokazilo. Zkuste to prosím znovu.
-  notice_successful_restore: Úspěšně obnoveno.
-  notice_successful_lock: Úspěšně uzamčeno.
+  label_work_package_filter_add: Přidat filtr pracovního balíčku
+  label_workweek: Pracovní týden
+  label_yes: Ano
   notice_cost_logged_successfully: Jednotková cena byla úspěšně zaznamenána.
   notice_different_time_zones: Tento uživatel má jiné časové pásmo (%{tz}). Čas bude zaznamenán pomocí svého časového pásma.
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_something_wrong: Něco se pokazilo. Zkuste to prosím znovu.
+  notice_successful_lock: Úspěšně uzamčeno.
+  notice_successful_restore: Úspěšně obnoveno.
   notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
   permission_edit_cost_entries: Upravit rezervované jednotkové náklady
-  permission_edit_own_cost_entries: Upravit vlastní rezervované jednotkové náklady
   permission_edit_hourly_rates: Upravit hodinové sazby
+  permission_edit_own_cost_entries: Upravit vlastní rezervované jednotkové náklady
   permission_edit_own_hourly_rate: Upravit vlastní hodinové sazby
   permission_edit_rates: Upravit sazby
   permission_log_costs: Jednotkové náklady na knihu
@@ -211,45 +265,42 @@ cs:
   permission_view_own_cost_entries: Zobrazit vlastní rezervované náklady
   permission_view_own_hourly_rate: Zobrazit vlastní hodinovou sazbu
   permission_view_own_time_entries: Zobrazit vlastní strávený čas
+  placeholder_activity_select_work_package_first: Nejprve je nutné vybrat pracovní balíček
+  plugin_costs:
+    description: Tento modul přidává funkce pro plánování a sledování projektů.
+    name: Čas a náklady
   project_module_costs: Čas a náklady
   setting_allow_tracking_start_and_end_times: Povolit časy zahájení a ukončení
+  setting_allow_tracking_start_and_end_times_caption: Umožní zadávat časy začátku a konce při zaznamenávání času.
   setting_costs_currency: Měna
   setting_costs_currency_caption: Tohle je jednotka měny. Může se jednat o třípísmenný kód ISO jako EUR, USD nebo JPY nebo o symbol jako €, $ nebo ¥.
   setting_costs_currency_format: Formát měny
   setting_costs_currency_format_prefix: Před číslem (např. EUR 100)
   setting_costs_currency_format_suffix: Za číslem (např. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Vyžadovat časy začátku a konce
-  setting_enforce_without_allow: Vyžadování časů začátku a konce není možné bez jejich povolení
-  setting_allow_tracking_start_and_end_times_caption: Umožní zadávat časy začátku a konce při zaznamenávání času.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Vyžadování časů začátku a konce není možné bez jejich povolení
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
   text_assign_time_and_cost_entries_to_project: Přiřadit nahlášené hodiny a náklady projektu
   text_destroy_cost_entries_question: "%{cost_entries} byl nahlášen k pracovním balíčkům, které se chystáte odstranit. Co chcete udělat?"
   text_destroy_time_and_cost_entries: Odstranit nahlášené hodiny a náklady
   text_destroy_time_and_cost_entries_question: "%{hours} hodin, %{cost_entries} byly nahlášeny v pracovních balíčcích, které se chystáte odstranit. Co chcete udělat?"
   text_reassign_time_and_cost_entries: 'Přiřadit k tomuto pracovnímu balíčku nahlášené hodiny a náklady:'
   text_warning_hidden_elements: Některé položky mohly být z agregace vyloučeny.
-  week: týden
   total_times:
-    workweek: 'Celkem za pracovní týden: %{hours}'
-    week: 'Celkem za týden: %{hours}'
-    month: 'Celkem za měsíc: %{hours}'
     day: 'Celkem za den: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
-  costs:
-    widgets:
-      actual_costs:
-        title: Skutečné náklady podle měsíce
-        blankslate:
-          heading: Začněte sledovat svůj čas a náklady
-          description: Získejte přehled o vašich nákladech a zalogovaném čase pro sledování průběhu vašeho projektu. Ujistěte se, že pracovní balíčky jsou přiřazeny ke správnému rozpočtu.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Require exact time tracking
-    upsell:
-      time_entry_time_restrictions:
-        description: Improve your time tracking by requiring exact start and finish times when logging time.
+    month: 'Celkem za měsíc: %{hours}'
+    week: 'Celkem za týden: %{hours}'
+    workweek: 'Celkem za pracovní týden: %{hours}'
+  week: týden

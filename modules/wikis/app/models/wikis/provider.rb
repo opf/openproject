@@ -33,25 +33,60 @@ module Wikis
     self.table_name = "wiki_providers"
 
     has_many :page_links, dependent: :destroy
+    has_many :health_reports, as: :subject, dependent: :delete_all
 
     scope :enabled, -> { where(enabled: true) }
+    scope :visible, ->(_user = User.current) { all }
 
     validates :name, presence: true, uniqueness: true, length: { maximum: 255 }
+    validate :unique_universal_identifier, if: -> { universal_identifier.present? }
 
     before_create :generate_universal_identifier
+
+    def configured? = raise SubclassResponsibilityError
+
+    def configured_from_env?
+      Setting.wiki_providers.any? do |c|
+        c["name"] == (name_was || name) || c["uid"] == (universal_identifier_was || universal_identifier)
+      end
+    end
+
+    def non_confidential_configuration
+      {
+        enabled:
+      }
+    end
+
+    def to_s = self.class.registry_prefix
+    def user_connected?(_user) = raise SubclassResponsibilityError
+
+    def auth_strategy_for(user)
+      resolve("authentication.user_bound").call(user)
+    end
 
     class << self
       def registry_prefix = raise SubclassResponsibilityError
     end
 
-    def resolve(registry_path)
-      Adapters::Registry["#{self.class.registry_prefix}.#{registry_path}"].new(self)
+    def resolve(registry_path, **init_options)
+      Adapters::Registry["#{self.class.registry_prefix}.#{registry_path}"].new(model: self, **init_options)
+    end
+
+    def inspect
+      "#<#{self.class.name} id: #{id} name: #{name}>"
     end
 
     private
 
     def generate_universal_identifier
       self.universal_identifier ||= SecureRandom.uuid
+    end
+
+    def unique_universal_identifier
+      existing = Provider.where(universal_identifier:).where.not(id:).first
+      return unless existing
+
+      errors.add(:url, :already_taken, name: existing.name)
     end
   end
 end

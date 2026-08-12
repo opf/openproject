@@ -1,0 +1,304 @@
+---
+pl:
+  activerecord:
+    attributes:
+      resource_allocation:
+        allocated_hours: Godziny
+        allocated_time: Przydzielony czas
+        date_range: Daty
+        end_date: Data zakończenia
+        entity: Pole
+        filter_name: Nazwa filtra zasobów
+        principal: Przypisana osoba
+        start_date: Data rozpoczęcia
+        state: Stan
+        user_filter: Filtr użytkownika
+      resource_planner:
+        date_range: Daty
+        default_view_class_name: Widok domyślny
+        end_date: Data zakończenia
+        favorite: Ulubione
+        name: Nazwa
+        public: Publiczny
+        start_date: Data rozpoczęcia
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: musi być późniejsza niż data rozpoczęcia.
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: musi być późniejsza niż data rozpoczęcia.
+              required_with_start_date: należy ustawić, gdy ustawiona jest data rozpoczęcia.
+            start_date:
+              required_with_end_date: należy ustawić, gdy ustawiona jest data zakończenia.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: musi być zapytaniem pakietu roboczego.
+    models:
+      resource_allocation: Przydział zasobów
+      resource_planner: Planista zasobów
+      resource_user_card: Karty użytkowników
+      resource_work_package_list: Lista pakietów roboczych
+  button_next: Dalej
+  ee:
+    features:
+      resource_management: Zarządzanie zasobami
+    upsell:
+      resource_management:
+        description: Zaplanuj i zrównoważ obciążenie swojego zespołu pracą za pomocą planistów zasobów. Przydziel ludzi do pakietów roboczych, śledź obciążenia w czasie i dostrzegaj na pierwszy rzut oka nadmierną i niedostateczną alokację.
+        title: Zarządzanie zasobami
+  label_resource_management: Zarządzanie zasobami
+  permission_allocate_user_resources: Przydziel zasoby użytkownika
+  permission_allocate_user_resources_explanation: Umożliwia użytkownikom tworzenie, aktualizowanie i usuwanie przydziałów zasobów w planiście zasobów. Obejmuje to przypisywanie użytkowników (lub filtrów użytkowników) do planisty oraz dostosowywanie przydzielonego czasu i zakresu dat.
+  permission_assign_users_to_generic_allocations: Przypisz użytkowników do ogólnych alokacji
+  permission_assign_users_to_generic_allocations_explanation: Umożliwia użytkownikom korzystanie z widoku Obsada, aby przypisywać rzeczywistych użytkowników do ogólnych (opartych na filtrach) przydziałów zasobów, które nie mają jeszcze przypisanego użytkownika. Nie pozwala natomiast na tworzenie ani edytowanie przydziałów.
+  permission_manage_public_resource_planners: Zarządzaj publicznymi planistami zasobów
+  permission_manage_public_resource_planners_explanation: Umożliwia użytkownikom tworzenie planistów zasobów oraz zarządzanie nimi. Pozwala im na przeglądanie, tworzenie, zarządzanie i publikowanie własnych planistów zasobów. Nie pozwala użytkownikom przeglądać nieudostępnionych publicznie planistów zasobów utworzonych przez innych użytkowników.
+  permission_view_resource_planners: Wyświetl planistów zasobów
+  permission_view_resource_planners_explanation: Umożliwia użytkownikom dostęp do planistów zasobów. Pozwala im tworzyć własnych planistów zasobów i zarządzać nimi oraz wyświetlać publicznych planistów zasobów. Nie pozwala użytkownikom na przeglądanie nieudostępnionych publicznie planistów zasobów utworzonych przez innych użytkowników.
+  plugin_openproject_resource_management:
+    description: Zapewnia zarządzanie zasobami i planowanie obciążeń.
+    name: Zarządzanie zasobami OpenProject
+  project_module_resource_management: Zarządzanie zasobami
+  resource_management:
+    action:
+      delete: Usuń
+      edit: Edytuj
+      favorite: Dodaj do ulubionych
+      make_private: Ustaw jako prywatny
+      make_public: Ustaw jako publiczny
+      unfavorite: Usuń z ulubionych
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Ustaw kryteria filtrowania na podstawie atrybutów użytkownika w celu utworzenia zasobu zastępczego.
+          label: Kryteria filtrowania
+        label: Typ przydziału
+        principal:
+          caption: Przydziel godziny określonemu użytkownikowi.
+          label: Użytkownik
+      outside_dates:
+        description: Wybrane daty zasobów, %{resource_dates}, wykraczają poza daty pakietu roboczego, %{work_package_dates}.
+      overbooking:
+        capacity_summary: Dostępne %{available}· Zaplanowano %{scheduled}
+        description: Wybrany użytkownik, %{user}, zostałby przydzielony poza godzinami pracy w tym okresie.
+        hidden_work: Inne przydziały
+        schedule_availability: "%{schedule} (%{factor}% dostępne do pracy nad projektem)"
+        schedule_change: do %{date}, następnie %{schedule}
+        schedule_note: Ten użytkownik pracuje %{schedule}.
+        submit: Przydziel nadgodziny
+        title: Czy chcesz przydzielić nadgodziny użytkownikowi?
+      submit: Przydziel
+      success_message: Zasób przydzielono.
+      title: Przydziel zasób
+    allocation:
+      hours: "%{value} h"
+      no_work: W ramach tego pakietu roboczego nie zaplanowano żadnej pracy
+      summary: "%{allocated} / %{scheduled}"
+    assignment_dialog:
+      available: Dostępne %{hours}
+      confirm_overtime: Przypisz mimo to
+      filter_criteria: Kryteria filtrowania
+      no_candidates:
+        description: Żaden z członków projektu nie spełnia kryteriów filtrowania tego przydziału.
+        title: Brak pasujących członków
+      no_schedule: Ten użytkownik nie ma skonfigurowanego harmonogramu pracy, więc nie możemy określić, czy ten przydział pasuje.
+      overbooked_detail: Ten użytkownik ma %{available} dostępne w tym okresie, pakiet roboczy wymaga %{requested}.
+      requested_for: Zażądano dla
+      select_user: Wybierz użytkownika do przypisania.
+      submit: Przypisz
+      title: Przypisz %{filter_name}
+    blankslate:
+      desc: Utwórz planistę zasobów, aby rozpocząć planowanie obciążeń dla tego projektu.
+      title: Nie ma jeszcze planistów zasobów
+    configure_view_dialog:
+      delete_confirmation: Czy na pewno chcesz usunąć ten widok? Nie można tego cofnąć.
+      filter_mode:
+        automatic:
+          caption: Automatycznie generowana lista wyświetlająca elementy spełniające zdefiniowane przez Ciebie kryteria.
+          label: Automatyczne filtrowanie
+        label: Wybór elementów
+        manual:
+          caption: Niestandardowa lista elementów dodawanych i usuwanych ręcznie. Filtrowanie nie jest możliwe.
+          label: Ręczny wybór
+      title: Konfiguruj widok
+    edit_allocation_dialog:
+      submit: Zapisz
+      success_message: Zaktualizowano przydział zasobów.
+      title: Edytuj przydział
+    favorite_caption: Ustaw ten widok jako ulubiony, aby dodać go do górnej części menu paska bocznego.
+    label_edit_resource_planner: Edytuj planistę zasobów
+    label_new_resource_planner: Nowy planista zasobów
+    label_resource_planner: Planista zasobów
+    label_resource_planner_plural: Planiści zasobów
+    new_view_dialog:
+      title: Dodaj widok
+    public_caption: Ustaw ten widok jako publiczny dla wszystkich członków projektu. Nie ma to wpływu na widoczność pakietów roboczych, która nadal zależy od uprawnień poszczególnych użytkowników.
+    show:
+      placeholder: Szczegółowy widok tego planisty zasobów będzie dostępny wkrótce.
+    sidebar:
+      private: Prywatny
+      public: Publiczny
+    staffing:
+      assign: Przypisz użytkownika
+      blank:
+        description: Wszystkie ogólne przydziały w tym projekcie mają przypisanego użytkownika.
+        title: Nic do obsadzenia
+      columns:
+        dates: Daty
+        requested_time: Wymagany czas
+        resource: Zasób
+        work_package: Pakiet roboczy
+      context_menu_label: Działania przydziału
+      delete_confirmation: Czy na pewno chcesz usunąć ten przydział?
+      menu_item: Obsada
+      starts_in_past: Ten przydział już się rozpoczął i nadal nie został przypisany.
+      success_message: Przypisano użytkownika.
+      title: Obsada
+    sub_views: Widoki w tym planiście zasobów
+    timeframe:
+      full: Od %{start} do %{end}
+    timeline:
+      granularity:
+        day: Dzień
+        month: Miesiąc
+        week: Tydzień kalendarzowy
+      navigation:
+        next: Następny okres
+        previous: Poprzedni okres
+        today: Dzisiaj
+      subheader:
+        add: Dodaj
+        allocate: Przydziel
+        settings: Konfiguruj widok
+    user_allocations_dialog:
+      allocate_work_package: Przydziel pakiet roboczy
+      blank: Temu użytkownikowi nie przydzielono żadnych pakietów roboczych.
+      other_work_packages:
+        one: 1 inny pakiet roboczy
+        few: "%{count} inne pakiety robocze"
+        many: "%{count} innych pakietów roboczych"
+        other: "%{count} innego pakietu roboczego"
+      title: Wykorzystanie
+    user_card_list:
+      add_user_dialog:
+        title: Dodaj użytkownika
+      blank:
+        description: Nie ma jeszcze użytkowników pasujących do filtrów tego widoku.
+        manual_description: Do tego widoku nie dodano jeszcze żadnych użytkowników.
+        title: Brak użytkowników do wyświetlenia
+      card:
+        multi_value_more: Jeszcze %{count}
+        remove: Usuń użytkownika
+        remove_confirmation: Usunąć tego użytkownika z widoku?
+      fields:
+        drag_area_label: Wyświetlane pola
+        input_caption: Wybierz pola, które będą wyświetlane na karcie użytkownika w tym widoku
+        input_label: Pola
+        input_placeholder: Dodaj pole
+        working_times: Czasy pracy
+      subheader:
+        resource: Zasób
+        settings: Konfiguruj widok
+      utilization:
+        label: Wykorzystanie
+      working_hours:
+        blank: Nie skonfigurowano godzin pracy
+        schedule_availability_compact: "%{schedule} (dostępne %{factor}%)"
+        schedule_change_compact: do %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Dodaj użytkownika
+        configure_view: Konfiguruj widok
+        description: Nie ma jeszcze użytkowników pasujących do filtrów tego widoku.
+        manual_description: Dodaj użytkowników do tego widoku, aby sprawdzić ich przydział w czasie.
+        title: Brak użytkowników do wyświetlenia
+      no_work_schedule: Dla tego użytkownika nie zaplanowano żadnego harmonogramu pracy
+      overbooked: W wybranym okresie ten użytkownik ma nadmierne przydziały.
+      overbooked_tooltip:
+        range: "%{dates}: zaplanowano %{scheduled}, dostępne %{available}"
+      subheader:
+        add_user: Dodaj użytkownika
+    view_types:
+      resource_user_card:
+        caption: Utwórz widok w oparciu o użytkowników i zobacz ich szczegóły i przydział na liście kart użytkowników
+        label: Lista kart użytkowników
+      resource_user_timeline:
+        caption: Utwórz widok oparty na użytkownikach i wyświetl ich przydziały w czasie na osi czasu
+        label: Oś czasu użytkowników
+      resource_work_package_list:
+        caption: Utwórz widok oparty na pakietach roboczych i zobacz jego szczegóły i przydział na liście
+        label: Lista pakietów roboczych
+      resource_work_package_timeline:
+        caption: Utwórz widok oparty na pakietach roboczych i wyświetl ich przydziały w czasie na osi czasu
+        label: Oś czasu pakietów roboczych
+      user_card:
+        caption: Utwórz widok w oparciu o użytkowników i zobacz ich szczegóły i przydział na liście kart użytkowników
+        label: Lista kart użytkowników
+    work_package_allocations_dialog:
+      allocate_resource: Przydziel zasób
+      context_menu_label: Działania przydziału
+      delete_confirmation: Czy na pewno chcesz usunąć ten przydział? Nie można tego cofnąć.
+      delete_success: Usunięto przydział zasobów.
+      hidden_user: Ukryty użytkownik
+      overbooked: Użytkownik jest przydzielony poza jego godzinami pracy w tym okresie.
+      title: Przydział
+    work_package_list:
+      add_work_package_dialog:
+        title: Dodaj pakiet roboczy
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} użytkownik"
+          few: "%{count} użytkowników"
+          many: "%{count} użytkowników"
+          other: "%{count} użytkownika"
+        unassigned: Nie przypisano
+      allocation_placeholder: "—"
+      blank:
+        description: Nie ma jeszcze pakietów roboczych pasujących do filtrów tego widoku.
+        title: Brak pakietów roboczych do wyświetlenia
+      columns:
+        allocated_members: Przydzieleni członkowie
+        allocation: Przydział
+        dates: Daty
+      context_menu:
+        add_filter_criteria: Dodaj kryteria filtrowania
+        add_user_group: Dodaj grupę użytkowników
+        edit_total_work: Edytuj całkowitą pracę
+        label: Więcej działań
+        move: Przenieś
+        move_down: Przenieś w dół
+        move_to_bottom: Przenieś na sam dół
+        move_to_top: Przenieś na samą górę
+        move_up: Przenieś w górę
+        remove: Usuń
+        remove_confirmation: Usunąć ten pakiet roboczy z widoku?
+        see_allocation: Zobacz przydział
+      mobile_title: Pakiety robocze
+      query_name: 'Pakiety robocze zarządzania zasobami: %{name}'
+      subheader:
+        add: Dodaj
+        add_work_package: Dodaj pakiet roboczy
+        allocate: Przydziel
+        settings: Konfiguruj widok
+    work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          few: "%{count} members of this project match the allocation's filter criteria."
+          many: "%{count} members of this project match the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
+      blank:
+        add_work_package: Dodaj pakiet roboczy
+        configure_view: Konfiguruj widok
+        description: Nie ma jeszcze pakietów roboczych pasujących do filtrów tego widoku.
+        manual_description: Dodaj pakiety robocze do tego widoku, aby zaplanować ich przydział w czasie.
+        title: Brak pakietów roboczych do wyświetlenia
+      query_name: 'Oś czasu zarządzania zasobami pakietu roboczego: %{name}'
+      subheader:
+        add_work_package: Dodaj pakiet roboczy

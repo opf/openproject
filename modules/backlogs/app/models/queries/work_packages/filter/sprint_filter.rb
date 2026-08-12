@@ -46,10 +46,6 @@ module Queries::WorkPackages::Filter
       :sprint_id
     end
 
-    def human_name
-      WorkPackage.human_attribute_name(:sprint)
-    end
-
     def ar_object_filter?
       true
     end
@@ -73,7 +69,7 @@ module Queries::WorkPackages::Filter
 
     def sprints
       @sprints ||= begin
-        scope = Agile::Sprint.visible
+        scope = Sprint.visible
         project ? scope.for_project(project) : scope
       end
     end

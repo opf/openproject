@@ -56,19 +56,19 @@ RSpec.describe "Start and finish sprints", :js do
   end
   let(:task_statuses) { task_type.statuses }
   let!(:first_sprint) do
-    create(:agile_sprint,
+    create(:sprint,
            project:,
            start_date: Date.new(2025, 9, 5),
            finish_date: Date.new(2025, 9, 15))
   end
   let!(:second_sprint) do
-    create(:agile_sprint,
+    create(:sprint,
            project:,
            start_date: Date.new(2025, 9, 16),
            finish_date: Date.new(2025, 9, 26))
   end
   let!(:closed_sprint) do
-    create(:agile_sprint,
+    create(:sprint,
            project:,
            status: "completed",
            start_date: Date.new(2025, 8, 25),
@@ -126,7 +126,7 @@ RSpec.describe "Start and finish sprints", :js do
 
   context "when the sprint is active" do
     let!(:first_sprint) do
-      create(:agile_sprint,
+      create(:sprint,
              project:,
              status: "active",
              start_date: Date.new(2025, 9, 5),
@@ -181,7 +181,7 @@ RSpec.describe "Start and finish sprints", :js do
       # because of work packages but not because they are genuinely shared, are not options to move
       # work packages to.
       let!(:sprint_from_other_project) do
-        create(:agile_sprint,
+        create(:sprint,
                project: create(:project),
                start_date: Date.new(2025, 9, 5),
                finish_date: Date.new(2025, 9, 15)) do |sprint|
@@ -190,6 +190,13 @@ RSpec.describe "Start and finish sprints", :js do
                  sprint:,
                  project:)
         end
+      end
+
+      before do
+        # closed_status is a lazy `let` created after the shared_let(:project), so
+        # it is not present when the backlogs module is first enabled on the project
+        # and therefore not auto-seeded by the MODULE_ENABLED event. We add it manually here.
+        project.done_statuses << closed_status unless project.done_statuses.include?(closed_status)
       end
 
       it "allows moving unfinished work packages to the next sprint" do

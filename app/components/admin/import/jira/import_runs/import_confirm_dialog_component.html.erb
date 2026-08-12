@@ -34,12 +34,12 @@ See COPYRIGHT and LICENSE files for more details.
       title:,
       form_arguments:,
       confirm_button_text:,
-      size: :large
+      size: :xlarge
     )
   ) do |dialog|
     dialog.with_confirmation_message do |message|
       message.with_heading(tag: :h2) { title }
-      message.with_description_content(simple_format(description))
+      message.with_description_content(description)
     end
     dialog.with_confirmation_check_box_content(confirm)
   end

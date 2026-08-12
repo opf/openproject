@@ -32,36 +32,43 @@ module Import
   class JiraUser < ApplicationRecord
     self.table_name = "jira_users"
 
+    FALLBACK_NAME_KEY = "admin.jira.user.unknown_name"
+
     belongs_to :jira, class_name: "Import::Jira"
     belongs_to :jira_import, class_name: "Import::JiraImport"
 
-    def self.groups
-      all.map { |x| x.payload["groups"]["items"] }.flatten.uniq { |x| x["name"] }
-    end
-
     def to_op_attributes
       firstname, lastname = split_display_name(payload["displayName"])
+      mail = payload["emailAddress"]
+      if mail.blank?
+        mail = "#{SecureRandom.hex(16)}@noemail.invalid"
+      end
       {
         login: payload["name"],
         password: OpenProject::Passwords::Generator.random_password,
-        firstname:,
-        lastname:,
-        mail: payload["emailAddress"],
+        firstname: firstname.presence || I18n.t(FALLBACK_NAME_KEY),
+        lastname: lastname.presence || I18n.t(FALLBACK_NAME_KEY),
+        mail:,
         status: :locked
       }
     end
 
-    def try_to_find_existing_op_users
-      op_attributes = to_op_attributes
-      User.where(login: op_attributes[:login]).or(
-        User.where(mail: op_attributes[:mail])
-      )
+    def try_to_find_existing_op_user_by_mail
+      User.where("LOWER(mail) = ?", to_op_attributes[:mail]&.downcase).first
+    end
+
+    def try_to_find_existing_op_user_by_login
+      User.by_login(to_op_attributes[:login]).first
     end
 
     private
 
+    def sanitize_name(name)
+      name.gsub(User::INVALID_NAME_REGEX, "").strip
+    end
+
     def split_display_name(display_name)
-      parts = display_name.split
+      parts = sanitize_name(display_name).split
       parts.length > 1 ? [parts[0..-2].join(" "), parts[-1]] : [parts[0], parts[0]]
     end
   end

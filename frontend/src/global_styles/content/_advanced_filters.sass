@@ -131,10 +131,69 @@ $advanced-filters--grid-gap: 10px
   height: 1px
   margin: 0.75rem 0
 
-.advanced-filters--spacer,
-.advanced-filters--filter
-  &.hidden
-    display: none !important
+
+.op-filters-form
+  display: none
+  margin-top: 1rem
+  position: relative
+
+  &.-expanded
+    display: block
+
+  &--with-footer
+    padding-top: 0
+
+  .advanced-filters--actions
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    gap: var(--base-size-8)
+    margin-top: var(--base-size-16)
+
+  .FormControl-horizontalGroup.advanced-filters--filter
+    max-width: 752px
+    align-items: center
+    gap: $advanced-filters--grid-gap
+
+    &:not([data-filter-type="boolean"])
+      flex-wrap: wrap
+
+    > .advanced-filters--filter-name
+      text-align: left
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+
+    &:not([data-filter-type="boolean"]) > .advanced-filters--filter-name
+      flex: 0 0 100%
+
+    &[data-filter-type="boolean"] > .advanced-filters--filter-name
+      flex: 0 0 $advanced-filters--label-size
+
+    > .FormControl:not(.advanced-filters--filter-value)
+      flex: 0 0 $advanced-filters--operator-size
+
+    > .FormControl.advanced-filters--filter-value
+      flex: 1 1 0
+      min-width: 0
+
+    > .advanced-filters--remove-filter
+      margin-left: auto
+      flex-shrink: 0
+
+  .FormControl:has([data-filter--filters-form-target="addFilterSelect"])
+    border-top: 1px solid var(--borderColor-muted)
+    margin-top: var(--base-size-8)
+    padding-top: var(--base-size-16)
+    max-width: 752px
+
+  .advanced-filters--filter-value .FormControl-select-wrap
+    display: flex
+    align-items: center
+    gap: var(--base-size-4)
+
+    .FormControl-select
+      flex: 1 1 auto
 
 .work-packages-embedded-view--container .advanced-filters--container
   margin: 0 0 1rem 0

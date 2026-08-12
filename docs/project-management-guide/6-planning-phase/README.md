@@ -12,8 +12,6 @@ The second phase of a PM² project is the Planning Phase. It begins with the Pla
 
 ![Fig 6.1 Planning Phase activities and main outputs](06.01.png)
 
-
-
 | Artefact Type | Description |
 | :--: | :--: |
 | Management Plans (standard) | These plans define the various processes to be used (e.g. for Risk Management). PM² provides Management Plan templates along with guidelines on how to tailor and customise them to the project's context and needs. |
@@ -136,8 +134,6 @@ The Project Handbook is an important reference document for all project members 
 
 ![Fig 6.4 Project Handbook inputs and main roles](06.04.png)
 
-
-
 **Outputs** 
 
 - Project Handbook
@@ -221,8 +217,6 @@ Note: Be careful to respect all applicable regulations on privacy and personal d
 
 ![Fig 6.5 Project Stakeholder Matrix inputs and main roles](06.05.png)
 
-
-
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Stakeholder <br> Management | Business Case <br> Project Charter | Project Handbook <br> Outsourcing Plan <br> Communications <br> Management Plan | Project <br> Reports | Project Logs <br> Stakeholders <br> Checklist | Project-End <br> Report |
@@ -259,8 +253,6 @@ The Project Work Plan is composed of three parts:
 
 ![Fig 6.6 Project Work Plan inputs and main roles](06.06.png)
 
-
-
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Schedule and Cost <br> Management | Business Case \& <br> Project Charter | Project Work Plan. <br> (Work Breakdown, Effor <br> \& Costs, Schedule) | Project <br> Reports | Project Work Plan <br> Project Logs | Project-End <br> Report |
@@ -281,7 +273,6 @@ The objective of this section of the Project Work Plan is to break the project d
 **Outputs**
 
 - Work Breakdown (part of the Project Work Plan)
-
 
 ### 6.4.2 Effort \& Cost Estimates
 
@@ -341,8 +332,6 @@ The Outsourcing Plan defines the what and how for any outsourced products or ser
 
 ![Fig 6.7 Outsourcing Plan inputs and main roles](06.07.png)
 
-
-
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Outsourcing Management | Project <br> Charter | Project Handbook <br> Outsourcing Plan | Project Reports | Project Logs | Project-End <br> Report |
@@ -350,7 +339,6 @@ The Outsourcing Plan defines the what and how for any outsourced products or ser
 **Outputs**
 
 - Outsourcing Plan
-
 
 ## 6.6 Deliverables Acceptance Plan 
 
@@ -403,8 +391,6 @@ The Deliverables Acceptance Plan documents the agreed criteria and approach for 
 
 ![Fig 6.8: Deliverables Acceptance Plan inputs and main roles](06.08.png)
 
-
-
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Acceptance Management | Project <br> Charter | Deliverables <br> Acceptance Plan | Deliverables <br> Acceptance <br> Note | Deliverables <br> Acceptance Checklist <br> Decision Log | Project- <br> End <br> Report |
@@ -453,8 +439,6 @@ A successful transition is an important prerequisite for achieving the planned p
 
 ![Fig 6.9 Transition Plan inputs and main roles](06.09.png)
 
-
-
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Implementation <br> Management | Project <br> Charter | Business Implementation Plan <br> Transition Plan Project Work Plan | Project <br> Reports | Transition Checklist <br> Business Implementation Checklist | Project-End Report |
@@ -463,7 +447,6 @@ A successful transition is an important prerequisite for achieving the planned p
 
 - Transition Plan
 - Transition Checklist (setup)
-
 
 ## 6.8 Business Implementation Plan 
 
@@ -500,8 +483,6 @@ Depending on the organisation, the business implementation activities can be per
 | Business Implementation Plan | I | I | A | R | C | I | S | I |
 
 ![Fig 6.10 Business Implementation Plan inputs and main roles](06.10.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |

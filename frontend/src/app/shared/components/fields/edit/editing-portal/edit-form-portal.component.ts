@@ -1,16 +1,32 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 import { takeUntil } from 'rxjs/operators';
@@ -31,9 +47,14 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
+  readonly injector = inject(Injector);
+  readonly editField = inject(EditFieldService);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() schemaInput:IFieldSchema;
 
   @Input() changeInput:ResourceChangeset;
@@ -55,13 +76,6 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
   public htmlId:string;
 
   public label:string;
-
-  constructor(
-    readonly injector:Injector,
-    readonly editField:EditFieldService,
-    readonly elementRef:ElementRef,
-    readonly cdRef:ChangeDetectorRef,
-  ) { }
 
   ngOnInit() {
     if (this.editFieldHandler && this.schemaInput) {

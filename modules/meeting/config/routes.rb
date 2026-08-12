@@ -36,13 +36,18 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :meetings do
+    resource :filters, only: %i[show]
+  end
+
   # Global route to show meetings over all projects and create form from the global view
   resources :meetings, only: %i[index show new create] do
     collection do
       get :new_dialog
       get "menu" => "meetings/menus#show"
       get :fetch_timezone
-      get :fetch_templates
+      post :fetch_templates
+      get :project_items
 
       get "ical/:token", controller: "meetings/ical", action: :index, as: "ical_feed"
 
@@ -59,7 +64,7 @@ Rails.application.routes.draw do
         get :new_dialog
         get "menu" => "meetings/menus#show"
         get :fetch_timezone
-        get :fetch_templates
+        post :fetch_templates
 
         get "templates", action: :index, controller: "meeting_templates", as: "templates"
         get "templates/new_dialog", action: :new_dialog, controller: "meeting_templates", as: "new_dialog_template"
@@ -101,6 +106,9 @@ Rails.application.routes.draw do
           post :duplicate_in_next, action: :duplicate_in_next_meeting
           put :move_to_section_dialog
           post :move_to_section
+          get :convert_to_work_package_dialog
+          post :convert_to_work_package
+          post :refresh_convert_to_work_package_dialog
         end
 
         resources :outcomes, controller: "meeting_outcomes", except: %i[index show] do
@@ -177,7 +185,7 @@ Rails.application.routes.draw do
         collection do
           get :dialog, controller: "work_package_meetings_tab", action: :add_work_package_to_meeting_dialog
           post :create, controller: "work_package_meetings_tab", action: :add_work_package_to_meeting
-          get :refresh_form, controller: "work_package_meetings_tab", action: :refresh_form
+          post :refresh_form, controller: "work_package_meetings_tab", action: :refresh_form
         end
       end
     end

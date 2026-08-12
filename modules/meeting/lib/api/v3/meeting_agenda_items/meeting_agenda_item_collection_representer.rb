@@ -32,6 +32,16 @@ module API
   module V3
     module MeetingAgendaItems
       class MeetingAgendaItemCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        # Embed outcomes and sections by default without repeating already known
+        # resources such as the parent meeting.
+        collection :elements,
+                   getter: ->(*) {
+                     represented.map do |model|
+                       element_decorator.create(model, current_user:, embed_links: %i[section outcomes])
+                     end
+                   },
+                   exec_context: :decorator,
+                   embedded: true
       end
     end
   end

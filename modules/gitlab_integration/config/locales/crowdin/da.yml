@@ -22,61 +22,61 @@
 #++
 ---
 da:
-  attributes:
-    commit: Commit
-    gitlab: GitLab identifier
-    gitlab_avatar_url: Avatar URL
-    gitlab_email: GitLab Email
-    gitlab_html_url: GitLab HTML URL
-    gitlab_merge_request: Merge Request
-    gitlab_name: GitLab name
-    gitlab_updated_at: Updated at
-    gitlab_user_avatar_url: GitLab avatar URL
-    gitlab_username: GitLab username
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: CI Details
       gitlab_merge_request:
-        labels: Labels
+        labels: Etiketter
+      gitlab_pipeline:
+        ci_details: CI-oplysninger
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: 'must be an array of hashes with keys: color, title'
+              invalid_schema: 'skal være et række hashes med nøgler: color, title'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: 'must be an array of hashes with keys: color, title'
-  label_gitlab_integration: GitLab Integration
-  label_gitlab_actor: GitLab actor
-  label_gitlab_webhook_secret: Webhook secret
-  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
-
-    '
-  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
-
-    '
-  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
-
-    '
-  project_module_gitlab: GitLab
-  permission_show_gitlab_content: Show GitLab content
+              invalid_schema: 'skal være et række hashes med nøgler: color, title'
+  attributes:
+    commit: Commit
+    gitlab: GitLab-identifikator
+    gitlab_avatar_url: Avatar-URL
+    gitlab_email: GitLab e-mail
+    gitlab_html_url: GitLab HTML-URL
+    gitlab_merge_request: Fletteanmodning
+    gitlab_name: GitLab-navn
+    gitlab_updated_at: Opdateret pr.
+    gitlab_user_avatar_url: GitLab-avatar URL
+    gitlab_username: GitLab-brugernavn
   gitlab_integration:
-    merge_request_opened_comment: "**MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    note_commit_referenced_comment: "**Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}\n"
-    note_mr_referenced_comment: "**Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_mr_commented_comment: "**Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_issue_referenced_comment: "**Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_issue_commented_comment: "**Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
-    issue_opened_referenced_comment: "**Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_closed_referenced_comment: "**Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_closed_referenced_comment: "**Problematik lukket:** Problematik %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) er blevet lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Problematik åbnet:** Problematik %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) er blevet åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Emne Reopens:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) er blevet genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
-    push_single_commit_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+    merge_request_closed_comment: "**MR lukket:** Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) er blevet lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**MR flettet:** Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) er blevet flettet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**MR åbnet:** Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) er blevet åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**MR genåbnet:** Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) er blevet genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Refereret i commit:** [%{gitlab_user}](%{gitlab_user_url}) refererede til denne WP i en Commit-note [%{commit_id}](%{commit_url}) på [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Kommenteret i problematik:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne WP i Problematik %{issue_number} [%{issue_title}](%{issue_url}) på [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Refereret i prohlematik:** [%{gitlab_user}](%{gitlab_user_url}) refererede denne WP i Problematik %{issue_number} [%{issue_title}](%{issue_url}) på [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Kommenteret i MR:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne WP i Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) på [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Refereret i MR:** [%{gitlab_user}](%{gitlab_user_url}) refererede til denne WP i Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) på [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Refereret i Snippet:** [%{gitlab_user}](%{gitlab_user_url}) refererede denn WP i Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) på [%{repository}](%{repository_url}): %{snippet_note}\n"
     push_multiple_commits_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Pushed i %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) kl. %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: GitHub-initiator (actor)
+  label_gitlab_integration: GitLab-Integration
+  label_gitlab_webhook_secret: Webhook-hemmelighed
+  permission_show_gitlab_content: Vis GitHub-indhold
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'Den OpenProject-bruger, hvis API-nøgle skal bruges til at godkende indgående webhook-anmodninger. Når angivet, afvises anmodninger godkendt med anden brugers legitimationsoplysninger. Denne bruger sender også automatiserede kommentarer om arbejdspakker. Standard er systembrugeren, når ikke angivet.
+
+    '
+  text_gitlab_webhook_secret_info: 'Et hemmeligt token delt med GitHub, når webhook''en opsættes. Når angivet, bekræfter OpenProject X-Hub-Signature-256-headeren på hver indgående anmodning og afviser payloads, som ikke matcher. Lad stå tom for at overspringe bekræftelsen (anbefales ikke!).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'Ingen webhook-hemmelighed opsat. Alle anmodning til GitHub webhook-endepunktet accepteres uden bekræftelse, hvilket kan tillade uautoriserede aktører at forfalske begivenheder. Det anbefales kraftigt at opsætte en hemmelighed.
+
+    '

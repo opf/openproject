@@ -33,7 +33,7 @@ module TimeEntryCustomFields::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      def visible(_user = User.current)
+      def visible(_user = User.current, **)
         all
       end
     end

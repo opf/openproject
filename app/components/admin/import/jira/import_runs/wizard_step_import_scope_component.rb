@@ -33,59 +33,8 @@ module Admin::Import::Jira::ImportRuns
     include OpPrimer::ComponentHelpers
     include Admin::Import::Jira::ImportRunsHelper
 
-    def import_stats_available
-      [
-        projects_label(available_projects_count),
-        issues_label(available_issues_count),
-        statuses_label(available_statuses_count),
-        types_label(available_types_count),
-        users_label(available_users_count)
-      ].map { |label| { label:, checked: true } }
-    end
-
-    def import_stats_unavailable
-      [
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.relations"),
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.workflows"),
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.permissions"),
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.sprints"),
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.schemes")
-      ].map { |label| { label:, checked: false } }
-    end
-
-    def server_info
-      info = model.available["server_info"]
-      return "" unless info
-
-      [
-        info["serverTitle"],
-        info["version"],
-        "(#{info['baseUrl']})"
-      ].join(" ")
-    end
-
     def selected_projects_count
       model.projects&.count || 0
-    end
-
-    def available_projects_count
-      model.available["projects"]&.count
-    end
-
-    def available_issues_count
-      model.available["total_issues"]
-    end
-
-    def available_statuses_count
-      model.available["total_statuses"]
-    end
-
-    def available_types_count
-      model.available["total_issue_types"]
-    end
-
-    def available_users_count
-      model.available["total_users"]
     end
   end
 end

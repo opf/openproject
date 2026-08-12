@@ -732,4 +732,51 @@ RSpec.describe API::V3::Utilities::PathHelper do
       end
     end
   end
+
+  describe ".path_for_object" do
+    context "for a portfolio" do
+      let(:object) { build_stubbed(:portfolio) }
+
+      it "returns the path to the portfolio" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/portfolios/#{object.id}"
+      end
+    end
+
+    context "for a program" do
+      let(:object) { build_stubbed(:program) }
+
+      it "returns the path to the program" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/programs/#{object.id}"
+      end
+    end
+
+    context "for a project" do
+      let(:object) { build_stubbed(:project) }
+
+      it "returns the path to the project" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/projects/#{object.id}"
+      end
+    end
+
+    context "for a work_package" do
+      let(:object) { build_stubbed(:work_package) }
+
+      it "returns the path to the work_packages" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/work_packages/#{object.id}"
+      end
+    end
+
+    context "for a user" do
+      let(:object) { build_stubbed(:user) }
+
+      it "returns the path to the user" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/users/#{object.id}"
+      end
+    end
+  end
 end

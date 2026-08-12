@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -38,7 +38,7 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -73,8 +73,8 @@ describe('WorkPackageFilterValues', () => {
   function setupTestBed() {
     // noinspection JSIgnoredPromiseFromCall
     void TestBed.configureTestingModule({
-    imports: [UIRouterModule.forRoot({})],
-    providers: [
+      imports: [UIRouterModule.forRoot({})],
+      providers: [
         I18nService,
         { provide: WeekdayService, useValue: WeekdayServiceStub },
         States,
@@ -94,9 +94,9 @@ describe('WorkPackageFilterValues', () => {
         WorkPackageCreateService,
         HalResourceEditingService,
         WorkPackagesActivityService,
-        provideHttpClient(withInterceptorsFromDi()),
-    ]
-}).compileComponents();
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+      ]
+    }).compileComponents();
 
     injector = TestBed.inject(Injector);
     halResourceService = injector.get(HalResourceService);
@@ -104,14 +104,8 @@ describe('WorkPackageFilterValues', () => {
     resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true);
     changeset = new WorkPackageChangeset(resource);
 
-    const type1 = halResourceService.createHalResourceOfClass(
-      TypeResource,
-      { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } },
-    );
-    const type2 = halResourceService.createHalResourceOfClass(
-      TypeResource,
-      { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } },
-    );
+    const type1 = halResourceService.createHalResourceOfClass(TypeResource, { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } });
+    const type2 = halResourceService.createHalResourceOfClass(TypeResource, { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } });
 
     filters = [
       {
@@ -123,6 +117,69 @@ describe('WorkPackageFilterValues', () => {
 
     subject = new WorkPackageFilterValues(injector, filters);
   }
+
+  describe('when a version filter is present', () => {
+    function addVersionFilter() {
+      const version = halResourceService.createHalResourceOfClass(
+        HalResource,
+        { _type: 'Version', id: '42', _links: { self: { href: '/api/v3/versions/42', name: 'v1.0' } } },
+      ) as HalResource;
+
+      filters.push({
+        id: 'version',
+        operator: { id: '=' },
+        values: [version],
+      });
+    }
+
+    describe('with no target versions on the work package', () => {
+      beforeEach(() => {
+        source = {
+          _type: 'WorkPackage',
+          id: '1234',
+          _links: {
+            type: { href: '/api/v3/types/1', name: 'Task' },
+          },
+        };
+
+        setupTestBed();
+        addVersionFilter();
+      });
+
+      it('writes the multi-valued targetVersions attribute instead of the deprecated version', () => {
+        subject.applyDefaultsFromFilters(changeset);
+
+        expect(changeset.changedAttributes).toContain('targetVersions');
+        expect(changeset.changedAttributes).not.toContain('version');
+
+        const written = changeset.value<HalResource[]>('targetVersions');
+        expect(written.length).toEqual(1);
+        expect(written[0].href).toEqual('/api/v3/versions/42');
+      });
+    });
+
+    describe('with the version already assigned as target version', () => {
+      beforeEach(() => {
+        source = {
+          _type: 'WorkPackage',
+          id: '1234',
+          _links: {
+            type: { href: '/api/v3/types/1', name: 'Task' },
+            targetVersions: [{ href: '/api/v3/versions/42', name: 'v1.0' }],
+          },
+        };
+
+        setupTestBed();
+        addVersionFilter();
+      });
+
+      it('does not change the work package', () => {
+        subject.applyDefaultsFromFilters(changeset);
+
+        expect(changeset.changedAttributes.length).toEqual(0);
+      });
+    });
+  });
 
   describe('when a filter value already exists in values', () => {
     describe('with the first type applied', () => {
@@ -141,12 +198,12 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not apply the first value (Regression #30817)', (() => {
+      it('should not apply the first value (Regression #30817)', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/1');
-      }));
+      });
     });
 
     describe('with the second type applied', () => {
@@ -164,12 +221,12 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not keep the second value (Regression #30817)', (() => {
+      it('should not keep the second value (Regression #30817)', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/2');
-      }));
+      });
     });
   });
 });

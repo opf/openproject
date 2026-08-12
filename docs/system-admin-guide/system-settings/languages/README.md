@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Languages
-  priority: 960
+  priority: 800
 description: Languages in OpenProject.
 keywords: languages
 ---
@@ -16,4 +16,4 @@ At the moment there are over 30 languages available.
 > [!NOTE]
 > Many languages are translated by the community. We highly appreciate if you want to [help translating OpenProject to your language](../../../contributions-guide/translate-openproject).
 
-You can [choose your language in your user profile](../../../user-guide/account-settings/#change-your-language).
+You can [choose your language in your user profile](../../../user-guide/account-settings/language-and-region/#change-your-language).

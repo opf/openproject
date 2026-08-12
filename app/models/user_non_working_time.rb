@@ -45,11 +45,14 @@ class UserNonWorkingTime < ApplicationRecord
   validate :end_date_not_before_start_date
   validate :no_overlapping_ranges
 
-  # Returns records whose range overlaps with the given year.
-  scope :for_year, ->(year) {
+  # Returns records whose range overlaps the given inclusive date range.
+  scope :overlapping, ->(date_range) {
     where("daterange(start_date, end_date, '[]') && daterange(?, ?, '[]')",
-          Date.new(year, 1, 1), Date.new(year, 12, 31))
+          date_range.begin, date_range.end)
   }
+
+  # Returns records whose range overlaps with the given year.
+  scope :for_year, ->(year) { overlapping(Date.new(year, 1, 1)..Date.new(year, 12, 31)) }
 
   scope :for_user, ->(user) { where(user:) }
 
@@ -98,7 +101,7 @@ class UserNonWorkingTime < ApplicationRecord
 
   def working_days_in(date_range, system_non_working_dates: nil)
     working_wdays = Setting.working_days.map { |d| d % 7 }
-    system_wide = system_non_working_dates || NonWorkingDay.where(date: date_range).pluck(:date).to_set
+    system_wide = system_non_working_dates || NonWorkingDay.for_dates(date_range).pluck(:date).to_set
     date_range.select { |date| working_wdays.include?(date.wday) && system_wide.exclude?(date) }
   end
 
@@ -116,10 +119,7 @@ class UserNonWorkingTime < ApplicationRecord
   end
 
   def overlapping_range_exists?
-    scope = self.class
-                .where(user_id:)
-                .where("daterange(start_date, end_date, '[]') && daterange(?, ?, '[]')",
-                       start_date, end_date)
+    scope = self.class.where(user_id:).overlapping(start_date..end_date)
     scope = scope.where.not(id:) if persisted?
     scope.exists?
   end

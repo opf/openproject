@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -64,7 +66,7 @@ RSpec.describe "hourly rates on user edit", :js do
       before do
         click_link "Update" # go to update view for rates
         SeleniumHubWaiter.wait
-        find(".icon-delete").click # delete last existing rate
+        find(".delete-row-button").click # delete last existing rate
         click_on "Save" # save change
       end
 
@@ -88,13 +90,14 @@ RSpec.describe "hourly rates on user edit", :js do
       # Expect the german locale output
       expect(page).to have_field("user[existing_rate_attributes][#{rate.id}][rate]", with: "1,00")
 
-      click_link "Satz hinzufügen"
+      click_button "Satz hinzufügen"
 
       fill_in "user_new_rate_attributes_1_valid_from", with: (Time.zone.today + 1.day).iso8601
       find("input#user_new_rate_attributes_1_valid_from").send_keys :escape
       fill_in "user_new_rate_attributes_1_rate", with: "5,12"
 
       click_button "Speichern"
+      expect_flash(type: :notice)
 
       view_rates
 

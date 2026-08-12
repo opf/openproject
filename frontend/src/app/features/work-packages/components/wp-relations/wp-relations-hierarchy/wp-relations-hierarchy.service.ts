@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +29,7 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { StateService } from '@uirouter/core';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -37,14 +37,13 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
-  constructor(protected $state:StateService,
-    protected states:States,
-    protected halEvents:HalEventsService,
-    protected notificationService:WorkPackageNotificationService,
-    protected pathHelper:PathHelperService,
-    protected apiV3Service:ApiV3Service) {
+  protected $state = inject(StateService);
+  protected states = inject(States);
+  protected halEvents = inject(HalEventsService);
+  protected notificationService = inject(WorkPackageNotificationService);
+  protected pathHelper = inject(PathHelperService);
+  protected apiV3Service = inject(ApiV3Service);
 
-  }
 
   public changeParent(workPackage:WorkPackageResource, parentId:string|null) {
     const payload:any = {

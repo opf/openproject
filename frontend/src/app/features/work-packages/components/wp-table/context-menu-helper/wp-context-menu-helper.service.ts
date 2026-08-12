@@ -21,13 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -47,6 +48,13 @@ export interface WorkPackageAction {
 
 @Injectable()
 export class WorkPackageContextMenuHelperService {
+  private HookService = inject(HookService);
+  private UrlParamsHelper = inject(UrlParamsHelperService);
+  private wpViewRepresentation = inject(WorkPackageViewDisplayRepresentationService);
+  private wpViewTimeline = inject(WorkPackageViewTimelineService);
+  private wpViewIndent = inject(WorkPackageViewHierarchyIdentationService);
+  private PathHelper = inject(PathHelperService);
+
   private BULK_ACTIONS = [
     {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
@@ -74,14 +82,6 @@ export class WorkPackageContextMenuHelperService {
     },
   ];
 
-  constructor(private HookService:HookService,
-    private UrlParamsHelper:UrlParamsHelperService,
-    private wpViewRepresentation:WorkPackageViewDisplayRepresentationService,
-    private wpViewTimeline:WorkPackageViewTimelineService,
-    private wpViewIndent:WorkPackageViewHierarchyIdentationService,
-    private PathHelper:PathHelperService) {
-  }
-
   public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
     const singularPermittedActions:any[] = [];
 
@@ -99,7 +99,7 @@ export class WorkPackageContextMenuHelperService {
 
     allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
-    _.each(allowedActions, (allowedAction) => {
+    allowedActions.forEach((allowedAction) => {
       singularPermittedActions.push({
         key: allowedAction.key,
         text: allowedAction.text,
@@ -115,7 +115,7 @@ export class WorkPackageContextMenuHelperService {
     let link:string|undefined;
     switch (action.key) {
       case 'copy_link_to_clipboard':
-        link = this.PathHelper.workPackageShortPath(workPackage.id!);
+        link = this.PathHelper.workPackageShortPath(workPackage.displayId);
         break;
       default:
         link = action.link ? (workPackage[action.link] as HalLink).href! : undefined;
@@ -124,12 +124,12 @@ export class WorkPackageContextMenuHelperService {
     return link;
   }
 
-  public getIntersectOfPermittedActions(workPackages:any) {
-    const bulkPermittedActions:any = [];
-    const possibleActions = this.BULK_ACTIONS.concat(this.HookService.call('workPackageBulkContextMenu'));
-    const permittedActions = _.filter(possibleActions, (action:any) => _.every(workPackages, (workPackage:WorkPackageResource) => this.isActionAllowed(workPackage, action)));
+  public getIntersectOfPermittedActions(workPackages:WorkPackageResource[]) {
+    const bulkPermittedActions:WorkPackageAction[] = [];
+    const possibleActions:WorkPackageAction[] = this.BULK_ACTIONS.concat(this.HookService.call('workPackageBulkContextMenu'));
+    const permittedActions = possibleActions.filter((action) => workPackages.every((workPackage:WorkPackageResource) => this.isActionAllowed(workPackage, action)));
 
-    _.each(permittedActions, (permittedAction:any) => {
+    permittedActions.forEach((permittedAction) => {
       bulkPermittedActions.push({
         key: permittedAction.key,
         text: permittedAction.text,
@@ -155,20 +155,20 @@ export class WorkPackageContextMenuHelperService {
   }
 
   private isActionAllowed(workPackage:WorkPackageResource, action:WorkPackageAction):boolean {
-    return _.filter(this.getAllowedActions(workPackage, [action]), (a) => a === action).length >= 1;
+    return this.getAllowedActions(workPackage, [action]).filter((a) => a === action).length >= 1;
   }
 
   private getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
     const allowedActions:WorkPackageAction[] = [];
 
-    _.each(actions, (action) => {
+    actions.forEach((action) => {
       if (action.link && workPackage[action.link] !== undefined) {
         action.text = action.text || I18n.t(`js.button_${action.key}`);
         allowedActions.push(action);
       }
     });
 
-    _.each(this.HookService.call('workPackageTableContextMenu'), (action:WorkPackageAction) => {
+    this.HookService.call('workPackageTableContextMenu').forEach((action:WorkPackageAction) => {
       if (workPackage[action.link!] !== undefined) {
         const index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action);

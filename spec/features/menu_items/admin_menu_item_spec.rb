@@ -57,10 +57,10 @@ RSpec.describe "Admin menu items",
           } do
     it "must not display the hidden menu items and blocks" do
       expect(page).to have_test_selector("menu-blocks--container")
-      expect(page).to have_test_selector("menu-block", count: 22)
+      expect(page).to have_test_selector("menu-block", count: 23)
       expect(page).not_to have_test_selector("menu-block", text: I18n.t(:label_color_plural))
 
-      expect(page).to have_test_selector("op-menu--item-action", count: 23) # All plus 'overview'
+      expect(page).to have_test_selector("op-menu--item-action", count: 24) # All plus 'overview'
       expect(page).not_to have_test_selector("op-menu--item-action", text: I18n.t(:label_color_plural))
     end
   end

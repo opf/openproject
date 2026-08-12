@@ -39,11 +39,12 @@ RSpec.describe "API v3 Work package resource",
   shared_let(:type) { project.types.first }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
-  shared_let(:outside_sprint) { create(:agile_sprint, project: create(:project)) }
+  shared_let(:sprint) { create(:sprint, project:) }
+  shared_let(:completed_sprint) { create(:sprint, project:, status: :completed) }
+  shared_let(:outside_sprint) { create(:sprint, project: create(:project)) }
 
   let(:role) { create(:project_role, permissions:) }
-  let(:permissions) { %i[add_work_packages view_work_packages manage_sprint_items] }
+  let(:permissions) { %i[add_work_packages view_work_packages manage_sprint_items view_sprints] }
 
   current_user do
     create(:user, member_with_roles: { project => role })
@@ -91,9 +92,41 @@ RSpec.describe "API v3 Work package resource",
     end
 
     context "when the user does not have permission to manage sprint items" do
-      let(:permissions) { %i[add_work_packages view_work_packages] }
+      let(:permissions) { %i[add_work_packages view_work_packages view_sprints] }
 
       it_behaves_like "read-only violation", "sprint", WorkPackage
+    end
+
+    context "when the user does not have permission to view sprints" do
+      let(:permissions) { %i[add_work_packages view_work_packages manage_sprint_items] }
+
+      it_behaves_like "constraint violation" do
+        let(:message) { "Sprint is not assignable since it is either not shared with the project or already finished." }
+      end
+    end
+
+    context "when attempting to create the work package on a completed sprint" do
+      let(:parameters) do
+        {
+          subject: "new work packages",
+          storyPoints: 5,
+          _links: {
+            type: {
+              href: api_v3_paths.type(type.id)
+            },
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            sprint: {
+              href: api_v3_paths.sprint(completed_sprint.id)
+            }
+          }
+        }
+      end
+
+      it_behaves_like "constraint violation" do
+        let(:message) { "Sprint is not assignable since it is either not shared with the project or already finished." }
+      end
     end
 
     context "when attempting to create the work package on a non valid sprint" do
@@ -116,7 +149,7 @@ RSpec.describe "API v3 Work package resource",
       end
 
       it_behaves_like "constraint violation" do
-        let(:message) { "Sprint is not shared with the project the work package is in." }
+        let(:message) { "Sprint is not assignable since it is either not shared with the project or already finished." }
       end
     end
   end

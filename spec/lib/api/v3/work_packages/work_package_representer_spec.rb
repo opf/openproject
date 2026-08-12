@@ -162,7 +162,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe "displayId" do
       context "when semantic work package ids are active",
-              with_flag: { semantic_work_package_ids: true },
               with_settings: { work_packages_identifier: "semantic" } do
         let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-123", project: workspace) }
 
@@ -200,6 +199,30 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         it "renders as true" do
           expect(subject).to be_json_eql(true.to_json).at_path("scheduleManually")
+        end
+      end
+    end
+
+    describe "hasProjectAttributes" do
+      let(:type_fields_exist) { false }
+
+      before do
+        fields = instance_double(ActiveRecord::Relation, any?: type_fields_exist)
+        allow(fields).to receive_messages(reject: [], joins: fields, where: fields)
+        allow(workspace).to receive(:available_custom_fields).and_return(fields)
+      end
+
+      context "when no custom fields are mapped to the type" do
+        it "renders as false" do
+          expect(subject).to be_json_eql(false.to_json).at_path("hasProjectAttributes")
+        end
+      end
+
+      context "when custom fields are mapped to the type" do
+        let(:type_fields_exist) { true }
+
+        it "renders as true" do
+          expect(subject).to be_json_eql(true.to_json).at_path("hasProjectAttributes")
         end
       end
     end
@@ -533,6 +556,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:href) { "/api/v3/types/#{work_package.type_id}" }
         let(:title) { work_package.type.name }
       end
+
+      context "for a variant" do
+        let(:type) { build_stubbed(:type, name: "Bug", parent: build_stubbed(:type, name: "Task")) }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "type" }
+          let(:href) { "/api/v3/types/#{work_package.type_id}" }
+          let(:title) { "Task" }
+        end
+      end
     end
 
     describe "author" do
@@ -656,7 +689,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "version" do
+    describe "version", with_settings: { work_package_multiple_versions: false } do
       let(:embedded_path) { "_embedded/version" }
       let(:href_path) { "_links/version/href" }
 
@@ -667,10 +700,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context "when version is set" do
-        let!(:version) { create(:version, project: workspace) }
+        let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version = version
+          allow(work_package).to receive(:target_versions).and_return([version])
         end
 
         it_behaves_like "has a titled link" do
@@ -682,6 +715,82 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it "has the version embedded" do
           expect(subject).to be_json_eql("Version".to_json).at_path("#{embedded_path}/_type")
           expect(subject).to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
+        end
+      end
+
+      context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
+        let(:version) { build_stubbed(:version, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:target_versions).and_return([version])
+        end
+
+        it "renders neither the deprecated version link nor the embedded resource" do
+          expect(subject).not_to have_json_path("_links/version")
+          expect(subject).not_to have_json_path("_embedded/version")
+        end
+      end
+    end
+
+    describe "targetVersions" do
+      context "when no version is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/targetVersions")
+          expect(subject).to have_json_size(0).at_path("_embedded/targetVersions")
+        end
+      end
+
+      context "when a version is set" do
+        let!(:version) { create(:version, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:target_versions).and_return([version])
+        end
+
+        it "wraps the version in the links collection" do
+          expect(subject).to have_json_size(1).at_path("_links/targetVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/targetVersions/0/href")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_links/targetVersions/0/title")
+        end
+
+        it "wraps the version in the embedded collection" do
+          expect(subject).to have_json_size(1).at_path("_embedded/targetVersions")
+          expect(subject)
+            .to be_json_eql("Version".to_json)
+            .at_path("_embedded/targetVersions/0/_type")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_embedded/targetVersions/0/name")
+        end
+      end
+
+      context "when versions are assigned but not yet persisted" do
+        let!(:version) { create(:version, project: workspace) }
+        let!(:other_version) { create(:version, project: workspace) }
+
+        before do
+          work_package.target_version_ids_replacements = [other_version.id, version.id]
+        end
+
+        it "renders the pending versions in their requested order" do
+          expect(subject).to have_json_size(2).at_path("_links/targetVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(other_version.id).to_json)
+            .at_path("_links/targetVersions/0/href")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/targetVersions/1/href")
+        end
+
+        it "embeds the pending versions" do
+          expect(subject).to have_json_size(2).at_path("_embedded/targetVersions")
+          expect(subject)
+            .to be_json_eql(other_version.name.to_json)
+            .at_path("_embedded/targetVersions/0/name")
         end
       end
     end
@@ -811,6 +920,22 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             .to be_json_eql(budget.subject.to_json)
                   .at_path("_embedded/budget/subject")
         end
+
+        context "when a non-privileged user's response is cached before the current user reads it" do
+          let(:non_privileged_user) { build_stubbed(:user) }
+          let(:non_privileged_representer) do
+            described_class.create(work_package, current_user: non_privileged_user, embed_links:)
+          end
+
+          before do
+            # Non-privileged user renders first, warming the shared cache key
+            non_privileged_representer.to_json
+          end
+
+          it "still renders the budget link for the user having view_budgets (regression AGILE-296)" do
+            expect(subject).to have_json_path("_links/budget")
+          end
+        end
       end
 
       context "with the user lacking the view_budgets permission" do
@@ -822,6 +947,28 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it "has no budget embedded" do
           expect(subject)
             .not_to have_json_path("_embedded/budget")
+        end
+
+        it "does not instantiate a budget representer" do
+          allow(API::V3::Budgets::BudgetRepresenter).to receive(:create)
+          subject
+          expect(API::V3::Budgets::BudgetRepresenter).not_to have_received(:create)
+        end
+      end
+
+      context "when a privileged user's response is cached before the current user reads it" do
+        let(:privileged_user) { build_stubbed(:admin) }
+        let(:privileged_representer) do
+          described_class.create(work_package, current_user: privileged_user, embed_links:)
+        end
+
+        before do
+          # Privileged user renders first, warming the shared cache key
+          privileged_representer.to_json
+        end
+
+        it "does not leak the budget link to the user lacking view_budgets (regression AGILE-296)" do
+          expect(subject).not_to have_json_path("_links/budget")
         end
       end
     end
@@ -1090,6 +1237,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             let(:href) { api_v3_paths.work_package(visible_parent.id) }
             let(:title) { visible_parent.subject }
           end
+
+          it "exposes displayId on the parent link" do
+            expect(parse_json(subject).dig("_links", "parent", "displayId"))
+              .to eq(visible_parent.display_id.to_s)
+          end
         end
 
         context "when parent not visible" do
@@ -1120,6 +1272,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             expect(parse_json(subject)["_links"]["ancestors"][1]["title"])
               .to eq(intermediate.subject)
             expect(work_package).to have_received(:visible_ancestors)
+          end
+
+          it "exposes displayId on each ancestor link" do
+            links = parse_json(subject)["_links"]["ancestors"]
+            expect(links[0]["displayId"]).to eq(root.display_id.to_s)
+            expect(links[1]["displayId"]).to eq(intermediate.display_id.to_s)
           end
         end
 
@@ -1159,6 +1317,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           it do
             expect(parse_json(subject)["_links"]["children"][0]["title"]).to eq(child.subject)
           end
+
+          it "exposes displayId on each child link" do
+            expect(parse_json(subject)["_links"]["children"][0]["displayId"]).to eq(child.display_id.to_s)
+          end
         end
       end
     end
@@ -1186,6 +1348,18 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:permission) { :move_work_packages }
         let(:title) { "Move work package '#{work_package.subject}'" }
       end
+
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-7", project: workspace) }
+
+        it_behaves_like "has a titled action link" do
+          let(:link) { "move" }
+          let(:href) { "/work_packages/#{work_package.display_id}/move/new" }
+          let(:permission) { :move_work_packages }
+          let(:title) { "Move work package '#{work_package.subject}'" }
+        end
+      end
     end
 
     describe "copy" do
@@ -1194,6 +1368,18 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:href) { work_package_path(work_package, "copy") }
         let(:permission) { :add_work_packages }
         let(:title) { "Copy work package '#{work_package.subject}'" }
+      end
+
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-7", project: workspace) }
+
+        it_behaves_like "has a titled action link" do
+          let(:link) { "copy" }
+          let(:href) { "/work_packages/#{work_package.display_id}/copy" }
+          let(:permission) { :add_work_packages }
+          let(:title) { "Copy work package '#{work_package.subject}'" }
+        end
       end
     end
 
@@ -1222,6 +1408,36 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it_behaves_like "has no link" do
           let(:link) { "atom" }
         end
+      end
+    end
+
+    # The HAL contract surface stays numeric in semantic mode so clients
+    # can correlate work packages by comparing href strings (one
+    # resource's `self` === another's `parent`, etc.). Auxiliary
+    # endpoints (`pdf`, `generate_pdf`, `atom`) follow the same convention.
+    context "with semantic identifier mode active",
+            with_settings: { work_packages_identifier: "semantic", feeds_enabled?: true } do
+      let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-7", project: workspace) }
+      let(:permissions) { all_permissions + [:export_work_packages] }
+
+      it "self href stays numeric" do
+        expect(subject).to be_json_eql("/api/v3/work_packages/#{work_package.id}".to_json)
+                             .at_path("_links/self/href")
+      end
+
+      it "pdf href stays numeric" do
+        expect(subject).to be_json_eql("/work_packages/#{work_package.id}.pdf".to_json)
+                             .at_path("_links/pdf/href")
+      end
+
+      it "generate_pdf href stays numeric" do
+        expect(subject).to be_json_eql("/work_packages/#{work_package.id}/generate_pdf_dialog".to_json)
+                             .at_path("_links/generate_pdf/href")
+      end
+
+      it "atom href stays numeric" do
+        expect(subject).to be_json_eql("/work_packages/#{work_package.id}.atom".to_json)
+                             .at_path("_links/atom/href")
       end
     end
 
@@ -1722,6 +1938,29 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         expect do
           work_package.updated_at = 20.seconds.from_now
         end.to change(representer, :json_cache_key)
+      end
+
+      it "changes when the work package identifier mode is toggled" do
+        # Without this, JSON rendered while in classic mode keeps serving
+        # numeric `displayId` values after an admin switches to semantic mode,
+        # because nothing else in the cache key reflects the setting flip.
+        with_settings(work_packages_identifier: "classic")
+        classic_key = representer.json_cache_key
+
+        with_settings(work_packages_identifier: "semantic")
+        semantic_key = representer.json_cache_key
+
+        expect(semantic_key).not_to eq(classic_key)
+      end
+
+      it "changes when multiple versions is toggled" do
+        with_settings(work_package_multiple_versions: false)
+        single_version_key = representer.json_cache_key
+
+        with_settings(work_package_multiple_versions: true)
+        multiple_versions_key = representer.json_cache_key
+
+        expect(multiple_versions_key).not_to eq(single_version_key)
       end
 
       it "factors in the eager loaded cache_checksum" do

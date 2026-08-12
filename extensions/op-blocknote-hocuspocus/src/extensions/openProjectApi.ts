@@ -1,8 +1,39 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { BlockNoteSchema } from "@blocknote/core";
 import { ServerBlockNoteEditor } from "@blocknote/server-util";
 import type { beforeHandleMessagePayload, onAuthenticatePayload, onLoadDocumentPayload, onStoreDocumentPayload, onTokenSyncPayload } from "@hocuspocus/server";
 import { Extension } from "@hocuspocus/server";
-import { openProjectWorkPackageStaticBlockSpec } from "op-blocknote-extensions";
+import {
+  openProjectWorkPackageStaticBlockSpec,
+  openProjectWorkPackageStaticInlineSpec,
+} from "op-blocknote-extensions/server";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
 import { decryptAndValidateToken } from "../services/tokenValidationService";
@@ -11,7 +42,10 @@ import { fetchResource } from "../services/resourceService";
 
 export const editorSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
-    "openProjectWorkPackage": openProjectWorkPackageStaticBlockSpec(),
+    openProjectWorkPackageBlock: openProjectWorkPackageStaticBlockSpec(),
+  },
+  inlineContentSpecs: {
+    openProjectWorkPackageInline: openProjectWorkPackageStaticInlineSpec,
   },
 });
 
@@ -35,7 +69,7 @@ export class OpenProjectApi implements Extension {
       throw new Error('Unauthorized: Missing auth params');
     }
 
-    const requestOrigin = data.request?.headers?.origin;
+    const requestOrigin = data.requestHeaders?.get("origin") ?? undefined;
     const result = await decryptAndValidateToken(token, resourceUrl, requestOrigin);
 
     const tokenExpiresAtDate = new Date(result.tokenExpiresAt);
@@ -97,7 +131,7 @@ export class OpenProjectApi implements Extension {
     * Store data to the API. The data is a YDoc update
     */
   async onStoreDocument(data: onStoreDocumentPayload): Promise<void> {
-    const { resourceUrl, readonly } = data.context;
+    const { resourceUrl, readonly } = data.lastContext;
 
     if (!resourceUrl) {
       console.warn("Missing parameters in context. Skipping store.");
@@ -116,10 +150,9 @@ export class OpenProjectApi implements Extension {
     Y.applyUpdate(tempYdoc, Y.encodeStateAsUpdate(data.document));
     const tempFragment = tempYdoc.getXmlFragment("document-store");
     const editorData = editor.yXmlFragmentToBlocks(tempFragment);
-    // @ts-expect-error BlockNote types are complicated
     const markdownData = await editor.blocksToMarkdownLossy(editorData);
 
-    const response = await fetchResource(resourceUrl, data.context.token, {
+    const response = await fetchResource(resourceUrl, data.lastContext.token, {
       method: "PATCH",
       body: JSON.stringify({
         content_binary: base64Data,
@@ -132,7 +165,7 @@ export class OpenProjectApi implements Extension {
       return;
     }
 
-    data.document.connections.forEach(({ connection }) => connection.sendStateless("storeEvent"));
+    data.document.broadcastStateless("storeEvent");
   }
 
   /**

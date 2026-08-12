@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -39,14 +39,12 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   standalone: false,
 })
 export class MeetingsTabComponent implements OnInit, TabComponent {
+  private elementRef = inject(ElementRef);
+  readonly PathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+
   @Input() public workPackage:WorkPackageResource;
   turboFrameSrc:string;
-
-  constructor(
-    private elementRef:ElementRef,
-    readonly PathHelper:PathHelperService,
-    readonly I18n:I18nService,
-  ) {}
 
   ngOnInit():void {
     this.turboFrameSrc = `${this.PathHelper.projectWorkPackagePath(this.workPackage.project.id as string, this.workPackage.id as string)}/meetings/tab`;

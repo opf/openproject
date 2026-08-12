@@ -765,6 +765,19 @@ module API
 
             root_url.gsub(duplicate_regexp, "") + send(path, arguments)
           end
+
+          def self.path_for_object(object)
+            strategy = if self.class.const_defined?("API::V3::Utilities::PathHelper::#{object.class}Strategy")
+                         "API::V3::Utilities::PathHelper::#{object.class}Strategy".constantize
+                       else
+                         API::V3::Utilities::PathHelper::DefaultStrategy
+                       end
+
+            send(strategy.path_name_for_object(object), object.id)
+          rescue StandardError => e
+            Rails.logger.error "Failed to get path for object #{object}: #{e}"
+            nil
+          end
         end
 
         def api_v3_paths

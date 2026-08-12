@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "Dragging work packages in and between sprints",
-               :js, :settings_reset do
+               :js, :selenium, :settings_reset do
   let!(:project) do
     create(:project,
            types: [type],
@@ -55,8 +55,8 @@ RSpec.describe "Dragging work packages in and between sprints",
 
   let(:type) { create(:type) }
 
-  let!(:sprint1) { create(:agile_sprint, project:) }
-  let!(:sprint2) { create(:agile_sprint, project:) }
+  let!(:sprint1) { create(:sprint, project:) }
+  let!(:sprint2) { create(:sprint, project:) }
 
   let!(:sprint1_wp1) { create(:work_package, sprint: sprint1, type:, project:) }
   let!(:sprint1_wp2) { create(:work_package, sprint: sprint1, type:, project:) }
@@ -65,6 +65,9 @@ RSpec.describe "Dragging work packages in and between sprints",
   let!(:sprint1_other_project_wp1) { create(:work_package, sprint: sprint1, type:, project: project2) }
   let!(:sprint1_other_project_wp2) { create(:work_package, sprint: sprint1, type:, project: project2) }
   let!(:sprint1_other_project_wp3) { create(:work_package, sprint: sprint1, type:, project: project2) }
+  let!(:bucket) { create(:backlog_bucket, project:, name: "Backlog bucket") }
+  let!(:bucket_wp1) { create(:work_package, backlog_bucket: bucket, position: 1, type:, project:) }
+  let!(:bucket_wp2) { create(:work_package, backlog_bucket: bucket, position: 2, type:, project:) }
 
   let(:backlogs_page) { Pages::Backlog.new(project) }
 
@@ -118,6 +121,68 @@ RSpec.describe "Dragging work packages in and between sprints",
       backlogs_page
         .expect_work_packages_in_sprint_in_order(sprint2,
                                                  work_packages: [sprint1_wp1])
+    end
+
+    context "when the sprint item was morphed by a Turbo update" do
+      it "allows dragging the morphed item" do
+        backlogs_page.click_in_sprint_story_move_menu(sprint1_wp2, "Move down")
+        backlogs_page.expect_work_packages_in_sprint_in_order(sprint1,
+                                                              work_packages: [sprint1_wp1,
+                                                                              sprint1_wp3,
+                                                                              sprint1_wp2,
+                                                                              sprint1_wp4])
+
+        backlogs_page.drag_work_package(sprint1_wp2, before: sprint1_wp1)
+
+        backlogs_page.expect_work_packages_in_sprint_in_order(sprint1,
+                                                              work_packages: [sprint1_wp2,
+                                                                              sprint1_wp1,
+                                                                              sprint1_wp3,
+                                                                              sprint1_wp4])
+      end
+    end
+
+    it "keeps drop indicators active after moving a bucket item into the sprint" do
+      backlogs_page.drag_work_package(bucket_wp2, before: sprint1_wp4)
+      backlogs_page.expect_work_packages_in_sprint_in_order(
+        sprint1,
+        work_packages: [sprint1_wp1, sprint1_wp2, sprint1_wp3, bucket_wp2, sprint1_wp4]
+      )
+
+      backlogs_page.drag_work_package(sprint1_wp1, before: sprint1_wp3)
+
+      dnd_probe_state = page.evaluate_script(<<~JS)
+        window.__opBacklogsDndProbeState
+      JS
+      drop_positions = dnd_probe_state.fetch("events").flat_map { |event| event.fetch("dropPositions") }
+
+      expect(drop_positions)
+        .to include({ "itemId" => sprint1_wp3.id.to_s, "position" => "top" }),
+            JSON.pretty_generate(dnd_probe_state)
+    end
+
+    it "accepts a drop relative to a card that was itself dropped into the sprint" do
+      # Regression: dropping a card into the sprint makes Turbo re-render it. The
+      # re-rendered card has to stay a valid drop target so a second card can be
+      # placed relative to it. Previously it was dropped from the drop targets, so
+      # the second card fell to the list end instead of landing above the first.
+      backlogs_page.drag_work_package(bucket_wp1, into: sprint2)
+      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1])
+
+      backlogs_page.drag_work_package(bucket_wp2, before: bucket_wp1)
+
+      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp2, bucket_wp1])
+    end
+
+    it "accepts a drop below a card that was itself dropped into the sprint" do
+      # Same regression as above, but landing on the lower edge of the
+      # re-rendered card, so the second card is placed after it.
+      backlogs_page.drag_work_package(bucket_wp1, into: sprint2)
+      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1])
+
+      backlogs_page.drag_work_package(bucket_wp2, after: bucket_wp1)
+
+      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1, bucket_wp2])
     end
   end
 

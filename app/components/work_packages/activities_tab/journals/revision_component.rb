@@ -67,7 +67,7 @@ module WorkPackages
         attr_reader :changeset, :filter
 
         def render?
-          filter != :only_comments
+          filter != Filters::ONLY_COMMENTS
         end
 
         def user_name
@@ -85,18 +85,20 @@ module WorkPackages
           show_revision_project_repository_path(project_id: repository.project_id, rev: changeset.revision)
         end
 
+        def absolute_revision_url
+          repository = changeset.repository
+
+          show_revision_project_repository_url(project_id: repository.project_id, rev: changeset.revision)
+        end
+
         def short_revision
           changeset.revision[0..7]
         end
 
         def copy_url_action_item(menu)
           menu.with_item(label: t("button_copy_link_to_clipboard"),
-                         tag: :button,
-                         content_arguments: {
-                           data: {
-                             action: "click->work-packages--activities-tab--item#copyActivityUrlToClipboard"
-                           }
-                         }) do |item|
+                         tag: :"clipboard-copy",
+                         content_arguments: { value: absolute_revision_url }) do |item|
             item.with_leading_visual_icon(icon: :copy)
           end
         end

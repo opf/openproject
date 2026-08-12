@@ -52,6 +52,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
              add_work_packages
              move_work_packages
              manage_subtasks
+             assign_versions
            ])
   end
   shared_let(:user) do
@@ -258,7 +259,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
 
       before do
-        work_package.update(version:)
+        work_package.target_versions = [version]
       end
 
       context "with an unshared version" do
@@ -266,8 +267,19 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           expect(subject)
             .to be_success
 
-          expect(subject.result.version)
-            .to be_nil
+          expect(subject.result.target_versions.reload)
+            .to be_empty
+        end
+
+        it "still requires assign_versions for a later version change on the same instance" do
+          expect(subject).to be_success
+
+          second_call = described_class
+                          .new(user:, model: work_package)
+                          .call(target_version_ids: [version.id], send_notifications: false)
+
+          expect(second_call).to be_failure
+          expect(second_call.errors.symbols_for(:target_versions)).to include(:error_readonly)
         end
       end
 
@@ -278,8 +290,23 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           expect(subject)
             .to be_success
 
-          expect(subject.result.version)
-            .to eql version
+          expect(subject.result.target_versions.reload)
+            .to contain_exactly(version)
+        end
+      end
+
+      context "with an unshared observed in version" do
+        before do
+          work_package.target_versions = []
+          WorkPackageVersion.create!(work_package:, version:, kind: "observed_in")
+        end
+
+        it "removes the observed in version" do
+          expect(subject)
+            .to be_success
+
+          expect(subject.result.observed_in_versions.reload)
+            .to be_empty
         end
       end
 
@@ -293,8 +320,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             expect(subject)
               .to be_success
 
-            expect(subject.result.version)
-              .to be_nil
+            expect(subject.result.target_versions.reload)
+              .to be_empty
           end
         end
 
@@ -305,8 +332,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             expect(subject)
               .to be_success
 
-            expect(subject.result.version)
-              .to eql version
+            expect(subject.result.target_versions.reload)
+              .to contain_exactly(version)
           end
         end
       end
@@ -413,6 +440,37 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             .to be_nil
         end
       end
+    end
+  end
+
+  describe "changing the type when the project resolves it to a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    shared_let(:root_only_status) { create(:status, name: "root_only_status") }
+
+    let(:work_package) { create(:work_package, subject: "work_package", status: root_only_status) }
+    let(:attributes) { { type: family_root } }
+
+    before do
+      variant.configuration_links
+             .find_by(aspect: Type::ConfigurationLink::WORKFLOWS)
+             .destroy!
+
+      create(:workflow, type: family_root, role:,
+                        old_status_id: root_only_status.id, new_status_id: root_only_status.id)
+      create(:workflow, type: variant, role:,
+                        old_status_id: non_default_status.id, new_status_id: non_default_status.id)
+
+      project.project_types.create!(type: family_root, variant:)
+    end
+
+    # root_only_status is valid for the root's workflow but not the variant's, so following the
+    # stored root would leave it in place while following the variant has to reassign it.
+    it "judges the status against the variant's workflow, not the stored root's" do
+      expect(subject).to be_success
+      expect(work_package.reload.type).to eq(family_root)
+      expect(work_package.status).to eq(default_status)
     end
   end
 
@@ -1774,6 +1832,29 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
+  context "with a type whose subject configuration is linked to a source type",
+          with_flag: { type_variants: true } do
+    shared_let(:linked_type) do
+      create(:type, name: "Linked").tap do |t|
+        t.link!(Type::ConfigurationLink::DEFAULTS, source: autosubject_type)
+        project.types << t
+      end
+    end
+
+    shared_let(:work_package, reload: true) { create(:work_package, type: linked_type, project:) }
+
+    let(:attributes) { { description: "new description" } }
+
+    it "generates the subject from the linked source type's pattern" do
+      expect(subject).to be_success
+
+      expect(work_package.reload).to have_attributes(
+        description: "new description",
+        subject: "##{work_package.id} by #{user.name} - #{default_status.name}"
+      )
+    end
+  end
+
   describe "replacing the attachments" do
     let!(:old_attachment) do
       create(:attachment, container: work_package)
@@ -2093,6 +2174,105 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       expect(subject.errors.attribute_names).to contain_exactly(:parent)
       # the error message in this case is far from ideal
       expect(subject.errors.details).to include(parent: [{ error: :cant_link_a_work_package_with_a_descendant }])
+    end
+  end
+
+  describe "versions" do
+    let!(:version1) { create(:version, project:) }
+    let!(:version2) { create(:version, project:) }
+    let!(:version3) { create(:version, project:) }
+
+    context "with multiple target_versions", with_settings: { work_package_multiple_versions: false } do
+      subject(:service) { instance.call(target_version_ids: [version1.id, version2.id, version3.id], send_notifications: false) }
+
+      it { expect(service).to be_failure }
+
+      it "fails with appropriate message" do
+        expect(service.message).to eq "Target Versions can only hold a single value."
+      end
+    end
+
+    context "when writing new target versions" do
+      subject(:service) { instance.call(target_version_ids: [version1.id], send_notifications: false) }
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to contain_exactly(version1)
+      end
+    end
+
+    context "when replacing existing target versions" do
+      subject(:service) { instance.call(target_version_ids: [version2.id], send_notifications: false) }
+
+      before do
+        WorkPackageVersion.create!(work_package:, version: version1, kind: "target")
+      end
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to contain_exactly(version2)
+      end
+    end
+
+    context "when removing target versions" do
+      subject(:service) { instance.call(target_version_ids: [], send_notifications: false) }
+
+      before do
+        WorkPackageVersion.create!(work_package:, version: version1, kind: "target")
+      end
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to be_empty
+      end
+    end
+
+    context "when updating target versions alongside another attribute",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:service) do
+        instance.call(subject: "Updated subject", target_version_ids: [version1.id], send_notifications: false)
+      end
+
+      it "creates a single journal capturing both changes" do
+        expect { service }.to change { work_package.journals.count }.by(1)
+
+        details = work_package.journals.reload.last.details
+        expect(details["subject"]).to eq(["work_package", "Updated subject"])
+        expect(details["target_versions"]).to eq([nil, version1.id.to_s])
+      end
+    end
+
+    context "when updating only target versions",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:service) { instance.call(target_version_ids: [version1.id], send_notifications: false) }
+
+      it "creates a single journal capturing the new target versions" do
+        expect { service }.to change { work_package.journals.count }.by(1)
+
+        expect(work_package.journals.reload.last.details["target_versions"])
+          .to eq([nil, version1.id.to_s])
+      end
+    end
+
+    context "when writing observed in versions" do
+      subject(:service) { instance.call(observed_in_version_ids: [version1.id], send_notifications: false) }
+
+      it { expect(service).to be_success }
+
+      it "does not change target versions" do
+        expect { service }.not_to change(work_package, :target_versions)
+      end
+
+      it "creates observed_in_versions" do
+        service
+        expect(work_package.reload.observed_in_versions).to contain_exactly(version1)
+      end
     end
   end
 end

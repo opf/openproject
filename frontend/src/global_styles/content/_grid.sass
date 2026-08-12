@@ -107,10 +107,15 @@ $grid--widget-padding: 20px 20px 20px 20px
 .grid--area-content
   height: 100%
 
-  ng-component, widget-wp-graph
+  .grid--widget-host
     display: flex
     flex-direction: column
     height: 100%
+
+    > .grid--widget-content
+      display: flex
+      flex-direction: column
+      flex: 1 1 auto
 
   &.cdk-drag-preview
     overflow: hidden

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LdapGroups
   class SynchronizeGroupsService
     attr_reader :ldap, :synced_groups
@@ -6,7 +8,7 @@ module LdapGroups
       @ldap = ldap
 
       # Get current synced groups in OP
-      @synced_groups = ::LdapGroups::SynchronizedGroup.where(ldap_auth_source: ldap)
+      @synced_groups = ::LdapGroups::SynchronizedGroup.where(ldap_auth_source: ldap).includes(:filter)
     end
 
     def call
@@ -93,27 +95,16 @@ module LdapGroups
     end
 
     ##
-    # Get the current members from the ldap group
+    # Get the current members from the ldap group.
+    # Dispatches to forward or reverse lookup based on filter configuration.
     def get_members(ldap_con, group)
-      # Get user login attribute and base dn which are private
-      base_dn = ldap.base_dn
-
-      users = {}
-      # Override the default search attributes from the ldap
-      # if we have sync_users enabled, to also get user attributes
-      search_attributes = ldap.search_attributes
-      ldap_con.search(base: base_dn,
-                      filter: memberof_filter(group),
-                      attributes: search_attributes) do |entry|
-        data = ldap.get_user_attributes_from_ldap_entry(entry)
-        if data[:login].present?
-          users[data[:login]] = data.except(:dn)
-        else
-          Rails.logger.warn { "Tried to add user but mapped login is empty for #{entry.dn}. Ignoring this user."}
-        end
+      if group.filter&.forward_member_lookup?
+        Rails.logger.info { "[LDAP groups] Using forward lookup (#{group.filter.member_lookup_attribute}) for #{group.dn}" }
+        get_members_forward(ldap_con, group)
+      else
+        Rails.logger.info { "[LDAP groups] Using reverse lookup (memberOf) for #{group.dn}" }
+        get_members_reverse(ldap_con, group)
       end
-
-      users
     end
 
     ##
@@ -130,20 +121,6 @@ module LdapGroups
     end
 
     ##
-    # Get the memberof filter to use for querying members
-    def memberof_filter(group)
-      # memberOf filter to identify member entries of the group
-      filter = Net::LDAP::Filter.eq("memberOf", group.dn)
-
-      # Add the LDAP auth source own filter if present
-      if ldap.filter_string.present?
-        filter = filter & ldap.parsed_filter_string
-      end
-
-      filter
-    end
-
-    ##
     # Remove a set of memberships
     def remove_memberships!(memberships, sync)
       if memberships.empty?
@@ -156,6 +133,108 @@ module LdapGroups
       Rails.logger.info "[LDAP groups] Removing users #{user_ids.inspect} from #{sync.dn}"
 
       sync.remove_members! user_ids
+    end
+
+    private
+
+    ##
+    # Reverse lookup (default): search users in the LDAP base with (memberOf=<group_dn>).
+    # Requires the memberOf attribute to be present on user entries (AD, OpenLDAP with memberof overlay).
+    def get_members_reverse(ldap_con, group)
+      users = {}
+      ldap_con.search(base: ldap.base_dn,
+                      filter: memberof_filter(group),
+                      attributes: ldap.search_attributes) do |entry|
+        map_entry_to_users(entry, users)
+      end
+      users
+    end
+
+    ##
+    # Forward lookup: read member DNs from the group entry itself, then resolve each DN.
+    # Supports servers using groupOfUniqueNames (uniqueMember), groupOfNames (member), etc.
+    def get_members_forward(ldap_con, group)
+      member_attribute = group.filter.member_lookup_attribute
+      member_dns = read_group_member_dns(ldap_con, group.dn, member_attribute)
+      return {} if member_dns.empty?
+
+      Rails.logger.info { "[LDAP groups] Forward lookup: #{member_dns.count} member DN(s) found on #{group.dn}" }
+      users = resolve_member_dns(ldap_con, member_dns)
+      Rails.logger.info { "[LDAP groups] Forward lookup complete for #{group.dn}: #{users.size} user(s) resolved" }
+      users
+    end
+
+    def resolve_member_dns(ldap_con, member_dns)
+      users = {}
+      member_dns.each do |member_dn|
+        Rails.logger.debug { "[LDAP groups] Resolving member DN: #{member_dn}" }
+        resolved = false
+        ldap_con.search(base: member_dn,
+                        scope: Net::LDAP::SearchScope_BaseObject,
+                        filter: Net::LDAP::Filter.present("objectClass"),
+                        attributes: ldap.search_attributes) do |entry|
+          resolved = true
+          map_entry_to_users(entry, users)
+        end
+        unless resolved
+          Rails.logger.warn do
+            "[LDAP groups] Could not resolve member DN: #{member_dn}. " \
+              "Entry not found or service account lacks read permission."
+          end
+        end
+      end
+      users
+    end
+
+    ##
+    # Read the list of member DNs from a group entry using the configured attribute.
+    def read_group_member_dns(ldap_con, group_dn, member_attribute)
+      dns = []
+      ldap_con.search(base: group_dn,
+                      scope: Net::LDAP::SearchScope_BaseObject,
+                      filter: Net::LDAP::Filter.present("objectClass"),
+                      attributes: [member_attribute]) do |entry|
+        # entry[attr] returns an array of all values for multi-valued attributes
+        dns = Array(entry[member_attribute])
+      end
+
+      if dns.empty?
+        Rails.logger.warn do
+          "[LDAP groups] No entries returned for group DN: #{group_dn}. " \
+            "The group entry may not exist or the service account may lack read permission."
+        end
+      end
+
+      dns
+    end
+
+    def map_entry_to_users(entry, users)
+      data = ldap.get_user_attributes_from_ldap_entry(entry)
+      if data[:login].present?
+        Rails.logger.debug { "[LDAP groups] Mapped #{entry.dn} -> login=#{data[:login]}" }
+        users[data[:login]] = data.except(:dn)
+      else
+        log_missing_login(entry)
+      end
+    end
+
+    def log_missing_login(entry)
+      Rails.logger.warn do
+        "[LDAP groups] Login attribute '#{ldap.attr_login}' not found or empty for #{entry.dn}. " \
+          "Available attributes: #{entry.attribute_names.join(', ')}"
+      end
+    end
+
+    ##
+    # Build the memberOf filter for reverse lookup, combined with the auth source filter if set.
+    def memberof_filter(group)
+      filter = Net::LDAP::Filter.eq("memberOf", group.dn)
+
+      if ldap.filter_string.present?
+        filter = filter & ldap.parsed_filter_string
+      end
+
+      filter
     end
   end
 end

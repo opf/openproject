@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -81,6 +81,9 @@ import {
 import {
   ProgressPopoverEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/progress-popover-edit-field.component';
+import {
+  VersionsEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
 import { ProjectPhaseAutocompleterComponent } from '../../autocompleter/project-phase-autocompleter/project-phase-autocompleter.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
@@ -100,6 +103,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'Version',
         'TimeEntriesActivity',
         'Category',
+        'BacklogBucket',
         'Sprint',
         'CustomOption',
         'CustomField::Hierarchy::Item',
@@ -134,6 +138,12 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         ProgressPopoverEditFieldComponent,
         'progress',
         ['estimatedTime', 'remainingTime', 'percentageDone'],
+      )
+      .addSpecificFieldType(
+        'WorkPackage',
+        VersionsEditFieldComponent,
+        'versions',
+        ['targetVersions'],
       )
       .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('Portfolio', ProjectStatusEditFieldComponent, 'status', ['status'])

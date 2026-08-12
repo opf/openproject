@@ -1,0 +1,43 @@
+<%=
+  render(
+    Primer::Alpha::Dialog.new(
+      id: MeetingAgendaItems::ConvertToWorkPackage::CreateDialogComponent::DIALOG_ID,
+      title: I18n.t(:label_agenda_item_convert_to_work_package),
+      size: :xlarge
+    )
+  ) do |dialog|
+    dialog.with_header(variant: :large)
+    dialog.with_body do
+      render(
+        MeetingAgendaItems::ConvertToWorkPackage::CreateFormComponent.new(
+          work_package:,
+          project:,
+          meeting:,
+          meeting_agenda_item:
+        )
+      )
+    end
+
+    dialog.with_footer do
+      component_collection do |modal_footer|
+        modal_footer.with_component(
+          Primer::Beta::Button.new(
+            data: { "close-dialog-id": MeetingAgendaItems::ConvertToWorkPackage::CreateDialogComponent::DIALOG_ID }
+          )
+        ) do
+          I18n.t(:button_cancel)
+        end
+
+        modal_footer.with_component(
+          Primer::Beta::Button.new(
+            scheme: :primary,
+            form: MeetingAgendaItems::ConvertToWorkPackage::CreateFormComponent::FORM_ID,
+            type: :submit
+          )
+        ) do
+          I18n.t(:button_create)
+        end
+      end
+    end
+  end
+%>

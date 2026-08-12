@@ -41,6 +41,7 @@ class MyController < ApplicationController
   before_action :require_login
   before_action :set_current_user
   before_action :check_password_confirmation, only: %i[update_account]
+  before_action :prevent_response_caching, only: :account
 
   no_authorization_required! :account,
                              :update_account,
@@ -55,6 +56,7 @@ class MyController < ApplicationController
                              :password,
                              :change_password,
                              :password_confirmation_dialog,
+                             :security,
                              :notifications,
                              :non_working_times,
                              :working_hours,
@@ -68,6 +70,7 @@ class MyController < ApplicationController
   menu_item :locale, only: [:locale]
   menu_item :interface, only: [:interface]
   menu_item :password, only: [:password]
+  menu_item :security, only: [:security]
   menu_item :notifications, only: [:notifications]
   menu_item :working_hours, only: %i[working_hours non_working_times]
 
@@ -101,6 +104,10 @@ class MyController < ApplicationController
 
   def interface; end
 
+  def security
+    @username = @user.login
+  end
+
   # Manage user's password
   def password
     @username = @user.login
@@ -110,7 +117,7 @@ class MyController < ApplicationController
   # When making changes here, also check AccountController.change_password
   def change_password
     change_password_flow(user: @user, params:, update_legacy: false) do
-      redirect_to action: "password"
+      redirect_to action: "security"
     end
   end
 
@@ -124,8 +131,6 @@ class MyController < ApplicationController
   end
 
   def working_hours
-    render_403 unless OpenProject::FeatureDecisions.user_working_times_active?
-
     @current_working_hours = @user.working_hours.current
 
     @future_working_hours = @user.working_hours.upcoming(Date.current + 1)
@@ -138,13 +143,16 @@ class MyController < ApplicationController
   end
 
   def non_working_times
-    render_403 unless OpenProject::FeatureDecisions.user_working_times_active?
-
     @year = (params[:year].presence || Date.current.year).to_i
     @non_working_times = @user.non_working_time_entities_for_year(@year)
   end
 
   private
+
+  def render_password_change(_user, message, show_user_name: false) # rubocop:disable Lint/UnusedMethodArgument
+    flash[:error] = message unless message.nil?
+    redirect_to action: "security"
+  end
 
   def redirect_if_password_change_not_allowed_for(user)
     unless user.change_password_allowed?
@@ -185,7 +193,20 @@ class MyController < ApplicationController
     # The Users::UpdateService updates the user's pref using the UserPreferences::UpdateService
     # which has a contract/schema applied to the values which is why it is ok
     # to blindly allow all scalar values in pref.
-    permitted_params.user.to_h.merge(params.permit(pref: {}))
+    attributes = permitted_params.user.to_h.merge(params.permit(pref: {}))
+    drop_non_editable_custom_field_values(attributes)
+  end
+
+  # On the self-service account page only custom fields the user is allowed to
+  # edit themselves (editable: true) may be changed. Drop the rest so a crafted
+  # request cannot persist values the UI renders read-only.
+  def drop_non_editable_custom_field_values(attributes)
+    values = attributes["custom_field_values"]
+    return attributes if values.blank?
+
+    editable_ids = current_user.available_custom_fields.select(&:editable?).map { |cf| cf.id.to_s }
+    attributes["custom_field_values"] = values.slice(*editable_ids)
+    attributes
   end
 
   def update_global_notification_setting(update_params)

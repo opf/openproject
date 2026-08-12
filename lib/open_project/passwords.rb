@@ -88,13 +88,10 @@ module OpenProject
         password.length >= min_length
       end
 
-      # Returns the minimum number of rules passwords must adhere to
-      # to be accepted, as specified in settings and checked to be within
-      # reasonable bounds (>= 0, <= number of active rules).
+      # Minimum number of rules password adheres to matches the minimum
+      # number of active rules specified in settings.
       def self.min_adhered_rules
-        min = Setting.password_min_adhered_rules.to_i
-        # ensure value is in interval [0, active_rules.size]
-        [[0, min].max, active_rules.size].min
+        active_rules.size
       end
 
       # Returns the minimum password length as specified in settings.
@@ -102,10 +99,9 @@ module OpenProject
         Setting.password_min_length.to_i
       end
 
-      # Returns a text describing the active password complexity rules,
-      # the minimum number of rules to adhere to and the total number of rules.
+      # Returns a text describing the active password complexity rules.
       def self.rules_description
-        return "" if min_adhered_rules == 0
+        return "" if active_rules.empty?
 
         rules = active_rules_list.join(", ")
         rules_description_locale(rules)
@@ -133,10 +129,7 @@ module OpenProject
       end
 
       def self.rules_description_locale(rules)
-        I18n.t("activerecord.errors.models.user.attributes.password.weak",
-               rules:,
-               min_count: min_adhered_rules,
-               all_count: active_rules.size)
+        I18n.t("activerecord.errors.models.user.attributes.password.requirements_not_met", rules:)
       end
     end
 

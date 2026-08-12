@@ -126,6 +126,45 @@ RSpec.describe WorkPackages::UpdateContract do
         it_behaves_like "contract is invalid", project_id: :error_readonly
       end
 
+      context "when the current assignee and accountable are not assignable in the target project" do
+        before do
+          work_package.update_columns(assigned_to_id: persisted_possible_assignee.id,
+                                       responsible_id: persisted_possible_assignee.id)
+          work_package.reload
+          work_package.project = target_project
+          contract.validate
+        end
+
+        it "rejects the move on assigned_to" do
+          expect(contract.errors[:assigned_to])
+            .to include(I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
+                               property: I18n.t("attributes.assignee")))
+        end
+
+        it "rejects the move on responsible" do
+          expect(contract.errors[:responsible])
+            .to include(I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
+                               property: I18n.t("attributes.responsible")))
+        end
+      end
+
+      context "when the current assignee remains assignable in the target project" do
+        let(:cross_project_assignee) do
+          create(:user, member_with_permissions: {
+                   persisted_project => %i[view_work_packages work_package_assigned],
+                   target_project => %i[view_work_packages work_package_assigned]
+                 })
+        end
+
+        before do
+          work_package.update_columns(assigned_to_id: cross_project_assignee.id)
+          work_package.reload
+          work_package.project = target_project
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
       context "when modifying attributes while moving (authorization bypass prevention)" do
         before do
           work_package.subject = "modified-subject"
@@ -312,7 +351,7 @@ RSpec.describe WorkPackages::UpdateContract do
     end
 
     describe "parent_id" do
-      shared_let(:parent) { create(:work_package) }
+      shared_let(:parent) { create(:work_package, project: persisted_project) }
 
       let(:parent_visible) { true }
 
@@ -361,6 +400,26 @@ RSpec.describe WorkPackages::UpdateContract do
 
         it_behaves_like "contract is invalid", parent_id: %i[error_unauthorized]
       end
+
+      context "when assigning a parent from another project", with_settings: { cross_project_work_package_relations: true } do
+        let(:parent) { create(:work_package, project: persisted_other_project) }
+        let(:permissions) { %i[view_work_packages manage_subtasks] }
+
+        context "when the user has manage_subtasks in the parent project as well" do
+          it_behaves_like "contract is valid"
+        end
+
+        context "when the user lacks manage_subtasks in the parent project" do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_in_project :view_work_packages, :manage_subtasks, project: persisted_project
+              mock.allow_in_project :view_work_packages, project: persisted_other_project
+            end
+          end
+
+          it_behaves_like "contract is invalid", parent_id: %i[error_unauthorized]
+        end
+      end
     end
 
     describe "project_phase_definition" do
@@ -408,21 +467,21 @@ RSpec.describe WorkPackages::UpdateContract do
     context "for a user having only the edit_work_packages permission" do
       let(:permissions) { %i[edit_work_packages] }
 
-      it "includes all attributes except version_id" do
+      it "includes all attributes except the version ones" do
         expect(subject)
           .to include("subject", "start_date", "description")
 
         expect(subject)
-          .not_to include("version_id", "version")
+          .not_to include("target_versions", "observed_in_versions")
       end
     end
 
     context "for a user having only the assign_versions permission" do
       let(:permissions) { %i[assign_versions] }
 
-      it "includes version_id only" do
+      it "includes the version attributes only" do
         expect(subject)
-          .to include("version_id", "version", "lock_version_id", "lock_version")
+          .to include("target_versions", "observed_in_versions", "lock_version_id", "lock_version")
 
         expect(subject)
           .not_to include("subject", "start_date", "description")

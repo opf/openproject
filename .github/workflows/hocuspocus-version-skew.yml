@@ -1,0 +1,51 @@
+name: "Hocuspocus / Version skew"
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'frontend/package.json'
+      - 'extensions/op-blocknote-hocuspocus/package.json'
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+  pull-requests: write # to comment on the PR
+
+jobs:
+  version-skew:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          persist-credentials: false
+
+      - name: Compare Hocuspocus client and server major versions
+        id: skew
+        run: ./script/ci/hocuspocus_version_skew.sh
+
+      - name: Add comment if versions skew
+        if: steps.skew.outputs.skew == 'true'
+        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        with:
+          header: hocuspocus-version-skew
+          message: |
+            > [!WARNING]
+            > The Hocuspocus client and server are on different major versions.
+
+            - `@hocuspocus/provider` (client, frontend): **${{ steps.skew.outputs.provider_range }}**
+            - `@hocuspocus/server` (server, op-blocknote-hocuspocus extension): **${{ steps.skew.outputs.server_range }}**
+
+            The client ships with the core app; the server ships as the separately deployed
+            `openproject/hocuspocus` image, so they can drift independently.
+
+            A one-major skew is supported by Hocuspocus in both directions and is fine as a
+            temporary state while the two halves are realigned. Two or more majors apart is not
+            supported. Please confirm this skew is intentional, or bump the lagging side.
+      - name: Skew check passed
+        if: steps.skew.outputs.skew != 'true'
+        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        with:
+          header: hocuspocus-version-skew
+          delete: true

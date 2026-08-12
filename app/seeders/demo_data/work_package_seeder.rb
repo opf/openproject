@@ -88,7 +88,7 @@ module DemoData
     def create_work_package(attributes)
       wp_attr = base_work_package_attributes attributes
 
-      set_version! wp_attr, attributes
+      set_target_versions! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
@@ -149,8 +149,10 @@ module DemoData
       seed_data.find_reference(reference)
     end
 
+    # The referenced principals are seeded with the development data, so they are absent on
+    # production instances and the work packages fall back to the admin.
     def find_principal(reference)
-      seed_data.find_reference(reference) || admin_user
+      seed_data.find_reference(reference, default: nil) || admin_user
     end
 
     def find_status(attributes)
@@ -170,11 +172,12 @@ module DemoData
       end
     end
 
-    def set_version!(wp_attr, attributes)
-      version = seed_data.find_reference(attributes["version"])
-      if version
-        wp_attr[:version] = version
+    def set_target_versions!(wp_attr, attributes)
+      version_ids = Array(attributes["target_versions"]).filter_map do |reference|
+        seed_data.find_reference(reference)&.id
       end
+
+      wp_attr[:target_version_ids_replacements] = version_ids if version_ids.any?
     end
 
     def set_time_tracking_attributes!(wp_attr, attributes)
@@ -219,7 +222,9 @@ module DemoData
           duration:,
           ignore_non_working_days:,
           schedule_manually:,
-          estimated_hours:
+          estimated_hours:,
+          remaining_hours:,
+          done_ratio:
         }
       end
 
@@ -260,6 +265,14 @@ module DemoData
 
       def estimated_hours
         attributes["estimated_hours"]&.to_i
+      end
+
+      def remaining_hours
+        attributes["remaining_hours"]&.to_i
+      end
+
+      def done_ratio
+        attributes["done_ratio"]&.to_i
       end
 
       def all_days

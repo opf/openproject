@@ -41,7 +41,7 @@ module FullCalendar
           starts_at: starts_at,
           ends_at: ends_at,
           all_day: !time_entry.ongoing? && time_entry.start_time.blank?,
-          title: "#{time_entry.project.name}: ##{time_entry.entity.id} #{time_entry.entity.subject}"
+          title: "#{time_entry.project.name}: #{time_entry.entity.formatted_id} #{time_entry.entity.subject}"
         )
         event.time_entry = time_entry
 
@@ -68,7 +68,7 @@ module FullCalendar
         durationEditable: time_entry.start_time.present?,
         hours: time_entry.hours_for_calculation,
         typeId: time_entry.entity.type_id,
-        workPackageId: time_entry.entity.id,
+        workPackageId: time_entry.entity.to_param,
         workPackageSubject: time_entry.entity.subject,
         projectId: time_entry.project.id,
         projectName: time_entry.project.name,

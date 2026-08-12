@@ -167,7 +167,7 @@ RSpec.describe "Projects", "editing settings", :js do
       within_section "Status" do
         click_on "Edit status"
 
-        within :menu, "Not set" do
+        within :menu, "Edit status" do
           find(:menuitem, "Not started").click
         end
       end
@@ -179,7 +179,7 @@ RSpec.describe "Projects", "editing settings", :js do
         expect(button).to have_text "Not started"
         button.click
 
-        expect(find(:menu, "Not started")).to have_selector :menuitem, "Not started", aria: { current: true }
+        expect(find(:menu, "Edit status")).to have_selector :menuitem, "Not started", aria: { current: true }
       end
     end
 
@@ -187,7 +187,7 @@ RSpec.describe "Projects", "editing settings", :js do
       within_section "Status" do
         click_on "Edit status"
 
-        within :menu, "Not set" do
+        within :menu, "Edit status" do
           find(:menuitem, "Finished").click
         end
       end
@@ -197,7 +197,7 @@ RSpec.describe "Projects", "editing settings", :js do
       within_section "Status" do
         click_on "Edit status"
 
-        within :menu, "Finished" do
+        within :menu, "Edit status" do
           find(:menuitem, "Not set").click
         end
       end
@@ -209,7 +209,7 @@ RSpec.describe "Projects", "editing settings", :js do
         expect(button).to have_text "Not set"
         button.click
 
-        expect(find(:menu, "Not set")).to have_selector :menuitem, "Not set", aria: { current: true }
+        expect(find(:menu, "Edit status")).to have_selector :menuitem, "Not set", aria: { current: true }
       end
     end
 
@@ -334,7 +334,7 @@ RSpec.describe "Projects", "editing settings", :js do
     end
   end
 
-  describe "workspace type badges in Subproject of field", with_flag: { portfolio_models: true } do
+  describe "workspace type badges in Subproject of field" do
     shared_let(:portfolio) { create(:portfolio, name: "Parent Portfolio") }
     shared_let(:program) { create(:program, name: "Parent Program") }
     shared_let(:regular_project) { create(:project, name: "Regular Project") }

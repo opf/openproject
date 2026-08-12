@@ -51,19 +51,42 @@ module Settings
       f.select_list(
         name: :new_project_user_role_id,
         label: I18n.t(:setting_new_project_user_role_id),
+        caption: I18n.t(:setting_new_project_user_role_id_caption),
         input_width: :medium,
-        include_blank: I18n.t(:actionview_instancetag_blank_option)
+        include_blank: false
       ) do |select|
-        ProjectRole.givable.each do |role|
-          select.option(
-            value: role.id.to_s,
-            label: role.name,
-            selected: Setting.new_project_user_role_id == role.id
-          )
-        end
+        build_new_project_user_role_options(select)
       end
 
       f.submit
+    end
+
+    # Adds the role options to the new_project_user_role_id select. Roles that pass the
+    # `assignable_to_project_creator` filter are listed first; the currently configured role is
+    # always included even when it has lost required permissions (with a label suffix), so the
+    # admin can see and change the current selection.
+    def build_new_project_user_role_options(select)
+      assignable = ProjectRole.assignable_to_project_creator.to_a
+      assignable.each { |role| add_assignable_role_option(select, role) }
+
+      configured = ProjectRole.givable.find_by(id: Setting.new_project_user_role_id)
+      add_non_qualifying_role_option(select, configured) if configured && assignable.exclude?(configured)
+    end
+
+    def add_assignable_role_option(select, role)
+      select.option(
+        value: role.id.to_s,
+        label: role.name,
+        selected: Setting.new_project_user_role_id == role.id
+      )
+    end
+
+    def add_non_qualifying_role_option(select, role)
+      select.option(
+        value: role.id.to_s,
+        label: I18n.t(:label_role_missing_permissions, role: role.name),
+        selected: true
+      )
     end
   end
 end

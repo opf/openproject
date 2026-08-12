@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          RSpec.describe AuthenticationValidator, :webmock do
+          RSpec.describe AuthenticationValidator, :disable_ssrf_filter, :webmock do
             subject(:validator) { described_class.new(storage) }
 
             context "when using OAuth2" do
@@ -62,7 +62,7 @@ module Storages
               end
 
               it "returns a failure if the remote call failed" do
-                error = Results::Error.new(code: :unauthorized, source: self)
+                error = SimpleError.new(code: :unauthorized, source: self)
                 Registry.stub("nextcloud.queries.user", ->(_) { Failure(error) })
 
                 result = validator.call

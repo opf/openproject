@@ -201,6 +201,125 @@ RSpec.describe RecurringMeeting,
     end
   end
 
+  describe "monthly schedule by day of month" do
+    subject do
+      build(:recurring_meeting,
+            start_time: DateTime.parse("2024-12-01T10:00Z"),
+            frequency: "monthly_day_of_month",
+            monthly_day: 16,
+            end_after: "specific_date",
+            end_date: Date.parse("2025-03-20"))
+    end
+
+    it "schedules on the configured day of month", :aggregate_failures do
+      expect(subject.first_occurrence).to eq DateTime.parse("2024-12-16T10:00Z")
+      expect(subject.last_occurrence).to eq DateTime.parse("2025-03-16T10:00Z")
+
+      next_occurrences = subject.scheduled_occurrences(limit: 4, from_time: subject.start_time).map(&:to_time)
+      expect(next_occurrences).to eq [
+        DateTime.parse("2024-12-16T10:00Z"),
+        DateTime.parse("2025-01-16T10:00Z"),
+        DateTime.parse("2025-02-16T10:00Z"),
+        DateTime.parse("2025-03-16T10:00Z")
+      ]
+    end
+  end
+
+  describe "monthly schedule by nth weekday" do
+    subject do
+      build(:recurring_meeting,
+            start_time: DateTime.parse("2024-12-01T10:00Z"),
+            frequency: "monthly_nth_weekday",
+            monthly_ordinal: 1,
+            monthly_weekday: "tuesday",
+            end_after: "specific_date",
+            end_date: Date.parse("2025-03-31"))
+    end
+
+    it "schedules first weekday of month", :aggregate_failures do
+      expect(subject.first_occurrence).to eq DateTime.parse("2024-12-03T10:00Z")
+      expect(subject.last_occurrence).to eq DateTime.parse("2025-03-04T10:00Z")
+
+      next_occurrences = subject.scheduled_occurrences(limit: 4, from_time: subject.start_time).map(&:to_time)
+      expect(next_occurrences).to eq [
+        DateTime.parse("2024-12-03T10:00Z"),
+        DateTime.parse("2025-01-07T10:00Z"),
+        DateTime.parse("2025-02-04T10:00Z"),
+        DateTime.parse("2025-03-04T10:00Z")
+      ]
+    end
+  end
+
+  describe "monthly schedule by last weekday with interval" do
+    subject do
+      build(:recurring_meeting,
+            start_time: DateTime.parse("2024-12-01T10:00Z"),
+            frequency: "monthly_nth_weekday",
+            monthly_ordinal: -1,
+            monthly_weekday: "friday",
+            interval: 2,
+            end_after: "specific_date",
+            end_date: Date.parse("2025-08-31"))
+    end
+
+    it "schedules every n months", :aggregate_failures do
+      next_occurrences = subject.scheduled_occurrences(limit: 5, from_time: subject.start_time).map(&:to_time)
+      expect(next_occurrences).to eq [
+        DateTime.parse("2024-12-27T10:00Z"),
+        DateTime.parse("2025-02-28T10:00Z"),
+        DateTime.parse("2025-04-25T10:00Z"),
+        DateTime.parse("2025-06-27T10:00Z"),
+        DateTime.parse("2025-08-29T10:00Z")
+      ]
+    end
+  end
+
+  describe "localized monthly nth weekday wording" do
+    subject do
+      build(:recurring_meeting,
+            start_time: DateTime.parse("2024-12-01T10:00Z"),
+            frequency: "monthly_nth_weekday",
+            monthly_ordinal: 1,
+            monthly_weekday: "tuesday")
+    end
+
+    it "uses the inflected ordinal translation" do
+      I18n.with_locale(:en) do
+        expect(subject.monthly_ordinal_label).to eq("first")
+      end
+    end
+  end
+
+  describe "#actual_start_differs?" do
+    context "when start time matches first occurrence" do
+      subject do
+        build(:recurring_meeting,
+              start_time: DateTime.parse("2024-12-03T10:00Z"),
+              frequency: "monthly_nth_weekday",
+              monthly_ordinal: 1,
+              monthly_weekday: "tuesday")
+      end
+
+      it "returns false" do
+        expect(subject.actual_start_differs?).to be(false)
+      end
+    end
+
+    context "when start time does not match first occurrence" do
+      subject do
+        build(:recurring_meeting,
+              start_time: DateTime.parse("2024-12-01T10:00Z"),
+              frequency: "monthly_nth_weekday",
+              monthly_ordinal: 1,
+              monthly_weekday: "tuesday")
+      end
+
+      it "returns true" do
+        expect(subject.actual_start_differs?).to be(true)
+      end
+    end
+  end
+
   describe "never ending meeting" do
     subject do
       build(:recurring_meeting,
@@ -311,11 +430,103 @@ RSpec.describe RecurringMeeting,
     end
   end
 
+  describe "#current_schedule_end" do
+    let(:recurring_meeting) do
+      create(
+        :recurring_meeting,
+        start_time: DateTime.parse("2026-02-24T13:45:00+01:00"),
+        current_schedule_start: DateTime.parse("2026-05-05T13:45:00+02:00"),
+        duration: 0.25,
+        time_zone: "Europe/Berlin"
+      )
+    end
+
+    it "uses current_schedule_start plus duration" do
+      expect(recurring_meeting.current_schedule_end).to eq(DateTime.parse("2026-05-05T14:00:00+02:00"))
+    end
+  end
+
   describe "#uid" do
     it "assigns a uid on create" do
       series = build(:recurring_meeting)
       expect(series.uid).to be_present
       expect(series.uid).to include "@#{Setting.host_name}"
+    end
+  end
+
+  describe "#occurrence_count_until_end_date" do
+    it "counts the remaining occurrences up to the end date" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.hours,
+                     frequency: "daily",
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow + 1.week)
+
+      expect(series.occurrence_count_until_end_date).to eq 8
+    end
+
+    it "counts the remaining occurrences for a non-daily frequency" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.hours,
+                     frequency: "weekly",
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow + 4.weeks)
+
+      expect(series.occurrence_count_until_end_date).to eq 5
+    end
+
+    it "returns nil when the end date is before the start date" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.days + 10.hours,
+                     frequency: "daily",
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow)
+
+      expect(series.occurrence_count_until_end_date).to be_nil
+    end
+
+    it "caps the count for far-future end dates" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.hours,
+                     frequency: "daily",
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow + 5.years)
+
+      expect(series.occurrence_count_until_end_date).to eq RecurringMeeting::MAX_ITERATIONS + 1
+    end
+
+    it "returns nil when the series does not end on a specific date" do
+      series = build(:recurring_meeting, end_after: "iterations", iterations: 3)
+
+      expect(series.occurrence_count_until_end_date).to be_nil
+    end
+  end
+
+  describe "#end_date_for_iterations" do
+    it "returns the last occurrence for the given number of iterations" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.hours,
+                     frequency: "daily",
+                     end_after: "iterations",
+                     iterations: 3)
+
+      expect(series.end_date_for_iterations).to eq Time.zone.tomorrow + 2.days + 10.hours
+    end
+
+    it "returns nil when the series does not end after iterations" do
+      series = build(:recurring_meeting,
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow + 1.week)
+
+      expect(series.end_date_for_iterations).to be_nil
+    end
+
+    it "returns nil when iterations exceed the maximum" do
+      series = build(:recurring_meeting,
+                     end_after: "iterations",
+                     iterations: RecurringMeeting::MAX_ITERATIONS + 1)
+
+      expect(series.end_date_for_iterations).to be_nil
     end
   end
 end

@@ -172,13 +172,22 @@ RSpec.describe Projects::Exports::PDF do
       let(:current_user) { build_stubbed(:admin) }
       let(:expected_document) do
         custom_fields = global_project_custom_fields - [not_used_string_cf]
+        system_version_project = system_version.project
 
         [
           *expected_cover_page,
-          project.name,
+
+          I18n.t(:label_table_of_contents),
+          "1.", "2", project.name,
+          "2.", "2", system_version_project.name,
+          "1/2", export_time_formatted, query.name,
+
+          "1.", project.name,
           "ID", project.id.to_s,
           *custom_fields.sort_by(&:name).map { |column| [column.name, get_test_column_value(column)] },
-          "1/1", export_time_formatted, query.name
+          "2.", system_version_project.name,
+          "ID", system_version_project.id.to_s,
+          "2/2", export_time_formatted, query.name
         ].join(" ")
       end
 
@@ -228,13 +237,23 @@ RSpec.describe Projects::Exports::PDF do
     context "with admin permission" do
       let(:current_user) { build_stubbed(:admin) }
       let(:expected_document) do
+        system_version_project = system_version.project
+
         [
           *expected_cover_page,
-          project.name,
+
+          I18n.t(:label_table_of_contents),
+          "1.", "2", project.name,
+          "2.", "2", system_version_project.name,
+          "1/2", export_time_formatted, query.name,
+
+          "1.", project.name,
           "ID", project.id.to_s,
           "#{version_cf.name} comment", "Comment visible to members",
           "#{hidden_cf.name} comment", "Comment visible to admins",
-          "1/1", export_time_formatted, query.name
+          "2.", system_version_project.name,
+          "ID", system_version_project.id.to_s,
+          "2/2", export_time_formatted, query.name
         ].join(" ")
       end
 
@@ -244,6 +263,59 @@ RSpec.describe Projects::Exports::PDF do
 
       it "doesn't include unused custom comment" do
         expect(subject).not_to include("#{not_used_string_cf.name} comment")
+      end
+    end
+  end
+
+  describe "project phase columns selected" do
+    shared_let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+
+    let(:query_columns) { %w[name] + ["project_phase_#{phase_definition.id}"] }
+    let!(:project_phase) do
+      create(:project_phase, project:, definition: phase_definition,
+                             start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+    end
+
+    context "with view_project_phases permission" do
+      let(:permissions) { super() + %i[view_project_phases] }
+
+      context "and an active phase" do
+        it "includes the phase's date range in the export" do
+          expected_document = [
+            *expected_cover_page,
+            project.name,
+            "Initiation", "01/05/2026 - 01/20/2026",
+            "1/1", export_time_formatted, query.name
+          ].join(" ")
+
+          expect(subject).to eq expected_document
+        end
+      end
+
+      context "and an inactive phase" do
+        before { project_phase.update!(active: false) }
+
+        it "drops the phase attribute instead of rendering it as empty" do
+          expected_document = [
+            *expected_cover_page,
+            project.name,
+            "1/1", export_time_formatted, query.name
+          ].join(" ")
+
+          expect(subject).to eq expected_document
+        end
+      end
+    end
+
+    context "without view_project_phases permission anywhere" do
+      it "omits the phase column entirely" do
+        expected_document = [
+          *expected_cover_page,
+          project.name,
+          "1/1", export_time_formatted, query.name
+        ].join(" ")
+
+        expect(subject).to eq expected_document
       end
     end
   end

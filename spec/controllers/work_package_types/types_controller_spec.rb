@@ -130,7 +130,7 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it do
           type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_settings_path(type))
+          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
         end
       end
 
@@ -149,8 +149,8 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it { expect(response).to have_http_status(:unprocessable_entity) }
 
-        it "shows an error message" do
-          expect(response.body).to have_content("Name can't be blank")
+        it "shows an error message on the name field" do
+          expect(response.body).to have_text("can't be blank")
         end
       end
 
@@ -182,12 +182,27 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it do
           type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_settings_path(type))
+          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
         end
 
         it "has the copied workflows" do
           expect(Type.find_by(name: "New type")
                         .workflows.count).to eq(existing_type.workflows.count)
+        end
+      end
+
+      describe "WITH a parent", with_flag: { type_variants: true } do
+        let!(:parent) { create(:type, name: "Parent type") }
+        let(:params) do
+          { "type" => { name: "New variant", parent_id: parent.id } }
+        end
+
+        before { post :create, params: }
+
+        it { expect(response).to be_redirect }
+
+        it "nests the created type under the parent" do
+          expect(Type.find_by(name: "New variant").parent).to eq(parent)
         end
       end
     end
@@ -207,6 +222,22 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it "has the position updated" do
           expect(Type.find_by(name: "My type").position).to eq(2)
+        end
+      end
+
+      context "when reordering a variant within its family" do
+        let!(:parent) { create(:type, name: "Parent type") }
+        let!(:child1) { create(:type, name: "Variant 1", parent:, position: "1") }
+        let!(:child2) { create(:type, name: "Variant 2", parent:, position: "2") }
+        let(:params) { { "id" => child1.id, "type" => { move_to: "lower" } } }
+
+        before do
+          post :move, params:
+        end
+
+        it "moves only within its sibling group" do
+          expect(child1.reload.position).to eq(2)
+          expect(child2.reload.position).to eq(1)
         end
       end
 
@@ -306,6 +337,77 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
+      end
+
+      describe "destroy a parent that still has variants should fail" do
+        let!(:parent) { create(:type, name: "Parent type") }
+        let!(:child) { create(:type, name: "Variant", parent:) }
+        let(:params) { { "id" => parent.id } }
+
+        before { delete :destroy, params: }
+
+        it { expect(response).to redirect_to(types_path) }
+
+        it "keeps the parent in the database" do
+          expect(Type.find_by(name: "Parent type")).to eq(parent)
+        end
+
+        it "flashes an error" do
+          expect(flash[:error]).to be_present
+        end
+      end
+    end
+
+    describe "GET index with variants", with_flag: { type_variants: true } do
+      let!(:parent) { create(:type, name: "Parent type") }
+      let!(:child) { create(:type, name: "Variant", parent:) }
+      let!(:other_root) { create(:type, name: "Other root") }
+
+      before { get :index }
+
+      it "assigns only top-level types to @types" do
+        expect(assigns(:types)).to include(parent, other_root)
+        expect(assigns(:types)).not_to include(child)
+      end
+
+      it "exposes each root's variants through its children" do
+        assigned_parent = assigns(:types).detect { |type| type == parent }
+        expect(assigned_parent.children).to contain_exactly(child)
+      end
+    end
+
+    describe "PUT drop", with_flag: { type_variants: true } do
+      let!(:first_type) { create(:type, name: "First") }
+      let!(:second_type) { create(:type, name: "Second") }
+
+      it "reorders the dropped root type to the given position" do
+        expect(first_type.position).to be < second_type.position
+
+        put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(second_type.reload.position).to eq(1)
+        expect(second_type.position).to be < first_type.reload.position
+      end
+
+      context "when the variants feature is disabled", with_flag: { type_variants: false } do
+        it "is not available" do
+          put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    describe "GET index without the variants feature", with_flag: { type_variants: false } do
+      let!(:parent) { create(:type, name: "Parent type") }
+      let!(:child) { create(:type, name: "Variant", parent:) }
+      let!(:other_root) { create(:type, name: "Other root") }
+
+      before { get :index }
+
+      it "lists roots and variants together" do
+        expect(assigns(:types)).to include(parent, child, other_root)
       end
     end
   end

@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   catchError,
   map,
@@ -57,6 +57,9 @@ import { IanBellStore } from 'core-app/features/in-app-notifications/bell/state/
 @Injectable({ providedIn: 'root' })
 @EffectHandler
 export class IanBellService {
+  readonly actions$ = inject(ActionsService);
+  readonly resourceService = inject(InAppNotificationsResourceService);
+
   readonly id = 'ian-bell';
 
   readonly store = new IanBellStore();
@@ -65,10 +68,7 @@ export class IanBellService {
 
   unread$ = this.query.unread$;
 
-  constructor(
-    readonly actions$:ActionsService,
-    readonly resourceService:InAppNotificationsResourceService,
-  ) {
+  constructor() {
     this.query.unreadCountChanged$.subscribe((count) => {
       this.actions$.dispatch(notificationCountChanged({ origin: this.id, count }));
     });

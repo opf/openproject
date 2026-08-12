@@ -39,9 +39,7 @@ RSpec.describe "users/index" do
   before do
     User.system # create system user which is active but should not count towards limit
 
-    assign(:users, User.where(id: [admin.id, user.id]))
-    assign(:status, "all")
-    assign(:groups, Group.visible)
+    assign(:query, UserQueries::Static.query(nil))
 
     without_partial_double_verification do
       allow(view).to receive_messages(current_user: admin, controller_name: "users", action_name: "index")
@@ -49,13 +47,6 @@ RSpec.describe "users/index" do
   end
 
   subject { rendered.squish }
-
-  it "renders the user table" do
-    render
-
-    expect(subject).to have_text("#{admin.firstname}   #{admin.lastname}")
-    expect(subject).to have_text("Scarlet   Scallywag")
-  end
 
   context "with an Enterprise token" do
     before do

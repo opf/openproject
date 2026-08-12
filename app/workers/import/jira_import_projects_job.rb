@@ -32,25 +32,50 @@ module Import
   class JiraImportProjectsJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
     include JiraImportCustomFields
+    include Redmine::I18n
 
     # rubocop:disable Metrics/AbcSize
     def perform(jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
       @jira_id = jira.id
-      @user = User.system
+      @system_user = User.system
       @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+
+      unless Setting::WorkPackageIdentifier.semantic?
+        view_context = ApplicationController.new.view_context
+        title = view_context.render(Primer::Beta::Text.new(tag: :p, font_weight: :bold).with_content(
+                                      I18n.t("admin.jira.errors.semantic_identifiers_must_be_enabled.title")
+                                    ))
+        description = view_context.render(
+          Primer::Beta::Text.new(tag: :p).with_content(
+            link_translate(
+              "admin.jira.errors.semantic_identifiers_must_be_enabled.description",
+              links: { link: OpenProject::StaticRouting::StaticUrlHelpers.new.admin_settings_work_packages_identifier_path },
+              external: true
+            )
+          )
+        )
+        raise title + description
+      end
 
       ActiveRecord::Base.transaction do
         @project_role = setup_project_role
         custom_field_registry = build_custom_field_registry
 
-        Import::JiraProject.where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids).find_each do |jira_project|
+        Import::JiraProject.where(jira_import_id: @jira_import.id,
+                                  jira_project_id: @jira_import.project_ids).find_each do |jira_project|
           project = import_project(jira_project)
           update_custom_fields_in_project(project, jira_project, custom_field_registry)
-          Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: jira_project.id).find_each do |jira_issue|
+          Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id).find_each do |jira_issue|
             import_issue(jira_issue, project, custom_field_registry)
           end
+          # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
+          # or 0 in case there are no work_packages in the project.
+          Project
+            .where(id: project.id)
+            .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
+                         "FROM work_packages WHERE project_id = ?)", project.id])
         end
       end
     end
@@ -58,7 +83,7 @@ module Import
     private
 
     def setup_project_role
-      service_call = Roles::CreateService.new(user: @user).call(
+      service_call = Roles::CreateService.new(user: @system_user).call(
         name: "JiraMember",
         permissions: %i[add_work_packages
                         view_work_packages
@@ -76,12 +101,12 @@ module Import
 
     def import_project(jira_project)
       project_key = jira_project.payload.fetch("key")
-      identifier = Setting::WorkPackageIdentifier.semantic? ? project_key.upcase : project_key.downcase
+      project_keys = jira_project.payload.fetch("projectKeys")
       service_call = Projects::CreateService
-                       .new(user: @user, contract_class: EmptyContract)
+                       .new(user: @system_user, contract_class: EmptyContract)
                        .call(
                          name: jira_project.payload.fetch("name"),
-                         identifier:,
+                         identifier: project_key,
                          description: jira_project.payload.fetch("description"),
                          active: true,
                          public: false,
@@ -92,8 +117,16 @@ module Import
                          workspace_type: "project"
                        )
       if service_call.success?
-        create_reference!(op_leg: service_call.result, jira_leg: jira_project, jira_import: @jira_import, uses_existing: false)
-        return service_call.result
+        project = service_call.result
+        insert_data = project_keys.map do |key|
+          { sluggable_id: project.id,
+            sluggable_type: project.class.to_s,
+            slug: key,
+            scope: nil }
+        end
+        FriendlyId::Slug.insert_all(insert_data, unique_by: %i[slug sluggable_type scope]) if insert_data.present?
+        create_reference!(op_leg: project, jira_leg: jira_project, jira_import: @jira_import, uses_existing: false)
+        return project
       end
 
       if (error = service_call.errors.find { |e| e.attribute == :identifier && e.type == :taken }) && error.present?
@@ -110,21 +143,15 @@ module Import
       update_workflows(type)
       new_custom_fields = new_custom_fields_in_type(jira_issue, type, custom_field_registry)
       update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
-      priority = import_priority(jira_issue)
+      priority = import_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
+      raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
+
       import_work_package(jira_issue, project, type, status, priority, custom_field_registry)
     end
 
     def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
       existing_cf_ids = type.custom_field_ids
-      cfs = custom_field_registry.filter_map do |entry|
-        field_key = entry[:jira_field].jira_field_id
-        raw_value = jira_issue.payload["fields"][field_key]
-        next if raw_value.blank?
-
-        context = find_context_for_issue(entry, jira_issue)
-        context&.dig(:custom_field)
-      end
-      cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
+      custom_fields_for_issue(custom_field_registry, jira_issue).reject { |cf| existing_cf_ids.include?(cf.id) }
     end
 
     def update_custom_fields_in_type(type, new_custom_fields)
@@ -158,12 +185,9 @@ module Import
     end
 
     def update_custom_fields_in_project(project, jira_project, custom_field_registry)
-      project_key = jira_project.payload["key"]
-      applicable_cfs = custom_field_registry.flat_map do |entry|
-        entry[:contexts]
-          .select { |ctx| context_applies_to_project?(ctx, project_key) }
-          .map { |ctx| ctx[:custom_field] }
-      end
+      applicable_cfs = Import::JiraIssue
+                         .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
+                         .flat_map { |jira_issue| custom_fields_for_issue(custom_field_registry, jira_issue) }
       existing_cf_ids = project.work_package_custom_fields.pluck(:id).to_set
       new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
       project.work_package_custom_fields << new_cfs if new_cfs.any?
@@ -176,7 +200,7 @@ module Import
 
       if type.blank?
         service_call = WorkPackageTypes::CreateService
-                         .new(user: @user)
+                         .new(user: @system_user)
                          .call(name: issue_type["name"], description: issue_type["description"], is_default: false)
         raise service_call.message unless service_call.success?
 
@@ -184,6 +208,9 @@ module Import
         uses_existing = false
       end
 
+      # TODO: should go through Projects::Types::AddService. Writing from the type side sets
+      # project_types.type_id directly, bypassing ProjectType#type=, so it cannot enable a
+      # variant — it would build a row whose type is not a root.
       type.projects << project unless type.projects.include?(project)
       jira_issue_type = Import::JiraIssueType.find_by!(jira_issue_type_id: issue_type["id"], jira_id: @jira_id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
@@ -205,15 +232,17 @@ module Import
 
     def import_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
-      priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
-      uses_existing = true
-      if priority.blank?
-        priority = IssuePriority.create!(name: issue_priority["name"])
-        uses_existing = false
+      if issue_priority.present?
+        priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
+        uses_existing = true
+        if priority.blank?
+          priority = IssuePriority.create!(name: issue_priority["name"])
+          uses_existing = false
+        end
+        jira_priority = Import::JiraPriority.find_by!(jira_priority_id: issue_priority["id"], jira_id: @jira_id)
+        create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
+        priority
       end
-      jira_priority = Import::JiraPriority.find_by!(jira_priority_id: issue_priority["id"], jira_id: @jira_id)
-      create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
-      priority
     end
 
     def update_workflows(type)
@@ -224,33 +253,62 @@ module Import
       raise call.message if call.failure?
     end
 
-    def import_work_package(jira_issue, project, type, status, priority, custom_field_registry)
+    def import_work_package(jira_issue, project, type, status, priority, custom_field_registry) # rubocop:disable Metrics/PerceivedComplexity
       # required because otherwise project.types does not include type and then wp creation fails.
       project.reload
+
       author_key = jira_issue.payload.dig("fields", "creator", "key")
       author = find_user(author_key)
       assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
       assigned_to = find_user(assignee_key)
-
       [author, assigned_to].uniq.compact.each { |member| import_member(project, member) }
-      description = Import::JiraWikiMarkupConverter.new(jira_issue.payload["fields"]["description"] || "").convert
+
       custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue)
 
-      service_call = WorkPackages::CreateService
-                       .new(user: author || User.system, contract_class: EmptyContract)
-                       .call(
-                         project:,
-                         subject: jira_issue.payload["fields"]["summary"],
-                         description:,
-                         type:,
-                         priority:,
-                         status:,
-                         assigned_to:,
-                         **custom_field_attrs
-                       )
+      original_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "originalEstimateSeconds")
+      remaining_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "remainingEstimateSeconds")
+
+      service_call =
+        WorkPackages::CreateService
+          .new(user: author || @system_user, contract_class: EmptyContract)
+          .call(
+            project:,
+            subject: jira_issue.payload["fields"]["summary"],
+            description: Import::JiraWikiMarkupConverter.new(jira_issue.payload["fields"]["description"] || "").convert,
+            type:,
+            priority:,
+            status:,
+            assigned_to:,
+            due_date: jira_issue.payload.dig("fields", "duedate"),
+            estimated_hours: (original_estimate_seconds / 60 if original_estimate_seconds),
+            remaining_hours: (remaining_estimate_seconds / 60 if remaining_estimate_seconds),
+            skip_semantic_id_allocation: true,
+            **custom_field_attrs
+          )
       raise service_call.message unless service_call.success?
 
       work_package = service_call.result
+      identifier = jira_issue.payload["key"]
+      sequence_number = WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier)
+      work_package.update_columns(sequence_number:, identifier:)
+      work_package_id = work_package.id
+      aliases_from_history = jira_issue
+                               .payload["changelog"]["histories"]
+                               .flat_map { |i| i["items"] }
+                               .select { |i| i["field"] == "Key" }
+                               .flat_map do |i|
+        [
+          { identifier: i["toString"], work_package_id: },
+          { identifier: i["fromString"], work_package_id: }
+        ]
+      end
+      aliases = work_package.alias_rows_for_sequence_number(sequence_number)
+      aliases.concat(aliases_from_history)
+      aliases.uniq!
+      work_package.semantic_aliases.upsert_all(aliases,
+                                               on_duplicate: :skip,
+                                               unique_by: :identifier)
+
       create_reference!(op_leg: work_package, jira_leg: jira_issue, jira_import: @jira_import, uses_existing: false)
       import_work_package_history(work_package, jira_issue, project)
     end
@@ -266,18 +324,20 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        author = find_user(comment["author"]["key"])
-        import_member(project, author)
-        journal_service.add_comment(comment:, user: author)
+        key = comment.dig("author", "key")
+        author = find_user(key)
+        import_member(project, author) if author.present?
+        journal_service.add_comment(comment:, user: author || User.system)
       end
 
       journal_service.call
 
       attachments = jira_issue.payload.dig("fields", "attachment") || []
       attachments.each do |attachment|
-        author = find_user(attachment["author"]["key"])
-        import_member(project, author)
-        import_attachment(work_package, attachment, author)
+        key = attachment.dig("author", "key")
+        author = find_user(key)
+        import_member(project, author) if author.present?
+        import_attachment(work_package, attachment, author || User.system)
       end
     end
 
@@ -296,14 +356,18 @@ module Import
                  .call(container: work_package, filename:, file: tempfile)
 
         call.on_failure do
-          raise call.message
+          OpenProject.logger.error("#{work_package}: Attachment creation failed for #{filename}: #{call.message}")
         end
       end
+    rescue JiraClient::SsrfError,
+           JiraClient::ConnectionError,
+           JiraClient::ApiError => e
+      OpenProject.logger.error("#{work_package}: Download attachment failed for #{filename}: #{e.message}")
     end
 
     def import_member(project, member)
       service_call = Members::CreateService
-                       .new(user: @user, contract_class: EmptyContract)
+                       .new(user: @system_user, contract_class: EmptyContract)
                        .call(
                          project:,
                          roles: [@project_role],
@@ -322,10 +386,16 @@ module Import
 
       jira_user = Import::JiraUser.find_by(jira_user_key:, jira_import: @jira_import)
       if jira_user
-        JiraOpenProjectReference.find_by!(
-          jira_entity_class: "Import::JiraUser",
+        reference = JiraOpenProjectReference.find_by(
+          jira_entity_class: jira_user.class.to_s,
           jira_entity_id: jira_user.id
-        ).op_leg
+        )
+        if reference
+          reference.op_leg
+        else
+          raise "Import::JiraOpenProjectReference with jira_entity_class #{jira_user.class} " \
+                "and jira_entity_id #{jira_user.id} not found!"
+        end
       else
         raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
       end

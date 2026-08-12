@@ -43,7 +43,7 @@ module Import
       jira_import = Import::JiraImport.find(jira_import_id)
       get_meta(jira_import)
     rescue StandardError => e
-      jira_import&.transition_to!(:projects_meta_error, error: e.message)
+      jira_import&.transition_to!(:projects_meta_error, error: e.message, error_backtrace: e.backtrace)
       jira_import&.update!(job_id: nil, error: e.message)
     end
 

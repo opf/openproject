@@ -58,7 +58,7 @@ module Storages
             private
 
             def handle_response(response)
-              error = Results::Error.new(source: self.class, payload: response)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }
@@ -72,7 +72,7 @@ module Storages
               in { status: 401 }
                 Failure(error.with(code: :unauthorized))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
 
@@ -115,7 +115,7 @@ module Storages
               path_elements[0..-2].map do |component|
                 next root if component.blank?
 
-                Results::StorageFileAncestor.new(name: component, location: component)
+                Results::StorageFileAncestor.new(name: component, location: "/#{component}")
               end
             end
 

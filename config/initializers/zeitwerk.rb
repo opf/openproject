@@ -89,6 +89,7 @@ OpenProject::Inflector.inflection(
   "sha1" => "SHA1",
   "sso" => "SSO",
   "csv" => "CSV",
+  "csv_formula_sanitization" => "CSVFormulaSanitization",
   "pdf" => "PDF",
   "scm" => "SCM",
   "imap" => "IMAP",

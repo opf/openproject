@@ -36,6 +36,7 @@ module Attachments
     attribute :digest
     attribute :description
     attribute :content_type
+    attribute :charset
     attribute :container
     attribute :container_type
     attribute :author

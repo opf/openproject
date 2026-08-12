@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnDestroy, inject } from '@angular/core';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -43,7 +43,7 @@ import { QueryUpdatedService } from 'core-app/features/boards/board/query-update
 @Component({
   selector: 'board-entry',
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
-  template: `<board-partitioned-page [boardId]="boardId" />`,
+  template: '<board-partitioned-page [boardId]="boardId"><board-list-container [boardId]="boardId" /></board-partitioned-page>',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     BoardConfigurationService,
@@ -56,13 +56,15 @@ import { QueryUpdatedService } from 'core-app/features/boards/board/query-update
   ],
   standalone: false,
 })
-export class BoardEntryComponent {
+export class BoardEntryComponent implements OnDestroy {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly injector = inject(Injector);
+
   @Input() boardId:string;
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly injector:Injector,
-  ) {
+  constructor() {
+    const injector = this.injector;
+
     populateInputsFromDataset(this);
 
     document.body.classList.add('router--boards-full-view');
@@ -73,5 +75,9 @@ export class BoardEntryComponent {
     registry.add('version', injector.get(BoardVersionActionService));
     registry.add('subproject', injector.get(BoardSubprojectActionService));
     registry.add('subtasks', injector.get(BoardSubtasksActionService));
+  }
+
+  ngOnDestroy() {
+    document.body.classList.remove('router--boards-full-view');
   }
 }

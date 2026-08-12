@@ -19,88 +19,89 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-#English strings go here for Rails i18n
 ---
 ja:
-  plugin_openproject_meeting:
-    name: OpenProject 会議
-    description: このモジュールは、OpenProjectにプロジェクト会議をサポートする機能を追加します。会議への参加者を同じプロジェクトから選択して、会議をスケジュールできます。議題を作成して招待者に送信することができます。会議後には参加者を選択し、議題に基づいて議事録を作成できます。最後に、議事録をすべての参加者と招待者に送信することができます。
   activerecord:
     attributes:
       meeting:
-        type: 会議の種類
-        location: 場所
         duration: 期間
+        end_time: End time
+        location: 場所
         notes: 注記
-        recurrence_start_time: Scheduled start time
-        participants: 参加者
+        notify: Send notifications
         participant:
           other: 参加者　%{count}
+        participants: 参加者
+        participants_added: 'Participants added:'
         participants_attended: 出席者
         participants_invited: 招待
+        participants_removed: 'Participants removed:'
         project: プロジェクト
+        recurrence_start_time: Scheduled start time
+        sharing: Sharing
         start_date: 日付
         start_time: 開始時間
         start_time_hour: 開始時間
-        end_time: End time
         template: Template
-        notify: Send notifications
-        sharing: Sharing
+        type: 会議の種類
       meeting_agenda_item:
-        title: タイトル
         author: 作成者
-        duration_in_minutes: 期間
         description: 注記
-        presenter: 発表者
+        duration_in_minutes: 期間
         item_type: Type
-        position: Position
         lock_version: Lock version
         notes: Notes
-      meeting_section:
-        title: タイトル
         position: Position
+        presenter: 発表者
+        title: タイトル
+      meeting_participant:
+        attended: 出席
+        invited: 招待済み
+        participation_status: 参加状況
+      meeting_section:
+        position: Position
+        title: タイトル
       recurring_meeting:
-        title: Title
+        duration: Duration
+        end_after: 一連の会議が終了
+        end_date: 完了日
         frequency: 頻度
         interval: インターバル
+        iterations: 回数
+        location: Location
+        monthly_day: Day of month
+        monthly_ordinal: Position
+        monthly_weekday: Weekday
+        notify: Send notifications
         start_date: '開始:'
         start_time: 開始時間
         start_time_hour: 開始時間
-        end_after: 一連の会議が終了
-        end_date: 完了日
-        iterations: 回数
         time_zone: Time zone
-        location: Location
-        duration: Duration
-        notify: Send notifications
+        title: Title
       recurring_meeting_interim_response:
         start_time: Start time
-      meeting_participant:
-        invited: 招待済み
-        attended: 出席
-        participation_status: 参加状況
     errors:
+      messages:
+        invalid_time_format: '有効な時間ではありません。必要なフォーマット: HH:MM'
       models:
-        meeting_participant:
-          user_invalid: is not a valid participant.
         meeting_agenda_item:
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
-        recurring_meeting_interim_response:
-          not_an_occurrence: is not a valid occurrence time for this recurring meeting
+        meeting_participant:
+          user_invalid: is not a valid participant.
         recurring_meeting:
           must_cover_existing_meetings:
+            format: "%{message}"
             one: 新しいスケジュールではカバーされていない一連の会議があります。すべての会議を含むようにスケジュールを調整してください。
             other: "%{count}個の新しいスケジュールではカバーされていない一連の会議があります。すべての会議を含むようにスケジュールを調整してください。"
-            format: "%{message}"
-      messages:
-        invalid_time_format: '有効な時間ではありません。必要なフォーマット: HH:MM'
+        recurring_meeting_interim_response:
+          not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      recurring_meeting: 定期的な会議
       meeting: 一度限りの会議
-      meeting_agenda_item: 議題項目
       meeting_agenda: アジェンダ
+      meeting_agenda_item: 議題項目
       meeting_section: セクション
+      recurring_meeting: 定期的な会議
       token/ical_meeting:
         other: iCal会議予約
   activity:
@@ -119,7 +120,11 @@ ja:
         work_package:
           updated: "%{old_value} から %{value} に変更されました"
           updated_html: "<i>%{old_value}</i> から <i>%{value}</i> に変更されました"
+  caption_meeting_template_select: Select a template to automatically copy its agenda items
+  caption_template_project_select: Please select the project in which to create this meeting template
   description_attended: 出席した
+  error_notification: 通知の送信に失敗しました。
+  error_notification_with_errors: '通知を送信できませんでした。次の受信者には通知できませんでした: %{recipients}'
   events:
     meeting: 会議が編集されました
     meeting_agenda: 会議の議題が編集されました
@@ -127,600 +132,593 @@ ja:
     meeting_agenda_opened: 会議の議題を開始しました
     meeting_minutes: 会議の議事録が編集されました
     meeting_minutes_created: 議事録の作成
-  error_notification: 通知の送信に失敗しました。
-  error_notification_with_errors: '通知を送信できませんでした。次の受信者には通知できませんでした: %{recipients}'
+  label_add_work_package_to_meeting_dialog_button: 会議に追加
+  label_add_work_package_to_meeting_dialog_title: 会議の選択
+  label_add_work_package_to_meeting_section_label: セクション
+  label_added_as_outcome: Added as outcome
+  label_agenda_backlog: アジェンダ・バックログ
+  label_agenda_backlog_clear_title: 議題のバックログをクリアしますか？
+  label_agenda_item_actions: 議題項目のアクション
+  label_agenda_item_add: アジェンダを追加
+  label_agenda_item_add_notes: 注記の追加
+  label_agenda_item_add_outcome: 結果を追加
+  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_deleted_wp: 削除されたワークパッケージの参照
+  label_agenda_item_duplicate: 重複
+  label_agenda_item_duplicate_in_next: Duplicate in next meeting
+  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_move: 移動
+  label_agenda_item_move_down: 下へ移動
+  label_agenda_item_move_to_backlog: バックログに移動
+  label_agenda_item_move_to_bottom: 一番下へ移動
+  label_agenda_item_move_to_current_meeting: 現在の会議に移動
+  label_agenda_item_move_to_next: 次の会議に移動
+  label_agenda_item_move_to_next_title: 次の会議に移動か？
+  label_agenda_item_move_to_section: セクションへ移動
+  label_agenda_item_move_to_top: 一番上へ移動
+  label_agenda_item_move_up: 上へ
+  label_agenda_item_remove_from_agenda: アジェンダから削除
+  label_agenda_item_remove_from_backlog: バックログから削除
+  label_agenda_item_undisclosed_wp: 'ワークパッケージ #%{id} は表示されません'
+  label_agenda_item_work_package: 議題項目のワークパッケージ
+  label_agenda_item_work_package_add: ワークパッケージの追加
+  label_agenda_items: 議題項目
+  label_agenda_items_reordered: 並べ替えられました
+  label_agenda_new_outcome: 新しい結果
+  label_agenda_outcome: 結果
+  label_agenda_outcome_actions: 議題の結果アクション
+  label_agenda_outcome_delete: 結果を削除
+  label_agenda_outcome_edit: 結果を編集
+  label_all_meetings: すべての会議
+  label_attended: 出席済み
+  label_attended_user: 出席したユーザー
+  label_backlog_clear: バックログをクリア
+  label_backlog_clear_button: すべてクリア
+  label_created_by_me: 自分が作成したもの
+  label_existing_work_package: Existing work package
+  label_icalendar: iCalendar を送信
+  label_icalendar_download: iCalendarイベントをダウンロード
+  label_initial_meeting_details: 会議
+  label_invitations: 招待した
+  label_invited_user: ユーザーを招待
+  label_involvement: 関連
   label_meeting: 会議
-  label_meeting_plural: 会議
-  label_meeting_templates: テンプレート
-  label_meeting_template: テンプレート
-  label_meeting_template_new: New template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
+  label_meeting_actions: 会議の対応事項
+  label_meeting_agenda: アジェンダ
+  label_meeting_agenda_close: 議題を閉じて議事録を開始する
+  label_meeting_close: 終了する
+  label_meeting_close_action: 会議を終了する
+  label_meeting_create: 会議を作成
   label_meeting_create_from_template: Create meeting from template
+  label_meeting_created_by: 作成者：
+  label_meeting_date_and_time: 日付と時刻
+  label_meeting_date_time: 日付/時刻
+  label_meeting_delete: 会議を削除
+  label_meeting_details: 会議詳細
+  label_meeting_details_edit: 会議詳細を編集
+  label_meeting_diff: 差分
+  label_meeting_duplicate: 会議を複製
+  label_meeting_edit: 会議を編集
+  label_meeting_edit_title: 会議タイトルを編集
+  label_meeting_empty_action: 議題項目を追加
+  label_meeting_in_progress_action: 会議を開始
+  label_meeting_index_delete: 削除
+  label_meeting_index_later: 来週以降
+  label_meeting_index_this_week: 今週の後半
+  label_meeting_index_today: 今日
+  label_meeting_index_tomorrow: 翌日
+  label_meeting_last_updated: 最終更新日
+  label_meeting_minutes: 議事録
+  label_meeting_more:
+    other: あと%{count}の会議があります。
   label_meeting_new: 新しい会議
   label_meeting_new_dynamic: 新しい一度限りの会議
   label_meeting_new_recurring: 定期的な会議の作成
-  label_meeting_create: 会議を作成
-  label_meeting_duplicate: 会議を複製
-  label_meeting_edit: 会議を編集
-  label_meeting_agenda: アジェンダ
-  label_meeting_minutes: 議事録
-  label_meeting_close: 終了する
   label_meeting_open: 開く
-  label_meeting_index_delete: 削除
+  label_meeting_open_action: 会議を開く
   label_meeting_open_this_meeting: この会議を開く
-  label_meeting_agenda_close: 議題を閉じて議事録を開始する
-  label_meeting_date_time: 日付/時刻
-  label_meeting_date_and_time: 日付と時刻
-  label_meeting_diff: 差分
+  label_meeting_plural: 会議
+  label_meeting_reload: 再読み込み
+  label_meeting_reopen_action: 会議を再開する
+  label_meeting_selection_caption: このワークパッケージは、今後の会議または進行中の会議にのみ追加可能です。
   label_meeting_send_updates: カレンダーの招待と更新をメールで送信
   label_meeting_send_updates_caption: この会議のすべての参加者に電子メールの招待を送信
+  label_meeting_series: 定期的な会議
+  label_meeting_series_details: 一連の会議の詳細
+  label_meeting_state: 会議のステータス
+  label_meeting_state_agenda_created: アジェンダが作成されました
+  label_meeting_state_cancelled: キャンセルしました
+  label_meeting_state_closed: 終了
+  label_meeting_state_draft: ドラフト
+  label_meeting_state_in_progress: 進行中
+  label_meeting_state_open: 開く
+  label_meeting_state_planned: 計画
+  label_meeting_state_skipped: スキップ
+  label_meeting_template: テンプレート
+  label_meeting_template_create: Create template
+  label_meeting_template_delete: Delete template
+  label_meeting_template_edit: Edit template
+  label_meeting_template_new: New template
+  label_meeting_template_sharing: Sharing
+  label_meeting_template_sharing_descendants: With subprojects
+  label_meeting_template_sharing_none: Only with this project
+  label_meeting_template_sharing_system: With all projects
+  label_meeting_templates: テンプレート
+  label_my_meetings: 私の会議
+  label_notify: レビュー用に送信
+  label_past_invitations: 過去の招待状
+  label_past_meetings: 過去の会議
+  label_past_meetings_short: 過去
+  label_recurring_filter: Recurring filter
   label_recurring_meeting: 定期的な会議
-  label_recurring_meeting_part_of: 一連の会議の一部
-  label_recurring_meeting_new: 新しい繰り返しの会議
-  label_recurring_meeting_plural: 定期的な会議
-  label_template: テンプレート
-  label_recurring_meeting_view: 一連の会議を表示する
-  label_recurring_meeting_create: 開く
-  label_recurring_meeting_duplicate: 一回限りの会議として複製
   label_recurring_meeting_cancel: この予定をキャンセル
+  label_recurring_meeting_create: 開く
   label_recurring_meeting_delete: 予定を削除
-  label_recurring_meeting_restore: この予定を復元
-  label_recurring_meeting_schedule: スケジュール
-  label_recurring_meeting_next_occurrence: 次の会議
-  label_recurring_meeting_no_end_date: 他にも予定されている会議があります(%{schedule})。
+  label_recurring_meeting_duplicate: 一回限りの会議として複製
   label_recurring_meeting_more:
     other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
     other: There are %{count} more past meetings.
-  label_recurring_meeting_show_more: さらに表示
+  label_recurring_meeting_new: 新しい繰り返しの会議
+  label_recurring_meeting_next_occurrence: 次の会議
+  label_recurring_meeting_no_end_date: 他にも予定されている会議があります(%{schedule})。
+  label_recurring_meeting_part_of: 一連の会議の一部
+  label_recurring_meeting_plural: 定期的な会議
+  label_recurring_meeting_restore: この予定を復元
+  label_recurring_meeting_schedule: スケジュール
   label_recurring_meeting_series_create: 一連の会議を作成
-  label_recurring_meeting_series_edit: 一連の会議を編集
   label_recurring_meeting_series_delete: 一連の会議を削除
+  label_recurring_meeting_series_edit: 一連の会議を編集
   label_recurring_meeting_series_end: 一連の会議を終了
   label_recurring_meeting_series_end_now: シリーズを今すぐ終了する
-  label_meeting_more:
-    other: あと%{count}の会議があります。
-  label_my_meetings: 私の会議
-  label_all_meetings: すべての会議
-  label_upcoming_meetings: 今後の会議
-  label_past_meetings: 過去の会議
-  label_upcoming_meetings_short: 今後の予定
-  label_past_meetings_short: 過去
-  label_involvement: 関連
-  label_invitations: 招待した
-  label_invited_user: ユーザーを招待
-  label_past_invitations: 過去の招待状
-  label_attended: 出席済み
-  label_attended_user: 出席したユーザー
-  label_created_by_me: 自分が作成したもの
-  label_notify: レビュー用に送信
-  label_icalendar: iCalendar を送信
-  label_icalendar_download: iCalendarイベントをダウンロード
-  label_view_meeting: View meeting
-  label_view_meeting_series: 一連の会議を表示する
-  label_meeting_series: 定期的な会議
-  label_version: バージョン
-  label_time_zone: タイムゾーン
+  label_recurring_meeting_show_more: さらに表示
+  label_recurring_meeting_view: 一連の会議を表示する
+  label_section_rename: セクション名を変更
+  label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
+  label_series_backlog: シリーズバックログ
+  label_series_backlog_clear_title: シリーズバックログをクリアしますか？
   label_start_date: 開始日
   label_subscribe_icalendar: カレンダーを購読する
-  caption_meeting_template_select: Select a template to automatically copy its agenda items
-  caption_template_project_select: Please select the project in which to create this meeting template
-  placeholder_meeting_template_select_project_first: Select a project first
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  label_template: テンプレート
+  label_time_zone: タイムゾーン
+  label_upcoming_meetings: 今後の会議
+  label_upcoming_meetings_short: 今後の予定
+  label_version: バージョン
+  label_view_meeting: View meeting
+  label_view_meeting_series: 一連の会議を表示する
+  label_write_outcome: Write outcome
   meeting:
-    participants:
-      label:
-        participants: 参加者
-        attended: 出席
-        mark_as_attended: 出席マークを付ける
-        mark_all_as_attended: すべてに出席マークを付ける
-        remove_participant: 参加者の削除
-        manage_participants: 参加者の管理
-        no_participants: 参加者なし
-        show_all: すべて表示
-        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
-      text:
-        template: これらの参加者は、今後作成されるすべての会議に自動的に招待される。
-        manage_participants: プロジェクトメンバーを検索し、この会議の参加者として追加する。
-        search_for_members: プロジェクトメンバーの検索
-      blankslate:
-        heading: 参加者なし
-        description: まだ参加者はいない。
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
       text: 添付ファイルはすべての会議参加者が利用可能です。また、これらのファイルを議題項目のノートにドラッグアンドドロップすることもできます。
+    blankslate:
+      desc: 新しい会議を作成したりフィルタ条件を変更することができます
+      title: 表示する会議がありません
+    copied: 会議#%{id} からコピーしました
     copy:
-      title: 会議をコピー：%{title}
-      attachments: 添付ファイルをコピー
-      attachments_text: すべての添付ファイルを新しい会議にコピー
       agenda: 議題をコピー
       agenda_items: 議題項目をコピー
       agenda_text: 古い会議の議題をコピー
+      attachments: 添付ファイルをコピー
+      attachments_text: すべての添付ファイルを新しい会議にコピー
       participants: 参加者リストをコピー
+      title: 会議をコピー：%{title}
       to_clipboard: リンクをクリップボードにコピー
+    delete_dialog:
+      occurrence:
+        confirm_button: 発生をキャンセル
+        confirmation_message_html: 'テンプレートにない会議情報は失われます。 続けますか？
+
+          '
+        heading: この会議をキャンセルしますか？
+        title: 会議のキャンセル
+      occurrence_past:
+        confirm_button: Delete occurrence
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        heading: Delete this occurrence?
+        title: Delete occurrence
+      one_time:
+        confirmation_message_html: 'この操作は元に戻せません。続行しますか？
+
+          '
+        heading: この会議を削除しますか？
+        template:
+          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
+
+            '
+          heading: Delete this template?
+          title: Delete template
+        title: 会議を削除
     email:
+      cancelled:
+        date_time: スケジュールされた日時
+        header: キャンセルされました：会議「%{title}」
+        header_occurrence: 'キャンセル: 会議発生''%{title}'''
+        header_series: 'キャンセル: 一連の会議 ''%{title}'''
+        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
+        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+      ended:
+        header_series: 'Ended: Meeting series ''%{title}'''
+        summary_series: Meeting series '%{title}' has been ended by %{actor}
+      invited:
+        summary: "%{actor} が会議「%{title}」への招待を送信しました"
+      open_meeting_link: 会議を開く
+      open_my_meetings_link: 自分の会議に移動
       send_emails: 参加者にメールを送信
       send_invitation_emails: '上記で選択した参加者にすぐにメール招待を送信します。また、後で手動で行うこともできます。
 
         '
       send_invitation_emails_structured: すべての参加者にすぐにメール招待を送信します。また、後で手動で行うこともできます。
-      open_meeting_link: 会議を開く
-      open_my_meetings_link: 自分の会議に移動
       series:
-        title: "[%{project_name}] 一連の会議 '%{title}'"
         summary: "%{actor} has invited you to a new meeting series '%{title}'"
+        title: "[%{project_name}] 一連の会議 '%{title}'"
       series_updated:
-        title: "[%{project_name}]の一連の会議 「%{title}」が更新されました"
-        summary: 一連の会議 '%{title}' は %{actor}によって更新されました
-        old_schedule: 古いスケジュール
         new_schedule: 新しいスケジュール
-      invited:
-        summary: "%{actor} が会議「%{title}」への招待を送信しました"
-      cancelled:
-        header: キャンセルされました：会議「%{title}」
-        header_occurrence: 'キャンセル: 会議発生''%{title}'''
-        header_series: 'キャンセル: 一連の会議 ''%{title}'''
-        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
-        date_time: スケジュールされた日時
-      participant_added:
-        header: Meeting '%{title}' - Participant added
-        header_series: Meeting series '%{title}' - Participant added
-        summary: "%{actor} added %{participant} to the meeting '%{title}'"
-        summary_series: "%{actor} added %{participant} to the meeting series '%{title}'"
-      participant_removed:
-        header: Meeting '%{title}' - Participant removed
-        header_series: Meeting series '%{title}' - Participant removed
-        summary: "%{actor} removed %{participant} from the meeting '%{title}'"
-        summary_series: "%{actor} removed %{participant} from the meeting series '%{title}'"
-      ended:
-        header_series: 'Ended: Meeting series ''%{title}'''
-        summary_series: Meeting series '%{title}' has been ended by %{actor}
+        old_schedule: 古いスケジュール
+        summary: 一連の会議 '%{title}' は %{actor}によって更新されました
+        title: "[%{project_name}]の一連の会議 「%{title}」が更新されました"
       updated:
-        header: 会議 '%{title}' が更新されました
-        summary: 会議 '%{title}' は %{actor} によって更新されました
+        added_participants: Added
         body: 会議 '%{title}' は、 %{actor} によって更新されました。
-        old_title: Old title
+        header: 会議 '%{title}' が更新されました
+        new_date_time: 新しい日付/時刻
+        new_location: 新しい場所
         new_title: New title
         old_date_time: 古い日付/時刻
-        new_date_time: 新しい日付/時刻
         old_location: 古い場所
-        new_location: 新しい場所
+        old_title: Old title
+        removed_participants: Removed
+        summary: 会議 '%{title}' は %{actor} によって更新されました
+    export:
+      minutes:
+        author: 作成者
+        date: 日付
+        footer_page_numbers: P. %{current_page} / %{total_pages}
+        location: 場所
+        time: 時刻
+        title: 分
+      your_meeting_export: 会議はエクスポートされています
+    export_pdf_dialog:
+      author:
+        caption: 分数の作成者がサブタイトルに表示されます。
+        label: 作成者
+      description: 現在の状態でこの会議の印刷可能PDFファイルを生成します。
+      first_page_header_left:
+        caption: このテキストはヘッダーの左側の最初のページに表示されます。
+        label: 最初のページヘッダを左
+      footer_text:
+        caption: このテキストはフッターの中央にあるすべてのページに表示されます。
+        label: フッターのテキスト
+      include_attachments:
+        caption: 添付ファイルのファイル名を含むリストが最後に追加されます。
+        label: 添付ファイルを含める
+      include_backlog:
+        caption: 通常、バックログ要素は会議の一部とはみなされないが、それを含めることもできる。
+        label: バックログを含める
+      include_outcomes:
+        caption: アジェンダの結果に機密情報が含まれている場合は、エクスポートに含めないことを選択できます。
+        label: 議題の成果を含める
+      include_participants:
+        caption: 会議の議題の上には、参加者のリストがあらかじめ用意されている。
+        label: 参加者を含める
+      submit_button: ダウンロード
+      templates:
+        default:
+          caption: デフォルトのテンプレートは、ほとんどの会議に適しており、現在の状態を表します。
+          label: デフォルト
+        minutes:
+          caption: 議事録テンプレートは、閉じられ、アーカイブされた会議に適しています。
+          label: 分
+      title: PDF形式でエクスポート
+    ical_response:
+      meeting_not_found: 指定されたUIDの会議が見つからない。
+      update_failed: 参加ステータスを更新できませんでした。
+    label_export_pdf: PDF形式でエクスポート
     label_mail_all_participants: 招待メールを参加者に送信
+    notifications:
+      dialog:
+        confirm_label:
+          disable: メールアドレスの更新を無効にする
+          enable: メールアドレスの更新を有効にする
+        message:
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
+          enable: Once enabled, an email will be sent out immediately to all participants.
+        title:
+          disable: メールカレンダーの更新を無効にしますか？
+          enable: メールカレンダーの更新を有効にしますか？
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      sidepanel:
+        description:
+          change_via_template: これを変更するには、シリーズテンプレートを編集します。
+        title: カレンダーの更新をメールする
+    participants:
+      blankslate:
+        description: まだ参加者はいない。
+        heading: 参加者なし
+      label:
+        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
+        attended: 出席
+        manage_participants: 参加者の管理
+        mark_all_as_attended: すべてに出席マークを付ける
+        mark_as_attended: 出席マークを付ける
+        no_participants: 参加者なし
+        participants: 参加者
+        remove_participant: 参加者の削除
+        show_all: すべて表示
+      text:
+        manage_participants: プロジェクトメンバーを検索し、この会議の参加者として追加する。
+        search_for_members: プロジェクトメンバーの検索
+        template: これらの参加者は、今後作成されるすべての会議に自動的に招待される。
+    presentation_mode:
+      button_present: プレゼント
+      current_item: 現在のアイテム
+      exit: プレゼンテーションを終了
+      next: 次へ
+      no_items: 議題なし
+      no_items_flash: 発表する議題はない。
+      previous: 前
+      title: プレゼンテーションモード
+      total_items: "%{current} / %{total}"
     types:
       one_time: 会議
       recurring: 定期的な会議
       recurring_text: それぞれの予定に対する動的なテンプレートを持つ一連の会議を作成します。
       structured_text: 会議を議題項目のリストとして整理し、オプションでそれらをワークパッケージにリンクさせることができます。
       structured_text_copy: 会議をコピーする場合、現在は関連する議題項目はコピーされず、詳細のみがコピーされます。
-    copied: 会議#%{id} からコピーしました
-    delete_dialog:
-      one_time:
-        title: 会議を削除
-        heading: この会議を削除しますか？
-        confirmation_message_html: 'この操作は元に戻せません。続行しますか？
-
-          '
-        template:
-          title: Delete template
-          heading: Delete this template?
-          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
-
-            '
-      occurrence:
-        title: 会議のキャンセル
-        heading: この会議をキャンセルしますか？
-        confirmation_message_html: 'テンプレートにない会議情報は失われます。 続けますか？
-
-          '
-        confirm_button: 発生をキャンセル
-    blankslate:
-      title: 表示する会議がありません
-      desc: 新しい会議を作成したりフィルタ条件を変更することができます
-    label_export_pdf: PDF形式でエクスポート
-    export:
-      your_meeting_export: 会議はエクスポートされています
-      minutes:
-        footer_page_numbers: P. %{current_page} / %{total_pages}
-        author: 作成者
-        date: 日付
-        time: 時刻
-        location: 場所
-        title: 分
-    export_pdf_dialog:
-      title: PDF形式でエクスポート
-      description: 現在の状態でこの会議の印刷可能PDFファイルを生成します。
-      templates:
-        default:
-          label: デフォルト
-          caption: デフォルトのテンプレートは、ほとんどの会議に適しており、現在の状態を表します。
-        minutes:
-          label: 分
-          caption: 議事録テンプレートは、閉じられ、アーカイブされた会議に適しています。
-      first_page_header_left:
-        label: 最初のページヘッダを左
-        caption: このテキストはヘッダーの左側の最初のページに表示されます。
-      author:
-        label: 作成者
-        caption: 分数の作成者がサブタイトルに表示されます。
-      include_participants:
-        label: 参加者を含める
-        caption: 会議の議題の上には、参加者のリストがあらかじめ用意されている。
-      include_attachments:
-        label: 添付ファイルを含める
-        caption: 添付ファイルのファイル名を含むリストが最後に追加されます。
-      include_backlog:
-        label: バックログを含める
-        caption: 通常、バックログ要素は会議の一部とはみなされないが、それを含めることもできる。
-      include_outcomes:
-        label: 議題の成果を含める
-        caption: アジェンダの結果に機密情報が含まれている場合は、エクスポートに含めないことを選択できます。
-      footer_text:
-        label: フッターのテキスト
-        caption: このテキストはフッターの中央にあるすべてのページに表示されます。
-      submit_button: ダウンロード
-    notifications:
-      sidepanel:
-        title: カレンダーの更新をメールする
-        description:
-          disabled: 参加者は変更を通知するメールを受信しません。
-          enabled: すべての参加者は、変更を通知する電子メールで更新されたカレンダー招待を受け取ります。
-          change_via_template: これを変更するには、シリーズテンプレートを編集します。
-      dialog:
-        title:
-          enable: メールカレンダーの更新を有効にしますか？
-          disable: メールカレンダーの更新を無効にしますか？
-        message:
-          enable: 'すべての参加者は、会議の日時、場所、参加者に変更があるたびに、更新されたカレンダーの招待メールを受け取ります。有効にすると、参加者全員にすぐにメールが送信されます。
-
-            '
-          disable: '会議の日付、時間、場所または参加者に変更があった場合、参加者はメールで更新されたカレンダー招待を受信できなくなります。 彼らがすでにこの会議のための招待を持っていた場合、それはもはや正確ではないかもしれません。
-
-            '
-        confirm_label:
-          enable: メールアドレスの更新を有効にする
-          disable: メールアドレスの更新を無効にする
-      banner:
-        participants:
-          enabled: '参加者を追加または削除すると、すべての参加者に最新のカレンダー招待メールが送信されます。
-
-            '
-          disabled: '電子メールによるカレンダーの更新は無効になっています。参加者を追加または削除しても、参加者に通知メールは送信されません。
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: '参加者を追加または削除すると、すべての参加者にメールで更新されたカレンダー招待状が届きます。
-
-            '
-          disabled: '参加者は、会議の日付、時間、参加者への変更を知らせるメールを受信しません。
-
-            '
-        occurrence:
-          enabled: '一連の会議のメールカレンダーの更新が有効になっています．すべての参加者は，この発生に対するあなたの変更を通知する更新されたカレンダー招待を受け取ります。
-
-            '
-          disabled: '一連の会議のメールカレンダーの更新は無効になっています。出席者はこの出来事に対するあなたの変更を通知するメールを受信しません。
-
-            '
-        template:
-          enabled: '一連の会議では，メールカレンダーの更新が有効になります． すべての参加者は、更新されたカレンダー招待状を受け取り、このテンプレートまたは個々のオカレンダーへの変更を通知します。
-
-            '
-          disabled: '一連の会議のメールカレンダーの更新は無効になっています． 参加者は、このテンプレートまたは個々のオカレンスへの変更を通知するメールを受信しません。
-
-            '
-    presentation_mode:
-      title: プレゼンテーションモード
-      button_present: プレゼント
-      exit: プレゼンテーションを終了
-      current_item: 現在のアイテム
-      total_items: "%{current} / %{total}"
-      previous: 前
-      next: 次へ
-      no_items: 議題なし
-      no_items_flash: 発表する議題はない。
-    ical_response:
-      update_failed: 参加ステータスを更新できませんでした。
-      meeting_not_found: 指定されたUIDの会議が見つからない。
     widgets:
       blankslate:
+        description: Upcoming meetings you are participating in will appear here.
         heading: No upcoming meetings
-        description: Upcoming meetings where you are the organizer or a participant will appear here.
       view_details: View all meetings
-  meeting_section:
-    untitled_title: タイトルなしセクション
-    delete_confirmation: セクションを削除すると、そのすべての議題項目も削除されます。これを実行してもよろしいですか？
-    placeholder_title: 新しいセクション
-    empty_text: アイテムをここにドラッグするか、新しいアイテムを作成してください
   meeting_participant:
     participation_status:
-      needs_action: 応答なし
       accepted: 受諾
       declined: 辞退
+      needs_action: 応答なし
       tentative: 多分...
       unknown: 不明
+  meeting_section:
+    delete_confirmation: セクションを削除すると、そのすべての議題項目も削除されます。これを実行してもよろしいですか？
+    empty_text: アイテムをここにドラッグするか、新しいアイテムを作成してください
+    placeholder_title: 新しいセクション
+    untitled_title: タイトルなしセクション
+  my:
+    access_token:
+      created_dialog:
+        token/ical_meeting:
+          body: 以下のURLをパスワードと同じように扱ってください。アクセス権を持っている人はすべての会議を閲覧できます。
+          title: iCal会議購読トークンが生成されました
+      dialog:
+        token/ical_meeting:
+          create_button: サブスクリプションを作成
+          dialog_body: このトークンは、外部カレンダーアプリケーションですべての会議を表示することができるiCalサブスクリプションURLを生成します。
+          dialog_title: 会議用の新しいiCalサブスクリプショントークン
+          name_caption: "「マイフォン」や「ワークコンピュータ」など、どこで使用するかにちなんで名付けることができます。"
+          name_label: トークン名
+      revocation:
+        token/ical_meeting:
+          notice_failure: 'iCalendar 会議購読の取り消しに失敗しました: %{error}'
+          notice_success: iCalendar 会議購読が正常に取り消されました。
+  my_account:
+    access_tokens:
+      token/ical_meeting:
+        add_button: カレンダーを購読する
+        blank_description: You can create one using the button below.
+        blank_title: No iCalendar meeting token
+        disabled_text: iCalendarの会議予約は管理者によって有効化されていません。この機能を使用するには、管理者に連絡してください。
+        table_title: iCalendar meeting tokens
+        text_hint: iCalendar会議トークンを使用すると、ユーザーはすべての会議を購読し、外部クライアントで最新の会議情報を表示できます。
+        title: iCalendar for meetings
+  notice_meeting_template_created: Template successfully created
+  notice_meeting_updated: このページは他の誰かによって更新されました。変更を表示するには再読み込みしてください。
+  notice_successful_notification: すべての出席者にカレンダーの更新をメールしました
+  notice_timezone_missing: タイムゾーンが設定されていない場合、%{zone} が使用されます。タイムゾーンを選択するには、ここをクリックしてください。
+  permission_create_meetings: 会議を作成
+  permission_delete_meetings: 会議の削除
+  permission_edit_meetings: 会議の編集
+  permission_manage_agendas: 議題を管理する
+  permission_manage_agendas_explanation: 議題項目の作成、編集、削除を許可
+  permission_manage_outcomes: アウトカムを管理
+  permission_send_meeting_invites_and_outcomes: 会議の招待状と結果を参加者に送信する
+  permission_view_meetings: 会議を表示
+  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  placeholder_meeting_template_select_project_first: Select a project first
+  placeholder_section_select_meeting_first: Meeting selection is required first
+  plugin_openproject_meeting:
+    description: このモジュールは、OpenProjectにプロジェクト会議をサポートする機能を追加します。会議への参加者を同じプロジェクトから選択して、会議をスケジュールできます。議題を作成して招待者に送信することができます。会議後には参加者を選択し、議題に基づいて議事録を作成できます。最後に、議事録をすべての参加者と招待者に送信することができます。
+    name: OpenProject 会議
+  project_module_meetings: 会議
   recurring_meeting:
-    time_zone_difference_banner:
-      title: タイムゾーンの差
-      description: '以下の日付は、一連の会議のタイムゾーン(%{actual_zone})を参照しており、お住まいの地域のタイムゾーン(%{user_zone})ではありません。
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+    delete_dialog:
+      confirmation_message_html:
+        one: "<strong>%{title}</strong> を削除すると、このシリーズで発生したものも削除されます。この操作は元に戻せません。注意してください。\n"
+        other: "<strong>%{title}</strong> を削除すると、この系列内のすべての %{count} オカレンスが削除されます。この操作は元に戻せません。注意してください。\n"
+        zero: '一連の会議 <strong>%{title}</strong>には会議の発生がありません。このシリーズは削除されます。ご注意ください。
 
-        '
+          '
+      heading: この一連の会議を完全に削除しますか？
+      title: 一連の会議を削除
+    end_after:
+      iterations: After a number of occurrences
+      never: Never
+      specific_date: After a specific date
+    end_series_dialog:
+      title: 一連の会議を終了
     ended_blankslate:
-      title: 一連の会議が終了しました
-      message: '一連の会議は終了しました。今後の会議はありません '
       action: 過去の会議を閲覧したり、会議シリーズを編集して拡張することもできます。
+      message: '一連の会議は終了しました。今後の会議はありません '
+      title: 一連の会議が終了しました
+    frequency:
+      every_weekday: すべての %{day_of_the_week}
+      monthly_day_of_month: Day of month
+      monthly_nth_weekday: Monthly on a weekday
+      working_days: 稼働日
+      x_daily:
+        other: "%{count} 日ごと"
+      x_monthly:
+        other: Every %{count} months
+      x_weekly:
+        other: "%{count} 週ごと"
+    in_words:
+      daily_interval: "%{interval} 日ごと"
+      frequency: "%{base} で %{time}"
+      full: "%{base} は %{time}で終了します。 %{end_date}"
+      full_past: "%{base} が %{time}で終了しました。 %{end_date}"
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      never_ending: "%{base} で %{time}"
+      weekly: 毎週 %{weekday}
+      weekly_interval: "%{interval} 週間ごとの %{weekday}"
+      working_days: 稼働日
+    monthly:
+      inflected_ordinal:
+        first: first
+        fourth: fourth
+        last: last
+        second: second
+        third: third
+      ordinal_options:
+        first: First
+        fourth: Fourth
+        last: Last
+        second: Second
+        third: Third
     occurrence:
-      infoline: この会議は、定期的に開催される一連の会議の一環である。
       error_no_next: 次回の開催はありません。
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: この一連の会議の最初の発生は既にサイト化されています。
       first_created: '最初の会議がテンプレートから正常に作成されました。今後作成される会議はすべて、前回の開催時に自動的に作成されます。
 
         '
-    template:
-      button_finalize: 最初の会議を開く
-      blank_title: 一連の会議のテンプレートがありません
-      description: 'このテンプレートは、シリーズの新しい会議が作成されるたびに使用されます。このテンプレートに議題、参加者、添付ファイルを追加できます。
+      infoline: この会議は、定期的に開催される一連の会議の一環である。
+    open:
+      blankslate:
+        desc: 下の「開く」ボタンをクリックして手動で会議を開くことができます
+        title: 現在公開されている会議はありません
+      subtitle: '開いている会議には、編集可能な議題があり、個々のユーザーの「私の会議」セクションに表示されます。 一連の会議テンプレートの変更は、すでに開いている会議の発生には影響しません。
 
         '
-      label_view_template: テンプレートを表示
-      label_edit_template: テンプレートを編集
+      title: 議題が開かれました
+    planned:
+      blankslate:
+        desc: '一連の会議に追加の会議は予定されていません。追加の会議をスケジュールしたり、一連の会議に追加する場合には、テンプレートに移動して会議の詳細から終了日、頻度、間隔を変更します。
+
+          '
+        title: 予定されている会議はありません
+      subtitle: '定期的な会議スケジュールには以下の会議が予定されていますが、まだ開いていません。 予定されている会議が始まるたびに、次の会議が自動的に開かれます。 計画された会議を手動で開いてテンプレートをインポートして議題の編集を開始することもできます。
+
+        '
+      title: 計画
+    scheduled_delete_dialog:
+      confirm_button: この予定をキャンセル
+      confirmation_message_html: 'テンプレートにない会議情報は失われます。 続行しますか？
+
+        '
+      heading: この会議をキャンセルしますか？
+      title: 会議のキャンセル
+    starts: 開始
+    template:
       banner_html: '現在一連の会議のテンプレートを編集しています: %{link}. シリーズ内で新しい会議が発生するたびにこのテンプレートが使用されます．変更は過去または既に作成された会議には影響しません．。
+
+        '
+      blank_title: 一連の会議のテンプレートがありません
+      button_finalize: 最初の会議を開く
+      description: 'このテンプレートは、シリーズの新しい会議が作成されるたびに使用されます。このテンプレートに議題、参加者、添付ファイルを追加できます。
 
         '
       draft_banner_html: '現在一連の会議のテンプレートを編集しています: %{link}. シリーズの会議の新しい発生ごとに、このテンプレートが使用されます。 変更は過去またはすでに作成された会議には影響しません．最初の会議を開くまでは，この下書きモードでは電子メールの招待は送信されません。
 
         '
-    frequency:
-      x_daily:
-        other: "%{count} 日ごと"
-      x_weekly:
-        other: "%{count} 週ごと"
-      every_weekday: すべての %{day_of_the_week}
-      working_days: 稼働日
-    end_after:
-      never: 期限なし
-      specific_date: 特定の日付
-      iterations: 何回かの発生後
-    starts: 開始
-    in_words:
-      daily_interval: "%{interval} 日ごと"
-      working_days: 稼働日
-      weekly: 毎週 %{weekday}
-      weekly_interval: "%{interval} 週間ごとの %{weekday}"
-      frequency: "%{base} で %{time}"
-      full: "%{base} は %{time}で終了します。 %{end_date}"
-      full_past: "%{base} が %{time}で終了しました。 %{end_date}"
-      never_ending: "%{base} で %{time}"
-    open:
-      title: 議題が開かれました
-      subtitle: '開いている会議には、編集可能な議題があり、個々のユーザーの「私の会議」セクションに表示されます。 一連の会議テンプレートの変更は、すでに開いている会議の発生には影響しません。
+      label_edit_template: テンプレートを編集
+      label_view_template: テンプレートを表示
+    time_zone_difference_banner:
+      description: '以下の日付は、一連の会議のタイムゾーン(%{actual_zone})を参照しており、お住まいの地域のタイムゾーン(%{user_zone})ではありません。
 
         '
-      blankslate:
-        title: 現在公開されている会議はありません
-        desc: 下の「開く」ボタンをクリックして手動で会議を開くことができます
-    planned:
-      title: 計画
-      subtitle: '定期的な会議スケジュールには以下の会議が予定されていますが、まだ開いていません。 予定されている会議が始まるたびに、次の会議が自動的に開かれます。 計画された会議を手動で開いてテンプレートをインポートして議題の編集を開始することもできます。
-
-        '
-      blankslate:
-        title: 予定されている会議はありません
-        desc: '一連の会議に追加の会議は予定されていません。追加の会議をスケジュールしたり、一連の会議に追加する場合には、テンプレートに移動して会議の詳細から終了日、頻度、間隔を変更します。
-
-          '
-    delete_dialog:
-      title: 一連の会議を削除
-      heading: この一連の会議を完全に削除しますか？
-      confirmation_message_html:
-        zero: '一連の会議 <strong>%{title}</strong>には会議の発生がありません。このシリーズは削除されます。ご注意ください。
-
-          '
-        one: "<strong>%{title}</strong> を削除すると、このシリーズで発生したものも削除されます。この操作は元に戻せません。注意してください。\n"
-        other: "<strong>%{title}</strong> を削除すると、この系列内のすべての %{count} オカレンスが削除されます。この操作は元に戻せません。注意してください。\n"
-    scheduled_delete_dialog:
-      title: 会議のキャンセル
-      heading: この会議をキャンセルしますか？
-      confirmation_message_html: 'テンプレートにない会議情報は失われます。 続行しますか？
-
-        '
-      confirm_button: この予定をキャンセル
-    end_series_dialog:
-      title: 一連の会議を終了
-  notice_successful_notification: すべての出席者にカレンダーの更新をメールしました
-  notice_meeting_template_created: Template successfully created
-  notice_timezone_missing: タイムゾーンが設定されていない場合、%{zone} が使用されます。タイムゾーンを選択するには、ここをクリックしてください。
-  notice_meeting_updated: このページは他の誰かによって更新されました。変更を表示するには再読み込みしてください。
-  permission_create_meetings: 会議を作成
-  permission_edit_meetings: 会議の編集
-  permission_delete_meetings: 会議の削除
-  permission_view_meetings: 会議を表示
-  permission_manage_agendas: 議題を管理する
-  permission_manage_agendas_explanation: 議題項目の作成、編集、削除を許可
-  permission_manage_outcomes: アウトカムを管理
-  permission_send_meeting_invites_and_outcomes: 会議の招待状と結果を参加者に送信する
-  project_module_meetings: 会議
-  text_duration_in_hours: 期間（時間）
-  text_in_hours: 数時間以内
-  text_meeting_agenda_for_meeting: 会議の議題 "%{meeting}"
-  text_meeting_template_blank_slate_heading: There are no templates to display
-  text_meeting_template_blank_slate: You can create a new template for one-time meetings
-  text_meeting_series_end_early_heading: 今後の予定を削除しますか？
-  text_meeting_series_end_early: シリーズを終了すると、今後開かれた会議や予定された会議の発生が削除されます
-  text_meeting_closing_are_you_sure: 会議アジェンダを終了してもよろしいですか？
-  text_meeting_agenda_open_are_you_sure: 数分内のすべての変更が上書きされます！続けますか？
-  text_meeting_minutes_for_meeting: 会議の議事録 "%{meeting}"
-  text_notificiation_invited: 'このメールには以下の会議のicsエントリーが含まれています:'
-  text_meeting_ics_description: 会議へのリンク： %{url}
-  text_meeting_ics_meeting_series_description: 一連の会議へのリンク： %{url}
-  text_meeting_occurrence_ics_description: 会議発生へのリンク %{url} 一連の会議へのリンク： %{series_url}
-  text_meeting_empty_heading: あなたの会議は空です。
-  text_meeting_empty_description1: まず、以下に議題項目を追加してください。各項目はタイトルだけの簡単なものでも構いませんが、所要時間やメモなどの詳細を追加することもできます。
-  text_meeting_empty_description2: 既存のワークパッケージへの参照を追加することもできます。これを行うと、関連するメモがそのワークパッケージの「会議」タブに自動的に表示されます。
-  label_meeting_empty_action: 議題項目を追加
-  label_meeting_actions: 会議の対応事項
-  label_meeting_edit_title: 会議タイトルを編集
-  label_meeting_delete: 会議を削除
-  label_meeting_created_by: 作成者：
-  label_meeting_last_updated: 最終更新日
-  label_meeting_reload: 再読み込み
-  label_meeting_index_today: 今日
-  label_meeting_index_tomorrow: 翌日
-  label_meeting_index_this_week: 今週の後半
-  label_meeting_index_later: 来週以降
-  label_agenda_items: 議題項目
-  label_agenda_items_reordered: 並べ替えられました
-  label_agenda_item_add: アジェンダを追加
-  label_agenda_item_remove_from_agenda: アジェンダから削除
-  label_agenda_item_remove_from_backlog: バックログから削除
-  label_agenda_item_undisclosed_wp: 'ワークパッケージ #%{id} は表示されません'
-  label_agenda_item_deleted_wp: 削除されたワークパッケージの参照
-  label_agenda_item_actions: 議題項目のアクション
-  label_agenda_item_move_to_next_title: 次の会議に移動か？
-  label_agenda_item_move: 移動
-  label_agenda_item_move_to_next: 次の会議に移動
-  label_agenda_item_move_to_backlog: バックログに移動
-  label_agenda_item_move_to_current_meeting: 現在の会議に移動
-  label_agenda_item_move_to_section: セクションへ移動
-  label_agenda_item_move_to_top: 一番上へ移動
-  label_agenda_item_move_to_bottom: 一番下へ移動
-  label_agenda_item_move_up: 上へ
-  label_agenda_item_move_down: 下へ移動
-  label_agenda_item_duplicate: 重複
-  label_agenda_item_duplicate_in_next: Duplicate in next meeting
-  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
-  label_agenda_item_add_notes: 注記の追加
-  label_agenda_item_add_outcome: 結果を追加
-  label_agenda_item_work_package_add: ワークパッケージの追加
-  label_agenda_item_work_package: 議題項目のワークパッケージ
-  label_section_rename: セクション名を変更
-  label_agenda_outcome: 結果
-  label_agenda_new_outcome: 新しい結果
-  label_agenda_outcome_actions: 議題の結果アクション
-  label_agenda_outcome_edit: 結果を編集
-  label_agenda_outcome_delete: 結果を削除
-  label_added_as_outcome: Added as outcome
-  label_write_outcome: Write outcome
-  label_existing_work_package: Existing work package
-  text_outcome_not_editable_anymore: この結果は編集できません。
-  text_outcome_cannot_be_added: 結果は追加できなくなります。
-  label_backlog_clear: バックログをクリア
-  label_backlog_clear_button: すべてクリア
-  text_backlog_clear_error: バックログのクリア中にエラーが発生しました。
-  label_agenda_backlog: アジェンダ・バックログ
+      title: タイムゾーンの差
+  text_add_work_package_to_meeting_description: ワークパッケージは、議論のために1つまたは複数の会議に追加できます。それに関するメモもここで表示されます。
+  text_add_work_package_to_meeting_form: 選択した会議または議題項目としてバックログにワークパッケージが追加されます。
   text_agenda_backlog: 'このバックログは、このワンタイム会議に固有のものです．アイテムをドラッグして追加または会議の議題から削除することができます．
 
     '
-  label_agenda_backlog_clear_title: 議題のバックログをクリアしますか？
   text_agenda_backlog_clear_description: '議題のバックログ内のすべての項目を削除してもよろしいですか？この操作は取り消せません。
 
     '
-  label_series_backlog: シリーズバックログ
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
+  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
+  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
+  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
+  text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
+  text_agenda_item_move_next_meeting: このアイテムは、 %{date} の %{time} の次の会議に移動されます。
+  text_agenda_item_moved_to_next_meeting: 議題アイテムが %{date}の次の会議に移動されました
+  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
+  text_agenda_item_no_notes: メモは提供されていません
+  text_agenda_item_not_editable_anymore: この議題項目はもう編集できません。
+  text_agenda_item_title: 議題項目 "%{title}"
+  text_agenda_work_package_deleted: 削除されたワークパッケージの議題項目
+  text_backlog_clear_error: バックログのクリア中にエラーが発生しました。
+  text_deleted_agenda_item: 削除された議題項目
+  text_duration_in_hours: 期間（時間）
+  text_email_updates_enabled: メールカレンダーの更新が有効になっています。変更を行うと、すべての参加者にメールで更新された招待状が送信されます。
+  text_email_updates_muted: メールカレンダーの更新はミュートされます。変更を行った場合、参加者はメールで更新された招待状を受け取りません。
+  text_exit_draft_mode_dialog_subtitle: You cannot return to draft mode once you schedule a meeting.
+  text_exit_draft_mode_dialog_template_subtitle: You cannot return to draft mode after this.
+  text_exit_draft_mode_dialog_template_title: Open the first occurrence of this meeting series?
+  text_exit_draft_mode_dialog_title: この会議を開いて招待を送信しますか？
+  text_in_hours: 数時間以内
+  text_meeting_agenda_for_meeting: 会議の議題 "%{meeting}"
+  text_meeting_agenda_open_are_you_sure: 数分内のすべての変更が上書きされます！続けますか？
+  text_meeting_closed_description: この会議は終了しています。これ以上、議題項目の追加/削除はできません。
+  text_meeting_closed_dropdown_description: この会議は終了しました。これ以上、議題や結果を変更することはできません。
+  text_meeting_closing_are_you_sure: 会議アジェンダを終了してもよろしいですか？
+  text_meeting_draft_banner: 現在下書きモードです。 会議の詳細を変更したり出席者を追加/削除したりしても，この会議はカレンダーの更新や招待状を送信しません。
+  text_meeting_draft_description: ドラフトモードで議題を準備します。 会議の詳細を変更したり出席者を追加/削除したりしても，この会議はカレンダーの更新や招待状を送信しません。
+  text_meeting_empty_description1: まず、以下に議題項目を追加してください。各項目はタイトルだけの簡単なものでも構いませんが、所要時間やメモなどの詳細を追加することもできます。
+  text_meeting_empty_description2: 既存のワークパッケージへの参照を追加することもできます。これを行うと、関連するメモがそのワークパッケージの「会議」タブに自動的に表示されます。
+  text_meeting_empty_heading: あなたの会議は空です。
+  text_meeting_ics_description: 会議へのリンク： %{url}
+  text_meeting_ics_meeting_series_description: 一連の会議へのリンク： %{url}
+  text_meeting_in_progress_description: 議題を変更したり、各項目のアウトカムを記録したり、参加者の出席を追跡することができます。 会議が完了すると、会議をクローズとしてマークしてロックできます。
+  text_meeting_in_progress_dropdown_description: 会議中に取られた情報のニーズや意思決定などの成果を記録します。
+  text_meeting_minutes_for_meeting: 会議の議事録 "%{meeting}"
+  text_meeting_not_editable_anymore: この会議はもう編集できません。
+  text_meeting_not_present_anymore: この会議は削除されました。別の会議を選択してください。
+  text_meeting_occurrence_ics_description: 会議発生へのリンク %{url} 一連の会議へのリンク： %{series_url}
+  text_meeting_open_description: 議題項目と参加者を追加/削除することができます。議題が準備できたら、成果を文書化するために進行中であることを示します。
+  text_meeting_open_dropdown_description: 既存の結果は残りますが、ユーザーは新しい結果を追加することはできません。
+  text_meeting_series_end_early: シリーズを終了すると、今後開かれた会議や予定された会議の発生が削除されます
+  text_meeting_series_end_early_heading: 今後の予定を削除しますか？
+  text_meeting_template_blank_slate: You can create a new template for one-time meetings
+  text_meeting_template_blank_slate_heading: There are no templates to display
+  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
+  text_notificiation_invited: 'このメールには以下の会議のicsエントリーが含まれています:'
+  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
+  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
+  text_onetime_meeting_template_empty_heading: This meeting template is empty
+  text_outcome_cannot_be_added: 結果は追加できなくなります。
+  text_outcome_not_editable_anymore: この結果は編集できません。
   text_series_backlog: 'バックログはこのシリーズのすべての出現と共有されます。 項目をドラッグして、特定の会議から項目を追加または削除できます。
 
     '
-  label_series_backlog_clear_title: シリーズバックログをクリアしますか？
   text_series_backlog_clear_description: 'これにより、シリーズのすべての会議と共有されるシリーズバックログ内のすべての項目が削除されます。 続行してもよろしいですか？この操作は元に戻せません。
 
     '
-  text_agenda_item_title: 議題項目 "%{title}"
-  text_agenda_work_package_deleted: 削除されたワークパッケージの議題項目
-  text_deleted_agenda_item: 削除された議題項目
-  label_initial_meeting_details: 会議
-  label_meeting_details: 会議詳細
-  label_meeting_series_details: 一連の会議の詳細
-  label_meeting_details_edit: 会議詳細を編集
-  label_meeting_state: 会議のステータス
-  label_meeting_state_draft: ドラフト
-  label_meeting_state_open: 開く
-  label_meeting_state_closed: 終了
-  label_meeting_state_agenda_created: アジェンダが作成されました
-  label_meeting_state_planned: 計画
-  label_meeting_state_cancelled: キャンセルしました
-  label_meeting_state_skipped: スキップ
-  label_meeting_state_in_progress: 進行中
-  label_meeting_reopen_action: 会議を再開する
-  label_meeting_close_action: 会議を終了する
-  label_meeting_in_progress_action: 会議を開始
-  label_meeting_open_action: 会議を開く
-  text_meeting_draft_description: ドラフトモードで議題を準備します。 会議の詳細を変更したり出席者を追加/削除したりしても，この会議はカレンダーの更新や招待状を送信しません。
-  text_meeting_open_description: 議題項目と参加者を追加/削除することができます。議題が準備できたら、成果を文書化するために進行中であることを示します。
-  text_meeting_closed_description: この会議は終了しています。これ以上、議題項目の追加/削除はできません。
-  text_meeting_in_progress_description: 議題を変更したり、各項目のアウトカムを記録したり、参加者の出席を追跡することができます。 会議が完了すると、会議をクローズとしてマークしてロックできます。
-  text_meeting_open_dropdown_description: 既存の結果は残りますが、ユーザーは新しい結果を追加することはできません。
-  text_meeting_in_progress_dropdown_description: 会議中に取られた情報のニーズや意思決定などの成果を記録します。
-  text_meeting_closed_dropdown_description: この会議は終了しました。これ以上、議題や結果を変更することはできません。
-  text_meeting_draft_banner: 現在下書きモードです。 会議の詳細を変更したり出席者を追加/削除したりしても，この会議はカレンダーの更新や招待状を送信しません。
-  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
-  text_onetime_meeting_template_empty_heading: This meeting template is empty
-  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
-  text_exit_draft_mode_dialog_title: この会議を開いて招待を送信しますか？
-  text_exit_draft_mode_dialog_subtitle: You cannot return to draft mode once you schedule a meeting.
-  text_exit_draft_mode_dialog_template_title: Open the first occurrence of this meeting series?
-  text_exit_draft_mode_dialog_template_subtitle: You cannot return to draft mode after this.
-  label_meeting_template_sharing: Sharing
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_system: With all projects
-  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
-  text_meeting_not_editable_anymore: この会議はもう編集できません。
-  text_meeting_not_present_anymore: この会議は削除されました。別の会議を選択してください。
-  label_add_work_package_to_meeting_dialog_title: 会議の選択
-  label_add_work_package_to_meeting_section_label: セクション
-  label_add_work_package_to_meeting_dialog_button: 会議に追加
-  label_meeting_selection_caption: このワークパッケージは、今後の会議または進行中の会議にのみ追加可能です。
-  label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
-  placeholder_section_select_meeting_first: Meeting selection is required first
-  text_add_work_package_to_meeting_form: 選択した会議または議題項目としてバックログにワークパッケージが追加されます。
-  text_add_work_package_to_meeting_description: ワークパッケージは、議論のために1つまたは複数の会議に追加できます。それに関するメモもここで表示されます。
-  text_agenda_item_no_notes: メモは提供されていません
-  text_agenda_item_not_editable_anymore: この議題項目はもう編集できません。
-  text_agenda_item_move_next_meeting: このアイテムは、 %{date} の %{time} の次の会議に移動されます。
-  text_agenda_item_moved_to_next_meeting: 議題アイテムが %{date}の次の会議に移動されました
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
-  text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
-  text_work_package_has_no_upcoming_meeting_agenda_items: このワークパッケージは、まだ今後の会議の議題に予定されていません。
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_work_package_add_to_meeting_hint: "「会議に追加」ボタンを使用して、このワークパッケージを今後の会議に追加してください。"
   text_work_package_has_no_past_meeting_agenda_items: This work package was not added as an agenda item in a past meeting.
-  text_email_updates_muted: メールカレンダーの更新はミュートされます。変更を行った場合、参加者はメールで更新された招待状を受け取りません。
-  text_email_updates_enabled: メールカレンダーの更新が有効になっています。変更を行うと、すべての参加者にメールで更新された招待状が送信されます。
-  my_account:
-    access_tokens:
-      token/ical_meeting:
-        blank_description: You can create one using the button below.
-        blank_title: No iCalendar meeting token
-        title: iCalendar for meetings
-        table_title: iCalendar meeting tokens
-        text_hint: iCalendar会議トークンを使用すると、ユーザーはすべての会議を購読し、外部クライアントで最新の会議情報を表示できます。
-        disabled_text: iCalendarの会議予約は管理者によって有効化されていません。この機能を使用するには、管理者に連絡してください。
-        add_button: カレンダーを購読する
-  my:
-    access_token:
-      dialog:
-        token/ical_meeting:
-          dialog_title: 会議用の新しいiCalサブスクリプショントークン
-          dialog_body: このトークンは、外部カレンダーアプリケーションですべての会議を表示することができるiCalサブスクリプションURLを生成します。
-          create_button: サブスクリプションを作成
-          name_label: トークン名
-          name_caption: "「マイフォン」や「ワークコンピュータ」など、どこで使用するかにちなんで名付けることができます。"
-      created_dialog:
-        token/ical_meeting:
-          title: iCal会議購読トークンが生成されました
-          body: 以下のURLをパスワードと同じように扱ってください。アクセス権を持っている人はすべての会議を閲覧できます。
-      revocation:
-        token/ical_meeting:
-          notice_success: iCalendar 会議購読が正常に取り消されました。
-          notice_failure: 'iCalendar 会議購読の取り消しに失敗しました: %{error}'
+  text_work_package_has_no_upcoming_meeting_agenda_items: このワークパッケージは、まだ今後の会議の議題に予定されていません。

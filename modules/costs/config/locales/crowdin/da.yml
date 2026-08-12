@@ -21,24 +21,42 @@
 #++
 ---
 da:
-  plugin_costs:
-    name: Time and costs
-    description: This module adds features for planning and tracking costs of projects.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Arbejdspakke
+        entity: Logget til
+        entity_gid: Logget til
+        entity_id: Logget til
+        logged_by: Logget af
         overridden_costs: Tilsidesatte omkostninger
         spent: Forbrugt
         spent_on: Dato
-        logged_by: Logget af
-        entity: Logget til
-        entity_id: Logget til
-        entity_gid: Logget til
+        work_package: Arbejdspakke
       cost_type:
+        default: Omkostningstype som standard
+        for_all_projects: For all projects
+        rates: Rates
         unit: Enhedsnavn
         unit_plural: Pluralistisk enhedsnavn
-        default: Omkostningstype som standard
+      rate:
+        rate: Sats
+      time_entry:
+        activity: Aktivivtet
+        comments: Kommentér
+        end_time: Sluttidspunkt
+        entity: Logget til
+        entity_gid: Logget til
+        entity_id: Logget til
+        hours: Timer
+        project: Projekt
+        spent_on: Dato
+        start_time: Starttidspunkt
+        subject: Emne
+        time: Tidspunkt
+        user: Bruger
+        work_package: Arbejdspakke
+      user:
+        default_rates: Standardsatser
       work_package:
         costs_by_type: Forbrugte enheder
         labor_costs: Lønomkostninger
@@ -46,67 +64,66 @@ da:
         overall_costs: Samlede omkostninger
         spent_costs: Forbrugte omkostninger
         spent_units: Forbrugte enheder
-      rate:
-        rate: Sats
-      user:
-        default_rates: Standardsatser
-      time_entry:
-        project: Projekt
-        user: Bruger
-        work_package: Arbejdspakke
-        subject: Emne
-        hours: Timer
-        comments: Kommentér
-        activity: Aktivivtet
-        spent_on: Dato
-        start_time: Starttidspunkt
-        end_time: Sluttidspunkt
-        time: Tidspunkt
-        entity: Logget til
-        entity_id: Logget til
-        entity_gid: Logget til
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Kan ikke logge tid for denne arbejdspakke.
+          duplicate_ongoing: Der findes allerede en igangværende tidsregistrering for denne bruger.
+          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
+          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
+          invalid_time: skal være mellem 00:00 og 23:59.
+          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
+          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
+          not_a_working_day: is not a working day for the user.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Arbejdspakke #%{id} er ikke et gyldigt mål til omfordeling af omkostningsangivelser.'
+          nullify_is_not_valid_for_cost_entries: Omkostningsangivelser kan ikke tildeles et projekt.
     models:
-      time_entry:
-        one: Tidspunkt
-        other: Tidsangivelser
       cost_entry:
         one: Omkostningspostering
         other: Omkostningsposteringer
       cost_type:
         one: Omkostningstype
         other: Omkostningstyper
+      rate: Sats
+      time_entry:
+        one: Tidspunkt
+        other: Tidsangivelser
       time_entry_activity:
         one: Tidsregistrering af aktivitet
         other: Tidsregistrering af aktiviteter
-      rate: Sats
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: skal være mellem 00:00 og 23:59.
-          cannot_log_for_this_work_package: Kan ikke logge tid for denne arbejdspakke.
-          duplicate_ongoing: Der findes allerede en igangværende tidsregistrering for denne bruger.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Arbejdspakke #%{id} er ikke et gyldigt mål til omfordeling af omkostningsangivelser.'
-          nullify_is_not_valid_for_cost_entries: Omkostningsangivelser kan ikke tildeles et projekt.
+      validation:
+        start_time_different_date: Datodelen af startTime (%{start_time}) skal være den samme som datoen for spentOn (%{spent_on}).
   attributes:
     comment: Kommentér
     cost_type: Omkostningstype
     costs: Omkostninger
     current_rate: Nuværende sats
+    fixed_date: Fast dato
     hours: Timer
     units: Enheder
     valid_from: Gældende fra
-    fixed_date: Fast dato
+  button_add_activity: Aktivivtet
   button_add_rate: Tilføj sats
+  button_add_time_entry: Tidsregistrering
   button_log_costs: Registrér enhedsomkostninger
   button_log_time: Log
-  button_add_activity: Aktivivtet
-  button_add_time_entry: Tidsregistrering
   button_stop_timer: Stop stopur
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Reservationer til projekt
   caption_default: Forhåndsvalgt
   caption_default_rate_history_for: Standardsatshistorik for %{user}
   caption_locked_on: Låst d.
+  caption_log_time_dialog: Tidsregistrering
   caption_materials: Enheder
   caption_rate_history: Satshistorik
   caption_rate_history_for: Satshistorik for %{user}
@@ -114,22 +131,63 @@ da:
   caption_save_rate: Gem sats
   caption_set_rate: Indstil nuværende sats
   caption_show_locked: Vis låste typer
-  caption_log_time_dialog: Tidsregistrering
-  description_date_for_new_rate: Dato for ny sats
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Registrér tid
+          description: Få et overblik over omkostningernne og registreret tid for at monitorere prijektfremdriften. Sørg for, at arbejdspakkerne er knyttet til det korrekte budget.
+          heading: Begynd at spore tid og omkostninger
+        title: Faktiske omkostninger efter måned
+        view_details: Vis faktiske omkostningsdetaljer
   description_costs_settings: Definer det ønskede format for omkostningerne i alle projekter.
-  description_time_settings: Definer, hvilke felter der er obligatoriske at udfylde, når du logger tid i alle projekter.
+  description_date_for_new_rate: Dato for ny sats
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  ee:
+    features:
+      time_entry_time_restrictions: Time entry restrictions
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
   group_by_others: ikke i nogen gruppe
+  label_available_cost_types_projects: Available cost types projects
   label_between: mellem
+  label_cost: Omkostning
   label_cost_filter_add: Tilføj omkostningangivelsesfilter
-  label_costlog: Registrerede enhedsomkostninger
   label_cost_plural: Omkostninger
   label_cost_type_plural: Omkostningstyper
   label_cost_type_specific: 'Omkostningstype #%{id}: %{name}'
+  label_costlog: Registrerede enhedsomkostninger
+  label_costs: Omkostninger
   label_costs_per_page: Omkostninger pr. side
   label_current_default_rate: Nuværende standardsats
   label_date_on: d.
+  label_day: Dag
+  label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Slettede omkostningstyper
-  label_locked_cost_types: Låste omkostningstyper
   label_display_cost_entries: Vis enhedsomkostninger
   label_display_time_entries: Vis indberettede timer
   label_display_types: Vis typer
@@ -140,59 +198,55 @@ da:
   label_group_by_add: Tilføj grupperingsfelt
   label_hourly_rate: Timesats
   label_include_deleted: Inkludér slettede
-  label_work_package_filter_add: Tilføj arbejdspakkefilter
   label_kind: Type
   label_less_or_equal: "<="
+  label_list: Liste
   label_log_costs: Registrér enhedsomkostninger
-  label_new_time_entry_activity: Ny tidsregistreringsaktivitet
-  label_time_entry_activity_form_description: Ændringer i denne tidsregistreringsaktivitet vil blive afspejlet i alle projekter, hvor den er aktiveret.
-  label_no: Nej
-  label_option_plural: Valgmuligheder
-  label_overall_costs: Samlede omkostninger
-  label_rate: Sats
-  label_rate_plural: Satser
-  label_status_finished: Afsluttet
-  label_show: Vis
-  label_units: Omkostningsenheder
-  label_user: Bruger
-  label_until: indtil
-  label_valid_from: Gældende fra
-  label_yes: Ja
-  label_time: Tidspunkt
-  label_cost: Omkostning
-  label_costs: Omkostninger
-  label_mandatory_fields: Obligatoriske felter
+  label_month: Måned
   label_my_time_tracking: Min tidsregistrering
-  label_no_time: Ingen tid registreret
+  label_new_time_entry_activity: Ny tidsregistreringsaktivitet
   label_next_day: Næste dag
+  label_next_month: Næste måned
   label_next_week: Næste uge
   label_next_workweek: Næste arbejdsuge
-  label_next_month: Næste måned
+  label_no: Nej
+  label_no_time: Ingen tid registreret
+  label_option_plural: Valgmuligheder
+  label_overall_costs: Samlede omkostninger
   label_previous_day: Forrige dag
-  label_previous_workweek: Forrige arbejdsuge
-  label_previous_week: Foregående uge
   label_previous_month: Forrige måned
+  label_previous_week: Foregående uge
+  label_previous_workweek: Forrige arbejdsuge
+  label_rate: Sats
+  label_rate_plural: Satser
+  label_show: Vis
   label_specific_day: Dag %{day}
-  label_specific_week: Kalenderuge %{week}
   label_specific_month: Måned %{month}
-  label_list: Liste
-  label_month: Måned
-  label_workweek: Arbejdsuge
-  label_day: Dag
-  label_today_capitalized: I dag
-  label_view_mode_switcher: Skift visning
+  label_start_and_finished: Start and finish times
+  label_status_finished: Afsluttet
+  label_time: Tidspunkt
+  label_time_entry_activity_form_description: Ændringer i denne tidsregistreringsaktivitet vil blive afspejlet i alle projekter, hvor den er aktiveret.
+  label_time_entry_restrictions: Limits
   label_timer_since: Startede %{time}
-  placeholder_activity_select_work_package_first: Valg af arbejdspakke er påkrævet først
-  notice_something_wrong: Noget gik galt. Forsøg venligst igen.
-  notice_successful_restore: Gendannet.
-  notice_successful_lock: Låst med succes.
+  label_today_capitalized: I dag
+  label_units: Omkostningsenheder
+  label_until: indtil
+  label_user: Bruger
+  label_valid_from: Gældende fra
+  label_view_mode_switcher: Skift visning
+  label_work_package_filter_add: Tilføj arbejdspakkefilter
+  label_workweek: Arbejdsuge
+  label_yes: Ja
   notice_cost_logged_successfully: Enhedsomkostningerne er logget korrekt.
   notice_different_time_zones: Denne bruger har en anden tidszone (%{tz}). Tiden vil blive logget ved hjælp af deres tidszone.
-  notice_time_entry_update_failed: 'Kunne ikke opdatere tidsregistreringen. Fejl: %{errors}'
+  notice_something_wrong: Noget gik galt. Forsøg venligst igen.
+  notice_successful_lock: Låst med succes.
+  notice_successful_restore: Gendannet.
   notice_time_entry_delete_failed: 'Kunne ikke slette tidsregistreringen. Fejl: %{errors}'
+  notice_time_entry_update_failed: 'Kunne ikke opdatere tidsregistreringen. Fejl: %{errors}'
   permission_edit_cost_entries: Redigér reserverede enhedsomkostninger
-  permission_edit_own_cost_entries: Redigér egne reserverede enhedsomkostninger
   permission_edit_hourly_rates: Redigér timesatser
+  permission_edit_own_cost_entries: Redigér egne reserverede enhedsomkostninger
   permission_edit_own_hourly_rate: Redigér egne timesatser
   permission_edit_rates: Redigér satser
   permission_log_costs: Reservationsenhedsomkostninger
@@ -203,45 +257,42 @@ da:
   permission_view_own_cost_entries: Se egen reservationsomkostninger
   permission_view_own_hourly_rate: Se egen timestaser
   permission_view_own_time_entries: Se eget tidsforbrug
+  placeholder_activity_select_work_package_first: Valg af arbejdspakke er påkrævet først
+  plugin_costs:
+    description: This module adds features for planning and tracking costs of projects.
+    name: Time and costs
   project_module_costs: Tid og omkostninger
   setting_allow_tracking_start_and_end_times: Tillad start- og sluttider
-  setting_costs_currency: Valuta
-  setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
-  setting_costs_currency_format: Currency format
-  setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
-  setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
-  setting_enforce_tracking_start_and_end_times: Kræv start- og sluttider
-  setting_enforce_without_allow: Det er ikke muligt at kræve start- og sluttider uden at tillade dem
   setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
+  setting_costs_currency: Valuta
+  setting_costs_currency_caption: Dette er valutaenheden. Det kan være en trebogstavs ISO-kode, såsom EUR, USD eller JPY, eller et symbol, såsom €, $ eller ¥.
+  setting_costs_currency_format: Valutaformat
+  setting_costs_currency_format_prefix: Før tallet (f.eks. EUR 100)
+  setting_costs_currency_format_suffix: Efter tallet (f.eks. 100 EUR)
+  setting_enforce_tracking_start_and_end_times: Kræv start- og sluttider
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Det er ikke muligt at kræve start- og sluttider uden at tillade dem
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
   text_assign_time_and_cost_entries_to_project: Tildel indberettede timer og omkostninger til projektet
   text_destroy_cost_entries_question: "%{cost_entries} blev indberettet for de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"
   text_destroy_time_and_cost_entries: Slet indberettede timer og omkostninger
   text_destroy_time_and_cost_entries_question: "%{hours} timer, %{cost_entries} blev indberettet på de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"
   text_reassign_time_and_cost_entries: 'Gentildel indberettede timer og omkostninger til denne arbejdspakke:'
   text_warning_hidden_elements: Visse angivelser kan været blevet ekskluderet fra sammenlægning.
-  week: uge
   total_times:
-    workweek: 'Arbejdsuge i alt: %{hours}'
-    week: 'Uge i alt: %{hours}'
-    month: 'Måned i alt: %{hours}'
     day: 'Dag i alt: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Datodelen af startTime (%{start_time}) skal være den samme som datoen for spentOn (%{spent_on}).
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Kræver præcis tidsregistrering
-    upsell:
-      time_entry_time_restrictions:
-        description: Forbedr din tidsregistrering ved at kræve nøjagtige start- og sluttider, når du logger tid.
+    month: 'Måned i alt: %{hours}'
+    week: 'Uge i alt: %{hours}'
+    workweek: 'Arbejdsuge i alt: %{hours}'
+  week: uge

@@ -1,0 +1,55 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+---
+hy:
+  js:
+    github_integration:
+      github_actions: Գործողություններ
+      pull_requests:
+        merged_message: "%{repository_link} պահոցի #%{pr_number} ձգման հարցումը %{pr_link} %{github_user_link}-ի կողմից %{pr_state}։"
+        message: "%{repository_link} պահոցի #%{pr_number} ձգման հարցումը %{pr_link}, որի հեղինակն է %{github_user_link}-ը, %{pr_state}։"
+        referenced_message: "%{repository_link} պահոցի #%{pr_number} ձգման հարցումը %{pr_link}, որի հեղինակն է %{github_user_link}-ը, հղում է կատարել այս աշխատանքային փաթեթին։"
+        states:
+          closed: փակ
+          draft: սևագրվել է
+          merged: միաձուլվել է
+          opened: բացվել է
+          ready_for_review: նշվել է որպես վերանայման պատրաստ
+      tab_header:
+        copy_menu:
+          description: Պատճենել git-ի հատվածները փոխանակման բուֆեր
+          label: Git-ի հատվածներ
+        git_actions:
+          branch_name: Ճյուղի անվանում
+          cmd: Ստեղծել ճյուղ դատարկ կոմիտով
+          commit_message: Կոմիտի հաղորդագրություն
+          copy_error: "❌ Պատճենումը ձախողվեց։"
+          copy_success: "✅ Պատճենվեց։"
+          title: Git-ի արագ հատվածներ
+        title: Ձգման հարցումներ
+      tab_prs:
+        empty: Դեռևս կապակցված ձգման հարցումներ չկան։ Կապակցեք գոյություն ունեցող PR՝ PR-ի նկարագրության մեջ օգտագործելով <code>OP#%{wp_id}</code> կոդը, կամ ստեղծեք նոր PR։
+      work_packages:
+        tab_name: GitHub
+    work_packages:
+      tabs:
+        github: GitHub

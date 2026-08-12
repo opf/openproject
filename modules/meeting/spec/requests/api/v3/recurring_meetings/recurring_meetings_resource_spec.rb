@@ -96,6 +96,24 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
       expect(last_response.body).to have_json_path("_links/template/href")
     end
 
+    context "when the meeting is monthly by pattern" do
+      let(:recurring_meeting) do
+        create(:recurring_meeting,
+               project:,
+               author: current_user,
+               frequency: "monthly_nth_weekday",
+               monthly_ordinal: -1,
+               monthly_weekday: "friday",
+               interval: 2)
+      end
+
+      it "returns monthly recurrence fields" do
+        expect(last_response.body).to be_json_eql(-1.to_json).at_path("monthlyOrdinal")
+        expect(last_response.body).to be_json_eql("friday".to_json).at_path("monthlyWeekday")
+        expect(last_response.body).to be_json_eql(2.to_json).at_path("interval")
+      end
+    end
+
     context "without view_meetings permission" do
       let(:permissions) { [] }
 

@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
@@ -38,14 +38,13 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
   standalone: false,
 })
 export class FilterBooleanValueComponent {
+  readonly I18n = inject(I18nService);
+
   @Input() public shouldFocus = false;
 
   @Input() public filter:QueryFilterInstanceResource;
 
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
-
-  constructor(readonly I18n:I18nService) {
-  }
 
   public get value():HalResource | string {
     // Boolean fields should be initialized as true by default

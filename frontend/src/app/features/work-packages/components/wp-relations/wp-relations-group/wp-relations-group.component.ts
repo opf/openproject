@@ -21,15 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
@@ -39,9 +37,11 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageRelationsGroupComponent {
+  readonly I18n = inject(I18nService);
+
   @HostBinding('class.attributes-group') className = true;
 
   @Input() public relatedWorkPackages:WorkPackageResource[];
@@ -56,17 +56,12 @@ export class WorkPackageRelationsGroupComponent {
 
   @Output() public onToggleGroupBy = new EventEmitter<undefined>();
 
-  @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef;
+  @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef<HTMLButtonElement>;
 
   public text = {
     groupByType: this.I18n.t('js.relation_buttons.group_by_wp_type'),
     groupByRelation: this.I18n.t('js.relation_buttons.group_by_relation_type'),
   };
-
-  constructor(
-    readonly I18n:I18nService,
-  ) {
-  }
 
   public get togglerText() {
     if (this.groupByWorkPackageType) {

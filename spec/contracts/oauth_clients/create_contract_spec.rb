@@ -52,25 +52,43 @@ RSpec.describe OAuthClients::CreateContract do
       include_examples "contract is valid"
     end
 
-    %i[client_id client_secret].each do |attribute_name|
-      context "when client_id is invalid" do
-        context "as it is too long" do
-          let(attribute_name) { "X" * 257 }
+    context "when client_id is invalid" do
+      context "as it is too long" do
+        let(:client_id) { "X" * 257 }
 
-          include_examples "contract is invalid", attribute_name => :too_long
-        end
+        include_examples "contract is invalid", client_id: :too_long
+      end
 
-        context "as it is empty" do
-          let(attribute_name) { "" }
+      context "as it is empty" do
+        let(:client_id) { "" }
 
-          include_examples "contract is invalid", attribute_name => :blank
-        end
+        include_examples "contract is invalid", client_id: :blank
+      end
 
-        context "as it is nil" do
-          let(attribute_name) { nil }
+      context "as it is nil" do
+        let(:client_id) { nil }
 
-          include_examples "contract is invalid", attribute_name => :blank
-        end
+        include_examples "contract is invalid", client_id: :blank
+      end
+    end
+
+    context "when client_secret is too long" do
+      let(:client_secret) { "X" * 257 }
+
+      include_examples "contract is invalid", client_secret: :too_long
+    end
+
+    context "when client_secret is absent" do
+      context "as it is empty" do
+        let(:client_secret) { "" }
+
+        include_examples "contract is invalid", client_secret: :blank
+      end
+
+      context "as it is nil" do
+        let(:client_secret) { nil }
+
+        include_examples "contract is invalid", client_secret: :blank
       end
     end
 

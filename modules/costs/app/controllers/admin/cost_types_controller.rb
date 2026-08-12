@@ -32,12 +32,13 @@ module Admin
   class CostTypesController < ApplicationController
     # Allow only admins here
     before_action :require_admin
-    before_action :find_cost_type, only: %i[edit update set_rate destroy restore]
+    before_action :find_cost_type, only: %i[edit update set_rate destroy restore rates]
     layout "admin"
     menu_item :cost_types
 
     helper :sort
     include SortHelper
+
     helper :cost_types
     include CostTypesHelper
 
@@ -48,39 +49,11 @@ module Admin
                        "unit_plural" => "#{CostType.table_name}.unit_plural" }
       sort_update sort_columns
 
-      @cost_types = CostType.order(sort_clause)
-
-      if params[:clear_filter]
-        @fixed_date = Time.zone.today
-        @include_deleted = nil
-      else
-        @fixed_date = begin
-          Date.parse(params[:fixed_date])
-        rescue StandardError
-          Time.zone.today
-        end
-        @include_deleted = params[:include_deleted]
-      end
+      @query = load_query
+      @status = @query.find_active_filter(:status).values.first
+      @cost_types = @query.results.reorder(sort_clause)
 
       render action: "index", layout: !request.xhr?
-    end
-
-    def edit
-      render action: :edit, layout: !request.xhr?
-    end
-
-    def update
-      @cost_type.attributes = permitted_params.cost_type
-
-      if @cost_type.save
-        flash[:notice] = t(:notice_successful_update)
-        redirect_back_or_default({ action: "index" })
-      else
-        render action: :edit, status: :unprocessable_entity, layout: !request.xhr?
-      end
-    rescue ActiveRecord::StaleObjectError
-      # Optimistic locking exception
-      flash.now[:error] = t(:notice_locking_conflict)
     end
 
     def new
@@ -89,6 +62,14 @@ module Admin
       @cost_type.rates.build(valid_from: Time.zone.today) if @cost_type.rates.empty?
 
       render action: :edit, layout: !request.xhr?
+    end
+
+    def edit
+      render action: :edit, layout: !request.xhr?
+    end
+
+    def rates
+      render action: :rates, layout: !request.xhr?
     end
 
     def create # rubocop:disable Metrics/AbcSize
@@ -106,6 +87,20 @@ module Admin
       flash.now[:error] = t(:notice_locking_conflict)
     end
 
+    def update # rubocop:disable Metrics/AbcSize
+      @cost_type.attributes = permitted_params.cost_type
+
+      if @cost_type.save
+        flash[:notice] = t(:notice_successful_update)
+        redirect_to redirect_target_after_update
+      else
+        render action: render_action_for_failed_update, status: :unprocessable_entity, layout: !request.xhr?
+      end
+    rescue ActiveRecord::StaleObjectError
+      # Optimistic locking exception
+      flash.now[:error] = t(:notice_locking_conflict)
+    end
+
     def destroy
       @cost_type.deleted_at = DateTime.now
       @cost_type.default = false
@@ -113,7 +108,7 @@ module Admin
       if @cost_type.save
         flash[:notice] = t(:notice_successful_lock)
 
-        redirect_back_or_default({ action: "index" })
+        redirect_back_or_default({ action: "index" }, status: :see_other)
       end
     end
 
@@ -124,7 +119,7 @@ module Admin
       if @cost_type.save
         flash[:notice] = t(:notice_successful_restore)
 
-        redirect_back_or_default({ action: "index" })
+        redirect_back_or_default({ action: "index" }, status: :see_other)
       end
     end
 
@@ -149,8 +144,27 @@ module Admin
 
     private
 
+    def load_query
+      query = ParamsToQueryService.new(CostType, current_user).call(params)
+      query.where("status", "=", ["active"]) unless query.find_active_filter(:status)
+      query
+    end
+
     def find_cost_type
       @cost_type = CostType.find(params[:id])
+    end
+
+    def rates_submission?
+      params.dig(:cost_type, :new_rate_attributes).present? ||
+        params.dig(:cost_type, :existing_rate_attributes).present?
+    end
+
+    def redirect_target_after_update
+      rates_submission? ? rates_admin_cost_type_path(@cost_type) : edit_admin_cost_type_path(@cost_type)
+    end
+
+    def render_action_for_failed_update
+      rates_submission? ? :rates : :edit
     end
   end
 end

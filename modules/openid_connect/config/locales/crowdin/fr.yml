@@ -1,104 +1,83 @@
 ---
 fr:
-  plugin_openproject_openid_connect:
-    name: OpenProject OpenID Connect
-    description: Ajoute des fournisseurs de stratégie OmniAuth OpenID Connect à OpenProject.
-  logout_warning: 'Vous avez été déconnecté. Le contenu de tout formulaire que vous soumettez peut être perdu. Veuillez [vous connecter].
-
-    '
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: Identifiant de groupe OpenID
       openid_connect/provider:
-        name: Nom
-        slug: Identifiant unique
-        display_name: Nom d'affichage
+        acr_values: Valeurs ACR
+        authorization_endpoint: Point de terminaison d'autorisation
+        claims: Réclamations
         client_id: ID du client
         client_secret: Clé secrète du client
-        groups_claim: Revendication des groupes
-        group_regexes: Motifs (expressions régulières)
-        secret: Secret
-        scope: Périmètre
-        sync_groups: Synchroniser les groupes
-        grant_types_supported: Types d'autorisations pris en charge
-        limit_self_registration: Limiter l'inscription automatique
-        authorization_endpoint: Point de terminaison d'autorisation
-        userinfo_endpoint: Point de terminaison des informations de l'utilisateur
-        token_endpoint: Point de terminaison de jeton
+        display_name: Nom d'affichage
         end_session_endpoint: Point de terminaison de la session
-        post_logout_redirect_uri: URL de redirection après déconnexion
-        jwks_uri: URL JWKS
-        issuer: Émetteur
-        tenant: Locataire
-        metadata_url: URL de métadonnées
+        grant_types_supported: Types d'autorisations pris en charge
+        group_regexes: Motifs (expressions régulières)
+        groups_claim: Revendication des groupes
         icon: Icône personnalisée
-        claims: Réclamations
-        acr_values: Valeurs ACR
+        issuer: Émetteur
+        jwks_uri: URL JWKS
+        limit_self_registration: Limiter l'inscription automatique
+        metadata_url: URL de métadonnées
+        name: Nom
+        post_logout_redirect_uri: URL de redirection après déconnexion
         redirect_url: URL de redirection
+        scope: Périmètre
+        secret: Secret
+        slug: Identifiant unique
+        sync_groups: Synchroniser les groupes
+        tenant: Locataire
+        token_endpoint: Point de terminaison de jeton
+        userinfo_endpoint: Point de terminaison des informations de l'utilisateur
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
               format: URL du point de terminaison de la découverte %{message}
-              response_is_not_successful: " répond par %{status}."
               response_is_not_json: " ne renvoie pas de corps JSON."
+              response_is_not_successful: " répond par %{status}."
               response_misses_required_attributes: " ne renvoie pas les attributs requis. Les attributs manquants sont : %{missing_attributes}."
           invalid_claims_essential: ne définit pas de booléen à l'adresse %{attribute}.
           invalid_claims_location: 'contiennent des emplacements non pris en charge : %{invalid}. Les emplacements pris en charge sont les suivants : %{supported}.'
           invalid_claims_values: ne définit pas de tableau à l'adresse %{attribute}.
           non_object_attribute: ne définit pas d'objet JSON à l'adresse %{attribute}.
-  provider:
-    delete_warning:
-      input_delete_confirmation_html: Saisissez le nom du fournisseur %{name} pour confirmer la suppression.
-      irreversible_notice: La suppression d'un fournisseur SSO est une action irréversible.
-      provider_html: 'Êtes-vous sûr de vouloir supprimer le fournisseur SSO %{name} ? Sachez que cela aura pour effet de :'
-      delete_result_1: Supprimez le fournisseur de la liste des fournisseurs disponibles.
-      delete_result_user_count:
-        zero: Aucun utilisateur n'utilise actuellement ce fournisseur. Aucune action supplémentaire n'est requise.
-        one: Un utilisateur utilise encore ce fournisseur. Il devra être réinvité ou se connecter par le biais d'un autre fournisseur.
-        other: "%{count} utilisateurs utilisent encore ce fournisseur. Ils devront être réinvités ou se connecter par le biais d'un autre fournisseur."
-      delete_result_direct: Ce fournisseur est marqué comme fournisseur de connexion directe. Le paramètre sera supprimé et les utilisateurs ne seront plus redirigés vers le fournisseur pour se connecter.
+  logout_warning: 'Vous avez été déconnecté. Le contenu de tout formulaire que vous soumettez peut être perdu. Veuillez [vous connecter].
+
+    '
   openid_connect:
-    menu_title: Fournisseurs OpenID
-    delete_title: Supprimer le fournisseur OpenID Connect
     delete_heading: Supprimer ce fournisseur OpenID Connect ?
+    delete_title: Supprimer le fournisseur OpenID Connect
     group_links_heading: Liens du groupe OpenID Connect
     groups:
       match_preview_component:
-        title: Noms de groupe extraits
         placeholder_none: Aucun groupe ne correspond actuellement au modèle.
+        title: Noms de groupe extraits
       match_preview_dialog_component:
         description: Cela vous permet de tester votre modèle d'expression régulière sur des données d'exemple afin de vérifier que les noms de groupes que vous souhaitez extraire sont extraits correctement. Vous pouvez modifier votre modèle ici, mais la chaîne de test et les correspondances ne seront pas enregistrées dans la configuration.
-        group_names_label: Noms des groupes de test
         group_names_description: Saisissez un nom de groupe par ligne tel qu'il apparaîtrait dans la demande de l'OIDC, afin de voir comment vos expressions régulières les affectent.
+        group_names_label: Noms des groupes de test
         show_button: Modèle de test
         title: Tester les expressions régulières
     instructions:
+      acr_values: 'Envoyez des requêtes non essentielles dans un format plus simple. Consultez [notre documentation sur acr_values](docs_url) pour obtenir plus d''informations.
+
+        '
+      claims: 'Vous pouvez demander des réclamations supplémentaires pour les points de terminaison userinfo et id token. Veuillez consulter [notre documentation OpenID Connect](docs_url) pour obtenir plus d''informations.
+
+        '
+      client_id: Il s'agit de l'ID de client qui vous a été attribué par votre fournisseur OpenID Connect
+      client_secret: Il s'agit de la clé secrète du client qui vous a été communiquée par votre fournisseur OpenID Connect
+      display_name: Le nom du fournisseur. Il sera affiché comme bouton de connexion et dans la liste des fournisseurs.
       endpoint_url: L'URL du point de terminaison qui vous a été communiquée par le fournisseur OpenID Connect
       group_regexes: Un motif d'expression régulière par ligne. Veuillez lire [la documentation](docs_url) pour en savoir plus sur la manière de procéder.
       group_regexes_detail: Vous pouvez également définir des motifs à l'aide d'expressions régulières pour faire correspondre les noms de groupes aux revendications de groupes. Par exemple, si vous saisissez un motif tel que <code>^Level1/Level2/([\w/]+)$</code>, le groupe « Groupname/SubGroup » sera extrait d'une réponse comprenant « Level1/Level2/GroupName/SubGroup ». Si aucun motif ne correspond, le groupe est ignoré. Laissez le champ vide pour synchroniser tous les groupes en utilisant leur nom complet.
       group_regexes_testing: Cliquez sur « Tester le modèle » pour tester votre expression régulière par rapport aux informations userinfo OIDC.
       group_sync: Extraire et synchroniser automatiquement les informations relatives à l'appartenance à un groupe à partir du fournisseur d'identité.
       groups_claim: Indiquez le nom de la revendication censée indiquer les noms des groupes dont l'utilisateur est membre.
-      metadata_none: Je ne dispose pas de cette information
-      metadata_url: J'ai une URL de point de terminaison de découverte
-      oidc_information: Ces valeurs sont nécessaires pour configurer le fournisseur OpenID Connect.
-      client_id: Il s'agit de l'ID de client qui vous a été attribué par votre fournisseur OpenID Connect
-      client_secret: Il s'agit de la clé secrète du client qui vous a été communiquée par votre fournisseur OpenID Connect
       limit_self_registration: Si cette option est activée, les utilisateurs peuvent s'inscrire par le biais de ce fournisseur uniquement si la configuration du côté du fournisseur le permet.
-      display_name: Le nom du fournisseur. Il sera affiché comme bouton de connexion et dans la liste des fournisseurs.
-      tenant: Veuillez remplacer le locataire par défaut par le vôtre, le cas échéant. Vous pouvez en savoir plus <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">ici</a>.
-      scope: Si vous voulez demander des portées personnalisées, vous pouvez ajouter une ou plusieurs valeurs de portée séparées par des espaces. Consultez voir la [documentation OpenID Connect](docs_url) pour obtenir plus d'informations.
-      post_logout_redirect_uri: L'URL vers laquelle le fournisseur OpenID Connect doit rediriger le client après une demande de déconnexion.
-      claims: 'Vous pouvez demander des réclamations supplémentaires pour les points de terminaison userinfo et id token. Veuillez consulter [notre documentation OpenID Connect](docs_url) pour obtenir plus d''informations.
-
-        '
-      acr_values: 'Envoyez des requêtes non essentielles dans un format plus simple. Consultez [notre documentation sur acr_values](docs_url) pour obtenir plus d''informations.
-
-        '
-      mapping_login: 'Fournissez un mapping personnalisé dans la réponse userinfo à utiliser pour l''attribut de connexion.
+      mapping_admin: 'Fournissez un mapping personnalisé dans la réponse userinfo à utiliser pour le statut d''administrateur. Le retour devrait être un attribut booléen.
 
         '
       mapping_email: 'Fournissez un mapping personnalisé dans la réponse userinfo à utiliser pour l''attribut d''e-mail.
@@ -110,57 +89,77 @@ fr:
       mapping_last_name: 'Fournissez un mapping personnalisé dans la réponse userinfo à utiliser pour le nom de famille.
 
         '
-      mapping_admin: 'Fournissez un mapping personnalisé dans la réponse userinfo à utiliser pour le statut d''administrateur. Le retour devrait être un attribut booléen.
+      mapping_login: 'Fournissez un mapping personnalisé dans la réponse userinfo à utiliser pour l''attribut de connexion.
 
         '
-    settings:
       metadata_none: Je ne dispose pas de cette information
       metadata_url: J'ai une URL de point de terminaison de découverte
-      endpoint_url: URL du point de terminaison
+      oidc_information: Ces valeurs sont nécessaires pour configurer le fournisseur OpenID Connect.
+      post_logout_redirect_uri: L'URL vers laquelle le fournisseur OpenID Connect doit rediriger le client après une demande de déconnexion.
+      scope: Si vous voulez demander des portées personnalisées, vous pouvez ajouter une ou plusieurs valeurs de portée séparées par des espaces. Consultez voir la [documentation OpenID Connect](docs_url) pour obtenir plus d'informations.
+      tenant: Veuillez remplacer le locataire par défaut par le vôtre, le cas échéant. Vous pouvez en savoir plus <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">ici</a>.
+    menu_title: Fournisseurs OpenID
     providers:
-      label_providers: Fournisseurs
-      seeded_from_env: Ce fournisseur a été ajouté à partir de la configuration de l'environnement. Il ne peut pas être modifié.
-      google:
-        name: Google
-      microsoft_entra:
-        name: Microsoft Entra
+      client_details_description: Détails de la configuration d'OpenProject en tant que client OIDC
       custom:
         name: Personnalisé
-      upsell:
-        title: Authentification unique (SSO) avec connexion OpenID
-        description: Connecter OpenProject à un fournisseur d'identité OpenID Connect
+      google:
+        name: Google
       label_add_new: Ajouter un nouveau fournisseur OpenID
+      label_advanced_configuration: Configuration avancée
+      label_attribute_mapping: Mapping des attributs
+      label_automatic_configuration: Configuration automatique
+      label_client_details: Informations du client
+      label_configuration_details: Métadonnées
       label_edit: Modifier le fournisseur OpenID %{name}
-      label_empty_title: Aucun fournisseur OpenID n'a encore été configuré.
       label_empty_description: Ajoutez un fournisseur pour le voir ici.
+      label_empty_title: Aucun fournisseur OpenID n'a encore été configuré.
       label_group_mapping: Mappage des groupes
       label_metadata: Point de terminaison de découverte OpenID Connect
-      label_automatic_configuration: Configuration automatique
       label_optional_configuration: Configuration facultative
-      label_advanced_configuration: Configuration avancée
-      label_configuration_details: Métadonnées
-      label_client_details: Informations du client
-      label_attribute_mapping: Mapping des attributs
-      notice_created: Un nouveau fournisseur OpenID a été créé avec succès.
-      client_details_description: Détails de la configuration d'OpenProject en tant que client OIDC
+      label_providers: Fournisseurs
+      microsoft_entra:
+        name: Microsoft Entra
       no_results_table: Aucun fournisseur n'a encore été défini.
+      notice_created: Un nouveau fournisseur OpenID a été créé avec succès.
       plural: Fournisseurs OpenID
-      singular: Fournisseur OpenID
       section_texts:
+        attribute_mapping: Configurez le mappage des attributs entre OpenProject et le fournisseur OpenID Connect.
+        claims: Demander des réclamations supplémentaires pour le jeton d'identification ou la réponse userinfo.
+        configuration: Détails de la configuration du fournisseur OpenID Connect
+        configuration_metadata: Les informations ont été préremplies à l'aide du point de terminaison de découverte fourni. Dans la plupart des cas, il n'est pas nécessaire de les modifier.
+        display_name: Le nom d'affichage visible par les utilisateurs.
         group_mapping: Mettez en correspondance les noms de groupes fournis par le fournisseur d'identité avec les groupes d'OpenProject.
         metadata: Préremplir la configuration à l'aide d'une URL de point de découverte OpenID Connect
         metadata_form_banner: La modification du point de terminaison de découverte peut remplacer les valeurs de métadonnées préremplies existantes.
-        metadata_form_title: Point de terminaison de découverte OpenID Connect
         metadata_form_description: Si votre fournisseur d'identité dispose d'une URL de point de terminaison de découverte. Utilisez-la ci-dessous pour préremplir la configuration.
-        configuration_metadata: Les informations ont été préremplies à l'aide du point de terminaison de découverte fourni. Dans la plupart des cas, il n'est pas nécessaire de les modifier.
-        configuration: Détails de la configuration du fournisseur OpenID Connect
-        display_name: Le nom d'affichage visible par les utilisateurs.
-        attribute_mapping: Configurez le mappage des attributs entre OpenProject et le fournisseur OpenID Connect.
-        claims: Demander des réclamations supplémentaires pour le jeton d'identification ou la réponse userinfo.
+        metadata_form_title: Point de terminaison de découverte OpenID Connect
       side_panel:
         information_component:
           backchannel_logout_url: URL de déconnexion du canal de retour
+      singular: Fournisseur OpenID
+      upsell:
+        description: Connecter OpenProject à un fournisseur d'identité OpenID Connect
+        title: Authentification unique (SSO) avec connexion OpenID
     setting_instructions:
       limit_self_registration: 'Si cette option est activée, les utilisateurs ne peuvent s''inscrire en utilisant ce fournisseur que si le paramètre d''inscription automatique le permet.
 
         '
+    settings:
+      endpoint_url: URL du point de terminaison
+      metadata_none: Je ne dispose pas de cette information
+      metadata_url: J'ai une URL de point de terminaison de découverte
+  plugin_openproject_openid_connect:
+    description: Ajoute des fournisseurs de stratégie OmniAuth OpenID Connect à OpenProject.
+    name: OpenProject OpenID Connect
+  provider:
+    delete_warning:
+      delete_result_1: Supprimez le fournisseur de la liste des fournisseurs disponibles.
+      delete_result_direct: Ce fournisseur est marqué comme fournisseur de connexion directe. Le paramètre sera supprimé et les utilisateurs ne seront plus redirigés vers le fournisseur pour se connecter.
+      delete_result_user_count:
+        one: Un utilisateur utilise encore ce fournisseur. Il devra être réinvité ou se connecter par le biais d'un autre fournisseur.
+        other: "%{count} utilisateurs utilisent encore ce fournisseur. Ils devront être réinvités ou se connecter par le biais d'un autre fournisseur."
+        zero: Aucun utilisateur n'utilise actuellement ce fournisseur. Aucune action supplémentaire n'est requise.
+      input_delete_confirmation_html: Saisissez le nom du fournisseur %{name} pour confirmer la suppression.
+      irreversible_notice: La suppression d'un fournisseur SSO est une action irréversible.
+      provider_html: 'Voulez-vous vraiment supprimer le fournisseur SSO %{name} ? Sachez que cela aura pour effet de :'

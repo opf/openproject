@@ -37,7 +37,7 @@ module ProjectIdentifiers
     #
     # == Performance notes
     #
-    # * +#exclusion_set+ loads all non-problematic identifiers and historical slugs
+    # * +#reserved_identifiers_for_admin_preview+ loads all non-problematic identifiers and historical slugs
     #   into memory. Fine for a one-off admin migration; if this ever becomes a hot
     #   path, consider a DB-backed exclusion check instead.
     #
@@ -47,11 +47,15 @@ module ProjectIdentifiers
     #
     #
     class ProblematicIdentifiers
-      # Returns all project identifiers (current and historical) tracked by
-      # FriendlyId's slug history. Useful as an exclusion set when generating
-      # new identifiers, since any slug that was ever in use must not be reused.
+      # Returns a Set of uppercased identifiers that must not be reused.
+      # Combines all FriendlyId slug history for projects (current and historical slugs)
+      # with system-reserved keywords from Projects::Identifier::RESERVED_IDENTIFIERS.
       def self.reserved_identifiers
-        FriendlyId::Slug.where(sluggable_type: Project.name).pluck(:slug).to_set
+        Project.identifier_slugs.upcased_values.to_set | model_reserved_identifiers
+      end
+
+      def self.model_reserved_identifiers
+        Projects::Identifier::RESERVED_IDENTIFIERS.to_set(&:upcase)
       end
 
       # Priority-ordered format rules for identifier classification.
@@ -77,7 +81,7 @@ module ProjectIdentifiers
       end
 
       def self.max_identifier_length
-        ProjectIdentifierSuggestionGenerator::IDENTIFIER_LENGTH[:max]
+        Projects::Identifier::SEMANTIC_IDENTIFIER_MAX_LENGTH
       end
 
       def scope
@@ -96,39 +100,37 @@ module ProjectIdentifiers
       end
 
       # Returns a Set of identifiers that must not be suggested for new assignments.
-      # Combines currently active identifiers from non-problematic projects with
-      # historically reserved identifiers from FriendlyId slug history.
-      def exclusion_set
-        historical_identifiers | in_use_identifiers
+      # Unions currently active identifiers (non-problematic projects), historical FriendlyId slugs,
+      # and system-reserved keywords — the full exclusion set used by #collision_error_reason.
+      # Uses instance-level memoization so the same loaded sets power both this method and collision checks.
+      def reserved_identifiers_for_admin_preview
+        historical_identifiers | current_identifiers | self.class.model_reserved_identifiers
       end
 
       private
 
       def historical_identifiers
-        @historical_identifiers ||= FriendlyId::Slug
-                                    .where(sluggable_type: Project.name)
-                                    .where("LOWER(slug) NOT IN (SELECT LOWER(identifier) FROM projects)")
-                                    .pluck(:slug)
-                                    .to_set
+        @historical_identifiers ||= Project.identifier_slugs.historically_reserved.upcased_values.to_set
       end
 
-      def exceeds_max_length        = Project.where("length(identifier) > ?", self.class.max_identifier_length)
-      def contains_non_alphanumeric = Project.where("identifier ~ ?", "[^a-zA-Z0-9_]")
+      def exceeds_max_length          = Project.where("length(identifier) > ?", self.class.max_identifier_length)
+      def contains_non_alphanumeric   = Project.where("identifier ~ ?", "[^a-zA-Z0-9_]")
       def does_not_start_with_letter  = Project.where("identifier ~ ?", "^[^A-Za-z]") # rubocop:disable Naming/PredicatePrefix
-      def not_fully_uppercased      = Project.where("identifier != UPPER(identifier)")
+      def not_fully_uppercased        = Project.where("identifier != UPPER(identifier)")
 
       def collision_error_reason(identifier)
-        if in_use_identifiers.include?(identifier)
+        if self.class.model_reserved_identifiers.include?(identifier)
+          :reserved_by_system
+        elsif current_identifiers.include?(identifier)
           :in_use
         elsif historical_identifiers.include?(identifier)
-          :reserved
+          :used_in_past
         end
       end
 
-      def in_use_identifiers
-        @in_use_identifiers ||= Project.where.not(id: scope.select(:id)).pluck(:identifier).to_set
+      def current_identifiers
+        @current_identifiers ||= Project.where.not(id: scope.select(:id)).pluck(:identifier).to_set
       end
-
     end
   end
 end

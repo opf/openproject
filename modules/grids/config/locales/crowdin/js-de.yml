@@ -3,58 +3,66 @@ de:
   js:
     grid:
       add_widget: Widget hinzufügen
-      widget_menu_label: Menüoptionen für das Widget %{widgetName} anzeigen
-      remove: Widget entfernen
       configure: Widget konfigurieren
+      remove: Widget entfernen
+      widget_menu_label: Menüoptionen für das Widget %{widgetName} anzeigen
       widgets:
-        missing_permission: Sie verfügen nicht über die erforderlichen Berechtigungen, um dieses Steuerelement anzuzeigen.
-        not_available: Dieses Widget ist derzeit nicht verfügbar.
         custom_text:
           title: Benutzerdefinierter Text
         documents:
-          title: Dokumente
           no_results: Keine Dokumente.
+          title: Dokumente
         members:
           title: Mitglieder
+        missing_permission: Sie verfügen nicht über die erforderlichen Berechtigungen, um dieses Steuerelement anzuzeigen.
         news:
           title: Neuigkeiten
+        not_available: Dieses Widget ist derzeit nicht verfügbar.
         project_description:
           title: Beschreibung
+        project_favorites:
+          no_results: Sie haben derzeit keine favorisierten Projekte. Fügen Sie ein oder mehrere Projekte in der Übersicht oder in einer Projektliste als Favoriten hinzu.
+          title: Favorisierte Projekte
         project_status:
-          title: Status
-          not_started: Nicht gestartet
-          on_track: Planmäßig
-          off_track: Unplanmäßig
           at_risk: Gefährdet
-          not_set: Nicht gesetzt
-          finished: Abgeschlossen
           discontinued: Eingestellt
+          finished: Abgeschlossen
+          not_set: Nicht gesetzt
+          not_started: Nicht gestartet
+          off_track: Unplanmäßig
+          on_track: Planmäßig
+          title: Status
+        project_timeline:
+          accessible_date_range: "%{start} bis %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Phasen Gates
+          tooltip_type_milestone: Meilenstein
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Unterelemente
-        project_favorites:
-          title: Favorisierte Projekte
-          no_results: Sie haben derzeit keine favorisierten Projekte. Klicken Sie auf den Stern auf der Projektübersicht, um ein Projekt zu Ihren Favoriten hinzuzufügen.
         time_entries_current_user:
-          title: Meine gebuchte Zeit
           displayed_days: 'Dargestellte Tage im Widget:'
+          title: Meine gebuchte Zeit
         time_entries_list:
-          title: Verbuchte Zeit (letzte 7 Tage)
           no_results: Keine Zeiteinträge der letzten 7 Tage.
+          title: Verbuchte Zeit (letzte 7 Tage)
         work_packages_accountable:
           title: Von mir verantwortete Arbeitspakete
         work_packages_assigned:
           title: Mir zugewiesene Arbeitspakete
-        work_packages_created:
-          title: Von mir erstellte Arbeitspakete
-        work_packages_watched:
-          title: Von mir beobachtete Arbeitspakete
-        work_packages_table:
-          title: Arbeitspaket-Tabelle
-        work_packages_graph:
-          title: Arbeitspaket-Graph
-          summary: "%{chartType} Diagramm zeigt Arbeitspakete. Zusammenfassung: %{description}."
         work_packages_calendar:
           title: Kalender
+        work_packages_created:
+          title: Von mir erstellte Arbeitspakete
+        work_packages_graph:
+          summary: "%{chartType} Diagramm zeigt Arbeitspakete. Zusammenfassung: %{description}."
+          title: Arbeitspaket-Graph
         work_packages_overview:
-          title: Arbeitspaket-Übersicht
           placeholder: Zum Ändern klicken...
+          title: Arbeitspaket-Übersicht
+        work_packages_table:
+          title: Arbeitspaket-Tabelle
+        work_packages_watched:
+          title: Von mir beobachtete Arbeitspakete

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,7 +41,7 @@ import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import URI from 'urijs';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { CurrentUserQuery } from 'core-app/core/current-user/current-user.query';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 const globalCapability:ICapability = {
   id: 'placeholder_users/read/g-3',
@@ -141,7 +141,7 @@ describe('Capabilities service', () => {
         CurrentUserStore,
         CurrentUserQuery,
         CurrentUserService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
     ]
 });

@@ -85,6 +85,7 @@ module Type::Attributes
       OpenProject::Cache.fetch_request_cached("all_work_package_form_attributes",
                                               *wp_cf_cache_parts,
                                               EXCLUDED.length,
+                                              Setting::WorkPackageMultipleVersions.active?,
                                               merge_date) do
         calculate_all_work_package_form_attributes(merge_date)
       end
@@ -138,7 +139,14 @@ module Type::Attributes
       # We always want to include the priority even if its required
       return false if key == "priority"
 
-      EXCLUDED.include?(key) || definition[:required]
+      excluded_version_attribute?(key) || EXCLUDED.include?(key) || definition[:required]
+    end
+
+    # Only one of the two version attributes is offered at a time, matching the
+    # query columns: target_versions with the multiple versions feature enabled,
+    # the deprecated single version without it.
+    def excluded_version_attribute?(key)
+      key == (Setting::WorkPackageMultipleVersions.active? ? "version" : "target_versions")
     end
 
     def merge_date_for_form_attributes(attributes)
@@ -153,7 +161,8 @@ module Type::Attributes
           required: field.is_required,
           has_default: field.default_value.present?,
           is_cf: true,
-          display_name: field.name
+          display_name: field.name,
+          field_format: field.field_format
         }
       end
     end

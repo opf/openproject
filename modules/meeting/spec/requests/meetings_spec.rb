@@ -45,7 +45,7 @@ RSpec.describe "Meeting requests",
   describe "Meetings index" do
     context "when sorting by meeting type" do
       it "does not raise an error (Regression #55839)" do
-        get meetings_path(sort: "type", filters: '[{"time":{"operator":"=","values":["future"]}}]')
+        get meetings_path(sort: "type", filters: '[{"time":{"operator":"upcoming","values":[]}}]')
         expect(response).to have_http_status(:ok)
         expect(response.body).to have_text(meeting.title)
       end
@@ -61,6 +61,38 @@ RSpec.describe "Meeting requests",
         get meeting_path(other_meeting)
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "update_details" do
+    let(:details_params) do
+      {
+        project_id: project.id,
+        id: meeting.id,
+        meeting: {
+          title: "Modified title",
+          start_date: Date.current.to_s,
+          duration: "1h",
+          location: "Modified location",
+          lock_version: meeting.lock_version
+        }
+      }
+    end
+
+    context "when meeting is closed" do
+      before do
+        meeting.update_column(:state, :closed)
+      end
+
+      it "rejects the update" do
+        expect do
+          put update_details_project_meeting_path(project, meeting),
+              params: details_params,
+              as: :turbo_stream
+        end.not_to change { meeting.reload.attributes.slice("title", "start_time", "duration", "location") }
+
+        expect(response).to have_http_status(:bad_request)
       end
     end
   end

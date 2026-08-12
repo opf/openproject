@@ -34,6 +34,8 @@ module Import
 
     class ConnectionError < Error; end
 
+    class SsrfError < ConnectionError; end
+
     class ParseError < Error; end
 
     class ApiError < Error
@@ -258,12 +260,17 @@ module Import
           end
           yield tempfile
         else
-          raise ApiError.new(I18n.t("admin.jira.client.api_error"), status: response.code.to_i, response_body: response.body)
+          status = response.code.to_i
+          raise ApiError.new(I18n.t("admin.jira.client.api_error", status:), status:, response_body: response.body)
         end
       end
       nil
+    rescue SsrfFilter::PrivateIPAddress
+      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
     rescue SsrfFilter::Error => e
       raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
+    rescue OpenSSL::SSL::SSLError => e
+      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
     rescue Timeout::Error => e
       raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
     ensure
@@ -284,8 +291,12 @@ module Import
         params:,
         http_options: HTTP_OPTIONS
       )
+    rescue SsrfFilter::PrivateIPAddress
+      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
     rescue SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
       raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
+    rescue OpenSSL::SSL::SSLError => e
+      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
     rescue Timeout::Error => e
       raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
     end

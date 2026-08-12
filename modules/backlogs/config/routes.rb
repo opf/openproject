@@ -44,6 +44,9 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
       resource :backlog_sharing, only: %i[show update]
+      resource :backlog_multiple_active_sprints, only: %i[show] do
+        post :toggle_multiple_active_sprints
+      end
     end
   end
 
@@ -64,12 +67,24 @@ Rails.application.routes.draw do
           to: "backlog#details",
           as: :backlog_details,
           work_package_split_view: true,
+          constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT },
           defaults: { tab: :overview }
 
-      resources :sprints, param: :sprint_id, only: %i[create update] do
+      resources :buckets, only: %i[create update destroy] do
         collection do
           get :new_dialog
-          get :refresh_form
+        end
+
+        member do
+          get :edit_dialog
+          get :destroy_dialog
+        end
+      end
+
+      resources :sprints, param: :sprint_id, only: %i[index create update] do
+        collection do
+          get :new_dialog
+          post :refresh_form
         end
 
         member do
@@ -79,25 +94,26 @@ Rails.application.routes.draw do
         end
       end
 
-      scope "sprints/:sprint_id" do
-        resources :work_packages, controller: :work_packages, only: [] do
-          member do
-            get :menu
-            put :move
-            post :reorder
-          end
+      resources :work_packages, controller: :work_packages, only: [] do
+        collection do
+          get :add_existing_dialog
+          post :add_existing
         end
 
-        get "taskboard", to: "taskboard#show", as: :sprint_taskboard
-        get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
-      end
-
-      resources :inbox, only: [] do
         member do
           get :menu
           put :move
-          post :reorder
           get :move_to_sprint_dialog
+          get :move_to_bucket_dialog
+        end
+      end
+
+      scope "sprints/:sprint_id" do
+        get "taskboard", to: "taskboard#show", as: :sprint_taskboard
+        get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
+
+        constraints(Constraints::FeatureDecision.new(:sprint_reports)) do
+          get "report", to: "sprint_reports#show", as: :sprint_report
         end
       end
     end

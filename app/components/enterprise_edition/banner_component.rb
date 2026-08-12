@@ -47,6 +47,9 @@ module EnterpriseEdition
     # @param variant [Symbol, NilClass] The variant of the banner component.
     # @param image [String, NilClass] Path to the image to show on the banner, or nil.
     #   Only applicable and required when variant is :medium.
+    # @param dark_image [String, NilClass] Path to the image to show on the banner when the dark
+    #   color mode is active, or nil. Requires image to be set. Without it, dark mode falls back
+    #   to inverting the light image (:medium) or showing it unchanged (:large).
     # @param video [String, NilClass] Path to the video to show on the banner, or nil.
     #   Only applicable and required when variant is :large.
     # @param i18n_scope [String] Provide the i18n scope to look for title, description, and features.
@@ -58,6 +61,7 @@ module EnterpriseEdition
     def initialize(feature_key,
                    variant: DEFAULT_VARIANT,
                    image: nil,
+                   dark_image: nil,
                    video: nil,
                    i18n_scope: "ee.upsell.#{feature_key}",
                    dismissable: false,
@@ -66,6 +70,7 @@ module EnterpriseEdition
                    **system_arguments)
       @variant = fetch_or_fallback(VARIANT_OPTIONS, variant, DEFAULT_VARIANT)
       @image = image
+      @dark_image = dark_image
       @video = video
       @dismissable = dismissable
       @dismiss_key = dismiss_key.to_s
@@ -84,8 +89,20 @@ module EnterpriseEdition
       super
     end
 
+    # The URLs have to be absolute (image_url instead of image_path): relative url() values in
+    # custom properties are resolved against the stylesheet substituting them via var(), which
+    # is served from a different origin than the document in development.
     def image_as_background_arguments
-      { style: "background-image: url(#{helpers.image_path(@image)})" } if @image
+      return unless @image
+
+      styles = ["--op-enterprise-banner--image: url(#{helpers.image_url(@image)})"]
+
+      if @dark_image
+        styles << "--op-enterprise-banner--image-dark: url(#{helpers.image_url(@dark_image)})"
+        { style: join_style_arguments(*styles), classes: "op-enterprise-banner--image_dark-variant" }
+      else
+        { style: join_style_arguments(*styles) }
+      end
     end
 
     def inline?
@@ -107,13 +124,23 @@ module EnterpriseEdition
     private
 
     def check_media_arguments!
+      raise ArgumentError, "The 'dark_image' parameter requires the 'image' parameter" if @dark_image && !@image
+
       case @variant
       when :medium
-        raise ArgumentError, "The 'video' parameter is not used for variant :medium" if @video
+        check_medium_media_arguments!
       when :large
-        raise ArgumentError, "Either 'image' or 'video' parameter is required for variant :large" if !@image && !@video
-        raise ArgumentError, "Only one of 'image' and 'video' parameters can be specified for variant :large" if @image && @video
+        check_large_media_arguments!
       end
+    end
+
+    def check_medium_media_arguments!
+      raise ArgumentError, "The 'video' parameter is not used for variant :medium" if @video
+    end
+
+    def check_large_media_arguments!
+      raise ArgumentError, "Either 'image' or 'video' parameter is required for variant :large" if !@image && !@video
+      raise ArgumentError, "Only one of 'image' and 'video' parameters can be specified for variant :large" if @image && @video
     end
 
     def set_system_arguments(system_arguments, feature_key)

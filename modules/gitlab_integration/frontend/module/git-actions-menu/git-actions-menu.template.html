@@ -1,12 +1,16 @@
 <div class="git-actions-menu dropdown-relative dropdown -overflow-in-view dropdown-anchor-right">
   <h3 class="title">{{text.title}}</h3>
 
-  @for (snippet of snippets; track snippet) {
+  @for (snippet of snippets; track snippet.id) {
     <div class="copy-wrapper spot-form-field">
       <label class="spot-form-field--label-wrap">
         <div class="spot-form-field--label">{{ snippet.name }}</div>
-        <div class="spot-form-field--input">
-          <input type="text" class="copy-content op-input" readonly="true" [value]="snippet.textToDisplay()">
+        <div class="spot-form-field--input copy-input">
+          @if (snippet.multiline) {
+            <textarea class="copy-content op-input" rows="3" readonly>{{ snippet.text() }}</textarea>
+          } @else {
+            <input type="text" class="copy-content op-input" readonly [value]="snippet.text()" />
+          }
           <button
             class="button copy-button"
             type="button"

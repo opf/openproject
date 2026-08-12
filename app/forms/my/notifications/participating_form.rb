@@ -35,7 +35,9 @@ class My::Notifications::ParticipatingForm < ApplicationForm
   end
 
   form do |f|
-    f.fieldset_group(title: helpers.t("my_account.notifications.participating.title"), mt: 2) do |fg|
+    f.fieldset_group(title: helpers.t("my_account.notifications.participating.title"),
+                     description: helpers.t("my_account.notifications.participating.description"),
+                     mt: 2) do |fg|
       fg.check_box(
         name: :mentioned,
         label: helpers.t("my_account.notifications.participating.mentioned"),

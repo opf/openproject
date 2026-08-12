@@ -27,6 +27,7 @@ targets:
       - NODE_ENV=production
       - NPM_CONFIG_PRODUCTION=false
       - SECRET_KEY_BASE=1
+      - OPENPROJECT_DISABLE__SECRET_KEY_BASE__CHECK=true
     dependencies:
       - epel-release
       - ImageMagick

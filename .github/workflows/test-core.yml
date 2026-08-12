@@ -20,25 +20,26 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   all:
     name: Units + Features
     if: github.repository_owner == 'opf'
     runs-on:
-      labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m7+c7+r7+i7+r8/ram=128+256/cpu=32"
+      labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn+m8+m7+i7+r8/ram=128+256/cpu=24+32/volume=50gb"
     timeout-minutes: 40
     env:
       DOCKER_BUILDKIT: 1
       CI_RETRY_COUNT: 3
     steps:
-    - uses: runs-on/action@v2
+    - uses: runs-on/action@d141ef83eb66d096ce8afc767e09115a65c63b60 # v2.1.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
-        metrics: cpu,memory,disk,io,network
-    - uses: actions/checkout@v6
+        persist-credentials: false
     - name: Cache DOCKER
       id: cache_docker
-      uses: runs-on/cache@v4
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/docker
         # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
@@ -47,28 +48,28 @@ jobs:
       if: steps.cache_docker.outputs.cache-hit == 'true'
       run: docker load -i cache/docker/image.tar
     - name: Cache GEM
-      uses: runs-on/cache@v4
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           gem-trixie-${{ hashFiles('.ruby-version') }}-
     - name: Cache NPM
-      uses: runs-on/cache@v4
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/node
         key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           node-
     - name: Cache ANGULAR
-      uses: runs-on/cache@v4
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/angular
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           angular-
     - name: Cache TEST RUNTIME
-      uses: runs-on/cache@v4
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/runtime-logs
         key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
@@ -87,6 +88,28 @@ jobs:
         CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
         CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
       run: bin/ci run-features
+    - name: Report flaky specs
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      run: |
+        if [ -f tmp/retried_specs.txt ]; then
+          echo "## Flaky specs" >> "$GITHUB_STEP_SUMMARY"
+          cat tmp/retried_specs.txt >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$PR_NUMBER" ]; then
+            SPECS="$(cat tmp/retried_specs.txt)" \
+              envsubst '$SPECS $PR_NUMBER $PR_AUTHOR' \
+              < .github/flaky-spec-copilot-comment.md > tmp/flaky_comment.md
+            if [ "$PR_HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
+              echo "::warning::Flaky specs detected in this PR - see job summary for details"
+              cat tmp/flaky_comment.md
+            else
+              gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file tmp/flaky_comment.md
+            fi
+          fi
+        fi
     - name: Save CI image to cache
       if: steps.cache_docker.outputs.cache-hit != 'true'
       run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar

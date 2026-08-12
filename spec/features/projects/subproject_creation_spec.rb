@@ -34,6 +34,7 @@ RSpec.describe "Subproject creation", :js do
   let(:parent_field) { FormFields::SelectFormField.new :parent }
   let(:add_subproject_role) { create(:project_role, permissions: %i[edit_project add_subprojects]) }
   let(:view_project_role) { create(:project_role, permissions: %i[edit_project]) }
+  let!(:default_project_role) { create(:project_creator_role) }
   let!(:parent_project) do
     create(:project,
            name: "Foo project",
@@ -50,12 +51,12 @@ RSpec.describe "Subproject creation", :js do
   end
 
   before do
+    allow(Setting).to receive(:new_project_user_role_id).and_return(default_project_role.id.to_s)
     visit project_settings_general_path(parent_project)
   end
 
   it "can create a subproject" do
-    click_on "New subproject"
-
+    wait_for_turbo { click_on "New subproject" }
     expect(page).to have_heading "New project"
 
     # Step 1: Select workspace type (blank project)

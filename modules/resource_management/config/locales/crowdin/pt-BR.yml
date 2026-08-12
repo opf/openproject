@@ -1,0 +1,298 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      resource_allocation:
+        allocated_hours: Horas
+        allocated_time: Tempo alocado
+        date_range: Datas
+        end_date: Data de término
+        entity: Entidade
+        filter_name: Nome do filtro de recursos
+        principal: Atribuição
+        start_date: Data de início
+        state: Estado
+        user_filter: Filtro de usuários
+      resource_planner:
+        date_range: Datas
+        default_view_class_name: Visualização padrão
+        end_date: Data de término
+        favorite: Favorito
+        name: Nome
+        public: Público
+        start_date: Data de início
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: deve ser após a data de início.
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: deve ser após a data de início.
+              required_with_start_date: deve ser definido quando uma data de início for definida.
+            start_date:
+              required_with_end_date: deve ser definido quando uma data de término for definida.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: deve ser uma consulta de pacote de trabalho.
+    models:
+      resource_allocation: Alocação de recursos
+      resource_planner: Planejador de recursos
+      resource_user_card: Cartões de usuário
+      resource_work_package_list: Lista de Pacotes de trabalho
+  button_next: Próximo
+  ee:
+    features:
+      resource_management: Gerenciamento de recursos
+    upsell:
+      resource_management:
+        description: Planeje e equilibre a carga de trabalho da sua equipe com planejadores de recursos. Aloque pessoas a pacotes de trabalho, acompanhe a capacidade ao longo do tempo e identifique rapidamente a superalocação e a subalocação.
+        title: Gerenciamento de recursos
+  label_resource_management: Gerenciamento de recursos
+  permission_allocate_user_resources: Alocar recursos do usuário
+  permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
+  permission_assign_users_to_generic_allocations: Atribuir usuários a alocações genéricas
+  permission_assign_users_to_generic_allocations_explanation: Permite que os usuários usem a visualização de alocação de equipe para atribuir usuários reais a alocações de recursos genéricas (baseadas em filtros) que ainda não possuem um usuário. Não permite criar ou editar alocações.
+  permission_manage_public_resource_planners: Gerenciar planejadores de recursos públicos
+  permission_manage_public_resource_planners_explanation: Permite que os usuários criem e gerenciem planejadores de recursos públicos. Permite visualizar, criar, gerenciar e publicar seus próprios planejadores de recursos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
+  permission_view_resource_planners: Ver planejadores de recursos
+  permission_view_resource_planners_explanation: Permite que os usuários acessem planejadores de recursos. Permite criar e gerenciar seus próprios planejadores de recursos e visualizar planejadores de recursos públicos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
+  plugin_openproject_resource_management:
+    description: Fornece gerenciamento de recursos e planejamento de capacidade.
+    name: Gerenciamento de recursos do OpenProject
+  project_module_resource_management: Gerenciamento de recursos
+  resource_management:
+    action:
+      delete: Excluir
+      edit: Editar
+      favorite: Adicionar aos favoritos
+      make_private: Tornar privado
+      make_public: Tornar público
+      unfavorite: Remover dos favoritos
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Defina critérios de filtro com base nos atributos do usuário para criar um recurso de espaço reservado.
+          label: Critérios de filtragem
+        label: Tipo de alocação
+        principal:
+          caption: Alocar horas para um usuário específico.
+          label: Usuário
+      outside_dates:
+        description: As datas do recurso selecionado (%{resource_dates}) estão fora do período do pacote de trabalho (%{work_package_dates}).
+      overbooking:
+        capacity_summary: "%{available} disponíveis · %{scheduled} agendadas"
+        description: O usuário selecionado (%{user}) seria alocado além de suas horas de trabalho durante este período.
+        hidden_work: Outras alocações
+        schedule_availability: "%{schedule} (%{factor}% disponível para trabalho no projeto)"
+        schedule_change: até %{date}, depois %{schedule}
+        schedule_note: Este usuário trabalha %{schedule}.
+        submit: Alocar horas extras
+        title: Deseja alocar horas extras ao usuário?
+      submit: Alocar
+      success_message: Recurso alocado.
+      title: Alocar recurso
+    allocation:
+      hours: "%{value}h"
+      no_work: Nenhum trabalho planejado neste pacote de trabalho
+      summary: "%{allocated} / %{scheduled}"
+    assignment_dialog:
+      available: "%{hours} disponível"
+      confirm_overtime: Atribuir mesmo assim
+      filter_criteria: Critérios de filtragem
+      no_candidates:
+        description: Nenhum membro do projeto corresponde aos critérios de filtro desta alocação.
+        title: Nenhum membro correspondente
+      no_schedule: Este usuário não tem um cronograma de trabalho configurado, portanto não é possível determinar se esta alocação se encaixa.
+      overbooked_detail: Este usuário tem %{available} disponíveis neste período; o pacote de trabalho requer %{requested}.
+      requested_for: Solicitado para
+      select_user: Selecione um usuário para atribuir.
+      submit: Atribuir
+      title: Atribuir %{filter_name}
+    blankslate:
+      desc: Criar um planejador de recursos para iniciar o planejamento de capacidade deste projeto.
+      title: Ainda não há planejadores de recursos
+    configure_view_dialog:
+      delete_confirmation: Tem certeza que quer excluir esta visualização? Esta ação é irreversível.
+      filter_mode:
+        automatic:
+          caption: Uma lista gerada automaticamente que exibe itens que atendem aos critérios que você define.
+          label: Filtrado automaticamente
+        label: Seleção do item
+        manual:
+          caption: Uma lista personalizada de itens que você adiciona e remove manualmente. Não é possível aplicar filtros.
+          label: Selecionado manualmente
+      title: Configurar exibição
+    edit_allocation_dialog:
+      submit: Salvar
+      success_message: Alocação de recursos atualizada.
+      title: Editar alocação
+    favorite_caption: Adicionar esta visualização aos favoritos para exibi-la na seção superior do menu lateral.
+    label_edit_resource_planner: Editar planejador de recursos
+    label_new_resource_planner: Novo planejador de recursos
+    label_resource_planner: Planejador de recursos
+    label_resource_planner_plural: Planejadores de recursos
+    new_view_dialog:
+      title: Adicionar Visualização
+    public_caption: Tornar esta visualização pública para todos os membros do projeto. Isso não afeta a visibilidade dos pacotes de trabalho, que ainda depende das permissões de cada usuário.
+    show:
+      placeholder: A visualização detalhada deste planejador de recursos estará disponível em breve.
+    sidebar:
+      private: Privado
+      public: Público
+    staffing:
+      assign: Atribuir usuário
+      blank:
+        description: Todas as alocações genéricas deste projeto têm um usuário atribuído.
+        title: Nada para alocar à equipe
+      columns:
+        dates: Datas
+        requested_time: Tempo solicitado
+        resource: Recurso
+        work_package: Pacote de trabalho
+      context_menu_label: Ações de alocação
+      delete_confirmation: Tem certeza de que deseja excluir esta alocação?
+      menu_item: Pessoal
+      starts_in_past: Esta alocação já começou e ainda não foi atribuída.
+      success_message: Usuário atribuído.
+      title: Pessoal
+    sub_views: Visualizações neste planejador de recursos
+    timeframe:
+      full: De %{start} até %{end}
+    timeline:
+      granularity:
+        day: Dia
+        month: Mês
+        week: Semana do calendário
+      navigation:
+        next: Próximo período
+        previous: Período anterior
+        today: Hoje
+      subheader:
+        add: Adicionar
+        allocate: Alocar
+        settings: Configurar exibição
+    user_allocations_dialog:
+      allocate_work_package: Alocar pacote de trabalho
+      blank: Este usuário não possui pacotes de trabalho alocados.
+      other_work_packages:
+        one: 1 outro pacote de trabalho
+        other: "%{count} outros pacotes de trabalho"
+      title: Utilização
+    user_card_list:
+      add_user_dialog:
+        title: Adicionar usuário
+      blank:
+        description: Ainda não existem usuários que correspondam aos filtros desta visualização.
+        manual_description: Ainda não há usuários adicionados a esta visualização.
+        title: Nenhum usuário para exibir
+      card:
+        multi_value_more: "+%{count} a mais"
+        remove: Remover usuário
+        remove_confirmation: Remover este usuário da visualização?
+      fields:
+        drag_area_label: Campos exibidos
+        input_caption: Selecione os campos que serão exibidos no cartão do usuário nesta visualização
+        input_label: Campos
+        input_placeholder: Adicionar um campo
+        working_times: Tempo de trabalho
+      subheader:
+        resource: Recurso
+        settings: Configurar exibição
+      utilization:
+        label: Utilização
+      working_hours:
+        blank: Nenhum horário de trabalho configurado
+        schedule_availability_compact: "%{schedule} (%{factor}% disponível)"
+        schedule_change_compact: até %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Adicionar usuário
+        configure_view: Configurar visualização
+        description: Ainda não existem usuários que correspondam aos filtros desta visualização.
+        manual_description: Adicione usuários a esta visualização para ver sua alocação ao longo do tempo.
+        title: Nenhum usuário para exibir
+      no_work_schedule: Nenhum cronograma de trabalho planejado para este usuário
+      overbooked: Este usuário está superalocado no período selecionado.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} agendado, %{available} disponível"
+      subheader:
+        add_user: Adicionar usuário
+    view_types:
+      resource_user_card:
+        caption: Criar uma visualização baseada em utilizadores e ver os seus detalhes e alocação numa lista de cartões de utilizador
+        label: Lista de cartões de utilizadores
+      resource_user_timeline:
+        caption: Crie uma visualização baseada em usuários e veja suas alocações ao longo do tempo em uma linha do tempo
+        label: Timeline dos usuários
+      resource_work_package_list:
+        caption: Criar uma visualização baseada em pacotes de trabalho e ver os seus detalhes e alocação numa lista
+        label: Lista de pacotes de trabalho
+      resource_work_package_timeline:
+        caption: Crie uma visualização baseada em pacotes de trabalho e veja suas alocações ao longo do tempo em uma linha do tempo
+        label: Linha do tempo dos pacotes de trabalho
+      user_card:
+        caption: Criar uma visualização baseada em utilizadores e ver os seus detalhes e alocação numa lista de cartões de utilizador
+        label: Lista de cartões de utilizadores
+    work_package_allocations_dialog:
+      allocate_resource: Alocar recurso
+      context_menu_label: Ações de alocação
+      delete_confirmation: Tem certeza que quer excluir esta alocação? Esta ação é irreversível.
+      delete_success: Alocação de recursos excluída.
+      hidden_user: Usuário oculto
+      overbooked: O usuário está alocado além de suas horas de trabalho durante este período.
+      title: Alocação
+    work_package_list:
+      add_work_package_dialog:
+        title: Adicionar pacote de trabalho
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} usuário"
+          other: "%{count} usuários"
+        unassigned: Não atribuída
+      allocation_placeholder: "—"
+      blank:
+        description: Ainda não existem pacotes de trabalho que correspondam aos filtros desta visualização.
+        title: Não há pacotes de trabalho para exibir
+      columns:
+        allocated_members: Membros alocados
+        allocation: Alocação
+        dates: Datas
+      context_menu:
+        add_filter_criteria: Adicionar critérios de filtro
+        add_user_group: Adicionar grupo de usuários
+        edit_total_work: Editar trabalho total
+        label: Mais ações
+        move: Mover
+        move_down: Mover para baixo
+        move_to_bottom: Mover para o final
+        move_to_top: Mover para o topo
+        move_up: Mover para cima
+        remove: Remover
+        remove_confirmation: Remover este pacote de trabalho da visualização?
+        see_allocation: Ver alocação
+      mobile_title: Pacotes de trabalho
+      query_name: 'Pacotes de trabalho de gestão de recursos: %{name}'
+      subheader:
+        add: Adicionar
+        add_work_package: Adicionar pacote de trabalho
+        allocate: Alocar
+        settings: Configurar exibição
+    work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
+      blank:
+        add_work_package: Adicionar pacote de trabalho
+        configure_view: Configurar exibição
+        description: Ainda não existem pacotes de trabalho que correspondam aos filtros desta visualização.
+        manual_description: Adicione pacotes de trabalho a esta visualização para planejar sua alocação ao longo do tempo.
+        title: Não há pacotes de trabalho para exibir
+      query_name: 'Linha do tempo de gerenciamento de recursos dos pacotes de trabalho: %{name}'
+      subheader:
+        add_work_package: Adicionar pacote de trabalho

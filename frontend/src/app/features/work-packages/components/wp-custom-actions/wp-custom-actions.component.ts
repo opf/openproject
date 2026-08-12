@@ -21,14 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
@@ -42,19 +40,15 @@ import { BannersService } from 'core-app/core/enterprise/banners.service';
   standalone: false,
 })
 export class WpCustomActionsComponent extends UntilDestroyedMixin implements OnInit {
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly bannersService = inject(BannersService);
+
   @Input() workPackage:WorkPackageResource;
 
   actions:CustomActionResource[] = [];
 
   available = this.bannersService.allowsTo('custom_actions');
-
-  constructor(
-    readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef,
-    readonly bannersService:BannersService,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this

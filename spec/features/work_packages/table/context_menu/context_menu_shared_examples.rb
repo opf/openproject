@@ -56,7 +56,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     open_context_menu.call
     menu.choose("Create new child")
     expect(page).to have_css(".inline-edit--container.subject input")
-    expect(current_url).to match(/.*\/create_new\?.*(&)*parent_id=#{work_package.id}/)
+    expect(current_url).to match(/.*\/(create_new|details\/new)\?.*(&)*parent_id=#{work_package.id}/)
 
     find_by_id("work-packages--edit-actions-cancel").click
     expect(page).to have_no_css(".inline-edit--container.subject input")
@@ -82,7 +82,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
       open_context_menu.call
       menu.choose("Create new child")
       expect(page).to have_css(".inline-edit--container.subject input")
-      expect(current_url).to match(/.*\/create_new\?.*(&)*parent_id=#{work_package.id}/)
+      expect(current_url).to match(/.*\/(create_new|details\/new)\?.*(&)*parent_id=#{work_package.id}/)
 
       split_view = Pages::SplitWorkPackageCreate.new project: work_package.project
       subject = split_view.edit_field(:subject)
@@ -98,10 +98,22 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     end
 
     context "with semantic identifiers enabled",
-            with_flag: { semantic_work_package_ids: true },
             with_settings: { work_packages_identifier: "semantic" } do
+      # The shared project is created classic-style (lowercase identifier), but
+      # semantic mode requires the uppercase format. Rewrite it before any
+      # example-scoped setup so work-package allocation and URL helpers both see
+      # a valid semantic prefix. Specs that create their own project per example
+      # should prefer the `:semantic` factory trait instead.
+      around do |example|
+        semantic_project_identifier = "PROJ#{project.id}".first(Projects::Identifier::SEMANTIC_IDENTIFIER_MAX_LENGTH)
+        project.update_columns(identifier: semantic_project_identifier)
+        example.run
+      end
+
       it "uses numeric parent_id in the URL and sets the parent correctly" do
-        # Ensure the WP has a semantic identifier so we can verify the URL uses numeric PK
+        expect(Setting::WorkPackageIdentifier.semantic?)
+          .to be(true), "expected semantic mode to be active via with_settings metadata"
+
         work_package.allocate_and_register_semantic_id if work_package.identifier.blank?
 
         open_context_menu.call

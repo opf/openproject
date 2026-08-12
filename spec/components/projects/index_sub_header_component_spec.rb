@@ -112,36 +112,24 @@ RSpec.describe Projects::IndexSubHeaderComponent, type: :component do
     context "when user has add_portfolios permission" do
       let(:global_permissions) { %i[add_portfolios] }
 
-      context "without feature flag", with_flag: { portfolio_models: false } do
-        include_examples "renders no buttons"
+      context "without enterprise feature enabled", with_ee: [] do
+        include_examples "renders add button directly", :portfolio, upsell: true
       end
 
-      context "with feature flag", with_flag: { portfolio_models: true } do
-        context "without enterprise feature enabled", with_ee: [] do
-          include_examples "renders add button directly", :portfolio, upsell: true
-        end
-
-        context "with enterprise feature enabled", with_ee: :portfolio_management do
-          include_examples "renders add button directly", :portfolio, upsell: false
-        end
+      context "with enterprise feature enabled", with_ee: :portfolio_management do
+        include_examples "renders add button directly", :portfolio, upsell: false
       end
     end
 
     context "when user has add_programs permission" do
       let(:global_permissions) { %i[add_programs] }
 
-      context "without feature flag", with_flag: { portfolio_models: false } do
-        include_examples "renders no buttons"
+      context "without enterprise feature enabled", with_ee: [] do
+        include_examples "renders add button directly", :program, upsell: true
       end
 
-      context "with feature flag", with_flag: { portfolio_models: true } do
-        context "without enterprise feature enabled", with_ee: [] do
-          include_examples "renders add button directly", :program, upsell: true
-        end
-
-        context "with enterprise feature enabled", with_ee: :portfolio_management do
-          include_examples "renders add button directly", :program, upsell: false
-        end
+      context "with enterprise feature enabled", with_ee: :portfolio_management do
+        include_examples "renders add button directly", :program, upsell: false
       end
     end
 
@@ -150,46 +138,32 @@ RSpec.describe Projects::IndexSubHeaderComponent, type: :component do
 
       include_examples "renders add button directly", :project, upsell: false
 
-      context "with feature flag", with_flag: { portfolio_models: true } do
-        context "with enterprise feature enabled", with_ee: :portfolio_management do
-          include_examples "renders add button directly", :project, upsell: false
-        end
+      context "with enterprise feature enabled", with_ee: :portfolio_management do
+        include_examples "renders add button directly", :project, upsell: false
       end
     end
 
     context "when user has only part (add_project and add_programs) of permissions" do
       let(:global_permissions) { %i[add_project add_programs] }
 
-      context "without feature flag", with_flag: { portfolio_models: false } do
-        include_examples "renders add button directly", :project, upsell: false
+      context "without enterprise feature enabled", with_ee: [] do
+        include_examples "renders add buttons in a pulldown", %i[program project], upsell: %i[program]
       end
 
-      context "with feature flag", with_flag: { portfolio_models: true } do
-        context "without enterprise feature enabled", with_ee: [] do
-          include_examples "renders add buttons in a pulldown", %i[program project], upsell: %i[program]
-        end
-
-        context "with enterprise feature enabled", with_ee: :portfolio_management do
-          include_examples "renders add buttons in a pulldown", %i[program project], upsell: []
-        end
+      context "with enterprise feature enabled", with_ee: :portfolio_management do
+        include_examples "renders add buttons in a pulldown", %i[program project], upsell: []
       end
     end
 
     context "when user has all permissions" do
       let(:global_permissions) { %i[add_project add_portfolios add_programs] }
 
-      context "without feature flag", with_flag: { portfolio_models: false } do
-        include_examples "renders add button directly", :project, upsell: false
+      context "without enterprise feature enabled", with_ee: [] do
+        include_examples "renders add buttons in a pulldown", workspace_types, upsell: %i[portfolio program]
       end
 
-      context "with feature flag", with_flag: { portfolio_models: true } do
-        context "without enterprise feature enabled", with_ee: [] do
-          include_examples "renders add buttons in a pulldown", workspace_types, upsell: %i[portfolio program]
-        end
-
-        context "with enterprise feature enabled", with_ee: :portfolio_management do
-          include_examples "renders add buttons in a pulldown", workspace_types, upsell: []
-        end
+      context "with enterprise feature enabled", with_ee: :portfolio_management do
+        include_examples "renders add buttons in a pulldown", workspace_types, upsell: []
       end
     end
   end

@@ -34,7 +34,6 @@ module Pages
   module Projects
     class Index < ::Pages::Page
       include ::Components::Common::Filters
-      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       def path(*)
         "/projects"
@@ -82,6 +81,10 @@ module Pages
 
       def expect_sidebar_filter(filter_name, selected: false, favorited: false, visible: true)
         submenu.expect_item(filter_name, selected:, favorited:, visible:)
+      end
+
+      def expect_no_sidebar_filter_selected
+        submenu.expect_no_selected_item
       end
 
       def expect_no_sidebar_filter(filter_name)
@@ -238,30 +241,27 @@ module Pages
       end
 
       def set_advanced_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
-        selected_filter = select_filter(name, human_name)
+        select_filter(name, human_name)
 
-        # Detect filter type before apply_operator, which may trigger Turbo stream
-        # updates that make the selected_filter node reference stale (ObsoleteNode)
-        is_autocomplete = autocomplete_filter?(selected_filter)
-        is_date_or_datetime = date_filter?(selected_filter) || date_time_filter?(selected_filter)
+        # Classify the row before apply_operator re-renders it. Skipped when
+        # there is nothing to set.
+        kind = filter_kind(name) if values.any?
 
-        within(selected_filter) do
+        within(filter_selector(name)) do
           apply_operator(name, human_operator)
         end
 
         return unless values.any?
 
-        # Re-find element as apply_operator may have triggered DOM updates
-        selected_filter = page.find("li[data-filter-name='#{name}']")
-
-        within(selected_filter) do
+        # Re-find again as apply_operator may have triggered further DOM updates
+        within(filter_selector(name)) do
           if boolean_filter?(name)
             set_toggle_filter(values)
-          elsif is_autocomplete
+          elsif kind == :autocomplete
             set_autocomplete_filter(values)
-          elsif is_date_or_datetime
+          elsif %i[date datetime_past].include?(kind)
             wait_for_network_idle
-            set_created_at_filter(human_operator, values, send_keys:)
+            set_datetime_filter(name, human_operator, values, send_keys:)
           end
         end
       end
@@ -350,8 +350,15 @@ module Pages
         end
       end
 
-      def create_new_workspace
-        page.find('[data-test-selector="workspace-new-button"]').click
+      def create_new_workspace(type, open_menu: false)
+        label = I18n.t(:"label_#{type}")
+
+        if open_menu
+          click_on I18n.t(:button_add)
+          page.find(".ActionListItem", exact_text: label).click
+        else
+          page.find('[data-test-selector="workspace-new-button"]', exact_text: label).click
+        end
       end
 
       def save_query

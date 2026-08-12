@@ -3,58 +3,66 @@ uk:
   js:
     grid:
       add_widget: Додати віджет
-      widget_menu_label: Показати пункти меню для віджета «%{widgetName}»
-      remove: Видалити віджет
       configure: Налаштувати віджет
+      remove: Видалити віджет
+      widget_menu_label: Показати пункти меню для віджета «%{widgetName}»
       widgets:
-        missing_permission: У вас немає дозволів для перегляду цього віджета.
-        not_available: Цей віджет зараз недоступний.
         custom_text:
           title: Текстовий блок
         documents:
-          title: Документи
           no_results: Ще немає документів.
+          title: Документи
         members:
           title: Учасники
+        missing_permission: У вас немає дозволів для перегляду цього віджета.
         news:
           title: Новини
+        not_available: Цей віджет зараз недоступний.
         project_description:
           title: Опис
+        project_favorites:
+          no_results: 'Зараз у вас немає вибраних проєктів. Додайте один або кілька проєктів у вибране: це можна зробити на сторінці огляду або в списку проєктів.'
+          title: Обрані проєкти
         project_status:
-          title: Статус
-          not_started: Не почато
-          on_track: За графіком
-          off_track: Не за графіком
           at_risk: Під загрозою
-          not_set: Не встановлено
-          finished: Завершено
           discontinued: Припинено
+          finished: Завершено
+          not_set: Не встановлено
+          not_started: Не почато
+          off_track: Не за графіком
+          on_track: За графіком
+          title: Статус
+        project_timeline:
+          accessible_date_range: "%{start} — %{end}"
+          accessible_gate: 'Контрольна точка етапу «%{name}»: %{date}'
+          accessible_phase: 'Етап «%{name}»: %{date}'
+          tooltip_type_gate: Контрольна точка етапу
+          tooltip_type_milestone: Віха
+          tooltip_type_phase: Етап
+          tooltip_type_sprint: Спринт
         subprojects:
           title: Піделементи
-        project_favorites:
-          title: Обрані проєкти
-          no_results: Зараз у вас немає обраних проєктів. Натисніть значок зірочки на панелі керування проєктом, щоб додати його в обране.
         time_entries_current_user:
-          title: Мій витрачений час
           displayed_days: 'Днів, доступних у віджеті:'
+          title: Мій витрачений час
         time_entries_list:
-          title: Витрачений час (останні 7 днів)
           no_results: Немає записів часу за останні 7 днів.
+          title: Витрачений час (останні 7 днів)
         work_packages_accountable:
           title: Робочі пакети, за які я відповідаю
         work_packages_assigned:
           title: Робочі пакети призначені мені
-        work_packages_created:
-          title: Пакети робіт створені мною
-        work_packages_watched:
-          title: Пакети робіт переглянуті мною
-        work_packages_table:
-          title: Таблиця робочих пакетів
-        work_packages_graph:
-          title: Графік робочих пакетів
-          summary: Графік %{chartType} показує пакети робіт, серед яких %{description}.
         work_packages_calendar:
           title: Календар
+        work_packages_created:
+          title: Пакети робіт створені мною
+        work_packages_graph:
+          summary: Графік %{chartType} показує пакети робіт, серед яких %{description}.
+          title: Графік робочих пакетів
         work_packages_overview:
-          title: Огляд робочих пакетів
           placeholder: Натисніть для редагування...
+          title: Огляд робочих пакетів
+        work_packages_table:
+          title: Таблиця робочих пакетів
+        work_packages_watched:
+          title: Пакети робіт переглянуті мною

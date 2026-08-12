@@ -58,4 +58,26 @@ RSpec.describe WorkPackageTypes::CreateService, type: :model do
       expect(result.result.workflows).not_to be_empty
     end
   end
+
+  context "when a parent is given" do
+    let(:user) { create(:admin) }
+    let(:parent) { create(:type) }
+    let(:params) do
+      {
+        name: "Variant",
+        parent_id: parent.id,
+        is_milestone: false,
+        is_in_roadmap: true,
+        is_default: false
+      }
+    end
+
+    it "nests the created type under the parent" do
+      result = described_class.new(user:).call(params)
+
+      expect(result).to be_success
+      expect(result.result.parent).to eq(parent)
+      expect(parent.reload.children).to contain_exactly(result.result)
+    end
+  end
 end

@@ -21,24 +21,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Moment } from 'moment';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
 import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
@@ -50,7 +41,7 @@ import { validDate } from 'core-app/shared/components/datepicker/helpers/date-mo
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class FilterDateTimesValueComponent extends AbstractDateTimeValueController implements OnInit {
   @HostBinding('id') get id() {
@@ -68,13 +59,6 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
   readonly text = {
     spacer: this.I18n.t('js.filter.value_spacer'),
   };
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly timezoneService:TimezoneService,
-  ) {
-    super(I18n, timezoneService);
-  }
 
   public get begin():string {
     return (this.filter.values[0] || '') as string;

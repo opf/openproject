@@ -38,72 +38,11 @@
   end
 %>
 
-<%=
-  render(border_box_container(mb: 3)) do |component|
-    component.with_header(font_weight: :bold) do
-      flex_layout do |header|
-        header.with_column(flex: 1) do
-          render(Primer::Beta::Text.new(font_weight: :semibold)) do
-            I18n.t("admin.settings.work_packages_identifier.box_header.label_project")
-          end
-        end
-        header.with_column(flex: 1) do
-          render(Primer::Beta::Text.new(font_weight: :semibold)) do
-            I18n.t("admin.settings.work_packages_identifier.box_header.label_previous_identifier")
-          end
-        end
-        header.with_column(flex: 1) do
-          render(Primer::Beta::Text.new(font_weight: :semibold)) do
-            I18n.t("admin.settings.work_packages_identifier.box_header.label_autofixed_suggestion")
-          end
-        end
-        header.with_column(flex: 1) do
-          render(Primer::Beta::Text.new(font_weight: :semibold)) do
-            I18n.t("admin.settings.work_packages_identifier.box_header.label_example_work_package_id")
-          end
-        end
-      end
-    end
-
-    displayed.each do |entry|
-      component.with_row do
-        flex_layout(align_items: :center) do |row|
-          row.with_column(flex: 1) do
-            render(Primer::Beta::Link.new(href: project_path(entry[:project]))) do
-              entry[:project].name
-            end
-          end
-          row.with_column(flex: 1) do
-            flex_layout(direction: :column) do |col|
-              col.with_row do
-                render(Primer::Beta::Text.new) { entry[:current_identifier] }
-              end
-              col.with_row do
-                render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do
-                  error_label(entry[:error_reason])
-                end
-              end
-            end
-          end
-          row.with_column(flex: 1) do
-            render(Primer::Beta::Text.new) { entry[:suggested_identifier] }
-          end
-          row.with_column(flex: 1) do
-            render(Primer::Beta::Text.new) { sample_wp_id(entry[:suggested_identifier]) }
-          end
-        end
-      end
-    end
-
-    if remaining_count.positive?
-      component.with_row do
-        render(Primer::Beta::Text.new(color: :muted)) do
-          I18n.t(
-            "admin.settings.work_packages_identifier.autofix_preview.remaining_projects",
-            count: remaining_count
-          )
-        end
-      end
-    end
-  end
-%>
+<%= render(Primer::Box.new(mb: 3)) do %>
+  <%= render(
+        WorkPackages::Admin::Settings::IdentifierAutofixTableComponent.new(
+          rows: displayed,
+          remaining_count:
+        )
+      ) %>
+<% end %>

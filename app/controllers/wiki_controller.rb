@@ -86,7 +86,7 @@ class WikiController < ApplicationController
   end
 
   # display a page (in editing mode if it doesn't exist)
-  def show
+  def show # rubocop:disable Metrics/AbcSize
     # Set the related page ID to make it the parent of new links
     flash[:_related_wiki_page_id] = @page.id
 
@@ -94,7 +94,7 @@ class WikiController < ApplicationController
 
     @page = ::WikiPages::AtVersion.new(@page, version)
 
-    if params[:format] == "markdown" && User.current.allowed_in_project?(:export_wiki_pages, @project)
+    if params[:format] == "markdown" && User.current.allowed_in_project?(:view_wiki_pages, @project)
       send_data(@page.text, type: "text/plain", filename: "#{@page.title}.md")
       return
     end
@@ -118,7 +118,24 @@ class WikiController < ApplicationController
   end
 
   def menu
-    @page = @wiki.pages.find_by(id: params[:id])
+    @page = @wiki.pages.find_by(id: params[:current_page_id])
+
+    render layout: nil
+  end
+
+  def menu_tree
+    @page = @wiki.pages.find_by(id: params[:current_page_id])
+    @query = params[:query].to_s.strip
+
+    sidemenu_tree = Wikis::WikiPages::SidemenuTreeService.new(
+      wiki: @wiki,
+      current_page: @page,
+      query: @query,
+      href_resolver: ->(page) { project_wiki_path(@project, page) }
+    )
+    @query_terms = sidemenu_tree.query_terms
+    @tree = sidemenu_tree.nodes
+
     render layout: nil
   end
 
@@ -182,7 +199,7 @@ class WikiController < ApplicationController
   end
 
   # rename a page
-  def rename
+  def rename # rubocop:disable Metrics/AbcSize
     return render_403 unless editable?
 
     @page.redirect_existing_links = true
@@ -222,7 +239,7 @@ class WikiController < ApplicationController
   def wiki_root_menu_items
     MenuItems::WikiMenuItem
       .main_items(@wiki.id)
-      .map { |it| OpenStruct.new name: it.name, caption: it.title, item: it }
+      .map { OpenStruct.new name: it.name, caption: it.title, item: it }
   end
 
   def edit_parent_page
@@ -252,12 +269,11 @@ class WikiController < ApplicationController
   # show page history
   def history
     # don't load text
-    @versions = @page
-                .journals
-                .select(:id, :user_id, :notes, :created_at, :version)
-                .order(Arel.sql("version DESC"))
-                .page(page_param)
-                .per_page(per_page_param)
+    @versions = @page.journals
+                     .select(:id, :user_id, :notes, :created_at, :version)
+                     .order(version: :desc)
+                     .page(page_param)
+                     .per_page(per_page_param)
 
     render layout: !request.xhr?
   end
@@ -307,7 +323,7 @@ class WikiController < ApplicationController
         return
       end
     end
-    @page.destroy
+    @page.destroy!
 
     flash[:notice] = I18n.t(:notice_successful_delete)
     if page = @wiki.find_page(@wiki.start_page) || @wiki.pages.first
@@ -319,7 +335,7 @@ class WikiController < ApplicationController
 
   # Export wiki to a single html file
   def export
-    if User.current.allowed_in_project?(:export_wiki_pages, @project)
+    if User.current.allowed_in_project?(:view_wiki_pages, @project)
       @pages = @wiki.pages.order(Arel.sql("title"))
       export = render_to_string action: "export_multiple", layout: false
       send_data(export, type: "text/html", filename: "wiki.html")
@@ -358,7 +374,7 @@ class WikiController < ApplicationController
   def page_for_menu_item(page)
     if page == :parent_page
       page = send(:page)
-      page = page.parent if page && page.parent
+      page = page.parent if page&.parent
     else
       page = send(page)
     end
@@ -406,9 +422,9 @@ class WikiController < ApplicationController
     # Using the empty contract here as we use the method to instantiate the model, not to save it (new and new_child action).
     # Errors are expected here as the user has not yet entered any data.
     @page = WikiPages::SetAttributesService
-            .new(model: WikiPage.new, user: current_user, contract_class: EmptyContract)
-            .call(wiki: @wiki, title: wiki_page_title.presence, parent_id: flash[:_related_wiki_page_id])
-            .result
+              .new(model: WikiPage.new, user: current_user, contract_class: EmptyContract)
+              .call(wiki: @wiki, title: wiki_page_title.presence, parent_id: flash[:_related_wiki_page_id])
+              .result
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false

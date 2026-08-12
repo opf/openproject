@@ -233,6 +233,30 @@ module Redmine
       ::I18n.t("date.month_names")[month]
     end
 
+    # Localized ordinalization with optional context-specific forms.
+    # This allows locales to provide different grammatical forms for the same
+    # ordinal depending on usage (e.g. standalone vs. before weekday name).
+    #
+    # Lookup order:
+    # 1. number.ordinalize.contexts.<context>.<number>
+    # 2. number.ordinalize.contexts.<context>.other
+    # 3. number.ordinalize.contexts.default.<number>
+    # 4. number.ordinalize.contexts.default.other
+    # 5. ActiveSupport fallback (e.g. 1st, 2nd, 3rd, ...)
+    def ordinalize(number, context: :default)
+      value = number.to_i
+      context_key = :"number.ordinalize.contexts.#{context}.#{value}"
+      context_other_key = :"number.ordinalize.contexts.#{context}.other"
+      default_context_key = :"number.ordinalize.contexts.default.#{value}"
+      default_context_other_key = :"number.ordinalize.contexts.default.other"
+
+      ::I18n.t(
+        context_key,
+        default: [context_other_key, default_context_key, default_context_other_key, ActiveSupport::Inflector.ordinalize(value)],
+        number: value
+      )
+    end
+
     def valid_languages
       Redmine::I18n.valid_languages
     end

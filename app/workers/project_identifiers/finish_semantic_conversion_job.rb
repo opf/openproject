@@ -28,30 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# GoodJob on_success callback invoked after a ConvertInstanceToSemanticIdsJob
-# batch completes. Performs up to MAX_SWEEPS synchronous sweeps to catch any
-# projects created or modified during the batch run, then enables semantic mode.
-# If projects still remain after MAX_SWEEPS sweeps a RuntimeError is raised to
-# abort the job (leaving the setting as classic); the instance is either under
+# GoodJob on_finish callback invoked after a ConvertInstanceToSemanticIdsJob batch
+# completes (regardless of per-project job failures or discards). Performs up to
+# MAX_SWEEPS synchronous sweeps to catch any projects created or modified during
+# the batch run, then enables semantic mode. If projects still remain after
+# MAX_SWEEPS sweeps the instance reverts to classic mode; it is either under
 # active load or there is a code bug.
 class ProjectIdentifiers::FinishSemanticConversionJob < ApplicationJob
   queue_with_priority :high
 
   MAX_SWEEPS = 5
 
-  def perform(*)
+  class ConversionFailed < StandardError; end
+
+  def perform(batch, *)
+    raise ConversionFailed, "Batch had failures" if batch.discarded?
+
     corrective_sweep
     set_semantic_mode!
+  rescue ConversionFailed => e
+    revert_to_classic!(reason: e.message)
   end
 
   private
+
+  def revert_to_classic!(reason:)
+    Rails.logger.error "[#{self.class.name}] #{reason} - reverting to classic mode."
+    ProjectIdentifiers::RevertInstanceToClassicIdsJob.perform_later
+  end
 
   def set_semantic_mode!
     result = Settings::UpdateService
                .new(user: User.system)
                .call(work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC)
 
-    raise "[FinishSemanticConversionJob] Failed to enable semantic mode: #{result.message}" unless result.success?
+    raise ConversionFailed, "Failed to enable semantic mode: #{result.message}" unless result.success?
   end
 
   def corrective_sweep
@@ -69,10 +80,8 @@ class ProjectIdentifiers::FinishSemanticConversionJob < ApplicationJob
 
     return if pending_project_ids.empty?
 
-    message = "[FinishSemanticConversionJob] Giving up after #{MAX_SWEEPS} sweeps — " \
-              "projects still remain pending. The instance may be under active load or there is a bug."
-    Rails.logger.warn message
-    raise message
+    raise ConversionFailed, "Giving up after #{MAX_SWEEPS} sweeps — " \
+                            "projects still remain pending. The instance may be under active load or there is a bug."
   end
 
   def pending_project_ids

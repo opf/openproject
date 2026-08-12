@@ -36,20 +36,42 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+  shared_let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+  shared_let(:author) { create(:user) }
 
   let(:permissions) { %i[view_meetings manage_agendas] }
   let(:current_user) do
     create(:user, member_with_permissions: { project => permissions })
   end
-  let(:meeting) { create(:meeting, project:, author: current_user) }
+  let(:meeting) { create(:meeting, project:, author:) }
   let!(:section) { create(:meeting_section, meeting:, title: "First Section") }
 
   before do
     login_as current_user
   end
 
+  shared_examples "not found without meeting visibility" do
+    context "without view_meetings permission" do
+      let(:permissions) { [] }
+
+      it "returns 404" do
+        expect(last_response).to have_http_status(:not_found)
+      end
+    end
+
+    context "with view_meetings permission in another project" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { other_project => %i[view_meetings manage_agendas] })
+      end
+
+      it "returns 404" do
+        expect(last_response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe "GET /api/v3/meetings/:meeting_id/sections" do
-    let(:path) { api_v3_paths.meeting_sections(meeting.id) }
+    let(:path) { api_v3_paths.meeting_sections(meeting_id: meeting.id) }
 
     before { get path }
 
@@ -59,22 +81,25 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
       expect(last_response.body)
         .to be_json_eql("Collection".to_json)
         .at_path("_type")
+
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.meeting_section(section.id).to_json)
+        .at_path("_embedded/elements/0/_links/self/href")
     end
 
-    context "without view_meetings permission" do
-      let(:permissions) { [] }
-
-      it "returns 404" do
-        expect(last_response).to have_http_status(:not_found)
-      end
-    end
+    it_behaves_like "not found without meeting visibility"
   end
 
-  describe "POST /api/v3/meetings/:meeting_id/sections" do
-    let(:path) { api_v3_paths.meeting_sections(meeting.id) }
+  describe "POST /api/v3/meeting_sections" do
+    let(:path) { api_v3_paths.meeting_sections }
     let(:body) do
       {
-        title: "New Section"
+        title: "New Section",
+        _links: {
+          meeting: {
+            href: api_v3_paths.meeting(meeting.id)
+          }
+        }
       }.to_json
     end
 
@@ -106,10 +131,30 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
         expect(response).to have_http_status(:forbidden)
       end
     end
+
+    context "without any permissions" do
+      let(:permissions) { [] }
+
+      it "returns 422 and does not create a section" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(meeting.sections.find_by(title: "New Section")).to be_nil
+      end
+    end
+
+    context "with manage_agendas permission in another project" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { other_project => %i[view_meetings manage_agendas] })
+      end
+
+      it "returns 422 and does not create a section" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(meeting.sections.find_by(title: "New Section")).to be_nil
+      end
+    end
   end
 
   describe "GET /api/v3/meetings/:meeting_id/sections/:id" do
-    let(:path) { api_v3_paths.meeting_section(meeting.id, section.id) }
+    let(:path) { api_v3_paths.meeting_section(section.id, meeting_id: meeting.id) }
 
     before { get path }
 
@@ -126,17 +171,39 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
     end
 
     context "with a section from another meeting" do
-      let(:other_meeting) { create(:meeting, project:, author: current_user) }
-      let(:path) { api_v3_paths.meeting_section(other_meeting.id, section.id) }
+      let(:other_meeting) { create(:meeting, project:, author:) }
+      let(:path) { api_v3_paths.meeting_section(section.id, meeting_id: other_meeting.id) }
 
       it "returns 404" do
         expect(last_response).to have_http_status(:not_found)
       end
     end
+
+    it_behaves_like "not found without meeting visibility"
   end
 
-  describe "PATCH /api/v3/meetings/:meeting_id/sections/:id" do
-    let(:path) { api_v3_paths.meeting_section(meeting.id, section.id) }
+  describe "GET /api/v3/meeting_sections/:id" do
+    let(:path) { api_v3_paths.meeting_section(section.id) }
+
+    before { get path }
+
+    it "returns 200 and the section" do
+      expect(last_response).to have_http_status(:ok)
+
+      expect(last_response.body)
+        .to be_json_eql("MeetingSection".to_json)
+        .at_path("_type")
+
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.meeting_section(section.id).to_json)
+        .at_path("_links/self/href")
+    end
+
+    it_behaves_like "not found without meeting visibility"
+  end
+
+  describe "PATCH /api/v3/meeting_sections/:id" do
+    let(:path) { api_v3_paths.meeting_section(section.id) }
     let(:body) do
       {
         title: "Updated Section Title"
@@ -161,10 +228,162 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
         expect(response).to have_http_status(:forbidden)
       end
     end
+
+    context "without any permissions" do
+      let(:permissions) { [] }
+
+      it "returns 404 and does not update the section" do
+        expect(response).to have_http_status(:not_found)
+        expect(section.reload.title).to eq("First Section")
+      end
+    end
+
+    context "with manage_agendas permission in another project" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { other_project => %i[view_meetings manage_agendas] })
+      end
+
+      it "returns 404 and does not update the section" do
+        expect(response).to have_http_status(:not_found)
+        expect(section.reload.title).to eq("First Section")
+      end
+    end
   end
 
-  describe "DELETE /api/v3/meetings/:meeting_id/sections/:id" do
-    let(:path) { api_v3_paths.meeting_section(meeting.id, section.id) }
+  describe "backlog section" do
+    let(:backlog) { meeting.backlog }
+
+    describe "GET /api/v3/meetings/:meeting_id/sections" do
+      let(:path) { api_v3_paths.meeting_sections(meeting_id: meeting.id) }
+
+      before { get path }
+
+      it "includes the backlog as the last section" do
+        elements = JSON.parse(last_response.body).dig("_embedded", "elements")
+
+        expect(elements.pluck("id")).to eq([section.id, backlog.id])
+        expect(elements.last).to include("backlog" => true)
+        expect(elements.first).to include("backlog" => false)
+      end
+    end
+
+    describe "GET /api/v3/meetings/:meeting_id/sections/:id" do
+      let(:path) { api_v3_paths.meeting_section(backlog.id, meeting_id: meeting.id) }
+
+      before { get path }
+
+      it "returns the backlog with canonical links" do
+        expect(last_response).to have_http_status(:ok)
+
+        expect(last_response.body)
+          .to be_json_eql(backlog.id.to_json)
+          .at_path("id")
+
+        expect(last_response.body)
+          .to be_json_eql(true.to_json)
+          .at_path("backlog")
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting_section(backlog.id).to_json)
+          .at_path("_links/self/href")
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting(meeting.id).to_json)
+          .at_path("_links/meeting/href")
+      end
+    end
+
+    describe "PATCH /api/v3/meeting_sections/:id" do
+      let(:path) { api_v3_paths.meeting_section(backlog.id) }
+      let(:original_title) { backlog.title }
+      let(:body) { { title: "Updated Backlog Title" }.to_json }
+
+      subject(:response) { patch path, body }
+
+      it "responds with 422 and does not change the title" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(backlog.reload.title).to eq(original_title)
+      end
+    end
+
+    describe "DELETE /api/v3/meeting_sections/:id" do
+      let(:path) { api_v3_paths.meeting_section(backlog.id) }
+
+      before { delete path }
+
+      it "responds with 422 and keeps the backlog" do
+        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(MeetingSection).to exist(backlog.id)
+      end
+    end
+  end
+
+  describe "backlog section for a recurring meeting occurrence" do
+    let(:recurring_meeting) { create(:recurring_meeting, project:, author: current_user) }
+    let(:template) { recurring_meeting.template }
+    let(:occurrence) do
+      create(:recurring_meeting_occurrence, recurring_meeting:, project:, author: current_user)
+    end
+    let!(:occurrence_section) { create(:meeting_section, meeting: occurrence, title: "Occurrence Section") }
+    let(:backlog) { template.backlog }
+
+    describe "GET /api/v3/meetings/:meeting_id/sections" do
+      let(:path) { api_v3_paths.meeting_sections(meeting_id: occurrence.id) }
+
+      before { get path }
+
+      it "includes the backlog with canonical links to the template meeting" do
+        elements = JSON.parse(last_response.body).dig("_embedded", "elements")
+        backlog_element = elements.find { |element| element["id"] == backlog.id }
+
+        expect(elements.pluck("id")).to eq([occurrence_section.id, backlog.id])
+        expect(backlog_element).to include("backlog" => true)
+        expect(backlog_element.dig("_links", "self", "href"))
+          .to eq(api_v3_paths.meeting_section(backlog.id))
+        expect(backlog_element.dig("_links", "meeting", "href"))
+          .to eq(api_v3_paths.meeting(template.id))
+      end
+    end
+
+    describe "GET /api/v3/meetings/:meeting_id/sections/:id" do
+      let(:path) { api_v3_paths.meeting_section(backlog.id, meeting_id: occurrence.id) }
+
+      before { get path }
+
+      it "returns the backlog with canonical links to the template meeting" do
+        expect(last_response).to have_http_status(:ok)
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting_section(backlog.id).to_json)
+          .at_path("_links/self/href")
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting(template.id).to_json)
+          .at_path("_links/meeting/href")
+      end
+    end
+
+    describe "agenda item section link consistency" do
+      let!(:agenda_item) do
+        create(:meeting_agenda_item,
+               meeting: occurrence,
+               meeting_section: backlog,
+               author: current_user,
+               title: "Backlog item")
+      end
+      let(:path) { api_v3_paths.meeting_section(backlog.id) }
+
+      before { get path }
+
+      it "resolves the section referenced by the agenda item" do
+        expect(last_response).to have_http_status(:ok)
+        expect(last_response.body).to be_json_eql(backlog.id.to_json).at_path("id")
+      end
+    end
+  end
+
+  describe "DELETE /api/v3/meeting_sections/:id" do
+    let(:path) { api_v3_paths.meeting_section(section.id) }
 
     before { delete path }
 
@@ -184,6 +403,26 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
       let(:permissions) { %i[view_meetings] }
 
       it_behaves_like "unauthorized access"
+    end
+
+    context "without any permissions" do
+      let(:permissions) { [] }
+
+      it "returns 404 and does not delete the section" do
+        expect(subject).to have_http_status(:not_found)
+        expect(MeetingSection).to exist(section.id)
+      end
+    end
+
+    context "with manage_agendas permission in another project" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { other_project => %i[view_meetings manage_agendas] })
+      end
+
+      it "returns 404 and does not delete the section" do
+        expect(subject).to have_http_status(:not_found)
+        expect(MeetingSection).to exist(section.id)
+      end
     end
   end
 end

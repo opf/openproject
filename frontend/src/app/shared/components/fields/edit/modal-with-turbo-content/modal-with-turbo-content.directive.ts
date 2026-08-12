@@ -21,34 +21,32 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Directive,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-} from '@angular/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output, inject } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import type { TurboBeforeFrameRenderEvent, TurboSubmitEndEvent } from '@hotwired/turbo';
 
 @Directive({
   selector: '[opModalWithTurboContent]',
   standalone: false,
 })
 export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly halEvents = inject(HalEventsService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly toastService = inject(ToastService);
+  readonly I18n = inject(I18nService);
+
   @Input() resource:HalResource;
   @Input() change:ResourceChangeset<HalResource>;
 
@@ -60,21 +58,10 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
   private preserveSegmentAttributesBound = this.preserveSegmentAttributes.bind(this);
   private cancelListenerBound = this.cancelListener.bind(this);
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly cdRef:ChangeDetectorRef,
-    readonly halEvents:HalEventsService,
-    readonly apiV3Service:ApiV3Service,
-    readonly toastService:ToastService,
-    readonly I18n:I18nService,
-  ) {
-
-  }
-
   ngAfterViewInit() {
-    (this.elementRef.nativeElement as HTMLElement)
+    this.elementRef.nativeElement
       .addEventListener('turbo:submit-end', this.contextBasedListenerBound);
-    (this.elementRef.nativeElement as HTMLElement)
+    this.elementRef.nativeElement
       .addEventListener('turbo:before-frame-render', this.preserveSegmentAttributesBound);
 
     document
@@ -82,16 +69,16 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy() {
-    (this.elementRef.nativeElement as HTMLElement)
+    this.elementRef.nativeElement
       .removeEventListener('turbo:submit-end', this.contextBasedListenerBound);
-    (this.elementRef.nativeElement as HTMLElement)
+    this.elementRef.nativeElement
       .removeEventListener('turbo:before-frame-render', this.preserveSegmentAttributesBound);
 
     document
       .removeEventListener('cancelModalWithTurboContent', this.cancelListenerBound);
   }
 
-  private contextBasedListener(event:CustomEvent) {
+  private contextBasedListener(event:TurboSubmitEndEvent) {
     if (this.resource.id === 'new') {
       void this.propagateSuccessfulCreate(event);
     } else {
@@ -99,10 +86,8 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
     }
   }
 
-  private preserveSegmentAttributes(event:CustomEvent) {
-    const turboEvent = event as CustomEvent<{ newFrame?:HTMLElement }>;
-
-    const element = turboEvent.detail?.newFrame?.querySelector('segmented-control');
+  private preserveSegmentAttributes(event:TurboBeforeFrameRenderEvent) {
+    const element = event.detail?.newFrame?.querySelector('segmented-control');
     if (!element) return;
 
     const connectedCallback = Object.getOwnPropertyDescriptor(
@@ -127,13 +112,11 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
     this.cancel.emit();
   }
 
-  private async propagateSuccessfulCreate(event:CustomEvent) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  private async propagateSuccessfulCreate(event:TurboSubmitEndEvent) {
     const { fetchResponse } = event.detail;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (fetchResponse.succeeded) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+    if (fetchResponse?.succeeded) {
+      if (!fetchResponse.response.body) return;
       const JSONresponse:unknown = await this.extractJSONFromResponse(fetchResponse.response.body);
 
       this.successfulCreate.emit(JSONresponse);
@@ -143,18 +126,16 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
     }
   }
 
-  private propagateSuccessfulUpdate(event:CustomEvent) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  private propagateSuccessfulUpdate(event:TurboSubmitEndEvent) {
     const { fetchResponse } = event.detail;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (fetchResponse.succeeded) {
+    if (fetchResponse?.succeeded) {
       this.halEvents.push(
-        this.resource as WorkPackageResource,
+        this.resource,
         { eventType: 'updated' },
       );
 
-      void this.apiV3Service.work_packages.id(this.resource as WorkPackageResource).refresh();
+      void this.apiV3Service.work_packages.id(this.resource).refresh();
 
       this.successfulUpdate.emit();
 

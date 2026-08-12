@@ -2,13 +2,13 @@
 ---
 post:
   parameters:
-  - description: User id
+  - description: User id. Use `me` to reference current user, if any.
     example: 1
     in: path
     name: id
     required: true
     schema:
-      type: integer
+      type: string
   responses:
     '200':
       description: OK
@@ -54,6 +54,9 @@ post:
       $ref: "../components/responses/unsupported_media_type.yml"
   tags:
   - Users
-  description: ''
+  description: |-
+    Validates a user update payload.
+
+    For self password changes, provide both `password` and `currentPassword`.
   operationId: User_update_form
   summary: User update form

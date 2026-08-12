@@ -21,21 +21,20 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import URI from 'urijs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable({ providedIn: 'root' })
 export class HierarchyQueryLinkHelperService {
-  constructor(
-    private pathHelper:PathHelperService,
-  ) {}
+  private pathHelper = inject(PathHelperService);
+
 
   public addHref(link:HTMLAnchorElement, resource:HalResource):void {
     if (resource && resource.id) {

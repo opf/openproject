@@ -1,15 +1,11 @@
-#English strings go here for Rails i18n
 ---
 id:
-  plugin_openproject_two_factor_authentication:
-    name: Otentikasi dua faktor OpenProject
-    description: Plugin OpenProject ini mengautentikasi pengguna Anda menggunakan otentikasi dua faktor melalui kata sandi sekali pakai (one-time password) berdasarkan standar TOTP (Google Authenticator) atau dikirim ke ponsel pengguna melalui SMS atau panggilan suara.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: Pengidentifikasi
-        default: Digunakan sebagai standar
         channel: Saluran
+        default: Digunakan sebagai standar
+        identifier: Pengidentifikasi
       two_factor_authentication/device/sms:
         phone_number: Nomor telepon
       two_factor_authentication/device/webauthn:
@@ -28,32 +24,138 @@ id:
       two_factor_authentication/device/sms: Telepon genggam
       two_factor_authentication/device/totp: Aplikasi Authenticator
       two_factor_authentication/device/webauthn: WebAuthn
+  button_continue: Lanjutkan
+  button_make_active: Activate
+  button_make_default: Tandai sebagai default
+  button_otp_by_sms: SMS
+  button_otp_by_voice: Panggilan suara
+  button_resend_otp_form: Kirim kembali
+  field_otp: Satu-kali kata sandi
+  label_confirmed: Dikonfirmasi
+  label_otp_channel: Saluran pengiriman
+  notice_account_has_no_phone: Tidak ada nomor ponsel ini dikaitkan dengan akun Anda.
+  notice_account_otp_expired: Kata sandi satu-kali yang anda masukkan kadaluarsa.
+  notice_account_otp_invalid: Sandi sekali pakai yang tidak valid.
+  notice_account_otp_send_failed: Sandi satu kali tidak akan dikirim.
+  notice_developer_strategy_otp: 'Pengembang strategi dihasilkan one-time password berikut: %{token} (saluran: %{channel})'
+  notice_phone_number_format: 'Masukkan nomor dalam format berikut: + XX XXXXXXXX.'
+  plugin_openproject_two_factor_authentication:
+    description: Plugin OpenProject ini mengautentikasi pengguna Anda menggunakan otentikasi dua faktor melalui kata sandi sekali pakai (one-time password) berdasarkan standar TOTP (Google Authenticator) atau dikirim ke ponsel pengguna melalui SMS atau panggilan suara.
+    name: Otentikasi dua faktor OpenProject
+  text_otp_not_receive: Verifikasi metode lain
+  text_send_otp_again: 'Kirim kembali kata sandi satu-kali oleh:'
   two_factor_authentication:
+    admin:
+      all_devices_deleted: Semua 2FA perangkat pengguna ini telah dihapus
+      button_delete_all_devices: Menghapus perangkat terdaftar 2FA
+      button_register_mobile_phone_for_user: Daftar ponsel
+      delete_all_are_you_sure: Apakah Anda yakin Anda ingin menghapus semua 2FA perangkat untuk pengguna ini?
+      no_devices_for_user: Tidak ada perangkat 2FA telah terdaftar untuk pengguna ini.
+      only_sms_allowed: Pengiriman SMS hanya dapat diatur untuk pengguna lain.
+      self_edit_forbidden: Anda tidak dapat mengedit perangkat 2FA Anda sendiri di jalan ini. Pergi ke My Account > dua faktor otentikasi sebaliknya.
+      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
+      text_2fa_disabled: Pengguna tidak mengatur perangkat 2FA melalui halaman ‘Akun Saya’ mereka
+      text_2fa_enabled: Setiap kali login, pengguna ini akan diminta untuk memasukkan token OTP dari perangkat 2FA default mereka.
+    backup_codes:
+      generate:
+        keep_safe_as_password: Penting! Memperlakukan kode ini sebagai kata sandi.
+        keep_safe_warning: Baik menyimpannya dalam pengelola kata sandi Anda, atau cetak Halaman ini dan menempatkan di tempat yang aman.
+        regenerate_warning: 'Peringatan: Jika Anda telah membuat kode cadangan sebelumnya, mereka akan membatalkan dan tidak akan bekerja lagi.'
+        title: Menghasilkan kode cadangan
+      overview_description: 'Jika Anda tidak dapat mengakses perangkat dua faktor, Anda dapat menggunakan kode cadangan untuk mendapatkan kembali akses ke account Anda. Gunakan tombol berikut untuk menghasilkan serangkaian baru kode cadangan.
+
+        '
+      plural: Kode kode cadangan
+      singular: Kode cadangan
+    channel_unavailable: "%{channel} saluran pengiriman tidak tersedia."
+    devices:
+      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      add_new: Tambahkan perangkat 2FA baru
+      button_complete_registration: Pendaftaran 2FA lengkap
+      cannot_delete_default: Tidak dapat menghapus perangkat default
+      confirm_default: Mengkonfirmasi perubahan default perangkat
+      confirm_device: Mengkonfirmasi perangkat
+      confirm_now: Tidak dikonfirmasi, klik di sini untuk mengaktifkan
+      confirm_send_failed: Konfirmasi perangkat 2FA Anda gagal.
+      deletion_are_you_sure: Apakah Anda yakin ingin menghapus pengaturan tersimpan ini?
+      failed_to_delete: Gagal untuk menghapus perangkat 2FA.
+      is_default_cannot_delete: Perangkat ini ditandai sebagai default dan tidak dapat dihapus karena kebijakan keamanan aktif. Menandai perangkat lain sebagai default sebelum menghapus.
+      make_default_are_you_sure: Apakah Anda yakin Anda ingin membuat perangkat 2FA ini default?
+      make_default_failed: Gagal untuk memperbarui perangkat 2FA default.
+      not_existing: Tidak ada perangkat 2FA telah terdaftar untuk akun Anda.
+      register: Daftarkan perangkat
+      registration_complete: Pendaftaran perangkat 2FA selesai!
+      registration_failed_token_invalid: Pendaftaran perangkat 2FA gagal, token tidak valid.
+      registration_failed_update: Pendaftaran perangkat 2FA gagal, token ini berlaku tetapi perangkat tidak dapat diperbarui.
+      sms:
+        description: 'Dapatkan kode 2FA melalui pesan teks di ponsel Anda setiap kali Anda masuk.
+
+          '
+        redacted_identifier: Perangkat mobile (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}, kami mengirimkan kode otentikasi melalui %{delivery_channel}"
+        title: Perangkat seluler
+      text_confirm_to_change_default_html: Harap mengkonfirmasi mengubah perangkat default untuk <strong>%{new_identifier}</strong> dengan memasukkan sandi satu kali dari default perangkat Anda saat ini.
+      text_confirm_to_complete_html: Silahkan lengkapi pendaftaran perangkat <strong>%{identifier}</strong> dengan memasukkan sandi satu kali dari perangkat Anda.
+      text_identifier: Anda dapat memberikan perangkat pengenal kustom menggunakan bidang ini.
+      totp:
+        account: Nama akun / penerbit
+        description: 'Gunakan kode sekali pakai yang dihasilkan oleh aplikasi autentikator seperti Authy atau Google Authenticator.
+
+          '
+        provisioning_uri: Penyediaan URI
+        question_cannot_scan: 'Mampu memindai kode menggunakan aplikasi Anda?
+
+          '
+        secret_key: Kunci rahasia
+        setup: 'Untuk mengatur dua faktor otentikasi dengan otentikasi Google, men-unduh aplikasi dari Apple App store atau Google Play Store. Setelah membuka app, Anda dapat memindai kode QR berikut untuk mendaftar perangkat.
+
+          '
+        text_cannot_scan: 'Jika Anda tidak dapat memindai kode, Anda dapat memasukkan entri manual menggunakan rincian berikut:
+
+          '
+        time_based: Berdasarkan waktu
+        title: Autentikator berbasis aplikasi
+      webauthn:
+        description: Daftarkan perangkat FIDO2 (seperti YubiKey) atau enklaf aman perangkat seluler Anda.
+        further_steps: Setelah Anda memilih nama, Anda dapat mengklik tombol Lanjutkan. Browser Anda akan meminta Anda untuk menampilkan perangkat WebAuthn Anda. Setelah Anda melakukannya, pendaftaran perangkat telah selesai.
+        title: WebAuthn
     error_2fa_disabled: Pengiriman 2FA telah dinonaktifkan.
-    notice_not_writable: Pengaturan 2FA disediakan melalui variabel lingkungan dan tidak dapat diubah.
+    error_invalid_backup_code: Kode cadangan 2FA tidak valid
+    error_is_enforced_not_active: 'Kesalahan konfigurasi: dua faktor otentikasi yang telah diberlakukan, tapi ada tidak ada strategi yang aktif.'
     error_no_device: Tidak ada perangkat 2FA terdaftar yang ditemukan untuk pengguna ini, meskipun yang diperlukan untuk contoh ini.
     error_no_matching_strategy: Tidak ada 2FA strategi yang cocok tersedia untuk pengguna ini. Silahkan hubungi administratior Anda.
-    error_is_enforced_not_active: 'Kesalahan konfigurasi: dua faktor otentikasi yang telah diberlakukan, tapi ada tidak ada strategi yang aktif.'
-    error_invalid_backup_code: Kode cadangan 2FA tidak valid
-    channel_unavailable: "%{channel} saluran pengiriman tidak tersedia."
-    no_valid_phone_number: Nomor telepon tidak ada.
-    label_device_type: Tipe perangkat
+    forced_registration:
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+    label_2fa_disabled: Dua faktor otentikasi tidak aktif
+    label_2fa_enabled: Dua faktor otentikasi tidak aktif
     label_default_device: Default 2FA perangkat
     label_device: Perangkat 2FA
+    label_device_type: Tipe perangkat
     label_devices: Perangkat 2FA
-    label_2fa_enabled: Dua faktor otentikasi tidak aktif
-    label_2fa_disabled: Dua faktor otentikasi tidak aktif
-    text_otp_delivery_message_sms: Kata sandi sekali pakai untuk %{app_title} Anda adalah %{token}
-    text_otp_delivery_message_voice: 'Kata sandi sekali pakai untuk %{app_title} Anda adalah: %{pause} %{token}. %{pause} Saya ulangi: %{pause} %{token}'
-    text_2fa_enabled: Setelah setiap login, Anda akan diminta untuk memasukkan tanda OTP dari perangkat 2FA default Anda.
-    text_2fa_disabled: Untuk mengaktifkan otentikasi dua faktor, gunakan tombol di atas untuk mendaftar perangkat 2FA baru. Jika Anda sudah memiliki perangkat, Anda perlu untuk membuatnya default.
+    label_two_factor_authentication: Autentikasi dua faktor
     login:
-      enter_backup_code_title: Masukkan Kode Cadangan
       enter_backup_code_text: Masukkan kode cadangan yang sah dari daftar kode dalam kasus Anda tidak lagi dapat mengakses perangkat 2FA terdaftar.
+      enter_backup_code_title: Masukkan Kode Cadangan
       other_device: Gunakan perangkat yang lain atau kode cadangan
+    message_bird:
+      sms_delivery_failed: Pengiriman SMS MessageBird gagal.
+      voice_delivery_failed: Panggilan suara MessageBird gagal.
+    mobile_transmit_notification: Kata sandi satu-kali telah dikirim ke ponsel Anda.
+    no_valid_phone_number: Nomor telepon tidak ada.
+    notice_not_writable: Pengaturan 2FA disediakan melalui variabel lingkungan dan tidak dapat diubah.
+    remember:
+      active_session_notice: 'Akun Anda telah aktif ingat cookie yang berlaku hingga %{expires_on}. Cookie ini memungkinkan Anda untuk masuk tanpa faktor kedua ke akun Anda sehingga waktu itu.
+
+        '
+      clear_cookie: Remove all remembered 2FA sessions.
+      cookie_removed: Semua sesi 2FA yang tersimpan telah dihapus.
+      dont_ask_again: Membuat cookie untuk mengingat 2FA otentikasi pada klien ini untuk %{days} hari.
+      label: ingat
+      other_active_session_notice: Akun Anda memiliki pengingat kuki yang aktif di sesi lain.
     settings:
-      title: Pengaturan 2FA
       current_configuration: Konfigurasi penyimpanan saat ini
+      failed_to_save_settings: 'Gagal untuk memperbarui pengaturan 2FA: %{message}'
       label_active_strategies: Aktifkan strategi 2FA
       label_enforced: Menegakkan 2FA
       label_remember: Ingat 2FA login
@@ -65,117 +167,15 @@ id:
       text_remember: 'Set ini untuk lebih besar dari nol untuk memungkinkan pengguna untuk mengingat mereka 2FA otentikasi untuk jumlah hari tertentu. Mereka tidak akan diminta untuk memasukkan kembali selama periode itu. Hanya dapat ditetapkan saat tidak pernah ditegakkan oleh konfigurasi.
 
         '
-      failed_to_save_settings: 'Gagal untuk memperbarui pengaturan 2FA: %{message}'
-    admin:
-      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
-      self_edit_forbidden: Anda tidak dapat mengedit perangkat 2FA Anda sendiri di jalan ini. Pergi ke My Account > dua faktor otentikasi sebaliknya.
-      no_devices_for_user: Tidak ada perangkat 2FA telah terdaftar untuk pengguna ini.
-      all_devices_deleted: Semua 2FA perangkat pengguna ini telah dihapus
-      delete_all_are_you_sure: Apakah Anda yakin Anda ingin menghapus semua 2FA perangkat untuk pengguna ini?
-      button_delete_all_devices: Menghapus perangkat terdaftar 2FA
-      button_register_mobile_phone_for_user: Daftar ponsel
-      text_2fa_enabled: Setiap kali login, pengguna ini akan diminta untuk memasukkan token OTP dari perangkat 2FA default mereka.
-      text_2fa_disabled: Pengguna tidak mengatur perangkat 2FA melalui halaman ‘Akun Saya’ mereka
-      only_sms_allowed: Pengiriman SMS hanya dapat diatur untuk pengguna lain.
-    backup_codes:
-      singular: Kode cadangan
-      plural: Kode kode cadangan
-      overview_description: 'Jika Anda tidak dapat mengakses perangkat dua faktor, Anda dapat menggunakan kode cadangan untuk mendapatkan kembali akses ke account Anda. Gunakan tombol berikut untuk menghasilkan serangkaian baru kode cadangan.
-
-        '
-      generate:
-        title: Menghasilkan kode cadangan
-        keep_safe_as_password: Penting! Memperlakukan kode ini sebagai kata sandi.
-        keep_safe_warning: Baik menyimpannya dalam pengelola kata sandi Anda, atau cetak Halaman ini dan menempatkan di tempat yang aman.
-        regenerate_warning: 'Peringatan: Jika Anda telah membuat kode cadangan sebelumnya, mereka akan membatalkan dan tidak akan bekerja lagi.'
-    devices:
-      add_new: Tambahkan perangkat 2FA baru
-      register: Daftarkan perangkat
-      confirm_default: Mengkonfirmasi perubahan default perangkat
-      confirm_device: Mengkonfirmasi perangkat
-      confirm_now: Tidak dikonfirmasi, klik di sini untuk mengaktifkan
-      cannot_delete_default: Tidak dapat menghapus perangkat default
-      make_default_are_you_sure: Apakah Anda yakin Anda ingin membuat perangkat 2FA ini default?
-      make_default_failed: Gagal untuk memperbarui perangkat 2FA default.
-      deletion_are_you_sure: Apakah Anda yakin ingin menghapus pengaturan tersimpan ini?
-      registration_complete: Pendaftaran perangkat 2FA selesai!
-      registration_failed_token_invalid: Pendaftaran perangkat 2FA gagal, token tidak valid.
-      registration_failed_update: Pendaftaran perangkat 2FA gagal, token ini berlaku tetapi perangkat tidak dapat diperbarui.
-      confirm_send_failed: Konfirmasi perangkat 2FA Anda gagal.
-      button_complete_registration: Pendaftaran 2FA lengkap
-      text_confirm_to_complete_html: Silahkan lengkapi pendaftaran perangkat <strong>%{identifier}</strong> dengan memasukkan sandi satu kali dari perangkat Anda.
-      text_confirm_to_change_default_html: Harap mengkonfirmasi mengubah perangkat default untuk <strong>%{new_identifier}</strong> dengan memasukkan sandi satu kali dari default perangkat Anda saat ini.
-      text_identifier: Anda dapat memberikan perangkat pengenal kustom menggunakan bidang ini.
-      failed_to_delete: Gagal untuk menghapus perangkat 2FA.
-      is_default_cannot_delete: Perangkat ini ditandai sebagai default dan tidak dapat dihapus karena kebijakan keamanan aktif. Menandai perangkat lain sebagai default sebelum menghapus.
-      not_existing: Tidak ada perangkat 2FA telah terdaftar untuk akun Anda.
-      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
-      webauthn:
-        title: WebAuthn
-        description: Daftarkan perangkat FIDO2 (seperti YubiKey) atau enklaf aman perangkat seluler Anda.
-        further_steps: Setelah Anda memilih nama, Anda dapat mengklik tombol Lanjutkan. Browser Anda akan meminta Anda untuk menampilkan perangkat WebAuthn Anda. Setelah Anda melakukannya, pendaftaran perangkat telah selesai.
-      totp:
-        title: Autentikator berbasis aplikasi
-        provisioning_uri: Penyediaan URI
-        secret_key: Kunci rahasia
-        time_based: Berdasarkan waktu
-        account: Nama akun / penerbit
-        setup: 'Untuk mengatur dua faktor otentikasi dengan otentikasi Google, men-unduh aplikasi dari Apple App store atau Google Play Store. Setelah membuka app, Anda dapat memindai kode QR berikut untuk mendaftar perangkat.
-
-          '
-        question_cannot_scan: 'Mampu memindai kode menggunakan aplikasi Anda?
-
-          '
-        text_cannot_scan: 'Jika Anda tidak dapat memindai kode, Anda dapat memasukkan entri manual menggunakan rincian berikut:
-
-          '
-        description: 'Gunakan kode sekali pakai yang dihasilkan oleh aplikasi autentikator seperti Authy atau Google Authenticator.
-
-          '
-      sms:
-        title: Perangkat seluler
-        redacted_identifier: Perangkat mobile (%{redacted_number})
-        request_2fa_identifier: "%{redacted_identifier}, kami mengirimkan kode otentikasi melalui %{delivery_channel}"
-        description: 'Dapatkan kode 2FA melalui pesan teks di ponsel Anda setiap kali Anda masuk.
-
-          '
+      title: Pengaturan 2FA
     sns:
       delivery_failed: 'Pengiriman SNS gagal:'
-    message_bird:
-      sms_delivery_failed: Pengiriman SMS MessageBird gagal.
-      voice_delivery_failed: Panggilan suara MessageBird gagal.
     strategies:
-      totp: Otentikasi aplikasi
-      sns: Amazon SNS
       resdt: SMS Rest API
+      sns: Amazon SNS
+      totp: Otentikasi aplikasi
       webauthn: WebAuthn
-    mobile_transmit_notification: Kata sandi satu-kali telah dikirim ke ponsel Anda.
-    label_two_factor_authentication: Autentikasi dua faktor
-    forced_registration:
-      required_to_add_device: Kebijakan keamanan aktif mengharuskan Anda untuk mengaktifkan otentikasi dua-faktor. Silakan gunakan formulir berikut untuk mendaftar perangkat.
-    remember:
-      active_session_notice: 'Akun Anda telah aktif ingat cookie yang berlaku hingga %{expires_on}. Cookie ini memungkinkan Anda untuk masuk tanpa faktor kedua ke akun Anda sehingga waktu itu.
-
-        '
-      other_active_session_notice: Akun Anda memiliki pengingat kuki yang aktif di sesi lain.
-      label: ingat
-      clear_cookie: Klik di sini untuk menghapus semua sesi 2FA yang tersimpan.
-      cookie_removed: Semua sesi 2FA yang tersimpan telah dihapus.
-      dont_ask_again: Membuat cookie untuk mengingat 2FA otentikasi pada klien ini untuk %{days} hari.
-  field_otp: Satu-kali kata sandi
-  notice_account_otp_invalid: Sandi sekali pakai yang tidak valid.
-  notice_account_otp_expired: Kata sandi satu-kali yang anda masukkan kadaluarsa.
-  notice_developer_strategy_otp: 'Pengembang strategi dihasilkan one-time password berikut: %{token} (saluran: %{channel})'
-  notice_account_otp_send_failed: Sandi satu kali tidak akan dikirim.
-  notice_account_has_no_phone: Tidak ada nomor ponsel ini dikaitkan dengan akun Anda.
-  label_confirmed: Dikonfirmasi
-  button_continue: Lanjutkan
-  button_make_default: Tandai sebagai default
-  notice_phone_number_format: 'Masukkan nomor dalam format berikut: + XX XXXXXXXX.'
-  text_otp_not_receive: Verifikasi metode lain
-  text_send_otp_again: 'Kirim kembali kata sandi satu-kali oleh:'
-  button_resend_otp_form: Kirim kembali
-  button_otp_by_voice: Panggilan suara
-  button_otp_by_sms: SMS
-  label_otp_channel: Saluran pengiriman
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_enabled: Setelah setiap login, Anda akan diminta untuk memasukkan tanda OTP dari perangkat 2FA default Anda.
+    text_otp_delivery_message_sms: Kata sandi sekali pakai untuk %{app_title} Anda adalah %{token}
+    text_otp_delivery_message_voice: 'Kata sandi sekali pakai untuk %{app_title} Anda adalah: %{pause} %{token}. %{pause} Saya ulangi: %{pause} %{token}'

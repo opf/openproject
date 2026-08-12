@@ -476,6 +476,41 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
         .to be_json_eql(relation.id.to_json)
         .at_path("_embedded/elements/0/id")
     end
+
+    context "when filtering by an invisible work package id" do
+      let(:project_visible) { create(:project, members: { user => role }) }
+      let(:project_secret) { create(:project) }
+      let(:visible_wp) { create(:work_package, project: project_visible, subject: "Visible task") }
+      let(:secret_wp) { create(:work_package, project: project_secret, subject: "SECRET-ACQUISITION-PLAN-2026") }
+      let!(:secret_relation) { create(:relation, from: secret_wp, to: visible_wp, relation_type: "relates") }
+
+      before do
+        get "#{api_v3_paths.relations}?filters=#{CGI::escape(JSON::dump(filter))}"
+      end
+
+      [
+        { name: "involved", value_for: ->(wp) { wp.id.to_s } },
+        { name: "from", value_for: ->(wp) { wp.id.to_s } },
+        { name: "to", value_for: ->(wp) { wp.id.to_s } }
+      ].each do |filter_definition|
+        context "with #{filter_definition[:name]} filter" do
+          let(:filter) do
+            [{ filter_definition[:name].to_sym => { operator: "=", values: [filter_definition[:value_for].call(secret_wp)] } }]
+          end
+
+          it "returns no relations and does not leak the secret subject" do
+            expect(last_response).to have_http_status :ok
+            expect(last_response.body)
+              .to be_json_eql("0")
+              .at_path("total")
+            expect(last_response.body)
+              .not_to include(secret_wp.subject)
+            expect(last_response.body)
+              .not_to include(secret_relation.id.to_s)
+          end
+        end
+      end
+    end
   end
 
   describe "GET /api/v3/relations/:id" do

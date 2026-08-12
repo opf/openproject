@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { TransitionService } from '@uirouter/core';
@@ -34,6 +34,8 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class QueryParamListenerService {
+  readonly injector = inject(Injector);
+
   readonly wpListChecksumService:WorkPackagesListChecksumService = this.injector.get(WorkPackagesListChecksumService);
 
   readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
@@ -44,7 +46,7 @@ export class QueryParamListenerService {
 
   public queryChangeListener:Function;
 
-  constructor(readonly injector:Injector) {
+  constructor() {
     this.listenForQueryParamsChanged();
   }
 

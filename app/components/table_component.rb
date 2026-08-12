@@ -32,6 +32,7 @@
 # Abstract view component. Subclass this for a concrete table.
 class TableComponent < ApplicationComponent
   include Primer::AttributesHelper
+  include OpTurbo::Streamable
 
   def initialize(rows: [], table_arguments: {}, **)
     super(rows, **)

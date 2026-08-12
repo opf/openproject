@@ -13,11 +13,11 @@ module LdapGroups
     layout "admin"
     menu_item :plugin_ldap_groups
 
+    def show; end
+
     def new
       @filter = SynchronizedFilter.new
     end
-
-    def show; end
 
     def end; end
 
@@ -56,7 +56,7 @@ module LdapGroups
         flash[:error] = I18n.t(:error_can_not_delete_entry)
       end
 
-      redirect_to ldap_groups_synchronized_groups_path
+      redirect_to ldap_groups_synchronized_groups_path, status: :see_other
     end
 
     def synchronize
@@ -80,13 +80,17 @@ module LdapGroups
     private
 
     def find_filter
-      @filter = SynchronizedFilter.find(params[:ldap_filter_id])
+      @filter = SynchronizedFilter.find(params.expect(:ldap_filter_id))
     end
 
     def permitted_params
-      params
-        .require(:synchronized_filter)
-        .permit(:filter_string, :name, :ldap_auth_source_id, :group_name_attribute, :sync_users, :base_dn)
+      params.expect(synchronized_filter: %i[filter_string
+                                            name
+                                            ldap_auth_source_id
+                                            group_name_attribute
+                                            sync_users
+                                            base_dn
+                                            member_lookup_attribute])
     end
   end
 end

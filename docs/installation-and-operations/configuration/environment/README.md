@@ -6,7 +6,8 @@ sidebar_navigation:
 
 # Environment variables
 
-> **NOTE:** This documentation is for OpenProject on-premises Installations only, if you would like to setup similar in your OpenProject cloud instance, please contact us at [support@openproject.com](mailto:support@openproject.com)
+> [!NOTE]
+> This documentation applies to OpenProject on-premises installations only. If you would like to configure a similar setup for your OpenProject Cloud instance, please contact us at [support@openproject.com](mailto:support@openproject.com)
 
 When using environment variables, you can set the options by setting environment variables with the name of the options below in uppercase. So for example, to configure email delivery via an SMTP server, you can set the following environment variables:
 
@@ -60,8 +61,8 @@ These variables are prefixed with `OPENPROJECT_SEED_*` to identify them. Changin
 
 These additional variables are also only useful during seeding:
 
-* `OPENPROJECT_OPENID__CONNECT`: A hash to configure OIDC providers seeded into the application
-* `OPENPROJECT_SAML`: A hash to configure SAML providers seeded into the application
+- `OPENPROJECT_OPENID__CONNECT`: A hash to configure OIDC providers seeded into the application
+- `OPENPROJECT_SAML`: A hash to configure SAML providers seeded into the application
 
 ## Passing data structures to the app
 
@@ -180,6 +181,7 @@ OPENPROJECT_COST__REPORTING__CACHE__FILTER__CLASSES (default=true)
 OPENPROJECT_COSTS__CURRENCY (default="EUR") Currency
 OPENPROJECT_COSTS__CURRENCY__FORMAT (default="%n %u") Format of currency
 OPENPROJECT_CROSS__PROJECT__WORK__PACKAGE__RELATIONS (default=true) Allow cross-project work package relations
+OPENPROJECT_CSP__IMG__SRC (default=["*", "data:", "blob:"]) Allowed sources for the CSP img-src directive.
 OPENPROJECT_DATABASE__CIPHER__KEY (default=nil) Encryption key for repository credentials
 OPENPROJECT_DATE__FORMAT (default=nil) Date
 OPENPROJECT_DAYS__PER__MONTH (default=20) This will define what is considered a “month” when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
@@ -388,6 +390,7 @@ OPENPROJECT_SYS__API__ENABLED (default=false) Enable internal system API for set
 OPENPROJECT_SYS__API__KEY (default=nil) Internal system API key for setting up managed repositories
 OPENPROJECT_TIME__FORMAT (default=nil) Time
 OPENPROJECT_TOTAL__PERCENT__COMPLETE__MODE (default="work_weighted_average") Mode in which the total % Complete for work packages in a hierarchy is calculated
+OPENPROJECT_USER__CAN__CHANGE__EMAIL (default=true) Whether users can change their own email addresses
 OPENPROJECT_USER__DEFAULT__THEME (default="light")
 OPENPROJECT_USER__DEFAULT__TIMEZONE (default=nil) Users default time zone
 OPENPROJECT_USER__FORMAT (default=:firstname_lastname) Users name format

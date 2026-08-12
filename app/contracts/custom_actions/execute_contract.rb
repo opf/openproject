@@ -35,6 +35,7 @@ module CustomActions
 
     validates :work_package_id, presence: true
     validate :work_package_visible
+    validate :custom_action_conditions_fulfilled
 
     private
 
@@ -43,6 +44,18 @@ module CustomActions
 
       unless WorkPackage.visible(user).where(id: model.work_package_id).exists?
         errors.add(:work_package_id, :does_not_exist)
+      end
+    end
+
+    def custom_action_conditions_fulfilled
+      return unless model.work_package_id
+      return unless options[:custom_action]
+
+      work_package = WorkPackage.visible(user).find_by(id: model.work_package_id)
+      return unless work_package
+
+      unless options[:custom_action].conditions_fulfilled?(work_package, user)
+        errors.add(:base, :error_unauthorized)
       end
     end
   end

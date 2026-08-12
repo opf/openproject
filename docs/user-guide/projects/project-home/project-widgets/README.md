@@ -14,7 +14,7 @@ keywords: project overview, project home, home page, homepage, project widget
 
 > [!TIP]
 >
-> Project overview tab displays certain widgets in a pre-set layout. However, under the *Dashboard* tab you can add and remove multiple widgets, re-order them and resize them to your liking.
+> Project overview tab displays certain widgets in a pre-set layout. However, under the _Dashboard_ tab you can add and remove multiple widgets, re-order them and resize them to your liking.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Quick_guide-Widgets.mp4"></video>
 
@@ -25,7 +25,6 @@ To add a widget to the project home page (Dashboard tab), click the green **+Wid
 Click the **+** icon and choose which kind of widget you want to add.
 
 ![A list showing available widgets to be added to a project home page in OpenProject](openproject_user_guide_project_overview_widget_list.png)
-
 
 ## Project widgets catalog
 
@@ -112,6 +111,16 @@ First, select your project status from the drop-down. You can choose between:
 
 Add the project **status description** and further important information, such as project owner, milestones and other important links or status information.
 
+### Project timeline widget
+
+The project timeline widget under the overview tab displays a timeline chart of your **Project phases** and **Phase gates**. Hover your cursor over a phase or gate on the timeline to view the name and date(s). You can also use your cursor to expand or reduce the size of the timeline chart for a more detailed or compact view. If there are no phases and gates enabled in your project, the widget is empty.
+
+![Project timeline widget displayed on a project home page in OpenProject](openproject_user_guide_project_overview_project_timeline_widget.png)
+
+> [!NOTE]
+> 
+> This widget is **read-only**, which means users cannot modify project dates by dragging and dropping phases or gates on the timeline. In addition, the widget is visible only to users with the right permissions.
+
 ### Subitems widget
 
 The subitems widget lists all subitems of the respective entity:
@@ -120,7 +129,7 @@ The subitems widget lists all subitems of the respective entity:
 - Subitems of a program are projects
 - Subitems of a portfolio are programs and projects
 
-The *Subitems* widget under the *Overview* tab allows adding subitems directly within the widget (click the **Plus** icon in the top right corner of the widget and select *Project*). That same widget under that *Dashboard* tab lists all subitems of a project, but offers no option to add subitems directly. 
+The _Subitems_ widget under the _Overview_ tab allows adding subitems directly within the widget (click the **Plus** icon in the top right corner of the widget and select _Project_). That same widget under that _Dashboard_ tab lists all subitems of a project, but offers no option to add subitems directly. 
 
 ![Subprojects widget displayed on a project home page in OpenProject](openproject_user_guide_project_overview_project_subitems_widget.png)
 
@@ -162,12 +171,12 @@ The work packages overview widget displays all work packages in a project differ
 
 You can display the graph according to the following criteria:
 
-* Category
-* Type
-* Status
-* Priority
-* Author
-* Assignee
+- Category
+- Type
+- Status
+- Priority
+- Author
+- Assignee
 
 ![Dropdown menu showing criteria for the work package overview widget on a project home page in OpenProject](openproject_user_guide_project_overview_wp_widget_criteria.png)
 
@@ -191,6 +200,7 @@ Budgets widgets provide a quick overview of the financial status of a project. T
 ### Prerequisites
 
 Budgets widgets are only displayed if the following conditions are met:
+
 - Both **Budgets** and **Time and costs** modules are activated in the project.
 - At least one budget exists in the project or one of its subprojects. Some widgets may display placeholder messages if no cost data has been entered yet.
 - At least one work package is assigned to a budget.
@@ -218,15 +228,14 @@ Four summary widgets provide a quick overview of the financial situation of the 
 - **Spent budget** – the percentage of the planned budget that has already been spent
 - **Remaining budget** – the difference between planned budget and actual costs
 
-
 ### Budget by cost type
 
 The **Budget by cost type** widget displays a **pie chart** showing the distribution of planned budget across different cost types, including: 
+
 - All cost types currently used in the budgets
 - **Labor costs** as an additional cost type (if greater than 0)
 
 Click the **View budget details** link at the bottom of the widget to open the budgets page for the current project.
-
 
 ### Actual costs per month
 
@@ -236,6 +245,19 @@ Actual costs include labor costs from logged time and unit costs from cost entri
 
 Click the  **View actual cost details** link at the bottom of the widget to open the cost reports filtered for the current project.
 
+## Meetings widget
+
+This widget provides an overview of your relevant and upcoming meetings.
+> [!NOTE] 
+> The Meetings widget is only displayed on the **Overview tab** of a project home page.
+
+For the meetings widget to be displayed on your project home page, the Meetings module has to be activated first. Once activated, all meetings you are participating in are displayed.
+
+![Meetings widget displayed under Over tab on Project home page in OpenProject](openproject_user_guide_project_overview_all_meetings_widget.png)
+
+If there are no meetings in your project yet and the Meetings module is activated, the widget allows you to create a new meeting directly by clicking the **+ Meeting** button.
+
+![Meetings widget displayed under Over tab on Project home page in OpenProject, with no meetings created yet](openproject_user_guide_project_create_meeting_widget.png)
 
 ## Resize and reorder widgets
 
@@ -249,6 +271,6 @@ To **resize** a widget, click the grey icon in the lower right hand corner of th
 
 To remove a widget from the project home page, click the three dots icon at the top right corner of the widget and select **Remove widget**.
 > [!NOTE]
-> Please keep in mind that this is only possible under the *Dashboard* tab. Project widgets under the *Overview* tab are fixed and can not be removed.
+> Please keep in mind that this is only possible under the _Dashboard_ tab. Project widgets under the _Overview_ tab are fixed and can not be removed.
 
 ![Remove a widget from a project home page in OpenProject](openproject_user_guide_project_overview_remove_widget.png)

@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { ActionEvent, Controller } from '@hotwired/stimulus';
 import { Calendar, EventApi, EventContentArg } from '@fullcalendar/core';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -5,8 +33,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import { toMoment } from '@fullcalendar/moment';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import type { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import moment from 'moment';
 import allLocales from '@fullcalendar/core/locales-all';
 import { renderStreamMessage } from '@hotwired/turbo';
@@ -14,10 +42,14 @@ import { opStopwatchStopIconData, toDOMString } from '@openproject/octicons-angu
 import { useMeta } from 'stimulus-use';
 import { html, render, TemplateResult } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class MyTimeTrackingController extends Controller {
-  private turboRequests:TurboRequestsService;
-  private pathHelper:PathHelperService;
+  static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
+
+  declare turboRequests:TurboRequestsService;
+  declare pathHelperService:PathHelperService;
+  declare services:Promise<PickedServices<'turboRequests'|'pathHelperService'>>;
 
   static targets = ['calendar'];
 
@@ -58,12 +90,15 @@ export default class MyTimeTrackingController extends Controller {
   private DEFAULT_TIMED_EVENT_DURATION = '01:00';
   private boundListener = this.dialogCloseListener.bind(this);
 
-  async connect() {
-    useMeta(this, { suffix: false });
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.pathHelper = context.services.pathHelperService;
+  initialize() {
+    useAngularServices(this);
+  }
 
+  connect() {
+    useMeta(this, { suffix: false });
+  }
+
+  servicesConnected() {
     if (this.hasCalendarTarget && this.viewModeValue === 'calendar') {
       this.initializeCalendar();
 
@@ -143,7 +178,7 @@ export default class MyTimeTrackingController extends Controller {
         }
 
         void this.turboRequests.request(
-          `${this.pathHelper.timeEntryDialog()}?${dialogParams}`,
+          `${this.pathHelperService.timeEntryDialog()}?${dialogParams}`,
           { method: 'GET' },
         );
       },
@@ -225,7 +260,7 @@ export default class MyTimeTrackingController extends Controller {
         }
 
         void this.turboRequests.request(
-          `${this.pathHelper.timeEntryEditDialog(info.event.id)}?onlyMe=true`,
+          `${this.pathHelperService.timeEntryEditDialog(info.event.id)}?onlyMe=true`,
           { method: 'GET' },
         );
       },
@@ -266,7 +301,7 @@ export default class MyTimeTrackingController extends Controller {
       <div class="fc-event-title-container">
         <div class="fc-event-title fc-event-wp" title="${info.event.extendedProps.workPackageSubject}">
           <a class="Link--primary Link"
-             href="${this.pathHelper.workPackageShortPath(info.event.extendedProps.workPackageId as string)}">
+             href="${this.pathHelperService.workPackageShortPath(info.event.extendedProps.workPackageId as string)}">
             ${info.event.extendedProps.workPackageSubject}
           </a>
         </div>
@@ -337,8 +372,10 @@ export default class MyTimeTrackingController extends Controller {
 
     const colgroup = document.createElement('colgroup');
     const col = document.createElement('col');
-    const otherCol = document.querySelector('.fc-scrollgrid-section-header .fc-col-header col') as HTMLElement;
-    col.style.width = otherCol?.style?.width;
+    const otherCol = document.querySelector<HTMLTableColElement>('.fc-scrollgrid-section-header .fc-col-header col');
+    if (otherCol) {
+      col.style.width = otherCol.style.width;
+    }
 
     const tbody = document.createElement('tbody');
     tbody.setAttribute('role', 'presentation');
@@ -385,7 +422,7 @@ export default class MyTimeTrackingController extends Controller {
   }
 
   updateTimeEntry(timeEntryId:string, spentOn:string, startTime:string|null, hours:number, revertFunction:() => void) {
-    fetch(this.pathHelper.timeEntryUpdate(timeEntryId), {
+    fetch(this.pathHelperService.timeEntryUpdate(timeEntryId), {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -473,11 +510,12 @@ export default class MyTimeTrackingController extends Controller {
     return hiddenDays;
   }
 
-  newTimeEntry(event:ActionEvent) {
+  async newTimeEntry(event:ActionEvent) {
     const dialogParams = `onlyMe=true&date=${event.params.date}`;
 
-    void this.turboRequests.request(
-      `${this.pathHelper.timeEntryDialog()}?${dialogParams}`,
+    const { turboRequests, pathHelperService } = await this.services;
+    void turboRequests.request(
+      `${pathHelperService.timeEntryDialog()}?${dialogParams}`,
       { method: 'GET' },
     );
   }
@@ -502,7 +540,7 @@ export default class MyTimeTrackingController extends Controller {
     if (this.viewModeValue === 'list') {
       // we don't know what date we clicked, so we need to reload the whole page
       if (additional?.spent_on) {
-        void this.turboRequests.request(this.pathHelper.myTimeTrackingRefresh(additional.spent_on, this.viewModeValue, this.modeValue), { method: 'GET' });
+        void this.turboRequests.request(this.pathHelperService.myTimeTrackingRefresh(additional.spent_on, this.viewModeValue, this.modeValue), { method: 'GET' });
       } else {
         window.location.reload();
       }

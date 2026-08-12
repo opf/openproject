@@ -1,4 +1,33 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { sortBy } from 'lodash-es';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
@@ -17,6 +46,7 @@ export class SortModalObject {
 export interface SortColumn {
   name:string;
   href:string | null;
+  displayable?:boolean;
 }
 
 export type SortingMode = 'automatic'|'manual';
@@ -27,9 +57,14 @@ export type SortingMode = 'automatic'|'manual';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpTableConfigurationSortByTabComponent implements TabComponent, OnInit {
+  readonly injector = inject(Injector);
+  readonly I18n = inject(I18nService);
+  readonly wpTableSortBy = inject(WorkPackageViewSortByService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   public text = {
     title: this.I18n.t('js.label_sort_by'),
     placeholder: this.I18n.t('js.placeholders.default'),
@@ -61,13 +96,6 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
 
   public manualSortColumn:SortColumn;
 
-  constructor(readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly wpTableSortBy:WorkPackageViewSortByService,
-    readonly cdRef:ChangeDetectorRef) {
-
-  }
-
   public onSave() {
     let sortElements;
     if (this.sortingMode === 'automatic') {
@@ -77,7 +105,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
     }
 
     sortElements = sortElements.map((object) => this.getMatchingSort(object.column.href!, object.direction));
-    this.wpTableSortBy.update(_.compact(sortElements));
+    this.wpTableSortBy.update(sortElements.filter((x):x is NonNullable<typeof x> => Boolean(x)));
   }
 
   ngOnInit() {
@@ -87,16 +115,16 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
         const allColumns:SortColumn[] = this.wpTableSortBy.available.filter(
           (sort:QuerySortByResource) => !sort.column.href!.endsWith('/parent'),
         ).map(
-          (sort:QuerySortByResource) => ({ name: sort.column.name, href: sort.column.href }),
+          (sort:QuerySortByResource) => ({ name: sort.column.name, href: sort.column.href, displayable: sort.displayable }),
         );
 
         // For whatever reason, even though the UI doesn't implement it,
         // QuerySortByResources are doubled for each column (one for asc/desc direction)
-        this.allColumns = _.uniqBy(allColumns, 'href');
+        this.allColumns = allColumns.filter((col, index, self) => index === self.findIndex((other) => other.href === col.href));
 
         this.getManualSortingOption();
 
-        _.each(this.wpTableSortBy.current, (sort) => {
+        this.wpTableSortBy.current.forEach((sort) => {
           if (!sort.column.href!.endsWith('/parent')) {
             this.sortationObjects.push(
               new SortModalObject({ name: sort.column.name, href: sort.column.href },
@@ -115,7 +143,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   }
 
   public updateSelection(sort:SortModalObject, selected:string | null) {
-    sort.column = _.find(this.allColumns, (column) => column.href === selected) || this.emptyColumn;
+    sort.column = this.allColumns.find((column) => column.href === selected) ?? this.emptyColumn;
     this.updateUsedColumns();
   }
 
@@ -124,7 +152,10 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
       .filter((o) => o.column !== null)
       .map((object:SortModalObject) => object.column);
 
-    this.availableColumns = _.sortBy(_.differenceBy(this.allColumns, usedColumns, 'href'), 'name');
+    this.availableColumns = sortBy(
+      this.allColumns.filter((col) => (col.displayable ?? true) && !usedColumns.some((used) => used.href === col.href)),
+      'name',
+    );
   }
 
   public updateSortingMode(mode:SortingMode) {
@@ -132,7 +163,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   }
 
   private getMatchingSort(column:string, direction:string) {
-    return _.find(this.wpTableSortBy.available, (sort) => sort.column.href === column && sort.direction.href === direction);
+    return this.wpTableSortBy.available.find((sort) => sort.column.href === column && sort.direction.href === direction);
   }
 
   private fillUpSortElements() {

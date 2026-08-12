@@ -1,11 +1,32 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit, inject } from '@angular/core';
 import {
   DynamicComponentDefinition,
   ToolbarButtonComponentDefinition,
@@ -18,7 +39,6 @@ import { BoardFilterComponent } from 'core-app/features/boards/board/board-filte
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { BoardsMenuButtonComponent } from 'core-app/features/boards/board/toolbar-menu/boards-menu-button.component';
@@ -47,19 +67,32 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 
 @Component({
   selector: 'board-partitioned-page',
-  templateUrl: './board-partitioned-page.component.html',
+  templateUrl: '../../../work-packages/routing/partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
     '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
     './board-partitioned-page.component.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    DragAndDropService,
     BoardFiltersService,
   ],
   standalone: false,
 })
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly state = inject(StateService);
+  readonly toastService = inject(ToastService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly injector = inject(Injector);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly boardFilters = inject(BoardFiltersService);
+  readonly Boards = inject(BoardService);
+  readonly titleService = inject(OpTitleService);
+  readonly submenuService = inject(SubmenuService);
+  readonly pathHelperService = inject(PathHelperService);
+  readonly currentProject = inject(CurrentProjectService);
+
   @Input() boardId:string;
   text = {
     button_more: this.I18n.t('js.button_more'),
@@ -128,24 +161,6 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
       },
     },
   ];
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly state:StateService,
-    readonly toastService:ToastService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service,
-    readonly boardFilters:BoardFiltersService,
-    readonly Boards:BoardService,
-    readonly titleService:OpTitleService,
-    readonly submenuService:SubmenuService,
-    readonly pathHelperService:PathHelperService,
-    readonly currentProject:CurrentProjectService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     // Ensure board is being loaded

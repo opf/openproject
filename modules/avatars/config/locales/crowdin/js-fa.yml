@@ -1,15 +1,11 @@
-#English strings go here
 ---
 fa:
   js:
-    label_preview: نمایش
-    button_update: به روز رسانی
     avatars:
+      empty_file_error: لطفاً یک عکس معتبر بارگذاری کنید (jpg، png، gif)
+      error_image_too_large: عکس بیش از اندازه بزرگ است.
       label_choose_avatar: انتخاب آواتار از فایل
       uploading_avatar: بارگذاری آواتار شما.
-      text_upload_instructions: |
-        آواتار سفارشی خود را به اندازه 128 در 128 پیکسل بارگذاری نمایید. فایل‌های حجیم‌تر تغییر حجم و برش داده میشوند تا تطابق یابند.
-        به محض انتخاب عکس و قبل از بارگذاری، آواتار شما پیش‌نمایش داده خواهد شد.
-      error_image_too_large: عکس بیش از اندازه بزرگ است.
       wrong_file_format: فرمت های jpg، png و gif مجاز هستند.
-      empty_file_error: لطفاً یک عکس معتبر بارگذاری کنید (jpg، png، gif)
+    button_update: به روز رسانی
+    label_preview: نمایش

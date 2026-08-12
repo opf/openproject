@@ -59,8 +59,8 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::RichTextAr
       )
     )
 
-    expect(rendered_content).to have_css("[data-controller='attribute']", text: "Hello")
-    expect(rendered_content).to have_css(".ellipsis-expander")
+    expect(rendered_content).to have_css("[data-controller='expandable-text']", text: "Hello")
+    expect(rendered_content).to have_css(".ellipsis-expander", visible: :all)
   end
 
   it "adds no inplace-edit stimulus data when not writable" do

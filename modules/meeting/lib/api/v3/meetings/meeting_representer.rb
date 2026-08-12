@@ -40,7 +40,8 @@ module API
 
         self.to_eager_load = [:author, { project: :enabled_modules }, { participants: :user }]
 
-        cached_representer key_parts: %i(project)
+        cached_representer key_parts: %i(project participants),
+                           dependencies: ->(*) { represented.notify? }
 
         self_link title_getter: ->(*) { represented.title }
 
@@ -76,13 +77,13 @@ module API
 
         link :agendaItems do
           {
-            href: api_v3_paths.meeting_agenda_items(represented.id)
+            href: api_v3_paths.meeting_agenda_items(meeting_id: represented.id)
           }
         end
 
         link :sections do
           {
-            href: api_v3_paths.meeting_sections(represented.id)
+            href: api_v3_paths.meeting_sections(meeting_id: represented.id)
           }
         end
 
@@ -122,7 +123,8 @@ module API
 
         property :template
 
-        property :notify
+        property :notify,
+                 getter: ->(*) { notify? }
 
         associated_resource :author,
                             v3_path: :user,

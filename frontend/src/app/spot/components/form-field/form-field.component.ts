@@ -1,6 +1,32 @@
-import {
-  ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, Optional,
-} from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, inject } from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -11,9 +37,12 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class SpotFormFieldComponent {
+  private _formGroupDirective = inject(FormGroupDirective, { optional: true });
+  readonly I18n = inject(I18nService);
+
   @HostBinding('class.spot-form-field') className = true;
 
   @HostBinding('class.spot-form-field_invalid') get errorClassName():boolean {
@@ -93,7 +122,7 @@ export class SpotFormFieldComponent {
     }
 
     if (this.showValidationErrorOn === 'submit') {
-      return this.formControl.invalid && this._formGroupDirective?.submitted;
+      return this.formControl.invalid && (this._formGroupDirective?.submitted ?? false);
     } if (this.showValidationErrorOn === 'blur') {
       return this.formControl.invalid && this.formControl.touched;
     } if (this.showValidationErrorOn === 'change') {
@@ -102,9 +131,4 @@ export class SpotFormFieldComponent {
 
     return false;
   }
-
-  constructor(
-    @Optional() private _formGroupDirective:FormGroupDirective,
-    readonly I18n:I18nService,
-  ) {}
 }

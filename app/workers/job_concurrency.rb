@@ -52,7 +52,12 @@ module JobConcurrency
     end
 
     limit = enqueue_limit || total_limit
-    enqueued_jobs = GoodJob::Job.where(concurrency_key: good_job_concurrency_key).unfinished.advisory_unlocked.count
+    # Regression #OP-19861
+    # Count ALL unfinished jobs, including ones currently performing. Excluding
+    # advisory-locked (running) jobs allowed a second settings save while
+    # ApplyWorkingDaysChangeJob was still running; GoodJob then aborted enqueue
+    # of the follow-up job.
+    enqueued_jobs = GoodJob::Job.where(concurrency_key: good_job_concurrency_key).unfinished.count
 
     yield if limit.present? && enqueued_jobs + 1 > limit
   end

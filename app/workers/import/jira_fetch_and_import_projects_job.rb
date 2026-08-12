@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,8 +39,10 @@ module Import
       fetch_and_save_users_data(jira_import)
 
       Journal::NotificationConfiguration.with(false) do
-        jira_import.import_users
-        Import::JiraImportProjectsJob.perform_now(jira_import_id)
+        Journal::EventConfiguration.with(false) do
+          jira_import.import_users
+          Import::JiraImportProjectsJob.perform_now(jira_import_id)
+        end
       end
 
       jira_import.transition_to!(:imported)
@@ -71,6 +73,7 @@ module Import
       payload = issue.payload["fields"]
       collect_field_user_keys(user_keys, mention_usernames, payload)
       collect_comment_user_keys(user_keys, mention_usernames, payload)
+      collect_attachment_user_keys(user_keys, payload)
       collect_changelog_user_keys(user_keys, issue)
     end
 
@@ -88,10 +91,24 @@ module Import
       end
     end
 
+    def collect_attachment_user_keys(user_keys, payload)
+      (payload["attachment"] || []).each do |attachment|
+        key = attachment.dig("author", "key")
+        user_keys << key if key.present?
+      end
+    end
+
     def resolve_mention_user_keys(mention_usernames, user_keys, jira_client)
       mention_usernames.compact.each do |username|
         user = jira_client.user_by_username(username:)
         user_keys << user["key"] if user.present?
+      rescue Import::JiraClient::ApiError => e
+        message = "Could not resolve mentioned user '#{username}': #{e.message}"
+        if e.status == 404
+          Rails.logger.info("#{message} - skipping")
+        else
+          raise message
+        end
       end
     end
 
@@ -102,8 +119,6 @@ module Import
     end
 
     def collect_markup_mentions(text, mention_usernames)
-      return if text.blank?
-
       ast = JiraWikiMarkup::Parser.new(text).parse
       collect_mentions_from_node(ast, mention_usernames)
     end

@@ -35,20 +35,24 @@
 
   .copy-wrapper
     width: 100%
-    position: relative
     margin-bottom: 1rem
+
+  .copy-input
+    position: relative
+
+  .copy-content,
+  .copy-button
+    // the min-height should be the size of the copy-icon, which is the sum of:
+    // 2 * button padding (0.65em)
+    // size of the icon (1rem, size="small" = 16px)
+    // 1px where I don't know where it comes from
+    min-height: calc(2 * 0.65em + 1rem + 1px)
 
   .copy-content
     width: calc(100% - 3em)
-    // the min-height should be the size of the copy-icon, which is the sum of:
-    // 2 * button padding (0.65em)
-    // font-size of the icon (0.9em)
-    // 1px where I don't know where it comes from
-    min-height: calc(2 * 0.65em + 0.9em + 1px)
     border-radius: 2px 0 0 2px
     padding: 0.65em
     color: var(--fgColor-muted)
-    white-space: pre
     resize: none
     font-size: 0.9rem
     display: inline-block
@@ -61,6 +65,7 @@
     left: -1px
     position: relative
     font-size: 0.9rem
+    align-self: flex-start
 
     &:hover
       background: var(--button--background-hover-color)
@@ -74,7 +79,7 @@
     color: var(--main-menu-font-color)
     position: absolute
     right: 0
-    top: calc(2 * 0.65em + 0.9em + 1px + 9px)
+    top: calc(2 * 0.65em + 1rem + 1px)
     box-shadow: 1px 1px 4px var(--fgColor-muted)
     z-index: 1
 

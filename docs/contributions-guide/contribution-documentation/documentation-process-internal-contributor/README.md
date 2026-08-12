@@ -23,7 +23,7 @@ Before you can make changes you need to create a local clone of the OpenProject 
 
 ![clone repository](clone-repository.png)
 
-In the modal window select the repository ""*opf/openproject*"". Also select a folder on your computer for the cloned repository. Click **Clone**.
+In the modal window select the repository ""_opf/openproject_"". Also select a folder on your computer for the cloned repository. Click **Clone**.
 
 ![select cloned repository](select-cloned-repository.png)
 
@@ -83,11 +83,11 @@ In the description field of the pull request enter a summary for the changes you
 
 ## Step 9: Request review
 
-Select the label "*documentation*".
+Select the label "_documentation_".
 
 ![add documentation label for pull request](add-documentation-label-pull-requests.png)
 
-In the field "*Reviewers*" select "*opf/doc-writers".*
+In the field "_Reviewers_" select "_opf/doc-writers"._
 
 ![select reviewer for documentation](select-reviewer-for-documentation.png)
 
@@ -97,6 +97,6 @@ In the field "*Reviewers*" select "*opf/doc-writers".*
 
 ## Additional notes for working on the legal docs
 
-* We always deploy the [main branch](https://github.com/opf/legal/tree/main) on our [website](https://www.openproject.org/legal/). This deployment needs to be manually triggered by the marketing team.
-* If you want to make minor changes you don't need a review do this directly in the main branch without creating a new branch and new pull request.
-* If you need a review you need to create a new branch from the main branch. The branch `release/16.0` only exists in the repository opf/openproject (OpenProject software).
+- We always deploy the [main branch](https://github.com/opf/legal/tree/main) on our [website](https://www.openproject.org/legal/). This deployment needs to be manually triggered by the marketing team.
+- If you want to make minor changes you don't need a review do this directly in the main branch without creating a new branch and new pull request.
+- If you need a review you need to create a new branch from the main branch. The branch `release/16.0` only exists in the repository opf/openproject (OpenProject software).

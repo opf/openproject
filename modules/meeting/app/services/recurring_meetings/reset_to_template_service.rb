@@ -38,19 +38,25 @@ module RecurringMeetings
   #   ResetToTemplateService.new(user:, meeting:, params: { state: :open })
   class ResetToTemplateService < ::BaseServices::BaseCallable
     include ::Shared::ServiceContext
+    include ::Contracted
 
     attr_reader :user, :meeting, :extra_params
 
-    def initialize(user:, meeting:, params: {})
+    def initialize(user:, meeting:, params: {}, contract_class: RecurringMeetings::ResetToTemplateContract)
       super()
       @user = user
       @meeting = meeting
       @extra_params = params
+      self.contract_class = contract_class
+      self.contract_options = { reopening: reopening?(params) }
     end
 
     protected
 
     def perform
+      contract_result = validate_contract
+      return contract_result unless contract_result.success?
+
       in_context(meeting, send_notifications: false) do
         ServiceResult.new(success: reset_to_template!, result: meeting)
       rescue ActiveRecord::RecordInvalid => e
@@ -59,6 +65,17 @@ module RecurringMeetings
     end
 
     private
+
+    def reopening?(params)
+      params[:state].to_s == "open"
+    end
+
+    def validate_contract
+      success, errors = validate(meeting, user, options: contract_options)
+      return ServiceResult.failure(errors:) unless success
+
+      ServiceResult.success
+    end
 
     def template
       meeting.recurring_meeting.template
@@ -90,10 +107,13 @@ module RecurringMeetings
           section.attributes.except("id", "meeting_id", "created_at", "updated_at")
         )
         section.agenda_items.each do |item|
-          # copy_attributes excludes :id and :meeting_id; we supply both FKs explicitly
-          new_section.agenda_items.create!(
-            item.copy_attributes.except("meeting_section_id").merge("meeting_id" => meeting.id)
-          )
+          new_item = item.dup
+          new_item.meeting_section = new_section
+
+          # A work_package agenda item whose WP was deleted has work_package_id nullified but
+          # item_type still set. Skip validations for this state
+          skip_validation = new_item.work_package? && new_item.work_package_id.nil?
+          new_item.save!(validate: !skip_validation)
         end
       end
     end

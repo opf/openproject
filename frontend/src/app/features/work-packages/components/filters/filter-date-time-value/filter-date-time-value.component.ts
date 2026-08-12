@@ -21,25 +21,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  HostBinding,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ChangeDetectionStrategy, Component, Input, HostBinding, OnInit, Output } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { Moment } from 'moment';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
 
@@ -50,7 +41,7 @@ import { AbstractDateTimeValueController } from '../abstract-filter-date-time-va
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnInit {
   @HostBinding('id') get id() {
@@ -65,22 +56,17 @@ export class FilterDateTimeValueComponent extends AbstractDateTimeValueControlle
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
-  constructor(readonly I18n:I18nService,
-    readonly timezoneService:TimezoneService) {
-    super(I18n, timezoneService);
-  }
-
   public get value():HalResource|string {
     return this.filter.values[0];
   }
 
-  public get valueString() {
-    return this.filter.values[0].toString();
+  public set value(val) {
+    this.filter.values = [val as string]; // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
+    this.filterChanged.emit(this.filter);
   }
 
-  public set value(val) {
-    this.filter.values = [val as string];
-    this.filterChanged.emit(this.filter);
+  public get valueString() {
+    return this.filter.values[0].toString();
   }
 
   public get lowerBoundary():Moment|null {

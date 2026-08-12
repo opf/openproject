@@ -21,23 +21,24 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { truncate } from 'lodash-es';
+import { InputState } from '@openproject/reactivestates';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { InputState } from '@openproject/reactivestates';
 import {
   WorkPackagesActivityService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -50,6 +51,8 @@ import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mi
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
+import { formatWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -126,11 +129,28 @@ export class WorkPackageBaseResource extends HalResource {
   public subject:string;
 
   /**
-   * Returns the user-facing work package identifier.
-   * "PROJ-42" in semantic mode, "42" in classic mode.
+   * The canonical user-facing work package identifier.
+   *
+   * - Semantic mode: `"PROJ-42"` (project-scoped, contains letters)
+   * - Classic mode: `"42"` (numeric only)
+   *
+   * This is the correct value for URL path segments — use this rather
+   * than `id` when constructing work package hrefs. The numeric `id`
+   * (primary key) should only appear in data attributes and internal
+   * state management (selection, focus, hover).
+   *
+   * Falls back to the self link's `displayId` — ancestor/children links
+   * in the API expose `displayId` alongside `href`/`title` because those
+   * HAL resources are built from a link payload alone, without a
+   * top-level `displayId`. Finally falls back to `id` (defensive against
+   * stale cache during rolling deploys, and for resources built from
+   * bare hrefs).
    */
   public get displayId():string {
-    return this.$source.displayId?.toString() ?? this.id?.toString() ?? '';
+    return this.$source.displayId?.toString()
+      ?? this.$source._links?.self?.displayId?.toString()
+      ?? this.id?.toString()
+      ?? '';
   }
 
   /**
@@ -139,13 +159,14 @@ export class WorkPackageBaseResource extends HalResource {
    * Semantic mode: `PROJ-42` (no prefix — the identifier is self-describing)
    */
   public get formattedId():string {
-    const wpId = this.displayId;
-    return /[A-Za-z]/.test(wpId) ? wpId : `#${wpId}`;
+    return formatWorkPackageId(this.displayId);
   }
 
   public updatedAt:Date;
 
   public lockVersion:number;
+
+  public hasProjectAttributes:boolean;
 
   public description:any;
 
@@ -157,19 +178,21 @@ export class WorkPackageBaseResource extends HalResource {
 
   public attributesByTimestamp?:IWorkPackageTimestamp[];
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() wpActivity:WorkPackagesActivityService;
+  @LazyInject() wpActivity:WorkPackagesActivityService;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
-  @InjectField() ToastService:ToastService;
+  @LazyInject() ToastService:ToastService;
 
-  @InjectField() workPackageNotificationService:WorkPackageNotificationService;
+  @LazyInject() workPackageNotificationService:WorkPackageNotificationService;
 
-  @InjectField() pathHelper:PathHelperService;
+  @LazyInject() pathHelper:PathHelperService;
+
+  @LazyInject() configService:ConfigurationService;
 
   readonly attachmentsBackend = true;
 
@@ -205,7 +228,7 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public truncatedSubject(length = 40):string {
-    return length <= 0 ? this.subject : _.truncate(this.subject, { length: length });
+    return length <= 0 ? this.subject : truncate(this.subject, { length: length });
   }
 
   public get isLeaf():boolean {
@@ -221,9 +244,12 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
+    const wikiPageMacros = ['OpMacroWikiPageLinkAddExisting', 'OpMacroWikiPageLinkCreateNew'];
+    const macros:boolean|string[] = this.configService.wikisAvailable ? wikiPageMacros : false;
+
     return {
       type: fieldName === 'description' ? 'full' : 'constrained',
-      macros: false,
+      macros,
       ...(fieldName.startsWith('customField') && { disabledMentions: ['user'] }),
     };
   }
@@ -247,7 +273,7 @@ export class WorkPackageBaseResource extends HalResource {
       resources[name] = linked ? linked.$update() : Promise.reject(undefined);
     });
 
-    const promise = Promise.all(_.values(resources));
+    const promise = Promise.all(Object.values(resources));
     promise.then(() => {
       this.wpCacheService.touch(this.id!);
     });
@@ -262,7 +288,7 @@ export class WorkPackageBaseResource extends HalResource {
     this.attachments = new AttachmentCollectionResource(
       this.injector,
       // Attachments MAY be an array if we're building from a form
-      _.get(attachments, '$source', attachments),
+      (attachments as { $source?:unknown }).$source ?? attachments,
       false,
       this.halInitializer,
       'HalResource',
@@ -273,7 +299,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Exclude the schema _link from the linkable Resources.
    */
   public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), 'schema');
+    return super.$linkableKeys().filter((key) => key !== 'schema');
   }
 
   /**

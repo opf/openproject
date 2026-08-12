@@ -31,16 +31,57 @@ properties:
       - *daily*: repeats every day (or every N days depending on interval)
       - *working_days*: repeats on working days only
       - *weekly*: repeats every week (or every N weeks depending on interval)
+      - *monthly_day_of_month*: repeats monthly on a specific day of month (for example, the 16th)
+      - *monthly_nth_weekday*: repeats monthly by weekday pattern (for example, first Tuesday, last Friday)
     enum:
       - daily
       - working_days
       - weekly
+      - monthly_day_of_month
+      - monthly_nth_weekday
   interval:
     type: integer
     description: |-
       The interval between occurrences. For example, an interval of 2 with a weekly frequency
       means the meeting occurs every 2 weeks. Not applicable for working_days frequency.
     minimum: 1
+  monthlyDay:
+    type: integer
+    description: |-
+      Day of month for `monthly_day_of_month` frequency.
+      Used when frequency is `monthly_day_of_month`.
+    minimum: 1
+    maximum: 31
+  monthlyOrdinal:
+    type: integer
+    description: |-
+      Ordinal position for `monthly_nth_weekday` frequency.
+      Allowed values:
+      - `1` (first)
+      - `2` (second)
+      - `3` (third)
+      - `4` (fourth)
+      - `-1` (last)
+      Used when frequency is `monthly_nth_weekday`.
+    enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - -1
+  monthlyWeekday:
+    type: string
+    description: |-
+      Weekday for `monthly_nth_weekday` frequency.
+      Used when frequency is `monthly_nth_weekday`.
+    enum:
+      - sunday
+      - monday
+      - tuesday
+      - wednesday
+      - thursday
+      - friday
+      - saturday
   endAfter:
     type: string
     description: |-

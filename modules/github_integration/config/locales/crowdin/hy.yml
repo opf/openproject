@@ -1,0 +1,69 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+---
+hy:
+  attributes:
+    additions_count: Ավելացումների թիվ
+    changed_files_count: Փոփոխված նիշքեր
+    comments_count: Մեկնաբանությունների քանակ
+    deletions_count: Ջնջումների թիվ
+    github: GitHub-ի նույնացուցիչ
+    github_app_owner_avatar_url: Սեփականատիրոջ ավատարի URL
+    github_avatar_url: Ավատարի URL
+    github_html_url: Ձգման հարցման URL
+    github_login: GitHub-ի օգտանուն
+    github_updated_at: Թարմացվել է
+    host: Հոսթ
+    labels: Պիտակներ
+    repository: Պահոց
+    review_comments_count: Վերանայման մեկնաբանությունների քանակ
+  button_add_deploy_target: Ավելացնել տեղակայման թիրախ
+  label_deploy_target: Տեղակայման թիրախ
+  label_deploy_target_new: Նոր տեղակայման թիրախ
+  label_deploy_target_plural: Տեղակայման թիրախներ
+  label_github_comment_user: GitHub-ի կատարող
+  label_github_integration: GitHub-ի ինտեգրացիա
+  label_github_webhook_secret: Վեբհուկի գաղտնիք
+  notice_deploy_target_created: Տեղակայման թիրախը ստեղծվել է
+  notice_deploy_target_destroyed: Տեղակայման թիրախը ջնջվել է
+  permission_introspection: Ընթերցել OpenProject-ի աշխատող միջուկի տարբերակը և կառուցման SHA-ն
+  permission_show_github_content: Ցուցադրել GitHub-ի բովանդակությունը
+  plugin_openproject_github_integration:
+    description: Ինտեգրում է OpenProject-ը և GitHub-ը՝ ավելի լավ աշխատանքային հոսքի համար
+    name: OpenProject-ի GitHub ինտեգրացիա
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'OpenProject-ի [API բանալի](docs_url), որը պատկանում է համընդհանուր ինտրոսպեկցիայի թույլտվություն ունեցող օգտատիրոջը։
+
+    '
+  text_deploy_target_type_info: 'Առայժմ մենք աջակցում ենք միայն հենց OpenProject-ին։
+
+    '
+  text_github_comment_user_info: 'OpenProject-ի օգտատերը, որի API բանալին պետք է օգտագործվի մուտքային վեբհուկի հարցումները նույնականացնելու համար։ Երբ սահմանված է, ցանկացած այլ օգտատիրոջ հավատարմագրերով նույնականացված հարցումները մերժվում են։ Այս օգտատերը նաև տեղակայման կարգավիճակի ավտոմատ մեկնաբանություններ է հրապարակում աշխատանքային փաթեթներում։ Երբ սահմանված չէ, կանխադրված կիրառվում է համակարգային օգտատերը։
+
+    '
+  text_github_webhook_secret_info: 'Գաղտնի թոքեն, որը համօգտագործվում է GitHub-ի հետ վեբհուկը կազմաձևելիս։ Երբ սահմանված է, OpenProject-ը ստուգում է X-Hub-Signature-256 վերնագիրը յուրաքանչյուր մուտքային հարցումում՝ մերժելով չհամապատասխանող տվյալները։ Թողեք դատարկ՝ ստուգումը բաց թողնելու համար (խորհուրդ չի տրվում)։
+
+    '
+  text_github_webhook_secret_missing_warning: 'Վեբհուկի գաղտնիք կազմաձևված չէ։ GitHub-ի վեբհուկի վերջնակետին ուղղված ցանկացած հարցում կընդունվի առանց ստուգման, ինչը կարող է թույլ տալ չլիազորված անձանց կեղծել իրադարձությունները։ Խստորեն խորհուրդ է տրվում սահմանել գաղտնիք։
+
+    '
+  text_pull_request_deployed_to: "%{pr_link} տեղակայվել է %{deploy_target_link}-ում"

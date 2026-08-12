@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,13 +53,12 @@ import {
   teamPlannerEventAdded,
   teamPlannerPageRefresh,
 } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
 @Component({
-  templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  selector: 'op-team-planner-page',
+  templateUrl: '../../../work-packages/routing/partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
     '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
   ],
@@ -45,7 +72,6 @@ import { OpCalendarService } from 'core-app/features/calendar/op-calendar.servic
   standalone: false,
 })
 export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
-  @InjectField() actions$:ActionsService;
 
   text = {
     title: this.I18n.t('js.team_planner.title'),
@@ -97,6 +123,17 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
 
   public ngOnInit():void {
     super.ngOnInit();
+
+    // Fix showToolbarSaveButton from actual URL params (not uiRouter state)
+    this.showToolbarSaveButton = !!new URLSearchParams(window.location.search).get('query_props');
+
+    // Update save button reactively when query_props changes via pushState
+    this.wpListChecksumService.visibleChecksum$
+      .pipe(this.untilDestroyed())
+      .subscribe((checksum) => {
+        this.showToolbarSaveButton = !!checksum;
+        this.cdRef.detectChanges();
+      });
 
     registerEffectCallbacks(this, this.untilDestroyed());
 

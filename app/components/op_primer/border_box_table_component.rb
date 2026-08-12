@@ -77,6 +77,8 @@ module OpPrimer
       self.class.main_column.include?(column)
     end
 
+    def pagination_params = {}
+
     def column_title(name)
       _, header_options = headers.assoc(name)
       header_options&.dig(:caption)

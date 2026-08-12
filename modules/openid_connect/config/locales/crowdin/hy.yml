@@ -1,0 +1,165 @@
+---
+hy:
+  activerecord:
+    attributes:
+      openid_connect/group_link:
+        oidc_group_name: OpenID խմբի նույնացուցիչ
+      openid_connect/provider:
+        acr_values: ACR արժեքներ
+        authorization_endpoint: Լիազորման վերջնակետ
+        claims: Պնդումներ
+        client_id: Հաճախորդի ID
+        client_secret: Հաճախորդի գաղտնիք
+        display_name: Ցուցադրվող անվանում
+        end_session_endpoint: Աշխատաշրջանի ավարտի վերջնակետ
+        grant_types_supported: Աջակցվող թույլտվության տեսակներ
+        group_regexes: Կաղապարներ (կանոնավոր արտահայտություններ)
+        groups_claim: Խմբերի պնդում
+        icon: Հատուկ պատկերակ
+        issuer: Թողարկող
+        jwks_uri: JWKS URI
+        limit_self_registration: Սահմանափակել ինքնագրանցումը
+        metadata_url: Մետատվյալների URL
+        name: Անվանում
+        post_logout_redirect_uri: Ելքից հետո վերահղման URI
+        redirect_url: Վերահղման URL
+        scope: Շրջանակ
+        secret: Գաղտնիք
+        slug: Եզակի նույնացուցիչ
+        sync_groups: Համաժամացնել խմբերը
+        tenant: Tenant
+        token_endpoint: Թոքենի վերջնակետ
+        userinfo_endpoint: Օգտատիրոջ տեղեկությունների վերջնակետ
+    errors:
+      models:
+        openid_connect/provider:
+          attributes:
+            metadata_url:
+              format: Հայտնաբերման վերջնակետի URL-ը %{message}
+              response_is_not_json: " չի վերադարձնում JSON մարմին։"
+              response_is_not_successful: " պատասխանում է %{status} կարգավիճակով։"
+              response_misses_required_attributes: " չի վերադարձնում պահանջվող հատկանիշները։ Բացակայող հատկանիշներն են՝ %{missing_attributes}։"
+          invalid_claims_essential: "%{attribute}-ում բուլյան արժեք սահմանված չէ։"
+          invalid_claims_location: պարունակում են չաջակցվող վայրեր՝ %{invalid}։ Աջակցվող վայրերն են՝ %{supported}։
+          invalid_claims_values: "%{attribute}-ում զանգված սահմանված չէ։"
+          non_object_attribute: "%{attribute}-ում JSON օբյեկտ սահմանված չէ։"
+  logout_warning: 'Դուք դուրս եք եկել համակարգից։ Ցանկացած ձևի բովանդակություն, որը կուղարկեք, կարող է կորչել։ Խնդրում ենք [մտնել համակարգ]։
+
+    '
+  openid_connect:
+    delete_heading: Ջնջե՞լ այս OpenID Connect մատակարարը։
+    delete_title: Ջնջել OpenID Connect մատակարարը
+    group_links_heading: OpenID Connect խմբերի կապեր
+    groups:
+      match_preview_component:
+        placeholder_none: Ներկայումս ոչ մի խումբ չի համապատասխանում կաղապարին։
+        title: Դուրս բերված խմբերի անվանումներ
+      match_preview_dialog_component:
+        description: Սա թույլ է տալիս փորձարկել Ձեր կանոնավոր արտահայտության կաղապարը նմուշային տվյալների վրա՝ ստուգելու համար, որ Ձեր ուզած խմբերի անվանումներն իրոք ճիշտ են դուրս բերվում։ Դուք կարող եք փոփոխել Ձեր կաղապարն այստեղ, սակայն փորձնական տողը և համընկնումները չեն պահպանվի կազմաձևման հետ։
+        group_names_description: Մուտքագրեք յուրաքանչյուր տողում մեկ խմբի անվանում՝ այնպես, ինչպես այն կհայտնվի OIDC պնդման մեջ, որպեսզի տեսնեք, թե ինչպես են Ձեր կանոնավոր արտահայտությունների կաղապարներն ազդում դրանց վրա։
+        group_names_label: Փորձնական խմբերի անվանումներ
+        show_button: Փորձարկել կաղապարը
+        title: Փորձարկել կանոնավոր արտահայտությունները
+    instructions:
+      acr_values: 'Հայցել ոչ էական պնդումներ ավելի հեշտ ձևաչափով։ Լրացուցիչ տեղեկությունների համար դիտեք [acr_values-ի վերաբերյալ մեր փաստաթղթերը](docs_url)։
+
+        '
+      claims: 'Դուք կարող եք հայցել լրացուցիչ պնդումներ userinfo և id token վերջնակետերի համար։ Լրացուցիչ տեղեկությունների համար խնդրում ենք դիտել [OpenID Connect-ի վերաբերյալ մեր փաստաթղթերը](docs_url)։
+
+        '
+      client_id: Սա հաճախորդի ID-ն է, որը Ձեզ տրամադրել է Ձեր OpenID Connect մատակարարը
+      client_secret: Սա հաճախորդի գաղտնիքն է, որը Ձեզ տրամադրել է Ձեր OpenID Connect մատակարարը
+      display_name: Մատակարարի անվանումը։ Այն կցուցադրվի որպես մուտքի կոճակ և մատակարարների ցանկում։
+      endpoint_url: Վերջնակետի URL-ը, որը Ձեզ տրամադրել է OpenID Connect մատակարարը
+      group_regexes: Յուրաքանչյուր տողում՝ մեկ կանոնավոր արտահայտության կաղապար։ Խնդրում ենք կարդալ [փաստաթղթերը](docs_url)՝ դա անելու մասին լրացուցիչ տեղեկությունների համար։
+      group_regexes_detail: Ըստ ցանկության սահմանեք կաղապարներ՝ կանոնավոր արտահայտությունների միջոցով խմբերի պնդումից խմբերի անվանումները համապատասխանեցնելու համար։ Օրինակ՝ <code>^Level1/Level2/([\w/]+)$</code> կաղապարի մուտքագրումը “Level1/Level2/GroupName/SubGroup” պարունակող պատասխանից դուրս կբերի “Groupname/SubGroup” խումբը։ Եթե ոչ մի կաղապար չի համապատասխանում, խումբն անտեսվում է։ Թողեք դատարկ՝ բոլոր խմբերն իրենց ամբողջական անվանումով համաժամացնելու համար։
+      group_regexes_testing: Սեղմեք 'Փորձարկել կաղապարը'՝ Ձեր կանոնավոր արտահայտության կաղապարը նմուշային OIDC userinfo-ի վրա փորձարկելու համար։
+      group_sync: Ավտոմատ կերպով դուրս բերել և համաժամացնել խմբերի անդամակցության տեղեկությունները ինքնության մատակարարից։
+      groups_claim: Նշեք այն պնդման անվանումը, որը պետք է ցույց տա այն խմբերի անվանումները, որոնց անդամ է օգտատերը։
+      limit_self_registration: Եթե միացված է, օգտատերերը կարող են այս մատակարարի միջոցով գրանցվել միայն այն դեպքում, երբ մատակարարի կողմում կազմաձևումը դա թույլ է տալիս։
+      mapping_admin: 'Տրամադրեք հատուկ համապատասխանեցում userinfo պատասխանում՝ ադմինիստրատորի կարգավիճակի համար։ Ակնկալվում է, որ կվերադարձվի բուլյան հատկանիշ։
+
+        '
+      mapping_email: 'Տրամադրեք հատուկ համապատասխանեցում userinfo պատասխանում՝ էլ. փոստի հատկանիշի համար։
+
+        '
+      mapping_first_name: 'Տրամադրեք հատուկ համապատասխանեցում userinfo պատասխանում՝ անվան համար։
+
+        '
+      mapping_last_name: 'Տրամադրեք հատուկ համապատասխանեցում userinfo պատասխանում՝ ազգանվան համար։
+
+        '
+      mapping_login: 'Տրամադրեք հատուկ համապատասխանեցում userinfo պատասխանում՝ օգտանվան հատկանիշի համար։
+
+        '
+      metadata_none: Ես չունեմ այս տեղեկությունը
+      metadata_url: Ես ունեմ հայտնաբերման վերջնակետի URL
+      oidc_information: Այս արժեքներն անհրաժեշտ են OpenID Connect մատակարարը կազմաձևելու համար։
+      post_logout_redirect_uri: URL-ը, որին OpenID Connect մատակարարը պետք է վերահղի ելքի հարցումից հետո։
+      scope: Եթե ցանկանում եք հայցել հատուկ շրջանակներ, կարող եք այստեղ ավելացնել շրջանակի մեկ կամ մի քանի արժեք՝ բաժանված բացատներով։ Լրացուցիչ տեղեկությունների համար տեսեք [OpenID Connect-ի փաստաթղթերը](docs_url)։
+      tenant: Խնդրում ենք անհրաժեշտության դեպքում կանխադրված tenant-ը փոխարինել Ձեր սեփականով։ Տեսեք <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">սա</a>։
+    menu_title: OpenID մատակարարներ
+    providers:
+      client_details_description: OpenProject-ի՝ որպես OIDC հաճախորդի կազմաձևման մանրամասներ
+      custom:
+        name: Հատուկ
+      google:
+        name: Google
+      label_add_new: Ավելացնել նոր OpenID մատակարար
+      label_advanced_configuration: Ընդլայնված կազմաձևում
+      label_attribute_mapping: Հատկանիշների համապատասխանեցում
+      label_automatic_configuration: Ինքնաշխատ կազմաձևում
+      label_client_details: Հաճախորդի մանրամասներ
+      label_configuration_details: Մետատվյալներ
+      label_edit: Խմբագրել %{name} OpenID մատակարարը
+      label_empty_description: Ավելացրեք մատակարար՝ այն այստեղ տեսնելու համար։
+      label_empty_title: Դեռ ոչ մի OpenID մատակարար կազմաձևված չէ։
+      label_group_mapping: Խմբերի համապատասխանեցում
+      label_metadata: OpenID Connect-ի հայտնաբերման վերջնակետ
+      label_optional_configuration: Ոչ պարտադիր կազմաձևում
+      label_providers: Մատակարարներ
+      microsoft_entra:
+        name: Microsoft Entra
+      no_results_table: Մատակարարներ դեռ սահմանված չեն։
+      notice_created: Նոր OpenID մատակարարը հաջողությամբ ստեղծվել է։
+      plural: OpenID մատակարարներ
+      section_texts:
+        attribute_mapping: Կազմաձևեք հատկանիշների համապատասխանեցումը OpenProject-ի և OpenID Connect մատակարարի միջև։
+        claims: Պահանջեք լրացուցիչ պնդումներ ID թոքենի կամ userinfo պատասխանի համար։
+        configuration: OpenID Connect մատակարարի կազմաձևման մանրամասներ
+        configuration_metadata: Տեղեկությունը նախապես լրացվել է տրամադրված հայտնաբերման վերջնակետի միջոցով։ Շատ դեպքերում, դրանք խմբագրման կարիք չունեն։
+        display_name: Օգտատերերին տեսանելի ցուցադրվող անվանումը։
+        group_mapping: Համապատասխանեցրեք ինքնության մատակարարի տրամադրած խմբերի անվանումները OpenProject-ի խմբերին։
+        metadata: Նախապես լրացրեք կազմաձևումը OpenID Connect-ի հայտնաբերման վերջնակետի URL-ի միջոցով
+        metadata_form_banner: Հայտնաբերման վերջնակետի խմբագրումը կարող է վերագրել նախապես լրացված մետատվյալների առկա արժեքները։
+        metadata_form_description: Ձեր ինքնության մատակարարը կարող է ունենալ հայտնաբերման վերջնակետի URL։ Օգտագործեք այն ստորև՝ կազմաձևումը նախապես լրացնելու համար։
+        metadata_form_title: OpenID Connect-ի հայտնաբերման վերջնակետ
+      side_panel:
+        information_component:
+          backchannel_logout_url: Backchannel ելքի URL
+      singular: OpenID մատակարար
+      upsell:
+        description: Միացրեք OpenProject-ը OpenID Connect ինքնության մատակարարին
+        title: Միասնական մուտք (SSO) OpenID Connect-ի միջոցով
+    setting_instructions:
+      limit_self_registration: 'Եթե միացված է, օգտատերերը կարող են այս մատակարարի միջոցով գրանցվել միայն այն դեպքում, երբ ինքնագրանցման կարգավորումը դա թույլ է տալիս։
+
+        '
+    settings:
+      endpoint_url: Վերջնակետի URL
+      metadata_none: Ես չունեմ այս տեղեկությունը
+      metadata_url: Ես ունեմ հայտնաբերման վերջնակետի URL
+  plugin_openproject_openid_connect:
+    description: Ավելացնում է OmniAuth OpenID Connect ռազմավարության մատակարարներ OpenProject-ին։
+    name: OpenProject-ի OpenID Connect
+  provider:
+    delete_warning:
+      delete_result_1: Մատակարարը կհեռացվի հասանելի մատակարարների ցանկից։
+      delete_result_direct: Այս մատակարարը նշված է որպես ուղիղ մուտքի մատակարար։ Կարգավորումը կհեռացվի, և օգտատերերն այլևս չեն վերահղվի մատակարարին՝ մուտք գործելու համար։
+      delete_result_user_count:
+        one: Ներկայումս մեկ օգտատեր դեռ օգտագործում է այս մատակարարը։ Նա պետք է կրկին հրավիրվի կամ մուտք գործի այլ մատակարարի միջոցով։
+        other: Ներկայումս %{count} օգտատեր դեռ օգտագործում է այս մատակարարը։ Նրանք պետք է կրկին հրավիրվեն կամ մուտք գործեն այլ մատակարարի միջոցով։
+        zero: Ներկայումս ոչ մի օգտատեր չի օգտագործում այս մատակարարը։ Լրացուցիչ գործողություն չի պահանջվում։
+      input_delete_confirmation_html: Ջնջումը հաստատելու համար մուտքագրեք մատակարարի անվանումը՝ %{name}։
+      irreversible_notice: SSO մատակարարի ջնջումն անշրջելի գործողություն է։
+      provider_html: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել %{name} SSO մատակարարը։ Հաշվի առեք հետևյալը՝

@@ -21,24 +21,42 @@
 #++
 ---
 hr:
-  plugin_costs:
-    name: Time and costs
-    description: This module adds features for planning and tracking costs of projects.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Radni paket
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        logged_by: Logged by
         overridden_costs: Prekoračeni troškovi
         spent: Potrošeno
         spent_on: Datum
-        logged_by: Logged by
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+        work_package: Radni paket
       cost_type:
+        default: Cost type by default
+        for_all_projects: For all projects
+        rates: Rates
         unit: Naziv jedinice
         unit_plural: Višestruki nazivi jedinica
-        default: Cost type by default
+      rate:
+        rate: Stopa
+      time_entry:
+        activity: Aktivnost
+        comments: Komentar
+        end_time: Finish time
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        hours: Sati
+        project: Projekt
+        spent_on: Datum
+        start_time: Start time
+        subject: Predmet
+        time: Vrijeme
+        user: Korisnik
+        work_package: Radni paket
+      user:
+        default_rates: Zadane satnice
       work_package:
         costs_by_type: Potrošene jedinice
         labor_costs: Troškovi rada
@@ -46,30 +64,27 @@ hr:
         overall_costs: Ukupni troškovi
         spent_costs: Potrošeni troškovi
         spent_units: Potrošene jedinice
-      rate:
-        rate: Stopa
-      user:
-        default_rates: Zadane satnice
-      time_entry:
-        project: Projekt
-        user: Korisnik
-        work_package: Radni paket
-        subject: Predmet
-        hours: Sati
-        comments: Komentar
-        activity: Aktivnost
-        spent_on: Datum
-        start_time: Start time
-        end_time: Finish time
-        time: Vrijeme
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Cannot log time for this work package.
+          duplicate_ongoing: An ongoing time entry already exists for this user.
+          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
+          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
+          invalid_time: must be between 00:00 and 23:59.
+          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
+          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
+          not_a_working_day: is not a working day for the user.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Radni paket #%{id} nije ispravano odredište za ponovljeno dodjeljivanje ulaznih troškova.'
+          nullify_is_not_valid_for_cost_entries: Ulazni troškovi ne mogu biti dodani projektu.
     models:
-      time_entry:
-        one: Time entry
-        few: Time entries
-        other: Time entries
       cost_entry:
         one: Ulazni trošak
         few: Cost entries
@@ -78,39 +93,41 @@ hr:
         one: Vrsta troška
         few: Vrsta troška
         other: Vrsta troška
+      rate: Stopa
+      time_entry:
+        one: Time entry
+        few: Time entries
+        other: Time entries
       time_entry_activity:
         one: Time tracking activity
         few: Time tracking activities
         other: Time tracking activities
-      rate: Stopa
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: must be between 00:00 and 23:59.
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Radni paket #%{id} nije ispravano odredište za ponovljeno dodjeljivanje ulaznih troškova.'
-          nullify_is_not_valid_for_cost_entries: Ulazni troškovi ne mogu biti dodani projektu.
+      validation:
+        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
   attributes:
     comment: Komentar
     cost_type: Vrsta troška
     costs: Troškovi
     current_rate: Trenutna stopa
+    fixed_date: Utvrđeni datum
     hours: Sati
     units: Jedinice
     valid_from: Vrijedi od
-    fixed_date: Utvrđeni datum
+  button_add_activity: Aktivnost
   button_add_rate: Dodaj satnicu
+  button_add_time_entry: Vrijeme pristupa
   button_log_costs: Evidentiraj jedinice troškova
   button_log_time: Log
-  button_add_activity: Aktivnost
-  button_add_time_entry: Vrijeme pristupa
   button_stop_timer: Stop timer
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Na projektu
   caption_default: Zadana vrijednost
   caption_default_rate_history_for: Povijest uobičajene satnice za %{user}
   caption_locked_on: Zaključano
+  caption_log_time_dialog: Vrijeme pristupa
   caption_materials: Jedinice
   caption_rate_history: Povijest satnica
   caption_rate_history_for: Povijest satnice za korisnika %{user}
@@ -118,22 +135,63 @@ hr:
   caption_save_rate: Spremi stopu
   caption_set_rate: Postavite trenutnu stopu
   caption_show_locked: Pokaži zaključane tipove
-  caption_log_time_dialog: Vrijeme pristupa
-  description_date_for_new_rate: Datum za nove satnice
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: Define the desired format for the costs in all projects.
-  description_time_settings: Define which fields are mandatory to fill when logging time in all projects.
+  description_date_for_new_rate: Datum za nove satnice
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  ee:
+    features:
+      time_entry_time_restrictions: Time entry restrictions
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
   group_by_others: nije u niti jednoj grupi
+  label_available_cost_types_projects: Available cost types projects
   label_between: između
+  label_cost: Cost
   label_cost_filter_add: Dodajte filer ulaznih troškova
-  label_costlog: Zabilježeni jedinični troškovi
   label_cost_plural: Troškovi
   label_cost_type_plural: Vrsta troška
   label_cost_type_specific: 'Cost type #%{id}: %{name}'
+  label_costlog: Zabilježeni jedinični troškovi
+  label_costs: Troškovi
   label_costs_per_page: Troškova po stranici
   label_current_default_rate: Trenutno zadana stopa
   label_date_on: na
+  label_day: Dan
+  label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Izbrisane tipovi troškova
-  label_locked_cost_types: Locked cost types
   label_display_cost_entries: Prikaži jedinice troškova
   label_display_time_entries: Prikaži prijavljene sate
   label_display_types: Prikazati tipove
@@ -144,59 +202,55 @@ hr:
   label_group_by_add: Dodajte polje grupiranja
   label_hourly_rate: Cijena po satu
   label_include_deleted: Uključi izbrisane
-  label_work_package_filter_add: Dodaj filter radnog zadatka
   label_kind: Tip
   label_less_or_equal: "<="
+  label_list: Popis
   label_log_costs: Evidentiraj jedinice troškova
-  label_new_time_entry_activity: New time entry activity
-  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
-  label_no: Ne
-  label_option_plural: Mogućnosti
-  label_overall_costs: Ukupni troškovi
-  label_rate: Stopa
-  label_rate_plural: Satnice
-  label_status_finished: Završeno
-  label_show: Prikaži
-  label_units: Jedinice troška
-  label_user: Korisnik
-  label_until: do
-  label_valid_from: Vrijedi od
-  label_yes: Da
-  label_time: Vrijeme
-  label_cost: Cost
-  label_costs: Troškovi
-  label_mandatory_fields: Mandatory fields
+  label_month: Mjesec
   label_my_time_tracking: My time tracking
-  label_no_time: No time tracked
+  label_new_time_entry_activity: New time entry activity
   label_next_day: Next day
+  label_next_month: Next month
   label_next_week: Sljedeći tjedan
   label_next_workweek: Next work week
-  label_next_month: Next month
+  label_no: Ne
+  label_no_time: No time tracked
+  label_option_plural: Mogućnosti
+  label_overall_costs: Ukupni troškovi
   label_previous_day: Previous day
-  label_previous_workweek: Previous work week
-  label_previous_week: Prethodni tjedan
   label_previous_month: Previous month
+  label_previous_week: Prethodni tjedan
+  label_previous_workweek: Previous work week
+  label_rate: Stopa
+  label_rate_plural: Satnice
+  label_show: Prikaži
   label_specific_day: Day %{day}
-  label_specific_week: Calendar week %{week}
   label_specific_month: Month %{month}
-  label_list: Popis
-  label_month: Mjesec
-  label_workweek: Work week
-  label_day: Dan
-  label_today_capitalized: Today
-  label_view_mode_switcher: Change view
+  label_start_and_finished: Start and finish times
+  label_status_finished: Završeno
+  label_time: Vrijeme
+  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_restrictions: Limits
   label_timer_since: Started at %{time}
-  placeholder_activity_select_work_package_first: Work package selection is required first
-  notice_something_wrong: Nešto je pošlo po zlu. Molimo pokušajte ponovno.
-  notice_successful_restore: Uspješno vraćanje.
-  notice_successful_lock: Locked successfully.
+  label_today_capitalized: Today
+  label_units: Jedinice troška
+  label_until: do
+  label_user: Korisnik
+  label_valid_from: Vrijedi od
+  label_view_mode_switcher: Change view
+  label_work_package_filter_add: Dodaj filter radnog zadatka
+  label_workweek: Work week
+  label_yes: Da
   notice_cost_logged_successfully: Jedinični trošak uspješno zabilježen.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_something_wrong: Nešto je pošlo po zlu. Molimo pokušajte ponovno.
+  notice_successful_lock: Locked successfully.
+  notice_successful_restore: Uspješno vraćanje.
   notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
   permission_edit_cost_entries: Uredite zabilježene jedinične troškove
-  permission_edit_own_cost_entries: Uredite vlastite zabilježene jedinične troškove
   permission_edit_hourly_rates: Uredite satnice
+  permission_edit_own_cost_entries: Uredite vlastite zabilježene jedinične troškove
   permission_edit_own_hourly_rate: Uredi vlastitu cijenu po satu
   permission_edit_rates: Uređivanje satnica
   permission_log_costs: Zabilježite jedinice troškova
@@ -207,45 +261,42 @@ hr:
   permission_view_own_cost_entries: Pogledaj vlastite zabilježene troškove
   permission_view_own_hourly_rate: Prikaži vlastite satnice
   permission_view_own_time_entries: Pogledaj vlastito utrošeno vrijeme
+  placeholder_activity_select_work_package_first: Work package selection is required first
+  plugin_costs:
+    description: This module adds features for planning and tracking costs of projects.
+    name: Time and costs
   project_module_costs: Time and costs
   setting_allow_tracking_start_and_end_times: Allow start and finish times
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_costs_currency: Valuta
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Require start and finish times
-  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
   text_assign_time_and_cost_entries_to_project: Dodijeli prijavljene satnice i troškove na projektu
   text_destroy_cost_entries_question: "%{cost_entries} su prikazani na radnim paketima koje želite izbrisati. Što zapravo želite napraviti?"
   text_destroy_time_and_cost_entries: Izbriši prijavljene sate i troškove
   text_destroy_time_and_cost_entries_question: "%{hours} sati, %{cost_entries} su prikazani na radnim paketima koje želite izbrisati. Što zapravo želite napraviti?"
   text_reassign_time_and_cost_entries: 'Dodijeli prijavljene sate i troškove ovom radnom paketu:'
   text_warning_hidden_elements: Pojedine stavke su izuzete iz agregacije.
-  week: tjedan
   total_times:
-    workweek: 'Workweek Total: %{hours}'
-    week: 'Week Total: %{hours}'
-    month: 'Month Total: %{hours}'
     day: 'Day Total: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Require exact time tracking
-    upsell:
-      time_entry_time_restrictions:
-        description: Improve your time tracking by requiring exact start and finish times when logging time.
+    month: 'Month Total: %{hours}'
+    week: 'Week Total: %{hours}'
+    workweek: 'Workweek Total: %{hours}'
+  week: tjedan

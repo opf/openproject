@@ -120,7 +120,7 @@ module API
                    getter:,
                    setter:,
                    if: show_if,
-                   skip_render: ->(*) { !embed_links || (skip_render && instance_exec(&skip_render)) },
+                   skip_render: ->(*) { !embed_link?(name) || (skip_render && instance_exec(&skip_render)) },
                    linked_resource: true,
                    embedded:,
                    uncacheable: true
@@ -142,7 +142,7 @@ module API
                    getter:,
                    setter:,
                    if: show_if,
-                   skip_render: ->(*) { !embed_links || (skip_render && instance_exec(&skip_render)) },
+                   skip_render: ->(*) { !embed_link?(name) || (skip_render && instance_exec(&skip_render)) },
                    linked_resource: true,
                    embedded:,
                    uncacheable: true
@@ -164,12 +164,19 @@ module API
         # resources that are connected to the current resource via a belongs_to association, e.g.
         # WorkPackage -> belongs_to -> project.
         #
-        # @param skip_render [optional, Proc] If the proc returns true, neither _link nor _embedded of the resource will be rendered.
-        # @param undisclosed [optional, true, false] If true, instead of not rendering the resource upon `skip_render`, an { "href": "urn:openproject-org:api:v3:undisclosed" } link will be rendered. This can be used e.g. when the parent of a project is invisible to the user and the existence, if not the actual parent, is to be communicated. The resource is still not embedded in this case.
+        # @param show_if [optional, Proc] If the proc returns false, the property does not exist at all:
+        # it is neither rendered nor parsed.
+        # @param skip_render [optional, Proc] If the proc returns true, neither _link nor _embedded of
+        # the resource will be rendered. Writes are still accepted.
+        # @param undisclosed [optional, true, false] If true, instead of not rendering the resource
+        # upon `skip_render`, an { "href": "urn:openproject-org:api:v3:undisclosed" } link will be rendered.
+        # This can be used e.g. when the parent of a project is invisible to the user and the existence,
+        # if not the actual parent, is to be communicated. The resource is still not embedded in this case.
         def associated_resource(name,
                                 as: nil,
                                 representer: nil,
                                 v3_path: name,
+                                show_if: ->(*) { true },
                                 skip_render: ->(*) { false },
                                 skip_link: skip_render,
                                 undisclosed: false,
@@ -177,7 +184,8 @@ module API
                                 link_getter: :"#{name}_id",
                                 link_property_name: nil,
                                 uncacheable_link: false,
-                                getter: associated_resource_default_getter(name, representer),
+                                link_cache_if: nil,
+                                getter: associated_resource_default_getter(name, representer, as || name),
                                 setter: associated_resource_default_setter(name, as, v3_path),
                                 link: associated_resource_default_link_lambda(link_property_name || name,
                                                                               v3_path:,
@@ -190,7 +198,50 @@ module API
                    setter:,
                    link:,
                    uncacheable_link:,
+                   link_cache_if:,
+                   show_if:,
                    skip_render:)
+        end
+
+        # Like associated_resource, but skips rendering and shows an undisclosed
+        # link when the associated record exists but is not visible to the current user.
+        # Requires the associated model to implement +visible?(user)+.
+        def associated_visible_resource(name,
+                                        as: nil,
+                                        representer: nil,
+                                        v3_path: name,
+                                        link_title_attribute: :name,
+                                        undisclosed_title: :"api_v3.undisclosed.#{name.to_s.camelize(:lower)}")
+          associated_resource(
+            name,
+            as:,
+            representer:,
+            v3_path:,
+            skip_render: ->(*) {
+              represented.public_send(:"#{name}_id").nil? ||
+                !represented.public_send(name)&.visible?(current_user)
+            },
+            link: associated_visible_resource_link_lambda(name,
+                                                          v3_path:,
+                                                          link_title_attribute:,
+                                                          undisclosed_title:)
+          )
+        end
+
+        def associated_visible_resource_link_lambda(name, v3_path:, link_title_attribute:, undisclosed_title:)
+          ->(*) do
+            id = represented.public_send(:"#{name}_id")
+            next if id.nil?
+
+            resource = represented.public_send(name)
+            if resource&.visible?(current_user)
+              { href: api_v3_paths.public_send(v3_path, id),
+                title: resource.public_send(link_title_attribute) }
+            else
+              { href: ::API::V3::URN_UNDISCLOSED,
+                title: I18n.t(undisclosed_title) }
+            end
+          end
         end
 
         def link_attr(name, uncacheable, link_cache_if)
@@ -202,11 +253,12 @@ module API
         end
 
         def associated_resource_default_getter(name,
-                                               representer)
+                                               representer,
+                                               embed_name)
           representer ||= default_representer(name)
 
           ->(*) do
-            if embed_links && represented.send(name)
+            if embed_link?(embed_name) && represented.send(name)
               representer.create(represented.send(name), current_user:)
             end
           end
@@ -249,7 +301,7 @@ module API
                                  skip_link: skip_render,
                                  link_title_attribute: :name,
                                  uncacheable_link: false,
-                                 getter: associated_resources_default_getter(name, representer),
+                                 getter: associated_resources_default_getter(name, representer, as),
                                  setter: associated_resources_default_setter(name, v3_path),
                                  link: associated_resources_default_link(name,
                                                                          v3_path:,
@@ -264,10 +316,13 @@ module API
         end
 
         def associated_resources_default_getter(name,
-                                                representer)
+                                                representer,
+                                                embed_name)
           representer ||= default_representer(name.to_s.singularize)
 
           ->(*) do
+            next unless embed_link?(embed_name)
+
             represented.send(name)&.map do |associated|
               representer.create(associated, current_user:)
             end

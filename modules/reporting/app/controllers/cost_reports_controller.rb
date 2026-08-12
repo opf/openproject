@@ -144,6 +144,8 @@ class CostReportsController < ApplicationController
   ##
   # Create a new saved query. Returns the redirect url to an XHR or redirects directly
   def create
+    return deny_access if make_query_public? && !allowed_in_report?(:save_as_public, @query)
+
     @query.name = params[:query_name].presence || ::I18n.t(:label_default)
     @query.public! if make_query_public?
     @query.send(:"#{user_key}=", current_user.id)
@@ -164,6 +166,8 @@ class CostReportsController < ApplicationController
   # specified record or renders the updated table on XHR
   def update
     if save_query? # save
+      raise ActiveRecord::RecordNotFound unless @query
+
       return deny_access unless allowed_in_report?(:save, @query)
 
       old_query = @query
@@ -199,6 +203,8 @@ class CostReportsController < ApplicationController
   # Rename a record and update its publicity. Redirects to the updated record or
   # renders the updated name on XHR
   def rename
+    raise ActiveRecord::RecordNotFound unless @query
+
     return deny_access unless allowed_in_report?(:rename, @query)
 
     @query.name = params[:query_name]

@@ -33,14 +33,59 @@ module Wikis
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    alias_method :link, :model
+    alias_method :page_info_result, :model
 
-    def page_title_service
-      @page_title_service ||= PageTitleService.new
+    attr_reader :source
+
+    def initialize(model = nil, menu_actions: [], source: nil, **)
+      @menu_actions = menu_actions
+      @source = source
+
+      super(model, **)
+    end
+
+    def badge_label
+      I18n.t("wikis.page_links.source.parent") if source == :parent
+    end
+
+    def page_title
+      page_info_result.either(
+        ->(pi) { pi.title },
+        ->(error) do
+          case error
+          in { code: :not_found }
+            I18n.t("wikis.page_links.errors.page_not_found")
+          in { code: :forbidden }
+            I18n.t("wikis.page_links.errors.page_access_forbidden")
+          else
+            I18n.t("wikis.page_links.errors.unexpected")
+          end
+        end
+      )
+    end
+
+    def page_href
+      page_info_result.value!.href
+    end
+
+    def error?
+      page_info_result.failure?
     end
 
     def show_action_menu?
-      link.relation?
+      menu_actions.any?
     end
+
+    def menu_items(menu)
+      menu_actions.each do |action|
+        menu.with_item(**action.menu_item_args) do |item|
+          item.with_leading_visual_icon(icon: action.icon)
+        end
+      end
+    end
+
+    private
+
+    attr_reader :menu_actions
   end
 end

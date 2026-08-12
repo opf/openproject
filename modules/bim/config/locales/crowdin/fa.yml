@@ -1,105 +1,21 @@
-#English strings go here for Rails i18n
 ---
 fa:
-  plugin_openproject_bim:
-    name: OpenProject BIM and BCF functionality
-    description: This OpenProject plugin introduces BIM and BCF functionality.
-  bim:
-    label_bim: BIM
-  bcf:
-    label_bcf: BCF
-    label_imported_failed: وارد کردن ناموفق موضوعات BCF
-    label_imported_successfully: موضوعات BCF با موفقیت درون‌ریزی شد
-    label_bcf_issue_associated: مشکل مرتبط با BCF
-    issues: مشکلات
-    recommended: پیشنهادی
-    not_recommended: پیشنهاد نشده
-    no_viewpoints: بدون دیدگاه
-    new_badge: جدید
-    exceptions:
-      file_invalid: فایل BCF نامعتبر است
-    x_bcf_issues:
-      zero: بدون مشکل BCF
-      one: یک مشکل BCF
-      other: "%{count} مشکل BCF"
-    bcf_xml:
-      xml_file: فایل BCF XML
-      import_title: درون‌ریزی
-      export: خروجی
-      import_update_comment: "(در وارد کردن BCF به روزرسانی شد)"
-      import_failed: "%{error} نمی‌توان فایل BCF را وارد کرد"
-      import_failed_unsupported_bcf_version: 'خواندن فایل BCF ناموفق بود: نسخه BCF پشتیبانی نمی‌شود. لطفا مطمئن شوید که نسخه حداقل %{minimal_version} یا بالاتر است.'
-      import_successful: مشکل%{count} BCFوارد شد
-      import_canceled: وارد کردن BCF-XML لغو شد.
-      type_not_active: نوع مشكل برای این پروژه فعال نشده است.
-      import:
-        num_issues_found: |-
-          %{x_bcf_issues} در فایلBCF-XMLموجود است
-          جزئیات آنها در زیر فهرست شده است.
-        button_prepare: اماده سازی برا وارد کردن
-        button_perform_import: ورودی را تایید کنید
-        button_proceed: ادامه ورودی
-        button_back_to_list: بازگشت به لیست
-        no_permission_to_add_members: شما مجوزهای کافی برای اضافه کردن آنها به عنوان عضو به پروژه را ندارید.
-        contact_project_admin: برای اضافه کردن آنها به عنوان عضو و شروع مجدد این وارد کردن با مدیر پروژه خود تماس بگیرید.
-        continue_anyways: آیا میخواهید در هر صورت وارد کردن را ادامه دهید و تمام کنید؟
-        description: یک فایلBCF-XMLنسخه 2.1برای وارد کردن به این پروژه ارائه دهید. می توانید قبل از وارد کردن ، محتویات آن را بررسی کنید.
-        invalid_types_found: نام نوع موضوع نامعتبر یافت شد
-        invalid_statuses_found: نام وضعیت نامعتبر یافت شد
-        invalid_priorities_found: نامهای اولویت دار نامعتبر یافت شد
-        invalid_emails_found: آدرس های ایمیل نامعتبر یافت شد
-        unknown_emails_found: آدرس های ایمیل ناشناخته یافت شد
-        unknown_property: ویژگی ناشناخته
-        non_members_found: اعضای غیر پروژه یافت شدند
-        import_types_as: همه این نوعها را روی
-        import_statuses_as: همه این وضعیت ها را روی
-        import_priorities_as: همه این الویت ها را روی
-        invite_as_members_with_role: آنها را به عنوان عضو به پروژه %{project} با نقش دعوت کنید
-        add_as_members_with_role: آنها را به عنوان عضو به پروژه %{project} با نقش اضافه کنید
-        no_type_provided: هیچ نوع داده ای ارائه نشده است
-        no_status_provided: هیچ وضعیتی ارائه نشده است
-        no_priority_provided: هیچ اولویتی ارائه نشده است
-        perform_description: آیا میخواهید مشکلات ذکر شده در بالا را وارد یا به روزرسانی کنید؟
-        replace_with_system_user: آنها را با کاربر" سیستم" جایگزین کنید
-        import_as_system_user: آنها را به عنوان کاربر "سیستم" وارد کنید.
-        what_to_do: چه کاری میخواهید انجام دهید؟
-        work_package_has_newer_changes: قدیمی این موضوع به روزرسانی نشده است زیرا آخرین تغییرات روی سرور جدیدتر از تاریخ اصلاح موضوع وارد شده بود. با این حال، نظرات مربوط به موضوع وارد شده است.
-        bcf_file_not_found: یافتن فایل BCF ناموفق بود. لطفاً فرآیند آپلود را دوباره شروع کنید.
-  export:
-    format:
-      bcf: BCF-XML
-  attributes:
-    bcf_thumbnail: تصویر فوری BCF
-  project_module_bcf: BCF
-  project_module_bim: BCF
-  permission_view_linked_issues: مشاهده مشکلات BCF
-  permission_manage_bcf: وارد کردن و مدیریت مشکلات BCF
-  permission_delete_bcf: مشکلات حذف BCF
-  oauth:
-    scopes:
-      bcf_v2_1: دسترسی کامل به API نسخه2.1
-      bcf_v2_1_text: برنامه دسترسی کامل خواندن و نوشتن به OpenProject BCF API نسخه2.1 را برای انجام اقدامات از طرف شما دریافت خواهد کرد.
   activerecord:
-    models:
-      bim/ifc_models/ifc_model: الگو  IFC
     attributes:
-      bim/ifc_models/ifc_model:
-        ifc_attachment: فایل IFC
-        is_default: مدل پیش فرض
-        attachments: فایل IFC
       bim/bcf/issue:
         bcf_comment: نظر BCF
         bim_snippet: قطعه کد BIM
         reference_links: لینک های مرجع
         stage: مرحله
         viewpoint: دیدگاه
+      bim/ifc_models/ifc_model:
+        attachments: فایل IFC
+        ifc_attachment: فایل IFC
+        is_default: مدل پیش فرض
     errors:
       models:
-        bim/ifc_models/ifc_model:
-          attributes:
-            base:
-              ifc_attachment_missing: هیچ فایل if پیوست نشده است.
-              invalid_ifc_file: فایل ارائه شده یک فایل IFC معتبر نیست.
+        bim/bcf/issue:
+          uuid_already_taken: نمیتوان این مسئله BCF را وارد کرد زیرا از قبل مسئله دیگری با همان GUID وجود دارد. آیا ممکن است که این مسئله BCF قبلاً به پروژه دیگری وارد شده باشد؟
         bim/bcf/viewpoint:
           bitmaps_not_writable: فرمت bitmap قابل نوشتن نیست پون هنوز پیاده سازی نشده است.
           index_not_integer: index یک عدد صحیح نیست.
@@ -110,37 +26,125 @@ fa:
           invalid_perspective_camera: دوربین پرسپکتیو نامعتبر است.
           mismatching_guid: راهنمای موجود در json_viewpoint با راهنمای مدل مطابقت ندارد.
           no_json: یک json با ساختار درست نیست.
-          snapshot_type_unsupported: نوع عکس فوری باید"png" یا "jpg "باشد.
           snapshot_data_blank: داده های عکس فوری باید ارائه شوند.
+          snapshot_type_unsupported: نوع عکس فوری باید"png" یا "jpg "باشد.
           unsupported_key: یک مشخصه json پشتیبانی نشده اضافه شده است.
-        bim/bcf/issue:
-          uuid_already_taken: نمیتوان این مسئله BCF را وارد کرد زیرا از قبل مسئله دیگری با همان GUID وجود دارد. آیا ممکن است که این مسئله BCF قبلاً به پروژه دیگری وارد شده باشد؟
-  ifc_models:
-    label_ifc_models: مدل های IFC
-    label_new_ifc_model: مدل جدید IFC
-    label_show_defaults: نمایش پیشفرض ها
-    label_default_ifc_models: مدل های پیش‌فرض IFC
-    label_edit_defaults: ویرایش پیش‌فرض ها
-    no_defaults_warning:
-      title: هیچ مدل IFC به عنوان پیش فرض برای این پروژه تنظیم نشده است.
-      check_1: بررسی کنید که حداقل یک مدل IFC آپلود کرده باشید.
-      check_2: بررسی کنید که حداقل یک مدل IFC روی پیش‌فرض تنظیم شده باشد.
-    no_results: هیچ مدل IFC در این پروژه آپلود نشده است.
-    conversion_status:
-      label: درحال پردازش؟
-      pending: درحال انتظار
-      processing: در حال پردازش
-      completed: تکمیل شده
-      error: خطا
-    processing_notice:
-      processing_default: 'مدلهای پیش فرض IFC زیر هنوز در حال پردازش هستند و بنابراین در دسترس نیستند:'
-    flash_messages:
-      upload_successful: آپلود با موفقیت انجام شد. اکنون پردازش شده و ظرف چند دقیقه آماده استفاده خواهد بود.
-    conversion:
-      missing_commands: دستور ها مبدل IFC زیر در این سیستم وجود ندارند%{names}
-  project_module_ifc_models: مدل های IFC
-  permission_view_ifc_models: مشاهده مدل هایIFC
-  permission_manage_ifc_models: وارد کردن و مدیریت مدل های IFC
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: هیچ فایل if پیوست نشده است.
+              invalid_ifc_file: فایل ارائه شده یک فایل IFC معتبر نیست.
+    models:
+      bim/ifc_models/ifc_model: الگو  IFC
+  attributes:
+    bcf_thumbnail: تصویر فوری BCF
+  bcf:
+    bcf_xml:
+      export: خروجی
+      import:
+        add_as_members_with_role: آنها را به عنوان عضو به پروژه %{project} با نقش اضافه کنید
+        bcf_file_not_found: یافتن فایل BCF ناموفق بود. لطفاً فرآیند آپلود را دوباره شروع کنید.
+        button_back_to_list: بازگشت به لیست
+        button_perform_import: ورودی را تایید کنید
+        button_prepare: اماده سازی برا وارد کردن
+        button_proceed: ادامه ورودی
+        contact_project_admin: برای اضافه کردن آنها به عنوان عضو و شروع مجدد این وارد کردن با مدیر پروژه خود تماس بگیرید.
+        continue_anyways: آیا میخواهید در هر صورت وارد کردن را ادامه دهید و تمام کنید؟
+        description: یک فایلBCF-XMLنسخه 2.1برای وارد کردن به این پروژه ارائه دهید. می توانید قبل از وارد کردن ، محتویات آن را بررسی کنید.
+        import_as_system_user: آنها را به عنوان کاربر "سیستم" وارد کنید.
+        import_priorities_as: همه این الویت ها را روی
+        import_statuses_as: همه این وضعیت ها را روی
+        import_types_as: همه این نوعها را روی
+        invalid_emails_found: آدرس های ایمیل نامعتبر یافت شد
+        invalid_priorities_found: نامهای اولویت دار نامعتبر یافت شد
+        invalid_statuses_found: نام وضعیت نامعتبر یافت شد
+        invalid_types_found: نام نوع موضوع نامعتبر یافت شد
+        invite_as_members_with_role: آنها را به عنوان عضو به پروژه %{project} با نقش دعوت کنید
+        no_permission_to_add_members: شما مجوزهای کافی برای اضافه کردن آنها به عنوان عضو به پروژه را ندارید.
+        no_priority_provided: هیچ اولویتی ارائه نشده است
+        no_status_provided: هیچ وضعیتی ارائه نشده است
+        no_type_provided: هیچ نوع داده ای ارائه نشده است
+        non_members_found: اعضای غیر پروژه یافت شدند
+        num_issues_found: |-
+          %{x_bcf_issues} در فایلBCF-XMLموجود است
+          جزئیات آنها در زیر فهرست شده است.
+        perform_description: آیا میخواهید مشکلات ذکر شده در بالا را وارد یا به روزرسانی کنید؟
+        replace_with_system_user: آنها را با کاربر" سیستم" جایگزین کنید
+        unknown_emails_found: آدرس های ایمیل ناشناخته یافت شد
+        unknown_property: ویژگی ناشناخته
+        what_to_do: چه کاری میخواهید انجام دهید؟
+        work_package_has_newer_changes: قدیمی این موضوع به روزرسانی نشده است زیرا آخرین تغییرات روی سرور جدیدتر از تاریخ اصلاح موضوع وارد شده بود. با این حال، نظرات مربوط به موضوع وارد شده است.
+      import_canceled: وارد کردن BCF-XML لغو شد.
+      import_failed: "%{error} نمی‌توان فایل BCF را وارد کرد"
+      import_failed_unsupported_bcf_version: 'خواندن فایل BCF ناموفق بود: نسخه BCF پشتیبانی نمی‌شود. لطفا مطمئن شوید که نسخه حداقل %{minimal_version} یا بالاتر است.'
+      import_successful: مشکل%{count} BCFوارد شد
+      import_title: درون‌ریزی
+      import_update_comment: "(در وارد کردن BCF به روزرسانی شد)"
+      type_not_active: نوع مشكل برای این پروژه فعال نشده است.
+      xml_file: فایل BCF XML
+    exceptions:
+      file_invalid: فایل BCF نامعتبر است
+    issues: مشکلات
+    label_bcf: BCF
+    label_bcf_issue_associated: مشکل مرتبط با BCF
+    label_imported_failed: وارد کردن ناموفق موضوعات BCF
+    label_imported_successfully: موضوعات BCF با موفقیت درون‌ریزی شد
+    new_badge: جدید
+    no_viewpoints: بدون دیدگاه
+    not_recommended: پیشنهاد نشده
+    recommended: پیشنهادی
+    x_bcf_issues:
+      one: یک مشکل BCF
+      other: "%{count} مشکل BCF"
+      zero: بدون مشکل BCF
+  bim:
+    error_direct_upload_failed: Direct upload failed.
+    label_bim: BIM
+  export:
+    format:
+      bcf: BCF-XML
   extraction:
     available:
       ifc_convert: خط لوله تبدیل IFC در دسترس است
+  ifc_models:
+    conversion:
+      missing_commands: دستور ها مبدل IFC زیر در این سیستم وجود ندارند%{names}
+    conversion_status:
+      completed: تکمیل شده
+      error: خطا
+      label: درحال پردازش؟
+      pending: درحال انتظار
+      processing: در حال پردازش
+    flash_messages:
+      upload_successful: آپلود با موفقیت انجام شد. اکنون پردازش شده و ظرف چند دقیقه آماده استفاده خواهد بود.
+    label_default_ifc_models: مدل های پیش‌فرض IFC
+    label_edit_defaults: ویرایش پیش‌فرض ها
+    label_ifc_models: مدل های IFC
+    label_new_ifc_model: مدل جدید IFC
+    label_show_defaults: نمایش پیشفرض ها
+    no_defaults_warning:
+      check_1: بررسی کنید که حداقل یک مدل IFC آپلود کرده باشید.
+      check_2: بررسی کنید که حداقل یک مدل IFC روی پیش‌فرض تنظیم شده باشد.
+      title: هیچ مدل IFC به عنوان پیش فرض برای این پروژه تنظیم نشده است.
+    no_results: هیچ مدل IFC در این پروژه آپلود نشده است.
+    processing_notice:
+      processing_default: 'مدلهای پیش فرض IFC زیر هنوز در حال پردازش هستند و بنابراین در دسترس نیستند:'
+  oauth:
+    scopes:
+      bcf_v2_1: دسترسی کامل به API نسخه2.1
+      bcf_v2_1_text: برنامه دسترسی کامل خواندن و نوشتن به OpenProject BCF API نسخه2.1 را برای انجام اقدامات از طرف شما دریافت خواهد کرد.
+  permission_delete_bcf: مشکلات حذف BCF
+  permission_manage_bcf: وارد کردن و مدیریت مشکلات BCF
+  permission_manage_bcf_explanation: |
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+  permission_manage_ifc_models: وارد کردن و مدیریت مدل های IFC
+  permission_view_ifc_models: مشاهده مدل هایIFC
+  permission_view_linked_issues: مشاهده مشکلات BCF
+  plugin_openproject_bim:
+    description: This OpenProject plugin introduces BIM and BCF functionality.
+    name: OpenProject BIM and BCF functionality
+  project_module_bcf: BCF
+  project_module_bim: BCF
+  project_module_ifc_models: مدل های IFC

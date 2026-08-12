@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Queries
-          RSpec.describe UploadLinkQuery, :webmock do
+          RSpec.describe UploadLinkQuery, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox) }
             let(:auth_strategy) { Registry["sharepoint.authentication.userless"].call }
             let(:upload_method) { :put }

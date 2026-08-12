@@ -74,22 +74,24 @@ class OAuthClientsController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def ensure_connection
     client_id = params.fetch(:oauth_client_id)
-    storage_id = params.fetch(:storage_id)
-    oauth_client = OAuthClient.find_by(client_id:, integration_id: storage_id)
+    integration_id = params.fetch(:integration_id)
+    oauth_client = OAuthClient.find_by(client_id:, integration_id:)
 
-    handle_absent_oauth_client unless oauth_client
+    return handle_absent_oauth_client unless oauth_client
 
-    storage = oauth_client.integration
-    # check if the origin is the same
+    integration = oauth_client.integration
     destination_url = destination_url(params.fetch(:destination_url, ""))
-    auth_state = ::Storages::Adapters::Authentication.authorization_state(storage:, user: User.current)
+    configuration = integration.oauth_configuration
+    connection = ::OAuthClients::ConnectionManager.new(user: User.current, configuration:)
+                                                  .get_access_token
 
-    if auth_state == :connected
+    if connection.success?
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid
-      cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, storageId: storage_id }.to_json, expires: 1.hour }
-      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
+      cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, integrationId: integration_id }.to_json,
+                                          expires: 1.hour }
+      redirect_to(configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
   end
 
@@ -131,13 +133,24 @@ class OAuthClientsController < ApplicationController
   end
 
   def set_oauth_errors(service_result)
-    if service_result.errors.is_a?(::Storages::StorageError)
-      service_result.errors = service_result.errors.to_active_model_errors
-    end
+    messages = extract_error_messages(service_result.errors)
 
     flash[:error] = ["#{t(:"oauth_client.errors.oauth_authorization_code_grant_had_errors")}:"]
-    service_result.errors.each do |error|
-      flash[:error] << "#{t(:"oauth_client.errors.oauth_reported")}: #{error.full_message}"
+    messages.each do |message|
+      flash[:error] << "#{t(:"oauth_client.errors.oauth_reported")}: #{message}"
+    end
+  end
+
+  # service_result.error might have been set to one of many different error-representing classes. It's mainly intended
+  # to carry ActiveModel::Errors, but storages and wikis module assign their own error representations.
+  # We coerce the error as much as we can here and extract an array of error messages.
+  def extract_error_messages(error)
+    error = error.to_active_model_errors if error.respond_to?(:to_active_model_errors)
+
+    if error.is_a?(SimpleError)
+      ["An unexpected error occurred: #{error.code}, #{error.source}"]
+    else
+      error.map(&:full_message)
     end
   end
 
@@ -196,9 +209,9 @@ class OAuthClientsController < ApplicationController
 
       # FIXME: This is a hack, fetching additional information of the storage to identify the oauth client.
       # This must be fixed in #50872.
-      state_value = MultiJson.load(cookie, symbolize_keys: true)
+      state_value = MultiJSON.load(cookie, symbolize_keys: true)
       @oauth_client = OAuthClient.find_by(client_id: params[:oauth_client_id],
-                                          integration_id: state_value[:storageId])
+                                          integration_id: state_value[:integrationId])
     end
 
     @oauth_client = oauth_client_from_cookie.call
@@ -228,7 +241,6 @@ class OAuthClientsController < ApplicationController
     if User.current.admin && redirect_uri && oauth_integration.try(:supports_oauth_redirect?)
       yield
     elsif redirect_uri
-      flash[:error] = [t(:"oauth_client.errors.oauth_issue_contact_admin")]
       redirect_to redirect_uri
     else
       redirect_to root_url

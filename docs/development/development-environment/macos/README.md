@@ -28,7 +28,7 @@ their homepage.
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
 Ruby. We always require the latest ruby versions, and you can check which version is required
 by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At
-the time of writing, this version is "4.0.2"
+the time of writing, this version is "4.0.6"
 
 #### Install rbenv and ruby-build
 
@@ -48,18 +48,18 @@ With both installed, we can now install the actual ruby version.
 You can check available ruby versions with `rbenv install --list`.
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.2` and install that version.
+Read the first line e.g. `4.0.6` and install that version.
 
 ```shell
 # Install the required version as read from the .ruby-version file
-rbenv install 4.0.2
+rbenv install 4.0.6
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to
 globally activate this version
 
 ```shell
-rbenv global 4.0.2
+rbenv global 4.0.6
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -115,11 +115,11 @@ nodenv init
 
 You can find the latest LTS version here: [nodejs.org/en/download](https://nodejs.org/en/download/)
 
-At the time of writing this is v22.21.0. Install and activate it with:
+At the time of writing this is v24.18.0. Install and activate it with:
 
 ```shell
-nodenv install 22.21.0
-nodenv global 22.21.0
+nodenv install 24.18.0
+nodenv global 24.18.0
 ```
 
 #### Update NPM to the latest version
@@ -134,16 +134,16 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```shell
 $ ruby --version
-ruby 4.0.2 (2026-03-17 revision d3da9fec82) +PRISM [arm64-darwin25]
+ruby 4.0.6 (2026-07-14 revision 03b6d3f889) +PRISM [arm64-darwin25]
 
 $ bundler --version
-4.0.3
+4.0.16
 
 node --version
-v22.21.0
+v24.18.0
 
 npm --version
-10.5.0
+11.16.0
 ```
 
 ## Install OpenProject
@@ -272,7 +272,7 @@ Password: admin
 
 ### Run OpenProject manually
 
-To run OpenProject manually, you need to run the rails server and the webpack frontend bundler to:
+To run OpenProject manually, you need to run the rails server and the Angular CLI dev server (Vite) to:
 
 #### Rails web server
 

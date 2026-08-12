@@ -36,7 +36,7 @@ RSpec.describe "API v3 Sprint resource", content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project, public: false) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
+  shared_let(:sprint) { create(:sprint, project:) }
 
   let(:permissions) { %i[view_sprints] }
 

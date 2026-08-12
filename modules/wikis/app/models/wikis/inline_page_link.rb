@@ -29,6 +29,9 @@
 #++
 
 module Wikis
+  # A page link from a linkable to a wiki page that can be found inside the text of
+  # the linkable (e.g. description of a work package).
+  # Persisted for all wiki providers.
   class InlinePageLink < PageLink
     def inline? = true
   end

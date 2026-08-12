@@ -21,21 +21,17 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import moment, { Moment } from 'moment';
 import {
   take,
   tap,
 } from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
 import { IWeekday } from 'core-app/core/state/days/weekday.model';
 import {
@@ -45,13 +41,11 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class WeekdayService {
-  @InjectField() weekdaysService:WeekdayResourceService;
+  readonly injector = inject(Injector);
+
+  readonly weekdaysService = inject(WeekdayResourceService);
 
   private weekdays:IWeekday[];
-
-  constructor(
-    readonly injector:Injector,
-  ) {}
 
   /**
    * @param date The iso day number (1-7) or a date instance

@@ -21,21 +21,20 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 @Injectable({ providedIn: 'root' })
 export class ExcludedIconHelperService {
-  constructor(
-    private apiV3Service:ApiV3Service,
-  ) {}
+  private apiV3Service = inject(ApiV3Service);
+
 
   public addIconIfExcludedFromTotals(element:HTMLElement, resource:WorkPackageResource):void {
     if (resource?.status) {

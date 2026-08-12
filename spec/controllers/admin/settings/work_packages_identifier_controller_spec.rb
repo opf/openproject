@@ -30,11 +30,43 @@
 
 require "spec_helper"
 
-RSpec.describe Admin::Settings::WorkPackagesIdentifierController,
-               with_flag: { semantic_work_package_ids: true } do
+RSpec.describe Admin::Settings::WorkPackagesIdentifierController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
+
+  describe "GET #status" do
+    let(:component_target) { "work-packages-admin-settings-identifier-settings-form-component" }
+
+    context "when a migration job is in progress" do
+      before do
+        allow(ProjectIdentifiers::IdentifierAutofix).to receive_messages(job_in_progress?: true, reversion_in_progress?: false)
+        allow(ProjectIdentifiers::PendingProjectsFinder).to receive(:count).and_return(5)
+      end
+
+      it "returns 200 with a turbo stream replacing the form component in change_in_progress state" do
+        get :status, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response).to have_turbo_stream(action: "replace", target: component_target)
+        expect(response.body).to include("Background conversion is in progress")
+      end
+    end
+
+    context "when no migration job is in progress" do
+      before do
+        allow(ProjectIdentifiers::IdentifierAutofix).to receive(:job_in_progress?).and_return(false)
+      end
+
+      it "returns 200 with a turbo stream replacing the form component in completed state" do
+        get :status, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response).to have_turbo_stream(action: "replace", target: component_target)
+        expect(response.body).to include("Successfully updated work package identifier format.")
+      end
+    end
+  end
 
   describe "PATCH #update" do
     context "when work_packages_identifier is 'semantic'" do

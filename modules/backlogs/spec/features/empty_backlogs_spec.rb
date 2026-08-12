@@ -49,14 +49,14 @@ RSpec.describe "Empty backlogs project",
 
     it "shows blankslate with description" do
       within "#owner_backlogs_container .blankslate" do
-        expect(page).to have_heading(I18n.t(:"backlogs.inbox_component.blankslate_title"))
-        expect(page).to have_text(I18n.t(:"backlogs.inbox_component.blankslate_description"))
+        expect(page).to have_heading("Backlog inbox is empty", exact: true)
+        expect(page).to have_text("Open work packages that are not in a sprint or backlog bucket automatically appear here")
       end
 
       within "#sprint_backlogs_container .blankslate" do
-        expect(page).to have_heading(I18n.t(:"backlogs.backlog.blankslate.title"))
-        expect(page).to have_text(I18n.t(:"backlogs.backlog.blankslate.description_html",
-                                         settings_link: "project settings"))
+        expect(page).to have_heading("No sprints present yet", exact: true)
+        expect(page).to have_text("To start planning your sprint, create one here")
+        expect(page).to have_link("project settings")
       end
     end
   end
@@ -67,13 +67,13 @@ RSpec.describe "Empty backlogs project",
 
     it "shows a blankslate without description" do
       within "#owner_backlogs_container .blankslate" do
-        expect(page).to have_heading(I18n.t(:"backlogs.inbox_component.blankslate_title"))
-        expect(page).to have_text(I18n.t(:"backlogs.inbox_component.blankslate_description"))
+        expect(page).to have_heading("Backlog inbox is empty", exact: true)
+        expect(page).to have_text("Open work packages that are not in a sprint or backlog bucket automatically appear here")
       end
 
       within "#sprint_backlogs_container .blankslate" do
-        expect(page).to have_heading(I18n.t(:"backlogs.backlog.blankslate.title"))
-        expect(page).to have_text(I18n.t(:"backlogs.backlog.blankslate.no_actions_description_text"))
+        expect(page).to have_heading("No sprints present yet", exact: true)
+        expect(page).to have_text("No sprints are available for this project yet.")
       end
     end
   end

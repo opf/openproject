@@ -135,4 +135,33 @@ RSpec.describe RecurringMeetings::ResetToTemplateService, type: :model do
       expect(cancelled_occurrence.reload.participants.count).to eq(template_participant_count)
     end
   end
+
+  context "when the template has a work package agenda item whose work package was deleted" do
+    before do
+      template_section = series.template.sections.first
+      wp_item = MeetingAgendaItem.create!(
+        meeting: series.template,
+        meeting_section: template_section,
+        item_type: :work_package,
+        work_package: create(:work_package, project:),
+        author: user,
+        position: 2
+      )
+
+      # Simulate the work package being destroyed (dependent: :nullify)
+      wp_item.update_columns(work_package_id: nil)
+    end
+
+    it "returns a successful service result" do
+      expect(service_result).to be_success
+    end
+
+    it "copies the deleted WP agenda item preserving its type and nil work_package_id" do
+      service_result
+      deleted_item = cancelled_occurrence.reload.agenda_items.last
+      expect(deleted_item).to be_present
+      expect(deleted_item).to be_work_package
+      expect(deleted_item.work_package_id).to be_nil
+    end
+  end
 end

@@ -22,6 +22,19 @@
 ---
 nl:
   js:
+    admin:
+      type_form:
+        edit_query: Zoekopdracht bewerken
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+      working_days:
+        add_non_working_day: Vrije dagen
+        already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
+        calendar:
+          empty_state_description: No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.
+          empty_state_header: Vrije dagen
+          new_date: "(nieuw)"
     ajax:
       hide: Verberg
       loading: Laden…
@@ -42,281 +55,367 @@ nl:
       not_found: Geen items gevonden
       type_to_search: Typ om te zoeken
     autocomplete_select:
+      active: Actieve %{label} %{name}
       placeholder:
         multi: Toevoegen "%{name}"
         single: Selecteer "%{name}"
       remove: Verwijder %{name}
-      active: Actieve %{label} %{name}
+    autocompleter:
+      notFoundText: Geen items gevonden
+      placeholder: Typ om te zoeken
+      project:
+        placeholder: Select project
+      search: Zoeken
     backup:
       attachments_disabled: Bijlagen mogen niet worden opgenomen omdat ze de maximaal toegestane grootte overschrijden. U kunt dit wijzigen via de configuratie (vereist een herstart van de server).
+      download_backup: Back-up downloaden
+      include_attachments: Inclusief bijlagen
       info: 'Je kunt hier een back-up activeren. Het proces kan enige tijd in beslag nemen, afhankelijk van het aantal gegevens (met name de bijlagen) die je hebt. Je ontvangt een e-mail zodra het klaar is.
-
-        '
-      note: 'Een nieuwe back-up zal elke vorige overschrijven. Alleen een beperkt aantal back-ups per dag kunnen worden aangevraagd.
 
         '
       last_backup: Laatste back-up
       last_backup_from: Laatste back-up van
-      title: OpenProject back-uppen
+      note: 'Een nieuwe back-up zal elke vorige overschrijven. Alleen een beperkt aantal back-ups per dag kunnen worden aangevraagd.
+
+        '
       options: Opties
-      include_attachments: Inclusief bijlagen
-      download_backup: Back-up downloaden
       request_backup: Back-up aanvragen
-    close_popup_title: Popup sluiten
-    close_filter_title: Sluit filter
-    close_form_title: Sluit formulier
-    button_add_watcher: Watcher toevoegen
+      title: OpenProject back-uppen
+    baseline:
+      apply: Toepassen
+      clear: Wissen
+      drop_down:
+        a_specific_date: een specifieke datum
+        between_two_specific_dates: tussen twee specifieke datums
+        last_month: vorige maand
+        last_week: Vorige week
+        last_working_day: laatste werkdag
+        none: "-"
+        yesterday: gisteren
+      from: Van
+      header_description: Markeer wijzigingen die sindsdien in deze lijst zijn aangebracht.
+      help_description: Reference time zone for the baseline.
+      icon_tooltip:
+        added: Added to view within the comparison time period
+        changed: Behoud met wijzigingen
+        removed: Removed from view within the comparison time period
+      legends:
+        changes_between: Veranderingen tussen
+        changes_since: Veranderingen sinds
+        in_your_timezone: 'In je lokale tijdzone:'
+        maintained_with_changes: Behoud met wijzigingen
+        no_longer_meets_filter_criteria: Voldoet niet langer aan filtercriteria
+        now_meets_filter_criteria: Voldoet nu aan filtercriteria
+      show_changes_since: Toon wijzigingen sinds
+      time: Tijd
+      time_description: 'In uw lokale tijd: %{datetime}'
+      to: Aan
+      toggle_title: Baseline
+    breadcrumb: Breadcrumb
     button_add: Toevoegen
+    button_add_watcher: Watcher toevoegen
+    button_advanced_filter: Geavanceerde filter
     button_back: Terug
     button_back_to_list_view: Terug naar het overzicht
     button_cancel: Annuleren
-    button_close: Sluiten
     button_change_project: Move to another project
     button_check_all: Selecteer alles
+    button_clear: Clear
+    button_close: Sluiten
+    button_close_details: Sluit detailweergave
+    button_collapse_all: Alles inklappen
     button_configure-form: Formulier configureren
     button_confirm: Accepteren
     button_continue: Ga verder
     button_copy: Kopieer
-    button_copy_to_clipboard: Kopiëren naar het klembord
     button_copy_link_to_clipboard: Link naar klembord kopiëren
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_to_clipboard: Kopiëren naar het klembord
     button_copy_to_other_project: Duplicate in another project
+    button_create: Maken
     button_custom-fields: Aangepaste velden
     button_delete: Verwijderen
     button_delete_watcher: Kijkers verwijderen
     button_details_view: Details overzicht
     button_duplicate: Dupliceren
     button_edit: Wijzig
-    button_filter: Filter
-    button_collapse_all: Alles inklappen
     button_expand_all: Alles uitklappen
-    button_advanced_filter: Geavanceerde filter
+    button_export-atom: Download Atom
+    button_filter: Filter
+    button_generate_pdf: Generate PDF
     button_list_view: Lijstweergave
-    button_show_view: Fullscreen weergave
     button_log_time: Gelogde tijd
-    button_start_timer: Start timer
-    button_stop_timer: Stop timer
     button_more: Meer
-    button_open_details: Open detailweergave
-    button_close_details: Sluit detailweergave
-    button_open_fullscreen: Open volledig scherm
-    button_show_cards: Toon kaartweergave
-    button_show_list: Toon lijstweergave
-    button_show_table: Tabel weergave tonen
-    button_show_gantt: Toon Gantt-weergave
-    button_show_fullscreen: Volledig scherm weergeven
     button_more_actions: Meer acties
+    button_open_details: Open detailweergave
+    button_open_fullscreen: Open volledig scherm
     button_quote: Citeer
     button_save: Opslaan
     button_settings: Instellingen
+    button_show_cards: Toon kaartweergave
+    button_show_fullscreen: Volledig scherm weergeven
+    button_show_gantt: Toon Gantt-weergave
+    button_show_list: Toon lijstweergave
+    button_show_table: Tabel weergave tonen
+    button_show_view: Fullscreen weergave
+    button_start_timer: Start timer
+    button_stop_timer: Stop timer
     button_uncheck_all: Deselecteer alles
     button_update: Bijwerken
-    button_export-atom: Download Atom
-    button_generate_pdf: Generate PDF
-    button_create: Maken
+    caption_rate_history: Tarief geschiedenis
     card:
       add_new: Nieuwe kaart toevoegen
       highlighting:
-        inline: 'Markeer inline:'
         entire_card_by: Gehele kaart door
+        inline: 'Markeer inline:'
       remove_from_list: Verwijder kaart uit lijst
-    caption_rate_history: Tarief geschiedenis
+    chart:
+      axis_criteria: As criteria
+      errors:
+        could_not_load: Kon gegevens om de grafiek weer te geven niet laden. Mogelijk ontbreken de benodigde machtigingen.
+      modal_title: Werkpakket grafiek configuratie
+      tabs:
+        dataset: Dataset %{number}
+        graph_settings: Algemeen
+      type: Grafiek type
+      types:
+        bar: Balk
+        doughnut: Donut
+        horizontal_bar: Horizontale balk
+        line: Lijn
+        pie: Taart
+        polar_area: Poolstreek
+        radar: Radar
     clipboard:
       browser_error: 'Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer het handmatig: %{content}'
       copied_successful: Succesvol gekopieerd naar klembord!
-    chart:
-      type: Grafiek type
-      axis_criteria: As criteria
-      modal_title: Werkpakket grafiek configuratie
-      types:
-        line: Lijn
-        horizontal_bar: Horizontale balk
-        bar: Balk
-        pie: Taart
-        doughnut: Donut
-        radar: Radar
-        polar_area: Poolstreek
-      tabs:
-        graph_settings: Algemeen
-        dataset: Dataset %{number}
-      errors:
-        could_not_load: Kon gegevens om de grafiek weer te geven niet laden. Mogelijk ontbreken de benodigde machtigingen.
+    close_filter_title: Sluit filter
+    close_form_title: Sluit formulier
+    close_popup_title: Popup sluiten
+    custom_actions:
+      date:
+        current_date: Huidige datum
+        specific: op
     description_available_columns: Beschikbare kolommen
     description_current_position: 'U bent hier: '
     description_select_work_package: 'Selecteer werk pakket #%{id}'
     description_subwork_package: 'Kind van werkpakket #%{id}'
     editor:
-      revisions: Show local modifications
-      no_revisions: No local modifications found
-      preview: Voorbeeld modus wijzigen
-      source_code: Wissel Markdown bronmodus
-      error_saving_failed: Het opslaan van het document is mislukt met de volgende foutmelding:%{error}
       ckeditor_error: Er is een fout opgetreden in CKEditor
-      mode:
-        manual: Schakel naar de bron van het Markdown
-        wysiwyg: Schakel over naar de WYSIWYG-Editor
+      error_saving_failed: Het opslaan van het document is mislukt met de volgende foutmelding:%{error}
       macro:
-        error: 'Macro: %{message} kan niet worden uitgebreid'
         attribute_reference:
-          macro_help_tooltip: Dit tekstsegment wordt dynamisch weergegeven door een macro.
-          not_found: Gevraagde bron kan niet worden gevonden
-          nested_macro: This macro is recursively referencing %{model} %{id}.
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Het geselecteerde attribuut '%{name}' bestaat niet.
+          nested_macro: This macro is recursively referencing %{model} %{id}.
+          not_found: Gevraagde bron kan niet worden gevonden
         child_pages:
-          button: Links naar onderliggende pagina 's
-          include_parent: Inclusief bovenliggende
-          text: "[Placeholder] links naar onderliggende pagina's van"
-          page: Wikipagina
-          this_page: deze pagina
+          button: List of sub-pages
           hint: 'Laat dit veld leeg om alle onderliggende pagina''s van de huidige pagina weer te geven. Als u wilt verwijzen naar een andere pagina, geef de titel of de witruimte van de pagina in.
 
             '
+          include_parent: Inclusief bovenliggende
+          page: Wikipagina
+          text: "[Placeholder] List of sub-pages of"
+          this_page: deze pagina
         code_block:
           button: Codefragment invoegen
-          title: Insert / codefragment bewerken
           language: Opmaaktaal
           language_hint: Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien ondersteund).
-        dropdown:
-          macros: Macro's
-          chose_macro: Kies macro
+          title: Insert / codefragment bewerken
+        embedded_calendar:
+          text: "[Placeholder] ingesloten kalender"
+        embedded_table:
+          button: Werk pakket tabel insluiten
+          text: "[Placeholder] ingesloten werkpakket tabel"
+        error: 'Macro: %{message} kan niet worden uitgebreid'
+        macro_dropdown:
+          caption: Insert
         toc: Inhoudsopgave
         toolbar_help: Klik op widget en geef de werkbalk weer. Dubbelklikken om de widget te bewerken
         wiki_page_include:
           button: Inhoud van een andere wikipagina opnemen
-          text: "[Placeholder] opgenomen wikipagina van"
-          page: Wikipagina
-          not_set: "(Pagina nog niet ingesteld)"
           hint: |
             Neem de inhoud van een andere wikipagina op door de de titel of de witruimte rond de pagina in te geven.
             U kunt de wikipagina van een ander project opnemen door deze te scheiden met een dubbele punt zoals in het volgende voorbeeld.
+          not_set: "(Pagina nog niet ingesteld)"
+          page: Wikipagina
+          text: "[Placeholder] opgenomen wikipagina van"
         work_package_button:
           button: Voegen werk pakket knop maken In
-          type: Werkpakket type
           button_style: Gebruik knopstijl
           button_style_hint: 'Optioneel: Controleer of de macro wordt weergegeven als een knop, niet als een link.'
-          without_type: Nieuw werkpakket maken
+          type: Werkpakket type
           with_type: 'Werkpakket maken (Type: %{typename})'
-        embedded_table:
-          button: Werk pakket tabel insluiten
-          text: "[Placeholder] ingesloten werkpakket tabel"
-        embedded_calendar:
-          text: "[Placeholder] ingesloten kalender"
-    admin:
-      type_form:
-        custom_field: Aangepast veld
-        inactive: Inactief
-        drag_to_activate: Sleep velden uit hier om ze te activeren
-        add_group: Toevoegen van nieuwe attribuutgroepen
-        add_table: Tabel van verwante werkpakketten toevoegen
-        edit_query: Zoekopdracht bewerken
-        new_group: Nieuwe groep
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: Standaardinstellingen herstellen
-      working_days:
-        calendar:
-          empty_state_header: Vrije dagen
-          empty_state_description: No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.
-          new_date: "(nieuw)"
-        add_non_working_day: Vrije dagen
-        already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-        change_button: Opslaan en opnieuw plannen
-        change_title: Wijzig werkdagen
-        removed_title: 'Je verwijdert de volgende dagen uit de lijst van niet-werkdagen:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
-      work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
-        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
-    custom_actions:
-      date:
-        specific: op
-        current_date: Huidige datum
-    error:
-      internal: Een interne fout is opgetreden.
-      cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet opslaan: %{error}'
-      query_saving: Het overzicht kon niet bewaard worden.
-      embedded_table_loading: 'De ingesloten weergave kon niet worden geladen: %{message}'
+          without_type: Nieuw werkpakket maken
+      mode:
+        manual: Schakel naar de bron van het Markdown
+        wysiwyg: Schakel over naar de WYSIWYG-Editor
+      no_revisions: No local modifications found
+      preview: Voorbeeld modus wijzigen
+      revisions: Show local modifications
+      source_code: Wissel Markdown bronmodus
     enumeration_activities: Activiteiten (tijdregistratie)
     enumeration_doc_categories: Document categorieën
     enumeration_work_package_priorities: Werkpakket prioriteiten
+    error:
+      cannot_save_changes_with_message: 'Uw wijzigingen vanwege de volgende fout niet opslaan: %{error}'
+      embedded_table_loading: 'De ingesloten weergave kon niet worden geladen: %{message}'
+      internal: Een interne fout is opgetreden.
+      query_saving: Het overzicht kon niet bewaard worden.
+    error_attachment_upload: 'Bestand uploaden mislukt: %{error}'
+    error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze bron te uploaden.
+    error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
+    error_could_not_resolve_version_name: Kan de verstane niet vinden
+    exclusion_info:
+      modal:
+        content: The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+        title: Status excluded from hierarchy totals
+    favorite_projects:
+      no_results: U heeft geen favoriete projecten
+      no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
+    field_value_enter_prompt: Breng een waarde in voor veld '%{field}'
     filter:
-      more_values_not_shown: Er zijn nog %{total} resultaten, zoeken om de resultaten te filteren.
       description:
-        text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
         text_close_filter: Om een item te verlaten, verlaat dan de focus bijvoorbeeld door het drukken op de enter-toets. Om een item zonder filter te verlaten, selecteer het eerste (lege) item.
+        text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
+      more_values_not_shown: Er zijn nog %{total} resultaten, zoeken om de resultaten te filteren.
       noneElement: "(geen)"
-      time_zone_converted:
-        two_values: "%{from} - %{to} in uw lokale tijd."
-        only_start: Van %{from} in uw lokale tijd.
-        only_end: Tot %{to} in uw lokale tijd.
-      value_spacer: "-"
       sorting:
         criteria:
           one: Eerste sorteercriteria
-          two: Tweede sorteercriteria
           three: Derde sorteercriteria
+          two: Tweede sorteercriteria
+      time_zone_converted:
+        only_end: Tot %{to} in uw lokale tijd.
+        only_start: Van %{from} in uw lokale tijd.
+        two_values: "%{from} - %{to} in uw lokale tijd."
+      value_spacer: "-"
+    forms:
+      advanced_settings: Geavanceerde instellingen
+      load_error_message: Er is een fout opgetreden bij het laden van het formulier
+      submit_success_message: Het formulier is met succes verzonden
+      validation_error_message: Corrigeer de fouten in het formulier
     gantt_chart:
-      label: Gantt-grafiek
-      quarter_label: Q%{quarter_number}
-      labels:
-        title: Label configuratie
-        bar: Bar etiketten
-        left: Linkerkant
-        right: Rechterkant
-        farRight: Uiterst rechts
-        description: 'Selecteer de attributen die u te allen tijde wilt laten zien in de respectieve posities van het Gantt-diagram. Merk op dat wanneer de muis over een element beweegt, de datum labels worden getoond in plaats van deze eigenschappen.
-
-          '
       button_activate: Toon Gantt-diagram
       button_deactivate: Verberg Gantt-diagram
       filter:
         noneSelection: "(geen)"
+      label: Gantt-grafiek
+      labels:
+        bar: Bar etiketten
+        description: 'Selecteer de attributen die u te allen tijde wilt laten zien in de respectieve posities van het Gantt-diagram. Merk op dat wanneer de muis over een element beweegt, de datum labels worden getoond in plaats van deze eigenschappen.
+
+          '
+        farRight: Uiterst rechts
+        left: Linkerkant
+        right: Rechterkant
+        title: Label configuratie
+      quarter_label: Q%{quarter_number}
       selection_mode:
         notification: Klik op elk gemarkeerde werkpakket om een relatie te maken. Druk op escape om te annuleren.
       zoom:
-        in: Inzoomen
-        out: Uitzoomen
         auto: Auto-zoom
         days: Dagen
-        weeks: Weken
-        months: Maanden
-        quarters: Kwartalen
-        years: Jaren
         description: 'Selecteer het oorspronkelijke zoomniveau dat moet worden weergegeven wanneer autozoom niet beschikbaar is.
 
           '
-    general_text_no: Nee
-    general_text_yes: Ja
+        in: Inzoomen
+        months: Maanden
+        out: Uitzoomen
+        quarters: Kwartalen
+        weeks: Weken
+        years: Jaren
     general_text_No: Nee
     general_text_Yes: Ja
+    general_text_no: Nee
+    general_text_yes: Ja
+    global_search:
+      all_projects: Voor alle projecten
+      close_search: Sluit zoekopdracht
+      current_project: In dit project
+      current_project_and_all_descendants: In dit project + subprojecten
+      direct_hit_available: Work package with exact ID found. Press Enter to open it.
+      items_available: "%{count} items available"
+      recently_viewed: Recent bekeken
+      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
+      title:
+        all_projects: alle projecten
+        project_and_subprojects: en alle subprojecten
+        search_for: Zoeken naar
     hal:
       error:
-        update_conflict_refresh: Klik hier om de bron te vernieuwen en bij te werken naar de nieuwste versie.
         edit_prohibited: Het bewerken van %{attribute} is geblokkeerd voor deze bron. Dit attribuut is afgeleid van relaties (bijv. kinderen) of anders niet configureerbaar.
         format:
           date: "%{attribute} is geen geldige datum - JJJJ-MM-DD verwacht."
         general: Er is een fout opgetreden.
+        update_conflict_refresh: Klik hier om de bron te vernieuwen en bij te werken naar de nieuwste versie.
+    help_texts:
+      show_modal: Show help text
     ical_sharing_modal:
-      title: Abonneren op agenda
-      inital_setup_error_message: Er is een fout opgetreden tijdens het ophalen van gegevens.
+      copy_url_label: URL kopiëren
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      warning: Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
+      ical_generation_error_text: Er is een fout opgetreden tijdens het genereren van de agenda-URL.
+      inital_setup_error_message: Er is een fout opgetreden tijdens het ophalen van gegevens.
+      success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
+      title: Abonneren op agenda
+      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
       token_name_label: Waar gaat u dit gebruiken?
       token_name_placeholder: Typ een naam, bijv. "Telefoon"
-      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
-      copy_url_label: URL kopiëren
-      ical_generation_error_text: Er is een fout opgetreden tijdens het genereren van de agenda-URL.
-      success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
+      warning: Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
+    include_projects:
+      apply: Toepassen
+      clear_selection: Selectie wissen
+      include_subprojects: Inclusief alle sub-projecten
+      no_results: Geen enkel project komt overeen met uw zoekcriteria.
+      search_placeholder: Search projects...
+      selected_filter:
+        all: Alle projecten
+        selected: Alleen geselecteerd
+      title: Projecten
+      toggle_title: Inclusief de projecten
+      tooltip:
+        current_project: Dit is het huidige project waarin u zich bevindt.
+        does_not_match_search: Het project komt niet overeen met de zoekcriteria.
+        include_all_selected: Project al opgenomen omdat alle subprojecten zijn ingeschakeld.
+    include_workspaces:
+      types:
+        portfolio: Portfolio
+        program: Program
+    inplace:
+      btn_preview_disable: Voorbeeld uitschakelen
+      btn_preview_enable: Voorbeeld
+      button_cancel: "%{attribute}: Afbreken"
+      button_cancel_all: Annuleren
+      button_edit: "%{attribute}: Bewerken"
+      button_save: "%{attribute}: Bewaren"
+      button_save_all: Opslaan
+      clear_value_label: "-"
+      errors:
+        maxlength: "%{field} mag niet meer dan %{maxLength} teken(s) bevatten"
+        messages_on_field: 'Het veld is ongeldig: %{messages}'
+        minlength: "%{field} mag niet minder dan %{minLength} teken(s) bevatten"
+        number: "%{field} is geen geldig nummer"
+        required: "%{field} mag niet leeg zijn"
+      link_formatting_help: Help voor tekstopmaak
+      null_value_label: Geen waarde
+    invalid_job_response: Invalid response from server.
+    invite_user_modal:
+      invite: Uitnodigen
+      placeholder_add_tag: Create placeholder user
     label_activate: Activeren
-    label_assignee: Toegewezene
-    label_assignee_alt_text: This work package is assigned to %{name}
+    label_activity_show_all: Geef alle activiteiten weer
+    label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
+    label_add_attachments: Bestanden toevoegen
     label_add_column_after: Kolom toevoegen
     label_add_column_before: Kolom invoegen
     label_add_columns: Kolommen toevoegen
     label_add_comment: Commentaar toevoegen
     label_add_comment_title: Plaats een opmerking en gebruik het @-teken om anderen te informeren
+    label_add_description: Een beschrijving voor %{file} toevoegen
     label_add_row_after: Rij toevoegen
     label_add_row_before: Rij invoegen
     label_add_selected_columns: Geselecteerde kolommen toevoegen
@@ -329,6 +428,9 @@ nl:
     label_all_work_packages: alle werkpakketten
     label_and: en
     label_ascending: Oplopend
+    label_assignee: Toegewezene
+    label_assignee_alt_text: This work package is assigned to %{name}
+    label_attachments: Bijlagen
     label_author: 'Auteur: %{user}'
     label_avatar: Avatar
     label_between: tussen
@@ -336,42 +438,52 @@ nl:
     label_board_locked: Vergrendeld
     label_board_plural: Borden
     label_board_sticky: Sticky
+    label_cancel_comment: Annuleer reactie
     label_change: Wijzigen
+    label_children_derived_duration: Kinderen van het werkpakket afgeleide duur
+    label_closed_work_packages: gesloten
+    label_collapse: Samenvouwen
+    label_collapse_all: Alles inklappen
+    label_collapse_text: Collapse text
+    label_collapsed: samengevouwen
+    label_columns: Kolommen
+    label_comment: Commentaar
+    label_contains: bevat
     label_create: Maken
     label_create_work_package: Nieuw werkpakket maken
     label_created_by: Gemaakt door
+    label_created_on: gecreëerd op
     label_current: current
+    label_custom_queries: Privé
     label_date: Datum
     label_date_with_format: 'Geef de %{date_attribute} met gebruik van volgend formaat: %{format}'
     label_deactivate: Deactiveren
+    label_default_queries: Standaard
     label_descending: Aflopend
     label_description: Omschrijving
     label_details: Details
     label_display: Weergave
-    label_cancel_comment: Annuleer reactie
-    label_closed_work_packages: gesloten
-    label_collapse: Samenvouwen
-    label_collapsed: samengevouwen
-    label_collapse_all: Alles inklappen
-    label_collapse_text: Collapse text
-    label_comment: Commentaar
-    label_contains: bevat
-    label_created_on: gecreëerd op
+    label_drop_files: Sleep bestanden hierheen om bestanden toe te voegen.
+    label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
+    label_drop_or_click_files: Sleep bestanden hierheen of klik om bestanden toe te voegen.
     label_edit_comment: Deze opmerking bewerken
     label_edit_status: De status van het werkpakket bewerken
     label_email: E-mail
     label_equals: is
     label_expand: Uitbreiden
-    label_expanded: uitgebreid
     label_expand_all: Alles uitklappen
-    label_expand_text: Show full text
     label_expand_project_menu: Menu project uitvouwen
+    label_expand_text: Show full text
+    label_expanded: uitgebreid
     label_export: Exporteren
     label_export_preparing: De export wordt voorbereid en wordt binnenkort gedownload.
     label_favorites: Favorieten
     label_filename: Bestand
+    label_files_to_upload: 'Deze bestanden worden geüpload:'
     label_filesize: Grootte
+    label_formattable_attachment_hint: Hecht en link bestanden door deze in dit veld te slepen, of plak deze vanuit het klembord.
     label_general: Algemeen
+    label_global_queries: Publiek
     label_greater_or_equal: ">="
     label_group: Groep
     label_group_by: Groeperen op
@@ -379,15 +491,16 @@ nl:
     label_hide_attributes: Toon minder
     label_hide_column: Verberg kolom
     label_hide_project_menu: Project menu samenvouwen
+    label_import: Importeren
     label_in: in
     label_in_less_than: in minder dan
     label_in_more_than: in meer dan
     label_incoming_emails: Inkomende e-mails
+    label_infinity: Infinity
     label_information_plural: Informatie
     label_invalid: Ongeldig
-    label_import: Importeren
-    label_latest_activity: Laatste Activiteit
     label_last_updated_on: Laatst geüpdatet op
+    label_latest_activity: Laatste Activiteit
     label_learn_more_link: Meer informatie
     label_less_or_equal: "<="
     label_less_than_ago: minder dan dagen geleden
@@ -397,39 +510,45 @@ nl:
     label_me: ik
     label_meeting_agenda: Agenda
     label_meeting_minutes: Notulen
-    label_more_than_ago: meer dan dagen geleden
     label_moderate_comment: Moderate comment
+    label_more_than_ago: meer dan dagen geleden
     label_next: Volgende
     label_no_color: Geen kleur
     label_no_data: Geen gegevens om weer te geven
+    label_no_date: geen datum
     label_no_due_date: geen einddatum
     label_no_start_date: geen startdatum
-    label_no_date: geen datum
     label_no_value: Geen waarde
     label_none: geen
+    label_not_available: Not available
     label_not_contains: bevat geen
     label_not_equals: is niet
     label_on: op
-    label_open_menu: Menu openen
     label_open_context_menu: Toon context menu
+    label_open_menu: Menu openen
     label_open_work_packages: Open
     label_password: Wachtwoord
-    label_previous: Vorige
     label_per_page: 'Per pagina:'
     label_please_wait: Een ogenblik geduld
+    label_press_enter_to_save: Druk op Enter om te bewaren.
+    label_previous: Vorige
     label_project: Project
-    label_project_list: Projectlijsten
     label_project_plural: Projecten
-    label_visibility_settings: Zichtbaarheidsinstellingen
+    label_public_query: Publiek
     label_quote_comment: Citeer dit commentaar
     label_recent: Recent
-    label_reset: Herstel
+    label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
+    label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien hun grootte groter dan %{maximumFilesize} is
     label_remove: Verwijder
+    label_remove_all_files: Verwijder alle bestanden
     label_remove_column: Kolom verwijderen
     label_remove_columns: Verwijder geselecteerde kolommen
+    label_remove_file: "%{fileName} verwijderen"
     label_remove_row: Rij verwijderen
+    label_remove_watcher: Volger %{name} verwijderen
     label_report: Rapport
     label_repository_plural: Repositories
+    label_reset: Herstel
     label_resize_project_menu: Resize project menu
     label_save_as: Opslaan als
     label_search_columns: Search a column
@@ -438,168 +557,172 @@ nl:
     label_show_attributes: Toon alle kenmerken
     label_show_in_menu: Toon overzicht in menu
     label_sort_by: Sorteer op
-    label_sorted_by: gesorteerd door
     label_sort_higher: Omhoog
     label_sort_lower: Omlaag
+    label_sorted_by: gesorteerd door
     label_sorting: Sortering
     label_spent_time: Bestede tijd
     label_star_query: Favorited
-    label_press_enter_to_save: Druk op Enter om te bewaren.
-    label_public_query: Publiek
+    label_starred_queries: Favoriete
+    label_subject: Onderwerp
     label_sum: Som
     label_sum_for: Som voor
-    label_total_sum: Totale som
-    label_subject: Onderwerp
     label_this_week: deze week
-    label_today: Vandaag
     label_time_entry_plural: Bestede tijd
-    label_up: Omhoog
-    label_user_plural: Gebruikers
-    label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
-    label_activity_show_all: Geef alle activiteiten weer
-    label_total_progress: "%{percent}% totale vooruitgang"
+    label_today: Vandaag
     label_total_amount: 'Totaal: %{amount}'
+    label_total_progress: "%{percent}% totale vooruitgang"
+    label_total_sum: Totale som
+    label_unwatch: Niet meer volgen
+    label_unwatch_work_package: Stop met het bekijken van werkpakket
+    label_up: Omhoog
     label_updated_on: bijgewerkt op
+    label_upload_counter: "%{done} van %{count} bestanden afgerond"
+    label_upload_notification: Uploaden van bestanden...
+    label_uploaded_by: Geüpload door
+    label_user_plural: Gebruikers
+    label_validation_error: 'Het werkpakket kon niet worden opgeslagen vanwege de volgende fouten:'
     label_value_derived_from_children: "(waarde afgeleid van kinderen)"
-    label_children_derived_duration: Kinderen van het werkpakket afgeleide duur
+    label_version_plural: Versies
+    label_view_has_changed: Deze weergave heeft niet-opgeslagen wijzigingen. Klik om ze op te slaan.
+    label_visibility_settings: Zichtbaarheidsinstellingen
+    label_wait: Moment geduld a.u.b. voor configuratie...
     label_warning: Waarschuwing
-    label_work_package: Werkpakket
-    label_work_package_parent: Bovenliggend werkpakket
-    label_work_package_plural: Werkpakketten
     label_watch: Volgen
     label_watch_work_package: Bekijk werkpakket
     label_watcher_added_successfully: Toezichthouder succesvol toegevoegd!
     label_watcher_deleted_successfully: Toezichthouder succesvol verwijderd!
-    label_work_package_details_you_are_here: You are on the %{tab} tab for %{type} %{subject}.
+    label_work_package: Werkpakket
     label_work_package_context_menu: Contextmenu werkpakket
-    label_unwatch: Niet meer volgen
-    label_unwatch_work_package: Stop met het bekijken van werkpakket
-    label_uploaded_by: Geüpload door
-    label_default_queries: Standaard
-    label_starred_queries: Favoriete
-    label_global_queries: Publiek
-    label_custom_queries: Privé
-    label_columns: Kolommen
-    label_attachments: Bijlagen
-    label_drop_files: Sleep bestanden hierheen om bestanden toe te voegen.
-    label_drop_or_click_files: Sleep bestanden hierheen of klik om bestanden toe te voegen.
-    label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
-    label_add_attachments: Bestanden toevoegen
-    label_formattable_attachment_hint: Hecht en link bestanden door deze in dit veld te slepen, of plak deze vanuit het klembord.
-    label_remove_file: "%{fileName} verwijderen"
-    label_remove_watcher: Volger %{name} verwijderen
-    label_remove_all_files: Verwijder alle bestanden
-    label_add_description: Een beschrijving voor %{file} toevoegen
-    label_upload_notification: Uploaden van bestanden...
+    label_work_package_details_you_are_here: You are on the %{tab} tab for %{type} %{subject}.
+    label_work_package_parent: Bovenliggend werkpakket
+    label_work_package_plural: Werkpakketten
     label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket #%{id}: %{subject}'
     label_wp_id_added_by: "#%{id} toegevoegd door %{author}"
-    label_files_to_upload: 'Deze bestanden worden geüpload:'
-    label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
-    label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien hun grootte groter dan %{maximumFilesize} is
-    label_wait: Moment geduld a.u.b. voor configuratie...
-    label_upload_counter: "%{done} van %{count} bestanden afgerond"
-    label_validation_error: 'Het werkpakket kon niet worden opgeslagen vanwege de volgende fouten:'
-    label_version_plural: Versies
-    label_view_has_changed: Deze weergave heeft niet-opgeslagen wijzigingen. Klik om ze op te slaan.
-    help_texts:
-      show_modal: Show help text
-    onboarding:
-      buttons:
-        skip: Overslaan
-        next: Volgende
-        got_it: Begrepen
-      steps:
-        help_menu: Het Help (?) menu biedt <b>extra hulpbronnen</b>. Hier vindt u een gebruikershandleiding, handige how-to videos en meer. <br> Veel plezier met uw werk met OpenProject!
-        members: Nodig nieuwe <b>leden</b> uit om deel te nemen aan uw project.
-        quick_add_button: Klik op het plus (+) pictogram in de koptekst navigatie om <b>een nieuw project te maken</b> of <b>collega's uit te nodigen</b>.
-        sidebar_arrow: Gebruik de terug pijl in de linkerbovenhoek om terug te keren naar het project <b>hoofdmenu</b>.
-        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
-        wiki: Binnen de <b>wiki</b> kunt u kennis delen en documenteren met uw team.
-        boards:
-          overview: Selecteer <b>borden</b> om het overzicht te verschuiven en uw project te beheren met behulp van de agile borden weergave.
-          lists_kanban: Hier kunt u meerdere lijsten (kolommen) binnen uw bord maken. Met deze functie kunt u bijvoorbeeld een <b>Kanban board</b>maken.
-          lists_basic: Hier kun je meerdere lijsten (kolommen) maken binnen je agile bord.
-          add: Klik op het plus (+) icoon om <b>een nieuwe kaart te creëren</b> of <b>een bestaande kaart  toe te voegen</b> aan de lijst op het bord.
-          drag: Sleep uw kaarten in een bepaalde lijst om ze te rangschikken of om ze naar een andere lijst te verplaatsen. <br> U kunt op het info pictogram (i) in de rechterbovenhoek klikken of dubbelklikken op een kaart om de details te openen.
-        wp:
-          toggler: Laten we nu een kijkje nemen in de sectie <b>werkpakket</b> die u een meer gedetailleerde weergave van uw werk geeft.
-          list: Dit <b>werk</b> pakket overzicht biedt een overzicht van al het werk in uw project, zoals taken, mijlpalen, fases en meer. <br> Werkpakketten kunnen direct vanuit deze weergave worden gemaakt en bewerkt. Om toegang te krijgen tot de details van een bepaald werkpakket, dubbelklik gewoon op de rij.
-          full_view: De <b>werkpakket details</b> weergave biedt alle relevante informatie over een bepaald werkpakket. zoals z'n beschrijving, status, prioriteit, activiteiten, afhankelijkheden en opmerkingen.
-          back_button: Gebruik de terug pijl in de linkerbovenhoek om af te sluiten en terug te gaan naar de werkpakketlijst.
-          create_button: De knop <b>+ Aanmaken</b> zal een nieuw werkpakket toevoegen aan uw project.
-          gantt_menu: Create project schedules and timelines effortlessly using the Gantt chart module.
-          timeline: Hier kunt u <b>uw projectplan</b>bewerken, nieuwe werkpakketten maken, zoals taken, mijlpalen, fasen, en meer en <b>afhankelijkheden toevoegen</b>. Alle teamleden kunnen de laatste planning op elk moment zien en bijwerken.
-        team_planner:
-          overview: Met de teamplanner kunt u taken visueel toewijzen aan teamleden en een overzicht krijgen over wie er aan wat werkt.
-          calendar: Het wekelijkse of tweewekelijkse planningsbord toont alle werkpakketten die zijn toegewezen aan je teamleden.
-          add_assignee: Voeg taakontvangers toe aan de teamplanner om te beginnen.
-          add_existing: Zoek naar bestaande werkpakketten en sleep ze naar de teamplanner om ze direct toe te wijzen aan een teamlid en definieer begin- en einddata.
-          card: Sleep de werkpakketten horizontaal om ze achteruit of naar voren te bewegen op tijd, sleep de randen om begin- en einddatums te wijzigen en sleep ze zelfs verticaal naar een andere rij om ze toe te wijzen aan een andere lid.
+    modals:
+      button_apply: Toepassen
+      button_cancel: Annuleren
+      button_delete: Verwijderen
+      button_save: Opslaan
+      button_submit: Verzenden
+      destroy_time_entry:
+        text: Are you sure you want to delete the following time entry?
+        title: Confirm deletion of time entry
+      form_submit:
+        text: Weet u zeker dat u deze actie wilt uitvoeren?
+        title: Bevestigen om verder te gaan
+      label_delete_page: Verwijder huidige pagina
+      label_name: Naam
+    no_job_id: No job ID returned from server.
+    notice_bad_request: Foute ingave.
+    notice_job_started: taak gestart.
+    notice_no_results_to_display: Geen zichtbare resultaten om weer te geven.
+    notice_successful_create: Aanmaak geslaagd.
+    notice_successful_delete: Verwijdering geslaagd.
+    notice_successful_update: Succesvolle wijziging.
     notifications:
-      title: Meldingen
-      no_unread: Geen ongelezen meldingen
-      reasons:
-        mentioned: Genoemd
-        watched: Kijker
-        assigned: Toegewezene
-        responsible: Verantwoording afleggen
-        created: Gemaakt
-        scheduled: Gepland
-        commented: Becommentarieerd
-        processed: Verwerkt
-        prioritized: Prioritized
-        dateAlert: Date alert
-        shared: Gedeeld
-        reminder: Reminder
+      center:
+        and_more_users:
+          one: en 1 ander
+          other: en %{count} anderen
+        empty_state:
+          no_notification: Het lijkt erop dat u helemaal bij bent.
+          no_notification_for_filter: Looks like you are all caught up for this filter.
+          no_notification_with_current_filter: Het lijkt erop dat je allemaal bij bent met %{filter} filter.
+          no_notification_with_current_project_filter: Looks like you are all caught up with the selected project.
+          no_selection: Klik op een melding om alle activiteit details te bekijken.
+        label_actor_and: en
+        mark_all_read: Alles als gelezen markeren
+        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
+        mark_as_read: Als gelezen markeren
+        new_notifications:
+          link_text: Klik hier om ze te laden.
+          message: Er zijn nieuwe meldingen.
+        no_results:
+          at_all: New notifications will appear here when there is activity that concerns you.
+          with_current_filter: Er zijn geen meldingen in deze weergave op dit moment
+        text_update_date_by: "%{date} door"
+        total_count_warning: De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven.
       date_alerts:
         milestone_date: Milestone date
         overdue: Te laat
         overdue_since: for %{difference_in_days}.
-        property_today: is today.
         property_is: is in %{difference_in_days}.
-        property_was: was %{difference_in_days} ago.
         property_is_deleted: is deleted.
-      center:
-        label_actor_and: en
-        and_more_users:
-          one: en 1 ander
-          other: en %{count} anderen
-        no_results:
-          at_all: New notifications will appear here when there is activity that concerns you.
-          with_current_filter: Er zijn geen meldingen in deze weergave op dit moment
-        mark_all_read: Alles als gelezen markeren
-        mark_as_read: Als gelezen markeren
-        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
-        text_update_date_by: "%{date} door"
-        total_count_warning: De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven.
-        empty_state:
-          no_notification: Het lijkt erop dat u helemaal bij bent.
-          no_notification_with_current_project_filter: Looks like you are all caught up with the selected project.
-          no_notification_with_current_filter: Het lijkt erop dat je allemaal bij bent met %{filter} filter.
-          no_notification_for_filter: Looks like you are all caught up for this filter.
-          no_selection: Klik op een melding om alle activiteit details te bekijken.
-        new_notifications:
-          message: Er zijn nieuwe meldingen.
-          link_text: Klik hier om ze te laden.
+        property_today: is today.
+        property_was: was %{difference_in_days} ago.
+      no_unread: Geen ongelezen meldingen
+      reasons:
+        assigned: Toegewezene
+        commented: Becommentarieerd
+        created: Gemaakt
+        dateAlert: Date alert
+        mentioned: Genoemd
+        prioritized: Prioritized
+        processed: Verwerkt
+        reminder: Reminder
+        responsible: Verantwoording afleggen
+        scheduled: Gepland
+        shared: Gedeeld
+        watched: Kijker
       reminders:
         note: 'Note: “%{note}”'
       settings:
         change_notification_settings: You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.
         title: Instellingen voor meldingen
+      title: Meldingen
+    onboarding:
+      buttons:
+        got_it: Begrepen
+        next: Volgende
+        skip: Overslaan
+      steps:
+        boards:
+          add: Klik op het plus (+) icoon om <b>een nieuwe kaart te creëren</b> of <b>een bestaande kaart  toe te voegen</b> aan de lijst op het bord.
+          drag: Sleep uw kaarten in een bepaalde lijst om ze te rangschikken of om ze naar een andere lijst te verplaatsen. <br> U kunt op het info pictogram (i) in de rechterbovenhoek klikken of dubbelklikken op een kaart om de details te openen.
+          lists_basic: Hier kun je meerdere lijsten (kolommen) maken binnen je agile bord.
+          lists_kanban: Hier kunt u meerdere lijsten (kolommen) binnen uw bord maken. Met deze functie kunt u bijvoorbeeld een <b>Kanban board</b>maken.
+          overview: Selecteer <b>borden</b> om het overzicht te verschuiven en uw project te beheren met behulp van de agile borden weergave.
+        help_menu: Het Help (?) menu biedt <b>extra hulpbronnen</b>. Hier vindt u een gebruikershandleiding, handige how-to videos en meer. <br> Veel plezier met uw werk met OpenProject!
+        members: Nodig nieuwe <b>leden</b> uit om deel te nemen aan uw project.
+        quick_add_button: Klik op het plus (+) pictogram in de koptekst navigatie om <b>een nieuw project te maken</b> of <b>collega's uit te nodigen</b>.
+        sidebar_arrow: Gebruik de terug pijl in de linkerbovenhoek om terug te keren naar het project <b>hoofdmenu</b>.
+        team_planner:
+          add_assignee: Voeg taakontvangers toe aan de teamplanner om te beginnen.
+          add_existing: Zoek naar bestaande werkpakketten en sleep ze naar de teamplanner om ze direct toe te wijzen aan een teamlid en definieer begin- en einddata.
+          calendar: Het wekelijkse of tweewekelijkse planningsbord toont alle werkpakketten die zijn toegewezen aan je teamleden.
+          card: Sleep de werkpakketten horizontaal om ze achteruit of naar voren te bewegen op tijd, sleep de randen om begin- en einddatums te wijzigen en sleep ze zelfs verticaal naar een andere rij om ze toe te wijzen aan een andere lid.
+          overview: Met de teamplanner kunt u taken visueel toewijzen aan teamleden en een overzicht krijgen over wie er aan wat werkt.
+        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
+        wiki: Binnen de <b>wiki</b> kunt u kennis delen en documenteren met uw team.
+        wp:
+          back_button: Gebruik de terug pijl in de linkerbovenhoek om af te sluiten en terug te gaan naar de werkpakketlijst.
+          create_button: De knop <b>+ Aanmaken</b> zal een nieuw werkpakket toevoegen aan uw project.
+          full_view: De <b>werkpakket details</b> weergave biedt alle relevante informatie over een bepaald werkpakket. zoals z'n beschrijving, status, prioriteit, activiteiten, afhankelijkheden en opmerkingen.
+          gantt_menu: Create project schedules and timelines effortlessly using the Gantt chart module.
+          list: Dit <b>werk</b> pakket overzicht biedt een overzicht van al het werk in uw project, zoals taken, mijlpalen, fases en meer. <br> Werkpakketten kunnen direct vanuit deze weergave worden gemaakt en bewerkt. Om toegang te krijgen tot de details van een bepaald werkpakket, dubbelklik gewoon op de rij.
+          timeline: Hier kunt u <b>uw projectplan</b>bewerken, nieuwe werkpakketten maken, zoals taken, mijlpalen, fasen, en meer en <b>afhankelijkheden toevoegen</b>. Alle teamleden kunnen de laatste planning op elk moment zien en bijwerken.
+          toggler: Laten we nu een kijkje nemen in de sectie <b>werkpakket</b> die u een meer gedetailleerde weergave van uw werk geeft.
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: There is a network problem.
+        network_on: Network is back. We are trying.
+      waiting_title:
+        timeout: Time-out
     pagination:
       no_other_page: U bent op de enige pagina.
-      pages_skipped: Pages skipped.
       page_navigation: Pagination navigation
-      per_page_navigation: Items per page selection
       pages:
         page_number: Page %{number}
         show_per_page: Show %{number} per page
+      pages_skipped: Pages skipped.
+      per_page_navigation: Items per page selection
     placeholders:
       default: "-"
-      subject: Onderwerp hier invoeren
-      selection: Gelieve te selecteren
       description: 'Beschrijving: Klik om te bewerken...'
       relation_description: Klik om een beschrijving voor deze relatie toe te voegen
+      selection: Gelieve te selecteren
+      subject: Onderwerp hier invoeren
     project:
       autocompleter:
         label: Project auto aanvullen
@@ -609,226 +732,285 @@ nl:
       required_outside_context: 'Kies een project om het werkpakket in te creëren om alle attributen te zien. U kunt alleen projecten selecteren waarvan het type hierboven is geactiveerd.
 
         '
-    text_are_you_sure: Weet u het zeker?
-    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
-    breadcrumb: Breadcrumb
-    text_data_lost: Alle ingevoerde gegevens zullen verloren gaan.
-    text_user_wrote: "%{value} schreef:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: De groep naam %{group} word meer dan één keer gebruikt. Groep namen moeten uniek zijn.
-        error_no_table_configured: Gelieve een tabel voor %{group} instellen.
-        reset_title: Reset formulier configuratie
-        confirm_reset: 'Waarschuwing: Weet u zeker dat u de configuratie van het formulier wilt herstellen? Dit herstelt de kenmerken hun standaardgroep, deselecteerd de selectievakjes van de zichtbaarheid, en schakeld alle aangepaste velden uit.
-
-          '
-        upgrade_to_ee: Upgrade to Enterprise on-premises edition
-        upgrade_to_ee_text: Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?
-        more_information: Meer informatie
-        nevermind: Geen aandacht
-    time_entry:
-      work_package_required: Vereist eerst een werkpakket te selecteren.
-      title: Gelogde tijd
-      tracking: Tijdregistratie
-      stop: Stop
-    timer:
-      start_new_timer: Start new timer
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: No active timer for this work package, have you stopped it in another window?
-      tracking_time: Tracking time
-      button_stop: Stop current timer
-    two_factor_authentication:
-      label_two_factor_authentication: Twee-staps authenticatie
-    watchers:
-      label_loading: volgers worden geladen...
-      label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers
-      label_search_watchers: Zoek volgers
-      label_add: Kijkers toevoegen
-      label_discard: Selectie verwijderen
-      typeahead_placeholder: Zoek naar mogelijke toezichthouders
-    relation_labels:
-      parent: Bovenliggend werkpakket
-      child: Kind
-      children: Subdocumenten
-      relates: Verwant Met
-      duplicates: Kopies
-      duplicated: Gekopieerd door
-      blocks: Blokken
-      blocked: Geblokkeerd door
-      precedes: Gaat vooraf aan
-      follows: Volgt
-      includes: Bevat
-      partof: Onderdeel van
-      requires: Vereist
-      required: Vereist door
-      relation_type: relatie type
-    relations_hierarchy:
-      parent_headline: Bovenliggend werkpakket
-      hierarchy_headline: Hiërarchie
-      children_headline: Subdocumenten
+    project_menu_details: Details
+    projects:
+      identifier_suggestion:
+        loading: Loading suggestion...
+        set_name_first: Please set the name first.
     relation_buttons:
-      set_parent: Stel bovenliggend in
-      change_parent: Wijzig bovenliggende pagina
-      remove_parent: Verwijder bovenliggende map
-      hierarchy_indent: Inspringen hiërarchie
-      hierarchy_outdent: Uitspringen hiërarchie
-      group_by_wp_type: Groep per werkpakkettype
-      group_by_relation_type: Groep per relatietype
-      add_parent: Voeg bestaande ouder toe
-      add_new_child: Maak nieuw kind
-      create_new: Nieuwe aanmaken
+      abort: Annuleren
       add_existing: Bestaande toevoegen
       add_existing_child: Voeg subdocument toe
-      remove_child: Verwijder kind
-      add_new_relation: Maak nieuwe relatie
       add_existing_relation: Bestaande relatie toevoegen
-      update_description: Kies of wijzig beschrijving van deze relatie
-      toggle_description: Wissel de relatie beschrijving
-      update_relation: Klik op het type relatie wijzigen
-      show_relations: Relaties tonen
+      add_new_child: Maak nieuw kind
+      add_new_relation: Maak nieuwe relatie
+      add_parent: Voeg bestaande ouder toe
       add_predecessor: Toevoegen van de voorganger
       add_successor: Add successor
+      change_parent: Wijzig bovenliggende pagina
+      create_new: Nieuwe aanmaken
+      group_by_relation_type: Groep per relatietype
+      group_by_wp_type: Groep per werkpakkettype
+      hierarchy_indent: Inspringen hiërarchie
+      hierarchy_outdent: Uitspringen hiërarchie
       remove: Relatie verwijderen
+      remove_child: Verwijder kind
+      remove_parent: Verwijder bovenliggende map
       save: Sla relatie op
-      abort: Annuleren
+      set_parent: Stel bovenliggend in
+      show_relations: Relaties tonen
+      toggle_description: Wissel de relatie beschrijving
+      update_description: Kies of wijzig beschrijving van deze relatie
+      update_relation: Klik op het type relatie wijzigen
+    relation_labels:
+      blocked: Geblokkeerd door
+      blocks: Blokken
+      child: Kind
+      children: Subdocumenten
+      duplicated: Gekopieerd door
+      duplicates: Kopies
+      follows: Volgt
+      includes: Bevat
+      parent: Bovenliggend werkpakket
+      partof: Onderdeel van
+      precedes: Gaat vooraf aan
+      relates: Verwant Met
+      relation_type: relatie type
+      required: Vereist door
+      requires: Vereist
+    relations:
+      empty: Er bestaat geen relatie
+      remove: Relatie verwijderen
     relations_autocomplete:
-      placeholder: Typ om te zoeken
       parent_placeholder: Kies nieuwe ouder of druk op escape om te annuleren.
-    autocompleter:
       placeholder: Typ om te zoeken
-      notFoundText: Geen items gevonden
-      search: Zoeken
-      project:
-        placeholder: Select project
+    relations_hierarchy:
+      children_headline: Subdocumenten
+      hierarchy_headline: Hiërarchie
+      parent_headline: Bovenliggend werkpakket
     repositories:
-      select_tag: Selecteer label
       select_branch: Selecteer pad
-    field_value_enter_prompt: Breng een waarde in voor veld '%{field}'
-    project_menu_details: Details
+      select_tag: Selecteer label
+    sharing:
+      selected_count: "%{count} geselecteerd"
+      selection:
+        mixed: Gemengd
+      share: Deel
     sort:
+      activate_asc: activeren om de oplopende sorteervolgorde toe te passen
+      activate_dsc: activeren als u wilt een aflopende sorteervolgorde toepassen
+      activate_no: activeer om de sortering te verwijderen
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '
       sorted_no: 'Geen sortering toegepast, '
       sorting_disabled: sorteren is uitgeschakeld
-      activate_asc: activeren om de oplopende sorteervolgorde toe te passen
-      activate_dsc: activeren als u wilt een aflopende sorteervolgorde toepassen
-      activate_no: activeer om de sortering te verwijderen
-    text_work_packages_destroy_confirmation: Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+    spot:
+      drop_modal:
+        close: Close modal
+        focus_grab: This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.
+      filter_chip:
+        remove: Verwijder
+    text_are_you_sure: Weet u het zeker?
+    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
+    text_data_lost: Alle ingevoerde gegevens zullen verloren gaan.
     text_query_destroy_confirmation: Weet u zeker dat u het geselecteerde overzicht wilt verwijderen?
+    text_user_wrote: "%{value} schreef:"
+    text_work_packages_destroy_confirmation: Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?
+    time_entry:
+      stop: Stop
+      title: Gelogde tijd
+      tracking: Tijdregistratie
+      work_package_required: Vereist eerst een werkpakket te selecteren.
+    timer:
+      button_stop: Stop current timer
+      start_new_timer: Start new timer
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: No active timer for this work package, have you stopped it in another window?
+      tracking_time: Tracking time
     tl_toolbar:
-      zooms: Zoom niveau
       outlines: Niveau van de hiërarchie
+      zooms: Zoom niveau
+    toolbar:
+      filter: Filter
+      search_query_label: Zoek opgeslagen weergaven
+      settings:
+        columns: Kolommen
+        configure_view: Weergave configureren
+        delete: Verwijderen
+        display_hierarchy: De hiërarchie Weergeven
+        display_sums: Toon sommen
+        export: Exporteren
+        group_by: Groeperen op
+        hide_hierarchy: Hiërarchie modus verbergen
+        hide_sums: Verberg sommen
+        page_settings: Hernoem weergave
+        save: Opslaan
+        save_as: Opslaan als
+        share_calendar: Abonneren op agenda
+        sort_by: Sorteer op
+        visibility_settings: Zichtbaarheidsinstellingen
+      unselected_title: Werkpakket
+    two_factor_authentication:
+      label_two_factor_authentication: Twee-staps authenticatie
+    units:
+      child_work_packages:
+        one: één onderliggend werkpakket
+        other: "%{count} werkpakket kinderen"
+      day:
+        one: 1 dag
+        other: "%{count} dagen"
+        zero: 0 dagen
+      hour:
+        one: 1 u
+        other: "%{count} u"
+        zero: 0 uur
+      hour_string: "%{hours} h"
+      word:
+        one: 1 word
+        other: "%{count} words"
+      workPackage:
+        one: werkpakket
+        other: werkpakketten
     upsell:
       ee_only: Enterprise edition add-on
+    views:
+      card: Kaarten
+      list: Tabel
+      timeline: Gantt
+    watchers:
+      label_add: Kijkers toevoegen
+      label_discard: Selectie verwijderen
+      label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers
+      label_loading: volgers worden geladen...
+      label_search_watchers: Zoek volgers
+      typeahead_placeholder: Zoek naar mogelijke toezichthouders
     wiki_formatting:
-      strong: Vet
-      italic: Schuingedrukt
-      underline: Onderlijnd
-      deleted: Verwijderd
       code: Inline-code
+      deleted: Verwijderd
       heading1: Hoofding 1
       heading2: Hoofding 2
       heading3: Hoofding 3
-      unordered_list: Ongeordende Lijst
-      ordered_list: Geordende Lijst
-      quote: Citeer
-      unquote: Einde citaat
-      preformatted_text: Voorgeformateerde Tekst
-      wiki_link: Link naar een Wiki-pagina
       image: Afbeelding
-    sharing:
-      share: Deel
-      selected_count: "%{count} geselecteerd"
-      selection:
-        mixed: Gemengd
+      italic: Schuingedrukt
+      ordered_list: Geordende Lijst
+      preformatted_text: Voorgeformateerde Tekst
+      quote: Citeer
+      strong: Vet
+      underline: Onderlijnd
+      unordered_list: Ongeordende Lijst
+      unquote: Einde citaat
+      wiki_link: Link naar een Wiki-pagina
     work_packages:
+      baseline:
+        addition_label: Added to view within the comparison time period
+        column_incompatible: This column does not show changes in Baseline mode.
+        modification_label: Modified within the comparison time period
+        removal_label: Removed from view within the comparison time period
       bulk_actions:
-        edit: Aanpassen in bulk
         delete: Selectie verwijderen
         duplicate: Bulk duplicate
+        edit: Aanpassen in bulk
         move: Bulk verandering van project
       button_clear: Wissen
       comment_added: De opmerking is succesvol toegevoegd.
       comment_send_failed: Er is een fout opgetreden. De opmerking is niet ingediend.
       comment_updated: De opmerking is succesvol bijgewerkt.
       confirm_edit_cancel: Bent u zeker dat u het bewerken van het werkpakket wilt annuleren?
-      description_filter: Filter
+      create:
+        button: Maken
+        header: Nieuw %{type}
+        header_no_type: Nieuw werkpakket (Type nog niet ingesteld)
+        header_with_parent: 'Nieuw %{type} (Kind van %{parent_type} #%{id})'
+        title: Nieuw werkpakket
+      default_queries:
+        all_open: Alles open
+        assigned_to_me: Toegewezen aan mij
+        created_by_me: Gemaakt door mijzelf
+        latest_activity: Laatste Activiteit
+        manually_sorted: Nieuwe handmatig gesorteerde query
+        overdue: Te laat
+        recently_created: Onlangs gecreëerd
+        shared_with_me: Shared with me
+        shared_with_users: Gedeeld met gebruikers
+        summary: Samenvatting
       description_enter_text: Tekst invoeren
+      description_filter: Filter
       description_options_hide: Verberg opties
       description_options_show: Toon opties
+      duplicate:
+        title: Duplicate work package
       edit_attribute: "%{attribute} - Bewerken"
+      faulty_query:
+        description: Uw overzicht is onjuist en kan niet worden verwerkt.
+        title: Werkpakketten konden niet worden geladen.
+      filters:
+        baseline_incompatible: This filter attribute is not taken into consideration in Baseline mode.
+        baseline_warning: Baseline mode is on but some of your active filters are not included in the comparison.
+        title: Filter werkpakketten
+      hierarchy:
+        children_collapsed: Hiërarchie niveau %{level}, samengevouwen. Klik om te tonen van de gefilterde kinderen
+        children_expanded: Hiërarchie niveau %{level}, uitgebreid. Klik op om samen te vouwen van de gefilterde kinderen
+        hide: Hiërarchie modus verbergen
+        leaf: Werkpakket blad op niveau %{level}.
+        show: Toon hiërarchie modus
+        toggle_button: Klik hierop om de hiërarchie modus te schakelen.
+      inline_create:
+        title: Klik hier om een nieuw werkpakket aan deze lijst toe te voegen
+      jump_marks:
+        content: Ga naar inhoud
+        label_content: Klik hier om het menu overslaan en ga naar de inhoud
+        label_pagination: Klik hier om de tabel werk pakketten over te slaan en ga naar paginering
+        pagination: Ga naar de tabelpaginering
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: Laat meerkeuze toe
+      label_column_multiselect: 'Gecombineerd met dropdown-veld: Selecteer met richtingstoetsen, bevestig selectie met enter, verwijder met backspace'
       label_disable_multi_select: Laat meerkeuze niet toe
+      label_enable_multi_select: Laat meerkeuze toe
       label_filter_add: Filter toevoegen
       label_filter_by_text: Filter op tekst
       label_options: Opties
-      label_column_multiselect: 'Gecombineerd met dropdown-veld: Selecteer met richtingstoetsen, bevestig selectie met enter, verwijder met backspace'
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       message_error_during_bulk_delete: Een fout is opgetreden bij het proberen verwijderen van werkpakketten.
       message_successful_bulk_delete: Werkpakketten succesvol verwijderd.
       message_successful_show_in_fullscreen: Klik hier om dit werkpakket te openen in volledig scherm.
       message_view_spent_time: Toon bestede tijd voor dit werkpakket
       message_work_package_read_only: Werkpakket is opgesloten in deze status. Geen kenmerk dan status kan worden gewijzigd.
       message_work_package_status_blocked: Werkpakket status is niet schrijfbaar vanwege gesloten status en gesloten toegewezen versie.
+      no_results:
+        description: Ofwel zijn er geen gecreëerd ofwel zijn alle werkpakketten uitgefilterd.
+        title: Geen werkpakketten om te tonen.
       placeholder_filter_by_text: Onderwerp, beschrijving, commentaar, ...
+      placeholders:
+        date: Datum selecteren
+        default: "-"
       progress:
         title: Work estimates and progress
-      baseline:
-        addition_label: Added to view within the comparison time period
-        removal_label: Removed from view within the comparison time period
-        modification_label: Modified within the comparison time period
-        column_incompatible: This column does not show changes in Baseline mode.
-      filters:
-        title: Filter werkpakketten
-        baseline_incompatible: This filter attribute is not taken into consideration in Baseline mode.
-        baseline_warning: Baseline mode is on but some of your active filters are not included in the comparison.
-      inline_create:
-        title: Klik hier om een nieuw werkpakket aan deze lijst toe te voegen
-      create:
-        title: Nieuw werkpakket
-        header: Nieuw %{type}
-        header_no_type: Nieuw werkpakket (Type nog niet ingesteld)
-        header_with_parent: 'Nieuw %{type} (Kind van %{parent_type} #%{id})'
-        button: Maken
-      duplicate:
-        title: Duplicate work package
-      hierarchy:
-        show: Toon hiërarchie modus
-        hide: Hiërarchie modus verbergen
-        toggle_button: Klik hierop om de hiërarchie modus te schakelen.
-        leaf: Werkpakket blad op niveau %{level}.
-        children_collapsed: Hiërarchie niveau %{level}, samengevouwen. Klik om te tonen van de gefilterde kinderen
-        children_expanded: Hiërarchie niveau %{level}, uitgebreid. Klik op om samen te vouwen van de gefilterde kinderen
-      faulty_query:
-        title: Werkpakketten konden niet worden geladen.
-        description: Uw overzicht is onjuist en kan niet worden verwerkt.
-      no_results:
-        title: Geen werkpakketten om te tonen.
-        description: Ofwel zijn er geen gecreëerd ofwel zijn alle werkpakketten uitgefilterd.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
-      property_groups:
-        details: Details
-        people: Mensen
-        estimatesAndTime: Schattingen en tijden
-        other: Overige
       properties:
         assignee: Toegewezene
         author: Auteur
+        category: Categorie
         createdAt: Gemaakt op
-        description: Omschrijving
         date: Datum
-        percentComplete: "% Voltooid"
-        percentCompleteAlternative: Progress
+        description: Omschrijving
         dueDate: Einddatum
         duration: Duur
-        spentTime: Bestede tijd
-        category: Categorie
+        percentComplete: "% Voltooid"
+        percentCompleteAlternative: Progress
         percentageDone: Procent klaar
         priority: Prioriteit
         projectName: Project
+        remainingTime: Resterend werk
         remainingWork: Resterend werk
         remainingWorkAlternative: Resterende uren
         responsible: Verantwoordelijk
+        spentTime: Bestede tijd
         startDate: Startdatum
         status: Status
         subject: Onderwerp
@@ -836,305 +1018,106 @@ nl:
         title: Titel
         type: Type
         updatedAt: Bijgewerkt op
-        versionName: Versie
         version: Versie
+        versionName: Versie
         work: Werk
         workAlternative: Geschatte tijd
-        remainingTime: Resterend werk
-      default_queries:
-        manually_sorted: Nieuwe handmatig gesorteerde query
-        latest_activity: Laatste Activiteit
-        created_by_me: Gemaakt door mijzelf
-        assigned_to_me: Toegewezen aan mij
-        recently_created: Onlangs gecreëerd
-        all_open: Alles open
-        overdue: Te laat
-        summary: Samenvatting
-        shared_with_users: Gedeeld met gebruikers
-        shared_with_me: Shared with me
-      jump_marks:
-        pagination: Ga naar de tabelpaginering
-        label_pagination: Klik hier om de tabel werk pakketten over te slaan en ga naar paginering
-        content: Ga naar inhoud
-        label_content: Klik hier om het menu overslaan en ga naar de inhoud
-      placeholders:
-        default: "-"
-        date: Datum selecteren
+      property_groups:
+        details: Details
+        estimatesAndTime: Schattingen en tijden
+        other: Overige
+        people: Mensen
       query:
+        click_to_edit_query_name: Klik om de titel van de weergave te bewerken.
         column_names: Kolommen
-        group_by: Groepeer resultaten op
+        confirm_edit_cancel: Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld.
+        display_sums: Bedragen weergeven
+        errors:
+          duplicate_query_title: Naam van deze weergave bestaat al. Toch wijzigen?
+          not_found: Deze weergave bestaat niet
+          unretrievable_query: Het is onmogelijk om de weergave van de url op te halen
+        filters: Filters
         group: Groeperen op
+        group_by: Groepeer resultaten op
         group_by_disabled_by_hierarchy: Groeperen is uitgeschakeld als gevolg van de hiërarchie-modus actief.
+        hide_column: Verberg kolom
         hierarchy_disabled_by_group_by: Hiërarchie-modus is uitgeschakeld als gevolg van de resultaten die worden gegroepeerd op %{column}.
-        sort_ascending: Sorteer opgaand
-        sort_descending: Sorteer afgaand
+        insert_columns: Kolommen invoegen
         move_column_left: Verplaats kolom naar links
         move_column_right: Verplaats kolom naar rechts
-        hide_column: Verberg kolom
-        insert_columns: Kolommen invoegen
-        filters: Filters
-        display_sums: Bedragen weergeven
-        confirm_edit_cancel: Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld.
-        click_to_edit_query_name: Klik om de titel van de weergave te bewerken.
-        rename_query_placeholder: Naam van deze weergave
-        star_text: Markeer deze weergave als favoriet en voeg toe aan de opgeslagen weergaven zijbalk links.
         public_text: 'Publiceer deze weergave zodat andere gebruikers er toegang tot hebben. Gebruikers met de ''Openbare weergave beheren'' rechten kunnen openbare query wijzigen of verwijderen. Dit heeft geen invloed op de zichtbaarheid van werkpakket resultaten in die weergave en afhankelijk van hun permissies, kunnen gebruikers verschillende resultaten zien.
 
           '
-        errors:
-          unretrievable_query: Het is onmogelijk om de weergave van de url op te halen
-          not_found: Deze weergave bestaat niet
-          duplicate_query_title: Naam van deze weergave bestaat al. Toch wijzigen?
+        rename_query_placeholder: Naam van deze weergave
+        sort_ascending: Sorteer opgaand
+        sort_descending: Sorteer afgaand
+        star_text: Markeer deze weergave als favoriet en voeg toe aan de opgeslagen weergaven zijbalk links.
         text_no_results: Geen overeenkomende weergaven werden gevonden.
       reminders:
         button_label: Set reminder
-        title:
-          new: Set a reminder
-          edit: Edit reminder
-        subtitle: You will receive a notification for this work package at the chosen time.
         presets:
-          tomorrow: Tomorrow
-          three_days: In 3 days
-          week: In a week
-          month: In a month
           custom: At a particular date/time
+          month: In a month
+          three_days: In 3 days
+          tomorrow: Tomorrow
+          week: In a week
+        subtitle: You will receive a notification for this work package at the chosen time.
+        title:
+          edit: Edit reminder
+          new: Set a reminder
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
       sharing:
-        title: Werkpakket delen
         show_all_users: Show all users with whom the work package has been shared with
+        title: Werkpakket delen
       table:
         configure_button: Configureer werkpakkettabel
         summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
         text_inline_edit: De meeste cellen van deze tabel zijn knoppen die de inline-bewerken functionaliteit van dat kenmerk te activeren.
-        text_sort_hint: Met de koppelingen in de tabelkoppen kunt u sorteren, groeperen, rangschikken, verwijderen en tabelkolommen toevoegen.
         text_select_hint: Selecteer vakken die moeten worden geopend met 'ALT' en pijl.
+        text_sort_hint: Met de koppelingen in de tabelkoppen kunt u sorteren, groeperen, rangschikken, verwijderen en tabelkolommen toevoegen.
       table_configuration:
         button: Configureer deze werkpakkettabel
         choose_display_mode: Werkpakketten weergeven als
-        modal_title: Werk pakket tabel configuratie
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
+        columns_help_text: Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them.
         default: standaard
-        display_settings: Weergave-instellingen
         default_mode: Platte lijst
-        hierarchy_mode: Hiërarchie
-        hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
+        display_settings: Weergave-instellingen
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder de tabel resultaten weergeven.
-        show_timeline_hint: Toon een interactieve Gantt-diagram aan de rechterkant van de tabel. U kunt de breedte wijzigen door de scheidingslijn tussen de tabel en Gantt-diagram te slepen.
+        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
+        hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
+        hierarchy_mode: Hiërarchie
         highlighting: Markering
         highlighting_mode:
           description: Markeren met kleur
-          none: Geen markering
+          entire_row_by: Hele rij door
           inline: Gemarkeerde attribute(s)
           inline_all: Alle kenmerken
-          entire_row_by: Hele rij door
-          status: Status
+          none: Geen markering
           priority: Prioriteit
+          status: Status
           type: Type
-        sorting_mode:
-          description: 'Kies de modus om uw werkpakketten te sorteren:'
-          automatic: Automatisch
-          manually: Handmatig
-          warning: U verliest uw vorige sortering bij activeren van de automatische sorteringsmodus.
-        columns_help_text: Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them.
+        modal_title: Werk pakket tabel configuratie
         relation_filters:
           filter_work_packages_by_relation_type: Filter werkpakketten op relatietype
+        show_timeline_hint: Toon een interactieve Gantt-diagram aan de rechterkant van de tabel. U kunt de breedte wijzigen door de scheidingslijn tussen de tabel en Gantt-diagram te slepen.
+        sorting_mode:
+          automatic: Automatisch
+          description: 'Kies de modus om uw werkpakketten te sorteren:'
+          manually: Handmatig
+          warning: U verliest uw vorige sortering bij activeren van de automatische sorteringsmodus.
       tabs:
-        overview: Overzicht
         activity: Activiteit
+        files: Bestanden
+        overview: Overzicht
+        project_attributes: Project attributes
         relations: Relaties
         watchers: Volgers
-        files: Bestanden
       time_relative:
         days: dagen
-        weeks: weken
         months: maanden
-    toolbar:
-      settings:
-        configure_view: Weergave configureren
-        columns: Kolommen
-        sort_by: Sorteer op
-        group_by: Groeperen op
-        display_sums: Toon sommen
-        display_hierarchy: De hiërarchie Weergeven
-        hide_hierarchy: Hiërarchie modus verbergen
-        hide_sums: Verberg sommen
-        save: Opslaan
-        save_as: Opslaan als
-        export: Exporteren
-        visibility_settings: Zichtbaarheidsinstellingen
-        share_calendar: Abonneren op agenda
-        page_settings: Hernoem weergave
-        delete: Verwijderen
-      filter: Filter
-      unselected_title: Werkpakket
-      search_query_label: Zoek opgeslagen weergaven
-    modals:
-      label_name: Naam
-      label_delete_page: Verwijder huidige pagina
-      button_apply: Toepassen
-      button_save: Opslaan
-      button_submit: Verzenden
-      button_cancel: Annuleren
-      button_delete: Verwijderen
-      form_submit:
-        title: Bevestigen om verder te gaan
-        text: Weet u zeker dat u deze actie wilt uitvoeren?
-      destroy_time_entry:
-        title: Confirm deletion of time entry
-        text: Are you sure you want to delete the following time entry?
-    notice_no_results_to_display: Geen zichtbare resultaten om weer te geven.
-    notice_successful_create: Aanmaak geslaagd.
-    notice_successful_delete: Verwijdering geslaagd.
-    notice_successful_update: Succesvolle wijziging.
-    notice_job_started: taak gestart.
-    no_job_id: No job ID returned from server.
-    invalid_job_response: Invalid response from server.
-    notice_bad_request: Foute ingave.
-    relations:
-      empty: Er bestaat geen relatie
-      remove: Relatie verwijderen
-    inplace:
-      button_edit: "%{attribute}: Bewerken"
-      button_save: "%{attribute}: Bewaren"
-      button_cancel: "%{attribute}: Afbreken"
-      button_save_all: Opslaan
-      button_cancel_all: Annuleren
-      link_formatting_help: Help voor tekstopmaak
-      btn_preview_enable: Voorbeeld
-      btn_preview_disable: Voorbeeld uitschakelen
-      null_value_label: Geen waarde
-      clear_value_label: "-"
-      errors:
-        required: "%{field} mag niet leeg zijn"
-        number: "%{field} is geen geldig nummer"
-        maxlength: "%{field} mag niet meer dan %{maxLength} teken(s) bevatten"
-        minlength: "%{field} mag niet minder dan %{minLength} teken(s) bevatten"
-        messages_on_field: 'Het veld is ongeldig: %{messages}'
-    error_could_not_resolve_version_name: Kan de verstane niet vinden
-    error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
-    error_attachment_upload: 'Bestand uploaden mislukt: %{error}'
-    error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze bron te uploaden.
-    units:
-      workPackage:
-        one: werkpakket
-        other: werkpakketten
-      child_work_packages:
-        one: één onderliggend werkpakket
-        other: "%{count} werkpakket kinderen"
-      hour_string: "%{hours} h"
-      hour:
-        one: 1 u
-        other: "%{count} u"
-        zero: 0 uur
-      day:
-        one: 1 dag
-        other: "%{count} dagen"
-        zero: 0 dagen
-      word:
-        one: 1 word
-        other: "%{count} words"
+        weeks: weken
     zen_mode:
       button_activate: Zen-modus activeren
       button_deactivate: Deactiveren van zen modus
-    global_search:
-      all_projects: Voor alle projecten
-      close_search: Sluit zoekopdracht
-      items_available: "%{count} items available"
-      direct_hit_available: Work package with exact ID found. Press Enter to open it.
-      current_project_and_all_descendants: In dit project + subprojecten
-      current_project: In dit project
-      recently_viewed: Recent bekeken
-      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
-      title:
-        all_projects: alle projecten
-        project_and_subprojects: en alle subprojecten
-        search_for: Zoeken naar
-    views:
-      card: Kaarten
-      list: Tabel
-      timeline: Gantt
-    invite_user_modal:
-      invite: Uitnodigen
-      placeholder_add_tag: Create placeholder user
-    exclusion_info:
-      modal:
-        title: Status excluded from hierarchy totals
-        content: The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
-    favorite_projects:
-      no_results: U heeft geen favoriete projecten
-      no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
-    include_projects:
-      toggle_title: Inclusief de projecten
-      title: Projecten
-      clear_selection: Selectie wissen
-      apply: Toepassen
-      selected_filter:
-        all: Alle projecten
-        selected: Alleen geselecteerd
-      search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
-      include_subprojects: Inclusief alle sub-projecten
-      tooltip:
-        include_all_selected: Project al opgenomen omdat alle subprojecten zijn ingeschakeld.
-        current_project: Dit is het huidige project waarin u zich bevindt.
-        does_not_match_search: Het project komt niet overeen met de zoekcriteria.
-      no_results: Geen enkel project komt overeen met uw zoekcriteria.
-      no_favorite_results: No favorite project matches your search criteria.
-    include_workspaces:
-      search_placeholder: Search...
-      types:
-        program: Program
-        portfolio: Portfolio
-    baseline:
-      toggle_title: Baseline
-      clear: Wissen
-      apply: Toepassen
-      header_description: Markeer wijzigingen die sindsdien in deze lijst zijn aangebracht.
-      show_changes_since: Toon wijzigingen sinds
-      help_description: Reference time zone for the baseline.
-      time_description: 'In uw lokale tijd: %{datetime}'
-      time: Tijd
-      from: Van
-      to: Aan
-      drop_down:
-        none: "-"
-        yesterday: gisteren
-        last_working_day: laatste werkdag
-        last_week: Vorige week
-        last_month: vorige maand
-        a_specific_date: een specifieke datum
-        between_two_specific_dates: tussen twee specifieke datums
-      legends:
-        changes_since: Veranderingen sinds
-        changes_between: Veranderingen tussen
-        now_meets_filter_criteria: Voldoet nu aan filtercriteria
-        no_longer_meets_filter_criteria: Voldoet niet langer aan filtercriteria
-        maintained_with_changes: Behoud met wijzigingen
-        in_your_timezone: 'In je lokale tijdzone:'
-      icon_tooltip:
-        added: Added to view within the comparison time period
-        removed: Removed from view within the comparison time period
-        changed: Behoud met wijzigingen
-    forms:
-      submit_success_message: Het formulier is met succes verzonden
-      load_error_message: Er is een fout opgetreden bij het laden van het formulier
-      validation_error_message: Corrigeer de fouten in het formulier
-      advanced_settings: Geavanceerde instellingen
-    spot:
-      filter_chip:
-        remove: Verwijder
-      drop_modal:
-        focus_grab: This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.
-        close: Close modal
-    open_project_storage_modal:
-      waiting_title:
-        timeout: Time-out
-      waiting_subtitle:
-        network_off: There is a network problem.
-        network_on: Network is back. We are trying.
-    projects:
-      identifier_suggestion:
-        loading: Loading suggestion...
-        set_name_first: Please set the name first.

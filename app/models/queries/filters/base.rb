@@ -124,8 +124,10 @@ class Queries::Filters::Base
     create!(name: key, context:)
   end
 
+  delegate :key, to: :class
+
   def where
-    operator_strategy.sql_for_field(values, self.class.model.table_name, self.class.key)
+    operator_strategy.sql_for_field(values, self.class.model.table_name, key)
   end
 
   def from
@@ -180,6 +182,10 @@ class Queries::Filters::Base
                .join(" #{I18n.t('support.array.sentence_connector')} ")
 
     errors.full_message(human_name, messages)
+  end
+
+  def autocomplete_options
+    {}
   end
 
   protected

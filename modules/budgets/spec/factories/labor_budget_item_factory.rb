@@ -40,7 +40,7 @@ FactoryBot.define do
       next unless project&.persisted? && principal&.persisted?
       next if Member.exists?(principal:, project:)
 
-      role = create(:project_role, permissions: [])
+      role = create(:project_role, permissions: %i[work_package_assigned])
       create(:member, principal:, project:, roles: [role])
     end
   end

@@ -34,15 +34,15 @@ module API
       class SprintsAPI < ::API::OpenProjectAPI
         resources :sprints do
           get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: Agile::Sprint)
+                 .new(model: Sprint)
                  .mount
 
           route_param :id, type: Integer, desc: "Sprint ID" do
             after_validation do
-              @sprint = Agile::Sprint.visible(current_user).find(params[:id])
+              @sprint = Sprint.visible(current_user).find(params[:id])
             end
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Agile::Sprint).mount
+            get &::API::V3::Utilities::Endpoints::Show.new(model: Sprint).mount
           end
         end
       end

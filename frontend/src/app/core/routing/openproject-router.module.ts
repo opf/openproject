@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
 import { UIRouterModule } from '@uirouter/angular';
 import { ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
@@ -42,7 +42,7 @@ import {
       states: OPENPROJECT_ROUTES,
       useHash: false,
       config: uiRouterConfiguration,
-    } as any),
+    }),
   ],
   providers: [
     FirstRouteService,
@@ -52,7 +52,9 @@ import {
   ],
 })
 export class OpenprojectRouterModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     initializeUiRouterListeners(injector);
   }
 }

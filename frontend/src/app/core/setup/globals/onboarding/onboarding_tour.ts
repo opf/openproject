@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { wpOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/work_package_tour';
 import {
   OnboardingTourNames,
@@ -95,14 +123,11 @@ function workPackageFullViewTour() {
 function ganttTour(_configuration:ConfigurationService) {
   initializeTour('ganttTourFinished');
 
-  const boardsDemoDataAvailable = getMetaContent('boards_demo_data_available') === 'true';
-  const teamPlannerDemoDataAvailable = getMetaContent('demo_view_of_type_team_planner_seeded') === 'true';
-
   waitForElement('.work-package--results-tbody', '#content', () => {
     let steps:OnboardingStep[] = ganttOnboardingTourSteps();
-    if (boardsDemoDataAvailable && moduleVisible('boards')) {
-      steps = steps.concat(navigateToBoardStep('enterprise'));
-    } else if (teamPlannerDemoDataAvailable && moduleVisible('team-planner-view')) {
+    if (showBoardsTour()) {
+      steps = steps.concat(navigateToBoardStep());
+    } else if (showTeamPlannerTour(_configuration)) {
       steps = steps.concat(navigateToTeamPlannerStep());
     } else {
       steps = steps.concat(menuTourSteps());
@@ -115,14 +140,13 @@ function ganttTour(_configuration:ConfigurationService) {
 function boardTour(_configuration:ConfigurationService) {
   initializeTour('boardsTourFinished');
 
-  const teamPlannerDemoDataAvailable = getMetaContent('demo_view_of_type_team_planner_seeded') === 'true';
 
   waitForElement('wp-single-card', '#content', () => {
-    let steps:OnboardingStep[] = boardTourSteps('enterprise');
+    let steps:OnboardingStep[] = boardTourSteps();
 
     // Available seed data of team planner.
     // Then add Team planner to the tour, otherwise skip it.
-    if (teamPlannerDemoDataAvailable && moduleVisible('team-planner-view')) {
+    if (showTeamPlannerTour(_configuration)) {
       steps = steps.concat(navigateToTeamPlannerStep());
     } else {
       steps = steps.concat(menuTourSteps());
@@ -140,6 +164,19 @@ function teamPlannerTour() {
 
     startTour(steps);
   });
+}
+
+function showBoardsTour():boolean {
+  const boardsDemoDataAvailable = getMetaContent('boards_demo_data_available') === 'true';
+
+  return boardsDemoDataAvailable && moduleVisible('boards');
+}
+
+function showTeamPlannerTour(configuration:ConfigurationService):boolean {
+  const eeTokenAvailable = configuration.availableFeatures.includes('team_planner_view');
+  const teamPlannerDemoDataAvailable = getMetaContent('demo_view_of_type_team_planner_seeded') === 'true';
+
+  return eeTokenAvailable && teamPlannerDemoDataAvailable && moduleVisible('team-planner-view');
 }
 
 export function start(name:OnboardingTourNames, configuration:ConfigurationService):void {

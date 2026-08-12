@@ -46,7 +46,7 @@ RSpec.shared_context "with a project with an arrangement of custom fields" do
     create(
       :version,
       sharing: "system",
-      project: build(:project, active: false) # marking inactive is the simplest way to remove it from query
+      project: build(:project, active: false) # marking inactive is the simplest way to remove it from query (for non-admin users)
     )
   end
 

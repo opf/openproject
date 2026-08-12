@@ -1,7 +1,7 @@
 <% manager = ::OpenProject::Avatars::AvatarManager %>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend" title="<%= t "avatars.label_gravatar" %>"><%= t "avatars.label_gravatar" %></legend>
+  <legend class="form--fieldset-legend"><%= t "avatars.label_gravatar" %></legend>
 
   <div class="form--field">
     <%= styled_label_tag "settings-enable-gravatars", t("avatars.settings.enable_gravatars") %>
@@ -13,7 +13,7 @@
 </fieldset>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend" title="<%= t "avatars.label_local_avatar" %>"><%= t "avatars.label_local_avatar" %></legend>
+  <legend class="form--fieldset-legend"><%= t "avatars.label_local_avatar" %></legend>
   <div class="form--field">
     <%= styled_label_tag "settings-enable-local-avatars", t("avatars.settings.enable_local_avatars") %>
     <%= hidden_field_tag "settings[enable_local_avatars]", 0 %>

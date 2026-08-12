@@ -34,10 +34,32 @@ module Wikis
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
+    TURBO_FRAME_ID = "work-package-wikis-tab-content"
+
     alias_method :work_package, :model
 
     def providers
       Wikis::Provider.enabled
+    end
+
+    def inline_page_links
+      @inline_page_links ||= page_link_service.inline_page_link_infos_for(linkable: work_package)
+                                               .map { PageLinkViewModel.from_page_info_result(it) }
+    end
+
+    def referencing_wiki_pages
+      @referencing_wiki_pages ||= page_link_service.referencing_wiki_page_references_for(linkable: work_package)
+                                                    .map { PageLinkViewModel.from_page_reference_result(it) }
+    end
+
+    def already_related_page_keys
+      @already_related_page_keys ||= page_link_service.relation_page_link_keys_for(linkable: work_package)
+    end
+
+    private
+
+    def page_link_service
+      @page_link_service ||= PageLinkService.new
     end
   end
 end

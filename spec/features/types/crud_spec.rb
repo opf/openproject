@@ -54,7 +54,7 @@ RSpec.describe "Types", :js do
 
     click_on "Save"
 
-    expect(page).to have_css(".FormControl-inlineValidation", text: "Name has already been taken.", wait: 12)
+    expect(page).to have_css(".FormControl-inlineValidation", text: "has already been taken.", wait: 12)
 
     # Values are retained
     expect(page).to have_field("Name", with: existing_type.name)
@@ -67,17 +67,13 @@ RSpec.describe "Types", :js do
 
     expect(page).to have_content I18n.t(:notice_successful_create)
 
-    # Workflow should be copied over.
-    # Workflow routes are not resource-oriented.
-    visit(url_for(controller: :workflows, action: :index, only_path: true))
-    click_on "A new type"
-
-    from_id = existing_workflow.old_status_id
-    to_id = existing_workflow.new_status_id
-
-    checkbox = page.find("input[data-old-status=\"#{from_id}\"][data-new-status=\"#{to_id}\"][value=always]")
-
-    expect(checkbox).to be_checked
+    # Workflow should be copied over from the source type.
+    new_type = Type.find_by!(name: "A new type")
+    expect(
+      Workflow.exists?(type_id: new_type.id,
+                       old_status_id: existing_workflow.old_status_id,
+                       new_status_id: existing_workflow.new_status_id)
+    ).to be true
 
     index_page.visit!
 
@@ -101,6 +97,58 @@ RSpec.describe "Types", :js do
 
     expect_and_dismiss_flash(message: I18n.t(:notice_successful_delete))
     index_page.expect_listed(existing_type)
+  end
+
+  it "lists a variant in the flat table when the feature flag is disabled", with_flag: { type_variants: false } do
+    create(:type, name: "Phase", parent: existing_type)
+
+    index_page.visit!
+
+    within "table" do
+      expect(page).to have_link("Phase")
+    end
+  end
+
+  # Variants are only ever created through the creation wizard, so the create page
+  # never offers a parent and always creates a root type.
+  it "creates a root type with editable core settings", with_flag: { type_variants: true } do
+    index_page.visit!
+    index_page.click_new
+
+    expect(page).to have_no_select("Parent type")
+    expect(page).to have_field("Is milestone", disabled: false)
+    expect(page).to have_field("Displayed in roadmap by default", disabled: false)
+  end
+
+  describe "the Details tab", with_flag: { type_variants: true } do
+    it "keeps the core settings editable for a root type" do
+      visit edit_type_details_path(type_id: existing_type.id)
+
+      expect(page).to have_field("Is milestone", disabled: false)
+      expect(page).to have_field("Displayed in roadmap by default", disabled: false)
+    end
+
+    it "explains where a variant's inherited core settings come from" do
+      variant = create(:type, name: "Mobile app bug", parent: existing_type)
+
+      visit edit_type_details_path(type_id: variant.id)
+
+      expect(page).to have_field("Name", with: "Mobile app bug")
+      expect(page).to have_field("Is milestone", disabled: true)
+      expect(page).to have_field("Displayed in roadmap by default", disabled: true)
+      expect(page).to have_text("Inherited from parent type #{existing_type.name}")
+    end
+
+    it "renames a type without touching the parent it was created under" do
+      variant = create(:type, name: "Mobile app bug", parent: existing_type)
+
+      visit edit_type_details_path(type_id: variant.id)
+      fill_in "Name", with: "Mobile app defect"
+      click_on "Save"
+
+      expect(page).to have_text I18n.t(:notice_successful_update)
+      expect(variant.reload).to have_attributes(own_name: "Mobile app defect", parent: existing_type)
+    end
   end
 
   context "when a work package of a given type is part of an archived project" do

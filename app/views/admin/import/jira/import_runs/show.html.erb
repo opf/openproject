@@ -30,31 +30,35 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), Import::JiraImport.model_name, @jira_import.id %>
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title do
-      concat(render(Primer::Beta::Text.new(mr: 2)) {
-        "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}"
-      })
-      concat(render(Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(@jira_import.current_state)))
-    end
+    header.with_title { "#{I18n.t(:"admin.jira.run.title")} ##{@jira_import.id}" }
     header.with_breadcrumbs(
       [
         { href: admin_index_path, text: t(:label_administration) },
         { href: admin_import_path, text: t(:"admin.import.title") },
         { href: admin_import_jira_index_path, text: I18n.t(:"admin.jira.title") },
         { href: admin_import_jira_path(@jira), text: @jira.name || @jira.url },
-        "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}"
+        "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id}"
       ]
     )
   end
 %>
+
 <%=
-  render Primer::BaseComponent.new(
-    tag: :div,
-    data: {
-      controller: "admin--jira-import",
-      "admin--jira-import-url-value": continue_admin_import_jira_run_path(jira_id: @jira.id, id: @jira_import.id)
-    }
-  ) do
-    render(Admin::Import::Jira::ImportRuns::WizardComponent.new(@jira_import))
+  render(Primer::Alpha::Layout.new(stacking_breakpoint: :md)) do |content|
+    content.with_main do
+      render Primer::BaseComponent.new(
+        tag: :div,
+        data: {
+          controller: "admin--jira-import",
+          "admin--jira-import-url-value": continue_admin_import_jira_run_path(jira_id: @jira.id, id: @jira_import.id)
+        }
+      ) do
+        render(Admin::Import::Jira::ImportRuns::WizardComponent.new(@jira_import))
+      end
+    end
+
+    content.with_sidebar(row_placement: :start, col_placement: :end) do
+      render(Admin::Import::Jira::ImportRuns::SidePanelComponent.new(@jira_import))
+    end
   end
 %>

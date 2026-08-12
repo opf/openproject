@@ -13,15 +13,56 @@ properties:
       - *daily*
       - *working_days*
       - *weekly*
+      - *monthly_day_of_month*
+      - *monthly_nth_weekday*
     enum:
       - daily
       - working_days
       - weekly
+      - monthly_day_of_month
+      - monthly_nth_weekday
   interval:
     type: integer
     description: |-
       The interval between occurrences. Not applicable for working_days frequency.
     minimum: 1
+  monthlyDay:
+    type: integer
+    description: |-
+      Day of month for `monthly_day_of_month` frequency.
+      Required for `monthly_day_of_month` unless inferred from `startTime`.
+    minimum: 1
+    maximum: 31
+  monthlyOrdinal:
+    type: integer
+    description: |-
+      Ordinal position for `monthly_nth_weekday` frequency.
+      Required for `monthly_nth_weekday` unless inferred from `startTime`.
+      Allowed values:
+      - `1` (first)
+      - `2` (second)
+      - `3` (third)
+      - `4` (fourth)
+      - `-1` (last)
+    enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - -1
+  monthlyWeekday:
+    type: string
+    description: |-
+      Weekday for `monthly_nth_weekday` frequency.
+      Required for `monthly_nth_weekday` unless inferred from `startTime`.
+    enum:
+      - sunday
+      - monday
+      - tuesday
+      - wednesday
+      - thursday
+      - friday
+      - saturday
   endAfter:
     type: string
     description: |-

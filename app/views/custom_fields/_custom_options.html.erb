@@ -1,4 +1,4 @@
-<%#-- copyright
+<%# -- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++# %>
 <% content_controller "admin--custom-fields",
                       "admin--custom-fields-multi-select-value": @custom_field.multi_value? %>
 
@@ -103,39 +103,32 @@ See COPYRIGHT and LICENSE files for more details.
                                  no_label: true %>
             </td>
             <td>
-                <span class="reorder-icons">
-                  <a
-                    aria-label="<%= t(:label_sort_highest) %>"
-                    rel="nofollow"
-                    href="#"
-                    class="sort-up-custom-option"
-                    data-action="admin--custom-fields#moveRowToTheTop">
-                    <%= op_icon("icon-context icon-sort-up icon-small") %>
-                  </a>
-                  <a
-                    aria-label="<%= t(:label_sort_higher) %>"
-                    rel="nofollow"
-                    href="#"
-                    class="move-up-custom-option"
-                    data-action="admin--custom-fields#moveRowUp">
-                    <%= op_icon("icon-context icon-arrow-up2 icon-small") %>
-                  </a>
-                  <a
-                    aria-label="<%= t(:label_sort_lower) %>"
-                    rel="nofollow" href="#"
-                    class="move-down-custom-option"
-                    data-action="admin--custom-fields#moveRowDown">
-                    <%= op_icon("icon-context icon-arrow-down2 icon-small") %>
-                  </a>
-                  <a
-                    aria-label="<%= t(:label_sort_lowest) %>"
-                    rel="nofollow"
-                    href="#"
-                    class="sort-down-custom-option"
-                    data-action="admin--custom-fields#moveRowToTheBottom">
-                    <%= op_icon("icon-context icon-sort-down icon-small") %>
-                  </a>
-                </span>
+              <span class="reorder-icons">
+                <%=
+                  render(Primer::Beta::ButtonGroup.new(scheme: :invisible, size: :small)) do |component|
+                    component.with_button(
+                      icon: :"move-to-top",
+                      "aria-label": t(:label_sort_highest),
+                      data: { action: "admin--custom-fields#moveRowToTheTop" }
+                    )
+                    component.with_button(
+                      icon: :"chevron-up",
+                      "aria-label": t(:label_sort_higher),
+                      data: { action: "admin--custom-fields#moveRowUp" }
+                    )
+                    component.with_button(
+                      icon: :"chevron-down",
+                      "aria-label": t(:label_sort_lower),
+                      data: { action: "admin--custom-fields#moveRowDown" }
+                    )
+                    component.with_button(
+                      icon: :"move-to-bottom",
+                      "aria-label": t(:label_sort_lowest),
+                      data: { action: "admin--custom-fields#moveRowToTheBottom" }
+                    )
+                  end
+                %>
+              </span>
             </td>
             <td>
               <%= link_to "",
@@ -146,7 +139,7 @@ See COPYRIGHT and LICENSE files for more details.
                             turbo_confirm: t(:"custom_fields.confirm_destroy_option")
                           },
                           class: "icon icon-delete delete-custom-option",
-                          title: t(:button_delete) %>
+                          "aria-label": t(:button_delete) %>
             </td>
           </tr>
         <% end %>

@@ -42,7 +42,7 @@ RSpec.describe Backlogs::TaskboardController do
   current_user { user }
 
   describe "GET show" do
-    let(:sprint) { create(:agile_sprint, project:) }
+    let(:sprint) { create(:sprint, project:) }
 
     context "when the board exists" do
       let!(:other_project) { create(:project) }
@@ -91,7 +91,7 @@ RSpec.describe Backlogs::TaskboardController do
                member_with_permissions: { user => permissions })
       end
       let(:permissions) { %i[view_sprints view_work_packages] }
-      let(:sprint) { create(:agile_sprint, project: source_project) }
+      let(:sprint) { create(:sprint, project: source_project) }
 
       before do
         create(:board_grid_with_query, project: source_project, linked: sprint)

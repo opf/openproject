@@ -1,24 +1,45 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Directive,
   Input,
-  SimpleChanges, OnInit, OnChanges,
+  SimpleChanges, OnInit, OnChanges, inject,
 } from '@angular/core';
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject,
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { WorkPackageStatesInitializationService } from '../../wp-list/wp-states-initialization.service';
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -40,23 +61,11 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   protected initialized = false;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  readonly apiV3Service = inject(ApiV3Service);
 
-  @InjectField() querySpace:IsolatedQuerySpace;
+  readonly urlParamsHelper = inject(UrlParamsHelperService);
 
-  @InjectField() I18n!:I18nService;
-
-  @InjectField() urlParamsHelper:UrlParamsHelperService;
-
-  @InjectField() loadingIndicatorService:LoadingIndicatorService;
-
-  @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
-
-  @InjectField() currentProject:CurrentProjectService;
-
-  @InjectField() pathHelper:PathHelperService;
-
-  @InjectField() cdRef:ChangeDetectorRef;
+  readonly pathHelper = inject(PathHelperService);
 
   ngOnInit() {
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
@@ -89,7 +98,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     const query = this.querySpace.query.value!;
     this.wpStatesInitialization.applyToQuery(query);
 
-    return this.urlParamsHelper.buildV3GetQueryFromQueryResource(query) as object;
+    return this.urlParamsHelper.buildV3GetQueryFromQueryResource(query);
   }
 
   public buildUrlParams() {

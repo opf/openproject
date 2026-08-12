@@ -113,7 +113,7 @@ module Import
     end
 
     def sync_project_issues(jira_project)
-      jql = "project=#{jira_project.payload['key']}"
+      jql = "project = '#{jira_project.payload['key']}'"
       start_at = 0
       loop do
         result = @jira_client.issues(jql:, start_at:, max_results: 5)

@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, content_type: :json do
+RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_helpers, :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -76,7 +76,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
                                                        last_modified_at: Time.zone.parse("2024-08-09T11:52:09Z"),
                                                        created_by_name: "Mara Jade",
                                                        last_modified_by_name: nil,
-                                                       location: "/Folder%20with%20spaces",
+                                                       location: "/Folder with spaces",
                                                        permissions: %i[readable writeable]),
           Storages::Adapters::Results::StorageFile.new(id: "562",
                                                        name: "Ümlæûts",
@@ -86,7 +86,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
                                                        last_modified_at: Time.zone.parse("2024-08-09T11:51:48Z"),
                                                        created_by_name: "Mara Jade",
                                                        last_modified_by_name: nil,
-                                                       location: "/%c3%9cml%c3%a6%c3%bbts",
+                                                       location: "/Ümlæûts",
                                                        permissions: %i[readable writeable])
         ],
         Storages::Adapters::Results::StorageFile.new(id: "385",
@@ -123,7 +123,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
       before do
         Storages::Adapters::Registry.stub(
           "nextcloud.queries.files",
-          ->(_) { Failure(Storages::Adapters::Results::Error.new(source: self, code: error)) }
+          ->(_) { Failure(SimpleError.new(source: self, code: error)) }
         )
       end
 
@@ -173,7 +173,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
           last_modified_by_name: "Darth Sidious",
           last_modified_by_id: "palpatine",
           permissions: "RGDNVCK",
-          location: "/Folder/%C3%9Cml%C3%A6%C3%BBts"
+          location: "/Folder/Ümlæûts"
         )
       end
 
@@ -187,7 +187,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
         expect(subject).to be_json_eql(response.mime_type.to_json).at_path("mimeType")
 
         expect(subject).to be_json_eql(response.owner_name.to_json).at_path("createdByName")
-        expect(subject).to be_json_eql(response.location.to_json).at_path("location")
+        expect(subject).to be_json_eql("/Folder/%C3%9Cml%C3%A6%C3%BBts".to_json).at_path("location")
         expect(subject).to be_json_eql(response.permissions.to_json).at_path("permissions")
       end
     end
@@ -196,7 +196,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
       before do
         Storages::Adapters::Registry
           .stub("#{storage}.queries.file_info",
-                ->(_) { Failure(Storages::Adapters::Results::Error.new(code: error, source: self)) })
+                ->(_) { Failure(SimpleError.new(code: error, source: self)) })
       end
 
       context "with authorization failure" do
@@ -251,7 +251,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
         expect(subject).to be_json_eql("post".to_json).at_path("_links/destination/method")
         expect(subject).to be_json_eql("Upload File".to_json).at_path("_links/destination/title")
 
-        href = MultiJson.load(subject).dig("_links", "destination", "href")
+        href = MultiJSON.load(subject).dig("_links", "destination", "href")
         expect(href).to match(destination)
       end
     end
@@ -260,7 +260,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
       before do
         Storages::Adapters::Registry.stub(
           "nextcloud.queries.upload_link",
-          ->(_) { Failure(Storages::Adapters::Results::Error.new(code: error, source: self)) }
+          ->(_) { Failure(SimpleError.new(code: error, source: self)) }
         )
       end
 
@@ -276,7 +276,7 @@ RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, conten
         it "fails with an internal error" do
           expect(last_response).to have_http_status(:internal_server_error)
 
-          body = MultiJson.load(last_response.body, symbolize_keys: true)
+          body = MultiJSON.load(last_response.body, symbolize_keys: true)
           expect(body[:message]).to eq(I18n.t("services.errors.messages.error"))
           expect(body[:errorIdentifier]).to eq("urn:openproject-org:api:v3:errors:InternalServerError")
         end

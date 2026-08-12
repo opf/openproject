@@ -118,6 +118,41 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
     allow(User).to receive(:current).and_return user
   end
 
+  describe "#delete_dialog" do
+    shared_let(:invisible_project) { create(:project, types: [type]) }
+    shared_let(:invisible_work_package) { create(:work_package, type:, status:, project: invisible_project) }
+
+    context "with a work package the user cannot see" do
+      before do
+        get :delete_dialog, params: { ids: [invisible_work_package.id] }, format: :turbo_stream
+      end
+
+      it "denies access" do
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with a mix of visible and invisible work packages" do
+      before do
+        get :delete_dialog, params: { ids: [work_package1.id, invisible_work_package.id] }, format: :turbo_stream
+      end
+
+      it "denies access instead of offering to delete the visible subset" do
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with a visible work package" do
+      before do
+        get :delete_dialog, params: { ids: [work_package1.id] }, format: :turbo_stream
+      end
+
+      it "renders the dialog" do
+        expect(response).to be_successful
+      end
+    end
+  end
+
   describe "#edit" do
     shared_examples_for "response" do
       subject { response }
@@ -139,6 +174,39 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
         describe "#parent" do
           it { assert_select "input", attributes: { name: "work_package[parent_id]" } }
+        end
+
+        context "with work package list" do
+          context "with classic (numeric) identifiers" do
+            it "displays a hash-prefixed numeric id link for each work package" do
+              assert_select "ul li a", text: /\A#{Regexp.escape(work_package1.type.to_s)} ##{work_package1.id}\z/
+              assert_select "ul li a", text: /\A#{Regexp.escape(work_package2.type.to_s)} ##{work_package2.id}\z/
+            end
+          end
+
+          context "with semantic identifiers" do
+            let(:semantic_prefix) { "TESTPROJ" }
+
+            before do
+              allow(Setting::WorkPackageIdentifier).to receive_messages(semantic?: true, classic?: false)
+              work_package1.update_columns(identifier: "#{semantic_prefix}-1", sequence_number: 1)
+              work_package2.update_columns(identifier: "#{semantic_prefix}-2", sequence_number: 2)
+            end
+
+            it "displays the semantic identifier in each link" do
+              get :edit, params: { ids: [work_package1.id, work_package2.id] }
+
+              assert_select "ul li a", text: /#{semantic_prefix}-1/
+              assert_select "ul li a", text: /#{semantic_prefix}-2/
+            end
+
+            it "does not display a bare numeric id in the links" do
+              get :edit, params: { ids: [work_package1.id, work_package2.id] }
+
+              assert_select "ul li a", text: /##{work_package1.id}/, count: 0
+              assert_select "ul li a", text: /##{work_package2.id}/, count: 0
+            end
+          end
         end
 
         context "custom_field" do
@@ -474,65 +542,60 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         end
 
         describe "#version" do
-          describe "set version_id attribute to some version" do
-            shared_let(:subproject) do
-              create(:project,
-                     parent: project1,
-                     types: [type])
+          describe "set target_version_ids attribute",
+                   with_settings: { work_package_multiple_versions: true } do
+            shared_let(:target_subproject) do
+              create(:project, parent: project1, types: [type])
             end
-            shared_let(:version) do
-              create(:version,
-                     status: "open",
-                     sharing: "tree",
-                     project: subproject)
+            shared_let(:target_version) do
+              create(:version, status: "open", sharing: "tree", project: target_subproject)
             end
 
-            before do
-              put :update,
-                  params: {
-                    ids: work_package_ids,
-                    work_package: { version_id: version.id.to_s }
-                  }
-            end
-
-            subject { response }
-
-            it { is_expected.to be_redirect }
-
-            describe "#work_package" do
-              describe "#version" do
-                subject { work_packages.map(&:version_id).uniq }
-
-                it { is_expected.to contain_exactly(version.id) }
+            describe "to a version" do
+              before do
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { target_version_ids: [target_version.id.to_s] }
+                    }
               end
 
-              describe "#project" do
-                subject { work_packages.map(&:project_id).uniq }
+              it "redirects on success" do
+                expect(response).to be_redirect
+              end
 
-                it { is_expected.not_to contain_exactly(subproject.id) }
+              it "assigns the version as target_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.target_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([target_version.id])
+              end
+
+              it "does not move the work packages into the version's project" do
+                expect(work_packages.map(&:project_id).uniq)
+                  .not_to contain_exactly(target_subproject.id)
               end
             end
-          end
 
-          describe "set version_id to nil" do
-            before do
-              # 'none' is a magic value, setting version_id to nil
-              # will make the controller ignore that param
-              put :update,
-                  params: {
-                    ids: work_package_ids,
-                    work_package: { version_id: "none" }
-                  }
-            end
+            describe "to none" do
+              before do
+                work_packages.each do |wp|
+                  wp.work_package_versions.create!(version_id: target_version.id, kind: "target")
+                end
 
-            describe "#work_package" do
-              describe "#version" do
-                subject { work_packages.map(&:version_id).uniq }
+                # 'none' is a magic value that clears all target_versions
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { target_version_ids: ["none"] }
+                    }
+              end
 
-                it { is_expected.to eq([nil]) }
+              it "clears the target_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.target_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([])
               end
             end
           end
+
         end
 
         describe "#done_ratio" do
@@ -583,6 +646,29 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
       end
     end
 
+    context "with semantic identifiers",
+            with_settings: { work_packages_identifier: "semantic" } do
+      before do
+        work_package1.update_columns(identifier: "PROJ-1", sequence_number: 1)
+        work_package2.update_columns(identifier: "PROJ-2", sequence_number: 2)
+        put :update,
+            params: {
+              ids: work_package_ids,
+              work_package: { done_ratio: 150 }
+            }
+      end
+
+      it "shows semantic identifiers in the error flash" do
+        expect(flash[:error]).to include("PROJ-1")
+        expect(flash[:error]).to include("PROJ-2")
+      end
+
+      it "does not show bare numeric ids in the error flash" do
+        expect(flash[:error]).not_to include("##{work_package1.id}")
+        expect(flash[:error]).not_to include("##{work_package2.id}")
+      end
+    end
+
     describe "updating two children with dates to a new parent (Regression #28670)" do
       let(:task1) do
         create(:work_package,
@@ -625,6 +711,42 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         expect(new_parent.due_date).to eq(task2.due_date)
       end
     end
+
+    describe "bulk parent assignment with semantic identifiers",
+             with_settings: { work_packages_identifier: "semantic" } do
+      let(:sem_project) do
+        create(:project, identifier: "SEMPROJ", types: [type]).tap do |p|
+          create(:member, project: p, principal: user, roles: [role])
+        end
+      end
+      let(:parent_wp) { create(:work_package, project: sem_project).reload }
+      let(:child1)    { create(:work_package, project: sem_project).reload }
+      let(:child2)    { create(:work_package, project: sem_project).reload }
+
+      it "accepts a semantic identifier and assigns the parent" do
+        put :update,
+            params: {
+              ids: [child1.id, child2.id],
+              work_package: { parent_id: parent_wp.identifier }
+            }
+
+        expect(response).to have_http_status(:found)
+        expect(child1.reload.parent_id).to eq(parent_wp.id)
+        expect(child2.reload.parent_id).to eq(parent_wp.id)
+      end
+
+      it "reports an error for an unknown semantic identifier" do
+        put :update,
+            params: {
+              ids: [child1.id, child2.id],
+              work_package: { parent_id: "SEMPROJ-9999" }
+            }
+
+        expect(flash[:error]).to be_present
+        expect(child1.reload.parent_id).to be_nil
+        expect(child2.reload.parent_id).to be_nil
+      end
+    end
   end
 
   describe "#destroy" do
@@ -641,6 +763,47 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         send_destroy_request
         expect(WorkPackage.find_by(id: [work_package1.id, work_package2.id])).to be_nil
         expect(response).to redirect_to(project_work_packages_path(work_package1.project))
+      end
+
+      it "reports how many were deleted" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 2))
+      end
+    end
+
+    context "with a selected work package that has descendants" do
+      shared_let(:child) { create(:work_package, type:, status:, project: project1, parent: work_package1) }
+      shared_let(:grandchild) { create(:work_package, type:, status:, project: project1, parent: child) }
+
+      let(:params) { { "ids" => [work_package1.id] } }
+
+      it "counts the descendants it deleted along the way" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 3))
+      end
+    end
+
+    context "with an ancestor that is only rescheduled" do
+      shared_let(:parent) do
+        create(:work_package, type:, status:, project: project1, schedule_manually: false)
+      end
+      shared_let(:child) do
+        create(:work_package, type:, status:, project: project1, parent:,
+                              start_date: Date.parse("2026-01-05"), due_date: Date.parse("2026-01-09"))
+      end
+      shared_let(:sibling) do
+        create(:work_package, type:, status:, project: project1, parent:,
+                              start_date: Date.parse("2026-02-02"), due_date: Date.parse("2026-02-06"))
+      end
+
+      let(:params) { { "ids" => [child.id] } }
+
+      it "does not count the ancestor as deleted" do
+        send_destroy_request
+
+        expect(flash[:notice]).to eq(I18n.t("work_packages.bulk.deletion_successful", count: 1))
       end
     end
 
@@ -675,6 +838,23 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         send_destroy_request
         expect(WorkPackage.count).to eq(0)
         expect(response).to redirect_to(project_work_packages_path(work_package1.project))
+      end
+    end
+
+    context "with a child in a project the user has no access to" do
+      shared_let(:foreign_project) { create(:project, types: [type]) }
+      shared_let(:foreign_child) do
+        create(:work_package, type:, status:, project: foreign_project, parent: work_package1)
+      end
+
+      let(:params) { { "ids" => [work_package1.id] } }
+
+      it "deletes the work package and detaches the child" do
+        send_destroy_request
+
+        expect(WorkPackage).not_to exist(work_package1.id)
+        expect(foreign_child.reload.parent_id).to be_nil
+        expect(flash[:error]).to be_nil
       end
     end
 

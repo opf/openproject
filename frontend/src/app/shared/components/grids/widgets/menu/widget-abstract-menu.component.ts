@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, Injector, Input } from '@angular/core';
+import { Directive, Injector, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
@@ -35,13 +35,12 @@ import { GridAreaService } from 'core-app/shared/components/grids/grid/area.serv
 
 @Directive()
 export abstract class WidgetAbstractMenuComponent {
-  @Input() resource:GridWidgetResource;
+  readonly injector = inject(Injector);
+  readonly i18n = inject(I18nService);
+  protected readonly remove = inject(GridRemoveWidgetService);
+  protected readonly layout = inject(GridAreaService);
 
-  constructor(readonly injector:Injector,
-    readonly i18n:I18nService,
-    protected readonly remove:GridRemoveWidgetService,
-    protected readonly layout:GridAreaService) {
-  }
+  @Input() resource:GridWidgetResource;
 
   public get menuItemsFactory():() => Promise<OpContextMenuItem[]> {
     return this.buildItems.bind(this);

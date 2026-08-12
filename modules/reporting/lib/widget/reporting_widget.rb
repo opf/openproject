@@ -38,7 +38,10 @@ class Widget::ReportingWidget < ActionView::Base
   include ReportingHelper
   include Redmine::I18n
 
-  attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes, :subject
+  # Do not declare `attr_accessor :controller` here: it shadows ActionView's
+  # `attr_internal :controller` and breaks `assign_controller`, which is what
+  # wires CSRF helpers (`form_tag` authenticity tokens) to the request controller.
+  attr_accessor :output_buffer, :config, :_content_for, :_routes, :subject
 
   def self.new(subject)
     super.tap do |o|
@@ -50,12 +53,21 @@ class Widget::ReportingWidget < ActionView::Base
     ::I18n.locale
   end
 
+  # Delegate to the request controller so `form_tag` / `form_with` emit an
+  # `authenticity_token` like normal views (see `assign_controller` in
+  # `render_widget`). `protect_against_forgery?` is private on the controller.
   def protect_against_forgery?
-    false
+    return false unless controller.respond_to?(:protect_against_forgery?, true)
+
+    controller.send(:protect_against_forgery?)
   end
 
-  def method_missing(name, *, &)
-    controller.send(name, *, &)
+  def respond_to_missing?(name, include_private = false)
+    controller.respond_to?(name, include_private) || super
+  end
+
+  def method_missing(name, ...)
+    controller.send(name, ...)
   rescue NoMethodError
     raise NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{object_id}>"
   end
@@ -66,8 +78,8 @@ class Widget::ReportingWidget < ActionView::Base
       i.config = config
       i._routes = _routes
       i._content_for = @_content_for
-      i.controller = respond_to?(:controller) ? controller : self
-      i.request = request
+      ctl = respond_to?(:controller) ? controller : self
+      i.assign_controller(ctl)
       i.render_with_options(options, &)
     end
   end

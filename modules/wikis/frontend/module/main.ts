@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -15,6 +15,7 @@
 // of the License, or (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
@@ -23,8 +24,9 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
+//++
 
-import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule, inject } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpSharedModule } from 'core-app/shared/shared.module';
@@ -65,7 +67,9 @@ export function initializeWikiPlugin(injector:Injector) {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PluginModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     initializeWikiPlugin(injector);
   }
 }

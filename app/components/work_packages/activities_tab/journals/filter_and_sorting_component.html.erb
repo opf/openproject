@@ -24,7 +24,7 @@
           )
           menu.with_item(
             label: t("activities.work_packages.activity_tab.label_activity_show_only_changes"),
-            href: update_filter_work_package_activities_path(work_package, filter: :only_changes),
+            href: update_filter_work_package_activities_path(work_package, filter: WorkPackages::ActivitiesTab::Filters::ONLY_CHANGES),
             content_arguments: {
               data: {
                 turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToOnlyChanges",
@@ -35,7 +35,7 @@
           )
           menu.with_item(
             label: t("activities.work_packages.activity_tab.label_activity_show_only_comments"),
-            href: update_filter_work_package_activities_path(work_package, filter: :only_comments),
+            href: update_filter_work_package_activities_path(work_package, filter: WorkPackages::ActivitiesTab::Filters::ONLY_COMMENTS),
             content_arguments: {
               data: {
                 turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToOnlyComments",

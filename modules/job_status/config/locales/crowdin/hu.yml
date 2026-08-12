@@ -1,33 +1,33 @@
 ---
 hu:
-  label_job_status_plural: Feladat státuszok
-  plugin_openproject_job_status:
-    name: OpenProject Job status
-    description: Listing and status of background jobs.
   job_status_dialog:
+    click_to_download: Or [click here](download_url) to download.
     download_starts: A letöltésnek automatikusan el kellene indulnia
-    click_to_download: Or, [click here](download_url) to download.
-    title: Háttér művelet állapota
-    redirect: Átirányítjuk...
-    redirect_link: Kattints ide a folytatáshoz
-    redirect_errors: A hibák miatt nem lehet automatikusan visszairányítani
     errors: Valami hiba történt
     generic_messages:
-      not_found: 'Ez a művelet nem található.
-
-        '
-      in_queue: 'A művelet sorba került, és rövidesen feldolgozásra kerül.
-
-        '
-      in_process: 'A művelet jelenleg feldolgozás alatt áll.
+      cancelled: 'A műveletet hiba miatt törölték.
 
         '
       error: 'A műveletet nem sikerült befejezni.
 
         '
-      cancelled: 'A műveletet hiba miatt törölték.
+      in_process: 'A művelet jelenleg feldolgozás alatt áll.
+
+        '
+      in_queue: 'A művelet sorba került, és rövidesen feldolgozásra kerül.
+
+        '
+      not_found: 'Ez a művelet nem található.
 
         '
       success: 'A művelet sikeresen befejeződött.
 
         '
+    redirect: Átirányítjuk...
+    redirect_errors: A hibák miatt nem lehet automatikusan visszairányítani
+    redirect_link: Kattints ide a folytatáshoz
+    title: Háttér művelet állapota
+  label_job_status_plural: Feladat státuszok
+  plugin_openproject_job_status:
+    description: A háttérfeladatok listája és állapota.
+    name: OpenProject feladatállapot

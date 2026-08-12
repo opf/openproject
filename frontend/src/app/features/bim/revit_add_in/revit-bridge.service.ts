@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged, filter, first, map,
@@ -34,7 +34,7 @@ import {
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
 
 declare global {
@@ -62,12 +62,12 @@ export class RevitBridgeService extends ViewerBridgeService {
 
   private trackingIdNumber = 0;
 
-  @InjectField() viewpointsService:ViewpointsService;
+  @LazyInject() viewpointsService:ViewpointsService;
 
   revitMessageReceived$ = this.revitMessageReceivedSource.asObservable();
 
-  constructor(readonly injector:Injector) {
-    super(injector);
+  constructor() {
+    super();
 
     if (window.RevitBridge) {
       this.hookUpRevitListener();

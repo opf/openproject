@@ -1,40 +1,38 @@
 ---
 hu:
-  ee:
-    upsell:
-      ldap_groups:
-        title: LDAP csoport szinkronizálása
-        description: Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.
-  plugin_openproject_ldap_groups:
-    name: OpenProject LDAP groups
-    description: Synchronization of LDAP group memberships.
   activerecord:
     attributes:
-      ldap_groups/synchronized_group:
-        dn: DN
-        auth_source: Auth source
-        ldap_auth_source: LDAP csatlakozás
-        sync_users: Felhasználók szinkronizálása
       ldap_groups/synchronized_filter:
-        filter_string: LDAP szűrő
         auth_source: Auth source
-        ldap_auth_source: LDAP csatlakozás
-        group_name_attribute: Csoport név attribútum
-        sync_users: Felhasználók szinkronizálása
         base_dn: Keresési alap DN
-    models:
-      ldap_groups/synchronized_group: Szinkronizált LDAP csoport
-      ldap_groups/synchronized_filter: LDAP csoport szinkronizálása
+        filter_string: LDAP szűrő
+        group_name_attribute: Csoport név attribútum
+        ldap_auth_source: LDAP csatlakozás
+        member_lookup_attribute: Group member attribute
+        sync_users: Felhasználók szinkronizálása
+      ldap_groups/synchronized_group:
+        auth_source: Auth source
+        dn: DN
+        ldap_auth_source: LDAP csatlakozás
+        sync_users: Felhasználók szinkronizálása
     errors:
       models:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: 'A szűrőalap DN -jének az LDAP -kapcsolat alap DN -jében kell lennie
 
             '
+    models:
+      ldap_groups/synchronized_filter: LDAP csoport szinkronizálása
+      ldap_groups/synchronized_group: Szinkronizált LDAP csoport
+  ee:
+    upsell:
+      ldap_groups:
+        description: Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.
+        title: LDAP csoport szinkronizálása
   ldap_groups:
-    label_menu_item: LDAP csoport szinkronizálása
     label_group_key: LDAP csoport szűrési feltétel
-    label_synchronize: Szinkronizálás
+    label_menu_item: LDAP csoport szinkronizálása
+    label_synchronize: Discover LDAP groups
     settings:
       name_attribute: LDAP csoport érték
       name_attribute_text: 'Az OpenProject csoport elnevezésére használt LDAP attribútum szűrő létrehozásakor
@@ -42,57 +40,68 @@ hu:
         '
     synchronized_filters:
       add_new: Szinkronizált LDAP szűrő hozzáadása
-      singular: LDAP csoport szinkronizációs szűrő
-      plural: LDAP csoport szinkronizációs szűrő
+      destroy:
+        confirmation: Az összes szinkronizált szűrő%{name} és az összes csoport %{groups_count} amit létrehozott törölve lesz, ha folytatja.
+        heading: Remove synchronized filter %{name}?
+        removed_groups: 'Figyelmeztetés: Ez eltávolítja a következő csoportokat az OpenProject -ből, és eltávolítja az összes projektből!
+
+          '
+        title: Szinkronizált szűrő eltávolítása %{name}
+        verification_html: Enter the filter name %{name} to verify the deletion.
+      form:
+        base_dn_text: 'Írja be a keresési alap DN -jét a szűrőhöz. A kiválasztott LDAP -kapcsolat alap DN -je alatt kell lennie. Hagyja üresen ezt az opciót a kapcsolat alap DN -jének újbóli használatához
+
+          '
+        filter_string_text: 'Adja meg az RFC4515 LDAP szűrőt, amely visszaadja az LDAP csoportjait, hogy szinkronizálja őket az OpenProject szolgáltatással.
+
+          '
+        group_name_attribute_text: 'Adja meg az OpenProject csoportnév beállításához használt LDAP csoport attribútumát.
+
+          '
+        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
+
+          '
       label_n_groups_found:
         one: '1 csoportot talált a szűrő
 
           '
         other: "%{count} csoportot talált a szűrő"
         zero: A szűrő nem talált csoportokat
-      destroy:
-        title: Szinkronizált szűrő eltávolítása %{name}
-        heading: Remove synchronized filter %{name}?
-        confirmation: Az összes szinkronizált szűrő%{name} és az összes csoport %{groups_count} amit létrehozott törölve lesz, ha folytatja.
-        removed_groups: 'Figyelmeztetés: Ez eltávolítja a következő csoportokat az OpenProject -ből, és eltávolítja az összes projektből!
-
-          '
-        verification_html: Enter the filter name %{name} to verify the deletion.
-      form:
-        group_name_attribute_text: 'Adja meg az OpenProject csoportnév beállításához használt LDAP csoport attribútumát.
-
-          '
-        filter_string_text: 'Adja meg az RFC4515 LDAP szűrőt, amely visszaadja az LDAP csoportjait, hogy szinkronizálja őket az OpenProject szolgáltatással.
-
-          '
-        base_dn_text: 'Írja be a keresési alap DN -jét a szűrőhöz. A kiválasztott LDAP -kapcsolat alap DN -je alatt kell lennie. Hagyja üresen ezt az opciót a kapcsolat alap DN -jének újbóli használatához
-
-          '
+      plural: LDAP csoport szinkronizációs szűrő
+      singular: LDAP csoport szinkronizációs szűrő
     synchronized_groups:
       add_new: Szinkronizált LDAP csoport hozzáadása
       destroy:
-        title: Szinkronizált csoport %{name} visszavonása
-        heading: Remove synchronized group %{name}?
         confirmation: Az összes szinkronizált csoport%{name} és az összes %{users_count} amit létrehozott törölve lesz, ha folytatja.
+        heading: Remove synchronized group %{name}?
         info: The OpenProject group itself and members added outside this LDAP synchronization will not be removed.
-      help_text_html: |
-        Ez a modul lehetővé teszi az LDAP és az OpenProject csoportok közötti szinkronizálást.
-        Attól függ, hogy az LDAP-csoportoknak az OpenProject használatához a <em> groupOfNames / memberOf </em> attribútumot kell használniuk.
-        <br/>
-        A csoportokat óránként szinkronizáljuk egy cron feladattal.
-        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Kérjük, olvassa el a témával kapcsolatos dokumentációinkat </a>.
-      no_results: Nem található szinkronizálható csoport
-      no_members: Ez a csoport nem tartalmaz szinkronizált felhasználót még
-      plural: Szinkronizált LDAP csoportok
-      singular: Szinkronizált LDAP csoport
+        title: Szinkronizált csoport %{name} visszavonása
       form:
         auth_source_text: LDAP csatlakozás kiválasztása
-        sync_users_text: 'Ha engedélyezi ezt az opciót, a talált felhasználók automatikusan létrejönnek az OpenProject alkalmazásban. Enélkül csak az OpenProject meglévő fiókjai kerülnek hozzáadásra a csoportokhoz.
-
-          '
         dn_text: 'Adja meg a csoport teljes DN -jét az LDAP -ban
 
           '
         group_text: Válasszon egy meglévő OpenProject csoportot, amellyel az LDAP csoport tagjait szinkronizálni kell
+        sync_users_text: 'Ha engedélyezi ezt az opciót, a talált felhasználók automatikusan létrejönnek az OpenProject alkalmazásban. Enélkül csak az OpenProject meglévő fiókjai kerülnek hozzáadásra a csoportokhoz.
+
+          '
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        <br/>
+        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
+        This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
+        <br/>
+        If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
+        you can configure <strong>forward lookup</strong> by setting the <em>Group member attribute</em> on the synchronization filter.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        [Please see our documentation on this topic](docs_url).
+      no_members: Ez a csoport nem tartalmaz szinkronizált felhasználót még
+      no_results: Nem található szinkronizálható csoport
+      plural: Szinkronizált LDAP csoportok
+      singular: Szinkronizált LDAP csoport
       upsell:
         description: Használja ki a szinkronizált LDAP-csoportok előnyeit a felhasználók kezeléséhez, az engedélyeik módosításához és a csoportok közötti felhasználói kezelés megkönnyítéséhez.
+  plugin_openproject_ldap_groups:
+    description: Az LDAP-csoporttagságok szinkronizálása.
+    name: OpenProject LDAP-csoportok

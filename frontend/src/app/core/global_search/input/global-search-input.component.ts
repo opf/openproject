@@ -1,16 +1,32 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  OnDestroy,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
@@ -74,9 +90,21 @@ interface SearchResultItems {
   standalone: false,
 })
 export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly I18n = inject(I18nService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly pathHelperService = inject(PathHelperService);
+  readonly halResourceService = inject(HalResourceService);
+  readonly globalSearchService = inject(GlobalSearchService);
+  readonly currentProjectService = inject(CurrentProjectService);
+  readonly deviceService = inject(DeviceService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly recentItemsService = inject(RecentItemsService);
+
   @Input() public placeholder:string;
 
-  @ViewChild('btn', { static: true }) btn:ElementRef;
+  @ViewChild('btn', { static: true }) btn:ElementRef<HTMLButtonElement>;
 
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
@@ -131,19 +159,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     search: this.I18n.t('js.autocompleter.search'),
   };
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-    readonly pathHelperService:PathHelperService,
-    readonly halResourceService:HalResourceService,
-    readonly globalSearchService:GlobalSearchService,
-    readonly currentProjectService:CurrentProjectService,
-    readonly deviceService:DeviceService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly halNotification:HalResourceNotificationService,
-    readonly recentItemsService:RecentItemsService,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 
@@ -178,7 +194,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
 
     // handle click on search button
-    if (insideOrSelf(this.btn.nativeElement as HTMLElement, event.target as HTMLElement)) {
+    if (insideOrSelf(this.btn.nativeElement, event.target as HTMLElement)) {
       if (this.deviceService.isTablet) {
         this.toggleMobileSearch();
         // open ng-select menu on default
@@ -273,8 +289,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public followItem(item:WorkPackageResource|SearchOptionItem|undefined):void {
     this.selectedItem = item;
-    if (item instanceof HalResource) {
-      window.location.href = this.wpPath(item.id!);
+    if (item instanceof WorkPackageResource) {
+      window.location.href = this.wpPath(item.displayId);
     } else if (item) {
       this.searchInScope(item.projectScope);
     }

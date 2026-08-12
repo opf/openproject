@@ -46,7 +46,9 @@ module Queries::Projects
     filter Filters::NameAndIdentifierFilter
     filter Filters::NameFilter
     filter Filters::ParentFilter
+    filter Filters::PortfolioFilter
     filter Filters::PrincipalFilter
+    filter Filters::ProgramFilter
     filter Filters::ProjectStatusFilter
     filter Filters::PublicFilter
     filter Filters::TemplatedFilter

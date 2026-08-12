@@ -35,8 +35,6 @@ module Import
     end
 
     def convert
-      return "" if @text.blank?
-
       ast = JiraWikiMarkup::Parser.new(@text).parse
       JiraWikiMarkup::Renderer.new(ast).render
     end

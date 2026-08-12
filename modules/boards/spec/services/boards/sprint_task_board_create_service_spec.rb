@@ -36,7 +36,7 @@ RSpec.describe Boards::SprintTaskBoardCreateService do
   shared_let(:status1) { create(:status) }
   shared_let(:status2) { create(:status) }
   shared_let(:project) { create(:project, types: [type_task]) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
+  shared_let(:sprint) { create(:sprint, project:) }
   let(:user) { create(:admin) }
   let(:instance) { described_class.new(user:) }
 
@@ -91,7 +91,7 @@ RSpec.describe Boards::SprintTaskBoardCreateService do
   describe "status columns" do
     context "when a sprint board already exists on the project" do
       let(:status3) { create(:status) }
-      let(:existing_sprint) { create(:agile_sprint, project:) }
+      let(:existing_sprint) { create(:sprint, project:) }
 
       let(:widget1) do
         build(:grid_widget,

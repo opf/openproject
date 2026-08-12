@@ -21,25 +21,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -54,6 +44,8 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 @Component({
+  // Please address the disabled eslint rule when making major changes to this file.
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-inline-add-autocompleter',
   templateUrl: './board-inline-add-autocompleter.html',
   // Allow styling the embedded ng-select
@@ -63,9 +55,21 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
+  private readonly querySpace = inject(IsolatedQuerySpace);
+  private readonly pathHelper = inject(PathHelperService);
+  private readonly apiV3Service = inject(ApiV3Service);
+  private readonly urlParamsHelper = inject(UrlParamsHelperService);
+  private readonly notificationService = inject(WorkPackageNotificationService);
+  private readonly CurrentProject = inject(CurrentProjectService);
+  private readonly halResourceService = inject(HalResourceService);
+  private readonly schemaCacheService = inject(SchemaCacheService);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly I18n = inject(I18nService);
+  private readonly wpCardDragDrop = inject(WorkPackageCardDragAndDropService);
+
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
   };
@@ -95,7 +99,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
       .apiV3Service
       .withOptionalProject(this.CurrentProject.id)
       .work_packages
-      .filtered(filters, { sortBy: '[["updatedAt","desc"]]' })
+      .filtered(filters, { sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]' })
       .get()
       .pipe(
         map((collection) => collection.elements),
@@ -115,22 +119,12 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
 
   @ViewChild(OpAutocompleterComponent) public ngSelectComponent:OpAutocompleterComponent;
 
+  // Please address the disabled eslint rule when making major changes to this file.
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onCancel = new EventEmitter<undefined>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onReferenced = new EventEmitter<WorkPackageResource>();
-
-  constructor(private readonly querySpace:IsolatedQuerySpace,
-    private readonly pathHelper:PathHelperService,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly urlParamsHelper:UrlParamsHelperService,
-    private readonly notificationService:WorkPackageNotificationService,
-    private readonly CurrentProject:CurrentProjectService,
-    private readonly halResourceService:HalResourceService,
-    private readonly schemaCacheService:SchemaCacheService,
-    private readonly cdRef:ChangeDetectorRef,
-    private readonly I18n:I18nService,
-    private readonly wpCardDragDrop:WorkPackageCardDragAndDropService) {
-  }
 
   ngAfterViewInit():void {
     if (!this.ngSelectComponent.ngSelectInstance) {
@@ -152,7 +146,8 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
         .then(() => {
           this.onReferenced.emit(workPackage);
           this.ngSelectComponent.closeSelect();
-        });
+        })
+        .catch((error:unknown) => this.notificationService.handleRawError(error));
     }
   }
 }

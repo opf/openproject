@@ -33,7 +33,7 @@ class EditField
     @field_type = derive_field_type
     @create_form = create_form
 
-    @selector = selector || ".inline-edit--container.#{property_name}"
+    @selector = selector || ".inline-edit--container.#{@property_name.camelize(:lower)}"
   end
 
   def create_form?
@@ -215,7 +215,7 @@ class EditField
   end
 
   def autocompleter_field?
-    field_type.end_with?("-autocompleter")
+    field_type == "ng-select" || field_type.end_with?("-autocompleter")
   end
 
   ##
@@ -321,12 +321,16 @@ class EditField
       "op-user-autocompleter"
     when :priority, :status, :type, :category, :workPackage, :parent, :projectPhase
       "create-autocompleter"
+    when :targetVersions
+      "ng-select"
     when :project
       "op-project-autocompleter"
     when :activity
       "activity-autocompleter"
     when :sprint
       "sprint-autocompleter"
+    when :backlog_bucket
+      "backlog-bucket-autocompleter"
     else
       "input"
     end

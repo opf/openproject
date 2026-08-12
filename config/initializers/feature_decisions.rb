@@ -45,32 +45,17 @@ OpenProject::FeatureDecisions.add :built_in_oauth_applications,
                                   description: "Allows the display and use of built-in OAuth applications.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :calculated_value_project_attribute,
-                                  description: "Allows the use of calculated values as a project attribute.",
-                                  force_active: true
-
 OpenProject::FeatureDecisions.add :minutes_styling_meeting_pdf,
                                   description: "Allow exporting a meeting with FITKO styling. " \
                                                "See #65124 for details."
 
-OpenProject::FeatureDecisions.add :portfolio_models,
-                                  description: "Enables the creation and management of portfolio and program work spaces.",
+OpenProject::FeatureDecisions.add :wiki_enhancements,
+                                  description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :jira_import,
-                                  description: "Enables Jira Migration Tool.",
-                                  force_active: false
+OpenProject::FeatureDecisions.add :type_variants,
+                                  description: "Enables work package type variants."
 
-OpenProject::FeatureDecisions.add :user_working_times,
-                                  description: "Enables tracking of user working hours and non-working days."
-
-OpenProject::FeatureDecisions.add :wiki_enhancements,
-                                  description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration."
-
-OpenProject::FeatureDecisions.add :departments,
-                                  description: "Enables the management of departments within the organization."
-
-OpenProject::FeatureDecisions.add :semantic_work_package_ids,
-                                  description: "Enables the use of semantic work package IDs, " \
-                                               "in the schema <project identifier>-<sequence number>. " \
-                                               "See #41855 for details."
+OpenProject::FeatureDecisions.add :sprint_reports,
+                                  description: "Enables sprint reporting within the backlogs module. " \
+                                               "It shows a dashboard with various widgets regarding the sprint progress."

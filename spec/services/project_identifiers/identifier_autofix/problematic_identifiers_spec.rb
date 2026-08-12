@@ -136,11 +136,15 @@ RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers do
       expect(analysis.error_reason("TAKEN")).to eq(:in_use)
     end
 
-    it "returns :reserved when identifier is a historical slug of another project" do
+    it "returns :used_in_past when identifier is a historical slug of another project" do
       project = create_project_with_raw_identifier(name: "Gamma", identifier: "GAMMA")
       FriendlyId::Slug.create!(slug: "OLDIE", sluggable: project)
 
-      expect(analysis.error_reason("OLDIE")).to eq(:reserved)
+      expect(analysis.error_reason("OLDIE")).to eq(:used_in_past)
+    end
+
+    it "returns :reserved_by_system for model-reserved identifiers" do
+      expect(analysis.error_reason("NEW")).to eq(:reserved_by_system)
     end
 
     it "returns :unknown when no classification matches" do
@@ -156,8 +160,8 @@ RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers do
     end
   end
 
-  describe "#exclusion_set" do
-    subject(:exclusion) { analysis.exclusion_set }
+  describe "#reserved_identifiers_for_admin_preview" do
+    subject(:exclusion) { analysis.reserved_identifiers_for_admin_preview }
 
     let!(:valid_project) { create_project_with_raw_identifier(name: "Alpha", identifier: "ALPHA") }
 
@@ -173,7 +177,7 @@ RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers do
       expect(exclusion).to include("ALPHA")
     end
 
-    it "includes historical slugs (reserved identifiers)" do
+    it "includes historical slugs" do
       FriendlyId::Slug.create!(slug: "OLDALPHA", sluggable_id: valid_project.id, sluggable_type: "Project")
 
       expect(exclusion).to include("OLDALPHA")
@@ -181,6 +185,29 @@ RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers do
 
     it "excludes identifiers from problematic projects" do
       expect(exclusion).not_to include("beta-project")
+    end
+
+    it "includes model-reserved identifiers in uppercase" do
+      expect(exclusion).to include("NEW", "MENU", "FILTERS")
+    end
+  end
+
+  describe ".reserved_identifiers" do
+    subject(:reserved) { described_class.reserved_identifiers }
+
+    it "returns a Set" do
+      expect(reserved).to be_a(Set)
+    end
+
+    it "includes historical slugs in uppercase" do
+      project = create_project_with_raw_identifier(name: "Gamma", identifier: "GAMMA")
+      FriendlyId::Slug.create!(slug: "oldie", sluggable: project)
+
+      expect(reserved).to include("OLDIE")
+    end
+
+    it "includes model-reserved identifiers in uppercase" do
+      expect(reserved).to include("NEW", "MENU", "FILTERS")
     end
   end
 end

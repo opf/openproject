@@ -95,7 +95,13 @@ module Import
         },
         {
           "type" => "array",
-          "items" => "string"
+          "items" => "string",
+          "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:multiselect"
+        },
+        {
+          "type" => "array",
+          "items" => "string",
+          "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:labels"
         }
       ].freeze
 
@@ -244,8 +250,12 @@ module Import
         if cascading_select_as_list?
           flatten_cascading_allowed_values(allowed)
         else
-          allowed.pluck("value").compact.uniq
+          allowed.pluck("value").compact.map { |value| option_label(value) }.compact_blank.uniq
         end
+      end
+
+      def option_label(value)
+        value.to_s.strip
       end
 
       def cascading_select_as_list?
@@ -258,7 +268,7 @@ module Import
       # E.g. Animals -> ["Animals"], Animals / Cat -> ["Animals", "Animals / Cat"]
       def flatten_cascading_allowed_values(allowed_values, parent_path: nil)
         allowed_values.flat_map do |av|
-          label = av["value"]
+          label = option_label(av["value"])
           next [] if label.blank?
 
           full_path = parent_path ? "#{parent_path} / #{label}" : label
@@ -297,7 +307,7 @@ module Import
       def convert_multicheckbox_bool_value(raw_value)
         return false unless raw_value.is_a?(Array)
 
-        raw_value.any? { |v| v["value"] == @option_value }
+        raw_value.any? { |v| option_label(v["value"]) == @option_value }
       end
 
       def convert_user_value(raw_value)
@@ -335,7 +345,7 @@ module Import
       end
 
       def extract_list_label(value)
-        value.is_a?(Hash) ? value["value"] : value.to_s
+        option_label(value.is_a?(Hash) ? value["value"] : value)
       end
 
       # Walks the parent -> child chain of a cascading select value, returning
@@ -344,7 +354,7 @@ module Import
       def extract_cascading_chain(value, parent_path: nil)
         return [] unless value.is_a?(Hash) && value["value"].present?
 
-        label = value["value"]
+        label = option_label(value["value"])
         full_path = parent_path ? "#{parent_path} / #{label}" : label
         [full_path] + extract_cascading_chain(value["child"], parent_path: full_path)
       end
@@ -363,7 +373,7 @@ module Import
       end
 
       def insert_hierarchy_option(service, contract, parent, option)
-        label = option["value"]
+        label = option_label(option["value"])
         return if label.blank?
 
         result = service.insert_item(contract_class: contract, parent:, label:)
@@ -392,7 +402,7 @@ module Import
         root = custom_field.hierarchy_root
         return unless root
 
-        parent_item = root.children.find_by(label: raw_value["value"])
+        parent_item = root.children.find_by(label: option_label(raw_value["value"]))
         return unless parent_item
 
         find_hierarchy_child(parent_item, raw_value["child"])&.id || parent_item.id
@@ -401,7 +411,7 @@ module Import
       def find_hierarchy_child(parent_item, child_data)
         return unless child_data.is_a?(Hash) && child_data["value"].present?
 
-        parent_item.children.find_by(label: child_data["value"])
+        parent_item.children.find_by(label: option_label(child_data["value"]))
       end
 
       def find_field_user(jira_user_key)

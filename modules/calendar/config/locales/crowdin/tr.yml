@@ -1,13 +1,12 @@
-#English strings go here
 ---
 tr:
-  plugin_openproject_calendar:
-    name: OpenProject Takvim
-    description: Takvim görünümleri sağlar.
   label_calendar: Takvim
   label_calendar_plural: Takvimler
   label_new_calendar: Yeni takvim
-  permission_view_calendar: Takvimleri görüntüleme
   permission_manage_calendars: Takvimleri yönetme
   permission_share_calendars: iCalendars'a abone olun
+  permission_view_calendar: Takvimleri görüntüleme
+  plugin_openproject_calendar:
+    description: Takvim görünümleri sağlar.
+    name: OpenProject Takvim
   project_module_calendar_view: Takvimler

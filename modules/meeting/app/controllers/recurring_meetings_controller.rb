@@ -392,7 +392,8 @@ class RecurringMeetingsController < ApplicationController
   def recurring_meeting_params
     params
       .expect(meeting: %i[project_id title location start_time_hour duration start_date
-                          interval frequency end_after end_date iterations notify])
+                          interval frequency monthly_day monthly_ordinal monthly_weekday
+                          end_after end_date iterations notify])
   end
 
   def find_copy_from_meeting
@@ -422,7 +423,7 @@ class RecurringMeetingsController < ApplicationController
       .not_cancelled
       .exists?(recurrence_start_time: @first_occurrence)
 
-    if is_scheduled
+    if is_scheduled && !@recurring_meeting.template.draft?
       flash[:info] = I18n.t("recurring_meeting.occurrence.first_already_exists")
       redirect_to action: :show, status: :see_other
     end

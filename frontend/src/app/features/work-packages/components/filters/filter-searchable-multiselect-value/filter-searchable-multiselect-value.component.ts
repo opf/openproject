@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   Observable,
@@ -10,16 +38,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { take } from 'rxjs/internal/operators/take';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -44,6 +63,14 @@ import { MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE } from 'core-app/core/apiv3/helpers
   standalone: false,
 })
 export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit {
+  readonly halResourceService = inject(HalResourceService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly I18n = inject(I18nService);
+  protected currentProject = inject(CurrentProjectService);
+  protected currentUser = inject(CurrentUserService);
+  readonly halNotification = inject(HalResourceNotificationService);
+
   @Input() public filter:QueryFilterInstanceResource;
 
   @Input() public shouldFocus = false;
@@ -63,12 +90,12 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   initialRequest$:Observable<CollectionResource>;
 
-  itemTracker = (item:HalResource):string => item.href || item.id || item.name;
+  itemTracker = (item:HalResource):string => item.href ?? item.id ?? item.name;
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;
     const project = item.definingProject as HalResource | undefined;
-    return project?.name || this.I18n.t('js.project.not_available');
+    return project?.name ?? this.I18n.t('js.project.not_available');
   };
 
   compareByHref = compareByHref;
@@ -85,20 +112,8 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
-  constructor(
-    readonly halResourceService:HalResourceService,
-    readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-    protected currentProject:CurrentProjectService,
-    protected currentUser:CurrentUserService,
-    readonly halNotification:HalResourceNotificationService,
-  ) {
-    super();
-  }
-
   ngOnInit():void {
-    if (this.filter.id === 'id') {
+    if (this.filter.id === 'id' || this.filter.id === 'parent' || this.filter.id === 'ancestor') {
       this.resourceType = 'work_packages';
     }
 
@@ -115,9 +130,11 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       .pipe(
         switchMap((initialLoad) => {
           // If we already loaded all values, just compare in the frontend.
-          // However, for work package ID filter, always make XHR requests to use typeahead filter
-          // which supports searching by type and status names.
-          if (this.filter.id !== 'id' && initialLoad.count === initialLoad.total) {
+          // However, for work-package-referencing filters (ID/Parent/Ancestor), always make
+          // XHR requests to use the typeahead filter, which supports searching by type/status
+          // names and semantic identifiers (and ranks exact matches first) — none of which the
+          // client-side substring matching below (over plain id/name) can do.
+          if (this.resourceType !== 'work_packages' && initialLoad.count === initialLoad.total) {
             return this.matchingItems(this.filterEmptyElements(initialLoad.elements), matching);
           }
 
@@ -156,10 +173,18 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   private loadCollection(matching:string):Observable<CollectionResource> {
     const filters:ApiV3FilterBuilder = this.createFilters(matching);
+    const params:Record<string, string> = { pageSize: `${MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE}` };
+
+    // exact_match is a work-package-only sortable column (see ExactMatchSelect) —
+    // sending it for any other resource type's allowed-values collection (Version,
+    // User, ...) would fail that resource's sort validation and empty the picker.
+    if (this.resourceType === 'work_packages') {
+      params.sortBy = '[["exactMatch","desc"],["updatedAt","desc"]]';
+    }
 
     return (this.apiV3Service.collectionFromString(this.allowedValuesLink) as
       ApiV3ResourceCollection<HalResource, ApiV3Resource>)
-      .filtered(filters, { pageSize: `${MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE}` })
+      .filtered(filters, params)
       .get();
   }
 
@@ -215,12 +240,12 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   private get isUserResource() {
-    const type = _.get(this.filter.currentSchema, 'values.type', null) as string;
-    return type && type.indexOf('User') > 0;
+    const type = this.filter.currentSchema?.values?.type;
+    return !!type && type.indexOf('User') > 0;
   }
 
   private get isVersionResource() {
-    const type = _.get(this.filter.currentSchema, 'values.type', null) as string;
-    return type && type.indexOf('Version') > 0;
+    const type = this.filter.currentSchema?.values?.type;
+    return !!type && type.indexOf('Version') > 0;
   }
 }

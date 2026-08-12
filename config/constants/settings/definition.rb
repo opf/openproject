@@ -81,6 +81,11 @@ module Settings
       organization_name: {
         default: "My Organization"
       },
+      attachment_default_charset: {
+        description: "Fallback charset used when serving text attachments whose encoding was not detected on upload",
+        format: :string,
+        default: "utf-8"
+      },
       attachment_max_size: {
         default: 5120
       },
@@ -311,6 +316,10 @@ module Settings
       cross_project_work_package_relations: {
         default: true
       },
+      csv_escape_formulas: {
+        default: true,
+        description: "Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@)"
+      },
       database_cipher_key: {
         description: "Encryption key for repository credentials",
         format: :string,
@@ -464,18 +473,20 @@ module Settings
         env_alias: "EMAIL_DELIVERY_METHOD"
       },
       emails_salutation: {
-        allowed: %w[firstname name],
+        allowed: %i[firstname name],
         default: :firstname
       },
       emails_footer: {
         default: {
           "en" => ""
-        }
+        },
+        string_values: true
       },
       emails_header: {
         default: {
           "en" => ""
-        }
+        },
+        string_values: true
       },
       # use email address as login, hide login in registration form
       email_login: {
@@ -656,6 +667,11 @@ module Settings
         default: {},
         writable: false # cached in global variable
       },
+      ical_feed_keep_closed_meetings_days: {
+        description: "Number of days to keep closed and in-progress one-time meetings in iCal feeds",
+        format: :integer,
+        default: 30
+      },
       impressum_link: {
         description: "Impressum link to be set, hidden by default",
         format: :string,
@@ -681,7 +697,8 @@ module Settings
         default: 7
       },
       journal_aggregation_time_minutes: {
-        default: 5
+        default: 5,
+        allowed: 0..120
       },
       ldap_force_no_page: {
         description: "Force LDAP to respond as a single page, in case paged responses do not work with your server.",
@@ -690,6 +707,10 @@ module Settings
       },
       ldap_groups_disable_sync_job: {
         description: "Deactivate regular synchronization job for groups in case scheduled as a separate cronjob",
+        default: false
+      },
+      ldap_departments_disable_sync_job: {
+        description: "Deactivate regular synchronization job for departments in case scheduled as a separate cronjob",
         default: false
       },
       ldap_users_disable_sync_job: {
@@ -815,6 +836,9 @@ module Settings
       },
       password_active_rules: {
         default: %w[lowercase uppercase numeric special],
+        default_by_env: {
+          test: []
+        },
         allowed: %w[lowercase uppercase numeric special]
       },
       password_count_former_banned: {
@@ -824,10 +848,9 @@ module Settings
         default: 0
       },
       password_min_length: {
-        default: 10
-      },
-      password_min_adhered_rules: {
-        default: 0
+        default: 10,
+        format: :integer,
+        allowed: -> { 1..Setting::PASSWORD_MAX_LENGTH }
       },
       # TODO: turn into array of ints
       # Requires a migration to be written
@@ -955,6 +978,13 @@ module Settings
         writable: false,
         description: "Host the frontend uses to download files, which has to be added to the CSP."
       },
+      # Content Security Policy
+      csp_img_src: {
+        format: :array,
+        default: %w(* data: blob:),
+        writable: false,
+        description: "Allowed sources for the CSP img-src directive."
+      },
       report_incoming_email_errors: {
         description: "Respond to incoming mails with error details",
         default: true
@@ -984,6 +1014,12 @@ module Settings
       },
       repository_truncate_at: {
         default: 500
+      },
+      scim_clients: {
+        description: "Configure SCIM clients through environment variables",
+        writable: false,
+        default: [],
+        format: :array
       },
       scm: {
         format: :hash,
@@ -1277,6 +1313,11 @@ module Settings
       users_deletable_by_admins: {
         default: false
       },
+      user_can_change_email: {
+        description: "Whether users can change their own email addresses",
+        default: true,
+        format: :boolean
+      },
       user_default_theme: {
         default: "light",
         format: :string,
@@ -1317,6 +1358,17 @@ module Settings
       work_package_done_ratio: {
         default: "field",
         allowed: %w[field status]
+      },
+      work_package_multiple_versions: {
+        description: "Enable multiple version assignments on work packages.",
+        format: :boolean,
+        default: true
+      },
+      work_packages_activities_tab_polling_interval_in_ms: {
+        description: "Interval in milliseconds at which the work package activities tab polls for updates.",
+        format: :integer,
+        default: 10_000,
+        allowed: 1000..10_000
       },
       work_packages_projects_export_limit: {
         default: 500

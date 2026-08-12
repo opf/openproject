@@ -3,58 +3,66 @@ zh-TW:
   js:
     grid:
       add_widget: 新增小工具
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: 移除小工具
       configure: 設定小工具
+      remove: 移除小工具
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: 您沒有必要的權限來檢視小工具。
-        not_available: This widget is currently unavailable.
         custom_text:
           title: 自訂文字
         documents:
-          title: 文件
           no_results: 尚未有文檔。
+          title: 文件
         members:
           title: 成員
+        missing_permission: 您沒有必要的權限來檢視小工具。
         news:
           title: 最新消息
+        not_available: This widget is currently unavailable.
         project_description:
           title: 說明
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: 收藏的專案
         project_status:
-          title: 狀態
-          not_started: 未開始
-          on_track: 如期進行
-          off_track: 進度落後
           at_risk: 存在風險
-          not_set: 未設定
-          finished: 已完成
           discontinued: 已中止
+          finished: 已完成
+          not_set: 未設定
+          not_started: 未開始
+          off_track: 進度落後
+          on_track: 如期進行
+          title: 狀態
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: 子項目
-        project_favorites:
-          title: 收藏的專案
-          no_results: 您目前沒有收藏的專案。點擊項目儀表板中的星形圖示將其新增到您的收藏夾中。
         time_entries_current_user:
-          title: 我的工時
           displayed_days: 小工具顯示天數
+          title: 我的工時
         time_entries_list:
-          title: 工時（最近7天）
           no_results: 過去7天沒有時間記錄。
+          title: 工時（最近7天）
         work_packages_accountable:
           title: 我負責的工作套件
         work_packages_assigned:
           title: 分配給我的工作套件
-        work_packages_created:
-          title: 我所建立的工作套件
-        work_packages_watched:
-          title: 我所關注的工作套件
-        work_packages_table:
-          title: 工作套件表單
-        work_packages_graph:
-          title: 工作套件關聯圖
-          summary: "%{chartType} 圖表，顯示符合 %{description} 條件的工作套件。"
         work_packages_calendar:
           title: 行事曆
+        work_packages_created:
+          title: 我所建立的工作套件
+        work_packages_graph:
+          summary: "%{chartType} 圖表，顯示符合 %{description} 條件的工作套件。"
+          title: 工作套件關聯圖
         work_packages_overview:
-          title: 工作套件總覽
           placeholder: 點擊編輯
+          title: 工作套件總覽
+        work_packages_table:
+          title: 工作套件表單
+        work_packages_watched:
+          title: 我所關注的工作套件

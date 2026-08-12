@@ -183,6 +183,34 @@ RSpec.describe UserNonWorkingTime do
     end
   end
 
+  describe ".overlapping" do
+    let(:user) { create(:user) }
+    # The model forbids a user's ranges from overlapping each other, so these are
+    # spaced apart; each tests a different relationship to the query range.
+    let(:query_range) { Date.new(2025, 3, 10)..Date.new(2025, 3, 20) }
+    let!(:overlapping_start) do
+      create(:user_non_working_time, user:, start_date: Date.new(2025, 3, 5), end_date: Date.new(2025, 3, 11))
+    end
+    let!(:fully_inside) do
+      create(:user_non_working_time, user:, start_date: Date.new(2025, 3, 13), end_date: Date.new(2025, 3, 15))
+    end
+    let!(:touching_boundary) do
+      create(:user_non_working_time, user:, start_date: Date.new(2025, 3, 20), end_date: Date.new(2025, 3, 22))
+    end
+    let!(:before_range) do
+      create(:user_non_working_time, user:, start_date: Date.new(2025, 3, 1), end_date: Date.new(2025, 3, 3))
+    end
+
+    it "returns records overlapping the range, inclusive of the boundaries" do
+      expect(described_class.overlapping(query_range))
+        .to contain_exactly(fully_inside, overlapping_start, touching_boundary)
+    end
+
+    it "excludes records entirely outside the range" do
+      expect(described_class.overlapping(query_range)).not_to include(before_range)
+    end
+  end
+
   describe ".for_year" do
     let(:user) { create(:user) }
     let!(:range_within_year) do

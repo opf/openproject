@@ -33,7 +33,7 @@ module Projects::Scopes::ShareSprintsWithSubprojects
 
   class_methods do
     def share_sprints_with_subprojects
-      with_settings(sprint_sharing: Projects::SprintSharing::SHARE_SUBPROJECTS)
+      with_settings(sprint_sharing: Projects::SprintSettings::SHARE_SUBPROJECTS)
     end
   end
 end

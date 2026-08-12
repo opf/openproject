@@ -3,58 +3,66 @@ sl:
   js:
     grid:
       add_widget: Dodaj gradnik
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Odstrani gradnik
       configure: Oblikuj gradnik
+      remove: Odstrani gradnik
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: You don't have the necessary permissions to view this widget.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Besedilo po meri
         documents:
-          title: Dokumenti
           no_results: 'Ni še dokumentov. '
+          title: Dokumenti
         members:
           title: Člani
+        missing_permission: You don't have the necessary permissions to view this widget.
         news:
           title: Novice
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favorite projects
         project_status:
-          title: Status
-          not_started: Ni začeto
-          on_track: Na dobri poti
-          off_track: Izven poti
           at_risk: Ogroženo
-          not_set: Ni nastavljeno
-          finished: Končano
           discontinued: Opuščeno
+          finished: Končano
+          not_set: Ni nastavljeno
+          not_started: Ni začeto
+          off_track: Izven poti
+          on_track: Na dobri poti
+          title: Status
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Favorite projects
-          no_results: You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.
         time_entries_current_user:
-          title: Moj porabljen čas
           displayed_days: 'Dnevi prikazani v gradniku:'
+          title: Moj porabljen čas
         time_entries_list:
-          title: 'Porabljen čas (zadnjih 7 dni) '
           no_results: 'Nobenih zapisov časa zadnjih 7 dni. '
+          title: 'Porabljen čas (zadnjih 7 dni) '
         work_packages_accountable:
           title: Delovni paketi, za katere sem odgovoren
         work_packages_assigned:
           title: Delovni paketi, ki so mi bili dodeljeni
-        work_packages_created:
-          title: Delovni paketi, ki sem jih ustvaril
-        work_packages_watched:
-          title: Delovni paketi, ki jih opazujem
-        work_packages_table:
-          title: Tabela delovnih paketov
-        work_packages_graph:
-          title: Graf delovnih paketov
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Koledar
+        work_packages_created:
+          title: Delovni paketi, ki sem jih ustvaril
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Graf delovnih paketov
         work_packages_overview:
-          title: Pregled delovnih paketov
           placeholder: 'Klikni za urejanje... '
+          title: Pregled delovnih paketov
+        work_packages_table:
+          title: Tabela delovnih paketov
+        work_packages_watched:
+          title: Delovni paketi, ki jih opazujem

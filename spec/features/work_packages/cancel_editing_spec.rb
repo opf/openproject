@@ -72,6 +72,8 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
       find(".op-logo--link").click
     end
 
+    expect(page).to have_current_path("/", ignore_query: true)
+    expect(page).to have_no_css("#wp-new-inline-edit--field-subject")
     expect(page).to have_css("#projects-menu", text: "All projects")
   end
 
@@ -109,7 +111,7 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
 
     # Edit subject in split page
     split_page = wp_table.open_split_view(work_package)
-    version = split_page.edit_field :version
+    version = split_page.edit_field :targetVersions
     version.activate!
 
     # Decline move, expect field still active
@@ -122,7 +124,7 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
     # Now accept to move to the second page
     split_page = wp_table.open_split_view(work_package2)
     page.driver.browser.switch_to.alert.accept
-    version = split_page.edit_field :version
+    version = split_page.edit_field :targetVersions
     version.expect_inactive!
   end
 
@@ -152,15 +154,18 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
 
     # Try to move back to list, expect warning
     page.execute_script("window.history.back()")
+    expect(wp_page).to have_alert_dialog
     wp_page.dismiss_alert_dialog!
+    description.expect_active!
 
     # Now cancel the field
     description.cancel_by_click
+    description.expect_inactive!
 
     # Now we should be able to get back to list
     page.execute_script("window.history.back()")
 
-    expect(wp_page.has_alert_dialog?).to be false
+    wait_for { wp_page.has_alert_dialog? }.to be false
   end
 
   context "when user does not want to be warned" do

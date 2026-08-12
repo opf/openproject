@@ -74,7 +74,7 @@ RSpec.describe "Delete Document",
           expect(page).to have_text "This will permanently delete this document and all file attachments. " \
                                     "Are you sure you want to do this?"
 
-          check "I understand that this deletion cannot be reversed"
+          check "I understand that this deletion cannot be reversed."
           click_on "Delete permanently"
         end
 
@@ -134,7 +134,7 @@ RSpec.describe "Delete Document",
             expect(page).to have_text "This will permanently delete this document and all file attachments. " \
                                       "Are you sure you want to do this?"
 
-            check "I understand that this deletion cannot be reversed"
+            check "I understand that this deletion cannot be reversed."
             click_on "Delete permanently"
           end
 

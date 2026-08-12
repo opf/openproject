@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -268,7 +268,7 @@ export function registerWorkPackageMouseHandler(this:void,
       .save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
-        const ids = _.map(querySpace.tableRendered.value, (row) => row.workPackageId);
+        const ids = (querySpace.tableRendered.value ?? []).map((row) => row.workPackageId);
         return apiv3Service
           .work_packages
           .filterUpdatedSince(ids, updatedAt)

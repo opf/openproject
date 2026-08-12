@@ -38,7 +38,8 @@
   &-input-wrap[invalid='true'] input:not(:focus)
     border-color: var(--control-borderColor-danger)
 
-  &-spacingWrapper > :empty
+  &-spacingWrapper > :empty,
+  &-spacingWrapper:not(:has(> :not([hidden])))
     display: none
 
 .UnderlineNav
@@ -156,20 +157,6 @@ ul.SegmentedControl,
   .ActionListItem-label[class^="__hl_"], .ActionListItem-label[class*=" __hl_"]
     color: var(--control-fgColor-disabled) !important
 
-.Box-row--focus-gray
-  &:focus-visible
-    background-color: var(--bgColor-muted)
-
-.Box-row--focus-blue
-  &:focus-visible
-    background-color: var(--bgColor-accent-muted)
-
-.Box-row--clickable
-  cursor: pointer
-
-.Box-row:is(.Box-row--draggable)
-  padding-left: 0
-
 // Apply the mobile styles as soon as the banner itself is small
 // Styles are copied from the PVC repo
 .op-primer-flash
@@ -185,3 +172,44 @@ ul.SegmentedControl,
 
       & .Banner-actions
         margin: var(--base-size-8) 0 0 var(--base-size-8)
+
+// Bug in @openproject/primer-view-components: .FormControl-checkbox:indeterminate
+// has no background rule, and :indeterminate:before doesn't cancel checkmarkOut
+.FormControl-checkbox:indeterminate
+  background: var(--control-checked-bgColor-rest, var(--color-accent-fg))
+  border-color: var(--control-checked-borderColor-rest, var(--color-accent-fg))
+
+  &:before
+    animation: none
+    clip-path: inset(0)
+
+  // Mirror Primer's :checked:disabled so a disabled indeterminate box reads as
+  // inactive instead of keeping the accent background from the rule above
+  &:disabled
+    background: var(--control-fgColor-disabled)
+    border-color: var(--control-fgColor-disabled)
+    cursor: not-allowed
+
+// At some point in time, this needs to be extracted into a proper component,
+// something like `FilterableTreeViewSelectPanel`
+@mixin keep-project-select-actions-clear-of-scrollbar
+  .TreeViewItemContainer
+    width: calc(100% - var(--base-size-16))
+
+.op-project-select--body
+  .FilterableTreeViewLayout
+    > .Stack
+      padding-right: var(--base-size-16)
+    .FilterableTreeViewTreeContainer
+      scrollbar-gutter: stable
+
+      // Overlay scrollbars can cover the tree content on narrow screens and
+      // touch devices.
+      @media screen and (max-width: $breakpoint-sm), (pointer: coarse)
+        @include keep-project-select-actions-clear-of-scrollbar
+
+      // Firefox on Windows can render the scrollbar over the tree content,
+      // so keep trailing actions out of that area.
+      // see https://bugzilla.mozilla.org/show_bug.cgi?id=1980289
+      body.-browser-windows.-browser-firefox &
+        @include keep-project-select-actions-clear-of-scrollbar

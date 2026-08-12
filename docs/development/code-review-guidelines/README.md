@@ -95,7 +95,7 @@ If you're ready to perform a review for a pull request, do these things:
 
 ### Correctness
 
-As a reviewer, your job is not to make sure that the code is what you would have written – *because it will not be*. Your job as a reviewer of a piece of code is to make sure that the code as written by its author is correct.
+As a reviewer, your job is not to make sure that the code is what you would have written – _because it will not be_. Your job as a reviewer of a piece of code is to make sure that the code as written by its author is correct.
 
 Try to think of edge cases when testing or evaluating the code, double check the test coverage. But do not frown if you merged the pull request and something broke after all. This is the learning path to avoiding this mistake on the next attempt. Not doing a review in the first place will not move you forward either.
 
@@ -130,9 +130,9 @@ If there are breaking changes (e.g., to permissions, code relevant for developer
 
 The reviewer should understand the code without explanations outside the code.
 
-*There is never anything wrong with just saying “Yup, looks good”. If you constantly go hunting to try to find something to criticize, then all that you accomplish is to wreck your own credibility.*
+_There is never anything wrong with just saying “Yup, looks good”. If you constantly go hunting to try to find something to criticize, then all that you accomplish is to wreck your own credibility._
 
-*You should not rush through a code review – but also, you need to do it promptly. Your coworkers are waiting for you.*
+_You should not rush through a code review – but also, you need to do it promptly. Your coworkers are waiting for you._
 
 ## Completing the review
 
@@ -155,7 +155,7 @@ The only exception to this rule are single commit pull requests, which can be ap
 
 ## Citations
 
-[Things everyone should do: code review](https://blog.csdn.net/zhangmike/article/details/30198411)
+[Things everyone should do: code review](https://goodmath.scientopia.org/2011/07/06/things-everyone-should-do-code-review/)
 
 [Why code reviews are good for you](https://beust.com/weblog/2006/06/22/why-code-reviews-are-good-for-you/)
 

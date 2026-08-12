@@ -35,15 +35,17 @@ module Projects
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
 
-        def initialize(project:)
+        def initialize(project:,
+                       only_fallback_allowed: false)
           super
 
           @project = project
+          @only_fallback_allowed = only_fallback_allowed
         end
 
         private
 
-        attr_reader :project
+        attr_reader :project, :only_fallback_allowed
       end
     end
   end

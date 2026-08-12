@@ -23,6 +23,10 @@ properties:
   position:
     type: integer
     description: The position of the section within the meeting.
+  backlog:
+    type: boolean
+    description: |-
+      Whether this section is the meeting's backlog. Backlog sections are read-only via the API.
   createdAt:
     type: string
     format: date-time

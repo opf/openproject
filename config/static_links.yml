@@ -51,7 +51,7 @@ enterprise_features:
   custom_field_multiselect:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field
   custom_field_projects:
-    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/
+    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects
   customize_life_cycle:
     href: https://www.openproject.org/docs/system-admin-guide/projects/project-life-cycle/
   default:
@@ -184,10 +184,12 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions
   ldap:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/ldap-connections/
+  ldap_group_sync:
+    href: https://www.openproject.org/docs/system-admin-guide/authentication/ldap-connections/ldap-group-synchronization/
   mcp_resources:
-   href: https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/#resources
+    href: https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/#resources
   mcp_tools:
-   href: https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/#tools
+    href: https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/#tools
   oidc:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/
   oidc_acr_values:
@@ -196,6 +198,8 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-8-claims
   oidc_groups:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-7-group-mapping
+  project_identifier_visibility:
+    href: https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#project-identifier-visibility
   saml:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/saml/
   scim:
@@ -204,6 +208,8 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/scim/#step-3-choose-an-authentication-method
   scim_jwt_authetication_method:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/scim/#c-jwt-from-identity-provider
+  ssrf_protection:
+    href: https://www.openproject.org/docs/installation-and-operations/configuration/ssrf-protection/
 terms_of_service:
   href: https://www.openproject.org/terms-of-service/
 text_formatting:
@@ -242,3 +248,7 @@ webinar_videos:
 website:
   href: https://www.openproject.org
   label: label_openproject_website
+jira_migrator_project:
+  href: https://community.openproject.org/projects/jira-migration/dashboard
+backup_guide:
+  href: https://www.openproject.org/docs/installation-and-operations/operation/backing-up/

@@ -1,15 +1,11 @@
-#English strings go here for Rails i18n
 ---
 cs:
-  plugin_openproject_two_factor_authentication:
-    name: Dvoufaktorové ověření OpenProject
-    description: Tento OpenProject plugin ověřuje vaše uživatele pomocí dvoufaktorového ověřování pomocí jednorázového hesla přes TOTP standard (Google Authenticator) nebo zasílá uživateli mobilní telefon přes SMS nebo hlasový hovor.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: Identifikátor
-        default: Použít jako výchozí
         channel: Kanál
+        default: Použít jako výchozí
+        identifier: Identifikátor
       two_factor_authentication/device/sms:
         phone_number: Telefonní číslo
       two_factor_authentication/device/webauthn:
@@ -28,32 +24,138 @@ cs:
       two_factor_authentication/device/sms: Mobilní telefon
       two_factor_authentication/device/totp: Ověřovací aplikace
       two_factor_authentication/device/webauthn: WebAuthn
+  button_continue: Pokračovat
+  button_make_active: Activate
+  button_make_default: Označit jako výchozí
+  button_otp_by_sms: SMS
+  button_otp_by_voice: Hovor
+  button_resend_otp_form: Znovu odeslat
+  field_otp: Jednorázové heslo
+  label_confirmed: Potvrzený
+  label_otp_channel: Doručovací kanál
+  notice_account_has_no_phone: S vaším účtem není přiřazeno žádné telefonní číslo.
+  notice_account_otp_expired: Zadané jednorázové heslo vypršelo.
+  notice_account_otp_invalid: Neplatné jednorázové heslo.
+  notice_account_otp_send_failed: Vaše jednorázové heslo nelze odeslat.
+  notice_developer_strategy_otp: 'Vývojářská strategie vytvořila toto jednorázové heslo: %{token} (kanál: %{channel})'
+  notice_phone_number_format: 'Zadejte číslo v následujícím formátu: +XX XXXXXXXX.'
+  plugin_openproject_two_factor_authentication:
+    description: Tento OpenProject plugin ověřuje vaše uživatele pomocí dvoufaktorového ověřování pomocí jednorázového hesla přes TOTP standard (Google Authenticator) nebo zasílá uživateli mobilní telefon přes SMS nebo hlasový hovor.
+    name: Dvoufaktorové ověření OpenProject
+  text_otp_not_receive: Jiné metody ověřování
+  text_send_otp_again: 'Znovu odeslat jednorázové heslo přes:'
   two_factor_authentication:
+    admin:
+      all_devices_deleted: Byla odstraněna všechna 2FA zařízení tohoto uživatele
+      button_delete_all_devices: Odstranit registrovaná 2FA zařízení
+      button_register_mobile_phone_for_user: Registrovat mobilní telefon
+      delete_all_are_you_sure: Opravdu chcete odstranit všechna 2FA zařízení tohoto uživatele?
+      no_devices_for_user: Žádné 2FA zařízení není pro tohoto uživatele zaregistrováno.
+      only_sms_allowed: Pro ostatní uživatele lze nastavit pouze doručení SMS.
+      self_edit_forbidden: Na této cestě nelze upravit vlastní 2FA zařízení. Místo toho přejděte na Můj účet > Dvoufázové ověřování.
+      self_edit_path_html: Chcete-li přidat nebo upravit vlastní zařízení 2FA, přejděte na stránku [Dvoufázové ověření na vašem účtu](self_edit_link)
+      text_2fa_disabled: Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'
+      text_2fa_enabled: Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení.
+    backup_codes:
+      generate:
+        keep_safe_as_password: Důležité! Považujte a zacházejte s tyto kódy jako s hesly.
+        keep_safe_warning: Buď je uložte ve správci hesel, nebo vytiskněte tuto stránku a vložte na bezpečné místo.
+        regenerate_warning: 'Upozornění: Pokud jste dříve vytvořili záložní kódy, budou zneplatněny a již nebudou fungovat.'
+        title: Generovat záložní kódy
+      overview_description: |
+        Pokud nejste schopni přihlásit ke svým dvou faktorovým zařízením, můžete použít záložní kód k opětovnému získání přístupu k vašemu účtu.
+        Použijte následující tlačítko pro vygenerování nové sady záložních kódů.
+      plural: Záložní kódy
+      singular: Záložní kód
+    channel_unavailable: Doručovací kanál %{channel} není k dispozici.
+    devices:
+      2fa_from_input_html: Zadejte prosím kód z Vašeho zařízení <strong>%{device_name}</strong> pro ověření Vaší identity.
+      2fa_from_webauthn_html: Zadejte prosím zařízení WebAuthn <strong>%{device_name}</strong>. Pokud je založeno na USB, ujistěte se, že ho připojíte a dotknete se ho. Poté klikněte na tlačítko Přihlásit se.
+      add_new: Přidat nové 2FA zařízení
+      button_complete_registration: Dokončete 2FA registraci
+      cannot_delete_default: Nelze odstranit výchozí zařízení
+      confirm_default: Potvrdit změnu výchozího zařízení
+      confirm_device: Potvrdit zařízení
+      confirm_now: Nepotvrzeno, klikněte zde pro aktivaci
+      confirm_send_failed: Potvrzení 2FA zařízení se nezdařilo.
+      deletion_are_you_sure: Jste si jisti, že chcete odstranit toto 2FA zařízení?
+      failed_to_delete: Smazání 2FA zařízení se nezdařilo.
+      is_default_cannot_delete: Zařízení je označeno jako výchozí a nemůže být odstraněno z důvodu aktivní bezpečnostní politiky. Před smazáním označte jiné zařízení jako výchozí.
+      make_default_are_you_sure: Jste si jisti, že chcete nastavit toto 2FA zařízení?
+      make_default_failed: Nepodařilo se aktualizovat výchozí 2FA zařízení.
+      not_existing: Žádné 2FA zařízení nebylo zaregistrováno pro váš účet.
+      register: Registrovat zařízení
+      registration_complete: Registrace 2FA zařízení dokončena!
+      registration_failed_token_invalid: Registrace 2FA zařízení selhala, token byl neplatný.
+      registration_failed_update: Registrace 2FA zařízení selhala, token byl platný, ale zařízení nelze aktualizovat.
+      sms:
+        description: 'Při každém přihlášení obdržíte kód 2FA prostřednictvím textové zprávy na telefon.
+
+          '
+        redacted_identifier: Mobilní zařízení (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}, zaslali jsme Vám ověřovací kód přes %{delivery_channel}"
+        title: Mobilní zařízení
+      text_confirm_to_change_default_html: Potvrďte prosím změnu výchozího zařízení na <strong>%{new_identifier}</strong> zadáním jednorázového hesla z aktuálního výchozího zařízení.
+      text_confirm_to_complete_html: Prosím dokončete registraci zařízení <strong>%{identifier}</strong> zadáním jednorázového hesla z výchozího zařízení.
+      text_identifier: Můžete dát zařízení vlastní identifikátor pomocí tohoto pole.
+      totp:
+        account: Název účtu / vydavatel
+        description: 'Použijte jednorázový kód vygenerovaný autentizační aplikací jako je Authy nebo Google Authenticator.
+
+          '
+        provisioning_uri: Poskytování URI
+        question_cannot_scan: 'Nelze naskenovat kód pomocí vaší aplikace?
+
+          '
+        secret_key: Tajný klíč
+        setup: |
+          Pro nastavení dvoufaktorového ověřování pomocí Google Authenticator, stáhněte si aplikaci z Apple App Store nebo Google Play Store.
+          Po otevření aplikace můžete naskenovat následující QR kód pro registraci zařízení.
+        text_cannot_scan: 'Pokud nemůžete naskenovat kód, můžete zadat položku ručně pomocí následujících údajů:
+
+          '
+        time_based: Na základě času
+        title: Autentifikátor založený na aplikaci
+      webauthn:
+        description: Zaregistrujte zařízení FIDO2 (jako YubiKey) nebo zabezpečenou enklávu vašeho mobilního zařízení.
+        further_steps: Po zvolení jména můžete kliknout na tlačítko Pokračovat. Váš prohlížeč vás vyzve, abyste prezentovali vaše WebAuthn zařízení. Až tak učiníte, jste zařízení zaregistrovali.
+        title: WebAuthn
     error_2fa_disabled: 2FA doručení bylo zakázáno.
-    notice_not_writable: Nastavení 2FA byla poskytnuta prostřednictvím proměnných prostředí a nelze je přepsat.
+    error_invalid_backup_code: Neplatný 2FA záložní kód
+    error_is_enforced_not_active: 'Chyba konfigurace: Dvoufázové ověření bylo vynuceno, ale žádná aktivní strategie neexistuje.'
     error_no_device: Žádné registrované 2FA zařízení pro tohoto uživatele nebylo nalezeno, přestože bylo nezbytné pro tuto instanci.
     error_no_matching_strategy: Žádná odpovídající 2FA strategie pro tohoto uživatele. Obraťte se prosím na svého administrátora.
-    error_is_enforced_not_active: 'Chyba konfigurace: Dvoufázové ověření bylo vynuceno, ale žádná aktivní strategie neexistuje.'
-    error_invalid_backup_code: Neplatný 2FA záložní kód
-    channel_unavailable: Doručovací kanál %{channel} není k dispozici.
-    no_valid_phone_number: Neexistuje žádné platné telefonní číslo.
-    label_device_type: Typ zařízení
+    forced_registration:
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+    label_2fa_disabled: Dvoufázové ověřování není aktivní
+    label_2fa_enabled: Dvoufázové ověřování je aktivní
     label_default_device: Výchozí 2FA zařízení
     label_device: 2FA zařízení
+    label_device_type: Typ zařízení
     label_devices: 2FA zařízení
-    label_2fa_enabled: Dvoufázové ověřování je aktivní
-    label_2fa_disabled: Dvoufázové ověřování není aktivní
-    text_otp_delivery_message_sms: Vaše jednorázové heslo pro %{app_title} je %{token}
-    text_otp_delivery_message_voice: 'Vaše jednorázové heslo pro %{app_title} je: %{pause} %{token}. %{pause} opakuji: %{pause} %{token}'
-    text_2fa_enabled: Při každém přihlášení bude vyžadováno zadání jednorázového hesla z Vašeho výchozího 2FA zařízení.
-    text_2fa_disabled: Pro zapnutí dvoufázového ověřování klikněte na tlačítko výše, abyste zaregistrovali nové 2FA zařízení. Pokud již zařízení máte, musíte ho nastavit jako výchozí.
+    label_two_factor_authentication: Dvoufázové ověření
     login:
-      enter_backup_code_title: Zadejte záložní kód
       enter_backup_code_text: Zadejte prosím platný záložní kód z Vašeho seznamu kódů, pokud již nemáte přístup k Vašim zaregistrovaným 2FA zařízením.
+      enter_backup_code_title: Zadejte záložní kód
       other_device: Použít jiné zařízení nebo záložní kód
+    message_bird:
+      sms_delivery_failed: Odeslání MessageBird SMS  se nezdařilo.
+      voice_delivery_failed: Hlasový hovor MessageBird se nezdařil.
+    mobile_transmit_notification: Na váš mobilní telefon bylo odesláno jednorázové heslo.
+    no_valid_phone_number: Neexistuje žádné platné telefonní číslo.
+    notice_not_writable: Nastavení 2FA byla poskytnuta prostřednictvím proměnných prostředí a nelze je přepsat.
+    remember:
+      active_session_notice: 'Váš účet má aktivní cookie platnou do %{expires_on}. Tato cookie umožňuje přihlášení bez dalšího faktoru k vašemu účtu až do tohoto data.
+
+        '
+      clear_cookie: Odstranit všechny zapamatované 2FA relace.
+      cookie_removed: Všechny zapamatované 2FA relace byly odstraněny.
+      dont_ask_again: Vytvořte cookie a zapamatujte si 2FA autentizaci tohoto klienta po dobu %{days} dní.
+      label: Zapamatovat
+      other_active_session_notice: Váš účet má aktivní cookie v jiné relaci.
     settings:
-      title: Nastavení 2FA
       current_configuration: Aktuální konfigurace
+      failed_to_save_settings: 'Nepodařilo se aktualizovat nastavení 2FA: %{message}'
       label_active_strategies: Aktivní 2FA strategie
       label_enforced: Vynutit 2FA
       label_remember: Zapamatovat 2FA přihlášení
@@ -65,117 +167,15 @@ cs:
       text_remember: 'Nastavte na vyšší než nula, abyste umožnili uživatelům zapamatovat si jejich 2FA ověření na daný počet dní. Uživatelé to po tuto dobu nebudou muset zadávat. Toto nastavení může být zakázáno pouze pokud není vynuceno konfigurací.
 
         '
-      failed_to_save_settings: 'Nepodařilo se aktualizovat nastavení 2FA: %{message}'
-    admin:
-      self_edit_path_html: Chcete-li přidat nebo upravit vlastní zařízení 2FA, přejděte na stránku [Dvoufázové ověření na vašem účtu](self_edit_link)
-      self_edit_forbidden: Na této cestě nelze upravit vlastní 2FA zařízení. Místo toho přejděte na Můj účet > Dvoufázové ověřování.
-      no_devices_for_user: Žádné 2FA zařízení není pro tohoto uživatele zaregistrováno.
-      all_devices_deleted: Byla odstraněna všechna 2FA zařízení tohoto uživatele
-      delete_all_are_you_sure: Opravdu chcete odstranit všechna 2FA zařízení tohoto uživatele?
-      button_delete_all_devices: Odstranit registrovaná 2FA zařízení
-      button_register_mobile_phone_for_user: Registrovat mobilní telefon
-      text_2fa_enabled: Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení.
-      text_2fa_disabled: Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'
-      only_sms_allowed: Pro ostatní uživatele lze nastavit pouze doručení SMS.
-    backup_codes:
-      singular: Záložní kód
-      plural: Záložní kódy
-      overview_description: |
-        Pokud nejste schopni přihlásit ke svým dvou faktorovým zařízením, můžete použít záložní kód k opětovnému získání přístupu k vašemu účtu.
-        Použijte následující tlačítko pro vygenerování nové sady záložních kódů.
-      generate:
-        title: Generovat záložní kódy
-        keep_safe_as_password: Důležité! Považujte a zacházejte s tyto kódy jako s hesly.
-        keep_safe_warning: Buď je uložte ve správci hesel, nebo vytiskněte tuto stránku a vložte na bezpečné místo.
-        regenerate_warning: 'Upozornění: Pokud jste dříve vytvořili záložní kódy, budou zneplatněny a již nebudou fungovat.'
-    devices:
-      add_new: Přidat nové 2FA zařízení
-      register: Registrovat zařízení
-      confirm_default: Potvrdit změnu výchozího zařízení
-      confirm_device: Potvrdit zařízení
-      confirm_now: Nepotvrzeno, klikněte zde pro aktivaci
-      cannot_delete_default: Nelze odstranit výchozí zařízení
-      make_default_are_you_sure: Jste si jisti, že chcete nastavit toto 2FA zařízení?
-      make_default_failed: Nepodařilo se aktualizovat výchozí 2FA zařízení.
-      deletion_are_you_sure: Jste si jisti, že chcete odstranit toto 2FA zařízení?
-      registration_complete: Registrace 2FA zařízení dokončena!
-      registration_failed_token_invalid: Registrace 2FA zařízení selhala, token byl neplatný.
-      registration_failed_update: Registrace 2FA zařízení selhala, token byl platný, ale zařízení nelze aktualizovat.
-      confirm_send_failed: Potvrzení 2FA zařízení se nezdařilo.
-      button_complete_registration: Dokončete 2FA registraci
-      text_confirm_to_complete_html: Prosím dokončete registraci zařízení <strong>%{identifier}</strong> zadáním jednorázového hesla z výchozího zařízení.
-      text_confirm_to_change_default_html: Potvrďte prosím změnu výchozího zařízení na <strong>%{new_identifier}</strong> zadáním jednorázového hesla z aktuálního výchozího zařízení.
-      text_identifier: Můžete dát zařízení vlastní identifikátor pomocí tohoto pole.
-      failed_to_delete: Smazání 2FA zařízení se nezdařilo.
-      is_default_cannot_delete: Zařízení je označeno jako výchozí a nemůže být odstraněno z důvodu aktivní bezpečnostní politiky. Před smazáním označte jiné zařízení jako výchozí.
-      not_existing: Žádné 2FA zařízení nebylo zaregistrováno pro váš účet.
-      2fa_from_input_html: Zadejte prosím kód z Vašeho zařízení <strong>%{device_name}</strong> pro ověření Vaší identity.
-      2fa_from_webauthn_html: Zadejte prosím zařízení WebAuthn <strong>%{device_name}</strong>. Pokud je založeno na USB, ujistěte se, že ho připojíte a dotknete se ho. Poté klikněte na tlačítko Přihlásit se.
-      webauthn:
-        title: WebAuthn
-        description: Zaregistrujte zařízení FIDO2 (jako YubiKey) nebo zabezpečenou enklávu vašeho mobilního zařízení.
-        further_steps: Po zvolení jména můžete kliknout na tlačítko Pokračovat. Váš prohlížeč vás vyzve, abyste prezentovali vaše WebAuthn zařízení. Až tak učiníte, jste zařízení zaregistrovali.
-      totp:
-        title: Autentifikátor založený na aplikaci
-        provisioning_uri: Poskytování URI
-        secret_key: Tajný klíč
-        time_based: Na základě času
-        account: Název účtu / vydavatel
-        setup: |
-          Pro nastavení dvoufaktorového ověřování pomocí Google Authenticator, stáhněte si aplikaci z Apple App Store nebo Google Play Store.
-          Po otevření aplikace můžete naskenovat následující QR kód pro registraci zařízení.
-        question_cannot_scan: 'Nelze naskenovat kód pomocí vaší aplikace?
-
-          '
-        text_cannot_scan: 'Pokud nemůžete naskenovat kód, můžete zadat položku ručně pomocí následujících údajů:
-
-          '
-        description: 'Použijte jednorázový kód vygenerovaný autentizační aplikací jako je Authy nebo Google Authenticator.
-
-          '
-      sms:
-        title: Mobilní zařízení
-        redacted_identifier: Mobilní zařízení (%{redacted_number})
-        request_2fa_identifier: "%{redacted_identifier}, zaslali jsme Vám ověřovací kód přes %{delivery_channel}"
-        description: 'Při každém přihlášení obdržíte kód 2FA prostřednictvím textové zprávy na telefon.
-
-          '
+      title: Nastavení 2FA
     sns:
       delivery_failed: 'Odeslání SNS selhalo:'
-    message_bird:
-      sms_delivery_failed: Odeslání MessageBird SMS  se nezdařilo.
-      voice_delivery_failed: Hlasový hovor MessageBird se nezdařil.
     strategies:
-      totp: Ověřovací aplikace
-      sns: Amazon SNS
       resdt: SMS Rest API
+      sns: Amazon SNS
+      totp: Ověřovací aplikace
       webauthn: WebAuthn
-    mobile_transmit_notification: Na váš mobilní telefon bylo odesláno jednorázové heslo.
-    label_two_factor_authentication: Dvoufázové ověření
-    forced_registration:
-      required_to_add_device: Aktivní bezpečnostní politika vyžaduje, abyste povolili dvoufaktorové ověřování. Pro registraci zařízení použijte následující formulář.
-    remember:
-      active_session_notice: 'Váš účet má aktivní paměť cookie platná do %{expires_on}. Tato cookie umožňuje přihlášení bez dalšího faktoru k vašemu účtu až do té doby.
-
-        '
-      other_active_session_notice: Váš účet má aktivní paměť cookie v jiné relaci.
-      label: Zapamatovat
-      clear_cookie: Kliknutím sem odstraníte všechny zapamatované 2FA relace.
-      cookie_removed: Všechny zapamatované 2FA relace byly odstraněny.
-      dont_ask_again: Vytvořte cookie a zapamatujte si 2FA autentizaci tohoto klienta po dobu %{days} dní.
-  field_otp: Jednorázové heslo
-  notice_account_otp_invalid: Neplatné jednorázové heslo.
-  notice_account_otp_expired: Zadané jednorázové heslo vypršelo.
-  notice_developer_strategy_otp: 'Vývojářská strategie vytvořila toto jednorázové heslo: %{token} (kanál: %{channel})'
-  notice_account_otp_send_failed: Vaše jednorázové heslo nelze odeslat.
-  notice_account_has_no_phone: S vaším účtem není přiřazeno žádné telefonní číslo.
-  label_confirmed: Potvrzený
-  button_continue: Pokračovat
-  button_make_default: Označit jako výchozí
-  notice_phone_number_format: 'Zadejte číslo v následujícím formátu: +XX XXXXXXXX.'
-  text_otp_not_receive: Jiné metody ověřování
-  text_send_otp_again: 'Znovu odeslat jednorázové heslo přes:'
-  button_resend_otp_form: Znovu odeslat
-  button_otp_by_voice: Hovor
-  button_otp_by_sms: SMS
-  label_otp_channel: Doručovací kanál
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_enabled: Při každém přihlášení bude vyžadováno zadání jednorázového hesla z Vašeho výchozího 2FA zařízení.
+    text_otp_delivery_message_sms: Vaše jednorázové heslo pro %{app_title} je %{token}
+    text_otp_delivery_message_voice: 'Vaše jednorázové heslo pro %{app_title} je: %{pause} %{token}. %{pause} opakuji: %{pause} %{token}'

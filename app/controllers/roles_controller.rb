@@ -94,7 +94,7 @@ class RolesController < ApplicationController
     else
       flash[:error] = I18n.t(:error_can_not_remove_role)
     end
-    redirect_to action: "index"
+    redirect_to action: "index", status: :see_other
   end
 
   def report

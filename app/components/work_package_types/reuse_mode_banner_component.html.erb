@@ -1,0 +1,92 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if linked? %>
+  <%= render(
+        Primer::Alpha::Banner.new(
+          scheme: :default,
+          icon: :link,
+          dismiss_scheme: :none,
+          mb: 3,
+          description: linked_description
+        )
+      ) do |banner| %>
+    <% banner.with_action_content do %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              scheme: :invisible,
+              href: link_dialog_path,
+              data: { controller: "async-dialog", test_selector: "reuse-mode-change-source" }
+            )
+          ) { t("types.edit.reuse_mode.linked.change_source") } %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              ml: 2,
+              href: independent_dialog_path,
+              data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-independent" }
+            )
+          ) { t("types.edit.reuse_mode.linked.switch_to_independent") } %>
+    <% end %>
+    <%= t("types.edit.reuse_mode.linked.title") %>
+  <% end %>
+<% else %>
+  <%= render(
+        Primer::Alpha::Banner.new(
+          scheme: :default,
+          icon: :pencil,
+          dismiss_scheme: :none,
+          mb: 3,
+          description: t("types.edit.reuse_mode.independent.description")
+        )
+      ) do |banner| %>
+    <% banner.with_action_content do %>
+      <% if copy_supported? %>
+        <%= render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                scheme: :invisible,
+                href: copy_dialog_path,
+                data: { controller: "async-dialog", test_selector: "reuse-mode-copy-from-type" }
+              )
+            ) { t("types.edit.reuse_mode.independent.copy_from_type") } %>
+      <% end %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              ml: 2,
+              href: link_dialog_path,
+              data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-linked" }
+            )
+          ) { t("types.edit.reuse_mode.independent.switch_to_linked") } %>
+    <% end %>
+    <%= t("types.edit.reuse_mode.independent.title") %>
+  <% end %>
+<% end %>

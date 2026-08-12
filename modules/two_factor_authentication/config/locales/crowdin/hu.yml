@@ -1,15 +1,11 @@
-#English strings go here for Rails i18n
 ---
 hu:
-  plugin_openproject_two_factor_authentication:
-    name: OpenProject Two-factor authentication
-    description: This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: Azonosító
-        default: Beállítás alapértelmezettként
         channel: Csatorna
+        default: Beállítás alapértelmezettként
+        identifier: Azonosító
       two_factor_authentication/device/sms:
         phone_number: Telefonszám
       two_factor_authentication/device/webauthn:
@@ -28,40 +24,150 @@ hu:
       two_factor_authentication/device/sms: Mobiltelefon
       two_factor_authentication/device/totp: Hitelesítő alkalmazás
       two_factor_authentication/device/webauthn: WebAuthn
+  button_continue: Folytatás
+  button_make_active: Activate
+  button_make_default: Megjelölés alapértelmezettként
+  button_otp_by_sms: SMS
+  button_otp_by_voice: Hanghívás
+  button_resend_otp_form: Újraküldés
+  field_otp: Egyszeri jelszó
+  label_confirmed: Megerősítve
+  label_otp_channel: Közvetítő csatorna
+  notice_account_has_no_phone: A fiókjához nincs mobiltelefonszám társítva.
+  notice_account_otp_expired: Az egyszeri jelszó lejárt
+  notice_account_otp_invalid: Hibás egyszer-használatos jelszó.
+  notice_account_otp_send_failed: Nem lehetséges kiküldeni az egyszer használatos jelszót
+  notice_developer_strategy_otp: 'A fejlesztői stratégia a következő egyszeri jelszót generálta: %{token} (Csatorna: %{channel})'
+  notice_phone_number_format: A következő módon add meg a telefonszámot +XX XXXXXXXXX
+  plugin_openproject_two_factor_authentication:
+    description: 'Ez az OpenProject-bővítmény kétfaktoros hitelesítést alkalmaz a felhasználók számára: egyszeri jelszóval a TOTP-szabvány (Google Authenticator) alapján, illetve SMS-ben vagy hanghívás formájában a felhasználó mobiltelefonjára elküldött jelszóval.'
+    name: OpenProject kétfaktoros hitelesítés
+  text_otp_not_receive: Másik hitelesítési módszer használata
+  text_send_otp_again: 'Egyszeri jelszó újra küldése: '
   two_factor_authentication:
+    admin:
+      all_devices_deleted: A felhasználó összes 2FA eszköze törölve lett
+      button_delete_all_devices: 2FA eszköz regisztrációjának törlése
+      button_register_mobile_phone_for_user: Mobiltelefon regisztrálása
+      delete_all_are_you_sure: Biztos vagy benne hogy törölni szeretnéd az összes 2FA eszközt ennél a felhasználónál?
+      no_devices_for_user: Nincs regisztrált 2FA eszköze a felhasználónak.
+      only_sms_allowed: Más felhasználók számára csak az SMS-küldés állítható be.
+      self_edit_forbidden: Ezen az útvonalon nem tudod szerkeszteni a 2FA-t. Menj a Saját Fiokom > Két faktorú azonosítás menübe
+      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
+      text_2fa_disabled: A felhasználó nem állított be 2FA eszközt a „Saját fiókom” oldalon
+      text_2fa_enabled: Minden egyes belépésnél szüksége lesz az alapértelmezett 2FA eszközről beírt OTP tokenre.
+    backup_codes:
+      generate:
+        keep_safe_as_password: 'Fontos! úgy kezeld ezeket a kódokat mint egy jelszót
+
+          '
+        keep_safe_warning: Vagy mentse el őket a jelszókezelőbe, vagy nyomtassa ki ezt az oldalt, és tegye biztonságos helyre.
+        regenerate_warning: 'Figyelmeztetés: Ha korábban létrehozott biztonsági kódokat, azok érvénytelenné válnak, és többé nem működnek.'
+        title: Új biztonsági kódok igénylése
+      overview_description: |
+        Ha nem tudja elérni a két tényezőből álló eszközeit, akkor használjon biztonsági kódot a fiókjához való hozzáférés visszaszerzéséhez.
+        Használja a következő gombot új tartalék kódkészlet létrehozásához.
+      plural: Visszaállítási kulcsok
+      singular: Visszaállítási kulcs
+    channel_unavailable: 'A kézbesítési csatorna %{channel} nem elérhető.
+
+      '
+    devices:
+      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      add_new: Új 2FA eszköz hozzáadása
+      button_complete_registration: 2FA regisztráció befejezése
+      cannot_delete_default: Az alapértelmezett eszközt nem lehet törölni
+      confirm_default: Erősítse meg az alapértelmezett eszköz megváltoztatását
+      confirm_device: Aktiváló eszköz
+      confirm_now: Nem megerősített, kattintson ide az aktiváláshoz
+      confirm_send_failed: A 2FA eszköz érvényesítése sikertelen
+      deletion_are_you_sure: Biztosan törli ezt a 2FA eszközt?
+      failed_to_delete: Nem sikerült törölni a 2FA eszközt
+      is_default_cannot_delete: Az eszköz alapértelmezettként van megjelölve, és nem törölhető egy aktív biztonsági irányelv miatt. Törlés előtt jelöljön meg egy másik eszközt alapértelmezettként
+      make_default_are_you_sure: Biztos hogy ezt a 2FA eszközt szeretnéd alapértelmezettnek?
+      make_default_failed: Nem sikerült frissíteni az alap 2FA eszközt
+      not_existing: Nincs regisztrál 2FA eszköz ehhez a felhasználóhoz
+      register: Eszköz regisztrálása
+      registration_complete: Sikeres 2FA eszköz regisztráció!
+      registration_failed_token_invalid: Sikertelen 2FA eszköz regisztráció, a kulcs érvénytelen.
+      registration_failed_update: A 2FA eszköz regisztrálása sikertelen, a kulcs érvényes volt de az eszközt nem lehetett frissíteni.
+      sms:
+        description: 'Receive 2FA code via a text message on your phone each time you log in.
+
+          '
+        redacted_identifier: Mobiltelefon (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier} azonosító kód elküldve %{delivery_channel}"
+        title: Mobile device
+      text_confirm_to_change_default_html: Kérjük, erősítse meg alapértelmezett eszközének <strong>%{new_identifier} </strong> értékre történő módosítását, ha megad egy egyszeri jelszót a jelenlegi alapértelmezett eszközről.
+      text_confirm_to_complete_html: Kérjük, fejezze be eszközének regisztrációját <strong>%{identifier} </strong> egy egyszeri jelszó megadásával az alapértelmezett eszközről.
+      text_identifier: Ezzel a mezővel egyéni azonosítót adhat a készüléknek
+      totp:
+        account: Felhasználó név / Kibocsátó
+        description: 'Use a one-time code generated by an authenticator like Authy or Google Authenticator.
+
+          '
+        provisioning_uri: 'Provisioning URI
+
+          '
+        question_cannot_scan: 'Nem tudja beolvasni a kódot az alkalmazásával?
+
+          '
+        secret_key: Titkos kulcs
+        setup: |
+          A kétfaktoros hitelesítés beállításához a Google Hitelesítő segítségével töltse le az alkalmazást az Apple App Store-ból vagy a Google Play Áruházból.
+          Az alkalmazás megnyitása után beolvashatja az alábbi QR -kódot az eszköz regisztrálásához.
+        text_cannot_scan: 'Ha nem tudja beolvasni a kódot, akkor az alábbi adatok segítségével manuálisan is megadhatja a bejegyzést:
+
+          '
+        time_based: Idő alapú
+        title: App-based authenticator
+      webauthn:
+        description: Regisztráljon egy FIDO2-eszközt (például YubiKey-t) vagy mobilkészüléke biztonsági enklávéját.
+        further_steps: Miután kiválasztott egy nevet, kattintson a „Tovább” gombra. A böngésző felkéri, hogy mutassa be a WebAuthn-eszközét. Miután ezt megtette, az eszköz regisztrációja befejeződött.
+        title: WebAuthn
     error_2fa_disabled: 2FA szolgáltatás le van tiltva.
-    notice_not_writable: 2FA Settings were provided through environment variables and cannot be overwritten.
+    error_invalid_backup_code: Érvénytelen 2FA visszaállítási kulcs.
+    error_is_enforced_not_active: 'Konfigurációs hiba: Kétfaktoros hitelesítést hajtottak végre, de nem léteznek aktív stratégiák.
+
+      '
     error_no_device: 'Nem található regisztrált 2FA eszköz ehhez a felhasználóhoz, annak ellenére, hogy szükség van erre a kérelemre.
 
       '
     error_no_matching_strategy: 'Ehhez a felhasználóhoz nem áll rendelkezésre megfelelő 2FA stratégia. Kérjük, lépjen kapcsolatba adminisztrátorával.
 
       '
-    error_is_enforced_not_active: 'Konfigurációs hiba: Kétfaktoros hitelesítést hajtottak végre, de nem léteznek aktív stratégiák.
-
-      '
-    error_invalid_backup_code: Érvénytelen 2FA visszaállítási kulcs.
-    channel_unavailable: 'A kézbesítési csatorna %{channel} nem elérhető.
-
-      '
-    no_valid_phone_number: Nincs érvényes telefonszám.
-    label_device_type: Eszköz típus
+    forced_registration:
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+    label_2fa_disabled: Kétlépcsős azonosítás kikapcsolva
+    label_2fa_enabled: Kétlépcsős azonosítás aktív
     label_default_device: Alapértelmezett 2FA eszköz
     label_device: 2FA eszköz
+    label_device_type: Eszköz típus
     label_devices: 2FA eszközök
-    label_2fa_enabled: Kétlépcsős azonosítás aktív
-    label_2fa_disabled: Kétlépcsős azonosítás kikapcsolva
-    text_otp_delivery_message_sms: 'A %{app_title} egyszeri jelszavad: %{token}'
-    text_otp_delivery_message_voice: 'A %{app_title} egyszeri jelszavad: %{pause} %{token}. %{pause} Megismétlem: %{pause} %{token}'
-    text_2fa_enabled: Minden egyes belépésnél szükséged lesz az alapértelmezett 2FA eszközödről beírt OTP tokenre.
-    text_2fa_disabled: A kétlépcsős beléptetés engedélyezéséhez és egy új 2FA eszköz regisztrációjához nyomd meg a fenti gombot. Amennyiben már rendelkezel ilyen eszközzel, alapértelmezettnek kell beállítanod.
+    label_two_factor_authentication: Kétlépcsős hitelesítés
     login:
-      enter_backup_code_title: Írd be a tartalék kódot
       enter_backup_code_text: Kérjük, adjon meg egy érvényes biztonsági kódot a kódok listájából, arra az esetre, ha már nem tudja elérni regisztrált 2FA eszközeit
+      enter_backup_code_title: Írd be a tartalék kódot
       other_device: Használjon másik eszközt vagy visszaállítási kulcsot.
+    message_bird:
+      sms_delivery_failed: MessageBird SMS kézbesítése sikertelen.
+      voice_delivery_failed: MessageBird hívás sikertelen
+    mobile_transmit_notification: Egyszer használatos jelszó kiküldve a telefonszámra.
+    no_valid_phone_number: Nincs érvényes telefonszám.
+    notice_not_writable: 2FA Settings were provided through environment variables and cannot be overwritten.
+    remember:
+      active_session_notice: 'Fiókjában aktív emlékeztető cookie van érvényben %{expires_on}. Ez a süti lehetővé teszi, hogy addig második tényező nélkül jelentkezzen be fiókjába.
+
+        '
+      clear_cookie: Remove all remembered 2FA sessions.
+      cookie_removed: Az összes 2FA kapcsolatot eltávolítottuk
+      dont_ask_again: Hozzon létre egy cookie -t, hogy emlékezzen a 2FA hitelesítésre ezen az felhasználón%{days} napig.
+      label: Megjegyez
+      other_active_session_notice: Fiókjában aktív emlékeztető cookie található egy másik munkamenet során.
     settings:
-      title: 2FA beállítások
       current_configuration: Jelenlegi konfiguráció
+      failed_to_save_settings: Nem sikerült frissíteni a 2FA beállításokat %{message}
       label_active_strategies: 'Aktív 2FA stratégiák
 
         '
@@ -77,121 +183,15 @@ hu:
       text_remember: |
         Állítsa ezt nullánál nagyobbra, hogy a felhasználók emlékezhessenek a 2FA hitelesítésükre a megadott számú napon keresztül.
         Ebben az időszakban nem kérik fel őket újra. Csak akkor állítható be, ha a konfiguráció nem kényszeríti ki
-      failed_to_save_settings: Nem sikerült frissíteni a 2FA beállításokat %{message}
-    admin:
-      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
-      self_edit_forbidden: Ezen az útvonalon nem tudod szerkeszteni a 2FA-t. Menj a Saját Fiokom > Két faktorú azonosítás menübe
-      no_devices_for_user: Nincs regisztrált 2FA eszköze a felhasználónak.
-      all_devices_deleted: A felhasználó összes 2FA eszköze törölve lett
-      delete_all_are_you_sure: Biztos vagy benne hogy törölni szeretnéd az összes 2FA eszközt ennél a felhasználónál?
-      button_delete_all_devices: 2FA eszköz regisztrációjának törlése
-      button_register_mobile_phone_for_user: Mobiltelefon regisztrálása
-      text_2fa_enabled: Minden egyes belépésnél szüksége lesz az alapértelmezett 2FA eszközről beírt OTP tokenre.
-      text_2fa_disabled: A felhasználó nem állított be 2FA eszközt a „Saját fiókom” oldalon
-      only_sms_allowed: Only SMS delivery can be set up for other users.
-    backup_codes:
-      singular: Visszaállítási kulcs
-      plural: Visszaállítási kulcsok
-      overview_description: |
-        Ha nem tudja elérni a két tényezőből álló eszközeit, akkor használjon biztonsági kódot a fiókjához való hozzáférés visszaszerzéséhez.
-        Használja a következő gombot új tartalék kódkészlet létrehozásához.
-      generate:
-        title: Új biztonsági kódok igénylése
-        keep_safe_as_password: 'Fontos! úgy kezeld ezeket a kódokat mint egy jelszót
-
-          '
-        keep_safe_warning: Vagy mentse el őket a jelszókezelőbe, vagy nyomtassa ki ezt az oldalt, és tegye biztonságos helyre.
-        regenerate_warning: 'Figyelmeztetés: Ha korábban létrehozott biztonsági kódokat, azok érvénytelenné válnak, és többé nem működnek.'
-    devices:
-      add_new: Új 2FA eszköz hozzáadása
-      register: Eszköz regisztrálása
-      confirm_default: Erősítse meg az alapértelmezett eszköz megváltoztatását
-      confirm_device: Aktiváló eszköz
-      confirm_now: Nem megerősített, kattintson ide az aktiváláshoz
-      cannot_delete_default: Az alapértelmezett eszközt nem lehet törölni
-      make_default_are_you_sure: Biztos hogy ezt a 2FA eszközt szeretnéd alapértelmezettnek?
-      make_default_failed: Nem sikerült frissíteni az alap 2FA eszközt
-      deletion_are_you_sure: Biztosan törli ezt a 2FA eszközt?
-      registration_complete: Sikeres 2FA eszköz regisztráció!
-      registration_failed_token_invalid: Sikertelen 2FA eszköz regisztráció, a kulcs érvénytelen.
-      registration_failed_update: A 2FA eszköz regisztrálása sikertelen, a kulcs érvényes volt de az eszközt nem lehetett frissíteni.
-      confirm_send_failed: A 2FA eszköz érvényesítése sikertelen
-      button_complete_registration: 2FA regisztráció befejezése
-      text_confirm_to_complete_html: Kérjük, fejezze be eszközének regisztrációját <strong>%{identifier} </strong> egy egyszeri jelszó megadásával az alapértelmezett eszközről.
-      text_confirm_to_change_default_html: Kérjük, erősítse meg alapértelmezett eszközének <strong>%{new_identifier} </strong> értékre történő módosítását, ha megad egy egyszeri jelszót a jelenlegi alapértelmezett eszközről.
-      text_identifier: Ezzel a mezővel egyéni azonosítót adhat a készüléknek
-      failed_to_delete: Nem sikerült törölni a 2FA eszközt
-      is_default_cannot_delete: Az eszköz alapértelmezettként van megjelölve, és nem törölhető egy aktív biztonsági irányelv miatt. Törlés előtt jelöljön meg egy másik eszközt alapértelmezettként
-      not_existing: Nincs regisztrál 2FA eszköz ehhez a felhasználóhoz
-      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
-      webauthn:
-        title: WebAuthn
-        description: Register a FIDO2 device (like YubiKey) or the secure enclave of your mobile device.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
-      totp:
-        title: App-based authenticator
-        provisioning_uri: 'Provisioning URI
-
-          '
-        secret_key: Titkos kulcs
-        time_based: Idő alapú
-        account: Felhasználó név / Kibocsátó
-        setup: |
-          A kétfaktoros hitelesítés beállításához a Google Hitelesítő segítségével töltse le az alkalmazást az Apple App Store-ból vagy a Google Play Áruházból.
-          Az alkalmazás megnyitása után beolvashatja az alábbi QR -kódot az eszköz regisztrálásához.
-        question_cannot_scan: 'Nem tudja beolvasni a kódot az alkalmazásával?
-
-          '
-        text_cannot_scan: 'Ha nem tudja beolvasni a kódot, akkor az alábbi adatok segítségével manuálisan is megadhatja a bejegyzést:
-
-          '
-        description: 'Use a one-time code generated by an authenticator like Authy or Google Authenticator.
-
-          '
-      sms:
-        title: Mobile device
-        redacted_identifier: Mobiltelefon (%{redacted_number})
-        request_2fa_identifier: "%{redacted_identifier} azonosító kód elküldve %{delivery_channel}"
-        description: 'Receive 2FA code via a text message on your phone each time you log in.
-
-          '
+      title: 2FA beállítások
     sns:
       delivery_failed: SNS kézbesítés sikertelen
-    message_bird:
-      sms_delivery_failed: MessageBird SMS kézbesítése sikertelen.
-      voice_delivery_failed: MessageBird hívás sikertelen
     strategies:
-      totp: Hitelesítő alkalmazás
-      sns: Amazon SNS
       resdt: SMS Rest API
+      sns: Amazon SNS
+      totp: Hitelesítő alkalmazás
       webauthn: WebAuthn
-    mobile_transmit_notification: Egyszer használatos jelszó kiküldve a telefonszámra.
-    label_two_factor_authentication: Kétlépcsős hitelesítés
-    forced_registration:
-      required_to_add_device: Az aktív biztonsági házirend megköveteli a kétfaktoros hitelesítés engedélyezését. Kérjük, használja az alábbi űrlapot egy eszköz regisztrálásához.
-    remember:
-      active_session_notice: 'Fiókjában aktív emlékeztető cookie van érvényben %{expires_on}. Ez a süti lehetővé teszi, hogy addig második tényező nélkül jelentkezzen be fiókjába.
-
-        '
-      other_active_session_notice: Fiókjában aktív emlékeztető cookie található egy másik munkamenet során.
-      label: Megjegyez
-      clear_cookie: Kattintson ide hogy törölje az összes 2FA munkamenetet
-      cookie_removed: Az összes 2FA kapcsolatot eltávolítottuk
-      dont_ask_again: Hozzon létre egy cookie -t, hogy emlékezzen a 2FA hitelesítésre ezen az felhasználón%{days} napig.
-  field_otp: Egyszeri jelszó
-  notice_account_otp_invalid: Hibás egyszer-használatos jelszó.
-  notice_account_otp_expired: Az egyszeri jelszó lejárt
-  notice_developer_strategy_otp: 'A fejlesztői stratégia a következő egyszeri jelszót generálta: %{token} (Csatorna: %{channel})'
-  notice_account_otp_send_failed: Nem lehetséges kiküldeni az egyszer használatos jelszót
-  notice_account_has_no_phone: A fiókjához nincs mobiltelefonszám társítva.
-  label_confirmed: Megerősítve
-  button_continue: Folytatás
-  button_make_default: Megjelölés alapértelmezettként
-  notice_phone_number_format: A következő módon add meg a telefonszámot +XX XXXXXXXXX
-  text_otp_not_receive: Másik hitelesítési módszer használata
-  text_send_otp_again: 'Egyszeri jelszó újra küldése: '
-  button_resend_otp_form: Újraküldés
-  button_otp_by_voice: Hanghívás
-  button_otp_by_sms: SMS
-  label_otp_channel: Közvetítő csatorna
+    text_2fa_disabled: A kétlépcsős beléptetés engedélyezéséhez és egy új 2FA eszköz regisztrációjához nyomd meg a fenti gombot. Amennyiben már rendelkezel ilyen eszközzel, alapértelmezettnek kell beállítanod.
+    text_2fa_enabled: Minden egyes belépésnél szükséged lesz az alapértelmezett 2FA eszközödről beírt OTP tokenre.
+    text_otp_delivery_message_sms: 'A %{app_title} egyszeri jelszavad: %{token}'
+    text_otp_delivery_message_voice: 'A %{app_title} egyszeri jelszavad: %{pause} %{token}. %{pause} Megismétlem: %{pause} %{token}'

@@ -74,6 +74,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
   #
   # @param options [Hash] Options hash.
   # @option options [String] :content_disposition Pass this content disposition to S3 so that it serves the file with it.
+  # @option options [String] :content_type Pass this content type to S3 so that it serves the file with it.
   # @option options [DateTime] :expires_at Date at which the link should expire (default: now + 5 minutes)
   # @option options [ActiveSupport::Duration] :expires_in Duration in which the link should expire.
   #
@@ -82,6 +83,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
     url_options = {}
 
     set_content_disposition!(url_options, options:)
+    set_content_type!(url_options, options:)
     set_expires_at!(url_options, options:)
 
     remote_file.url url_options
@@ -103,15 +105,17 @@ class FogFileUploader < CarrierWave::Uploader::Base
   private
 
   def set_content_disposition!(url_options, options:)
-    if options[:content_disposition].present?
-      url_options[:query] = {
-        # Passing this option to S3 will make it serve the file with the
-        # respective content disposition. Without it no content disposition
-        # header is sent. This only works for S3 but we don't support
-        # anything else anyway (see carrierwave.rb).
-        "response-content-disposition" => options[:content_disposition]
-      }
-    end
+    return if options[:content_disposition].blank?
+
+    (url_options[:query] ||= {})["response-content-disposition"] = options[:content_disposition]
+  end
+
+  def set_content_type!(url_options, options:)
+    return if options[:content_type].blank?
+
+    # Like the content disposition above, this makes S3 serve the file with the
+    # given Content-Type, overriding the stored object type.
+    (url_options[:query] ||= {})["response-content-type"] = options[:content_type]
   end
 
   def set_expires_at!(url_options, options:)

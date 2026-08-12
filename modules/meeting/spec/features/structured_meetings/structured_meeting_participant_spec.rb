@@ -36,6 +36,11 @@ RSpec.describe "Meetings participants",
                :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
+  def perform_debounced_meeting_notification_jobs
+    perform_enqueued_jobs(only: Meetings::NotificationDebounceJob, at: 2.minutes.from_now)
+    perform_enqueued_jobs
+  end
+
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
   shared_let(:user) do
     create(:user,
@@ -114,7 +119,7 @@ RSpec.describe "Meetings participants",
 
     wait_for_network_idle
 
-    perform_enqueued_jobs
+    perform_debounced_meeting_notification_jobs
     expect(ActionMailer::Base.deliveries.size).to eq 2
     ActionMailer::Base.deliveries.clear
 
@@ -124,7 +129,7 @@ RSpec.describe "Meetings participants",
 
     wait_for_network_idle
 
-    perform_enqueued_jobs
+    perform_debounced_meeting_notification_jobs
     expect(ActionMailer::Base.deliveries.size).to eq 2
   end
 

@@ -242,6 +242,7 @@ validate_all_in_one() {
     -p "${VALIDATION_PORT}:80"
     -e SUPERVISORD_LOG_LEVEL=debug
     -e OPENPROJECT_LOGIN__REQUIRED=false
+    -e SECRET_KEY_BASE=eijai2ii3aithieJ4teez7Gavae4chai
     -e OPENPROJECT_HTTPS=false
   )
 
@@ -266,8 +267,8 @@ validate_all_in_one() {
 
   docker exec "${VALIDATION_CONTAINER_NAME}" sh -lc '
 set -eu
-command -v -- gosu >/dev/null 2>&1
-gosu nobody true
+command -v -- setpriv >/dev/null 2>&1
+setpriv --reuid nobody --regid nogroup --init-groups true
 [ -d /opt/hocuspocus ]
 [ -x /usr/lib/postgresql/17/bin/psql ]
 command -v -- node >/dev/null 2>&1

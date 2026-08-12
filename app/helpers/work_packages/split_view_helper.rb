@@ -33,6 +33,14 @@ module WorkPackages::SplitViewHelper
     params[:work_package_split_view].present?
   end
 
+  def render_work_package_split_create?
+    params[:work_package_split_create].present?
+  end
+
+  def split_create_instance
+    WorkPackages::SplitCreateComponent.new(project_identifier: params[:project_id])
+  end
+
   def split_view_instance
     WorkPackages::SplitViewComponent.new(id: params[:work_package_id],
                                          tab: params[:tab],

@@ -1,0 +1,198 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
+  let(:user) { build_stubbed(:user) }
+  let(:work_package) { build_stubbed(:work_package) }
+  let(:instance) { described_class.new(user:, work_package:) }
+
+  let(:inner_service) { instance_double(WorkPackages::UpdateService) }
+  let(:inner_result) { ServiceResult.success(result: work_package) }
+
+  before do
+    allow(WorkPackages::UpdateService)
+      .to receive(:new).with(user:, model: work_package)
+      .and_return(inner_service)
+    allow(inner_service).to receive(:call).and_return(inner_result)
+  end
+
+  describe "#call" do
+    describe "error handling" do
+      shared_examples "returns failure without delegating" do |call_args, i18n_key = nil|
+        it "returns failure without delegating", :aggregate_failures do
+          i18n_key ||= "backlogs.work_packages.update_service.invalid_target_type"
+
+          result = instance.call(**call_args)
+
+          expect(result).to be_failure
+          expect(result.message).to eq(I18n.t(i18n_key))
+          expect(inner_service).not_to have_received(:call)
+        end
+      end
+
+      context "with a list_id but no list_type" do
+        it_behaves_like "returns failure without delegating", { list_id: "42" }
+      end
+
+      context "when list_type is an invalid type with a list_id" do
+        it_behaves_like "returns failure without delegating", { list_type: "unknown", list_id: "42" }
+      end
+
+      context "when list_type is an invalid type without a list_id" do
+        it_behaves_like "returns failure without delegating", { list_type: "unknown" }
+      end
+
+      %w[sprint backlog_bucket].each do |list_type|
+        context "when list_type is '#{list_type}' with no list_id" do
+          it_behaves_like "returns failure without delegating", { list_type: }
+        end
+
+        context "when list_type is '#{list_type}' with a blank list_id" do
+          it_behaves_like "returns failure without delegating", { list_type:, list_id: "" }
+        end
+
+        context "when list_type is '#{list_type}' with a non-numeric list_id" do
+          it_behaves_like "returns failure without delegating", { list_type:, list_id: "unknown" }
+        end
+      end
+
+      context "when list_type is 'inbox' with a numeric list_id" do
+        it_behaves_like "returns failure without delegating", { list_type: "inbox", list_id: "1" }
+      end
+
+      context "when list_type is 'inbox' with a non-numeric list_id" do
+        it_behaves_like "returns failure without delegating", { list_type: "inbox", list_id: "unknown" }
+      end
+
+      it "fails when neither list nor position target is given" do
+        result = instance.call
+
+        expect(result).to be_failure
+        expect(result.message).to eq(I18n.t("backlogs.work_packages.update_service.missing_target"))
+      end
+    end
+
+    context "with list_type: sprint" do
+      it "delegates with sprint_id and nil backlog_bucket_id" do
+        instance.call(list_type: "sprint", list_id: "42")
+
+        expect(inner_service).to have_received(:call).with(sprint_id: 42, backlog_bucket_id: nil)
+      end
+
+      it "normalizes integer list IDs before validating the target" do
+        instance.call(list_type: "sprint", list_id: 42)
+
+        expect(inner_service).to have_received(:call).with(sprint_id: 42, backlog_bucket_id: nil)
+      end
+    end
+
+    context "with list_type: backlog_bucket" do
+      it "delegates with backlog_bucket_id and nil sprint_id" do
+        instance.call(list_type: "backlog_bucket", list_id: "99")
+
+        expect(inner_service).to have_received(:call).with(backlog_bucket_id: 99, sprint_id: nil)
+      end
+    end
+
+    context "with list_type: inbox" do
+      it "delegates with nil sprint_id and nil backlog_bucket_id" do
+        instance.call(list_type: "inbox")
+
+        expect(inner_service).to have_received(:call).with(backlog_bucket_id: nil, sprint_id: nil)
+      end
+    end
+
+    context "when the inner service fails" do
+      let(:inner_result) { ServiceResult.failure(message: "Something went wrong") }
+
+      it "returns the failure without calling move_after", :aggregate_failures do
+        allow(work_package).to receive(:move_after)
+
+        result = instance.call(list_type: "inbox")
+
+        expect(result).to be_failure
+        expect(work_package).not_to have_received(:move_after)
+      end
+    end
+
+    context "with prev_id" do
+      it "calls move_after with the prev_id on success" do
+        allow(work_package).to receive(:move_after)
+
+        instance.call(list_type: "inbox", prev_id: "5")
+
+        expect(work_package).to have_received(:move_after).with(prev_id: "5")
+      end
+    end
+
+    context "with position" do
+      it "calls move_after with the position on success" do
+        allow(work_package).to receive(:move_after)
+
+        instance.call(list_type: "inbox", position: "3")
+
+        expect(work_package).to have_received(:move_after).with(position: "3")
+      end
+    end
+
+    context "with a blank position" do
+      it "does not reorder the work package" do
+        allow(work_package).to receive(:move_after)
+
+        instance.call(list_type: "inbox", position: "")
+
+        expect(work_package).not_to have_received(:move_after)
+      end
+    end
+
+    context "with a blank prev_id" do
+      it "calls move_after so the work package moves to the top" do
+        allow(work_package).to receive(:move_after)
+
+        instance.call(list_type: "inbox", prev_id: "")
+
+        expect(work_package).to have_received(:move_after).with(prev_id: "")
+      end
+    end
+
+    context "with both prev_id and position" do
+      it "prefers prev_id over position" do
+        allow(work_package).to receive(:move_after)
+
+        instance.call(list_type: "inbox", prev_id: "5", position: "3")
+
+        expect(work_package).to have_received(:move_after).with(prev_id: "5")
+        expect(work_package).not_to have_received(:move_after).with(position: "3")
+      end
+    end
+  end
+end

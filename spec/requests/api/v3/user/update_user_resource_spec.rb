@@ -382,4 +382,87 @@ RSpec.describe API::V3::Users::UsersAPI do
       expect(last_response).to have_http_status(:not_found)
     end
   end
+
+  describe "self update via /users/me" do
+    let(:current_user) { create(:user) }
+    let!(:user) { current_user }
+    let(:path) { api_v3_paths.user("me") }
+
+    describe "password update without current password" do
+      let(:parameters) { { password: "my!new!password123" } }
+
+      it "rejects the update and keeps the old password" do
+        send_request
+
+        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(current_user.reload.check_password?("adminADMIN!")).to be(true)
+        expect(current_user.check_password?("my!new!password123")).to be(false)
+      end
+    end
+
+    describe "password update with wrong current password" do
+      let(:parameters) do
+        {
+          password: "my!new!password123",
+          currentPassword: "wrong-password"
+        }
+      end
+
+      it "rejects the update and keeps the old password" do
+        send_request
+
+        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(current_user.reload.check_password?("adminADMIN!")).to be(true)
+        expect(current_user.check_password?("my!new!password123")).to be(false)
+      end
+    end
+
+    describe "password update with valid current password" do
+      let(:parameters) do
+        {
+          password: "my!new!password123",
+          currentPassword: "adminADMIN!"
+        }
+      end
+
+      it "updates the users password correctly" do
+        send_request
+        expect(last_response).to have_http_status(:ok)
+
+        updated_user = User.find(current_user.id)
+        expect(updated_user.check_password?("my!new!password123")).to be(true)
+      end
+    end
+
+    describe "email update" do
+      let(:parameters) { { email: "this.is.a.new@email.address" } }
+
+      context "when users may change their email", with_settings: { user_can_change_email: true } do
+        it "updates the users email correctly" do
+          send_request
+
+          expect(last_response).to have_http_status(:ok)
+          expect(current_user.reload.mail).to eq("this.is.a.new@email.address")
+        end
+      end
+
+      context "when users may not change their email", with_settings: { user_can_change_email: false } do
+        it "rejects the update and keeps the old email" do
+          previous_mail = current_user.mail
+
+          send_request
+
+          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response.body)
+            .to be_json_eql("email".to_json)
+                  .at_path("_embedded/details/attribute")
+          expect(last_response.body)
+            .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                  .at_path("errorIdentifier")
+
+          expect(current_user.reload.mail).to eq(previous_mail)
+        end
+      end
+    end
+  end
 end

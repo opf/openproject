@@ -43,15 +43,44 @@ module OpenProject
       def local_path(value)
         return if value.blank?
 
-        parsed = URI.parse(value)
-
-        if parsed.scheme == "file"
-          return File.expand_path(parsed.path)
+        raw_path = begin
+          parsed = URI.parse(value)
+          case parsed.scheme&.downcase
+          when "file"
+            # Use the path component extracted by the URI library.
+            # file:////path gives parsed.path = "//path"; we normalise below.
+            parsed.path
+          when nil
+            # Bare absolute path or an authority-relative reference such as
+            # ///path, which Ruby's URI library sometimes rejects as invalid.
+            value
+          end
+          # Any other scheme (http, https, git, svn, ssh) => nil => not local.
+        rescue URI::Error
+          # Malformed URI – treat as a raw string rather than silently ignoring
+          # it, so that inputs like ///path cannot bypass the check.
+          value
         end
 
-        return File.expand_path(value) if parsed.scheme.nil? && value.start_with?("/")
-      rescue URI::Error
-        return
+        return if raw_path.blank?
+        return unless raw_path.start_with?("/")
+
+        # Collapse any run of leading slashes down to exactly one.
+        #
+        # POSIX allows "//" at the start of a path to have
+        # implementation-defined meaning, and three or more leading slashes
+        # are equivalent to one.  In practice File.expand_path preserves "//",
+        # so "//path" would not match against the "/path"-rooted forbidden
+        # roots.  Normalising here closes the remaining bypass vectors:
+        #
+        #   ///app/repos/foo     (URI::Error rescue path)
+        #   file:////app/repos/foo  (parsed.path == "//app/repos/foo")
+        #   //app/repos/foo      (double-slash bare path)
+        normalized = raw_path.sub(/\A\/{2,}/, "/")
+
+        File.expand_path(normalized)
+      rescue ArgumentError
+        nil
       end
 
       def forbidden_roots

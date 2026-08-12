@@ -144,6 +144,10 @@ RSpec.describe InplaceEditFieldsController do
       let(:custom_field) { create(:project_custom_field) }
       let(:attribute) { custom_field.attribute_name.to_sym }
 
+      before do
+        allow(ProjectCustomField).to receive(:visible).and_return(ProjectCustomField.all)
+      end
+
       it "accepts custom_field_values hash params and returns ok" do
         patch :update, params: {
           model: model_param,
@@ -160,6 +164,10 @@ RSpec.describe InplaceEditFieldsController do
       let(:handler) { double(call: true) }
       let(:custom_field) { create(:project_custom_field) }
       let(:attribute) { custom_field.attribute_name.to_sym }
+
+      before do
+        allow(ProjectCustomField).to receive(:visible).and_return(ProjectCustomField.all)
+      end
 
       it "accepts custom_field_values array params and returns ok" do
         patch :update, params: {
@@ -201,6 +209,59 @@ RSpec.describe InplaceEditFieldsController do
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+    end
+  end
+
+  describe "project custom field visibility guard" do
+    let(:handler) { double }
+
+    context "when the model is a project and the custom field is not visible to the user" do
+      let(:custom_field) { create(:project_custom_field) }
+      let(:attribute) { custom_field.attribute_name.to_sym }
+
+      before do
+        allow(ProjectCustomField)
+          .to receive(:visible)
+          .and_return(ProjectCustomField.none)
+      end
+
+      it "returns 404" do
+        get :dialog, params: {
+          model: model_param,
+          id: model.id,
+          attribute:
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when the model is not a project" do
+      let(:non_project_model) { create(:user) }
+
+      let(:update_registry) do
+        registry = OpenProject::InplaceEdit::UpdateRegistry.new
+        contract = double
+        allow(contract).to receive(:new).and_return(double(writable?: true))
+        registry.register(User, handler:, contract:)
+        registry
+      end
+
+      before do
+        allow(controller).to receive_messages(current_user: user, update_registry:)
+        allow(User).to receive(:visible).and_return(User.where(id: non_project_model.id))
+        allow(controller).to receive(:respond_with_dialog) # skip component rendering for non-project model
+      end
+
+      it "does not apply the project custom field visibility check for a custom field attribute" do
+        get :dialog, params: {
+          model: "user",
+          id: non_project_model.id,
+          attribute: :custom_field_1
+        }, format: :turbo_stream
+
+        expect(response).not_to have_http_status(:not_found)
+      end
     end
   end
 

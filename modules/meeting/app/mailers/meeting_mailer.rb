@@ -31,7 +31,7 @@
 class MeetingMailer < UserMailer
   include CalendarAttachment
 
-  def invited(meeting, user, actor)
+  def invited(meeting, user, actor, standalone_occurrence: false)
     @actor = actor
     @meeting = meeting
     @user = user
@@ -39,17 +39,19 @@ class MeetingMailer < UserMailer
     open_project_headers "Project" => @meeting.project.identifier,
                          "Meeting-Id" => @meeting.id
 
-    with_attached_ics(meeting, user) do
+    with_attached_ics(meeting, user, standalone_occurrence:) do
       subject = "[#{@meeting.project.name}] #{@meeting.title}"
       mail(to: user, subject:)
     end
   end
 
-  def updated(meeting, user, actor, changes:)
+  def updated(meeting, user, actor, changes:, added_participants: [], removed_participants: [])
     @actor = actor
     @user = user
     @meeting = meeting
     @changes = changes
+    @added_participants = Array(added_participants)
+    @removed_participants = Array(removed_participants)
 
     open_project_headers "Project" => @meeting.project.identifier,
                          "Meeting-Id" => @meeting.id
@@ -117,36 +119,6 @@ class MeetingMailer < UserMailer
     end
   end
 
-  def participant_added(meeting, user, actor, added_participant:)
-    @actor = actor
-    @meeting = meeting
-    @user = user
-    @added_participant = added_participant
-
-    open_project_headers "Project" => @meeting.project.identifier,
-                         "Meeting-Id" => @meeting.id
-
-    with_attached_ics(meeting, user) do
-      subject = I18n.t("meeting.email.participant_added.header", title: @meeting.title)
-      mail(to: user, subject: "[#{@meeting.project.name}] #{subject}")
-    end
-  end
-
-  def participant_removed(meeting, user, actor, removed_participant:)
-    @actor = actor
-    @meeting = meeting
-    @user = user
-    @removed_participant = removed_participant
-
-    open_project_headers "Project" => @meeting.project.identifier,
-                         "Meeting-Id" => @meeting.id
-
-    with_attached_ics(meeting, user) do
-      subject = I18n.t("meeting.email.participant_removed.header", title: @meeting.title)
-      mail(to: user, subject: "[#{@meeting.project.name}] #{subject}")
-    end
-  end
-
   private
 
   def with_attached_ics(meeting, user, **args)
@@ -173,12 +145,12 @@ class MeetingMailer < UserMailer
     end
   end
 
-  def ics_service_call(meeting, user, **args)
+  def ics_service_call(meeting, user, standalone_occurrence: false, **args)
     if meeting.is_a?(RecurringMeeting)
       ::RecurringMeetings::ICalService
         .new(user:, series: meeting)
         .generate_series(**args)
-    elsif meeting.recurring?
+    elsif meeting.recurring? && !standalone_occurrence
       ::RecurringMeetings::ICalService
         .new(user:, series: meeting.recurring_meeting)
         .generate_single_occurrence(meeting: meeting, **args)

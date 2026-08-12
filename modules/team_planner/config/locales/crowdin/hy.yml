@@ -1,0 +1,21 @@
+---
+hy:
+  ee:
+    feature_names:
+      team_planner_view: Թիմային պլանավորիչ
+    upsell:
+      team_planner_view:
+        description: Թիմային պլանավորիչի միջոցով ստացեք Ձեր թիմի պլանավորման ամբողջական պատկերը։ Ձգեք, կրճատեք և քարշ տարեք աշխատանքային փաթեթները՝ ամսաթվերը փոփոխելու, դրանք տեղափոխելու կամ պատասխանատուներին փոխելու համար։
+        title: Թիմային պլանավորիչ
+  permission_manage_team_planner: Կառավարել թիմային պլանավորիչը
+  permission_view_team_planner: Դիտել թիմային պլանավորիչը
+  plugin_openproject_team_planner:
+    description: Ապահովում է թիմային պլանավորչի տեսքեր։
+    name: OpenProject-ի թիմային պլանավորիչ
+  project_module_team_planner_view: Թիմային պլանավորիչներ
+  team_planner:
+    label_assignees: Պատասխանատուներ
+    label_create_new_team_planner: Ստեղծել նոր թիմային պլանավորիչ
+    label_new_team_planner: Նոր թիմային պլանավորիչ
+    label_team_planner: Թիմային պլանավորիչ
+    label_team_planner_plural: Թիմային պլանավորիչներ

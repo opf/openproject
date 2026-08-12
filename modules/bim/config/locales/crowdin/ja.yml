@@ -1,103 +1,21 @@
-#English strings go here for Rails i18n
 ---
 ja:
-  plugin_openproject_bim:
-    name: OpenProject BIMとBCFの機能
-    description: このOpenProjectプラグインはBIMとBCF機能を提供します。
-  bim:
-    label_bim: BIM
-  bcf:
-    label_bcf: BCF
-    label_imported_failed: BCFトピックのインポートに失敗しました
-    label_imported_successfully: BCFトピックを正常にインポートしました
-    label_bcf_issue_associated: BCF チケット関連
-    issues: チケット
-    recommended: 推奨
-    not_recommended: 非推奨
-    no_viewpoints: ビューポイントはありません
-    new_badge: 新しく作成
-    exceptions:
-      file_invalid: BCFファイルが無効
-    x_bcf_issues:
-      zero: BCF チケットがありません
-      one: 1 件の BCF チケット
-      other: "%{count} 件 BCF チケット"
-    bcf_xml:
-      xml_file: BCF XML ファイル
-      import_title: インポート
-      export: 外部出力
-      import_update_comment: "(BCF インポートで更新済)"
-      import_failed: 'BCF ファイルをインポートできません: %{error}'
-      import_failed_unsupported_bcf_version: 'BCF ファイルの読み取りに失敗しました: BCF バージョンはサポートされていません。少なくとも %{minimal_version} 以上のバージョンであることを確認してください。'
-      import_successful: "%{count} BCF チケットをインポートしました"
-      import_canceled: BCF-XML インポートをキャンセルしました。
-      type_not_active: チケットの形式がこのプロジェクトで有効になっていません。
-      import:
-        num_issues_found: "%{x_bcf_issues} は BCF-XML ファイルに含まれています。詳細は下に一覧表示されます。"
-        button_prepare: インポートの準備
-        button_perform_import: インポートの確認
-        button_proceed: インポートを続ける
-        button_back_to_list: リストに戻る
-        no_permission_to_add_members: プロジェクトにメンバーとして追加するための十分な権限がありません。
-        contact_project_admin: プロジェクト管理者に連絡してメンバーとして追加し、このインポートをもう一度開始してください。
-        continue_anyways: とにかく続行してインポートを完了しますか?
-        description: BCF-XML v2.1 ファイルをこのプロジェクトにインポートします。インポートを実行する前に内容を確認することができます。
-        invalid_types_found: 無効なトピックタイプ名が見つかりました
-        invalid_statuses_found: 無効なステータス名が見つかりました
-        invalid_priorities_found: 無効な優先度名が見つかりました
-        invalid_emails_found: 無効なメールアドレスが見つかりました
-        unknown_emails_found: 不明なメールアドレスが見つかりました
-        unknown_property: 不明な優先度
-        non_members_found: 非プロジェクトメンバーが見つかりました
-        import_types_as: これらすべてのタイプを次に設定
-        import_statuses_as: これらすべてのステータスを次に設定
-        import_priorities_as: これらすべての優先度を次に設定
-        invite_as_members_with_role: 次の役割で、プロジェクト "%{project}" のメンバーとして招待します
-        add_as_members_with_role: 次の役割で、プロジェクト "%{project}" のメンバーとして追加します
-        no_type_provided: タイプが入力されていません
-        no_status_provided: ステータスが入力されていません
-        no_priority_provided: 優先度が入力されていません
-        perform_description: 上に一覧表示されたチケットをインポートまたは更新しますか?
-        replace_with_system_user: それらを "システム" ユーザーに置き換え
-        import_as_system_user: それらを "システム" ユーザーとしてインポート
-        what_to_do: どれかを選択して下さい。
-        work_package_has_newer_changes: 期限切れです! サーバー上の前回の変更がインポートされたトピックの「更新日付」よりも新しいため、このトピックは更新されませんでした。 ただし、トピックへのコメントはインポートされました。
-        bcf_file_not_found: BCFファイルが見つかりませんでした。再度アップロードを開始してください。
-  export:
-    format:
-      bcf: BCF-XML
-  attributes:
-    bcf_thumbnail: BCF スナップショット
-  project_module_bcf: BCF
-  project_module_bim: BCF
-  permission_view_linked_issues: BCF チケットを表示
-  permission_manage_bcf: BCF チケットのインポートと管理
-  permission_delete_bcf: BCFチケットの削除
-  oauth:
-    scopes:
-      bcf_v2_1: BCF v2.1 API へのフルアクセス
-      bcf_v2_1_text: アプリケーションは、あなたに代わってアクションを実行するためにOpenProjectのBCF API v2.1への完全な読み取りおよび書き込みアクセスを受け取ります。
   activerecord:
-    models:
-      bim/ifc_models/ifc_model: IFCモデル
     attributes:
-      bim/ifc_models/ifc_model:
-        ifc_attachment: IFCファイル
-        is_default: デフォルトモデル
-        attachments: IFCファイル
       bim/bcf/issue:
         bcf_comment: BCF コメント
         bim_snippet: BIMスニペット
         reference_links: 参照リンク
         stage: ステージ
         viewpoint: ビューポイント
+      bim/ifc_models/ifc_model:
+        attachments: IFCファイル
+        ifc_attachment: IFCファイル
+        is_default: デフォルトモデル
     errors:
       models:
-        bim/ifc_models/ifc_model:
-          attributes:
-            base:
-              ifc_attachment_missing: IFCファイルが添付されていません。
-              invalid_ifc_file: 与えられたファイルは有効なIFCファイルではありません。
+        bim/bcf/issue:
+          uuid_already_taken: 同じGUIDを持つ別のチケットが存在するため、BCFチケットをインポートできません。このBCFチケットは既に他のプロジェクトにインポートされていませんか？
         bim/bcf/viewpoint:
           bitmaps_not_writable: ビットマップはまだ実装されていないため書き込み可能ではありません。
           index_not_integer: インデックスはIntegerではありません。
@@ -108,37 +26,123 @@ ja:
           invalid_perspective_camera: perspective_cameraが無効です。
           mismatching_guid: json_viewpoint のガイドがモデルのガイドと一致しません。
           no_json: 構造化されたjsonではありません。
-          snapshot_type_unsupported: snapshot_type は 'png' または 'jpg' のいずれかにする必要があります。
           snapshot_data_blank: snapshot_data を提供する必要があります。
+          snapshot_type_unsupported: snapshot_type は 'png' または 'jpg' のいずれかにする必要があります。
           unsupported_key: サポートされていない json プロパティが含まれています。
-        bim/bcf/issue:
-          uuid_already_taken: 同じGUIDを持つ別のチケットが存在するため、BCFチケットをインポートできません。このBCFチケットは既に他のプロジェクトにインポートされていませんか？
-  ifc_models:
-    label_ifc_models: IFCモデル
-    label_new_ifc_model: 新しいIFCモデル
-    label_show_defaults: デフォルトを表示
-    label_default_ifc_models: デフォルトのIFCモデル
-    label_edit_defaults: デフォルトを編集
-    no_defaults_warning:
-      title: このプロジェクトでは、IFCモデルがデフォルトとして設定されていません
-      check_1: IFCモデルが1つ以上アップロードされていることを確認してください。
-      check_2: 1つ以上のIFCモデルが"デフォルト"に設定されていることを確認してください。
-    no_results: このプロジェクトにはIFCモデルがアップロードされていません。
-    conversion_status:
-      label: 処理中ですか？
-      pending: 保留中
-      processing: 処理中
-      completed: 完了しました
-      error: エラー
-    processing_notice:
-      processing_default: 以下のデフォルトIFCモデルは処理中のため利用できません。
-    flash_messages:
-      upload_successful: アップロードに成功しました。数分で使用できるようになります。
-    conversion:
-      missing_commands: 以下のIFCコンバーターコマンドがこのシステムにありません:%{names}
-  project_module_ifc_models: IFCモデル
-  permission_view_ifc_models: IFCモデルを見る
-  permission_manage_ifc_models: IFCモデルのインポートと管理
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: IFCファイルが添付されていません。
+              invalid_ifc_file: 与えられたファイルは有効なIFCファイルではありません。
+    models:
+      bim/ifc_models/ifc_model: IFCモデル
+  attributes:
+    bcf_thumbnail: BCF スナップショット
+  bcf:
+    bcf_xml:
+      export: 外部出力
+      import:
+        add_as_members_with_role: 次の役割で、プロジェクト "%{project}" のメンバーとして追加します
+        bcf_file_not_found: BCFファイルが見つかりませんでした。再度アップロードを開始してください。
+        button_back_to_list: リストに戻る
+        button_perform_import: インポートの確認
+        button_prepare: インポートの準備
+        button_proceed: インポートを続ける
+        contact_project_admin: プロジェクト管理者に連絡してメンバーとして追加し、このインポートをもう一度開始してください。
+        continue_anyways: とにかく続行してインポートを完了しますか?
+        description: BCF-XML v2.1 ファイルをこのプロジェクトにインポートします。インポートを実行する前に内容を確認することができます。
+        import_as_system_user: それらを "システム" ユーザーとしてインポート
+        import_priorities_as: これらすべての優先度を次に設定
+        import_statuses_as: これらすべてのステータスを次に設定
+        import_types_as: これらすべてのタイプを次に設定
+        invalid_emails_found: 無効なメールアドレスが見つかりました
+        invalid_priorities_found: 無効な優先度名が見つかりました
+        invalid_statuses_found: 無効なステータス名が見つかりました
+        invalid_types_found: 無効なトピックタイプ名が見つかりました
+        invite_as_members_with_role: 次の役割で、プロジェクト "%{project}" のメンバーとして招待します
+        no_permission_to_add_members: プロジェクトにメンバーとして追加するための十分な権限がありません。
+        no_priority_provided: 優先度が入力されていません
+        no_status_provided: ステータスが入力されていません
+        no_type_provided: タイプが入力されていません
+        non_members_found: 非プロジェクトメンバーが見つかりました
+        num_issues_found: "%{x_bcf_issues} は BCF-XML ファイルに含まれています。詳細は下に一覧表示されます。"
+        perform_description: 上に一覧表示されたチケットをインポートまたは更新しますか?
+        replace_with_system_user: それらを "システム" ユーザーに置き換え
+        unknown_emails_found: 不明なメールアドレスが見つかりました
+        unknown_property: 不明な優先度
+        what_to_do: どれかを選択して下さい。
+        work_package_has_newer_changes: 期限切れです! サーバー上の前回の変更がインポートされたトピックの「更新日付」よりも新しいため、このトピックは更新されませんでした。 ただし、トピックへのコメントはインポートされました。
+      import_canceled: BCF-XML インポートをキャンセルしました。
+      import_failed: 'BCF ファイルをインポートできません: %{error}'
+      import_failed_unsupported_bcf_version: 'BCF ファイルの読み取りに失敗しました: BCF バージョンはサポートされていません。少なくとも %{minimal_version} 以上のバージョンであることを確認してください。'
+      import_successful: "%{count} BCF チケットをインポートしました"
+      import_title: インポート
+      import_update_comment: "(BCF インポートで更新済)"
+      type_not_active: チケットの形式がこのプロジェクトで有効になっていません。
+      xml_file: BCF XML ファイル
+    exceptions:
+      file_invalid: BCFファイルが無効
+    issues: チケット
+    label_bcf: BCF
+    label_bcf_issue_associated: BCF チケット関連
+    label_imported_failed: BCFトピックのインポートに失敗しました
+    label_imported_successfully: BCFトピックを正常にインポートしました
+    new_badge: 新しく作成
+    no_viewpoints: ビューポイントはありません
+    not_recommended: 非推奨
+    recommended: 推奨
+    x_bcf_issues:
+      one: 1 件の BCF チケット
+      other: "%{count} 件 BCF チケット"
+      zero: BCF チケットがありません
+  bim:
+    error_direct_upload_failed: Direct upload failed.
+    label_bim: BIM
+  export:
+    format:
+      bcf: BCF-XML
   extraction:
     available:
       ifc_convert: IFC変換パイプラインは利用可能です
+  ifc_models:
+    conversion:
+      missing_commands: 以下のIFCコンバーターコマンドがこのシステムにありません:%{names}
+    conversion_status:
+      completed: 完了しました
+      error: エラー
+      label: 処理中ですか？
+      pending: 保留中
+      processing: 処理中
+    flash_messages:
+      upload_successful: アップロードに成功しました。数分で使用できるようになります。
+    label_default_ifc_models: デフォルトのIFCモデル
+    label_edit_defaults: デフォルトを編集
+    label_ifc_models: IFCモデル
+    label_new_ifc_model: 新しいIFCモデル
+    label_show_defaults: デフォルトを表示
+    no_defaults_warning:
+      check_1: IFCモデルが1つ以上アップロードされていることを確認してください。
+      check_2: 1つ以上のIFCモデルが"デフォルト"に設定されていることを確認してください。
+      title: このプロジェクトでは、IFCモデルがデフォルトとして設定されていません
+    no_results: このプロジェクトにはIFCモデルがアップロードされていません。
+    processing_notice:
+      processing_default: 以下のデフォルトIFCモデルは処理中のため利用できません。
+  oauth:
+    scopes:
+      bcf_v2_1: BCF v2.1 API へのフルアクセス
+      bcf_v2_1_text: アプリケーションは、あなたに代わってアクションを実行するためにOpenProjectのBCF API v2.1への完全な読み取りおよび書き込みアクセスを受け取ります。
+  permission_delete_bcf: BCFチケットの削除
+  permission_manage_bcf: BCF チケットのインポートと管理
+  permission_manage_bcf_explanation: |
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+  permission_manage_ifc_models: IFCモデルのインポートと管理
+  permission_view_ifc_models: IFCモデルを見る
+  permission_view_linked_issues: BCF チケットを表示
+  plugin_openproject_bim:
+    description: このOpenProjectプラグインはBIMとBCF機能を提供します。
+    name: OpenProject BIMとBCFの機能
+  project_module_bcf: BCF
+  project_module_bim: BCF
+  project_module_ifc_models: IFCモデル

@@ -78,7 +78,7 @@ module Boards
 
     def statuses_from_last_sprint_board
       last_board = Boards::Grid
-        .where(project: params[:project], linked_type: "Agile::Sprint")
+        .where(project: params[:project], linked_type: "Sprint")
         .order(created_at: :desc)
         .first
 
@@ -100,7 +100,9 @@ module Boards
       type_ids = params[:sprint].work_packages.distinct.pluck(:type_id)
       type_ids = params[:project].type_ids if type_ids.empty?
 
-      Type.statuses(type_ids)
+      # Workflows are configuration, so the columns come from whichever family member the
+      # project resolves to rather than from the root the work packages store.
+      Type.statuses(params[:project].effective_types(*type_ids).ids)
     end
 
     def query_name(status)

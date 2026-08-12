@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -58,7 +58,7 @@ export class CustomDateActionAdminComponent implements OnInit {
 
   private currentFieldValue = '%CURRENT_DATE%';
 
-  private elementRef = inject(ElementRef);
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private cdRef = inject(ChangeDetectorRef);
   public appRef = inject(ApplicationRef);
   private I18n = inject(I18nService);
@@ -72,7 +72,7 @@ export class CustomDateActionAdminComponent implements OnInit {
 
   // cannot use $onInit as it would be called before the operators gets filled
   public ngOnInit() {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     this.fieldName = element.dataset.fieldName! || '';
     this.fieldValue = element.dataset.fieldValue! || '';
 

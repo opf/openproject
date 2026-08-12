@@ -34,7 +34,7 @@ module Queries::Operators
     set_symbol "="
 
     def self.sql_for_field(values, db_table, db_field)
-      "#{db_table}.#{db_field} IN (#{values.map { |val| "'#{connection.quote_string(val)}'" }.join(',')})"
+      OpenProject::SqlSanitization.sanitize("#{db_table}.#{db_field} IN (?)", values)
     end
   end
 end

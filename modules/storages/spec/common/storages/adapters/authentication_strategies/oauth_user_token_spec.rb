@@ -34,7 +34,7 @@ require_module_spec_helper
 module Storages
   module Adapters
     module AuthenticationStrategies
-      RSpec.describe OAuthUserToken, :webmock do
+      RSpec.describe OAuthUserToken, :disable_ssrf_filter, :webmock do
         let(:user) { create(:user) }
         let(:storage) do
           create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
@@ -149,7 +149,7 @@ module Storages
         end
 
         def error(code)
-          Failure(Results::Error.new(source: "EXECUTING_QUERY", code:))
+          Failure(SimpleError.new(source: "EXECUTING_QUERY", code:))
         end
       end
     end

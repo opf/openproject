@@ -160,7 +160,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
 
     describe "displayId" do
       context "when semantic work package ids are active",
-              with_flag: { semantic_work_package_ids: true },
               with_settings: { work_packages_identifier: "semantic" } do
         let(:project) { create(:project, identifier: "PROJ", types: [type]) }
 
@@ -258,6 +257,20 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
   describe "author link" do
     it_behaves_like "principal link", "author", only_user: true do
       let(:author) { principal_object }
+    end
+  end
+
+  describe "type link for a variant" do
+    let(:root_type) { create(:type, name: "Task") }
+    let(:type) { create(:type, name: "Bug", parent: root_type) }
+
+    it "keeps the variant's own href but shows the root name as the title" do
+      expect(json)
+        .to be_json_eql(api_v3_paths.type(type.id).to_json)
+        .at_path("_links/type/href")
+      expect(json)
+        .to be_json_eql("Task".to_json)
+        .at_path("_links/type/title")
     end
   end
 end

@@ -1,20 +1,24 @@
-.controller-workflows
-  #content-body
-    overflow-x: scroll
+// Only the transition table scrolls; the surrounding elements (banner, buttons) live outside this frame and stay put.
+// The outer configuration frame must be a block for the inner frame's width to stay bounded and scroll.
+turbo-frame#type-configuration-frame
+  display: block
 
-  &.action-edit
-    #content-body
-      margin-bottom: 72px // 16px (mt: 3) + 32px (button) + 24px (mb: 4)
+turbo-frame#workflow-table
+  display: block
+  width: 100%
+  overflow-x: auto
 
-  turbo-frame#workflow-table
-    width: 100%
+  #workflows-matrix-editor-component
+    display: contents
 
-  #workflows-edit-sub-header-component
+  sub-header
     position: sticky
     left: 0
     background: var(--body-background)
 
-#workflow_form
+// Mirrors Workflows::MatrixEditorComponent::STATE_ID, the element wrapping the matrix in
+// every host of the editor
+#workflow_matrix
   .generic-table--results-container
     position: relative
     overflow: visible
@@ -75,13 +79,21 @@
   th:first-child
     z-index: 3
 
-.workflow-save-bar
-  position: fixed
-  bottom: 0
-  left: var(--main-menu-width)
-  right: 0
-  background: var(--body-background)
-  z-index: 100
+// Edit tab pins the save button; wizard step keeps it together to not mess with the footer
+.workflow-table--pinned-save-bar
+  // This form computes to display: inline, where the padding below would paint but reserve
+  // no space, leaving the last rows stuck behind the pinned bar with nothing left to scroll
+  display: block
+  // Clear the pinned save bar so the last rows aren't hidden behind it
+  padding-bottom: 72px // 16px (mt: 3) + 32px (button) + 24px (mb: 4)
+
+  .workflow-save-bar
+    position: fixed
+    bottom: 0
+    left: var(--main-menu-width)
+    right: 0
+    background: var(--body-background)
+    z-index: 100
 
 .workflow-status-dialog-body
   min-height: 480px

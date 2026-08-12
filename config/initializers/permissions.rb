@@ -42,14 +42,12 @@ Rails.application.reloader.to_prepare do
                      { portfolios: %i[new create] },
                      permissible_on: :global,
                      require: :loggedin,
-                     visible: -> { OpenProject::FeatureDecisions.portfolio_models_active? },
                      contract_actions: { portfolios: %i[create] }
 
       map.permission :add_programs,
                      { programs: %i[new create] },
                      permissible_on: :global,
                      require: :loggedin,
-                     visible: -> { OpenProject::FeatureDecisions.portfolio_models_active? },
                      contract_actions: { programs: %i[create] }
 
       map.permission :archive_project,
@@ -62,7 +60,7 @@ Rails.application.reloader.to_prepare do
       map.permission :create_backup,
                      {
                        admin: %i[index],
-                       "admin/backups": %i[delete_token perform_token_reset reset_token show]
+                       "admin/backups": %i[delete_token perform_token_reset request_backup reset_token_dialog show]
                      },
                      permissible_on: :global,
                      require: :loggedin,
@@ -70,7 +68,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :create_user,
                      {
-                       users: %i[index show new create resend_invitation],
+                       users: %i[index show new create resend_invitation configure_view_modal],
                        "users/memberships": %i[create],
                        admin: %i[index]
                      },
@@ -85,7 +83,8 @@ Rails.application.reloader.to_prepare do
                                  update_reminders update_email_alerts update_workdays
                                  update_participating update_non_participating update_date_alerts
                                  new_project_settings create_project_settings
-                                 edit_project_settings update_project_settings destroy_project_settings],
+                                 edit_project_settings update_project_settings destroy_project_settings
+                                 configure_view_modal],
                        "users/memberships": %i[create update destroy],
                        admin: %i[index]
                      },
@@ -96,7 +95,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :view_all_principals,
                      {
-                       users: %i[index show]
+                       users: %i[index show configure_view_modal]
                      },
                      permissible_on: :global,
                      require: :loggedin,
@@ -119,7 +118,7 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin
 
       map.permission :view_project,
-                     { projects: %i[show] },
+                     { projects: %i[show list_row_menu] },
                      permissible_on: :project,
                      public: true
 
@@ -240,7 +239,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_types,
                      {
-                       "projects/settings/work_packages/types": %i[show update]
+                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update],
+                       "projects/settings/work_packages/types/switches": %i[new create]
                      },
                      permissible_on: :project,
                      require: :member
@@ -315,7 +315,8 @@ Rails.application.reloader.to_prepare do
                        "work_packages/menus": %i[show],
                        "work_packages/hover_card": %i[show],
                        work_package_relations_tab: %i[index],
-                       "work_packages/reminders": %i[modal_body create update destroy]
+                       "work_packages/reminders": %i[modal_body create update destroy],
+                       "work_packages/project_attributes_tab": %i[index]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }
@@ -535,63 +536,6 @@ Rails.application.reloader.to_prepare do
       news.permission :comment_news,
                       { "news/comments": :create },
                       permissible_on: :project
-    end
-
-    map.project_module :wiki do |wiki|
-      wiki.permission :view_wiki_pages,
-                      { wiki: %i[index show special menu] },
-                      permissible_on: :project
-
-      wiki.permission :list_attachments,
-                      { wiki: :list_attachments },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :manage_wiki,
-                      { wikis: %i[edit destroy] },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :manage_wiki_menu,
-                      { wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item] },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :rename_wiki_pages,
-                      { wiki: :rename },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :change_wiki_parent_page,
-                      { wiki: %i[edit_parent_page update_parent_page] },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :delete_wiki_pages,
-                      { wiki: :destroy },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :export_wiki_pages,
-                      { wiki: [:export] },
-                      permissible_on: :project
-
-      wiki.permission :view_wiki_edits,
-                      { wiki: %i[history diff annotate] },
-                      permissible_on: :project
-
-      wiki.permission :edit_wiki_pages,
-                      { wiki: %i[edit update preview add_attachment new new_child create] },
-                      permissible_on: :project
-
-      wiki.permission :delete_wiki_pages_attachments,
-                      {},
-                      permissible_on: :project
-
-      wiki.permission :protect_wiki_pages,
-                      { wiki: :protect },
-                      permissible_on: :project,
-                      require: :member
     end
 
     map.project_module :repository do |repo|

@@ -38,9 +38,10 @@ RSpec.describe "API v3 Sprint resource on project", content_type: :json do
   shared_let(:project) { create(:project, public: false) }
   shared_let(:other_project) { create(:project, public: false) }
   shared_let(:project_without_permission) { create(:project, public: false) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
-  shared_let(:other_sprint) { create(:agile_sprint, project: other_project) }
-  shared_let(:sprint_without_permission) { create(:agile_sprint, project: project_without_permission) }
+  shared_let(:sprint) { create(:sprint, project:) }
+  shared_let(:finished_sprint) { create(:sprint, project:, status: :completed) }
+  shared_let(:other_sprint) { create(:sprint, project: other_project) }
+  shared_let(:sprint_without_permission) { create(:sprint, project: project_without_permission) }
 
   let(:permissions) { %i[view_sprints] }
 
@@ -60,8 +61,8 @@ RSpec.describe "API v3 Sprint resource on project", content_type: :json do
     end
 
     context "for a user with view_sprints permission" do
-      it_behaves_like "API V3 collection response", 1, 1, "Sprint" do
-        let(:elements) { [sprint] }
+      it_behaves_like "API V3 collection response", 2, 2, "Sprint" do
+        let(:elements) { [finished_sprint, sprint] }
       end
     end
 
@@ -69,6 +70,12 @@ RSpec.describe "API v3 Sprint resource on project", content_type: :json do
       let(:permissions) { [] }
 
       it_behaves_like "unauthorized access"
+    end
+
+    context "for a user being not a project member at all" do
+      let(:get_path) { api_v3_paths.project_sprints(project_without_permission.id) }
+
+      it_behaves_like "not found"
     end
   end
 end

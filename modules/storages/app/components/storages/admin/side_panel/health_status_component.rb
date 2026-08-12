@@ -39,8 +39,7 @@ module Storages
         private
 
         def report
-          validator = Adapters::Registry.resolve("#{model}.validators.connection").new(model)
-          Rails.cache.read(validator.report_cache_key)
+          model.health_reports.order(created_at: :asc).last
         end
       end
     end

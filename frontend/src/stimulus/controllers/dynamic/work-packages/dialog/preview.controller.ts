@@ -1,43 +1,35 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { Controller } from '@hotwired/stimulus';
+import type { FrameElement, TurboBeforeFrameRenderEvent } from '@hotwired/turbo';
 import { Idiomorph } from 'idiomorph';
-
-interface TurboBeforeFrameRenderEventDetail {
-  render:(currentElement:HTMLElement, newElement:HTMLElement) => void;
-}
-
-interface HTMLTurboFrameElement extends HTMLElement {
-  src:string;
-}
+import { isOpenProjectCustomElement } from 'core-turbo/openproject-custom-element';
 
 export abstract class DialogPreviewController extends Controller {
   static targets = [
@@ -52,7 +44,7 @@ export abstract class DialogPreviewController extends Controller {
   declare readonly initialValueInputTargets:HTMLInputElement[];
   declare readonly touchedFieldInputTargets:HTMLInputElement[];
 
-  protected frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
+  protected frameMorphRenderer:(event:TurboBeforeFrameRenderEvent) => void;
   protected targetFieldName:string;
   protected touchedFields:Set<string>;
 
@@ -73,20 +65,20 @@ export abstract class DialogPreviewController extends Controller {
     // new ids, the ids referenced by `aria-describedby` are stale. This makes
     // caption and validation message unaccessible for screen readers and other
     // assistive technologies. This is why morph cannot be used here.
-    this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
-      const target = event.target as HTMLTurboFrameElement;
+    this.frameMorphRenderer = (event:TurboBeforeFrameRenderEvent) => {
+      const target = event.target as FrameElement;
       const requestUrl = new URL(target.src || '', window.location.origin);
       // Do not replace the angular datepicker unless the schedule_manually flag is changed.
       const schedulingChanged = requestUrl.searchParams.has('schedule_manually');
 
-      event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
+      event.detail.render = (currentElement, newElement) => {
         Idiomorph.morph(currentElement, newElement, {
           ignoreActiveValue: this.ignoreActiveValueWhenMorphing(),
           callbacks: {
-            beforeNodeMorphed: (oldNode:Element, newNode:Element) => {
+            beforeNodeMorphed: (oldNode, newNode) => {
               // In case the element is an OpenProject custom dom element, prevent morphing and
               // replace the angular tag with the new version.
-              if (oldNode.tagName?.startsWith('OPCE-')) {
+              if (isOpenProjectCustomElement(oldNode)) {
                 if (schedulingChanged) {
                   oldNode.replaceWith(newNode);
                 }
@@ -106,15 +98,13 @@ export abstract class DialogPreviewController extends Controller {
       }
     });
 
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
-    turboFrame.addEventListener('turbo:before-frame-render', this.frameMorphRenderer);
+    const turboFrame = this.formTarget.closest('turbo-frame');
+    turboFrame?.addEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
 
   disconnect() {
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
-    if (turboFrame) {
-      turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
-    }
+    const turboFrame = this.formTarget.closest('turbo-frame');
+    turboFrame?.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
 
   protected cancel():void {
@@ -147,7 +137,7 @@ export abstract class DialogPreviewController extends Controller {
     }
 
     const previewUrl = `${form.action}/preview?${new URLSearchParams(wpParams).toString()}`;
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
+    const turboFrame = this.formTarget.closest('turbo-frame');
 
     if (turboFrame) {
       turboFrame.src = previewUrl;

@@ -1,22 +1,21 @@
-#English strings go here
 ---
 pl:
-  plugin_openproject_team_planner:
-    name: Planista zespołu OpenProject
-    description: Dostarcza widoki planisty zespołu.
-  permission_view_team_planner: Wyświetlanie planisty zespołu
-  permission_manage_team_planner: Zarządzanie planistą zespołu
-  project_module_team_planner_view: Planiści zespołu
   ee:
     feature_names:
       team_planner_view: Planista zespołu
     upsell:
       team_planner_view:
-        title: Planista zespołu
         description: Zdobądź pełny przegląd planowania swojej drużyny za pomocą Planisty zespołu. Rozciągnij, skróć i przeciągnij pakiety robocze, aby modyfikować daty, przenosić je lub zmieniać przypisane osoby.
+        title: Planista zespołu
+  permission_manage_team_planner: Zarządzanie planistą zespołu
+  permission_view_team_planner: Wyświetlanie planisty zespołu
+  plugin_openproject_team_planner:
+    description: Dostarcza widoki planisty zespołu.
+    name: Planista zespołu OpenProject
+  project_module_team_planner_view: Planiści zespołu
   team_planner:
-    label_team_planner: Planista zespołu
-    label_new_team_planner: Nowy planista zespołu
-    label_create_new_team_planner: Utwórz nowego planistę zespołu
-    label_team_planner_plural: Planiści zespołu
     label_assignees: Przypisane osoby
+    label_create_new_team_planner: Utwórz nowego planistę zespołu
+    label_new_team_planner: Nowy planista zespołu
+    label_team_planner: Planista zespołu
+    label_team_planner_plural: Planiści zespołu

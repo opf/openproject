@@ -30,13 +30,24 @@
 
 require "spec_helper"
 
-RSpec.describe "Jira instance configuration", :js, with_flag: { jira_import: true } do
+RSpec.describe "Jira instance configuration", :js do
   shared_let(:admin) { create(:admin) }
 
   current_user { admin }
 
   describe "new form" do
     before { visit new_admin_import_jira_path }
+
+    it "offers testing the configuration via a caption link instead of a button" do
+      expect(page).to have_no_button("Test configuration")
+      expect(page).to have_link("clicking here")
+    end
+
+    it "cancels back to the Jira import overview" do
+      click_on "Cancel"
+
+      expect(page).to have_current_path(admin_import_jira_index_path)
+    end
 
     it "does not restore form values when navigating back after a successful creation" do
       fill_in "Name", with: "My Jira"
@@ -88,6 +99,7 @@ RSpec.describe "Jira instance configuration", :js, with_flag: { jira_import: tru
     it "shows the masked token with a delete button when a token is present" do
       expect(page).to have_field("Personal Access Token", with: "*********", disabled: true)
       expect(page).to have_css("[href='/admin/import/jira/9/delete_token']")
+      expect(page).to have_link("clicking here")
     end
 
     it "deletes the token and shows the token input field" do

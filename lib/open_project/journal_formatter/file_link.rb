@@ -86,7 +86,7 @@ class OpenProject::JournalFormatter::FileLink < JournalFormatter::Base
 
   def format_html_file_link_detail(key, value)
     if file_link = file_link_for(key, value)
-      link_to_file_link(file_link, only_path: false)
+      link_to_file_link(file_link, only_path: false, target: "_blank")
     elsif value.present?
       value
     end

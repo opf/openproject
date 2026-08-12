@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          RSpec.describe AmpfConfigurationValidator, :webmock do
+          RSpec.describe AmpfConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:nextcloud_storage_with_local_connection, :as_automatically_managed) }
             let(:project_folder_id) { "1337" }
             let!(:project_storage) do
@@ -208,7 +208,7 @@ module Storages
             private
 
             def build_failure(code:, payload: nil)
-              error = Results::Error.new(code:, payload:, source: self)
+              error = SimpleError.new(code:, payload:, source: self)
               Failure(error)
             end
           end

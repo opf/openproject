@@ -10,12 +10,12 @@ This page summarizes the options for getting OpenProject, some hosted and some o
 
 ## On-premises
 
-* **Community edition** - The free, no license, edition of OpenProject that you install on-premise. The additional add-ons of the Enterprise edition are not included. See the "Installation" row of the table below.
-* **Enterprise on-premise edition** - Builds on top of the Community edition: Enterprise add-ons, professional support, hosted on-premises with optional installation support. See more [on the website](https://www.openproject.org/enterprise-edition/), where you can apply for a free trial, or in the [documentation](../enterprise-guide/enterprise-on-premises-guide/). The Community edition can easily be upgraded to the Enterprise on-premises edition.
+- **Community edition** - The free, no license, edition of OpenProject that you install on-premise. The additional add-ons of the Enterprise edition are not included. See the "Installation" row of the table below.
+- **Enterprise on-premise edition** - Builds on top of the Community edition: Enterprise add-ons, professional support, hosted on-premises with optional installation support. See more [on the website](https://www.openproject.org/enterprise-edition/), where you can apply for a free trial, or in the [documentation](../enterprise-guide/enterprise-on-premises-guide/). The Community edition can easily be upgraded to the Enterprise on-premises edition.
 
 ## Hosted
 
-* **Enterprise Enterprise cloud edition** - Hosted by OpenProject in an EU Data Center, with Enterprise add-ons and professional support . See more on the [website](https://www.openproject.org/enterprise-edition/#hosting-options), where you can apply for a free trial, or in the [documentation](../enterprise-guide/enterprise-cloud-guide/).
+- **Enterprise Enterprise cloud edition** - Hosted by OpenProject in an EU Data Center, with Enterprise add-ons and professional support . See more on the [website](https://www.openproject.org/enterprise-edition/#hosting-options), where you can apply for a free trial, or in the [documentation](../enterprise-guide/enterprise-cloud-guide/).
 
 All editions can be enhanced by adding [the BIM module](../bim-guide/), including features for construction project management, i.e. 3D model viewer, BCF management. See how to [switch to that edition](bim-edition/) in the documentation or how to start a [BIM Enterprise cloud edition](https://start.openproject.com/trial/bim).
 

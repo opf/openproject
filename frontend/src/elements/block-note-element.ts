@@ -1,32 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { User } from '@blocknote/core/comments';
 import { HocuspocusProvider } from '@hocuspocus/provider';
@@ -49,19 +47,12 @@ class BlockNoteElement extends HTMLElement {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     this.editorRoot = document.createElement('div');
-    const browserSpecificClasses = this.getAttribute('browser-specific-classes')?.split(' ') ?? [];
+    const browserSpecificClasses = this.getAttribute('browser-specific-classes')?.split(' ').filter(Boolean) ?? [];
     if (browserSpecificClasses.length > 0) {
       this.editorRoot.classList.add(...browserSpecificClasses);
     }
-    // Clone the blank-target link description into the shadow DOM
-    // so aria-describedby references resolve for links inside the editor
-    const blankLinkDesc = document.getElementById('open-blank-target-link-description');
-    if (blankLinkDesc) {
-      this.editorRoot.appendChild(blankLinkDesc.cloneNode(true));
-    }
 
     this.editorMount = document.createElement('div');
-
     this.editorRoot.appendChild(this.editorMount);
     shadowRoot.appendChild(this.editorRoot);
 
@@ -89,9 +80,14 @@ class BlockNoteElement extends HTMLElement {
     this.reactRoot = createRoot(this.editorMount);
 
     this.renderCallback = (provider:HocuspocusProvider) => {
-      this.reactRoot?.render(
-        React.createElement(React.StrictMode, null, this.BlockNoteReactContainer(provider))
-      );
+      // Do NOT wrap in React.StrictMode. StrictMode's dev-mode double-mount causes
+      // BlockNoteView to destroy and recreate the ProseMirror view between the two mounts.
+      // y-prosemirror's `yUndoPlugin` destroys the Y.UndoManager on view-destroy (removing
+      // its `afterTransaction` handler from the Y.Doc), but the plugin's STATE retains the
+      // now-destroyed UndoManager reference. On the second mount the editor reuses the
+      // destroyed UndoManager, no `afterTransaction` handler is ever re-attached, no stack
+      // items are recorded, and Ctrl+Z becomes a no-op.
+      this.reactRoot?.render(this.BlockNoteReactContainer(provider));
     };
 
     LiveCollaborationManager.onReady(this.renderCallback);
@@ -122,6 +118,7 @@ class BlockNoteElement extends HTMLElement {
           openProjectUrl: this.getAttribute('open-project-url') ?? '',
           attachmentsUploadUrl: this.getAttribute('attachments-upload-url') ?? '',
           attachmentsCollectionKey: this.getAttribute('attachments-collection-key') ?? '',
+          captureExternalLinks: document.body.dataset.externalLinksEnabledValue === 'true',
           hocuspocusProvider,
         }
       )

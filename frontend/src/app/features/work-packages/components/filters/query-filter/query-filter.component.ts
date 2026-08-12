@@ -21,27 +21,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnInit,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   compareByHref,
-  halHref,
 } from 'core-app/shared/helpers/angular/tracking-functions';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -58,9 +47,15 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class QueryFilterComponent implements OnInit {
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly I18n = inject(I18nService);
+  readonly currentProject = inject(CurrentProjectService);
+
   @HostBinding('class.op-query-filter') className = true;
 
   @Input() public shouldFocus = false;
@@ -90,15 +85,6 @@ export class QueryFilterComponent implements OnInit {
     button_delete: this.I18n.t('js.button_delete'),
     incompatible_filter: this.I18n.t('js.work_packages.filters.baseline_incompatible'),
   };
-
-  constructor(
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-    readonly wpTableBaseline:WorkPackageViewBaselineService,
-    readonly schemaCache:SchemaCacheService,
-    readonly I18n:I18nService,
-    readonly currentProject:CurrentProjectService,
-  ) {
-  }
 
   public onFilterUpdated(filter:QueryFilterInstanceResource) {
     this.filter = filter;

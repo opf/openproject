@@ -31,27 +31,15 @@
 require "spec_helper"
 
 RSpec.describe "wiki child pages", :js, :selenium do
-  let(:project) do
-    create(:project)
-  end
-  let(:user) do
-    create(:user, member_with_roles: { project => role })
-  end
-  let(:role) do
-    create(:project_role,
-           permissions: %i[view_wiki_pages edit_wiki_pages])
-  end
-  let(:parent_page) do
-    create(:wiki_page,
-           wiki: project.wiki)
-  end
+  let(:project) { create(:project, :with_internal_wiki).reload }
+  let(:user) { create(:user, member_with_roles: { project => role }) }
+  let(:role) { create(:project_role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
+  let(:parent_page) { create(:wiki_page, wiki: project.wiki) }
   let(:child_page_name) { 'The child page !@#{$%^&*()_},./<>?;\':' }
 
-  before do
-    login_as user
-  end
+  before { login_as user }
 
-  it "adding a childpage" do
+  it "adding a child page" do
     visit project_wiki_path(project, parent_page.title)
 
     click_on "Wiki page"
@@ -61,7 +49,7 @@ RSpec.describe "wiki child pages", :js, :selenium do
 
     find(".ck-content").set("The child page's content")
 
-    click_button "Save"
+    click_button "Create"
 
     # hierarchy displayed in the breadcrumb
     within('[data-test-selector="wiki-page-header-breadcrumbs"]') do
@@ -69,12 +57,14 @@ RSpec.describe "wiki child pages", :js, :selenium do
     end
 
     # hierarchy displayed in the sidebar
-    expect(page).to have_css(".pages-hierarchy", text: parent_page.title)
-    expect(page).to have_css(".pages-hierarchy", text: child_page_name)
+    within_test_selector("wiki-sidemenu-tree") do
+      expect(page).to have_link(parent_page.title)
+      expect(page).to have_link(child_page_name)
+    end
 
     # on toc page
     visit index_project_wiki_index_path(project)
 
-    expect(page).to have_content(child_page_name)
+    expect(page).to have_text(child_page_name)
   end
 end

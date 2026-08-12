@@ -32,74 +32,86 @@ module Backlogs
   class SprintsController < BaseController
     include OpTurbo::ComponentStream
 
-    NEW_SPRINT_ACTIONS = %i[new_dialog
-                            edit_dialog
-                            create
-                            refresh_form].freeze
     SPRINT_STATE_ACTIONS = %i[start finish].freeze
+    SHARED_SPRINT_EDIT_ACTIONS = %i[edit_dialog update refresh_form].freeze
+    SPRINTLESS_ACTIONS = %i[index new_dialog create].freeze
 
-    skip_before_action :load_sprint_and_project, only: NEW_SPRINT_ACTIONS
-    skip_before_action :authorize, only: SPRINT_STATE_ACTIONS
+    skip_before_action :load_sprint, only: SPRINTLESS_ACTIONS
+    skip_before_action :authorize, only: SPRINT_STATE_ACTIONS + SHARED_SPRINT_EDIT_ACTIONS
 
-    before_action :load_project, only: NEW_SPRINT_ACTIONS
+    before_action :load_sprint_from_form_id, only: :refresh_form
+    before_action :authorize_sprint_edit!, only: SHARED_SPRINT_EDIT_ACTIONS
     before_action :authorize_start!, only: :start
     before_action :authorize_finish!, only: :finish
 
+    current_menu_item %i[index] do
+      :all_sprints
+    end
+
+    def index
+      @sprints = Sprint.for_project(@project)
+                       .order_by_activity
+                       .page(helpers.page_param(params))
+                       .per_page(helpers.per_page_param)
+
+      @work_package_counts = WorkPackage
+                               .where(sprint: @sprints, project: @project)
+                               .group(:sprint_id)
+                               .count
+    end
+
     def new_dialog
-      call = ::Sprints::SetAttributesService.new(
+      call = ::Backlogs::Sprints::SetAttributesService.new(
         user: current_user,
-        model: Agile::Sprint.new,
+        model: Sprint.new,
         contract_class: ::EmptyContract
       ).call(attributes: converted_sprint_params)
 
-      respond_with_dialog Backlogs::NewSprintDialogComponent.new(sprint: call.result)
+      respond_with_dialog Backlogs::SprintDialogComponent.new(sprint: call.result, project: @project)
     end
 
     def edit_dialog
-      @sprint = Agile::Sprint.for_project(@project).visible.find(params[:sprint_id])
-
-      respond_with_dialog Backlogs::NewSprintDialogComponent.new(sprint: @sprint, state: :edit)
+      respond_with_dialog Backlogs::SprintDialogComponent.new(sprint: @sprint, project: @project, state: :edit)
     end
 
     def refresh_form
-      id = edit_sprint_params.dig(:sprint, :id)
-      sprint = id.present? ? Agile::Sprint.for_project(@project).visible.find(id) : Agile::Sprint.new
+      sprint = @sprint || Sprint.new
 
-      call = ::Sprints::SetAttributesService.new(
+      call = ::Backlogs::Sprints::SetAttributesService.new(
         user: current_user,
         model: sprint,
         contract_class: ::EmptyContract
       ).call(attributes: converted_sprint_params)
 
-      update_via_turbo_stream(component: Backlogs::NewSprintFormComponent.new(sprint: call.result))
+      update_via_turbo_stream(component: Backlogs::SprintFormComponent.new(sprint: call.result, project: @project))
 
       respond_with_turbo_streams
     end
 
-    def create # rubocop:disable Metrics/AbcSize
-      call = ::Sprints::CreateService
+    def create
+      call = ::Backlogs::Sprints::CreateService
                .new(user: current_user)
                .call(attributes: converted_sprint_params)
 
       if call.success?
-        flash[:notice] = I18n.t(:notice_successful_create)
-        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project))
+        respond_with_create_success
       else
-        update_new_sprint_form_component_via_turbo_stream(sprint: call.result, base_errors: call.errors[:base])
+        update_sprint_form_component_via_turbo_stream(sprint: call.result, base_errors: call.errors[:base])
         respond_with_turbo_streams
       end
     end
 
     def update
-      call = ::Sprints::UpdateService
+      call = ::Backlogs::Sprints::UpdateService
                .new(user: current_user, model: @sprint)
-               .call(attributes: sprint_params[:sprint])
+               .call(attributes: converted_sprint_params)
 
       if call.success?
         render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
-        update_sprint_header_component_via_turbo_stream(sprint: call.result)
+        update_sprint_component_via_turbo_stream(sprint: call.result)
+        notify_sprint_updated(call.result)
       else
-        update_new_sprint_form_component_via_turbo_stream(sprint: call.result, base_errors: call.errors[:base])
+        update_sprint_form_component_via_turbo_stream(sprint: call.result, base_errors: call.errors[:base])
       end
 
       respond_with_turbo_streams
@@ -109,11 +121,7 @@ module Backlogs
       result = start_sprint
 
       if result.success?
-        @sprint = result.result
-        flash[:notice] = I18n.t(:notice_successful_start)
-        render turbo_stream: turbo_stream.redirect_to(
-          project_work_package_board_path(@project, @sprint.task_board_for(@project))
-        )
+        respond_with_start_success(sprint: result.result)
       else
         respond_with_start_finish_failure(message: start_finish_failure_message(:start, result.message))
       end
@@ -124,7 +132,7 @@ module Backlogs
 
       if result.success?
         flash[:notice] = I18n.t(:notice_successful_finish)
-        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project))
+        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, backlog_filter_params))
       elsif result.includes_error?(:base, :unfinished_work_packages)
         show_finish_sprint_dialog
       else
@@ -134,17 +142,35 @@ module Backlogs
 
     private
 
-    def update_sprint_header_component_via_turbo_stream(sprint:)
+    def notify_sprint_updated(sprint)
+      dispatch_event_via_turbo_stream("op-dispatched:backlogs:sprint-updated", detail: { sprint_id: sprint.id })
+    end
+
+    def respond_with_start_success(sprint:)
+      flash[:notice] = I18n.t(:notice_successful_start)
+
+      # Update sprint component so that it shows the correct state for users
+      # that navigate back via the browser's back button:
+      update_sprint_component_via_turbo_stream(sprint:)
+
+      turbo_streams << turbo_stream.redirect_to(
+        project_work_package_board_path(@project, sprint.task_board_for(@project))
+      )
+      respond_with_turbo_streams
+    end
+
+    def update_sprint_component_via_turbo_stream(sprint:)
       update_via_turbo_stream(
-        component: Backlogs::SprintHeaderComponent.new(sprint:, project: @project),
+        component: Backlogs::SprintComponent.new(sprint:, project: @project),
         method: :morph
       )
     end
 
-    def update_new_sprint_form_component_via_turbo_stream(sprint:, base_errors: nil)
+    def update_sprint_form_component_via_turbo_stream(sprint:, base_errors: nil)
       update_via_turbo_stream(
-        component: Backlogs::NewSprintFormComponent.new(
+        component: Backlogs::SprintFormComponent.new(
           sprint:,
+          project: @project,
           base_errors:
         ),
         status: :bad_request
@@ -156,41 +182,68 @@ module Backlogs
         Backlogs::FinishSprintDialogComponent.new(
           sprint: @sprint,
           project: @project,
-          available_sprints: Agile::Sprint.native_to_sprint_source(@project).in_planning.where.not(id: @sprint.id).order_by_date
+          available_sprints: Sprint.native_to_sprint_source(@project).in_planning.where.not(id: @sprint.id).order_by_date
         )
       )
     end
 
-    def load_sprint_and_project
-      load_project
+    def authorize_sprint_edit!
+      return deny_access unless current_user.allowed_in_project?(:view_sprints, @project)
 
-      sprint_id = params[:sprint_id]
-      @sprint = Agile::Sprint.for_project(@project).visible.find(sprint_id) if sprint_id
+      if @sprint&.persisted?
+        can_edit_sprint = current_user.allowed_in_project?(:create_sprints, @sprint.project)
+        can_edit_goal = current_user.allowed_in_project?(:create_sprints, @project)
+        deny_access unless can_edit_sprint || can_edit_goal
+      else
+        deny_access unless current_user.allowed_in_project?(:create_sprints, @project)
+      end
+    end
+
+    def respond_with_create_success
+      flash[:notice] = I18n.t(:notice_successful_create)
+      render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, backlog_filter_params))
     end
 
     def sprint_params
-      params.permit(sprint: %i[name start_date finish_date])
+      params.permit(sprint: [
+                      :name,
+                      :start_date,
+                      :finish_date,
+                      { goal: %i[text] }
+                    ])
     end
 
-    def edit_sprint_params
-      params.permit(sprint: %i[id name start_date finish_date])
+    def goal_params
+      sprint_params.dig(:sprint, :goal)
     end
 
     def converted_sprint_params
-      converted_params = sprint_params[:sprint].to_h
-      converted_params[:project] = @project
+      attributes = sprint_params[:sprint].to_h.symbolize_keys
+      attributes = attributes.merge(project: @project) unless @sprint&.persisted?
+      attributes = attributes.merge(goal_project: @project) if attributes.key?(:goal)
 
-      converted_params
+      attributes
+    end
+
+    def load_sprint_from_form_id
+      @sprint_id = sprint_id_param
+      return unless @sprint_id
+
+      @sprint = Sprint.for_project(@project).visible.find(@sprint_id)
+    end
+
+    def sprint_id_param
+      params.permit(sprint: [:id]).dig(:sprint, :id).presence
     end
 
     def start_sprint
-      ::Sprints::StartService
+      ::Backlogs::Sprints::StartService
         .new(user: current_user, model: @sprint)
         .call(send_notifications: false)
     end
 
     def finish_sprint
-      ::Sprints::FinishService
+      ::Backlogs::Sprints::FinishService
         .new(user: current_user, model: @sprint)
         .call(
           unfinished_action: params[:unfinished_action],
@@ -221,12 +274,12 @@ module Backlogs
 
     def authorize_start!
       deny_access unless current_user.allowed_in_project?(:view_sprints, @project) &&
-        ::Sprints::StartContract.can_start?(user: current_user, sprint: @sprint, project: @project)
+        ::Backlogs::Sprints::StartContract.can_start?(user: current_user, sprint: @sprint, project: @project)
     end
 
     def authorize_finish!
       deny_access unless current_user.allowed_in_project?(:view_sprints, @project) &&
-        ::Sprints::StartContract.can_start_or_complete?(user: current_user, sprint: @sprint)
+        ::Backlogs::Sprints::StartContract.can_start_or_complete?(user: current_user, sprint: @sprint)
     end
   end
 end

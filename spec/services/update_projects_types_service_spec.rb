@@ -133,5 +133,74 @@ RSpec.describe UpdateProjectsTypesService do
         expect(project).not_to have_received(:work_package_custom_field_ids=)
       end
     end
+
+    context "when a variant is provided" do
+      let(:project) { create(:project, no_types: true) }
+      let(:parent_type) { create(:type) }
+      let(:variant) { create(:type, parent: parent_type) }
+      let(:ids) { [variant.id] }
+
+      context "and the variants feature is not active", with_flag: { type_variants: false } do
+        it "returns false and sets an error message" do
+          expect(subject).to be_falsey
+          expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variants_yet)
+          expect(project).not_to have_received(:type_ids=)
+        end
+      end
+
+      context "and the variants feature is active", with_flag: { type_variants: true } do
+        it "returns true and updates the ids" do
+          expect(subject).to be_truthy
+          expect(project).to have_received(:type_ids=).with(ids)
+        end
+      end
+    end
+
+    context "when multiple variants of the same parent are provided", with_flag: { type_variants: true } do
+      let(:project) { create(:project, no_types: true) }
+      let(:parent_type) { create(:type) }
+      let!(:variant) { create(:type, parent: parent_type) }
+      let!(:sibling_variant) { create(:type, parent: parent_type) }
+      let(:ids) { [variant.id, sibling_variant.id] }
+
+      it "returns false and sets an error message" do
+        expect(subject).to be_falsey
+        expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_multiple_variants_of_parent)
+        expect(project).not_to have_received(:type_ids=)
+      end
+
+      context "and the variants belong to different parents" do
+        let(:other_parent_type) { create(:type) }
+        let!(:sibling_variant) { create(:type, parent: other_parent_type) }
+
+        it "returns true and updates the ids" do
+          expect(subject).to be_truthy
+          expect(project).to have_received(:type_ids=).with(ids)
+        end
+      end
+    end
+
+    context "when a variant and its parent are provided", with_flag: { type_variants: true } do
+      let(:project) { create(:project, no_types: true) }
+      let(:parent_type) { create(:type) }
+      let!(:variant) { create(:type, parent: parent_type) }
+      let(:ids) { [parent_type.id, variant.id] }
+
+      it "returns false and sets an error message" do
+        expect(subject).to be_falsey
+        expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variant_and_parent)
+        expect(project).not_to have_received(:type_ids=)
+      end
+
+      context "and the variant belongs to a different parent than the one provided" do
+        let(:other_parent_type) { create(:type) }
+        let!(:variant) { create(:type, parent: other_parent_type) }
+
+        it "returns true and updates the ids" do
+          expect(subject).to be_truthy
+          expect(project).to have_received(:type_ids=).with(ids)
+        end
+      end
+    end
   end
 end

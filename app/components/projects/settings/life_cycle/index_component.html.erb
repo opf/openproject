@@ -1,7 +1,7 @@
 <%=
   flex_layout(data: wrapper_data_attributes) do |flex|
     flex.with_row do
-      render(Primer::OpenProject::SubHeader.new) do |subheader|
+      render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
         subheader.with_filter_input(
           name: "border-box-filter",
           label: t("projects.settings.life_cycle.filter.label"),

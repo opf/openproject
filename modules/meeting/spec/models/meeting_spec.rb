@@ -314,6 +314,95 @@ RSpec.describe Meeting do
     end
   end
 
+  describe ".from_today" do
+    subject { described_class.from_today }
+
+    let(:today) { Time.zone.today.beginning_of_day }
+
+    context "with a meeting starting today" do
+      let!(:meeting) { create(:meeting, project:, start_time: today) }
+
+      it { is_expected.to include(meeting) }
+    end
+
+    context "with a future meeting" do
+      let!(:meeting) { create(:meeting, project:, start_time: today + 1.day) }
+
+      it { is_expected.to include(meeting) }
+    end
+
+    context "with a past meeting" do
+      let!(:meeting) { create(:meeting, project:, start_time: today - 1.day) }
+
+      it { is_expected.not_to include(meeting) }
+    end
+  end
+
+  describe ".started" do
+    subject { described_class.started }
+
+    context "with an in_progress meeting" do
+      let!(:meeting) { create(:meeting, project:, state: :in_progress) }
+
+      it { is_expected.to include(meeting) }
+    end
+
+    context "with a closed meeting" do
+      let!(:meeting) { create(:meeting, project:, state: :closed) }
+
+      it { is_expected.to include(meeting) }
+    end
+
+    context "with an open meeting" do
+      let!(:meeting) { create(:meeting, project:, state: :open) }
+
+      it { is_expected.not_to include(meeting) }
+    end
+
+    context "with a draft meeting" do
+      let!(:meeting) { create(:meeting, project:, state: :draft) }
+
+      it { is_expected.not_to include(meeting) }
+    end
+
+    context "with a cancelled meeting" do
+      let!(:meeting) { create(:meeting, project:, state: :cancelled) }
+
+      it { is_expected.not_to include(meeting) }
+    end
+  end
+
+  describe ".from_today_or_recently_started" do
+    subject { described_class.from_today_or_recently_started }
+
+    let(:cutoff) { Setting.ical_feed_keep_closed_meetings_days.days }
+    let(:today) { Time.zone.today.beginning_of_day }
+
+    context "with an in_progress meeting within the cutoff" do
+      let!(:meeting) { create(:meeting, project:, state: :in_progress, start_time: today - cutoff + 1.day) }
+
+      it { is_expected.to include(meeting) }
+    end
+
+    context "with a closed meeting within the cutoff" do
+      let!(:meeting) { create(:meeting, project:, state: :closed, start_time: today - cutoff + 1.day) }
+
+      it { is_expected.to include(meeting) }
+    end
+
+    context "with an in_progress meeting beyond the cutoff" do
+      let!(:meeting) { create(:meeting, project:, state: :in_progress, start_time: today - cutoff - 1.day) }
+
+      it { is_expected.not_to include(meeting) }
+    end
+
+    context "with a closed meeting beyond the cutoff" do
+      let!(:meeting) { create(:meeting, project:, state: :closed, start_time: today - cutoff - 1.day) }
+
+      it { is_expected.not_to include(meeting) }
+    end
+  end
+
   describe "recurrence_start_time" do
     let(:recurring_meeting) { create(:recurring_meeting, project:) }
 

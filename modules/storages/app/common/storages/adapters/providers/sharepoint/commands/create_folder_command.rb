@@ -55,7 +55,7 @@ module Storages
 
             # rubocop:disable Metrics/AbcSize
             def handle_response(response)
-              error = Results::Error.new(payload: response, source: self.class)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }
@@ -70,7 +70,7 @@ module Storages
               in { status: 409 }
                 Failure(error.with(code: :conflict))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
             # rubocop:enable Metrics/AbcSize

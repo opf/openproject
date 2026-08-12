@@ -34,6 +34,13 @@ module Wikis::Admin
 
     alias_method :wiki_provider, :model
 
-    options wizard_step: nil
+    options wizard: nil,
+            wizard_step: nil
+
+    def initialize(*, **)
+      super
+
+      raise ArgumentError, "wizard is required" if wizard.nil?
+    end
   end
 end

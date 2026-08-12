@@ -84,11 +84,31 @@ RSpec.describe MeetingAgendaItems::CreateContract do
       context "when presenter cannot view meetings in the project" do
         let(:presenter) { create(:user) }
 
-        it_behaves_like "contract is invalid", presenter: :user_invalid do
+        it_behaves_like "contract is invalid", presenter_id: :user_invalid do
           it "does not include the presenter's name in the error message" do
-            expect(contract.errors[:presenter]).not_to include(presenter.name)
+            expect(contract.errors[:presenter_id]).not_to include(presenter.name)
           end
         end
+      end
+    end
+
+    context "when work_package_id is set" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas view_work_packages] })
+      end
+      let(:other_project) { create(:project) }
+      let(:work_package) { create(:work_package, project:) }
+      let(:other_work_package) { create(:work_package, project: other_project) }
+      let(:item) { build(:wp_meeting_agenda_item, meeting:, work_package:) }
+
+      context "when user can view the work package" do
+        it_behaves_like "contract is valid"
+      end
+
+      context "when user cannot view the work package" do
+        let(:item) { build(:wp_meeting_agenda_item, meeting:, work_package: other_work_package) }
+
+        it_behaves_like "contract is invalid", work_package: :error_not_found
       end
     end
   end

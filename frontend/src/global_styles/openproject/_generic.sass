@@ -25,6 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+@import mixins
 
 a
   text-decoration: var(--link-text-decoration)
@@ -45,6 +46,10 @@ a
 // Disable user selection
 .-no-text-select
   user-select: none
+
+// Select entire element's text on click
+.-all-text-select
+  user-select: all
 
 // Table borders
 .-table-border-top
@@ -110,9 +115,6 @@ a
 .-draggable
   cursor: grab
 
-.drop-zone.-dragged-over
-  background-color: #eaeaea60
-
 .-required-highlighting
   border: 1px solid red
 
@@ -129,3 +131,6 @@ a
 
 .-error-font
   color: var(--content-form-error-color) !important
+
+:focus-visible
+  @include focus

@@ -1,21 +1,21 @@
 ---
 sl:
-  label_job_status_plural: Job statuses
-  plugin_openproject_job_status:
-    name: OpenProject Job status
-    description: Listing and status of background jobs.
   job_status_dialog:
+    click_to_download: Or [click here](download_url) to download.
     download_starts: 'Prenos naj bi se začel samodejno. '
-    click_to_download: Or, [click here](download_url) to download.
-    title: Status dela v ozadju
-    redirect: Preusmerjamo vas.
-    redirect_link: Za nadaljevanje kliknite tukaj.
-    redirect_errors: Zaradi teh napak ne boste avtomatsko preusmerjeni.
     errors: Something went wrong
     generic_messages:
-      not_found: Tega dela ni bilo mogoče najti
-      in_queue: Delo je v vrsti in bo opravljeno kmalu
-      in_process: Opravilo je v obdelavi.
-      error: Delo se ni uspešno zaključilo
       cancelled: Delo je bilo preklicano zaradi napake
+      error: Delo se ni uspešno zaključilo
+      in_process: Opravilo je v obdelavi.
+      in_queue: Delo je v vrsti in bo opravljeno kmalu
+      not_found: Tega dela ni bilo mogoče najti
       success: Opravilo uspešno zaključeno.
+    redirect: Preusmerjamo vas.
+    redirect_errors: Zaradi teh napak ne boste avtomatsko preusmerjeni.
+    redirect_link: Za nadaljevanje kliknite tukaj.
+    title: Status dela v ozadju
+  label_job_status_plural: Job statuses
+  plugin_openproject_job_status:
+    description: Listing and status of background jobs.
+    name: OpenProject Job status

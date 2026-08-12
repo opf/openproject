@@ -175,7 +175,7 @@ module RecurringMeetings
         .cancelled
         .find_each do |meeting|
           occurring = recurring_meeting.schedule.occurs_at?(meeting.recurrence_start_time)
-          meeting.delete unless occurring
+          meeting.destroy! unless occurring
         end
     end
 
@@ -200,18 +200,24 @@ module RecurringMeetings
         .participants
         .invited
         .find_each do |participant|
-          # Generate old schedule in each participant's locale
-          old_schedule = User.execute_as(participant.user) do
-            @old_schedule_model.full_schedule_in_words
-          end
-
           MeetingSeriesMailer.updated(
             recurring_meeting,
             participant.user,
             User.current,
-            changes: { old_schedule:, old_location: @old_location }
+            changes: updated_mail_changes(recurring_meeting, participant.user)
           ).deliver_now
       end
+    end
+
+    # Only include old_schedule when the recurrence actually changed.
+    # Previously, we compared the localized schedule which would always differ.
+    def updated_mail_changes(recurring_meeting, recipient)
+      changes = { old_location: @old_location }
+      return changes unless recurring_meeting.schedule_changed?(previous: true)
+
+      changes.merge(
+        old_schedule: User.execute_as(recipient) { @old_schedule_model.full_schedule_in_words }
+      )
     end
 
     def reschedule_init_job(recurring_meeting)

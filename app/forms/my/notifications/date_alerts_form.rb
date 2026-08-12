@@ -38,7 +38,9 @@ class My::Notifications::DateAlertsForm < ApplicationForm
   end
 
   form do |f|
-    f.fieldset_group(title: helpers.t("my_account.notifications.date_alerts.title"), mt: 3) do |fg|
+    f.fieldset_group(title: helpers.t("my_account.notifications.date_alerts.title"),
+                     description: helpers.t("my_account.notifications.date_alerts.description"),
+                     mt: 3) do |fg|
       %i[start_date due_date].each do |field|
         active = model.send(:"#{field}_active")
 

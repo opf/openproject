@@ -31,12 +31,15 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
+  shared_let(:admin) { create(:admin) }
+  current_user { admin }
+
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
-  let(:move_path) { Rails.application.routes.url_helpers.move_project_backlogs_inbox_path(project, work_package) }
+  let(:move_path) { Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package) }
 
   def render_component
-    render_inline(described_class.new(work_package:, project:))
+    render_inline(described_class.new(work_package:, project:, move_action: move_path))
   end
 
   it "renders the dialog with the correct title" do
@@ -52,6 +55,18 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
     expect(page).to have_css("form[action='#{move_path}'] input[name='_method'][value='put']", visible: :all)
   end
 
+  context "when params[:all] is true" do
+    let(:move_path) do
+      Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package, all: "true")
+    end
+
+    it "submits the move form with the all query preserved" do
+      render_component
+
+      expect(page).to have_css("form[action*='all=true']", visible: :all)
+    end
+  end
+
   it "renders Cancel and Save buttons" do
     render_component
 
@@ -60,19 +75,23 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
   end
 
   context "when in_planning and active sprints exist" do
-    let!(:planning_sprint) { create(:agile_sprint, project:, name: "Planning Sprint", status: "in_planning") }
-    let!(:active_sprint) { create(:agile_sprint, project:, name: "Active Sprint", status: "active") }
+    let!(:planning_sprint) { create(:sprint, project:, name: "Planning Sprint", status: "in_planning") }
+    let!(:active_sprint) { create(:sprint, project:, name: "Active Sprint", status: "active") }
 
-    it "lists them as select options with sprint: prefix values" do
+    it "submits sprint list data" do
       render_component
 
-      expect(page).to have_css("option[value='sprint:#{planning_sprint.id}']", text: "Planning Sprint")
-      expect(page).to have_css("option[value='sprint:#{active_sprint.id}']", text: "Active Sprint")
+      expect(page).to have_css(
+        "input[name='list_type'][value='#{Backlogs::Target::SprintId.new(nil).list_type}']",
+        visible: :all
+      )
+      expect(page).to have_css("option[value='#{planning_sprint.id}']", text: "Planning Sprint")
+      expect(page).to have_css("option[value='#{active_sprint.id}']", text: "Active Sprint")
     end
   end
 
   context "when a completed sprint exists" do
-    let!(:completed_sprint) { create(:agile_sprint, project:, name: "Old Sprint", status: "completed") }
+    let!(:completed_sprint) { create(:sprint, project:, name: "Old Sprint", status: "completed") }
 
     it "does not list the completed sprint" do
       render_component
@@ -82,12 +101,38 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
   end
 
   context "when a sprint belongs to a different project" do
-    let!(:other_sprint) { create(:agile_sprint, project: create(:project), name: "Other Sprint") }
+    let!(:other_sprint) { create(:sprint, project: create(:project), name: "Other Sprint") }
 
     it "does not list sprints from other projects" do
       render_component
 
       expect(page).to have_no_css("option", text: "Other Sprint")
+    end
+  end
+
+  context "when the work package is already in a sprint" do
+    let!(:current_sprint) { create(:sprint, project:, name: "Current Sprint") }
+    let!(:target_sprint) { create(:sprint, project:, name: "Target Sprint") }
+    let(:work_package) { create(:work_package, project:, sprint: current_sprint) }
+
+    it "excludes that sprint from the options" do
+      render_component
+
+      expect(page).to have_no_css("option", text: "Current Sprint")
+      expect(page).to have_css("option[value='#{target_sprint.id}']", text: "Target Sprint")
+    end
+  end
+
+  context "when the current user cannot view sprints in the project" do
+    let(:other_user) { create(:user) }
+    let!(:hidden_sprint) { create(:sprint, project:, name: "Hidden Sprint") }
+
+    current_user { other_user }
+
+    it "does not list sprints the user is not permitted to see" do
+      render_component
+
+      expect(page).to have_no_css("option", text: "Hidden Sprint")
     end
   end
 end

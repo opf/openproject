@@ -28,12 +28,38 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  content_tag("turbo-frame", id: "work-package-wikis-tab-content") do
+  content_tag("turbo-frame", id: TURBO_FRAME_ID) do
     component_wrapper do
-      flex_layout(test_selector: "op-work-package-wikis-tab-container") do |flex|
+      flex_layout(test_selector: "op-work-package-wikis-tab-container") do |container|
         providers.each do |provider|
-          flex.with_row(mb: 3) do
-            render(Wikis::ProviderLinkGroupComponent.new(provider, work_package:))
+          container.with_row(mb: 3) do
+            render(::Wikis::RelationPageLinksComponent.new(provider, work_package:))
+          end
+        end
+
+        if inline_page_links.any?
+          container.with_row(mb: 3) do
+            render(
+              ::Wikis::CollapsiblePageLinksComponent.new(
+                inline_page_links,
+                heading: t(".inline_page_links"),
+                linkable: work_package,
+                already_related_page_keys:
+              )
+            )
+          end
+        end
+
+        if referencing_wiki_pages.any?
+          container.with_row do
+            render(
+              ::Wikis::CollapsiblePageLinksComponent.new(
+                referencing_wiki_pages,
+                heading: t(".referencing_pages"),
+                linkable: work_package,
+                already_related_page_keys:
+              )
+            )
           end
         end
       end

@@ -19,7 +19,9 @@ jobs:
     runs-on: ubuntu-slim
     timeout-minutes: 60
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      with:
+        persist-credentials: false
     - name: Generate .env.pullpreview file
       run: |
         echo "OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET=false" >> .env.pullpreview
@@ -41,14 +43,14 @@ jobs:
         cp ./docker/pullpreview/docker-compose.yml ./docker-compose.pullpreview.yml
         cp ./docker/pullpreview/Caddyfile ./Caddyfile
         cp ./docker/prod/Dockerfile ./Dockerfile
-    - uses: pullpreview/action@v6
+    - uses: pullpreview/action@0dc5a741255c0afdd5a9e23e9264d6376652ec8e # v6
       with:
         # allows to ssh to the instance using our GitHub ssh key
         admins: "crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,cbliard,@collaborators/push"
         compose_files: docker-compose.pullpreview.yml
         provider: hetzner
         region: fsn1
-        instance_type: cx53
+        instance_type: cpx42
         ports: 80,443
         default_port: 443
         ttl: 10d

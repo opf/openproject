@@ -40,7 +40,7 @@
               opAutofocus
               (keydown.escape)="cancelRelationTypeEditOnEscape($event)"
               >
-              @for (relationType of availableRelationTypes; track relationType) {
+              @for (relationType of availableRelationTypes; track relationType.name) {
                 <option
                   [textContent]="relationType.label"
                   [ngValue]="relationType"

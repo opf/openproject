@@ -35,5 +35,22 @@ See COPYRIGHT and LICENSE files for more details.
         )
       ) %>
 
-  <%= render(Projects::Settings::Backlogs::SharingFormComponent.new(project: @project)) %>
+  <% with_enterprise_banner_guard(
+       :sprint_sharing,
+       # We want to enable users to migrate out of sprint sharing if their token expired.
+       # If that happens, an inline banner is to be displayed.
+       # But there is the special case of trial tokens. For those, two inline banners would be displayed
+       # which is why this is handled explicitly here.
+       inactive_guard: !@project.not_sharing_sprints? || EnterpriseToken.trialling?(:sprint_sharing),
+       variant: :large,
+       video: "enterprise/sprint-sharing.mp4"
+     ) do %>
+    <%= render(EnterpriseEdition::BannerComponent.new(:sprint_sharing, variant: :inline)) %>
+    <%= render(
+          Projects::Settings::Backlogs::SharingFormComponent.new(
+            project: @project,
+            only_fallback_allowed: !EnterpriseToken.allows_to?(:sprint_sharing)
+          )
+        ) %>
+  <% end %>
 <% end %>

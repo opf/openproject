@@ -22,6 +22,11 @@
 ---
 eo:
   js:
+    editor:
+      macro:
+        wikis:
+          add_existing: Ekzistanta vikipaĝo
+          create_new: Nova vikipaĝo
     work_packages:
       tabs:
-        wikis: Wikis
+        wikis: Vikioj

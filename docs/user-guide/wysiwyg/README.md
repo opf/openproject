@@ -35,19 +35,25 @@ Instead of creating a new paragraph with Enter, you can also press `SHIFT+Enter`
 
 Create hyperlinks by pressing the tool-bar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link here.
 
-### Widgets and Newlines
+### Widgets and newlines
 
 CKEditor uses widgets to display block elements such as images, tables, and other elements that are not inline. You can select most widgets by pressing on them - The only exception to that is the table widget, it has a little select knob at the top left to select the entire table.
 
 When you have a widget selected, you can remove or cut it. You can create a newline below it by selecting the widget and pressing `ENTER` or `↓ (ARROW DOWN)`, or a newline above it by pressing `SHIFT+enter` or `↑ (ARROW UP)`. This is especially needed when the widget is the first or last element on the page to insert a line below or above it.
 
-### Code Blocks
+### Code blocks
 
 As CKEditor5 currently does not provide support for code blocks, OpenProject can display, but not edit code blocks within the CKEditor instance. A code block can be edited through a modal window within a `CodeMirror` editor instance. This has the advantage of providing syntax highlighting and code sensing ([for supported languages](https://codemirror.net/mode/)).
 
 ### Tables
 
 The GFM extension of the CommonMark specs adds a definition for table syntax, which the CKEditor of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
+
+### Emojis
+
+You can add emojis to all text editors in OpenProject. Type a colon and a letter, e.g. **:a** into the wiki editor and get a suggested list of emojis you can use.
+
+![Insert an emoji into a WYSIWIG editor in OpenProject](openproject_user_guide_wysiwig_emoji.png)
 
 ### Autoformatting
 
@@ -85,7 +91,11 @@ On top of that, OpenProject adds the following shortcut:
 OpenProject has supported macros on textile formatted pages and continues to do so with the WYSIWYG editor. Note that macros are not expanded while editing the page, instead, a placeholder is shown.
 
 You can find the macros here in the text editor:
-![Macros text editor](image-20201109183018255.png)
+![Macros text editor](openproject_user_guide_macros.png)
+
+### Full vs constrained editor
+
+In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
 
 ### Table of contents
 
@@ -113,24 +123,24 @@ Use it to embed views in other pages, create reporting of multiple results, or t
 
 As with the textile formatting syntax, you can link to other resources within OpenProject using the same shortcuts as before. Create links to a:
 
-| **Link target**                                               | Usage example                                 |
-|---------------------------------------------------------------|-----------------------------------------------|
-| Wiki page                                                     | `[[Wiki page]]`                               |
-| Wiki page with separate link name                             | `[[Wiki page\|The text of the link]]`         |
-| Wiki page in the Sandbox project                              | `[[Sandbox:Wiki page]]`                       |
-| Work package with ID12                                        | `#12`                                         |
-| Work package with ID 12 with subject and type                 | `##12`                                        |
-| Work package with ID 12 with subject, type, status, and dates | `###12`                                       |
-| Version by ID or name                                         | `version#3`,  `version:"Release 1.0.0"`       |
-| Project by ID/name                                            | `project#12` , `project:"My project name"`    |
-| Attachment by filename                                        | `attachment:filename.zip`                     |
-| Meeting by ID/name                                            | `meeting#12` , `meeting:"My meeting name"`    |
-| Document by ID/name                                           | `document#12` , `document:"My document name"` |
-| User by ID or login                                           | `user#4` , `user:"johndoe"`                   |
-| Forum message by ID                                           | `message#1218`                                |
-| Repository revision 43                                        | `r43`                                         |
-| Commit by hash                                                | `commit:f30e13e4`                             |
-| Source file in the repository                                 | `source:"some/file"`                          |
+| **Link target**                                       | Usage example                                 |
+| ----------------------------------------------------- | --------------------------------------------- |
+| Wiki page                                             | `[[Wiki page]]`                               |
+| Wiki page with separate link name                     | `[[Wiki page\|The text of the link]]`         |
+| Wiki page in the Sandbox project                      | `[[Sandbox:Wiki page]]`                       |
+| Work package with ID12                                | `#12`                                         |
+| Work package with ID 12 with subject and type         | `##12`                                        |
+| Work package with ID 12 with subject, type and status | `###12`                                       |
+| Version by ID or name                                 | `version#3`,  `version:"Release 1.0.0"`       |
+| Project by ID/name                                    | `project#12` , `project:"My project name"`    |
+| Attachment by filename                                | `attachment:filename.zip`                     |
+| Meeting by ID/name                                    | `meeting#12` , `meeting:"My meeting name"`    |
+| Document by ID/name                                   | `document#12` , `document:"My document name"` |
+| User by ID or login                                   | `user#4` , `user:"johndoe"`                   |
+| Forum message by ID                                   | `message#1218`                                |
+| Repository revision 43                                | `r43`                                         |
+| Commit by hash                                        | `commit:f30e13e4`                             |
+| Source file in the repository                         | `source:"some/file"`                          |
 
 To avoid processing these items, preceding them with a bang `!` character such as `!#12` will prevent linking to a work package with ID 12.
 
@@ -143,6 +153,12 @@ To avoid processing these items, preceding them with a bang `!` character such a
 ### Autocompletion for work packages and users
 
 For work packages and users, typing `#` or `@` will open an autocomplete dropdown for visible work packages and users, respectively.
+
+![Autocomplete dropdown for visible work packages](openproject_user_guide_macros_autocompletion.png)
+![Link a work package using an hash](openproject_user_guide_workpackage_mentions.png)
+
+> [!TIP]
+> To show more details when linking a work package, type either  `##` or `###` followed by the work package ID, subject, type or a keyword.
 
 ## Embedding of work package attributes and project attributes
 
@@ -172,7 +188,7 @@ Example:
 
 **Linking to the assignee of work package with subject "Project start"**: `workPackageValue:"Project start":assignee`
 
-> [!NOTE]
+> [!IMPORTANT]
 > Referencing a work package by subject results in only looking for work packages with that given subject in the current project (if any).
 > If you need to cross-reference work packages, use their ID to pinpoint the work package you want to reference.
 > We recommend against using subjects as references, as they are not updated when the referenced subject changes.
@@ -206,6 +222,24 @@ See the [table below](#available-attributes-for-projects) for available attribut
 Example:
 
 **Linking to the current project's status**: `projectValue:status`
+
+### Control how multiple values are displayed
+
+Some attributes can contain multiple values, such as **Target versions** or **multi-select custom fields**. These values are displayed one value per line in the application and are separated by a comma in PDF exports. 
+
+You can choose whether these values are displayed on separate lines or on a single line within the CKEditor.
+
+Add one of the following layout options to the macro:
+
+- `workPackageValue:1234:targetVersions:multiline` displays each value on a separate line.
+- `workPackageValue:1234:targetVersions:singleline` displays all values on a single line, separated by commas.
+
+The layout option also works with custom fields (for example, `workPackageValue:1234:"My custom field":singleline`), project attributes (`projectValue:...`), and relative references (`workPackageValue:targetVersions:singleline`).
+
+The layout option only affects attributes that can contain multiple values. For single-value attributes, such as `subject`, it has no effect.
+
+> [!NOTE]
+> The deprecated `version` attribute displays the work package's target versions on a single line by default.
 
 ### Embedding attribute help texts
 
@@ -249,7 +283,8 @@ where `1234` stands for the [work package ID](../work-packages).
 | Start date          | `workPackageValue:1234:startDate`                               |
 | Status              | `workPackageValue:1234:status`                                  |
 | Subject / Title     | `workPackageValue:1234:subject`                                 |
-| Version             | `workPackageValue:1234:version`                                 |
+| Target versions     | `workPackageValue:1234:targetVersions`                          |
+| Version _(deprecated)_ | `workPackageValue:1234:version`                              |
 | Work                | `workPackageValue:8415:estimatedTime`                           |
 | Work package type   | `workPackageValue:1234:type`                                    |
 
@@ -262,7 +297,7 @@ The following list contains all supported attribute names for the `projectValue`
 
 | **Attribute**             | Usage example                                     |
 |---------------------------|---------------------------------------------------|
-| *Custom Fields*           | `projectValue:"Name of the project custom field"` |
+| _Custom Fields_           | `projectValue:"Name of the project custom field"` |
 | Project active? (boolean) | `projectValue:active`                             |
 | Description               | `projectValue:description`                        |
 | Identifier of the project | `projectValue:identifier`                         |

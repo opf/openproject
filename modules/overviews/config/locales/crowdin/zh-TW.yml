@@ -1,6 +1,6 @@
 ---
 zh-TW:
   overviews:
-    label_home: "%{workspace_type} 家"
     label_dashboard: 儀表板
+    label_home: "%{workspace_type} 家"
     label_overview: 總覽

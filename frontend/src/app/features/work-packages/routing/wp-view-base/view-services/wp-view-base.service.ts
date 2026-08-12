@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,21 +33,19 @@ import {
 import { map, mapTo, take } from 'rxjs/operators';
 import { merge, Observable } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Injectable()
 export abstract class WorkPackageViewBaseService<T> {
+  protected readonly querySpace = inject(IsolatedQuerySpace);
+
   /** Internal state to push non-persisted updates */
   protected updatesState = input<T>();
 
   /** Internal pristine state filled during +initialize+ only */
   protected pristineState = input<T>();
-
-  constructor(
-    protected readonly querySpace:IsolatedQuerySpace,
-  ) { }
 
   /**
    * Get the state value from the current query.

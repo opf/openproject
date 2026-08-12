@@ -1,0 +1,28 @@
+---
+hy:
+  are_you_sure_delete_avatar: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել Ձեր ավատարը
+  avatar_deleted: Ավատարը հաջողությամբ ջնջվել է։
+  avatars:
+    label_avatar: Ավատար
+    label_gravatar: Gravatar
+    label_local_avatar: Հատուկ ավատար
+    settings:
+      enable_gravatars: Միացնել օգտատերերի Gravatar-ները
+      enable_local_avatars: Միացնել օգտատերերի հատուկ ավատարները
+      gravatar_default: Կանխադրված Gravatar պատկեր
+    text_avatar_gravatar_html: OpenProject-ը օգտագործում է Ձեր Gravatar-ը, եթե գրանցել եք այն %{gravatar_url} կայքում, կամ կանխադրված պատկեր կամ պատկերակ, եթե այդպիսին առկա է։
+    text_avatar_local: Պատկերի վրա սեղմելով կարող եք նաև վերբեռնել հատուկ ավատար, որը գերակայում է Gravatar-ին։ Խորհուրդ ենք տալիս 128 առ 128 պիքսել չափի պատկեր։
+    text_avatar_local_only: Պատկերի վրա սեղմելով կարող եք վերբեռնել հատուկ ավատար։ Խորհուրդ ենք տալիս 128 առ 128 պիքսել չափի պատկեր։
+  empty_file_error: Խնդրում ենք վերբեռնել վավեր պատկեր (jpg, png, gif)։
+  error_image_size: Պատկերը չափազանց մեծ է։
+  error_image_upload: Պատկերը պահպանելիս սխալ է տեղի ունեցել։
+  label_avatar: Ավատար
+  label_avatar_plural: Ավատարներ
+  label_choose_avatar: Ընտրեք ավատարը նիշքից
+  label_current_avatar: Ընթացիկ ավատար
+  message_avatar_uploaded: Ավատարը հաջողությամբ փոփոխվել է։
+  plugin_openproject_avatars:
+    description: Այս հավելումը թույլ է տալիս OpenProject-ի օգտատերերին վերբեռնել նկար՝ որպես ավատար օգտագործելու համար, կամ օգտվել Gravatar-ում գրանցված պատկերներից։
+    name: Ավատարներ
+  unable_to_delete_avatar: Ավատարը չհաջողվեց ջնջել։
+  wrong_file_format: Թույլատրելի ձևաչափերն են՝ jpg, png, gif։

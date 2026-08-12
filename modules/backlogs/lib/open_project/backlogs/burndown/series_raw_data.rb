@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -38,7 +40,7 @@ module OpenProject::Backlogs::Burndown
     attr_reader :collect, :sprint, :project
 
     def collect_names
-      @names ||= @collect.to_a.map(&:last).flatten
+      @collect_names ||= @collect.to_a.map(&:last).flatten
     end
 
     def unit_for(name)
@@ -79,7 +81,7 @@ module OpenProject::Backlogs::Burndown
     end
 
     def data_for_dates
-      query_string = <<-SQL
+      query_string = <<~SQL.squish
         SELECT
           days.date,
           COALESCE(SUM(work_package_journals.story_points), 0.0) as story_points
@@ -110,7 +112,9 @@ module OpenProject::Backlogs::Burndown
       open_status_ids = non_closed_statuses - done_statuses_for_project
 
       if open_status_ids.empty?
-        ""
+        # No work packages count as remaining, so force the LEFT JOIN to
+        # produce no matches, making the SUM evaluate to 0 (via COALESCE).
+        "AND 1=0"
       else
         "AND (#{Journal::WorkPackageJournal.table_name}.status_id IN (#{open_status_ids.join(',')}))"
       end

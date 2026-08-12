@@ -32,23 +32,17 @@ module API
   module V3
     module RecurringMeetings
       class Occurrence
-        attr_accessor :start_time, :recurring_meeting_id, :meeting_id, :cancelled
+        attr_accessor :start_time, :recurring_meeting_id, :meeting_id, :meeting_state
 
-        def initialize(start_time:, recurring_meeting_id:, meeting_id: nil, cancelled: false)
+        def initialize(start_time:, recurring_meeting_id:, meeting_id: nil, meeting_state: nil)
           @start_time = start_time
           @recurring_meeting_id = recurring_meeting_id
           @meeting_id = meeting_id
-          @cancelled = cancelled
+          @meeting_state = meeting_state
         end
 
         def state
-          if cancelled
-            "cancelled"
-          elsif meeting_id
-            "open"
-          else
-            "scheduled"
-          end
+          meeting_state || "planned"
         end
       end
     end

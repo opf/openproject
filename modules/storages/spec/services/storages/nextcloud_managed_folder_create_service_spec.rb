@@ -41,7 +41,7 @@ module Storages
     end
   end
 
-  RSpec.describe NextcloudManagedFolderCreateService, :webmock do
+  RSpec.describe NextcloudManagedFolderCreateService, :disable_ssrf_filter, :webmock do
     before do
       Adapters::Registry.stub("nextcloud.models.managed_folder_identifier", TestIdentifier)
     end
@@ -233,7 +233,7 @@ module Storages
         end
 
         context "when we fail to set the root folder permissions" do
-          let(:error) { Adapters::Results::Error.new(code: :error, source: self) }
+          let(:error) { SimpleError.new(code: :error, source: self) }
 
           before do
             set_permissions_class_double = class_double(Adapters::Providers::Nextcloud::Commands::SetPermissionsCommand)

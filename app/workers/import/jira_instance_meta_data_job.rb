@@ -46,26 +46,24 @@ module Import
 
     def get_meta(jira_import)
       jira = jira_import.jira
-      client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
-      available = collect_metadata(client)
+      @client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+      available = collect_metadata
       jira_import.update!(job_id: nil, available:, error: nil)
       jira_import.transition_to!(:instance_meta_done)
     rescue StandardError => e
-      jira_import&.transition_to!(:instance_meta_error, error: e.message)
+      jira_import&.transition_to!(:instance_meta_error, error: e.message, error_backtrace: e.backtrace)
       jira_import&.update!(job_id: nil, error: e.message)
     end
 
-    def collect_metadata(client)
-      issue_types_count = client.issue_types_count
-      statuses_count = client.statuses_count
-      issues_count = client.issues_count
-      users_count = client.applicationrole.inject(0) do |users_count, application|
+    def collect_metadata
+      issue_types_count = @client.issue_types_count
+      statuses_count = @client.statuses_count
+      issues_count = @client.issues_count
+      users_count = @client.applicationrole.inject(0) do |users_count, application|
         users_count + application["userCount"]
       end
-      projects = client.projects.map do |project|
-        { "id" => project["id"], "key" => project["key"], "name" => project["name"] }
-      end
-      server_info = client.server_info
+      projects = collect_projects
+      server_info = @client.server_info
       {
         "projects" => projects,
         "total_issues" => issues_count,
@@ -74,6 +72,25 @@ module Import
         "total_users" => users_count,
         "server_info" => server_info
       }
+    end
+
+    def collect_projects
+      @client.projects.filter_map do |project|
+        next unless project_browsable?(project["key"])
+
+        { "id" => project["id"], "key" => project["key"], "name" => project["name"] }
+      end
+    end
+
+    def project_browsable?(project_key)
+      @client.issues(jql: "project = '#{project_key}'", max_results: 0, fields: "id")
+      true
+    rescue Import::JiraClient::ApiError => e
+      if e.status == 400
+        false
+      else
+        raise e
+      end
     end
   end
 end

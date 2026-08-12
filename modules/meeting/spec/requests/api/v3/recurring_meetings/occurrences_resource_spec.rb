@@ -139,6 +139,92 @@ RSpec.describe "API v3 Recurring Meeting Occurrences", content_type: :json do
       response
       expect(recurring_meeting.meetings.not_templated.where(recurrence_start_time: start_time)).to exist
     end
+
+    context "without create_meetings permission" do
+      let(:permissions) { %i[view_meetings] }
+
+      before { response }
+
+      it_behaves_like "unauthorized access"
+    end
+
+    context "when restoring a cancelled occurrence with only view_meetings permission" do
+      let(:permissions) { %i[view_meetings] }
+      let!(:cancelled_occurrence) do
+        create(:meeting,
+               project:,
+               author: current_user,
+               recurring_meeting:,
+               start_time:,
+               recurrence_start_time: start_time,
+               state: :cancelled)
+      end
+
+      before { response }
+
+      it_behaves_like "unauthorized access"
+
+      it "does not restore the cancelled occurrence" do
+        expect(cancelled_occurrence.reload).to be_cancelled
+      end
+    end
+  end
+
+  describe "an in progress occurrence" do
+    # Matching the web, an ongoing occurrence appears in both upcoming and past
+    let(:ongoing_start) { 30.minutes.ago }
+    let!(:ongoing_occurrence) do
+      create(:recurring_meeting_occurrence,
+             recurring_meeting:,
+             start_time: ongoing_start,
+             recurrence_start_time: ongoing_start,
+             duration: 1.0,
+             state: :open)
+    end
+
+    it "is returned as open by the upcoming endpoint" do
+      get api_v3_paths.recurring_meeting_occurrences_upcoming(recurring_meeting.id)
+
+      occurrence = JSON.parse(last_response.body)
+        .dig("_embedded", "elements")
+        .find { |e| e["startTime"] == ongoing_start.utc.iso8601 }
+
+      expect(occurrence).to be_present
+      expect(occurrence["state"]).to eq("open")
+    end
+
+    it "is returned as open by the past endpoint" do
+      get api_v3_paths.recurring_meeting_occurrences_past(recurring_meeting.id)
+
+      occurrence = JSON.parse(last_response.body)
+        .dig("_embedded", "elements")
+        .find { |e| e["startTime"] == ongoing_start.utc.iso8601 }
+
+      expect(occurrence).to be_present
+      expect(occurrence["state"]).to eq("open")
+    end
+  end
+
+  describe "occurrence state reflects the meeting's real state" do
+    let(:closed_start) { 2.days.ago }
+    let!(:closed_occurrence) do
+      create(:recurring_meeting_occurrence,
+             recurring_meeting:,
+             start_time: closed_start,
+             recurrence_start_time: closed_start,
+             state: :closed)
+    end
+
+    it "returns the actual state (closed) when closed, instead of 'open'" do
+      get api_v3_paths.recurring_meeting_occurrences_past(recurring_meeting.id)
+
+      occurrence = JSON.parse(last_response.body)
+        .dig("_embedded", "elements")
+        .find { |e| e["startTime"] == closed_start.utc.iso8601 }
+
+      expect(occurrence).to be_present
+      expect(occurrence["state"]).to eq("closed")
+    end
   end
 
   describe "DELETE .../occurrences/:start_time" do

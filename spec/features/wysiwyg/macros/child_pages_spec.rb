@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Wysiwyg child pages spec", :js do
   let(:project) do
-    create(:project,
-           enabled_module_names: %w[wiki])
+    create(:project, :with_internal_wiki)
   end
   let(:editor) { Components::WysiwygEditor.new }
   let(:role) { create(:project_role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
@@ -81,10 +80,10 @@ RSpec.describe "Wysiwyg child pages spec", :js do
         editor.in_editor do |_container, editable|
           expect(editable).to have_css("h1", text: "My page")
 
-          editor.insert_macro "Links to child pages"
+          editor.insert_macro "List of sub-pages"
 
           # Find widget, click to show toolbar
-          placeholder = find(".op-uc-placeholder", text: "Links to child pages")
+          placeholder = find(".op-uc-placeholder", text: "List of sub-pages")
 
           # Placeholder states `this page` and no `Include parent`
           expect(placeholder).to have_text("this page")
@@ -127,7 +126,7 @@ RSpec.describe "Wysiwyg child pages spec", :js do
 
         editor.in_editor do |_container, _editable|
           # Find widget, click to show toolbar
-          placeholder = find(".op-uc-placeholder", text: "Links to child pages")
+          placeholder = find(".op-uc-placeholder", text: "List of sub-pages")
 
           # Edit widget and save
           placeholder.click

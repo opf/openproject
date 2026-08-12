@@ -34,7 +34,7 @@ require_relative "../../support/pages/backlog"
 RSpec.describe "Create", :js do
   shared_let(:project) { create(:project) }
   shared_let(:initial_sprint) do
-    create(:agile_sprint,
+    create(:sprint,
            project:,
            name: "Initial sprint",
            start_date: Date.new(2025, 9, 5),
@@ -96,6 +96,46 @@ RSpec.describe "Create", :js do
       expect(sprint.finish_date).to eq finish_date
     end
 
+    it "allows creating a new sprint with a sprint goal" do
+      planning_page.visit!
+
+      planning_page.open_create_sprint_dialog
+
+      within_dialog "New sprint" do
+        fill_in "Sprint name", with: "Created sprint"
+        fill_in "Start date", with: start_date_fmt
+        fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+        # Wait for the date-triggered form refresh to settle before filling the
+        # goal, otherwise the in-flight refresh re-renders the form and discards
+        # the goal that was just typed.
+        expect(page).to have_field "Duration", with: "16 days", readonly: true
+        fill_in "Sprint goal", with: "Deliver the first MVP scope."
+
+        click_on "Create"
+      end
+
+      expect_and_dismiss_flash(exact_message: "Successful creation.")
+      planning_page.expect_sprint_heading_with_goal("Created sprint", "Deliver the first MVP scope.")
+    end
+
+    it "keeps the sprint goal when entering the dates (regression #AGILE-301)" do
+      planning_page.visit!
+
+      planning_page.open_create_sprint_dialog
+
+      within_dialog "New sprint" do
+        fill_in "Sprint name", with: "Created sprint"
+        fill_in "Sprint goal", with: "Deliver the first MVP scope."
+
+        fill_in "Start date", with: start_date_fmt
+        fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+
+        # Entering the dates triggers a form refresh; it must not wipe the goal.
+        expect(page).to have_field "Duration", with: "16 days", readonly: true
+        expect(page).to have_field "Sprint goal", with: "Deliver the first MVP scope."
+      end
+    end
+
     it "previews the sprint duration when changing the dates" do
       planning_page.visit!
 
@@ -105,7 +145,7 @@ RSpec.describe "Create", :js do
         expect(page).to have_field "Duration", with: "", readonly: true
 
         page.fill_in "Start date", with: start_date_fmt
-        page.fill_in "Finish date", with: finish_date_fmt
+        page.fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
 
         expect(page).to have_field "Duration", with: "16 days", readonly: true
       end
@@ -137,7 +177,8 @@ RSpec.describe "Create", :js do
 
         within_dialog "New sprint" do
           page.fill_in "Start date", with: start_date_fmt
-          page.fill_in "Finish date", with: too_early_finish_date.strftime("%Y-%m-%d")
+          page.fill_in("Finish date", with: too_early_finish_date.strftime("%Y-%m-%d"))
+              .send_keys(:tab)
 
           # Shows duration as zero if finish date is before start date:
           expect(page).to have_field "Duration", with: "0 days", readonly: true
@@ -152,7 +193,7 @@ RSpec.describe "Create", :js do
 
     describe "proposed sprint names" do
       before do
-        Agile::Sprint.delete_all
+        Sprint.delete_all
       end
 
       it "prefilled with 'Sprint 1' if there are no previous sprints" do
@@ -167,7 +208,7 @@ RSpec.describe "Create", :js do
 
       context "with a previous sprint" do
         before do
-          create(:agile_sprint, name: "Be ambitious 42", project:)
+          create(:sprint, name: "Be ambitious 42", project:)
 
           planning_page.visit!
           planning_page.open_create_sprint_dialog
@@ -194,7 +235,7 @@ RSpec.describe "Create", :js do
   end
 
   context "with the project receiving sprints from another project" do
-    let(:project) { create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
+    let(:project) { create(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED) }
 
     it "is missing the 'new sprint' button" do
       planning_page.visit!

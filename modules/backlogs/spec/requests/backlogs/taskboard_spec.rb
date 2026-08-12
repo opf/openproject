@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Backlogs::Taskboard", type: :rails_request do
   shared_let(:project) { create(:project) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
+  shared_let(:sprint) { create(:sprint, project:) }
 
   describe "legacy (version 17.3) sprint taskboard route" do
     it "redirects to the namespaced taskboard route" do

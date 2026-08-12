@@ -43,7 +43,8 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
   shared_let(:source_project) do
     create(:project,
-           enabled_module_names: %w[work_package_tracking wiki],
+           :with_internal_wiki,
+           enabled_module_names: %w[work_package_tracking],
            custom_field_values: {
              text_custom_field.id => "source text",
              list_custom_field.id => list_custom_field.custom_options.last.id
@@ -52,6 +53,8 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
   shared_let(:work_package) { create(:work_package, project: source_project) }
   shared_let(:wiki_page) { create(:wiki_page, wiki: source_project.wiki) }
+
+  shared_let(:project_creator_role) { create(:project_creator_role) }
 
   shared_let(:current_user) do
     create(:user,
@@ -67,6 +70,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
   end
 
   before do
+    allow(Setting).to receive(:new_project_user_role_id).and_return(project_creator_role.id.to_s)
     login_as(current_user)
 
     post path, params.to_json
@@ -155,7 +159,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
         expect(project).to be_present
 
         expect(source_project.wiki.pages.count).to eq 1
-        expect(project.wiki.pages.count).to eq 0
+        expect(project.wiki).to be_nil
 
         expect(source_project.work_packages.count).to eq 1
         expect(project.work_packages.count).to eq 1

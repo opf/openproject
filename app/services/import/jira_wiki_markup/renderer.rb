@@ -108,7 +108,7 @@ module Import
       end
 
       def render_horizontal_rule
-        "<hr>"
+        "<hr>\n"
       end
 
       def render_heading(node)

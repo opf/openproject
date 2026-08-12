@@ -72,9 +72,9 @@ module API::V3::StorageFiles
             .call(storage: @storage, user: current_user, file_id: params[:file_id])
             .map { it.to_storage_file.value! }
             .match(
-              on_success: lambda { |storage_file|
+              on_success: lambda do |storage_file|
                 API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
-              },
+              end,
               on_failure: ->(error) { raise_service_result_error(error) }
             )
         end

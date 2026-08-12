@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule, inject } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
@@ -300,6 +300,9 @@ import {
   WorkPackageFormAttributeGroupComponent,
 } from 'core-app/features/work-packages/components/wp-form-group/wp-attribute-group.component';
 import { WorkPackagesGridComponent } from 'core-app/features/work-packages/components/wp-grid/wp-grid.component';
+import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
+import { OpSortableListsListDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-list.directive';
+import { OpSortableListsItemDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-item.directive';
 import {
   WorkPackageSplitViewToolbarComponent,
 } from 'core-app/features/work-packages/components/wp-details/wp-details-toolbar.component';
@@ -406,6 +409,10 @@ import {
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
 import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view-entry.component';
+import {
+  WorkPackageSplitCreateEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
+import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/project-attributes-tab/op-project-attributes-tab.component';
 
 @NgModule({
   imports: [
@@ -435,6 +442,10 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
 
     WorkPackageIsolatedQuerySpaceDirective,
     OpenprojectEnterpriseModule,
+
+    OpSortableListsDirective,
+    OpSortableListsListDirective,
+    OpSortableListsItemDirective,
   ],
   providers: [
     // Notification service
@@ -586,10 +597,14 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
     // Files tab
     WorkPackageFilesTabComponent,
 
+    // Project attributes tab
+    WorkPackageProjectAttributesTabComponent,
+
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
     WorkPackageSplitViewEntryComponent,
+    WorkPackageSplitCreateEntryComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
@@ -675,13 +690,20 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
     WorkPackageSplitViewComponent,
     BackButtonComponent,
     OpWpDatePickerModalComponent,
+
+    // Needed so boards can put its lists under a shared sortable root.
+    OpSortableListsDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectWorkPackagesModule {
+  private injector = inject(Injector);
+
   static bootstrapAttributeGroupsCalled = false;
 
-  constructor(private injector:Injector) {
+  constructor() {
+    const injector = this.injector;
+
     OpenprojectWorkPackagesModule.bootstrapAttributeGroups(injector);
   }
 

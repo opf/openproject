@@ -82,6 +82,39 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
       end
     end
 
+    describe "default role for new projects" do
+      let!(:qualifying_role) { create(:project_creator_role, name: "Project lead") }
+      let!(:non_qualifying_role) do
+        create(:project_role, name: "Reader", permissions: %i[view_work_packages])
+      end
+
+      it "lists only roles with the required permissions" do
+        get "show", params: { tab: "settings" }
+
+        expect(response.body)
+          .to have_css("select[name='settings[new_project_user_role_id]'] option",
+                       text: qualifying_role.name)
+        expect(response.body)
+          .to have_no_css("select[name='settings[new_project_user_role_id]'] option",
+                          text: non_qualifying_role.name)
+      end
+
+      context "when the configured role no longer has the required permissions" do
+        before do
+          Setting.new_project_user_role_id = non_qualifying_role.id
+        end
+
+        it "still lists the configured role, marked as missing required permissions, and selected" do
+          get "show", params: { tab: "settings" }
+
+          expect(response.body)
+            .to have_css("select[name='settings[new_project_user_role_id]'] " \
+                         "option[selected][value='#{non_qualifying_role.id}']",
+                         text: "#{non_qualifying_role.name} (missing required permissions)")
+        end
+      end
+    end
+
     describe "project creation notifications" do
       it "contains a checkbox for sending confirmation emails in the notifications tab" do
         get "show", params: { tab: "notifications" }
@@ -166,7 +199,6 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
         {
           password_min_length: 42,
           password_active_rules: %w(uppercase lowercase),
-          password_min_adhered_rules: 7,
           password_days_valid: 13,
           password_count_former_banned: 80,
           lost_password: false
@@ -177,7 +209,6 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
         old_settings = {
           password_min_length: 10,
           password_active_rules: [],
-          password_min_adhered_rules: 0,
           password_days_valid: 365,
           password_count_former_banned: 2,
           lost_password: true
@@ -205,10 +236,6 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
 
         it "sets the active character classes to lowercase and uppercase" do
           expect(Setting[:password_active_rules]).to eq %w[uppercase lowercase]
-        end
-
-        it "sets the required number of classes to 7" do
-          expect(Setting[:password_min_adhered_rules]).to eq 7
         end
 
         it "sets passwords to expire after 13 days" do
@@ -241,10 +268,6 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
 
         it "does not set the active character classes to lowercase and uppercase" do
           expect(Setting[:password_active_rules]).to eq []
-        end
-
-        it "does not set the required number of classes to 7" do
-          expect(Setting[:password_min_adhered_rules]).to eq 0
         end
 
         it "does not set passwords to expire after 13 days" do

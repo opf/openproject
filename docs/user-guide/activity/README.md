@@ -51,6 +51,7 @@ The more icon (⋯) next to a comment gives you a number of additional functions
 You can:
 
 - Copy a link to the comment on your clipboard if you want to paste a link to it elsewhere.
+
 > [!TIP]
 > Following a deep link automatically scrolls the page so the linked comment appears near the top and is briefly highlighted with a blue border. After the next interaction, the highlight disappears and the URL reverts to its normal form.
 
@@ -69,7 +70,7 @@ Projects may include external clients or suppliers, who can be invited to a proj
 
 > [!TIP]
 > To use the internal comments feature, a project admin must first enable it by navigating to [Project settings → Work packages → Internal comments tab](../projects/project-settings/work-packages/#work-package-internal-comments-enterprise-add-on). 
-> By default, internal comments are only visible to the *Project admin* role. However, for broader access, an instance administrator can grant permissions to view, write, and edit internal comments to any existing or new role.
+> By default, internal comments are only visible to the _Project admin_ role. However, for broader access, an instance administrator can grant permissions to view, write, and edit internal comments to any existing or new role.
 > These permissions must be explicitly assigned for the feature to be usable. If the permissions are removed, the internal comments will no longer be visible to those roles.
 
 Internal comments are distinguished from other comments via a different color scheme and a lock icon. 
@@ -185,4 +186,3 @@ The retrospective for the project activities is not limited. You can therefore t
 You can [configure in the admin settings](../../system-admin-guide/) how many days are shown on each activity page. Due to performance reasons, the days displayed should be set at a low level (e.g. 7 days).
 
 > **Note:** The project activity list is paginated. You can click on the "Previous" or "Next" links at the bottom of the page (where applicable) to navigate between pages.
-

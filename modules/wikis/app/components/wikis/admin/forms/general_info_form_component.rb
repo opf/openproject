@@ -29,19 +29,19 @@
 #++
 
 module Wikis::Admin::Forms
-  class GeneralInfoFormComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-
+  class GeneralInfoFormComponent < Wikis::Admin::WikiProviderComponent
     def self.wrapper_key = :wiki_provider_general_info_section
 
-    alias_method :wiki_provider, :model
+    options in_wizard: false
 
     def form_url
+      query = { origin_component: "general_information" }
+      query[:continue_wizard] = wiki_provider.id if in_wizard
+
       if wiki_provider.persisted?
-        admin_settings_wiki_provider_path(wiki_provider)
+        admin_settings_wiki_provider_path(wiki_provider, query)
       else
-        admin_settings_wiki_providers_path
+        admin_settings_wiki_providers_path(query)
       end
     end
 

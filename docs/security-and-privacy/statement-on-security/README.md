@@ -135,7 +135,7 @@ A security issue is considered fixed only once the fix has been released for all
 
 ### Pre-release notification
 
-For critical and high-severity vulnerabilities, subscribers of our [security mailing list](#security-announcements-mailing-list) will receive a pre-release notification **7 days before** the security release. This notification will include the planned release date and the severity of the issue, but will **not** include vulnerability details or patches. This gives administrators time to schedule maintenance windows and prepare for an upgrade.
+For critical and high-risk vulnerabilities with clear attack vectors, and immediate action to be taken by administrators, subscribers of our [security mailing list](#security-announcements-mailing-list) will receive a pre-release notification **7 days before** the security release. This notification will include the planned release date and the severity of the issue, but will not include vulnerability details or patches. This gives administrators time to schedule maintenance windows and prepare for an upgrade.
 
 ### Public disclosure
 

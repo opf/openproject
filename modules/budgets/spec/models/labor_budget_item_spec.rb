@@ -29,8 +29,9 @@
 require_relative "../spec_helper"
 
 RSpec.describe LaborBudgetItem do
-  let(:item) { build(:labor_budget_item, budget:, user:) }
+  let(:item) { build(:labor_budget_item, budget:, principal:) }
   let(:budget) { build(:budget, project:) }
+  let(:principal) { user }
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:rate) do
@@ -101,7 +102,7 @@ RSpec.describe LaborBudgetItem do
       before do
         item.save!
         item.reload
-        item.update_attribute(:user_id, user.id)
+        item.update(user_id: user.id)
         item.reload
       end
 
@@ -109,12 +110,13 @@ RSpec.describe LaborBudgetItem do
     end
 
     describe "WHEN a group is provided" do
+      let(:principal) { group }
       let(:group) { create(:group) }
 
       before do
         item.save!
         item.reload
-        item.update_attribute(:user_id, group.id)
+        item.update(user_id: group.id)
         item.reload
       end
 
@@ -125,7 +127,7 @@ RSpec.describe LaborBudgetItem do
       before do
         item.save!
         item.reload
-        item.update_attribute(:user_id, user.id)
+        item.update(user_id: user.id)
         user.destroy
         item.reload
       end
@@ -206,6 +208,30 @@ RSpec.describe LaborBudgetItem do
       it "skips the membership check and does not add a membership error" do
         item.valid?
         expect(item.errors.where(:principal, :not_a_member_of_budget_project)).to be_empty
+      end
+    end
+
+    describe "WHEN a group is provided as principal" do
+      let(:group) { create(:group) }
+
+      before do
+        create(:member, principal: group, project:, roles: [create(:project_role, permissions: %i[work_package_assigned])])
+        item.principal = group
+      end
+
+      it "is valid when the group is a member of the budget project" do
+        expect(item).to be_valid
+      end
+
+      context "when the group is not a member of the budget project" do
+        before do
+          Member.where(principal: group, project:).destroy_all
+        end
+
+        it "is not valid" do
+          expect(item).not_to be_valid
+          expect(item.errors.where(:principal, :not_a_member_of_budget_project)).not_to be_empty
+        end
       end
     end
   end

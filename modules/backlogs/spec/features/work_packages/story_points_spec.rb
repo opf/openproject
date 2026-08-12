@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -38,23 +40,18 @@ RSpec.describe "Work packages having story points", :js do
     create(:project,
            enabled_module_names: %w(work_package_tracking backlogs))
   end
-  let(:status) { create(:default_status) }
-  let(:story_type) { create(:type_feature) }
-  let(:task_type) { create(:type_feature) }
 
   describe "showing the story points on the work package show page" do
     let(:story_points) { 42 }
-    let(:story_with_sp) do
-      create(:story,
-             type: story_type,
+    let(:work_package_with_story_points) do
+      create(:work_package,
              author: current_user,
              project:,
-             status:,
              story_points:)
     end
 
     it "is displayed" do
-      wp_page = Pages::FullWorkPackage.new(story_with_sp)
+      wp_page = Pages::FullWorkPackage.new(work_package_with_story_points)
 
       wp_page.visit!
       wp_page.expect_subject

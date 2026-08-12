@@ -119,7 +119,7 @@ module Storages::ProjectStorages::Members
     def ensure_connection_url
       oauth_clients_ensure_connection_url(
         oauth_client_id: storage.oauth_client.client_id,
-        storage_id: storage.id
+        integration_id: storage.id
       )
     end
 

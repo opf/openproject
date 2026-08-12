@@ -30,8 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe "Workflow edit" do
+RSpec.describe "Workflow edit", :js do
   include Toasts::Expectations
+  include Workflows::EditHelpers
 
   let(:role) { create(:project_role) }
   let(:type) { create(:type) }
@@ -48,40 +49,12 @@ RSpec.describe "Workflow edit" do
 
   current_user { admin }
 
-  def workflow_checkbox(from_index, to_index)
-    "status_#{statuses[from_index].id}_#{statuses[to_index].id}"
-  end
-
-  def visit_workflow_edit(role: nil, tab: nil)
-    params = { controller: "/workflows", action: :edit, type_id: type.id }
-    params[:role_id] = role.id if role
-    params[:tab] = tab if tab
-    visit url_for(params)
-  end
-
-  def add_status_via_dialog(status)
-    click_link "Status"
-    within_dialog "Statuses" do
-      find(".ng-arrow-wrapper").click
-      find(".ng-option", text: status.name).click
-      click_button "Apply"
-    end
-  end
-
-  def remove_status_via_dialog(status)
-    click_link "Status"
-    within_dialog "Statuses" do
-      find(".ng-value", text: status.name).find(".ng-value-icon").click
-      click_button "Apply"
-    end
-  end
-
   before do
     visit_workflow_edit
   end
 
   it "allows adding another workflow" do
-    visit_workflow_edit(role:)
+    visit_workflow_edit(roles: [role])
 
     check workflow_checkbox(1, 0)
 
@@ -110,7 +83,7 @@ RSpec.describe "Workflow edit" do
                       old_status_id: statuses[0].id, new_status_id: statuses[1].id,
                       author: true, assignee: false)
 
-    visit_workflow_edit(role:, tab: "author")
+    visit_workflow_edit(roles: [role], tab: "author")
 
     within "#workflow_form_author" do
       check workflow_checkbox(1, 0)
@@ -146,7 +119,7 @@ RSpec.describe "Workflow edit" do
                       old_status_id: statuses[0].id, new_status_id: statuses[1].id,
                       author: false, assignee: true)
 
-    visit_workflow_edit(role:, tab: "assignee")
+    visit_workflow_edit(roles: [role], tab: "assignee")
 
     within "#workflow_form_assignee" do
       check workflow_checkbox(1, 0)
@@ -190,7 +163,7 @@ RSpec.describe "Workflow edit" do
     end
 
     before do
-      visit_workflow_edit(role:)
+      visit_workflow_edit(roles: [role])
     end
 
     it "shows the always tab by default" do
@@ -200,7 +173,7 @@ RSpec.describe "Workflow edit" do
     end
 
     it "shows the author matrix when switching to the author tab" do
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       within "#workflow_form_author" do
         expect(page).to have_field workflow_checkbox(1, 2), checked: true
@@ -209,7 +182,7 @@ RSpec.describe "Workflow edit" do
     end
 
     it "shows the assignee matrix when switching to the assignee tab" do
-      click_link "User is assignee"
+      switch_transition_tab "User is assignee"
 
       within "#workflow_form_assignee" do
         expect(page).to have_field workflow_checkbox(0, 2), checked: true
@@ -222,13 +195,13 @@ RSpec.describe "Workflow edit" do
         check workflow_checkbox(1, 0)
       end
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       within_dialog "Save changes before continuing?" do
-        click_link "Ignore changes"
+        click_button "Ignore changes"
       end
 
-      click_link "Default transitions"
+      switch_transition_tab "Default transitions"
 
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(1, 0), checked: false
@@ -240,7 +213,7 @@ RSpec.describe "Workflow edit" do
         check workflow_checkbox(1, 0)
       end
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       within_dialog "Save changes before continuing?" do
         click_button "Save changes and continue"
@@ -250,9 +223,7 @@ RSpec.describe "Workflow edit" do
 
       expect(page).to have_css("#workflow_form_author")
 
-      expect(Workflow.exists?(role_id: role.id, type_id: type.id,
-                              old_status_id: statuses[1].id, new_status_id: statuses[0].id,
-                              author: false, assignee: false)).to be true
+      expect_transition(role, 1, 0, exist: true)
     end
 
     it "keeps unsaved changes and stays on the same tab when closing the dialog via 'X'" do
@@ -260,7 +231,7 @@ RSpec.describe "Workflow edit" do
         check workflow_checkbox(1, 0)
       end
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       within_dialog "Save changes before continuing?" do
         find(".close-button").click
@@ -278,7 +249,7 @@ RSpec.describe "Workflow edit" do
       add_status_via_dialog(statuses[2])
       expect(page).to have_field workflow_checkbox(0, 2)
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       expect(page).to have_dialog("Save changes before continuing?")
     end
@@ -292,7 +263,7 @@ RSpec.describe "Workflow edit" do
 
       expect(page).to have_no_field workflow_checkbox(0, 1)
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       expect(page).to have_dialog("Save changes before continuing?")
     end
@@ -307,7 +278,7 @@ RSpec.describe "Workflow edit" do
     end
 
     before do
-      visit_workflow_edit(role:)
+      visit_workflow_edit(roles: [role])
     end
 
     it "shows the matrix for the first role" do
@@ -318,8 +289,7 @@ RSpec.describe "Workflow edit" do
     end
 
     it "loads the matrix for a different role after switching" do
-      click_button role.name
-      click_button other_role.name
+      switch_role_via_panel(role, other_role)
 
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(1, 2)
@@ -332,19 +302,17 @@ RSpec.describe "Workflow edit" do
         check workflow_checkbox(1, 0)
       end
 
-      click_button role.name
-      click_button other_role.name
+      switch_role_via_panel(role, other_role)
 
       within_dialog "Save changes before continuing?" do
-        click_link "Ignore changes"
+        click_button "Ignore changes"
       end
 
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(1, 2)
       end
 
-      click_button other_role.name
-      click_button role.name
+      switch_role_via_panel(other_role, role)
 
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(1, 0), checked: false
@@ -356,8 +324,7 @@ RSpec.describe "Workflow edit" do
         check workflow_checkbox(1, 0)
       end
 
-      click_button role.name
-      click_button other_role.name
+      switch_role_via_panel(role, other_role)
 
       within_dialog "Save changes before continuing?" do
         click_button "Save changes and continue"
@@ -369,9 +336,7 @@ RSpec.describe "Workflow edit" do
         expect(page).to have_field workflow_checkbox(1, 2)
       end
 
-      expect(Workflow.exists?(role_id: role.id, type_id: type.id,
-                              old_status_id: statuses[1].id, new_status_id: statuses[0].id,
-                              author: false, assignee: false)).to be true
+      expect_transition(role, 1, 0, exist: true)
     end
 
     it "keeps unsaved changes and stays on the same role when closing the dialog via 'X'" do
@@ -379,8 +344,7 @@ RSpec.describe "Workflow edit" do
         check workflow_checkbox(1, 0)
       end
 
-      click_button role.name
-      click_button other_role.name
+      switch_role_via_panel(role, other_role)
 
       within_dialog "Save changes before continuing?" do
         find(".close-button").click
@@ -396,10 +360,9 @@ RSpec.describe "Workflow edit" do
 
     it "shows a confirmation dialog when changing roles after adding a status" do
       add_status_via_dialog(statuses[2])
-      expect(page).to have_no_field workflow_checkbox(0, 2)
+      expect(page).to have_field workflow_checkbox(0, 2)
 
-      click_button role.name
-      click_button other_role.name
+      switch_role_via_panel(role, other_role)
 
       expect(page).to have_dialog("Save changes before continuing?")
     end
@@ -413,8 +376,7 @@ RSpec.describe "Workflow edit" do
 
       expect(page).to have_no_field workflow_checkbox(0, 1)
 
-      click_button role.name
-      click_button other_role.name
+      switch_role_via_panel(role, other_role)
 
       expect(page).to have_dialog("Save changes before continuing?")
     end
@@ -422,7 +384,7 @@ RSpec.describe "Workflow edit" do
 
   context "when reloading the page with unsaved changes", :js do
     before do
-      visit_workflow_edit(role:)
+      visit_workflow_edit(roles: [role])
     end
 
     it "shows a browser confirmation when reloading with unsaved checkbox changes" do
@@ -460,27 +422,9 @@ RSpec.describe "Workflow edit" do
     end
   end
 
-  it "allows navigating to Workflow summary page" do
-    within ".PageHeader-actions" do
-      click_on "Summary"
-    end
-
-    expect(page).to have_heading("Summary")
-    expect(page).to have_current_path(summarized_workflows_path)
-  end
-
-  it "allows navigating to Workflow copy page" do
-    within ".PageHeader-actions" do
-      click_on "Copy"
-    end
-
-    expect(page).to have_heading "Copy workflow"
-    expect(page).to have_current_path(copy_workflows_path)
-  end
-
   context "with status dialog", :js do
     before do
-      visit_workflow_edit(role:)
+      visit_workflow_edit(roles: [role])
     end
 
     it "shows only role-specific statuses in the matrix by default" do
@@ -488,7 +432,7 @@ RSpec.describe "Workflow edit" do
       create(:workflow, role_id: other_role.id, type_id: type.id,
                         old_status_id: statuses[0].id, new_status_id: statuses[2].id)
 
-      visit_workflow_edit(role:)
+      visit_workflow_edit(roles: [role])
 
       expect(page).to have_field workflow_checkbox(0, 1)
       expect(page).to have_no_field workflow_checkbox(2, 0)
@@ -496,7 +440,9 @@ RSpec.describe "Workflow edit" do
     end
 
     it "pre selects the current role statuses in the dialog" do
-      click_link "Status"
+      within "#workflow-table" do
+        click_link "Status"
+      end
 
       expect(page).to have_dialog("Statuses")
       within_dialog "Statuses" do
@@ -545,7 +491,9 @@ RSpec.describe "Workflow edit" do
     it "cancels the status dialog without changing the matrix" do
       expect(page).to have_no_field workflow_checkbox(2, 0)
 
-      click_link "Status"
+      within "#workflow-table" do
+        click_link "Status"
+      end
 
       within_dialog "Statuses" do
         find(".ng-arrow-wrapper").click
@@ -583,8 +531,7 @@ RSpec.describe "Workflow edit" do
 
       expect_flash(message: "Successful update.")
 
-      expect(Workflow.exists?(role_id: role.id, type_id: type.id,
-                              old_status_id: statuses[0].id, new_status_id: statuses[2].id)).to be true
+      expect_transition(role, 0, 2, exist: true)
 
       expect(page).to have_field workflow_checkbox(0, 2)
 
@@ -600,7 +547,7 @@ RSpec.describe "Workflow edit" do
 
       expect(page).to have_field workflow_checkbox(2, 0)
 
-      visit_workflow_edit(role:)
+      visit_workflow_edit(roles: [role])
 
       expect(page).to have_no_field workflow_checkbox(2, 0)
     end
@@ -647,7 +594,7 @@ RSpec.describe "Workflow edit" do
 
       expect_flash(message: "Successful update.")
 
-      visit_workflow_edit(role:)
+      visit_workflow_edit(roles: [role])
 
       expect(page).to have_no_field workflow_checkbox(2, 0)
       expect(page).to have_no_field workflow_checkbox(0, 2)
@@ -665,6 +612,178 @@ RSpec.describe "Workflow edit" do
 
       expect(page).to have_text("No status transitions configured")
       expect(page).to have_text("Add statuses to start configuring workflows for this role")
+    end
+  end
+
+  context "with copy dialog" do
+    it "allows navigating to any Copy page", :js do
+      click_on "Copy"
+
+      expect(page).to have_dialog "Copy workflow"
+    end
+
+    context "with unsaved checkbox" do
+      it "loses unsaved checkbox changes when clicking on copy and ignoring" do
+        within "#workflow_form_always" do
+          check workflow_checkbox(1, 0)
+        end
+
+        click_link "Copy"
+
+        within_dialog "Save changes before continuing?" do
+          click_button "Ignore changes"
+        end
+
+        within "#workflow_form_always" do
+          expect(page).to have_field workflow_checkbox(1, 0), checked: false
+        end
+        expect(page).to have_dialog "Copy workflow"
+      end
+
+      it "saves changes and switches to the new role when clicking 'Save changes and continue'" do
+        within "#workflow_form_always" do
+          check workflow_checkbox(1, 0)
+        end
+
+        click_link "Copy"
+
+        within_dialog "Save changes before continuing?" do
+          click_button "Save changes and continue"
+        end
+
+        expect_flash(message: "Successful update.")
+
+        expect_transition(role, 1, 0, exist: true)
+
+        expect(page).to have_dialog "Copy workflow"
+      end
+
+      it "keeps unsaved changes and stays on the same role when closing the dialog via 'X'" do
+        within "#workflow_form_always" do
+          check workflow_checkbox(1, 0)
+        end
+
+        click_link "Copy"
+
+        within_dialog "Save changes before continuing?" do
+          find(".close-button").click
+        end
+
+        expect(page).to have_no_dialog("Save changes before continuing?")
+
+        within "#workflow_form_always" do
+          expect(page).to have_field workflow_checkbox(1, 0), checked: true
+        end
+
+        expect(page).to have_no_dialog "Copy workflow"
+      end
+    end
+
+    context "with unsaved new status" do
+      it "shows a confirmation dialog when copying after adding a status" do
+        add_status_via_dialog(statuses[2])
+        expect(page).to have_field workflow_checkbox(0, 2)
+
+        click_link "Copy"
+
+        expect(page).to have_dialog("Save changes before continuing?")
+      end
+
+      it "reverts the added status on changes ignored" do
+        add_status_via_dialog(statuses[2])
+        expect(page).to have_field workflow_checkbox(0, 2)
+
+        click_link "Copy"
+
+        within_dialog "Save changes before continuing?" do
+          click_button "Ignore changes"
+        end
+
+        expect(page).to have_no_field workflow_checkbox(0, 2)
+      end
+
+      it "reverts the removed status on changes ignored" do
+        remove_status_via_dialog(statuses[1])
+
+        within_dialog "Remove statuses" do
+          expect(page).to have_text("Remove 1 status?")
+
+          click_button "Remove"
+        end
+
+        expect(page).to have_no_field workflow_checkbox(0, 1)
+
+        click_link "Copy"
+
+        within_dialog "Save changes before continuing?" do
+          click_button "Ignore changes"
+        end
+
+        expect(page).to have_field workflow_checkbox(0, 1)
+      end
+    end
+  end
+
+  describe "when the workflow is linked from a source" do
+    let(:source_type) { create(:type) }
+    let!(:source_workflow) do
+      create(:workflow, role_id: role.id,
+                        type_id: source_type.id,
+                        old_status_id: statuses[0].id,
+                        new_status_id: statuses[1].id,
+                        author: false,
+                        assignee: false)
+    end
+
+    before do
+      type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+      visit_workflow_edit(roles: [role])
+    end
+
+    it "shows the source's transitions read-only without editing actions" do
+      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: true)
+      expect(page).to have_field(workflow_checkbox(1, 0), disabled: true)
+      expect(page).to have_no_button "Save"
+
+      within "#workflow-table" do
+        expect(page).to have_no_link "Status"
+        expect(page).to have_no_link "Copy"
+      end
+    end
+  end
+
+  describe "reuse mode banner", with_flag: { type_variants: true } do
+    let(:source_type) { create(:type, name: "Feature") }
+
+    context "when the workflow configuration is independent" do
+      before { visit_workflow_edit(roles: [role]) }
+
+      it "shows the independent banner offering to switch to linked, or to copy from type" do
+        expect(page).to have_text("Independent mode")
+        expect(page).to have_link("Switch to linked mode")
+        expect(page).to have_link("Copy from type")
+      end
+    end
+
+    context "when the workflow configuration is linked to a source" do
+      before do
+        type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+        visit_workflow_edit(roles: [role])
+      end
+
+      it "shows the linked banner naming the source with change and switch actions" do
+        expect(page).to have_text("Linked mode")
+        expect(page).to have_link("Change source type")
+        expect(page).to have_link("Switch to independent mode")
+      end
+    end
+
+    context "when the variants feature is disabled", with_flag: { type_variants: false } do
+      before { visit_workflow_edit(roles: [role]) }
+
+      it "does not show the reuse mode banner" do
+        expect(page).to have_no_text("Independent mode")
+      end
     end
   end
 end

@@ -35,22 +35,20 @@ RSpec.describe Projects::Settings::EditableIdentifierForm, type: :forms do
 
   let(:model) { build_stubbed(:project, identifier: "my-project") }
 
-  context "when the feature flag is off" do
+  context "when classic mode is active", with_settings: { work_packages_identifier: "classic" } do
     before do
-      with_flags(semantic_work_package_ids: false)
       vc_render_form
     end
 
     it "renders an editable field with the legacy caption" do
       expect(page).to have_field "Identifier", with: "my-project", disabled: false
       expect(page).to have_text "Only lowercase letters (a–z), numbers, dashes or underscores."
+      expect(page).to have_no_text "Project identifiers aren't private"
     end
   end
 
-  context "when the feature flag is on and the semantic setting is active" do
+  context "when semantic mode is active", with_settings: { work_packages_identifier: "semantic" } do
     before do
-      with_flags(semantic_work_package_ids: true)
-      allow(Setting::WorkPackageIdentifier).to receive(:semantic?).and_return(true)
       vc_render_form
     end
 
@@ -58,19 +56,9 @@ RSpec.describe Projects::Settings::EditableIdentifierForm, type: :forms do
       expect(page).to have_field "Identifier", with: "my-project", disabled: false
       expect(page).to have_text "Only uppercase letters (A–Z), numbers or underscores. " \
                                 "Max 10 characters. Must start with a letter."
+      expect(page).to have_css ".InlineMessage", text: "Project identifiers aren't private. " \
+                                                       "If your project is confidential, choose a nondescript identifier."
     end
   end
 
-  context "when the feature flag is on but the setting is classic" do
-    before do
-      with_flags(semantic_work_package_ids: true)
-      allow(Setting::WorkPackageIdentifier).to receive(:semantic?).and_return(false)
-      vc_render_form
-    end
-
-    it "renders an editable field with the legacy caption" do
-      expect(page).to have_field "Identifier", with: "my-project", disabled: false
-      expect(page).to have_text "Only lowercase letters (a–z), numbers, dashes or underscores."
-    end
-  end
 end

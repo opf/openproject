@@ -127,13 +127,17 @@ class PermittedParams
   end
 
   def move_work_package(args = {})
+    move_work_package_form_values(args)
+      .merge(journal_notes: params[:notes])
+  end
+
+  def move_work_package_form_values(args = {})
     permitted = permitted_attributes(:move_work_package, args)
-    permitted_params = params.permit(*permitted)
-    permitted_params
+    params
+      .permit(*permitted)
       .merge(custom_field_values(required: false))
       .merge(type_id: params[:new_type_id],
-             project_id: params[:new_project_id],
-             journal_notes: params[:notes])
+             project_id: params[:new_project_id])
   end
 
   def member
@@ -235,7 +239,7 @@ class PermittedParams
     whitelisted = type_params.permit(*permitted)
 
     if type_params[:attribute_groups]
-      whitelisted[:attribute_groups] = JSON.parse(type_params[:attribute_groups])
+      whitelisted[:attribute_groups] = type_params[:attribute_groups]
     end
 
     whitelisted
@@ -254,9 +258,7 @@ class PermittedParams
   end
 
   def wiki_page_rename
-    permitted = permitted_attributes(:wiki_page)
-
-    params.require(:page).permit(*permitted)
+    params.require(:page).permit(:title, :redirect_existing_links, :lock_version)
   end
 
   def wiki_page
@@ -383,7 +385,7 @@ class PermittedParams
     if project && current_user.allowed_in_project?(:edit_messages, project)
       params.fetch(:message, {}).permit(:subject, :content, :forum_id, :locked, :sticky)
     else
-      params.fetch(:message, {}).permit(:subject, :content, :forum_id)
+      params.fetch(:message, {}).permit(:subject, :content)
     end
   end
 
@@ -532,6 +534,7 @@ class PermittedParams
           :custom_field_section_id,
           :allow_non_open_versions,
           :has_comment,
+          :visible_on_user_card,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -568,13 +571,12 @@ class PermittedParams
           :done_ratio,
           :due_date,
           :estimated_hours,
-          :version_id,
+          { target_version_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
           :remaining_hours,
           :responsible_id,
-          :sprint_id,
           :start_date,
           :status_id,
           :type_id,
@@ -591,14 +593,14 @@ class PermittedParams
           :journal_notes,
           :lock_version
         ],
-        move_work_package: %i[
-          assigned_to_id
-          responsible_id
-          start_date
-          due_date
-          status_id
-          version_id
-          priority_id
+        move_work_package: [
+          :assigned_to_id,
+          :responsible_id,
+          :start_date,
+          :due_date,
+          :status_id,
+          { target_version_ids: [] },
+          :priority_id
         ],
         oauth_application: [
           :name,
@@ -653,6 +655,7 @@ class PermittedParams
         ),
         type: [
           :name,
+          :parent_id,
           :is_in_roadmap,
           :is_milestone,
           :is_default,
@@ -712,7 +715,9 @@ class PermittedParams
     # thus we do it by hand
     object = required ? params.require(key_to_fetch) : params.fetch(key_to_fetch, {})
     values = key ? object[:custom_field_values] : object
-    values || ActionController::Parameters.new
+    return ActionController::Parameters.new unless values.is_a?(ActionController::Parameters)
+
+    values
   end
 
   def nilify_params!(hash, *keys)

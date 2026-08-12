@@ -103,7 +103,7 @@ RSpec.describe "work package list custom fields", :js do
       check("custom_field_custom_options_attributes_0_default_value")
       check("custom_field_custom_options_attributes_2_default_value")
       within first(".custom-option-row") do
-        click_link accessible_name: "Move to bottom"
+        click_on accessible_name: "Move to bottom"
       end
       click_on "Save"
 

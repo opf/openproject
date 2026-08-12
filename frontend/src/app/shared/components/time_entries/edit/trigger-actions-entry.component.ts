@@ -1,5 +1,32 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
@@ -34,19 +61,21 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
   standalone: false,
 })
 export class TriggerActionsEntryComponent {
-  @InjectField() readonly apiv3Service:ApiV3Service;
+  readonly injector = inject(Injector);
 
-  @InjectField() readonly toastService:ToastService;
+  readonly apiv3Service = inject(ApiV3Service);
 
-  @InjectField() readonly elementRef:ElementRef;
+  readonly toastService = inject(ToastService);
 
-  @InjectField() i18n!:I18nService;
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  @InjectField() readonly cdRef:ChangeDetectorRef;
+  readonly i18n = inject(I18nService);
 
-  @InjectField() readonly pathHelper:PathHelperService;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() readonly turboRequestService:TurboRequestsService;
+  readonly pathHelper = inject(PathHelperService);
+
+  readonly turboRequestService = inject(TurboRequestsService);
 
   public text = {
     edit: this.i18n.t('js.button_edit'),
@@ -54,9 +83,6 @@ export class TriggerActionsEntryComponent {
     error: this.i18n.t('js.error.internal'),
     areYouSure: this.i18n.t('js.text_are_you_sure'),
   };
-
-  constructor(readonly injector:Injector) {
-  }
 
   editTimeEntry() {
     void this.loadEntry().subscribe((entry:TimeEntryResource) => {
@@ -93,7 +119,7 @@ export class TriggerActionsEntryComponent {
   }
 
   protected loadEntry():Observable<TimeEntryResource> {
-    const timeEntryId = (this.elementRef.nativeElement as HTMLElement).dataset.entry!;
+    const timeEntryId = this.elementRef.nativeElement.dataset.entry!;
 
     return this
       .apiv3Service

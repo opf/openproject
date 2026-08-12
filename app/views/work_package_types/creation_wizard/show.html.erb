@@ -1,0 +1,3 @@
+<% html_title t(:label_administration), t("types.creation_wizard.create_variant") %>
+
+<%= render(WorkPackageTypes::Wizard::PageComponent.new(type: @type, current_step: @current_step)) %>

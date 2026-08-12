@@ -28,20 +28,16 @@
 #++
 
 class Queries::Meetings::Filters::TimeFilter < Queries::Meetings::Filters::MeetingFilter
-  PAST_VALUE = "past".freeze
-  FUTURE_VALUE = "future".freeze
+  def available_operators
+    [Queries::Operators::Upcoming, Queries::Operators::Past]
+  end
 
-  validate :validate_only_single_value
-
-  def allowed_values
-    [
-      [I18n.t(:label_past_meetings_short), PAST_VALUE],
-      [I18n.t(:label_upcoming_meetings_short), FUTURE_VALUE]
-    ]
+  def default_operator
+    Queries::Operators::Upcoming
   end
 
   def past?
-    values.first == PAST_VALUE
+    operator.to_sym == Queries::Operators::Past.to_sym
   end
 
   def where
@@ -57,20 +53,10 @@ class Queries::Meetings::Filters::TimeFilter < Queries::Meetings::Filters::Meeti
   end
 
   def type
-    :list
+    :date
   end
 
   def self.key
     :time
-  end
-
-  def available_operators
-    [::Queries::Operators::Equals]
-  end
-
-  private
-
-  def validate_only_single_value
-    errors.add(:values, :invalid) if values.length != 1
   end
 end

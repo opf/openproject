@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -36,7 +38,6 @@ module API
         include API::Decorators::FormattableProperty
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::FileLinks::FileLinkRelationRepresenter
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
         include TimestampedRepresenter
 
@@ -327,7 +328,8 @@ module API
           visible_children.map do |child|
             {
               href: api_v3_paths.work_package(child.id),
-              title: child.subject
+              title: child.subject,
+              displayId: child.display_id.to_s
             }
           end
         end
@@ -337,7 +339,8 @@ module API
           represented.visible_ancestors(current_user).map do |ancestor|
             {
               href: api_v3_paths.work_package(ancestor.id),
-              title: ancestor.subject
+              title: ancestor.subject,
+              displayId: ancestor.display_id.to_s
             }
           end
         end
@@ -488,6 +491,14 @@ module API
                    status_id && status.is_readonly?
                  end
 
+        property :has_project_attributes,
+                 as: :hasProjectAttributes,
+                 writable: false,
+                 uncacheable: true,
+                 getter: ->(*) do
+                   project&.available_custom_fields_for_type(type_id)&.any? || false
+                 end
+
         associated_resource :category
 
         associated_resource :type
@@ -566,9 +577,62 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
+        # Deprecated in favour of `targetVersions`
+        # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
-                            representer: ::API::V3::Versions::VersionRepresenter
+                            representer: ::API::V3::Versions::VersionRepresenter,
+                            show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
+                            getter: ->(*) {
+                              next unless embed_link?(:version)
+
+                              version = represented.effective_target_versions.first
+                              next unless version
+
+                              ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
+                            },
+                            link: ->(*) {
+                              next if Setting::WorkPackageMultipleVersions.active?
+
+                              version = represented.effective_target_versions.first
+                              next({ href: nil }) if version.nil?
+
+                              ::API::Decorators::LinkObject
+                                .new(version,
+                                     property_name: :itself,
+                                     path: :version,
+                                     getter: :id,
+                                     title_attribute: :name)
+                                .to_hash
+                            },
+                            setter: ->(fragment:, **) do
+                              represented.target_version_ids = parse_link_ids_from_fragment([fragment], :version).compact
+                            end
+
+        associated_resources :target_versions,
+                             v3_path: :version,
+                             representer: ::API::V3::Versions::VersionRepresenter,
+                             getter: ->(*) {
+                               next unless embed_link?(:target_versions)
+
+                               represented.effective_target_versions.map do |version|
+                                 ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               represented.effective_target_versions.map do |version|
+                                 ::API::Decorators::LinkObject
+                                   .new(version,
+                                        property_name: :itself,
+                                        path: :version,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             },
+                             setter: ->(fragment:, **) do
+                               represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
+                             end
 
         associated_resource :parent,
                             v3_path: :work_package,
@@ -580,7 +644,8 @@ module API
                               if represented.parent&.visible?
                                 {
                                   href: api_v3_paths.work_package(represented.parent.id),
-                                  title: represented.parent.subject
+                                  title: represented.parent.subject,
+                                  displayId: represented.parent.display_id.to_s
                                 }
                               else
                                 {
@@ -613,7 +678,12 @@ module API
                             v3_path: :budget,
                             link_title_attribute: :subject,
                             representer: ::API::V3::Budgets::BudgetRepresenter,
-                            skip_render: ->(*) { !view_budgets_allowed? }
+                            link_cache_if: -> { view_budgets_allowed? },
+                            getter: ->(*) {
+                              if embed_link?(:budget) && represented.budget && view_budgets_allowed?
+                                ::API::V3::Budgets::BudgetRepresenter.create(represented.budget, current_user:)
+                              end
+                            }
 
         resources :customActions,
                   uncacheable_link: true,
@@ -787,7 +857,8 @@ module API
                                 type
                                 watchers
                                 attachments
-                                budget]
+                                budget
+                                target_versions]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
@@ -802,7 +873,9 @@ module API
            represented.cache_checksum,
            Setting.work_package_done_ratio,
            Setting.show_work_package_attachments,
-           Setting.feeds_enabled?]
+           Setting.feeds_enabled?,
+           Setting::WorkPackageIdentifier.semantic?,
+           Setting::WorkPackageMultipleVersions.active?]
         end
 
         def load_complete_model(model)

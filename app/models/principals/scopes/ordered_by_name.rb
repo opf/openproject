@@ -41,7 +41,7 @@ module Principals::Scopes
       def ordered_by_name(desc: false)
         direction = desc ? "DESC" : "ASC"
 
-        order_case = Arel.sql <<~SQL
+        order_case = Arel.sql(<<~SQL.squish)
           CASE
           WHEN users.type = 'User' THEN LOWER(#{user_concat_sql})
           WHEN users.type != 'User' THEN LOWER(users.lastname)

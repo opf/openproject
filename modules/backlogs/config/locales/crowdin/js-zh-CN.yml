@@ -22,9 +22,9 @@
 ---
 zh-CN:
   js:
-    work_packages:
-      properties:
-        storyPoints: 故事点
     burndown:
       day: 天
       points: 点
+    work_packages:
+      properties:
+        storyPoints: 故事点

@@ -59,15 +59,23 @@ module WorkPackages
 
       def initialize(work_package,
                      focused_field: nil,
-                     touched_field_map: {})
+                     touched_field_map: {},
+                     submit_path: nil)
         super()
 
         @work_package = work_package
         @focused_field = map_field(focused_field)
         @touched_field_map = touched_field_map
+        @submit_path = submit_path
       end
 
+      # Defaults to the core progress controller, but callers reusing the modal
+      # from another context (e.g. the resource planner) can point the form at
+      # their own endpoint. The live preview derives its URL from the form
+      # action too (`<action>/preview`), so a single override covers both.
       def submit_path
+        return @submit_path if @submit_path
+
         if work_package.new_record?
           url_for(controller: "work_packages/progress",
                   action: "create")

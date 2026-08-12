@@ -232,41 +232,58 @@ RSpec.describe "Recurring meetings move to next meeting", :js do
 
     context "when the occurrence has been rescheduled to an earlier time (Bug #73741)" do
       let(:current_user) { user_with_manage_permissions }
-      let(:first_occurrence_time) { series.next_occurrence(from_time: Time.current) }
+      # Feb 4 is the second Tuesday in the series (series starts Jan 28), rescheduled to Feb 3 (Monday)
+      let(:scheduled_occurrence_time) { DateTime.parse("2025-02-04T10:30:00Z") }
 
       let!(:rescheduled_occurrence) do
         call = RecurringMeetings::InitOccurrenceService
           .new(user: User.system, recurring_meeting: series)
-          .call(start_time: first_occurrence_time)
+          .call(start_time: scheduled_occurrence_time)
         occurrence_meeting = call.result
 
         # Reschedule to an earlier time — recurrence_start_time stays unchanged as the canonical slot
-        occurrence_meeting.update!(start_time: first_occurrence_time - 1.day)
+        occurrence_meeting.update!(start_time: scheduled_occurrence_time - 1.day)
         occurrence_meeting
       end
 
       let(:meeting) { rescheduled_occurrence }
 
-      it "moves the item to the occurrence after the original scheduled time" do
-        meeting_page.expect_agenda_item(title: "Test notes")
+      shared_examples "moves to a different meeting" do
+        it do
+          meeting_page.expect_agenda_item(title: "Test notes")
 
-        meeting_page.select_action(agenda_item, "Move to next meeting")
-        expect(page).to have_text("Move to next meeting?")
+          meeting_page.select_action(agenda_item, "Move to next meeting")
+          expect(page).to have_text("Move to next meeting?")
 
-        page.within_modal "Move to next meeting?" do
-          click_on "Move"
+          page.within_modal "Move to next meeting?" do
+            click_on "Move"
+          end
+
+          expect_and_dismiss_flash(message: "Agenda item moved to the next meeting")
+
+          meeting_page.expect_no_agenda_item(title: "Test notes")
+
+          next_meeting = Meeting.find(agenda_item.reload.meeting_id)
+          expect(next_meeting.id).not_to eq(rescheduled_occurrence.id)
+
+          next_meeting_page = Pages::Meetings::Show.new(next_meeting)
+          next_meeting_page.visit!
+          next_meeting_page.expect_agenda_item(title: "Test notes")
         end
+      end
 
-        expect_and_dismiss_flash(message: "Agenda item moved to the next meeting")
+      context "when the rescheduled time is still in the future" do
+        # Passing case: frozen Mon 08:00, rescheduled start_time Mon 10:30 (future), canonical slot Tue 10:30 (future)
+        around { |example| travel_to(DateTime.parse("2025-02-03T08:00:00Z")) { example.run } }
 
-        meeting_page.expect_no_agenda_item(title: "Test notes")
+        include_examples "moves to a different meeting"
+      end
 
-        next_meeting = Meeting.find(agenda_item.reload.meeting_id)
-        expect(next_meeting.id).not_to eq(rescheduled_occurrence.id)
+      context "when the rescheduled time is past but the canonical slot is in the future" do
+        # Bug case: frozen Mon 12:00, rescheduled start_time Mon 10:30 (past), canonical slot Tue 10:30 (future)
+        around { |example| travel_to(DateTime.parse("2025-02-03T12:00:00Z")) { example.run } }
 
-        next_meeting_page = Pages::Meetings::Show.new(next_meeting)
-        next_meeting_page.visit!
-        next_meeting_page.expect_agenda_item(title: "Test notes")
+        include_examples "moves to a different meeting"
       end
     end
 

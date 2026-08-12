@@ -2,7 +2,7 @@
   <!-- Desktop Version -->
   <nav [attr.aria-label]="text.breadcrumb" class="hidden-for-mobile">
     <ol class="op-breadcrumbs--items">
-      @for (item of items; track item; let last = $last) {
+      @for (item of items; track trackBreadcrumbItem($index, item); let last = $last) {
         <li
           class="op-breadcrumbs--item"
           data-test-selector="op-breadcrumbs--item"

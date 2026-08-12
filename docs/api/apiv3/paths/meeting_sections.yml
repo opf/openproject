@@ -1,56 +1,11 @@
-# /api/v3/meetings/{id}/sections
+# /api/v3/meeting_sections
 ---
-get:
-  summary: List meeting sections
-  operationId: list_meeting_sections
-  tags:
-    - Meetings
-  description: Lists all sections for the given meeting.
-  parameters:
-    - description: Meeting identifier
-      example: 1
-      in: path
-      name: id
-      required: true
-      schema:
-        type: integer
-  responses:
-    '200':
-      description: OK
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/meeting_section_collection_model.yml"
-    '404':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
-      description: |-
-        Returned if the meeting does not exist or the client does not have sufficient permissions to see it.
-
-        **Required permission:** view meetings
-
 post:
   summary: Create meeting section
   operationId: create_meeting_section
   tags:
     - Meetings
-  description: Creates a new section for the given meeting.
-  parameters:
-    - description: Meeting identifier
-      example: 1
-      in: path
-      name: id
-      required: true
-      schema:
-        type: integer
+  description: Creates a new section. The request body must link the meeting.
   requestBody:
     content:
       application/json:
@@ -92,7 +47,7 @@ post:
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The requested resource could not be found.
       description: |-
-        Returned if the meeting does not exist or the client does not have sufficient permissions to see it.
+        Returned if the linked meeting does not exist or the client does not have sufficient permissions to see it.
     '406':
       $ref: "../components/responses/missing_content_type.yml"
     '415':

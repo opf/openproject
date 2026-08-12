@@ -261,11 +261,43 @@ RSpec.describe Meetings::IcalendarBuilder,
       meeting
     end
 
+    context "when emitting an instantiated occurrence within the current schedule" do
+      subject(:builder) { described_class.new(timezone:) }
+
+      it "emits it as a RECURRENCE-ID override keyed to its original slot" do
+        builder.add_series_event(recurring_meeting:)
+
+        parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+        overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
+
+        # third_occurence is a past occurrence that still belongs to the current
+        # schedule, so it must be emitted (unlike previous-schedule occurrences).
+        expect(overrides.size).to eq(1)
+        override = overrides.first
+        expect(override.recurrence_id).to eq(third_occurence.recurrence_start_time)
+        expect(override.dtstart).to eq(third_occurence.start_time)
+        expect(override.rrule).to be_empty
+      end
+    end
+
     context "when using the cache" do
       subject(:builder) { described_class.new(timezone:) }
 
       before do
         builder.preload_for_recurring_meetings(recurring_meetings: [recurring_meeting])
+      end
+
+      it "emits the instantiated occurrence within the current schedule as an override" do
+        builder.add_series_event(recurring_meeting:)
+
+        parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+        overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
+
+        expect(overrides.size).to eq(1)
+        override = overrides.first
+        expect(override.recurrence_id).to eq(third_occurence.recurrence_start_time)
+        expect(override.dtstart).to eq(third_occurence.start_time)
+        expect(override.rrule).to be_empty
       end
 
       it "preloads the correct caches" do
@@ -613,7 +645,7 @@ RSpec.describe Meetings::IcalendarBuilder,
       expect(vtimezone_block).to be_present
       standard_count = vtimezone_block.scan("BEGIN:STANDARD").size
       daylight_count = vtimezone_block.scan("BEGIN:DAYLIGHT").size
-      expect(standard_count).to eq(4)
+      expect(standard_count).to eq(3)
       expect(daylight_count).to eq(4)
     end
 
@@ -625,7 +657,30 @@ RSpec.describe Meetings::IcalendarBuilder,
     end
   end
 
-  context "with mutlipple recurring meetings in different timezones" do
+  context "for a meeting shortly before a DST change (Bug OP-19787)" do
+    subject(:builder) { described_class.new(timezone:) }
+
+    let(:parsed_calendar) { Icalendar::Calendar.parse(builder.to_ical).first }
+    # Europe/Berlin switches from CEST (+02:00) to CET (+01:00) on 2026-10-25
+    let(:meeting) { create(:meeting, :author_participates, start_time: Time.zone.parse("2026-09-30 09:00"), duration: 1.0) }
+
+    it "emits a VTIMEZONE observance in effect at the meeting start, resolving to summer time (+0200)" do
+      builder.add_single_meeting_event(meeting:)
+
+      tz = parsed_calendar.timezones.first
+      event_start = ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-09-30 09:00")
+
+      observances = (tz.standards + tz.daylights)
+      preceding = observances
+                    .select { |o| o.dtstart.to_time <= event_start }
+                    .max_by { |o| o.dtstart.to_time }
+
+      expect(preceding).to be_present
+      expect(preceding.tzoffsetto.value_ical).to eq("+0200")
+    end
+  end
+
+  context "with multiple recurring meetings in different timezones" do
     let(:project) { create(:project) }
     let(:user) do
       create(:user, firstname: "John", lastname: "Doe", member_with_permissions: { project => [:view_meetings] })

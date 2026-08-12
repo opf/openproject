@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,16 +29,16 @@
 import { MultiInputState } from '@openproject/reactivestates';
 import { Injectable, Injector } from '@angular/core';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 @Injectable()
 export class ProjectCache extends StateCacheService<ProjectResource> {
-  @InjectField() private schemaCacheService:SchemaCacheService;
+  @LazyInject() private schemaCacheService:SchemaCacheService;
 
-  constructor(readonly injector:Injector,
-    state:MultiInputState<ProjectResource>) {
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- manually instantiated, not DI-resolved
+  constructor(readonly injector:Injector, state:MultiInputState<ProjectResource>) {
     super(state);
   }
 

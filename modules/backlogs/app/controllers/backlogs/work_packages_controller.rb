@@ -32,154 +32,258 @@ module Backlogs
   class WorkPackagesController < BaseController
     include OpTurbo::ComponentStream
 
-    before_action :load_story
+    # Document event dispatched after a successful move so the frontend can refresh a
+    # split view open on the moved work package (see split-view-sync.controller.ts).
+    WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
+
+    before_action :load_work_package, only: %i[menu move_to_sprint_dialog move_to_bucket_dialog move]
 
     # Deferred ActionMenu items (Primer include-fragment).
     def menu
-      max_position = @allowed_stories.maximum(:position) || 0
-
-      render(Backlogs::StoryMenuListComponent.new(
-               story: @story,
-               sprint: @sprint,
+      render(Backlogs::WorkPackageCardMenuComponent.new(
                project: @project,
-               max_position:,
+               work_package: @work_package,
+               open_sprints_exist: target_open_sprints.exists?,
+               other_buckets_exist: target_buckets.exists?,
                current_user:
              ),
              layout: false)
     end
 
-    # Move a story from an Agile::Sprint to another Agile::Sprint, or the Inbox.
-    def move
-      # The update service reloads the story internally (via #move_after),
-      # so we memoize the previous sprint_id before the call.
-      sprint_id_was = @story.sprint_id
+    def add_existing_dialog
+      target = Target.from_list(params[:list_type], params[:list_id])
+      container = target&.container_for(@project)
 
-      move_attributes = infer_attributes_from_target
-      unless move_work_package(move_attributes).success?
-        return respond_with_turbo_streams(status: :unprocessable_entity)
+      if container
+        respond_with_dialog Backlogs::AddExistingWorkPackageDialogComponent.new(
+          project: @project,
+          container:
+        )
+      elsif target
+        render_error_flash_message_via_turbo_stream(message: t(".target_not_found"))
+        respond_with_turbo_streams(status: :not_found)
+      else
+        render_error_flash_message_via_turbo_stream(message: t(".invalid_target"))
+        respond_with_turbo_streams(status: :unprocessable_entity)
       end
-
-      if target_inbox?(move_attributes)
-        moved_to_inbox
-      elsif target_sprint?(move_attributes) && @story.sprint_id != sprint_id_was
-        moved_to_sprint
-      end
-
-      respond_with_turbo_streams
     end
 
-    def reorder
-      call = Stories::UpdateService
-        .new(user: current_user, story: @story)
-        .call(attributes: { move_to: reorder_param })
+    def move_to_sprint_dialog
+      respond_with_dialog Backlogs::MoveToSprintDialogComponent.new(
+        work_package: @work_package,
+        project: @project,
+        move_action: move_path
+      )
+    end
 
-      unless call.success?
-        render_error_flash_message_via_turbo_stream(
-          message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
+    def move_to_bucket_dialog
+      respond_with_dialog Backlogs::MoveToBucketDialogComponent.new(
+        work_package: @work_package,
+        project: @project,
+        move_action: move_path
+      )
+    end
+
+    def add_existing
+      work_package = WorkPackage.visible.where(project: @project).find(params.expect(:work_package_id))
+
+      call = ::Backlogs::WorkPackages::UpdateService
+        .new(user: current_user, work_package:)
+        .call(list_type: params.expect(:list_type), list_id: params[:list_id])
+
+      render_update_turbo_streams(call)
+    end
+
+    def move
+      source_target = Backlogs::Target.for_work_package(@work_package)
+      source_position = @work_package.position
+
+      call = ::Backlogs::WorkPackages::UpdateService
+        .new(user: current_user, work_package: @work_package)
+        .call(**move_service_params)
+
+      if optimistic_same_list_move?(call, source_target)
+        # A same-list optimistic move (drag or menu) already reordered the row
+        # client-side and changes nothing else visible. Skip the frame reload
+        # (it would fight that order); still emit the moved event for split-view
+        # lock refresh.
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_id: call.result.id }
         )
-        return respond_with_turbo_streams(status: :unprocessable_entity)
+        return respond_with_turbo_streams(status: call)
       end
 
-      replace_sprint_component_via_turbo_stream(sprint: @sprint)
+      if announce_move?(call, source_target, source_position)
+        render_move_announcement(call.result)
+      end
 
-      respond_with_turbo_streams
+      render_update_turbo_streams(call)
     end
 
     private
 
-    def move_work_package(move_attributes)
-      call = update_story_with_target_and_position(attributes: move_attributes)
-
+    def render_update_turbo_streams(call)
       if call.success?
-        # Update source component so that the moved story disappears
-        replace_sprint_component_via_turbo_stream(sprint: @sprint)
+        reload_frame_via_turbo_stream("backlogs_container")
+
+        # A split view open on the moved work package caches its lock_version. Signal the
+        # move so the frontend can refresh that cache and avoid a stale-lock_version conflict
+        # on the next edit. Covers both drag-and-drop and the move-to-sprint/bucket dialogs.
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_id: call.result.id }
+        )
+
+        render_invisible_after_move_flash(call.result)
       else
         render_error_flash_message_via_turbo_stream(
           message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
         )
       end
 
-      call
+      respond_with_turbo_streams(status: call)
     end
 
-    def update_story_with_target_and_position(attributes:)
-      Stories::UpdateService
-        .new(user: current_user, story: @story)
-        .call(attributes:, **position_attributes)
-    end
+    def render_invisible_after_move_flash(work_package)
+      return unless work_package_invisible_after_move?(work_package)
 
-    def moved_to_inbox
-      render_success_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_successful_move, from: @sprint.name, to: I18n.t(:label_inbox))
-      )
-      work_packages = Backlog.inbox_for(project: @project)
-      replace_via_turbo_stream(
-        component: Backlogs::InboxComponent.new(work_packages:, project: @project),
-        method: :morph
+      render_flash_message_via_turbo_stream(
+        message: I18n.t(:notice_work_package_invisible_after_move, backlog: target_list_name(work_package))
       )
     end
 
-    def moved_to_sprint
-      moved_to(new_sprint: @story.sprint)
+    # A dialog move (never flagged optimistic) is announced by the server; the
+    # optimistic drag and menu paths announce client-side, and the flash
+    # covers moves whose result is no longer visible. Persisted no-ops
+    # (same target, same position) stay silent.
+    def announce_move?(call, source_target, source_position)
+      return false if optimistic_move? || call.failure?
+      return false if work_package_invisible_after_move?(call.result)
+
+      Backlogs::Target.for_work_package(call.result) != source_target ||
+        call.result.position != source_position
     end
 
-    def moved_to(new_sprint:)
-      render_success_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_successful_move, from: @sprint.name, to: new_sprint.name)
+    def render_move_announcement(work_package)
+      ids = announcement_list_scope(work_package).pluck(:id)
+      index = ids.index(work_package.id)
+      return if index.nil?
+
+      render_live_region_update_message(
+        message: t(
+          ".moved_announcement",
+          label: work_package.to_fs(:caption),
+          list: target_list_name(work_package),
+          position: index + 1,
+          total: ids.size
+        )
       )
-
-      # Update the target component so that the moved story shows up
-      replace_sprint_component_via_turbo_stream(sprint: new_sprint)
     end
 
-    def infer_attributes_from_target
-      target_type, target_id = move_params[:target_id].split(":")
-
-      case target_type
-      when "sprint"
-        { sprint_id: target_id }
-      when "inbox"
-        { sprint_id: nil }
+    # The scopes the page renders, so the announced position matches what a
+    # sighted user sees: sprints are scoped to the project (shared sprints
+    # render only the project's items), buckets and the inbox go through the
+    # backlog scope with its excluded types and done statuses.
+    def announcement_list_scope(work_package)
+      if work_package.sprint
+        work_package.sprint.work_packages_for(@project)
       else
-        raise ArgumentError, "target_type must include one of: sprint, inbox."
+        WorkPackage.in_backlog_for(project: @project)
+          .where(backlog_bucket_id: work_package.backlog_bucket_id)
       end
     end
 
-    def target_sprint?(move_attributes)
-      move_attributes[:sprint_id].present?
+    def target_list_name(work_package)
+      work_package.sprint&.name ||
+        work_package.backlog_bucket&.name ||
+        I18n.t(:label_inbox)
     end
 
-    def target_inbox?(move_attributes)
-      move_attributes.key?(:sprint_id) && move_attributes[:sprint_id].nil?
+    def load_work_package
+      @work_packages = WorkPackage.visible.where(project: @project).order_by_position
+      @work_package = @work_packages.find(params.expect(:id))
     end
 
-    def replace_sprint_component_via_turbo_stream(sprint:)
-      replace_via_turbo_stream(component: Backlogs::SprintComponent.new(sprint: sprint, project: @project),
-                               method: :morph)
+    def move_path
+      move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
     end
 
-    def load_story
-      @allowed_stories = WorkPackage.visible.where(sprint: @sprint, project: @project)
-      @story = @allowed_stories.find(params[:id])
+    def target_open_sprints
+      Sprint.for_project(@project)
+        .visible.not_completed
+        .where.not(id: @work_package.sprint_id)
+    end
+
+    def target_buckets
+      BacklogBucket.where(project: @project)
+        .where.not(id: @work_package.backlog_bucket_id)
+    end
+
+    # After a move the work package might no longer be visible: the page's active
+    # sprint/bucket filters (the move dialogs offer every destination, filtered or
+    # not) can hide the destination list, and for backlog destinations the project
+    # settings for excluded types and statuses apply on top.
+    def work_package_invisible_after_move?(work_package)
+      return true if work_package_hidden_by_filters?(work_package)
+      return false if work_package.sprint_id?
+
+      @project.backlog_excluded_type_ids.include?(work_package.type_id) ||
+        @project.done_status_ids.include?(work_package.status_id)
+    end
+
+    def work_package_hidden_by_filters?(work_package)
+      if work_package.sprint_id?
+        backlog_filters.sprint_ids&.exclude?(work_package.sprint_id) || false
+      elsif work_package.backlog_bucket_id?
+        backlog_filters.bucket_ids&.exclude?(work_package.backlog_bucket_id) || false
+      else
+        !backlog_filters.show_inbox?
+      end
+    end
+
+    # Snapshot the source target before the call, not dirty tracking: move_after
+    # reloads mid-method, wiping the saved_changes _before_last_save needs.
+    def optimistic_same_list_move?(call, source_target)
+      optimistic_move? && call.success? &&
+        Backlogs::Target.for_work_package(call.result) == source_target &&
+        requested_anchor_honored?(call.result)
+    end
+
+    # A nonblank prev_id that has left the target list resolves to nothing, so
+    # move_after silently drops the work package at the top, diverging from the
+    # optimistic client order. Only skip the reload once the requested anchor
+    # is verifiably the persisted one: a nonblank prev_id must be the item
+    # right above, and a blank prev_id (top insert) must have nothing above.
+    # Requests without an anchor -- a missing prev_id, or a position-based
+    # move (nothing sends those optimistically today) -- cannot be verified,
+    # so they reconcile via reload.
+    def requested_anchor_honored?(work_package)
+      return false if move_params[:position].present?
+      return false unless move_params.key?(:prev_id)
+
+      prev_id = move_params[:prev_id].presence
+      if prev_id
+        work_package.higher_item&.id == prev_id.to_i
+      else
+        work_package.higher_item.nil?
+      end
+    end
+
+    # Kept out of move_params: the service's keyword args reject it.
+    def optimistic_move?
+      ActiveModel::Type::Boolean.new.cast(params[:optimistic])
     end
 
     def move_params
-      params.require(%i[target_id])
-      params.permit(:position, :prev_id, :target_id)
+      params.permit(:prev_id, :position, :list_type, :list_id)
     end
 
-    def position_attributes
-      if move_params.has_key?(:prev_id)
-        { prev_id: move_params[:prev_id].to_i }
-      elsif move_params.has_key?(:position)
-        { position: move_params[:position].to_i }
-      else
-        {}
-      end
-    end
-
-    def reorder_param
-      params.expect(:direction)
+    # A blank prev_id (drag or menu move to the top of a list) is kept so the
+    # service inserts at the top; nil values (an absent prev_id) are
+    # dropped. The service resolves list_type/list_id into the destination list.
+    def move_service_params
+      move_params.to_h.symbolize_keys.compact
     end
   end
 end

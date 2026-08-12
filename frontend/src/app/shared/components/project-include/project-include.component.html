@@ -6,7 +6,7 @@
   <button
     slot="trigger"
     type="button"
-    class="button"
+    class="button button_flex op-project-include--button"
     (click)="toggleOpen()"
     [title]="text.toggle_title"
     data-test-selector="project-include-button"
@@ -60,6 +60,7 @@
               [includeSubprojects]="includeSubprojects$ | async"
               [searchText]="searchableProjectListService.searchText"
               [root]="true"
+              [queryWorkspaceHref]="queryWorkspaceHref"
               (update)="selectedProjects = $event"
               data-test-selector="project-include-list"
               data-list-root="true"

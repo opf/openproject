@@ -21,28 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Injector,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export const triggerEditingEvent = 'op:selectableTitle:trigger';
 export const selectableTitleIdentifier = 'editable-toolbar-title';
@@ -55,9 +41,12 @@ export const selectableTitleIdentifier = 'editable-toolbar-title';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EditableToolbarTitleComponent implements OnInit, OnChanges {
+  readonly injector = inject(Injector);
+  private cdRef = inject(ChangeDetectorRef);
+
   @Input('title') public inputTitle:string;
 
   @Input() public editable = true;
@@ -87,9 +76,9 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   public selectableTitleIdentifier = selectableTitleIdentifier;
 
-  @InjectField() protected readonly elementRef:ElementRef;
+  protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  @InjectField() I18n!:I18nService;
+  readonly I18n = inject(I18nService);
 
   public text = {
     click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),
@@ -100,9 +89,6 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
     duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title'),
   };
-
-  constructor(readonly injector:Injector, private cdRef:ChangeDetectorRef) {
-  }
 
   ngOnInit():void {
     this.text.input_title = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;

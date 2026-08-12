@@ -1,0 +1,6 @@
+---
+hy:
+  overviews:
+    label_dashboard: Վահանակ
+    label_home: "%{workspace_type}՝ գլխավոր էջ"
+    label_overview: Ընդհանուր տեսք

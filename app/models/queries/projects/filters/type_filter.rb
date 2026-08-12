@@ -45,6 +45,19 @@ class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
     :list
   end
 
+  def autocomplete_options
+    all_items = allowed_values.map { |name, id| { name:, id: } }
+    {
+      component: "opce-autocompleter",
+      bindValue: "id",
+      bindLabel: "name",
+      hideSelected: true,
+      defaultData: false,
+      items: all_items,
+      model: all_items.select { |item| values.include?(item[:id]) }
+    }
+  end
+
   def self.key
     :type_id
   end

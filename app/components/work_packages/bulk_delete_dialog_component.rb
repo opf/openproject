@@ -31,6 +31,7 @@
 module WorkPackages
   class BulkDeleteDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
+    include WorkPackages::DeleteDialogs::Descendants
 
     attr_reader :work_packages
 
@@ -44,75 +45,61 @@ module WorkPackages
 
     def id = "wp-delete-dialog"
 
+    def i18n_scope = "work_packages.bulk_delete_dialog"
+
+    def deletion_roots = work_packages.to_a
+
     def title
-      I18n.t("work_packages.bulk_delete_dialog.title", count: total_count)
+      t_dialog("title", count: total_count)
     end
 
     def heading
-      I18n.t("work_packages.bulk_delete_dialog.heading", count: total_count)
+      t_dialog("heading", count: total_count)
     end
 
     def description
-      if has_descendants?
-        I18n.t("work_packages.bulk_delete_dialog.description_with_children")
-      else
-        I18n.t("work_packages.bulk_delete_dialog.description")
-      end
+      key =
+        case variant
+        when :all then "description_with_descendants"
+        when :hidden then nothing_deleted? ? "description" : "description_with_visible_descendants"
+        when :undeletable then nothing_deleted? ? "description" : "description_with_all_descendants"
+        else "description"
+        end
+
+      t_dialog(key)
     end
 
+    # Only the deleted descendants are listed, so only those can be confirmed.
     def confirmation_checkbox_text
-      if has_descendants?
-        I18n.t("work_packages.bulk_delete_dialog.confirm_children_deletion")
-      else
-        I18n.t("text_permanent_delete_confirmation_checkbox_label")
-      end
+      t_dialog(deleted_descendants.any? ? "confirm_descendants_deletion" : "confirm_deletion")
     end
 
     def total_count
-      @total_count ||= work_packages.count + descendants_by_work_package.values.sum(&:size)
+      @total_count ||= work_package_ids.size + deleted_descendants.size
     end
 
     def multiple_projects?
       projects.size > 1
     end
 
-    def project_names
-      projects.map(&:name).join(", ")
+    def project_links
+      link_to_projects(projects)
     end
 
     def descendants_for(work_package)
-      (descendants_by_work_package[work_package.id] || [])
-        .reject { |child| work_packages.include?(child) }
-    end
-
-    def has_descendants?
-      work_packages.any? { |wp| descendants_for(wp).any? }
+      deleted_descendants_under(work_package)
     end
 
     def form_action
-      helpers.work_packages_bulk_path(ids: work_packages.map(&:id), back_url: @back_url)
+      helpers.work_packages_bulk_path(ids: work_package_ids, back_url: @back_url)
     end
 
     def projects
-      @projects ||= work_packages.filter_map(&:project).uniq
+      @projects ||= (work_packages.to_a + deleted_descendants).filter_map(&:project).uniq
     end
 
-    def descendants_by_work_package
-      @descendants_by_work_package ||= begin
-        hierarchies = WorkPackageHierarchy
-          .where(ancestor_id: work_packages.map(&:id))
-          .where("generations > 0")
-          .order(:generations, :descendant_id)
-
-        descendant_records = WorkPackage
-          .where(id: hierarchies.pluck(:descendant_id))
-          .includes(:project, :type, :status)
-          .index_by(&:id)
-
-        hierarchies
-          .group_by(&:ancestor_id)
-          .transform_values { |rows| rows.filter_map { |r| descendant_records[r.descendant_id] } }
-      end
+    def work_package_ids
+      @work_package_ids ||= work_packages.map(&:id)
     end
   end
 end

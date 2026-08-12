@@ -40,6 +40,10 @@ FactoryBot.define do
     # ...
   end
 
+  factory :reverse_inline_wiki_page_link, class: "Wikis::ReverseInlinePageLink", parent: :wiki_page_link do
+    # ...
+  end
+
   factory :relation_wiki_page_link, class: "Wikis::RelationPageLink", parent: :wiki_page_link do
     author factory: :user
   end

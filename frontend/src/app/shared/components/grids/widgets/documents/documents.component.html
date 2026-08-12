@@ -10,7 +10,7 @@
   @if (noEntries) {
     <op-no-results [title]="text.noResults" />
   }
-  @for (document of entries; track document) {
+  @for (document of entries; track document.id) {
     <h4 class="document-category-elements--header">
       <a [href]="documentPath(document)"
         [textContent]="document.title">

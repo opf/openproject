@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(tag: "tr", class: row_css_class, data: { turbo: true }) do %>
+<%= component_wrapper(tag: "tr", class: row_css_class) do %>
   <% columns.each do |column| %>
     <td class="<%= column_css_class(column) %>">
       <%= column_value(column) %>

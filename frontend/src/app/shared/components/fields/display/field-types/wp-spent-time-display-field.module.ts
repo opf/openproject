@@ -21,14 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import URI from 'urijs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -42,11 +42,11 @@ export class WorkPackageSpentTimeDisplayField extends WorkDisplayField {
     logTime: this.I18n.t('js.button_log_time'),
   };
 
-  @InjectField() PathHelper:PathHelperService;
+  @LazyInject() PathHelper:PathHelperService;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
-  @InjectField() TurboRequests:TurboRequestsService;
+  @LazyInject() TurboRequests:TurboRequestsService;
 
   private closeDialogHandler:EventListener = this.handleDialogClose.bind(this);
   private workPackageForHandler:WorkPackageResource;
@@ -78,7 +78,7 @@ export class WorkPackageSpentTimeDisplayField extends WorkDisplayField {
           // Link to the cost report having the work package filter preselected. No grouping.
           const href = URI(
             this.PathHelper.projectTimeEntriesPath(
-              project.identifier as string,
+              project.identifier,
             ),
           )
             .search(

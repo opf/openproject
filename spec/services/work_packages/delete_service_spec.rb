@@ -135,12 +135,12 @@ RSpec.describe WorkPackages::DeleteService do
 
   context "with descendants" do
     let(:child) do
-      build_stubbed(:work_package).tap do |wp|
+      build_stubbed(:work_package, project: work_package.project, parent: work_package).tap do |wp|
         allow(wp).to receive(:reload).and_return(wp)
       end
     end
     let(:grandchild) do
-      build_stubbed(:work_package).tap do |wp|
+      build_stubbed(:work_package, project: work_package.project, parent: child).tap do |wp|
         allow(wp).to receive(:reload).and_return(wp)
       end
     end
@@ -149,9 +149,9 @@ RSpec.describe WorkPackages::DeleteService do
     end
 
     before do
-      allow(work_package)
-        .to receive(:descendants)
-        .and_return(descendants)
+      # The stubbed descendants are not in the database, so no walk can find them.
+      # WorkPackages::Shared::DeletionPlanning has its own spec for that.
+      allow(instance).to receive_messages(deleted_descendants: descendants, unlinked_descendants: [])
 
       descendants.each do |descendant|
         allow(descendant)

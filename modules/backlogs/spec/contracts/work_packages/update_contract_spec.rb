@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -48,6 +50,7 @@ RSpec.describe WorkPackages::UpdateContract do
       view_work_packages
       edit_work_packages
       manage_sprint_items
+      view_sprints
     ]
   end
 
@@ -68,7 +71,7 @@ RSpec.describe WorkPackages::UpdateContract do
     describe "validations" do
       context "when setting sprint and lock_version " \
               "and only having the manage_sprint_items permission but lacking edit_work_packages" do
-        let(:permissions) { %i[view_work_packages manage_sprint_items] }
+        let(:permissions) { %i[view_work_packages manage_sprint_items view_sprints] }
 
         before do
           # Reverting the change done in the setup
@@ -80,7 +83,7 @@ RSpec.describe WorkPackages::UpdateContract do
 
       context "when setting the sprint and another property " \
               "and only having the manage_sprint_items permission but lacking edit_work_packages" do
-        let(:permissions) { %i[view_work_packages manage_sprint_items] }
+        let(:permissions) { %i[view_work_packages manage_sprint_items view_sprints] }
 
         before do
           work_package.subject = "Some other subject"
@@ -90,14 +93,27 @@ RSpec.describe WorkPackages::UpdateContract do
                         subject: :error_readonly,
                         story_points: :error_readonly
       end
+
+      context "when sprint is not assignable but the assignment did not change" do
+        let(:completed_sprint) { build_stubbed(:sprint, status: :completed) }
+        let(:work_package_sprint) { completed_sprint }
+        let(:assignable_sprints) { [] }
+
+        before do
+          # So that the changes look like they came out of the database
+          work_package.clear_changes_information
+        end
+
+        it_behaves_like "contract is valid"
+      end
     end
 
     describe "writable_attributes" do
       context "when the user has only :manage_sprint_items permission but lacks :edit_work_packages" do
-        let(:permissions) { %i[view_work_packages manage_sprint_items] }
+        let(:permissions) { %i[view_work_packages manage_sprint_items view_sprints] }
 
-        it "includes sprints and lock_version", :aggregate_failures do
-          expect(contract.writable_attributes).to include("sprint", "lock_version")
+        it "includes sprint, backlog_bucket and lock_version", :aggregate_failures do
+          expect(contract.writable_attributes).to include("backlog_bucket", "sprint", "lock_version")
           expect(contract.writable_attributes).not_to include("story_points", "position")
         end
       end

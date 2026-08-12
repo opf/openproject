@@ -58,7 +58,7 @@ RSpec.describe WorkPackages::UpdateService, "sprint preservation on project chan
   end
 
   let(:sprint_in_source_project) do
-    create(:agile_sprint,
+    create(:sprint,
            project: source_project,
            name: "Sprint 1",
            start_date: Time.zone.today,
@@ -149,7 +149,7 @@ RSpec.describe WorkPackages::UpdateService, "sprint preservation on project chan
   describe "Integration with sprint visibility logic" do
     context "when sprint is owned by the target project" do
       let(:sprint_in_target_project) do
-        create(:agile_sprint,
+        create(:sprint,
                project: target_project,
                name: "Target Sprint",
                start_date: Time.zone.today,

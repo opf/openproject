@@ -154,6 +154,29 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         )
       end
     end
+
+    context "in semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:semantic_project) { create(:project, identifier: "MACROPROJ") }
+      let(:work_package) { create(:work_package, project: semantic_project) }
+
+      before do
+        work_package.allocate_and_register_semantic_id
+        allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+      end
+
+      it "renders the related work package's formatted_id in raw text mode" do
+        wp = work_package.reload
+        expect(cause).to render_raw_variant(a_string_including(wp.formatted_id))
+        expect(cause).not_to render_raw_variant(a_string_including("##{wp.id}"))
+      end
+
+      it "renders the related work package's formatted_id in the link label in HTML mode" do
+        wp = work_package.reload
+        expect(cause).to render_html_variant(a_string_including("#{wp.formatted_id}:"))
+        expect(cause).not_to render_html_variant(a_string_including(" ##{wp.id}:"))
+      end
+    end
   end
 
   context "when the change was caused by a change to a predecessor" do
@@ -255,6 +278,28 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
           "#{I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')}"
         )
       end
+    end
+  end
+
+  context "when the change was caused by the deletion of the parent" do
+    subject(:cause) do
+      {
+        "type" => "work_package_parent_deleted"
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.work_package_parent_deleted')}</strong> " \
+        "#{I18n.t('journals.cause_descriptions.work_package_parent_deleted')}"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant(
+        "#{I18n.t('journals.caused_changes.work_package_parent_deleted')} " \
+        "#{I18n.t('journals.cause_descriptions.work_package_parent_deleted')}"
+      )
     end
   end
 

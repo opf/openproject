@@ -38,7 +38,9 @@ class ProjectIdentifiers::RevertInstanceToClassicIdsJob < ApplicationJob
   include GoodJob::ActiveJobExtensions::Concurrency
 
   good_job_control_concurrency_with(total_limit: 1)
-  retry_on StandardError, wait: :polynomially_longer, attempts: 8
+  # Cap at ~16 min of cumulative backoff; this is deemed enough for transient infra issues, and longer wait
+  # increases customer pain due to stuck conversion in the UI
+  retry_on StandardError, wait: :polynomially_longer, attempts: 5
 
   def perform
     raise "expected Setting.work_packages_identifier to be classic" unless Setting::WorkPackageIdentifier.classic?
