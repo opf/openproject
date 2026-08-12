@@ -27,8 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++# %>
 
-<% empty_row_content = capture { empty_state.to_s } if empty_state? %>
-<% box = capture do %>
+<%=
+  render(
+    Primer::ConditionalWrapper.new(
+      condition: empty_state_behavior.dynamic?,
+      tag: :div,
+      data: { controller: "border-box-list" }
+    )
+  ) do
+%>
   <%= render(Primer::Beta::BorderBox.new(**@system_arguments)) do |border_box| %>
     <% if header? %>
       <% border_box.with_header(**header.row_args) do %>
@@ -44,7 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% elsif empty_state? && !empty_state_behavior.none? %>
       <% border_box.with_row(data: { empty_list_item: true }) do %>
-        <%= empty_row_content %>
+        <%= empty_state %>
       <% end %>
     <% end %>
 
@@ -54,15 +61,9 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
   <% end %>
-<% end %>
-
-<% if empty_state_behavior.dynamic? %>
-  <%= tag.div(data: { controller: "border-box-list" }) do %>
-    <%= box %>
+  <% if empty_state_behavior.dynamic? %>
     <template data-border-box-list-target="emptyStateTemplate">
-      <li class="Box-row" data-empty-list-item="true"><%= empty_row_content %></li>
+      <li class="Box-row" data-empty-list-item="true"><%= empty_state %></li>
     </template>
   <% end %>
-<% else %>
-  <%= box %>
 <% end %>
