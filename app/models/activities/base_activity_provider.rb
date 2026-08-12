@@ -172,7 +172,12 @@ class Activities::BaseActivityProvider
   end
 
   def exclude_meeting_causes(query)
-    query.where(Arel.sql("journals.cause->>'meeting_id' IS NULL"))
+    query.where(cause_type_expression.eq(nil).or(cause_type_expression.not_in(Journal::MEETING_CAUSE_TYPES)))
+  end
+
+  def cause_type_expression
+    @cause_type_expression ||=
+      Arel::Nodes::InfixOperation.new("->>", journals_table[:cause], Arel::Nodes.build_quoted("type"))
   end
 
   def filter_for_event_datetime(query, from, to)
