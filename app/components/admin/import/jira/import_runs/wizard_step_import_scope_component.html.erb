@@ -114,7 +114,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       elsif model.in_state?(:projects_meta_fetching)
-        box.with_row(mt: 3) do
+        box.with_row(mt: 3, display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
@@ -129,8 +129,8 @@ See COPYRIGHT and LICENSE files for more details.
           concat(
             render(
               Primer::Beta::Button.new(
-                tag: :a,
-                size: :medium
+                size: :medium,
+                ml: 1
               )
             ) do |button|
               button.with_leading_visual_icon(icon: :sync, animation: :rotate)
