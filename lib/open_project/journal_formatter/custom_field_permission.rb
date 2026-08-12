@@ -28,28 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class JournalFormatterCache
-  def self.request_instance
-    RequestStore.store[:journal_formatter_cache] ||= new
-  end
+# Shared by formatters whose rendered field resolves to a CustomField
+# (OpenProject::JournalFormatter::CustomComment and the
+# OpenProject::JournalFormatter::CustomField::* formatters). Requires the
+# including class to implement +custom_field_for_key(key)+.
+module OpenProject::JournalFormatter::CustomFieldPermission
+  private
 
-  def initialize
-    @cache = Hash.new
-  end
+  # A Proc :view_permission is instance_exec'd with the CustomField being
+  # rendered (or nil, if it has since been deleted) as its sole argument,
+  # rather than with no arguments as JournalFormatter::Base does.
+  def permission_granted?(options)
+    permission = options[:view_permission]
+    return super unless permission.is_a?(Proc)
 
-  # The reader is folded into the key by default, so a verdict or a scoped id set
-  # cached while serving one user can never be read back for another — see
-  # JournalFormatter::NamedAssociation#reachable? for the same rationale. This is
-  # a no-op for the raw-record lookups NamedAssociation/PolymorphicAssociation
-  # cache here (User.current is constant for the life of a request), so it's
-  # free to apply unconditionally rather than leaving it as an easy-to-forget
-  # opt-in for permission-sensitive callers.
-  def fetch(klass, id, user: User.current, &)
-    key = [klass, id, user.id]
-    if @cache.key?(key)
-      @cache[key]
-    elsif block_given?
-      @cache[key] = yield
-    end
+    instance_exec(custom_field_for_key(options[:key]), &permission)
   end
 end
