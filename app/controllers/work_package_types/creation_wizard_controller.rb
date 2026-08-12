@@ -31,6 +31,7 @@
 module WorkPackageTypes
   # Guided, multi-step creation of a work package type, or of a variant of one.
   class CreationWizardController < ApplicationController
+    include AddressesVariant
     include TypeVariantsFeature
 
     layout "no_menu"
@@ -183,12 +184,10 @@ module WorkPackageTypes
       @type = ::Type.find(params.expect(:type_id))
     end
 
+    def addressed_type = @type
+
     def find_variant
-      @variant = if params[:variant_id]
-                   @type.variants.named_variants.find(params.expect(:variant_id))
-                 else
-                   @type.default_variant
-                 end
+      @variant = addressed_variant(among: @type.variants.named_variants)
     end
 
     def set_current_step

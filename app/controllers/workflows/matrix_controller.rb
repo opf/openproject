@@ -31,6 +31,7 @@
 # All actions either update the workflow matrix editor's internal representation or render dialogs to ensure
 # that the editor can be modified regardless of the context it is used in
 class Workflows::MatrixController < ApplicationController
+  include WorkPackageTypes::AddressesVariant
   include OpTurbo::ComponentStream
 
   layout false
@@ -72,11 +73,7 @@ class Workflows::MatrixController < ApplicationController
   private
 
   def variant
-    @variant ||= if params[:variant_id]
-                   ::TypeVariant.find(params.expect(:variant_id))
-                 else
-                   ::Type.find(params.expect(:type_id)).default_variant
-                 end
+    @variant ||= addressed_variant
   end
 
   def matrix_context

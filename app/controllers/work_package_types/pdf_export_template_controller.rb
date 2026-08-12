@@ -30,6 +30,7 @@
 
 module WorkPackageTypes
   class PdfExportTemplateController < ApplicationController
+    include AddressesVariant
     include OpTurbo::ComponentStream
 
     layout "admin"
@@ -109,12 +110,10 @@ module WorkPackageTypes
       @type = ::Type.find(params.expect(:type_id))
     end
 
+    def addressed_type = @type
+
     def find_variant
-      @variant = if params[:variant_id].present?
-                   @type.variants.find(params.expect(:variant_id))
-                 else
-                   @type.default_variant
-                 end
+      @variant = addressed_variant(among: @type.variants)
     end
 
     def find_template

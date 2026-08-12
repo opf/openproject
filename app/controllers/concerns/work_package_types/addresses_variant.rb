@@ -29,25 +29,27 @@
 #++
 
 module WorkPackageTypes
-  class BaseTabController < ApplicationController
-    include AddressesVariant
-
-    layout "admin"
-
-    before_action :require_admin
-    before_action :find_type
-    before_action :find_variant
+  # The admin routes carry an optional `variants/:variant_id` under a type. Reading the pair back
+  # is the inverse of TypeVariant#path_args, and every controller mounted there needs it.
+  module AddressesVariant
+    extend ActiveSupport::Concern
 
     private
 
-    def find_type
-      @type = ::Type.find(params.expect(:type_id))
+    # The variant the URL names. Absent the segment, the URL is about the type itself, and the
+    # configuration answering for it is its base variant.
+    #
+    # +among+ narrows what the id may name, for routes that only address some of a type's
+    # variants.
+    def addressed_variant(among: nil)
+      return addressed_type.default_variant if params[:variant_id].blank?
+
+      (among || ::TypeVariant).find(params.expect(:variant_id))
     end
 
-    def addressed_type = @type
-
-    def find_variant
-      @variant = addressed_variant(among: @type.variants)
+    # Overridden by controllers that have already loaded it.
+    def addressed_type
+      ::Type.find(params.expect(:type_id))
     end
   end
 end

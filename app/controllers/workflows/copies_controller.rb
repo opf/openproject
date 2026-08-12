@@ -29,6 +29,7 @@
 #++
 
 class Workflows::CopiesController < ApplicationController
+  include WorkPackageTypes::AddressesVariant
   include OpTurbo::ComponentStream
 
   layout "admin"
@@ -45,11 +46,7 @@ class Workflows::CopiesController < ApplicationController
   private
 
   def set_source_variant
-    @source_variant = if params[:variant_id]
-                        ::TypeVariant.find(params.expect(:variant_id))
-                      else
-                        ::Type.find(params.expect(:type_id)).default_variant
-                      end
+    @source_variant = addressed_variant
   end
 
   def set_source_role

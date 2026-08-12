@@ -29,6 +29,7 @@
 #++
 
 class Workflows::Copies::FromRolesController < ApplicationController
+  include WorkPackageTypes::AddressesVariant
   include OpTurbo::ComponentStream
 
   layout "admin"
@@ -71,12 +72,12 @@ class Workflows::Copies::FromRolesController < ApplicationController
 
   private
 
+  # A stale dialog can name a source that is gone; #create answers that with a flash rather
+  # than a 404, so a miss has to arrive here as nil.
   def set_source_variant
-    @source_variant = if params[:variant_id]
-                        ::TypeVariant.find_by(id: params[:variant_id])
-                      else
-                        ::Type.find_by(id: params[:type_id])&.default_variant
-                      end
+    @source_variant = addressed_variant
+  rescue ActiveRecord::RecordNotFound
+    @source_variant = nil
   end
 
   def set_source_role
