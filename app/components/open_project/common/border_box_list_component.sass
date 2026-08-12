@@ -154,6 +154,9 @@
     display: flex
     align-items: center
     gap: var(--stack-gap-condensed)
+    // Reserve the height of a medium control so headers whose action
+    // buttons toggle (e.g. hidden while filtering) keep a stable height.
+    min-height: var(--control-medium-size)
 
     .Box-title
       min-width: 0
