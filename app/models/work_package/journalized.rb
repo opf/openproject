@@ -96,7 +96,11 @@ module WorkPackage::Journalized
     register_journal_formatted_fields "description", formatter_key: :diff
     register_journal_formatted_fields "schedule_manually", formatter_key: :schedule_manually
     register_journal_formatted_fields /\Aattachments_?\d+\z/, formatter_key: :attachment
-    register_journal_formatted_fields /\Acustom_fields_\d+\z/, formatter_key: :custom_field
+    register_journal_formatted_fields /\Acustom_fields_\d+\z/,
+                                      formatter_key: :custom_field,
+                                      view_permission: ->(custom_field) do
+                                        custom_field.present? && visible_custom_field_ids(project).include?(custom_field.id)
+                                      end
     register_journal_formatted_fields "ignore_non_working_days", formatter_key: :ignore_non_working_days
     register_journal_formatted_fields "cause", formatter_key: :cause
     register_journal_formatted_fields /\Afile_links_?\d+\z/, formatter_key: :file_link
