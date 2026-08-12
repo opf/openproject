@@ -1,0 +1,111 @@
+<%# Slice 1: Create Information Container in WIP - Show View %>
+<%= render 'cde/shared/header', title: @container.identifier %>
+
+<div class="cde-container-show">
+  <div class="box">
+    <h3><%= l(:label_cde_container_details) %></h3>
+    <table class="list">
+      <tr>
+        <th><%= l(:cde_container_identifier) %></th>
+        <td><%= @container.identifier %></td>
+      </tr>
+      <tr>
+        <th><%= l(:cde_container_title) %></th>
+        <td><%= @container.title %></td>
+      </tr>
+      <tr>
+        <th><%= l(:cde_container_status) %></th>
+        <td><%= content_tag('span', I18n.t("cde.states.#{@container.status}"), class: "status status-#{@container.status}") %></td>
+      </tr>
+      <tr>
+        <th><%= l(:cde_container_suitability) %></th>
+        <td><%= @container.suitability&.code&.upcase || content_tag('em', l(:cde_not_assigned)) %></td>
+      </tr>
+      <tr>
+        <th><%= l(:cde_container_project) %></th>
+        <td><%= link_to @container.project.name, project_path(@container.project) %></td>
+      </tr>
+      <tr>
+        <th><%= l(:cde_container_owner) %></th>
+        <td><%= @container.owner&.name || '-' %></td>
+      </tr>
+      <tr>
+        <th><%= l(:cde_container_created_at) %></th>
+        <td><%= format_time(@container.created_at) %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="box">
+    <h3><%= l(:label_cde_working_revision) %></h3>
+    <% if @container.working_revision %>
+      <table class="list">
+        <tr>
+          <th><%= l(:cde_revision_code) %></th>
+          <td><%= @container.working_revision.revision_code %></td>
+        </tr>
+        <tr>
+          <th><%= l(:cde_revision_status) %></th>
+          <td><%= I18n.t("cde.revision_statuses.#{@container.working_revision.status}") %></td>
+        </tr>
+        <tr>
+          <th><%= l(:cde_revision_author) %></th>
+          <td><%= @container.working_revision.author&.name || '-' %></td>
+        </tr>
+      </table>
+    <% else %>
+      <p><%= l(:cde_no_working_revision) %></p>
+    <% end %>
+  </div>
+
+  <div class="box">
+    <h3><%= l(:label_cde_metadata) %></h3>
+    <% if @container.metadata_entries.any? %>
+      <table class="list">
+        <tr>
+          <th><%= l(:cde_metadata_discipline) %></th>
+          <td><%= I18n.t("cde.disciplines.#{@container.metadata_entries.first.discipline}") %></td>
+        </tr>
+        <tr>
+          <th><%= l(:cde_metadata_container_type) %></th>
+          <td><%= I18n.t("cde.container_types.#{@container.metadata_entries.first.container_type}") %></td>
+        </tr>
+        <tr>
+          <th><%= l(:cde_metadata_originator) %></th>
+          <td><%= @container.metadata_entries.first.originator %></td>
+        </tr>
+      </table>
+    <% else %>
+      <p><%= l(:cde_no_metadata) %></p>
+    <% end %>
+  </div>
+
+  <div class="box">
+    <h3><%= l(:label_cde_audit_trail) %></h3>
+    <table class="list">
+      <thead>
+        <tr>
+          <th><%= l(:cde_audit_action) %></th>
+          <th><%= l(:cde_audit_user) %></th>
+          <th><%= l(:cde_audit_created_at) %></th>
+          <th><%= l(:cde_audit_reason) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @container.audit_events.order(created_at: :desc).limit(10).each do |event| %>
+          <tr>
+            <td><%= event.action %></td>
+            <td><%= event.user.name %></td>
+            <td><%= format_time(event.created_at) %></td>
+            <td><%= event.reason %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="buttons">
+    <%= link_to l(:label_edit), edit_cde_container_path(@container), class: 'btn' if current_user.allowed_to?(:edit_container, @container.project) %>
+    <%= link_to l(:label_back), cde_containers_path, class: 'btn' %>
+  </p>
+</div>

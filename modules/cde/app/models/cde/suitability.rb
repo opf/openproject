@@ -37,6 +37,7 @@ module Cde
         auditable: container,
         user: assigner,
         action: 'suitability.assigned',
+        event_type: 'update',
         old_state: { suitability: nil },
         new_state: { suitability: code },
         reason: 'Suitability assigned during publication workflow'

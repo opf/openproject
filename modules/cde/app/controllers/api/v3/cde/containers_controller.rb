@@ -6,9 +6,9 @@ module API
       class ContainersController < API::BaseController
         include API::Helper::Authorization
 
-        before_action :find_container, only: [:show, :update, :destroy, :share, :publish, :archive]
-        before_action :check_container_permission, only: [:show, :update, :destroy]
-        before_action :check_manage_permission, only: [:share, :publish, :archive]
+        before_action :find_container, only: %i[show update destroy share publish archive]
+        before_action :check_container_permission, only: %i[show update destroy]
+        before_action :check_manage_permission, only: %i[share publish archive]
 
         # GET /api/v3/cde/containers
         def index
@@ -32,13 +32,6 @@ module API
           container.owner = current_api_user
 
           if container.save
-            Cde::AuditEvent.create!(
-              auditable: container,
-              user: current_api_user,
-              action: 'container.created',
-              event_type: 'create',
-              new_state: { identifier: container.identifier, status: container.status }
-            )
             render_api_json(container, root: 'container', status: :created)
           else
             render_api_error(container.errors, status: :unprocessable_entity)
@@ -100,9 +93,7 @@ module API
         end
 
         def container_params
-          params.require(:container).permit(
-            :identifier, :title, :description, :original_filename
-          )
+          params.require(:container).permit(:identifier, :title, :description, :original_filename)
         end
       end
     end

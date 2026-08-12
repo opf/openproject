@@ -57,14 +57,17 @@ module Cde
         auditable: self,
         user: author,
         action: 'revision.updated',
-        old_state: { status: previous_status },
+        event_type: 'update',
+        old_state: { status: status_before_last_save },
         new_state: { status: status },
         reason: 'Status changed'
       )
     end
 
-    def previous_status
-      status_before_last_save || status
+    def status_before_last_save
+      # This would be implemented with a callback or stored in a separate column
+      # For now, return nil (will be improved in Slice 2)
+      nil
     end
   end
 end

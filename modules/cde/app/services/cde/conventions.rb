@@ -2,8 +2,6 @@
 
 module Cde
   module Conventions
-    @config = nil
-
     class << self
       def initialize
         config
@@ -20,25 +18,25 @@ module Cde
 
       def container_id_validator
         @validator ||= begin
-          c = config['identifier']['container']
+          c = config['conventions']['identifier']['container']
           Regexp.new(c['validator'])
         end
       end
 
       def status_codes
-        config['states']['values']
+        config['conventions']['states']['values']
       end
 
       def suitability_codes
-        config['suitability']['values']
+        config['conventions']['suitability']['values']
       end
 
       def publication_preconditions
-        config['publication']['preconditions']
+        config['conventions']['publication']['preconditions']
       end
 
       def mandatory_metadata_fields
-        config['publication']['preconditions']['mandatory_metadata']
+        config['conventions']['publication']['preconditions']['mandatory_metadata']
       end
     end
   end

@@ -23,7 +23,7 @@ module Cde
         return errors.empty? ? true : errors
       end
 
-      def enforce(container, user = nil)
+      def enforce(container, user: nil)
         errors = check(container)
         raise PublicationError, errors.join('; ') if errors.any?
 
@@ -35,9 +35,7 @@ module Cde
 
       def metadata_complete?(container)
         mandatory_fields = Cde::Conventions.mandatory_metadata_fields
-        container.metadata_entries.all? do |metadata|
-          mandatory_fields.all? { |field| metadata.send(field).present? }
-        end
+        container.metadata_entries.none? { |m| mandatory_fields.any? { |f| m.send(f).blank? } }
       end
 
       def identifier_valid?(container)
