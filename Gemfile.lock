@@ -1439,7 +1439,7 @@ GEM
     ssrf_filter (1.5.0)
     stackprof (0.2.28)
     statesman (13.1.0)
-    store_attribute (2.1.1)
+    store_attribute (2.2.0)
       activerecord (>= 7.2)
     stringex (2.8.6)
     structured_warnings (0.5.0)
@@ -1762,7 +1762,7 @@ DEPENDENCIES
   ssrf_filter (~> 1.3)
   stackprof
   statesman (~> 13.1.0)
-  store_attribute (~> 2.0)
+  store_attribute (~> 2.2)
   stringex (~> 2.8.5)
   structured_warnings (~> 0.5.0)
   svg-graph (~> 2.2.0)
@@ -2262,7 +2262,7 @@ CHECKSUMS
   ssrf_filter (1.5.0) sha256=e03dcdb9d1730d7f6710532a606b3543df2a448a0293ce04a2d995523c5a97f6
   stackprof (0.2.28) sha256=4ec2ace02f386012b40ca20ef80c030ad711831f59511da12e83b34efb0f9a04
   statesman (13.1.0) sha256=3ecb78466dfd2682e433f335a7722aa0e5b8c6853d72d83e460151b8af17a84e
-  store_attribute (2.1.1) sha256=de53611c01d3fb4c91e0d7af4208861bd18d017c4cee682ed0473d0e4496f5b8
+  store_attribute (2.2.0) sha256=4491f341e2fc1a3e2dc092728aa979c8101a497c9736886066b1f81dc480626e
   stringex (2.8.6) sha256=c7b382d2b2a47a1e1646f256df201c48d487d6296fbb289d76802f67f5e929c4
   structured_warnings (0.5.0) sha256=864aca5a4d6b63cd3a948f9dcd7f5498af1cf42bcf4fd75e2c315b7d77a30583
   svg-graph (2.2.2) sha256=f928866403055e6539afdfdab5f6268d108b2abc9f002e0fc51b16511809513a
