@@ -216,7 +216,9 @@ module Import
     end
 
     def enable_type(project, type)
-      service_call = Projects::Types::AddService.new(user: @system_user, model: project).call(type:)
+      service_call = Projects::Types::AddService
+                       .new(user: @system_user, model: project)
+                       .call(variant: type.default_variant)
       raise service_call.message if service_call.failure?
     end
 

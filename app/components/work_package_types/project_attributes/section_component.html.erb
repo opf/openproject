@@ -48,24 +48,16 @@
         end
       end
 
-      if @project_custom_fields.empty?
-        list.with_item do
-          render(Primer::Beta::Text.new(color: :subtle)) do
-            t("settings.project_attributes.label_no_project_custom_fields")
-          end
-        end
-      else
-        @project_custom_fields.each do |project_custom_field|
-          list.with_item(data: { "filter--filter-list-target": "searchItem" }) do
-            render(
-              WorkPackageTypes::ProjectAttributes::RowComponent.new(
-                variant: @variant,
-                project_custom_field:,
-                linked:,
-                exclusion_state:
-              )
+      @project_custom_fields.each do |project_custom_field|
+        list.with_item(data: { "filter--filter-list-target": "searchItem" }) do
+          render(
+            WorkPackageTypes::ProjectAttributes::RowComponent.new(
+              variant: @variant,
+              project_custom_field:,
+              linked:,
+              exclusion_state:
             )
-          end
+          )
         end
       end
     end

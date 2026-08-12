@@ -262,12 +262,14 @@ RSpec.describe "form configuration", :js, :selenium,
                             { key: :priority, translation: "Priority" },
                             { key: :target_versions, translation: "Target versions" }
 
-          form.drag_and_drop(form.find_attribute_handle(:target_versions), form.inactive_group)
+          # The drag moves the row before the request that persists it, so the stream has to be
+          # waited for or the read below races it.
+          wait_for_turbo_stream do
+            form.drag_and_drop(form.find_attribute_handle(:target_versions), form.inactive_group)
+          end
           form.expect_inactive(:target_versions)
 
-          form.save_changes
-
-          expect(persisted_attribute_order(type, :details)).not_to include("target_versions")
+          expect(persisted_attribute_order(:details)).not_to include("target_versions")
         end
       end
 
