@@ -40,7 +40,6 @@ class Type < ApplicationRecord
 
   # Every type has a base variant plus any number of named ones.
   has_many :variants, class_name: "TypeVariant", dependent: :destroy, autosave: true, inverse_of: :type
-  has_one :default_variant, -> { default_variant }, class_name: "TypeVariant", inverse_of: :type, dependent: nil
 
   # Projects using this type. Which variant each of them applies is on the join row.
   has_many :project_types, dependent: :delete_all
@@ -69,15 +68,11 @@ class Type < ApplicationRecord
 
   delegate :to_s, to: :name
 
-  # has_one with a scope does not automatically see a base variant that was just
-  # built or autosaved via #variants. Prefer the in-memory collection in that case
-  # so callers like ProjectType and the workspace factory see it without a reload.
+  # Read from the collection rather than through an association of its own, so a base variant
+  # that #ensure_base_variant has only built is visible before it is saved. Preload `:variants`
+  # to ask this of many types at once.
   def default_variant
-    if association(:variants).loaded? || association(:variants).target.any?
-      variants.target.detect(&:is_default_variant?) || association(:default_variant).reader
-    else
-      association(:default_variant).reader
-    end
+    variants.detect(&:is_default_variant?)
   end
 
   # A new named variant starts out Linked to the base variant for every aspect, which is what
