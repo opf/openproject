@@ -37,17 +37,7 @@ RSpec.describe "Versions and categories admin settings" do
     login_as(admin)
   end
 
-  context "when the work_package_multiple_versions flag is disabled" do
-    it "does not show the sidebar entry" do
-      visit "/admin/settings/work_packages_general"
-
-      expect(page).to have_css("#menu-sidebar")
-      expect(page).to have_no_css("#menu-sidebar .op-menu--item-title", text: "Versions and categories")
-    end
-  end
-
-  context "when the work_package_multiple_versions flag is enabled",
-          with_flag: { work_package_multiple_versions: true } do
+  context "when the setting is off", with_settings: { work_package_multiple_versions: false } do
     before do
       visit "/admin/settings/versions_and_categories"
     end
@@ -100,7 +90,7 @@ RSpec.describe "Versions and categories admin settings" do
   end
 
   context "when the setting is not writable",
-          with_flag: { work_package_multiple_versions: true } do
+          with_settings: { work_package_multiple_versions: false } do
     before do
       allow(Settings::Definition[:work_package_multiple_versions]).to receive(:writable?).and_return(false)
       visit "/admin/settings/versions_and_categories"
@@ -117,7 +107,6 @@ RSpec.describe "Versions and categories admin settings" do
   end
 
   context "when the setting is already on",
-          with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true } do
     before do
       visit "/admin/settings/versions_and_categories"
@@ -135,8 +124,11 @@ RSpec.describe "Versions and categories admin settings" do
     end
   end
 
-  context "when confirming the enable dialog", :js, with_flag: { work_package_multiple_versions: true } do
+  context "when confirming the enable dialog", :js do
+    # Persisted rather than stubbed so the job's own write to the setting is observable.
     before do
+      Setting.work_package_multiple_versions = false
+
       visit "/admin/settings/versions_and_categories"
     end
 
