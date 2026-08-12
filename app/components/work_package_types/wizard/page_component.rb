@@ -37,18 +37,18 @@ module WorkPackageTypes
         super(type)
 
         @current_step = current_step
-        @variant = variant
+        # Creating a type hands in the type itself, or nothing at all. Settle what the wizard is
+        # editing once here, so nothing below has to ask what it was given.
+        @variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
       end
 
       private
 
-      attr_reader :current_step
+      attr_reader :current_step, :variant
 
       def type = model
 
-      def variant = @variant.is_a?(TypeVariant) ? @variant : type.default_variant
-
-      def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
+      def adding_variant? = variant.present? && !variant.is_default_variant?
 
       def title
         return I18n.t("types.creation_wizard.add_variant", name: type.name) if adding_variant?
@@ -94,7 +94,7 @@ module WorkPackageTypes
       end
 
       def record_persisted?
-        adding_variant? ? @variant.persisted? : type.persisted?
+        adding_variant? ? variant.persisted? : type.persisted?
       end
 
       # Editors whose fields belong to the wizard form itself, so that "Continue"
@@ -104,7 +104,7 @@ module WorkPackageTypes
       end
 
       def editor_record
-        return @variant if adding_variant?
+        return variant if adding_variant?
 
         current_step == :details || type.new_record? ? type : type.default_variant
       end
