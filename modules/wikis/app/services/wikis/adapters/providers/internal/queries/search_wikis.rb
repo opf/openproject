@@ -32,22 +32,23 @@ module Wikis
   module Adapters
     module Providers
       module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
+        module Queries
+          # Searches wikis by name, so that a page can be created as a root page of the matching wiki. An
+          # internal wiki is named after its project, hence matching a wiki means matching its project's name,
+          # e.g. a search for "Demo" matches the wiki of the "Demo project".
+          class SearchWikis < BaseQuery
+            # A lower limit than for pages, because wikis are containers: a vague query matches a lot of
+            # project names and those would otherwise dominate the search results.
+            MAXIMUM_RESULTS = 10
 
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
-
-          namespace("queries") do
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
-            register(:search_wikis, Queries::SearchWikis)
+            def call(input_data:, auth_strategy:)
+              success(
+                Wiki.visible(auth_strategy.user)
+                    .where("projects.name ILIKE ?", "%#{input_data.query}%")
+                    .limit(MAXIMUM_RESULTS)
+                    .map { PageHierarchy.wiki_to_adapter_wiki(it, provider:) }
+              )
+            end
           end
         end
       end

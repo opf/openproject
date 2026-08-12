@@ -31,23 +31,38 @@
 module Wikis
   module Adapters
     module Providers
-      module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
+      module XWiki
+        module Queries
+          class SearchWikis < BaseQuery
+            include Concerns::XWikiRequest
 
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
+            MAXIMUM_RESULTS = 10
 
-          namespace("queries") do
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
-            register(:search_wikis, Queries::SearchWikis)
+            def call(input_data:, auth_strategy:)
+              authenticated(auth_strategy) do |http|
+                handle_response(http.get(rest_url("wikis"))) do |json|
+                  success(matching_wikis(fetch_json(json, "wikis"), input_data.query))
+                end
+              end
+            end
+
+            private
+
+            def matching_wikis(wikis, query)
+              wikis.select { fetch_json(it, "name").downcase.include?(query.downcase) }
+                   .first(MAXIMUM_RESULTS)
+                   .map { json_to_wiki(it) }
+            end
+
+            def json_to_wiki(wiki)
+              name = fetch_json(wiki, "name")
+
+              Results::Wiki.new(identifier: name, provider:, name:, href: home_url)
+            end
+
+            def home_url
+              "#{provider.url.chomp('/')}/bin/view/Main/"
+            end
           end
         end
       end
