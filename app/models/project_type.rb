@@ -34,9 +34,9 @@ class ProjectType < ApplicationRecord
   belongs_to :variant, class_name: "TypeVariant", inverse_of: :project_types
 
   before_validation :default_to_base_variant
-  before_validation :ensure_type_from_variant
 
   validates :type_id, uniqueness: { scope: :project_id }
+  validates :type, presence: true
   validates :variant, presence: true
   validate :variant_belongs_to_type
 
@@ -44,10 +44,6 @@ class ProjectType < ApplicationRecord
 
   def default_to_base_variant
     self.variant ||= type&.default_variant
-  end
-
-  def ensure_type_from_variant
-    self.type ||= variant&.type
   end
 
   def variant_belongs_to_type
