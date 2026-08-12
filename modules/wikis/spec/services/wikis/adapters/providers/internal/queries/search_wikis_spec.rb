@@ -109,7 +109,7 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchWikis do
 
     it { is_expected.to be_success }
 
-    it "returns an empty result, as no page can be created in a disabled wiki" do
+    it "returns an empty result" do
       expect(subject.value!).to eq([])
     end
   end
