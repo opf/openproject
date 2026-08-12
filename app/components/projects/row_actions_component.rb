@@ -145,11 +145,8 @@ module Projects
         scheme: :default,
         icon: :archive,
         label: I18n.t(:button_archive),
-        href: project_archive_path(project, status: params[:status]),
-        data: {
-          turbo_method: :post,
-          turbo_confirm: I18n.t("project.archive.are_you_sure", name: project.name)
-        }
+        href: dialog_project_archive_path(project),
+        data: { turbo_stream: true }
       }
     end
 

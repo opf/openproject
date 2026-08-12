@@ -4895,7 +4895,8 @@ en:
   project:
     archive:
       archived: "Archived"
-      are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      confirmation_heading: "Are you sure you want to continue?"
+      confirmation_message: "Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored."
       title: "Archive project"
     count:
       one: "1 project"

@@ -4,14 +4,13 @@
       menu.with_divider if index.positive?
 
       group.each do |item|
-        item => { scheme:, label:, icon:, **button_options }
         menu.with_item(
-          scheme:,
-          label:,
+          scheme: item[:scheme],
+          label: item[:label],
           test_selector: "project-list-row--action-menu-item",
-          content_arguments: button_options
+          content_arguments: item.except(:scheme, :label, :icon)
         ) do |list_item|
-          list_item.with_leading_visual_icon(icon:) if icon
+          list_item.with_leading_visual_icon(icon: item[:icon]) if item[:icon]
         end
       end
     end
