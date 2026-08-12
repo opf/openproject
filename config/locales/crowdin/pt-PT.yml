@@ -942,7 +942,6 @@ pt-PT:
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não válido para reafectar os registos de horas.'
           readonly_status: O pacote de trabalho está em estado de apenas leitura, por isso os seus atributos não podem ser alterados.
           target_versions_only_allow_single_value: As versões de destino só podem conter um único valor.
-          version_and_target_versions_mutually_exclusive: A versão e as versões de destino não podem ser alteradas simultaneamente.
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:

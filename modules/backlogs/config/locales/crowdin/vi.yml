@@ -50,6 +50,7 @@ vi:
         story_points: Điểm cốt truyện
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: Bắt buộc phải có ngày bắt đầu và ngày kết thúc để bắt đầu Sprint.
         must_be_in_planning: phải ở trạng thái đang lập kế hoạch để bắt đầu.
         only_one_active_sprint_allowed: mỗi dự án chỉ được phép có một Sprint hoạt động tại một thời điểm.
@@ -60,9 +61,11 @@ vi:
               locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
               requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: không thể thiết lập vì dự án "%{name}" đã được chia sẻ với tất cả các dự án.
               share_all_projects_already_taken_anonymous: không thể thiết lập vì một dự án khác đã được chia sẻ với tất cả các dự án.
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: đang nhận các Sprint được chia sẻ. Không thể tạo Sprint riêng.
         sprint:
           attributes:
@@ -183,6 +186,7 @@ vi:
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Another sprint is already active.
       start_sprint_disabled_reason_missing_dates: Bắt buộc phải có ngày bắt đầu và ngày kết thúc để bắt đầu Sprint.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.

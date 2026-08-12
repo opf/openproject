@@ -942,7 +942,6 @@ es:
           is_not_a_valid_target_for_time_entries: 'Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo.'
           readonly_status: El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar.
           target_versions_only_allow_single_value: Las versiones de destino solo pueden tener un único valor.
-          version_and_target_versions_mutually_exclusive: No se pueden cambiar la versión actual y las versiones de destino al mismo tiempo.
       template:
         body: 'Por favor revise los siguientes campos:'
         header:

@@ -946,7 +946,6 @@ tr:
           is_not_a_valid_target_for_time_entries: 'İş paketi #%{id} zaman girdilerini yeniden atama için geçerli bir hedef değil.'
           readonly_status: İş paketi salt okunur durumdadır, dolayısıyla öznitelikleri değiştirilemez.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Lütfen aşağıdaki alanları kontrol edin:'
         header:

@@ -942,7 +942,6 @@ de:
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
           target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.
-          version_and_target_versions_mutually_exclusive: Die Version und die Zielversionen können nicht gleichzeitig geändert werden.
       template:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:

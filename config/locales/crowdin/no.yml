@@ -942,7 +942,6 @@
           is_not_a_valid_target_for_time_entries: Arbeidspakke nr. %{id} er ikke et gyldig mål for nytildeling av tidsoppføringer.
           readonly_status: Arbeidspakken er i skrivebeskyttet status slik at egenskapene ikke kan endres.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Kontroller følgende felter:'
         header:

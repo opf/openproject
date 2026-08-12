@@ -976,7 +976,6 @@ hu:
           is_not_a_valid_target_for_time_entries: 'A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez.'
           readonly_status: A munkacsomag írásvédett, ezért a tulajdonságai nem módosíthatók.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Kérjük, ellenőrizze az alábbi mezőket:'
         header:

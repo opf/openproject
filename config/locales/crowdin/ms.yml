@@ -942,7 +942,6 @@ ms:
           is_not_a_valid_target_for_time_entries: 'Pakej kerja #%{id} adalah sasaran yang tidak sah untuk penugasan semula entri waktu.'
           readonly_status: Pakej kerja berada dalam status baca sahaja maka atributnya tidak boleh diubah.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Sila semak ruang-ruang yang berikut:'
         header:

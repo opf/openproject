@@ -942,7 +942,6 @@ fil:
           is_not_a_valid_target_for_time_entries: 'Ang work package #%{id} ay hindi balido sa target para mag-reassign ng mga oras na entry.'
           readonly_status: The work package is in a readonly status so its attributes cannot be changed.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Mangyaring suriin ang mga sumusunod na mga patlang:'
         header:

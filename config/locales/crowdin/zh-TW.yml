@@ -940,7 +940,6 @@ zh-TW:
           is_not_a_valid_target_for_time_entries: '工作套件 #%{id} 不是重新分配時間項目有效的目標。'
           readonly_status: 工作套件處於唯讀狀態，因此無法變更其屬性。
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 請檢查下列欄位：
         header:

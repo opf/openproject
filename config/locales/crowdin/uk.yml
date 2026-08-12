@@ -950,7 +950,6 @@ uk:
           is_not_a_valid_target_for_time_entries: 'Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу.'
           readonly_status: Пакет робіт перебуває в стані лише для читання, тому його атрибути не можна змінити.
           target_versions_only_allow_single_value: Для цільових версій можна вказати лише одне значення.
-          version_and_target_versions_mutually_exclusive: Неможливо одночасно змінити поточну версію і цільові.
       template:
         body: 'Перевірте наступні поля:'
         header:

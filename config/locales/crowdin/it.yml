@@ -946,7 +946,6 @@ it:
           is_not_a_valid_target_for_time_entries: 'La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia.'
           readonly_status: La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati.
           target_versions_only_allow_single_value: Le versioni obiettivo possono contenere un solo valore.
-          version_and_target_versions_mutually_exclusive: Versione e versioni di destinazione non possono essere modificate contemporaneamente.
       template:
         body: 'Perfavore controlla i seguenti campi:'
         header:
