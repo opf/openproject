@@ -32,8 +32,8 @@ See COPYRIGHT and LICENSE files for more details.
     <% active_project_types.each do |project_type| %>
       <% list.with_item(data: { test_selector: "project-types-row-#{project_type.variant.id}" }) do |item| %>
         <% item.with_menu do |menu| %>
-          <% switch_action(menu, project_type.variant) if switchable?(project_type) %>
-          <% remove_action(menu, project_type.variant) %>
+          <% switch_action(menu, project_type.type) if switchable?(project_type) %>
+          <% remove_action(menu, project_type.type) %>
         <% end %>
         <%= flex_layout(align_items: :center) do |row| %>
           <% row.with_column(display: :inline_flex, align_items: :center, mr: 2) do %>

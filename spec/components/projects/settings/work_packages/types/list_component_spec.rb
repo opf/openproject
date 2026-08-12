@@ -54,7 +54,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers the remove action" do
       expect(page).to have_button("Remove from project", visible: :all)
       expect(page).to have_css(
-        "form[action='#{project_settings_work_packages_type_path(project, bug.default_variant)}']",
+        "form[action='#{project_settings_work_packages_type_path(project, bug)}']",
         visible: :all
       )
     end
@@ -76,9 +76,9 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_text("Variant: Design", normalize_ws: true)
     end
 
-    it "points the remove action at the variant" do
+    it "points the remove action at the type the variant belongs to" do
       expect(page).to have_css(
-        "form[action='#{project_settings_work_packages_type_path(project, design)}']",
+        "form[action='#{project_settings_work_packages_type_path(project, epic)}']",
         visible: :all
       )
     end

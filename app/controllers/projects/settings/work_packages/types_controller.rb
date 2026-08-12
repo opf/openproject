@@ -66,9 +66,11 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
-    variant = ::TypeVariant.find_by(id: params[:id])
+    type = ::Type.find_by(id: params[:id])
 
-    return render_type_not_found if variant.nil? || !@project.project_types.exists?(type_id: variant.type_id)
+    return render_type_not_found if type.nil? || !@project.project_types.exists?(type_id: type.id)
+
+    variant = @project.type_variant(type)
 
     result = ::Projects::Types::RemoveService.new(user: current_user, model: @project).call(variant:)
 

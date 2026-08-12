@@ -57,9 +57,11 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   private
 
+  # The route addresses a type, since a project applies exactly one of its variants. Which one
+  # is the project's own answer.
   def load_source
-    variant = ::TypeVariant.find_by(id: params[:type_id])
-    @source = @project.type_variant(variant.type) if variant && @project.project_types.exists?(type_id: variant.type_id)
+    type = ::Type.find_by(id: params[:type_id])
+    @source = @project.type_variant(type) if type && @project.project_types.exists?(type_id: type.id)
 
     return if @source
 

@@ -52,7 +52,7 @@ module Projects
           attr_reader :project, :source, :selected, :validation_message
 
           def switch_path
-            project_settings_work_packages_type_switch_path(project, source)
+            project_settings_work_packages_type_switch_path(project, source.type)
           end
 
           def available_targets

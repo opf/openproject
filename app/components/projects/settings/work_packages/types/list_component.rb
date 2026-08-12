@@ -57,29 +57,29 @@ module Projects
             project_type.type.variants.any? { |variant| variant.variant_name.present? }
           end
 
-          def switch_path(variant)
-            new_project_settings_work_packages_type_switch_path(project, variant)
+          def switch_path(type)
+            new_project_settings_work_packages_type_switch_path(project, type)
           end
 
-          def switch_action(menu, variant)
+          def switch_action(menu, type)
             menu.with_item(
               label: t("projects.settings.types.switch_type"),
-              href: switch_path(variant),
+              href: switch_path(type),
               content_arguments: { data: { controller: "async-dialog" } }
             ) do |item|
               item.with_leading_visual_icon(icon: "list-ordered")
             end
           end
 
-          def remove_path(variant)
-            project_settings_work_packages_type_path(project, variant)
+          def remove_path(type)
+            project_settings_work_packages_type_path(project, type)
           end
 
-          def remove_action(menu, variant)
+          def remove_action(menu, type)
             menu.with_item(
               label: t("projects.settings.types.remove_from_project"),
               scheme: :danger,
-              href: remove_path(variant),
+              href: remove_path(type),
               form_arguments: { method: :delete }
             ) do |item|
               item.with_leading_visual_icon(icon: :trash)
