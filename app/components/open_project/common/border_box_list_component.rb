@@ -293,7 +293,11 @@ module OpenProject
 
       def configure_empty_state!
         return unless empty_state_behavior.static? || empty_state_behavior.dynamic?
-        return if items.any? || empty_state?
+        return if empty_state?
+        # :dynamic lists always need prototype content for the parked template,
+        # even when currently populated, so a client-side drain to zero rows has
+        # a real blankslate to clone instead of a contentless placeholder.
+        return if empty_state_behavior.static? && items.any?
 
         with_empty_state(
           title: I18n.t(:label_nothing_display),

@@ -53,6 +53,8 @@ export default class BorderBoxListController extends Controller<HTMLElement> {
     const rows = Array.from(this.listTarget.children) as HTMLElement[];
     // legacy generic-drag-and-drop contract: the marker value is exactly "true"
     const placeholder = rows.find((row) => row.getAttribute('data-empty-list-item') === 'true');
+    // 'd-none'/[hidden] are this codebase's existing filtering idioms (e.g. quick-filter,
+    // sortable-lists row hiding) — intentionally scoped to those, not a general visibility check.
     const visibleContent = rows.some((row) => row.getAttribute('data-empty-list-item') !== 'true'
       && !row.classList.contains('d-none') && !row.hidden);
 

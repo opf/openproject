@@ -1256,5 +1256,18 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       # can never restore its placeholder after an empty -> populated -> empty cycle
       expect(template_placeholder(rendered)).not_to be_nil
     end
+
+    it "defaults the template prototype to the generic empty state when populated with no declared empty state" do
+      rendered = render_inline(described_class.new(container: "c", empty_state_behavior: :dynamic)) do |list|
+        list.with_item { "Row" }
+      end
+      # a client-side drain to zero rows must clone a real blankslate, not a
+      # contentless placeholder, even though no with_empty_state was declared
+      placeholder = template_placeholder(rendered)
+      expect(placeholder).not_to be_nil
+      expect(placeholder.text).to include(I18n.t(:label_nothing_display))
+      expect(page).to have_css("ul > li", count: 1)
+      expect(page).to have_no_css("ul [data-empty-list-item]")
+    end
   end
 end
