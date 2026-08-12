@@ -193,7 +193,7 @@ module WorkPackageTypes
     def addressed_type = @type
 
     def find_variant
-      @variant = addressed_variant(among: @type.variants.named_variants)
+      @variant = addressed_variant(among: @type.variants.non_default_variants)
     end
 
     def set_current_step

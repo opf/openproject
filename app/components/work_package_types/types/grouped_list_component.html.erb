@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(root) } %>
               <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :semibold)) { root.name } %>
               <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_weight: :normal, ml: 2)) { t("types.index.type_label") } %>
-              <% if root.variants.named_variants.any? %>
+              <% if root.variants.non_default_variants.any? %>
                 <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { variants_count_label(root) } %>
               <% end %>
             <% end %>
@@ -51,7 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
             <% header.with_menu(menu_id: menu_id(root), src: menu_src(root)) %>
           <% end %>
 
-          <% root.variants.named_variants.in_display_order.each do |child| %>
+          <% root.variants.non_default_variants.in_display_order.each do |child| %>
             <% list.with_item do |item| %>
               <% item.with_menu(menu_id: variant_menu_id(child), src: variant_menu_src(child)) %>
               <%= render(

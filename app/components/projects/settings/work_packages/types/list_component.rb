@@ -49,12 +49,12 @@ module Projects
           def active_project_types
             @active_project_types ||= project
                                         .project_types
-                                        .includes(:variant, type: %i[color variants])
+                                        .includes(:variant, type: :color)
                                         .sort_by { |project_type| project_type.type.position }
           end
 
           def switchable?(project_type)
-            project_type.type.variants.any? { |variant| variant.variant_name.present? }
+            project_type.type.variants.non_default_variants.exists?
           end
 
           def switch_path(type)

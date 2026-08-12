@@ -78,6 +78,8 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     expect(project.reload.types).not_to include(bug)
   end
 
+  it "removes a type the project applies through a named variant" do
+    settings_page.remove_type(design)
 
     settings_page.expect_no_type_row(design)
     expect(project.reload.types).not_to include(epic)
@@ -107,6 +109,7 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(blueprint)
     # The type stays the same, so the work packages storing it are none the wiser.
     expect(work_package.reload.type).to eq(epic)
+  end
 
   it "switches the project from a named variant to the type's base" do
     settings_page.switch_type(design, target: "Epic")
@@ -140,6 +143,8 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
 
   # A type with no named variants has nothing to switch to, so offering the action
   # would open a dialog whose only option is the current one.
+  it "does not offer the switch action on a type without variants" do
+    settings_page.expect_no_switch_action(bug.default_variant)
   end
 
   # Located by test selector because the tab nav above renders a "Types" link,

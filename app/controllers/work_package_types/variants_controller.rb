@@ -57,7 +57,7 @@ module WorkPackageTypes
     def find_variant; end
 
     def named_variant
-      @type.variants.named_variants.find(params.expect(:id))
+      @type.variants.non_default_variants.find(params.expect(:id))
     end
   end
 end

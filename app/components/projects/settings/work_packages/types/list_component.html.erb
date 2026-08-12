@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% row.with_column(mr: 2) do %>
             <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { project_type.type.name } %>
           <% end %>
-          <% if project_type.variant.variant_name.present? %>
+          <% unless project_type.variant.default? %>
             <% row.with_column do %>
               <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
                 <%= t("projects.settings.types.variant_prefix") %>

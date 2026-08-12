@@ -99,7 +99,7 @@ class TypeVariant < ApplicationRecord
   scopes :with_effective_configuration, :with_effective_source
 
   scope :default_variant, -> { where(is_default_variant: true) }
-  scope :named_variants, -> { where(is_default_variant: false) }
+  scope :non_default_variants, -> { where(is_default_variant: false) }
 
   # Base variants first, then the named ones alphabetically. Named variants have no user defined order
   scope :in_display_order, -> { order(is_default_variant: :desc, variant_name: :asc) }
@@ -129,6 +129,9 @@ class TypeVariant < ApplicationRecord
       subquery.where(workflow_table[:author].eq(false).and(workflow_table[:assignee].eq(false)))
     end
   end
+
+  # The base configuration every type has, as opposed to one of its named variants.
+  def default? = is_default_variant?
 
   # What users call this configuration: a named variant by its own name, the base one by the
   # type it configures.

@@ -50,7 +50,7 @@ module WorkPackageTypes
       end
 
       def variants_count_label(root)
-        t("types.index.variants_count", count: root.variants.named_variants.size)
+        t("types.index.variants_count", count: root.variants.non_default_variants.size)
       end
 
       def add_default_label(header, type)
