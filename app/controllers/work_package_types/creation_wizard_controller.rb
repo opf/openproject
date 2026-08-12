@@ -91,9 +91,11 @@ module WorkPackageTypes
 
     def create_variant
       @type = ::Type.find(params.expect(:type_id))
-      @variant = @type.build_variant(variant_details_params)
+      service_call = WorkPackageTypes::CreateVariantService.new(user: current_user, type: @type)
+                                                          .call(variant_details_params)
+      @variant = service_call.result
 
-      if @variant.save
+      if service_call.success?
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
       else
         @current_step = Wizard::Steps.first
@@ -116,7 +118,11 @@ module WorkPackageTypes
     end
 
     def update_variant_details
-      if @variant.update(variant_details_params)
+      service_call = WorkPackageTypes::UpdateService
+                       .new(user: current_user, model: @variant, contract_class: UpdateVariantContract)
+                       .call(variant_details_params)
+
+      if service_call.success?
         advance
       else
         render :show, status: :unprocessable_entity

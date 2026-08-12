@@ -21,43 +21,33 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackageTypes
-  class VariantsController < BaseTabController
-    include TypeVariantsFeature
-
-    before_action :require_type_variants_feature
-
-    current_menu_item do
-      :types
+  # Adds a named variant to a type.
+  #
+  # It starts out Linked to the type's base variant for every aspect, which is what makes it a
+  # variation of that configuration rather than an empty one. Each aspect goes Independent
+  # later, when someone edits it.
+  class CreateVariantService < ::BaseServices::Create
+    def initialize(user:, type:, contract_class: nil, contract_options: {})
+      @type = type
+      super(user:, contract_class:, contract_options:)
     end
 
-    def menu
-      render Types::VariantActionsComponent.new(variant: named_variant), layout: false
-    end
+    protected
 
-    def destroy
-      service_call = DeleteVariantService.new(user: current_user, model: named_variant).call
+    attr_reader :type
 
-      if service_call.success?
-        redirect_to types_path, notice: t(:notice_successful_delete), status: :see_other
-      else
-        redirect_to types_path, alert: service_call.errors.full_messages.to_sentence, status: :see_other
+    def instance_class = TypeVariant
+
+    def instance(_params)
+      type.variants.new.tap do |variant|
+        TypeVariant::ASPECTS.each { |aspect| variant.public_send(:"#{aspect}_source=", type.default_variant) }
       end
     end
 
-    private
-
-    def find_variant; end
-
-    def named_variant
-      @type.variants.named_variants.find(params.expect(:id))
-    end
+    def default_contract_class = CreateVariantContract
   end
 end

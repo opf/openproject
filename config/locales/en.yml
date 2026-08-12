@@ -840,6 +840,7 @@ en:
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
             base:
               borrowed_by_variants: "Cannot be deleted while its configuration is reused by %{names}."
+              is_default_variant: "The default configuration of a type cannot be deleted."
               restrict_dependent_destroy:
                 has_many: "Cannot be deleted while projects are still using it."
             defaults_source_id:

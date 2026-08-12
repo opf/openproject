@@ -21,43 +21,18 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackageTypes
-  class VariantsController < BaseTabController
-    include TypeVariantsFeature
+  # Removes a named variant.
+  #
+  # What refuses it is on the model, where the database constraints it mirrors also are: a
+  # project applying the variant, or another variant borrowing configuration from it. Both
+  # arrive here as errors on the record.
+  class DeleteVariantService < ::BaseServices::Delete
+    protected
 
-    before_action :require_type_variants_feature
-
-    current_menu_item do
-      :types
-    end
-
-    def menu
-      render Types::VariantActionsComponent.new(variant: named_variant), layout: false
-    end
-
-    def destroy
-      service_call = DeleteVariantService.new(user: current_user, model: named_variant).call
-
-      if service_call.success?
-        redirect_to types_path, notice: t(:notice_successful_delete), status: :see_other
-      else
-        redirect_to types_path, alert: service_call.errors.full_messages.to_sentence, status: :see_other
-      end
-    end
-
-    private
-
-    def find_variant; end
-
-    def named_variant
-      @type.variants.named_variants.find(params.expect(:id))
-    end
+    def default_contract_class = DeleteVariantContract
   end
 end

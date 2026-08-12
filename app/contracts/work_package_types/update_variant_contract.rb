@@ -29,35 +29,13 @@
 #++
 
 module WorkPackageTypes
-  class VariantsController < BaseTabController
-    include TypeVariantsFeature
+  # Renaming a variant. Which type it belongs to and what it links to are settled when it is
+  # created, and its configuration belongs to the aspect services.
+  class UpdateVariantContract < ::ModelContract
+    include RequiresAdminGuard
 
-    before_action :require_type_variants_feature
+    def self.model = TypeVariant
 
-    current_menu_item do
-      :types
-    end
-
-    def menu
-      render Types::VariantActionsComponent.new(variant: named_variant), layout: false
-    end
-
-    def destroy
-      service_call = DeleteVariantService.new(user: current_user, model: named_variant).call
-
-      if service_call.success?
-        redirect_to types_path, notice: t(:notice_successful_delete), status: :see_other
-      else
-        redirect_to types_path, alert: service_call.errors.full_messages.to_sentence, status: :see_other
-      end
-    end
-
-    private
-
-    def find_variant; end
-
-    def named_variant
-      @type.variants.named_variants.find(params.expect(:id))
-    end
+    attribute :variant_name
   end
 end
