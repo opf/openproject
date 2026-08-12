@@ -14,6 +14,8 @@ export const en = {
       'label': 'Link existing work package',
       'placeholder': 'Search by work package ID or subject',
       'dropdownAriaLabel': 'Work package search results',
+      'noResults': 'No results',
+      'error': 'Error. Unable to load content.',
     },
     'unavailableWorkPackage': {
       'loading': {
@@ -51,8 +53,10 @@ export const en = {
       'xl': { 'label': 'Full card', 'desc': 'Identifier, Subject, Type, Status, Parent, Project, Description' }
     },
     'hashMenu': {
-      'typeToSearch': 'Type to search work packages…',
-      'noResults': 'No results for "{{query}}"'
+      'typeToSearch': 'Type to search work packages…'
+    },
+    'spinner': {
+      'ariaLabel': 'Loading'
     },
   }
 };

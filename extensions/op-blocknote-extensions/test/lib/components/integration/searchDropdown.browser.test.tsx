@@ -1,12 +1,20 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
+import { http, HttpResponse, delay } from 'msw';
 import { SearchDropdown } from '../../../../lib/components/Search/SearchDropdown';
 import { BlockCard } from '../../../../lib/components/BlockWorkPackage/BlockCard';
 import { mockWorkPackage, mockWorkPackage2 } from '../../../mocks/handlers';
+import { worker } from '../../../mocks/browser';
 import type { WorkPackage } from '../../../../lib/openProjectTypes';
 
 const renderItem = (wp:WorkPackage) => <BlockCard workPackage={wp} inDropdown />;
+
+const WORK_PACKAGES_ENDPOINT = 'http://localhost:3000/api/v3/work_packages';
+
+afterEach(() => {
+  worker.resetHandlers();
+});
 
 describe('SearchDropdown', () => {
   it('shows results after typing', async () => {
@@ -81,6 +89,57 @@ describe('SearchDropdown', () => {
         expect.objectContaining({ id: mockWorkPackage2.id })
     );
     });
+
+  it('shows a spinner while the search is running', async () => {
+    worker.use(
+      http.get(WORK_PACKAGES_ENDPOINT, async () => {
+        await delay(300);
+        return HttpResponse.json({ _embedded: { elements: [mockWorkPackage] } });
+      })
+    );
+
+    render(
+      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
+    );
+
+    await userEvent.type(page.getByRole('searchbox'), 'Fix');
+
+    const spinner = page.getByRole('img', { name: 'Loading' });
+    await expect.element(spinner).toBeVisible();
+
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(spinner).not.toBeInTheDocument();
+  });
+
+  it('shows "No results" when the search returns nothing', async () => {
+    worker.use(
+      http.get(WORK_PACKAGES_ENDPOINT, () =>
+        HttpResponse.json({ _embedded: { elements: [] } })
+      )
+    );
+
+    render(
+      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
+    );
+
+    await userEvent.type(page.getByRole('searchbox'), 'nothing');
+
+    await expect.element(page.getByText('No results')).toBeVisible();
+  });
+
+  it('shows an error message when the search request fails', async () => {
+    worker.use(
+      http.get(WORK_PACKAGES_ENDPOINT, () => HttpResponse.error())
+    );
+
+    render(
+      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
+    );
+
+    await userEvent.type(page.getByRole('searchbox'), 'Fix');
+
+    await expect.element(page.getByText('Error. Unable to load content.')).toBeVisible();
+  });
 
   it('limits results to 5 items maximum', async () => {
     render(
