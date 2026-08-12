@@ -14,6 +14,7 @@ Don't try to use prettier!
 
 ## Coding guidelines
 - Always add tests for all changes. For new features, also always add an integration (browser) test. For bugs it can be sufficient to only add a unit test (depending on the bug).
+- Whenever a test needs an editor, always use the shared test editor setup (`test/helpers/renderEditor.tsx`) and the shared helpers in `test/helpers/editorHelpers.ts`. Never add another editor setup, and never hand-roll a fake editor object. Only if a test really, really needs a different setup, use one and document the reason in a comment.
 - Avoid to use abbreviations for variable names unless it's beneficial because the line gets too long otherwise
 - Write code like a senior developer would
 - Always try to solve the requirements by using BlockNote's built-in features / API first. Always check the [BlockNote documentation](https://www.blocknotejs.org/docs) or [source code](https://github.com/TypeCellOS/BlockNote/) before using Prosemirror or Tiptap. Only use Prosemirror or Tiptap if the requirements can not be achieved with BlockNote directly.

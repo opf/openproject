@@ -28,9 +28,11 @@ export function isNodeInSelection(node:Node):boolean {
   return selection.getRangeAt(0).intersectsNode(node);
 }
 
-const isSafari =
-  typeof navigator !== 'undefined' &&
-  /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+// A function, not a module-level const, so a stubbed user agent still takes effect.
+function isSafari():boolean {
+  return typeof navigator !== 'undefined' &&
+    /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+}
 
 interface DomObserver { disconnectSelection:() => void; connectSelection:() => void; setCurSelection:() => void }
 
@@ -38,7 +40,7 @@ const WORK_PACKAGE_NODE_TYPES = ['openProjectWorkPackageInline', 'openProjectWor
 
 /** Safari paints a phantom selection over node-selected atoms; collapse it, leaving PM's NodeSelection intact. */
 export function hideSafariPhantomSelection(editor:AnyEditor):void {
-  if (!isSafari) return;
+  if (!isSafari()) return;
   requestAnimationFrame(() => {
     const view = editor.prosemirrorView;
     if (!view) return;
