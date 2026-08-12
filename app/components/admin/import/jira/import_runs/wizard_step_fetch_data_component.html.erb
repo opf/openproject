@@ -65,13 +65,14 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
       if model.in_state?(:initial)
-        box.with_row do
+        box.with_row(display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
                 scheme: :primary,
                 tag: :a,
                 size: :medium,
+                mr: 2,
                 href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "fetch_instance_meta"),
                 data: { turbo_stream: true }
               )
@@ -96,7 +97,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, "fetch_instance_meta"))
         end
       elsif model.in_state?(:instance_meta_fetching)
-        box.with_row do
+        box.with_row(display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
@@ -126,13 +127,14 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
         end
-        box.with_row do
+        box.with_row(display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
                 scheme: :primary,
                 size: :medium,
                 tag: :a,
+                mr: 2,
                 href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "configure"),
                 data: { turbo_stream: true }
               )
