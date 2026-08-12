@@ -414,7 +414,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :versions_and_categories,
             { controller: "/admin/settings/versions_and_categories", action: :show },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.work_package_multiple_versions_active? },
+            if: ->(_) { User.current.admin? },
             caption: :label_versions_and_categories,
             parent: :admin_work_packages
 

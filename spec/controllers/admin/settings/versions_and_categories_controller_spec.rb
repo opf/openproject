@@ -36,25 +36,14 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
   current_user { admin }
 
   describe "GET #show" do
-    context "when the work_package_multiple_versions flag is disabled" do
-      it "renders 404" do
-        get :show
+    it "renders the show template" do
+      get :show
 
-        expect(response).to have_http_status(:not_found)
-      end
+      expect(response).to have_http_status(:ok)
+      expect(response).to render_template(:show)
     end
 
-    context "when the work_package_multiple_versions flag is enabled",
-            with_flag: { work_package_multiple_versions: true } do
-      it "renders the show template" do
-        get :show
-
-        expect(response).to have_http_status(:ok)
-        expect(response).to render_template(:show)
-      end
-    end
-
-    context "when the current user is not an admin", with_flag: { work_package_multiple_versions: true } do
+    context "when the current user is not an admin" do
       current_user { create(:user) }
 
       it "renders 403" do
@@ -66,7 +55,6 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
   end
 
   describe "POST #enable_multiple_versions",
-           with_flag: { work_package_multiple_versions: true },
            with_settings: { work_package_multiple_versions: false } do
     let(:component_target) { "work-packages-admin-settings-target-versions-section-component" }
 
@@ -87,16 +75,6 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
 
       expect(WorkPackages::EnableMultipleVersionsJob.in_progress?).to be false
       expect(response.body).to include("Enabling multiple versions")
-    end
-
-    context "when the work_package_multiple_versions flag is disabled", with_flag: { work_package_multiple_versions: false } do
-      it "renders 404 without enqueueing the job" do
-        expect do
-          post :enable_multiple_versions, format: :turbo_stream
-        end.not_to have_enqueued_job(WorkPackages::EnableMultipleVersionsJob)
-
-        expect(response).to have_http_status(:not_found)
-      end
     end
 
     context "when the job is already in progress" do
@@ -142,7 +120,6 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
   end
 
   describe "GET #status",
-           with_flag: { work_package_multiple_versions: true },
            with_settings: { work_package_multiple_versions: false } do
     let(:component_target) { "work-packages-admin-settings-target-versions-section-component" }
 
@@ -194,20 +171,12 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
     end
   end
 
-  describe "GET #confirm_dialog", with_flag: { work_package_multiple_versions: true } do
+  describe "GET #confirm_dialog" do
     it "renders the dialog turbo stream" do
       get :confirm_dialog, format: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Enable multiple target versions?")
-    end
-  end
-
-  describe "404 handling for the additional actions" do
-    it "renders 404 for #status when the flag is disabled" do
-      get :status, format: :turbo_stream
-
-      expect(response).to have_http_status(:not_found)
     end
   end
 end

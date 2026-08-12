@@ -32,8 +32,6 @@ module Admin::Settings
   class VersionsAndCategoriesController < ::Admin::SettingsController
     include OpTurbo::ComponentStream
 
-    before_action :require_feature_flag
-
     current_menu_item :show do
       :versions_and_categories
     end
@@ -64,10 +62,6 @@ module Admin::Settings
     end
 
     private
-
-    def require_feature_flag
-      render_404 unless OpenProject::FeatureDecisions.work_package_multiple_versions_active?
-    end
 
     def replace_target_versions_section_via_turbo_stream(state)
       replace_via_turbo_stream(
