@@ -1,7 +1,4 @@
-import type { BlockNoteEditor } from '@blocknote/core';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyEditor = BlockNoteEditor<any, any, any>;
+import type { AnyEditor } from '../editorTypes';
 
 export function isCurrentBlockEmpty(editor:AnyEditor):boolean {
   const block = editor.getTextCursorPosition()?.block;

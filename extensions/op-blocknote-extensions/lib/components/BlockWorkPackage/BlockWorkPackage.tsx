@@ -18,6 +18,7 @@ import { SearchDropdown } from '../Search/SearchDropdown';
 import { defaultWpVariables } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
+import { hideSafariPhantomSelection } from '../../utils/selection';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 
@@ -69,6 +70,12 @@ export const BlockWorkPackageComponent = ({
   const selectedBlocks = useSelectedBlocks(editor);
   const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isBlockSelected) return;
+    hideSafariPhantomSelection(editor);
+    return editor.onSelectionChange(() => hideSafariPhantomSelection(editor));
+  }, [isBlockSelected, editor]);
 
   useSuppressFormattingToolbar(editor, isOptionsOpen);
 

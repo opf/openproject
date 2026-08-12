@@ -4,7 +4,7 @@ import { createHashWpMenuComponent } from './HashWpMenu';
 import { isHashWpQuery } from './types';
 import { getSizeFromCurrentBlock, insertWpChip, restoreHashQuery } from './editorUtils';
 import type { HashMenuItem, HashSearchState } from './types';
-import type { AnyEditor } from './editorUtils';
+import type { AnyEditor } from '../../editorTypes';
 import { cacheColors } from '../../services/colors';
 
 export function useHashWpMenu(editor:AnyEditor) {

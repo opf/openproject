@@ -1,9 +1,6 @@
 import { createExtension } from '@blocknote/core';
-import type { BlockNoteEditor } from '@blocknote/core';
+import type { AnyEditor } from '../editorTypes';
 import { pasteWorkPackageLinkPlugin } from './pasteWorkPackageLinkPlugin';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyEditor = BlockNoteEditor<any, any, any>;
 
 /**
  * Registers pasteWorkPackageLinkPlugin at editor construction time. Bundled

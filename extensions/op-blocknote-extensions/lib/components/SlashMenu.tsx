@@ -6,7 +6,7 @@ import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } fr
 import { findPendingInlineChip } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { isCurrentBlockEmpty } from '../utils/blockContent.ts';
-import type { AnyEditor } from './HashMenu/editorUtils';
+import type { AnyEditor } from '../editorTypes';
 
 function buildOnSelect(
   editor:AnyEditor,
