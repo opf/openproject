@@ -77,6 +77,7 @@ See COPYRIGHT and LICENSE files for more details.
             container: "project-phase-definitions",
             position: :relative,
             mb: 3,
+            empty_state_behavior: :dynamic,
             data: drop_target_config
           )
         ) do |list|
@@ -101,11 +102,6 @@ See COPYRIGHT and LICENSE files for more details.
           end
 
           list.with_empty_state(title: t("settings.project_phase_definitions.non_defined"))
-        end
-      end
-      flex.with_row(display: :none, data: { "projects--settings--border-box-filter-target": "noResultsText" }) do
-        render Primer::Beta::Text.new do
-          I18n.t("js.autocompleter.notFoundText")
         end
       end
     end
