@@ -23,7 +23,7 @@
       with_item_group(menu) do
         if allowed_to_add_subprojects?
           menu.with_item(
-            label: t(:label_subproject),
+            label: t(:label_subproject_add),
             href: helpers.new_project_path(parent_id: project.id)
           ) do |item|
             item.with_leading_visual_icon(icon: :plus)
@@ -32,12 +32,11 @@
 
         if allowed_to_copy?
           menu.with_item(
-            label: t(:label_project_create_copy),
+            label: t(:button_duplicate),
             href: helpers.copy_project_path(project),
-            content_arguments: { data: { turbo: false } },
-            accesskey: helpers.accesskey(:copy)
+            content_arguments: { data: { turbo: false }, accesskey: helpers.accesskey(:copy) }
           ) do |item|
-            item.with_leading_visual_icon(icon: :copy)
+            item.with_leading_visual_icon(icon: :duplicate)
           end
         end
       end
@@ -76,7 +75,7 @@
           end
         end
 
-        if current_user.admin?
+        if allowed_to_edit_project?
           label = project.templated ? "remove_from_templates" : "make_template"
           menu.with_item(
             tag: :a,
@@ -104,12 +103,11 @@
       with_item_group(menu) do
         if allowed_to_archive?
           menu.with_item(
-            scheme: :danger,
             label: t(:button_archive),
             href: helpers.dialog_project_archive_path(project),
             content_arguments: { data: { turbo_stream: true } }
           ) do |item|
-            item.with_leading_visual_icon(icon: :lock)
+            item.with_leading_visual_icon(icon: :archive)
           end
         end
 

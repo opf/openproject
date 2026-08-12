@@ -68,8 +68,8 @@ RSpec.describe Projects::Settings::IndexPageHeaderComponent, type: :component do
         expect(rendered_component).to have_menu do |menu|
           expect(menu).to have_selector :menuitem, count: 5
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
-          expect(menu).to have_selector :menuitem, text: "Subproject"
-          expect(menu).to have_selector :menuitem, text: "Create a copy"
+          expect(menu).to have_selector :menuitem, text: "Add subproject"
+          expect(menu).to have_selector :menuitem, text: "Duplicate"
           expect(menu).to have_selector :menuitem, text: "Make public"
           expect(menu).to have_selector :menuitem, text: "Archive"
           expect(menu).to have_no_selector :menuitem, text: "Set as template"
@@ -85,8 +85,8 @@ RSpec.describe Projects::Settings::IndexPageHeaderComponent, type: :component do
         expect(rendered_component).to have_menu do |menu|
           expect(menu).to have_selector :menuitem, count: 7
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
-          expect(menu).to have_selector :menuitem, text: "Subproject"
-          expect(menu).to have_selector :menuitem, text: "Create a copy"
+          expect(menu).to have_selector :menuitem, text: "Add subproject"
+          expect(menu).to have_selector :menuitem, text: "Duplicate"
           expect(menu).to have_selector :menuitem, text: "Make public"
           expect(menu).to have_selector :menuitem, text: "Set as template"
           expect(menu).to have_selector :menuitem, text: "Archive"

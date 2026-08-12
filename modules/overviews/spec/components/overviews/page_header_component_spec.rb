@@ -151,8 +151,8 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
         expect(rendered_component).to have_menu do |menu|
           expect(menu).to have_selector :menuitem, count: 9
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
-          expect(menu).to have_selector :menuitem, text: "Subproject"
-          expect(menu).to have_selector :menuitem, text: "Create a copy"
+          expect(menu).to have_selector :menuitem, text: "Add subproject"
+          expect(menu).to have_selector :menuitem, text: "Duplicate"
           expect(menu).to have_selector :menuitem, text: "Manage project attributes"
           expect(menu).to have_selector :menuitem, text: "Change identifier"
           expect(menu).to have_selector :menuitem, text: "Make public"
@@ -183,14 +183,14 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
 
       it "renders permitted project actions but not global administrator actions", :aggregate_failures do
         expect(rendered_component).to have_menu do |menu|
-          expect(menu).to have_selector :menuitem, text: "Subproject"
-          expect(menu).to have_selector :menuitem, text: "Create a copy"
+          expect(menu).to have_selector :menuitem, text: "Add subproject"
+          expect(menu).to have_selector :menuitem, text: "Duplicate"
           expect(menu).to have_selector :menuitem, text: "Manage project attributes"
           expect(menu).to have_selector :menuitem, text: "Change identifier"
           expect(menu).to have_selector :menuitem, text: "Make public"
           expect(menu).to have_selector :menuitem, text: "Export Project creation wizard as PDF"
           expect(menu).to have_selector :menuitem, text: "Archive"
-          expect(menu).to have_no_selector :menuitem, text: "Set as template"
+          expect(menu).to have_selector :menuitem, text: "Set as template"
           expect(menu).to have_no_selector :menuitem, text: "Delete"
         end
       end
@@ -203,8 +203,8 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
         expect(rendered_component).to have_menu do |menu|
           expect(menu).to have_selector :menuitem, count: 10
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
-          expect(menu).to have_selector :menuitem, text: "Subproject"
-          expect(menu).to have_selector :menuitem, text: "Create a copy"
+          expect(menu).to have_selector :menuitem, text: "Add subproject"
+          expect(menu).to have_selector :menuitem, text: "Duplicate"
           expect(menu).to have_selector :menuitem, text: "Manage project attributes"
           expect(menu).to have_selector :menuitem, text: "Change identifier"
           expect(menu).to have_selector :menuitem, text: "Make public"
