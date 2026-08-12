@@ -30,6 +30,21 @@ jobs:
         id: install-playwright
         run: npx playwright install --with-deps
 
+      - name: build
+        id: npm-build
+        run: npm run build
+
+      - name: verify ESM bundle has no raw require of externals
+        id: verify-bundle
+        run: |
+          externals=$(jq -r '.buildExternals | join("|")' package.json)
+          pattern="\(\"($externals)(/[^\"]*)?\"\)"
+          if grep -qE "$pattern" dist/op-blocknote-extensions.es.js; then
+            echo "::error::ESM bundle contains a raw require() of an externalized module"
+            grep -nE "$pattern" dist/op-blocknote-extensions.es.js
+            exit 1
+          fi
+
       - name: run tests
         id: npm-test
         run: CI=1 npm test
