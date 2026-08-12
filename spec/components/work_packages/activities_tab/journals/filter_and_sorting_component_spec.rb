@@ -28,30 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingOutcomes
-  class CreateService < ::BaseServices::Create
-    include MeetingAgendaItems::JournalizeWorkPackageActivity
+require "rails_helper"
 
-    def after_perform(call)
-      super
+RSpec.describe WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent, type: :component do
+  shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking meetings]) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
-      journalize_meeting_discussion(call.result) if call.success?
+  let(:hide_meetings_item) { "[data-test-selector='op-wp-journals-filter-hide-meetings']" }
 
-      call
+  subject { render_inline(described_class.new(work_package:)) }
+
+  before { allow(User).to receive(:current).and_return(user) }
+
+  context "when the user may view meetings in a project" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages view_meetings] }) }
+
+    it "offers the hide-meetings filter" do
+      subject
+
+      expect(page).to have_css(hide_meetings_item, visible: :all)
     end
+  end
 
-    private
+  context "when the user cannot view meetings anywhere" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
-    def journalize_meeting_discussion(outcome)
-      meeting = outcome.meeting_agenda_item.meeting
+    it "does not offer the hide-meetings filter, but keeps the other filters" do
+      subject
 
-      journalize_agenda_item(outcome.meeting_agenda_item,
-                             Journal::CausedByMeetingAgendaItemDiscussed.new(meeting))
-
-      return unless outcome.work_package_kind?
-
-      journalize_work_package(outcome.work_package,
-                              Journal::CausedByMeetingOutcomeRecorded.new(meeting))
+      expect(page).to have_no_css(hide_meetings_item, visible: :all)
     end
   end
 end

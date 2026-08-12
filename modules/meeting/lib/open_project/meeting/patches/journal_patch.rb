@@ -28,30 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingOutcomes
-  class CreateService < ::BaseServices::Create
-    include MeetingAgendaItems::JournalizeWorkPackageActivity
+module OpenProject::Meeting
+  module Patches
+    module JournalPatch
+      extend ActiveSupport::Concern
 
-    def after_perform(call)
-      super
+      included do
+        # Meeting activity journals are surfaced only in the work package activity tab and its API,
+        # and only for users that can also see the referenced meeting
+        scope :meeting_cause_visible, ->(user = User.current) {
+          where(
+            "journals.cause->>'meeting_id' IS NULL " \
+            "OR (journals.cause->>'meeting_id')::bigint IN (:visible_meetings) " \
+            "OR NOT EXISTS (SELECT 1 FROM meetings WHERE meetings.id = (journals.cause->>'meeting_id')::bigint)",
+            visible_meetings: Meeting.where(project: Project.allowed_to(user, :view_meetings)).select(:id)
+          )
+        }
 
-      journalize_meeting_discussion(call.result) if call.success?
+        scope :without_meeting_causes, -> { where("journals.cause->>'meeting_id' IS NULL") }
+      end
 
-      call
-    end
-
-    private
-
-    def journalize_meeting_discussion(outcome)
-      meeting = outcome.meeting_agenda_item.meeting
-
-      journalize_agenda_item(outcome.meeting_agenda_item,
-                             Journal::CausedByMeetingAgendaItemDiscussed.new(meeting))
-
-      return unless outcome.work_package_kind?
-
-      journalize_work_package(outcome.work_package,
-                              Journal::CausedByMeetingOutcomeRecorded.new(meeting))
+      def meeting_cause?
+        cause["meeting_id"].present?
+      end
     end
   end
 end

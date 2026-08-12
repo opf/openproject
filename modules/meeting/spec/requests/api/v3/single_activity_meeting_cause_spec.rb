@@ -28,30 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingOutcomes
-  class CreateService < ::BaseServices::Create
-    include MeetingAgendaItems::JournalizeWorkPackageActivity
+require "spec_helper"
+require "rack/test"
 
-    def after_perform(call)
-      super
+RSpec.describe "GET /api/v3/activities/:id with a meeting-cause journal" do
+  shared_let(:project) { create(:project) }
+  shared_let(:meeting) { create(:meeting, project:, title: "Confidential weekly sync") }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:meeting_journal) do
+    create(:work_package_journal,
+           journable: work_package,
+           version: 2,
+           cause: { "type" => "meeting_agenda_item_added", "meeting_id" => meeting.id })
+  end
 
-      journalize_meeting_discussion(call.result) if call.success?
+  let(:current_user) do
+    create(:user, member_with_permissions: { project => %i[view_work_packages view_meetings] })
+  end
 
-      call
-    end
+  before do
+    allow(User).to receive(:current).and_return(current_user)
+    get "/api/v3/activities/#{meeting_journal.id}"
+  end
 
-    private
-
-    def journalize_meeting_discussion(outcome)
-      meeting = outcome.meeting_agenda_item.meeting
-
-      journalize_agenda_item(outcome.meeting_agenda_item,
-                             Journal::CausedByMeetingAgendaItemDiscussed.new(meeting))
-
-      return unless outcome.work_package_kind?
-
-      journalize_work_package(outcome.work_package,
-                              Journal::CausedByMeetingOutcomeRecorded.new(meeting))
-    end
+  it "is not found" do
+    expect(last_response).to have_http_status(:not_found)
   end
 end
