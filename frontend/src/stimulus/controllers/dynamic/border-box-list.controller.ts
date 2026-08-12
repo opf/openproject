@@ -27,6 +27,7 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { useMutation } from 'stimulus-use';
 
 export default class BorderBoxListController extends Controller<HTMLElement> {
   static targets = ['list', 'emptyStateTemplate'];
@@ -35,18 +36,20 @@ export default class BorderBoxListController extends Controller<HTMLElement> {
 
   declare readonly emptyStateTemplateTarget:HTMLTemplateElement;
 
-  private observer?:MutationObserver;
-
   connect():void {
     this.sync();
-    this.observer = new MutationObserver(() => this.sync());
-    this.observer.observe(this.listTarget, {
-      childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden'],
+    useMutation(this, {
+      element: this.listTarget,
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'hidden'],
+      dispatchEvent: false,
     });
   }
 
-  disconnect():void {
-    this.observer?.disconnect();
+  mutate():void {
+    this.sync();
   }
 
   sync():void {
