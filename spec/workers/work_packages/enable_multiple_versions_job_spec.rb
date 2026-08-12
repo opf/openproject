@@ -133,22 +133,27 @@ RSpec.describe WorkPackages::EnableMultipleVersionsJob do
       expect(Rails.logger).not_to have_received(:warn).with(/missing target version row/)
     end
 
-    it "raises so GoodJob records the failure when the setting is not writable" do
-      allow(Settings::Definition[:work_package_multiple_versions]).to receive(:writable?).and_return(false)
+    context "when the configuration pins the setting off" do
+      # A non-writable setting reads its value from the definition rather than the
+      # database, so the definition has to carry the off state the job reacts to.
+      before do
+        allow(Settings::Definition[:work_package_multiple_versions])
+          .to receive_messages(writable?: false, value: false)
+      end
 
-      expect { job.perform }.to raise_error(described_class::EnablingFailed, /not writable/i)
-      expect(Setting.work_package_multiple_versions?).to be false
-    end
+      it "raises so GoodJob records the failure" do
+        expect { job.perform }.to raise_error(described_class::EnablingFailed, /not writable/i)
+        expect(Setting.work_package_multiple_versions?).to be false
+      end
 
-    it "repairs target versions before flipping the setting" do
-      version = create(:version, project:)
-      work_package = create(:work_package, project:, version: nil)
-      work_package.update_column(:version_id, version.id)
+      it "repairs target versions before failing to flip the setting" do
+        version = create(:version, project:)
+        work_package = create(:work_package, project:, version: nil)
+        work_package.update_column(:version_id, version.id)
 
-      allow(Settings::Definition[:work_package_multiple_versions]).to receive(:writable?).and_return(false)
-
-      expect { job.perform }.to raise_error(described_class::EnablingFailed)
-      expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").count).to eq(1)
+        expect { job.perform }.to raise_error(described_class::EnablingFailed)
+        expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").count).to eq(1)
+      end
     end
   end
 
