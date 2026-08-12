@@ -1219,4 +1219,42 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       end.to raise_error Primer::FetchOrFallbackHelper::InvalidValueError
     end
   end
+
+  describe ":dynamic markup" do
+    # Capybara's `have_css` matcher always converts its target through
+    # `Capybara.string`, which explicitly strips `<template>` inner HTML
+    # (`template.content` is not part of the queryable document per HTML5
+    # semantics) before running the selector. That makes it impossible to
+    # assert *into* a `<template>` via `page`/`have_css`, no matter what the
+    # component renders, so the prototype's markup is asserted directly
+    # against the Nokogiri fragment `render_inline` returns instead.
+    def template_placeholder(rendered)
+      rendered.at_css(
+        "template[data-border-box-list-target='emptyStateTemplate'] li[data-empty-list-item='true']"
+      )
+    end
+
+    it "wraps the box and parks the placeholder in a template when populated" do
+      rendered = render_inline(described_class.new(container: "c", empty_state_behavior: :dynamic)) do |list|
+        list.with_empty_state(title: "Empty!")
+        list.with_item { "Row" }
+      end
+      expect(page).to have_css("[data-controller='border-box-list'] ul[data-border-box-list-target='list']")
+      expect(page).to have_no_css("ul [data-empty-list-item]")
+      # legacy generic-drag-and-drop requires the exact value "true"
+      placeholder = template_placeholder(rendered)
+      expect(placeholder).not_to be_nil
+      expect(placeholder.text).to include("Empty!")
+    end
+
+    it "renders the placeholder as the real row when empty and keeps a template prototype" do
+      rendered = render_inline(described_class.new(container: "c", empty_state_behavior: :dynamic)) do |list|
+        list.with_empty_state(title: "Empty!")
+      end
+      expect(page).to have_css("ul > li[data-empty-list-item='true']", text: "Empty!")
+      # the prototype must ALWAYS be in the template, or an initially empty list
+      # can never restore its placeholder after an empty -> populated -> empty cycle
+      expect(template_placeholder(rendered)).not_to be_nil
+    end
+  end
 end

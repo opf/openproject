@@ -245,7 +245,12 @@ module OpenProject
 
         @system_arguments[:id] ||= dom_target(container)
         @list_id = dom_target(@system_arguments[:id], :list)
-        @system_arguments[:list_arguments] = { id: @list_id }
+        @system_arguments[:list_arguments] =
+          if @empty_state_behavior.dynamic?
+            { id: @list_id, data: { "border-box-list-target": "list" } }
+          else
+            { id: @list_id }
+          end
         @system_arguments[:classes] = class_names(
           @system_arguments[:classes],
           "op-border-box-list",
