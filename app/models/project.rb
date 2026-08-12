@@ -158,8 +158,9 @@ class Project < ApplicationRecord
   custom_field_view_permission = lambda { |custom_field|
     User.current.admin? ||
     (
-      User.current.allowed_in_project?(:view_project_attributes, project) &&
-      (custom_field.nil? || !custom_field.admin_only?)
+      custom_field &&
+      !custom_field.admin_only? &&
+      User.current.allowed_in_project?(:view_project_attributes, project)
     )
   }
 
