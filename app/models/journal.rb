@@ -89,6 +89,7 @@ class Journal < ApplicationRecord
                    status_id
                    status_changes
                    meeting_id
+                   source_meeting_id
                  ],
                  prefix: true
 

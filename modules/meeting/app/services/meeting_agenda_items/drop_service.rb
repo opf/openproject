@@ -101,8 +101,11 @@ module MeetingAgendaItems
     def journalize_move
       return if @old_section.meeting_id == @meeting_agenda_item.meeting_id
 
+      destination = @meeting_agenda_item.meeting
+      source_meeting = @old_section.meeting if destination.series_template?
+
       journalize_agenda_item(@meeting_agenda_item,
-                             Journal::CausedByMeetingAgendaItemMoved.new(@meeting_agenda_item.meeting))
+                             Journal::CausedByMeetingAgendaItemMoved.new(destination, source_meeting:))
     end
 
     def check_and_update_section_if_changed(params)

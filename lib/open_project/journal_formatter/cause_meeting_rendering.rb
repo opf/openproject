@@ -52,19 +52,56 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
     return meeting_template_message if @meeting.templated?
 
     label = "#{@meeting.title} – #{format_time(@meeting.start_time)}"
-    link = html? ? link_to(label, meeting_path(@meeting)) : label
-    I18n.t("journals.cause_descriptions.#{cause['type']}", link:)
+    I18n.t("journals.cause_descriptions.#{cause['type']}", link: meeting_link(label))
   end
 
   def meeting_template_message
-    link = html? ? link_to(@meeting.title, meeting_path(@meeting)) : @meeting.title
-    I18n.t("journals.cause_descriptions.#{template_description_key}", link:)
+    I18n.t("journals.cause_descriptions.#{template_description_key}", link: meeting_link(@meeting.title))
+  end
+
+  def meeting_link(label)
+    return label unless html?
+
+    link_to(label, meeting_path(link_target_meeting, anchor: agenda_item_anchor))
+  end
+
+  def link_target_meeting
+    return @meeting unless backlog_move?
+
+    Meeting.find_by(id: cause["source_meeting_id"]) || @meeting
+  end
+
+  def backlog_move?
+    cause["type"] == "meeting_agenda_item_moved" && @meeting.series_template?
+  end
+
+  def agenda_item_anchor
+    return if @journal.journable_id.blank?
+
+    agenda_item_id =
+      case cause["type"]
+      when "meeting_agenda_item_removed" then nil
+      when "meeting_outcome_recorded" then outcome_parent_agenda_item_id
+      else own_agenda_item_id
+      end
+
+    "meeting-agenda-item-#{agenda_item_id}" if agenda_item_id
+  end
+
+  def own_agenda_item_id
+    MeetingAgendaItem.where(meeting_id: @meeting.id, work_package_id: @journal.journable_id).pick(:id)
+  end
+
+  def outcome_parent_agenda_item_id
+    MeetingOutcome
+      .joins(:meeting_agenda_item)
+      .where(work_package_id: @journal.journable_id, meeting_agenda_items: { meeting_id: @meeting.id })
+      .pick(:meeting_agenda_item_id)
   end
 
   def template_description_key
     return "meeting_template" unless @meeting.series_template?
 
-    # A move onto a series template is always a move into its backlog
-    cause["type"] == "meeting_agenda_item_moved" ? "meeting_series_backlog" : "meeting_series_template"
+    backlog_move? ? "meeting_series_backlog" : "meeting_series_template"
   end
 end

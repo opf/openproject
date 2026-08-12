@@ -128,6 +128,7 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
       journal = work_package.journals.last
       expect(journal.cause_type).to eq("meeting_agenda_item_moved")
       expect(journal.cause_meeting_id).to eq(recurring_meeting.template.id)
+      expect(journal.cause_source_meeting_id).to eq(occurrence.id)
     end
   end
 

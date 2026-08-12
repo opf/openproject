@@ -29,7 +29,10 @@
 #++
 
 class Journal::CausedByMeetingAgendaItemMoved < CauseOfChange::Base
-  def initialize(meeting)
-    super("meeting_agenda_item_moved", "meeting_id" => meeting.id)
+  def initialize(meeting, source_meeting: nil)
+    attributes = { "meeting_id" => meeting.id }
+    attributes["source_meeting_id"] = source_meeting.id if source_meeting
+
+    super("meeting_agenda_item_moved", attributes)
   end
 end

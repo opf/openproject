@@ -1142,6 +1142,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     let(:series_link) { link_to(template.title, meeting_path(template)) }
 
     before do
+      allow(Meeting).to receive(:find_by).and_call_original
       allow(Meeting).to receive(:find_by).with(id: template.id).and_return(template)
       allow(template).to receive(:visible?).with(User.current).and_return(true)
     end
@@ -1169,12 +1170,21 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
 
     context "when moved to the series backlog" do
-      subject(:cause) { { "type" => "meeting_agenda_item_moved", "meeting_id" => template.id } }
+      shared_let(:occurrence) { create(:recurring_meeting_occurrence, recurring_meeting:) }
+      let!(:backlog_item) do
+        create(:wp_meeting_agenda_item, meeting: template, meeting_section: template.backlog, work_package:)
+      end
+      let(:instance) { described_class.new(build(:work_package_journal, journable: work_package)) }
 
-      it do
+      subject(:cause) do
+        { "type" => "meeting_agenda_item_moved", "meeting_id" => template.id, "source_meeting_id" => occurrence.id }
+      end
+
+      it "links to the source occurrence's page, not the template" do
+        link = link_to(template.title, meeting_path(occurrence, anchor: "meeting-agenda-item-#{backlog_item.id}"))
         expect(cause).to render_html_variant(
           "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_moved_template')}</strong> " \
-          "#{I18n.t('journals.cause_descriptions.meeting_series_backlog', link: series_link)}"
+          "#{I18n.t('journals.cause_descriptions.meeting_series_backlog', link:)}"
         )
       end
     end
@@ -1195,6 +1205,54 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_added_template')}</strong> " \
         "#{I18n.t('journals.cause_descriptions.meeting_template', link:)}"
       )
+    end
+  end
+
+  describe "deep-linking the meeting label to an agenda item" do
+    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
+    let(:instance) { described_class.new(build(:work_package_journal, journable: work_package)) }
+    let(:label) { "#{meeting.title} – #{format_time(meeting.start_time)}" }
+
+    before do
+      allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
+      allow(meeting).to receive(:visible?).with(User.current).and_return(true)
+    end
+
+    context "for add/move/discuss" do
+      shared_let(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, work_package:) }
+
+      it "anchors to the work package's own agenda item" do
+        cause = { "type" => "meeting_agenda_item_added", "meeting_id" => meeting.id }
+        link = link_to(label, meeting_path(meeting, anchor: "meeting-agenda-item-#{agenda_item.id}"))
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_added')}</strong> #{link}"
+        )
+      end
+    end
+
+    context "for a removal" do
+      it "links to the meeting only, without an anchor" do
+        cause = { "type" => "meeting_agenda_item_removed", "meeting_id" => meeting.id }
+        link = link_to(label, meeting_path(meeting))
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_agenda_item_removed')}</strong> #{link}"
+        )
+      end
+    end
+
+    context "for an outcome work package" do
+      shared_let(:parent_item) { create(:wp_meeting_agenda_item, meeting:) }
+      shared_let(:outcome) do
+        create(:meeting_outcome, meeting_agenda_item: parent_item, work_package:, kind: :work_package)
+      end
+
+      it "anchors to the outcome's parent agenda item" do
+        cause = { "type" => "meeting_outcome_recorded", "meeting_id" => meeting.id }
+        link = link_to(label, meeting_path(meeting, anchor: "meeting-agenda-item-#{parent_item.id}"))
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.meeting_outcome_recorded')}</strong> #{link}"
+        )
+      end
     end
   end
 end
