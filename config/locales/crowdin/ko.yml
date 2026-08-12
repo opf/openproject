@@ -940,7 +940,6 @@ ko:
           is_not_a_valid_target_for_time_entries: '작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다.'
           readonly_status: 작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다.
           target_versions_only_allow_single_value: 대상 버전은 단일 값만 가질 수 있습니다.
-          version_and_target_versions_mutually_exclusive: 버전과 대상 버전을 동시에 둘 다 변경할 수는 없습니다.
       template:
         body: 다음 필드를 확인 하십시오.
         header:

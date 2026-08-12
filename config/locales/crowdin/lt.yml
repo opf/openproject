@@ -946,7 +946,6 @@ lt:
           is_not_a_valid_target_for_time_entries: 'Darbų paketas #%{id} nėra tinkamas laiko įrašų perskirstymo pasirinkimas.'
           readonly_status: Darbo paketas yra tik skaitymo būsenoje, taigi jo atributų keisti negalima.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Prašome patikrinti šiuos laukelius:'
         header:

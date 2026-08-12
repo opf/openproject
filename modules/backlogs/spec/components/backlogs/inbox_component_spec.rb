@@ -143,8 +143,15 @@ RSpec.describe Backlogs::InboxComponent, type: :component, with_flag: { backlogs
     end
 
     it_behaves_like "rendering Box", row_count: 2, header: true, footer: false
-    # does render the blankslate but it is being hidden by CSS
-    it_behaves_like "rendering Blank Slate", heading: "Backlog inbox is empty"
+
+    it "does not render the blankslate" do
+      expect(rendered_component).to have_no_css(".blankslate")
+    end
+
+    it "parks the empty-state prototype in a template for the dynamic controller" do
+      expect(rendered_component)
+        .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
+    end
 
     it "renders a lazy card frame for each work package" do
       work_packages.each do |work_package|

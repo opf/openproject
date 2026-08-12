@@ -28,23 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class Participants::BoxHeaderComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpenProject::FormTagHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+require "rails_helper"
 
-    def initialize(meeting:)
-      super
+RSpec.describe Projects::Settings::LifeCycle::IndexComponent, type: :component do
+  let(:project) { create(:project) }
 
-      @meeting = meeting
+  subject(:rendered_component) do
+    with_request_url("/projects/#{project.id}/settings/life_cycle") do
+      render_inline(
+        described_class.new(project:, life_cycle_definitions: Project::PhaseDefinition.order(position: :asc))
+      )
+    end
+  end
+
+  context "with definitions" do
+    let!(:definition) { create(:project_phase_definition) }
+
+    it_behaves_like "rendering Box", row_count: 1
+
+    it "renders a row per definition" do
+      expect(rendered_component).to have_css(".Box-row", text: definition.name)
     end
 
-    private
-
-    def show_mark_all_attended?
-      !@meeting.participants.all?(&:attended?) && @meeting.in_progress?
+    it "renders the enable-all and disable-all header actions", :aggregate_failures do
+      expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_enable_all"))
+      expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_disable_all"))
     end
+  end
+
+  context "without definitions" do
+    it_behaves_like "rendering an empty Border Box List",
+                    heading: I18n.t("projects.settings.life_cycle.non_defined")
   end
 end

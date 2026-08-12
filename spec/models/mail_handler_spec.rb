@@ -592,16 +592,9 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             .to eql(status)
         end
 
-        it "sets the version" do
-          expect(subject.version)
-            .to eql(version)
-        end
-
-        it "sets the target version, keeping the legacy version in sync" do
+        it "sets the target version" do
           expect(subject.target_versions)
             .to contain_exactly(version)
-          expect(subject.version)
-            .to eql(version)
         end
 
         it "sets the estimated_hours" do
@@ -961,7 +954,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
         it "assigns the status to the created work package" do
           expect(subject.status).to eq(status)
-          expect(subject.version).to eq(version)
+          expect(subject.target_versions).to contain_exactly(version)
           expect(subject.priority).to eq priority_low
         end
       end
@@ -1213,7 +1206,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
           expect(subject.subject).to eq("New ticket with full attributes")
           expect(subject.type).to eq(feature_type)
           expect(subject.status).to eq(resolved_status)
-          expect(subject.version).to eq(version)
+          expect(subject.target_versions).to contain_exactly(version)
           expect(subject.priority).to eq(urgent_priority)
           expect(subject.assigned_to).to eq(user)
           expect(subject.responsible).to eq(user)
@@ -1238,7 +1231,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             expect(subject.subject).to eq("Neues Arbeitspaket")
             expect(subject.type).to eq(feature_type)
             expect(subject.status).to eq(resolved_status)
-            expect(subject.version).to eq(version)
+            expect(subject.target_versions).to contain_exactly(version)
             expect(subject.priority).to eq(urgent_priority)
             expect(subject.assigned_to).to eq(user)
             expect(subject.responsible).to eq(user)
@@ -1265,7 +1258,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       let!(:beta) { create(:version, name: "beta", project:) }
 
       context "when the multiple-versions feature is enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: "onlinestore" }) }
 
@@ -1274,17 +1266,14 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             .to contain_exactly(alpha, beta)
         end
 
-        it "keeps the breaks the legacy version if target version has many entries" do
-          expect { subject.version }.to raise_error(/multiple target versions and cannot be represented/)
-        end
-
         it "removes the keyword from the description" do
           expect(subject.description)
             .not_to match(/^Target versions:/i)
         end
       end
 
-      context "when the multiple-versions feature is disabled" do
+      context "when the multiple-versions feature is disabled",
+              with_settings: { work_package_multiple_versions: false } do
         context "with a single named version" do
           subject { submit_email("wp_with_target_version.eml", issue: { project: "onlinestore" }) }
 
@@ -1307,7 +1296,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       end
 
       context "when both version and target versions keywords are present",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         subject { submit_email("wp_with_version_and_target_versions.eml", issue: { project: "onlinestore" }) }
 

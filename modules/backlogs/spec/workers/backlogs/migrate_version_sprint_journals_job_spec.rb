@@ -36,8 +36,8 @@ RSpec.describe Backlogs::MigrateVersionSprintJournalsJob, type: :model do
   shared_let(:version_b) { create(:version, project:, name: "Version B") }
   shared_let(:sprint_a) { create(:sprint, name: "Sprint A", project:) }
   shared_let(:sprint_b) { create(:sprint, name: "Sprint B", project:) }
-  shared_let(:wp1) { create(:work_package, project:, version_id: version_a.id, sprint: sprint_a) }
-  shared_let(:wp2) { create(:work_package, project:, version_id: version_b.id, sprint: sprint_b) }
+  shared_let(:wp1) { create(:work_package, project:, version: version_a, sprint: sprint_a) }
+  shared_let(:wp2) { create(:work_package, project:, version: version_b, sprint: sprint_b) }
   shared_let(:wp_no_version) { create(:work_package, project:, sprint: sprint_a) }
 
   subject(:perform) { job.perform }
@@ -136,6 +136,8 @@ RSpec.describe Backlogs::MigrateVersionSprintJournalsJob, type: :model do
     context "when the work_package_versions table does not exist yet" do
       before do
         allow(job).to receive(:work_package_versions_available?).and_return(false)
+        wp1.update_column(:version_id, version_a.id)
+        wp2.update_column(:version_id, version_b.id)
       end
 
       it "journals via the legacy version_id column" do

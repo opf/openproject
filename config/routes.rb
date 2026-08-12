@@ -764,6 +764,11 @@ Rails.application.routes.draw do
         get :status, on: :member
         get :confirm_dialog, on: :member, defaults: { format: :turbo_stream }
       end
+      resource :versions_and_categories, controller: "/admin/settings/versions_and_categories", only: %i[show] do
+        post :enable_multiple_versions, on: :member
+        get :status, on: :member
+        get :confirm_dialog, on: :member, defaults: { format: :turbo_stream }
+      end
       resources :work_package_priorities, except: [:show] do
         member do
           put :move

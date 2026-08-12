@@ -248,6 +248,8 @@ module OpenProject::Backlogs
     end
 
     config.to_prepare do
+      require "open_project/backlogs/hooks/work_package_hook"
+
       %i[position story_points sprint backlog_bucket].each do |attribute|
         ::Type.add_constraint attribute, ->(_type, project: nil) { project.nil? || project.backlogs_enabled? }
       end

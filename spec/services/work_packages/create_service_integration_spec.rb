@@ -306,7 +306,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     let!(:version1) { create(:version, project:) }
     let!(:version2) { create(:version, project:) }
 
-    context "with multiple target_versions" do
+    context "with multiple target_versions", with_settings: { work_package_multiple_versions: false } do
       let(:attributes) do
         { subject: "test wp", project:, target_version_ids: [version1.id, version2.id] }
       end
@@ -329,11 +329,6 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
         service_result
         expect(new_work_package.target_versions).to contain_exactly(version1)
       end
-
-      it "sets the version" do
-        service_result
-        expect(new_work_package.version).to eq version1
-      end
     end
 
     context "with observed_in_version_ids" do
@@ -348,41 +343,10 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
         expect(new_work_package.target_versions).to be_empty
       end
 
-      it "does not change the version" do
-        service_result
-        expect(new_work_package.version).to be_nil
-      end
-
       it "sets observed in versions" do
         service_result
         expect(new_work_package.observed_in_versions).to contain_exactly(version1)
       end
-    end
-
-    context "with only version_id" do
-      let(:attributes) do
-        { subject: "test wp", project:, version_id: version1.id }
-      end
-
-      it { expect(service_result).to be_success }
-
-      it "sets target versions" do
-        service_result
-        expect(new_work_package.target_versions).to contain_exactly(version1)
-      end
-
-      it "sets the version" do
-        service_result
-        expect(new_work_package.version).to eq version1
-      end
-    end
-
-    context "with both version_id and target_version_ids" do
-      let(:attributes) do
-        { subject: "test wp", project:, version_id: version1.id, target_version_ids: [version2.id] }
-      end
-
-      it { expect(service_result).to be_failure }
     end
 
     context "with non-assignable version IDs" do
@@ -395,7 +359,6 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
 
       it "drops the unnassignable version" do
         expect(new_work_package.target_versions).to be_empty
-        expect(new_work_package.version).to be_nil
       end
     end
   end

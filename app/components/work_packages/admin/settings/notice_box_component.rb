@@ -28,34 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module Departments
-    class DetailBlankslateComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+module WorkPackages
+  module Admin
+    module Settings
+      class NoticeBoxComponent < ApplicationComponent
+        renders_many :rows, "RowComponent"
 
-      def initialize(group: nil)
-        super()
-        @group = group
-      end
+        def initialize(heading:, **system_arguments)
+          super()
+          @heading = heading
+          @system_arguments = system_arguments
+        end
 
-      def call
-        render(Primer::Beta::Blankslate.new(border: false)) do |component|
-          if managed?
-            component.with_visual_icon(icon: :lock, size: :medium)
-            component.with_heading(tag: :h2) { t("departments.detail_blankslate.managed_heading") }
-            component.with_description { t("departments.detail_blankslate.managed_description") }
-          else
-            component.with_visual_icon(icon: :people, size: :medium)
-            component.with_heading(tag: :h2) { t("departments.detail_blankslate.heading") }
-            component.with_description { t("departments.detail_blankslate.description") }
+        private
+
+        attr_reader :heading, :system_arguments
+
+        class RowComponent < Primer::Component
+          def initialize(icon:, color: :muted)
+            super()
+            @icon = icon
+            @color = color
+          end
+
+          # The text is one flex item so that inline markup inside it keeps the
+          # surrounding spaces; separate items would have theirs discarded.
+          def call
+            render(Primer::Box.new(display: :flex, mt: 2)) do
+              render(Primer::Beta::Octicon.new(icon: @icon, mr: 2, color: @color)) +
+                render(Primer::Beta::Text.new) { content }
+            end
           end
         end
-      end
-
-      private
-
-      def managed?
-        @group&.ldap_managed?
       end
     end
   end

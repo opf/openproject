@@ -50,6 +50,7 @@ ru:
         story_points: Стори поинты
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: Для начала спринта необходимы даты начала и окончания.
         must_be_in_planning: для начала работы необходимо выполнить планирование.
         only_one_active_sprint_allowed: для каждого проекта допускается только один активный спринт.
@@ -60,9 +61,11 @@ ru:
               locked_by_multiple_active_sprints: невозможно изменить во время работы нескольких активных спринтов.
               requires_no_sharing: может быть включен только в том случае, если для параметра «Общий доступ к спринтам» выбран вариант «Не предоставлять общий доступ».
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: не может быть изменено, пока включена функция «Несколько активных спринтов».
               share_all_projects_already_taken: не может быть установлен, потому что проект "%{name}" уже совместно используется со всеми проектами.
               share_all_projects_already_taken_anonymous: не может быть установлен, потому что другой проект уже совместно используется со всеми проектами.
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: получает общие спринты. Собственные спринты создавать нельзя.
         sprint:
           attributes:
@@ -193,6 +196,7 @@ ru:
       label_start_sprint: Начать спринт
       start_sprint_disabled_reason_active_sprint: Другой спринт уже активен.
       start_sprint_disabled_reason_missing_dates: Для начала спринта необходимы даты начала и окончания.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: Это спринт из другого проекта, который не поддерживает несколько активных спринтов.
     sprint_form:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.

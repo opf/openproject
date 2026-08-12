@@ -41,10 +41,6 @@ module WorkPackage::Versions
              -> { where(work_package_versions: { kind: "observed_in" }) },
              through: :work_package_versions, source: :version
 
-    scope :without_version, -> {
-      where(version_id: nil)
-    }
-
     scope :with_target_version, ->(version_id) {
       where(id: WorkPackageVersion.where(kind: "target", version_id:).select(:work_package_id))
     }
@@ -113,9 +109,8 @@ module WorkPackage::Versions
     end
 
     def remove_unshared_version_references(work_package)
-      # Pruning goes through the *_version_ids_replacements accessors, so the
-      # save-time mirror (persist_version_associations) keeps the deprecated
-      # version_id column and the journals consistent, as for any other change.
+      # Pruning goes through the *_version_ids_replacements accessors, so it is
+      # persisted (and journaled) at save time as for any other change.
       return if prune_unshared_version_kinds(work_package).empty?
 
       unless work_package.save
@@ -138,19 +133,6 @@ module WorkPackage::Versions
         kind
       end
     end
-  end
-
-  # Read-only replacement for the former +belongs_to :version+ association.
-  #
-  # Returns the work package's single target version, or nil when it has none.
-  # Raises an error if target_versions has multiple values
-  def version
-    if target_versions.size > 1
-      raise "WorkPackage##{id} has multiple target versions and cannot be " \
-            "represented as a single version. Use #target_versions instead."
-    end
-
-    target_versions.min
   end
 
   # Versions that the work_package can be assigned to
@@ -183,13 +165,9 @@ module WorkPackage::Versions
   #
   # By precedence:
   #   * target_version_ids_replacements
-  #   * pending version_id change
   #   * actual written target_versions
   def effective_target_versions
-    if target_version_ids_replacements.nil?
-      # TODO(COMMS-863): drop this branch once nothing writes version_id directly
-      return version_id_changed? ? Array(Version.find_by(id: version_id)) : target_versions
-    end
+    return target_versions if target_version_ids_replacements.nil?
 
     versions_by_id = Version.where(id: target_version_ids_replacements).index_by(&:id)
     target_version_ids_replacements.filter_map { |id| versions_by_id[id] }
@@ -219,20 +197,11 @@ module WorkPackage::Versions
     @system_version_overrides ||= Set.new
   end
 
-  # Two paths feed the "target" associations:
-  #   * an explicit override (the *_replacements accessor was set) takes
-  #     precedence and replaces the whole set.
-  #   * otherwise, a plain change to version_id (the legacy single-version
-  #     path) is mirrored into the associations so both stay consistent.
-  #
-  # Writing to version_id will be removed after all subsystems start using
-  # target_versions instead
+  # Writes the pending overrides (the *_replacements accessors) to the
+  # associations, replacing the whole set of the respective kind.
   def persist_version_associations
     if override_target_versions?
       replace_versions("target", target_version_ids_replacements)
-      update_legacy_version_field
-    elsif saved_change_to_version_id?
-      replace_versions("target", Array(version_id))
     end
 
     if override_observed_in_versions?
@@ -250,16 +219,6 @@ module WorkPackage::Versions
     self.target_version_ids_replacements = nil
     self.observed_in_version_ids_replacements = nil
     system_version_overrides.clear
-  end
-
-  # Keeps the deprecated single version_id column in sync with the lowest-id
-  # target version (what target_versions.first reads), so code still reading
-  # version_id sees the same version.
-  # Can be dropped once the version_id column is removed.
-  def update_legacy_version_field
-    new_version_id = target_version_ids_replacements.min
-
-    update_columns(version_id: new_version_id) unless version_id == new_version_id
   end
 
   # Resets any cached values. Necessary because we do insert_all.

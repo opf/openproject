@@ -942,7 +942,6 @@ ca:
           is_not_a_valid_target_for_time_entries: 'Treball paquet #%{id} no és un objectiu vàlid per a reassignar les entrades de temps.'
           readonly_status: El paquet de treball està en un estat de només lectura, per això els seus atributs no poden ser modificats.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Si us plau, revisi els camps següents:'
         header:

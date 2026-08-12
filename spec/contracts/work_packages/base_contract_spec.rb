@@ -1162,32 +1162,9 @@ RSpec.describe WorkPackages::BaseContract do
     subject(:contract) { described_class.new(work_package, current_user) }
 
     let(:assignable_version) { build_stubbed(:version) }
-    let(:invalid_version) { build_stubbed(:version) }
 
     before do
       allow(work_package).to receive(:assignable_versions).and_return [assignable_version]
-    end
-
-    context "for assignable version" do
-      before do
-        work_package.version_id = assignable_version.id
-        subject.validate
-      end
-
-      it "is valid" do
-        expect(subject.errors).to be_empty
-      end
-    end
-
-    context "for non assignable version" do
-      before do
-        work_package.version_id = invalid_version.id
-        subject.validate
-      end
-
-      it "is invalid" do
-        expect(subject.errors.symbols_for(:version_id)).to eql [:inclusion]
-      end
     end
 
     context "for a closed version" do
@@ -1282,105 +1259,6 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
-    describe "mutual exclusion of version_id and target_version_ids" do
-      let(:other_assignable_version) { build_stubbed(:version) }
-
-      before do
-        allow(work_package)
-          .to receive(:assignable_versions)
-          .and_return([assignable_version, other_assignable_version])
-      end
-
-      context "when the user changes both version_id and target_version_ids to different versions" do
-        before do
-          work_package.version_id = other_assignable_version.id
-          work_package.target_version_ids_replacements = [assignable_version.id]
-          contract.validate
-        end
-
-        it "is invalid" do
-          expect(contract.errors.symbols_for(:base)).to include(:version_and_target_versions_mutually_exclusive)
-        end
-      end
-
-      context "when the system clears version_id during the change (e.g. a project move)" do
-        # version_id starts on the (now unassignable) version and gets cleared by
-        # the system while the user assigns a new target version. The set-attributes
-        # service extends the model with ChangedBySystem before validation, so mirror
-        # that here to distinguish the system-driven change from a user one.
-        let(:work_package) do
-          build_stubbed(:work_package, type:, project:, version_id: other_assignable_version.id)
-            .extend(OpenProject::ChangedBySystem)
-        end
-
-        before do
-          work_package.change_by_system { work_package.version_id = nil }
-          work_package.target_version_ids_replacements = [assignable_version.id]
-          contract.validate
-        end
-
-        it "is valid (a system-driven version_id change is not a contradiction)" do
-          expect(contract.errors.symbols_for(:base))
-            .not_to include(:version_and_target_versions_mutually_exclusive)
-        end
-      end
-
-      context "when both are set to the same version" do
-        before do
-          work_package.version_id = assignable_version.id
-          work_package.target_version_ids_replacements = [assignable_version.id]
-          contract.validate
-        end
-
-        it "is valid (a consistent write is allowed)" do
-          expect(contract.errors.symbols_for(:base))
-            .not_to include(:version_and_target_versions_mutually_exclusive)
-        end
-      end
-
-      context "when only one type of version changed" do
-        it "is valid for version" do
-          work_package.version_id = assignable_version.id
-          contract.validate
-          expect(contract.errors).to be_empty
-        end
-
-        it "is valid for target_versions" do
-          work_package.target_version_ids_replacements = [assignable_version.id]
-          contract.validate
-          expect(contract.errors).to be_empty
-        end
-      end
-
-      # With several target versions, version_id mirrors the primary target
-      # version (the lowest id), so agreement means naming that one - in any
-      # assignment order.
-      context "with multiple target versions enabled",
-              with_flag: { work_package_multiple_versions: true },
-              with_settings: { work_package_multiple_versions: true } do
-        let(:lower_version) { [assignable_version, other_assignable_version].min_by(&:id) }
-        let(:higher_version) { [assignable_version, other_assignable_version].max_by(&:id) }
-
-        it "is valid when version names the lowest target version" do
-          work_package.version_id = lower_version.id
-          work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
-          contract.validate
-
-          expect(contract.errors.symbols_for(:base))
-            .not_to include(:version_and_target_versions_mutually_exclusive)
-        end
-
-        it "is invalid when version names a non-lowest target version" do
-          work_package.version_id = higher_version.id
-          work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
-          contract.validate
-
-          expect(contract.errors.symbols_for(:base))
-            .to include(:version_and_target_versions_mutually_exclusive)
-        end
-      end
-    end
-
     describe "target versions assignability" do
       context "with assignable IDs" do
         before do
@@ -1439,30 +1317,6 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
-    describe "legacy version_id writability" do
-      before do
-        work_package.version_id = assignable_version.id
-      end
-
-      context "when the multiple-versions feature is disabled" do
-        before { contract.validate }
-
-        it "allows writing the deprecated version_id" do
-          expect(contract.errors.symbols_for(:version_id)).to be_empty
-        end
-      end
-
-      context "when the multiple-versions feature is enabled",
-              with_flag: { work_package_multiple_versions: true },
-              with_settings: { work_package_multiple_versions: true } do
-        before { contract.validate }
-
-        it "rejects writing the deprecated version_id as read-only" do
-          expect(contract.errors.symbols_for(:version_id)).to include(:error_readonly)
-        end
-      end
-    end
-
     describe "target versions length" do
       let(:other_assignable_version) { build_stubbed(:version) }
 
@@ -1472,7 +1326,8 @@ RSpec.describe WorkPackages::BaseContract do
         work_package.target_version_ids_replacements = [assignable_version.id, other_assignable_version.id]
       end
 
-      context "when the multiple-versions feature is disabled" do
+      context "when the multiple-versions feature is disabled",
+              with_settings: { work_package_multiple_versions: false } do
         before { contract.validate }
 
         it "rejects more than one target version" do
@@ -1481,7 +1336,6 @@ RSpec.describe WorkPackages::BaseContract do
       end
 
       context "when the multiple-versions feature is enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         before { contract.validate }
 

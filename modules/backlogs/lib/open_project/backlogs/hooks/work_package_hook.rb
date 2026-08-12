@@ -28,26 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module Departments
-    class BlankslateComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
+module OpenProject::Backlogs
+  module Hooks
+    class WorkPackageHook < ::OpenProject::Hook::ViewListener
+      # Adds the Sprint and Backlog bucket fields to the work package bulk-edit form.
+      #
+      # Only shown when all selected work packages share a single project (context[:project]
+      # is only set in that case, see WorkPackages::BulkController#find_work_packages), that
+      # project has backlogs enabled, and the current user is allowed to manage sprint items.
+      def view_work_packages_bulk_edit_details_bottom(context = {})
+        project = context[:project]
+        return "" unless project&.backlogs_enabled? &&
+                          User.current.allowed_in_project?(:manage_sprint_items, project)
 
-      def call
-        render(Primer::Beta::Blankslate.new(border: false)) do |component|
-          component.with_visual_icon(icon: :people, size: :medium)
-          component.with_heading(tag: :h2) { t("departments.blankslate.heading") }
-          component.with_description { t("departments.blankslate.description") }
-          component.with_primary_action(
-            href: new_department_admin_departments_path,
-            scheme: :primary,
-            data: { turbo_frame: Admin::Departments::DetailComponent.wrapper_key }
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus)
-            t("departments.blankslate.add_button")
-          end
-        end
+        context[:hook_caller].render(
+          partial: "work_packages/bulk/sprint_and_backlog_bucket_fields",
+          locals: {
+            assignable_sprints: Sprint.assignable(project:, user: User.current).order_by_date,
+            backlog_buckets: BacklogBucket.visible(User.current).for_project(project)
+          }
+        )
       end
     end
   end

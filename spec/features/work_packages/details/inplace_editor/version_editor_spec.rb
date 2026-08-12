@@ -57,7 +57,7 @@ RSpec.describe "subject inplace editor", :js, :selenium do
       login_as(user)
     end
 
-    it "renders hierarchical versions" do
+    it "renders hierarchical versions", with_settings: { work_package_multiple_versions: false } do
       work_package_page.visit!
       work_package_page.ensure_page_loaded
 

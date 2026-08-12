@@ -689,7 +689,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "version" do
+    describe "version", with_settings: { work_package_multiple_versions: false } do
       let(:embedded_path) { "_embedded/version" }
       let(:href_path) { "_links/version/href" }
 
@@ -703,7 +703,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version_id = version.id
           allow(work_package).to receive(:target_versions).and_return([version])
         end
 
@@ -719,13 +718,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      context "when multiple versions is active",
-              with_flag: { work_package_multiple_versions: true },
-              with_settings: { work_package_multiple_versions: true } do
+      context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
         let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version_id = version.id
           allow(work_package).to receive(:target_versions).and_return([version])
         end
 
@@ -1955,6 +1951,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         semantic_key = representer.json_cache_key
 
         expect(semantic_key).not_to eq(classic_key)
+      end
+
+      it "changes when multiple versions is toggled" do
+        with_settings(work_package_multiple_versions: false)
+        single_version_key = representer.json_cache_key
+
+        with_settings(work_package_multiple_versions: true)
+        multiple_versions_key = representer.json_cache_key
+
+        expect(multiple_versions_key).not_to eq(single_version_key)
       end
 
       it "factors in the eager loaded cache_checksum" do

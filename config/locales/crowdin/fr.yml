@@ -942,7 +942,6 @@ fr:
           is_not_a_valid_target_for_time_entries: 'Le lot de travaux #%{id} n''est pas une cible valide pour réaffecter les entrées de temps.'
           readonly_status: Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés.
           target_versions_only_allow_single_value: Les versions cibles ne peuvent contenir qu'une seule valeur.
-          version_and_target_versions_mutually_exclusive: Il n'est pas possible de modifier simultanément la version et les versions cibles.
       template:
         body: 'Veuillez vérifier les champs suivants :'
         header:
@@ -3567,7 +3566,7 @@ fr:
   label_top_menu: Menu du haut
   label_topic_plural: Sujets
   label_total: Total
-  label_total_days_off: Nombre total de jours de congé
+  label_total_days_off: Total des jours non travailés
   label_total_global_non_working_days: Jours non travaillés généraux
   label_total_user_non_working_times: Jours non travaillés personnels
   label_type_new: Nouveau type
