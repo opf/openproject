@@ -36,19 +36,24 @@ module OAuthClients
   # Takes care of refreshing expired tokens.
   class TokenFetcher
     include Dry::Monads::Result(SimpleError)
+    include TaggedLogger
 
     attr_reader :user
 
     def initialize(user:)
       @user = user
+      logger_add_instance_tag(user_id: @user&.id)
     end
 
     ##
     # Obtains an access token for the given OAuthClient, refreshing it beforehand if necessary.
     def access_token_for(oauth_client:)
-      # TODO: scatter logging through this class
+      log_debug("Obtaining token at client #{oauth_client&.id}.")
       token = OAuthClientToken.find_by(user:, oauth_client:)
-      return Failure(SimpleError.new(source: self.class, code: :missing_token)) if token.nil?
+      if token.nil?
+        log_warn("Could not find an existing token.")
+        return Failure(SimpleError.new(source: self.class, code: :missing_token))
+      end
 
       if expired?(token)
         refresh(token)
@@ -60,13 +65,18 @@ module OAuthClients
     private
 
     def refresh(token)
+      log_info("Refreshing expired access token.")
       refresh_token_request(token).bind do |json|
         access_token, refresh_token, expires_in = json.values_at("access_token", "refresh_token", "expires_in")
-        return Failure(SimpleError.new(source: self.class, code: :token_refresh_response_invalid)) if access_token.blank?
+        if access_token.blank?
+          log_error("Received invalid JSON response from token endpoint. Expected at least 'access_token', got #{json.keys}.")
+          return Failure(SimpleError.new(source: self.class, code: :token_refresh_response_invalid))
+        end
 
         begin
           token.update!(access_token:, refresh_token:, expires_in:)
         rescue ActiveRecord::StaleObjectError
+          log_info("Access token was already refreshed in background. Reloading from database.")
           token.reload
         end
 
