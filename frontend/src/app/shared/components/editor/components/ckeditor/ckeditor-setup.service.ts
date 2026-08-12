@@ -38,7 +38,21 @@ import { Constructor } from '@angular/cdk/schematics';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export type ICKEditorType = 'full'|'constrained';
-export type ICKEditorMacroType = 'none'|'resource'|'full'|boolean|string[];
+
+// What editor authors pass; resolveMacros() turns it into an ICKEditorResolvedMacros value.
+// The wiki-link macros are appended to any array result when a wiki provider is available.
+//   'none' / false → no macros (dropdown hidden)
+//   'resource'     → ToC, embedded table, WP button/quickinfo (+ wiki links when available)
+//   'wiki'         → only the wiki links, and only when a provider is available (else none)
+//   true           → keep every macro the build ships, regardless of wiki availability
+//   string[]       → exactly these macro plugin names (+ wiki links when available)
+export type ICKEditorMacroType = 'none'|'resource'|'wiki'|boolean|string[];
+
+// What the CKEditor build consumes: false = none, true = all, array = exactly these.
+export type ICKEditorResolvedMacros = boolean|string[];
+
+// Wiki-page-link macros, added to any editor when a wiki provider is configured (see resolveMacros).
+const wikiLinkMacros = ['OpMacroWikiPageLinkAddExisting', 'OpMacroWikiPageLinkCreateNew'];
 
 declare global {
   interface Window {
@@ -132,9 +146,10 @@ export class CKEditorSetupService {
   private createConfig(context:ICKEditorContext, initialData:string|null) {
     const uiLocale = this.loadedLocale;
     const contentLanguage = context.options?.rtl ? 'ar' : 'en';
+    const resolvedContext:ICKEditorContext = { ...context, macros: this.resolveMacros(context.macros) };
 
     const config = {
-      openProject: this.createContext(context),
+      openProject: this.createContext(resolvedContext),
       removePlugins: context.removePlugins,
       initialData,
       ui: {
@@ -148,6 +163,10 @@ export class CKEditorSetupService {
       },
       link: {},
       storageKey: context.storageKey,
+      // Constrained editors have no macro dropdown by default; add one when macros are present.
+      ...(context.type === 'constrained' && Array.isArray(resolvedContext.macros)
+        ? { toolbar: { items: this.constrainedToolbarWithMacroList() } }
+        : {}),
     };
 
     const allowedLinkProtocols = this.configurationService.allowedLinkProtocols;
@@ -209,22 +228,60 @@ export class CKEditorSetupService {
   }
 
   private createContext(context:ICKEditorContext):unknown {
-    if (context.macros === 'none') {
-      context.macros = false;
-    } else if (context.macros === 'resource') {
-      context.macros = [
-        'OPMacroToc',
-        'OPMacroEmbeddedTable',
-        'OPMacroWpButton',
-        'OPMacroWpQuickinfo',
-      ];
-    }
-
     return {
       context,
       helpURL: this.PathHelper.textFormattingHelp(),
       pluginContext: window.OpenProject.pluginContext.value,
     };
+  }
+
+  // Splice `macroList` into the constrained editor's own toolbar (which omits it by default).
+  private constrainedToolbarWithMacroList():string[] {
+    const items = [...(window.OPConstrainedEditor.defaultConfig?.toolbar?.items ?? [])];
+
+    if (!items.includes('macroList')) {
+      const anchor = items.indexOf('blockQuote');
+      const insertAt = anchor === -1 ? items.length : anchor + 1;
+      items.splice(insertAt, 0, '|', 'macroList');
+    }
+
+    return items;
+  }
+
+  // Expand macro tokens and add/withhold the wiki macros based on `wikisAvailable`.
+  // `false`/`'none'` stay macro-free, keeping custom fields and read-only editors untouched.
+  private resolveMacros(macros:ICKEditorMacroType|undefined):ICKEditorResolvedMacros {
+    let resolved = macros;
+
+    if (!resolved || resolved === 'none') {
+      return false;
+    }
+    if (resolved === true) {
+      return true;
+    }
+    if (resolved === 'resource') {
+      resolved = [
+        'OPMacroToc',
+        'OPMacroEmbeddedTable',
+        'OPMacroWpButton',
+        'OPMacroWpQuickinfo',
+      ];
+    } else if (resolved === 'wiki') {
+      resolved = [];
+    }
+
+    if (Array.isArray(resolved)) {
+      resolved = this.configurationService.wikisAvailable
+        ? [...new Set([...resolved, ...wikiLinkMacros])]
+        : resolved.filter((name) => !wikiLinkMacros.includes(name));
+
+      // Empty set ⇒ false, so no (empty) dropdown is shown.
+      if (resolved.length === 0) {
+        return false;
+      }
+    }
+
+    return resolved;
   }
 
   private watchTopLayer() {
