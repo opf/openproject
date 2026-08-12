@@ -61,7 +61,7 @@ class Workflows::Copies::FromRolesController < ApplicationController
       )
       set_frame_src_via_turbo_stream(
         "workflow-table",
-        type_workflow_matrix_path(type_id: @source_variant.type_id, variant_id: @source_variant.id,
+        type_workflow_matrix_path(**@source_variant.path_args,
                                   tab: params[:tab], role_ids: @target_roles.map(&:id))
       )
     end

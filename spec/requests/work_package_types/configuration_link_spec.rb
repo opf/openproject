@@ -140,6 +140,16 @@ RSpec.describe "Work package type configuration source",
       )
     end
 
+    it "submits back to the variant it was opened for" do
+      variant = create(:type_variant, type:)
+
+      get type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:), as: :turbo_stream
+
+      expect(response.body).to include(
+        type_configuration_link_confirm_path(type_id: type.id, variant_id: variant.id, aspect:)
+      )
+    end
+
     it "is not found for an unknown aspect" do
       get type_configuration_link_dialog_path(type_id: type.id, aspect: "not_an_aspect"), as: :turbo_stream
 
@@ -175,6 +185,18 @@ RSpec.describe "Work package type configuration source",
 
       expect(response.body).to include("Change source type?")
       expect(response.body).to include("Feature")
+    end
+
+    it "submits back to the variant it was opened for" do
+      variant = create(:type_variant, type:)
+
+      post type_configuration_link_confirm_path(type_id: type.id, variant_id: variant.id, aspect:),
+           params: { source_id: source.default_variant.id },
+           as: :turbo_stream
+
+      expect(response.body).to include(
+        type_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:)
+      )
     end
 
     it "flashes an error when no source was picked" do

@@ -40,10 +40,9 @@ module WorkPackageTypes
 
     private
 
+    # The details tab edits the type itself until there is a variant to edit.
     def path_args
-      return { type_id: model.id } unless model.is_a?(TypeVariant)
-
-      { type_id: model.type_id, variant_id: model.id }
+      model.is_a?(TypeVariant) ? model.path_args : { type_id: model.id }
     end
   end
 end

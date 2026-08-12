@@ -41,7 +41,7 @@ class Workflows::MatrixController < ApplicationController
 
   def show
     unless turbo_frame_request?
-      redirect_to edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id,
+      redirect_to edit_type_workflow_path(**variant.path_args,
                                           role_ids: params[:role_ids], tab: matrix_context.tab)
     end
   end

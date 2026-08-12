@@ -80,11 +80,8 @@ module WorkPackageTypes
 
       def step_url = type_creation_wizard_path(**variant_path_args, step: current_step)
 
-      def variant_path_args
-        return { type_id: type.id } unless adding_variant?
-
-        { type_id: type.id, variant_id: variant.id }
-      end
+      # A type still being created has no variant to address yet.
+      def variant_path_args = variant&.path_args || { type_id: type.id }
 
       def step_form_url
         return step_url if record_persisted?

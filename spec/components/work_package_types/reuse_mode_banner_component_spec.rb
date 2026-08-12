@@ -60,16 +60,14 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
 
     it "links the copy action to the copy dialog" do
       expect(page).to have_css(
-        "a[data-controller='async-dialog'][href='#{type_configuration_copy_dialog_path(type_id: type.id, variant_id: variant.id,
-                                                                                       aspect:)}']",
+        "a[data-controller='async-dialog'][href='#{type_configuration_copy_dialog_path(**variant.path_args, aspect:)}']",
         text: "Copy from type"
       )
     end
 
     it "links the switch action to the linked mode dialog" do
       expect(page).to have_css(
-        "a[data-controller='async-dialog'][href='#{type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id,
-                                                                                       aspect:)}']",
+        "a[data-controller='async-dialog'][href='#{type_configuration_link_dialog_path(**variant.path_args, aspect:)}']",
         text: "Switch to linked mode"
       )
     end
@@ -104,8 +102,8 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
     end
 
     it "links the change-source and switch-to-independent actions to their dialogs" do
-      link_path = type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:)
-      independence_path = type_configuration_independence_dialog_path(type_id: type.id, variant_id: variant.id, aspect:)
+      link_path = type_configuration_link_dialog_path(**variant.path_args, aspect:)
+      independence_path = type_configuration_independence_dialog_path(**variant.path_args, aspect:)
 
       expect(page).to have_css(
         "a[data-controller='async-dialog'][href='#{link_path}']",

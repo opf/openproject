@@ -48,7 +48,7 @@ module WorkPackageTypes
       attr_reader :variant, :aspect, :source
 
       def copy_path
-        type_configuration_copy_copy_path(type_id: variant.type_id, variant_id: variant.id, aspect:)
+        type_configuration_copy_copy_path(**variant.path_args, aspect:)
       end
     end
   end

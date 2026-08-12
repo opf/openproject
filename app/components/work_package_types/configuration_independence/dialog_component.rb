@@ -48,7 +48,7 @@ module WorkPackageTypes
       attr_reader :variant, :aspect
 
       def confirm_path
-        type_configuration_independence_confirm_path(type_id: variant.type_id, aspect:)
+        type_configuration_independence_confirm_path(**variant.path_args, aspect:)
       end
     end
   end

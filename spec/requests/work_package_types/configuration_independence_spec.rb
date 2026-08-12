@@ -70,6 +70,19 @@ RSpec.describe "Work package type configuration independence",
       expect(response.body).not_to include("Empty")
     end
 
+    it "submits back to the variant it was opened for" do
+      variant = create(:type_variant, type:)
+
+      get type_configuration_independence_dialog_path(type_id: type.id, variant_id: variant.id,
+                                                      aspect: TypeVariant::DEFAULTS),
+          as: :turbo_stream
+
+      expect(response.body).to include(
+        type_configuration_independence_confirm_path(type_id: type.id, variant_id: variant.id,
+                                                     aspect: TypeVariant::DEFAULTS)
+      )
+    end
+
     it "is not found for an unknown aspect" do
       get type_configuration_independence_dialog_path(type_id: type.id, aspect: "not_an_aspect"), as: :turbo_stream
 
@@ -94,6 +107,20 @@ RSpec.describe "Work package type configuration independence",
       expect(response.body).to include("closeDialog")
       expect(response.body).to include("Switch configuration mode?")
       expect(response.body).to include("I understand that this will override the current settings")
+    end
+
+    it "submits back to the variant it was opened for" do
+      variant = create(:type_variant, type:)
+
+      post type_configuration_independence_confirm_path(type_id: type.id, variant_id: variant.id,
+                                                        aspect: TypeVariant::DEFAULTS),
+           params: { mode: WorkPackageTypes::IndependentMode::EMPTY },
+           as: :turbo_stream
+
+      expect(response.body).to include(
+        type_configuration_independence_switch_path(type_id: type.id, variant_id: variant.id,
+                                                    aspect: TypeVariant::DEFAULTS)
+      )
     end
 
     it "flashes an error for a mode the aspect does not offer" do

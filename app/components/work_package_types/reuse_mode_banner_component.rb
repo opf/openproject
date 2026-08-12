@@ -74,7 +74,7 @@ module WorkPackageTypes
 
     def independent_dialog_path = type_configuration_independence_dialog_path(**dialog_path_args)
 
-    def dialog_path_args = { type_id: variant.type_id, variant_id: variant.id, aspect: }
+    def dialog_path_args = variant.path_args.merge(aspect:)
 
     def linked_description
       helpers.link_translate(

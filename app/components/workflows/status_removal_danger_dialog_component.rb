@@ -46,8 +46,6 @@ module Workflows
 
     delegate :variant, :tab, :roles, :requested_status_ids, :removed_displayed_status_ids, to: :context
 
-    def variant_path_args = { type_id: variant.type_id, variant_id: variant.id }
-
     def removed_count = removed_displayed_status_ids.size
   end
 end

@@ -46,7 +46,5 @@ module Workflows
     attr_reader :context
 
     delegate :variant, :tab, :roles, to: :context
-
-    def variant_path_args = { type_id: variant.type_id, variant_id: variant.id }
   end
 end

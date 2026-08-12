@@ -55,8 +55,7 @@ module WorkPackageTypes
 
       def toggle_path
         toggle_type_project_attributes_path(
-          type_id: @variant.type_id,
-          variant_id: @variant.id,
+          **@variant.path_args,
           project_custom_field_type_mapping: {
             variant_id: @variant.id,
             custom_field_id: @project_custom_field.id

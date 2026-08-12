@@ -42,9 +42,8 @@ module WorkPackageTypes
       def bulk_path(action)
         send(
           :"#{action}_type_project_attributes_path",
-          @variant,
-          project_custom_field_type_mapping: { type_id: @variant.type_id,
-                                               custom_field_section_id: @project_custom_field_section.id }
+          **@variant.path_args,
+          project_custom_field_type_mapping: { custom_field_section_id: @project_custom_field_section.id }
         )
       end
 
