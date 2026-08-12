@@ -153,6 +153,11 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       expect(rendered_component).to have_no_css(".blankslate")
     end
 
+    it "parks the empty-state prototype in a template for the dynamic controller" do
+      expect(rendered_component)
+        .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
+    end
+
     it "renders a row for each work package", :aggregate_failures do
       # renders the subject of each work package
       expect(rendered_component).to have_text("First item")
