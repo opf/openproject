@@ -84,9 +84,6 @@ module Projects
       model.project_types = default_project_types
     end
 
-    # Rows rather than Project#types, which cannot name the variant a family resolves to.
-    # A default variant means its whole family is enabled in new projects, so it becomes the
-    # variant of the family's row instead of a row of its own.
     def default_project_types
       ::Type.default.group_by(&:root_id).map do |root_id, family|
         ProjectType.new(type_id: root_id, variant: default_variant(family))
@@ -106,8 +103,6 @@ module Projects
         .distinct
     end
 
-    # The variant a family resolves to owns the form configuration in force, so its fields are
-    # the ones to activate. Read off the rows because Project#types yields the roots only.
     def effective_type_ids
       model.project_types.filter_map { |project_type| project_type.variant_id || project_type.type_id }
     end

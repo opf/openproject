@@ -256,9 +256,6 @@ module Import
     end
 
     def import_work_package(jira_issue, project, type, status, priority, custom_field_registry) # rubocop:disable Metrics/PerceivedComplexity
-      # required because otherwise project.types does not include type and then wp creation fails.
-      project.reload
-
       author_key = jira_issue.payload.dig("fields", "creator", "key")
       author = find_user(author_key)
       assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
