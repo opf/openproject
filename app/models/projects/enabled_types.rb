@@ -43,7 +43,7 @@ module Projects::EnabledTypes
       applied = ProjectType.where(project_id: id, type_id: type_ids)
 
       ::TypeVariant.where(id: applied.select(:variant_id))
-                   .or(::TypeVariant.base.where(type_id: type_ids)
+                   .or(::TypeVariant.default_variant.where(type_id: type_ids)
                                          .where.not(type_id: applied.select(:type_id)))
     end
 

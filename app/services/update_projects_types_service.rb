@@ -80,7 +80,7 @@ class UpdateProjectsTypesService < BaseProjectService
     added_ids = requested_ids - project.type_ids
 
     project.project_types.where.not(type_id: requested_ids).destroy_all
-    ::TypeVariant.base.where(type_id: added_ids).find_each do |variant|
+    ::TypeVariant.default_variant.where(type_id: added_ids).find_each do |variant|
       project.project_types.create!(type_id: variant.type_id, variant:)
     end
 
@@ -92,6 +92,6 @@ class UpdateProjectsTypesService < BaseProjectService
   # its configuration contributes the fields it actually shows rather than the none it owns.
   # A type gained here runs its base variant, which is what the project resolves to.
   def custom_field_ids_of(type_ids)
-    ::TypeVariant.base.where(type_id: type_ids).flat_map { |variant| variant.custom_fields.ids }.uniq
+    ::TypeVariant.default_variant.where(type_id: type_ids).flat_map { |variant| variant.custom_fields.ids }.uniq
   end
 end

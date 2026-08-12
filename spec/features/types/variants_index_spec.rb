@@ -145,7 +145,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
     click_on I18n.t(:button_continue)
 
-    expect(bug_type.reload.variants.named.pluck(:variant_name))
+    expect(bug_type.reload.variants.named_variants.pluck(:variant_name))
       .to contain_exactly("Alpha variant", "Zeta variant", "Hardware")
   end
 

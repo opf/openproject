@@ -322,7 +322,7 @@ RSpec.describe WorkPackageTypes::TypesController do
 
       it "exposes each type's named variants" do
         assigned_bug = assigns(:types).detect { |type| type == bug }
-        expect(assigned_bug.variants.named).to contain_exactly(named_variant)
+        expect(assigned_bug.variants.named_variants).to contain_exactly(named_variant)
       end
     end
 

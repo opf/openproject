@@ -57,7 +57,7 @@ class Workflows::CopiesController < ApplicationController
   end
 
   def set_other_variants
-    scope = OpenProject::FeatureDecisions.type_variants_active? ? ::TypeVariant.all : ::TypeVariant.base
+    scope = OpenProject::FeatureDecisions.type_variants_active? ? ::TypeVariant.all : ::TypeVariant.default_variant
 
     @other_variants = scope.where.not(id: @source_variant.id).includes(:type).sort_by do |variant|
       [variant.type.position, variant.variant_name.to_s]

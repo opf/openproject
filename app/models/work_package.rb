@@ -547,7 +547,7 @@ class WorkPackage < ApplicationRecord
                  .to_h { |project_id, type_id, variant_id| [[project_id, type_id], variant_id] }
 
     # A pair with no row means the project does not use the type, so its base variant applies.
-    base = TypeVariant.base.where(type_id: pairs.map(&:last)).pluck(:type_id, :id).to_h
+    base = TypeVariant.default_variant.where(type_id: pairs.map(&:last)).pluck(:type_id, :id).to_h
     pairs.index_with { |pair| resolved[pair] || base[pair.last] }
   end
   private_class_method :type_variant_ids_by_pair

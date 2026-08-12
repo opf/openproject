@@ -98,8 +98,8 @@ class TypeVariant < ApplicationRecord
 
   scopes :with_effective_configuration, :with_effective_source
 
-  scope :base, -> { where(is_default_variant: true) }
-  scope :named, -> { where(is_default_variant: false) }
+  scope :default_variant, -> { where(is_default_variant: true) }
+  scope :named_variants, -> { where(is_default_variant: false) }
 
   # Base variants first, then the named ones alphabetically. Named variants have no user defined order
   scope :in_display_order, -> { order(is_default_variant: :desc, variant_name: :asc) }

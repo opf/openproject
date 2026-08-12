@@ -185,7 +185,7 @@ module WorkPackageTypes
 
     def find_variant
       @variant = if params[:variant_id]
-                   @type.variants.named.find(params.expect(:variant_id))
+                   @type.variants.named_variants.find(params.expect(:variant_id))
                  else
                    @type.default_variant
                  end

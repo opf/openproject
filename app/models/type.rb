@@ -40,7 +40,7 @@ class Type < ApplicationRecord
 
   # Every type has a base variant plus any number of named ones.
   has_many :variants, class_name: "TypeVariant", dependent: :destroy, autosave: true, inverse_of: :type
-  has_one :default_variant, -> { base }, class_name: "TypeVariant", inverse_of: :type, dependent: nil
+  has_one :default_variant, -> { default_variant }, class_name: "TypeVariant", inverse_of: :type, dependent: nil
 
   # Projects using this type. Which variant each of them applies is on the join row.
   has_many :project_types, dependent: :delete_all
