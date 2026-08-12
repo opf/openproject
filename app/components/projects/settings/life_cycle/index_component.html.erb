@@ -26,7 +26,8 @@
         OpenProject::Common::BorderBoxListComponent.new(
           container: "project-life-cycle-administration",
           position: :relative,
-          mb: 3
+          mb: 3,
+          empty_state_behavior: :dynamic
         )
       ) do |list|
         list.with_header(title: I18n.t("projects.settings.life_cycle.section_header")) do |header|
@@ -73,16 +74,6 @@
         end
 
         list.with_empty_state(title: t("projects.settings.life_cycle.non_defined"))
-      end
-    end
-    flex.with_row do
-      render Primer::Beta::Text.new(
-        display: :none,
-        data: {
-          "projects--settings--border-box-filter-target": "noResultsText"
-        }
-      ) do
-        I18n.t("js.autocompleter.notFoundText")
       end
     end
   end
