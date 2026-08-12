@@ -45,10 +45,8 @@ RSpec.describe OAuth::Applications::IndexComponent, type: :component do
       end
     end
 
-    it "keeps the other-applications empty state in the row hidden once rows exist" do
-      expect(rendered_component).to have_css("#op-admin-oauth--other-applications .Box-row[data-empty-list-item]") do |row|
-        expect(row).to have_css(".blankslate")
-      end
+    it "renders no empty-state row once rows exist" do
+      expect(rendered_component).to have_no_css("#op-admin-oauth--other-applications .Box-row[data-empty-list-item]")
     end
   end
 
