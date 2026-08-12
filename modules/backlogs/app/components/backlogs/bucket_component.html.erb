@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do |list|
       list.with_header(title: backlog_bucket.name) do |header|
-        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+        header.with_menu(button_arguments: { aria: { label: t(".label_actions") } }) do |menu|
           with_item_group(menu) do
             if user_allowed?(:create_sprints)
               menu.with_item(
