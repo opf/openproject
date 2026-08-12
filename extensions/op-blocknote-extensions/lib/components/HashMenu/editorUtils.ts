@@ -66,6 +66,12 @@ export function insertWpChip(editor:AnyEditor, wp:WorkPackage, size:InlineWpSize
   editor.focus();
 }
 
+export function restoreHashQuery(editor:AnyEditor, query:string):void {
+  (editor.insertInlineContent as (content:unknown[]) => void)([
+    { type: 'text', text: `#${query}`, styles: {} },
+  ]);
+}
+
 /**
  * Removes the leftover trigger hashes (`#`/`##`) that BlockNote's suggestion menu
  * leaves directly before the chip for `##`/`###` triggers.
