@@ -48,16 +48,16 @@ module CustomStyles
       key: -> { "#{self.class.name}-#{arguments.first.id}" }
     )
 
-    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
-             wait: 5.seconds,
-             attempts: :unlimited
-
-    # Retry transient HTTP failures a few times, after which we discard with a log entry.
+    # ActiveJob matches retry_on/discard_on from bottom to top, so declare the
+    # broad StandardError handler first and more specific handlers after it.
     retry_on StandardError, wait: :polynomially_longer, attempts: 5, report: true do |job, error|
       job.log_discard(error)
     end
 
-    # Declared after retry_on StandardError so they take precedence
+    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
+             wait: 5.seconds,
+             attempts: :unlimited
+
     discard_on ActiveJob::DeserializationError do |job, error|
       job.log_discard(error)
     end
