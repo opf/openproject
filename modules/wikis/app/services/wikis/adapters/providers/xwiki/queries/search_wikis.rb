@@ -23,39 +23,48 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module Departments
-    class DetailBlankslateComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+module Wikis
+  module Adapters
+    module Providers
+      module XWiki
+        module Queries
+          class SearchWikis < BaseQuery
+            include Concerns::XWikiRequest
 
-      def initialize(group: nil)
-        super()
-        @group = group
-      end
+            MAXIMUM_RESULTS = 10
 
-      def call
-        render(Primer::Beta::Blankslate.new(border: false)) do |component|
-          if managed?
-            component.with_visual_icon(icon: :lock, size: :medium)
-            component.with_heading(tag: :h2) { t("departments.detail_blankslate.managed_heading") }
-            component.with_description { t("departments.detail_blankslate.managed_description") }
-          else
-            component.with_visual_icon(icon: :people, size: :medium)
-            component.with_heading(tag: :h2) { t("departments.detail_blankslate.heading") }
-            component.with_description { t("departments.detail_blankslate.description") }
+            def call(input_data:, auth_strategy:)
+              authenticated(auth_strategy) do |http|
+                handle_response(http.get(rest_url("wikis"))) do |json|
+                  success(matching_wikis(fetch_json(json, "wikis"), input_data.query))
+                end
+              end
+            end
+
+            private
+
+            def matching_wikis(wikis, query)
+              wikis.select { fetch_json(it, "name").downcase.include?(query.downcase) }
+                   .first(MAXIMUM_RESULTS)
+                   .map { json_to_wiki(it) }
+            end
+
+            def json_to_wiki(wiki)
+              name = fetch_json(wiki, "name")
+
+              Results::Wiki.new(identifier: name, provider:, name:, href: home_url)
+            end
+
+            def home_url
+              "#{provider.url.chomp('/')}/bin/view/Main/"
+            end
           end
         end
-      end
-
-      private
-
-      def managed?
-        @group&.ldap_managed?
       end
     end
   end

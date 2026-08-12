@@ -64,7 +64,7 @@ module OpenProject
               button.with_leading_visual_icon(icon: :pencil)
               "Edit"
             end
-            header.with_menu(button_aria_label: "List actions") do |menu|
+            header.with_menu(button_arguments: { aria: { label: "List actions" } }) do |menu|
               menu.with_item(label: "Configure") do |menu_item|
                 menu_item.with_leading_visual_icon(icon: :gear)
               end
@@ -105,7 +105,7 @@ module OpenProject
               button.with_leading_visual_icon(icon: :rocket)
               "Start sprint"
             end
-            header.with_menu(button_aria_label: "Sprint actions") do |menu|
+            header.with_menu(button_arguments: { aria: { label: "Sprint actions" } }) do |menu|
               menu.with_item(label: "Edit sprint") do |menu_item|
                 menu_item.with_leading_visual_icon(icon: :pencil)
               end
@@ -141,6 +141,54 @@ module OpenProject
         ) do |list|
           list.with_header(title: "Work packages", count: true)
           render_work_package_items(list, work_packages)
+        end
+      end
+
+      # @label Custom header content
+      # List with a linked title slot and a custom action-menu trigger.
+      def custom_header_content
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-custom-header-preview"
+        ) do |list|
+          list.with_header(count: true) do |header|
+            header.with_title do
+              '<a href="#" class="Link--primary no-underline">Linked delivery plan</a>'.html_safe
+            end
+            header.with_description do
+              "Milestones grouped by owner."
+            end
+            header.with_menu do |menu|
+              menu.with_show_button(scheme: :primary, aria: { label: "Add delivery item" }) do |button|
+                button.with_leading_visual_icon(icon: :plus)
+                "Add item"
+              end
+              menu.with_item(label: "Import milestones") do |menu_item|
+                menu_item.with_leading_visual_icon(icon: :upload)
+              end
+            end
+          end
+
+          list.with_item { "Alpha release checklist" }
+          list.with_item { "Customer review preparation" }
+        end
+      end
+
+      # @label Header breadcrumbs
+      # List with a hierarchy breadcrumb trail in the title position.
+      def header_breadcrumbs
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-header-breadcrumbs-preview"
+        ) do |list|
+          list.with_header(title: "Design & Content") do |header|
+            header.with_breadcrumbs do |crumbs|
+              crumbs.with_item(href: "#") { "My Organization" }
+              crumbs.with_item(href: "#") { "Marketing & Communications" }
+              crumbs.with_item(href: "#") { "Design & Content" }
+            end
+          end
+
+          list.with_item { "Dora Design" }
+          list.with_item { "Carl Content" }
         end
       end
 
@@ -191,6 +239,21 @@ module OpenProject
         end
       end
 
+      # @label With header drag handle
+      # Reorderable list whose header and rows show a drag handle.
+      # @param padding [Symbol] select [default, condensed, spacious]
+      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
+      # @param collapsible toggle
+      def with_header_drag_handle(padding: :default, header_padding: :inherit, collapsible: false)
+        render_with_template(
+          locals: {
+            padding:,
+            header_padding:,
+            collapsible: boolean_preview_param(collapsible)
+          }
+        )
+      end
+
       # @label Empty state
       # List with a header and an empty state (Blankslate), no items.
       # @param padding [Symbol] select [default, condensed, spacious]
@@ -210,6 +273,22 @@ module OpenProject
             title: "No items yet",
             description: "There is nothing to show."
           )
+        end
+      end
+
+      # @label Empty state (behavior: none)
+      # A grouped outlier that suppresses the generic empty state entirely via
+      # `empty_state_behavior: :none`, even with a header and no items.
+      # @param padding [Symbol] select [default, condensed, spacious]
+      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
+      def with_behavior_none(padding: :default, header_padding: :inherit)
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-behavior-none-preview",
+          empty_state_behavior: :none,
+          padding:,
+          header_padding:
+        ) do |list|
+          list.with_header(title: "Empty group", count: 0)
         end
       end
 
@@ -262,24 +341,6 @@ module OpenProject
           header_padding:,
           collapsible: true
         )
-      end
-
-      # @label With header drag handle
-      # @param padding [Symbol] select [default, condensed, spacious]
-      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
-      # @param collapsible toggle
-      def with_header_drag_handle(padding: :default, header_padding: :inherit, collapsible: false)
-        render OpenProject::Common::BorderBoxListComponent.new(
-          container: "border-box-list-header-drag-handle-preview",
-          padding:,
-          header_padding:,
-          collapsible: boolean_preview_param(collapsible)
-        ) do |list|
-          list.with_header(title: "Reorderable section", count: true, show_drag_handle: true)
-
-          list.with_item { "First item" }
-          list.with_item { "Second item" }
-        end
       end
 
       private

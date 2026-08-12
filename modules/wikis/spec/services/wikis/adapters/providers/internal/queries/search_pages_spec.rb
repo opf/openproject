@@ -44,11 +44,9 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
   let(:wiki_page_parent) { create(:wiki_page, wiki:, title: "Nothing to see here") }
   let(:wiki_project_permissions) { %i[view_wiki_pages] }
 
-  let(:user) { create(:user) }
+  let(:user) { create(:user, member_with_permissions: { wiki_project => wiki_project_permissions }) }
 
   before do
-    create(:member, project: wiki_project, user:, roles: [create(:project_role, permissions: wiki_project_permissions)])
-
     wiki_page
   end
 
@@ -80,6 +78,17 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
     end
   end
 
+  context "when the search term matches a parent page" do
+    let(:query) { wiki_page_parent.title }
+    let!(:wiki_page_child) { create(:wiki_page, wiki:, parent: wiki_page, title: "Deeply nested page") }
+
+    it { is_expected.to be_success }
+
+    it "returns the matching page only, not the pages nested below it" do
+      expect(subject.value!.map { it.page.title }).to contain_exactly(wiki_page_parent.title)
+    end
+  end
+
   context "when the search term has wrong casing" do
     let(:query) { wiki_page.title.downcase }
 
@@ -88,6 +97,16 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
     it "returns matching pages" do
       expect(subject.value!).not_to be_empty
       expect(subject.value!.first.page.title).to eq(wiki_page.title)
+    end
+  end
+
+  context "when the search term only matches the name of the page's wiki" do
+    let(:query) { wiki_project.name }
+
+    it { is_expected.to be_success }
+
+    it "returns an empty result, as wikis are searched separately" do
+      expect(subject.value!).to eq([])
     end
   end
 

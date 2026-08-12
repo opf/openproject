@@ -33,6 +33,7 @@ module Meetings
     include ::Shared::ServiceContext
     include ::Contracted
     include ::Copy::Concerns::CopyAttachments
+    include ::MeetingAgendaItems::JournalizeWorkPackageActivity
 
     attr_accessor :user,
                   :meeting,
@@ -61,6 +62,7 @@ module Meetings
         .on_success do |call|
         copy_meeting_agenda(call.result) if copy_agenda
         copy_meeting_attachment(call.result) if copy_attachments
+        journalize_copied_agenda(call.result) if copy_agenda
       end
     end
 

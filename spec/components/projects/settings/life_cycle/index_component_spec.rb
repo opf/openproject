@@ -28,27 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module Departments
-    class BlankslateComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
+require "rails_helper"
 
-      def call
-        render(Primer::Beta::Blankslate.new(border: false)) do |component|
-          component.with_visual_icon(icon: :people, size: :medium)
-          component.with_heading(tag: :h2) { t("departments.blankslate.heading") }
-          component.with_description { t("departments.blankslate.description") }
-          component.with_primary_action(
-            href: new_department_admin_departments_path,
-            scheme: :primary,
-            data: { turbo_frame: Admin::Departments::DetailComponent.wrapper_key }
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus)
-            t("departments.blankslate.add_button")
-          end
-        end
-      end
+RSpec.describe Projects::Settings::LifeCycle::IndexComponent, type: :component do
+  let(:project) { create(:project) }
+
+  subject(:rendered_component) do
+    with_request_url("/projects/#{project.id}/settings/life_cycle") do
+      render_inline(
+        described_class.new(project:, life_cycle_definitions: Project::PhaseDefinition.order(position: :asc))
+      )
     end
+  end
+
+  context "with definitions" do
+    let!(:definition) { create(:project_phase_definition) }
+
+    it_behaves_like "rendering Box", row_count: 1
+
+    it "renders a row per definition" do
+      expect(rendered_component).to have_css(".Box-row", text: definition.name)
+    end
+
+    it "renders the enable-all and disable-all header actions", :aggregate_failures do
+      expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_enable_all"))
+      expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_disable_all"))
+    end
+  end
+
+  context "without definitions" do
+    it_behaves_like "rendering an empty Border Box List",
+                    heading: I18n.t("projects.settings.life_cycle.non_defined")
   end
 end

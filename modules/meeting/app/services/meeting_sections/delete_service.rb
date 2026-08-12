@@ -29,5 +29,22 @@
 
 module MeetingSections
   class DeleteService < ::BaseServices::Delete
+    include ::MeetingAgendaItems::JournalizeWorkPackageActivity
+
+    def before_perform(params)
+      @meeting = model.meeting
+      @removed_agenda_items = model.agenda_items.to_a
+      super
+    end
+
+    def after_perform(call)
+      if call.success?
+        @removed_agenda_items.each do |agenda_item|
+          journalize_agenda_item(agenda_item, Journal::CausedByMeetingAgendaItemRemoved.new(@meeting))
+        end
+      end
+
+      super
+    end
   end
 end

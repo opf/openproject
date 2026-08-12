@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+        header.with_menu(button_arguments: { aria: { label: t(".label_actions") } }) do |menu|
           with_item_group(menu) do
             if can_open_edit_dialog?
               menu.with_item(

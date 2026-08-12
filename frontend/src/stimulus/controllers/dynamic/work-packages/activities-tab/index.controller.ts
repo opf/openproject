@@ -63,6 +63,7 @@ export default class IndexController extends Controller<HTMLElement> {
 
   setFilterToOnlyComments() { this.filterValue = 'only_comments'; }
   setFilterToOnlyChanges() { this.filterValue = 'only_changes'; }
+  setFilterToHideMeetings() { this.filterValue = 'hide_meetings'; }
   unsetFilter() { this.filterValue = ''; }
 
   get sortingAscending():boolean { return this.sortingValue === 'asc'; }

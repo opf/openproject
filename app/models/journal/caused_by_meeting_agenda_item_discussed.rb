@@ -28,23 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class Participants::BoxHeaderComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpenProject::FormTagHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
-    def initialize(meeting:)
-      super
-
-      @meeting = meeting
-    end
-
-    private
-
-    def show_mark_all_attended?
-      !@meeting.participants.all?(&:attended?) && @meeting.in_progress?
-    end
+class Journal::CausedByMeetingAgendaItemDiscussed < CauseOfChange::Base
+  def initialize(meeting)
+    super("meeting_agenda_item_discussed", "meeting_id" => meeting.id)
   end
 end

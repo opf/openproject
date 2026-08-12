@@ -43,6 +43,11 @@ RSpec.describe Wikis::PageSearchService do
   let(:search_pages) do
     instance_double(Wikis::Adapters::Providers::XWiki::Queries::SearchPages, call: search_pages_result)
   end
+  let(:search_wikis) do
+    instance_double(Wikis::Adapters::Providers::XWiki::Queries::SearchWikis, call: search_wikis_result)
+  end
+  let(:wikis) { [] }
+  let(:search_wikis_result) { Success(wikis) }
 
   let(:page_info) { new_page_info(identifier: "42", title: "E-11 Training program", href: "#", provider:) }
   let(:page_info_result) { Success(page_info) }
@@ -72,6 +77,10 @@ RSpec.describe Wikis::PageSearchService do
     Wikis::Adapters::Registry.stub(
       "xwiki.queries.search_pages",
       class_double(Wikis::Adapters::Providers::XWiki::Queries::SearchPages, new: search_pages)
+    )
+    Wikis::Adapters::Registry.stub(
+      "xwiki.queries.search_wikis",
+      class_double(Wikis::Adapters::Providers::XWiki::Queries::SearchWikis, new: search_wikis)
     )
   end
 
@@ -159,6 +168,58 @@ RSpec.describe Wikis::PageSearchService do
         expect(page_node.type).to eq(:page)
         expect(page_node.identifier).to eq(page.identifier)
         expect(page_node.enabled).to be_truthy
+      end
+    end
+
+    context "if a wiki is matched by its own name" do
+      let(:matched_wiki) { new_wiki(identifier: "9", provider:, name: "Demo project", href: "#") }
+      let(:wikis) { [matched_wiki] }
+      let(:page_hierarchies) { [] }
+
+      it "passes the search term along" do
+        subject
+        expect(search_wikis).to have_received(:call).with(input_data: having_attributes(query:), auth_strategy: anything)
+      end
+
+      it "adds it as a standalone wiki node with no pages" do
+        expect(subject).to be_success
+        search_results = subject.value!
+
+        expect(search_results.size).to eq(1)
+        expect(search_results[0].type).to eq(:wiki)
+        expect(search_results[0].identifier).to eq(matched_wiki.identifier)
+        expect(search_results[0].children).to be_empty
+      end
+    end
+
+    context "if a wiki is matched both by its name and through one of its pages" do
+      let(:wiki) { new_wiki(identifier: "1", provider:, name: "Death Star", href: "#") }
+      let(:wikis) { [wiki] }
+      let(:page_hierarchies) do
+        [
+          new_page_hierarchy(
+            page: new_page_info(identifier: "42", title: "E-11 Training program", href: "#", provider:),
+            ancestors: [],
+            wiki:
+          )
+        ]
+      end
+
+      it "inserts the wiki only once and keeps its page" do
+        expect(subject).to be_success
+        search_results = subject.value!
+
+        expect(search_results.size).to eq(1)
+        expect(search_results[0].identifier).to eq(wiki.identifier)
+        expect(search_results[0].children.map(&:identifier)).to eq(["42"])
+      end
+    end
+
+    context "if searching for wikis fails" do
+      let(:search_wikis_result) { Failure(SimpleError.new(code: :unexpected, source: self)) }
+
+      it "returns that error" do
+        expect(subject).to eq(search_wikis_result)
       end
     end
 

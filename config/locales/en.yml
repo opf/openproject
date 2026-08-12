@@ -1044,6 +1044,7 @@ en:
           heading: "Make this comment public?"
           title: "Make this comment public?"
         internal_journal: Internal comments are visible to a limited group of members.
+        label_activity_hide_meetings: "Hide meetings updates"
         label_activity_show_all: "Show everything"
         label_activity_show_only_changes: "Show changes only"
         label_activity_show_only_comments: "Show comments only"
@@ -2992,6 +2993,16 @@ en:
         field_updated: "%{field} updated"
         header: "changes by %{author}"
         set_with_diff: "%{field} set (%{link})"
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: "backlog for meeting series %{link}"
+      meeting_series_template: "template for meeting series %{link}"
+      meeting_template: "meeting template %{link}"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
@@ -3036,6 +3047,14 @@ en:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       import: "Imported"
+      meeting_agenda_item_added: "Added to meeting"
+      meeting_agenda_item_added_template: "Added to"
+      meeting_agenda_item_discussed: "Discussed in meeting"
+      meeting_agenda_item_moved: "Moved to meeting"
+      meeting_agenda_item_moved_template: "Moved to"
+      meeting_agenda_item_removed: "Removed from meeting"
+      meeting_agenda_item_removed_template: "Removed from"
+      meeting_outcome_recorded: "Added as outcome in meeting"
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
@@ -3565,7 +3584,7 @@ en:
   label_project_hide_details: "Hide project details"
   label_project_hierarchy: "Project hierarchy"
   label_project_identifier: "Project identifier"
-  label_project_initiation_export_pdf: "Export PDF for %{project_creation_name}"
+  label_project_initiation_export_pdf: "Export %{project_creation_name} as PDF"
   label_project_latest: "Latest projects"
   label_project_life_cycle: "Project life cycle"
   label_project_list_plural: "Project lists"
@@ -3677,7 +3696,7 @@ en:
   label_subitems: "Subitems"
   label_subject_or_id: "Subject or ID"
   label_subproject: "Subproject"
-  label_subproject_new: "New subproject"
+  label_subproject_add: "Add subproject"
   label_subproject_plural: "Subprojects"
   label_subtask_plural: "Subtasks"
   label_summary: "Summary"
@@ -4895,7 +4914,8 @@ en:
   project:
     archive:
       archived: "Archived"
-      are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      confirmation_heading: "Are you sure you want to continue?"
+      confirmation_message: "Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored."
       title: "Archive project"
     count:
       one: "1 project"
@@ -6198,6 +6218,7 @@ en:
           actions:
             label_disable_all: "Disable all"
             label_enable_all: "Enable all"
+            label_toggle_template: "Toggle %{template}"
           label: "PDF Export templates"
         tab: "Generate PDF"
         templates:

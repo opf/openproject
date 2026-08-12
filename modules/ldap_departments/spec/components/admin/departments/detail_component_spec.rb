@@ -2,7 +2,7 @@
 
 require_relative "../../../spec_helper"
 
-RSpec.describe Admin::Departments::DetailBlankslateComponent, type: :component do
+RSpec.describe Admin::Departments::DetailComponent, type: :component do
   let(:department) { create(:department, lastname: "IT") }
 
   context "when the department is not managed by LDAP" do

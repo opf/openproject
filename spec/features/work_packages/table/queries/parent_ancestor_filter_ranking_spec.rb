@@ -73,7 +73,7 @@ RSpec.describe "Work package filtering by Parent/Ancestor ranks exact matches fi
     filters.add_filter("Parent")
 
     dropdown = search_autocomplete(page.find_by_id("values-parent"),
-                                   query: "PARENTFILTER-5",
+                                   query: "#PARENTFILTER-5",
                                    results_selector: "body")
 
     within(dropdown) do
@@ -87,7 +87,7 @@ RSpec.describe "Work package filtering by Parent/Ancestor ranks exact matches fi
     filters.add_filter("Descendants of")
 
     dropdown = search_autocomplete(page.find_by_id("values-ancestor"),
-                                   query: "PARENTFILTER-5",
+                                   query: "#PARENTFILTER-5",
                                    results_selector: "body")
 
     within(dropdown) do
