@@ -61,7 +61,7 @@ module Projects
 
       set_default_public(attribute_keys.include?("public"))
       set_default_module_names(attribute_keys.include?("enabled_module_names"))
-      set_default_types(attribute_keys.intersect?(%w[type_ids project_types]))
+      set_default_types(attribute_keys.intersect?(%w[types type_ids project_types]))
       set_default_active_work_package_custom_fields(attribute_keys.include?("work_package_custom_fields"))
       set_default_show_work_package_attachments(attribute_keys.include?("deactivate_work_package_attachments"))
     end
@@ -79,9 +79,22 @@ module Projects
     end
 
     def set_default_types(provided)
-      # TODO: should go through Projects::Types::AddService, which owns the family conflict
-      # rules and enables the types' work package custom fields.
-      model.types = ::Type.default if !provided && model.types.empty?
+      return if provided || model.project_types.any?
+
+      model.project_types = default_project_types
+    end
+
+    # Rows rather than Project#types, which cannot name the variant a family resolves to.
+    # A default variant means its whole family is enabled in new projects, so it becomes the
+    # variant of the family's row instead of a row of its own.
+    def default_project_types
+      ::Type.default.group_by(&:root_id).map do |root_id, family|
+        ProjectType.new(type_id: root_id, variant: default_variant(family))
+      end
+    end
+
+    def default_variant(family)
+      family.find(&:variant?) if OpenProject::FeatureDecisions.type_variants_active?
     end
 
     def set_default_active_work_package_custom_fields(provided)
@@ -89,8 +102,14 @@ module Projects
 
       model.work_package_custom_fields = WorkPackageCustomField
         .joins(:types)
-        .where(types: { id: model.type_ids })
+        .where(types: { id: effective_type_ids })
         .distinct
+    end
+
+    # The variant a family resolves to owns the form configuration in force, so its fields are
+    # the ones to activate. Read off the rows because Project#types yields the roots only.
+    def effective_type_ids
+      model.project_types.filter_map { |project_type| project_type.variant_id || project_type.type_id }
     end
 
     def status_code_provided?(params)

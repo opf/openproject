@@ -208,13 +208,15 @@ module Import
         uses_existing = false
       end
 
-      # TODO: should go through Projects::Types::AddService. Writing from the type side sets
-      # project_types.type_id directly, bypassing ProjectType#type=, so it cannot enable a
-      # variant — it would build a row whose type is not a root.
-      type.projects << project unless type.projects.include?(project)
+      enable_type(project, type)
       jira_issue_type = Import::JiraIssueType.find_by!(jira_issue_type_id: issue_type["id"], jira_id: @jira_id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
+    end
+
+    def enable_type(project, type)
+      service_call = Projects::Types::AddService.new(user: @system_user, model: project).call(type:)
+      raise service_call.message if service_call.failure?
     end
 
     def import_status(jira_issue)

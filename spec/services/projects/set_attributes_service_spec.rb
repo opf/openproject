@@ -226,7 +226,7 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
 
           it "does not alter the types" do
-            expect(subject.result.types)
+            expect(subject.result.project_types.map(&:type))
               .to match_array other_types
           end
 
@@ -236,15 +236,68 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
         end
 
+        context "with a value for project_types provided" do
+          let(:other_types) { [create(:type)] }
+          let(:call_attributes) do
+            {
+              project_types: other_types.map { |type| ProjectType.new(type:) }
+            }
+          end
+
+          it "does not alter the types" do
+            expect(subject.result.project_types.map(&:type))
+              .to match_array other_types
+          end
+
+          include_examples "setting custom field defaults" do
+            let(:types) { other_types }
+          end
+        end
+
         context "with no value for types provided" do
           it "sets the default types" do
-            expect(subject.result.types)
-              .to match_array default_types
+            expect(subject.result.project_types.map(&:type_id))
+              .to match_array default_types.map(&:id)
+          end
+
+          it "does not resolve a variant" do
+            expect(subject.result.project_types.map(&:variant_id))
+              .to all(be_nil)
           end
 
           include_examples "setting custom field defaults" do
             let(:default_types) { [create(:type)] }
             let(:types) { default_types }
+          end
+        end
+
+        context "with a variant being the default", with_flag: { type_variants: true } do
+          let(:root) { create(:type) }
+          let(:variant) { create(:type, parent: root, is_default: true) }
+          let(:default_types) { [variant] }
+
+          it "enables the family and resolves it to the variant" do
+            expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
+              .to contain_exactly([root.id, variant.id])
+          end
+
+          context "with the variant feature being inactive", with_flag: { type_variants: false } do
+            it "enables the family without resolving it to the variant" do
+              expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
+                .to contain_exactly([root.id, nil])
+            end
+          end
+        end
+
+        context "with the root and one of its variants being the default",
+                with_flag: { type_variants: true } do
+          let(:root) { create(:type, is_default: true) }
+          let(:variant) { create(:type, parent: root, is_default: true) }
+          let(:default_types) { [root, variant] }
+
+          it "enables the family once, resolved to the variant" do
+            expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
+              .to contain_exactly([root.id, variant.id])
           end
         end
 
@@ -256,7 +309,7 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
 
           it "does not alter the types modules" do
-            expect(subject.result.types.map(&:name))
+            expect(subject.result.project_types.map { |pt| pt.type.name })
               .to match_array %w(lorem)
           end
 
