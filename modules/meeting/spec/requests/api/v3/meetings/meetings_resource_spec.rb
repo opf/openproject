@@ -366,6 +366,57 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
         subject { last_response }
       end
     end
+
+    context "when updating the notify flag" do
+      let(:meeting) { create(:meeting, project:, author: current_user, notify: false) }
+      let(:body) do
+        {
+          notify: true,
+          lockVersion: meeting.lock_version
+        }.to_json
+      end
+
+      it "updates the notify flag" do
+        expect(meeting.notify).to be(false)
+
+        response
+
+        expect(response).to have_http_status(:ok)
+        expect(meeting.reload.notify).to be(true)
+        expect(response.body).to be_json_eql(true.to_json).at_path("notify")
+      end
+    end
+
+    context "when exiting draft mode with notifications enabled" do
+      let(:participant) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:meeting) do
+        create(:meeting, project:, author: current_user, state: :draft, notify: false).tap do |m|
+          create(:meeting_participant, meeting: m, user: participant, invited: true)
+        end
+      end
+      let(:body) do
+        {
+          state: "open",
+          notify: true,
+          lockVersion: meeting.lock_version
+        }.to_json
+      end
+
+      before { ActionMailer::Base.deliveries.clear }
+
+      it "sends invitation mails to the invited participants" do
+        expect(meeting.state).to eq("draft")
+        expect(ActionMailer::Base.deliveries).to be_empty
+
+        perform_enqueued_jobs { response }
+
+        expect(last_response).to have_http_status(:ok)
+        expect(meeting.reload.state).to eq("open")
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(participant.mail)
+      end
+    end
   end
 
   describe "DELETE /api/v3/meetings/:id" do

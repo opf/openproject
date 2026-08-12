@@ -29,5 +29,30 @@
 
 module Meetings
   class UpdateService < ::BaseServices::Update
+    protected
+
+    def after_perform(call)
+      send_invitation_mails(call.result) if call.success?
+
+      super
+    end
+
+    def send_invitation_mails(meeting)
+      return if meeting.recurring? || meeting.template?
+      return unless meeting.notify?
+      return unless exiting_draft?(meeting) || enabling_notifications?(meeting)
+
+      MeetingNotificationService.new(meeting).call(:invited)
+    end
+
+    def exiting_draft?(meeting)
+      meeting.saved_change_to_state? &&
+        meeting.open? &&
+        meeting.state_before_last_save.to_s == "draft"
+    end
+
+    def enabling_notifications?(meeting)
+      meeting.saved_change_to_notify? && meeting.notify?
+    end
   end
 end
