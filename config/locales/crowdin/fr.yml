@@ -3517,7 +3517,7 @@ fr:
   label_top_menu: Menu du haut
   label_topic_plural: Sujets
   label_total: Total
-  label_total_days_off: Nombre total de jours de congé
+  label_total_days_off: Total des jours non travailés
   label_total_global_non_working_days: Jours non travaillés généraux
   label_total_user_non_working_times: Jours non travaillés personnels
   label_type_new: Nouveau type
