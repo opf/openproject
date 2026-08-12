@@ -27,11 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t("backlogs.sprint_reports.page_header_component.title", sprint: @sprint.name) %>
-
-<%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
-
-<%= render(Grids::WidgetGridComponent.new) do |grid| %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::Goal, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
-<% end %>
+<%=
+  widget_wrapper do |container|
+    container.with_body do
+      render(Primer::Beta::Text.new(tag: :p, mb: 0)) { goal_text }
+    end
+  end
+%>
