@@ -128,7 +128,7 @@ RSpec.describe "API v3 Work package resource",
           {
             typeahead: {
               operator: "**",
-              values: "COM-5"
+              values: "#COM-5"
             }
           }
         ]
