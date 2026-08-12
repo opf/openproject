@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Sprint and backlog bucket journal activity permissions", :js,
+RSpec.describe "Backlog journal activity on the work package activity page", :js,
                with_settings: { journal_aggregation_time_minutes: 0 } do
   shared_let(:project) { create(:project) }
   shared_let(:sprint) { create(:sprint, name: "Sprint 1", project:) }
@@ -67,7 +67,8 @@ RSpec.describe "Sprint and backlog bucket journal activity permissions", :js,
 
       expect(page).to have_no_text("Sprint 1")
       expect(page).to have_no_text("Bucket 1")
-      expect(page).to have_text(I18n.t(:text_journal_permission_denied))
+      # count: 3, because the sprint was also unassigned.
+      expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 3)
     end
   end
 end

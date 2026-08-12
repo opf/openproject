@@ -75,10 +75,11 @@ RSpec.describe "WorkPackage backlog_bucket association journaling", # rubocop:di
     work_package_with_bucket.update!(backlog_bucket: bucket2)
 
     last_journal = work_package_with_bucket.journals.last
-    formatted = last_journal.render_detail("backlog_bucket_id", html: false)
+    result = last_journal.render_detail("backlog_bucket_id", html: false)
 
-    expect(formatted).to include("Bucket 1")
-    expect(formatted).to include("Bucket 2")
+    expect(result).to include("Bucket 1")
+    expect(result).to include("Bucket 2")
+    expect(result).not_to include(I18n.t(:text_journal_permission_denied))
   end
 
   context "when user lacks :view_sprints permission" do
@@ -87,15 +88,19 @@ RSpec.describe "WorkPackage backlog_bucket association journaling", # rubocop:di
 
     it "renders a permission denied message instead of the bucket name" do
       last_journal = work_package_with_bucket.journals.last
+
       result = last_journal.render_detail("backlog_bucket_id", html: true)
+
       expect(result).to include(I18n.t(:text_journal_permission_denied))
       expect(result).not_to include("Bucket 1")
     end
 
     it "renders a permission denied message in plain text" do
       last_journal = work_package_with_bucket.journals.last
-      expect(last_journal.render_detail("backlog_bucket_id", html: false))
-        .to include(I18n.t(:text_journal_permission_denied))
+
+      result = last_journal.render_detail("backlog_bucket_id", html: false)
+      expect(result).to include(I18n.t(:text_journal_permission_denied))
+      expect(result).not_to include("Bucket 1")
     end
   end
 end

@@ -64,7 +64,8 @@ RSpec.describe "Backlog journal activity on the project activity page", :js,
 
       activity_page.expect_no_activity("Sprint 1")
       activity_page.expect_no_activity("Bucket 1")
-      expect(page).to have_text(I18n.t(:text_journal_permission_denied))
+      # count: 3, because the sprint was also unassigned.
+      expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 3)
     end
   end
 end
