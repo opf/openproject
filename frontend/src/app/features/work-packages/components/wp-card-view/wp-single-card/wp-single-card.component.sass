@@ -39,8 +39,9 @@
   &_ghosted
     opacity: 0.5
 
-  // Selected and closed tie with the hover rule above on specificity, so they
-  // have to stay below it to win.
+  // Some state selectors below need to override the base :hover rule above.
+  // Keep them after `&:hover` so equal-specificity selectors (e.g. `&_selected:hover`)
+  // and the closed selector can win via source order.
   &_selected
     --op-wp-single-card-bg-color: var(--box-list-item-selected-bg-color)
     border-color: var(--box-list-item-selected-border-color)
