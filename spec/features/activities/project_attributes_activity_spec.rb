@@ -145,6 +145,12 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
     let!(:admin_only_comment_cf) do
       create(:string_project_custom_field, :has_comment, :admin_only, projects: [cf_project])
     end
+    # Deleted after being changed: its journal entries can no longer resolve a CustomField record.
+    # Deleting the custom field also cascades to its project mapping, so the journal diffing query
+    # (which joins against the project's *current* custom field mappings) drops the change entirely,
+    # even for admins. The change shows up as retracted for everyone for now; this is a known
+    # limitation to be addressed separately.
+    let!(:deleted_cf) { create(:string_project_custom_field, projects: [cf_project]) }
     let(:activity_page) { Pages::Projects::Activity.new(cf_project) }
 
     let(:user_without_cf_permission) do
@@ -163,6 +169,8 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
       cf_project.update!(custom_field_values: { "#{admin_only_cf.id}": "changed admin value" })
       cf_project.update!(custom_comments: { admin_only_comment_cf.id => "initial admin comment" })
       cf_project.update!(custom_comments: { admin_only_comment_cf.id => "updated admin comment" })
+      cf_project.update!(custom_field_values: { "#{deleted_cf.id}": "value before deletion" })
+      deleted_cf.destroy
     end
 
     context "when the user lacks view_project_attributes" do
@@ -176,14 +184,15 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
         expect(page).to have_no_text(comment_cf.name)
         expect(page).to have_no_text(admin_only_cf.name)
         expect(page).to have_no_text(admin_only_comment_cf.name)
-        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 5)
       end
     end
 
     context "when the user has view_project_attributes but is not an admin" do
       current_user { user_with_cf_permission }
 
-      it "shows the regular custom field and comment, but withholds the admin_only ones" do
+      it "shows the regular custom field and comment, but withholds the admin_only ones " \
+         "and the deleted one" do
         activity_page.visit!
         activity_page.show_details
 
@@ -191,14 +200,15 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
         expect(page).to have_text(comment_cf.name)
         expect(page).to have_no_text(admin_only_cf.name)
         expect(page).to have_no_text(admin_only_comment_cf.name)
-        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 5)
       end
     end
 
     context "when the user is an admin" do
       current_user { create(:admin) }
 
-      it "shows every custom field and comment change, including admin_only ones" do
+      it "shows every custom field and comment change, including admin_only ones, but still " \
+         "retracts the deleted one" do
         activity_page.visit!
         activity_page.show_details
 
@@ -206,7 +216,10 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
         expect(page).to have_text(comment_cf.name)
         expect(page).to have_text(admin_only_cf.name)
         expect(page).to have_text(admin_only_comment_cf.name)
-        expect(page).to have_no_text(I18n.t(:"journals.changes_retracted"))
+        # TODO: Once deleted custom field journals are displayed correctly,
+        # the following expectations should be swapped out:
+        # expect(page).to have_text(I18n.t(:label_deleted_custom_field))
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 1)
       end
     end
   end
