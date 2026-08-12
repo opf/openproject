@@ -44,9 +44,9 @@ export type ICKEditorType = 'full'|'constrained';
 //   'none' / false → no macros (dropdown hidden)
 //   'resource'     → ToC, embedded table, WP button/quickinfo (+ wiki links when available)
 //   'wiki'         → only the wiki links, and only when a provider is available (else none)
-//   'full' / true  → keep every macro the build ships, regardless of wiki availability
+//   true           → keep every macro the build ships, regardless of wiki availability
 //   string[]       → exactly these macro plugin names (+ wiki links when available)
-export type ICKEditorMacroType = 'none'|'resource'|'full'|'wiki'|boolean|string[];
+export type ICKEditorMacroType = 'none'|'resource'|'wiki'|boolean|string[];
 
 // What the CKEditor build consumes: false = none, true = all, array = exactly these.
 export type ICKEditorResolvedMacros = boolean|string[];
@@ -256,7 +256,7 @@ export class CKEditorSetupService {
     if (!resolved || resolved === 'none') {
       return false;
     }
-    if (resolved === true || resolved === 'full') {
+    if (resolved === true) {
       return true;
     }
     if (resolved === 'resource') {
