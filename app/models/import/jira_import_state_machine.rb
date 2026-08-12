@@ -100,9 +100,9 @@ module Import
 
     after_transition(to: :importing) do |jira_import, transition|
       if jira_import.import_batch_id.nil?
-        batch = GoodJob::Batch.enqueue(on_success: Import::BatchJob,
-                                       on_finish: Import::BatchJob::FinishCallbackJob,
-                                       on_discard: Import::BatchJob::DiscardCallbackJob,
+        batch = GoodJob::Batch.enqueue(on_success: Import::JiraStagedImportJob,
+                                       on_finish: Import::JiraStagedImportJob::FinishCallbackJob,
+                                       on_discard: Import::JiraStagedImportJob::DiscardCallbackJob,
                                        jira_import_id: jira_import.id,
                                        stage: nil)
         jira_import.update_column(:import_batch_id, batch.id)

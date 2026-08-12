@@ -29,7 +29,7 @@
 #++
 
 module Import
-  class BatchJob < ApplicationJob
+  class JiraStagedImportJob < ApplicationJob
     class FinishCallbackJob < ApplicationJob
       def perform(batch, context)
         jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
@@ -61,51 +61,51 @@ module Import
       when :success
         if batch.properties[:stage].nil?
           batch.enqueue(stage: 1) do
-            Import::JiraFetchIssueTypesJob.perform_later(jira_import.id)
-            Import::JiraFetchPrioritiesJob.perform_later(jira_import.id)
-            Import::JiraFetchStatusesJob.perform_later(jira_import.id)
-            Import::JiraFetchProjectsJob.perform_later(jira_import.id)
+            Import::JiraFetchIssueTypesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
+            Import::JiraFetchPrioritiesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
+            Import::JiraFetchStatusesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
+            Import::JiraFetchProjectsJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 1
           batch.enqueue(stage: 2) do
             Import::JiraProject.where(jira_id: jira_import.jira_id,
                                       jira_project_id: jira_import.project_ids).pluck(:id).each do |jira_project_id|
-              Import::JiraFetchProjectIssuesJob.perform_later(jira_import.id, jira_project_id)
+              Import::JiraFetchProjectIssuesJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, jira_project_id)
             end
           end
         elsif batch.properties[:stage] == 2
           batch.enqueue(stage: 3) do
-            Import::JiraFetchUsersJob.perform_later(jira_import.id)
-            Import::JiraFetchCustomFieldJob.perform_later(jira_import.id)
+            Import::JiraFetchUsersJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
+            Import::JiraFetchCustomFieldJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 3
           batch.enqueue(stage: 4) do
-            Import::JiraCreateUsersJob.perform_later(jira_import.id)
+            Import::JiraCreateUsersJob.set(good_job_labels: ["stage_4"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 4
           batch.enqueue(stage: 5) do
-            Import::JiraCreateProjectRoleJob.perform_later(jira_import.id)
-            Import::JiraCreateCustomFieldsJob.perform_later(jira_import.id)
+            Import::JiraCreateProjectRoleJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
+            Import::JiraCreateCustomFieldsJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 5
           batch.enqueue(stage: 6) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       jira_project_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectJob.perform_later(jira_import.id, jira_project.id)
+              Import::JiraCreateProjectJob.set(good_job_labels: ["stage_6"]).perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 6
           batch.enqueue(stage: 7) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       jira_project_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectWorkPackagesJob.perform_later(jira_import.id, jira_project.id)
+              Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_7"]).perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 7
           batch.enqueue(stage: 8) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       jira_project_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectWorkPackageAttachmentsJob.perform_later(jira_import.id, jira_project.id)
+              Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_8"]).perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 8

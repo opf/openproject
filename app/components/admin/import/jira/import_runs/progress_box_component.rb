@@ -35,7 +35,6 @@ module Admin::Import::Jira::ImportRuns
     def initialize(message:, abort_path: nil, **system_arguments)
       super
       @message = message
-      @abort_path = abort_path
       @system_arguments = system_arguments
     end
   end

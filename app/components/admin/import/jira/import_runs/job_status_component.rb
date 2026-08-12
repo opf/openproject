@@ -40,40 +40,41 @@ module Admin::Import::Jira::ImportRuns
 
     # rubocop:disable Metrics/AbcSize
     def call
-      render(Primer::Box.new) do
-        case @job.status
-        when :running
-          concat(render(Primer::Beta::Octicon.new(icon: :"kebab-horizontal", color: :muted)))
-        when :queued,
-          :retried,
-          :scheduled
-          concat(render(Primer::Beta::Octicon.new(icon: :clock, color: :muted)))
-        when :succeeded
-          concat(render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)))
-        when :discarded
-          concat(render(Primer::Beta::Octicon.new(icon: :"x-circle-fill", color: :danger)))
-        end
-        concat(render(Primer::Beta::Text.new(ml: 2)) { @active_job.text })
-        if @job.status == :discarded
-          concat(render(Primer::OpenProject::CollapsibleSection.new(collapsed: true)) do |section|
-            section.with_title { @job.error }
-
-            section.with_collapsible_content do
-              Array(@job.executions.order(created_at: :desc).limit(1).pick(:error_backtrace)).each do |backtrace_line|
-                concat(render(Primer::Beta::Text.new(tag: :p)) { backtrace_line })
+      flex_layout(style: "gap: 8px;") do |flex|
+        flex.with_row do
+          render(Primer::Box.new(display: :flex, align_items: :center, justify_content: :space_between)) do
+            concat(render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px;")) do
+              concat(render(Primer::Beta::Text.new(font_weight: :bold)) { @active_job.text })
+              # concat(render(Primer::Beta::Text.new) { "(36/45)" })
+            end)
+            concat(render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px;")) do
+              case @job.status
+              when :running
+                concat(render(Primer::Beta::Octicon.new(icon: :"kebab-horizontal", color: :muted)))
+              when :queued, :retried, :scheduled
+                concat(render(Primer::Beta::Octicon.new(icon: :clock, color: :muted)))
+              when :succeeded
+                concat(render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)))
+              when :discarded
+                concat(render(Primer::Beta::Octicon.new(icon: :"x-circle-fill", color: :danger)))
               end
-            end
-          end)
+              concat(
+                render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |c|
+                percentage = if @job.status == :succeeded
+                               100
+                             elsif @active_job.respond_to?(:percentage)
+                               @active_job.percentage
+                             else
+                               0
+                             end
+                c.with_item(percentage:)
+              end
+              )
+            end)
+          end
         end
-        if @active_job.respond_to?(:percentage)
-          concat(
-            render(Primer::Beta::ProgressBar.new(size: :default)) do |component|
-              component.with_item(percentage: @job.status == :succeeded ? 100 : @active_job.percentage)
-            end
-          )
-        end
+        # rubocop:enable Metrics/AbcSize
       end
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

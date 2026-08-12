@@ -74,7 +74,7 @@ RSpec.shared_context "with jira project import data" do
     Import::JiraCreateProjectWorkPackageAttachmentsJob.perform_now(jira_import.id, jira_project.id)
   end
 
-  # Runs every per-project stage of the import in the order Import::BatchJob enqueues them.
+  # Runs every per-project stage of the import in the order Import::JiraStagedImportJob enqueues them.
   def import_project
     create_project_role
     create_project

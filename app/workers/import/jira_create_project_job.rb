@@ -45,7 +45,13 @@ module Import
           @system_user = User.system
           jira_project = Import::JiraProject.find(jira_project_id)
 
-          ActiveRecord::Base.transaction { create_project(jira_project) }
+
+          # Needed to avoid project.lft and project.rgt corruption due to race condition
+          # when multiple projects are created at the same time.
+          lock_key = "jira_import_#{jira_import_id}_create_project"
+          OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
+            create_project(jira_project)
+          end
         end
       end
     end

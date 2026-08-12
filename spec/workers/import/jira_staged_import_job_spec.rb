@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Import::BatchJob do
+RSpec.describe Import::JiraStagedImportJob do
   let(:jira) { create(:jira) }
   let(:author) { create(:user) }
   let(:jira_import) { create(:jira_import, jira:, author:) }
