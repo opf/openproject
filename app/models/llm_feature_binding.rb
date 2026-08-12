@@ -36,9 +36,19 @@
 class LlmFeatureBinding < ApplicationRecord
   belongs_to :llm_connection
 
+  # Settings that describe how vectors are written, and so only mean anything
+  # for an embedding feature.
+  EMBEDDING_SETTINGS = %i[dimensions input_prefix query_prefix].freeze
+
+  # Everything a stored index depends on. Changing any of it invalidates the
+  # vectors already written, not just the model.
+  LOCKED_SETTINGS = ([:model_id] + EMBEDDING_SETTINGS).freeze
+
   validates :feature_key, presence: true, uniqueness: { scope: :llm_connection_id }
+  validates :dimensions, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validate :feature_registered
-  validate :pinned_model_unchanged
+  validate :embedding_settings_only_for_embedding_features
+  validate :locked_settings_unchanged
 
   def feature
     OpenProject::Llm::Features[feature_key]
@@ -77,12 +87,37 @@ class LlmFeatureBinding < ApplicationRecord
     errors.add(:feature_key, :not_registered)
   end
 
+  def embedding_settings_only_for_embedding_features
+    return if feature.nil? || feature.embedding?
+
+    EMBEDDING_SETTINGS.each do |attribute|
+      next if public_send(attribute).blank?
+
+      errors.add(attribute, :not_for_chat_feature)
+    end
+  end
+
   # Vectors written under one embedding model are meaningless under another, and
   # the dimension count is baked into the index, so a locked binding can only be
   # changed by an explicit re-index.
-  def pinned_model_unchanged
-    return unless locked? && model_id_changed?
+  #
+  # The prefixes are locked for the same reason and matter just as much: an index
+  # built with "passage: " but queried under a different prefix does not error,
+  # it quietly returns worse results, which is the hardest kind of failure to
+  # notice.
+  #
+  # TODO(#69620): re-indexing is what clears locked_at. Until that job exists a
+  # locked binding can only be changed in the database.
+  def locked_settings_unchanged
+    # Only constrains later edits. On the save that records the lock -- and on
+    # create -- every attribute reads as changed from nil, and there is nothing
+    # indexed yet for them to contradict.
+    return unless locked? && locked_at_was.present?
 
-    errors.add(:model_id, :locked)
+    LOCKED_SETTINGS.each do |attribute|
+      next unless public_send(:"#{attribute}_changed?")
+
+      errors.add(attribute, :locked)
+    end
   end
 end

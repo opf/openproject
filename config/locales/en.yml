@@ -211,8 +211,10 @@ en:
       llm_feature_binding:
         dimensions: "Dimensions"
         feature_key: "Feature"
+        input_prefix: "Document prefix"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix.
         model: "Model"
+        query_prefix: "Query prefix"
       llm_connection:
         api_format: "API format"
         api_key: "API key"
@@ -684,6 +686,15 @@ en:
               not_registered: "does not belong to a known AI feature."
             model_id:
               locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
+            dimensions:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
+              not_for_chat_feature: "only applies to features that create embeddings."
+            input_prefix:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
+              not_for_chat_feature: "only applies to features that create embeddings."
+            query_prefix:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
+              not_for_chat_feature: "only applies to features that create embeddings."
         llm_connection:
           attributes:
             api_format:
@@ -1431,6 +1442,12 @@ en:
 
     llm_feature_bindings:
       dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      form:
+        dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
+        dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
+        input_prefix_caption: "Prepended to each document before it is indexed. Some models expect one, for example \"passage: \" including the trailing space."
+        query_prefix_caption: "Prepended to each search query. Some models expect one, for example \"query: \" including the trailing space."
+      locked_values_heading: "Values fixed by the existing index"
       deactivated: "%{model} has been hidden by an administrator. This feature keeps using it, but it can no longer be chosen elsewhere."
       index:
         blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."

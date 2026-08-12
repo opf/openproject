@@ -65,6 +65,28 @@ module LlmConnections
 
     def dangling? = binding&.dangling?
 
+    # What the embeddings probe last saw, offered as information. Never filled
+    # into the field: the server decides the vector size at index time.
+    def probed_dimensions
+      return unless feature.embedding?
+
+      model_id = binding&.resolved_model_id
+      return if model_id.blank?
+
+      connection.capability_verdicts.for_model(model_id).for_capability(:embeddings).first&.dimensions
+    end
+
+    # Quoted so a trailing space -- load-bearing for the E5 and BGE families --
+    # is visible rather than invisible.
+    def locked_values
+      [
+        [LlmFeatureBinding.human_attribute_name(:model_id), binding.model_id],
+        [LlmFeatureBinding.human_attribute_name(:dimensions), binding.dimensions || "—"],
+        [LlmFeatureBinding.human_attribute_name(:input_prefix), binding.input_prefix.to_s.inspect],
+        [LlmFeatureBinding.human_attribute_name(:query_prefix), binding.query_prefix.to_s.inspect]
+      ]
+    end
+
     # Still resolvable, so not dangling -- but an administrator has hidden it
     # from the pickers, so say so rather than let the choice look unremarkable.
     def deactivated?

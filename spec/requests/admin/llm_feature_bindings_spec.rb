@@ -125,4 +125,61 @@ RSpec.describe "Admin AI model assignment", :llm_server_helpers, :skip_csrf, :we
       expect(response).to have_http_status(:not_found)
     end
   end
+
+  describe "embedding settings" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+
+    before do
+      login_as admin
+      # Binding an embedding feature probes the model for a vector.
+      mock_llm_embeddings_response(base_url)
+    end
+
+    it "stores the vector settings, keeping the prefixes exactly as typed" do
+      patch llm_feature_binding_path(:semantic_search),
+            params: { llm_feature_binding: { model_id: "bge-m3",
+                                             dimensions: "1024",
+                                             input_prefix: "passage: ",
+                                             query_prefix: "query: " } }
+
+      binding = connection.feature_bindings.find_by(feature_key: "semantic_search")
+
+      expect(binding.dimensions).to eq(1024)
+      # The trailing space is load-bearing for the E5 and BGE families.
+      expect(binding.input_prefix).to eq("passage: ")
+      expect(binding.query_prefix).to eq("query: ")
+    end
+
+    it "rejects a dimension count that is not a positive integer" do
+      patch llm_feature_binding_path(:semantic_search),
+            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "0" } }
+
+      expect(connection.feature_bindings.find_by(feature_key: "semantic_search")&.dimensions).to be_nil
+    end
+
+    it "ignores vector settings sent to a chat feature" do
+      patch llm_feature_binding_path(:description_assistant),
+            params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "1024" } }
+
+      binding = connection.feature_bindings.find_by(feature_key: "description_assistant")
+
+      expect(binding.model_id).to eq("qwen3.6-27b")
+      expect(binding.dimensions).to be_nil
+    end
+
+    # A locked binding is the record that a vector index exists. Everything the
+    # index depends on is frozen, not just the model.
+    it "refuses to change anything a locked index depends on" do
+      binding = connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
+                                                    dimensions: 1024, input_prefix: "passage: ",
+                                                    locked_at: Time.current)
+
+      patch llm_feature_binding_path(:semantic_search),
+            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "512", input_prefix: "other: " } }
+
+      binding.reload
+      expect(binding.dimensions).to eq(1024)
+      expect(binding.input_prefix).to eq("passage: ")
+    end
+  end
 end

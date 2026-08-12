@@ -33,12 +33,14 @@ module LlmConnections
   class FeatureBindingForm < ApplicationForm
     # Primer::Forms::Base.new assigns the builder itself and calls this with the
     # remaining keywords, so the builder must not appear in the signature.
-    def initialize(options:, inherit_label:, feature_key:, locked: false)
+    def initialize(options:, inherit_label:, feature_key:, locked: false, embedding: false, dimensions_hint: nil)
       super()
       @model_options = options
       @inherit_label = inherit_label
       @feature_key = feature_key
       @locked = locked
+      @embedding = embedding
+      @dimensions_hint = dimensions_hint
     end
 
     form do |f|
@@ -59,6 +61,37 @@ module LlmConnections
         end
       end
 
+      # Only for an embedding feature, and only while unlocked. A locked binding
+      # renders these as text instead: a disabled input submits nothing, so the
+      # values would arrive blank and wipe the columns.
+      if embedding && !locked
+        f.text_field(
+          name: :dimensions,
+          type: :number,
+          min: 1,
+          label: LlmFeatureBinding.human_attribute_name(:dimensions),
+          caption: dimensions_caption,
+          input_width: :small,
+          data: { test_selector: "llm-feature-binding--dimensions-#{feature_key}" }
+        )
+
+        f.text_field(
+          name: :input_prefix,
+          label: LlmFeatureBinding.human_attribute_name(:input_prefix),
+          caption: I18n.t("admin.llm_feature_bindings.form.input_prefix_caption"),
+          input_width: :medium,
+          data: { test_selector: "llm-feature-binding--input-prefix-#{feature_key}" }
+        )
+
+        f.text_field(
+          name: :query_prefix,
+          label: LlmFeatureBinding.human_attribute_name(:query_prefix),
+          caption: I18n.t("admin.llm_feature_bindings.form.query_prefix_caption"),
+          input_width: :medium,
+          data: { test_selector: "llm-feature-binding--query-prefix-#{feature_key}" }
+        )
+      end
+
       unless locked
         f.submit(
           name: :submit,
@@ -71,7 +104,16 @@ module LlmConnections
 
     private
 
-    attr_reader :model_options, :inherit_label, :feature_key, :locked
+    attr_reader :model_options, :inherit_label, :feature_key, :locked, :embedding, :dimensions_hint
+
+    # Blank is the right default: the server decides the vector size, and baking
+    # in a number it may contradict helps nobody. Where the probe has already
+    # seen a vector, its size is offered as information rather than filled in.
+    def dimensions_caption
+      return I18n.t("admin.llm_feature_bindings.form.dimensions_caption") if dimensions_hint.blank?
+
+      I18n.t("admin.llm_feature_bindings.form.dimensions_caption_probed", dimensions: dimensions_hint)
+    end
 
     def option_label(option)
       case option.state

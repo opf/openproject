@@ -66,8 +66,7 @@ module Admin
     end
 
     def assign(feature)
-      binding = binding_for(feature)
-      binding.model_id = params.dig(:llm_feature_binding, :model_id).presence
+      binding = build_binding(feature)
 
       if binding.save
         probe_capabilities(feature, binding)
@@ -75,6 +74,28 @@ module Admin
       else
         flash[:error] = binding.errors.full_messages.join(", ")
       end
+    end
+
+    def build_binding(feature)
+      binding = binding_for(feature)
+      binding.model_id = params.dig(:llm_feature_binding, :model_id).presence
+
+      # Only ever accepted for the kind of feature they describe; the model
+      # rejects them elsewhere, and they are not read at all for a chat feature.
+      assign_embedding_settings(binding) if feature.embedding?
+
+      binding
+    end
+
+    # The prefixes are stored exactly as typed. The trailing space in "passage: "
+    # is load-bearing for the E5 and BGE families, so stripping would silently
+    # degrade retrieval.
+    def assign_embedding_settings(binding)
+      settings = params.fetch(:llm_feature_binding, {})
+
+      binding.dimensions = settings[:dimensions].presence
+      binding.input_prefix = settings[:input_prefix]
+      binding.query_prefix = settings[:query_prefix]
     end
 
     # The verdict that actually matters is the one for the model an administrator

@@ -30,8 +30,23 @@
             options: model_options,
             inherit_label:,
             feature_key: feature.key,
-            locked: locked?
+            locked: locked?,
+            embedding: feature.embedding?,
+            dimensions_hint: probed_dimensions
           )
         ) %>
+  <% end %>
+
+  <% if locked? && feature.embedding? %>
+    <%# Rendered as text rather than disabled inputs: a disabled input submits
+        nothing, so the values would arrive blank and wipe the columns. %>
+    <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, mt: 2, mb: 1)) do %>
+      <%= t("admin.llm_feature_bindings.locked_values_heading") %>
+    <% end %>
+    <% locked_values.each do |label, value| %>
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 0)) do %>
+        <%= "#{label}: #{value}" %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
