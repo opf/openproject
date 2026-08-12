@@ -76,6 +76,9 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
   def define_type_variants_table
     create_table :type_variants do |t|
       t.references :type, null: false, foreign_key: { on_delete: :cascade }
+      # Unused as yet: project specific variants land in the next step, and the column is here
+      # so this table is not rewritten for them.
+      t.references :project, null: true, foreign_key: { on_delete: :cascade }
       t.string :variant_name
       t.boolean :is_default_variant, null: false, default: false
 
