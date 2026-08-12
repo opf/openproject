@@ -59,7 +59,39 @@ module Admin
       end
     end
 
+    def disconnect_dialog
+      respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
+    end
+
+    # Clears the credential and switches the connection off, keeping the endpoint,
+    # the catalogue and every feature binding. Deliberately not a destroy: the
+    # cascade would take the locked embedding bindings with it, and those are the
+    # only record that a vector index exists and what it was written with.
+    def disconnect
+      return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
+
+      @connection.update!(api_key: nil, enabled: false)
+      Llm::HealthCheckJob.toggle_cron_job
+
+      redirect_with_notice(t(".success"))
+    end
+
+    def delete_api_key_dialog
+      respond_with_dialog LlmConnections::DeleteApiKeyDialogComponent.new(@connection)
+    end
+
+    # Deliberately not routed through UpdateService. Its contract probes the
+    # server whenever credentials change, and a server that requires
+    # authentication would reject the now-keyless probe -- so going through the
+    # service would let a server refuse an administrator permission to remove a
+    # credential. Removing one must always be possible.
+    #
+    # The one thing the contract did give us is the environment guard, which is
+    # therefore checked explicitly here: without it a hand-crafted request could
+    # wipe a key the UI correctly refuses to touch.
     def delete_api_key
+      return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
+
       @connection.update!(api_key: nil)
 
       redirect_with_notice(t(".success"))

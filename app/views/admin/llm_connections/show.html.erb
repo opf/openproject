@@ -38,6 +38,47 @@ See COPYRIGHT and LICENSE files for more details.
        { href: mcp_configurations_path, text: t("menus.admin.ai") },
        t("menus.admin.llm_connection")]
     )
+
+    # Nothing here applies to a connection provisioned from the environment:
+    # those settings belong to the deployment, not to the administrator.
+    if @connection.persisted? && !@connection.configured_from_env?
+      header.with_action_menu(
+        menu_arguments: { anchor_align: :end },
+        button_arguments: {
+          icon: "kebab-horizontal",
+          "aria-label": t(:label_actions),
+          test_selector: "llm-connection--actions"
+        }
+      ) do |menu|
+        if @connection.api_key.present?
+          menu.with_item(
+            label: t("admin.llm_connections.delete_api_key.menu_label"),
+            scheme: :danger,
+            tag: :a,
+            href: delete_api_key_dialog_llm_connection_path,
+            content_arguments: {
+              data: { controller: "async-dialog" },
+              test_selector: "llm-connection--delete-api-key"
+            }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :key)
+          end
+        end
+
+        menu.with_item(
+          label: t("admin.llm_connections.disconnect.menu_label"),
+          scheme: :danger,
+          tag: :a,
+          href: disconnect_dialog_llm_connection_path,
+          content_arguments: {
+            data: { controller: "async-dialog" },
+            test_selector: "llm-connection--disconnect"
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"circle-slash")
+        end
+      end
+    end
   end
 %>
 

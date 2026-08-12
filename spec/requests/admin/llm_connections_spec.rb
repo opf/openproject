@@ -163,4 +163,110 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(LlmConnection.first.available_model_ids).to include("bge-m3")
     end
   end
+
+  describe "GET /admin/llm_connection/delete_api_key_dialog" do
+    let!(:connection) { create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test") }
+
+    before { login_as admin }
+
+    it "offers the confirmation" do
+      # Requested by the async-dialog Stimulus controller, which asks for a
+      # turbo stream rather than HTML.
+      get delete_api_key_dialog_llm_connection_path,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Remove the stored API key?")
+    end
+
+    # The catalogue sync fingerprints base_url and api_key together, so changing
+    # the key discards every verdict -- including hand-made ones, which nothing
+    # else throws away.
+    it "warns when hand-made capability assertions would be lost" do
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                             state: "supported", source: "admin",
+                                             checked_at: Time.current)
+
+      get delete_api_key_dialog_llm_connection_path,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response.body).to include("assertions you made yourself")
+    end
+  end
+
+  describe "DELETE /admin/llm_connection/api_key when provisioned" do
+    before { login_as admin }
+
+    it "clears the stored key and keeps everything else" do
+      connection = create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test")
+
+      delete api_key_llm_connection_path
+
+      expect(connection.reload.api_key).to be_blank
+      expect(connection.base_url).to eq("https://example.com/v1")
+    end
+
+    # Previously update! bypassed the contract, so this could be wiped by a
+    # hand-crafted request even though the UI never offers it.
+    it "refuses when the connection comes from the environment" do
+      connection = create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test")
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+
+      delete api_key_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
+    end
+  end
+
+  describe "disconnecting" do
+    let!(:connection) do
+      create(:llm_connection, :with_models, :enabled,
+             base_url: "https://example.com/v1", api_key: "sk-test")
+    end
+
+    before { login_as admin }
+
+    it "offers the confirmation, naming what is kept" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      get disconnect_dialog_llm_connection_path,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Disconnect from the LLM server?")
+      expect(response.body).to include("Description assistant")
+    end
+
+    # Disconnecting is reversible on purpose: destroying the connection would
+    # cascade to the models, the verdicts and every binding.
+    it "clears the credential and switches the connection off, keeping everything else" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      post disconnect_llm_connection_path
+
+      connection.reload
+      expect(connection.api_key).to be_blank
+      expect(connection).not_to be_enabled
+      expect(connection.base_url).to eq("https://example.com/v1")
+      expect(connection.models.count).to eq(2)
+      expect(connection.feature_bindings.first.model_id).to eq("qwen3.6-27b")
+    end
+
+    it "refuses when the connection comes from the environment" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+
+      post disconnect_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
+      expect(connection).to be_enabled
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      post disconnect_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
+    end
+  end
 end
