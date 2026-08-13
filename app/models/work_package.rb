@@ -260,12 +260,12 @@ class WorkPackage < ApplicationRecord
   # Human-readable label composed from the work package's type, id and subject.
   #
   # @param style [Symbol]
-  #   :heading => "Bug #42: Fix login" (non-standard type; type name omitted for standard types)
-  #   :caption => "Bug: Fix login (#42)" (type name always shown, even for standard types)
+  #   :heading => "Bug #42: Fix login"
+  #   :caption => "Bug: Fix login (#42)"
   # @return [String]
   def to_fs(style = :heading)
     case style
-    when :heading then "#{type&.name unless type&.is_standard} #{formatted_id}: #{subject}"
+    when :heading then "#{type&.name} #{formatted_id}: #{subject}"
     when :caption then "#{"#{type.name}: " if type}#{subject} (#{formatted_id})"
     else raise ArgumentError, "unknown format style: #{style.inspect}"
     end

@@ -237,7 +237,7 @@ RSpec.describe WorkPackageTypes::TypesController do
     describe "DELETE destroy" do
       let(:type) { create(:type, name: "My type") }
       let(:type2) { create(:type, name: "My type 2", projects: [project]) }
-      let(:type3) { create(:type, name: "My type 3", is_standard: true) }
+      let(:type3) { create(:type, name: "My type 3") }
 
       describe "successful destroy" do
         let(:params) { { "id" => type.id } }

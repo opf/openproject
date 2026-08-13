@@ -505,9 +505,6 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
     let!(:default_type) do
       create(:type, is_default: true)
     end
-    let!(:standard_type) do
-      Type.find_by(is_standard: true) || create(:type_standard)
-    end
     let!(:priority) do
       create(:priority)
     end

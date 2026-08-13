@@ -81,8 +81,6 @@ module WorkPackageTypes
       end
 
       def delete_link
-        return if model.is_standard?
-
         link_to(
           "",
           model,

@@ -79,10 +79,7 @@ module WorkPackageTypes
     end
 
     def destroy
-      # types cannot be deleted when they have work packages
-      # or they are standard types
-      # or they have variants
-      if @type.is_standard? || @type.work_packages.any?
+      if @type.work_packages.any?
         flash[:error] = destroy_error_message
       elsif @type.destroy
         flash[:notice] = I18n.t(:notice_successful_delete)
@@ -183,26 +180,22 @@ module WorkPackageTypes
     end
 
     def destroy_error_message
-      if @type.is_standard?
-        t(:error_can_not_delete_standard_type)
-      else
-        error_message = [
-          ApplicationController.helpers.sanitize(
-            t(:"error_can_not_delete_type.explanation", url: belonging_wps_url(@type.id)),
-            attributes: %w(href target)
-          )
-        ]
+      error_message = [
+        ApplicationController.helpers.sanitize(
+          t(:"error_can_not_delete_type.explanation", url: belonging_wps_url(@type.id)),
+          attributes: %w(href target)
+        )
+      ]
 
-        if archived_projects.any?
-          error_message << ApplicationController.helpers.sanitize(
-            t(:error_can_not_delete_in_use_archived_work_packages,
-              archived_projects_urls: helpers.archived_projects_urls_for(archived_projects)),
-            attributes: %w(href target)
-          )
-        end
-
-        error_message
+      if archived_projects.any?
+        error_message << ApplicationController.helpers.sanitize(
+          t(:error_can_not_delete_in_use_archived_work_packages,
+            archived_projects_urls: helpers.archived_projects_urls_for(archived_projects)),
+          attributes: %w(href target)
+        )
       end
+
+      error_message
     end
 
     def belonging_wps_url(type_id)

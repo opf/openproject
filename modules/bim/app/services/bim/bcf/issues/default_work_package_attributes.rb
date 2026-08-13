@@ -36,25 +36,22 @@ module Bim::Bcf
       # When creating a topic without an explicit type, prefer a project-specific
       # non-default type over the global standard type ("None").
       def default_create_type(project)
-        project.types.where(is_default: false, is_standard: false).first ||
-          # scope is gone for now ...
-          # project.types.default.where(is_standard: false).first ||
-          project.types.where(is_standard: false).first ||
-          project.types.first
+        project.project_types.joins(:type).order(types: { position: :asc }).first&.type
       end
 
       # PUT requests reset omitted attributes; match the documented default type.
       # When several default types are enabled, prefer the one most recently
       # associated with the project (see ProjectType).
       def default_put_type(project)
-        project.project_types
+        result = project.project_types
                .joins(:type, :variant)
                .merge(TypeVariant.enabled_in_new_projects)
                .order(id: :desc)
-               .first
-               &.type ||
-          # project.types.default.first ||
-          project.types.first
+               .first ||
+               project.project_types.merge(TypeVariant.enabled_in_new_projects).first ||
+               project.project_types.first
+
+        result&.type
       end
 
       def default_status(project, type:)

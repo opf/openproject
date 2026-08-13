@@ -52,11 +52,6 @@ FactoryBot.define do
       disabled_modules = Array(evaluator.disable_modules).map(&:to_s)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
-      enabled_types = evaluator.types
-      if enabled_types.empty? && !evaluator.no_types
-        enabled_types = [Type.where(is_standard: true).first || build(:type_standard)]
-      end
-
       # Callers name either a type or one of its variants. A type contributes its base
       # variant, which is the configuration it uses where none was chosen.
       #

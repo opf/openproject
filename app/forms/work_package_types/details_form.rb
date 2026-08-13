@@ -69,7 +69,7 @@ module WorkPackageTypes
     def name_attribute = inherited? ? :variant_name : :name
 
     # A standard type's name is fixed; a variant always names itself.
-    def name_frozen? = !inherited? && model.is_standard?
+    def name_frozen? = !inherited?
 
     def color_caption
       inherited? ? inherited_caption : I18n.t("types.edit.details.type_color_text")

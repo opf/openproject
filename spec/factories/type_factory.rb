@@ -42,6 +42,7 @@ FactoryBot.define do
       patterns { nil }
       default_work_package_description { nil }
       attribute_groups { nil }
+      default_variant_enabled_in_all_projects { false }
     end
 
     callback(:after_create) do |type, evaluator|
@@ -51,6 +52,7 @@ FactoryBot.define do
         configuration[:default_work_package_description] = evaluator.default_work_package_description
       end
       configuration[:attribute_groups] = evaluator.attribute_groups unless evaluator.attribute_groups.nil?
+      configuration[:enabled_in_new_projects] = evaluator.default_variant_enabled_in_all_projects
 
       type.default_variant.update!(configuration) if configuration.any?
       type.default_variant.custom_fields = evaluator.custom_fields if evaluator.custom_fields.any?
@@ -87,16 +89,6 @@ FactoryBot.define do
         patterns: { subject: { blueprint: "{{author}} - {{status}}/{{type}} - {{id}}", enabled: true } }
       )
     end
-  end
-
-  trait :default do
-    is_default { true }
-  end
-
-  factory :type_standard, parent: :type do
-    name { "None" }
-    is_standard { true }
-    is_default { true }
   end
 
   # Named seed types: find-or-create by name so specs that share "Bug" / "Task" do not collide.
