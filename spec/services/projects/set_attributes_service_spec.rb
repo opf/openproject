@@ -193,9 +193,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
       end
 
       describe "types default value" do
-        let(:other_types) do
-          [build_stubbed(:type)]
-        end
         # Persisted rather than stubbed: the service resolves what new projects start with by
         # querying TypeVariant.enabled_in_new_projects, so the flag has to be in the database.
         let!(:default_types) do
@@ -211,24 +208,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
               expect(subject.result.work_package_custom_fields)
                 .to eq([custom_field])
             end
-          end
-        end
-
-        context "with a value for types provided" do
-          let(:call_attributes) do
-            {
-              types: other_types
-            }
-          end
-
-          it "does not alter the types" do
-            expect(subject.result.project_types.map(&:type))
-              .to match_array other_types
-          end
-
-          include_examples "setting custom field defaults" do
-            let(:other_types) { [create(:type)] }
-            let(:types) { other_types }
           end
         end
 

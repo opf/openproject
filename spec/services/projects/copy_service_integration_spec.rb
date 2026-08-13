@@ -475,7 +475,7 @@ RSpec.describe(
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
         expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
-        expect(project_copy.enabled_types).to eq source.enabled_types
+        expect(project_copy.enabled_types.to_a).to eq source.enabled_types.to_a
 
         # Default attributes
         expect(project_copy).to be_active
@@ -1320,7 +1320,7 @@ RSpec.describe(
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
         expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
-        expect(project_copy.enabled_types).to eq source.enabled_types
+        expect(project_copy.enabled_types.to_a).to eq source.enabled_types.to_a
 
         # Default attributes
         expect(project_copy).to be_active

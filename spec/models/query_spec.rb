@@ -363,11 +363,13 @@ RSpec.describe Query,
 
         query.displayable_columns
 
+        # rubocop:disable RSpec/MessageSpies -- a spy would also record the call above
         expect(project)
           .not_to receive(:all_work_package_custom_fields)
 
         expect(project)
-          .not_to receive(:types)
+          .not_to receive(:enabled_types)
+        # rubocop:enable RSpec/MessageSpies
 
         query.displayable_columns
       end
@@ -381,7 +383,7 @@ RSpec.describe Query,
 
         allow(project2)
           .to receive_messages(all_work_package_custom_fields: WorkPackageCustomField.none,
-                               types: Type.none)
+                               enabled_types: Type.none)
 
         query.displayable_columns
       end
