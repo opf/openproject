@@ -35,15 +35,15 @@ module Wikis::Adapters::Results
     attr_reader :identifier, :type, :name, :enabled, :key
 
     class << self
-      def empty_root
+      def root
         new(identifier: "root", type: :root, name: "root", enabled: false)
       end
 
-      def empty_wiki(identifier, name)
+      def wiki(identifier, name)
         new(identifier:, type: :wiki, name:, enabled: false)
       end
 
-      def leaf_page(identifier, name, enabled)
+      def page(identifier, name, enabled)
         new(identifier:, type: :page, name:, enabled:)
       end
     end
@@ -61,11 +61,11 @@ module Wikis::Adapters::Results
 
     # @param node [PageSearchTreeNode] the node to be added
     # @raise [ArgumentError] if node isn't a {PageSearchTreeNode}
-    # @return [PageSearchTreeNode] the added node
+    # @return [PageSearchTreeNode] the added node or the already existing equivalent node
     def add_child(node)
       raise ArgumentError unless node.is_a? self.class
 
-      @children.fetch(node.key) { @children[node.key] = node }
+      @children[node.key] ||= node
     end
 
     def enable
