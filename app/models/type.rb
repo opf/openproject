@@ -56,7 +56,6 @@ class Type < ApplicationRecord
 
   default_scope { order(:position) }
 
-  scope :without_standard, -> { where(is_standard: false).order(:position) }
   scope :visible, ->(user = User.current) {
     if user.allowed_in_any_project?(:view_work_packages) || user.allowed_in_any_project?(:manage_types)
       all
@@ -126,10 +125,6 @@ class Type < ApplicationRecord
     name <=> other.name
   end
 
-  def self.standard_type
-    where(is_standard: true).first
-  end
-
   # The types the given project(s) use.
   #
   # Resolved as a subquery rather than a join so a type used by several projects yields one
@@ -148,7 +143,6 @@ class Type < ApplicationRecord
   end
 
   def check_integrity # rubocop:disable Naming/PredicateMethod
-    throw :abort if is_standard?
     throw :abort if WorkPackage.exists?(type_id: id)
 
     true

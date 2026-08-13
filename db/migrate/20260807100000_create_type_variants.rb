@@ -244,6 +244,7 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
 
     remove_index :types, name: "index_types_on_LOWER_name_and_parent_id"
     remove_column :types, :parent_id
+    remove_column :types, :is_standard
     add_index :types, "lower(name)", unique: true, name: "index_types_on_LOWER_name"
 
     CONFIGURATION_COLUMNS.each_key { |column| remove_column :types, column }
