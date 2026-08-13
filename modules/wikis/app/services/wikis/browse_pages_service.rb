@@ -39,7 +39,7 @@ module Wikis
 
     def call(parent_identifier)
       browse_pages(parent_identifier)
-        .either(->(pages) { build_result_tree(pages, parent_identifier) },
+        .either(->(page_hierarchies) { build_result_tree(page_hierarchies, parent_identifier) },
                 ->(error) { error.code == :not_found ? Success([]) : Failure(error) })
     end
 
@@ -47,18 +47,19 @@ module Wikis
 
     attr_reader :user, :provider
 
-    def build_result_tree(pages, parent_identifier)
-      root_node = Adapters::Results::PageSearchTreeNode.empty_root
+    def build_result_tree(page_hierarchies, parent_identifier)
+      root_node = Adapters::Results::PageSearchTreeNode.root
 
-      pages.each do |page:, wiki:|
+      page_hierarchies.each do |page_hierarchy|
+        page_hierarchy => { page:, wiki: }
 
         parent_node = if parent_identifier.blank?
-                        root_node.add_child(Adapters::Results::PageSearchTreeNode.empty_wiki(wiki.identifier, wiki.name))
+                        root_node.add_child(Adapters::Results::PageSearchTreeNode.wiki(wiki.identifier, wiki.name))
                       else
                         root_node
                       end
 
-        parent_node.add_child(Adapters::Results::PageSearchTreeNode.leaf_page(page.identifier, page.title, true))
+        parent_node.add_child(Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title, true))
       end
 
       Success(root_node.children)
