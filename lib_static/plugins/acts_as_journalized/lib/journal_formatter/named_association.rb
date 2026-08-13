@@ -74,10 +74,17 @@ module JournalFormatter
     # moved between projects keeps journal entries naming the parent, version,
     # category and budget it had in a project the reader cannot open.
     #
-    # The reader is part of the key, so a verdict left behind in a thread that
-    # outlives a single request cannot be read back for somebody else.
+    # The reader is folded into the cache key by default, so a verdict left behind in
+    # a thread that outlives a single request cannot be read back for somebody else.
+    #
+    # :journal_reachable is used as the "klass" part of the key so this verdict cache
+    # never collides with the raw-record cache entries #associated_object stores under
+    # the object's actual class.
+    #
+    # Overridden by PublicNamedAssociation to skip the check for fields that name
+    # people the journable already names elsewhere (assignee, responsible, author).
     def reachable?(object)
-      RequestStore.fetch("journal_reachable/#{User.current.id}/#{object.class.name}/#{object.id}") do
+      JournalFormatterCache.request_instance.fetch(:journal_reachable, [object.class, object.id]) do # rubocop:disable Lint/UselessDefaultValueArgument
         reader_may_see?(object)
       end
     end
