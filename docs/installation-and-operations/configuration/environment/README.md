@@ -116,7 +116,9 @@ For Docker installations:
 docker exec -it -e RAILS_ENV=production openproject-web-1 bundle exec rake setting:available_envs
 ```
 
-The full list of variables is documented under [Supported environment variables](./supported-environment-variables/).
+The default value is also visible for each variable in parenthesis.
+
+The full list of variables is documented under [Supported environment variables](./supported-environment-variables/). That page is generated from the code and verified by an automated test, so it describes the version of OpenProject you are reading the documentation for. Use the commands above to see the values your own instance actually uses, in particular for the few settings whose default depends on the environment it runs in.
 
 ### Environment-specific configuration variables
 
