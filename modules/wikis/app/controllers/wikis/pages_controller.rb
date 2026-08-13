@@ -37,7 +37,7 @@ module Wikis
 
     before_action :authorize, except: %i[search browse]
 
-    # The search is project independent and thus permission independent. The user will see results according to
+    # search and browse are project independent and thus permission independent. The user will see results according to
     # the permissions set in each wiki.
     no_authorization_required! :search, :browse
 
