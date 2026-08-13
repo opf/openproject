@@ -35,6 +35,32 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
   current_user { create(:admin) }
 
+  # An administrator sees every project's variants together, so an owned one has to say whose it
+  # is; otherwise it is indistinguishable from a variant every project may use.
+  describe "a variant a project owns" do
+    shared_let(:owning_project) { create(:project, name: "Apollo") }
+    shared_let(:root_type) { create(:type, name: "Bug") }
+    shared_let(:owned) do
+      create(:project_owned_type_variant, type: root_type, project: owning_project, variant_name: "Internal")
+    end
+    shared_let(:global) { create(:type_variant, type: root_type, variant_name: "Mobile") }
+
+    subject(:rendered_component) do
+      with_request_url "/types" do
+        render_inline(described_class.new(types: Type.where(id: root_type.id).page(1).per_page(10)))
+      end
+    end
+
+    it "attributes it to the project owning it" do
+      expect(rendered_component).to have_text("Owned by Apollo")
+    end
+
+    it "leaves a variant every project may use unattributed" do
+      expect(rendered_component).to have_css(".Label", text: "Owned by Apollo", count: 1)
+      expect(rendered_component).to have_text("Mobile")
+    end
+  end
+
   describe "a variant-less root" do
     let(:root_type) { create(:type, name: "Task") }
 

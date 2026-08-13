@@ -33,6 +33,9 @@ See COPYRIGHT and LICENSE files for more details.
     <% if caption %>
       <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { caption } %>
     <% end %>
+    <% if variant.project_owned? %>
+      <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { owner_label } %>
+    <% end %>
   <% end %>
 
   <% if variant.enabled_in_new_projects? %>

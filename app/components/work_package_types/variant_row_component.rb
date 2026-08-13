@@ -49,5 +49,9 @@ module WorkPackageTypes
     attr_reader :variant, :caption
 
     def variant_path = edit_type_details_path(**variant.path_args)
+
+    # An administrator sees every project's variants side by side, so an unattributed row
+    # would be indistinguishable from a global one.
+    def owner_label = t("types.index.owned_by", project: variant.project.name)
   end
 end

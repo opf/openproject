@@ -100,6 +100,44 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
+  # The header row is the type's own configuration. Which of the two is in use is said the same
+  # way throughout: the row that is in use carries the label, named variant or not.
+  describe "the header when the type's own configuration is in use" do
+    current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+    before { render_inline(component) }
+
+    it "marks it in use rather than naming it" do
+      expect(page).to have_text("In use")
+    end
+
+    it "names no variant" do
+      expect(page).to have_no_text("Variant:")
+    end
+
+    # Nothing is nested under the header for it, so the label there is the only thing saying so.
+    it "puts the label on the header, not on a variant row" do
+      expect(page).to have_css(".Label", text: "In use", count: 1)
+    end
+  end
+
+  describe "the header when a named variant is in use" do
+    current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+    before do
+      project.project_types.find_by(type: bug).update!(variant: global)
+      render_inline(component)
+    end
+
+    it "names that variant" do
+      expect(page).to have_text(/Variant:\s*Mobile/)
+    end
+
+    it "leaves the in-use label to that variant's own row" do
+      expect(page).to have_text("In use")
+    end
+  end
+
   context "when the member may not manage them" do
     current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
 

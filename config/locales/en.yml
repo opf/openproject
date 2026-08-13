@@ -5388,6 +5388,7 @@ en:
           title: "No types are active in this project"
         form:
           enable_type_in_project: 'Enable type "%{type}"'
+        in_use: "In use"
         no_results_title_text: There are currently no types available.
         only_available_here: "Only available in this project"
         remove_from_project: "Remove from project"
@@ -6680,6 +6681,8 @@ en:
       remove_default: "Do not activate in new projects"
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: "Type"
+      # Administration sees every project's variants side by side, so an owned one says whose.
+      owned_by: "Owned by %{project}"
       variant_enabled_in_new_projects: "Variant %{name} active in new projects"
       variant_label: "Variant"
       variants_count:

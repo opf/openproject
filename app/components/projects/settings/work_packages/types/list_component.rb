@@ -64,6 +64,10 @@ module Projects
             project_type.type.variants.non_default_variants.available_in(project).in_display_order
           end
 
+          def in_use?(project_type, variant)
+            project_type.variant_id == variant.id
+          end
+
           def owned?(variant)
             variant.project_id == project.id
           end
