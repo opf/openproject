@@ -116,7 +116,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
         if model.in_state?(:imported)
-          box.with_row do
+          box.with_row(display: :flex, align_items: :center) do
             concat(
               render(
                 Primer::Beta::Button.new(
@@ -136,6 +136,7 @@ See COPYRIGHT and LICENSE files for more details.
                   tag: :a,
                   size: :medium,
                   color: :danger,
+                  mr: 2,
                   href: revert_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
                   data: { controller: "async-dialog" }
                 )

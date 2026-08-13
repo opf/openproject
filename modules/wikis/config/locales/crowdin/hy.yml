@@ -199,7 +199,7 @@ hy:
     page_link_forms:
       labels:
         page_title: Վերնագիր
-        parent: Ծնող վիքի էջ
+        parent: Parent
         wiki_page: Վիքի էջ
       search:
         no_results: Վիքի էջեր չեն գտնվել

@@ -94,5 +94,44 @@ RSpec.describe Journal::ProjectJournal do
       expect(journal.render_detail(["parent_id", [parent.id, nil]], html: false))
         .to eq("No longer subproject of #{parent.name}")
     end
+
+    context "for custom field view_permission" do
+      shared_let(:project) { create(:project) }
+      shared_let(:custom_field) { create(:string_project_custom_field) }
+      shared_let(:key) { "custom_fields_#{custom_field.id}" }
+
+      subject { journal.render_detail([key, [nil, "value"]]) }
+
+      before { login_as(user) }
+
+      context "for a member" do
+        let(:user) do
+          create(:user, member_with_permissions: { project => %i[view_project_attributes] })
+        end
+
+        it "renders details" do
+          expect(subject).to include(custom_field.name)
+          expect(subject).not_to include(I18n.t(:text_journal_permission_denied))
+        end
+
+        context "with a non-existing custom field (or deleted)" do
+          shared_let(:key) { "custom_fields_#{custom_field.id + 1}" }
+
+          it "renders permission denied" do
+            expect(subject).not_to include(custom_field.name)
+            expect(subject).to include(I18n.t(:text_journal_permission_denied))
+          end
+        end
+      end
+
+      context "for an admin" do
+        let(:user) { create(:admin) }
+
+        it "renders details" do
+          expect(subject).to include(custom_field.name)
+          expect(subject).not_to include(I18n.t(:text_journal_permission_denied))
+        end
+      end
+    end
   end
 end

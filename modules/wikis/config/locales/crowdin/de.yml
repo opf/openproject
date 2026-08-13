@@ -199,7 +199,7 @@ de:
     page_link_forms:
       labels:
         page_title: Titel
-        parent: Übergeordnete Wiki-Seite
+        parent: Parent
         wiki_page: Wiki-Seite
       search:
         no_results: Keine Wiki-Seiten gefunden

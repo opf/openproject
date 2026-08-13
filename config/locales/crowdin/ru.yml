@@ -1061,6 +1061,7 @@ ru:
           heading: Сделать этот комментарий публичным?
           title: Сделать этот комментарий публичным?
         internal_journal: Внутренние комментарии видны ограниченной группе членов.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Показать всё
         label_activity_show_only_changes: Показать только изменения
         label_activity_show_only_comments: Показать только комментарии
@@ -1566,6 +1567,42 @@ ru:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Должен начинаться с заглавной буквы
@@ -2972,6 +3009,16 @@ ru:
         field_updated: "%{field} обновлено"
         header: изменения %{author}
         set_with_diff: "%{field} установлено (%{link})"
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: backlog for meeting series %{link}
+      meeting_series_template: template for meeting series %{link}
+      meeting_template: meeting template %{link}
       progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
       status_excluded_from_totals_set_to_false_message: теперь включено в иерархию итогов
       status_excluded_from_totals_set_to_true_message: теперь исключено из иерархии итогов
@@ -2984,6 +3031,7 @@ ru:
         progress_calculation_adjusted_from_disabled_mode: Расчет прогресса автоматически <a href="%{href}" target="_blank">устанавливается в режим "На основе трудозатрат" и корректируется при обновлении версии</a>.
         scheduling_mode_adjusted: Режим планирования автоматически настраивается с обновлением версии.
         sprint_migration: Версия '%{version_name}' была скопирована как спринт.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: При <a href="%{href}" target="_blank">обновлении версии</a> автоматически удаляются итоги работы и прогресса для неродительских пакетов работ. Это задача по обслуживанию, и её можно смело игнорировать.
       total_percent_complete_mode_changed_to_simple_average: Значения Работы дочерних пакетов работ игнорируются.
       total_percent_complete_mode_changed_to_work_weighted_average: Дочерние пакеты работ без Работы игнорируются.
@@ -3007,6 +3055,14 @@ ru:
       dates_changed: Даты изменены
       default_attribute_written: Запись атрибутов со свойством "только для чтения"
       import: Импортировано
+      meeting_agenda_item_added: Added to meeting
+      meeting_agenda_item_added_template: Added to
+      meeting_agenda_item_discussed: Discussed in meeting
+      meeting_agenda_item_moved: Moved to meeting
+      meeting_agenda_item_moved_template: Moved to
+      meeting_agenda_item_removed: Removed from meeting
+      meeting_agenda_item_removed_template: Removed from
+      meeting_outcome_recorded: Added as outcome in meeting
       progress_mode_changed_to_status_based: Расчет прогресса обновлен
       status_changed: Статус '%{status_name}'
       system_update: 'Обновление системы OpenProject:'
@@ -3533,7 +3589,7 @@ ru:
   label_project_hide_details: Скрыть детали проекта
   label_project_hierarchy: Иерархия проектов
   label_project_identifier: Идентификатор проекта
-  label_project_initiation_export_pdf: Экспорт PDF для %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Последние проекты
   label_project_life_cycle: Жизненный цикл проекта
   label_project_list_plural: Списки проектов
@@ -3645,7 +3701,7 @@ ru:
   label_subitems: Подпроекты
   label_subject_or_id: Тема или ID
   label_subproject: Подпроект
-  label_subproject_new: Новый подпроект
+  label_subproject_add: Add subproject
   label_subproject_plural: Подпроекты
   label_subtask_plural: Подзадачи
   label_summary: Сводка
@@ -3709,6 +3765,7 @@ ru:
   label_version_sharing_none: Не используется другими
   label_version_sharing_system: Во всех проектах
   label_version_sharing_tree: С деревом проектов
+  label_versions_and_categories: Versions and categories
   label_videos: Видео
   label_view_all_revisions: Посмотреть все версии
   label_view_diff: Посмотреть различия
@@ -4853,7 +4910,8 @@ ru:
   project:
     archive:
       archived: Архивирован
-      are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Архивировать проект
     count:
       one: 1 проект
@@ -5466,6 +5524,7 @@ ru:
   setting_work_package_done_ratio_status_caption_html: С каждым статусом связано значение <i>% завершения</i>. Изменение статуса приведет к изменению <i>% завершения</i>.
   setting_work_package_list_default_highlighted_attributes: Выделенные встроенные атрибуты по умолчанию
   setting_work_package_list_default_highlighting_mode: Способ выделения по умолчанию
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Свойства пакета работ
   setting_work_package_startdate_is_adddate: Использовать текущую дату как дату начала для новых пакетов работ
   setting_work_packages_identifier_classic: Числовая последовательность для всего экземпляра (по умолчанию)
@@ -5890,6 +5949,7 @@ ru:
   text_journal_file_link_deleted: "%{label} ссылка на %{old} (%{storage}) удалена"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_latest_note: 'Последний комментарий: %{note}'
@@ -6057,6 +6117,7 @@ ru:
           actions:
             label_disable_all: Выключить всё
             label_enable_all: Включить всё
+            label_toggle_template: Toggle %{template}
           label: Шаблоны экспорта в PDF
         tab: Создать PDF
         templates:

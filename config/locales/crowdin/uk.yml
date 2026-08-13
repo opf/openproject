@@ -1065,6 +1065,7 @@ uk:
           heading: Зробити цей коментар загальнодоступним?
           title: Зробити цей коментар загальнодоступним?
         internal_journal: Внутрішні коментарі видимі для визначеної групи учасників.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Показати все
         label_activity_show_only_changes: Показувати лише зміни
         label_activity_show_only_comments: Показувати лише коментарі
@@ -1570,6 +1571,42 @@ uk:
           error: Не вдалося перевпорядкувати цей розділ.
         move:
           error: Не вдалося перевпорядкувати цей розділ.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Має починатися з великої літери
@@ -2978,6 +3015,16 @@ uk:
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
         set_with_diff: Поле «%{field}» налаштовано (%{link})
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: backlog for meeting series %{link}
+      meeting_series_template: template for meeting series %{link}
+      meeting_template: meeting template %{link}
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_excluded_from_totals_set_to_false_message: тепер включено в підсумки ієрархії
       status_excluded_from_totals_set_to_true_message: тепер виключено з підсумків ієрархії
@@ -2990,6 +3037,7 @@ uk:
         progress_calculation_adjusted_from_disabled_mode: Обчислення прогресу автоматично <a href="%{href}" target="_blank">переведено в режим на основі робіт</a>, і його результати скориговано відповідно до оновленої версії</a>.
         scheduling_mode_adjusted: Режим планування автоматично змінюється з оновленням версії.
         sprint_migration: Версію «%{version_name}» скопійовано як спринт.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Результати обчислення обсягу й прогресу виконання роботи автоматично вилучено з небатьківських пакетів робіт з <a href="%{href}" target="_blank">оновленням версії</a>. Це завдання з технічного обслуговування, і його можна ігнорувати.
       total_percent_complete_mode_changed_to_simple_average: Значення атрибута «Робота» дочірніх пакетів робіт ігноруються.
       total_percent_complete_mode_changed_to_work_weighted_average: Дочірні пакети робіт без атрибута «Робота» ігноруються.
@@ -3013,6 +3061,14 @@ uk:
       dates_changed: Дати змінено
       default_attribute_written: Атрибути лише для читання записано
       import: Імпортовано
+      meeting_agenda_item_added: Added to meeting
+      meeting_agenda_item_added_template: Added to
+      meeting_agenda_item_discussed: Discussed in meeting
+      meeting_agenda_item_moved: Moved to meeting
+      meeting_agenda_item_moved_template: Moved to
+      meeting_agenda_item_removed: Removed from meeting
+      meeting_agenda_item_removed_template: Removed from
+      meeting_outcome_recorded: Added as outcome in meeting
       progress_mode_changed_to_status_based: Обчислення прогресу оновлено
       status_changed: Статус «%{status_name}»
       system_update: Оновлення системи OpenProject
@@ -3539,7 +3595,7 @@ uk:
   label_project_hide_details: Приховати деталі проекту
   label_project_hierarchy: Ієрархія проектів
   label_project_identifier: Ідентифікатор проєкту
-  label_project_initiation_export_pdf: Експорт PDF для проєкту «%{project_creation_name}»
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Останні проекти
   label_project_life_cycle: Життєвий цикл проєкту
   label_project_list_plural: Списки проєкту
@@ -3651,7 +3707,7 @@ uk:
   label_subitems: Піделементи
   label_subject_or_id: Тема або ідентифікатор
   label_subproject: Підпроєкт
-  label_subproject_new: Новий підпроект
+  label_subproject_add: Add subproject
   label_subproject_plural: Підпроекти
   label_subtask_plural: Підзадачі
   label_summary: Резюме
@@ -3715,6 +3771,7 @@ uk:
   label_version_sharing_none: Без сумісного доступу
   label_version_sharing_system: З усіма проектами
   label_version_sharing_tree: З деревом проекту
+  label_versions_and_categories: Versions and categories
   label_videos: Відео
   label_view_all_revisions: Переглянути всі зміни
   label_view_diff: Переглянути відмінності
@@ -4859,7 +4916,8 @@ uk:
   project:
     archive:
       archived: Архівований
-      are_you_sure: Дійсно архівувати проект %{name} ?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Архівування проєкту
     count:
       one: 1 проєкт
@@ -5484,6 +5542,7 @@ uk:
   setting_work_package_done_ratio_status_caption_html: Кожен статус <i>% Завершення</i> має пов'язане з ним значення. Зміна статусу змінить <i>% Завершення</i>.
   setting_work_package_list_default_highlighted_attributes: Стандартні вбудовані виділені атрибути
   setting_work_package_list_default_highlighting_mode: Режим виділення за умовчанням
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Властивості робочого пакета
   setting_work_package_startdate_is_adddate: Використовувати поточну дату в якості дати початку роботи для нових пакетів
   setting_work_packages_identifier_classic: Числова послідовність для всього екземпляра (за умовчанням)
@@ -5905,6 +5964,7 @@ uk:
   text_journal_file_link_deleted: Вилучено посилання %{label} на значення %{old} (%{storage})
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: Параметр %{label} змінився на %{value}
   text_journal_set_with_diff: "%{label} встановлено (%{link})"
   text_latest_note: 'Останній коментар: %{note}'
@@ -6078,6 +6138,7 @@ uk:
           actions:
             label_disable_all: Вимкнути все
             label_enable_all: Увімкнути все
+            label_toggle_template: Toggle %{template}
           label: Шаблони експорту PDF
         tab: Згенерувати PDF
         templates:

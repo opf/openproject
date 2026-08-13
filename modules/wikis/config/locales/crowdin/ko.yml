@@ -193,7 +193,7 @@ ko:
     page_link_forms:
       labels:
         page_title: 제목
-        parent: 부모 위키 페이지
+        parent: Parent
         wiki_page: 위키 페이지
       search:
         no_results: 위키 페이지를 찾을 수 없습니다

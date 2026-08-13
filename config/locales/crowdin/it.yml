@@ -1033,6 +1033,7 @@ it:
           heading: Rendere pubblico questo commento?
           title: Rendere pubblico questo commento?
         internal_journal: I commenti interni sono visibili solo a un gruppo ristretto di membri.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Mostra tutto
         label_activity_show_only_changes: Mostra solo le modifiche
         label_activity_show_only_comments: Mostra solo commenti
@@ -1518,6 +1519,42 @@ it:
           error: Impossibile riordinare la sezione.
         move:
           error: Impossibile riordinare la sezione.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Deve iniziare con una lettera maiuscola
@@ -2866,6 +2903,16 @@ it:
         field_updated: "%{field} aggiornato"
         header: modifiche di %{author}
         set_with_diff: "%{field} impostato (%{link})"
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: backlog for meeting series %{link}
+      meeting_series_template: template for meeting series %{link}
+      meeting_template: meeting template %{link}
       progress_mode_changed_to_status_based: La modalità di calcolo dell'avanzamento è impostata in funzione dello stato.
       status_excluded_from_totals_set_to_false_message: ora incluso nei totali della gerarchia
       status_excluded_from_totals_set_to_true_message: ora escluso dai totali della gerarchia
@@ -2878,6 +2925,7 @@ it:
         progress_calculation_adjusted_from_disabled_mode: Il calcolo dei progressi è <a href="%{href}" target="_blank">impostato automaticamente in modalità basata sul lavoro e modificato con l'aggiornamento della versione</a>.
         scheduling_mode_adjusted: Modalità di programmazione regolata automaticamente con aggiornamento della versione.
         sprint_migration: La versione '%{version_name}' è stata copiata come sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: I totali di lavoro e avanzamento vengono rimossi automaticamente per le macro-attività non principali con l'<a href="%{href}" target="_blank">aggiornamento della versione</a>. Questa è un'attività di manutenzione e può essere tranquillamente ignorata.
       total_percent_complete_mode_changed_to_simple_average: I valori di Lavoro delle macro-attività figlie vengono ignorati.
       total_percent_complete_mode_changed_to_work_weighted_average: Le macro-attività figlie senza Lavoro vengono ignorate.
@@ -2901,6 +2949,14 @@ it:
       dates_changed: Date cambiate
       default_attribute_written: Attributi di sola lettura scritti
       import: Importato
+      meeting_agenda_item_added: Added to meeting
+      meeting_agenda_item_added_template: Added to
+      meeting_agenda_item_discussed: Discussed in meeting
+      meeting_agenda_item_moved: Moved to meeting
+      meeting_agenda_item_moved_template: Moved to
+      meeting_agenda_item_removed: Removed from meeting
+      meeting_agenda_item_removed_template: Removed from
+      meeting_outcome_recorded: Added as outcome in meeting
       progress_mode_changed_to_status_based: Calcolo dei progressi aggiornato
       status_changed: Stato '%{status_name}'
       system_update: 'Aggiornamento del sistema OpenProject:'
@@ -3427,7 +3483,7 @@ it:
   label_project_hide_details: Nascondi dettagli progetto
   label_project_hierarchy: Gerarchia del progetto
   label_project_identifier: Identificatore di progetto
-  label_project_initiation_export_pdf: Esportazione PDF per %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Ultimi progetti
   label_project_life_cycle: Ciclo di vita del progetto
   label_project_list_plural: Elenchi progetto
@@ -3539,7 +3595,7 @@ it:
   label_subitems: Sottoelementi
   label_subject_or_id: Oggetto o ID
   label_subproject: Sottoprogetto
-  label_subproject_new: Nuovo sotto-progetto
+  label_subproject_add: Add subproject
   label_subproject_plural: Sotto-progetti
   label_subtask_plural: Sottoattività
   label_summary: Sommario
@@ -3603,6 +3659,7 @@ it:
   label_version_sharing_none: Non condivisi
   label_version_sharing_system: Con tutti i progetti
   label_version_sharing_tree: Con albero di progetto
+  label_versions_and_categories: Versions and categories
   label_videos: Video
   label_view_all_revisions: Mostra tutte le revisioni
   label_view_diff: Mostra le differenze
@@ -4721,7 +4778,8 @@ it:
   project:
     archive:
       archived: Archiviato
-      are_you_sure: Sicuro di voler archiviare il progetto '%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archivia progetto
     count:
       one: 1 progetto
@@ -5342,6 +5400,7 @@ it:
   setting_work_package_done_ratio_status_caption_html: Ogni stato ha un valore di <i>% completamento</i> associato a esso. Cambiando lo stato cambierà la <i>% completamento</i>.
   setting_work_package_list_default_highlighted_attributes: Attributi evidenziati in linea predefiniti
   setting_work_package_list_default_highlighting_mode: Modalità evidenziazione predefinita
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Proprietà della macro-attività
   setting_work_package_startdate_is_adddate: Usa la data corrente come data di inizio per le nuove macro-attività
   setting_work_packages_identifier_classic: Sequenza numerica a livello di istanza (predefinita)
@@ -5765,6 +5824,7 @@ it:
   text_journal_file_link_deleted: Link %{label} a %{old} (%{storage}) rimosso
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: insieme di %{label} (%{link})
   text_latest_note: 'L''ultimo commento è: %{note}'
@@ -5934,6 +5994,7 @@ it:
           actions:
             label_disable_all: Disabilita tutto
             label_enable_all: Abilita tutto
+            label_toggle_template: Toggle %{template}
           label: Modelli di esportazione PDF
         tab: Genera PDF
         templates:

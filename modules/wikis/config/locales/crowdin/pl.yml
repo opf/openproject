@@ -211,7 +211,7 @@ pl:
     page_link_forms:
       labels:
         page_title: Tytuł
-        parent: Nadrzędna strona wiki
+        parent: Parent
         wiki_page: Strona wiki
       search:
         no_results: Nie znaleziono żadnych stron wiki
