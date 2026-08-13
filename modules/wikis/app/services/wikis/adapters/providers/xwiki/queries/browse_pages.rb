@@ -51,9 +51,9 @@ module Wikis
             private
 
             def build_page_hierarchy(pages, auth_strategy)
-              pages.map do |page_json|
+              pages.filter_map do |page_json|
                 Input::PageHierarchy.build(identifier: fetch_json(page_json, "id")).bind do |input_data|
-                  CanonicalPageHierarchy.new(model: provider).call(input_data:, auth_strategy:).bind { it }
+                  CanonicalPageHierarchy.new(model: provider).call(input_data:, auth_strategy:).value_or(nil)
                 end
               end
             end
@@ -72,7 +72,10 @@ module Wikis
               CanonicalPageReference.parse(parent_identifier) => { wiki:, spaces:, page: }
               space_segment = spaces.map { "/spaces/#{CGI.escape(it)}" }.join
 
-              handle_response(http.get(rest_url("/wikis/#{wiki}/#{space_segment}/pages/#{page}/children"))) do |children|
+              request_url = rest_url("/wikis/#{wiki}/#{space_segment}/pages/#{page}/children",
+                                     query: { hierarchy: "nestedpages" })
+
+              handle_response(http.get(request_url)) do |children|
                 fetch_json(children, "pageSummaries")
               end
             end
@@ -93,7 +96,8 @@ module Wikis
 
             def get_wiki_children(wikis, http)
               wikis.flat_map do |wiki|
-                handle_response(http.get(rest_url("/wikis/#{wiki.identifier}/children"))) do |children|
+                request_url = rest_url("/wikis/#{wiki.identifier}/children", query: { hierarchies: "nestedpages" })
+                handle_response(http.get(request_url)) do |children|
                   fetch_json(children, "pageSummaries")
                 end
               end
