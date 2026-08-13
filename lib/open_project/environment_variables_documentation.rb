@@ -60,8 +60,11 @@ module OpenProject
   module EnvironmentVariablesDocumentation
     DOC_PATH = "docs/installation-and-operations/configuration/environment/README.md"
 
-    BEGIN_MARKER = "<!-- BEGIN GENERATED LIST: RAILS_ENV=production bundle exec rake docs:env_vars -->"
-    END_MARKER = "<!-- END GENERATED LIST -->"
+    # Same markers the release notes use for their generated sections, and the
+    # same division of labour: the warning comments around them are part of the
+    # hand-written page, only what is between the markers is rewritten.
+    BEGIN_MARKER = "<!-- BEGIN AUTOMATED SECTION -->"
+    END_MARKER = "<!-- END AUTOMATED SECTION -->"
     BLOCK_PATTERN = /#{Regexp.escape(BEGIN_MARKER)}.*?#{Regexp.escape(END_MARKER)}/m
 
     RANDOM_PLACEHOLDER = "<randomly generated>"

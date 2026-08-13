@@ -116,9 +116,10 @@ For Docker installations:
 docker exec -it -e RAILS_ENV=production openproject-web-1 bundle exec rake setting:available_envs
 ```
 
-The default value is also visible for each variable in parenthesis. The list below is generated from the code and lists the defaults of a production installation, so it describes the version of OpenProject you are reading the documentation for. A default of `<randomly generated>` is a random secret, created once when the setting is first used, and a couple of defaults are derived from other settings; use the commands above to see the values your own instance uses.
+The default value is also visible for each variable in parentheses. 
 
-<!-- BEGIN GENERATED LIST: RAILS_ENV=production bundle exec rake docs:env_vars -->
+<!-- Warning: Anything within the below lines will be overwritten by `rake docs:env_vars` -->
+<!-- BEGIN AUTOMATED SECTION -->
 
 ```text
 OPENPROJECT_2FA (default={"active_strategies" => [], "enforced" => false, "allow_remember_for_days" => 0})
@@ -433,7 +434,8 @@ OPENPROJECT_WORKING__DAYS (default=[1, 2, 3, 4, 5]) Set working days of the week
 OPENPROJECT_YOUTUBE__CHANNEL (default="https://www.youtube.com/c/OpenProjectCommunity") Link to YouTube channel in help menu
 ```
 
-<!-- END GENERATED LIST -->
+<!-- END AUTOMATED SECTION -->
+<!-- Warning: Anything above this line will be overwritten by `rake docs:env_vars` -->
 
 ### Environment-specific configuration variables
 
