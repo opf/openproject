@@ -357,7 +357,6 @@ en:
         token_name: "Token name"
       type:
         color: "Color"
-        is_default: "Activated for new projects by default"
         is_in_roadmap: "Displayed in roadmap by default"
         is_milestone: "Is milestone"
         project_types: "Projects"
@@ -4425,7 +4424,6 @@ en:
   notice_auth_stage_error: "Authentication stage '%{stage}' failed."
   notice_auth_stage_verification_error: "Could not verify stage '%{stage}'."
   notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
-  notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_bad_request: "Bad Request."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
   notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."

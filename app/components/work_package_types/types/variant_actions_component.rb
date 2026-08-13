@@ -53,6 +53,7 @@ module WorkPackageTypes
 
       def variant_actions(menu)
         configure_action(menu)
+        default_action(menu)
         menu.with_divider
 
         delete_action(menu)
@@ -64,6 +65,36 @@ module WorkPackageTypes
           href: edit_type_form_configuration_path(type_id: variant.type_id, variant_id: variant.id)
         ) do |item|
           item.with_leading_visual_icon(icon: :gear)
+        end
+      end
+
+      # Either variant of a type can be the one new projects start with, so a named variant
+      # offers this just as its type's base variant does.
+      def default_action(menu)
+        if variant.enabled_in_new_projects?
+          remove_default_action(menu)
+        else
+          make_default_action(menu)
+        end
+      end
+
+      def make_default_action(menu)
+        menu.with_item(
+          label: t("types.index.make_default"),
+          href: make_default_type_variant_path(type_id: variant.type_id, id: variant.id),
+          form_arguments: { method: :post }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"check-circle")
+        end
+      end
+
+      def remove_default_action(menu)
+        menu.with_item(
+          label: t("types.index.remove_default"),
+          href: remove_default_type_variant_path(type_id: variant.type_id, id: variant.id),
+          form_arguments: { method: :post }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"circle-slash")
         end
       end
 
