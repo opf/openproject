@@ -39,15 +39,16 @@ module Wikis
 
     subject(:service) { described_class.new(provider:, user:) }
 
-    context "when identifier is blank returns all root pages" do
+    context "when identifier is blank" do
+      let(:parent_identifier) { nil }
+
       context "when using the internal provider" do
-        let(:parent_identifier) { nil }
         let(:pages) { create_list(:wiki_page, 2, wiki: project.wiki) }
         let(:provider) { internal_provider }
 
         before { pages }
 
-        it "returns also the a wiki node with the root pages project name" do
+        it "returns also a wiki node with the root pages project name" do
           page_tree = service.call(parent_identifier).value!
 
           expect(page_tree.size).to eq(1)
@@ -67,9 +68,10 @@ module Wikis
     end
 
     context "when the identifier is a valid" do
+      let(:parent_identifier) { pages.last.id.to_s }
+
       context "when using the internal provider" do
         let(:pages) { create_list(:wiki_page, 2, wiki: project.wiki) }
-        let(:parent_identifier) { pages.last.id.to_s }
         let(:provider) { internal_provider }
 
         before { pages }

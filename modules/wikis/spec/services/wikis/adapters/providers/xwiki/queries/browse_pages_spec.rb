@@ -43,7 +43,7 @@ module Wikis
             let(:input_data) { Input::BrowsePages.build(parent_identifier:).value! }
             let(:auth_strategy) { xwiki_provider.auth_strategy_for(user).value! }
 
-            subject(:query) { Adapters::Registry["xwiki.queries.browse_pages"].new(model: xwiki_provider) }
+            subject(:query) { described_class.new(model: xwiki_provider) }
 
             context "when parent identifier is nil", vcr: "xwiki/browse_pages_nil_identifier" do
               let(:parent_identifier) { nil }
@@ -61,6 +61,7 @@ module Wikis
             end
 
             context "when parent identifier exists", vcr: "xwiki/browse_pages_existing_identifier" do
+              # This is a page stable id that has at least 1 child page
               let(:parent_identifier) { "31778" }
 
               it "succeeds" do
