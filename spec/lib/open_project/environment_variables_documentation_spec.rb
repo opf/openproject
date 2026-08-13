@@ -31,46 +31,95 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::EnvironmentVariablesDocumentation do
-  it "has a documentation page that is up to date" do
-    expect(File.read(described_class.path)).to eq(described_class.to_markdown), <<~ERR
-      #{described_class::PAGE_PATH} no longer matches the settings defined in the code.
+  # The list is generated in the production environment, so this spec cannot
+  # regenerate it and compare it: the defaults of a good number of settings
+  # differ here. It checks everything that does not depend on the environment
+  # instead.
+  let(:page) { File.read(described_class.path) }
+  let(:generated_block) { page[described_class::BLOCK_PATTERN] }
+  let(:documented_rows) { generated_block.to_s[/^```text\n(.*?)^```$/m, 1].to_s.lines(chomp: true) }
+  let(:rows_by_variable) { documented_rows.index_by { |row| row.split(" ", 2).first } }
 
-      Probably a setting was added, removed, renamed, or its default or description
-      changed. To fix it, regenerate the page by running
+  let(:regenerate) { "RAILS_ENV=production bundle exec rake docs:env_vars" }
 
-          bundle exec rake docs:env_vars
+  it "delimits the generated list with the markers the task looks for" do
+    expect(generated_block).to be_present, <<~ERR
+      #{described_class::DOC_PATH} no longer delimits the generated list with
 
-      and commit the change.
+          #{described_class::BEGIN_MARKER}
+          #{described_class::END_MARKER}
 
-      If you just did that and this still fails, the default of the setting shown in
-      the diff differs between Rails environments, or it is read from the database.
-      Such a default cannot be documented; add the setting to
-      #{described_class}::ENVIRONMENT_DEPENDENT_DEFAULTS and regenerate again.
+      Without both markers, `#{regenerate}` cannot find the list to rewrite.
+    ERR
+
+    expect(documented_rows).not_to be_empty, <<~ERR
+      The block delimited by #{described_class::BEGIN_MARKER} in #{described_class::DOC_PATH}
+      no longer contains a ```text code block with the list of variables.
+    ERR
+
+    # The examples below key rows by variable name, which would silently drop one
+    # of a colliding pair - `env_name` prefers `env_alias` over the derived name.
+    duplicates = documented_rows.map { |row| row.split(" ", 2).first }.tally.select { |_, count| count > 1 }
+    expect(duplicates.keys).to be_empty, "#{duplicates.keys.to_sentence} is listed more than once."
+  end
+
+  it "documents every environment variable, and none that no longer exist" do
+    expected = described_class.sorted_definitions.map(&:first)
+    undocumented = expected - rows_by_variable.keys
+    obsolete = rows_by_variable.keys - expected
+
+    expect([undocumented, obsolete]).to eq([[], []]), <<~ERR
+      The list in #{described_class::DOC_PATH} no longer covers the same settings as the code.
+
+      #{"Missing: #{undocumented.to_sentence}" if undocumented.any?}
+      #{"No longer a setting: #{obsolete.to_sentence}" if obsolete.any?}
+
+      To fix it, regenerate the list by running
+
+          #{regenerate}
+
+      and commit the change. Mind the environment: the list documents the defaults of a
+      production installation, and the task refuses to run in any other.
     ERR
   end
 
-  it "does not document a default that is computed on every read" do
-    computed = Settings::Definition.all.values.filter_map do |definition|
-      definition.name.to_sym if definition.instance_variable_get(:@default).respond_to?(:call)
+  it "documents the current description of every environment variable" do
+    # The default is deliberately not compared, as it differs per environment.
+    outdated = described_class.descriptions.reject do |variable, description|
+      expected_row = /\A#{Regexp.escape(variable)} \(default=.*\)#{" #{Regexp.escape(description)}" if description}\z/
+      rows_by_variable[variable]&.match?(expected_row)
     end
 
-    documented = computed - described_class.masked_setting_names - described_class::EVALUATED_PROC_DEFAULTS
+    expect(outdated.keys).to be_empty, <<~ERR
+      The description documented for #{outdated.keys.to_sentence} is out of date. Expected,
+      respectively:
 
-    expect(documented).to be_empty, <<~ERR
-      The default of #{documented.to_sentence} is a proc, so it is evaluated every time
-      the documentation is generated. That risks writing a random value, a value read
-      from the database, or a value that only holds in the environment the task happened
-      to run in, into #{described_class::PAGE_PATH}.
+      #{outdated.map { |variable, description| "  #{variable} -> #{description.inspect}" }.join("\n")}
 
-      Add the setting to one of these, in #{described_class}:
+      To fix it, regenerate the list by running
 
-      * RANDOM_DEFAULTS, if the proc generates a new value on every call
-      * ENVIRONMENT_DEPENDENT_DEFAULTS, if the value depends on the Rails environment,
-        the process environment or the database
-      * EVALUATED_PROC_DEFAULTS, if the proc returns the same value everywhere and does
-        not touch the database
+          #{regenerate}
 
-      then run `bundle exec rake docs:env_vars`.
+      and commit the change.
+    ERR
+  end
+
+  it "does not document a default that is generated on every read" do
+    undeclared = Settings::Definition.all.values.filter_map do |definition|
+      next unless definition.persist_on_first_read?
+      next unless definition.instance_variable_get(:@default).respond_to?(:call)
+
+      definition.name.to_sym
+    end - described_class::RANDOM_DEFAULTS
+
+    expect(undeclared).to be_empty, <<~ERR
+      The default of #{undeclared.to_sentence} is generated on first use. Documenting it
+      would write something that looks like an instance's secret into
+      #{described_class::DOC_PATH}, and change the page on every run.
+
+      Add the setting to #{described_class}::RANDOM_DEFAULTS, then run
+
+          #{regenerate}
     ERR
   end
 end

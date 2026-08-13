@@ -29,11 +29,44 @@
 #++
 
 namespace :docs do
-  desc "Regenerate the documented list of supported environment variables"
+  desc "Regenerate the documented list of supported environment variables (production only)"
   task env_vars: :environment do
     documentation = OpenProject::EnvironmentVariablesDocumentation
-    File.write(documentation.path, documentation.to_markdown)
 
-    puts "Wrote #{OpenProject::EnvironmentVariablesDocumentation::PAGE_PATH}"
+    # The documentation describes on-premises installations, which run in
+    # production, and a good number of defaults differ per environment. Writing
+    # the page from any other environment would silently document the wrong ones.
+    unless Rails.env.production?
+      abort <<~ABORT
+        Refusing to write #{documentation::DOC_PATH} from the #{Rails.env} environment:
+        the defaults of a good number of settings differ per environment, and the page
+        documents production installations. Run
+
+            RAILS_ENV=production bundle exec rake docs:env_vars
+      ABORT
+    end
+
+    # A handful of defaults are derived from other settings' values, so an
+    # instance that has those configured would document itself rather than a
+    # fresh installation. The spec cannot catch that, as it does not compare
+    # defaults, so refuse here instead of writing the wrong values.
+    configured = documentation.configured_derived_inputs
+    if configured.any?
+      abort <<~ABORT
+        Refusing to write #{documentation::DOC_PATH}: this instance has
+        #{configured.keys.to_sentence} configured, and the defaults of
+        default_projects_modules and real_time_text_collaboration_enabled are derived from
+        them. Generate on an installation that has none of them set, or neutralise them
+        for the run:
+
+            RAILS_ENV=production SECRET_KEY_BASE=unused_for_docs_generation \\
+              #{configured.values.join(" \\\n      ")} \\
+              bundle exec rake docs:env_vars
+      ABORT
+    end
+
+    File.write(documentation.path, documentation.update(File.read(documentation.path)))
+
+    puts "Updated the generated list in #{documentation::DOC_PATH}"
   end
 end

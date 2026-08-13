@@ -29,71 +29,72 @@
 #++
 
 module OpenProject
-  # Renders the documentation page listing the environment variables that can be
-  # used to override settings, i.e. the documented counterpart of
-  # `rake setting:available_envs`.
+  # Renders the list of environment variables that can be used to override
+  # settings, i.e. the documented counterpart of `rake setting:available_envs`.
   #
-  # The page is checked into the repository, regenerated with
-  # `rake docs:env_vars` and verified by
-  # spec/lib/open_project/environment_variables_documentation_spec.rb, so that it
-  # cannot silently go stale when settings are added, removed or changed.
+  # The list lives in the middle of a hand-written page, delimited by the two
+  # markers below, and is rewritten in place by `rake docs:env_vars`. Everything
+  # outside the markers is left untouched.
   #
-  # Not every default can be printed verbatim, though: some are generated at
-  # random, some are read from the database and some differ between Rails
-  # environments. Those are rendered as a placeholder, which keeps the output
-  # identical no matter where the task is run and therefore allows comparing the
-  # generated page as a whole.
+  # Regenerate with `RAILS_ENV=production rake docs:env_vars`. Production is not
+  # incidental: a good number of defaults differ per environment, and the page
+  # documents on-premises installations, which run in production. The task
+  # therefore refuses to run in any other environment.
+  #
+  # Two defaults are derived from other settings, so they come out as whatever
+  # the generating instance has configured: `default_projects_modules` and
+  # `real_time_text_collaboration_enabled` both consult
+  # `Setting.collaborative_editing_hocuspocus_url`. Generate on an instance that
+  # has none of that configured, or pass
+  # `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=`,
+  # `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=` and
+  # `OPENPROJECT_REAL__TIME__TEXT__COLLABORATION__ENABLED=false` to get the
+  # defaults of a fresh installation.
+  #
+  # Since the list is generated in production, the test suite cannot regenerate it
+  # and compare it. What
+  # spec/lib/open_project/environment_variables_documentation_spec.rb verifies
+  # instead is everything that does not depend on the environment: that every
+  # setting is listed, that nothing is listed that no longer exists, and that each
+  # one carries its current description.
   module EnvironmentVariablesDocumentation
-    PAGE_PATH = "docs/installation-and-operations/configuration/environment/" \
-                "supported-environment-variables/README.md"
+    DOC_PATH = "docs/installation-and-operations/configuration/environment/README.md"
+
+    BEGIN_MARKER = "<!-- BEGIN GENERATED LIST: RAILS_ENV=production bundle exec rake docs:env_vars -->"
+    END_MARKER = "<!-- END GENERATED LIST -->"
+    BLOCK_PATTERN = /#{Regexp.escape(BEGIN_MARKER)}.*?#{Regexp.escape(END_MARKER)}/m
 
     RANDOM_PLACEHOLDER = "<randomly generated>"
-    ENVIRONMENT_DEPENDENT_PLACEHOLDER = "<depends on environment>"
 
-    # Settings whose default is generated anew every time it is read, so printing
-    # it would both leak a secret and change the page on every run.
+    # Settings whose default is generated anew every time it is read. Printing it
+    # would put something that looks like this instance's secret into the
+    # documentation, and change the page on every run.
     RANDOM_DEFAULTS = %i[
       hashed_token_pepper
       installation_uuid
     ].freeze
 
-    # Settings whose default is not the same everywhere. Either it differs
-    # between Rails environments, or it is derived from state outside of the
-    # definition (the database, the process environment).
+    # Settings that other settings derive their default from, mapped to the
+    # override that puts them back into their fresh-installation state.
     #
-    # Some of these are resolved lazily and could in principle be evaluated with
-    # a pinned environment, but others are frozen when the definition is loaded
-    # (`default_by_env`, and defaults computed in the class body) and cannot be
-    # recovered afterwards. They are therefore all treated the same way.
-    ENVIRONMENT_DEPENDENT_DEFAULTS = %i[
-      collaborative_editing_hocuspocus_secret
-      collaborative_editing_hocuspocus_url
-      default_projects_modules
-      development_highlight_enabled
-      host_name
-      https
-      log_level
-      lookbook_enabled
-      password_active_rules
-      plugin_openproject_avatars
-      real_time_text_collaboration_enabled
-      show_warning_bars
-      web
-    ].freeze
-
-    # Proc defaults that are safe to call: they return the same value in every
-    # environment and do not touch the database.
-    EVALUATED_PROC_DEFAULTS = %i[
-      work_package_list_default_highlighting_mode
-    ].freeze
+    # `real_time_text_collaboration_enabled` derives its default from the two
+    # hocuspocus settings, and `default_projects_modules` derives its own from
+    # that one. They are read as values, so a configured instance - or just a row
+    # in the settings table - makes the generated list document that instance
+    # rather than a fresh installation. `docs:env_vars` refuses to run then.
+    DERIVED_DEFAULT_INPUTS = {
+      collaborative_editing_hocuspocus_url: "OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=",
+      collaborative_editing_hocuspocus_secret: "OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=",
+      real_time_text_collaboration_enabled: "OPENPROJECT_REAL__TIME__TEXT__COLLABORATION__ENABLED=false"
+    }.freeze
 
     class << self
       def path
-        Rails.root.join(PAGE_PATH)
+        Rails.root.join(DOC_PATH)
       end
 
-      # The `[env_name, definition]` pairs in the order both this page and
-      # `rake setting:available_envs` list them.
+      # The `[env_name, definition]` pairs in the order both this list and
+      # `rake setting:available_envs` show them.
       def sorted_definitions
         Settings::Definition
           .all
@@ -101,40 +102,52 @@ module OpenProject
           .sort_by { |env_name, _| env_name.downcase }
       end
 
-      # The whole page, as it is expected to be found on disk.
-      def to_markdown
+      # The description documented for each environment variable. Unlike the
+      # defaults, descriptions do not depend on the environment, which is what
+      # allows the spec to check them.
+      def descriptions
         I18n.with_locale(:en) do
-          "#{preamble}```text\n#{rows.join("\n")}\n```\n"
+          sorted_definitions.to_h { |env_name, definition| [env_name, definition.description.presence] }
         end
       end
 
-      # The settings whose default is rendered as a placeholder. Feature flags
-      # are included wholesale: their default is
-      # `force_active || Rails.env.development?`.
-      def masked_setting_names
-        RANDOM_DEFAULTS +
-          ENVIRONMENT_DEPENDENT_DEFAULTS +
-          OpenProject::FeatureDecisions.all.map { |flag| :"feature_#{flag}_active" }
+      # The DERIVED_DEFAULT_INPUTS this instance has configured, mapped to the
+      # override that neutralises each. Empty on a fresh installation.
+      def configured_derived_inputs
+        DERIVED_DEFAULT_INPUTS.select { |setting, _| Setting[setting].present? }
+      end
+
+      # The delimited block, markers included, as it is expected to be found in
+      # the page.
+      def block
+        I18n.with_locale(:en) do
+          "#{BEGIN_MARKER}\n\n```text\n#{rows.join("\n")}\n```\n\n#{END_MARKER}"
+        end
+      end
+
+      # The given page with its delimited block replaced by a freshly generated
+      # one.
+      def update(page)
+        unless page.include?(BEGIN_MARKER) && page.include?(END_MARKER)
+          raise "#{DOC_PATH} is missing the #{BEGIN_MARKER} / #{END_MARKER} markers " \
+                "delimiting the generated list."
+        end
+
+        page.sub(BLOCK_PATTERN, block)
       end
 
       private
 
       def rows
-        masked = masked_setting_names
-
         sorted_definitions.map do |env_name, definition|
           # `description` is nil for a few settings, hence the `rstrip`.
-          "#{env_name} (default=#{rendered_default(definition, masked)}) #{definition.description}".rstrip
+          "#{env_name} (default=#{rendered_default(definition)}) #{definition.description}".rstrip
         end
       end
 
-      def rendered_default(definition, masked)
-        name = definition.name.to_sym
-
-        if RANDOM_DEFAULTS.include?(name)
+      def rendered_default(definition)
+        if RANDOM_DEFAULTS.include?(definition.name.to_sym)
           RANDOM_PLACEHOLDER
-        elsif masked.include?(name)
-          ENVIRONMENT_DEPENDENT_PLACEHOLDER
         else
           definition.default.inspect
         end
@@ -146,37 +159,6 @@ module OpenProject
         else
           Settings::Definition.possible_env_names(definition).first
         end
-      end
-
-      def preamble
-        <<~MARKDOWN
-          ---
-          sidebar_navigation:
-            title: Supported environment variables
-            priority: 10
-          ---
-
-          <!-- Generated by `bundle exec rake docs:env_vars`. Do not edit this file by hand. -->
-
-          # Supported environment variables
-
-          The following settings can be overridden with an environment variable, listed with
-          their default value and, where there is one, a description. This page is generated
-          from the code and verified by a spec, so it describes the version of OpenProject
-          you are reading the documentation for.
-
-          Two kinds of default cannot be listed here:
-
-          - `#{RANDOM_PLACEHOLDER}` — a random secret, created once when it is first used.
-          - `#{ENVIRONMENT_DEPENDENT_PLACEHOLDER}` — the default differs between the
-            development, test and production environments, or is derived from other
-            settings. On-premises installations run in the production environment.
-
-          To see the values your own installation actually uses, including for those
-          settings, run `rake setting:available_envs` on it as described under
-          [Environment variables](../).
-
-        MARKDOWN
       end
     end
   end
