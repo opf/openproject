@@ -43,8 +43,10 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     create(:type,
            custom_fields: [custom_field])
   end
+  # Ordered after `type` so the assertion below shows the work package takes the project's
+  # first type rather than the one new projects are seeded with.
   let(:default_type) do
-    create(:type_task)
+    create(:type, position: type.position + 1, default_variant_enabled_in_all_projects: true)
   end
   let(:project) { create(:project, types: [type, default_type]) }
   let(:parent) do
@@ -147,7 +149,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
       expect(new_work_package.status)
         .to eql(default_status)
 
-      # assign the first type in the project (not related to is_default)
+      # assign the first type in the project, not the one activated in new projects
       expect(new_work_package.type)
         .to eql(type)
 

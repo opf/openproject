@@ -160,17 +160,36 @@ module Bim::Bcf
         end
       end
 
+      # A project_type names the configuration the project applies; the work package is typed
+      # by the type itself, so the row is only the way in.
       def missing_type(type_name, import_options)
-        project_types = project.project_types.includes(:type, :variant)
-
         if import_options[:unknown_types_action] == "use_default"
-          project_types.find { |project_type| project_type.variant.enabled_in_new_projects? }
-        elsif import_options[:unknown_types_action] == "chose" &&
-              import_options[:unknown_types_chose_ids].any?
-          project_types.find { |project_type| project_type.type_id == import_options[:unknown_types_chose_ids].first }
+          project_type_for_new_projects&.type
+        elsif chosen_type_id(import_options)
+          chosen_project_type(import_options)&.type
         elsif type_name
           Type::InexistentType.new
         end
+      end
+
+      def enabled_project_types
+        project.project_types.includes(:type, :variant)
+      end
+
+      def project_type_for_new_projects
+        enabled_project_types.find { |project_type| project_type.variant.enabled_in_new_projects? }
+      end
+
+      def chosen_type_id(import_options)
+        return unless import_options[:unknown_types_action] == "chose"
+
+        import_options[:unknown_types_chose_ids]&.first
+      end
+
+      def chosen_project_type(import_options)
+        chosen_id = chosen_type_id(import_options)
+
+        enabled_project_types.find { |project_type| project_type.type_id == chosen_id }
       end
 
       def missing_assignee(assignee_name, import_options)

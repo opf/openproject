@@ -45,10 +45,12 @@ module API
                  getter: ->(*) { color&.hexcode },
                  render_nil: true
         property :position
-        # Kept on the type in the API: the flag moved to the configuration a project applies
-        # the type through, which for a type as a whole is its base variant.
+        # Kept on the type in the API: the flag moved to the configurations a project applies
+        # the type through, and a new project gets the type when any of them carries it.
+        # Asked of the collection rather than of #default_variant, which is nil until a type
+        # is saved — representers render unsaved and stubbed types too.
         property :is_default,
-                 getter: ->(*) { default_variant.enabled_in_new_projects? }
+                 getter: ->(*) { variants.any?(&:enabled_in_new_projects?) }
         property :is_milestone
 
         date_time_property :created_at

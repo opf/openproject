@@ -33,10 +33,15 @@ module Bim::Bcf
     module DefaultWorkPackageAttributes
       module_function
 
-      # When creating a topic without an explicit type, prefer a project-specific
-      # non-default type over the global standard type ("None").
+      # When creating a topic without an explicit type, prefer a type the project does not
+      # start new projects with, falling back to its first type by position.
       def default_create_type(project)
-        project.project_types.joins(:type).order(types: { position: :asc }).first&.type
+        project_types = project.project_types.joins(:type, :variant).order(types: { position: :asc })
+
+        row = project_types.merge(TypeVariant.where(enabled_in_new_projects: false)).first ||
+              project_types.first
+
+        row&.type
       end
 
       # PUT requests reset omitted attributes; match the documented default type.

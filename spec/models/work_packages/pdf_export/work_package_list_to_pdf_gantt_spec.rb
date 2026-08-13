@@ -60,7 +60,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include PDFExportSpecUtils
 
   let!(:status_new) { create(:status, name: "New", is_default: true) }
-  let(:type_task) { create(:type_task, name: "Task", color: create(:color, hexcode: "#FFFF00")) }
+  # Sequenced position on purpose: the grouped export orders by it, and the named type
+  # factories hard-code low positions that would sort them before the milestone type.
+  let(:type_task) { create(:type, name: "Task", color: create(:color, hexcode: "#FFFF00")) }
   let(:type_bug) { create(:type_bug, name: "Bug", color: create(:color, hexcode: "#00FFFF")) }
   let!(:type_milestone) { create(:type, name: "Milestone", is_milestone: true, color: create(:color, hexcode: "#FF0000")) }
   let(:types) { [type_task, type_milestone] }
