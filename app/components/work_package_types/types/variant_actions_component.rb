@@ -62,7 +62,7 @@ module WorkPackageTypes
       def configure_action(menu)
         menu.with_item(
           label: t(:button_configure),
-          href: edit_type_form_configuration_path(type_id: variant.type_id, variant_id: variant.id)
+          href: edit_type_details_path(type_id: variant.type_id, variant_id: variant.id)
         ) do |item|
           item.with_leading_visual_icon(icon: :gear)
         end

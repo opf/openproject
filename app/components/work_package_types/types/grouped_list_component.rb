@@ -70,7 +70,7 @@ module WorkPackageTypes
       end
 
       def variant_path(variant)
-        edit_type_form_configuration_path(type_id: variant.type_id, variant_id: variant.id)
+        edit_type_details_path(type_id: variant.type_id, variant_id: variant.id)
       end
 
       def add_variant_path(type)
