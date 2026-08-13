@@ -52,31 +52,41 @@ module WorkPackageTypes
     def source_is_default? = source.present? && source == variant.type.default_variant
 
     def source_path # rubocop:disable Metrics/AbcSize
+      return nil unless mode_switchable?
+
       case aspect
       when TypeVariant::DEFAULTS
-        edit_type_defaults_path(type_id: source.type_id, variant_id: source.id)
+        helpers.scoped_variant_path(:edit_type_defaults_path, type_id: source.type_id, variant_id: source.id)
       when TypeVariant::PDF_EXPORT
-        edit_type_pdf_export_template_index_path(type_id: source.type_id, variant_id: source.id)
+        helpers.scoped_variant_path(:edit_type_pdf_export_template_index_path, type_id: source.type_id, variant_id: source.id)
       when TypeVariant::PROJECT_ATTRIBUTES
-        edit_type_project_attributes_path(type_id: source.type_id, variant_id: source.id)
+        helpers.scoped_variant_path(:edit_type_project_attributes_path, type_id: source.type_id, variant_id: source.id)
       when TypeVariant::WORKFLOWS
-        edit_type_workflow_path(type_id: source.type_id, variant_id: source.id)
+        helpers.scoped_variant_path(:edit_type_workflow_path, type_id: source.type_id, variant_id: source.id)
       else
-        edit_type_form_configuration_path(type_id: source.type_id, variant_id: source.id)
+        helpers.scoped_variant_path(:edit_type_form_configuration_path, type_id: source.type_id, variant_id: source.id)
       end
     end
 
-    def copy_supported? = CopyConfiguration.supported?(aspect)
+    # Choosing what a configuration inherits from picks among the types of the whole instance,
+    # so it stays an administration decision. Where those screens cannot be reached the banner
+    # still states the mode — a project administrator needs to know a configuration is
+    # inherited — but offers nothing it cannot carry out.
+    def mode_switchable? = helpers.scoped_variant_route?(:type_configuration_link_dialog_path)
 
-    def copy_dialog_path = type_configuration_copy_dialog_path(**dialog_path_args)
+    def copy_supported? = CopyConfiguration.supported?(aspect) && mode_switchable?
 
-    def link_dialog_path = type_configuration_link_dialog_path(**dialog_path_args)
+    def copy_dialog_path = helpers.scoped_variant_path(:type_configuration_copy_dialog_path, **dialog_path_args)
 
-    def independent_dialog_path = type_configuration_independence_dialog_path(**dialog_path_args)
+    def link_dialog_path = helpers.scoped_variant_path(:type_configuration_link_dialog_path, **dialog_path_args)
+
+    def independent_dialog_path = helpers.scoped_variant_path(:type_configuration_independence_dialog_path, **dialog_path_args)
 
     def dialog_path_args = variant.path_args.merge(aspect:)
 
     def linked_description
+      return unlinked_description if source_path.nil?
+
       helpers.link_translate(
         "types.edit.reuse_mode.linked.description",
         i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
@@ -86,6 +96,12 @@ module WorkPackageTypes
         # otherwise swallow the navigation and leave the rest of the page on the old variant.
         data: { turbo_frame: "_top" }
       )
+    end
+
+    def unlinked_description
+      I18n.t("types.edit.reuse_mode.linked.description_unlinked",
+             source_name: source.composite_name,
+             source_suffix: parent_suffix)
     end
 
     def parent_suffix

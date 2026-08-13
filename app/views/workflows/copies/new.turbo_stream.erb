@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :button,
                 type: :submit,
                 form: "copy_form",
-                formaction: type_workflow_copy_from_role_path(type_id: @source_variant.type_id, variant_id: @source_variant.id, source_role_id: @source_role&.id),
+                formaction: scoped_variant_path(:type_workflow_copy_from_role_path, type_id: @source_variant.type_id, variant_id: @source_variant.id, source_role_id: @source_role&.id),
                 data: { turbo: true }
               )
             ) do
@@ -66,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :button,
                 type: :submit,
                 form: "copy_form",
-                formaction: type_workflow_copy_from_variant_path(type_id: @source_variant.type_id, variant_id: @source_variant.id),
+                formaction: scoped_variant_path(:type_workflow_copy_from_variant_path, type_id: @source_variant.type_id, variant_id: @source_variant.id),
                 data: {
                   target_name: "mode",
                   value: "from_type",
@@ -84,7 +84,7 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :button,
                 type: :submit,
                 form: "copy_form",
-                formaction: type_workflow_copy_from_role_path(type_id: @source_variant.type_id, variant_id: @source_variant.id, source_role_id: @source_role&.id),
+                formaction: scoped_variant_path(:type_workflow_copy_from_role_path, type_id: @source_variant.type_id, variant_id: @source_variant.id, source_role_id: @source_role&.id),
                 data: {
                   target_name: "mode",
                   value: "from_role",

@@ -86,7 +86,8 @@ module WorkPackageTypes
       end
 
       def configure_action(menu)
-        menu.with_item(label: t(:button_configure), href: edit_type_details_path(type_id: type.id)) do |item|
+        menu.with_item(label: t(:button_configure),
+                       href: helpers.scoped_variant_path(:edit_type_details_path, type_id: type.id)) do |item|
           item.with_leading_visual_icon(icon: :gear)
         end
       end

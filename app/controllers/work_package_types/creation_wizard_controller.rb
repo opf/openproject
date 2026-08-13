@@ -83,7 +83,7 @@ module WorkPackageTypes
       @type = @variant = service_call.result
 
       if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @variant)
       else
         @current_step = Wizard::Steps.first
         render :show, status: :unprocessable_entity
@@ -97,7 +97,7 @@ module WorkPackageTypes
       @variant = service_call.result
 
       if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @variant)
       else
         @current_step = Wizard::Steps.first
         render :show, status: :unprocessable_entity
@@ -169,7 +169,7 @@ module WorkPackageTypes
     end
 
     def advance
-      redirect_to_step Wizard::Steps.next_after(@current_step)
+      redirect_to_step Wizard::Steps.next_after(@current_step, @variant)
     end
 
     def redirect_to_step(step)

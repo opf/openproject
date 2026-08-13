@@ -48,7 +48,7 @@ module WorkPackageTypes
       attr_reader :variant, :aspect, :mode
 
       def switch_path
-        type_configuration_independence_switch_path(**variant.path_args, aspect:)
+        helpers.scoped_variant_path(:type_configuration_independence_switch_path, **variant.path_args, aspect:)
       end
     end
   end

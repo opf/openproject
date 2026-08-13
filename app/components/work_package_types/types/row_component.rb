@@ -45,7 +45,7 @@ module WorkPackageTypes
       end
 
       def name
-        link_to(model.name, edit_type_details_path(type_id: model.id))
+        link_to(model.name, helpers.scoped_variant_path(:edit_type_details_path, type_id: model.id))
       end
 
       def workflow_warning
@@ -55,7 +55,7 @@ module WorkPackageTypes
                     op_icon("icon3 icon-warning"),
                     t(:text_type_no_workflow),
                     " (",
-                    link_to(t(:button_edit), edit_type_workflow_path(model)),
+                    link_to(t(:button_edit), helpers.scoped_variant_path(:edit_type_workflow_path, model)),
                     ")"
                   ])
       end

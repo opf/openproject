@@ -37,6 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
           description: linked_description
         )
       ) do |banner| %>
+    <% if mode_switchable? %>
     <% banner.with_action_content do %>
       <%= render(
             Primer::Beta::Button.new(
@@ -55,6 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
             )
           ) { t("types.edit.reuse_mode.linked.switch_to_independent") } %>
     <% end %>
+    <% end %>
     <%= t("types.edit.reuse_mode.linked.title") %>
   <% end %>
 <% else %>
@@ -67,6 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
           description: t("types.edit.reuse_mode.independent.description")
         )
       ) do |banner| %>
+    <% if mode_switchable? %>
     <% banner.with_action_content do %>
       <% if copy_supported? %>
         <%= render(
@@ -86,6 +89,7 @@ See COPYRIGHT and LICENSE files for more details.
               data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-linked" }
             )
           ) { t("types.edit.reuse_mode.independent.switch_to_linked") } %>
+    <% end %>
     <% end %>
     <%= t("types.edit.reuse_mode.independent.title") %>
   <% end %>

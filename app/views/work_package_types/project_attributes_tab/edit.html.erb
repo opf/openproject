@@ -15,7 +15,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_project_attributes_path(**@variant.path_args)
+        reload_url: scoped_variant_path(:edit_type_project_attributes_path, **@variant.path_args)
       )
     ) do %>
   <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::PROJECT_ATTRIBUTES)) %>

@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
         unless readonly?
           header.with_action_button(
             tag: :a,
-            href: enable_all_type_pdf_export_template_index_path(**@variant.path_args),
+            href: helpers.scoped_variant_path(:enable_all_type_pdf_export_template_index_path, **@variant.path_args),
             scheme: :invisible,
             font_weight: :bold,
             color: :subtle,
@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
           header.with_action_button(
             tag: :a,
-            href: disable_all_type_pdf_export_template_index_path(**@variant.path_args),
+            href: helpers.scoped_variant_path(:disable_all_type_pdf_export_template_index_path, **@variant.path_args),
             scheme: :invisible,
             font_weight: :bold,
             color: :subtle,

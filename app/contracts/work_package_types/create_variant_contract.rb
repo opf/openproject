@@ -32,15 +32,17 @@ module WorkPackageTypes
   # A named variant's own attributes. Everything else about it is configuration, which the
   # aspect tabs and their services own.
   class CreateVariantContract < ::ModelContract
-    include RequiresAdminGuard
+    include AuthorizesVariantAuthoring
 
     def self.model = TypeVariant
 
     attribute :variant_name
 
     # Set by CreateVariantService rather than by whoever calls it: a new variant belongs to the
-    # type it was added to, and starts out Linked to that type's base configuration.
+    # type it was added to, is owned by the project it was created from, if any, and starts out
+    # Linked to that type's base configuration.
     attribute :type_id
+    attribute :project_id
     TypeVariant::ASPECTS.each { |aspect| attribute :"#{aspect}_source_id" }
   end
 end

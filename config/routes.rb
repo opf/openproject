@@ -154,6 +154,122 @@ Rails.application.routes.draw do
 
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
+  # Configuring one variant of a type. Mounted twice: under /types for administration, and
+  # under a project's settings for the variants a project owns. Same tab controllers either
+  # way — only the module, and what the caller is allowed to reach, differ.
+  concern :type_variant_configuration do |options|
+    # Which projects use a type is an instance-wide decision, and a project-owned variant is
+    # only ever used by the project owning it, so this has nothing to offer there.
+    unless options[:without_project_activation]
+      resource :projects, controller: "projects_tab", only: %i[edit update] do
+        collection do
+          post :enable_all, to: "projects_tab#enable_all_projects"
+
+          get :new_link
+          get :tree
+          post :link
+          delete :unlink
+
+          get :new_switch
+          post :switch
+        end
+      end
+    end
+
+    resource :details, controller: "details_tab", only: %i[update edit]
+
+    resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
+      get :reset_dialog
+      resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
+        collection do
+          post :add_group
+        end
+
+        member do
+          post :cancel_edit
+          put :drop
+          put :move
+          patch :update_query
+        end
+      end
+      resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
+        member do
+          put :drop
+          put :move
+        end
+      end
+    end
+
+    resource :project_attributes, controller: "project_attributes_tab", only: %i[edit] do
+      post :toggle
+      put :enable_all_of_section
+      put :disable_all_of_section
+    end
+
+    resource :defaults, controller: "defaults_tab", only: %i[update edit]
+
+    # Choosing where a configuration is inherited from picks among types across the instance,
+    # so it stays an administration decision.
+    unless options[:without_reuse_mode]
+      scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
+        get :dialog
+        post :confirm
+        post :switch
+      end
+
+      scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
+        get :dialog
+        post :confirm
+        post :switch
+      end
+
+      scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
+        get :dialog
+        post :confirm
+        post :copy
+      end
+    end
+
+    scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
+      post :toggle
+    end
+
+    resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      resource :matrix, only: %i[show update], controller: options[:matrix_controller] do
+        get :status_dialog
+        post :confirm_statuses
+      end
+
+      # Copying a workflow reaches across every type and role in the instance, so it is not
+      # offered where the caller is only trusted with one project.
+      unless options[:without_workflow_copy]
+        resource :copy, only: %i[new], controller: "/workflows/copies" do
+          resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
+          resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+        end
+      end
+    end
+
+    resources :pdf_export_template, only: %i[],
+                                    controller: "pdf_export_template",
+                                    path: "pdf_export" do
+      member do
+        post :toggle
+        put :drop
+        get :edit_settings
+        patch :update_settings
+      end
+      collection do
+        get :edit
+        put :enable_all
+        put :disable_all
+        put :update_artefact_export
+      end
+    end
+
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+  end
+
   resources :types, module: "work_package_types", except: [:update] do
     resources :variants, controller: "variants", only: %i[index destroy] do
       member do
@@ -169,104 +285,8 @@ Rails.application.routes.draw do
     # the type member rather than in front of it.
     nested do
       scope "(variants/:variant_id)" do
-        resource :projects, controller: "projects_tab", only: %i[edit update] do
-          collection do
-            post :enable_all, to: "projects_tab#enable_all_projects"
-
-            get :new_link
-            get :tree
-            post :link
-            delete :unlink
-
-            get :new_switch
-            post :switch
-          end
-        end
-
-        resource :details, controller: "details_tab", only: %i[update edit]
-
-        resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
-          get :reset_dialog
-          resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
-            collection do
-              post :add_group
-            end
-
-            member do
-              post :cancel_edit
-              put :drop
-              put :move
-              patch :update_query
-            end
-          end
-          resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
-            member do
-              put :drop
-              put :move
-            end
-          end
-        end
-
-        resource :project_attributes, controller: "project_attributes_tab", only: %i[edit] do
-          post :toggle
-          put :enable_all_of_section
-          put :disable_all_of_section
-        end
-
-        resource :defaults, controller: "defaults_tab", only: %i[update edit]
-
-        scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
-          get :dialog
-          post :confirm
-          post :switch
-        end
-
-        scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
-          get :dialog
-          post :confirm
-          post :switch
-        end
-
-        scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
-          get :dialog
-          post :confirm
-          post :copy
-        end
-
-        scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
-          post :toggle
-        end
-
-        resource :workflow, controller: "workflow_tab", only: %i[edit] do
-          resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
-            get :status_dialog
-            post :confirm_statuses
-          end
-
-          resource :copy, only: %i[new], controller: "/workflows/copies" do
-            resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
-            resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
-          end
-        end
-
-        resources :pdf_export_template, only: %i[],
-                                        controller: "pdf_export_template",
-                                        path: "pdf_export" do
-          member do
-            post :toggle
-            put :drop
-            get :edit_settings
-            patch :update_settings
-          end
-          collection do
-            get :edit
-            put :enable_all
-            put :disable_all
-            put :update_artefact_export
-          end
-        end
-
-        resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+        concerns :type_variant_configuration,
+                 matrix_controller: "/workflows/matrix"
       end
     end
 
@@ -461,8 +481,32 @@ Rails.application.routes.draw do
           resources :types, only: %i[index new create destroy] do
             patch :bulk_update, on: :collection
 
+            # Creating a variant: none exists to address yet, so these live on the collection
+            # like their administration counterparts. Only variant creation is offered here —
+            # a type itself is still created in administration.
+            collection do
+              get "variants/new", to: "types/variants/creation_wizard#new", as: :new_creation_wizard
+              post "variants", to: "types/variants/creation_wizard#create", as: :creation_wizard
+            end
+
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
+            end
+
+            # The variants this project owns, configured with the very same tabs used in
+            # administration. Copying a workflow is left out: it reaches across the instance.
+            scope module: "types" do
+              resources :variants, controller: "variants", only: %i[destroy]
+
+              nested do
+                scope "variants/:variant_id", module: "variants" do
+                  concerns :type_variant_configuration,
+                           matrix_controller: "/projects/settings/work_packages/types/variants/matrix",
+                           without_workflow_copy: true,
+                           without_project_activation: true,
+                           without_reuse_mode: true
+                end
+              end
             end
           end
           resource :custom_fields, only: %i[show update]

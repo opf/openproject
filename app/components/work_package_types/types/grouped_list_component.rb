@@ -86,7 +86,7 @@ module WorkPackageTypes
       end
 
       def variant_menu_src(variant)
-        menu_type_variant_path(type_id: variant.type_id, id: variant.id)
+        helpers.scoped_variant_path(:menu_type_variant_path, type_id: variant.type_id, id: variant.id)
       end
 
       def reorderable?(type)

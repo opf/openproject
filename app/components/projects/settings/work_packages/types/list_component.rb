@@ -53,8 +53,51 @@ module Projects
                                         .sort_by { |project_type| project_type.type.position }
           end
 
+          # A family whose only named variants belong to other projects offers this one nothing.
           def switchable?(project_type)
-            project_type.type.variants.non_default_variants.exists?
+            selectable_variants(project_type).any?
+          end
+
+          # The named variants this project may use: the global ones plus its own. Another
+          # project's are not merely unlisted, they cannot be switched onto either.
+          def selectable_variants(project_type)
+            project_type.type.variants.non_default_variants.available_in(project).in_display_order
+          end
+
+          def owned?(variant)
+            variant.project_id == project.id
+          end
+
+          # Only a variant this project owns is one it may configure; the global ones belong
+          # to administration.
+          def manageable?
+            User.current.allowed_in_project?(:manage_project_variants, project)
+          end
+
+          def add_variant_path(type)
+            new_creation_wizard_project_settings_work_packages_types_path(project, type_id: type.id)
+          end
+
+          def edit_variant_path(variant)
+            edit_project_settings_work_packages_type_details_path(project, variant.type, variant_id: variant.id)
+          end
+
+          def delete_variant_path(variant)
+            project_settings_work_packages_type_variant_path(project, variant.type, variant)
+          end
+
+          def variant_actions(menu, variant)
+            menu.with_item(label: t(:button_edit), href: edit_variant_path(variant)) do |entry|
+              entry.with_leading_visual_icon(icon: :pencil)
+            end
+            menu.with_item(
+              label: t(:button_delete),
+              scheme: :danger,
+              href: delete_variant_path(variant),
+              form_arguments: { method: :delete }
+            ) do |entry|
+              entry.with_leading_visual_icon(icon: :trash)
+            end
           end
 
           def switch_path(type)

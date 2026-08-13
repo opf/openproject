@@ -32,48 +32,53 @@ module ::TypesHelper
   include CustomFieldsHelper
 
   # rubocop:disable Rails/HelperInstanceVariable
+  # The same tabs serve administration and a project's settings; variant_path decides which
+  # scope's route each one names. The projects tab is dropped where it has nothing to offer:
+  # a variant a project owns is only ever used in that project.
   def types_tabs # rubocop:disable Metrics/AbcSize
     variant_args = type_variant_tab_args
 
-    [
+    tabs = [
       {
         name: "details",
-        path: edit_type_details_path(**variant_args),
+        path: scoped_variant_path(:edit_type_details_path, **variant_args),
         label: I18n.t("types.edit.details.tab")
       },
       {
         name: "defaults",
-        path: edit_type_defaults_path(**variant_args),
+        path: scoped_variant_path(:edit_type_defaults_path, **variant_args),
         label: I18n.t("types.edit.defaults.tab")
       },
       variants_tab,
       {
         name: "form_configuration",
-        path: edit_type_form_configuration_path(**variant_args),
+        path: scoped_variant_path(:edit_type_form_configuration_path, **variant_args),
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
         name: "workflow",
-        path: edit_type_workflow_path(**variant_args),
+        path: scoped_variant_path(:edit_type_workflow_path, **variant_args),
         label: I18n.t("types.edit.workflow.tab")
       },
       {
         name: "project_attributes",
-        path: edit_type_project_attributes_path(**variant_args),
+        path: scoped_variant_path(:edit_type_project_attributes_path, **variant_args),
         label: I18n.t("types.edit.project_attributes.tab")
       },
       {
         name: "projects",
-        path: edit_type_projects_path(**variant_args),
+        path: scoped_variant_path_if_available(:edit_type_projects_path, **variant_args),
         label: I18n.t("types.edit.projects.tab")
       },
       {
         name: "export_configuration",
-        path: edit_type_pdf_export_template_index_path(**variant_args),
+        path: scoped_variant_path(:edit_type_pdf_export_template_index_path, **variant_args),
         label: I18n.t("types.edit.export_configuration.tab"),
         view_component: WorkPackageTypes::ExportConfigurationComponent
       }
     ].compact
+
+    tabs.select { |tab| tab[:path] }
   end
 
   def type_variant_tab_args

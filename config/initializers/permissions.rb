@@ -246,6 +246,31 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
+      # Deliberately separate from :manage_types, which is about which types a project uses.
+      # This one is about authoring the project's own variants of them.
+      map.permission :manage_project_variants,
+                     {
+                       "projects/settings/work_packages/types/variants": %i[create destroy],
+                       "projects/settings/work_packages/types/variants/details_tab": %i[edit update],
+                       "projects/settings/work_packages/types/variants/defaults_tab": %i[edit update],
+                       "projects/settings/work_packages/types/variants/form_configuration_tab": %i[edit update
+                                                                                                   reset_dialog],
+                       "projects/settings/work_packages/types/variants/form_configuration_groups_tab":
+                         %i[create edit update destroy add_group cancel_edit drop move update_query],
+                       "projects/settings/work_packages/types/variants/project_attributes_tab":
+                         %i[edit toggle enable_all_of_section disable_all_of_section],
+                       "projects/settings/work_packages/types/variants/workflow_tab": %i[edit],
+                       "projects/settings/work_packages/types/variants/pdf_export_template":
+                         %i[edit toggle drop enable_all disable_all update_artefact_export],
+                       "projects/settings/work_packages/types/variants/excluded_elements": %i[toggle],
+                       "projects/settings/work_packages/types/variants/creation_wizard":
+                         %i[new create show update],
+                       "projects/settings/work_packages/types/variants/matrix":
+                         %i[show update status_dialog confirm_statuses]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
       map.permission :select_custom_fields,
                      {
                        "projects/settings/work_packages/custom_fields": %i[show update]

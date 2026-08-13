@@ -39,6 +39,7 @@ class ProjectType < ApplicationRecord
   validates :type, presence: true
   validates :variant, presence: true
   validate :variant_belongs_to_type
+  validate :variant_is_available_to_project
 
   private
 
@@ -51,5 +52,14 @@ class ProjectType < ApplicationRecord
     return if variant.type == type
 
     errors.add(:variant, :must_belong_to_the_type)
+  end
+
+  # A variant another project owns is not merely hidden from this one: it may not be activated
+  # here even by an instance administrator, who can see every variant there is.
+  def variant_is_available_to_project
+    return if variant.nil? || !variant.project_owned?
+    return if variant.project_id == project_id
+
+    errors.add(:variant, :must_be_owned_by_the_project)
   end
 end
