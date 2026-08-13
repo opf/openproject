@@ -194,7 +194,6 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
           <WpPreviewPopover
             // eslint-disable-next-line react-hooks/refs
             anchorEl={chipRef.current}
-            onClose={closePreview}
             {...cardProps}
           >
             <BlockCard workPackage={wp} size="m" linkTitle />

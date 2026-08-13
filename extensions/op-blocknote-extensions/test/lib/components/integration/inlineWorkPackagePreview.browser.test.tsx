@@ -38,7 +38,7 @@ function FlipHarness({ anchorTop }:{ anchorTop:number }) {
         #123
       </span>
       {anchor && (
-        <WpPreviewPopover anchorEl={anchor} onClose={() => {}}>
+        <WpPreviewPopover anchorEl={anchor}>
           <BlockCard workPackage={previewWp} size="m" linkTitle />
         </WpPreviewPopover>
       )}

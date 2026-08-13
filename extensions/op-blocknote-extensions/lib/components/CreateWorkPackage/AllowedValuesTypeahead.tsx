@@ -28,7 +28,6 @@ interface SuggestionsProps {
   optionId:(index:number) => string;
   onFocusIndex:(index:number) => void;
   onPick:(option:AllowedValue) => void;
-  onClose:() => void;
   children:React.ReactNode;
 }
 
@@ -41,7 +40,6 @@ const Suggestions = ({
   optionId,
   onFocusIndex,
   onPick,
-  onClose,
   children,
 }:SuggestionsProps) => {
   const listRef = useRef<HTMLDivElement>(null);
@@ -51,8 +49,6 @@ const Suggestions = ({
     popoverRef: listRef,
     placement: 'below',
     offset: LIST_OFFSET,
-    onClose,
-    closeOnScroll: false,
     matchAnchorWidth: true,
     maxHeight: MAX_LIST_HEIGHT,
     resizeKey: options.length,
@@ -241,7 +237,6 @@ export const AllowedValuesTypeahead = ({
           optionId={optionId}
           onFocusIndex={setFocusedIndex}
           onPick={select}
-          onClose={() => setIsOpen(false)}
         >
           {loading ? t('createWorkPackage.loading') : t('createWorkPackage.noResults')}
         </Suggestions>

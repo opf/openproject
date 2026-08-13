@@ -73,8 +73,8 @@ export function useWorkPackagePreview({ enabled, suppressed }:UseWorkPackagePrev
     [clearTimers]
   );
 
-  // Stable identity: the popover's positioning effect subscribes scroll/resize
-  // listeners keyed on onClose, so it must not change every render.
+  // Stable identity: the chip closes the preview from an effect keyed on it, so
+  // it must not change every render.
   const closePreview = useCallback(() => {
     clearTimers();
     setPreviewOpen(false);
