@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
-import type { WorkPackage, WorkPackageForm, WorkPackagePayload, WorkPackageSchema } from '../../openProjectTypes';
+import type { WorkPackage, WorkPackageForm, WorkPackagePayload } from '../../openProjectTypes';
 import { createWorkPackage, fetchWorkPackageCreateForm, OpenProjectApiError } from '../../services/openProjectApi';
 import {
   applyValue,
   buildCreatePayload,
   clearsOtherValues,
   extraRequiredFields,
-  fieldFor,
   fixedFields,
   isValueFilled,
-  missingRequiredFields,
+  missingProblems,
   splitAttributeErrors,
   unsupportedRequiredFields,
+  valueProblems,
 } from './formSchema';
-import type { FieldErrors, FieldValue, FieldValues, FormField } from './formSchema';
+import type { FieldErrors, FieldValue, FieldValues, FormField, ValueProblems } from './formSchema';
 
 export interface CreateWorkPackageFormState {
   primaryFields:FormField[];
@@ -30,31 +30,18 @@ export interface CreateWorkPackageFormState {
   submitting:boolean;
   submitError:string | null;
   fieldErrors:FieldErrors;
+  valueProblems:ValueProblems;
   unsupportedFields:FormField[];
-  canSubmit:boolean;
-  submit:() => void;
+  submitEnabled:boolean;
+  attemptSubmit:() => string | undefined;
 }
 
 function messageOf(error:unknown):string {
   return error instanceof Error ? error.message : String(error);
 }
 
-function hrefOf(payload:WorkPackagePayload | undefined, key:string):string | undefined {
-  const link = payload?._links?.[key];
-  if (!link || Array.isArray(link)) return undefined;
-  return link.href ?? undefined;
-}
-
-function defaultValuesOf(
-  schema:WorkPackageSchema | undefined,
-  payload:WorkPackagePayload | undefined,
-  fields:FormField[]
-):FieldValues {
+function defaultValuesOf(fields:FormField[]):FieldValues {
   const defaults:FieldValues = {};
-
-  const statusHref = hrefOf(payload, 'status');
-  if (statusHref && fieldFor(schema, 'status')) defaults.status = statusHref;
-
   for (const field of fields) {
     if (field.kind === 'checkbox') defaults[field.key] = false;
   }
@@ -72,6 +59,7 @@ export function useCreateWorkPackageForm(
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const projectHref = typeof values.project === 'string' && values.project ? values.project : undefined;
   const typeHref = typeof values.type === 'string' && values.type ? values.type : undefined;
@@ -90,8 +78,7 @@ export function useCreateWorkPackageForm(
         setForm(loaded);
         setLoadError(null);
         setNotAllowed(false);
-        const schema = loaded._embedded?.schema;
-        const defaults = defaultValuesOf(schema, loaded._embedded?.payload, extraRequiredFields(schema));
+        const defaults = defaultValuesOf(extraRequiredFields(loaded._embedded?.schema));
         setValues((previous) => ({ ...defaults, ...previous }));
       })
       .catch((error:unknown) => {
@@ -131,6 +118,7 @@ export function useCreateWorkPackageForm(
 
   const setValue = (key:string, value:FieldValue) => {
     setSubmitError(null);
+    if (clearsOtherValues(key)) setSubmitAttempted(false);
     // Only the corrected field loses its complaint, unless the whole form is reloaded.
     setFieldErrors((previous) => {
       if (clearsOtherValues(key)) return {};
@@ -144,15 +132,18 @@ export function useCreateWorkPackageForm(
   };
 
   const unsupportedFields = unsupportedRequiredFields(allFields);
+  const badValues = valueProblems(allFields, values);
+  const blocking = { ...missingProblems(allFields, values), ...badValues };
+  const blockingKeys = allFields.map((field) => field.key).filter((key) => key in blocking);
 
-  const canSubmit =
+  const problems = submitAttempted ? blocking : badValues;
+
+  const submitEnabled =
     !loading &&
     !submitting &&
     loadError === null &&
     !notAllowed &&
-    selected.type &&
-    unsupportedFields.length === 0 &&
-    missingRequiredFields(allFields, values).length === 0;
+    unsupportedFields.length === 0;
 
   const isDirty = allFields.some((field) => field.kind !== 'checkbox' && isValueFilled(field, values[field.key]));
 
@@ -185,6 +176,16 @@ export function useCreateWorkPackageForm(
       );
   };
 
+  const attemptSubmit = () => {
+    if (blockingKeys.length === 0) {
+      submit();
+      return undefined;
+    }
+
+    setSubmitAttempted(true);
+    return blockingKeys[0];
+  };
+
   return {
     primaryFields,
     extraFields,
@@ -200,8 +201,9 @@ export function useCreateWorkPackageForm(
     submitting,
     submitError,
     fieldErrors,
+    valueProblems: problems,
     unsupportedFields,
-    canSubmit,
-    submit,
+    submitEnabled,
+    attemptSubmit,
   };
 }

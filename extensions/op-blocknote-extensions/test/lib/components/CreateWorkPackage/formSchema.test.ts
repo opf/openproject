@@ -10,9 +10,11 @@ import {
   extraRequiredFields,
   fieldFor,
   fixedFields,
+  missingProblems,
   missingRequiredFields,
   splitAttributeErrors,
   unsupportedRequiredFields,
+  valueProblems,
 } from '../../../../lib/components/CreateWorkPackage/formSchema';
 import type { SchemaProperty, WorkPackageSchema } from '../../../../lib/openProjectTypes';
 
@@ -177,14 +179,28 @@ describe('formSchema', () => {
   });
 
   describe('fixedFields', () => {
-    it('asks for the project before the type, and for the type before the status', () => {
+    it('asks for the project before the type, and only for what has no default', () => {
       const withoutProject = fixedFields(schema, { project: false, type: false });
       const withProject = fixedFields(schema, { project: true, type: false });
       const withType = fixedFields(schema, { project: true, type: true });
 
       expect(withoutProject.map((field) => field.key)).toEqual(['subject', 'project']);
       expect(withProject.map((field) => field.key)).toEqual(['subject', 'project', 'assignee', 'type']);
-      expect(withType.map((field) => field.key)).toEqual(['subject', 'project', 'assignee', 'type', 'status']);
+      expect(withType.map((field) => field.key)).toEqual(['subject', 'project', 'assignee', 'type']);
+    });
+
+    it('asks for a fixed attribute the instance leaves without a default', () => {
+      const withoutDefault = { ...schema, status: { ...schema.status as SchemaProperty, hasDefault: false } };
+
+      expect(fixedFields(withoutDefault, { project: true, type: true }).map((field) => field.key))
+        .toEqual(['subject', 'project', 'assignee', 'type', 'status']);
+    });
+
+    it('never asks for a fixed attribute it may not write', () => {
+      const readOnly = { ...schema, assignee: { ...schema.assignee as SchemaProperty, writable: false } };
+
+      expect(fixedFields(readOnly, { project: true, type: true }).map((field) => field.key))
+        .toEqual(['subject', 'project', 'type']);
     });
 
     it('reports which selection each field follows', () => {
@@ -289,6 +305,42 @@ describe('formSchema', () => {
 
     it('reports required attributes without a control', () => {
       expect(unsupportedRequiredFields(fields).map((field) => field.key)).toEqual(['customField5']);
+    });
+
+    it('hands what is missing to the field it belongs to', () => {
+      expect(missingProblems(fields, { subject: '   ', customField2: false })).toEqual({
+        subject: 'missing',
+        type: 'missing',
+        customField5: 'missing',
+      });
+    });
+  });
+
+  describe('valueProblems', () => {
+    const wholeNumber = fieldFor(schema, 'percentageDone')!;
+    const anyNumber = buildField('estimatedTime', property({ type: 'Float', name: 'Work' }));
+    const fields = [wholeNumber, anyNumber, fieldFor(schema, 'subject')!];
+
+    it('complains about what cannot be read as a number', () => {
+      expect(valueProblems(fields, { percentageDone: '2-4', estimatedTime: 'a lot' })).toEqual({
+        percentageDone: 'notANumber',
+        estimatedTime: 'notANumber',
+      });
+    });
+
+    it('complains about a decimal only where whole numbers are asked for', () => {
+      expect(valueProblems(fields, { percentageDone: '12.5', estimatedTime: '12.5' }))
+        .toEqual({ percentageDone: 'notAWholeNumber' });
+    });
+
+    it('says nothing about a number, nor about a field left empty', () => {
+      expect(valueProblems(fields, { percentageDone: '30', estimatedTime: '-1.5', subject: '' })).toEqual({});
+      expect(valueProblems(fields, { percentageDone: '  ' })).toEqual({});
+      expect(valueProblems(fields, {})).toEqual({});
+    });
+
+    it('leaves what is not a number field to the API', () => {
+      expect(valueProblems(fields, { subject: '2-4' })).toEqual({});
     });
   });
 

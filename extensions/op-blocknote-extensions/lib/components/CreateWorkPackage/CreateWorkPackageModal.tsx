@@ -13,6 +13,7 @@ import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
 import {
   Body,
   Button,
+  Divider,
   Footer,
   Form,
   Header,
@@ -133,10 +134,17 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
     submitting,
     submitError,
     fieldErrors,
+    valueProblems,
     unsupportedFields,
-    canSubmit,
-    submit,
+    submitEnabled,
+    attemptSubmit,
   } = useCreateWorkPackageForm(onCreated);
+
+  const showField = (key:string) => {
+    const control = panelRef.current?.querySelector<HTMLElement>(`[id="op-bn-create-wp-${key}"]`);
+    control?.focus();
+    control?.scrollIntoView({ block: 'nearest' });
+  };
 
   // A long form scrolls the message on top out of view, so it only points down.
   const formError = [
@@ -158,6 +166,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
       value={values[field.key]}
       autoFocus={field.key === 'subject'}
       error={fieldErrors[field.key]}
+      problem={valueProblems[field.key]}
       onChange={(value) => setValue(field.key, value)}
     />
   );
@@ -187,7 +196,10 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
           <Form
             onSubmit={(event) => {
               event.preventDefault();
-              if (canSubmit) submit();
+              if (!submitEnabled) return;
+
+              const blocking = attemptSubmit();
+              if (blocking) showField(blocking);
             }}
           >
             <Body>
@@ -207,6 +219,8 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
                     : t('createWorkPackage.loadingFields')}
                 </LoadingRow>
               )}
+
+              {extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
 
               {extraFields.map(renderField)}
 
@@ -233,7 +247,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
                 type="submit"
                 $primary
                 data-testid="create-wp-submit"
-                disabled={!canSubmit}
+                disabled={!submitEnabled}
               >
                 {submitting ? t('createWorkPackage.creating') : t('createWorkPackage.create')}
               </Button>

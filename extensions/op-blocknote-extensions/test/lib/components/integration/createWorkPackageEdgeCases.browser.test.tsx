@@ -125,13 +125,12 @@ describe('Create work package - form and editor boundaries', () => {
     await userEvent.click(page.getByRole('option', { name: 'Demo project' }));
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
     await selectOptionNamed('Type *', 'Task');
-    await expect.element(page.getByLabelText('Status *')).toBeVisible();
+    await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
 
     await userEvent.fill(page.getByLabelText('Project *'), 'Scrum');
     await userEvent.click(page.getByRole('option', { name: 'Scrum project' }));
 
     await expect.element(page.getByLabelText('Type *')).toHaveValue('');
-    await expect.element(page.getByLabelText('Status *')).not.toBeInTheDocument();
     await expect.element(page.getByLabelText('Supervisor *')).not.toBeInTheDocument();
   });
 
@@ -147,6 +146,8 @@ describe('Create work package - form and editor boundaries', () => {
 
     await expect.element(page.getByText('You are not allowed to create work packages.')).toBeVisible();
     await expect.element(page.getByTestId('create-wp-submit')).toBeDisabled();
+    expect(getComputedStyle(page.getByTestId('create-wp-submit').element()).backgroundColor)
+      .toBe('rgb(149, 216, 166)');
   });
 
   it('reports a form that cannot be loaded', async () => {
@@ -162,7 +163,7 @@ describe('Create work package - form and editor boundaries', () => {
     await expect.element(page.getByText('The work package form could not be loaded: Boom.')).toBeVisible();
   });
 
-  it('takes no separator in a whole number field', async () => {
+  it('points at a whole number field it cannot read, once something is in it', async () => {
     worker.use(
       http.post('http://localhost:3000/api/v3/work_packages/form', async ({ request }) => {
         const body = await request.json() as { _links?:Record<string, { href?:string }> };
@@ -194,21 +195,39 @@ describe('Create work package - form and editor boundaries', () => {
 
     renderEditor();
     await openCreateModal();
+    await userEvent.fill(page.getByLabelText('Subject *'), 'Fix the header alignment');
     await pickProject();
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
     await selectOptionNamed('Type *', 'Task');
 
     const pages = page.getByLabelText('Pages *');
     await expect.element(pages).toBeVisible();
-    await userEvent.click(pages);
-    await userEvent.keyboard('12.5');
+    await expect.element(page.getByText('Please enter a number.')).not.toBeInTheDocument();
 
-    await expect.element(pages).toHaveValue(125);
+    await userEvent.fill(pages, '2-4');
+
+    await expect.element(page.getByText('Please enter a number.')).toBeVisible();
+    await expect.element(pages).toHaveAttribute('aria-invalid', 'true');
+    await expect.element(pages).toHaveAccessibleDescription('Please enter a number.');
 
     // Put there whole, the way a paste arrives, rather than key by key.
     await userEvent.fill(pages, '12.5');
 
-    await expect.element(pages).toHaveValue(125);
+    await expect.element(pages).toHaveValue('12.5');
+    await expect.element(page.getByText('Please enter a whole number, without a decimal separator.')).toBeVisible();
+
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+    await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
+    await expect.element(pages).toHaveFocus();
+
+    await userEvent.fill(pages, '12');
+
+    await expect.element(page.getByText('Please enter a whole number, without a decimal separator.'))
+      .not.toBeInTheDocument();
+    await expect.element(pages).not.toHaveAttribute('aria-invalid');
+
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
   });
 
   it('refuses to submit a type whose required field it cannot offer', async () => {
@@ -304,8 +323,8 @@ describe('Create work package - form and editor boundaries', () => {
 
     expect(getComputedStyle(overlay).getPropertyValue('--op-item-hover-bg').trim())
       .toBe('rgba(255, 255, 255, 0.12)');
-    expect(getComputedStyle(page.getByTestId('create-wp-submit').element()).color)
-      .toBe('rgba(255, 255, 255, 0.4)');
+    expect(getComputedStyle(page.getByTestId('create-wp-submit').element()).backgroundColor)
+      .toBe('rgb(35, 134, 54)');
     expect(getComputedStyle(panel).borderTopLeftRadius).toBe('12px');
     expect(getComputedStyle(page.getByTestId('create-wp-submit').element()).borderTopLeftRadius).toBe('6px');
     expect(getComputedStyle(page.getByLabelText('Subject *').element()).borderTopLeftRadius).toBe('6px');
@@ -337,14 +356,10 @@ describe('Create work package - form and editor boundaries', () => {
       expect(styles.fontWeight).toBe('600');
     }
 
-    expect(getComputedStyle(submit).backgroundColor).toBe('rgb(149, 216, 166)');
+    expect(getComputedStyle(submit).backgroundColor).toBe('rgb(31, 136, 61)');
     const cancel = getComputedStyle(page.getByRole('button', { name: 'Cancel' }).element());
     expect(cancel.backgroundColor).toBe('rgb(246, 248, 250)');
     expect(cancel.border).toBe('1px solid rgb(209, 217, 224)');
-
-    await fillRequiredFields('Fix the header alignment');
-    await expect.element(page.getByTestId('create-wp-submit')).toBeEnabled();
-    expect(getComputedStyle(submit).backgroundColor).toBe('rgb(31, 136, 61)');
   });
 
   it('follows the metrics of the design', async () => {
@@ -436,6 +451,26 @@ describe('Create work package - form and editor boundaries', () => {
 
     await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
     expect(getComputedStyle(document.body).overflow).not.toBe('hidden');
+  });
+
+  it('keeps its divider drawn under the reset the host forces onto every rule', async () => {
+    // What Primer applies to every "hr" of the page, reduced to what matters here.
+    const hostStyles = document.createElement('style');
+    hostStyles.textContent = 'hr { height: 0; border: 0; border-bottom: 1px solid #ff0000; margin: 24px 0; }';
+    document.head.appendChild(hostStyles);
+
+    try {
+      renderEditor();
+      await openCreateModal();
+      await fillRequiredFields('Fix the header alignment');
+
+      const styles = getComputedStyle(page.getByTestId('create-wp-divider').element());
+      expect([styles.borderTopWidth, styles.borderTopStyle]).toEqual(['1px', 'solid']);
+      expect(styles.borderTopColor).not.toBe('rgb(255, 0, 0)');
+      expect(styles.marginBottom).toBe('16px');
+    } finally {
+      hostStyles.remove();
+    }
   });
 
   it('keeps the arrow the host application forces onto every select turned off', async () => {

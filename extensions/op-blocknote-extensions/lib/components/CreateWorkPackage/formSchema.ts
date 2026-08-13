@@ -38,6 +38,9 @@ export type FieldValue = string | boolean;
 export type FieldValues = Record<string, FieldValue>;
 export type FieldErrors = Record<string, string>;
 
+export type ValueProblem = 'missing' | 'notANumber' | 'notAWholeNumber';
+export type ValueProblems = Record<string, ValueProblem>;
+
 export type FieldDependency = 'project' | 'type' | undefined;
 
 const FIXED_FIELDS:{ key:string; dependsOn?:FieldDependency }[] = [
@@ -148,13 +151,22 @@ export function fieldFor(schema:WorkPackageSchema | undefined, key:string):FormF
   return buildField(key, property);
 }
 
+// Left out of the form: the default the API put into the payload is submitted as
+// it is, required attribute or not.
+function isOffered(property:SchemaProperty):boolean {
+  return property.writable && !property.hasDefault;
+}
+
 export function fixedFields(
   schema:WorkPackageSchema | undefined,
   selected:{ project:boolean; type:boolean }
 ):FormField[] {
   return FIXED_FIELDS
     .filter(({ dependsOn }) => dependsOn === undefined || selected[dependsOn])
-    .flatMap(({ key }) => fieldFor(schema, key) ?? []);
+    .flatMap(({ key }) => {
+      const property = readSchemaProperty(schema, key);
+      return property && isOffered(property) ? [buildField(key, property)] : [];
+    });
 }
 
 export function extraRequiredFields(schema:WorkPackageSchema | undefined):FormField[] {
@@ -168,7 +180,7 @@ export function extraRequiredFields(schema:WorkPackageSchema | undefined):FormFi
 
     const property = readSchemaProperty(schema, key);
     if (!property) continue;
-    if (!property.required || !property.writable || property.hasDefault) continue;
+    if (!property.required || !isOffered(property)) continue;
     if (property.location === '_meta') continue;
 
     fields.push(buildField(key, property));
@@ -185,8 +197,38 @@ export function missingRequiredFields(fields:FormField[], values:FieldValues):Fo
   return fields.filter((field) => field.required && !isValueFilled(field, values[field.key]));
 }
 
+export function missingProblems(fields:FormField[], values:FieldValues):ValueProblems {
+  return Object.fromEntries(
+    missingRequiredFields(fields, values).map((field) => [field.key, 'missing' as const])
+  );
+}
+
 export function unsupportedRequiredFields(fields:FormField[]):FormField[] {
   return fields.filter((field) => field.required && field.kind === 'unsupported');
+}
+
+function numberValueOf(value:string):number | null {
+  const parsed = Number(value.trim());
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+// An empty field is answered by its required mark rather than by a complaint.
+function valueProblemOf(field:FormField, value:FieldValue | undefined):ValueProblem | undefined {
+  if (field.kind !== 'number' || typeof value !== 'string' || value.trim().length === 0) return undefined;
+
+  const parsed = numberValueOf(value);
+  if (parsed === null) return 'notANumber';
+  if (field.integer && !Number.isInteger(parsed)) return 'notAWholeNumber';
+  return undefined;
+}
+
+export function valueProblems(fields:FormField[], values:FieldValues):ValueProblems {
+  const problems:ValueProblems = {};
+  for (const field of fields) {
+    const problem = valueProblemOf(field, values[field.key]);
+    if (problem) problems[field.key] = problem;
+  }
+  return problems;
 }
 
 // A violation no field of this form can carry has to stay in the message on
@@ -233,10 +275,8 @@ function payloadValueOf(field:FormField, value:FieldValue | undefined):unknown {
   if (typeof value !== 'string' || value.trim().length === 0) return null;
 
   switch (field.kind) {
-    case 'number': {
-      const parsed = Number(value);
-      return Number.isFinite(parsed) ? parsed : null;
-    }
+    case 'number':
+      return numberValueOf(value);
     case 'textarea':
       return { raw: value };
     default:

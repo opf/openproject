@@ -221,6 +221,14 @@ export const FieldRow = styled.div<{ $invalid?:boolean }>`
   `}
 `;
 
+export const Divider = styled.hr`
+  && {
+    margin: 0 0 var(--spacer-xl);
+    border: none;
+    border-top: 1px solid ${borderColor};
+  }
+`;
+
 export const FieldError = styled.div.attrs({ role: 'alert' })`
   margin-top: var(--spacer-s);
   font-size: 0.85em;

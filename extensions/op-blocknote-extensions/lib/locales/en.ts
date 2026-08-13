@@ -32,6 +32,9 @@ export const en = {
       'loadFailed': 'The work package form could not be loaded: {{message}}',
       'notAllowed': 'You are not allowed to create work packages.',
       'validationFailed': 'Please correct the highlighted fields below.',
+      'requiredField': 'This field is required.',
+      'notANumber': 'Please enter a number.',
+      'notAWholeNumber': 'Please enter a whole number, without a decimal separator.',
       'unsupportedField': '"{{field}}" cannot be set here.',
       'unsupportedRequired': 'This work package requires a field that cannot be set here.',
       'createInOpenProject': 'Create it in OpenProject'

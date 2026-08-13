@@ -13,12 +13,8 @@ describe('Create work package', () => {
     renderEditor();
     await openCreateModal();
 
-    await expect.element(page.getByTestId('create-wp-submit')).toBeDisabled();
     await fillRequiredFields('Fix the header alignment');
 
-    await expect.element(page.getByLabelText('Status *')).toHaveValue('/api/v3/statuses/1');
-
-    await expect.element(page.getByTestId('create-wp-submit')).toBeEnabled();
     await userEvent.click(page.getByTestId('create-wp-submit'));
 
     await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
@@ -38,13 +34,94 @@ describe('Create work package', () => {
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
   });
 
-  it('only asks for attributes the API does not default', async () => {
+  it('only asks for attributes the API does not default, required or not', async () => {
     renderEditor();
     await openCreateModal();
     await fillRequiredFields('Fix the header alignment');
 
+    await expect.element(page.getByLabelText('Status *')).not.toBeInTheDocument();
     await expect.element(page.getByLabelText('Priority *')).not.toBeInTheDocument();
     await expect.element(page.getByLabelText('Start date')).not.toBeInTheDocument();
+  });
+
+  it('submits the defaults of what it did not ask for', async () => {
+    let body:Record<string, unknown> = {};
+    worker.use(
+      http.post('http://localhost:3000/api/v3/work_packages', async ({ request }) => {
+        body = await request.json() as Record<string, unknown>;
+        return HttpResponse.json(mockCreatedWorkPackage, { status: 201 });
+      })
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    expect(body._links).toMatchObject({
+      status: { href: '/api/v3/statuses/1' },
+      priority: { href: '/api/v3/priorities/8' },
+    });
+  });
+
+  it('sets the attributes of the chosen type apart from the generic ones', async () => {
+    renderEditor();
+    await openCreateModal();
+    await expect.element(page.getByLabelText('Subject *')).toBeVisible();
+    await expect.element(page.getByTestId('create-wp-divider')).not.toBeInTheDocument();
+
+    await fillRequiredFields('Fix the header alignment');
+
+    const divider = page.getByTestId('create-wp-divider').element();
+    expect(divider.compareDocumentPosition(page.getByLabelText('Type *').element()))
+      .toBe(Node.DOCUMENT_POSITION_PRECEDING);
+    expect(divider.compareDocumentPosition(page.getByLabelText('Supervisor *').element()))
+      .toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it('points at every required field left empty, starting at the first one', async () => {
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+    await expect.element(page.getByLabelText('Type *')).toBeVisible();
+    await selectOptionNamed('Type *', 'Task');
+    await expect.element(page.getByLabelText('Department *')).toBeVisible();
+
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+
+    await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+    await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
+
+    const subject = page.getByLabelText('Subject *');
+    await expect.element(subject).toHaveFocus();
+    await expect.element(subject).toHaveAccessibleDescription('This field is required.');
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveAttribute('aria-invalid', 'true');
+    await expect.element(page.getByLabelText('Department *')).toHaveAttribute('aria-invalid', 'true');
+    await expect.element(page.getByLabelText('Needs documentation')).not.toHaveAttribute('aria-invalid');
+
+    await userEvent.fill(subject, 'Fix the header alignment');
+    await expect.element(subject).not.toHaveAttribute('aria-invalid');
+
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveFocus();
+  });
+
+  it('starts over with the complaints when the form is reshaped', async () => {
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+    await expect.element(page.getByLabelText('Type *')).toBeVisible();
+    await selectOptionNamed('Type *', 'Task');
+    await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
+
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveAttribute('aria-invalid', 'true');
+
+    await selectOptionNamed('Type *', 'Bug');
+
+    await expect.element(page.getByLabelText('Supervisor *')).not.toHaveAttribute('aria-invalid');
+    await expect.element(page.getByLabelText('Subject *')).not.toHaveAttribute('aria-invalid');
   });
 
   it('narrows the project typeahead through the API', async () => {
@@ -82,12 +159,14 @@ describe('Create work package', () => {
     await openCreateModal();
     // Filled in for the type "Task"; "Bug" is the other one the fixture offers.
     await fillRequiredFields('Fix the header alignment');
-    await expect.element(page.getByTestId('create-wp-submit')).toBeEnabled();
 
     await selectOptionNamed('Type *', 'Bug');
 
     await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('');
-    await expect.element(page.getByTestId('create-wp-submit')).toBeDisabled();
+
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+    await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveAttribute('aria-invalid', 'true');
   });
 
   it('keeps the assignee it was given when the type changes', async () => {
@@ -109,7 +188,10 @@ describe('Create work package', () => {
 
     await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('Anna Kovalenko');
     await expect.element(page.getByLabelText('Needs documentation')).not.toBeChecked();
-    await expect.element(page.getByTestId('create-wp-submit')).toBeEnabled();
+
+    // Every kind of them answered, so nothing is held against the form.
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
   });
 
   it('submits the custom fields under the keys the schema named them by', async () => {
