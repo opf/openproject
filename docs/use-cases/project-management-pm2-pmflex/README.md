@@ -98,7 +98,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 | Representation in OpenProject | Change Request, Risk, Issue and Decision work packages, each displayed in a corresponding [saved work package view](../../user-guide/work-packages/work-package-table-configuration/#save-work-package-views) |
 | System-wide configuration | Create the required log entry types under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Create additional attributes under [Administration → Custom fields](../../system-admin-guide/custom-fields/) and add them to the corresponding forms. |
 | Project-specific configuration | [Enable the log entry types and custom fields](../../user-guide/projects/project-settings/work-packages/) for the project, then configure and save one filtered view for each log. |
-| Demo | [Risk Log example](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) |
+| Demo | [Risk Log example](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91); [Decision Log example](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=188) |
 | Potential product iteration | [#38012](https://community.openproject.org/wp/38012) Risk module |
 
 ### Meetings
