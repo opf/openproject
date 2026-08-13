@@ -39,7 +39,7 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   def new
     respond_with_dialog Projects::Settings::WorkPackages::Types::SwitchDialogComponent
-                          .new(project: @project, source: @source)
+                          .new(project: @project, source: @source, url: switch_path)
   end
 
   def create
@@ -78,9 +78,13 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
     update_via_turbo_stream(
       component: Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(
-        project: @project, source: @source, selected: target || @source, validation_message: message
+        project: @project, source: @source, url: switch_path, selected: target || @source, validation_message: message
       )
     )
+  end
+
+  def switch_path
+    project_settings_work_packages_type_switch_path(@project, @source.type)
   end
 
   # Reload so the repainted list no longer sees the association's cached types.

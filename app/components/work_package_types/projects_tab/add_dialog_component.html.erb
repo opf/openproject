@@ -27,16 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::Alpha::Dialog.new(
-        id: DIALOG_ID,
-        title: t("projects.settings.types.switch_dialog.title", type: source.name),
-        size: :medium_portrait
-      )
-    ) do |dialog| %>
+<%= render(Primer::Alpha::Dialog.new(id: dialog_id, title:, size: :medium_portrait)) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
-  <%= render(
-        Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(project:, source:, url:)
-      ) %>
+  <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
+    <%= render(WorkPackageTypes::ProjectsTab::AddFormComponent.new(variant:)) %>
+  <% end %>
+
+  <% dialog.with_footer(show_divider: true) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, form: form_id, type: :submit)) { t(:button_add) } %>
+  <% end %>
 <% end %>

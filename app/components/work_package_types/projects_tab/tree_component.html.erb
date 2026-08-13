@@ -27,16 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::Alpha::Dialog.new(
-        id: DIALOG_ID,
-        title: t("projects.settings.types.switch_dialog.title", type: source.name),
-        size: :medium_portrait
-      )
-    ) do |dialog| %>
-  <% dialog.with_header(variant: :large) %>
-
-  <%= render(
-        Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(project:, source:, url:)
-      ) %>
-<% end %>
+<%=
+  render(
+    Primer::Alpha::TreeView.new(
+      form_arguments: { builder:, name: form_name },
+      data: { target: "filterable-tree-view.treeViewList" }
+    )
+  ) do |tree_view|
+    build_tree(tree_view)
+  end
+%>

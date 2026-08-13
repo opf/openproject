@@ -27,16 +27,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::Alpha::Dialog.new(
-        id: DIALOG_ID,
-        title: t("projects.settings.types.switch_dialog.title", type: source.name),
-        size: :medium_portrait
-      )
-    ) do |dialog| %>
-  <% dialog.with_header(variant: :large) %>
+<%= component_wrapper do %>
+  <%= primer_form_with(**form_arguments) do |form| %>
+    <% if validation_message.present? %>
+      <%= render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mb: 3)) { validation_message } %>
+    <% end %>
 
-  <%= render(
-        Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(project:, source:, url:)
-      ) %>
+    <%= render(WorkPackageTypes::ProjectsTab::AddProjectsForm.new(form, tree_src:)) %>
+  <% end %>
 <% end %>

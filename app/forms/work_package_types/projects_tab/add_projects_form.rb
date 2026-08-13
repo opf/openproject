@@ -28,41 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # The switch dialog's form. Separate from the dialog so a refused switch can replace
-        # it: replacing the dialog component would swap out the <dialog> element and close it.
-        class SwitchFormComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
+module WorkPackageTypes
+  module ProjectsTab
+    class AddProjectsForm < ApplicationForm
+      form do |form|
+        form.filterable_tree_view(
+          name: AddFormComponent::FIELD_NAME,
+          label: Project.model_name.human(count: 2),
+          visually_hide_label: true,
+          src: @tree_src,
+          filter_input_arguments: { placeholder: I18n.t("types.edit.projects.add_dialog.search_placeholder") },
+          no_results_node_arguments: { label: I18n.t("filterable_tree_view.no_results_text") }
+        )
+      end
 
-          # Two places switch a project's variant through the same service, so each names the
-          # route it posts to rather than one of them being the default.
-          def initialize(project:, source:, url:, selected: source, validation_message: nil)
-            super()
+      def initialize(tree_src:)
+        super()
 
-            @project = project
-            @source = source
-            @url = url
-            @selected = selected
-            @validation_message = validation_message
-          end
-
-          private
-
-          attr_reader :project, :source, :url, :selected, :validation_message
-
-          def available_targets
-            source.type.variants.in_display_order
-          end
-
-          # Constant lookup in a compiled template does not walk the enclosing modules.
-          def dialog_id
-            SwitchDialogComponent::DIALOG_ID
-          end
-        end
+        @tree_src = tree_src
       end
     end
   end

@@ -92,7 +92,10 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     it "refuses the removal and explains why" do
       settings_page.remove_type(bug.default_variant)
 
-      expect_flash(type: :error, message: "Unable to deactivate type Bug because it's still in use by work packages")
+      refusal = %(Unable to remove "Bug" from project "#{project.name}" \
+because it's still in use by work packages)
+
+      expect_flash(type: :error, message: refusal)
       settings_page.expect_type_row(bug.default_variant)
       expect(project.enabled_types).to include(bug)
     end

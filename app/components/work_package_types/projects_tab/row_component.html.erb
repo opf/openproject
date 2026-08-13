@@ -27,16 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::Alpha::Dialog.new(
-        id: DIALOG_ID,
-        title: t("projects.settings.types.switch_dialog.title", type: source.name),
-        size: :medium_portrait
-      )
-    ) do |dialog| %>
-  <% dialog.with_header(variant: :large) %>
+<%= component_wrapper(tag: "tr", class: row_css_class) do %>
+  <% columns.each do |column| %>
+    <td class="<%= column_css_class(column) %>">
+      <%= column_value(column) %>
+    </td>
+  <% end %>
 
-  <%= render(
-        Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(project:, source:, url:)
-      ) %>
+  <td class="buttons">
+    <% button_links.each do |link| %>
+      <%= link %>
+    <% end %>
+  </td>
 <% end %>

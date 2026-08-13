@@ -267,6 +267,7 @@ en:
         templated_value:
           false: "unmarked as template"
           true: "marked as template"
+        type_variant: "Work package type variant"
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
@@ -2654,7 +2655,7 @@ en:
 
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
-  error_can_not_deactivate_type: "Unable to deactivate type %{type} because it's still in use by %{work_packages_link}"
+  error_can_not_deactivate_type: "Unable to remove \"%{name}\" from project \"%{project}\" because it's still in use by %{work_packages_link}"
   error_can_not_deactivate_type_invisible_projects: "There are also work packages in projects you cannot see."
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_entry: "Unable to delete entry"
@@ -6300,6 +6301,16 @@ en:
         filter: "Search by section or name"
         tab: "Project attributes"
       projects:
+        actions:
+          confirm_remove: "Remove the type %{type} from %{project}?"
+          remove_from_project: "Remove from project"
+          switch_variant: "Change variant"
+        add_dialog:
+          no_projects_selected: "Please select at least one project."
+          search_placeholder: "Search projects"
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
