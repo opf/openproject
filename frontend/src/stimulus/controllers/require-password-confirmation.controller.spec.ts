@@ -102,6 +102,21 @@ describe('Require password confirmation controller', () => {
     });
   });
 
+  it('intercepts submit in the capture phase before bubble listeners', async () => {
+    const form = await renderForm();
+    const bubbleOrder:string[] = [];
+
+    form.addEventListener('submit', (event) => {
+      bubbleOrder.push(`bubble:prevented=${event.defaultPrevented}`);
+    });
+
+    const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
+    form.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(bubbleOrder).toEqual(['bubble:prevented=true']);
+  });
+
   it('appends the confirmed password and resubmits the form', async () => {
     const form = await renderForm();
     const requestSubmit = vi.fn();

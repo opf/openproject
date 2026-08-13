@@ -52,7 +52,10 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
   connect() {
     super.connect();
 
-    this.element.addEventListener('submit', this.formListener);
+    // Capture phase so we run before other submit interceptors on the same form
+    // (notably CKEditor-augmented textareas), which can otherwise re-submit via
+    // Turbo and bypass the confirmation dialog.
+    this.element.addEventListener('submit', this.formListener, { capture: true });
     document.addEventListener('password-confirmation-dialog:close', this.dialogCloseListener);
     document.addEventListener('password-confirmation-dialog:submit', this.dialogSubmitListener);
 
@@ -64,7 +67,7 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
   disconnect() {
     super.disconnect();
 
-    this.element.removeEventListener('submit', this.formListener);
+    this.element.removeEventListener('submit', this.formListener, { capture: true });
     document.removeEventListener('password-confirmation-dialog:close', this.dialogCloseListener);
     document.removeEventListener('password-confirmation-dialog:submit', this.dialogSubmitListener);
   }
