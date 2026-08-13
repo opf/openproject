@@ -205,7 +205,11 @@ export class ProjectTimelineItemBuilder {
     };
   }
 
-  buildAccessibleItems(phases:ProjectPhaseData[]):AccessibleProjectTimelineItem[] {
+  buildAccessibleItems(
+    phases:ProjectPhaseData[],
+    milestones:ProjectMilestoneData[],
+    sprints:ProjectSprintData[],
+  ):AccessibleProjectTimelineItem[] {
     const items:AccessibleProjectTimelineItem[] = [];
 
     for (const phase of phases) {
@@ -214,7 +218,7 @@ export class ProjectTimelineItemBuilder {
           id: `phase-${phase.id}`,
           text: this.i18n.t('js.grid.widgets.project_timeline.accessible_phase', {
             name: phase.name,
-            date: this.accessiblePhaseDate(phase),
+            date: this.accessibleDate(phase.startDate, phase.endDate),
           }),
         });
       }
@@ -234,14 +238,34 @@ export class ProjectTimelineItemBuilder {
       }
     }
 
+    for (const milestone of milestones) {
+      items.push({
+        id: `milestone-${milestone.id}`,
+        text: this.i18n.t('js.grid.widgets.project_timeline.accessible_milestone', {
+          name: milestone.subject,
+          date: this.timezone.formattedDate(milestone.date),
+        }),
+      });
+    }
+
+    for (const sprint of sprints) {
+      items.push({
+        id: `sprint-${sprint.id}`,
+        text: this.i18n.t('js.grid.widgets.project_timeline.accessible_sprint', {
+          name: sprint.name,
+          date: this.accessibleDate(sprint.startDate, sprint.endDate),
+        }),
+      });
+    }
+
     return items;
   }
 
-  private accessiblePhaseDate(phase:ProjectPhaseData):string {
-    const start = this.timezone.formattedDate(phase.startDate!);
-    const end = this.timezone.formattedDate(phase.endDate!);
+  private accessibleDate(startDate:string, endDate:string):string {
+    const start = this.timezone.formattedDate(startDate);
+    const end = this.timezone.formattedDate(endDate);
 
-    if (phase.startDate === phase.endDate) {
+    if (startDate === endDate) {
       return start;
     }
 
