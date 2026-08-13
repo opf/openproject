@@ -161,13 +161,13 @@ module Bim::Bcf
       end
 
       def missing_type(type_name, import_options)
-        types = project.types
+        project_types = project.project_types.includes(:type, :variant)
 
         if import_options[:unknown_types_action] == "use_default"
-          types.default&.first
+          project_types.find { |project_type| project_type.variant.enabled_in_new_projects? }
         elsif import_options[:unknown_types_action] == "chose" &&
               import_options[:unknown_types_chose_ids].any?
-          types.find_by(id: import_options[:unknown_types_chose_ids].first)
+          project_types.find { |project_type| project_type.type_id == import_options[:unknown_types_chose_ids].first }
         elsif type_name
           Type::InexistentType.new
         end

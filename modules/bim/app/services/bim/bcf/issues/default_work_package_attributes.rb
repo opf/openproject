@@ -37,7 +37,8 @@ module Bim::Bcf
       # non-default type over the global standard type ("None").
       def default_create_type(project)
         project.types.where(is_default: false, is_standard: false).first ||
-          project.types.default.where(is_standard: false).first ||
+          # scope is gone for now ...
+          # project.types.default.where(is_standard: false).first ||
           project.types.where(is_standard: false).first ||
           project.types.first
       end
@@ -47,12 +48,12 @@ module Bim::Bcf
       # associated with the project (see ProjectType).
       def default_put_type(project)
         project.project_types
-               .joins(:type)
-               .merge(Type.default.where(is_standard: false))
+               .joins(:type, :variant)
+               .merge(TypeVariant.enabled_in_new_projects)
                .order(id: :desc)
                .first
                &.type ||
-          project.types.default.first ||
+          # project.types.default.first ||
           project.types.first
       end
 

@@ -81,12 +81,13 @@ module Projects
     def set_default_types(provided)
       return if provided || model.project_types.any?
 
-      # Each row takes the type's base variant, which ProjectType fills in: nothing has chosen a
-      # named one for a project being created.
-      #
-      # TODO: should go through Projects::Types::AddService, which owns the conflict rules
-      # and enables the types' work package custom fields.
-      model.types = ::Type.default
+      model.project_types = default_project_types
+    end
+
+    def default_project_types
+      TypeVariant.enabled_in_new_projects.map do |variant|
+        ProjectType.new(type_id: variant.type_id, variant: variant)
+      end
     end
 
     def set_default_active_work_package_custom_fields(provided)
