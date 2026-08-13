@@ -72,7 +72,7 @@ module Wikis
     end
 
     def search
-      params.permit(:query, :name).to_h => { query:, name: }
+      query, name = params.values_at(:query, :name)
       builder = form_builder
 
       if query.blank?
