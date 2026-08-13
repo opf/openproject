@@ -50,8 +50,7 @@ module Wikis
     def build_result_tree(pages, parent_identifier)
       root_node = Adapters::Results::PageSearchTreeNode.empty_root
 
-      pages.each do |page_hierarchy|
-        page_hierarchy => { page:, wiki: }
+      pages.each do |page:, wiki:|
 
         parent_node = if parent_identifier.blank?
                         root_node.add_child(Adapters::Results::PageSearchTreeNode.empty_wiki(wiki.identifier, wiki.name))
