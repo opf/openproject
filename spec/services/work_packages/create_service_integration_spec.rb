@@ -44,7 +44,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
            custom_fields: [custom_field])
   end
   let(:default_type) do
-    create(:type_standard)
+    create(:type_task)
   end
   let(:project) { create(:project, types: [type, default_type]) }
   let(:parent) do

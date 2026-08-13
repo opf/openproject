@@ -503,7 +503,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
       end
     end
     let!(:default_type) do
-      create(:type, is_default: true)
+      create(:type, default_variant_enabled_in_all_projects: true)
     end
     let!(:priority) do
       create(:priority)
@@ -533,7 +533,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
     before do
       # Enable types via join rows with an explicit variant — `types <<` alone can leave
       # the association cache stale for default_create_type during the request.
-      [type, default_type, standard_type].uniq.each do |enabled_type|
+      [type, default_type].uniq.each do |enabled_type|
         project.project_types.find_or_create_by!(type_id: enabled_type.id) do |pt|
           pt.variant = enabled_type.default_variant
         end
@@ -768,7 +768,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
       create(:default_status)
     end
     let!(:default_type) do
-      create(:type, is_default: true)
+      create(:type, default_variant_enabled_in_all_projects: true)
     end
     let!(:priority) do
       create(:priority)
@@ -792,9 +792,9 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
     end
 
     before do
-      # Create the existing topic while the project still only has its standard type.
+      # Create the existing topic while the project still only has the type its factory gave it.
       # Enabling `type` first would make FactoryBot assign that type to the WP (lower
-      # position than the standard type created later), so a PUT with topic_type: type
+      # position than the type created later), so a PUT with topic_type: type
       # would not change type_id and then fail status-transition validation.
       bcf_issue
 

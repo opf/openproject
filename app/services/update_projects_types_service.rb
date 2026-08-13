@@ -35,7 +35,7 @@ class UpdateProjectsTypesService < BaseProjectService
   # The bulk form names types, never variants, so a project keeps whichever variant it
   # already applies for a type it keeps and gets the base variant for one it gains.
   def call(type_ids)
-    type_ids = standard_types if type_ids.blank?
+    type_ids = Array(type_ids)
 
     if types_missing?(type_ids)
       project.errors.add(:types,
@@ -50,15 +50,6 @@ class UpdateProjectsTypesService < BaseProjectService
   end
 
   protected
-
-  def standard_types
-    type = ::Type.standard_type
-    if type.nil?
-      []
-    else
-      [type.id]
-    end
-  end
 
   def types_missing?(type_ids)
     !missing_types(type_ids).empty?

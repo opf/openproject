@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage do
-  shared_let(:type) { create(:type_standard) }
+  shared_let(:type) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:project_archived) { create(:project, :archived) }
   shared_let(:status) { create(:status) }
@@ -1033,11 +1033,6 @@ RSpec.describe WorkPackage do
           expect(work_package.to_fs).to eq("Task ##{work_package.id}: Hello world")
           expect(work_package.to_s).to eq(work_package.to_fs(:heading))
         end
-
-        it "omits the type name for standard types (leading space preserved)" do
-          standard_wp = create(:work_package, project:, type:, subject: "Hello world")
-          expect(standard_wp.to_fs(:heading)).to eq(" ##{standard_wp.id}: Hello world")
-        end
       end
 
       context "in semantic mode",
@@ -1054,7 +1049,7 @@ RSpec.describe WorkPackage do
     end
 
     describe ":caption style" do
-      let(:caption_type) { create(:type, name: "Task") }
+      let(:caption_type) { create(:type_task) }
       let(:caption_work_package) do
         create(:work_package, subject: "Hello world", project: caption_project, type: caption_type)
       end
@@ -1080,19 +1075,10 @@ RSpec.describe WorkPackage do
         end
       end
 
-      context "with a standard type",
-              with_settings: { work_packages_identifier: "classic" } do
-        let(:standard_work_package) { create(:work_package, project:, type:, subject: "Hello world") }
-
-        it "still shows the type name in the caption" do
-          expect(standard_work_package.to_fs(:caption))
-            .to eq("#{type.name}: Hello world (##{standard_work_package.id})")
-        end
-      end
     end
 
     describe "for a project applying a named variant" do
-      let(:type) { create(:type, name: "Task") }
+      let(:type) { create(:type_task) }
       let(:variant) { create(:type_variant, type:, variant_name: "Bug") }
       let(:variant_project) { create(:project, types: [variant]) }
       let(:variant_work_package) { create(:work_package, project: variant_project, type:, subject: "Hello world") }
@@ -1112,7 +1098,7 @@ RSpec.describe WorkPackage do
              with_settings: { work_packages_identifier: "classic" } do
       let(:untyped_work_package) { build_stubbed(:work_package, project:, type: nil, subject: "Hello world") }
 
-      it "renders the heading like a standard type, without a type name" do
+      it "renders the heading without a type name" do
         expect(untyped_work_package.to_fs(:heading)).to eq(" ##{untyped_work_package.id}: Hello world")
       end
 

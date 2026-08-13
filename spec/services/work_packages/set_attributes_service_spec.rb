@@ -1810,7 +1810,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     let(:new_versions) { [] }
     let(:type) { work_package.type }
     let(:new_types) { [type] }
-    let(:default_type) { build_stubbed(:type_standard) }
+    let(:default_type) { build_stubbed(:type_task) }
     let(:other_type) { build_stubbed(:type) }
     let(:yet_another_type) { build_stubbed(:type) }
 

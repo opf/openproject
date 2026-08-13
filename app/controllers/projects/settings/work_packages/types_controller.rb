@@ -124,10 +124,6 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   def types_missing_from(type_ids)
     @project
       .types_used_by_work_packages
-      .where.not(id: type_ids.presence || standard_type_ids)
-  end
-
-  def standard_type_ids
-    [::Type.standard_type&.id].compact
+      .where.not(id: type_ids.presence)
   end
 end

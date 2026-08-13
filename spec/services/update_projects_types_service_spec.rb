@@ -32,8 +32,6 @@ require "spec_helper"
 RSpec.describe UpdateProjectsTypesService do
   subject(:service_call) { described_class.new(project).call(ids) }
 
-  shared_let(:standard_type) { create(:type_standard) }
-
   let(:project) { create(:project, no_types: true) }
 
   shared_examples "activating custom fields" do
@@ -75,26 +73,22 @@ RSpec.describe UpdateProjectsTypesService do
 
   context "with no id passed" do
     let(:ids) { [] }
-    let(:types) { [standard_type] }
+    let(:project) { create(:project) }
 
-    it "falls back to the standard type" do
+    it "leaves the project without any type" do
       expect(service_call).to be_truthy
-      expect(project.reload.types).to contain_exactly(standard_type)
+      expect(project.reload.types).to be_empty
     end
-
-    include_examples "activating custom fields"
   end
 
   context "with nil passed" do
     let(:ids) { nil }
-    let(:types) { [standard_type] }
+    let(:project) { create(:project) }
 
-    it "falls back to the standard type" do
+    it "leaves the project without any type" do
       expect(service_call).to be_truthy
-      expect(project.reload.types).to contain_exactly(standard_type)
+      expect(project.reload.types).to be_empty
     end
-
-    include_examples "activating custom fields"
   end
 
   # A project applies one variant per type, and the bulk form names types only, so a type it

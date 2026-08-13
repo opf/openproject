@@ -119,7 +119,7 @@ FactoryBot.define do
     factory :type_milestone do
       name { "Milestone" }
       # Do not hard-code position: acts_as_list + Type.order(:position) would otherwise
-      # make this type sort before sequenced types (e.g. type_standard) and become
+      # make this type sort before sequenced types (e.g. type_task) and become
       # project.types.first / factory fallbacks.
       is_milestone { true }
     end

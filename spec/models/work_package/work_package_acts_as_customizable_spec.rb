@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage, "acts_as_customizable" do
-  shared_let(:type) { create(:type_standard) }
+  shared_let(:type) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:user) { create(:user) }
   shared_let(:status) { create(:status) }

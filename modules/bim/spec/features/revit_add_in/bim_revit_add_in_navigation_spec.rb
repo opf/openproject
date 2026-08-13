@@ -113,7 +113,7 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
       let!(:priority) { create(:priority, is_default: true) }
 
       it "redirects correctly" do
-        create_page = model_page.create_wp_by_button(build(:type_standard))
+        create_page = model_page.create_wp_by_button(build(:type_task))
         expect(page).to have_current_path /bcf\/new$/, ignore_query: true
         create_page.subject_field.set("Some subject")
         create_page.save!

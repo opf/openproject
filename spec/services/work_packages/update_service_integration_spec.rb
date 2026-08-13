@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
-  shared_let(:type) { create(:type_standard) }
+  shared_let(:type) { create(:type_task) }
   shared_let(:milestone_type) { create(:type_milestone) }
   shared_let(:autosubject_type) do
     create(:type, name: "Autosubject",
