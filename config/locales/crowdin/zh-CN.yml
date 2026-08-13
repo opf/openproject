@@ -1013,6 +1013,7 @@ zh-CN:
           heading: 公开此评论吗？
           title: 公开此评论吗？
         internal_journal: 内部评论仅对有限的成员组可见。
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: 显示所有
         label_activity_show_only_changes: 仅显示更改
         label_activity_show_only_comments: 仅显示评论
@@ -1488,6 +1489,42 @@ zh-CN:
           error: 此分区无法重新排序。
         move:
           error: 此分区无法重新排序。
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: 必须以大写字母开头
@@ -2812,6 +2849,16 @@ zh-CN:
         field_updated: "“%{field}”已更新"
         header: 更改者：%{author}
         set_with_diff: "“%{field}”已设置 (%{link})"
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: backlog for meeting series %{link}
+      meeting_series_template: template for meeting series %{link}
+      meeting_template: meeting template %{link}
       progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
       status_excluded_from_totals_set_to_false_message: 现在包含在层次结构总计中
       status_excluded_from_totals_set_to_true_message: 现在不包含在层次结构总计中
@@ -2824,6 +2871,7 @@ zh-CN:
         progress_calculation_adjusted_from_disabled_mode: 进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         scheduling_mode_adjusted: 随版本更新自动适配调度模式。
         sprint_migration: 版本 '%{version_name}' 已复制为冲刺。
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: 使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
       total_percent_complete_mode_changed_to_simple_average: 忽略子工作包的工时值。
       total_percent_complete_mode_changed_to_work_weighted_average: 无工时的子工作包被忽略。
@@ -2847,6 +2895,14 @@ zh-CN:
       dates_changed: 日期已更改
       default_attribute_written: 已写入只读属性
       import: 已导入
+      meeting_agenda_item_added: Added to meeting
+      meeting_agenda_item_added_template: Added to
+      meeting_agenda_item_discussed: Discussed in meeting
+      meeting_agenda_item_moved: Moved to meeting
+      meeting_agenda_item_moved_template: Moved to
+      meeting_agenda_item_removed: Removed from meeting
+      meeting_agenda_item_removed_template: Removed from
+      meeting_outcome_recorded: Added as outcome in meeting
       progress_mode_changed_to_status_based: 更新进度计算
       status_changed: 状态 '%{status_name}'
       system_update: OpenProject 系统更新：
@@ -3373,7 +3429,7 @@ zh-CN:
   label_project_hide_details: 隐藏项目详细信息
   label_project_hierarchy: 项目层次结构
   label_project_identifier: 项目标识符
-  label_project_initiation_export_pdf: 为 %{project_creation_name} 导出 PDF
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: 最新的项目
   label_project_life_cycle: 项目生命周期
   label_project_list_plural: 项目列表
@@ -3485,7 +3541,7 @@ zh-CN:
   label_subitems: 子条目
   label_subject_or_id: 主题或ID
   label_subproject: 子项目
-  label_subproject_new: 新的子项目
+  label_subproject_add: Add subproject
   label_subproject_plural: 子项目
   label_subtask_plural: 子任务
   label_summary: 摘要
@@ -3549,6 +3605,7 @@ zh-CN:
   label_version_sharing_none: 不共享
   label_version_sharing_system: 与所有项目
   label_version_sharing_tree: 与项目树
+  label_versions_and_categories: Versions and categories
   label_videos: 视频
   label_view_all_revisions: 查看所有修订版本
   label_view_diff: 查看差异
@@ -4654,7 +4711,8 @@ zh-CN:
   project:
     archive:
       archived: 已存档
-      are_you_sure: 是否确定想要归档项目 '%{name}'？
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: 归档项目
     count:
       one: 1个项目
@@ -5266,6 +5324,7 @@ zh-CN:
   setting_work_package_done_ratio_status_caption_html: 每个状态都有一个与之相关的<i>完成%</i>值。更改状态将改变<i>完成%</i>。
   setting_work_package_list_default_highlighted_attributes: 默认内联突出显示属性
   setting_work_package_list_default_highlighting_mode: 默认突出显示模式
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: 工作包属性
   setting_work_package_startdate_is_adddate: 使用当前日期作为新工作包的开始日期
   setting_work_packages_identifier_classic: 实例范围的数字序列（默认）
@@ -5689,6 +5748,7 @@ zh-CN:
   text_journal_file_link_deleted: "%{old} (%{storage}) 的 %{label} 链接已移除"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} 设置为 %{value}"
   text_journal_set_with_diff: "%{label} 设置 (%{link})"
   text_latest_note: '最新的注释是: %{note}'
@@ -5862,6 +5922,7 @@ zh-CN:
           actions:
             label_disable_all: 全部禁用
             label_enable_all: 全部启用
+            label_toggle_template: Toggle %{template}
           label: PDF 导出模板
         tab: 生成 PDF
         templates:

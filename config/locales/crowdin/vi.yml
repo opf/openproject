@@ -1013,6 +1013,7 @@ vi:
           heading: Công khai nhận xét này?
           title: Công khai nhận xét này?
         internal_journal: Nhận xét nội bộ được hiển thị cho một nhóm thành viên hạn chế.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Hiển thị mọi thứ
         label_activity_show_only_changes: Chỉ hiển thị các thay đổi
         label_activity_show_only_comments: Chỉ hiển thị nhận xét
@@ -1488,6 +1489,42 @@ vi:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -2810,6 +2847,16 @@ vi:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: backlog for meeting series %{link}
+      meeting_series_template: template for meeting series %{link}
+      meeting_template: meeting template %{link}
       progress_mode_changed_to_status_based: Chế độ tính toán tiến độ được đặt thành dựa trên trạng thái
       status_excluded_from_totals_set_to_false_message: hiện được bao gồm trong tổng số thứ bậc
       status_excluded_from_totals_set_to_true_message: hiện đã bị loại khỏi tổng số thứ bậc
@@ -2822,6 +2869,7 @@ vi:
         progress_calculation_adjusted_from_disabled_mode: Tính toán tiến độ tự động <a href="%{href}" target="_blank">được đặt thành chế độ dựa trên công việc và điều chỉnh với cập nhật phiên bản</a>.
         scheduling_mode_adjusted: Chế độ lập lịch tự động điều chỉnh khi cập nhật phiên bản.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Tổng số công việc và tiến độ tự động bị xóa cho các gói công việc không có cha với <a href="%{href}" target="_blank">cập nhật phiên bản</a>. Đây là một nhiệm vụ bảo trì và có thể được bỏ qua một cách an toàn.
       total_percent_complete_mode_changed_to_simple_average: Giá trị công việc của gói công việc con bị bỏ qua.
       total_percent_complete_mode_changed_to_work_weighted_average: Các gói công việc con không có Công việc sẽ bị bỏ qua.
@@ -2845,6 +2893,14 @@ vi:
       dates_changed: Ngày đã thay đổi
       default_attribute_written: Thuộc tính chỉ đọc được viết
       import: Imported
+      meeting_agenda_item_added: Added to meeting
+      meeting_agenda_item_added_template: Added to
+      meeting_agenda_item_discussed: Discussed in meeting
+      meeting_agenda_item_moved: Moved to meeting
+      meeting_agenda_item_moved_template: Moved to
+      meeting_agenda_item_removed: Removed from meeting
+      meeting_agenda_item_removed_template: Removed from
+      meeting_outcome_recorded: Added as outcome in meeting
       progress_mode_changed_to_status_based: Đã cập nhật tính toán tiến độ
       status_changed: Trạng thái '%{status_name}'
       system_update: 'Cập nhật hệ thống OpenProject:'
@@ -3371,7 +3427,7 @@ vi:
   label_project_hide_details: Ẩn chi tiết Dự án
   label_project_hierarchy: Phân cấp dự án
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Xuất PDF cho %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Dự án mới nhất
   label_project_life_cycle: Vòng đời dự án
   label_project_list_plural: Danh sách dự án
@@ -3483,7 +3539,7 @@ vi:
   label_subitems: mục phụ
   label_subject_or_id: Chủ đề hoặc Mã
   label_subproject: dự án con
-  label_subproject_new: Thêm dự án con
+  label_subproject_add: Add subproject
   label_subproject_plural: Dự án con
   label_subtask_plural: Tác vụ con
   label_summary: Tóm tắt
@@ -3547,6 +3603,7 @@ vi:
   label_version_sharing_none: Không được chia sẻ
   label_version_sharing_system: Với tất cả dự án
   label_version_sharing_tree: Với cây dự án
+  label_versions_and_categories: Versions and categories
   label_videos: Các đoạn phim
   label_view_all_revisions: Xem tất cả các phiên bản
   label_view_diff: Xem sự khác biệt
@@ -4660,7 +4717,8 @@ vi:
   project:
     archive:
       archived: Đã lưu
-      are_you_sure: Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Lưu trữ dự án
     count:
       one: 1 dự án
@@ -5282,6 +5340,7 @@ vi:
   setting_work_package_done_ratio_status_caption_html: Mỗi trạng thái có một giá trị <i>% Hoàn thành</i> được liên kết với nó. Việc thay đổi trạng thái sẽ thay đổi <i>% Hoàn thành</i>.
   setting_work_package_list_default_highlighted_attributes: Thuộc tính được đánh dấu nội tuyến mặc định
   setting_work_package_list_default_highlighting_mode: Chế độ đánh dấu mặc định
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Thuộc tính gói công việc
   setting_work_package_startdate_is_adddate: Sử dụng ngày hiện tại làm ngày bắt đầu cho các gói công việc mới
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5706,6 +5765,7 @@ vi:
   text_journal_file_link_deleted: "%{label} liên kết tới %{old} (%{storage}) đã bị xóa"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} được đặt thành %{value}"
   text_journal_set_with_diff: "%{label} đặt (%{link})"
   text_latest_note: 'Bình luận mới nhất là: %{note}'
@@ -5879,6 +5939,7 @@ vi:
           actions:
             label_disable_all: Vô hiệu hóa tất cả
             label_enable_all: Kích hoạt tất cả
+            label_toggle_template: Toggle %{template}
           label: Mẫu xuất PDF
         tab: Tạo PDF
         templates:

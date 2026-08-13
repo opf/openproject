@@ -1013,6 +1013,7 @@ ko:
           heading: 이 코멘트를 공개로 지정하시겠습니까?
           title: 이 코멘트를 공개로 지정하시겠습니까?
         internal_journal: 내부 코멘트는 제한된 멤버 그룹에게만 표시됩니다.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: 모두 표시
         label_activity_show_only_changes: 변경 사항만 표시
         label_activity_show_only_comments: 코멘트만 표시
@@ -1488,6 +1489,42 @@ ko:
           error: 해당 섹션의 순서를 변경할 수 없습니다.
         move:
           error: 해당 섹션의 순서를 변경할 수 없습니다.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: 대문자로 시작해야 합니다
@@ -2826,6 +2863,16 @@ ko:
         field_updated: "%{field} 업데이트됨"
         header: "%{author} 님이 변경함"
         set_with_diff: "%{field} 설정됨(%{link})"
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: backlog for meeting series %{link}
+      meeting_series_template: template for meeting series %{link}
+      meeting_template: meeting template %{link}
       progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
       status_excluded_from_totals_set_to_false_message: 이제 계층 합계에 포함됨
       status_excluded_from_totals_set_to_true_message: 이제 계층 합계에서 제외됨
@@ -2838,6 +2885,7 @@ ko:
         progress_calculation_adjusted_from_disabled_mode: 진행률 계산은 자동으로 <a href="%{href}" target="_blank">작업 기반 모드로 설정되고 버전 업데이트에 따라 조정됩니다</a>.
         scheduling_mode_adjusted: 버전 업데이트에 따라 자동으로 조정되는 스케줄링 모드입니다.
         sprint_migration: 버전 '%{version_name}'이(가) 스프린트로 복사되었습니다.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: <a href="%{href}" target="_blank">버전 업데이트</a>를 통해 부모가 아닌 작업 패키지의 작업 및 진행률 합계가 자동으로 제거됩니다. 유지 관리 작업이므로 무시해도 됩니다.
       total_percent_complete_mode_changed_to_simple_average: 자식 작업 패키지의 작업 값은 무시됩니다.
       total_percent_complete_mode_changed_to_work_weighted_average: 작업이 없는 자식 작업 패키지는 무시됩니다.
@@ -2861,6 +2909,14 @@ ko:
       dates_changed: 변경된 날짜
       default_attribute_written: 읽기 전용 특성 작성됨
       import: 가져옴
+      meeting_agenda_item_added: Added to meeting
+      meeting_agenda_item_added_template: Added to
+      meeting_agenda_item_discussed: Discussed in meeting
+      meeting_agenda_item_moved: Moved to meeting
+      meeting_agenda_item_moved_template: Moved to
+      meeting_agenda_item_removed: Removed from meeting
+      meeting_agenda_item_removed_template: Removed from
+      meeting_outcome_recorded: Added as outcome in meeting
       progress_mode_changed_to_status_based: 진행률 계산 업데이트됨
       status_changed: 상태 '%{status_name}'
       system_update: 'OpenProject 시스템 업데이트:'
@@ -3387,7 +3443,7 @@ ko:
   label_project_hide_details: 프로젝트 세부 정보 숨기기
   label_project_hierarchy: 프로젝트 계층 구조
   label_project_identifier: 프로젝트 식별자
-  label_project_initiation_export_pdf: "%{project_creation_name}용 PDF 내보내기"
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: 최근 프로젝트
   label_project_life_cycle: 프로젝트 수명 주기
   label_project_list_plural: 프로젝트 목록
@@ -3499,7 +3555,7 @@ ko:
   label_subitems: 하위 항목
   label_subject_or_id: 제목 또는 ID
   label_subproject: 하위 프로젝트
-  label_subproject_new: 새 하위 프로젝트
+  label_subproject_add: Add subproject
   label_subproject_plural: 하위 프로젝트
   label_subtask_plural: 하위 작업
   label_summary: 요약
@@ -3563,6 +3619,7 @@ ko:
   label_version_sharing_none: 공유 안 됨
   label_version_sharing_system: 모든 프로젝트 포함
   label_version_sharing_tree: 프로젝트 트리 포함
+  label_versions_and_categories: Versions and categories
   label_videos: 동영상
   label_view_all_revisions: 모든 수정 보기
   label_view_diff: 차이점 보기
@@ -4673,7 +4730,8 @@ ko:
   project:
     archive:
       archived: 보관됨
-      are_you_sure: 프로젝트 '%{name}'을(를) 보관하시겠습니까?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: 프로젝트 보관
     count:
       one: 1개 프로젝트
@@ -5281,6 +5339,7 @@ ko:
   setting_work_package_done_ratio_status_caption_html: 각 상태에는 <i>완료 %</i> 값이 연관되어 있습니다. 상태를 변경하면 <i>완료 %</i>가 변경됩니다.
   setting_work_package_list_default_highlighted_attributes: 기본 인라인 강조 표시 특성
   setting_work_package_list_default_highlighting_mode: 기본 강조 표시 모드
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: 작업 패키지 속성
   setting_work_package_startdate_is_adddate: 새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용
   setting_work_packages_identifier_classic: 인스턴스 전체의 숫자 시퀀스(기본값)
@@ -5705,6 +5764,7 @@ ko:
   text_journal_file_link_deleted: "%{old}(%{storage})에 대한 %{label} 링크 제거됨"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label}이(가) %{value}(으)로 설정됨"
   text_journal_set_with_diff: "%{label} 설정됨(%{link})"
   text_latest_note: '최신 코멘트: %{note}'
@@ -5878,6 +5938,7 @@ ko:
           actions:
             label_disable_all: 모두 비활성화
             label_enable_all: 모두 활성화
+            label_toggle_template: Toggle %{template}
           label: PDF 내보내기 템플릿
         tab: PDF 생성
         templates:
