@@ -819,7 +819,7 @@ RSpec.describe "API v3 Work package form resource" do
                 before do
                   project.work_package_custom_fields << custom_field
                   project.save!
-                  work_package.type.custom_fields << custom_field
+                  work_package.type.default_variant.custom_fields << custom_field
                   work_package.save!
 
                   login_as(current_user)

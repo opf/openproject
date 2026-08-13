@@ -212,7 +212,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       create(:float_wp_custom_field,
              name: "float field") do |cf|
         project.work_package_custom_fields << cf
-        work_package.type.custom_fields << cf
+        work_package.type.default_variant.custom_fields << cf
       end
     end
 
@@ -1468,7 +1468,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         let(:type) { create(:type) }
 
         before do
-          type.custom_fields << custom_field
+          type.default_variant.custom_fields << custom_field
           type.save!
 
           allow(work_package).to receive(:available_custom_fields).and_return([custom_field])

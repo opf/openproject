@@ -115,7 +115,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
       let(:cf_instance_active) do
         custom_field = create(:text_wp_custom_field)
         project.work_package_custom_fields << custom_field
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
       let(:cf_instance_inactive) do
@@ -128,12 +128,12 @@ RSpec.describe AttributeHelpText::WorkPackage do
       end
       let(:cf_instance_inactive_not_in_project) do
         custom_field = create(:text_wp_custom_field)
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
       let(:cf_instance_for_all) do
         custom_field = create(:text_wp_custom_field, is_for_all: true)
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
 

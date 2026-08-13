@@ -139,7 +139,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
 
     before do
       source_project.work_package_custom_fields << custom_field
-      type.custom_fields << custom_field
+      type.default_variant.custom_fields << custom_field
     end
 
     it "copies the project", :aggregate_failures do

@@ -52,7 +52,7 @@ RSpec.describe WorkPackage do
     shared_context "project with custom field" do |save = true|
       before do
         project.work_package_custom_fields << custom_field
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
 
         work_package.save if save
       end
