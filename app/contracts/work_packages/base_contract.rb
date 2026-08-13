@@ -275,9 +275,7 @@ module WorkPackages
     end
 
     def validate_enabled_type
-      # Checks that the issue can not be added/moved to a disabled type.
-      # Read off the collection rather than with #exists?, which would always query and so miss
-      # rows a caller only built in memory.
+      # Checks that the issue can not be added/moved to a disabled type
       if type_context_changed? && model.project.project_types.none? { |pt| pt.type_id == model.type_id }
         errors.add :type_id, :inclusion
       end

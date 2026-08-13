@@ -63,8 +63,6 @@ class UpdateProjectsTypesService < BaseProjectService
     @types_used_by_work_packages ||= project.types_used_by_work_packages
   end
 
-  # A type the project already uses keeps the variant it applies; the ones gained here start
-  # on their base variant.
   def update_project_types(type_ids) # rubocop:disable Metrics/AbcSize
     requested_ids = type_ids.map(&:to_i)
     added_ids = requested_ids - project.project_types.pluck(:type_id)

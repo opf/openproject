@@ -35,9 +35,6 @@ FactoryBot.define do
       disable_modules { [] }
       members { [] }
 
-      # Transient on purpose. A project applies a type through a variant, so there is no `types`
-      # association to assign to: the callbacks below turn what is named here into project_types
-      # rows naming (root, variant) explicitly.
       types { [] }
     end
 
@@ -64,8 +61,6 @@ FactoryBot.define do
       # cannot be inserted without one, so it is persisted first.
       enabled_types.each { |requested| requested.save! if requested.new_record? }
 
-      # Built rather than created, so an unsaved project answers #project_types before it is
-      # saved — the work package factory reads the types off it during its own build.
       project.project_types = enabled_types.map do |requested|
         ProjectType.new(type: type_of(requested), variant: variant_of(requested))
       end
@@ -73,8 +68,7 @@ FactoryBot.define do
 
     callback(:after_stub) do |project, evaluator|
       # No rows exist to read back from, and assigning the association on a record that already
-      # looks persisted would insert them for real. A stubbed type has no variants to resolve
-      # either, so only a variant the caller named itself lands on the row.
+      # looks persisted would insert them for real.
       project.association(:project_types).target = evaluator.types.map do |requested|
         ProjectType.new(type: type_of(requested)).tap do |project_type|
           project_type.variant = requested if requested.is_a?(TypeVariant)
@@ -144,8 +138,6 @@ def variant_of(requested)
   requested.default_variant || requested.variants.detect(&:is_default_variant?)
 end
 
-# The types a project runs, readable while it is still unsaved or stubbed. #enabled_types
-# would query for project_types rows that only exist in memory at that point.
 def enabled_types_of(project)
   project.project_types.filter_map(&:type).sort_by { |type| type.position || 0 }
 end

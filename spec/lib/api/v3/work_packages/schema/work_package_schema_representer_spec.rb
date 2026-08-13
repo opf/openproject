@@ -76,8 +76,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   end
   let(:available_custom_fields) { [] }
   let(:assignable_project_phases) { [build_stubbed(:project_phase, project:)] }
-  # Read off the association rather than through #enabled_types: the project is stubbed, so its
-  # project_types only exist in memory and a query would come back empty.
   let(:wp_type) { project.project_types.first.type }
   let(:type_variant) do
     build_stubbed(:type_variant, type: wp_type).tap do |variant|

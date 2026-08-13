@@ -133,8 +133,6 @@ module DemoData
       project.project_types = base_variant_rows_for(seed_data.find_references(types_seed_data))
     end
 
-    # A project applies a type through one of its variants; seed data names types only, so
-    # every row falls back to the base variant ProjectType builds for it.
     def base_variant_rows_for(types)
       types.map { |type| ProjectType.new(type:) }
     end

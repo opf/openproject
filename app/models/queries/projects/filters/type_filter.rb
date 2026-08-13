@@ -37,8 +37,6 @@ class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
     :project_types
   end
 
-  # The join row already carries the type, so there is no need to reach through to the types
-  # table for its id.
   def where
     operator_strategy.sql_for_field(values, ProjectType.table_name, :type_id)
   end

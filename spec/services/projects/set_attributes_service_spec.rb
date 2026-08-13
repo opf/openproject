@@ -254,8 +254,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           let(:types) { [build(:type, name: "lorem")] }
 
           before do
-            # The project is stubbed, so the rows are placed in the association rather than
-            # assigned — assigning would try to insert them for real.
             project.association(:project_types).target = types.map { |type| ProjectType.new(type:) }
             project.association(:project_types).loaded!
           end

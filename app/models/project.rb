@@ -71,10 +71,6 @@ class Project < ApplicationRecord
   has_many :calculated_value_errors, dependent: :delete_all, as: :customized
 
   has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
-  # Which types this project runs, and the variant configuring each of them. There is
-  # deliberately no `has_many :types` shortcut: a bare type resolves its configuration through
-  # its base variant, which silently ignores the one the project actually applies. Read
-  # #enabled_variants for the configuration, or #enabled_types for the types alone.
   has_many :project_types, dependent: :delete_all
 
   has_many :work_packages, -> {

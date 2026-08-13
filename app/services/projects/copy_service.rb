@@ -156,8 +156,6 @@ module Projects
       source.status&.attributes
     end
 
-    # Whole rows rather than the roots alone, which would drop which variant each family
-    # resolves to. Assigning them to the target sets their project on save.
     def source_project_types_attribute
       { project_types: source.project_types.map(&:dup) }
     end
