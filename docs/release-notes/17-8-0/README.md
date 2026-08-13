@@ -228,8 +228,6 @@ Also a big thanks to our Community members for reporting bugs and helping us ide
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings. This release we would like to particularly thank the following users:
 
-- [erdei.p](https://crowdin.com/profile/erdei.p), for translations into Hungarian,
-- [Adam Siemienski](https://crowdin.com/profile/siemienas) for translations to Polish,
-- [Yuliia Pavliuk](https://crowdin.com/profile/pav.yulia) for translations to Ukrainian.
+- 
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
