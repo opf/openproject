@@ -91,6 +91,15 @@ FactoryBot.define do
     end
   end
 
+  # The type the workspace factory gives a project whose spec names none. "Default" is reserved
+  # for it: specs name their own types "Task", "Bug", … and a shared name would collide with the
+  # type they create themselves.
+  factory :type_default, parent: :type do
+    name { "Default" }
+
+    initialize_with { Type.find_or_initialize_by(name:) }
+  end
+
   # Named seed types: find-or-create by name so specs that share "Bug" / "Task" do not collide.
   # Nested under :type so configuration transients (custom_fields, patterns, …) still apply to the
   # base variant after create.
