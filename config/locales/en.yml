@@ -712,6 +712,7 @@ en:
             default_chat_model_id:
               not_available: "is not offered by the configured LLM server."
             default_embedding_model_id:
+              cannot_embed: "cannot create embeddings, according to the LLM server."
               not_available: "is not offered by the configured LLM server."
             enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
@@ -1469,6 +1470,8 @@ en:
           The full base URL of the server, including the API version segment, exactly as your provider documents it (for example https://example.com/v1). OpenProject appends only the endpoint path.
         button_connect: "Connect"
         default_chat_model_caption: "Used by AI features that do not select a model themselves."
+        embedding_option_unknown: "%{model} (not verified as an embedding model)"
+        embedding_option_unsupported: "%{model} (cannot create embeddings)"
         default_embedding_model_caption: "Used by AI features that index text for search and do not select a model themselves."
         enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         label_connecting: "Contacting the LLM server…"

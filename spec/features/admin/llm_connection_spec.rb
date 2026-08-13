@@ -46,6 +46,16 @@ RSpec.describe "LLM connection administration",
 
   current_user { admin }
 
+  # The kebab is a Primer ActionMenu: clicking it before its behaviour is
+  # attached silently does nothing, so wait for the page to settle first and
+  # for the item itself to become visible.
+  def choose_action(item)
+    expect(page).to have_test_selector("llm-connection--actions")
+    find_test_selector("llm-connection--actions").click
+    expect(page).to have_test_selector(item)
+    find_test_selector(item).click
+  end
+
   context "when nothing is configured yet" do
     it "renders an accessible, empty settings page" do
       visit llm_connection_path
@@ -83,12 +93,9 @@ RSpec.describe "LLM connection administration",
 
     it "removes the stored API key" do
       visit llm_connection_path
+      expect(page).to have_test_selector("llm-model--refresh-button")
 
-      find_test_selector("llm-connection--actions").click
-      # The menu renders into an anchored popover, so wait for it rather than
-      # racing the click.
-      expect(page).to have_link("Remove API key")
-      click_link "Remove API key"
+      choose_action("llm-connection--delete-api-key")
 
       within_test_selector("llm-connection--delete-api-key-dialog") do
         expect(page).to be_axe_clean
@@ -101,10 +108,9 @@ RSpec.describe "LLM connection administration",
 
     it "disconnects without losing the configuration" do
       visit llm_connection_path
+      expect(page).to have_test_selector("llm-model--refresh-button")
 
-      find_test_selector("llm-connection--actions").click
-      expect(page).to have_link("Disconnect")
-      click_link "Disconnect"
+      choose_action("llm-connection--disconnect")
 
       within_test_selector("llm-connection--disconnect-dialog") do
         expect(page).to be_axe_clean

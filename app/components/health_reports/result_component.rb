@@ -34,7 +34,9 @@ module HealthReports
 
     # Where "More information" points. Defaults to the file storages
     # documentation because that was this component's only consumer for a long
-    # time; a subject with its own troubleshooting page passes its own.
+    # time; a subject with its own troubleshooting page passes its own, and one
+    # with no page yet passes false to suppress the link rather than send an
+    # administrator somewhere unrelated.
     DEFAULT_DOCS_HREF = -> { ::OpenProject::Static::Links.url_for(:storage_docs, :health_status) }
 
     def initialize(group:, result:, i18n_scope:, docs_href: nil)
@@ -55,7 +57,11 @@ module HealthReports
       I18n.t("errors.#{model.code}", scope: @i18n_scope, **model.context&.symbolize_keys)
     end
 
-    def docs_href = @docs_href || DEFAULT_DOCS_HREF.call
+    def docs_href
+      return @docs_href if @docs_href == false
+
+      @docs_href || DEFAULT_DOCS_HREF.call
+    end
 
     def error_code
       if model.failure?

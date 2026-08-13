@@ -136,7 +136,14 @@ module Admin
 
     def render_form_with_errors
       update_via_turbo_stream(component: ::LlmConnections::FormComponent.new(@connection))
-      respond_with_turbo_streams { |format| format.html { render :show } }
+      # The HTML fallback re-renders the whole page, which needs everything the
+      # show action assigns -- not just the form that failed.
+      respond_with_turbo_streams do |format|
+        format.html do
+          show
+          render :show
+        end
+      end
     end
 
     def redirect_with_notice(message)

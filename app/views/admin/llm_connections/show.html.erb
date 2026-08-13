@@ -83,56 +83,28 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% if @connection.persisted? %>
-  <%=
-    render(Primer::OpenProject::SidePanel.new(mb: 3)) do |panel|
-      panel.with_section(LlmConnections::SidePanel::HealthStatusComponent.new(@connection))
-    end
-  %>
-<% end %>
+  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
+    <% layout.with_main do %>
+      <%= render(LlmConnections::FormComponent.new(@connection)) %>
 
-<%= render(LlmConnections::FormComponent.new(@connection)) %>
+      <%=
+        render(Primer::Beta::Subhead.new(mt: 4)) do |component|
+          component.with_heading(tag: :h3) { t(".models_heading") }
+          component.with_description { t(".models_description", fetched_at: format_time(@connection.catalogue_fetched_at)) }
+        end
+      %>
 
-<% if @connection.persisted? %>
-  <%=
-    render(Primer::Beta::Subhead.new(mt: 4)) do |component|
-      component.with_heading(tag: :h3) { t(".models_heading") }
-      component.with_description { t(".models_description", fetched_at: format_time(@connection.catalogue_fetched_at)) }
-      component.with_actions do
-        concat(
-          render(
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: new_llm_model_path,
-              scheme: :primary,
-              mr: 2,
-              data: { test_selector: "llm-model--add-button" }
-            )
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus)
-            t(".add_model_submit")
-          end
-        )
-        concat(
-          render(
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: refresh_models_llm_connection_path,
-              data: {
-                turbo_method: :post,
-                controller: "disable-when-clicked",
-                test_selector: "llm-model--refresh-button"
-              }
-            )
-          ) do |button|
-            button.with_leading_visual_icon(icon: :sync)
-            t(".refresh_models")
-          end
-        )
-      end
-    end
-  %>
+      <%= render(LlmConnections::Models::SubHeaderComponent.new(@query)) %>
+      <%= render(LlmConnections::Models::IndexComponent.new(@models, connection: @connection)) %>
+    <% end %>
 
-  <%= render(LlmConnections::Models::SubHeaderComponent.new(@query)) %>
-  <%= render(LlmConnections::Models::IndexComponent.new(@models, connection: @connection)) %>
-
+    <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
+      <%= render(Primer::OpenProject::SidePanel.new) do |panel| %>
+        <% panel.with_section(LlmConnections::SidePanel::HealthStatusComponent.new(@connection)) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%# Nothing to show alongside the form until a connection exists. %>
+  <%= render(LlmConnections::FormComponent.new(@connection)) %>
 <% end %>

@@ -361,4 +361,45 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(rendered_rows(response.body)).to eq(3)
     end
   end
+
+  describe "choosing a default embedding model" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url: "https://example.com/v1") }
+
+    before { login_as admin }
+
+    def verdict(model_id, state)
+      connection.capability_verdicts.create!(model_id:, capability: "embeddings", state:,
+                                             source: "probe", checked_at: Time.current)
+    end
+
+    it "refuses a model the server says cannot embed" do
+      verdict("qwen3.6-27b", "unsupported")
+
+      patch llm_connection_path,
+            params: { llm_connection: { base_url: "https://example.com/v1",
+                                        default_embedding_model_id: "qwen3.6-27b" } }
+
+      expect(connection.reload.default_embedding_model_id).to be_nil
+    end
+
+    it "accepts one that can" do
+      verdict("bge-m3", "supported")
+
+      patch llm_connection_path,
+            params: { llm_connection: { base_url: "https://example.com/v1",
+                                        default_embedding_model_id: "bge-m3" } }
+
+      expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
+    end
+
+    # Unknown is the normal state for a server that publishes nothing, so it
+    # must not block the choice.
+    it "allows one with no verdict at all" do
+      patch llm_connection_path,
+            params: { llm_connection: { base_url: "https://example.com/v1",
+                                        default_embedding_model_id: "bge-m3" } }
+
+      expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
+    end
+  end
 end

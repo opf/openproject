@@ -78,7 +78,10 @@ See COPYRIGHT and LICENSE files for more details.
         HealthReports::ReportComponent.new(
           @report,
           i18n_scope: "llm.health_checks",
-          docs_href: OpenProject::Static::Links.url_for(:sysadmin_docs, :llm_connection)
+          # No admin guide page exists for this yet. Every check explains itself
+          # in its own message, so a "More information" link would only lead
+          # somewhere unrelated -- suppressed until that page is written.
+          docs_href: false
         )
       )
     %>

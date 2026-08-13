@@ -10,4 +10,27 @@
        clear_button_id:,
        data: filter_input_data_attributes
      ) %>
+
+  <% subheader.with_action_button(
+       scheme: :primary,
+       label: t("admin.llm_connections.show.add_model_submit"),
+       mobile_label: t("admin.llm_connections.show.add_model_submit"),
+       mobile_icon: :plus,
+       leading_icon: :plus,
+       tag: :a,
+       href: helpers.new_llm_model_path,
+       test_selector: "llm-model--add-button"
+     ) { t("admin.llm_connections.show.add_model_submit") } %>
+
+  <% subheader.with_action_button(
+       scheme: :default,
+       label: t("admin.llm_connections.show.refresh_models"),
+       mobile_label: t("admin.llm_connections.show.refresh_models"),
+       mobile_icon: :sync,
+       leading_icon: :sync,
+       tag: :a,
+       href: helpers.refresh_models_llm_connection_path,
+       data: { turbo_method: :post, controller: "disable-when-clicked" },
+       test_selector: "llm-model--refresh-button"
+     ) { t("admin.llm_connections.show.refresh_models") } %>
 <% end %>

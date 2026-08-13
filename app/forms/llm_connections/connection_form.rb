@@ -123,8 +123,14 @@ module LlmConnections
                         selected: model.default_embedding_model_id.blank?)
 
             default_embedding_model_options.each do |model_id|
-              list.option(label: model_id, value: model_id,
-                          selected: model.default_embedding_model_id == model_id)
+              # Same rule the per-feature picker follows: never hide a model,
+              # but refuse one the server has told us cannot embed, and say so.
+              state = embeddings_state(model_id)
+
+              list.option(label: embedding_option_label(model_id, state),
+                          value: model_id,
+                          selected: model.default_embedding_model_id == model_id,
+                          disabled: state == :unsupported)
             end
           end
         end
@@ -162,6 +168,29 @@ module LlmConnections
 
     def embedding_features?
       OpenProject::Llm::Features.for_kind(:embedding).any?
+    end
+
+    # No verdict at all is the same as an inconclusive one: we do not know.
+    def embeddings_state(model_id)
+      embeddings_verdicts[model_id]&.to_sym || :unknown
+    end
+
+    def embeddings_verdicts
+      @embeddings_verdicts ||= model.capability_verdicts
+                                    .for_capability(:embeddings)
+                                    .pluck(:model_id, :state)
+                                    .to_h
+    end
+
+    def embedding_option_label(model_id, state)
+      case state
+      when :unsupported
+        I18n.t("admin.llm_connections.form.embedding_option_unsupported", model: model_id)
+      when :unknown
+        I18n.t("admin.llm_connections.form.embedding_option_unknown", model: model_id)
+      else
+        model_id
+      end
     end
 
     def submit_label

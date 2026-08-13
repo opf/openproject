@@ -186,8 +186,6 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/ldap-connections/
   ldap_group_sync:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/ldap-connections/ldap-group-synchronization/
-  llm_connection:
-    href: https://www.openproject.org/docs/system-admin-guide/ai/llm-connection/
   mcp_resources:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/#resources
   mcp_tools:
