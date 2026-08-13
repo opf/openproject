@@ -52,7 +52,7 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
     return meeting_template_message if @meeting.templated?
 
     label = "#{@meeting.title} – #{format_time(@meeting.start_time)}"
-    I18n.t("journals.cause_descriptions.#{cause['type']}", link: meeting_link(label))
+    meeting_link(label)
   end
 
   def meeting_template_message
