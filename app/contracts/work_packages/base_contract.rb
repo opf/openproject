@@ -201,11 +201,7 @@ module WorkPackages
     end
 
     def assignable_types
-      scope = if model.project.nil?
-                Type
-              else
-                model.project.types.includes(:color)
-              end
+      scope = model.project&.enabled_types || Type.all
 
       scope.includes(:color)
     end
@@ -280,7 +276,7 @@ module WorkPackages
 
     def validate_enabled_type
       # Checks that the issue can not be added/moved to a disabled type
-      if type_context_changed? && model.project.types.exclude?(model.type)
+      if type_context_changed? && !model.project.project_types.exists?(type_id: model.type_id)
         errors.add :type_id, :inclusion
       end
     end

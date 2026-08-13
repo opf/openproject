@@ -174,7 +174,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
              custom_field:)
     end
     let(:type) do
-      type = project.types.first
+      type = project.enabled_types.first
       type.custom_fields << custom_field
       type
     end
@@ -233,7 +233,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       create(:work_package,
              description: "some arbitrary description \n <p>with some html</p>",
              project:,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
     let(:column_names) { %w[id] }
@@ -252,7 +252,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     let(:work_package) do
       create(:work_package,
              project:,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
     let(:column_names) { %w[id subject] }
@@ -270,7 +270,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       create(:work_package,
              subject: "underscore_is included",
              project:,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
     let(:column_names) { %w[id subject] }
@@ -296,7 +296,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     let(:work_package) do
       create(:work_package,
              project:,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
 
@@ -324,7 +324,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       create(:work_package,
              project:,
              derived_estimated_hours: 15.0,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
 
@@ -355,7 +355,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
              derived_remaining_hours: 8.0,
              done_ratio: 50,
              derived_done_ratio: 75,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
 
@@ -386,7 +386,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
              derived_remaining_hours: 8,
              done_ratio: 0,
              derived_done_ratio: 42,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
 

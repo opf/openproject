@@ -63,12 +63,11 @@ class UpdateProjectsTypesService < BaseProjectService
     @types_used_by_work_packages ||= project.types_used_by_work_packages
   end
 
-  # The rows are managed directly rather than through `project.type_ids =`: a project_types
-  # row names a variant as well as a type, and the association writer has no variant to give.
-  # A type the project already uses keeps the variant it applies.
+  # A type the project already uses keeps the variant it applies; the ones gained here start
+  # on their base variant.
   def update_project_types(type_ids) # rubocop:disable Metrics/AbcSize
     requested_ids = type_ids.map(&:to_i)
-    added_ids = requested_ids - project.type_ids
+    added_ids = requested_ids - project.project_types.pluck(:type_id)
 
     project.project_types.where.not(type_id: requested_ids).destroy_all
     ::TypeVariant.default_variant.where(type_id: added_ids).find_each do |variant|

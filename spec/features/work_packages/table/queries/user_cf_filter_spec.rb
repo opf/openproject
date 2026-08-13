@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Work package filtering by user custom field", :js do
   let(:project) { create(:project) }
-  let(:type) { project.types.first }
+  let(:type) { project.enabled_types.first }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
   let!(:user_cf) do

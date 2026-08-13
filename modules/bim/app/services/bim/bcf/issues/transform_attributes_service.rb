@@ -73,7 +73,7 @@ module Bim::Bcf
 
       def type(attributes)
         type_name = attributes[:type]
-        type = project.types.find_by(name: type_name)
+        type = project.enabled_types.find_by(name: type_name)
 
         return type if type.present?
 

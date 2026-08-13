@@ -43,7 +43,7 @@ module Projects
               action: "change->refresh-on-form-changes#triggerTurboStream"
             }
           ) do |list|
-            model.types.each do |type|
+            model.enabled_types.each do |type|
               list.option(
                 value: type.id,
                 label: type.name,

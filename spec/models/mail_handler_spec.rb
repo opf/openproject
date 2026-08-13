@@ -254,7 +254,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:feature_type) do
       create(:type,
              name: "Feature request") do |type|
-        project.types << type
+        project.project_types.create!(type:)
       end
     end
     let!(:stock_category) do
@@ -288,7 +288,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:feature_type) do
       create(:type,
              name: "Feature request") do |type|
-        project.types << type
+        project.project_types.create!(type:)
       end
     end
     let!(:stock_category) do
@@ -334,7 +334,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:japanese_type) do
       create(:type,
              name: "開発") do |type|
-        project.types << type
+        project.project_types.create!(type:)
       end
     end
     let(:submit_options) { {} }
@@ -390,7 +390,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:custom_field) do
       create(:string_wp_custom_field, name: "Searchable field") do |cf|
         project.work_package_custom_fields << cf
-        project.types.first.default_variant.custom_fields << cf
+        project.enabled_variants.first.custom_fields << cf
       end
     end
     let(:submit_options) { {} }
@@ -431,7 +431,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:feature_type) do
       create(:type,
              name: "Feature request") do |type|
-        project.types << type
+        project.project_types.create!(type:)
       end
     end
     let!(:stock_category) do
@@ -533,7 +533,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
     context "when sending a mail not as a reply" do
       context "for a given project" do
-        let(:type) { project.types.first }
+        let(:type) { project.enabled_types.first }
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }
         let!(:version) { create(:version, name: "alpha", project:) }
 
@@ -642,7 +642,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       context "for a given project with a default type" do
         let(:default_type) do
           create(:type, default_variant_enabled_in_all_projects: true) do |t|
-            project.types << t
+            project.project_types.create!(type: t)
           end
         end
 
@@ -929,7 +929,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       end
 
       context "for wp with status" do
-        let(:type) { project.types.first }
+        let(:type) { project.enabled_types.first }
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }
 
         # This email contains: 'Project: onlinestore' and 'Status: Resolved'
@@ -944,7 +944,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       end
 
       context "for wp with status case insensitive" do
-        let(:type) { project.types.first }
+        let(:type) { project.enabled_types.first }
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }
         let!(:version) { create(:version, name: "alpha", project:) }
 

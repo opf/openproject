@@ -35,10 +35,9 @@ FactoryBot.define do
       disable_modules { [] }
       members { [] }
 
-      # Transient on purpose. Assigning the `types` association writes the member handed in
-      # straight into the in-memory collection, so a variant stays there while the association
-      # itself reads the roots the project_types rows name — the two then disagree. Building the
-      # rows and naming (root, variant) explicitly keeps the association the single answer.
+      # Transient on purpose. A project applies a type through a variant, so there is no `types`
+      # association to assign to: the callbacks below turn what is named here into project_types
+      # rows naming (root, variant) explicitly.
       types { [] }
     end
 
@@ -65,20 +64,23 @@ FactoryBot.define do
       # cannot be inserted without one, so it is persisted first.
       enabled_types.each { |requested| requested.save! if requested.new_record? }
 
-      # Assigned through the association rather than by building project_types directly, so
-      # that #types answers before the project is saved — the work package factory reads it
-      # during its own build.
-      project.types = enabled_types.map { |requested| type_of(requested) }
-      project.project_types.zip(enabled_types).each do |project_type, requested|
-        project_type.variant = variant_of(requested)
+      # Built rather than created, so an unsaved project answers #project_types before it is
+      # saved — the work package factory reads the types off it during its own build.
+      project.project_types = enabled_types.map do |requested|
+        ProjectType.new(type: type_of(requested), variant: variant_of(requested))
       end
     end
 
     callback(:after_stub) do |project, evaluator|
       # No rows exist to read back from, and assigning the association on a record that already
-      # looks persisted would insert them for real.
-      project.association(:types).target = evaluator.types.map { |requested| type_of(requested) }
-      project.association(:types).loaded!
+      # looks persisted would insert them for real. A stubbed type has no variants to resolve
+      # either, so only a variant the caller named itself lands on the row.
+      project.association(:project_types).target = evaluator.types.map do |requested|
+        ProjectType.new(type: type_of(requested)).tap do |project_type|
+          project_type.variant = requested if requested.is_a?(TypeVariant)
+        end
+      end
+      project.association(:project_types).loaded!
     end
 
     callback(:after_create) do |project, evaluator|
@@ -140,4 +142,10 @@ def variant_of(requested)
   return requested if requested.is_a?(TypeVariant)
 
   requested.default_variant || requested.variants.detect(&:is_default_variant?)
+end
+
+# The types a project runs, readable while it is still unsaved or stubbed. #enabled_types
+# would query for project_types rows that only exist in memory at that point.
+def enabled_types_of(project)
+  project.project_types.filter_map(&:type).sort_by { |type| type.position || 0 }
 end

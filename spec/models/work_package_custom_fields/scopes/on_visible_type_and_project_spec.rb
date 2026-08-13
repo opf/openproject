@@ -140,7 +140,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     subject { WorkPackageCustomField.on_visible_type_and_project(variant_user) }
 
     it "uses the type while applying the variant" do
-      expect(variant_project.types).to contain_exactly(root_type)
+      expect(variant_project.enabled_types).to contain_exactly(root_type)
       expect(variant_project.project_types.sole.variant).to eq(variant)
     end
 

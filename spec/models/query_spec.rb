@@ -413,7 +413,7 @@ RSpec.describe Query,
     context "with relation_to_type columns" do
       let(:type_in_project) do
         type = create(:type)
-        project.types << type
+        project.project_types.create!(type:)
 
         type
       end
@@ -510,7 +510,7 @@ RSpec.describe Query,
 
     before do
       custom_field
-      project.types << type
+      project.project_types.create!(type:)
 
       stub_const("Relation::TYPES",
                  relation1: { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 },

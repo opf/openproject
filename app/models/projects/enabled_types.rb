@@ -32,6 +32,23 @@ module Projects::EnabledTypes
   extend ActiveSupport::Concern
 
   included do
+    # The types this project runs. A read-only scope on purpose: enabling a type means naming
+    # the variant it runs under, which only a project_types row can express.
+    def enabled_types
+      ::Type.enabled_in(self)
+    end
+
+    # The configurations this project applies, in the order their types are displayed in.
+    #
+    # A variant delegates name, color and the milestone/roadmap flags to its type, so this is
+    # what callers want wherever they used to reach for the types themselves.
+    def enabled_variants
+      ::TypeVariant
+        .where(id: project_types.select(:variant_id))
+        .joins(:type)
+        .order(::Type.arel_table[:position].asc)
+    end
+
     def type_variant(type)
       return if type.nil?
 

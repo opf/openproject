@@ -76,7 +76,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   end
   let(:available_custom_fields) { [] }
   let(:assignable_project_phases) { [build_stubbed(:project_phase, project:)] }
-  let(:wp_type) { project.types.first }
+  let(:wp_type) { project.enabled_types.first }
   let(:type_variant) do
     build_stubbed(:type_variant, type: wp_type).tap do |variant|
       allow(variant).to receive(:custom_fields).and_return([])

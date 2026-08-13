@@ -35,10 +35,10 @@ RSpec.describe WorkPackage do
     create(:project_with_types, members: { user => role })
   end
 
-  let(:project2) { create(:project_with_types, types: project.types) }
+  let(:project2) { create(:project_with_types, types: project.enabled_types) }
   let(:work_package) do
     create(:work_package, project:,
-                          type: project.types.first,
+                          type: project.enabled_types.first,
                           author: user)
   end
   let!(:cost_entry) do

@@ -195,22 +195,22 @@ RSpec.describe Project do
     end
   end
 
-  describe "#types" do
+  describe "#enabled_variants" do
     shared_let(:type) { create(:type, name: "Bug") }
     shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
 
-    it "uses the type and applies the variant when a named variant is enabled" do
+    it "applies the named variant when it is the one enabled" do
       project = create(:project, types: [variant])
 
-      expect(project.reload.types).to contain_exactly(type)
-      expect(project.project_types.sole.variant).to eq(variant)
+      expect(project.reload.enabled_variants).to contain_exactly(variant)
+      expect(project.project_types.sole.type).to eq(type)
     end
 
     it "applies the base variant when the type itself is enabled" do
       project = create(:project, types: [type])
 
-      expect(project.reload.types).to contain_exactly(type)
-      expect(project.project_types.sole.variant).to eq(type.default_variant)
+      expect(project.reload.enabled_variants).to contain_exactly(type.default_variant)
+      expect(project.project_types.sole.type).to eq(type)
     end
 
     it "switches the applied variant without changing which type is used" do
@@ -218,14 +218,25 @@ RSpec.describe Project do
 
       project.project_types.sole.update!(variant:)
 
-      expect(project.reload.types).to contain_exactly(type)
-      expect(project.project_types.sole.variant).to eq(variant)
+      expect(project.reload.enabled_variants).to contain_exactly(variant)
+      expect(project.project_types.sole.type).to eq(type)
+    end
+
+    it "orders by the position of the types" do
+      first, last = create_list(:type, 2)
+      # acts_as_list appends on create, so the order has to be forced after the fact.
+      first.update_column(:position, 1)
+      last.update_column(:position, 99)
+      project = create(:project, types: [last, first])
+
+      expect(project.reload.enabled_variants)
+        .to eq([first.default_variant, last.default_variant])
     end
 
     it "refuses a second row for a type already used" do
       project = create(:project, types: [type])
 
-      expect { project.types << type }.to raise_error(ActiveRecord::RecordInvalid)
+      expect { project.project_types.create!(type:) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 
@@ -297,7 +308,7 @@ RSpec.describe Project do
 
   describe "#types_used_by_work_packages" do
     let(:project) { create(:project_with_types) }
-    let(:type) { project.types.first }
+    let(:type) { project.enabled_types.first }
     let(:other_type) { create(:type) }
     let(:project_work_package) { create(:work_package, type:, project:) }
     let(:other_project) { create(:project, types: [other_type, type]) }
@@ -522,7 +533,7 @@ RSpec.describe Project do
 
     let!(:project_type) do
       create(:type).tap do |t|
-        project.types = [t, shared_type]
+        project.project_types = [t, shared_type].map { |type| ProjectType.new(type:) }
       end
     end
 
