@@ -81,7 +81,10 @@ module WorkPackageTypes
         "types.edit.reuse_mode.linked.description",
         i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
         links: { source_url: source_path },
-        external: false
+        external: false,
+        # The banner renders inside ReloadableConfigurationFrameComponent's frame, which would
+        # otherwise swallow the navigation and leave the rest of the page on the old variant.
+        data: { turbo_frame: "_top" }
       )
     end
 

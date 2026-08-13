@@ -101,6 +101,10 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
       expect(page).to have_no_text("(parent)")
     end
 
+    it "breaks the source link out of the reloadable configuration frame" do
+      expect(page).to have_css("a[data-turbo-frame='_top']", text: "Feature")
+    end
+
     it "links the change-source and switch-to-independent actions to their dialogs" do
       link_path = type_configuration_link_dialog_path(**variant.path_args, aspect:)
       independence_path = type_configuration_independence_dialog_path(**variant.path_args, aspect:)
