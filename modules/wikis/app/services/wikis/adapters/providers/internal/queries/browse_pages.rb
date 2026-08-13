@@ -34,7 +34,7 @@ module Wikis
       module Internal
         module Queries
           class BrowsePages < BaseQuery
-            MAXIMUM_RESULTS = 50
+            MAXIMUM_RESULTS = 1_000
 
             def call(input_data:, auth_strategy:)
               success(
