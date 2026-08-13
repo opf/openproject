@@ -417,6 +417,67 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
         expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(participant.mail)
       end
     end
+
+    context "when changing participants on an open meeting with notifications enabled" do
+      let(:existing_participant) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:added_participant) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:other_participant) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:meeting) do
+        create(:meeting, project:, author: current_user, notify: true).tap do |m|
+          create(:meeting_participant, meeting: m, user: existing_participant, invited: true)
+        end
+      end
+
+      before { ActionMailer::Base.deliveries.clear }
+
+      def perform_debounced_jobs
+        perform_enqueued_jobs(only: Meetings::NotificationDebounceJob, at: 2.minutes.from_now)
+        perform_enqueued_jobs
+      end
+
+      it "invites a newly added participant" do
+        body = {
+          lockVersion: meeting.lock_version,
+          _links: {
+            participants: [
+              { href: api_v3_paths.user(existing_participant.id) },
+              { href: api_v3_paths.user(added_participant.id) }
+            ]
+          }
+        }.to_json
+
+        patch path, body
+        expect(last_response).to have_http_status(:ok)
+
+        perform_debounced_jobs
+
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(added_participant.mail)
+      end
+
+      it "notifies a removed participant" do
+        create(:meeting_participant, meeting:, user: other_participant, invited: true)
+
+        body = {
+          lockVersion: meeting.lock_version,
+          _links: {
+            participants: [{ href: api_v3_paths.user(existing_participant.id) }]
+          }
+        }.to_json
+
+        patch path, body
+        expect(last_response).to have_http_status(:ok)
+
+        perform_debounced_jobs
+
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(other_participant.mail)
+      end
+    end
   end
 
   describe "DELETE /api/v3/meetings/:id" do

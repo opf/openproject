@@ -31,18 +31,41 @@ module Meetings
   class UpdateService < ::BaseServices::Update
     protected
 
-    def after_perform(call)
-      send_invitation_mails(call.result) if call.success?
+    def before_perform(*)
+      @invited_user_ids_before = invited_user_ids
 
       super
     end
 
-    def send_invitation_mails(meeting)
-      return if meeting.recurring? || meeting.template?
-      return unless meeting.notify?
-      return unless exiting_draft?(meeting) || enabling_notifications?(meeting)
+    def after_perform(call)
+      if call.success?
+        meeting = call.result
 
-      MeetingNotificationService.new(meeting).call(:invited)
+        if send_initial_invitations?(meeting)
+          MeetingNotificationService.new(meeting).call(:invited)
+        else
+          notify_participant_changes(meeting)
+        end
+      end
+
+      super
+    end
+
+    def send_initial_invitations?(meeting)
+      return false if meeting.recurring? || meeting.template?
+      return false unless meeting.notify?
+
+      exiting_draft?(meeting) || enabling_notifications?(meeting)
+    end
+
+    # For when participants are added/removed via the API and skip the web only
+    # MeetingParticipants service flows
+    def notify_participant_changes(meeting)
+      return unless meeting.notify?
+      return if invited_user_ids.sort == @invited_user_ids_before.sort
+
+      meeting.touch_and_save_journals
+      Meetings::NotificationDebounceJob.debounce(meeting, since_invited_ids: @invited_user_ids_before)
     end
 
     def exiting_draft?(meeting)
@@ -53,6 +76,10 @@ module Meetings
 
     def enabling_notifications?(meeting)
       meeting.saved_change_to_notify? && meeting.notify?
+    end
+
+    def invited_user_ids
+      MeetingParticipant.where(meeting_id: model.id, invited: true).pluck(:user_id)
     end
   end
 end
