@@ -80,7 +80,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
   end
 
   it "badges the type that is activated in new projects" do
-    feature_type.update!(is_default: true)
+    feature_type.default_variant.update!(enabled_in_new_projects: true)
 
     visit types_path
 

@@ -45,6 +45,12 @@ module WorkPackageTypes
         type.default_variant.own_workflows.copy_from_variant(copy_from.default_variant)
       end
 
+      # Which projects start with the type is a property of the configuration they apply it
+      # through, so the form's checkbox lands on the base variant rather than on the type.
+      if ActiveRecord::Type::Boolean.new.cast(@params[:enabled_in_new_projects])
+        type.default_variant.update!(enabled_in_new_projects: true)
+      end
+
       service_call
     end
   end

@@ -38,7 +38,7 @@ module WorkPackageTypes
 
     before_action :require_admin
     before_action :require_type_variants_feature, only: %i[drop duplicate menu]
-    before_action :find_type, only: %i[move destroy drop make_default remove_default duplicate menu]
+    before_action :find_type, only: %i[move destroy drop duplicate menu]
 
     current_menu_item do
       :types
@@ -87,30 +87,6 @@ module WorkPackageTypes
         flash[:error] = @type.errors.full_messages
       end
       redirect_to action: "index", status: :see_other
-    end
-
-    def make_default
-      service_call = WorkPackageTypes::MakeDefaultService.new(type: @type, user: current_user).call
-
-      if service_call.success?
-        flash[:notice] = t("types.index.make_default_notice", name: @type.name)
-      else
-        flash[:error] = service_call.errors.full_messages
-      end
-
-      redirect_to types_path, status: :see_other
-    end
-
-    def remove_default
-      service_call = WorkPackageTypes::RemoveDefaultService.new(type: @type, user: current_user).call
-
-      if service_call.success?
-        flash[:notice] = t("types.index.remove_default_notice", name: @type.name)
-      else
-        flash[:error] = service_call.errors.full_messages
-      end
-
-      redirect_to types_path, status: :see_other
     end
 
     def duplicate

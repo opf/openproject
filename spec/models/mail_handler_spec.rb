@@ -641,7 +641,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a given project with a default type" do
         let(:default_type) do
-          create(:type, is_default: true) do |t|
+          create(:type, default_variant_enabled_in_all_projects: true) do |t|
             project.types << t
           end
         end

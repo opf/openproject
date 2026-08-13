@@ -158,6 +158,8 @@ Rails.application.routes.draw do
     resources :variants, controller: "variants", only: %i[destroy] do
       member do
         get :menu
+        post :make_default
+        post :remove_default
       end
     end
 
@@ -268,8 +270,6 @@ Rails.application.routes.draw do
     member do
       get :menu
       put :drop
-      post :make_default
-      post :remove_default
       post :duplicate
     end
   end

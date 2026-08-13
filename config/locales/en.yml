@@ -368,6 +368,7 @@ en:
         attribute_groups: "Form configuration"
         default_work_package_description: "Default text for description"
         defaults_source: "Defaults source"
+        enabled_in_new_projects: "Active in new projects"
         form_configuration_source: "Form configuration source"
         patterns: "Patterns"
         pdf_export_source: "PDF export source"
@@ -845,6 +846,8 @@ en:
                 has_many: "Cannot be deleted while projects are still using it."
             defaults_source_id:
               would_create_cycle: "would link these configurations in a loop."
+            enabled_in_new_projects:
+              taken: "is already set for another configuration of this type."
             form_configuration_source_id:
               would_create_cycle: "would link these configurations in a loop."
             patterns:

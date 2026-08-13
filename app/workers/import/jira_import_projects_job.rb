@@ -202,7 +202,7 @@ module Import
       if type.blank?
         service_call = WorkPackageTypes::CreateService
                          .new(user: @system_user)
-                         .call(name: issue_type["name"], is_default: false)
+                         .call(name: issue_type["name"])
         raise service_call.message unless service_call.success?
 
         type = service_call.result

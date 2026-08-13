@@ -57,7 +57,7 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
     context "when the type is the current default" do
       subject(:rendered_component) { render_inline(described_class.new(type: root_type)) }
 
-      before { allow(root_type).to receive(:is_default?).and_return(true) }
+      before { root_type.default_variant.update!(enabled_in_new_projects: true) }
 
       it "offers removing the default instead of setting it", :aggregate_failures do
         expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.remove_default")

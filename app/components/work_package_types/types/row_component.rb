@@ -65,7 +65,7 @@ module WorkPackageTypes
       end
 
       def default
-        checked_image model.is_default
+        checked_image model.default_variant.enabled_in_new_projects?
       end
 
       def milestone

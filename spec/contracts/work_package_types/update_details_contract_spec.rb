@@ -95,8 +95,8 @@ module WorkPackageTypes
         end
       end
 
-      context "when is_in_milestone or is_default aren't booleans" do
-        let(:updated_attributes) { { is_default: nil, is_milestone: nil, is_in_roadmap: nil } }
+      context "when is_in_milestone or is_in_roadmap aren't booleans" do
+        let(:updated_attributes) { { is_milestone: nil, is_in_roadmap: nil } }
 
         it "the contract is invalid" do
           expect(contract.validate).to be_falsey
@@ -105,7 +105,6 @@ module WorkPackageTypes
         it "adds and error to the contract" do
           contract.validate
 
-          expect(contract.errors.details[:is_default]).to eq([{ error: :inclusion, value: nil }])
           expect(contract.errors.details[:is_milestone]).to eq([{ error: :inclusion, value: nil }])
           expect(contract.errors.details[:is_in_roadmap]).to eq([{ error: :inclusion, value: nil }])
         end

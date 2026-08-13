@@ -45,7 +45,10 @@ module API
                  getter: ->(*) { color&.hexcode },
                  render_nil: true
         property :position
-        property :is_default
+        # Kept on the type in the API: the flag moved to the configuration a project applies
+        # the type through, which for a type as a whole is its base variant.
+        property :is_default,
+                 getter: ->(*) { default_variant.enabled_in_new_projects? }
         property :is_milestone
 
         date_time_property :created_at

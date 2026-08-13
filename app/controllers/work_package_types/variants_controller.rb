@@ -52,9 +52,36 @@ module WorkPackageTypes
       end
     end
 
+    def make_default
+      apply_default_service(MakeDefaultService, "types.index.make_default_notice")
+    end
+
+    def remove_default
+      apply_default_service(RemoveDefaultService, "types.index.remove_default_notice")
+    end
+
     private
 
     def find_variant; end
+
+    # Unlike the actions above, either variant of a type can be the one new projects start
+    # with, so the base one is addressable here too.
+    def any_variant
+      @type.variants.find(params.expect(:id))
+    end
+
+    def apply_default_service(service, notice_key)
+      variant = any_variant
+      service_call = service.new(variant:, user: current_user).call
+
+      if service_call.success?
+        flash[:notice] = t(notice_key, name: variant.composite_name)
+      else
+        flash[:error] = service_call.errors.full_messages
+      end
+
+      redirect_to types_path, status: :see_other
+    end
 
     def named_variant
       @type.variants.non_default_variants.find(params.expect(:id))

@@ -91,8 +91,14 @@ module WorkPackageTypes
         end
       end
 
+      # The flag lives on the configuration a project applies the type through, and this menu
+      # acts on the type as a whole, so it toggles the base variant.
+      def default_variant
+        type.default_variant
+      end
+
       def default_action(menu)
-        if type.is_default?
+        if default_variant.enabled_in_new_projects?
           remove_default_action(menu)
         else
           make_default_action(menu)
@@ -102,7 +108,7 @@ module WorkPackageTypes
       def make_default_action(menu)
         menu.with_item(
           label: t("types.index.make_default"),
-          href: make_default_type_path(type),
+          href: make_default_type_variant_path(type_id: type.id, id: default_variant.id),
           form_arguments: { method: :post }
         ) do |item|
           item.with_leading_visual_icon(icon: :"check-circle")
@@ -112,7 +118,7 @@ module WorkPackageTypes
       def remove_default_action(menu)
         menu.with_item(
           label: t("types.index.remove_default"),
-          href: remove_default_type_path(type),
+          href: remove_default_type_variant_path(type_id: type.id, id: default_variant.id),
           form_arguments: { method: :post }
         ) do |item|
           item.with_leading_visual_icon(icon: :"circle-slash")

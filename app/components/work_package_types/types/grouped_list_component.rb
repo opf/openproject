@@ -53,8 +53,9 @@ module WorkPackageTypes
         t("types.index.variants_count", count: root.variants.non_default_variants.size)
       end
 
+      # Mirrors the type menu's default action, which toggles the base variant.
       def add_default_label(header, type)
-        return unless type.is_default?
+        return unless type.default_variant.enabled_in_new_projects?
 
         header.with_label { t("types.index.enabled_in_new_projects") }
       end

@@ -95,6 +95,7 @@ class TypeVariant < ApplicationRecord
             uniqueness: { scope: :type_id, case_sensitive: false },
             unless: :is_default_variant?
   validate :base_variant_has_no_name
+  validate :only_one_variant_enabled_in_new_projects
 
   scopes :with_effective_configuration, :with_effective_source
 
@@ -216,5 +217,16 @@ class TypeVariant < ApplicationRecord
     return if is_default_variant? == variant_name.nil?
 
     errors.add(:variant_name, is_default_variant? ? :must_be_blank : :blank)
+  end
+
+  # A new project applies one configuration per type, so only one of a type's variants may be
+  # the one it starts with. Mirrors index_type_variants_one_new_project_default_per_type.
+  def only_one_variant_enabled_in_new_projects
+    return unless enabled_in_new_projects?
+
+    siblings = self.class.where(type_id:).enabled_in_new_projects
+    siblings = siblings.where.not(id:) if persisted?
+
+    errors.add(:enabled_in_new_projects, :taken) if siblings.exists?
   end
 end
