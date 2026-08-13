@@ -52,6 +52,12 @@ FactoryBot.define do
       disabled_modules = Array(evaluator.disable_modules).map(&:to_s)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
+      # Most specs never name a type but still expect their project to hold work packages, so a
+      # project gets Task unless the caller opts out. `build(:type_task)` finds the existing Task
+      # type where one is already around, so projects in the same example share it.
+      enabled_types = evaluator.types
+      enabled_types = [build(:type_task)] if enabled_types.empty? && !evaluator.no_types
+
       # Callers name either a type or one of its variants. A type contributes its base
       # variant, which is the configuration it uses where none was chosen.
       #

@@ -103,7 +103,7 @@ FactoryBot.define do
     factory :type_feature do
       name { "Feature" }
       position { 2 }
-      is_default { true }
+      default_variant_enabled_in_all_projects { true }
     end
 
     factory :type_support do
