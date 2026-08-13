@@ -30,6 +30,8 @@
 
 module Wikis
   class BrowsePagesFragmentComponent < ApplicationComponent
+    include Components::TreeNodeHelper
+
     attr_reader :path, :provider_id
 
     alias_method :nodes, :model
@@ -42,23 +44,13 @@ module Wikis
 
     def build_tree(parent, nodes)
       nodes.each do |node|
-        icon = node.type == :wiki ? :book : :"op-file-doc"
+        icon = node_icon(node)
 
         parent.with_sub_tree(**node_options(node)) do |item|
           item.with_leading_visual_icon(icon:)
           item.with_loading_spinner(src: browse_wiki_pages_path(parent: node.identifier, provider_id:))
         end
       end
-    end
-
-    def node_options(node)
-      {
-        label: node.name,
-        select_variant: :single,
-        disabled: !node.enabled,
-        data: { node_id: node.identifier },
-        expanded: false
-      }
     end
   end
 end
