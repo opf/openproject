@@ -67,7 +67,8 @@ ja:
       '
     login_with_auth_provider: または、既存のアカウントでログインしてください。
     omniauth_login: アカウントをアクティブにするのにログインしてください。
-    signup_with_auth_provider: もしくはこちらでサインアップ
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: 選択してください
   activemodel:
     attributes:
@@ -342,7 +343,7 @@ ja:
         token_name: トークン名
       type:
         attribute_groups: フォームの設定
-        children: Sub-types
+        children: Variants
         color: 色
         dependent_configuration_links: Linked types
         description: デフォルトの説明
@@ -468,6 +469,7 @@ ja:
         spent_hours: 作業時間の記録
         spent_time: 作業時間の記録
         subproject: 子プロジェクト
+        target_version: Target version
         target_versions: Target versions
         time_entries: 時間を記録
         type: タイプ
@@ -694,13 +696,13 @@ ja:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
+              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
+              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'まだワークパッケージによって使用されています: %{types}'
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: 子孫でないプロジェクトのワークパッケージが、プロジェクトまたはその子孫のバージョンを参照しています。
         project/phase:
@@ -715,6 +717,12 @@ ja:
           attributes:
             project_ids:
               blank: プロジェクトを選択してください。
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -813,16 +821,16 @@ ja:
               query_invalid: 埋め込みクエリ '%{group}' は無効です： %{details}
             parent:
               cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: フィールド内の1つ以上の属性が無効です。保存する前に属性を修正してください。
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -934,7 +942,6 @@ ja:
           is_not_a_valid_target_for_time_entries: 'ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。'
           readonly_status: ワークパッケージは読み取り専用の状態になっているため、その属性は変更できません。
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 次のフィールドをチェックしてください：
         header:
@@ -1008,6 +1015,7 @@ ja:
           heading: このコメントを公開するか？
           title: このコメントを公開するか？
         internal_journal: 内部コメントは、限られたグループのメンバーにのみ公開されます。
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: すべてを表示
         label_activity_show_only_changes: 変更のみを表示
         label_activity_show_only_comments: コメントのみ表示
@@ -1127,6 +1135,9 @@ ja:
         '
     jemalloc_allocator: Jemalloc メモリアロケータ
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
@@ -1148,9 +1159,11 @@ ja:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Added
+        creator: Creator
         label_ago: "%{amount} ago"
         last_change: Last change
         projects: プロジェクト
+        server_url: Server URL
       configuration:
         new: New configuration
         title: Jira configuration
@@ -1165,14 +1178,17 @@ ja:
         button_add: Add configuration
         button_delete_token: Delete token
         button_save: Save configuration
-        button_test: Test configuration
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
         fields:
           name: 名前
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
         label_testing: Testing configuration...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
@@ -1184,6 +1200,9 @@ ja:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
+        side_panel:
+          open_history: Open the run history
+          run_status: Run status
         status:
           configuring: Select scope
           finalizing: Finalizing
@@ -1216,14 +1235,8 @@ ja:
           groups:
             configuration:
               title: Configure import
-            confirming:
-              title: Confirm and import
-            fetch:
-              title: Get base data
-            groups_and_users:
-              title: Groups and Users
-            review:
-              title: Review import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
             confirm_button: Start import
@@ -1253,6 +1266,7 @@ ja:
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
+              caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
               label_available_data: Data to be imported
               label_import_data: Currently importing
@@ -1260,9 +1274,12 @@ ja:
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Check available data
               caption_done: Completed
+              caption_done_description: Meta data fetched from %{server_info}
               description: Check what data is available for import in the host Jira instance.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Fetching data from Jira...
               title: Fetch instance meta data
             groups_and_users:
@@ -1271,7 +1288,6 @@ ja:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
-              info: Import run was successful.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1280,6 +1296,20 @@ ja:
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1287,6 +1317,8 @@ ja:
               button_select_projects: Select projects to import
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
+              caption_done_description:
+                other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
@@ -1301,19 +1333,21 @@ ja:
                 sprints: Sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
               label_coming_later: Coming later
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Select which projects you would like to import.
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
-              label_progress: Fetching data from Jira...
+              label_progress: Fetching data
               label_selected_data: Selected data for import
               label_supported_data: Supported data
               title: Import scope
-          select_dialog:
-            filter_projects: Filter by text
           select_projects:
-            title: Select projects
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
         connection_error: 'Connection error: %{message}'
@@ -1388,13 +1422,13 @@ ja:
       title: Reserved project identifiers
     scim_clients:
       authentication_methods:
-        oauth2_client: OAuth 2.0クライアント認証情報
+        oauth2_client: OAuth 2.0 クライアント資格情報
         oauth2_token: 静的アクセストークン
-        sso: IDプロバイダーからのJWT
+        sso: アイデンティティプロバイダからのJWT
       created_client_credentials_dialog_component:
-        heading: クライアント認証情報が生成されました
-        one_time_hint: クライアント・シークレットが表示されるのはこの時だけです。必ずコピーしてください。
-        title: クライアント認証情報の作成
+        heading: クライアントの資格情報が生成されました
+        one_time_hint: クライアントのシークレットが表示される唯一の時間です。今すぐコピーしてください。
+        title: クライアントの資格情報が作成されました
       created_token_dialog_component:
         heading: トークンが生成されました
         label_token: トークン
@@ -1407,21 +1441,21 @@ ja:
       edit:
         label_delete_scim_client: SCIM クライアントを削除
       form:
-        auth_provider_description: これは、SCIM プロバイダによって追加されたユーザが OpenProject で認証するために使用するサービスです。
-        authentication_method_description_html: これは SCIM クライアントが OpenProject で認証する方法です。OAuth トークンに<code>scim_v2</code>スコープが含まれていることを確認してください。
-        description: これらの設定オプションの詳細については、[SCIMクライアントの設定に関する文書](docs_url)を参照してください。
+        auth_provider_description: これは、SCIMプロバイダが追加したユーザーがOpenProjectでの認証に使用するサービスです。
+        authentication_method_description_html: これは SCIM クライアントが OpenProject で認証する方法です。OAuth トークンに <code>scim_v2</code> スコープが含まれていることを確認してください。
+        description: 設定オプションの詳細については、[SCIM クライアントの設定に関するドキュメント](docs_url)を参照してください。
         jwt_sub_description: 例えば、Keycloakの場合、これはSCIMクライアントに関連付けられたサービスアカウントのUUIDです。あなたのユースケースにあった Subject claim を見つける方法については [ドキュメント](docs_url) を参照してください。
-        name_description: このクライアントが設定された理由を他の管理者が理解しやすい名前を選んでください。
+        name_description: 他の管理者がこのクライアントが設定された理由を理解するのに役立つ名前を選択してください。
       index:
-        description: ここで設定された SCIM クライアントは、OpenProject SCIM サーバ API と対話し、ユーザアカウントやグループのプロビジョニング、更新、デプロビジョニングを行うことができます。
-        label_create_button: SCIMクライアントの追加
+        description: ここで設定されたSCIMクライアントは、OpenProjectのSCIMサーバー APIと相互作用して、ユーザーアカウントとグループのプロビジョニング、更新、およびデプロビジョニングを行うことができます。
+        label_create_button: SCIMクライアントを追加
       new:
         title: 新しいSCIMクライアント
       revoke_static_token_dialog_component:
         confirm_button: 取り消す
-        description: このトークンを使っている SCIM クライアントは、OpenProject の SCIM サーバ API にアクセスできなくなります。
-        heading: このトークンを本当に取り消しますか？
-        title: 静的トークンの失効
+        description: このトークンを使用する SCIM クライアントは、OpenProject の SCIM サーバ API にアクセスできなくなります。
+        heading: このトークンを取り消してもよろしいですか？
+        title: 静的トークンを取り消す
       table_component:
         blank_slate:
           description: ここに表示するクライアントを追加
@@ -1457,6 +1491,42 @@ ja:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -1500,6 +1570,7 @@ ja:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -1524,9 +1595,15 @@ ja:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
-        default_transitions: Default transitions
-        user_assignee: User is assignee
-        user_author: User is author
+        always: Default transitions
+        aria_label: Workflow transitions
+        assignee: User is assignee
+        author: User is author
+        descriptions:
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
   announcements:
     is_active: 現在表示されています
     is_inactive: 現在表示されていません
@@ -1654,6 +1731,7 @@ ja:
     entity_type: エンティティ
     estimated_hours: 予定時間
     estimated_time: 予定時間
+    exact_match: Exact match
     expires_at: 有効期限
     filter: フィルタ
     firstname: 名前
@@ -2452,6 +2530,7 @@ ja:
   error_failed_to_delete_entry: このエントリを削除できませんでした。
   error_in_dependent: '依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: '依存オブジェクトの作成エラー: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: 選択された値が無効です。
   error_journal_attribute_not_present: ジャーナルには属性%{attribute}は含まれていません。
   error_menu_item_not_created: メニュー項目を追加できませんでした。
@@ -2770,6 +2849,16 @@ ja:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: backlog for meeting series %{link}
+      meeting_series_template: template for meeting series %{link}
+      meeting_template: meeting template %{link}
       progress_mode_changed_to_status_based: 進捗計算モードをステータスベースに設定
       status_excluded_from_totals_set_to_false_message: 階層合計に含まれるようになった
       status_excluded_from_totals_set_to_true_message: 階層全体から除外されています
@@ -2782,6 +2871,7 @@ ja:
         progress_calculation_adjusted_from_disabled_mode: 進捗計算は自動的に<a href="%{href}" target="_blank">作業ベースのモードに設定され、バージョン更新時に調整されます</a>。
         scheduling_mode_adjusted: スケジュールモードはバージョンアップ時に自動的に調整されます。
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: <a href="%{href}" target="_blank">バージョンアップデート</a>を伴う親でないワークパッケージに対して作業と進捗の合計が自動的に削除されます。 これはメンテナンス作業であり、無視することができます。
       total_percent_complete_mode_changed_to_simple_average: 子ワークパッケージの作業値が無視されています。
       total_percent_complete_mode_changed_to_work_weighted_average: "「予定時間」が含まれていない子ワークパッケージは無視されます。"
@@ -2805,6 +2895,14 @@ ja:
       dates_changed: 日付を変更
       default_attribute_written: 読み取り専用属性が書き込まれました
       import: Imported
+      meeting_agenda_item_added: Added to meeting
+      meeting_agenda_item_added_template: Added to
+      meeting_agenda_item_discussed: Discussed in meeting
+      meeting_agenda_item_moved: Moved to meeting
+      meeting_agenda_item_moved_template: Moved to
+      meeting_agenda_item_removed: Removed from meeting
+      meeting_agenda_item_removed_template: Removed from
+      meeting_outcome_recorded: Added as outcome in meeting
       progress_mode_changed_to_status_based: 進捗の計算が更新されました
       status_changed: 状態 '%{status_name}'
       system_update: OpenProject システムの更新：
@@ -2814,7 +2912,14 @@ ja:
       work_package_parent_deleted: Parent removed
     changes_retracted: 変更は取り下げられました。
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: アクセシビリティ
   label_account: アカウント
@@ -3266,7 +3371,6 @@ ja:
   label_other: その他
   label_overall_activity: 全ての活動
   label_overview: 概要
-  label_page_title: ページタイトル
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -3325,7 +3429,7 @@ ja:
   label_project_hide_details: プロジェクトの詳細を非表示
   label_project_hierarchy: プロジェクトの階層構造
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Export PDF for %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: 最新のプロジェクト
   label_project_life_cycle: プロジェクトのライフ サイクル
   label_project_list_plural: プロジェクト一覧
@@ -3437,7 +3541,7 @@ ja:
   label_subitems: Subitems
   label_subject_or_id: タイトルまたはID
   label_subproject: 子プロジェクト
-  label_subproject_new: 新しい子プロジェクト
+  label_subproject_add: Add subproject
   label_subproject_plural: 子プロジェクト
   label_subtask_plural: 子タスク
   label_summary: サマリー(概要)
@@ -3501,6 +3605,7 @@ ja:
   label_version_sharing_none: 共有しない
   label_version_sharing_system: 全プロジェクト
   label_version_sharing_tree: プロジェクトツリー単位
+  label_versions_and_categories: Versions and categories
   label_videos: ビデオ
   label_view_all_revisions: 全てのリビジョンを表示
   label_view_diff: 差分を表示
@@ -3548,7 +3653,7 @@ ja:
   label_workflow: ワークフロー
   label_workflow_copy: ワークフローをコピー
   label_workflow_plural: ワークフロー
-  label_workflow_summary: サマリー(概要)
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: 稼働日・時間
   label_working_hours: Work schedule
@@ -3850,9 +3955,9 @@ ja:
       also_work_packages_shared_with_user_html:
         other: また、 %{shared_work_packages_link} はこのユーザーと共有されています。
       can_remove_direct_but_not_shared_roles: このユーザーを直接プロジェクトメンバーとして削除することはできますが、彼らが参加しているグループはこのプロジェクトのメンバーでもあります。 グループを経由して引き続きメンバーになっていきます。
-      cannot_delete_inherited_membership: このプロジェクトのメンバーであるグループに所属しているため、このメンバーを削除することはできません。
-      cannot_delete_inherited_membership_note_admin_html: "%{administration_settings_link}で、プロジェクトのメンバーとしてグループを削除することも、特定のメンバーをグループから削除することもできます。"
-      cannot_delete_inherited_membership_note_non_admin: プロジェクトのメンバーとしてグループを削除するか、管理者に連絡してこの特定のメンバーをグループから削除することができます。
+      cannot_delete_inherited_membership: このメンバーはこのプロジェクトのメンバーであるグループに属しているため、削除できません。
+      cannot_delete_inherited_membership_note_admin_html: プロジェクトのメンバーとしてグループを削除するか、 %{administration_settings_link} のグループからこの特定のメンバーを削除することができます。
+      cannot_delete_inherited_membership_note_non_admin: プロジェクトのメンバーとしてグループを削除するか、管理者に問い合わせてグループから特定のメンバーを削除することができます。
       however_work_packages_shared_with_group_html:
         other: ただし、 %{shared_work_packages_link} もこのグループと共有されています。
       however_work_packages_shared_with_user_html:
@@ -3862,26 +3967,26 @@ ja:
       remove_work_packages_shared_with_user_too: メンバーから削除されたユーザーは、まだ共有ワークパッケージにアクセスできます。共有も削除しますか？
       title: メンバーを削除
       will_not_affect_inherited_shares: "(これはグループと共有されているワークパッケージには影響しません)。"
-      will_remove_all_group_access_priveleges: このメンバを削除すると、プロジェクトに対するグループのすべてのアクセス権が削除されます。グループはサイトの一部としてまだ存在します。
+      will_remove_all_group_access_priveleges: このメンバーを削除すると、グループのすべてのアクセス権がプロジェクトに削除されます。グループはサイトの一部として存在します。
       will_remove_all_user_access_priveleges: このメンバーを削除すると、プロジェクトへのユーザーのすべてのアクセス権が削除されます。ユーザーはまだサイトの一部として存在します。
       will_remove_the_groups_role: これにより、このプロジェクトからグループのロールが削除されます。
       will_remove_the_users_role: これにより、このプロジェクトからユーザーのロールが削除されます。
     delete_work_package_shares_dialog:
-      cannot_remove_inherited: グループで共有されたワークパッケージの共有は削除できません。
-      cannot_remove_inherited_note_admin_html: "%{administration_settings_link}、グループへの共有を取り消すか、グループからこの特定のメンバーを削除することができます。"
-      cannot_remove_inherited_note_non_admin: グループへの共有を取り消すか、管理者に連絡して特定のメンバーをグループから削除することができます。
-      cannot_remove_inherited_with_role: ロール %{shared_role_name} で共有されるワークパッケージは、グループを介して共有され、削除することはできません。
-      revoke_all_or_with_role: すべての共有ワークパッケージ、または %{shared_role_name} 権限を持つワークパッケージのみへのアクセス権を剥奪しますか？
+      cannot_remove_inherited: グループ間で共有されるワークパッケージは削除できません。
+      cannot_remove_inherited_note_admin_html: あなたは、グループへの共有を取り消すか、 %{administration_settings_link} のグループからこの特定のメンバーを削除することができます。
+      cannot_remove_inherited_note_non_admin: 共有をグループに取り消すか、管理者に問い合わせてグループから特定のメンバーを削除することができます。
+      cannot_remove_inherited_with_role: ワークパッケージとロール %{shared_role_name} が共有されているため、削除できません。
+      revoke_all_or_with_role: 共有されたワークパッケージ、または %{shared_role_name} 権限を持つワークパッケージのみへのアクセスを取り消しますか？
       shared_with_permission_html:
         other: "%{shared_work_packages_link} のみが %{shared_role_name} 権限と共有されています。"
       shared_with_this_group_html:
         other: "%{all_shared_work_packages_link} はこのグループと共有されています。"
       shared_with_this_user_html:
         other: "%{all_shared_work_packages_link} はこのユーザーと共有されています。"
-      title: ワーク・パッケージ・シェアの破棄
-      will_not_affect_inherited_shares: "(これは、そのグループと共有しているワークパッケージには影響しません）。"
-      will_revoke_access_to_all: このアクションは、すべてのアクセス権を剥奪する。
-      will_revoke_directly_granted_access: このアクションは、グループと共有されているワークパッケージ以外の、すべてのワークパッケージへのアクセス権を剥奪する。
+      title: ワークパッケージの共有の取り消し
+      will_not_affect_inherited_shares: "(これはグループと共有されているワークパッケージには影響しません)。"
+      will_revoke_access_to_all: このアクションは、すべてのユーザーへのアクセスを取り消します。
+      will_revoke_directly_granted_access: このアクションは、すべてのユーザーへのアクセスを取り消しますが、グループと共有されているワークパッケージです。
     filters:
       all_shares: すべてのシェア
     index:
@@ -3929,7 +4034,7 @@ ja:
       failed_to_revoke_token: 'アクセストークンの取り消しに失敗しました: %{error}'
       no_results_title_text: 現在、有効なアクセス トークンはありません。
       notice_api_token_revoked: APIトークンが削除されました。新しいトークンを作成するには、APIセクションの作成ボタンを使用してください。
-      notice_ical_token_revoked: プロジェクト "%{project_name}" のカレンダー "%{calendar_name}" の iCalendar トークン "%{token_name}" が失効しました。このトークンを持つiCalendar URLは無効になりました。
+      notice_ical_token_revoked: プロジェクト "%{token_name}" のカレンダー "%{calendar_name}" の iCalendar トークン "%{project_name}" が取り消されました。 このトークンのiCalendar URLは無効です。
       notice_reset_token: '新しい %{type} トークンが生成されました。アクセストークンは:'
       notice_rss_token_revoked: RSSトークンが削除されました。新しいトークンを作成するには、RSSセクションのリンクを使用してください。
       token_value_warning: '注: これはこのトークンが表示される唯一の機会です。今すぐコピーして確認してください。'
@@ -4512,6 +4617,7 @@ ja:
 
     '
   permission_move_work_packages: ワークパッケージの移動
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: BCF クエリを保存
   permission_save_queries: ビューを保存
   permission_search_project: プロジェクトを検索
@@ -4549,7 +4655,7 @@ ja:
   permission_work_package_assigned: 担当者/責任者になる
   permission_work_package_assigned_explanation: それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。
   placeholder_users:
-    delete_tooltip: プレースホルダー・ユーザーの削除
+    delete_tooltip: プレースホルダー ユーザーを削除
     deletion_info:
       data_consequences: 'プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。 削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
 
@@ -4603,7 +4709,8 @@ ja:
   project:
     archive:
       archived: アーカイブ済み
-      are_you_sure: プロジェクト '%{name}' をアーカイブしてもよろしいですか？
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
       one: 1 プロジェクト
@@ -4733,6 +4840,7 @@ ja:
       header_identifier: Identifier
       header_relations: プロジェクトの関係
       header_status: Status
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: プロジェクトフェーズを検索
@@ -4793,9 +4901,31 @@ ja:
         menu_title: Template
         title: Template settings
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: "「%{type}」型を有効にする"
         no_results_title_text: 現在、有効な種類はありません。
+        remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
+        type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: 新しいバージョンを作成
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
@@ -4843,9 +4973,9 @@ ja:
     add_reaction: リアクションを追加
     and_others:
       other: と %{count} その他
-    and_user: および %{user}
-    react_with: "%{reaction} と リアクト"
-    reaction_by: "%{reaction} によって"
+    and_user: と %{user}
+    react_with: "%{reaction} で反応する"
+    reaction_by: "%{reaction} による"
   reportings:
     index:
       no_results_content_text: ステータス報告を追加
@@ -5198,6 +5328,7 @@ ja:
   setting_work_package_done_ratio_status_caption_html: 各ステータスには、 <i>% Complete</i> の値があります。ステータスを変更すると、 <i>% Complete</i> が変わります。
   setting_work_package_list_default_highlighted_attributes: デフォルトのインライン強調表示属性
   setting_work_package_list_default_highlighting_mode: デフォルトの強調表示モード
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: 項目名
   setting_work_package_startdate_is_adddate: 今日の日付を新しいワークパッケージの開始日とする
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5506,19 +5637,20 @@ ja:
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
         ステータスボタンに表示され、テーブル内のワークパッケージを強調表示するために使用できます。
-      status_default_text: 新しいワークパッケージは、デフォルトでこのタイプに設定される。読み取り専用にはできない。
+      status_default_text: 新しいワークパッケージはデフォルトでこのタイプに設定されています。読み取り専用にすることはできません。
       status_excluded_from_totals_text: |-
-        このステータスを持つワークパッケージを、階層内の「作業」、「
-        残作業」、「完了率」の合計から除外するには、このオプションをオンにします。
+        このオプションをオンにすると、このステータスのワークパッケージを合計作業量、
+        残作業量、および階層構造で完了させることができます。
       status_percent_complete_text_html: |-
         In [status-based progress calculation mode](setting_url), the % Complete of a work
         package is automatically set to this value when this status is selected.
         Ignored in work-based mode.
       status_readonly_html: |
-        このステータスを持つワークパッケージを読み取り専用としてマークするには、このオプションをチェックする。
-        ステータス以外の属性は変更できません。
+        ワークパッケージを読み取り専用としてマークするには、このオプションをオンにしてください。
+        ステータスを除いて変更することはできません。
+
         <br>
-        <strong>注意</strong>: 継承された値 (子やリレーションなど) は適用されます。
+        <strong>メモ</strong>: 継承された値 (例えば、子や関連) が適用されます。
     index:
       headers:
         excluded_from_totals: 合計から除外
@@ -5615,12 +5747,14 @@ ja:
   text_journal_changed_plain: "%{label} が %{old} %{linebreak}から %{new} に変更されました"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}を削除（%{link}）"
   text_journal_file_link_added: "%{label} へのリンクが追加されました %{value} (%{storage})"
   text_journal_file_link_deleted: "%{label} %{old} (%{storage}) へのリンクを削除"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label}を%{value}に設定"
   text_journal_set_with_diff: "%{label}を設定（%{link}）"
   text_latest_note: '最新のコメント: %{note}'
@@ -5670,8 +5804,9 @@ ja:
   text_user_invited: ユーザは招待されて、登録は保留中です。
   text_user_wrote: "%{value}が書き込みました："
   text_warn_on_leaving_unsaved: このページから移動すると、保存されてないテキストを含むワークパッケージが失われます。
-  text_what_did_you_change_click_to_add_comment: 何を変更しましたか？コメントを追加するをクリックしてください
   text_wiki_destroy_confirmation: 本当にこのWikiページとその内容のすべてを削除してもよろしいですか？
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: 配下の子孫ページも削除する
   text_wiki_page_destroy_question: この親ページの配下に%{descendants}ページの子孫ページがあります。どれかを選択してください。
   text_wiki_page_nullify_children: 子ページをメインページ配下に移動する
@@ -5690,7 +5825,7 @@ ja:
   text_zoom_in: 拡大
   text_zoom_out: 拡大
   themes:
-    dark: 暗い
+    dark: ダーク
     light: ライト
     sync_with_os: 自動(OSのテーマ設定に追従)
   time:
@@ -5730,35 +5865,48 @@ ja:
   total_progress: 全体の進行状況
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      create_type: Create type
+      create_variant: Create variant
       fields:
         inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
+        defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Sub-type created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+      success: Variant created successfully.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
+      breadcrumb_variant: 'Variant: %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
+          label: Automatically generated subjects
+        description:
+          caption: Add the text that will be added to the description field of all new work packages with this type.
+          label: Default description text
+        manually_editable_subjects:
+          caption: Users can manually enter and edit work package subjects without restrictions.
+          label: Manually editable subjects
+        pattern:
+          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          insert_as_text: 'No attributes found. Add as text: "%{word}"'
+          label: Subject pattern
+        tab: Defaults
+        token:
+          context:
+            parent: Parent
+            project: Project
+            work_package: Work package
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Details
+        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
         artefact_export:
           attachment:
@@ -5780,6 +5928,7 @@ ja:
           actions:
             label_disable_all: すべて無効
             label_enable_all: すべて有効
+            label_toggle_template: Toggle %{template}
           label: PDF エクスポート テンプレート
         tab: PDFを生成
         templates:
@@ -5798,6 +5947,10 @@ ja:
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
         empty_group_hint: Drag attributes here
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
         group_name_label: Section name
@@ -5823,6 +5976,9 @@ ja:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:
@@ -5830,39 +5986,92 @@ ja:
         select_projects: プロジェクトを選択
         select_projects_description: このタイプを使用するプロジェクトを選択。
         tab: プロジェクト
-      settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
-        tab: 設定
-        type_color_text: 選択された色は、ガントチャートまたはワークパッケージの表で異なるタイプを区別します。したがって、強い色を使用することをお勧めします。
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: ワークパッケージを自動的に生成するために、参照属性とテキストを使用してパターンを定義します。ユーザーは手動で件名を編集することはできません。
-          label: 自動生成された件名
-        manually_editable_subjects:
-          caption: ユーザは、制限なしにワークパッケージを手動で入力および編集できます。
-          label: 手動で編集可能な件名
-        pattern:
-          caption: テキストを追加してパターンを作成するか、[supported attributes](attributes_url ) を検索するために "/" と入力します。
-          insert_as_text: '属性が見つかりませんでした。テキストとして追加: "%{word}"'
-          label: 件名パターン
-        tab: 件名の設定
-        token:
-          context:
-            parent: 親項目
-            project: プロジェクト
-            work_package: ワーク パッケージ
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or variant
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        independent:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            title: Switch configuration mode?
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          dialog:
+            submit: Switch
+            title: Independent mode
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the current settings set in the linked mode.
+              label: Copy from linked
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              title: Change source type?
+            check_box: I understand that this will override the current settings
+            from_independent:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              title: Switch configuration mode?
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          dialog:
+            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
+            source_label: Linked source
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Linked mode
+          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
+      workflow:
+        tab: Workflows
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Add variant to %{name}
+      add_variant_action: Add variant
+      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: 新しい種類を作成
       no_results_title_text: 現在、種類はありません。
-      subtype_label: Sub-type
-      subtypes_count:
-        other: "%{count} sub-types"
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
+      variant_label: Variant
+      variants_count:
+        other: "%{count} variants"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: この警告を無視する。
     message: このページでエラーと崩れを体験するかもしれません。
@@ -5910,11 +6119,11 @@ ja:
       '
   users:
     autologins:
-      prompt: ログインしたまま %{num_days}
+      prompt: "%{num_days} のログインを維持"
     force_password_change_hint: The user must set a new password on their next login. Automatically enabled when sending credentials via email.
     groups:
       member_in_these_groups: このユーザーは現在以下のグループのメンバーです：
-      more: "%{count} もっと見る"
+      more: "%{count} 以上"
       no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
       summary_html: Member of %{names}.
       summary_with_more_html: Member of %{names} and %{count_link}.
@@ -5972,7 +6181,7 @@ ja:
           title: Invite user to %{project_name}
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
-    open_profile: プロフィール
+    open_profile: プロファイルを開く
     send_information_hint: Emails the password in plain text. When checked, the user will be required to change their password on first login.
     sessions:
       browser: ブラウザ
@@ -5983,7 +6192,7 @@ ja:
       expires: 有効期限
       instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognise or from devices you do not control.
       last_connection: 前回の接続
-      may_not_delete_current: 現在のセッションを削除することはできません。
+      may_not_delete_current: 現在のセッションは削除できません。
       session_name: "%{browser_name} %{browser_version} の %{os_name}"
       title: セッション管理
       unknown: "(unknown)"
@@ -6141,10 +6350,10 @@ ja:
       '
   work_package_relations_tab:
     index:
-      action_bar_title: 他のワークパッケージとのリレーションを追加して、それらの間にリンクを作成する。
+      action_bar_title: 他のワークパッケージにリレーションを追加して、その間にリンクを作成します。
       blankslate_description: このワークパッケージにはまだリレーションがありません。
-      blankslate_heading: 関係なし
-      no_results_title_text: 現在、利用可能な関係はない。
+      blankslate_heading: リレーションなし
+      no_results_title_text: 現在利用可能なリレーションはありません。
     label_add_child_button: 子要素
     label_add_description: 説明を追加
     label_add_x: "%{x} を追加"
@@ -6222,10 +6431,10 @@ ja:
       could_not_be_saved: '次のワークパッケージを保存できませんでした:'
       deletion_successful:
         other: Successfully deleted %{count} work packages.
-      descendant: 選択された子孫
+      descendant: 選択された子孫です
       move_failed: ワークパッケージを移動できませんでした。
       none_could_be_saved: "%{total} ワークパッケージのどれも更新できませんでした。"
-      selected_because_descendants: "%{selected} のワークパッケージが選択されたが、合計 %{total} のワークパッケージが影響を受け、その中には子孫も含まれる。"
+      selected_because_descendants: "%{selected} ワークパッケージが選択されている間、合計で %{total} ワークパッケージが子孫を含む影響を受けます。"
       x_out_of_y_could_be_saved: "%{failing} の %{total} ワークパッケージのうち、 %{success} を更新できませんでした。"
     bulk_delete_dialog:
       children_label: 'The following descendants will also be deleted:'

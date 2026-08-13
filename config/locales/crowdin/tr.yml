@@ -67,7 +67,8 @@ tr:
       '
     login_with_auth_provider: veya varolan hesabınızı kullanarak oturum açın
     omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
-    signup_with_auth_provider: veya kullanarak kaydolun
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Lütfen seçin
   activemodel:
     attributes:
@@ -342,7 +343,7 @@ tr:
         token_name: Anahtar adı
       type:
         attribute_groups: Formu yapılandırma
-        children: Sub-types
+        children: Variants
         color: Renk
         dependent_configuration_links: Linked types
         description: Açıklama için varsayılan metin
@@ -466,6 +467,7 @@ tr:
         spent_hours: Harcanan zaman
         spent_time: Harcanan zaman
         subproject: Alt proje
+        target_version: Target version
         target_versions: Target versions
         time_entries: Zaman kaydet
         type: Tür
@@ -697,13 +699,13 @@ tr:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
+              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
+              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: hala iş paketleri tarafından kullanılmaktadır:%{types}
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Soyundan gelmeyen projelerdeki iş paketleri, projenin veya soyundan gelenlerin referans versiyonlarını referans alır.
         project/phase:
@@ -718,6 +720,12 @@ tr:
           attributes:
             project_ids:
               blank: Lütfen bir proje seçin.
+        project_type:
+          attributes:
+            type:
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+            variant:
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -816,16 +824,16 @@ tr:
               query_invalid: 'Gömülü sorgu ''%{group}'' geçersiz: %{details}'
             parent:
               cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -938,7 +946,6 @@ tr:
           is_not_a_valid_target_for_time_entries: 'İş paketi #%{id} zaman girdilerini yeniden atama için geçerli bir hedef değil.'
           readonly_status: İş paketi salt okunur durumdadır, dolayısıyla öznitelikleri değiştirilemez.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Lütfen aşağıdaki alanları kontrol edin:'
         header:
@@ -1026,6 +1033,7 @@ tr:
           heading: Bu yorum görünür olsun mu?
           title: Bu yorum görünür olsun mu?
         internal_journal: İç yorumlar sınırlı sayıda grup üyesine görünür.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Her şeyi göster
         label_activity_show_only_changes: Yalnızca değişiklikleri göster
         label_activity_show_only_comments: Sadece yorumları göster
@@ -1147,6 +1155,9 @@ tr:
         '
     jemalloc_allocator: Jemalloc bellek ayırıcı
     jira:
+      actions:
+        button_edit: Edit configuration
+        button_open: Open runs
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
@@ -1168,9 +1179,11 @@ tr:
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
       columns:
         added: Eklendi
+        creator: Creator
         label_ago: "%{amount} ago"
         last_change: Son değişiklik
         projects: Projeler
+        server_url: Server URL
       configuration:
         new: Yeni yapılandırma
         title: Jira yapılandırması
@@ -1185,14 +1198,17 @@ tr:
         button_add: Yapılandırma ekle
         button_delete_token: Anahtarı sil
         button_save: Yapılandırmayı kaydet
-        button_test: Yapılandırmayı test et
         delete_token_confirm: Anahtarı silmek istediğinizden emin misiniz? Bu, Jira bağlantısını devre dışı bırakacaktır.
         fields:
           name: İsim
           personal_access_token: Kişisel Erişim Anahtarı
           url: Jira Sunucusu/Veri Merkezi URL'si
         label_testing: Yapılandırma test ediliyor...
+        test_configuration_caption: You can test this configuration by [clicking here](test)
       run:
+        actions:
+          button_edit: Edit run
+          button_open_history: Open run history
         blank:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
@@ -1204,6 +1220,9 @@ tr:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
+        side_panel:
+          open_history: Open the run history
+          run_status: Run status
         status:
           configuring: Select scope
           finalizing: Finalizing
@@ -1236,14 +1255,8 @@ tr:
           groups:
             configuration:
               title: Configure import
-            confirming:
-              title: Confirm and import
-            fetch:
-              title: Get base data
-            groups_and_users:
-              title: Groups and Users
-            review:
-              title: Review import
+            run_and_review:
+              title: Run and review import
           import_dialog:
             confirm: I understand and have a backup
             confirm_button: Start import
@@ -1279,6 +1292,7 @@ tr:
               button_start: İçe aktarmayı başlat
               caption: İçe aktarma ayarlarınızı gözden geçirin ve içe aktarmayı başlatın
               caption_done: Tamamlandı
+              caption_done_info: All data has been imported
               description: Aşağıdaki ayarlarla bir içe aktarma çalışması başlatmak üzeresiniz.
               label_available_data: Data to be imported
               label_import_data: Şu anda içe aktarılıyor
@@ -1286,9 +1300,12 @@ tr:
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Veriyi içe aktar
             fetch_data:
+              button_continue: Continue to scope selection
               button_fetch: Check available data
               caption_done: Completed
+              caption_done_description: Meta data fetched from %{server_info}
               description: Check what data is available for import in the host Jira instance.
+              label_available_server_data: Available data on %{server_info}
               label_progress: Fetching data from Jira...
               title: Fetch instance meta data
             groups_and_users:
@@ -1297,7 +1314,6 @@ tr:
               button_done: Approve import
               button_revert: İçe aktarımı geri döndür
               caption: İçe aktarma çalışmasını gözden geçirin veya içe aktarmayı geri alın
-              info: Import run was successful.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1306,6 +1322,20 @@ tr:
               label_revert_progress: İçe aktarma geri alınıyor...
               label_reverted: İçe aktarma geri alındı.
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              stats:
+                other_settings:
+                  label: Other settings
+                  subtitle: Including types and status
+                projects:
+                  label: Projects
+                  subtitle: Selected as scope
+                title: Data imported
+                users_and_groups:
+                  label: Users & groups
+                  subtitle: 'Involved in imported projects '
+                work_packages:
+                  label: Work packages
+                  subtitle: With attachments
               title: Çalışma sonuçlarını içe aktarma
             import_scope:
               button_continue: Devam et
@@ -1313,6 +1343,9 @@ tr:
               button_select_projects: İçe aktarılacak projeleri seçin
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
+              caption_done_description:
+                one: 1 project selected as scope
+                other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
@@ -1327,19 +1360,21 @@ tr:
                 sprints: Sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
-              label_available_server_data: Available data on %{server_info}
               label_coming_later: Coming later
               label_coming_soon: Coming soon (Q3 2026)
               label_import: Hangi projeleri içe aktarmak istediğinizi seçin.
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
-              label_progress: Jira'dan veri getiriliyor...
+              label_progress: Fetching data
               label_selected_data: İçe aktarım için seçilen veriler
               label_supported_data: Supported data
               title: Import scope
-          select_dialog:
-            filter_projects: Metne göre filtrele
           select_projects:
-            title: Projeleri seçin
+            button_select: Select
+            button_select_all: Select all
+            button_unselect_all: Unselect all
+            filter_projects: Filter by text
+            info: Only projects where the Jira token owner is member are selectable as import scope.
+            title: Select projects to import
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
         connection_error: 'Bağlantı hatası: %{message}'
@@ -1484,6 +1519,42 @@ tr:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -1528,6 +1599,7 @@ tr:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -1554,9 +1626,15 @@ tr:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
-        default_transitions: Default transitions
-        user_assignee: User is assignee
-        user_author: User is author
+        always: Default transitions
+        aria_label: Workflow transitions
+        assignee: User is assignee
+        author: User is author
+        descriptions:
+          always: Transitions available to the selected role(s) in all cases.
+          assignee: Additional transitions available to the work package's assignee.
+          author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
   announcements:
     is_active: şu an görüntüleniyor
     is_inactive: şu an görüntülenmiyor
@@ -1686,6 +1764,7 @@ tr:
     entity_type: Varlık
     estimated_hours: Çalışma
     estimated_time: Çalışma
+    exact_match: Exact match
     expires_at: Süre bitişi
     filter: Filtre
     firstname: İsim
@@ -2505,6 +2584,7 @@ tr:
   error_failed_to_delete_entry: Girdi silinemedi.
   error_in_dependent: 'Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Bağımlı nesne yaratma girişiminde hata oluştu: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Seçili değeri geçersiz.
   error_journal_attribute_not_present: Günlük  %{attribute} özniteliği içermiyor.
   error_menu_item_not_created: Menü öğesini eklenemez
@@ -2827,6 +2907,16 @@ tr:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_agenda_item_added: "%{link}"
+      meeting_agenda_item_discussed: "%{link}"
+      meeting_agenda_item_moved: "%{link}"
+      meeting_agenda_item_removed: "%{link}"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_outcome_recorded: "%{link}"
+      meeting_series_backlog: backlog for meeting series %{link}
+      meeting_series_template: template for meeting series %{link}
+      meeting_template: meeting template %{link}
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
@@ -2839,6 +2929,7 @@ tr:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: Child work packages without Work are ignored.
@@ -2862,6 +2953,14 @@ tr:
       dates_changed: Tarihler değişti
       default_attribute_written: Salt okunur öznitelikler yazıldı
       import: Imported
+      meeting_agenda_item_added: Added to meeting
+      meeting_agenda_item_added_template: Added to
+      meeting_agenda_item_discussed: Discussed in meeting
+      meeting_agenda_item_moved: Moved to meeting
+      meeting_agenda_item_moved_template: Moved to
+      meeting_agenda_item_removed: Removed from meeting
+      meeting_agenda_item_removed_template: Removed from
+      meeting_outcome_recorded: Added as outcome in meeting
       progress_mode_changed_to_status_based: İlerleme hesaplaması güncellendi
       status_changed: Durum '%{status_name}'
       system_update: 'OpenProject sistem güncellemesi:'
@@ -2871,7 +2970,14 @@ tr:
       work_package_parent_deleted: Parent removed
     changes_retracted: Değişiklikler geri alındı.
     non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
       project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
       work_package: a non-visible work package
   label_accessibility: Erişilebilirlik
   label_account: Hesap
@@ -3323,7 +3429,6 @@ tr:
   label_other: Diğer
   label_overall_activity: Genel etkinlik
   label_overview: Genel Bakış
-  label_page_title: Sayfa başlığı
   label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
 
     '
@@ -3382,7 +3487,7 @@ tr:
   label_project_hide_details: Proje detaylarını gizle
   label_project_hierarchy: Proje hiyerarşisi
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: "%{project_creation_name} için PDF'yi dışa aktarın"
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Son projeler
   label_project_life_cycle: Proje yaşam döngüsü
   label_project_list_plural: Proje listesi
@@ -3494,7 +3599,7 @@ tr:
   label_subitems: Alt öğeler
   label_subject_or_id: Konu ya da ID
   label_subproject: Alt proje
-  label_subproject_new: Yeni alt proje
+  label_subproject_add: Add subproject
   label_subproject_plural: Alt Projeler
   label_subtask_plural: Alt görevler
   label_summary: Özet
@@ -3558,6 +3663,7 @@ tr:
   label_version_sharing_none: Paylaşılmamış
   label_version_sharing_system: Tüm projeler ile
   label_version_sharing_tree: Proje ağacı ile
+  label_versions_and_categories: Versions and categories
   label_videos: Videolar
   label_view_all_revisions: Tüm revizyonları görüntüle
   label_view_diff: Farklılıkları gör
@@ -3605,7 +3711,7 @@ tr:
   label_workflow: İş akışı
   label_workflow_copy: İş akışını kopyala
   label_workflow_plural: İş Akışları
-  label_workflow_summary: Özet
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Çalışma günleri ve saatleri
   label_working_hours: Work schedule
@@ -4584,6 +4690,7 @@ tr:
 
     '
   permission_move_work_packages: İş paketini taşı
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: BCF sorgularını kaydetme
   permission_save_queries: Görünüm kaydetmek
   permission_search_project: Projeyi ara
@@ -4676,7 +4783,8 @@ tr:
   project:
     archive:
       archived: Arşivlenen
-      are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
       one: 1 proje
@@ -4806,6 +4914,7 @@ tr:
       header_identifier: Identifier
       header_relations: Proje ilişkileri
       header_status: Durum
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Proje aşaması ara
@@ -4866,9 +4975,31 @@ tr:
         menu_title: Şablon
         title: Şablon ayarları
       types:
+        add_dialog:
+          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          none_addable: All available types are already active in this project.
+          submit: Add
+          title: Add type
+          type_label: Type
+          type_placeholder: Select a type
+        add_type: Add type
+        empty_state:
+          description: Add a type to let people create work packages of that type in this project.
+          title: No types are active in this project
         form:
           enable_type_in_project: '" %{type} " türünü etkinleştir'
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
+        remove_from_project: Remove from project
+        switch_dialog:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
+        switch_type: Switch variant
+        type_not_found: The selected type could not be found.
+        variant_prefix: 'Variant:'
       versions:
         no_results_content_text: Yeni bir sürüm oluştur
         no_results_title_text: Şu anda proje için sürüm mevcut değil.
@@ -5274,6 +5405,7 @@ tr:
   setting_work_package_done_ratio_status_caption_html: Her durumun kendisiyle ilişkili bir <i>tamamlanma yüzdesi</i> değeri vardır. Durumun değiştirilmesi <i>tamamlanma yüzdesi</i>ni değiştirecektir.
   setting_work_package_list_default_highlighted_attributes: Varsayılan satır içi vurgulanan özellikler
   setting_work_package_list_default_highlighting_mode: Varsayılan vurgulama modu
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: İş paketi özellikleri
   setting_work_package_startdate_is_adddate: Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5691,12 +5823,14 @@ tr:
   text_journal_changed_plain: "%{label}, %{old} %{linebreak} iken %{new} olarak değiştirildi"
   text_journal_changed_with_diff: "%{label} değişti (%{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"
+  text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
   text_journal_file_link_added: "%{label} %{value} (%{storage}) bağlantısı eklendi"
   text_journal_file_link_deleted: "%{label} %{old} (%{storage}) bağlantısı kaldırıldı"
   text_journal_label_value: "%{value} %{label} eklendi"
   text_journal_of: "%{value} %{label} eklendi"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
   text_latest_note: En yeni yorum:% {note} %{note}
@@ -5740,8 +5874,9 @@ tr:
   text_user_invited: Kullanıcı davet edildi ve kayıt bekliyor.
   text_user_wrote: "%{value} demiş ki:"
   text_warn_on_leaving_unsaved: İş paketi bu sayfadan ayrıldığınızda kaybolabilecek kaydedilmemiş metinler içeriyor.
-  text_what_did_you_change_click_to_add_comment: Ne değiştirdiniz? Yorum eklemek için tıkayın
   text_wiki_destroy_confirmation: Bu wiki'yi ve içeriğini silmek istediğinizden emin misiniz?
+  text_wiki_page_comment_caption: This will only be visible in the wiki history.
+  text_wiki_page_comment_placeholder: Did you change something? Add a comment
   text_wiki_page_destroy_children: Çocuk sayfalarını ve tüm torunlarını sil
   text_wiki_page_destroy_question: Bu sayfada %{descendants} alt sayfaları özyinelemeli olarak mevcut. Ne yapmak istersiniz?
   text_wiki_page_nullify_children: Çocuk sayfalarını kök sayfalar olarak sakla
@@ -5800,35 +5935,48 @@ tr:
   total_progress: Toplam ilerleme
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      create_type: Create type
+      create_variant: Create variant
       fields:
         inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
-        automations: Automations
+        defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
+        project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Sub-type created successfully.
-      workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+      success: Variant created successfully.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
+      breadcrumb_variant: 'Variant: %{name}'
+      defaults:
+        automatically_generated_subjects:
+          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
+          label: Automatically generated subjects
+        description:
+          caption: Add the text that will be added to the description field of all new work packages with this type.
+          label: Default description text
+        manually_editable_subjects:
+          caption: Users can manually enter and edit work package subjects without restrictions.
+          label: Manually editable subjects
+        pattern:
+          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          insert_as_text: 'No attributes found. Add as text: "%{word}"'
+          label: Subject pattern
+        tab: Defaults
+        token:
+          context:
+            parent: Parent
+            project: Project
+            work_package: Work package
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Details
+        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
         artefact_export:
           attachment:
@@ -5850,6 +5998,7 @@ tr:
           actions:
             label_disable_all: Tümünü devre dışı bırak
             label_enable_all: Tümünü etkinleştir
+            label_toggle_template: Toggle %{template}
           label: PDF Dışa Aktarma şablonları
         tab: PDF oluşturma
         templates:
@@ -5868,6 +6017,10 @@ tr:
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
         empty_group_hint: Drag attributes here
+        exclusions:
+          attribute_label: Inherit %{attribute}
+          excluded: Hidden
+          section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
         group_name_label: Section name
@@ -5893,6 +6046,9 @@ tr:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:
@@ -5900,40 +6056,93 @@ tr:
         select_projects: Projeleri seçin
         select_projects_description: Bu türü kullanmak istediğiniz projeleri seçin.
         tab: Projeler
-      settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
-        tab: Ayarlar
-        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: İş paketi konularını otomatik olarak oluşturmak için başvurulan öznitelikleri ve metni kullanarak bir kalıp tanımlayın. Kullanıcılar konuları elle düzenleyemeyecektir.
-          label: Otomatik oluşturulan konular
-        manually_editable_subjects:
-          caption: Kullanıcılar iş paketi konularını kısıtlama olmaksızın elle girebilir ve düzenleyebilir.
-          label: Elle düzenlenebilir konular
-        pattern:
-          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
-          insert_as_text: 'Hiçbir özellik bulunamadı. Metin olarak ekle: "%{word}"'
-          label: Konu deseni
-        tab: Konu yapılandırması
-        token:
-          context:
-            parent: Üst
-            project: Proje
-            work_package: İş paketi
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or variant
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        exclusions:
+          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        independent:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            title: Switch configuration mode?
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          dialog:
+            submit: Switch
+            title: Independent mode
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the current settings set in the linked mode.
+              label: Copy from linked
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              title: Change source type?
+            check_box: I understand that this will override the current settings
+            from_independent:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              title: Switch configuration mode?
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          dialog:
+            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
+            source_label: Linked source
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Linked mode
+          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
+      workflow:
+        tab: Workflows
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Add variant to %{name}
+      add_variant_action: Add variant
+      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
+      duplicate_name: Copy of %{name}
+      duplicate_notice: "%{name} was duplicated."
+      enabled_in_new_projects: Active in new projects
+      make_default: Activate in new projects
+      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Yeni tip oluştur
       no_results_title_text: Şu anda hiç tip yok.
-      subtype_label: Sub-type
-      subtypes_count:
-        one: 1 sub-type
-        other: "%{count} sub-types"
+      remove_default: Do not activate in new projects
+      remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
+      variant_enabled_in_new_projects: Variant %{name} active in new projects
+      variant_label: Variant
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Bu uyarıyı yoksay.
     message: Bu sayfada hatalara ve bozulmuş deneyime maruz kalabilirsiniz.

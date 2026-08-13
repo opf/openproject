@@ -126,7 +126,7 @@ de:
     error_no_device: Kein registriertes 2FA-Gerät für diesen Nutzer gefunden, obwohl Zwei-Faktor-Authentifizierung für diese Instanz erforderlich ist.
     error_no_matching_strategy: Keine passende 2FA-Zustellungsmechanismus für diesen Nutzer. Bitte kontaktieren Sie Ihren Administrator.
     forced_registration:
-      required_to_add_device: Eine aktive Sicherheitsrichtlinie erfordert die Zwei-Faktor-Authentifizierung (2FA) für Ihren Account. Bitte verwenden Sie das folgende Formular, um ein 2FA-Gerät zu registrieren.
+      required_to_add_device: Der Administrator hat für diese Instanz die Zwei-Faktor-Authentifizierung aktiviert. Um sich anzumelden, fügen Sie bitte eine Methode zur Zwei-Faktor-Authentifizierung hinzu.
     label_2fa_disabled: Zwei-Faktor-Authentifizierung ist nicht aktiviert
     label_2fa_enabled: Zwei-Faktor-Authentifizierung ist aktiviert
     label_default_device: Standardgerät für 2FA
