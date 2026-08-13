@@ -66,7 +66,7 @@ RSpec.describe Journal::WorkPackageJournal do
     end
 
     describe "the backing visibility check (N+1 guard)" do
-      let(:formatter) { OpenProject::JournalFormatter::CustomField::Plain.new(journal) }
+      let(:formatter) { OpenProject::JournalFormatter::CustomField.new(journal) }
 
       it "does not re-query the visible custom field ids for a project already checked" do
         formatter.send(:visible_custom_field_ids, project) # warms the cache

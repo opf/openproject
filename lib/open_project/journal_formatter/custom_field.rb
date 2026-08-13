@@ -28,8 +28,12 @@
 
 class OpenProject::JournalFormatter::CustomField
   include SharedMethods
+  include ViewPermission
+
+  delegate :project, to: :@journal
 
   def initialize(journal)
+    @journal = journal
     @plain_formatter = Plain.new(journal)
     @diff_formatter = Diff.new(journal)
   end

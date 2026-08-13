@@ -116,57 +116,52 @@ RSpec.describe OpenProject::JournalFormatter::CustomComment do
     include_examples "results are expected"
   end
 
-  context "with a Proc-based :view_permission option" do
-    let(:expected_label) { "<strong>#{custom_field.name} comment</strong>" }
-    let(:expected_link) { relative_link }
-    let(:values) { [nil, "new value"] }
+  # The permission check itself has moved to JournalFormatter#render_detail, which
+  # calls #permission_granted? on the formatter before calling #render. Here we
+  # only verify the dispatch this formatter (via CustomField::ViewPermission) exposes
+  # to that caller.
+  describe "#permission_granted?" do
+    subject { instance.permission_granted?(permission, key:) }
 
-    context "when the proc, receiving the resolved custom field, allows" do
-      let(:options) do
-        expected_custom_field = custom_field
-        { view_permission: ->(field) { field == expected_custom_field } }
+    context "with a Proc permission" do
+      context "when the proc, receiving the resolved custom field, allows" do
+        let(:permission) do
+          expected_custom_field = custom_field
+          ->(field) { field == expected_custom_field }
+        end
+
+        it { is_expected.to be(true) }
       end
 
-      include_examples "results are expected"
+      context "when the proc, receiving the resolved custom field, denies" do
+        let(:permission) do
+          expected_custom_field = custom_field
+          ->(field) { field != expected_custom_field }
+        end
+
+        it { is_expected.to be(false) }
+      end
     end
 
-    context "when the proc, receiving the resolved custom field, denies" do
-      let(:options) do
-        expected_custom_field = custom_field
-        { view_permission: ->(field) { field != expected_custom_field } }
+    context "with a named (Symbol) permission" do
+      let(:permission) { :view_project }
+      let(:project) { build_stubbed(:project) }
+      let(:journal) { instance_double(Journal, id:, project:) }
+
+      context "when the current user has the permission in the project" do
+        before do
+          allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(true)
+        end
+
+        it { is_expected.to be(true) }
       end
 
-      it "renders the permission denied message" do
-        expect(rendered).to eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
-      end
-    end
-  end
+      context "when the current user lacks the permission in the project" do
+        before do
+          allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(false)
+        end
 
-  context "with a named (Symbol) :view_permission option" do
-    let(:values) { [nil, "new value"] }
-    let(:options) { { view_permission: :view_project } }
-    let(:project) { build_stubbed(:project) }
-    let(:journal) { instance_double(Journal, id:, project:) }
-    let(:expected_label) { "<strong>#{custom_field.name} comment</strong>" }
-    let(:expected_link) { relative_link }
-
-    context "when the current user has the permission in the project" do
-      before do
-        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(true)
-      end
-
-      include_examples "results are expected"
-    end
-
-    context "when the current user lacks the permission in the project" do
-      before do
-        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(false)
-      end
-
-      it "renders the permission denied message" do
-        expect(rendered).to include(I18n.t(:text_journal_permission_denied))
-        expect(rendered).not_to include(expected_label)
-        expect(rendered).not_to include(expected_link)
+        it { is_expected.to be(false) }
       end
     end
   end

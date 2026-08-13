@@ -29,7 +29,7 @@
 #++
 
 class OpenProject::JournalFormatter::CustomComment < OpenProject::JournalFormatter::Diff
-  include OpenProject::JournalFormatter::CustomFieldPermission
+  include OpenProject::JournalFormatter::CustomField::ViewPermission
 
   private
 

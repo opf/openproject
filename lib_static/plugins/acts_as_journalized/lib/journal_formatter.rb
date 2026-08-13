@@ -66,6 +66,8 @@ require_relative "journal_formatter/percentage"
 require_relative "journal_formatter/plaintext"
 
 module JournalFormatter
+  include ActionView::Helpers::TagHelper
+
   mattr_accessor :formatters, :registered_fields
 
   def self.register(hash)
@@ -117,11 +119,26 @@ module JournalFormatter
     formatter = formatter_instance(config[:formatter_key])
     return if formatter.nil?
 
-    formatter_options = options.merge(view_permission: config[:view_permission])
+    rendered_details =
+      if formatter.permission_granted?(config[:view_permission], key: field)
+        formatter.render(field, values, options)
+      else
+        render_permission_denied_message(options)
+      end
 
-    formatter
-      .render(field, values, formatter_options)
-      &.html_safe # rubocop:disable Rails/OutputSafety
+    rendered_details&.html_safe # rubocop:disable Rails/OutputSafety
+  end
+
+  # The message is the same regardless of which formatter denied access, so
+  # unlike #permission_granted? this needs no per-formatter dispatch.
+  def render_permission_denied_message(options)
+    message = I18n.t(:text_journal_permission_denied)
+
+    if options[:html]
+      content_tag("em", message)
+    else
+      "_#{message}_"
+    end
   end
 
   def formatter_instance(formatter_key)

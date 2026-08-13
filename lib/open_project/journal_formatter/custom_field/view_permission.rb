@@ -29,19 +29,37 @@
 #++
 
 # Shared by formatters whose rendered field resolves to a CustomField
-# (OpenProject::JournalFormatter::CustomComment and the
-# OpenProject::JournalFormatter::CustomField::* formatters). Requires the
-# including class to implement +custom_field_for_key(key)+.
-module OpenProject::JournalFormatter::CustomFieldPermission
-  private
-
-  # A Proc :view_permission is instance_exec'd with the CustomField being
+# (OpenProject::JournalFormatter::CustomComment and
+# OpenProject::JournalFormatter::CustomField). Requires the including class to
+# implement +custom_field_for_key(key)+ and +project+.
+#
+# Self-contained (does not rely on a JournalFormatter::Base ancestor via
+# +super+) so it can be mixed into formatters that aren't Base subclasses,
+# such as CustomField, which is a plain dispatcher and has no other use for
+# Base's rendering machinery.
+module OpenProject::JournalFormatter::CustomField::ViewPermission
+  # A Proc permission is instance_exec'd with the CustomField being
   # rendered (or nil, if it has since been deleted) as its sole argument,
   # rather than with no arguments as JournalFormatter::Base does.
-  def permission_granted?(options)
-    permission = options[:view_permission]
-    return super unless permission.is_a?(Proc)
+  def permission_granted?(permission, key: nil)
+    return true unless permission
 
-    instance_exec(custom_field_for_key(options[:key]), &permission)
+    if permission.is_a?(Proc)
+      instance_exec(custom_field_for_key(key), &permission)
+    else
+      User.current.allowed_in_project?(permission, project)
+    end
+  end
+
+  private
+
+  # The (user, project) visibility check queries the DB every time it runs; activity feeds
+  # render many custom-field journal entries per request, often for the same project, so we
+  # cache the verdict set per request and per user. Only used by view_permission Procs
+  # (see WorkPackage::Journalized), which #permission_granted? instance_exec's above.
+  def visible_custom_field_ids(project)
+    JournalFormatterCache.fetch(WorkPackageCustomField, project.id) do # rubocop:disable Lint/UselessDefaultValueArgument
+      WorkPackageCustomField.visible(User.current, project:).pluck(:id).to_set
+    end
   end
 end

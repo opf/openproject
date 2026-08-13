@@ -149,6 +149,73 @@ RSpec.describe Journal do
     end
   end
 
+  describe "#render_detail" do
+    let(:journal) { build_stubbed(:work_package_journal) }
+    let(:field) { "some_field" }
+    let(:values) { [nil, "value"] }
+    let(:formatter) { instance_double(JournalFormatter::Base) }
+
+    before do
+      allow(journal).to receive(:lookup_formatter_config)
+        .with(field)
+        .and_return({ formatter_key: :some_formatter, view_permission: :some_permission })
+      allow(journal).to receive(:formatter_instance)
+        .with(:some_formatter)
+        .and_return(formatter)
+    end
+
+    context "when the formatter grants permission" do
+      before do
+        allow(formatter).to receive(:permission_granted?).with(:some_permission, key: field).and_return(true)
+        allow(formatter).to receive(:render).and_return("rendered detail")
+      end
+
+      it "renders the detail" do
+        expect(journal.render_detail([field, values])).to eq("rendered detail")
+      end
+    end
+
+    context "when the formatter denies permission" do
+      before do
+        allow(formatter).to receive(:permission_granted?).with(:some_permission, key: field).and_return(false)
+      end
+
+      # The denied message itself is JournalFormatter#render_permission_denied_message's
+      # concern (see below), not the formatter's, so #render_detail never calls the
+      # formatter for it.
+      it "renders the permission denied message instead of the detail" do
+        expect(journal.render_detail([field, values]))
+          .to eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
+      end
+
+      it "does not call render" do
+        allow(formatter).to receive(:render)
+
+        journal.render_detail([field, values])
+
+        expect(formatter).not_to have_received(:render)
+      end
+    end
+  end
+
+  describe "#render_permission_denied_message" do
+    let(:journal) { build_stubbed(:work_package_journal) }
+
+    context "with html requested" do
+      it "wraps the message in an em tag" do
+        expect(journal.render_permission_denied_message(html: true))
+          .to eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
+      end
+    end
+
+    context "without html requested" do
+      it "wraps the message in underscores" do
+        expect(journal.render_permission_denied_message(html: false))
+          .to eq("_#{I18n.t(:text_journal_permission_denied)}_")
+      end
+    end
+  end
+
   describe "#notifications" do
     let(:work_package) { create(:work_package) }
     let(:journal) { work_package.journals.first }
