@@ -98,6 +98,8 @@ class TypeVariant < ApplicationRecord
 
   scopes :with_effective_configuration, :with_effective_source
 
+  scope :enabled_in_new_projects, -> { where(enabled_in_new_projects: true) }
+
   scope :default_variant, -> { where(is_default_variant: true) }
   scope :non_default_variants, -> { where(is_default_variant: false) }
 

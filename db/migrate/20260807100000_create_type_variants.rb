@@ -44,6 +44,7 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
   CONFIGURATION_COLUMNS = {
     "attribute_groups" => "attribute_groups",
     "description" => "default_work_package_description",
+    "is_default" => "enabled_in_new_projects",
     "patterns" => "patterns",
     "pdf_export_templates_config" => "pdf_export_templates_config"
   }.freeze
@@ -81,6 +82,7 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
       t.references :project, null: true, foreign_key: { on_delete: :cascade }
       t.string :variant_name
       t.boolean :is_default_variant, null: false, default: false
+      t.boolean :enabled_in_new_projects, null: false, default: false
 
       t.text :attribute_groups
       t.text :default_work_package_description
@@ -119,6 +121,12 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
               unique: true,
               where: "is_default_variant",
               name: "index_type_variants_one_base_per_type"
+
+    add_index :type_variants, :type_id,
+              unique: true,
+              where: "enabled_in_new_projects",
+              name: "index_type_variants_one_new_project_default_per_type"
+
     add_index :type_variants, "type_id, lower(variant_name)",
               unique: true,
               where: "variant_name IS NOT NULL",
