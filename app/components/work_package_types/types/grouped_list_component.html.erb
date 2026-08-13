@@ -54,13 +54,20 @@ See COPYRIGHT and LICENSE files for more details.
           <% root.variants.non_default_variants.in_display_order.each do |child| %>
             <% list.with_item do |item| %>
               <% item.with_menu(menu_id: variant_menu_id(child), src: variant_menu_src(child)) %>
-              <%= render(
-                    Primer::Beta::Link.new(
-                      href: variant_path(child),
-                      font_weight: :bold
-                    )
-                  ) { child.variant_name } %>
-              <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { t("types.index.variant_label") } %>
+              <%= flex_layout(align_items: :center, justify_content: :space_between) do |variant| %>
+                <% variant.with_column(display: :inline_flex, align_items: :center) do %>
+                  <%= render(
+                        Primer::Beta::Link.new(
+                          href: variant_path(child),
+                          font_weight: :bold
+                        )
+                      ) { child.variant_name } %>
+                  <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { t("types.index.variant_label") } %>
+                <% end %>
+                <% if child.enabled_in_new_projects? %>
+                  <% variant.with_column(mr: 3) { render(Primer::Beta::Label.new) { t("types.index.enabled_in_new_projects") } } %>
+                <% end %>
+              <% end %>
             <% end %>
           <% end %>
 

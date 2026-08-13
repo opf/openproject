@@ -53,11 +53,20 @@ module WorkPackageTypes
         t("types.index.variants_count", count: root.variants.non_default_variants.size)
       end
 
-      # Mirrors the type menu's default action, which toggles the base variant.
+      # A named variant carrying the flag is only visible once the group is expanded, so the
+      # collapsed header names it instead.
       def add_default_label(header, type)
-        return unless type.default_variant.enabled_in_new_projects?
+        if type.default_variant.enabled_in_new_projects?
+          header.with_label { t("types.index.enabled_in_new_projects") }
+        elsif (variant = default_variant_for_new_projects(type))
+          header.with_label(scheme: :secondary) do
+            t("types.index.variant_enabled_in_new_projects", name: variant.variant_name)
+          end
+        end
+      end
 
-        header.with_label { t("types.index.enabled_in_new_projects") }
+      def default_variant_for_new_projects(type)
+        type.variants.detect(&:enabled_in_new_projects?)
       end
 
       def variant_path(variant)
