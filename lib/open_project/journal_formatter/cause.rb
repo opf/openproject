@@ -35,6 +35,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include OpenProject::ObjectLinking
   include OpenProject::JournalFormatter::CauseMeetingRendering
   include ActionView::Helpers::SanitizeHelper
+  include ActionView::Helpers::TranslationHelper
 
   attr_reader :cause
 

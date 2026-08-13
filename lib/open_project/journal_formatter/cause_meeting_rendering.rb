@@ -47,7 +47,7 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
   end
 
   def combined_meeting_message
-    text = I18n.t("journals.caused_changes.#{caused_change_key}", meeting_title_information: meeting_message)
+    text = t("journals.caused_changes.#{caused_change_key}_html", meeting_title_information: meeting_message)
     html? ? text : strip_tags(text)
   end
 
@@ -61,7 +61,7 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
   end
 
   def meeting_template_message
-    I18n.t("journals.cause_descriptions.#{template_description_key}", link: meeting_link(@meeting.title))
+    t("journals.cause_descriptions.#{template_description_key}_html", link: meeting_link(@meeting.title))
   end
 
   def meeting_link(label)

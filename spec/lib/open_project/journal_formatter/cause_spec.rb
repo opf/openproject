@@ -995,7 +995,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       it do
         link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added", meeting_title_information: link)
+          I18n.t("journals.caused_changes.meeting_agenda_item_added_html", meeting_title_information: link)
         )
       end
 
@@ -1003,7 +1003,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         label = "#{meeting.title} – #{format_time(meeting.start_time)}"
         expect(cause).to render_raw_variant(
           ActionController::Base.helpers.strip_tags(
-            I18n.t("journals.caused_changes.meeting_agenda_item_added", meeting_title_information: label)
+            I18n.t("journals.caused_changes.meeting_agenda_item_added_html", meeting_title_information: label)
           )
         )
       end
@@ -1034,7 +1034,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
       it "keeps the entry with a generic label" do
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added",
+          I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
                  meeting_title_information: I18n.t("journals.cause_descriptions.meeting_deleted"))
         )
       end
@@ -1049,7 +1049,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
       it "keeps the entry with a generic label" do
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added",
+          I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
                  meeting_title_information: I18n.t("journals.cause_descriptions.meeting_cancelled"))
         )
       end
@@ -1073,7 +1073,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     it do
       link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
       expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_agenda_item_removed", meeting_title_information: link)
+        I18n.t("journals.caused_changes.meeting_agenda_item_removed_html", meeting_title_information: link)
       )
     end
   end
@@ -1095,7 +1095,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     it do
       link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
       expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_agenda_item_moved", meeting_title_information: link)
+        I18n.t("journals.caused_changes.meeting_agenda_item_moved_html", meeting_title_information: link)
       )
     end
   end
@@ -1117,7 +1117,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     it do
       link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
       expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_agenda_item_discussed", meeting_title_information: link)
+        I18n.t("journals.caused_changes.meeting_agenda_item_discussed_html", meeting_title_information: link)
       )
     end
   end
@@ -1139,7 +1139,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     it do
       link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
       expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_outcome_recorded", meeting_title_information: link)
+        I18n.t("journals.caused_changes.meeting_outcome_recorded_html", meeting_title_information: link)
       )
     end
   end
@@ -1160,8 +1160,8 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
       it do
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added_template",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_template", link: series_link))
+          I18n.t("journals.caused_changes.meeting_agenda_item_added_template_html",
+                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_template_html", link: series_link))
         )
       end
     end
@@ -1171,8 +1171,8 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
       it do
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_removed_template",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_template", link: series_link))
+          I18n.t("journals.caused_changes.meeting_agenda_item_removed_template_html",
+                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_template_html", link: series_link))
         )
       end
     end
@@ -1191,8 +1191,8 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       it "links to the source occurrence's page, not the template" do
         link = link_to(template.title, meeting_path(occurrence, anchor: "meeting-agenda-item-#{backlog_item.id}"))
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_moved_template",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_backlog", link:))
+          I18n.t("journals.caused_changes.meeting_agenda_item_moved_template_html",
+                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_backlog_html", link:))
         )
       end
     end
@@ -1210,8 +1210,8 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     it do
       link = link_to(template.title, meeting_path(template))
       expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_agenda_item_added_template",
-               meeting_title_information: I18n.t("journals.cause_descriptions.meeting_template", link:))
+        I18n.t("journals.caused_changes.meeting_agenda_item_added_template_html",
+               meeting_title_information: I18n.t("journals.cause_descriptions.meeting_template_html", link:))
       )
     end
   end
@@ -1233,7 +1233,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         cause = { "type" => "meeting_agenda_item_added", "meeting_id" => meeting.id }
         link = link_to(label, meeting_path(meeting, anchor: "meeting-agenda-item-#{agenda_item.id}"))
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added", meeting_title_information: link)
+          I18n.t("journals.caused_changes.meeting_agenda_item_added_html", meeting_title_information: link)
         )
       end
     end
@@ -1243,7 +1243,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         cause = { "type" => "meeting_agenda_item_removed", "meeting_id" => meeting.id }
         link = link_to(label, meeting_path(meeting))
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_removed", meeting_title_information: link)
+          I18n.t("journals.caused_changes.meeting_agenda_item_removed_html", meeting_title_information: link)
         )
       end
     end
@@ -1258,7 +1258,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         cause = { "type" => "meeting_outcome_recorded", "meeting_id" => meeting.id }
         link = link_to(label, meeting_path(meeting, anchor: "meeting-agenda-item-#{parent_item.id}"))
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_outcome_recorded", meeting_title_information: link)
+          I18n.t("journals.caused_changes.meeting_outcome_recorded_html", meeting_title_information: link)
         )
       end
     end
