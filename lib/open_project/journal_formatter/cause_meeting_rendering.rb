@@ -46,6 +46,11 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
     meeting_cause? && @meeting&.templated?
   end
 
+  def combined_meeting_message
+    text = I18n.t("journals.caused_changes.#{caused_change_key}", meeting_title_information: meeting_message)
+    html? ? text : strip_tags(text)
+  end
+
   def meeting_message
     return I18n.t("journals.cause_descriptions.meeting_deleted") if @meeting.nil?
     return I18n.t("journals.cause_descriptions.meeting_cancelled") if @meeting.cancelled?
