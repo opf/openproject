@@ -57,6 +57,11 @@ RSpec.describe WorkPackageTypes::VariantPathsHelper do
   # Also named by the shared components, but needing more than the variant to build a path.
   let(:other_shared_routes) do
     %i[
+      type_configuration_link_dialog_path
+      type_configuration_independence_dialog_path
+      type_configuration_copy_dialog_path
+      type_workflow_copy_from_variant_path
+      type_workflow_copy_from_role_path
       toggle_type_pdf_export_template_path
       drop_type_pdf_export_template_path
       enable_all_type_pdf_export_template_index_path
@@ -69,14 +74,13 @@ RSpec.describe WorkPackageTypes::VariantPathsHelper do
 
   let(:shared_routes) { buildable_routes + other_shared_routes }
 
-  # Administration alone: each reaches across every project, type or role in the instance.
+  # Administration alone. Which projects use a type is an instance-wide decision, and a variant a
+  # project owns is only ever used in that project — the rest of the reuse screens moved into
+  # projects once the sources they offer were scoped to what the variant may use.
   let(:administration_only_routes) do
     %i[
       type_projects_path
-      type_configuration_link_dialog_path
-      type_configuration_independence_dialog_path
-      type_configuration_copy_dialog_path
-      type_workflow_copy_from_role_path
+      enable_all_type_projects_path
     ]
   end
 

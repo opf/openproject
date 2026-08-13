@@ -52,7 +52,7 @@ module WorkPackageTypes
     def source_is_default? = source.present? && source == variant.type.default_variant
 
     def source_path # rubocop:disable Metrics/AbcSize
-      return nil unless mode_switchable?
+      return nil unless source_reachable?
 
       case aspect
       when TypeVariant::DEFAULTS
@@ -68,13 +68,19 @@ module WorkPackageTypes
       end
     end
 
-    # Choosing what a configuration inherits from picks among the types of the whole instance,
-    # so it stays an administration decision. Where those screens cannot be reached the banner
-    # still states the mode — a project administrator needs to know a configuration is
-    # inherited — but offers nothing it cannot carry out.
     def mode_switchable? = helpers.scoped_variant_route?(:type_configuration_link_dialog_path)
 
-    def copy_supported? = CopyConfiguration.supported?(aspect) && mode_switchable?
+    # A source is named either way, but only linked to where its own screens can be opened. From
+    # a project that means a source the same project owns: a global one is configured in
+    # administration, and the rewritten path would resolve and then refuse.
+    def source_reachable?
+      return false if source.nil?
+      return true if helpers.variant_scope_project.nil?
+
+      source.project_id == helpers.variant_scope_project.id
+    end
+
+    def copy_supported? = CopyConfiguration.supported?(aspect)
 
     def copy_dialog_path = helpers.scoped_variant_path(:type_configuration_copy_dialog_path, **dialog_path_args)
 

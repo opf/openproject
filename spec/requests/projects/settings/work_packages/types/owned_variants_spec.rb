@@ -172,6 +172,75 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
+  # Choosing what a configuration is borrowed from, and copying a workflow, are offered inside a
+  # project now that both ends are scoped to what the variant may use.
+  describe "reusing another configuration" do
+    let(:aspect) { TypeVariant::DEFAULTS }
+
+    it "opens the source picker" do
+      get project_settings_work_packages_type_configuration_link_dialog_path(
+        project, type, variant_id: ours.id, aspect:
+      ), as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "links to a global source" do
+      post project_settings_work_packages_type_configuration_link_switch_path(
+        project, type, variant_id: ours.id, aspect:
+      ), params: { source_id: global.id }, as: :turbo_stream
+
+      expect(ours.reload.source_for(aspect)).to eq(global)
+    end
+
+    it "links to a sibling the same project owns" do
+      sibling = create(:project_owned_type_variant, type:, project:, variant_name: "Sibling")
+
+      post project_settings_work_packages_type_configuration_link_switch_path(
+        project, type, variant_id: ours.id, aspect:
+      ), params: { source_id: sibling.id }, as: :turbo_stream
+
+      expect(ours.reload.source_for(aspect)).to eq(sibling)
+    end
+
+    # The rule the whole feature turns on, at the endpoint rather than in the picker.
+    it "refuses a source another project owns" do
+      post project_settings_work_packages_type_configuration_link_switch_path(
+        project, type, variant_id: ours.id, aspect:
+      ), params: { source_id: theirs.id }, as: :turbo_stream
+
+      expect(ours.reload.source_for(aspect)).to be_nil
+    end
+
+    it "refuses to copy from a source another project owns" do
+      post project_settings_work_packages_type_configuration_copy_copy_path(
+        project, type, variant_id: ours.id, aspect:
+      ), params: { source_id: theirs.id }, as: :turbo_stream
+
+      expect(response).not_to have_http_status(:found)
+    end
+  end
+
+  describe "copying a workflow" do
+    # Opened as a dialog, so there is no HTML template for it in either mount.
+    it "opens the copy dialog" do
+      get new_project_settings_work_packages_type_workflow_copy_path(project, type, variant_id: ours.id),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    # This was the escalation: the targets are written to, so an id naming another project's
+    # variant must not be copied into.
+    it "refuses to copy into a variant another project owns" do
+      expect do
+        post project_settings_work_packages_type_workflow_copy_from_variant_path(
+          project, type, variant_id: ours.id
+        ), params: { target_variant_ids: [theirs.id] }, as: :turbo_stream
+      end.not_to change { theirs.reload.own_workflows.count }
+    end
+  end
+
   describe "the wizard's steps" do
     # A variant only this project uses is never activated anywhere else, so the step that
     # picks projects must not be reachable, sidebar or URL.

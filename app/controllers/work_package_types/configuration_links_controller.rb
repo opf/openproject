@@ -74,10 +74,13 @@ module WorkPackageTypes
 
     def aspect = params[:aspect]
 
+    # Only what this variant may borrow from: everything global, plus the variants of the project
+    # owning it. A copy carries values across rather than recording a source, so unlike a link
+    # there is no foreign key for the model to validate afterwards.
     def source
       return @source if defined?(@source)
 
-      @source = TypeVariant.find_by(id: params[:source_id])
+      @source = TypeVariant.available_in(@variant.project).find_by(id: params[:source_id])
     end
 
     def respond_to_switch(result)

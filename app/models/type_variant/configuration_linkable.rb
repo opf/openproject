@@ -48,6 +48,7 @@ class TypeVariant
       end
 
       validate :sources_would_not_create_a_cycle
+      validate :sources_are_available_to_this_variant
       before_destroy :ensure_nothing_links_here
     end
 
@@ -424,6 +425,20 @@ class TypeVariant
         next if source_id.blank?
 
         errors.add(:"#{aspect}_source_id", :would_create_cycle) if reaches_self?(source_id, aspect)
+      end
+    end
+
+    # A configuration may only be borrowed from somewhere every project can see, or from a
+    # sibling in the project owning this variant. Deliberately a rule about the variant rather
+    # than about who is editing it: an administrator sees every project's variants, and linking
+    # one project's configuration to another's would tie two projects together behind the backs
+    # of both.
+    def sources_are_available_to_this_variant
+      TypeVariant::ASPECTS.each do |aspect|
+        source = public_send(:"#{aspect}_source")
+        next if source.nil? || source.project_id.nil? || source.project_id == project_id
+
+        errors.add(:"#{aspect}_source_id", :must_be_available_to_the_variant)
       end
     end
 

@@ -855,20 +855,25 @@ en:
               restrict_dependent_destroy:
                 has_many: "Cannot be deleted while projects are still using it."
             defaults_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
               would_create_cycle: "would link these configurations in a loop."
             enabled_in_new_projects:
               taken: "is already set for another configuration of this type."
             form_configuration_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
               would_create_cycle: "would link these configurations in a loop."
             patterns:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
             pdf_export_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
               would_create_cycle: "would link these configurations in a loop."
             project_attributes_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
               would_create_cycle: "would link these configurations in a loop."
             variant:
               must_belong_to_the_type: "must be a variant of this type."
             workflows_source_id:
+              must_be_available_to_the_variant: "must be a configuration this project can use."
               would_create_cycle: "would link these configurations in a loop."
         user:
           attributes:

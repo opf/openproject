@@ -208,26 +208,22 @@ Rails.application.routes.draw do
 
     resource :defaults, controller: "defaults_tab", only: %i[update edit]
 
-    # Choosing where a configuration is inherited from picks among types across the instance,
-    # so it stays an administration decision.
-    unless options[:without_reuse_mode]
-      scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
-        get :dialog
-        post :confirm
-        post :switch
-      end
+    scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
+      get :dialog
+      post :confirm
+      post :switch
+    end
 
-      scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
-        get :dialog
-        post :confirm
-        post :switch
-      end
+    scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
+      get :dialog
+      post :confirm
+      post :switch
+    end
 
-      scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
-        get :dialog
-        post :confirm
-        post :copy
-      end
+    scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
+      get :dialog
+      post :confirm
+      post :copy
     end
 
     scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
@@ -240,13 +236,9 @@ Rails.application.routes.draw do
         post :confirm_statuses
       end
 
-      # Copying a workflow reaches across every type and role in the instance, so it is not
-      # offered where the caller is only trusted with one project.
-      unless options[:without_workflow_copy]
-        resource :copy, only: %i[new], controller: "/workflows/copies" do
-          resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
-          resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
-        end
+      resource :copy, only: %i[new], controller: options[:workflow_copy_controller] do
+        resource :from_variant, only: %i[create], controller: options[:workflow_copy_from_variant_controller]
+        resource :from_role, only: %i[create], controller: options[:workflow_copy_from_role_controller]
       end
     end
 
@@ -286,7 +278,10 @@ Rails.application.routes.draw do
     nested do
       scope "(variants/:variant_id)" do
         concerns :type_variant_configuration,
-                 matrix_controller: "/workflows/matrix"
+                 matrix_controller: "/workflows/matrix",
+                 workflow_copy_controller: "/workflows/copies",
+                 workflow_copy_from_variant_controller: "/workflows/copies/from_variants",
+                 workflow_copy_from_role_controller: "/workflows/copies/from_roles"
       end
     end
 
@@ -502,9 +497,10 @@ Rails.application.routes.draw do
                 scope "variants/:variant_id", module: "variants" do
                   concerns :type_variant_configuration,
                            matrix_controller: "/projects/settings/work_packages/types/variants/matrix",
-                           without_workflow_copy: true,
-                           without_project_activation: true,
-                           without_reuse_mode: true
+                           workflow_copy_controller: "/projects/settings/work_packages/types/variants/workflow_copies",
+                           workflow_copy_from_variant_controller: "/projects/settings/work_packages/types/variants/workflow_copies/from_variants",
+                           workflow_copy_from_role_controller: "/projects/settings/work_packages/types/variants/workflow_copies/from_roles",
+                           without_project_activation: true
                 end
               end
             end

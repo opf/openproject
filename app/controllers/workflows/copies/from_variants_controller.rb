@@ -70,7 +70,12 @@ class Workflows::Copies::FromVariantsController < ApplicationController
     @source_variant = ::TypeVariant.find_by(id: params[:variant_id])
   end
 
+  # The targets are written to, so an id naming another project's variant is refused rather than
+  # copied into. Scoped against the source, which is the variant the request is addressed to.
   def set_target_variants
-    @target_variants = ::TypeVariant.where(id: params[:target_variant_ids])
+    return @target_variants = ::TypeVariant.none if @source_variant.nil?
+
+    @target_variants = ::TypeVariant.available_in(@source_variant.project)
+                                    .where(id: params[:target_variant_ids])
   end
 end

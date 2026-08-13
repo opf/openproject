@@ -266,7 +266,20 @@ Rails.application.reloader.to_prepare do
                        "projects/settings/work_packages/types/variants/creation_wizard":
                          %i[new create show update],
                        "projects/settings/work_packages/types/variants/matrix":
-                         %i[show update status_dialog confirm_statuses]
+                         %i[show update status_dialog confirm_statuses],
+                       # Choosing what a configuration is borrowed from. The sources on offer are
+                       # scoped to what the variant may use, so a project can be trusted with it.
+                       "projects/settings/work_packages/types/variants/configuration_links":
+                         %i[dialog confirm switch],
+                       "projects/settings/work_packages/types/variants/configuration_independence":
+                         %i[dialog confirm switch],
+                       "projects/settings/work_packages/types/variants/configuration_copies":
+                         %i[dialog confirm copy],
+                       "projects/settings/work_packages/types/variants/workflow_copies": %i[new],
+                       "projects/settings/work_packages/types/variants/workflow_copies/from_variants":
+                         %i[create],
+                       "projects/settings/work_packages/types/variants/workflow_copies/from_roles":
+                         %i[create]
                      },
                      permissible_on: :project,
                      require: :member
