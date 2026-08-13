@@ -29,62 +29,34 @@
 #++
 
 module OpenProject
-  # Renders the list of environment variables that can be used to override
-  # settings, i.e. the documented counterpart of `rake setting:available_envs`.
+  # Renders the list of environment variables overriding settings, i.e. the
+  # documented counterpart of `rake setting:available_envs`. `rake docs:env_vars`
+  # rewrites it in place, between the markers below.
   #
-  # The list lives in the middle of a hand-written page, delimited by the two
-  # markers below, and is rewritten in place by `rake docs:env_vars`. Everything
-  # outside the markers is left untouched.
-  #
-  # Regenerate with `RAILS_ENV=production rake docs:env_vars`. Production is not
-  # incidental: a good number of defaults differ per environment, and the page
-  # documents on-premises installations, which run in production. The task
-  # therefore refuses to run in any other environment.
-  #
-  # Two defaults are derived from other settings, so they come out as whatever
-  # the generating instance has configured: `default_projects_modules` and
-  # `real_time_text_collaboration_enabled` both consult
-  # `Setting.collaborative_editing_hocuspocus_url`. Generate on an instance that
-  # has none of that configured, or pass
-  # `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=`,
-  # `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=` and
-  # `OPENPROJECT_REAL__TIME__TEXT__COLLABORATION__ENABLED=false` to get the
-  # defaults of a fresh installation.
-  #
-  # Since the list is generated in production, the test suite cannot regenerate it
-  # and compare it. What
-  # spec/lib/open_project/environment_variables_documentation_spec.rb verifies
-  # instead is everything that does not depend on the environment: that every
-  # setting is listed, that nothing is listed that no longer exists, and that each
-  # one carries its current description.
+  # Regenerated in production, since a good number of defaults differ per
+  # environment and the page documents on-premises installations. The spec can
+  # therefore not compare the defaults, only what holds in every environment.
   module EnvironmentVariablesDocumentation
     DOC_PATH = "docs/installation-and-operations/configuration/environment/README.md"
 
-    # Same markers the release notes use for their generated sections, and the
-    # same division of labour: the warning comments around them are part of the
-    # hand-written page, only what is between the markers is rewritten.
+    # As used by the release notes, warning comments outside the markers included.
     BEGIN_MARKER = "<!-- BEGIN AUTOMATED SECTION -->"
     END_MARKER = "<!-- END AUTOMATED SECTION -->"
     BLOCK_PATTERN = /#{Regexp.escape(BEGIN_MARKER)}.*?#{Regexp.escape(END_MARKER)}/m
 
     RANDOM_PLACEHOLDER = "<randomly generated>"
 
-    # Settings whose default is generated anew every time it is read. Printing it
-    # would put something that looks like this instance's secret into the
-    # documentation, and change the page on every run.
+    # Defaults generated anew on every read: documenting them would leak something
+    # that looks like a secret, and change the page on every run.
     RANDOM_DEFAULTS = %i[
       hashed_token_pepper
       installation_uuid
     ].freeze
 
-    # Settings that other settings derive their default from, mapped to the
-    # override that puts them back into their fresh-installation state.
-    #
     # `real_time_text_collaboration_enabled` derives its default from the two
-    # hocuspocus settings, and `default_projects_modules` derives its own from
-    # that one. They are read as values, so a configured instance - or just a row
-    # in the settings table - makes the generated list document that instance
-    # rather than a fresh installation. `docs:env_vars` refuses to run then.
+    # hocuspocus settings, `default_projects_modules` from that one - as values, so
+    # a configured instance documents itself. Mapped to the override neutralising
+    # each; `docs:env_vars` refuses to run while any is set.
     DERIVED_DEFAULT_INPUTS = {
       collaborative_editing_hocuspocus_url: "OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=",
       collaborative_editing_hocuspocus_secret: "OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=",
@@ -96,8 +68,8 @@ module OpenProject
         Rails.root.join(DOC_PATH)
       end
 
-      # The `[env_name, definition]` pairs in the order both this list and
-      # `rake setting:available_envs` show them.
+      # `[env_name, definition]` pairs, in the order this list and
+      # `setting:available_envs` show them.
       def sorted_definitions
         Settings::Definition
           .all
@@ -105,31 +77,27 @@ module OpenProject
           .sort_by { |env_name, _| env_name.downcase }
       end
 
-      # The description documented for each environment variable. Unlike the
-      # defaults, descriptions do not depend on the environment, which is what
-      # allows the spec to check them.
+      # The documented description per variable. Unlike the defaults, these do not
+      # depend on the environment, so the spec can check them.
       def descriptions
         I18n.with_locale(:en) do
           sorted_definitions.to_h { |env_name, definition| [env_name, definition.description.presence] }
         end
       end
 
-      # The DERIVED_DEFAULT_INPUTS this instance has configured, mapped to the
-      # override that neutralises each. Empty on a fresh installation.
+      # Empty on a fresh installation.
       def configured_derived_inputs
         DERIVED_DEFAULT_INPUTS.select { |setting, _| Setting[setting].present? }
       end
 
-      # The delimited block, markers included, as it is expected to be found in
-      # the page.
+      # The delimited block, markers included, as expected on disk.
       def block
         I18n.with_locale(:en) do
           "#{BEGIN_MARKER}\n\n```text\n#{rows.join("\n")}\n```\n\n#{END_MARKER}"
         end
       end
 
-      # The given page with its delimited block replaced by a freshly generated
-      # one.
+      # The page with its delimited block regenerated.
       def update(page)
         unless page.include?(BEGIN_MARKER) && page.include?(END_MARKER)
           raise "#{DOC_PATH} is missing the #{BEGIN_MARKER} / #{END_MARKER} markers " \
@@ -143,7 +111,7 @@ module OpenProject
 
       def rows
         sorted_definitions.map do |env_name, definition|
-          # `description` is nil for a few settings, hence the `rstrip`.
+          # `rstrip` as `description` is nil for a few settings.
           "#{env_name} (default=#{rendered_default(definition)}) #{definition.description}".rstrip
         end
       end

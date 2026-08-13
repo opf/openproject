@@ -31,10 +31,8 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::EnvironmentVariablesDocumentation do
-  # The list is generated in the production environment, so this spec cannot
-  # regenerate it and compare it: the defaults of a good number of settings
-  # differ here. It checks everything that does not depend on the environment
-  # instead.
+  # The list is generated in production, where a good number of defaults differ
+  # from the ones here, so this spec checks everything but them.
   let(:page) { File.read(described_class.path) }
   let(:generated_block) { page[described_class::BLOCK_PATTERN] }
   let(:documented_rows) { generated_block.to_s[/^```text\n(.*?)^```$/m, 1].to_s.lines(chomp: true) }
@@ -57,8 +55,7 @@ RSpec.describe OpenProject::EnvironmentVariablesDocumentation do
       no longer contains a ```text code block with the list of variables.
     ERR
 
-    # The examples below key rows by variable name, which would silently drop one
-    # of a colliding pair - `env_name` prefers `env_alias` over the derived name.
+    # The examples below key rows by name, so a collision would drop one silently.
     duplicates = documented_rows.map { |row| row.split(" ", 2).first }.tally.select { |_, count| count > 1 }
     expect(duplicates.keys).to be_empty, "#{duplicates.keys.to_sentence} is listed more than once."
   end

@@ -33,9 +33,7 @@ namespace :docs do
   task env_vars: :environment do
     documentation = OpenProject::EnvironmentVariablesDocumentation
 
-    # The documentation describes on-premises installations, which run in
-    # production, and a good number of defaults differ per environment. Writing
-    # the page from any other environment would silently document the wrong ones.
+    # Writing the page from another environment would document the wrong defaults.
     unless Rails.env.production?
       abort <<~ABORT
         Refusing to write #{documentation::DOC_PATH} from the #{Rails.env} environment:
@@ -46,10 +44,7 @@ namespace :docs do
       ABORT
     end
 
-    # A handful of defaults are derived from other settings' values, so an
-    # instance that has those configured would document itself rather than a
-    # fresh installation. The spec cannot catch that, as it does not compare
-    # defaults, so refuse here instead of writing the wrong values.
+    # Refuse rather than write values the spec cannot catch, as it skips defaults.
     configured = documentation.configured_derived_inputs
     if configured.any?
       abort <<~ABORT
