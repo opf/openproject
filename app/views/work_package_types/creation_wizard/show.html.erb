@@ -1,3 +1,4 @@
-<% html_title t(:label_administration), t("types.creation_wizard.create_variant") %>
+<% html_title t(:label_administration),
+              adding_variant? ? t("types.creation_wizard.create_variant") : t("types.creation_wizard.create_type") %>
 
-<%= render(WorkPackageTypes::Wizard::PageComponent.new(type: @type, current_step: @current_step)) %>
+<%= render(WorkPackageTypes::Wizard::PageComponent.new(type: @type, variant: @variant, current_step: @current_step)) %>

@@ -28,48 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO: Remove with type_variants feature flag
-class Workflows::Copies::FromTypesController < ApplicationController
-  include OpTurbo::ComponentStream
+module WorkPackageTypes
+  # A named variant's own attributes. Everything else about it is configuration, which the
+  # aspect tabs and their services own.
+  class CreateVariantContract < ::ModelContract
+    include RequiresAdminGuard
 
-  layout "admin"
+    def self.model = TypeVariant
 
-  before_action :require_admin
+    attribute :variant_name
 
-  before_action :set_source_type
-  before_action :set_target_types
-
-  def create
-    if @source_type.nil?
-      render_flash_message_via_turbo_stream(
-        message: I18n.t(:error_workflow_copy_source),
-        scheme: :danger
-      )
-      @turbo_status = :unprocessable_entity
-    elsif @target_types.blank?
-      render_flash_message_via_turbo_stream(
-        message: I18n.t(:error_workflow_copy_target),
-        scheme: :danger
-      )
-      @turbo_status = :unprocessable_entity
-    else
-      Workflow.copy(@source_type, nil, @target_types, Workflow.eligible_roles)
-
-      redirect_to edit_type_workflow_path(@target_types.first),
-                  notice: t(".notice", count: @target_types.size, type_name: @target_types.first.name)
-      return
-    end
-
-    respond_with_turbo_streams
-  end
-
-  private
-
-  def set_source_type
-    @source_type = ::Type.find_by(id: params[:type_id])
-  end
-
-  def set_target_types
-    @target_types = ::Type.where(id: params[:target_type_ids])
+    # Set by CreateVariantService rather than by whoever calls it: a new variant belongs to the
+    # type it was added to, and starts out Linked to that type's base configuration.
+    attribute :type_id
+    TypeVariant::ASPECTS.each { |aspect| attribute :"#{aspect}_source_id" }
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -19,30 +21,18 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# We do not want the bcf_thumbnail to show up in the work package full view as we already have the BCF Viewpoint gallery
-# there. To achieve that we need to change how the default form configuration is set up. The default simply shall not
-# not include 'bcf_thumbnail'.
-#
-# The right thing would be to patch the concern Type::AttributeGroups, but somehow I wasn't able to figure out how to do it.
-# Thus I am patching the including Class.
-module OpenProject::Bim::Patches::TypePatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+module WorkPackageTypes
+  # Removes a named variant.
+  #
+  # What refuses it is on the model, where the database constraints it mirrors also are: a
+  # project applying the variant, or another variant borrowing configuration from it. Both
+  # arrive here as errors on the record.
+  class DeleteVariantService < ::BaseServices::Delete
+    protected
 
-  module InstanceMethods
-    private
-
-    def default_attribute?(active_cfs, key)
-      super && key != "bcf_thumbnail"
-    end
+    def default_contract_class = DeleteVariantContract
   end
 end

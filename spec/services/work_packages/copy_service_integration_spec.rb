@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe WorkPackages::CopyService, "integration", type: :model do
   shared_let(:custom_field) { create(:work_package_custom_field) }
   shared_let(:type) do
-    create(:type_standard,
+    create(:type_task,
            custom_fields: [custom_field])
   end
   shared_let(:project) { create(:project, types: [type]) }

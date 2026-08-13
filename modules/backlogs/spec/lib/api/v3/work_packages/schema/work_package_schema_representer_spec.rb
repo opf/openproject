@@ -44,8 +44,21 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       allow(p).to receive(:backlogs_enabled?).and_return(backlogs_enabled)
     end
   end
-  let(:work_package_type) { build_stubbed(:type, attribute_groups: [["Agile", %w[position sprint story_points backlog_bucket]]]) }
-  let(:work_package) { build_stubbed(:work_package, type: work_package_type) }
+  let(:work_package_type) { build_stubbed(:type) }
+  let(:type_variant) do
+    build_stubbed(:type_variant, type: work_package_type).tap do |variant|
+      allow(variant)
+        .to receive(:attribute_groups)
+        .and_return(
+          [Type::AttributeGroup.new(variant, "Agile", %w[position sprint story_points backlog_bucket])]
+        )
+    end
+  end
+  let(:work_package) do
+    build_stubbed(:work_package, type: work_package_type) do |wp|
+      allow(wp).to receive(:type_variant).and_return(type_variant)
+    end
+  end
 
   let(:current_user) { build_stubbed(:user) }
   let(:permissions) { %i(view_work_packages edit_work_packages view_sprints manage_sprint_items) }

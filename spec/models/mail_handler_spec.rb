@@ -36,6 +36,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
   shared_let(:anno_user) { User.anonymous }
   shared_let(:system_user) { User.system }
   shared_let(:priority_low) { create(:priority_low, name: "Low", is_default: true) }
+  shared_let(:default_status) { create(:default_status) }
 
   shared_let(:project) { create(:valid_project, identifier: "onlinestore", name: "OnlineStore", public: false) }
 
@@ -389,7 +390,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:custom_field) do
       create(:string_wp_custom_field, name: "Searchable field") do |cf|
         project.work_package_custom_fields << cf
-        project.types.first.custom_fields << cf
+        project.types.first.default_variant.custom_fields << cf
       end
     end
     let(:submit_options) { {} }
@@ -640,7 +641,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a given project with a default type" do
         let(:default_type) do
-          create(:type, is_default: true) do |t|
+          create(:type, default_variant_enabled_in_all_projects: true) do |t|
             project.types << t
           end
         end

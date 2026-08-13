@@ -102,7 +102,7 @@ module Boards
 
       # Workflows are configuration, so the columns come from whichever family member the
       # project resolves to rather than from the root the work packages store.
-      Type.statuses(params[:project].effective_types(*type_ids).ids)
+      TypeVariant.statuses(params[:project].type_variants(*type_ids).ids)
     end
 
     def query_name(status)

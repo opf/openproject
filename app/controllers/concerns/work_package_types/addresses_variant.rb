@@ -28,28 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Types::Scopes
-  module WithEffectiveConfiguration
+module WorkPackageTypes
+  # The admin routes carry an optional `variants/:variant_id` under a type. Reading the pair back
+  # is the inverse of TypeVariant#path_args, and every controller mounted there needs it.
+  module AddressesVariant
     extend ActiveSupport::Concern
 
-    class_methods do
-      # Resolves each row's link chain for `aspect` in the same query, so iterating the
-      # result doesn't run Type::ConfigurationLinkable's recursive walk per record.
-      # Type#effective_source_id and Type#effective_excluded_elements pick the values up
-      # from the selected columns and fall back to their own query when absent.
-      #
-      # The columns are suffixed with the aspect on purpose: a row loaded for one aspect
-      # must not answer for another, and the suffix makes that a fallback rather than a
-      # wrong answer. Several aspects can therefore be preloaded in one query by chaining.
-      def with_effective_configuration(aspect)
-        aspect = validated_configuration_aspect(aspect)
-        join, source_id, excluded = effective_configuration_lateral("#{quoted_table_name}.id", aspect)
+    private
 
-        joins(join)
-          .select("#{quoted_table_name}.*")
-          .select("#{source_id} AS effective_source_id_#{aspect}")
-          .select("#{excluded} AS effective_excluded_elements_#{aspect}")
-      end
+    # The variant the URL names. Absent the segment, the URL is about the type itself, and the
+    # configuration answering for it is its base variant.
+    #
+    # +among+ narrows what the id may name, for routes that only address some of a type's
+    # variants.
+    def addressed_variant(among: nil)
+      return addressed_type.default_variant if params[:variant_id].blank?
+
+      (among || ::TypeVariant).find(params.expect(:variant_id))
+    end
+
+    # Overridden by controllers that have already loaded it.
+    def addressed_type
+      ::Type.find(params.expect(:type_id))
     end
   end
 end

@@ -36,21 +36,22 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
   let(:kept_field) { create(:work_package_custom_field, is_for_all: false) }
   let(:dropped_field) { create(:work_package_custom_field, is_for_all: false) }
 
-  let!(:root) do
-    create(:type, name: "Bug", custom_fields: [kept_field, dropped_field]).tap do |type|
-      type.attribute_groups = [["custom group", %w[assignee] + [kept_field, dropped_field].map(&:attribute_name)]]
-      type.save!
-    end
+  let!(:type) do
+    create(:type,
+           name: "Bug",
+           custom_fields: [kept_field, dropped_field],
+           attribute_groups: [["custom group", %w[assignee] + [kept_field, dropped_field].map(&:attribute_name)]])
   end
-  let!(:type) { root }
+
+  let(:source) { type.default_variant }
 
   let!(:project) do
     create(:project, name: "Website Relaunch", work_package_custom_fields: [kept_field])
   end
 
-  let(:form_configuration) { Type::ConfigurationLink::FORM_CONFIGURATION }
+  let(:form_configuration) { TypeVariant::FORM_CONFIGURATION }
 
-  subject(:service_call) { described_class.new(user: admin, type:).call(project:) }
+  subject(:service_call) { described_class.new(user: admin, variant: source).call(project:) }
 
   before do
     login_as(admin)
@@ -59,26 +60,26 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
 
   context "when the project disables a custom field the type configures" do
     it "is successful and creates a variant" do
-      expect { service_call }.to change(Type, :count).by(1)
+      expect { service_call }.to change(TypeVariant, :count).by(1)
       expect(service_call).to be_success
     end
 
     it "names the variant after the type and the project" do
-      expect(service_call.result.own_name).to eq("Bug - Website Relaunch")
+      expect(service_call.result.variant_name).to eq("Bug - Website Relaunch")
     end
 
-    it "creates the variant under the type's root" do
+    it "creates the variant on the type it was built from" do
       variant = service_call.result
 
-      expect(variant).to be_variant
-      expect(variant.parent_id).to eq(root.id)
+      expect(variant).not_to be_is_default_variant
+      expect(variant.type_id).to eq(type.id)
     end
 
-    it "links every aspect to the type" do
+    it "links every aspect to the type's base variant" do
       variant = service_call.result
 
-      Type::ConfigurationLink::ASPECTS.each do |aspect|
-        expect(variant.source_for(aspect)).to eq(root)
+      TypeVariant::ASPECTS.each do |aspect|
+        expect(variant.source_for(aspect)).to eq(source)
       end
     end
 
@@ -97,11 +98,11 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
       expect(variant.custom_fields).to contain_exactly(kept_field)
     end
 
-    it "does not narrow the type it was built from" do
+    it "does not narrow the variant it was built from" do
       service_call
 
-      expect(root.reload.custom_fields).to contain_exactly(kept_field, dropped_field)
-      expect(root.configuration_links).to be_empty
+      expect(source.reload.custom_fields).to contain_exactly(kept_field, dropped_field)
+      expect(TypeVariant::ASPECTS.map { source.source_for(it) }).to all(be_nil)
     end
 
     it "does not assign the variant to the project" do
@@ -111,10 +112,10 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
     end
 
     context "when a variant of that name already exists" do
-      before { create(:type, name: "Bug - Website Relaunch", parent: root) }
+      before { create(:type_variant, type:, variant_name: "Bug - Website Relaunch") }
 
       it "appends a counter" do
-        expect(service_call.result.own_name).to eq("Bug - Website Relaunch (2)")
+        expect(service_call.result.variant_name).to eq("Bug - Website Relaunch (2)")
       end
     end
   end
@@ -124,67 +125,71 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
       create(:project, name: "Website Relaunch", work_package_custom_fields: [kept_field, dropped_field])
     end
 
-    it "returns the type unchanged without creating a variant" do
-      expect { service_call }.not_to change(Type, :count)
+    it "returns the variant unchanged without creating another" do
+      expect { service_call }.not_to change(TypeVariant, :count)
 
       expect(service_call).to be_success
-      expect(service_call.result).to eq(type)
+      expect(service_call.result).to eq(source)
     end
   end
 
   context "when the disabled custom field is available for all projects" do
     let(:dropped_field) { create(:work_package_custom_field, is_for_all: true) }
 
-    it "returns the type unchanged, as the project does not narrow anything" do
-      expect { service_call }.not_to change(Type, :count)
-      expect(service_call.result).to eq(type)
+    it "returns the variant unchanged, as the project does not narrow anything" do
+      expect { service_call }.not_to change(TypeVariant, :count)
+      expect(service_call.result).to eq(source)
     end
   end
 
   context "when the type configures no custom fields" do
-    let(:root) { create(:type, name: "Bug") }
+    let!(:type) { create(:type, name: "Bug") }
 
-    it "returns the type unchanged" do
-      expect { service_call }.not_to change(Type, :count)
-      expect(service_call.result).to eq(type)
+    it "returns the variant unchanged" do
+      expect { service_call }.not_to change(TypeVariant, :count)
+      expect(service_call.result).to eq(source)
     end
   end
 
-  context "when building from a variant" do
+  context "when building from a named variant" do
     let(:third_field) { create(:work_package_custom_field, is_for_all: false) }
 
-    let(:root) do
-      create(:type, name: "Bug", custom_fields: [kept_field, dropped_field, third_field]).tap do |type|
-        type.attribute_groups = [
-          ["custom group", %w[assignee] + [kept_field, dropped_field, third_field].map(&:attribute_name)]
-        ]
-        type.save!
-      end
+    let!(:type) do
+      create(:type,
+             name: "Bug",
+             custom_fields: [kept_field, dropped_field, third_field],
+             attribute_groups: [
+               ["custom group", %w[assignee] + [kept_field, dropped_field, third_field].map(&:attribute_name)]
+             ])
     end
 
-    let(:type) do
-      create(:type, name: "Regression", parent: root).tap do |variant|
-        WorkPackageTypes::ExcludedElements::AddService
-          .new(user: admin, type: variant)
-          .call(aspect: form_configuration, elements: [third_field.attribute_name])
-      end
+    let(:source) do
+      WorkPackageTypes::CreateVariantService
+        .new(user: admin, type:)
+        .call(variant_name: "Regression")
+        .result
+        .tap do |variant|
+          WorkPackageTypes::ExcludedElements::AddService
+            .new(user: admin, variant:)
+            .call(aspect: form_configuration, elements: [third_field.attribute_name])
+        end
     end
 
-    it "creates the new variant under the root rather than under the source variant" do
+    it "creates the new variant on the type rather than under the source variant" do
       variant = service_call.result
 
-      expect(variant.parent_id).to eq(root.id)
+      expect(variant.type_id).to eq(type.id)
     end
 
     it "names the variant after the source variant's own name" do
-      expect(service_call.result.own_name).to eq("Regression - Website Relaunch")
+      expect(service_call.result.variant_name).to eq("Regression - Website Relaunch")
     end
 
     it "links every aspect to the source variant" do
       variant = service_call.result
 
-      Type::ConfigurationLink::ASPECTS.each do |aspect|
-        expect(variant.source_for(aspect)).to eq(type)
+      TypeVariant::ASPECTS.each do |aspect|
+        expect(variant.source_for(aspect)).to eq(source)
       end
     end
 

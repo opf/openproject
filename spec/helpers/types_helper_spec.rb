@@ -32,20 +32,21 @@ require "spec_helper"
 
 RSpec.describe TypesHelper do
   let(:type) { build_stubbed(:type) }
+  let(:variant) { build_stubbed(:type_variant, type:) }
 
   describe "#form_configuration_groups" do
     it "returns a Hash with the keys :actives and :inactives Arrays" do
-      expect(helper.form_configuration_groups(type)[:actives]).to be_an Array
-      expect(helper.form_configuration_groups(type)[:inactives]).to be_an Array
+      expect(helper.form_configuration_groups(variant)[:actives]).to be_an Array
+      expect(helper.form_configuration_groups(variant)[:inactives]).to be_an Array
     end
 
     describe ":inactives" do
-      subject { helper.form_configuration_groups(type)[:inactives] }
+      subject { helper.form_configuration_groups(variant)[:inactives] }
 
       before do
-        allow(type)
+        allow(variant)
           .to receive(:attribute_groups)
-          .and_return [Type::AttributeGroup.new(type, "group one", ["assignee"])]
+          .and_return [Type::AttributeGroup.new(variant, "group one", ["assignee"])]
       end
 
       it "contains Hashes ordered by key :translation" do
@@ -61,12 +62,12 @@ RSpec.describe TypesHelper do
     end
 
     describe ":actives" do
-      subject { helper.form_configuration_groups(type)[:actives] }
+      subject { helper.form_configuration_groups(variant)[:actives] }
 
       before do
-        allow(type)
+        allow(variant)
           .to receive(:attribute_groups)
-          .and_return [Type::AttributeGroup.new(type, "group one", ["date"])]
+          .and_return [Type::AttributeGroup.new(variant, "group one", ["date"])]
       end
 
       it "has a proper structure" do
@@ -81,9 +82,9 @@ RSpec.describe TypesHelper do
       end
 
       it "includes the key for built-in groups" do
-        allow(type)
+        allow(variant)
           .to receive(:attribute_groups)
-          .and_return [Type::AttributeGroup.new(type, :details, ["date"])]
+          .and_return [Type::AttributeGroup.new(variant, :details, ["date"])]
 
         expect(subject.first[:key]).to eq :details
       end
@@ -96,9 +97,9 @@ RSpec.describe TypesHelper do
         let(:query) { create(:query) }
 
         before do
-          allow(type)
+          allow(variant)
             .to receive(:attribute_groups)
-            .and_return [Type::QueryGroup.new(type, "Related", query)]
+            .and_return [Type::QueryGroup.new(variant, "Related", query)]
         end
 
         it "carries the query key the group is excluded by" do
@@ -108,9 +109,9 @@ RSpec.describe TypesHelper do
 
       context "with a query group whose query was deleted" do
         before do
-          allow(type)
+          allow(variant)
             .to receive(:attribute_groups)
-            .and_return [Type::QueryGroup.new(type, "Related", nil)]
+            .and_return [Type::QueryGroup.new(variant, "Related", nil)]
         end
 
         it "renders without a query or an element key", :aggregate_failures do
@@ -122,10 +123,10 @@ RSpec.describe TypesHelper do
     end
 
     describe "field_format_label" do
-      subject(:groups) { helper.form_configuration_groups(type) }
+      subject(:groups) { helper.form_configuration_groups(variant) }
 
       before do
-        allow(type).to receive(:attribute_groups).and_return []
+        allow(variant).to receive(:attribute_groups).and_return []
       end
 
       it "returns 'Builtin field' for built-in attributes" do

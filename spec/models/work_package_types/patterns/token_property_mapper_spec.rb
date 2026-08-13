@@ -187,18 +187,17 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       end
     end
 
-    context "for a variant" do
+    context "for a type" do
       let(:root_type) { create(:type, name: "Task") }
-      let(:variant) { create(:type, name: "Bug", parent: root_type) }
-      let(:sub_work_package) { build_stubbed(:work_package, type: variant) }
+      let(:work_package_of_type) { build_stubbed(:work_package, type: root_type) }
 
-      subject { described_class.new.partitioned_tokens_for_type(variant) }
+      subject { described_class.new.partitioned_tokens_for_type(root_type.default_variant) }
 
-      it "resolves the type token to the root type's name" do
+      it "resolves the type token to the type's name" do
         enabled, = subject
         token = detect(enabled, :type)
 
-        expect(token.call(sub_work_package)).to eq("Task")
+        expect(token.call(work_package_of_type)).to eq("Task")
       end
     end
 

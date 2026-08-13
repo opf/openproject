@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage, "acts_as_customizable" do
-  shared_let(:type) { create(:type_standard) }
+  shared_let(:type) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:user) { create(:user) }
   shared_let(:status) { create(:status) }
@@ -314,7 +314,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     end
 
     before do
-      linked_type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+      link_configuration(linked_type, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "surfaces the source type's custom fields for the linked type's work package" do
@@ -336,12 +336,11 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
            with_flag: { type_variants: true } do
     let(:root_type) { create(:type) }
     let(:variant) do
-      create(:type, parent: root_type).tap do |v|
-        v.configuration_links.find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION).destroy!
+      create(:type_variant, type: root_type).tap do |v|
+        unlink_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
       end
     end
     let(:variant_project) { create(:project, types: [variant]) }
-    # The work package stores the root, as every work package does.
     let(:work_package) { build(:work_package, project: variant_project, type: root_type) }
 
     # Activated from the custom field side: Type#custom_fields resolves through the form

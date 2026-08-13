@@ -33,44 +33,50 @@ module ::TypesHelper
 
   # rubocop:disable Rails/HelperInstanceVariable
   def types_tabs
+    variant_args = type_variant_tab_args
+
     [
       {
         name: "details",
-        path: edit_type_details_path(type_id: @type.id),
+        path: edit_type_details_path(**variant_args),
         label: I18n.t("types.edit.details.tab")
       },
       {
         name: "defaults",
-        path: edit_type_defaults_path(type_id: @type.id),
+        path: edit_type_defaults_path(**variant_args),
         label: I18n.t("types.edit.defaults.tab")
       },
       {
         name: "form_configuration",
-        path: edit_type_form_configuration_path(@type),
+        path: edit_type_form_configuration_path(**variant_args),
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
         name: "workflow",
-        path: edit_type_workflow_path(@type),
+        path: edit_type_workflow_path(**variant_args),
         label: I18n.t("types.edit.workflow.tab")
       },
       {
         name: "project_attributes",
-        path: edit_type_project_attributes_path(@type),
+        path: edit_type_project_attributes_path(**variant_args),
         label: I18n.t("types.edit.project_attributes.tab")
       },
       {
         name: "projects",
-        path: edit_type_projects_path(@type),
+        path: edit_type_projects_path(**variant_args),
         label: I18n.t("types.edit.projects.tab")
       },
       {
         name: "export_configuration",
-        path: edit_type_pdf_export_template_index_path(type_id: @type.id),
+        path: edit_type_pdf_export_template_index_path(**variant_args),
         label: I18n.t("types.edit.export_configuration.tab"),
         view_component: WorkPackageTypes::ExportConfigurationComponent
       }
     ]
+  end
+
+  def type_variant_tab_args
+    @variant&.path_args || { type_id: @type.id }
   end
   # rubocop:enable Rails/HelperInstanceVariable
 
@@ -181,7 +187,7 @@ module ::TypesHelper
       key:,
       is_cf: CustomField.custom_field_attribute?(key),
       is_required: represented[:required] && !represented[:has_default],
-      translation: Type.translated_attribute_name(key, represented),
+      translation: TypeVariant.translated_attribute_name(key, represented),
       field_format_label: field_format_label(represented)
     }
   end

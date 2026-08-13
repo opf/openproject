@@ -113,7 +113,7 @@ module Projects
       type = Type.find_by(id: project.project_creation_wizard_work_package_type_id)
       return false if type.blank? # no extra error if there is already an error about type being blank
 
-      project.effective_type(type).statuses.pluck(:id)
+      project.type_variant(type).statuses.pluck(:id)
              .exclude?(project.project_creation_wizard_status_when_submitted_id)
     end
 

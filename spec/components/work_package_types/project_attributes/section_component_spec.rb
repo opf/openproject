@@ -18,12 +18,13 @@ RSpec.describe WorkPackageTypes::ProjectAttributes::SectionComponent, type: :com
   current_user { create(:admin) }
 
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
   let(:project_custom_field_section) { create(:project_custom_field_section, name: "Section title") }
 
   subject(:rendered_component) do
     render_inline(
       described_class.new(
-        type:,
+        variant:,
         project_custom_field_section:,
         project_custom_fields:
       )

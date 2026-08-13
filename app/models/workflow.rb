@@ -32,28 +32,28 @@ class Workflow < ApplicationRecord
   belongs_to :role
   belongs_to :old_status, class_name: "Status"
   belongs_to :new_status, class_name: "Status"
-  belongs_to :type, inverse_of: "own_workflows"
+  belongs_to :type_variant, inverse_of: "own_workflows"
 
   validates :role, :old_status, :new_status, presence: true
 
-  # Returns workflow transitions count by type and role
-  def self.count_by_type_and_role
-    counts = connection
-             .select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
+  # Returns workflow transitions count by variant and role
+  def self.count_by_type_variant_and_role # rubocop:disable Metrics/AbcSize
+    counts = connection.select_all(
+      "SELECT role_id, type_variant_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_variant_id"
+    )
     roles = Role.order(Arel.sql("builtin, position"))
-    types = ::Type.order(Arel.sql("position"))
+    variants = ::TypeVariant.joins(:type).merge(::Type.order(Arel.sql("position"))).in_display_order
 
-    result = []
-    types.each do |type|
-      t = []
-      roles.each do |role|
-        row = counts.detect { |c| c["role_id"].to_s == role.id.to_s && c["type_id"].to_s == type.id.to_s }
-        t << [role, (row.nil? ? 0 : row["c"].to_i)]
+    variants.map do |variant|
+      counts_per_role = roles.map do |role|
+        row = counts.detect do |c|
+          c["role_id"].to_s == role.id.to_s && c["type_variant_id"].to_s == variant.id.to_s
+        end
+        [role, (row.nil? ? 0 : row["c"].to_i)]
       end
-      result << [type, t]
-    end
 
-    result
+      [variant, counts_per_role]
+    end
   end
 
   # Gets all work flows originating from the provided status that are defined for any of the roles.
@@ -85,47 +85,48 @@ class Workflow < ApplicationRecord
   end
 
   # Copies workflows from source to targets
-  def self.copy(source_type, source_role, target_types, target_roles)
-    unless source_type.is_a?(::Type) || source_role.is_a?(Role)
-      raise ArgumentError.new("source_type or source_role must be specified")
+  def self.copy(source_variant, source_role, target_variants, target_roles) # rubocop:disable Metrics/PerceivedComplexity
+    unless source_variant.is_a?(::TypeVariant) || source_role.is_a?(Role)
+      raise ArgumentError.new("source_variant or source_role must be specified")
     end
 
-    target_types = Array(target_types)
-    target_types = ::Type.all if target_types.empty?
+    target_variants = Array(target_variants)
+    target_variants = ::TypeVariant.all if target_variants.empty?
 
     target_roles = Array(target_roles)
     target_roles = Role.all if target_roles.empty?
 
-    target_types.each do |target_type|
+    target_variants.each do |target_variant|
       target_roles.each do |target_role|
-        copy_one(source_type || target_type,
+        copy_one(source_variant || target_variant,
                  source_role || target_role,
-                 target_type,
+                 target_variant,
                  target_role)
       end
     end
   end
 
-  # Copies a single set of workflows from source to target
-  def self.copy_one(source_type, source_role, target_type, target_role)
-    unless source_type.is_a?(::Type) && !source_type.new_record? &&
+  # Copies a single set of workflows from source to target.
+  # Returns false when source and target are the same, true after a successful copy.
+  def self.copy_one(source_variant, source_role, target_variant, target_role) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Naming/PredicateMethod
+    unless source_variant.is_a?(::TypeVariant) && !source_variant.new_record? &&
            source_role.is_a?(Role) && !source_role.new_record? &&
-           target_type.is_a?(::Type) && !target_type.new_record? &&
+           target_variant.is_a?(::TypeVariant) && !target_variant.new_record? &&
            target_role.is_a?(Role) && !target_role.new_record?
 
       raise ArgumentError.new("arguments can not be nil or unsaved objects")
     end
 
-    if source_type == target_type && source_role == target_role
+    if source_variant == target_variant && source_role == target_role
       false
     else
       transaction do
-        where(type_id: target_type.id, role_id: target_role.id).delete_all
-        connection.insert <<-SQL
-          INSERT INTO #{Workflow.table_name} (type_id, role_id, old_status_id, new_status_id, author, assignee)
-          SELECT #{target_type.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee
+        where(type_variant_id: target_variant.id, role_id: target_role.id).delete_all
+        connection.insert <<~SQL.squish
+          INSERT INTO #{Workflow.table_name} (type_variant_id, role_id, old_status_id, new_status_id, author, assignee)
+          SELECT #{target_variant.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee
           FROM #{Workflow.table_name}
-          WHERE type_id = #{source_type.id} AND role_id = #{source_role.id}
+          WHERE type_variant_id = #{source_variant.id} AND role_id = #{source_role.id}
         SQL
       end
       true

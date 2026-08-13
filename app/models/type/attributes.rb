@@ -74,7 +74,7 @@ module Type::Attributes
     #
     # E.g.
     #
-    #   ::Type.work_package_form_attributes['author'][:required] # => true
+    #   ::TypeVariant.work_package_form_attributes['author'][:required] # => true
     #
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)

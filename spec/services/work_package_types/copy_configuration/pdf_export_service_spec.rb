@@ -33,35 +33,35 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::CopyConfiguration::PdfExportService do
   shared_let(:admin) { create(:admin) }
 
-  let(:type) { create(:type) }
+  let(:variant) { create(:type).default_variant }
 
-  subject(:service_call) { described_class.new(type:, user: admin).call(source:) }
+  subject(:service_call) { described_class.new(variant:, user: admin).call(source:) }
 
   describe "#call" do
     context "with a source" do
       let(:source) do
-        create(:type).tap do |t|
-          t.pdf_export_templates.disable_all
-          t.save!
+        create(:type).default_variant.tap do |v|
+          v.pdf_export_templates.disable_all
+          v.save!
         end
       end
 
-      it "copies the source's PDF export config onto the type" do
+      it "copies the source's PDF export config onto the variant" do
         expect(service_call).to be_success
-        expect(type.reload.export_templates_disabled).to eq(source.export_templates_disabled)
+        expect(variant.reload.export_templates_disabled).to eq(source.export_templates_disabled)
       end
     end
 
     context "with an invalid source" do
       let(:source) { nil }
 
-      it "fails without changing the type" do
+      it "fails without changing the variant" do
         expect(service_call).not_to be_success
       end
     end
 
-    context "when the source is the type itself" do
-      let(:source) { type }
+    context "when the source is the variant itself" do
+      let(:source) { variant }
 
       it "fails" do
         expect(service_call).not_to be_success

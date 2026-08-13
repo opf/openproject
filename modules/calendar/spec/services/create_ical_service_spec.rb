@@ -96,7 +96,7 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       UID:#{work_package_with_due_date.id}@localhost:3000
       DTSTART;VALUE=DATE:#{work_package_with_due_date.due_date.strftime('%Y%m%d')}
       DTEND;VALUE=DATE:#{(work_package_with_due_date.due_date + 1.day).strftime('%Y%m%d')}
-      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nAuthor: #{work_package_with_due_date.author.name}\nPriority: #{work_package_with_due_date.priority.name}\n\nDescription:\n#{work_package_with_due_date.description}
+      DESCRIPTION:Project: #{project.name}\nType: #{work_package_with_due_date.type.name}\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nAuthor: #{work_package_with_due_date.author.name}\nPriority: #{work_package_with_due_date.priority.name}\n\nDescription:\n#{work_package_with_due_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date.id}
       SUMMARY:#{work_package_with_due_date.name}
       END:VEVENT
@@ -105,7 +105,7 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       UID:#{work_package_with_start_date.id}@localhost:3000
       DTSTART;VALUE=DATE:#{work_package_with_start_date.start_date.strftime('%Y%m%d')}
       DTEND;VALUE=DATE:#{(work_package_with_start_date.start_date + 1.day).strftime('%Y%m%d')}
-      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nAuthor: #{work_package_with_start_date.author.name}\nPriority: #{work_package_with_start_date.priority.name}\n\nDescription:\n#{work_package_with_start_date.description}
+      DESCRIPTION:Project: #{project.name}\nType: #{work_package_with_start_date.type.name}\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nAuthor: #{work_package_with_start_date.author.name}\nPriority: #{work_package_with_start_date.priority.name}\n\nDescription:\n#{work_package_with_start_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_date.id}
       SUMMARY:#{work_package_with_start_date.name}
       END:VEVENT
@@ -114,7 +114,7 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       UID:#{work_package_with_start_and_due_date.id}@localhost:3000
       DTSTART;VALUE=DATE:#{work_package_with_start_and_due_date.start_date.strftime('%Y%m%d')}
       DTEND;VALUE=DATE:#{(work_package_with_start_and_due_date.due_date + 1.day).strftime('%Y%m%d')}
-      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nAuthor: #{work_package_with_start_and_due_date.author.name}\nPriority: #{work_package_with_start_and_due_date.priority.name}\n\nDescription:\n#{work_package_with_start_and_due_date.description}
+      DESCRIPTION:Project: #{project.name}\nType: #{work_package_with_start_and_due_date.type.name}\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nAuthor: #{work_package_with_start_and_due_date.author.name}\nPriority: #{work_package_with_start_and_due_date.priority.name}\n\nDescription:\n#{work_package_with_start_and_due_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_and_due_date.id}
       SUMMARY:#{work_package_with_start_and_due_date.name}
       END:VEVENT
@@ -123,7 +123,7 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       UID:#{work_package_with_due_date_and_assignee.id}@localhost:3000
       DTSTART;VALUE=DATE:#{work_package_with_due_date_and_assignee.due_date.strftime('%Y%m%d')}
       DTEND;VALUE=DATE:#{(work_package_with_due_date_and_assignee.due_date + 1.day).strftime('%Y%m%d')}
-      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nAuthor: #{work_package_with_due_date_and_assignee.author.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\n\nDescription:\n#{work_package_with_due_date_and_assignee.description}
+      DESCRIPTION:Project: #{project.name}\nType: #{work_package_with_due_date_and_assignee.type.name}\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nAuthor: #{work_package_with_due_date_and_assignee.author.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\n\nDescription:\n#{work_package_with_due_date_and_assignee.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date_and_assignee.id}
       SUMMARY:#{work_package_with_due_date_and_assignee.name}
       END:VEVENT
@@ -214,15 +214,16 @@ RSpec.describe Calendar::CreateICalService, type: :model do
     end
   end
 
-  context "with a work package of a variant" do
+  context "with a work package whose project applies a named variant" do
     let(:root_type) { create(:type, name: "Task") }
-    let(:variant) { create(:type, name: "Bug", parent: root_type) }
+    let(:variant) { create(:type_variant, type: root_type, variant_name: "Bug") }
+    let(:project) { create(:project, types: [variant]) }
     let(:sub_work_package) do
-      create(:work_package, project:, type: variant, due_date: Time.zone.today + 7.days)
+      create(:work_package, project:, type: root_type, due_date: Time.zone.today + 7.days)
     end
     let(:work_packages) { [sub_work_package] }
 
-    it "shows the root type's name in the description but keeps other attributes' own names" do
+    it "shows the type's name in the description, not the variant's" do
       expect(formatted_result).to include("Type: Task")
       expect(formatted_result).not_to include("Type: Bug")
       expect(formatted_result).to include("Status: #{sub_work_package.status.name}")

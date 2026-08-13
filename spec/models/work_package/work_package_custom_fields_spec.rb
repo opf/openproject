@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackage do
   describe "#custom_fields" do
-    let(:type) { create(:type_standard) }
+    let(:type) { create(:type_task) }
     let(:project) { create(:project, types: [type]) }
     let(:work_package) do
       build(:work_package,

@@ -29,16 +29,16 @@
 #++
 
 module WorkPackageTypes
-  # One-time copies of a configuration aspect from a source type ("Copy from
-  # type"), one service per aspect. Aspects not listed here don't support
+  # One-time copies of a configuration aspect from a source variant ("Copy from
+  # variant"), one service per aspect. Aspects not listed here don't support
   # copying (yet).
   module CopyConfiguration
     SERVICES = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::DEFAULTS => DefaultsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService,
-      Type::ConfigurationLink::WORKFLOWS => WorkflowsService,
-      Type::ConfigurationLink::PROJECT_ATTRIBUTES => ProjectAttributesService
+      TypeVariant::FORM_CONFIGURATION => FormConfigurationService,
+      TypeVariant::DEFAULTS => DefaultsService,
+      TypeVariant::PDF_EXPORT => PdfExportService,
+      TypeVariant::WORKFLOWS => WorkflowsService,
+      TypeVariant::PROJECT_ATTRIBUTES => ProjectAttributesService
     }.freeze
 
     def self.service_for(aspect)

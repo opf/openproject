@@ -33,7 +33,7 @@ require "spec_helper"
 module WorkPackageTypes
   RSpec.describe UpdateFormConfigurationContract do
     let(:user) { create(:admin) }
-    let(:model) { create(:type, name: "O-Negative") }
+    let(:model) { create(:type, name: "O-Negative").default_variant }
 
     subject(:contract) { described_class.new(model, user, options: {}) }
 

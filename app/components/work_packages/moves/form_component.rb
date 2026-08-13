@@ -77,6 +77,12 @@ module WorkPackages
         @target_type ||= available_types.find { |type| type.id.to_s == selected_values[:type_id].to_s }
       end
 
+      def target_type_variant
+        return unless target_type
+
+        target_project.type_variant(target_type)
+      end
+
       def available_versions
         @available_versions ||= target_project.assignable_versions
       end

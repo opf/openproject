@@ -196,14 +196,10 @@ RSpec.describe Projects::SetAttributesService, type: :model do
         let(:other_types) do
           [build_stubbed(:type)]
         end
-        let(:default_types) do
-          [build_stubbed(:type)]
-        end
-
-        before do
-          allow(Type)
-            .to receive(:default)
-                  .and_return default_types
+        # Persisted rather than stubbed: the service resolves what new projects start with by
+        # querying TypeVariant.enabled_in_new_projects, so the flag has to be in the database.
+        let!(:default_types) do
+          [create(:type, default_variant_enabled_in_all_projects: true)]
         end
 
         shared_examples "setting custom field defaults" do
@@ -260,44 +256,18 @@ RSpec.describe Projects::SetAttributesService, type: :model do
               .to match_array default_types.map(&:id)
           end
 
-          it "does not resolve a variant" do
-            expect(subject.result.project_types.map(&:variant_id))
-              .to all(be_nil)
+          it "leaves each row on the type's base variant" do
+            project_types = subject.result.project_types
+            # ProjectType names the base variant on validation, which the service does not run.
+            project_types.each(&:validate)
+
+            expect(project_types.map(&:variant_id))
+              .to match_array(default_types.map { |type| type.default_variant.id })
           end
 
           include_examples "setting custom field defaults" do
-            let(:default_types) { [create(:type)] }
+            let(:default_types) { [create(:type, default_variant_enabled_in_all_projects: true)] }
             let(:types) { default_types }
-          end
-        end
-
-        context "with a variant being the default", with_flag: { type_variants: true } do
-          let(:root) { create(:type) }
-          let(:variant) { create(:type, parent: root, is_default: true) }
-          let(:default_types) { [variant] }
-
-          it "enables the family and resolves it to the variant" do
-            expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
-              .to contain_exactly([root.id, variant.id])
-          end
-
-          context "with the variant feature being inactive", with_flag: { type_variants: false } do
-            it "enables the family without resolving it to the variant" do
-              expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
-                .to contain_exactly([root.id, nil])
-            end
-          end
-        end
-
-        context "with the root and one of its variants being the default",
-                with_flag: { type_variants: true } do
-          let(:root) { create(:type, is_default: true) }
-          let(:variant) { create(:type, parent: root, is_default: true) }
-          let(:default_types) { [root, variant] }
-
-          it "enables the family once, resolved to the variant" do
-            expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
-              .to contain_exactly([root.id, variant.id])
           end
         end
 

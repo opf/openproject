@@ -658,7 +658,7 @@ class PermittedParams
           :parent_id,
           :is_in_roadmap,
           :is_milestone,
-          :is_default,
+          :enabled_in_new_projects,
           :color_id,
           :default,
           :description,

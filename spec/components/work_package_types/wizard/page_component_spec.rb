@@ -31,7 +31,7 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
-  let(:parent) { create(:type, name: "Phase") }
+  let(:source) { create(:type, name: "Phase") }
   let(:type) { create(:type) }
 
   before { login_as(create(:admin)) }
@@ -60,7 +60,7 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
 
   describe "sidebar step markers" do
     it "marks the current and pending steps, and completed steps by reuse mode" do
-      type.link!(Type::ConfigurationLink::DEFAULTS, source: parent)
+      link_configuration(type, source:, aspect: TypeVariant::DEFAULTS)
 
       render_inline(described_class.new(type:, current_step: :workflows))
 
@@ -92,21 +92,6 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
         expect(page).to have_css("a.PageHeader-action[href='#{edit_href}']")
         expect(page).to have_css(".op-step-wizard-footer--actions-right a[href='#{edit_href}']")
       end
-    end
-  end
-
-  describe "breadcrumbs" do
-    it "links the parent the variant is being created under" do
-      render_inline(described_class.new(type: build(:type, parent:), current_step: :details))
-
-      expect(page).to have_link("Phase",
-                                href: Rails.application.routes.url_helpers.edit_type_details_path(type_id: parent.id))
-    end
-
-    it "omits the parent crumb when there is none" do
-      render_inline(described_class.new(type: build(:type), current_step: :details))
-
-      expect(page).to have_no_link("Phase")
     end
   end
 end

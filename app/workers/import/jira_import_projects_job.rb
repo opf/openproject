@@ -155,16 +155,17 @@ module Import
     end
 
     def update_custom_fields_in_type(type, new_custom_fields)
-      type.custom_fields << new_custom_fields
+      variant = type.default_variant
+      variant.custom_fields << new_custom_fields
       new_cf_keys = new_custom_fields.map(&:attribute_name)
-      groups = type.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
+      groups = variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
 
       remove_custom_fields_from_other_groups(groups, new_cf_keys)
       add_or_update_jira_import_group(groups, new_cf_keys)
 
-      type.attribute_groups = groups
-      type.save!
-      type.reload
+      variant.attribute_groups = groups
+      variant.save!
+      variant.reload
     end
 
     def remove_custom_fields_from_other_groups(groups, cf_keys)
@@ -201,7 +202,7 @@ module Import
       if type.blank?
         service_call = WorkPackageTypes::CreateService
                          .new(user: @system_user)
-                         .call(name: issue_type["name"], description: issue_type["description"], is_default: false)
+                         .call(name: issue_type["name"])
         raise service_call.message unless service_call.success?
 
         type = service_call.result
@@ -215,7 +216,9 @@ module Import
     end
 
     def enable_type(project, type)
-      service_call = Projects::Types::AddService.new(user: @system_user, model: project).call(type:)
+      service_call = Projects::Types::AddService
+                       .new(user: @system_user, model: project)
+                       .call(variant: type.default_variant)
       raise service_call.message if service_call.failure?
     end
 
@@ -251,7 +254,9 @@ module Import
       statuses = Status.all
       row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
       status_params = statuses.to_h { |status| [status.id.to_s, row] }
-      call = Workflows::BulkUpdateService.new(role: @project_role, type:, tab: "always").call(status_params)
+      call = Workflows::BulkUpdateService
+                .new(role: @project_role, variant: type.default_variant, tab: "always")
+                .call(status_params)
       raise call.message if call.failure?
     end
 

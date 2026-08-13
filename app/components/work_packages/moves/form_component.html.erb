@@ -213,8 +213,8 @@ See COPYRIGHT and LICENSE files for more details.
                                           } %>
               </div>
             </div>
-            <% if target_type %>
-              <% target_type.custom_fields.required.each do |custom_field| %>
+            <% if target_type_variant %>
+              <% target_type_variant.custom_fields.required.each do |custom_field| %>
                 <div class="form--field">
                   <%= blank_custom_field_label_tag("", custom_field) %>
                   <div class="form--field-container">

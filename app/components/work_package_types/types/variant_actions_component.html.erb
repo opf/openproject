@@ -27,6 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.replace do %>
-  <%= render WorkPackageTypes::ProjectsComponent.new(@type, projects: @projects) %>
+<%= render(Primer::Alpha::ActionMenu::List.new(menu_id:)) do |menu| %>
+  <% variant_actions(menu) %>
 <% end %>

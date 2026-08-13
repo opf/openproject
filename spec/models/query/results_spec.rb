@@ -379,7 +379,7 @@ RSpec.describe Query::Results do
 
       let!(:custom_field) do
         create(:work_package_custom_field, is_for_all: true) do |cf|
-          cf.types = project2.types
+          cf.type_variants = project2.type_variants(project2.types)
         end
       end
 

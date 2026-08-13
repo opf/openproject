@@ -224,7 +224,7 @@ RSpec.describe "Work package meeting outcomes", :js do
           let!(:type_without_template) { create(:type, name: "No template type") }
           let!(:type_with_template) do
             create(:type, name: "Templated type",
-                          description: "Some default template text here...")
+                          default_work_package_description: "Some default template text here...")
           end
 
           before do

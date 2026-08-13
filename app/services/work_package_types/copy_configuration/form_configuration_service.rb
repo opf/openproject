@@ -30,12 +30,12 @@
 
 module WorkPackageTypes
   module CopyConfiguration
-    # One-time copy of a source type's form configuration onto another type
-    # ("Copy from type" on the form configuration tab).
+    # One-time copy of a source variant's form configuration onto another variant
+    # ("Copy from variant" on the form configuration tab).
     #
     # Embedded query groups are rebuilt as fresh Query records so the two types
     # never share queries. Saving replaces the previous configuration: the
-    # type's old embedded queries are destroyed by the attribute-groups cleanup
+    # variant's old embedded queries are destroyed by the attribute-groups cleanup
     # on save, and its active custom fields are re-derived from the copied
     # groups.
     class FormConfigurationService < BaseService
@@ -50,7 +50,7 @@ module WorkPackageTypes
 
       private
 
-      def aspect = Type::ConfigurationLink::FORM_CONFIGURATION
+      def aspect = TypeVariant::FORM_CONFIGURATION
 
       def duplicated_groups(source)
         groups = presenting_type(source).attribute_groups.map do |group|
@@ -68,18 +68,18 @@ module WorkPackageTypes
         ServiceResult.success(result: groups)
       end
 
-      # The type whose *presented* configuration is copied. Reading a presentation rather than
+      # The variant whose *presented* configuration is copied. Reading a presentation rather than
       # the owner's raw groups is what makes exclusions survive the copy: a link in between may
-      # exclude elements, and going Independent has to freeze what the type was showing instead
+      # exclude elements, and going Independent has to freeze what the variant was showing instead
       # of restoring what it was hiding. Excluded query groups are dropped before this runs, so
       # they are never rebuilt as fresh queries either.
       #
-      # When the type inherits from `source`, its own link's exclusions apply on top of the
-      # chain's, so the type is the one presenting. When copying from an unrelated type on the
-      # form configuration tab, that type's presentation is what the user picked — and it
+      # When the variant inherits from `source`, its own link's exclusions apply on top of the
+      # chain's, so the variant is the one presenting. When copying from an unrelated variant on the
+      # form configuration tab, that variant's presentation is what the user picked — and it
       # resolves through its own links already.
       def presenting_type(source)
-        type.source_for(aspect) == source ? type : source
+        variant.source_for(aspect) == source ? variant : source
       end
 
       def group_entry(group, members)
@@ -90,21 +90,21 @@ module WorkPackageTypes
 
       def persist(groups)
         Type.transaction do
-          type.attribute_groups = groups
+          variant.attribute_groups = groups
           sync_active_custom_fields
-          type.save!
+          variant.save!
         end
 
-        ServiceResult.success(result: type)
+        ServiceResult.success(result: variant)
       rescue ActiveRecord::RecordInvalid
-        ServiceResult.failure(result: type, errors: type.errors)
+        ServiceResult.failure(result: variant, errors: variant.errors)
       end
 
       # Same syncing as WorkPackageTypes::UpdateService: the active custom
       # fields follow from the custom fields placed in the groups.
       def sync_active_custom_fields
-        # The groups just copied onto this type, not whatever a project would resolve it to.
-        type.custom_field_ids = type.attribute_groups # rubocop:disable OpenProject/UseEffectiveTypeForConfiguration
+        # The groups just copied onto this variant, not whatever a project would resolve it to.
+        variant.custom_field_ids = variant.attribute_groups
                                     .flat_map(&:members)
                                     .filter_map do |attribute|
                                       if CustomField.custom_field_attribute?(attribute)
