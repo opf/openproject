@@ -606,8 +606,13 @@ module Settings
         }
       },
       additional_host_names: {
-        description: "Additional allowed host names for the application.",
+        description: "Additional allowed host names for this application.",
         default: []
+      },
+      additional_welcome_banner: {
+        description: "Show an additional banner above the welcome block on the homescreen",
+        default: false,
+        format: :boolean
       },
       real_time_text_collaboration_enabled: {
         description: "Enable real-time collaborative editing of text fields using BlockNoteJS and Hocuspocus server.",

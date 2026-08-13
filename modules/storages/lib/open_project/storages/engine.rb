@@ -52,10 +52,6 @@ module OpenProject::Storages
     patches %i[WorkPackage]
     patch_with_namespace :API, :V3, :WorkPackages, :WorkPackagePayloadRepresenter
 
-    initializer "openproject_storages.feature_decisions" do
-      OpenProject::FeatureDecisions.add :storage_file_picking_select_all
-    end
-
     initializer "openproject_storages.event_subscriptions" do
       Rails.application.config.after_initialize do
         [
