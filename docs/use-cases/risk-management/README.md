@@ -29,7 +29,7 @@ Use these official sources alongside this OpenProject configuration guide:
 
 - [PM² resources and Project Management Guide](https://pm2.europa.eu/pm2-resources_en)
 - [PM² artefacts, including the Risk Management Plan and Risk Log](https://pm2.europa.eu/pm2-artefacts_en)
-- [PM² guidance included in the OpenProject documentation](../../project-management-guide/)
+- [PM² and PMflex project management with OpenProject](../project-management-pm2-pmflex/)
 
 ## Recommended structure
 
