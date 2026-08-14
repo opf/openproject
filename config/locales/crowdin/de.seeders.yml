@@ -506,7 +506,7 @@ de:
           name: Bug
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Epic Kindelemente: Nutzerberichte und Fehlermeldungen'
         item_1:
           name: 'User-Story Elemente: Aufgaben'
       type_configuration:

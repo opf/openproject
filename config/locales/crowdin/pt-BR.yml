@@ -343,7 +343,7 @@ pt-BR:
         token_name: Nome do token
       type:
         attribute_groups: Configuração do formulário
-        children: Variantes
+        children: Variants
         color: Cor
         dependent_configuration_links: Tipos vinculados
         description: Texto padrão para descrição
@@ -821,7 +821,7 @@ pt-BR:
             parent:
               cannot_be_self: não pode ser o próprio tipo.
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: não pode ser definido porque este tipo já possui variantes.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: deve ser um tipo de nível superior. Os tipos só podem ser aninhados em um único nível.
               standard_type_must_be_root: não pode ser definido para o tipo padrão.
             patterns:
@@ -829,7 +829,7 @@ pt-BR:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: criaria um loop ao vincular estas configurações.
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -2901,16 +2901,11 @@ pt-BR:
         field_updated: "%{field} atualizado"
         header: alterações por %{author}
         set_with_diff: "%{field} definido (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Modo de cálculo de progresso definido como com base no status
       status_excluded_from_totals_set_to_false_message: agora incluído nos totais da hierarquia
       status_excluded_from_totals_set_to_true_message: agora excluído dos totais da hierarquia
@@ -2947,14 +2942,14 @@ pt-BR:
       dates_changed: Datas alteradas
       default_attribute_written: Atributos de somente leitura escritos
       import: Importado
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Cálculo de progresso atualizado
       status_changed: Status '%{status_name}'
       system_update: 'Atualização do sistema OpenProject:'
@@ -5934,7 +5929,7 @@ pt-BR:
         project_attributes: Atributos do projeto
         projects: Projetos
         workflows: Fluxos de trabalho
-      success: Variante criada com sucesso.
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:

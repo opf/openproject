@@ -343,7 +343,7 @@ fr:
         token_name: Nom du jeton
       type:
         attribute_groups: Configuration du formulaire
-        children: Variantes
+        children: Variants
         color: Couleur
         dependent_configuration_links: Types liés
         description: Texte par défaut pour la description
@@ -719,7 +719,7 @@ fr:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: doit être un type de niveau supérieur. Un projet utilise des racines et résout une variante séparément.
+              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: doit être une variante du type utilisé par le projet.
         queries/filters/base:
@@ -820,8 +820,8 @@ fr:
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
             parent:
               cannot_be_self: ne peut pas être le type lui-même.
-              cannot_change_while_used_by_projects: ne peut pas être modifié tant que des projets utilisent encore ce type.
-              cannot_have_children: ne peut pas être défini car ce type comporte déjà des variantes.
+              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: doit être lui-même un type de niveau supérieur. Les types ne peuvent être imbriqués qu'à un seul niveau.
               standard_type_must_be_root: ne peut pas être défini pour le type standard.
             patterns:
@@ -829,7 +829,7 @@ fr:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: créerait une boucle entre ces configurations.
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -2901,16 +2901,11 @@ fr:
         field_updated: "%{field} mis à jour"
         header: modifications par %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Le calcul de la progression est désormais basé sur le statut
       status_excluded_from_totals_set_to_false_message: désormais inclus dans les totaux de la hiérarchie
       status_excluded_from_totals_set_to_true_message: désormais exclus des totaux de la hiérarchie
@@ -2947,14 +2942,14 @@ fr:
       dates_changed: Dates modifiées
       default_attribute_written: Attributs en lecture seule écrits
       import: Importé
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Mise à jour du calcul de la progression
       status_changed: Statut « %{status_name} »
       system_update: 'Mise à jour du système OpenProject :'
@@ -5945,7 +5940,7 @@ fr:
         project_attributes: Attributs du projet
         projects: Projets
         workflows: Flux de travail
-      success: La variante a été créée avec succès.
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: 'Variante : %{name}'
       defaults:

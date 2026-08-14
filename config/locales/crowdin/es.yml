@@ -343,7 +343,7 @@ es:
         token_name: Nombre del token
       type:
         attribute_groups: Configuración del formulario
-        children: Variantes
+        children: Variants
         color: Color
         dependent_configuration_links: Tipos vinculados
         description: Texto predeterminado para descripción
@@ -821,7 +821,7 @@ es:
             parent:
               cannot_be_self: no puede ser el tipo en sí.
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: no se puede establecer porque este tipo ya tiene variantes.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: debe ser un tipo de nivel superior. Los tipos solo pueden anidarse un nivel de profundidad.
               standard_type_must_be_root: no se puede establecer para el tipo estándar.
             patterns:
@@ -829,7 +829,7 @@ es:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: conectaría estas configuraciones en un bucle.
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -2895,16 +2895,11 @@ es:
         field_updated: "%{field} actualizado"
         header: cambios de %{author}
         set_with_diff: "%{field} fijado (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Modo de cálculo del progreso establecido como basado en el estado
       status_excluded_from_totals_set_to_false_message: ahora incluido en totales de jerarquía
       status_excluded_from_totals_set_to_true_message: ahora excluido de los totales de la jerarquía
@@ -2941,14 +2936,14 @@ es:
       dates_changed: Cambio de fechas
       default_attribute_written: Atributos de solo lectura escritos
       import: Importado
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Cálculo del progreso actualizado
       status_changed: Estado «%{status_name}»
       system_update: 'Actualización del sistema OpenProject:'
@@ -5935,7 +5930,7 @@ es:
         project_attributes: Atributos del proyecto
         projects: Proyectos
         workflows: Flujos de trabajo
-      success: La variante se ha creado correctamente.
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:
@@ -6530,7 +6525,7 @@ es:
           automatic_with_children: Fechas determinadas por paquetes de trabajo secundarios.
           automatic_with_predecessor: La fecha de inicio la fija un predecesor.
           manual_mobile: Programado manualmente.
-          manually_scheduled: Programado manualmente. Fechas no afectadas por relaciones.
+          manually_scheduled: Programado manualmente. No afectadas por relaciones.
       blankslate:
         description: Para activar la programación automática, este paquete de trabajo debe tener al menos un predecesor. Entonces se programará automáticamente para que comience después del predecesor más cercano.
         title: Sin predecesores

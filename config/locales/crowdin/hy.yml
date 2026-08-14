@@ -343,7 +343,7 @@ hy:
         token_name: Թոքենի անվանում
       type:
         attribute_groups: Ձևի կազմաձևում
-        children: Տարատեսակներ
+        children: Variants
         color: Գույն
         dependent_configuration_links: Կապակցված տեսակներ
         description: Նկարագրության կանխադրված տեքստ
@@ -821,7 +821,7 @@ hy:
             parent:
               cannot_be_self: չի կարող լինել տեսակն ինքը։
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: հնարավոր չէ սահմանել, քանի որ այս տեսակն արդեն ունի տարատեսակներ։
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: ինքը պետք է լինի վերին մակարդակի տեսակ։ Տեսակները կարող են ներդրվել միայն մեկ մակարդակ խորությամբ։
               standard_type_must_be_root: հնարավոր չէ սահմանել ստանդարտ տեսակի համար։
             patterns:
@@ -829,7 +829,7 @@ hy:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: կկապի այս կազմաձևումները ցիկլի մեջ։
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -2897,16 +2897,11 @@ hy:
         field_updated: "%{field} թարմացվել է"
         header: "%{author}-ի կատարած փոփոխություններ"
         set_with_diff: "%{field} սահմանվել է (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Առաջընթացի հաշվարկման ռեժիմը սահմանվել է կարգավիճակի հիմքով
       status_excluded_from_totals_set_to_false_message: այժմ ներառված է հիերարխիայի ընդհանուր գումարներում
       status_excluded_from_totals_set_to_true_message: այժմ բացառված է հիերարխիայի ընդհանուր գումարներից
@@ -2943,14 +2938,14 @@ hy:
       dates_changed: Ամսաթվերը փոխվել են
       default_attribute_written: Միայն ընթերցելի հատկանիշները գրանցվել են
       import: Ներմուծված
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Առաջընթացի հաշվարկը թարմացվել է
       status_changed: Կարգավիճակ '%{status_name}'
       system_update: OpenProject-ի համակարգային թարմացում՝
@@ -5944,7 +5939,7 @@ hy:
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
         workflows: Աշխատանքային հոսքեր
-      success: Տարատեսակը հաջողությամբ ստեղծվել է։
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: Տարատեսակ՝ %{name}
       defaults:

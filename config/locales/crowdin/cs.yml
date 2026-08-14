@@ -228,7 +228,7 @@ cs:
         enabled_modules: Povolené moduly
         identifier: Identifikátor
         latest_activity_at: Poslední aktivita
-        parent: Podprojekt
+        parent: Nadřazený projekt
         portfolio: Portfolio
         program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
@@ -670,7 +670,7 @@ cs:
               format: "%{message}"
               taken: Nepracovní den již existuje pro %{value}.
         notifications:
-          at_least_one_channel: Alespoň jeden kanál pro odesílání oznámení musí být specifikován.
+          at_least_one_channel: Pro odesílání notifikací musí být specifikován alespoň jeden kanál
           attributes:
             mail_reminder_sent:
               set_on_creation: 'nelze nastavit na prevdivé při vytváření oznámení '
@@ -997,11 +997,11 @@ cs:
       message: Zpráva
       news: Novinky
       notification:
-        one: Oznámení
-        few: Oznámení
-        many: Oznámení
-        other: Oznámení
-      placeholder_user: placeholder uživatel
+        one: Notifikace
+        few: Notifikací
+        many: Notifikací
+        other: Notifikace
+      placeholder_user: Placeholder uživatel
       project:
         one: Projekt
         few: Projekty
@@ -3011,16 +3011,11 @@ cs:
         field_updated: "%{field} aktualizováno"
         header: změny od %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Režim výpočtu průběhu nastaven na základě stavu
       status_excluded_from_totals_set_to_false_message: nyní zahrnuty v součtech hierarchie
       status_excluded_from_totals_set_to_true_message: nyní vyloučen z součtů hierarchie
@@ -3057,14 +3052,14 @@ cs:
       dates_changed: Data změněna
       default_attribute_written: Zápis atributů pouze pro čtení
       import: Importováno
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Výpočet průběhu byl aktualizován
       status_changed: Stav '%{status_name}'
       system_update: 'Aktualizace systémem OpenProject:'
@@ -3554,9 +3549,9 @@ cs:
   label_permissions: Práva
   label_permissions_report: Přehled oprávnění
   label_personalize_page: Přizpůsobit tuto stránku
-  label_placeholder_user: placeholder uživatel
+  label_placeholder_user: Placeholder uživatel
   label_placeholder_user_new: ''
-  label_placeholder_user_plural: placeholder uživatelé
+  label_placeholder_user_plural: Placeholder uživatelé
   label_planning: Plánování
   label_please_login: Přihlaste se prosím
   label_plugins: Pluginy
@@ -3584,7 +3579,7 @@ cs:
   label_project_attribute_plural: Atributy projektu
   label_project_attributes_plural: Atributy projektu
   label_project_attributes_settings: ''
-  label_project_copy_notifications: Během kopie projektu odeslat oznámení e-mailem
+  label_project_copy_notifications: Během kopírování projektu odeslat notifikace e-mailem
   label_project_count: Celkový počet projektů
   label_project_custom_field_plural: Atributy projektu
   label_project_default_type: Povolit prázdný typ
@@ -3762,7 +3757,7 @@ cs:
   label_version_edit: Upravit verzi
   label_version_new: Nová verze
   label_version_plural: Verze
-  label_version_sharing_descendants: S Podprojekty
+  label_version_sharing_descendants: S podprojekty
   label_version_sharing_hierarchy: S hierarchií projektu
   label_version_sharing_none: Není sdíleno
   label_version_sharing_system: Se všemi projekty
@@ -3973,14 +3968,14 @@ cs:
     digests:
       including_mention_plural: včetně %{number_mentioned} zmínění
       including_mention_singular: včetně zmínky
-      unread_notification_plural: "%{number_unread} nepřečtených oznámení"
-      unread_notification_singular: 1 nepřečtené oznámení
+      unread_notification_plural: "%{number_unread} nepřečtených notifikací"
+      unread_notification_singular: 1 nepřečtená notifikace
       you_have: Máte
     logo_alt_text: Logo
     mention:
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
-      center: Centrum oznámení
+      center: Centrum notifikací
       see_in_center: Zobrazit komentář v oznamovacím centru
       settings: Změnit nastavení e-mailu
     reminder_notifications:
@@ -4030,21 +4025,21 @@ cs:
             text: Pro více informací zkontrolujte úložiště souborů
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
-      login_to_see_all: Přihlaste se pro zobrazení všech oznámení.
+      login_to_see_all: Přihlaste se pro zobrazení všech notifikací.
       mentioned: Byli jste <b>zmíněni v komentáři</b>
       mentioned_by: "%{user} vás zmínil v komentáři OpenProject"
       more_to_see:
-        one: Máte ještě 1 pracovní balíček s notifikací.
-        few: Existuje ještě  %{count}  pracovních balíčků s oznámeními.
-        many: Máte ještě  %{count}  pracovních balíčků s notifikacemi.
-        other: Existuje ještě  %{count}  pracovních balíčků s oznámeními.
+        one: Existuje ještě 1 pracovní balíček s notifikací.
+        few: Existuje ještě %{count} pracovních balíčků s notifikacema.
+        many: Existuje ještě %{count} pracovních balíčků s notifikacema.
+        other: Existuje ještě %{count} pracovních balíčků s notifikacema.
       open_in_browser: Otevřít v prohlížeči
       reason:
         assigned: Přiřazen
         date_alert_due_date: Upozornění na datum
         date_alert_start_date: Upozornění na datum
         mentioned: Zmíněné
-        prefix: 'Obdrženo z důvodu nastavení oznámení: %{reason}'
+        prefix: 'Obdrženo z důvodu nastavení notifikací: %{reason}'
         reminder: Připomínka
         responsible: Odpovědný
         shared: Sdílené
@@ -4203,7 +4198,7 @@ cs:
       aggregation: Agregace
       ai: Umělá Inteligence (AI)
       api_and_webhooks: API & Webhooky
-      mail_notification: E-mailová upozornění
+      mail_notification: E-mailové notifikace
       mails_and_notifications: E-maily a oznámení
       mcp_configurations: Protokol MCP (Model Context Protocol)
     quick_add:
@@ -4484,7 +4479,7 @@ cs:
       responsible: Odpovědný
       shared: Sdíleno
       watched: Sledující
-    send_notifications: Odeslat oznámení pro tuto akci
+    send_notifications: Pro tuto akci odeslat notifikaci
     work_packages:
       subject:
         assigned: Byli jste přiřazeni k %{work_package}
@@ -4822,7 +4817,7 @@ cs:
   permission_move_work_packages: Přesun pracovních balíčků
   permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Uložit dotazy BCF
-  permission_save_queries: Uložit pohled
+  permission_save_queries: Uložit zobrazení
   permission_search_project: Hledat projekt
   permission_select_custom_fields: Vybrat vlastní pole
   permission_select_project_custom_fields: Vyberte atributy projektu
@@ -5623,7 +5618,7 @@ cs:
     language_name_being_default: "%{language_name} (výchozí)"
     notifications:
       delay_minutes_explanation: Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení.
-      events_explanation: Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.
+      events_explanation: Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele.
     other: Ostatní
     passwords: Hesla
     project_attributes:
@@ -5936,7 +5931,7 @@ cs:
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
   text_email_delivery_not_configured: |-
-    Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.
+    Doručení e-mailu není nakonfigurováno a notifikace jsou zakázány.
     Nakonfigurujte váš SMTP server pro jejich povolení.
   text_enumeration_category_reassign_to: 'Přiřadit je k této hodnotě:'
   text_enumeration_destroy_question: "%{count} objektů je přiřazeno k této hodnotě."
