@@ -72,7 +72,8 @@ class UserWorkingHours < ApplicationRecord
 
   DAYS.each do |day|
     define_method("#{day}_hours") do
-      (public_send(day) / 60.0).round(2)
+      minutes = public_send(day)
+      minutes.nil? ? nil : (minutes / 60.0).round(2)
     end
 
     define_method("#{day}_hours=") do |value|
@@ -158,7 +159,7 @@ class UserWorkingHours < ApplicationRecord
   end
 
   def at_least_one_working_day_selected
-    if DAYS.all? { |day| public_send(day).zero? }
+    if DAYS.all? { |day| public_send(day).to_i.zero? }
       errors.add(:days, :no_working_day)
     end
   end

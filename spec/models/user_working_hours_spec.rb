@@ -74,6 +74,34 @@ RSpec.describe UserWorkingHours do
                                                                        .is_greater_than_or_equal_to(0)
                                                                        .is_less_than_or_equal_to(100)
     end
+
+    describe "with a nil weekday column (e.g. omitted from a create payload)" do
+      # Regression tests: presence/numericality validation on a `*_hours`
+      # attribute invokes the corresponding getter, which used to crash with
+      # NoMethodError on `nil / 60.0` instead of producing a clean
+      # validation error.
+      it "is invalid rather than raising when a single weekday is nil" do
+        subject.public_send(:wednesday=, nil)
+
+        expect { subject.valid? }.not_to raise_error
+        expect(subject).not_to be_valid
+        expect(subject.errors[:wednesday_hours]).to be_present
+      end
+
+      it "is invalid rather than raising when every weekday is nil" do
+        # Also exercises the second, independent nil-unsafe site in
+        # at_least_one_working_day_selected, only reachable once every
+        # weekday is nil (each weekday's own presence/numericality
+        # validation would otherwise short-circuit first).
+        %i[monday tuesday wednesday thursday friday saturday sunday].each do |day|
+          subject.public_send(:"#{day}=", nil)
+        end
+
+        expect { subject.valid? }.not_to raise_error
+        expect(subject).not_to be_valid
+        expect(subject.errors[:days]).to be_present
+      end
+    end
   end
 
   describe "hours accessors" do
@@ -84,6 +112,15 @@ RSpec.describe UserWorkingHours do
         it "returns the minutes value converted to hours" do
           working_hours.public_send("#{day}=", 150)
           expect(working_hours.public_send("#{day}_hours")).to eq(2.5)
+        end
+
+        it "returns nil rather than raising when the underlying minutes column is nil" do
+          # Regression test: a still-nil column (e.g. a weekday omitted from
+          # a create payload, no DB default) used to crash with
+          # NoMethodError on `nil / 60.0` -- both here, and via the
+          # presence/numericality validator that calls this same getter.
+          working_hours.public_send("#{day}=", nil)
+          expect(working_hours.public_send("#{day}_hours")).to be_nil
         end
       end
 
