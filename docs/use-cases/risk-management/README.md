@@ -81,7 +81,7 @@ Use comments for decisions and concise review notes. The work package activity p
 
 ### 1.5 Handle an occurred risk
 
-When the uncertain event happens, it is no longer only a risk. Mark it as `Occurred` if that status is part of the workflow, create or link an issue or task, and carry over the relevant owner, impact, response and due dates. Keep the relation between the original risk and the resulting issue so the decision trail remains visible.
+When the uncertain event happens, it is no longer only a risk. Mark it as `Risk occured`, create or link an issue or task, and carry over the relevant owner, impact, response and due dates. Keep the relation between the original risk and the resulting issue so the decision trail remains visible.
 
 ### 1.6 Report and learn
 
@@ -140,15 +140,17 @@ Use one consistent scale across projects. If the organization uses a 1–5 scale
 
 ### 2.3 Configure statuses and workflows
 
-A small workflow is usually easier to maintain than a highly detailed one. For example:
+The example configuration uses the following statuses:
 
-1. `Identified` – the risk has been recorded but not fully assessed.
-2. `Assessed` – probability, impact and owner are agreed.
-3. `Response planned` – a response strategy and actions are defined.
-4. `Monitoring` – the team is implementing and reviewing the response.
-5. `Closed` – the risk no longer requires active monitoring.
+1. `New` – the risk has been recorded but not yet evaluated.
+2. `Risk evaluated` – likelihood, impact and ownership have been assessed.
+3. `Risk mitigation planned` – the response and its concrete actions have been defined.
+4. `Risk mitigation done` – the planned mitigation actions have been completed and their effectiveness can be reviewed.
+5. `Risk occured` – the uncertain event has happened and a related issue or task should be created for its resolution.
+6. `Closed` – the risk no longer requires active monitoring.
+7. `Rejected` – the entry was determined not to be a relevant project risk or is not pursued further.
 
-Optionally add `Occurred` when a realized risk must be handed over to issue management. Configure statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
+Configure these statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and the permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
 
 ![Workflow transition configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_workflow.png)
 
