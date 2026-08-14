@@ -28,33 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackageWikisTabController < ApplicationController
-  include OpTurbo::ComponentStream
+# The "Mentioned in description" section of the work package wikis tab.
+module Wikis
+  class InlinePageLinksComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
-  load_and_authorize_with_permission_in_project :view_work_packages
+    alias_method :work_package, :model
 
-  before_action :set_work_package
-
-  def index
-    tab_component = Wikis::WorkPackageWikisTabComponent.new(@work_package)
-    replace_via_turbo_stream(component: tab_component)
-
-    respond_to_with_turbo_streams do |format|
-      format.html do
-        render(tab_component, layout: false)
-      end
+    def page_links
+      @page_links ||= page_link_service
+        .inline_page_link_infos_for(linkable: work_package)
+        .map { PageLinkViewModel.from_page_info_result(it) }
     end
-  end
 
-  def inline_page_links
-    replace_via_turbo_stream(component: Wikis::InlinePageLinksComponent.new(@work_package))
+    private
 
-    respond_to_with_turbo_streams
-  end
+    def already_related_page_keys
+      @already_related_page_keys ||= page_link_service.relation_page_link_keys_for(linkable: work_package)
+    end
 
-  private
-
-  def set_work_package
-    @work_package = @project.work_packages.visible.find(params.expect(:work_package_id))
+    def page_link_service
+      @page_link_service ||= PageLinkService.new
+    end
   end
 end

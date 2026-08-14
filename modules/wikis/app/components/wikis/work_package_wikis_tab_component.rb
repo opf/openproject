@@ -42,11 +42,6 @@ module Wikis
       Wikis::Provider.enabled
     end
 
-    def inline_page_links
-      @inline_page_links ||= page_link_service.inline_page_link_infos_for(linkable: work_package)
-                                               .map { PageLinkViewModel.from_page_info_result(it) }
-    end
-
     def referencing_wiki_pages
       @referencing_wiki_pages ||= page_link_service.referencing_wiki_page_references_for(linkable: work_package)
                                                     .map { PageLinkViewModel.from_page_reference_result(it) }
