@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Risk management
   priority: 975
 description: Learn how to configure and use OpenProject for transparent, repeatable project risk management based on work packages and PM² guidance.
-keywords: risk management, risk register, risk log, PM², PM2
+keywords: risk management, risk register, PM², PM2
 
 ---
 
@@ -25,67 +25,82 @@ This guide separates the system-wide configuration maintained by administrators 
 
 | Risk management concept | OpenProject entity |
 | --- | --- |
-| Risk register / Risk Log | A saved and shared [work package table](../../user-guide/work-packages/work-package-views/) filtered by type `Risk`; see the [demo Risk Log](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) |
+| Risk Register | A saved and shared [work package table](../../user-guide/work-packages/work-package-views/) filtered by type `Risk`; see the [demo Risk Register](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) |
 | Individual risk | A [work package](../../user-guide/work-packages/) of type `Risk`; see an [example risk](https://pm2.openproject.com/projects/pm2-test/work_packages/517/activity?query_id=91) |
 | Risk owner | Assignee or a user custom field |
 | Response action | A child or related work package with an assignee and due date |
 | Review trail | Work package activity, comments and status history |
 | Standard setup | A reusable [project template](../../user-guide/projects/project-templates/) |
 
-![Risk Log grouped by status with impact and likelihood columns in OpenProject](openproject_use_case_risk_log.png)
+![Risk Register grouped by status with impact and likelihood columns in OpenProject](openproject_use_case_risk_log.png)
 
-## 1. Project member workflow
+## 1. Risk lifecycle
 
-Project members use the shared risk register to identify, assess, respond to and monitor risks throughout the project. The following checklist gives a quick overview before the detailed workflow.
+The following lifecycle maps the project activities to the configured risk statuses. A status change records the outcome of an activity; reviews and updates can take place at any point in the lifecycle.
 
-### Quick checklist for each risk
+```mermaid
+stateDiagram-v2
+    state "Mitigation planned" as MitigationPlanned
+    state "Mitigation done" as MitigationDone
 
-- Describe the risk clearly and assign one owner.
-- Assess probability and impact using the agreed scale.
-- Select a response strategy and assign dated response actions.
-- Set the next review date and document review decisions.
-- Escalate, complete or reject the risk when appropriate.
+    [*] --> New
+    New --> Evaluated: Assessment completed
+    Evaluated --> MitigationPlanned: Response and actions defined
+    MitigationPlanned --> MitigationDone: Actions completed
 
-### 1.1 Identify and record a risk
+    New --> Occured: Risk event happens
+    Evaluated --> Occured: Risk event happens
+    MitigationPlanned --> Occured: Risk event happens
+    MitigationDone --> Occured: Risk event happens
 
-Create a work package of type `Risk`. Write the subject as a concise cause–event–effect statement, for example: “Because the supplier has not confirmed capacity, hardware delivery may be delayed, which could move the pilot date.”
+    New --> Rejected: Invalid, duplicate or out of scope
+    Evaluated --> Rejected: No longer relevant
+    MitigationPlanned --> Rejected: No longer relevant
+```
 
-Complete the `Cause`, `Risk event`, `Impact` and `Early warning indicators` sections in the description. Select a category and assign a risk owner. The [create work package guide](../../user-guide/work-packages/create-work-package/) describes the available creation flows.
+### 1.1 Record a new risk — `New`
 
-### 1.2 Assess the risk
+Create an item of type `Risk` as soon as an uncertain event is identified. Write the subject as a concise cause–event–effect statement, for example: “Because the supplier has not confirmed capacity, hardware delivery may be delayed, which could move the pilot date.”
 
-The risk owner and relevant specialists agree on probability and impact using the scale defined in the Risk Management Plan. Add supporting evidence in the description or as an attachment, and move the risk to `Evaluated` when the assessment is complete.
+Complete the `Cause`, `Risk event`, `Impact` and `Early warning indicators` sections in the description. Select a category and assign a risk owner. Keep the status as `New` until the initial assessment is complete. The [create work package guide](../../user-guide/work-packages/create-work-package/) describes the available creation flows.
 
-Prioritize risks consistently. A high score should trigger a timely response and, where defined by the organization's thresholds, escalation to the project manager, Project Owner or steering body.
+### 1.2 Evaluate the risk — `Evaluated`
 
-### 1.3 Plan and assign the response
+The risk owner and relevant specialists assess likelihood and impact using the scale defined in the Risk Management Plan. Add the supporting evidence, confirm ownership and change the status to `Evaluated` when the assessment is complete.
 
-Select the response strategy and document the intended outcome. Turn concrete actions into child or related work packages, assign each action and give it a due date. Relations preserve traceability between the risk and the work needed to address it; see [work package relations and hierarchies](../../user-guide/work-packages/work-package-relations-hierarchies/).
+Prioritize risks consistently. If a high assessment requires authority beyond the project team, escalate the required decision and responsibility to the project manager, Project Owner or steering body.
 
-Record both preventive actions and contingency actions where useful. Preventive actions reduce probability or impact before the event; contingency actions define what to do if it occurs.
+### 1.3 Plan the mitigation — `Mitigation planned`
+
+Choose the response strategy and define the intended outcome. Create concrete preventive and contingency actions as child or related items, assign each action and give it a due date. Preventive actions reduce likelihood or impact before the event; contingency actions define what to do if it occurs.
+
+Change the status to `Mitigation planned` once the response has been agreed and all required actions have an owner. Relations preserve traceability between the risk and the work needed to address it; see [work package relations and hierarchies](../../user-guide/work-packages/work-package-relations-hierarchies/).
 
 ![Risk work package with a structured description, risk assessment and related response action in OpenProject](openproject_use_case_risk_work_package.png)
 
-### 1.4 Monitor and review
+### 1.4 Complete the mitigation — `Mitigation done`
 
-Review active risks regularly in a project meeting or dedicated risk review. For each risk:
+Monitor the assigned mitigation actions and document progress through their own statuses and comments. When all planned actions have been completed, reassess likelihood and impact and record whether the response achieved its intended effect.
 
-1. Check whether probability, impact and assumptions have changed.
-2. Review the progress and effectiveness of response actions.
-3. Update the next review date.
-4. Reassess probability and impact based on current information and the effectiveness of response actions.
-5. Escalate when a threshold is exceeded or a decision is required.
-6. Move risks to `Mitigation done` once the response is complete, or to `Rejected` when they no longer qualify for active management.
+Change the risk status to `Mitigation done` only after the actions and their effectiveness have been reviewed. This status records completion of the planned response; it does not mean that the risk event occurred.
 
-Use comments for decisions and concise review notes. The work package activity provides a chronological audit trail. See [edit work packages](../../user-guide/work-packages/edit-work-package/) for updating fields, status and comments.
+### 1.5 Handle an occurred risk — `Occured`
 
-### 1.5 Handle an occurred risk
+When the uncertain event happens, change the risk status to `Occured`. Create or link a separate issue for resolution, carry over the relevant owner, actual impact, contingency actions and due dates, and keep the relation to the original risk for traceability.
 
-When the uncertain event happens, it is no longer only a risk. Mark it as `Occured`, create or link an issue or task, and carry over the relevant owner, impact, response and due dates. Keep the relation between the original risk and the resulting issue so the decision trail remains visible.
+The issue is managed through its own workflow while the original risk retains the assessment and response history.
 
-### 1.6 Report and learn
+### 1.6 Reject an entry — `Rejected`
 
-Use the active register and attention view for status reporting. At phase gates and project closure, review risks with completed mitigation, rejected risks and occurred risks to identify recurring causes, effective responses and improvements for future project templates or the Risk Management Plan.
+Use `Rejected` when the entry is a duplicate, outside the project scope or does not represent a relevant project risk. Document the reason in a comment before changing the status so that the decision remains understandable.
+
+Do not use `Rejected` merely because mitigation has been completed; use `Mitigation done` for that outcome.
+
+### 1.7 Review and report
+
+Review risks in `New`, `Evaluated` and `Mitigation planned` regularly. Check assumptions and early warning indicators, update likelihood and impact when evidence changes, follow up overdue actions and update the next review date.
+
+Use comments for review notes and decisions. The activity history provides a chronological audit trail. For status reporting and lessons learned, include risks in `Mitigation done`, `Occured` and `Rejected` as separate outcome groups.
 
 ## 2. System-wide configuration
 
@@ -159,9 +174,9 @@ Restrict sensitive transitions where appropriate. For example, only the project 
 
 Create and save at least these shared work package views:
 
-- **Active risk register**: type is `Risk`; status is not closed; show owner, probability, impact, response strategy and next review date.
+- **Active Risk Register**: type is `Risk`; status is `New`, `Evaluated` or `Mitigation planned`; show owner, probability, impact, response strategy and next review date.
 - **Risks requiring attention**: active risks with a high probability or impact, overdue review date or escalation flag.
-- **Closed risks**: type is `Risk`; status is closed; use this view for lessons learned and audits.
+- **Completed and inactive risks**: type is `Risk`; status is `Mitigation done`, `Occured` or `Rejected`; use this view for lessons learned and audits.
 
 The [work package table configuration](../../user-guide/work-packages/work-package-table-configuration/) explains how to add columns, filters, grouping and sorting. A [work package table widget](../../user-guide/projects/project-home/project-widgets/#work-package-table-widget) can also place the active risk register on the project overview.
 
@@ -184,8 +199,8 @@ Finally, include the type, fields, permissions and saved views in a [project tem
 - Create assignable, dated response actions.
 - Review active risks on a defined cadence.
 - Escalate according to thresholds and document decisions.
-- Convert occurred risks into traceable issues or tasks.
-- Close risks deliberately and capture lessons learned.
+- Create a traceable issue when a risk reaches `Occured`.
+- Use `Mitigation done` and `Rejected` deliberately and capture lessons learned.
 
 ## Planned product improvements
 
