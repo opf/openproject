@@ -32,7 +32,7 @@ module ::TypesHelper
   include CustomFieldsHelper
 
   # rubocop:disable Rails/HelperInstanceVariable
-  def types_tabs
+  def types_tabs # rubocop:disable Metrics/AbcSize
     variant_args = type_variant_tab_args
 
     [
@@ -46,7 +46,7 @@ module ::TypesHelper
         path: edit_type_defaults_path(**variant_args),
         label: I18n.t("types.edit.defaults.tab")
       },
-      *variants_tab,
+      variants_tab,
       {
         name: "form_configuration",
         path: edit_type_form_configuration_path(**variant_args),
@@ -73,7 +73,7 @@ module ::TypesHelper
         label: I18n.t("types.edit.export_configuration.tab"),
         view_component: WorkPackageTypes::ExportConfigurationComponent
       }
-    ]
+    ].compact
   end
 
   def type_variant_tab_args
@@ -81,14 +81,14 @@ module ::TypesHelper
   end
 
   def variants_tab
-    return [] unless OpenProject::FeatureDecisions.type_variants_active?
-    return [] if @variant.present? && !@variant.is_default_variant?
+    return unless OpenProject::FeatureDecisions.type_variants_active?
+    return if @variant.present? && !@variant.is_default_variant?
 
-    [{
+    {
       name: "variants",
       path: type_variants_path(type_id: @type.id),
       label: TypeVariant.model_name.human(count: 2)
-    }]
+    }
   end
   # rubocop:enable Rails/HelperInstanceVariable
 
