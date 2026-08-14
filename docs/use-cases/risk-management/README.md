@@ -199,25 +199,20 @@ Open the [Risk management demo board](https://pm2.openproject.com/projects/pm2-t
 
 Finally, include the `Risk` type, fields, permissions and board in a [project template](../../user-guide/projects/project-templates/) so new projects start with the same risk management structure.
 
-## 3. Governance checklist
+## 3. Configuration activities
 
-### Administrator or project management office
+Configure risk management in the following order:
 
-- Define probability, impact and escalation scales.
-- Configure the `Risk` type, fields, form, statuses and workflows.
-- Configure roles and permissions.
-- Provide shared views and project templates.
-- Review the setup periodically and keep terminology consistent.
-
-### Project manager and project members
-
-- Record risks early and assign one owner.
-- Assess risks using the agreed scale and evidence.
-- Create assignable, dated response actions.
-- Review active risks on a defined cadence.
-- Escalate according to thresholds and document decisions.
-- Create a traceable issue when a risk reaches `Occured`.
-- Use `Mitigation done` and `Rejected` deliberately and capture lessons learned.
+1. Define the terminology, risk categories and the 1 to 5 scales for likelihood and impact.
+2. Create the custom fields `Risk category`, `Identified by`, `Likelihood`, `Impact`, `Risk owner` and `Escalation`.
+3. Create the statuses `New`, `Evaluated`, `Mitigation planned`, `Mitigation done`, `Occured` and `Rejected`.
+4. Configure the allowed status transitions for the roles that manage risks.
+5. Configure the `Risk` type and arrange its form into `Risk details`, `Risk assessment` and `Risk response`.
+6. Add the built-in `Assignee` field and the embedded related work packages table named `Risk response` to the form.
+7. Configure role permissions for creating, editing, assigning, viewing and transitioning risks and their mitigation actions.
+8. Create the shared Risk Register table and board views with the required columns, filters and grouping.
+9. Add the type, fields, workflow and views to the project template used for new projects.
+10. Test the configuration with representative users and a sample risk before making the template available.
 
 ## Continuous product improvements
 
