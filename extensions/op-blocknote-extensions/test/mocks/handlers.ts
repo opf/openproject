@@ -125,6 +125,7 @@ function createFormFor(body:FormRequestBody) {
     Object.assign(schema, { type: typeSchema, assignee: assigneeSchema, priority: prioritySchema });
     links.project = { href: projectHref };
     links.priority = { href: '/api/v3/priorities/8' };
+    links.type = { href: '/api/v3/types/1' };
   }
 
   if (projectHref && typeHref) {

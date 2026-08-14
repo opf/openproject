@@ -125,6 +125,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
     primaryFields,
     extraFields,
     values,
+    valueLabels,
     setValue,
     projectHref,
     typeHref,
@@ -166,10 +167,11 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
       key={keyOf(field.key)}
       field={field}
       value={values[field.key]}
+      valueLabel={valueLabels[field.key]}
       autoFocus={field.key === 'subject'}
       error={fieldErrors[field.key]}
       problem={valueProblems[field.key]}
-      onChange={(value) => setValue(field.key, value)}
+      onChange={(value, label) => setValue(field.key, value, label)}
     />
   );
 

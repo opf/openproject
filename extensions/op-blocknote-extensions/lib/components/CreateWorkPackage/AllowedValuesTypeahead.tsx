@@ -81,11 +81,12 @@ interface AllowedValuesTypeaheadProps {
   label:string;
   href:string;
   value:string;
+  valueLabel?:string;
   placeholder:string;
   withArrows?:boolean;
   invalid?:boolean;
   describedBy?:string;
-  onChange:(href:string) => void;
+  onChange:(href:string, label?:string) => void;
 }
 
 export const AllowedValuesTypeahead = ({
@@ -93,6 +94,7 @@ export const AllowedValuesTypeahead = ({
   label,
   href,
   value,
+  valueLabel,
   placeholder,
   withArrows,
   invalid,
@@ -100,14 +102,14 @@ export const AllowedValuesTypeahead = ({
   onChange,
 }:AllowedValuesTypeaheadProps) => {
   const { t } = useTranslation();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(value ? (valueLabel ?? '') : '');
   const [options, setOptions] = useState<AllowedValue[]>([]);
   const [loadedQuery, setLoadedQuery] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(0);
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
-  const selectionRef = useRef({ value, label: '' });
+  const selectionRef = useRef({ value, label: valueLabel ?? '' });
 
   const loading = loadedQuery !== query;
 
@@ -156,7 +158,7 @@ export const AllowedValuesTypeahead = ({
     selectionRef.current = { value: option.href, label: option.label };
     setQuery(option.label);
     setIsOpen(false);
-    onChange(option.href);
+    onChange(option.href, option.label);
   };
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement>) => {

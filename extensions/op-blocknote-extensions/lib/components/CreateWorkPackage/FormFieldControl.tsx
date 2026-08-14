@@ -22,7 +22,8 @@ import {
 interface FormFieldControlProps {
   field:FormField;
   value:FieldValue | undefined;
-  onChange:(value:FieldValue) => void;
+  valueLabel?:string;
+  onChange:(value:FieldValue, label?:string) => void;
   autoFocus?:boolean;
   error?:string;
   problem?:ValueProblem;
@@ -42,7 +43,15 @@ const PLACEHOLDERS:Record<string, string> = {
 // Presented as a picker; a search for people stays plain.
 const PICKER_KEYS = ['project'];
 
-export const FormFieldControl = ({ field, value, onChange, autoFocus, error, problem }:FormFieldControlProps) => {
+export const FormFieldControl = ({
+  field,
+  value,
+  valueLabel,
+  onChange,
+  autoFocus,
+  error,
+  problem,
+}:FormFieldControlProps) => {
   const { t } = useTranslation();
   const id = `op-bn-create-wp-${field.key}`;
   // What was just typed speaks before what the API said about an earlier value.
@@ -121,6 +130,7 @@ export const FormFieldControl = ({ field, value, onChange, autoFocus, error, pro
           label={field.label}
           href={field.allowedValuesHref ?? ''}
           value={textValue}
+          valueLabel={valueLabel}
           placeholder={placeholder ?? t('createWorkPackage.searchPlaceholder')}
           withArrows={PICKER_KEYS.includes(field.key)}
           invalid={Boolean(message)}

@@ -201,7 +201,7 @@ describe('Create work package', () => {
 
     await userEvent.click(page.getByLabelText('Assignee'));
     await userEvent.click(page.getByRole('option', { name: 'Elif Yildiz' }));
-    await selectOptionNamed('Type *', 'Task');
+    await selectOptionNamed('Type *', 'Bug');
 
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
   });

@@ -1,15 +1,26 @@
 import { expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 
+export async function chooseCreateCommand() {
+  await expect.element(page.getByText('Create new work package').first()).toBeVisible();
+  await userEvent.click(page.getByText('Create new work package').first());
+  await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+}
+
 export async function openCreateModal(before = '') {
   const editorEl = page.getByRole('textbox');
   await userEvent.click(editorEl);
   if (before) await userEvent.type(editorEl, before);
   await userEvent.type(editorEl, '/');
 
-  await expect.element(page.getByText('Create new work package').first()).toBeVisible();
-  await userEvent.click(page.getByText('Create new work package').first());
-  await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+  await chooseCreateCommand();
+}
+
+// Where the last creation left the cursor, so a second work package can follow
+// without clicking into a document that already holds a card.
+export async function openCreateModalAtCursor() {
+  await userEvent.keyboard('/');
+  await chooseCreateCommand();
 }
 
 export async function pickProject(name = 'Demo project') {

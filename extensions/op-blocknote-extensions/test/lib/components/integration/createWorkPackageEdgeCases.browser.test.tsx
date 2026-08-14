@@ -158,21 +158,23 @@ describe('Create work package - form and editor boundaries', () => {
     await expect.element(page.getByLabelText('Project *')).toHaveValue('');
   });
 
-  it('re-asks for the type when the project changes', async () => {
+  it('re-asks for the fields of the type when the project changes', async () => {
     renderEditor();
     await openCreateModal();
 
     await userEvent.click(page.getByLabelText('Project *'));
     await userEvent.click(page.getByRole('option', { name: 'Demo project' }));
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
-    await selectOptionNamed('Type *', 'Task');
+    await selectOptionNamed('Type *', 'Bug');
     await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
+    await userEvent.click(page.getByLabelText('Supervisor *'));
+    await userEvent.click(page.getByRole('option', { name: 'Anna Kovalenko' }));
 
     await userEvent.fill(page.getByLabelText('Project *'), 'Scrum');
     await userEvent.click(page.getByRole('option', { name: 'Scrum project' }));
 
-    await expect.element(page.getByLabelText('Type *')).toHaveValue('');
-    await expect.element(page.getByLabelText('Supervisor *')).not.toBeInTheDocument();
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/1');
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('');
   });
 
   it('states that creating work packages is not permitted', async () => {
