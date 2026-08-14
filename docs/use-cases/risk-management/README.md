@@ -153,23 +153,24 @@ List observable signs or thresholds indicating that the risk is becoming more li
 
 Activate the type for the relevant projects under **Project settings → Work packages → Types**. The same project settings also control which custom fields are active in a project; see [project work package settings](../../user-guide/projects/project-settings/work-packages/).
 
-### 2.2 Define risk fields
+### 2.2 Configure the risk form
 
-Create the required fields under **Administration → Custom fields → Work packages**. The following baseline works well for many teams:
+Create the required custom fields under **Administration → Custom fields → Work packages**. Then open **Administration → Work packages → Types → Risk → Form configuration** and arrange the attributes as shown below:
 
-| Field | Suggested type | Purpose |
-| --- | --- | --- |
-| Risk category | List | Groups risks such as schedule, cost, scope, quality, security or external dependency |
-| Probability | List | Records likelihood on a shared scale, for example 1 to 5 |
-| Impact | List | Records the effect on project objectives on the same 1 to 5 scale |
-| Risk owner | User | Makes one person responsible for monitoring and coordinating the response |
-| Response strategy | List | Records the chosen approach, for example avoid, reduce, transfer/share or accept |
-| Response description | Long text | Summarizes the intended response; concrete mitigation actions are managed as separate related work packages in the `Risk response` table |
-| Escalation required | Boolean | Flags risks that require a governance decision |
+| Form section | Attribute | Type | Purpose |
+| --- | --- | --- | --- |
+| Risk details | Risk category | List | Groups risks such as schedule, cost, scope, quality, security or external dependency |
+| Risk details | Assignee | Built-in field | Assigns responsibility for the next activity |
+| Risk details | Identified by | User | Records who identified the risk |
+| Risk assessment | Likelihood | Hierarchy | Records likelihood on a shared scale, for example 1 to 5 |
+| Risk assessment | Impact | Hierarchy | Records the effect on project objectives on the same 1 to 5 scale |
+| Risk assessment | Risk owner | User | Makes one person responsible for monitoring and coordinating the response |
+| Risk assessment | Escalation | User | Identifies the person to involve when a decision or escalation is required |
+| Risk response | Risk response | Related work packages table | Shows mitigation actions as separate related work packages |
 
-See [custom fields](../../system-admin-guide/custom-fields/) for the available field types and configuration options.
+The `Assignee` is a built-in field. `Risk response` is an embedded related work packages table. The remaining attributes are configured as [custom fields](../../system-admin-guide/custom-fields/) and added to the form.
 
-Use one consistent scale across projects. If the organization uses a 1 to 5 scale, define in the Risk Management Plan what each probability and impact value means. Until calculated fields are available, record the score explicitly or group/filter the register by probability and impact; do not imply that OpenProject calculates `probability × impact` automatically.
+Use one consistent scale across projects. If the organization uses a 1 to 5 scale, define in the Risk Management Plan what each likelihood and impact value means. Until calculated fields are available, record the score explicitly or group/filter the register by likelihood and impact; do not imply that OpenProject calculates `likelihood × impact` automatically.
 
 ### 2.3 Configure statuses and workflows
 
