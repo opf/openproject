@@ -35,8 +35,8 @@ Use these official sources alongside this OpenProject configuration guide:
 
 | Risk management concept | OpenProject entity |
 | --- | --- |
-| Risk register / Risk Log | A saved and shared [work package table](../../user-guide/work-packages/work-package-views/) filtered by type `Risk` |
-| Individual risk | A [work package](../../user-guide/work-packages/) of type `Risk` |
+| Risk register / Risk Log | A saved and shared [work package table](../../user-guide/work-packages/work-package-views/) filtered by type `Risk`; see the [demo Risk Log](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) |
+| Individual risk | A [work package](../../user-guide/work-packages/) of type `Risk`; see an [example risk](https://pm2.openproject.com/projects/pm2-test/work_packages/517/activity?query_id=91) |
 | Risk owner | Assignee or a user custom field |
 | Response action | A child or related work package with an assignee and due date |
 | Review trail | Work package activity, comments and status history |
