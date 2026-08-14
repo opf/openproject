@@ -29,16 +29,14 @@
 #++
 
 module Queries::Operators
-  class InLessThan < Base
-    label "in_less_than"
-    set_symbol "<t+"
+  class WorkPackageWithDescendants < Base
+    label "is_work_package_with_descendants"
+    set_symbol "=_child_work_packages"
 
-    extend DateRangeClauses
+    extend SelfAndDescendantIds
 
     def self.sql_for_field(values, db_table, db_field)
-      days = values.first.to_i
-
-      relative_date_range_clause(db_table, db_field, 0, days)
+      Equals.sql_for_field(self_and_descendant_ids(WorkPackage.visible, values), db_table, db_field)
     end
   end
 end
