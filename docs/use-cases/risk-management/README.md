@@ -19,7 +19,7 @@ This guide separates the system-wide configuration maintained by administrators 
 
 > [!NOTE]
 >
-> OpenProject does not yet provide a dedicated risk module with automatically calculated inherent and residual risk scores. The setup described here uses currently available configuration options. Planned product improvements are linked in [Planned product improvements](#planned-product-improvements).
+> OpenProject does not yet provide a dedicated risk module with automatically calculated inherent and residual risk scores. The setup described here uses currently available configuration options. Planned product improvements are linked in [Continuous product improvements](#continuous-product-improvements).
 
 ## How risk management looks in OpenProject
 
@@ -202,16 +202,16 @@ Finally, include the type, fields, permissions and saved views in a [project tem
 - Create a traceable issue when a risk reaches `Occured`.
 - Use `Mitigation done` and `Rejected` deliberately and capture lessons learned.
 
-## Planned product improvements
+## Continuous product improvements
 
-The configuration above uses existing OpenProject features. The following roadmap items address limitations of this setup; scope and delivery dates may change:
+OpenProject already provides the building blocks for transparent and repeatable risk management. Product development continues to make this experience more integrated, efficient and intuitive. The following roadmap items show potential next steps; their scope and delivery dates may evolve as the solutions are refined:
 
-| Planned feature | Problem addressed |
+| Planned enhancement | Expected benefit |
 | --- | --- |
-| [Risk management module](https://community.openproject.org/work_packages/38012) | Risk assessment, scoring, treatments, permissions and auditability currently have to be assembled from general-purpose configuration options. |
-| [Calculated custom fields](https://community.openproject.org/projects/FND/work_packages/FND-2/activity) | Likelihood and impact cannot currently be combined into an automatically calculated risk score, so teams must calculate or record the result manually. |
-| [Dynamic and status-based field validation](https://community.openproject.org/work_packages/68886) | Required information cannot currently vary by workflow status, making it difficult to enforce complete assessments, response plans or closure data before a transition. |
-| [Workflow automation](https://community.openproject.org/work_packages/37473) | Reviews, reminders, escalations, assignments and follow-up changes depend on manual action even when clear trigger conditions exist. |
-| [Two-dimensional boards with configurable axes](https://community.openproject.org/work_packages/75445) | Teams cannot maintain an interactive likelihood–impact matrix in which moving a risk also updates its underlying assessment data. |
-| [Built-in types](https://community.openproject.org/wp/OP-17679) | Standard types have to be created and maintained manually and cannot be identified consistently across installations, increasing the risk of divergent configuration or accidental deletion. |
+| [Risk management module](https://community.openproject.org/work_packages/38012) | Brings assessment, scoring, treatments, permissions and auditability together in a dedicated and integrated risk management experience. |
+| [Calculated custom fields](https://community.openproject.org/projects/FND/work_packages/FND-2/activity) | Derives risk scores automatically from likelihood and impact, improving consistency and reducing manual effort. |
+| [Dynamic and status-based field validation](https://community.openproject.org/work_packages/68886) | Guides users through the lifecycle by requesting the right information for each status and transition. |
+| [Workflow automation](https://community.openproject.org/work_packages/37473) | Automates recurring reminders, assignments, follow-up changes and notifications when defined conditions are met. |
+| [Two-dimensional boards with configurable axes](https://community.openproject.org/work_packages/75445) | Enables an interactive likelihood–impact matrix in which visual planning remains connected to the underlying risk assessment. |
+| [Built-in types](https://community.openproject.org/wp/OP-17679) | Supports consistent standard types that can be identified across installations and protected from accidental deletion. |
 
