@@ -1519,7 +1519,7 @@ en:
         models_heading: "Available models"
         refresh_models: "Refresh models"
       update:
-        no_models: "Connected, but the server did not return a model list. Add the models you want to use below."
+        no_models: "Saved, but the server did not return a model list. Either it does not offer one, or the endpoint is wrong — a URL missing its API version segment (for example /v1) looks exactly the same from here. Add the models you want to use below, then run the health checks to confirm the server answers."
         success: "Successfully connected to the LLM server."
     llm_models:
       create:
@@ -4073,7 +4073,7 @@ en:
         invalid_api_key: "The server rejected the stored API key."
         locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
         no_model_to_test: "No model is available to test with. Add a model or choose a default first."
-        no_models: "The server does not publish a model list. Models can be added manually instead."
+        no_models: "The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right."
         no_models_endpoint: "The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it."
         not_configured: "No endpoint has been configured."
         not_openai_compatible: "The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment."
