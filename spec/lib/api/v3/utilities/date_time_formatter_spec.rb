@@ -180,8 +180,10 @@ RSpec.describe API::V3::Utilities::DateTimeFormatter do
       expect(subject.format_duration_from_hours(5.5)).to eq("PT5H30M")
     end
 
-    it "includes seconds" do
-      expect(subject.format_duration_from_hours(5.501)).to eq("PT5H30M3S")
+    it "includes seconds, rounded rather than truncated" do
+      # 5.501h == 19803.6s -- rounds up to 19804s (PT5H30M4S), not
+      # truncated down to 19803s (PT5H30M3S).
+      expect(subject.format_duration_from_hours(5.501)).to eq("PT5H30M4S")
     end
 
     it "formats ints" do

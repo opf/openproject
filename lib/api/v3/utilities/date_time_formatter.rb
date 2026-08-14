@@ -85,7 +85,11 @@ module API
         def format_duration_from_hours(hours, allow_nil: false)
           return nil if hours.nil? && allow_nil
 
-          Duration.new(seconds: hours * 3600).iso8601
+          # Duration.new truncates its :seconds argument via Float#to_i
+          # (ruby-duration gem) rather than rounding -- round explicitly
+          # here first so e.g. 3600.9 seconds (1h 0.9s) serializes as
+          # PT1H1S, not silently dropped to PT1H.
+          Duration.new(seconds: (hours * 3600).round).iso8601
         end
 
         def parse_duration_to_hours(duration, property_name, allow_nil: false)
