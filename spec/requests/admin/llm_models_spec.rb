@@ -353,4 +353,38 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
       expect(discovered.reload.external_id).to eq("server-named")
     end
   end
+
+  describe "how an inherited capability verdict is shown" do
+    let!(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "qwen3.6-27b") }
+
+    # The blank option used to read "Not specified" while the caption underneath
+    # read "Currently Supported, from the model registry" -- two contradictory
+    # statements about the same field.
+    it "names the inherited value in the option itself" do
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "function_calling",
+                                             state: "supported", source: "metadata", checked_at: Time.current)
+
+      get edit_llm_model_path(llm_model)
+
+      expect(response.body).to include("Supported (from the model registry)")
+      expect(response.body).not_to include("Currently Supported")
+    end
+
+    it "falls back to Not specified when nothing is known" do
+      get edit_llm_model_path(llm_model)
+
+      expect(response.body).to include("Not specified")
+    end
+
+    # An administrator's own assertion is loaded into the field, so the blank
+    # option must not claim it as inherited.
+    it "does not present an administrator's own assertion as inherited" do
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "function_calling",
+                                             state: "supported", source: "admin", checked_at: Time.current)
+
+      get edit_llm_model_path(llm_model)
+
+      expect(response.body).not_to include("Supported (set by an administrator)")
+    end
+  end
 end
