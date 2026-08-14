@@ -1472,7 +1472,8 @@ en:
         default_chat_model_caption: "Used by AI features that do not select a model themselves."
         embedding_option_unknown: "%{model} (not verified as an embedding model)"
         embedding_option_unsupported: "%{model} (cannot create embeddings)"
-        default_embedding_model_caption: "Used by AI features that index text for search and do not select a model themselves."
+        default_embedding_model_caption: "Used by AI features that index text for search and do not select a model themselves. Only models known to create embeddings are offered."
+        default_embedding_model_none: "No model is known to create embeddings. If you know one does, open it under Available models and set its embeddings capability."
         enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         label_connecting: "Contacting the LLM server…"
       disconnect:

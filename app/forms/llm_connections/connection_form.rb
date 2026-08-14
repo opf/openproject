@@ -111,7 +111,7 @@ module LlmConnections
           f.autocompleter(
             name: :default_embedding_model_id,
             label: LlmConnection.human_attribute_name(:default_embedding_model_id),
-            caption: I18n.t("admin.llm_connections.form.default_embedding_model_caption"),
+            caption: default_embedding_model_caption,
             disabled: read_only?,
             autocomplete_options: {
               decorated: true,
@@ -123,14 +123,9 @@ module LlmConnections
                         selected: model.default_embedding_model_id.blank?)
 
             default_embedding_model_options.each do |model_id|
-              # Same rule the per-feature picker follows: never hide a model,
-              # but refuse one the server has told us cannot embed, and say so.
-              state = embeddings_state(model_id)
-
-              list.option(label: embedding_option_label(model_id, state),
+              list.option(label: embedding_option_label(model_id, embeddings_state(model_id)),
                           value: model_id,
-                          selected: model.default_embedding_model_id == model_id,
-                          disabled: state == :unsupported)
+                          selected: model.default_embedding_model_id == model_id)
             end
           end
         end
@@ -162,8 +157,34 @@ module LlmConnections
       (model.selectable_model_ids + [model.default_chat_model_id]).compact_blank.uniq
     end
 
+    # Only models actually known to embed.
+    #
+    # An unconfirmed capability is not a capability: offering a model here on the
+    # grounds that nothing has ruled it out invites an administrator to pick one
+    # that cannot embed, and the failure would surface much later, at index time.
+    # A catalogue from a registry-backed provider makes that vivid -- 132 models,
+    # 3 of which embed.
+    #
+    # This leaves nothing to choose when no model is known to embed, and that is
+    # the honest state rather than a dead end: an administrator who knows better
+    # than the registry says so on the model itself, by setting its embeddings
+    # capability, which is what default_embedding_model_hint points at.
+    #
+    # The model already chosen is kept regardless, so a save cannot silently
+    # blank a working configuration.
     def default_embedding_model_options
-      (model.selectable_model_ids + [model.default_embedding_model_id]).compact_blank.uniq
+      capable = model.selectable_model_ids.select { |id| embeddings_state(id) == :supported }
+
+      (capable + [model.default_embedding_model_id]).compact_blank.uniq
+    end
+
+    # Says how to make a model eligible when none is, rather than leaving an
+    # empty select with no explanation.
+    def default_embedding_model_caption
+      return I18n.t("admin.llm_connections.form.default_embedding_model_caption") if
+        default_embedding_model_options.any?
+
+      I18n.t("admin.llm_connections.form.default_embedding_model_none")
     end
 
     def embedding_features?

@@ -372,6 +372,50 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
                                              source: "probe", checked_at: Time.current)
     end
 
+    it "does not offer a model the server says cannot embed" do
+      verdict("qwen3.6-27b", "unsupported")
+      verdict("bge-m3", "supported")
+
+      get llm_connection_path
+
+      expect(response.body).to include("bge-m3")
+      expect(response.body).not_to include("cannot create embeddings")
+    end
+
+    # An unconfirmed capability is not a capability: offering such a model
+    # invites a choice that fails much later, at index time.
+    it "does not offer a model whose capability is merely unconfirmed" do
+      get llm_connection_path
+
+      expect(response.body).not_to include("not verified as an embedding model")
+    end
+
+    it "says how to make a model eligible when none is" do
+      get llm_connection_path
+
+      expect(response.body).to include("set its embeddings capability")
+    end
+
+    it "offers one an administrator has asserted can embed" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "admin", checked_at: Time.current)
+
+      get llm_connection_path
+
+      expect(response.body).to include("bge-m3")
+      expect(response.body).not_to include("set its embeddings capability")
+    end
+
+    # Otherwise a save would silently blank a working configuration.
+    it "keeps the chosen model listed even once it is ruled out" do
+      connection.update_column(:default_embedding_model_id, "qwen3.6-27b")
+      verdict("qwen3.6-27b", "unsupported")
+
+      get llm_connection_path
+
+      expect(response.body).to include("qwen3.6-27b")
+    end
+
     it "refuses a model the server says cannot embed" do
       verdict("qwen3.6-27b", "unsupported")
 
