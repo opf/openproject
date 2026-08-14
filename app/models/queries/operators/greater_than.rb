@@ -29,16 +29,12 @@
 #++
 
 module Queries::Operators
-  class InLessThan < Base
-    label "in_less_than"
-    set_symbol "<t+"
-
-    extend DateRangeClauses
+  class GreaterThan < Base
+    label "greater"
+    set_symbol ">"
 
     def self.sql_for_field(values, db_table, db_field)
-      days = values.first.to_i
-
-      relative_date_range_clause(db_table, db_field, 0, days)
+      "#{db_table}.#{db_field} > #{values.first.to_f}"
     end
   end
 end

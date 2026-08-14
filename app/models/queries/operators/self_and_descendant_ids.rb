@@ -29,16 +29,17 @@
 #++
 
 module Queries::Operators
-  class InLessThan < Base
-    label "in_less_than"
-    set_symbol "<t+"
-
-    extend DateRangeClauses
-
-    def self.sql_for_field(values, db_table, db_field)
-      days = values.first.to_i
-
-      relative_date_range_clause(db_table, db_field, 0, days)
+  # Expands the given ids to themselves plus all of their descendants, so that
+  # filtering by a project or work package can transparently include everything
+  # below it. Ids the user cannot see are dropped.
+  module SelfAndDescendantIds
+    def self_and_descendant_ids(scope, values)
+      values
+        .flat_map { |value| value.to_s.split(",") }
+        .filter_map { |id| scope.find_by(id:) }
+        .flat_map { |record| [record.id, *record.descendants.pluck(:id)] }
+        .uniq
+        .map(&:to_s)
     end
   end
 end
