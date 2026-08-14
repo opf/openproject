@@ -141,31 +141,28 @@ class Header::ProjectsController < ApplicationController
   # Builds a nested structure from a flat, lft-ordered list of projects.
   # Each level is sorted alphabetically by project name.
   def build_tree(projects)
-    nodes = projects.index_by(&:id).transform_values do |p|
-      { project: p, children: [], matches_query: @matching_ids.nil? || @matching_ids.include?(p.id) }
+    nodes = Project.build_projects_hierarchy(projects)
+    mark_query_matches(nodes)
+    sort_nodes(nodes)
+  end
+
+  def mark_query_matches(nodes)
+    nodes.each do |node|
+      node[:matches_query] = @matching_ids.nil? || @matching_ids.include?(node[:project].id)
+      mark_query_matches(node[:children])
     end
-
-    roots = []
-    projects.each do |project|
-      node   = nodes[project.id]
-      parent = nodes[project.parent_id]
-
-      if parent
-        parent[:children] << node
-      else
-        roots << node
-      end
-    end
-
-    sort_nodes(roots)
   end
 
   def sort_nodes(nodes)
     nodes.sort_by { |n| n[:project].name.downcase }.each do |node|
       node[:children] = sort_nodes(node[:children])
-      node[:expanded] = filter_mode == "favorited" || node[:children].any? do |c|
-        c[:project].id == @current_project_id || c[:expanded]
-      end
+      node[:expanded] = expanded_node?(node)
+    end
+  end
+
+  def expanded_node?(node)
+    filter_mode == "favorited" || node[:children].any? do |child|
+      child[:project].id == @current_project_id || child[:expanded]
     end
   end
 end
