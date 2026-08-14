@@ -57,6 +57,15 @@ class CostReport < PersistedView
     CostReportQuery.new(project:, principal:)
   end
 
+  # Replays the query into a reporting engine chain, laid out on this view's axes.
+  def engine_query
+    query.engine_query(rows: pivot_rows, columns: pivot_columns)
+  end
+
+  def results
+    engine_query.result
+  end
+
   # The axes are the user facing configuration; the query's group_bys are
   # derived from them so the two can never drift apart.
   def apply_pivot_configuration(rows:, columns:)

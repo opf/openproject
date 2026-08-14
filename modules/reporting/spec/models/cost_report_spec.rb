@@ -123,6 +123,28 @@ RSpec.describe CostReport do
     end
   end
 
+  describe "#engine_query" do
+    before do
+      instance.query.where("spent_on", ">d", ["2026-01-01"])
+      instance.apply_pivot_configuration(rows: %i[project_id work_package_id], columns: [:week])
+    end
+
+    it "lays the dimensions out on the axes this view holds" do
+      replayed = instance.engine_query.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
+
+      expect(replayed).to eq([["ProjectId", :row], ["WorkPackageId", :row], ["Week", :column]])
+    end
+
+    it "replays the query's filters" do
+      expect(instance.engine_query.filters.map { |filter| filter.class.name.demodulize })
+        .to include("SpentOn")
+    end
+
+    it "builds a chain that produces SQL" do
+      expect(instance.engine_query.sql_statement.to_s).to be_present
+    end
+  end
+
   describe "#build_default_query" do
     let(:instance) { described_class.new(name: "Costs", project:, principal: user) }
 
