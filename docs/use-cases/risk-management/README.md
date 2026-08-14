@@ -21,16 +21,6 @@ This guide separates the system-wide configuration maintained by administrators 
 >
 > OpenProject does not yet provide a dedicated risk module with automatically calculated inherent and residual risk scores. The setup described here uses currently available configuration options. Planned product improvements are linked in [Planned product improvements](#planned-product-improvements).
 
-## PM² context
-
-[PM²](https://pm2.europa.eu/index_en) is a project management methodology developed by the European Commission and open to all. It treats risk management as a continuous activity throughout the project life cycle. Its artefacts include a **Risk Management Plan**, which defines the approach, and a **Risk Log**, which records and follows individual risks.
-
-Use these official sources alongside this OpenProject configuration guide:
-
-- [PM² resources and Project Management Guide](https://pm2.europa.eu/pm2-resources_en)
-- [PM² artefacts, including the Risk Management Plan and Risk Log](https://pm2.europa.eu/pm2-artefacts_en)
-- [PM² and PMflex project management with OpenProject](../project-management-pm2-pmflex/)
-
 ## How risk management looks in OpenProject
 
 | Risk management concept | OpenProject entity |
@@ -41,6 +31,8 @@ Use these official sources alongside this OpenProject configuration guide:
 | Response action | A child or related work package with an assignee and due date |
 | Review trail | Work package activity, comments and status history |
 | Standard setup | A reusable [project template](../../user-guide/projects/project-templates/) |
+
+![Risk Log grouped by status with impact and likelihood columns in OpenProject](openproject_use_case_risk_log.png)
 
 ## 1. Project member workflow
 
@@ -72,6 +64,8 @@ Select the response strategy and document the intended outcome. Turn concrete ac
 
 Record both preventive actions and contingency actions where useful. Preventive actions reduce probability or impact before the event; contingency actions define what to do if it occurs.
 
+![Risk work package with a structured description, risk assessment and related response action in OpenProject](openproject_use_case_risk_work_package.png)
+
 ### 1.4 Monitor and review
 
 Review active risks regularly in a project meeting or dedicated risk review. For each risk:
@@ -100,6 +94,8 @@ The following configuration is normally created once and then reused across proj
 ### 2.1 Create and activate the `Risk` work package type
 
 Create a work package type named `Risk` under **Administration → Work packages → Types**. Add the fields needed for assessment, response and review to its form. See [work package types](../../system-admin-guide/manage-work-packages/work-package-types/) for configuration details.
+
+![Form configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_type_form.png)
 
 Configure the following default description for the `Risk` type so every new risk uses the same structure:
 
@@ -153,6 +149,8 @@ A small workflow is usually easier to maintain than a highly detailed one. For e
 5. `Closed` – the risk no longer requires active monitoring.
 
 Optionally add `Occurred` when a realized risk must be handed over to issue management. Configure statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
+
+![Workflow transition configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_workflow.png)
 
 Restrict sensitive transitions where appropriate. For example, only the project manager or risk manager may accept a high risk or close an escalated risk. Configure the corresponding rights under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
 
