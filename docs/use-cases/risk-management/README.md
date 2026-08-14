@@ -159,6 +159,7 @@ Create the required custom fields under **Administration → Custom fields → W
 
 | Form section | Attribute | Type | Purpose |
 | --- | --- | --- | --- |
+| Always present | Description | Built-in field | Stores the structured risk description and is always part of the form |
 | Risk details | Risk category | List | Groups risks such as schedule, cost, scope, quality, security or external dependency |
 | Risk details | Assignee | Built-in field | Assigns responsibility for the next activity |
 | Risk details | Identified by | User | Records who identified the risk |
@@ -168,7 +169,7 @@ Create the required custom fields under **Administration → Custom fields → W
 | Risk assessment | Escalation | User | Identifies the person to involve when a decision or escalation is required |
 | Risk response | Risk response | Related work packages table | Shows mitigation actions as separate related work packages |
 
-The `Assignee` is a built-in field. `Risk response` is an embedded related work packages table. The remaining attributes are configured as [custom fields](../../system-admin-guide/custom-fields/) and added to the form.
+`Description` is a built-in field that is always part of the risk form. It does not appear in **Form configuration** and cannot be activated or deactivated. `Assignee` is a configurable built-in field. `Risk response` is an embedded related work packages table. The remaining attributes are configured as [custom fields](../../system-admin-guide/custom-fields/) and added to the form.
 
 Use one consistent scale across projects. If the organization uses a 1 to 5 scale, define in the Risk Management Plan what each likelihood and impact value means. Until calculated fields are available, record the score explicitly or group/filter the register by likelihood and impact; do not imply that OpenProject calculates `likelihood × impact` automatically.
 
