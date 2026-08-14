@@ -155,7 +155,7 @@ Rails.application.routes.draw do
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
   resources :types, module: "work_package_types", except: [:update] do
-    resources :variants, controller: "variants", only: %i[destroy] do
+    resources :variants, controller: "variants", only: %i[index destroy] do
       member do
         get :menu
         post :make_default

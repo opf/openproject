@@ -40,6 +40,21 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
   context "with admin access" do
     let(:user) { admin }
 
+    describe "GET index" do
+      before { get :index, params: { type_id: type.id } }
+
+      it "renders the tab" do
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:index)
+      end
+
+      context "with the type_variants feature disabled", with_flag: { type_variants: false } do
+        it "is not found" do
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
     describe "POST make_default" do
       context "for the base variant" do
         let(:variant) { type.default_variant }

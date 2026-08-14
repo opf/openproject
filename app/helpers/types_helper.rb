@@ -46,6 +46,7 @@ module ::TypesHelper
         path: edit_type_defaults_path(**variant_args),
         label: I18n.t("types.edit.defaults.tab")
       },
+      *variants_tab,
       {
         name: "form_configuration",
         path: edit_type_form_configuration_path(**variant_args),
@@ -77,6 +78,17 @@ module ::TypesHelper
 
   def type_variant_tab_args
     @variant&.path_args || { type_id: @type.id }
+  end
+
+  def variants_tab
+    return [] unless OpenProject::FeatureDecisions.type_variants_active?
+    return [] if @variant.present? && !@variant.is_default_variant?
+
+    [{
+      name: "variants",
+      path: type_variants_path(type_id: @type.id),
+      label: TypeVariant.model_name.human(count: 2)
+    }]
   end
   # rubocop:enable Rails/HelperInstanceVariable
 

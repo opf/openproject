@@ -38,6 +38,8 @@ module WorkPackageTypes
       :types
     end
 
+    def index; end
+
     def menu
       render Types::VariantActionsComponent.new(variant: named_variant), layout: false
     end
