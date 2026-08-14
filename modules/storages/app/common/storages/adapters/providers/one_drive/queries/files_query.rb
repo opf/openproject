@@ -34,7 +34,9 @@ module Storages
       module OneDrive
         module Queries
           class FilesQuery < Base
-            FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
+            MAXIMUM = 1000
+            FIELDS = "id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
+            QUERY = "?$top=#{MAXIMUM}&$select=#{FIELDS}".freeze
 
             def initialize(*)
               super
@@ -45,7 +47,7 @@ module Storages
               with_tagged_logger do
                 info "Getting data on all files under folder '#{input_data.folder}'"
                 Authentication[auth_strategy].call(storage: @storage) do |http|
-                  handle_response(http.get(children_url_for(input_data.folder) + FIELDS)).bind do |response|
+                  handle_response(http.get(children_url_for(input_data.folder) + QUERY)).bind do |response|
                     files = response.fetch(:value, [])
                     return empty_response(http, input_data.folder) if files.empty?
 
@@ -85,7 +87,7 @@ module Storages
             end
 
             def empty_response(http, folder)
-              handle_response(http.get(location_url_for(folder) + FIELDS)).bind do |response|
+              handle_response(http.get(location_url_for(folder) + QUERY)).bind do |response|
                 empty_storage_files(folder.path, response[:id])
               end
             end

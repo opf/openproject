@@ -35,7 +35,9 @@ module Storages
         module Queries
           module Internal
             class ChildrenQuery < Base
-              FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
+              MAXIMUM = 1000
+              FIELDS = "id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
+              QUERY = "?$top=#{MAXIMUM}&$select=#{FIELDS}".freeze
 
               def self.call(storage:, http:, drive_id:, location:)
                 new(storage).call(drive_id:, http:, location:)
@@ -47,7 +49,7 @@ module Storages
               end
 
               def call(http:, drive_id:, location:)
-                handle_response(http.get(request_uri(drive_id, location) + FIELDS)).bind do |json|
+                handle_response(http.get(request_uri(drive_id, location) + QUERY)).bind do |json|
                   files = json.fetch(:value, [])
                   return empty_response(http, drive_id, location) if files.empty?
 
@@ -107,7 +109,7 @@ module Storages
               end
 
               def empty_response(http, drive_id, folder)
-                handle_response(http.get(folder_uri(drive_id, folder) + FIELDS)).bind do |json|
+                handle_response(http.get(folder_uri(drive_id, folder) + QUERY)).bind do |json|
                   if folder.root?
                     build_empty_root_folder(json)
                   else
