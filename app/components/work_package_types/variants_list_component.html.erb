@@ -1,0 +1,81 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper do
+    render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: "type-variants",
+        mb: 3,
+        test_selector: "type-variants"
+      )
+    ) do |list|
+      list.with_header(title:, count: variants.size) do |header|
+        header.with_action_button(
+          tag: :a,
+          href: add_variant_path,
+          scheme: :invisible,
+          font_weight: :bold,
+          color: :subtle,
+          test_selector: "add-type-variant"
+        ) do |button|
+          button.with_leading_visual_icon(icon: :plus, color: :subtle)
+          I18n.t("types.index.add_variant_action")
+        end
+      end
+
+      list.with_empty_state(
+        title: I18n.t("types.edit.variants.blankslate.title"),
+        description: I18n.t("types.edit.variants.blankslate.description"),
+        icon: :versions,
+        action_label: I18n.t("types.index.add_variant_action"),
+        action_icon: :plus,
+        action_arguments: { tag: :a, href: add_variant_path }
+      )
+
+      variants.each do |variant|
+        list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
+          item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
+
+          flex_layout(align_items: :center, justify_content: :space_between) do |row|
+            row.with_column do
+              render(Primer::Beta::Link.new(href: variant_path(variant), font_weight: :bold)) { variant.variant_name }
+            end
+
+            if variant.enabled_in_new_projects?
+              row.with_column(mr: 3) do
+                render(Primer::Beta::Label.new) { I18n.t("types.index.enabled_in_new_projects") }
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

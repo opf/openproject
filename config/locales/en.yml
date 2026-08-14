@@ -6382,6 +6382,10 @@ en:
           switch_to_independent: "Switch to independent mode"
           title: "Linked mode"
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description: "Variants let you configure different flavors of this type."
+          title: "This type has no variants yet."
       workflow:
         tab: "Workflows"
     index:

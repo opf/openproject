@@ -41,11 +41,16 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
     let(:user) { admin }
 
     describe "GET index" do
+      let!(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
+
       before { get :index, params: { type_id: type.id } }
 
-      it "renders the tab" do
+      render_views
+
+      it "renders the tab, listing the type's named variants" do
         expect(response).to have_http_status(:ok)
         expect(response).to render_template(:index)
+        expect(response.body).to include("Hardware")
       end
 
       context "with the type_variants feature disabled", with_flag: { type_variants: false } do
