@@ -105,4 +105,35 @@ RSpec.describe WorkPackageSemanticAlias do
       end
     end
   end
+
+  describe "work_package foreign key on delete",
+           with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+    shared_let(:user) { create(:admin) }
+
+    # The path a user takes in the UI: Projects::DeleteProjectJob -> Projects::DeleteService.
+    it "deletes a parent project whose subproject holds a work package" do
+      parent_project = create(:project, identifier: "PARENT", name: "Parent")
+      child_project = create(:project, identifier: "CHILD", name: "Child", parent: parent_project)
+      child_work_package = create(:work_package, project: child_project, subject: "In the subproject")
+
+      expect(described_class.where(work_package_id: child_work_package.id).pluck(:identifier))
+        .to eq(["CHILD-1"])
+
+      service_call = Projects::DeleteService.new(user:, model: parent_project).call
+
+      expect(service_call).to be_success
+      expect(Project.where(id: [parent_project.id, child_project.id])).to be_empty
+    end
+
+    # Any caller that destroys a project without going through Projects::DeleteService,
+    # e.g. the console, seeders, or awesome_nested_set destroying descendants.
+    it "destroys a project holding a work package" do
+      project = create(:project, identifier: "SOLO", name: "Solo")
+      create(:work_package, project:, subject: "In the project")
+
+      project.destroy!
+
+      expect(Project.where(id: project.id)).to be_empty
+    end
+  end
 end
