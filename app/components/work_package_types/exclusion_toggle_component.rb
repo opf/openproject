@@ -75,11 +75,10 @@ module WorkPackageTypes
     end
 
     def toggle_path
-      helpers.scoped_variant_path(:type_excluded_element_toggle_path,
-                                  type_id: @exclusions.variant.type_id,
-                                  variant_id: @exclusions.variant.id,
-                                  aspect: @aspect,
-                                  element: @element_key)
+      helpers.type_excluded_element_toggle_path(type_id: @exclusions.variant.type_id,
+                                                variant_id: @exclusions.variant.id,
+                                                aspect: @aspect,
+                                                element: @element_key)
     end
   end
 end

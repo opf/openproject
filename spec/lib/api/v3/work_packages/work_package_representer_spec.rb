@@ -1577,7 +1577,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         it_behaves_like "has a titled link" do
           let(:link) { "configureForm" }
-          let(:href) { edit_type_form_configuration_path(work_package.type_id) }
+          let(:href) { edit_type_form_configuration_path(type_id: work_package.type_id) }
           let(:title) { "Configure form" }
         end
       end

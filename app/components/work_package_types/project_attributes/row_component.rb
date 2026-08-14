@@ -54,8 +54,7 @@ module WorkPackageTypes
       end
 
       def toggle_path
-        helpers.scoped_variant_path(:toggle_type_project_attributes_path,
-                                    **@variant.path_args,
+        helpers.toggle_type_project_attributes_path(**@variant.path_args,
                                     project_custom_field_type_mapping: {
                                       variant_id: @variant.id,
                                       custom_field_id: @project_custom_field.id

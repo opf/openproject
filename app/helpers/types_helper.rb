@@ -41,38 +41,38 @@ module ::TypesHelper
     tabs = [
       {
         name: "details",
-        path: scoped_variant_path(:edit_type_details_path, **variant_args),
+        path: edit_type_details_path(**variant_args),
         label: I18n.t("types.edit.details.tab")
       },
       {
         name: "defaults",
-        path: scoped_variant_path(:edit_type_defaults_path, **variant_args),
+        path: edit_type_defaults_path(**variant_args),
         label: I18n.t("types.edit.defaults.tab")
       },
       variants_tab,
       {
         name: "form_configuration",
-        path: scoped_variant_path(:edit_type_form_configuration_path, **variant_args),
+        path: edit_type_form_configuration_path(**variant_args),
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
         name: "workflow",
-        path: scoped_variant_path(:edit_type_workflow_path, **variant_args),
+        path: edit_type_workflow_path(**variant_args),
         label: I18n.t("types.edit.workflow.tab")
       },
       {
         name: "project_attributes",
-        path: scoped_variant_path(:edit_type_project_attributes_path, **variant_args),
+        path: edit_type_project_attributes_path(**variant_args),
         label: I18n.t("types.edit.project_attributes.tab")
       },
       {
         name: "projects",
-        path: scoped_variant_path_if_available(:edit_type_projects_path, **variant_args),
+        path: (edit_type_projects_path(**variant_args) unless variant_scope_project),
         label: I18n.t("types.edit.projects.tab")
       },
       {
         name: "export_configuration",
-        path: scoped_variant_path(:edit_type_pdf_export_template_index_path, **variant_args),
+        path: edit_type_pdf_export_template_index_path(**variant_args),
         label: I18n.t("types.edit.export_configuration.tab"),
         view_component: WorkPackageTypes::ExportConfigurationComponent
       }
@@ -88,6 +88,8 @@ module ::TypesHelper
   def variants_tab
     return unless OpenProject::FeatureDecisions.type_variants_active?
     return if @variant.present? && !@variant.is_default_variant?
+    # This lists every project's variants of the type, so it is administration's view of them.
+    return if variant_scope_project
 
     {
       name: "variants",

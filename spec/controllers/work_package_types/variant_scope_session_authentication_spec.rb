@@ -46,7 +46,7 @@ RSpec.describe "Project-scoped variant screens for a session-authenticated user"
 
   before { session[:user_id] = project_admin.id }
 
-  describe Projects::Settings::WorkPackages::Types::Variants::DetailsTabController do
+  describe WorkPackageTypes::DetailsTabController do
     it "renders the tab rather than bouncing to the login page" do
       get :edit, params: { project_id: project.identifier, type_id: type.id, variant_id: ours.id }
 
@@ -72,7 +72,7 @@ RSpec.describe "Project-scoped variant screens for a session-authenticated user"
     end
   end
 
-  describe Projects::Settings::WorkPackages::Types::Variants::CreationWizardController do
+  describe WorkPackageTypes::CreationWizardController do
     it "opens the first step rather than bouncing to the login page" do
       get :new, params: { project_id: project.identifier, type_id: type.id }
 
@@ -80,7 +80,7 @@ RSpec.describe "Project-scoped variant screens for a session-authenticated user"
     end
   end
 
-  describe Projects::Settings::WorkPackages::Types::Variants::PdfExportTemplateController do
+  describe WorkPackageTypes::PdfExportTemplateController do
     it "renders the tab, whose template lookup follows the variant" do
       get :edit, params: { project_id: project.identifier, type_id: type.id, variant_id: ours.id }
 

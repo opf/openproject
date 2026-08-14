@@ -56,19 +56,17 @@ module WorkPackageTypes
 
       case aspect
       when TypeVariant::DEFAULTS
-        helpers.scoped_variant_path(:edit_type_defaults_path, type_id: source.type_id, variant_id: source.id)
+        helpers.edit_type_defaults_path(type_id: source.type_id, variant_id: source.id)
       when TypeVariant::PDF_EXPORT
-        helpers.scoped_variant_path(:edit_type_pdf_export_template_index_path, type_id: source.type_id, variant_id: source.id)
+        helpers.edit_type_pdf_export_template_index_path(type_id: source.type_id, variant_id: source.id)
       when TypeVariant::PROJECT_ATTRIBUTES
-        helpers.scoped_variant_path(:edit_type_project_attributes_path, type_id: source.type_id, variant_id: source.id)
+        helpers.edit_type_project_attributes_path(type_id: source.type_id, variant_id: source.id)
       when TypeVariant::WORKFLOWS
-        helpers.scoped_variant_path(:edit_type_workflow_path, type_id: source.type_id, variant_id: source.id)
+        helpers.edit_type_workflow_path(type_id: source.type_id, variant_id: source.id)
       else
-        helpers.scoped_variant_path(:edit_type_form_configuration_path, type_id: source.type_id, variant_id: source.id)
+        helpers.edit_type_form_configuration_path(type_id: source.type_id, variant_id: source.id)
       end
     end
-
-    def mode_switchable? = helpers.scoped_variant_route?(:type_configuration_link_dialog_path)
 
     # A source is named either way, but only linked to where its own screens can be opened. From
     # a project that means a source the same project owns: a global one is configured in
@@ -82,11 +80,11 @@ module WorkPackageTypes
 
     def copy_supported? = CopyConfiguration.supported?(aspect)
 
-    def copy_dialog_path = helpers.scoped_variant_path(:type_configuration_copy_dialog_path, **dialog_path_args)
+    def copy_dialog_path = helpers.type_configuration_copy_dialog_path(**dialog_path_args)
 
-    def link_dialog_path = helpers.scoped_variant_path(:type_configuration_link_dialog_path, **dialog_path_args)
+    def link_dialog_path = helpers.type_configuration_link_dialog_path(**dialog_path_args)
 
-    def independent_dialog_path = helpers.scoped_variant_path(:type_configuration_independence_dialog_path, **dialog_path_args)
+    def independent_dialog_path = helpers.type_configuration_independence_dialog_path(**dialog_path_args)
 
     def dialog_path_args = variant.path_args.merge(aspect:)
 

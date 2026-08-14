@@ -46,7 +46,7 @@ module WorkPackageTypes
 
     def form_options
       {
-        url: helpers.scoped_variant_path(:type_defaults_path, type_id: variant.type_id, variant_id: variant.id),
+        url: helpers.type_defaults_path(type_id: variant.type_id, variant_id: variant.id),
         method: :put,
         model: subject_form_object,
         readonly: @readonly,

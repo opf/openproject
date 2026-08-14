@@ -58,11 +58,11 @@ module WorkPackageTypes
     end
 
     def add_group_url
-      helpers.scoped_variant_path(:add_group_type_form_configuration_groups_path, **@variant.path_args)
+      helpers.add_group_type_form_configuration_groups_path(**@variant.path_args)
     end
 
     def groups_url
-      helpers.scoped_variant_path(:type_form_configuration_groups_path, **@variant.path_args)
+      helpers.type_form_configuration_groups_path(**@variant.path_args)
     end
 
     def ee_available?

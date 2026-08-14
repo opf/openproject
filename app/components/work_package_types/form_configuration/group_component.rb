@@ -106,8 +106,7 @@ module WorkPackageTypes
         {
           "draggable-id": @group[:key],
           "draggable-type": "group",
-          "drop-url": helpers.scoped_variant_path(:drop_type_form_configuration_group_path,
-                                                  **@variant.path_args,
+          "drop-url": helpers.drop_type_form_configuration_group_path(**@variant.path_args,
                                                   key: @group[:key])
         }
       end
@@ -124,34 +123,33 @@ module WorkPackageTypes
       end
 
       def edit_path
-        helpers.scoped_variant_path(:edit_type_form_configuration_group_path, type_id: @variant.type_id, variant_id: @variant.id,
-                                                                              key: @group[:key])
+        helpers.edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
+                                                        key: @group[:key])
       end
 
       def update_path
-        helpers.scoped_variant_path(:type_form_configuration_group_path, type_id: @variant.type_id, variant_id: @variant.id,
-                                                                         key: @group[:key])
+        helpers.type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
+                                                   key: @group[:key])
       end
 
       def cancel_edit_path
-        helpers.scoped_variant_path(:cancel_edit_type_form_configuration_group_path,
-                                    **@variant.path_args,
+        helpers.cancel_edit_type_form_configuration_group_path(**@variant.path_args,
                                     key: @group[:key])
       end
 
       def move_path(move_to)
-        helpers.scoped_variant_path(:move_type_form_configuration_group_path, type_id: @variant.type_id, variant_id: @variant.id,
-                                                                              key: @group[:key], move_to:)
+        helpers.move_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
+                                                        key: @group[:key], move_to:)
       end
 
       def destroy_path
-        helpers.scoped_variant_path(:type_form_configuration_group_path, type_id: @variant.type_id, variant_id: @variant.id,
-                                                                         key: @group[:key])
+        helpers.type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
+                                                   key: @group[:key])
       end
 
       def row_drop_path(attribute)
-        helpers.scoped_variant_path(:drop_type_form_configuration_row_path, type_id: @variant.type_id, variant_id: @variant.id,
-                                                                            row_key: attribute[:key])
+        helpers.drop_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id,
+                                                      row_key: attribute[:key])
       end
     end
   end

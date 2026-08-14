@@ -117,7 +117,7 @@ RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } d
     start_wizard
     type = complete_details_step("Critical")
 
-    visit type_creation_wizard_path(type, step: :defaults)
+    visit type_creation_wizard_path(type_id: type, step: :defaults)
 
     Components::WysiwygEditor.new.set_markdown("Reproduce the bug first")
     click_on I18n.t(:button_continue)

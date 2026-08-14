@@ -58,13 +58,7 @@ module WorkPackageTypes
       end
 
       def breadcrumb_items
-        [
-          { href: admin_index_path, text: I18n.t("label_administration") },
-          { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
-          { href: types_path, text: I18n.t(:label_type_plural) },
-          *parent_breadcrumb_item,
-          title
-        ]
+        [*helpers.variant_scope_breadcrumb_roots, *parent_breadcrumb_item, title]
       end
 
       def parent_breadcrumb_item
@@ -75,16 +69,15 @@ module WorkPackageTypes
       # its list of types. Administration returns to the type that was being created.
       def cancel_href
         return back_url if back_url.present?
-        return helpers.scoped_variant_path(:types_path) if helpers.variant_scope_project || !type.persisted?
+        return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
-        helpers.scoped_variant_path(:edit_type_details_path, type_id: type.id)
+        helpers.edit_type_details_path(type_id: type.id)
       end
 
       def step_title = Steps.title(current_step)
 
       def step_url
-        helpers.scoped_variant_path(:type_creation_wizard_path, **variant_path_args,
-                                    step: current_step, back_url:)
+        helpers.type_creation_wizard_path(**variant_path_args, step: current_step, back_url:)
       end
 
       # A type still being created has no variant to address yet.
@@ -93,11 +86,9 @@ module WorkPackageTypes
       def step_form_url
         return step_url if record_persisted?
 
-        if adding_variant?
-          return helpers.scoped_variant_path(:creation_wizard_types_path, type_id: type.id, back_url:)
-        end
+        return helpers.creation_wizard_types_path(type_id: type.id, back_url:) if adding_variant?
 
-        helpers.scoped_variant_path(:creation_wizard_types_path, back_url:)
+        helpers.creation_wizard_types_path(back_url:)
       end
 
       def step_form_method

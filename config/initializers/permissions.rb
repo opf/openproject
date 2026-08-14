@@ -248,38 +248,32 @@ Rails.application.reloader.to_prepare do
 
       # Deliberately separate from :manage_types, which is about which types a project uses.
       # This one is about authoring the project's own variants of them.
+      # Deliberately separate from :manage_types, which is about which types a project uses.
+      # This one is about authoring the project's own variants of them. The controllers are
+      # administration's own: one route with an optional project prefix serves both addresses,
+      # and they authorize with this permission when a project is in the path.
       map.permission :manage_project_variants,
                      {
-                       "projects/settings/work_packages/types/variants": %i[create destroy],
-                       "projects/settings/work_packages/types/variants/details_tab": %i[edit update],
-                       "projects/settings/work_packages/types/variants/defaults_tab": %i[edit update],
-                       "projects/settings/work_packages/types/variants/form_configuration_tab": %i[edit update
-                                                                                                   reset_dialog],
-                       "projects/settings/work_packages/types/variants/form_configuration_groups_tab":
+                       "work_package_types/variants": %i[destroy menu],
+                       "work_package_types/creation_wizard": %i[new create show update],
+                       "work_package_types/details_tab": %i[edit update],
+                       "work_package_types/defaults_tab": %i[edit update],
+                       "work_package_types/form_configuration_tab": %i[edit update reset_dialog],
+                       "work_package_types/form_configuration_groups_tab":
                          %i[create edit update destroy add_group cancel_edit drop move update_query],
-                       "projects/settings/work_packages/types/variants/project_attributes_tab":
+                       "work_package_types/project_attributes_tab":
                          %i[edit toggle enable_all_of_section disable_all_of_section],
-                       "projects/settings/work_packages/types/variants/workflow_tab": %i[edit],
-                       "projects/settings/work_packages/types/variants/pdf_export_template":
+                       "work_package_types/workflow_tab": %i[edit],
+                       "work_package_types/pdf_export_template":
                          %i[edit toggle drop enable_all disable_all update_artefact_export],
-                       "projects/settings/work_packages/types/variants/excluded_elements": %i[toggle],
-                       "projects/settings/work_packages/types/variants/creation_wizard":
-                         %i[new create show update],
-                       "projects/settings/work_packages/types/variants/matrix":
-                         %i[show update status_dialog confirm_statuses],
-                       # Choosing what a configuration is borrowed from. The sources on offer are
-                       # scoped to what the variant may use, so a project can be trusted with it.
-                       "projects/settings/work_packages/types/variants/configuration_links":
-                         %i[dialog confirm switch],
-                       "projects/settings/work_packages/types/variants/configuration_independence":
-                         %i[dialog confirm switch],
-                       "projects/settings/work_packages/types/variants/configuration_copies":
-                         %i[dialog confirm copy],
-                       "projects/settings/work_packages/types/variants/workflow_copies": %i[new],
-                       "projects/settings/work_packages/types/variants/workflow_copies/from_variants":
-                         %i[create],
-                       "projects/settings/work_packages/types/variants/workflow_copies/from_roles":
-                         %i[create]
+                       "work_package_types/excluded_elements": %i[toggle],
+                       "work_package_types/configuration_links": %i[dialog confirm switch],
+                       "work_package_types/configuration_independence": %i[dialog confirm switch],
+                       "work_package_types/configuration_copies": %i[dialog confirm copy],
+                       "workflows/matrix": %i[show update status_dialog confirm_statuses],
+                       "workflows/copies": %i[new],
+                       "workflows/copies/from_variants": %i[create],
+                       "workflows/copies/from_roles": %i[create]
                      },
                      permissible_on: :project,
                      require: :member

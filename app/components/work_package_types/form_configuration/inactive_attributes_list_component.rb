@@ -59,8 +59,7 @@ module WorkPackageTypes
           attr_is_cf: attribute[:is_cf],
           "draggable-id": attribute[:key],
           "draggable-type": "attribute",
-          "drop-url": helpers.scoped_variant_path(:drop_type_form_configuration_row_path,
-                                                  **@variant.path_args,
+          "drop-url": helpers.drop_type_form_configuration_row_path(**@variant.path_args,
                                                   row_key: attribute[:key])
         }
       end

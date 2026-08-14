@@ -30,11 +30,8 @@
 
 class Workflows::CopiesController < ApplicationController
   include WorkPackageTypes::AddressesVariant
+  include ::WorkPackageTypes::ConfiguredInScope
   include OpTurbo::ComponentStream
-
-  layout "admin"
-
-  before_action :require_admin
 
   before_action :set_source_variant
   before_action :set_source_role

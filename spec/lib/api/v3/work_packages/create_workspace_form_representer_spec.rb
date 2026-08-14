@@ -163,7 +163,7 @@ RSpec.describe API::V3::WorkPackages::CreateWorkspaceFormRepresenter do
 
         it "has a link to configure the form" do
           expected = {
-            href: edit_type_form_configuration_path(type),
+            href: edit_type_form_configuration_path(type_id: type),
             type: "text/html",
             title: "Configure form"
           }

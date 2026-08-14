@@ -154,25 +154,24 @@ Rails.application.routes.draw do
 
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
-  # Configuring one variant of a type. Mounted twice: under /types for administration, and
-  # under a project's settings for the variants a project owns. Same tab controllers either
-  # way — only the module, and what the caller is allowed to reach, differ.
-  concern :type_variant_configuration do |options|
-    # Which projects use a type is an instance-wide decision, and a project-owned variant is
-    # only ever used by the project owning it, so this has nothing to offer there.
-    unless options[:without_project_activation]
-      resource :projects, controller: "projects_tab", only: %i[edit update] do
-        collection do
-          post :enable_all, to: "projects_tab#enable_all_projects"
+  # Configuring one variant of a type, reachable from administration and from the settings of a
+  # project that owns one. Mounted once under an optional project prefix, so a single route and
+  # a single helper name serve both and the controllers read params[:project_id] to know which
+  # they are answering.
+  concern :type_variant_configuration do
+    # Which projects use a type is an instance-wide decision, so ProjectsTabController turns it
+    # away when a project is asking.
+    resource :projects, controller: "projects_tab", only: %i[edit update] do
+      collection do
+        post :enable_all, to: "projects_tab#enable_all_projects"
 
-          get :new_link
-          get :tree
-          post :link
-          delete :unlink
+        get :new_link
+        get :tree
+        post :link
+        delete :unlink
 
-          get :new_switch
-          post :switch
-        end
+        get :new_switch
+        post :switch
       end
     end
 
@@ -231,14 +230,14 @@ Rails.application.routes.draw do
     end
 
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
-      resource :matrix, only: %i[show update], controller: options[:matrix_controller] do
+      resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
         get :status_dialog
         post :confirm_statuses
       end
 
-      resource :copy, only: %i[new], controller: options[:workflow_copy_controller] do
-        resource :from_variant, only: %i[create], controller: options[:workflow_copy_from_variant_controller]
-        resource :from_role, only: %i[create], controller: options[:workflow_copy_from_role_controller]
+      resource :copy, only: %i[new], controller: "/workflows/copies" do
+        resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
+        resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
       end
     end
 
@@ -263,32 +262,8 @@ Rails.application.routes.draw do
   end
 
   resources :types, module: "work_package_types", except: [:update] do
-    resources :variants, controller: "variants", only: %i[index destroy] do
-      member do
-        get :menu
-        post :make_default
-        post :remove_default
-      end
-    end
-
-    # Everything below is about exactly one variant, so it is addressed by one. A scope rather
-    # than a nested resource: the path gains the variant, the helper names do not change, and
-    # every call site simply names which configuration it means. `nested` is what puts it under
-    # the type member rather than in front of it.
-    nested do
-      scope "(variants/:variant_id)" do
-        concerns :type_variant_configuration,
-                 matrix_controller: "/workflows/matrix",
-                 workflow_copy_controller: "/workflows/copies",
-                 workflow_copy_from_variant_controller: "/workflows/copies/from_variants",
-                 workflow_copy_from_role_controller: "/workflows/copies/from_roles"
-      end
-    end
-
     collection do
       post "move/:id", action: "move", as: :move
-      get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
-      post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
       get :workflow_summary, to: "/workflows/summaries#show"
     end
 
@@ -296,6 +271,36 @@ Rails.application.routes.draw do
       get :menu
       put :drop
       post :duplicate
+    end
+  end
+
+  # The variant screens live at both /types/… and inside a project's settings. One declaration
+  # with an optional prefix gives one route and one helper name per screen, so a component names
+  # a path without knowing which of the two it is rendering in. `only: []` keeps the project's
+  # own types page, which has its own controller, from being shadowed by this resource.
+  scope "(/projects/:project_id/settings/work_packages)" do
+    resources :types, only: [], module: "work_package_types" do
+      resources :variants, controller: "variants", only: %i[index destroy] do
+        member do
+          get :menu
+          post :make_default
+          post :remove_default
+        end
+      end
+
+      # A scope rather than a nested resource: the path gains the variant, the helper names do
+      # not change, and every call site simply names which configuration it means. `nested` is
+      # what puts it under the type member rather than in front of it.
+      nested do
+        scope "(variants/:variant_id)" do
+          concerns :type_variant_configuration
+        end
+      end
+
+      collection do
+        get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
+        post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+      end
     end
   end
 
@@ -476,33 +481,8 @@ Rails.application.routes.draw do
           resources :types, only: %i[index new create destroy] do
             patch :bulk_update, on: :collection
 
-            # Creating a variant: none exists to address yet, so these live on the collection
-            # like their administration counterparts. Only variant creation is offered here —
-            # a type itself is still created in administration.
-            collection do
-              get "variants/new", to: "types/variants/creation_wizard#new", as: :new_creation_wizard
-              post "variants", to: "types/variants/creation_wizard#create", as: :creation_wizard
-            end
-
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
-            end
-
-            # The variants this project owns, configured with the very same tabs used in
-            # administration. Copying a workflow is left out: it reaches across the instance.
-            scope module: "types" do
-              resources :variants, controller: "variants", only: %i[destroy]
-
-              nested do
-                scope "variants/:variant_id", module: "variants" do
-                  concerns :type_variant_configuration,
-                           matrix_controller: "/projects/settings/work_packages/types/variants/matrix",
-                           workflow_copy_controller: "/projects/settings/work_packages/types/variants/workflow_copies",
-                           workflow_copy_from_variant_controller: "/projects/settings/work_packages/types/variants/workflow_copies/from_variants",
-                           workflow_copy_from_role_controller: "/projects/settings/work_packages/types/variants/workflow_copies/from_roles",
-                           without_project_activation: true
-                end
-              end
             end
           end
           resource :custom_fields, only: %i[show update]

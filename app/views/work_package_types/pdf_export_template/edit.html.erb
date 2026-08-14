@@ -27,13 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title *variant_scope_title, "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+<% html_title variant_scope_title, "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: scoped_variant_path(:edit_type_pdf_export_template_index_path, **@variant.path_args)
+        reload_url: edit_type_pdf_export_template_index_path(**@variant.path_args)
       )
     ) do %>
   <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::PDF_EXPORT)) %>

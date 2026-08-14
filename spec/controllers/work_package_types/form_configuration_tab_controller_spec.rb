@@ -101,7 +101,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
       it "updates the work package type" do
         put :update, params: params
 
-        expect(response).to redirect_to(edit_type_form_configuration_path(type))
+        expect(response).to redirect_to(edit_type_form_configuration_path(type_id: type))
 
         type.reload
         expect(type.default_variant.attribute_groups.count).to eq(1)

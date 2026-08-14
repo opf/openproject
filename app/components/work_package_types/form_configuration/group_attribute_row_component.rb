@@ -74,15 +74,14 @@ module WorkPackageTypes
       end
 
       def row_move_path(move_to)
-        helpers.scoped_variant_path(:move_type_form_configuration_row_path,
-                                    **@variant.path_args,
+        helpers.move_type_form_configuration_row_path(**@variant.path_args,
                                     row_key: @attribute[:key],
                                     move_to:)
       end
 
       def row_destroy_path
-        helpers.scoped_variant_path(:type_form_configuration_row_path, type_id: @variant.type_id, variant_id: @variant.id,
-                                                                       row_key: @attribute[:key])
+        helpers.type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id,
+                                                 row_key: @attribute[:key])
       end
 
       def move_action(menu:, href:, label:, icon:)

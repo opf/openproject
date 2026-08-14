@@ -30,6 +30,8 @@
 
 module WorkPackageTypes
   class ProjectsTabController < BaseTabController
+    administration_only!
+
     include OpTurbo::ComponentStream
     include TypeDeactivationErrorMessage
 

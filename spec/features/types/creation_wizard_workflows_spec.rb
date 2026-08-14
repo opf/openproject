@@ -52,7 +52,7 @@ RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_var
     params = { step: :workflows }
     params[:role_ids] = roles.map(&:id) if roles.any?
     params[:tab] = tab if tab
-    visit type_creation_wizard_path(type, **params)
+    visit type_creation_wizard_path(type_id: type, **params)
   end
 
   def workflows_for(type, role)
@@ -70,7 +70,7 @@ RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_var
     expect(page).to have_no_button "Save"
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
+    expect(page).to have_current_path(type_creation_wizard_path(type_id: type, step: :projects))
     expect(workflows_for(type, role).count).to be 2
   end
 
