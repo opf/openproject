@@ -50,6 +50,7 @@ tr:
         story_points: Hikaye Puanları
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: Koşu başlatmak için başlangıç ve bitiş tarihleri zorunludur.
         must_be_in_planning: başlamak için planlama aşamasında olmalıdır.
         only_one_active_sprint_allowed: proje başına yalnızca bir aktif sprint'e izin verilir.
@@ -60,9 +61,11 @@ tr:
               locked_by_multiple_active_sprints: birden fazla aktif sprint çalışırken değiştirilemez.
               requires_no_sharing: yalnızca sprint paylaşımı 'Paylaşma' olarak ayarlandığında etkinleştirilebilir.
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: birden fazla aktif sprint etkinken değiştirilemez.
               share_all_projects_already_taken: '"%{name}" projesi zaten tüm projelerle paylaşıldığı için ayarlanamaz.'
               share_all_projects_already_taken_anonymous: halihazırda başka bir proje tüm projelerle paylaşıldığından bu ayar yapılamaz.
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: paylaşılan sprintleri alıyor. Kendi sprintleriniz oluşturulamaz.
         sprint:
           attributes:
@@ -155,6 +158,7 @@ tr:
     label_burndown_chart: Burndown grafiği
     label_is_done_status: Durum %{status_name} tamamlandı anlamına geliyor
     label_sprint_board: Sprint board
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Move to backlog bucket
     move_to_sprint_dialog_component:
@@ -184,6 +188,7 @@ tr:
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Another sprint is already active.
       start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
@@ -191,6 +196,15 @@ tr:
     sprint_form_component:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.

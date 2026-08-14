@@ -77,7 +77,7 @@ RSpec.describe OAuthClients::ConnectionManager, :oauth_connection_helpers, :webm
       it "returns a failure", :aggregate_failures do
         result = subject.code_to_token(code)
         expect(result).to be_failure
-        expect(result.errors).to be_a(Storages::Adapters::Results::Error)
+        expect(result.errors).to be_a(SimpleError)
       end
 
       it "does not create a token" do

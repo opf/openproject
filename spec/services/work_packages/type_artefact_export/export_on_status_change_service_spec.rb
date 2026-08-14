@@ -195,5 +195,49 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
         expect(Rails.logger).to have_received(:error).with(/Artefact export failed/)
       end
     end
+
+    context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+      shared_let(:variant) { create(:type, name: "Signed deliverable", parent: type) }
+
+      # The work package stores the root; the project decides which member's export mode applies.
+      shared_let(:variant_project) do
+        create(:project, name: "Variant Project", types: [variant])
+      end
+      shared_let(:variant_work_package) do
+        create(:work_package, project: variant_project, type:, status: status_new, subject: "A deliverable")
+      end
+
+      let(:instance) { described_class.new(current_user:, work_package: variant_work_package) }
+
+      before do
+        variant.configuration_links
+               .find_by(aspect: Type::ConfigurationLink::PDF_EXPORT)
+               .destroy!
+      end
+
+      context "when the variant enables the export and the root does not" do
+        before do
+          type.update!(artefact_export_mode: Type::ArtefactExport::OFF)
+          variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+        end
+
+        it "exports, following the variant rather than the stored root" do
+          expect { instance.call!(changes:) }
+            .to change { variant_work_package.reload.attachments.count }.by(1)
+        end
+      end
+
+      context "when the variant disables the export and the root enables it" do
+        before do
+          type.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+          variant.update!(artefact_export_mode: Type::ArtefactExport::OFF)
+        end
+
+        it "does not export" do
+          expect { instance.call!(changes:) }
+            .not_to change { variant_work_package.reload.attachments.count }
+        end
+      end
+    end
   end
 end

@@ -100,7 +100,7 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
       it { is_expected.not_to be_success }
 
       it "returns the error response" do
-        expect(subject.failure).to be_a(OpenIDConnect::TokenOperationError)
+        expect(subject.failure).to be_a(SimpleError)
         expect(subject.failure.code).to eq(:unauthorized)
       end
     end
@@ -182,7 +182,7 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
       it { is_expected.not_to be_success }
 
       it "returns the error response" do
-        expect(subject.failure).to be_a(OpenIDConnect::TokenOperationError)
+        expect(subject.failure).to be_a(SimpleError)
         expect(subject.failure.code).to eq(:unauthorized)
       end
     end

@@ -12,9 +12,16 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
-<p><%= I18n.t("types.edit.project_attributes.description") %></p>
 
-<%= render WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-      type: @type,
-      project_custom_field_sections: @project_custom_field_sections
-    ) %>
+<%= render(
+      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+        reload_url: edit_type_project_attributes_path(@type)
+      )
+    ) do %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES)) %>
+
+  <%= render WorkPackageTypes::ProjectAttributes::IndexComponent.new(
+        type: @type,
+        project_custom_field_sections: @project_custom_field_sections
+      ) %>
+<% end %>

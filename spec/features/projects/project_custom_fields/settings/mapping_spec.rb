@@ -364,6 +364,47 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
       end
     end
 
+    it "shows each section's own blankslate when the filter matches nothing, and restores rows on clear" do
+      visit project_settings_project_custom_fields_path(project)
+
+      fill_in "border-box-filter", with: "no such attribute exists"
+
+      [section_for_input_fields, section_for_select_fields, section_for_multi_select_fields].each do |section|
+        within_custom_field_section_container(section) do
+          expect(page).to have_css(
+            "[data-empty-list-item='true']",
+            text: I18n.t("settings.project_attributes.label_no_project_custom_fields")
+          )
+        end
+      end
+
+      # Cuprite's Node#set clears a field's existing value without firing an
+      # `input` event before it types the replacement characters, so setting
+      # `with: ""` never reaches the border-box-filter Stimulus controller.
+      # Backspacing through the native key-event path (like a real user
+      # clearing the field) does fire `input` on every keystroke — but the
+      # field must be (re-)focused first, since Node#set blurs it afterwards.
+      filter_field = find_field("border-box-filter")
+      filter_field.click
+      clear_input_field_contents(filter_field)
+
+      within_custom_field_section_container(section_for_input_fields) do
+        expect(page).to have_no_css("[data-empty-list-item]")
+        expect(page).to have_text("Boolean field")
+        expect(page).to have_text("String field")
+      end
+
+      within_custom_field_section_container(section_for_select_fields) do
+        expect(page).to have_no_css("[data-empty-list-item]")
+        expect(page).to have_text("List field")
+      end
+
+      within_custom_field_section_container(section_for_multi_select_fields) do
+        expect(page).to have_no_css("[data-empty-list-item]")
+        expect(page).to have_text("Multi list field")
+      end
+    end
+
     it "shows the project custom field sections in the correct order" do
       visit project_settings_project_custom_fields_path(project)
 

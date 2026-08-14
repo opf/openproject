@@ -237,6 +237,42 @@ module WorkPackageTypes
           end
         end
 
+        context "when the multiple versions feature is inactive",
+                with_settings: { work_package_multiple_versions: false } do
+          it "accepts the deprecated version" do
+            model.attribute_groups = [["foo", ["version"]]]
+
+            expect(contract).to be_valid
+          end
+
+          it "rejects target_versions as an unknown attribute" do
+            model.attribute_groups = [["foo", ["target_versions"]]]
+
+            expect(contract).not_to be_valid
+            expect(contract.errors.details[:attribute_groups]).to include(
+              error: "Invalid work package attribute used: target_versions"
+            )
+          end
+        end
+
+        context "when the multiple versions feature is active",
+                with_settings: { work_package_multiple_versions: true } do
+          it "accepts target_versions" do
+            model.attribute_groups = [["foo", ["target_versions"]]]
+
+            expect(contract).to be_valid
+          end
+
+          it "rejects the deprecated version as an unknown attribute" do
+            model.attribute_groups = [["foo", ["version"]]]
+
+            expect(contract).not_to be_valid
+            expect(contract.errors.details[:attribute_groups]).to include(
+              error: "Invalid work package attribute used: version"
+            )
+          end
+        end
+
         context "with invalid query group" do
           let(:query) { Query.new(name: "Invalid Query", user:) }
           let(:invalid_query_group) { ["query_group", [query]] }

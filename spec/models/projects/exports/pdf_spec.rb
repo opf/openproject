@@ -267,6 +267,59 @@ RSpec.describe Projects::Exports::PDF do
     end
   end
 
+  describe "project phase columns selected" do
+    shared_let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+
+    let(:query_columns) { %w[name] + ["project_phase_#{phase_definition.id}"] }
+    let!(:project_phase) do
+      create(:project_phase, project:, definition: phase_definition,
+                             start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+    end
+
+    context "with view_project_phases permission" do
+      let(:permissions) { super() + %i[view_project_phases] }
+
+      context "and an active phase" do
+        it "includes the phase's date range in the export" do
+          expected_document = [
+            *expected_cover_page,
+            project.name,
+            "Initiation", "01/05/2026 - 01/20/2026",
+            "1/1", export_time_formatted, query.name
+          ].join(" ")
+
+          expect(subject).to eq expected_document
+        end
+      end
+
+      context "and an inactive phase" do
+        before { project_phase.update!(active: false) }
+
+        it "drops the phase attribute instead of rendering it as empty" do
+          expected_document = [
+            *expected_cover_page,
+            project.name,
+            "1/1", export_time_formatted, query.name
+          ].join(" ")
+
+          expect(subject).to eq expected_document
+        end
+      end
+    end
+
+    context "without view_project_phases permission anywhere" do
+      it "omits the phase column entirely" do
+        expected_document = [
+          *expected_cover_page,
+          project.name,
+          "1/1", export_time_formatted, query.name
+        ].join(" ")
+
+        expect(subject).to eq expected_document
+      end
+    end
+  end
+
   context "with no project visible" do
     let(:current_user) { User.anonymous }
 

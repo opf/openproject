@@ -27,21 +27,31 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(class: "op-admin-settings-form-wrapper") do %>
+<% if globally_disabled? %>
   <%=
-    render(
-      Primer::Forms::ToggleSwitchForm.new(
-        name: "enable_interal_wiki",
-        label: t(".enable"),
-        caption: t(".caption"),
-        src: project_settings_wiki_path(@project),
-        csrf_token: form_authenticity_token,
-        status_label_position: :start,
-        checked: wiki_enabled?,
-        data: { turbo: true },
-        mb: 3,
-        test_selector: "project-settings-enable-wiki"
-      )
-    )
+    render(Primer::Beta::Blankslate.new(border: true)) do |component|
+      component.with_visual_icon(icon: :book)
+      component.with_heading(tag: :h2) { t(".blankslate_title") }
+      component.with_description { t(".blankslate_description") }
+    end
   %>
+<% else %>
+  <%= component_wrapper(class: "op-admin-settings-form-wrapper") do %>
+    <%=
+      render(
+        Primer::Forms::ToggleSwitchForm.new(
+          name: "enable_internal_wiki",
+          label: t(".enable"),
+          caption: t(".caption"),
+          src: project_settings_wiki_path(@project),
+          csrf_token: form_authenticity_token,
+          status_label_position: :start,
+          checked: wiki_enabled?,
+          data: { turbo: true },
+          mb: 3,
+          test_selector: "project-settings-enable-wiki"
+        )
+      )
+    %>
+  <% end %>
 <% end %>

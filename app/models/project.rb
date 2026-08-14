@@ -55,26 +55,26 @@ class Project < ApplicationRecord
     portfolio: %i[]
   }.with_indifferent_access
 
-  has_many :members, -> {
-    # TODO: check whether this should
-    # remain to be limited to User only
+  # rubocop:disable Rails/HasManyOrHasOneDependent, Rails/InverseOf
+  has_many :members, -> { not_locked }
+
+  has_many :member_users, -> {
     includes(:principal, :roles)
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
-  }
+  }, class_name: "Member"
+  # rubocop:enable Rails/HasManyOrHasOneDependent, Rails/InverseOf
 
   has_many :memberships, class_name: "Member"
-  has_many :member_principals,
-           -> { not_locked },
-           class_name: "Member"
-  has_many :users, through: :members, source: :principal
-  has_many :principals, through: :member_principals, source: :principal
+  has_many :users, through: :member_users, source: :principal
+  has_many :principals, through: :members, source: :principal
   has_many :calculated_value_errors, dependent: :delete_all, as: :customized
 
   has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
-  has_and_belongs_to_many :types, -> {
-    order("#{::Type.table_name}.position")
-  }
+  has_many :project_types, dependent: :delete_all
+
+  # Enabled root-types, variants need to be determined explicitly
+  has_many :types, -> { order("#{::Type.table_name}.position") }, through: :project_types
   has_many :work_packages, -> {
     order("#{WorkPackage.table_name}.created_at DESC")
       .includes(:status, :type)
@@ -152,8 +152,24 @@ class Project < ApplicationRecord
   register_journal_formatted_fields "status_code", formatter_key: :project_status_code
   register_journal_formatted_fields "public", formatter_key: :visibility
   register_journal_formatted_fields "parent_id", formatter_key: :subproject_named_association
-  register_journal_formatted_fields /\Acustom_fields_\d+\z/, formatter_key: :custom_field
-  register_journal_formatted_fields /\Acustom_comment_\d+\z/, formatter_key: :custom_comment
+
+  # In addition to :view_project_attributes, admin_only custom fields/comments
+  # are only visible to admins, regardless of :view_project_attributes.
+  custom_field_view_permission = lambda { |custom_field|
+    User.current.admin? ||
+    (
+      custom_field &&
+      !custom_field.admin_only? &&
+      User.current.allowed_in_project?(:view_project_attributes, project)
+    )
+  }
+
+  register_journal_formatted_fields /\Acustom_fields_\d+\z/,
+                                    formatter_key: :custom_field,
+                                    view_permission: custom_field_view_permission
+  register_journal_formatted_fields /\Acustom_comment_\d+\z/,
+                                    formatter_key: :custom_comment,
+                                    view_permission: custom_field_view_permission
   register_journal_formatted_fields /\Aproject_phase_\d+_active\z/, formatter_key: :project_phase_active
   register_journal_formatted_fields /\Aproject_phase_\d+_date_range\z/, formatter_key: :project_phase_dates
 

@@ -29,6 +29,8 @@
 #++
 
 class OpenProject::JournalFormatter::CustomComment < OpenProject::JournalFormatter::Diff
+  include OpenProject::JournalFormatter::CustomFieldPermission
+
   private
 
   def custom_field_for_key(key)

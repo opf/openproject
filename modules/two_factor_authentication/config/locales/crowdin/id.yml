@@ -126,7 +126,7 @@ id:
     error_no_device: Tidak ada perangkat 2FA terdaftar yang ditemukan untuk pengguna ini, meskipun yang diperlukan untuk contoh ini.
     error_no_matching_strategy: Tidak ada 2FA strategi yang cocok tersedia untuk pengguna ini. Silahkan hubungi administratior Anda.
     forced_registration:
-      required_to_add_device: Kebijakan keamanan aktif mengharuskan Anda untuk mengaktifkan otentikasi dua-faktor. Silakan gunakan formulir berikut untuk mendaftar perangkat.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Dua faktor otentikasi tidak aktif
     label_2fa_enabled: Dua faktor otentikasi tidak aktif
     label_default_device: Default 2FA perangkat

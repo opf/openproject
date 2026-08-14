@@ -44,16 +44,22 @@ See COPYRIGHT and LICENSE files for more details.
   )
 %>
 
-<%=
-  settings_primer_form_with(scope: :settings, action: :update, method: :patch) do |time_form|
-    render_inline_settings_form(time_form) do |form|
-      form.html_content do
-        render(Primer::Beta::Subhead.new(hide_border: true)) do |subhead|
-          subhead.with_heading(tag: :h3, size: :medium) { I18n.t(:label_mandatory_fields) }
-          subhead.with_description { I18n.t(:description_time_settings) }
-        end
-      end
+<%= render(Primer::Beta::Subhead.new) do |subhead|
+      subhead.with_heading(tag: :h3, size: :medium) { I18n.t(:label_start_and_finished) }
+      subhead.with_description { I18n.t(:description_time_settings) }
+    end %>
 
+<%=
+  settings_primer_form_with(
+    scope: :settings,
+    action: :update,
+    method: :patch,
+    data: {
+      controller: "disable-when-checked",
+      disable_when_checked_reversed_value: true
+    }
+  ) do |time_form|
+    render_inline_settings_form(time_form) do |form|
       form.check_box(
         name: :allow_tracking_start_and_end_times,
         caption: I18n.t(:setting_allow_tracking_start_and_end_times_caption)
@@ -64,7 +70,82 @@ See COPYRIGHT and LICENSE files for more details.
         disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
       )
 
-      form.submit
+      form.submit(name: :submit, label: I18n.t(:button_update_start_finish_times), scheme: :default)
+    end
+  end
+%>
+
+<%= render(Primer::Beta::Subhead.new(mt: 3)) do |subhead|
+      subhead.with_heading(tag: :h3, size: :medium) { I18n.t(:label_time_entry_restrictions) }
+      subhead.with_description { I18n.t(:description_time_entry_restrictions) }
+    end %>
+
+<%=
+  settings_primer_form_with(
+    scope: :settings,
+    action: :update,
+    method: :patch,
+    data: {
+      controller: "disable-when-checked",
+      disable_when_checked_reversed_value: true
+    }
+  ) do |time_form|
+    render_inline_settings_form(time_form) do |form|
+      form.text_field(
+        name: :time_entries_max_hours_per_entry,
+        type: :number,
+        min: 0,
+        input_width: :small,
+        caption: I18n.t(:setting_time_entries_max_hours_per_entry_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+      )
+
+      form.text_field(
+        name: :time_entries_max_hours_per_day,
+        type: :number,
+        min: 0,
+        input_width: :small,
+        caption: I18n.t(:setting_time_entries_max_hours_per_day_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+      )
+
+      form.check_box(
+        name: :time_entries_prohibit_logging_on_non_working_days,
+        caption: I18n.t(:setting_time_entries_prohibit_logging_on_non_working_days_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+      )
+
+      form.check_box(
+        name: :time_entries_limit_to_user_working_hours,
+        caption: I18n.t(:setting_time_entries_limit_to_user_working_hours_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions)
+      )
+
+      form.check_box(
+        name: :time_entries_prohibit_logging_for_past_months,
+        caption: I18n.t(:setting_time_entries_prohibit_logging_for_past_months_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions),
+        data: {
+          target_name: "time_entries_prohibit_logging_for_past_months",
+          disable_when_checked_target: "cause"
+        }
+      )
+
+      form.text_field(
+        name: :time_entries_past_month_grace_days,
+        type: :number,
+        min: 0,
+        input_width: :small,
+        caption: I18n.t(:setting_time_entries_past_month_grace_days_caption),
+        disabled: !EnterpriseToken.allows_to?(:time_entry_time_restrictions) ||
+                  !Setting.time_entries_prohibit_logging_for_past_months?,
+        data: {
+          target_name: "time_entries_prohibit_logging_for_past_months",
+          disable_when_checked_target: "effect"
+        }
+      )
+
+      form.submit(name: :submit, label: I18n.t(:button_update_limits), scheme: :default)
     end
   end
 %>
