@@ -40,8 +40,7 @@ module WorkPackageTypes
         method: :put,
         model:,
         data: {
-          controller: "admin--work-package-type-projects",
-          "admin--work-package-type-projects-initially-selected-projects-value": model.projects.pluck(:id).join(",")
+          controller: "admin--work-package-type-projects"
         }
       }
     end
