@@ -28,6 +28,11 @@
 
 ---
 en:
+  activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: "The rows and columns must together cover exactly the grouping criteria of the query."
   button_save_report_as: "Save report as..."
 
   comments: "Comment"

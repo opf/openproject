@@ -36,6 +36,14 @@
 class CostReport < PersistedView
   PIVOT_AXES = %i[pivot_rows pivot_columns].freeze
 
+  # The permissions the CostReportsController registers its view actions for.
+  VIEW_PERMISSIONS = %i[
+    view_time_entries
+    view_own_time_entries
+    view_cost_entries
+    view_own_cost_entries
+  ].freeze
+
   store_attribute :options, :pivot_rows, :json, default: []
   store_attribute :options, :pivot_columns, :json, default: []
   store_attribute :options, :unit_id, :integer
@@ -58,11 +66,19 @@ class CostReport < PersistedView
     query.group_bys = (pivot_columns + pivot_rows).map { |name| query.group_by_for(name) }
   end
 
+  # Mirrors the CostReportsController: any of the four permissions that grant
+  # access to the report pages is enough to read a report, and a report is
+  # readable if it is public or the user's own. Note that there is deliberately
+  # no exception for admins - they cannot read somebody else's private report
+  # either.
   def visible?(user)
-    return false unless user.allowed_in_any_project?(:view_cost_entries) ||
-                        user.allowed_in_any_project?(:view_own_cost_entries)
+    return false unless public? || principal == user
 
-    public? || principal == user
+    if project
+      VIEW_PERMISSIONS.any? { |permission| user.allowed_in_project?(permission, project) }
+    else
+      VIEW_PERMISSIONS.any? { |permission| user.allowed_in_any_project?(permission) }
+    end
   end
 
   private
