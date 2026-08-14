@@ -188,7 +188,7 @@ Configure these statuses under [work package statuses](../../system-admin-guide/
 
 ![Workflow transition configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_workflow.png)
 
-Restrict sensitive transitions where appropriate. For example, only the project manager or risk manager may mark a risk as `Mitigation done`, `Occured` or `Rejected`. Configure the corresponding rights under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
+Restrict sensitive transitions where appropriate. For example, allow only the project manager or risk manager to transition a risk to `Mitigation done`, `Occured` or `Rejected`. Configure the corresponding transition permissions under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
 
 ### 2.4 Create a Risk management board and project template
 
