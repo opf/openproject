@@ -236,6 +236,7 @@ hy:
         project_creation_wizard_status_when_submitted: Կարգավիճակ ներկայացնելիս
         project_creation_wizard_work_package_comment: Աշխատանքային փաթեթի մեկնաբանություն
         project_creation_wizard_work_package_type: Աշխատանքային փաթեթի տեսակ
+        project_types: Types
         public_value:
           false: մասնավոր
           title: Տեսանելիություն
@@ -275,6 +276,8 @@ hy:
         start_gate_name: Փուլի սկզբի դարպասի անվանում
       project_custom_field:
         custom_field_section: Բաժին
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Դուստր աշխատանքային փաթեթներ
         column_names: Սյունակներ
@@ -342,18 +345,26 @@ hy:
       token/named:
         token_name: Թոքենի անվանում
       type:
-        attribute_groups: Ձևի կազմաձևում
-        children: Տարատեսակներ
         color: Գույն
-        dependent_configuration_links: Կապակցված տեսակներ
-        description: Նկարագրության կանխադրված տեքստ
-        is_default: Կանխադրված կարգով ակտիվացված է նոր նախագծերի համար
         is_in_roadmap: Կանխադրված կարգով ցուցադրվում է ճանապարհային քարտեզում
         is_milestone: Հանգրվան է
-        parent: Ծնող տեսակ
-        patterns: Կաղապարներ
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Աղբյուրի տեսակ
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Ադմինիստրատոր
         auth_source: Նույնականացման աղբյուր
@@ -548,6 +559,7 @@ hy:
         regex_match_failed: չի համապատասխանում %{expression} կանոնավոր արտահայտությանը։
         smaller_than_or_equal_to_max_length: պետք է փոքր կամ հավասար լինի առավելագույն երկարությանը։
         ssrf_filtered: խախտում է այս OpenProject համակարգի SSRF քաղաքականությունը։
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: հակասում է այս ամսաթվի համար գործող համակարգային ոչ աշխատանքային օրվան։
         taken: արդեն զբաղված է։
         too_long: չափազանց երկար է (առավելագույնը՝ %{count} նշան)։
@@ -718,8 +730,6 @@ hy:
               blank: Խնդրում ենք ընտրել նախագիծ։
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -810,26 +820,35 @@ hy:
               blank: Խնդրում ենք նշել թոքենի անվանում
               format: "%{message}"
               in_use: Այս թոքենի անվանումն արդեն օգտագործվում է, խնդրում ենք ընտրել այլ անվանում
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Օգտագործվել է աշխատանքային փաթեթի անվավեր հատկանիշ։
-              attribute_unknown_name: Օգտագործվել է աշխատանքային փաթեթի անվավեր հատկանիշ՝ %{attribute}
-              duplicate_group: "'%{group}' խմբի անվանումն օգտագործվել է մեկից ավելի անգամ։ Խմբերի անվանումները պետք է լինեն եզակի։"
-              group_without_name: Խմբի անվանումը չի կարող դատարկ լինել։
-              query_invalid: "'%{group}' ներդրված հարցումն անվավեր է՝ %{details}"
-            parent:
-              cannot_be_self: չի կարող լինել տեսակն ինքը։
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: հնարավոր չէ սահմանել, քանի որ այս տեսակն արդեն ունի տարատեսակներ։
-              must_be_a_root: ինքը պետք է լինի վերին մակարդակի տեսակ։ Տեսակները կարող են ներդրվել միայն մեկ մակարդակ խորությամբ։
-              standard_type_must_be_root: հնարավոր չէ սահմանել ստանդարտ տեսակի համար։
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Դաշտի ներսում մեկ կամ մի քանի հատկանիշ վավեր չէ։ Խնդրում ենք ուղղել հատկանիշները նախքան պահպանելը։
-        type/configuration_link:
-          attributes:
-            source_id:
-              would_create_cycle: կկապի այս կազմաձևումները ցիկլի մեջ։
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -934,6 +953,9 @@ hy:
             start_date:
               cannot_be_null: չի կարող դատարկ սահմանվել, քանի որ ավարտի ամսաթիվը և տևողությունը հայտնի են։
               violates_relationships: կարող է սահմանվել միայն %{soonest_start} կամ ավելի ուշ, որպեսզի չխախտվեն աշխատանքային փաթեթի կապերը։
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: անվավեր է, քանի որ ընթացիկ կարգավիճակը գոյություն չունի այս տեսակում։
               status_transition_invalid: անվավեր է, քանի որ ընթացիկ օգտատիրոջ դերերի համար հին կարգավիճակից նորին վավեր անցում գոյություն չունի։
@@ -1006,6 +1028,9 @@ hy:
       type:
         one: Տեսակ
         other: Տեսակներ
+      type_variant:
+        one: Variant
+        other: Variants
       user: Օգտատեր
       version: Տարբերակ
       wiki: Վիքի
@@ -1799,6 +1824,7 @@ hy:
     start_date: Սկզբի ամսաթիվ
     state: Վիճակ
     status: Կարգավիճակ
+    status_id: Status
     subject: Վերնագիր
     summary: Ամփոփում
     template: Ձևանմուշ
@@ -2554,7 +2580,6 @@ hy:
   error_can_not_delete_entry: Հնարավոր չէ ջնջել գրառումը
   error_can_not_delete_in_use_archived_undisclosed: Աշխատանքային փաթեթներ առկա են նաև արխիվացված նախագծերում։ Դուք պետք է խնդրեք ադմինիստրատորին կատարել ջնջումը, որպեսզի տեսնեք, թե որ նախագծերի վրա է դա ազդում։
   error_can_not_delete_in_use_archived_work_packages: Աշխատանքային փաթեթներ առկա են նաև արխիվացված նախագծերում։ Համապատասխան աշխատանքային փաթեթների հատկանիշը փոխելուց առաջ Դուք պետք է վերաակտիվացնեք հետևյալ նախագծերը՝ %{archived_projects_urls}
-  error_can_not_delete_standard_type: Ստանդարտ տեսակները հնարավոր չէ ջնջել։
   error_can_not_delete_type:
     explanation: Այս տեսակը պարունակում է աշխատանքային փաթեթներ և հնարավոր չէ ջնջել։ Բոլոր առնչվող աշխատանքային փաթեթները Դուք կարող եք տեսնել <a target="_blank" href="%{url}">այս տեսքում</a>։
   error_can_not_find_all_resources: Չհաջողվեց գտնել այս պահանջին առնչվող բոլոր ռեսուրսները։
@@ -4275,7 +4300,6 @@ hy:
   notice_auth_stage_error: Նույնականացման '%{stage}' փուլը ձախողվեց։
   notice_auth_stage_verification_error: Հնարավոր չէր ստուգել '%{stage}' փուլը։
   notice_auth_stage_wrong_stage: Ակնկալվում էր նույնականացման '%{expected}' փուլի ավարտը, սակայն վերադարձվել է '%{actual}'-ը։
-  notice_automatic_set_of_standard_type: Ստանդարտ տեսակն ավտոմատ կերպով սահմանվել է։
   notice_bad_request: Սխալ հարցում։
   notice_can_t_change_password: Այս հաշիվն օգտագործում է արտաքին նույնականացման աղբյուր։ Գաղտնաբառը փոխել հնարավոր չէ։
   notice_custom_options_deleted: "'%{option_value}' ընտրանքը և դրա %{num_deleted} օգտագործումները ջնջվել են։"
@@ -5929,10 +5953,11 @@ hy:
   total_progress: Ընդհանուր առաջընթաց
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Ստեղծել տեսակ
       create_variant: Ստեղծել տարատեսակ
       fields:
-        inherited_from_parent_html: Ժառանգված է <b>%{parent}</b> ծնող տեսակից։
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Ավարտել
       placeholder_description: Այս քայլը շուտով հասանելի կլինի։
       progress_label: Քայլ %{number} %{total}-ից
@@ -5944,7 +5969,7 @@ hy:
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
         workflows: Աշխատանքային հոսքեր
-      success: Տարատեսակը հաջողությամբ ստեղծվել է։
+      success: Created successfully.
     edit:
       breadcrumb_variant: Տարատեսակ՝ %{name}
       defaults:
@@ -5969,6 +5994,7 @@ hy:
             work_package: Աշխատանքային փաթեթ
           label_with_context: "%{attribute_context}՝ %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Մանրամասներ
         type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։
       export_configuration:
@@ -6635,18 +6661,18 @@ hy:
           label: Աղբյուրի դեր
         target_role_ids:
           label: Նպատակային դերեր
-        target_type_ids:
-          label: Նպատակային տեսակներ
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
             one: Աշխատանքային հոսքը հաջողությամբ պատճենվել է '%{role_name}' դերին։
             other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} դերի։
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Աշխատանքային հոսքը հաջողությամբ պատճենվել է '%{type_name}' տեսակին։
-            other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} տեսակի։
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Պատճենել "%{source_type}"-ի աշխատանքային հոսքը
     form:
