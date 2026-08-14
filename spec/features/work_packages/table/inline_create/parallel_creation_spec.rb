@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe "Parallel work package creation spec", :js do
-  let(:type) { project.types.first }
+  let(:type) { project.enabled_types.first }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
   let(:role) { create(:project_role, permissions:) }

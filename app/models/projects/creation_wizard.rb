@@ -75,7 +75,7 @@ module Projects::CreationWizard
     end
 
     def project_creation_wizard_default_work_package_type
-      types.first
+      enabled_types.first
     end
 
     def project_creation_wizard_default_status_when_submitted

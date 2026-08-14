@@ -64,7 +64,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       }
     end
 
-    let(:params) { { name: "Copy", identifier: "copy", type_ids: [type.id] } }
+    let(:params) { { name: "Copy", identifier: "copy" } }
 
     it "copies the project and invalid work packages without reporting any errors", :aggregate_failures do
       copy_job = nil
@@ -135,7 +135,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       }
     end
 
-    let(:params) { { name: "Copy", identifier: "copy", type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
+    let(:params) { { name: "Copy", identifier: "copy", work_package_custom_field_ids: [custom_field.id] } }
 
     before do
       source_project.work_package_custom_fields << custom_field

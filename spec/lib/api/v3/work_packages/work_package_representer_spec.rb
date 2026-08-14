@@ -108,7 +108,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:project_phases) { [project_phase, other_project_phase].compact }
   let(:project_phase_definition) { build_stubbed(:project_phase_definition) }
   let(:type) do
-    type = workspace&.types&.first || build_stubbed(:type)
+    type = (workspace && workspace.project_types.first&.type) || build_stubbed(:type)
 
     type.is_milestone = type_milestone
 

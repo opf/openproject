@@ -108,7 +108,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
       let(:permissions) { [] }
       let(:type) do
         type = create(:type)
-        project.types << type
+        project.project_types.create!(type:)
 
         type
       end

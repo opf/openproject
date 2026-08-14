@@ -88,7 +88,7 @@ RSpec.describe TypeVariant::FormConfigurationSql do
 
     it "resolves multi-hop chains to the terminal owner" do
       middle = create(:type)
-      project.types << middle
+      project.project_types.create!(type: middle)
       link_configuration(middle.default_variant, source: owner_variant, aspect:)
       link_configuration(linked_variant, source: middle.default_variant, aspect:)
 
@@ -100,7 +100,7 @@ RSpec.describe TypeVariant::FormConfigurationSql do
 
     it "carries the exclusions accumulated along the chain" do
       middle = create(:type)
-      project.types << middle
+      project.project_types.create!(type: middle)
       middle.default_variant.update!(form_configuration_source: owner_variant,
                                      form_configuration_excluded_elements: %w[custom_field_1])
       linked_variant.update!(form_configuration_source: middle.default_variant,

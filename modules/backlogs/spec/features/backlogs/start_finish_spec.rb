@@ -50,7 +50,7 @@ RSpec.describe "Start and finish sprints", :js do
   let(:story_type) { create(:type_feature) }
   let(:task_type) do
     type = create(:type_task)
-    project.types << type
+    project.project_types.create!(type:)
 
     type
   end

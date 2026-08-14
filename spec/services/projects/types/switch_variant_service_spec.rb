@@ -49,7 +49,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     it "resolves the project to the target" do
       expect(service_call).to be_success
       expect(resolved_variant).to eq(sibling_variant)
-      expect(project.types).to contain_exactly(type)
+      expect(project.enabled_types).to contain_exactly(type)
     end
 
     it "leaves the work packages alone" do
@@ -80,7 +80,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     it "resolves the project to the target" do
       expect(service_call).to be_success
       expect(resolved_variant).to eq(variant)
-      expect(project.reload.types).to contain_exactly(type)
+      expect(project.enabled_types).to contain_exactly(type)
     end
 
     it "leaves the work packages alone" do

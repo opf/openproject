@@ -421,9 +421,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def assign_default_type
-    available_types = work_package.project.types.order(:position)
-
-    work_package.type = available_types.first
+    work_package.type = work_package.project.enabled_types.first
     update_duration_to_one_day_for_milestones
     unify_milestone_dates
 

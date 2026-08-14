@@ -137,7 +137,7 @@ RSpec.describe "Types", :js do
   context "when a work package of a given type is part of an archived project" do
     shared_let(:project) do
       create(:project, :archived).tap do |p|
-        p.types << existing_type
+        p.project_types.create!(type: existing_type)
         p.save!
       end
     end

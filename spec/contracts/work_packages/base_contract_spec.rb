@@ -1444,9 +1444,7 @@ RSpec.describe WorkPackages::BaseContract do
   describe "type" do
     context "for disabled type" do
       before do
-        allow(project)
-          .to receive(:types)
-          .and_return([])
+        project.project_types.destroy_all
       end
 
       describe "not changing the type" do
@@ -1831,7 +1829,7 @@ RSpec.describe WorkPackages::BaseContract do
     context "when project defined" do
       it "is all types of the project" do
         allow(work_package.project)
-          .to receive(:types)
+          .to receive(:enabled_types)
           .and_return(scope)
 
         expect(contract.assignable_types)

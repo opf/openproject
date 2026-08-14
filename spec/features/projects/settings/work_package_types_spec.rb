@@ -60,14 +60,14 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     add_type("Milestone")
 
     settings_page.expect_type_row(milestone.default_variant)
-    expect(project.reload.types).to include(milestone)
+    expect(project.enabled_types).to include(milestone)
   end
 
   it "activates a variant through the dialog" do
     add_type("Research", select_text: "Feature: Research")
 
     settings_page.expect_type_row(research, variant_name: "Research")
-    expect(project.reload.types).to include(feature)
+    expect(project.enabled_types).to include(feature)
     expect(project.project_types.find_by(type: feature).variant).to eq(research)
   end
 
@@ -75,14 +75,14 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     settings_page.remove_type(bug.default_variant)
 
     settings_page.expect_no_type_row(bug.default_variant)
-    expect(project.reload.types).not_to include(bug)
+    expect(project.enabled_types).not_to include(bug)
   end
 
   it "removes a type the project applies through a named variant" do
     settings_page.remove_type(design)
 
     settings_page.expect_no_type_row(design)
-    expect(project.reload.types).not_to include(epic)
+    expect(project.enabled_types).not_to include(epic)
     expect(project.project_types.where(type: epic)).to be_empty
   end
 
@@ -94,7 +94,7 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
 
       expect_flash(type: :error, message: "Unable to deactivate type Bug because it's still in use by work packages")
       settings_page.expect_type_row(bug.default_variant)
-      expect(project.reload.types).to include(bug)
+      expect(project.enabled_types).to include(bug)
     end
   end
 

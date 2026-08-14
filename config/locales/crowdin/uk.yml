@@ -236,6 +236,7 @@ uk:
         project_creation_wizard_status_when_submitted: Статус на момент подання
         project_creation_wizard_work_package_comment: Коментар до пакета робіт
         project_creation_wizard_work_package_type: Тип пакета робіт
+        project_types: Types
         public_value:
           false: приватний
           title: Видимість
@@ -275,6 +276,8 @@ uk:
         start_gate_name: Назва початкової контрольної точки етапу
       project_custom_field:
         custom_field_section: Розділ
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Дочірні пакети робіт
         column_names: Стовпці
@@ -342,18 +345,26 @@ uk:
       token/named:
         token_name: Ім’я маркера
       type:
-        attribute_groups: Конфігурація форми
-        children: Варіанти
         color: Колір
-        dependent_configuration_links: Зв’язані типи
-        description: Текст за умовчанням для опису
-        is_default: Активовано для нових проектів за замовчуванням
         is_in_roadmap: За умовчанням відображається в дорожній карті
         is_milestone: Це віха
-        parent: Батьківський тип
-        patterns: Шаблони
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Вихідний тип
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
@@ -548,6 +559,7 @@ uk:
         regex_match_failed: не збігається з регулярним виразом %{expression}.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
         taken: вже прийнято.
         too_long: 'занадто довгий (максимум - %{count} characters).
@@ -724,8 +736,6 @@ uk:
               blank: Виберіть проєкт.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -816,26 +826,35 @@ uk:
               blank: Укажіть ім’я маркера
               format: "%{message}"
               in_use: Це ім’я маркера вже використовується; виберіть інше
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Використовується недійсний атрибут робочого пакету.
-              attribute_unknown_name: Недійсний атрибут робочого пакета:%{attribute}
-              duplicate_group: Назва групи %{group} використовується більше одного разу. Назви груп повинні бути унікальними.
-              group_without_name: Ім’я групи не може бути порожнім.
-              query_invalid: 'Вбудований запит %{group} недійсний: %{details}'
-            parent:
-              cannot_be_self: не може бути самим типом.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: не можна встановити, оскільки цей тип уже має варіанти.
-              must_be_a_root: має бути типом верхнього рівня. Типи можуть бути вкладеними лише на один рівень углиб.
-              standard_type_must_be_root: не може встановлюватися для стандартного типу.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
-        type/configuration_link:
-          attributes:
-            source_id:
-              would_create_cycle: зв’яже ці конфігурації в цикл.
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -942,6 +961,9 @@ uk:
             start_date:
               cannot_be_null: не може мати нульове значення, оскільки задано дату початку й тривалість.
               violates_relationships: може бути встановлено лише для %{soonest_start} або пізнішої версії, щоб не порушувати зв'язки робочого пакету.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: недійсний, оскільки поточного стану не існує в цьому типі.
               status_transition_invalid: є недійсним оскільки немає дійсного переходу від старого до нового статусу ролей поточного користувача.
@@ -1042,6 +1064,11 @@ uk:
         few: Типи
         many: Типи
         other: Типи
+      type_variant:
+        one: Variant
+        few: Variants
+        many: Variants
+        other: Variants
       user: Користувач
       version: Версія
       wiki: Wiki
@@ -1863,6 +1890,7 @@ uk:
     start_date: Початок
     state: Стан
     status: Статус
+    status_id: Status
     subject: Тема
     summary: Резюме
     template: Шаблон
@@ -2664,7 +2692,6 @@ uk:
   error_can_not_delete_entry: Неможливо видалити запис
   error_can_not_delete_in_use_archived_undisclosed: Пакети робіт також містяться в архівних проєктах. Попросіть адміністратора виконати операцію видалення, щоб дізнатися, яких проєктів це стосується.
   error_can_not_delete_in_use_archived_work_packages: 'Пакети робіт також містяться в архівних проєктах. Спочатку потрібно повторно активувати ці проєкти, а потім – змінити атрибут відповідних пакетів робіт: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Стандартні типи неможливо видалити.
   error_can_not_delete_type:
     explanation: Цей тип містить пакети робіт, і його не можна видалити. Переглянути всі пошкоджені пакети робіт можна в <a target="_blank" href="%{url}">цьому поданні</a>.
   error_can_not_find_all_resources: Не вдалося знайти всі відповідні ресурси для цього запиту.
@@ -4412,7 +4439,6 @@ uk:
   notice_auth_stage_error: Етап автентифікації %{stage} не вдався.
   notice_auth_stage_verification_error: Не вдалося підтвердити етап %{stage}.
   notice_auth_stage_wrong_stage: Передбачається завершити етап аутентифікації%{expected}, але %{actual} returned.
-  notice_automatic_set_of_standard_type: Встановіть стандартний тип автоматично.
   notice_bad_request: Неправильний Запит.
   notice_can_t_change_password: Для даного облікового запису використовується джерело зовнішньої аутентифікації. Неможливо змінити пароль.
   notice_custom_options_deleted: Варіант %{option_value}  і його %{num_deleted} вилучень було видалено.
@@ -6075,10 +6101,11 @@ uk:
   total_progress: Загальний прогрес
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Створити тип
       create_variant: Створити варіант
       fields:
-        inherited_from_parent_html: Успадковано від батьківського типу <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Завершити
       placeholder_description: Цей крок стане доступним незабаром.
       progress_label: Крок %{number} з %{total}
@@ -6090,7 +6117,7 @@ uk:
         project_attributes: Атрибути проєкту
         projects: Проєкти
         workflows: Робочі процеси
-      success: Варіант успішно створено.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Варіант: «%{name}»'
       defaults:
@@ -6115,6 +6142,7 @@ uk:
             work_package: Пакет робіт
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Деталі
         type_color_text: Вибраний колір використовується для виділення різних типів на діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений.
       export_configuration:
@@ -6805,8 +6833,8 @@ uk:
           label: Вихідна роль
         target_role_ids:
           label: Цільові ролі
-        target_type_ids:
-          label: Цільові типи
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
@@ -6814,13 +6842,13 @@ uk:
             few: Робочий процес успішно скопійовано в %{count} ролі.
             many: Робочий процес успішно скопійовано в %{count} ролей.
             other: Робочий процес успішно скопійовано в %{count} ролі.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Робочий процес успішно скопійовано в тип «%{type_name}».
-            few: Робочий процес успішно скопійовано в %{count} типи.
-            many: Робочий процес успішно скопійовано в %{count} типів.
-            other: Робочий процес успішно скопійовано в %{count} типу.
+            one: Successfully copied workflow to '%{type_name}'.
+            few: Successfully copied workflow to %{count} types.
+            many: Successfully copied workflow to %{count} types.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Скопіювати робочий процес типу «%{source_type}»
     form:

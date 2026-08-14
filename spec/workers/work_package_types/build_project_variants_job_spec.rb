@@ -79,7 +79,7 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
   it "keeps the project on the shared type" do
     run_job
 
-    expect(narrowing_project.reload.types).to contain_exactly(type)
+    expect(narrowing_project.enabled_types).to contain_exactly(type)
   end
 
   it "leaves the base variant untouched" do

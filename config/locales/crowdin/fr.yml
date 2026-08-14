@@ -236,6 +236,7 @@ fr:
         project_creation_wizard_status_when_submitted: Statut lors de l'envoi
         project_creation_wizard_work_package_comment: Commentaire du lot de travaux
         project_creation_wizard_work_package_type: Type de lot de travaux
+        project_types: Types
         public_value:
           false: privé
           title: Visibilité
@@ -275,6 +276,8 @@ fr:
         start_gate_name: Nom de l'étape de validation initiale
       project_custom_field:
         custom_field_section: Section
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Lots de travaux enfants
         column_names: Colonnes
@@ -342,18 +345,26 @@ fr:
       token/named:
         token_name: Nom du jeton
       type:
-        attribute_groups: Configuration du formulaire
-        children: Variantes
         color: Couleur
-        dependent_configuration_links: Types liés
-        description: Texte par défaut pour la description
-        is_default: Activé par défaut pour les nouveaux projets
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_milestone: Est un jalon
-        parent: Type parent
-        patterns: Modèles
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Type source
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
@@ -548,6 +559,7 @@ fr:
         regex_match_failed: ne correspond pas à l'expression régulière %{expression}.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
         ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: entre en conflit avec un jour chômé existant dans le système pour cette date.
         taken: a déjà été pris.
         too_long: est trop long (le maximum est de %{count} caractères).
@@ -718,8 +730,6 @@ fr:
               blank: Veuillez sélectionner un projet.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: doit être un type de niveau supérieur. Un projet utilise des racines et résout une variante séparément.
             variant:
               must_belong_to_the_type: doit être une variante du type utilisé par le projet.
         queries/filters/base:
@@ -810,26 +820,35 @@ fr:
               blank: Veuillez fournir un nom de jeton
               format: "%{message}"
               in_use: Ce nom de jeton est déjà utilisé. Veuillez en choisir un autre
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Attribut du lot de travaux invalide utilisé.
-              attribute_unknown_name: 'Attribut du lot de travaux invalide : %{attribute}'
-              duplicate_group: Le nom de groupe "%{group}" est utilisé plus d'une fois. Les noms de groupe doivent être uniques.
-              group_without_name: Le nom du groupe ne peut pas être vide
-              query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
-            parent:
-              cannot_be_self: ne peut pas être le type lui-même.
-              cannot_change_while_used_by_projects: ne peut pas être modifié tant que des projets utilisent encore ce type.
-              cannot_have_children: ne peut pas être défini car ce type comporte déjà des variantes.
-              must_be_a_root: doit être lui-même un type de niveau supérieur. Les types ne peuvent être imbriqués qu'à un seul niveau.
-              standard_type_must_be_root: ne peut pas être défini pour le type standard.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Un ou plusieurs attributs dans le champ ne sont pas valides. Veuillez corriger les attributs avant d'enregistrer.
-        type/configuration_link:
-          attributes:
-            source_id:
-              would_create_cycle: créerait une boucle entre ces configurations.
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -934,6 +953,9 @@ fr:
             start_date:
               cannot_be_null: ne peut pas être définie à NULL car la date de fin et la durée sont connues.
               violates_relationships: peut uniquement valoir %{soonest_start} ou une date ultérieure afin de ne pas violer les relations du lot de travaux.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: est invalide car le statut actuel n'existe pas dans ce type.
               status_transition_invalid: n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel.
@@ -1006,6 +1028,9 @@ fr:
       type:
         one: Type
         other: Types
+      type_variant:
+        one: Variant
+        other: Variants
       user: Utilisateur
       version: Version
       wiki: Wiki
@@ -1801,6 +1826,7 @@ fr:
     start_date: Date de début
     state: État
     status: Statut
+    status_id: Status
     subject: Sujet
     summary: Résumé
     template: Modèle
@@ -2558,7 +2584,6 @@ fr:
   error_can_not_delete_entry: Impossible de supprimer l'élément
   error_can_not_delete_in_use_archived_undisclosed: Des lots de travaux sont également repris dans les projets archivés. Vous devez demander à un administrateur d'effectuer la suppression pour voir quels projets sont affectés.
   error_can_not_delete_in_use_archived_work_packages: 'Il y a aussi des lots de travaux dans les projets archivés. Vous devez d''abord réactiver les projets suivants avant de pouvoir modifier l''attribut des lots de travaux respectifs : %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Les types standards ne peuvent pas être supprimés.
   error_can_not_delete_type:
     explanation: Ce type contient des lots de travaux et ne peut pas être supprimé. Vous pouvez voir tous les lots de travaux concernés dans <a target="_blank" href="%{url}">cette vue</a>.
   error_can_not_find_all_resources: Impossible de trouver toutes les ressources liées à cette demande.
@@ -4279,7 +4304,6 @@ fr:
   notice_auth_stage_error: Échec de l'étape d'authentification '%{stage}'.
   notice_auth_stage_verification_error: Impossible de vérifier l'étape '%{stage}'.
   notice_auth_stage_wrong_stage: L'étape d'authentification '%{expected}' était censée être terminée, mais '%{actual}' a été renvoyé.
-  notice_automatic_set_of_standard_type: Fixer le type standard automatiquement.
   notice_bad_request: Mauvaise requête.
   notice_can_t_change_password: Ce compte utilise une source d'authentification externe. Impossible de changer le mot de passe.
   notice_custom_options_deleted: L'option « %{option_value} » et ses %{num_deleted} occurrences ont été supprimées.
@@ -5930,10 +5954,11 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Créer un type
       create_variant: Créer une variante
       fields:
-        inherited_from_parent_html: Hérité du type parent <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Terminer
       placeholder_description: Cette étape sera bientôt disponible.
       progress_label: Étape %{number} sur %{total}
@@ -5945,7 +5970,7 @@ fr:
         project_attributes: Attributs du projet
         projects: Projets
         workflows: Flux de travail
-      success: La variante a été créée avec succès.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variante : %{name}'
       defaults:
@@ -5970,6 +5995,7 @@ fr:
             work_package: Lot de travaux
           label_with_context: "%{attribute_context} : %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Détails
         type_color_text: La couleur sélectionnée permet de distinguer les différents types dans les diagrammes de Gantt ou les tableaux de lots de travaux. Il est donc recommandé d'utiliser une couleur vive.
       export_configuration:
@@ -6634,18 +6660,18 @@ fr:
           label: Rôle source
         target_role_ids:
           label: Rôles cibles
-        target_type_ids:
-          label: Types de cibles
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
             one: Copie réussie du flux de travail dans le rôle « %{role_name} ».
             other: Copie réussie du flux de travail vers les %{count} rôles.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Le flux de travail a été copié avec succès vers le type « %{type_name} ».
-            other: Le flux de travail a été copié avec succès vers les %{count} types.
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Copier le flux de travail de « %{source_type} »
     form:

@@ -115,7 +115,7 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
         end
 
         it "keeps the type active in the project" do
-          expect(project.reload.types).to include(type)
+          expect(project.enabled_types).to include(type)
         end
       end
 
@@ -189,7 +189,7 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
           it "drops the type from the project" do
             update_projects
 
-            expect(project.reload.types).not_to include(type)
+            expect(project.enabled_types).not_to include(type)
           end
         end
 
@@ -228,7 +228,7 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
         post :enable_all_projects, params: { type_id: type.id, value: "0" }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
-        expect(project.reload.types).not_to include(type)
+        expect(project.enabled_types).not_to include(type)
       end
     end
   end

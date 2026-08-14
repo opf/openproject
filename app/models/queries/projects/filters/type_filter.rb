@@ -31,8 +31,12 @@
 class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
   include Queries::Projects::Filters::FilterOnProjectType
 
-  def self.key
-    :type_id
+  def joins
+    :project_types
+  end
+
+  def where
+    operator_strategy.sql_for_field(values, ProjectType.table_name, :type_id)
   end
 
   def allowed_values

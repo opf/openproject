@@ -236,6 +236,7 @@ zh-CN:
         project_creation_wizard_status_when_submitted: 提交时的状态
         project_creation_wizard_work_package_comment: 工作包备注
         project_creation_wizard_work_package_type: 工作包类型
+        project_types: Types
         public_value:
           false: 私有
           title: 可见性
@@ -275,6 +276,8 @@ zh-CN:
         start_gate_name: 开始阶段关口名称
       project_custom_field:
         custom_field_section: 单元
+      project_type:
+        variant: Variant
       query:
         child_work_packages: 子级工作包
         column_names: 列
@@ -342,18 +345,26 @@ zh-CN:
       token/named:
         token_name: 令牌名称
       type:
-        attribute_groups: 表单配置
-        children: 变体
         color: 颜色
-        dependent_configuration_links: 关联的类型
-        description: 默认描述文本
-        is_default: 默认激活新项目
         is_in_roadmap: 默认在路线图中显示
         is_milestone: 里程碑
-        parent: 父类型
-        patterns: 模式
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: 源类型
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: 管理员
         auth_source: 身份验证源
@@ -548,6 +559,7 @@ zh-CN:
         regex_match_failed: 与正则表达式 %{expression}不匹配。
         smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
         ssrf_filtered: 违反了此 OpenProject 实例的 SSRF 政策。
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: 与此日期现有的系统范围非工作日冲突。
         taken: 已经采取。
         too_long: 太长 (最多 %{count} 个字符)。
@@ -717,8 +729,6 @@ zh-CN:
               blank: 请选择一个项目。
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -809,26 +819,35 @@ zh-CN:
               blank: 请提供令牌名称
               format: "%{message}"
               in_use: 此令牌名称已被使用，请选择其他令牌名称
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: 已使用无效的工作包属性。
-              attribute_unknown_name: 使用了无效的工作包属性：%{attribute}
-              duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
-              group_without_name: 群组名称不能为空
-              query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
-            parent:
-              cannot_be_self: 不能是类型本身。
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: 无法设置，因为此类型已有变体。
-              must_be_a_root: 本身必须是顶层类型。类型只能嵌套一层深度。
-              standard_type_must_be_root: 无法为标准类型设置。
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: 字段内的一个或多个属性无效。请在保存前修正。
-        type/configuration_link:
-          attributes:
-            source_id:
-              would_create_cycle: 将在循环中链接这些配置。
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -932,6 +951,9 @@ zh-CN:
             start_date:
               cannot_be_null: 无法设置为 null，因为结束日期和持续时间已知。
               violates_relationships: 仅可以设置为 %{soonest_start} 或之后，以免违反工作包的关系。
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: 无效，因为此类型中不存在当前状态。
               status_transition_invalid: 是无效的，因为在当前用户的角色下，没有从旧到新的状态有效的过渡存在。
@@ -990,6 +1012,8 @@ zh-CN:
         other: RSS 令牌
       type:
         other: 类型
+      type_variant:
+        other: Variants
       user: 用户
       version: 版本
       wiki: 维基
@@ -1774,6 +1798,7 @@ zh-CN:
     start_date: 开始日期
     state: 地区
     status: 状态
+    status_id: Status
     subject: 主题
     summary: 摘要
     template: 模板
@@ -2510,7 +2535,6 @@ zh-CN:
   error_can_not_delete_entry: 无法删除条目
   error_can_not_delete_in_use_archived_undisclosed: 归档项目中也有工作包。您需要请求管理员执行删除操作，以了解受影响的项目。
   error_can_not_delete_in_use_archived_work_packages: 归档项目中也有工作包。您需要先重新激活以下项目，然后才能更改相应工作包的属性：%{archived_projects_urls}
-  error_can_not_delete_standard_type: 标准类型不能被删除。
   error_can_not_delete_type:
     explanation: 此类型包含工作包，无法删除。您可以在<a target="_blank" href="%{url}">此视图</a>中查看所有受影响的工作包。
   error_can_not_find_all_resources: 无法找到与请求相关的所有资源。
@@ -4214,7 +4238,6 @@ zh-CN:
   notice_auth_stage_error: 身份验证阶段“%{stage}”失败。
   notice_auth_stage_verification_error: 无法验证阶段“%{stage}”。
   notice_auth_stage_wrong_stage: 预期完成身份验证阶段“%{expected}”，但返回“%{actual}”。
-  notice_automatic_set_of_standard_type: 自动设置标准类型。
   notice_bad_request: 错误的请求。
   notice_can_t_change_password: 此帐户使用外部身份验证源。无法更改密码。
   notice_custom_options_deleted: 选项“%{option_value}”和其“%{num_deleted}”事件已删除。
@@ -5859,10 +5882,11 @@ zh-CN:
   total_progress: 总进度
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: 创建类型
       create_variant: 创建变体
       fields:
-        inherited_from_parent_html: 继承自父类型 <b>%{parent}</b>。
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: 完成
       placeholder_description: 此步骤即将推出。
       progress_label: 第 %{number} 步，共 %{total} 步
@@ -5874,7 +5898,7 @@ zh-CN:
         project_attributes: 项目特性
         projects: 项目
         workflows: 工作流
-      success: 变体创建成功。
+      success: Created successfully.
     edit:
       breadcrumb_variant: 变体：%{name}
       defaults:
@@ -5899,6 +5923,7 @@ zh-CN:
             work_package: 工作包
           label_with_context: "%{attribute_context}：%{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: 详细信息
         type_color_text: 所选颜色可用于在甘特图或工作包表中区分不同类型。因此，建议使用浓烈的颜色。
       export_configuration:
@@ -6552,16 +6577,16 @@ zh-CN:
           label: 源角色
         target_role_ids:
           label: 目标角色
-        target_type_ids:
-          label: 目标类型
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
             other: 已成功将工作流复制到 %{count} 个角色。
-      from_types:
+      from_variants:
         create:
           notice:
-            other: 已成功将工作流复制到 %{count} 个类型。
+            other: Successfully copied workflow to %{count} types.
       new:
         title: 复制“%{source_type}”的工作流
     form:

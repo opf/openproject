@@ -42,7 +42,7 @@ RSpec.describe Projects::Types::AddService do
 
     it "enables the type on the project" do
       expect(service_call).to be_success
-      expect(project.reload.types).to contain_exactly(type)
+      expect(project.enabled_types).to contain_exactly(type)
     end
 
     it "enables the type's work package custom fields on the project" do
@@ -59,7 +59,7 @@ RSpec.describe Projects::Types::AddService do
 
       it "succeeds without enabling it twice" do
         expect(service_call).to be_success
-        expect(project.reload.types).to contain_exactly(type)
+        expect(project.enabled_types).to contain_exactly(type)
       end
     end
   end
@@ -72,14 +72,14 @@ RSpec.describe Projects::Types::AddService do
       it "fails and does not enable the type" do
         expect(service_call).to be_failure
         expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variants_yet)
-        expect(project.reload.types).to be_empty
+        expect(project.enabled_types).to be_empty
       end
     end
 
     context "and the variants feature is active", with_flag: { type_variants: true } do
       it "uses the type and applies the variant" do
         expect(service_call).to be_success
-        expect(project.reload.types).to contain_exactly(type)
+        expect(project.enabled_types).to contain_exactly(type)
         expect(project.project_types.sole.variant).to eq(variant)
       end
 
@@ -166,7 +166,7 @@ RSpec.describe Projects::Types::AddService do
     it "fails without enabling the type" do
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:base)).to contain_exactly(:error_unauthorized)
-      expect(project.reload.types).to be_empty
+      expect(project.enabled_types).to be_empty
     end
   end
 end

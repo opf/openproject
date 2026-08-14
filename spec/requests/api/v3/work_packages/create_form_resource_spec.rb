@@ -38,7 +38,7 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
   shared_let(:priority) { create(:default_priority) }
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project_with_types) }
-  shared_let(:type) { project.types.first }
+  shared_let(:type) { project.enabled_types.first }
 
   let(:path) { api_v3_paths.create_work_package_form }
   let(:parameters) { {} }
