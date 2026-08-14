@@ -531,14 +531,11 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
     end
 
     before do
-      # Enable types via join rows with an explicit variant — `types <<` alone can leave
-      # the association cache stale for default_create_type during the request.
       [type, default_type].uniq.each do |enabled_type|
         project.project_types.find_or_create_by!(type_id: enabled_type.id) do |pt|
           pt.variant = enabled_type.default_variant
         end
       end
-      project.types.reset
 
       login_as(current_user)
       other_status
@@ -803,7 +800,6 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
           pt.variant = enabled_type.default_variant
         end
       end
-      project.types.reset
 
       login_as(current_user)
       other_status

@@ -43,7 +43,7 @@ RSpec.describe User do
   let(:status) { create(:status) }
   let(:issue) do
     build(:work_package,
-          type: project.types.first,
+          type: project.enabled_types.first,
           author: user,
           project:,
           status:)

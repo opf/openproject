@@ -55,7 +55,7 @@ module Projects
     def validate_work_package_type
       if project.project_creation_wizard_work_package_type_id.blank?
         add_error :project_creation_wizard_work_package_type_id, :blank
-      elsif !project.project_creation_wizard_work_package_type_id.in?(project.type_ids)
+      elsif !project.project_types.exists?(type_id: project.project_creation_wizard_work_package_type_id)
         add_error :project_creation_wizard_work_package_type_id, :inclusion
       end
     end

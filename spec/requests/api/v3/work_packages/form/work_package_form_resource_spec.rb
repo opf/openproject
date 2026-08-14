@@ -694,7 +694,7 @@ RSpec.describe "API v3 Work package form resource" do
               let(:params) { valid_params.merge(type_parameter) }
 
               before do
-                project.types << target_type # make sure we have a valid transition
+                project.project_types.create!(type: target_type) # make sure we have a valid transition
               end
 
               describe "allowed values" do

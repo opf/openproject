@@ -59,7 +59,7 @@ module Projects
       if model.project_creation_wizard_work_package_type_id.blank?
         errors.add :project_creation_wizard_work_package_type_id, :blank
       else
-        unless model.types.exists?(id: model.project_creation_wizard_work_package_type_id)
+        unless model.project_types.exists?(type_id: model.project_creation_wizard_work_package_type_id)
           errors.add :project_creation_wizard_work_package_type_id, :inclusion
         end
       end

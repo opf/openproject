@@ -270,7 +270,7 @@ RSpec.describe "filter work packages", :js do
     let(:type) do
       type = create(:type)
 
-      project.types << type
+      project.project_types.create!(type:)
 
       type
     end
@@ -353,7 +353,7 @@ RSpec.describe "filter work packages", :js do
     let(:type) do
       type = create(:type)
 
-      project.types << type
+      project.project_types.create!(type:)
 
       type
     end

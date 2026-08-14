@@ -34,11 +34,11 @@ class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
   end
 
   def joins
-    :types
+    :project_types
   end
 
   def where
-    operator_strategy.sql_for_field(values, Type.table_name, :id)
+    operator_strategy.sql_for_field(values, ProjectType.table_name, :type_id)
   end
 
   def type

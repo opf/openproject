@@ -50,7 +50,7 @@ RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
     context "within project" do
       before do
         allow(project)
-          .to receive(:types)
+          .to receive(:enabled_types)
           .and_return([type])
       end
 
