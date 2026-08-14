@@ -174,17 +174,17 @@ Configure these statuses under [work package statuses](../../system-admin-guide/
 
 Restrict sensitive transitions where appropriate. For example, only the project manager or risk manager may mark a risk as `Mitigation done`, `Occured` or `Rejected`. Configure the corresponding rights under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
 
-### 2.4 Prepare reusable views and a project template
+### 2.4 Create a Risk management board and project template
 
-Create and save at least these shared work package views:
+Create one shared board named `Risk management` and filter it by type `Risk`. Configure the board columns by status so that they reflect the risk lifecycle. The board provides one common view for the project team and makes the current state of every risk visible without maintaining separate views.
 
-- **Active Risk Register**: type is `Risk`; status is `New`, `Evaluated` or `Mitigation planned`; show owner, probability, impact, response strategy and next review date.
-- **Risks requiring attention**: active risks with a high probability or impact, overdue review date or escalation flag.
-- **Completed and inactive risks**: type is `Risk`; status is `Mitigation done`, `Occured` or `Rejected`; use this view for lessons learned and audits.
+Project members can open a risk from its card and move the card to another column when its status changes. The example board shows the lifecycle from `New` through `Occured`. Items with the status `Rejected` can remain excluded from day to day monitoring.
 
-The [work package table configuration](../../user-guide/work-packages/work-package-table-configuration/) explains how to add columns, filters, grouping and sorting. A [work package table widget](../../user-guide/projects/project-home/project-widgets/#work-package-table-widget) can also place the active risk register on the project overview.
+Open the [Risk management demo board](https://pm2.openproject.com/projects/pm2-test/boards/26) to explore the configuration.
 
-Finally, include the type, fields, permissions and saved views in a [project template](../../user-guide/projects/project-templates/) so new projects start with the same risk management structure.
+[![Risk management board with risks organized by lifecycle status in OpenProject](openproject_use_case_risk_management_board.png)](https://pm2.openproject.com/projects/pm2-test/boards/26)
+
+Finally, include the `Risk` type, fields, permissions and board in a [project template](../../user-guide/projects/project-templates/) so new projects start with the same risk management structure.
 
 ## 3. Governance checklist
 
