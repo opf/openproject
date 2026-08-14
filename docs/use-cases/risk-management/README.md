@@ -34,17 +34,17 @@ This guide separates the system-wide configuration maintained by administrators 
 
 The same Risk Register can be presented in different views without duplicating its risks. Both views use the same underlying items, so changes to a risk remain visible everywhere.
 
-### Table view
-
-The table view provides a detailed overview with assessment fields such as impact and likelihood. It supports filtering, sorting and grouping for reporting and review meetings.
-
-[![Risk Register grouped by status with impact and likelihood columns in OpenProject](openproject_use_case_risk_log.png)](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91)
-
 ### Board view
 
 The board view organizes the same risks by lifecycle status. It provides a visual overview and lets project members update a status by moving a card between columns.
 
 [![Risk management board with risks organized by lifecycle status in OpenProject](openproject_use_case_risk_management_board.png)](https://pm2.openproject.com/projects/pm2-test/boards/26)
+
+### Table view
+
+The table view provides a detailed overview with assessment fields such as impact and likelihood. It supports filtering, sorting and grouping for reporting and review meetings.
+
+[![Risk Register grouped by status with impact and likelihood columns in OpenProject](openproject_use_case_risk_log.png)](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91)
 
 ## 1. Risk lifecycle
 
