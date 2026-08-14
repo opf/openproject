@@ -53,10 +53,16 @@ module WorkPackageTypes
 
     def variant_path(variant) = edit_type_details_path(**variant.path_args)
 
-    def add_variant_path = new_creation_wizard_types_path(type_id: type.id)
+    def add_variant_path = new_creation_wizard_types_path(type_id: type.id, back_url: variants_path)
 
     def menu_id(variant) = Types::VariantActionsComponent.menu_id(variant)
 
-    def menu_src(variant) = menu_type_variant_path(type_id: variant.type_id, id: variant.id)
+    # The menu's actions are reachable from the types index too, so each one has to be told to
+    # come back here rather than to that list.
+    def menu_src(variant)
+      menu_type_variant_path(type_id: variant.type_id, id: variant.id, back_url: variants_path)
+    end
+
+    def variants_path = type_variants_path(type_id: type.id)
   end
 end

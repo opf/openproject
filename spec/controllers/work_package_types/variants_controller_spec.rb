@@ -106,6 +106,46 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
         expect(variant.reload).not_to be_enabled_in_new_projects
       end
     end
+
+    describe "DELETE destroy" do
+      let!(:variant) { create(:type_variant, type:) }
+
+      before { delete :destroy, params: { type_id: type.id, id: variant.id } }
+
+      it "deletes it and falls back to the types index" do
+        expect(response).to redirect_to(types_path)
+        expect(TypeVariant).not_to exist(id: variant.id)
+      end
+    end
+
+    describe "returning to where the action was triggered" do
+      let!(:variant) { create(:type_variant, type:) }
+      let(:back_url) { type_variants_path(type_id: type.id) }
+
+      it "sends make_default back to the variants tab" do
+        post :make_default, params: { type_id: type.id, id: variant.id, back_url: }
+
+        expect(response).to redirect_to(back_url)
+      end
+
+      it "sends remove_default back to the variants tab" do
+        post :remove_default, params: { type_id: type.id, id: variant.id, back_url: }
+
+        expect(response).to redirect_to(back_url)
+      end
+
+      it "sends destroy back to the variants tab" do
+        delete :destroy, params: { type_id: type.id, id: variant.id, back_url: }
+
+        expect(response).to redirect_to(back_url)
+      end
+
+      it "ignores a back_url pointing at another host" do
+        post :make_default, params: { type_id: type.id, id: variant.id, back_url: "https://evil.example.com/types" }
+
+        expect(response).to redirect_to(types_path)
+      end
+    end
   end
 
   context "without admin access" do

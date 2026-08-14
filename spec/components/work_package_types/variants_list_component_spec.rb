@@ -37,6 +37,11 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
 
   subject(:rendered_component) { render_inline(described_class.new(type:)) }
 
+  # The wizard is reachable from the types index too, so it has to be told to come back here.
+  let(:add_variant_href) do
+    new_creation_wizard_types_path(type_id: type.id, back_url: type_variants_path(type_id: type.id))
+  end
+
   context "with named variants" do
     let!(:zeta) { create(:type_variant, type:, variant_name: "Zeta") }
     let!(:alfa) { create(:type_variant, type:, variant_name: "Alfa") }
@@ -57,16 +62,18 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
       expect(rendered_component.css("[data-test-selector^='type-variant-']").size).to eq(2)
     end
 
-    it "loads each variant's action menu from the variants controller" do
+    it "loads each variant's action menu, telling it to come back to this tab" do
       [alfa, zeta].each do |variant|
-        expect(rendered_component)
-          .to have_css("[src='#{menu_type_variant_path(type_id: type.id, id: variant.id)}']", visible: :all)
+        src = menu_type_variant_path(type_id: type.id, id: variant.id,
+                                     back_url: type_variants_path(type_id: type.id))
+
+        expect(rendered_component).to have_css("[src='#{src}']", visible: :all)
       end
     end
 
     it "offers to add another variant from the header" do
       expect(rendered_component)
-        .to have_link(I18n.t("types.index.add_variant_action"), href: new_creation_wizard_types_path(type_id: type.id))
+        .to have_link(I18n.t("types.index.add_variant_action"), href: add_variant_href)
     end
 
     it "marks the variant new projects start with" do
@@ -80,7 +87,7 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
     it "renders a blankslate offering to add one" do
       expect(rendered_component).to have_text(I18n.t("types.edit.variants.blankslate.title"))
       expect(rendered_component)
-        .to have_link(I18n.t("types.index.add_variant_action"), href: new_creation_wizard_types_path(type_id: type.id))
+        .to have_link(I18n.t("types.index.add_variant_action"), href: add_variant_href)
     end
   end
 end
