@@ -73,54 +73,6 @@ class Type < ApplicationRecord
     variants.detect(&:is_default_variant?)
   end
 
-  # Form custom fields live on the base variant. Prefer `default_variant.custom_fields`.
-  # Kept temporarily so the many call sites that still write `type.custom_fields << cf` keep
-  # working while they are migrated.
-  def custom_fields
-    OpenProject::Deprecation.replaced("Type#custom_fields", "Type#default_variant.custom_fields", caller_locations)
-
-    default_variant.custom_fields
-  end
-
-  def custom_fields=(values)
-    OpenProject::Deprecation.replaced("Type#custom_fields=", "Type#default_variant.custom_fields=", caller_locations)
-
-    default_variant.custom_fields = values
-  end
-
-  def custom_field_ids
-    OpenProject::Deprecation.replaced("Type#custom_field_ids", "Type#default_variant.custom_field_ids", caller_locations)
-
-    default_variant.custom_field_ids
-  end
-
-  def custom_field_ids=(values)
-    OpenProject::Deprecation.replaced("Type#custom_field_ids=", "Type#default_variant.custom_field_ids=", caller_locations)
-
-    default_variant.custom_field_ids = values
-  end
-
-  # Form configuration lives on the base variant. Prefer `default_variant.attribute_groups`.
-  def attribute_groups
-    OpenProject::Deprecation.replaced("Type#attribute_groups", "Type#default_variant.attribute_groups", caller_locations)
-
-    default_variant.attribute_groups
-  end
-
-  def attribute_groups=(values)
-    OpenProject::Deprecation.replaced("Type#attribute_groups=", "Type#default_variant.attribute_groups=", caller_locations)
-
-    default_variant.attribute_groups = values
-  end
-
-  def reset_attribute_groups
-    OpenProject::Deprecation.replaced("Type#reset_attribute_groups",
-                                      "Type#default_variant.reset_attribute_groups",
-                                      caller_locations)
-
-    default_variant.reset_attribute_groups
-  end
-
   def <=>(other)
     name <=> other.name
   end

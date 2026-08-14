@@ -2112,13 +2112,13 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:new_type) { create(:type) }
     let!(:custom_field_of_current_type) do
       create(:integer_wp_custom_field, default_value: nil) do |cf|
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
     let!(:custom_field_of_new_type) do
       create(:integer_wp_custom_field, default_value: 8) do |cf|
-        new_type.custom_fields << cf
+        new_type.default_variant.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end

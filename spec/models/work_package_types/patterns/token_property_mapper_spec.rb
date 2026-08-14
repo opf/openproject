@@ -54,7 +54,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   shared_let(:string_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_package.type.custom_fields << custom_field
+      work_package.type.default_variant.custom_fields << custom_field
     end
   end
   shared_let(:custom_field_not_on_type) do
@@ -64,7 +64,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   shared_let(:boolean_custom_field) do
     create(:boolean_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_package.type.custom_fields << custom_field
+      work_package.type.default_variant.custom_fields << custom_field
 
       work_package.send(:"custom_field_#{custom_field.id}=", false)
       work_package.save!
@@ -74,7 +74,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   shared_let(:date_custom_field) do
     create(:date_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_package.type.custom_fields << custom_field
+      work_package.type.default_variant.custom_fields << custom_field
 
       work_package.send(:"custom_field_#{custom_field.id}=", "2025-10-03T13:37:00Z")
       work_package.save!
@@ -84,7 +84,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   shared_let(:mult_list_custom_field) do
     create(:multi_list_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_package.type.custom_fields << custom_field
+      work_package.type.default_variant.custom_fields << custom_field
 
       work_package.send(:"custom_field_#{custom_field.id}=", custom_field.possible_values.take(2))
       work_package.save!
@@ -93,7 +93,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:not_activated_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
-      work_package.type.custom_fields << custom_field
+      work_package.type.default_variant.custom_fields << custom_field
     end
   end
 
@@ -114,7 +114,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   end
 
   describe "#partitioned_tokens_for_type" do
-    subject { described_class.new.partitioned_tokens_for_type(work_package.type) }
+    subject { described_class.new.partitioned_tokens_for_type(work_package.type_variant) }
 
     it "multi value fields are supported" do
       enabled, = subject

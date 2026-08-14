@@ -150,7 +150,7 @@ module Import
     end
 
     def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
-      existing_cf_ids = type.custom_field_ids
+      existing_cf_ids = type.default_variant.custom_field_ids
       custom_fields_for_issue(custom_field_registry, jira_issue).reject { |cf| existing_cf_ids.include?(cf.id) }
     end
 

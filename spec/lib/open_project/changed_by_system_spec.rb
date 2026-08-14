@@ -105,7 +105,7 @@ RSpec.describe OpenProject::ChangedBySystem do
 
       before do
         project.work_package_custom_fields << cf1
-        type.custom_fields << cf1
+        type.default_variant.custom_fields << cf1
       end
 
       it "returns the custom fields too" do

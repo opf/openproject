@@ -49,7 +49,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
 
   def setup_custom_field(cf)
     project.work_package_custom_fields << cf
-    type.custom_fields << cf
+    type.default_variant.custom_fields << cf
     # Void the custom field caching
     RequestStore.clear!
     cf
@@ -215,7 +215,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       create(:work_package_custom_field,
              name: "Custom field of type and project").tap do |cf|
         project.work_package_custom_fields << cf
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let!(:custom_field_of_project_not_type) do
@@ -227,14 +227,14 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     let!(:custom_field_of_type_not_project) do
       create(:work_package_custom_field,
              name: "Custom field of type not project").tap do |cf|
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let!(:custom_field_for_all_and_type) do
       create(:work_package_custom_field,
              name: "Custom field for all and type",
              is_for_all: true).tap do |cf|
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let!(:custom_field_for_all_not_type) do
@@ -248,9 +248,9 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
              name: "Custom field for all and many types and projects",
              is_for_all: true).tap do |cf|
         project.work_package_custom_fields << cf
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
         project2.work_package_custom_fields << cf
-        type2.custom_fields << cf
+        type2.default_variant.custom_fields << cf
       end
     end
 
@@ -303,13 +303,13 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     let!(:source_cf) do
       create(:work_package_custom_field, name: "Source CF").tap do |cf|
         project.work_package_custom_fields << cf
-        source_type.custom_fields << cf
+        source_type.default_variant.custom_fields << cf
       end
     end
     let!(:linked_own_cf) do
       create(:work_package_custom_field, name: "Linked own CF").tap do |cf|
         project.work_package_custom_fields << cf
-        linked_type.custom_fields << cf
+        linked_type.default_variant.custom_fields << cf
       end
     end
 

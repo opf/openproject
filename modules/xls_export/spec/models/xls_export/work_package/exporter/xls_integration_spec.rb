@@ -175,7 +175,8 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     end
     let(:type) do
       type = project.enabled_types.first
-      type.custom_fields << custom_field
+      type.default_variant.custom_fields << custom_field
+
       type
     end
     let(:project) do

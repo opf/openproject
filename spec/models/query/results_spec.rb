@@ -250,7 +250,7 @@ RSpec.describe Query::Results do
       before do
         login_as(user1)
 
-        wp_p1[0].type.custom_fields << custom_field
+        wp_p1[0].type.default_variant.custom_fields << custom_field
         project1.work_package_custom_fields << custom_field
       end
 

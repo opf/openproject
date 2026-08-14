@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe TypeVariant do
-  let(:type) { create(:type).default_variant }
+  let(:variant) { create(:type).default_variant }
 
   shared_let(:admin) { create(:admin) }
 
@@ -43,47 +43,47 @@ RSpec.describe TypeVariant do
   describe "#attribute_groups" do
     shared_examples_for "returns default attributes" do
       it do
-        expect(type.read_attribute(:attribute_groups)).to be_empty
+        expect(variant.read_attribute(:attribute_groups)).to be_empty
 
-        attribute_groups = type.attribute_groups.grep(Type::AttributeGroup).map do |group|
+        attribute_groups = variant.attribute_groups.grep(Type::AttributeGroup).map do |group|
           [group.key, group.attributes]
         end
 
-        expect(attribute_groups).to eql type.default_attribute_groups
+        expect(attribute_groups).to eql variant.default_attribute_groups
       end
     end
 
     context "with attributes provided" do
       before do
-        type.attribute_groups = [["foo", []], ["bar", %w(blubs date)]]
+        variant.attribute_groups = [["foo", []], ["bar", %w(blubs date)]]
       end
 
       it "removes unknown attributes from a group" do
-        group = type.attribute_groups[1]
+        group = variant.attribute_groups[1]
 
         expect(group.key).to eql "bar"
         expect(group.members).to eql ["date"]
       end
 
       it "keeps groups without attributes" do
-        group = type.attribute_groups[0]
+        group = variant.attribute_groups[0]
 
         expect(group.key).to eql "foo"
         expect(group.members).to eql []
       end
 
       it "does not have a children query" do
-        expect(type.attribute_groups.detect { |group| group.key == :children }).to be_nil
+        expect(variant.attribute_groups.detect { |group| group.key == :children }).to be_nil
       end
     end
 
     context "with empty attributes provided" do
       before do
-        type.attribute_groups = []
+        variant.attribute_groups = []
       end
 
       it "returns an empty attribute_groups" do
-        expect(type.attribute_groups).to be_empty
+        expect(variant.attribute_groups).to be_empty
       end
     end
 
@@ -92,36 +92,36 @@ RSpec.describe TypeVariant do
     end
 
     context "with a query group" do
-      let(:type) { create(:type).default_variant }
+      let(:variant) { create(:type).default_variant }
       let(:query) { build(:global_query, user_id: 0) }
 
       before do
         login_as(admin)
 
-        type.attribute_groups = [["some group", [query]]]
-        type.save!
-        type.reload
+        variant.attribute_groups = [["some group", [query]]]
+        variant.save!
+        variant.reload
       end
 
       it "retrieves the query" do
-        expect(type.attribute_groups.length).to be 1
+        expect(variant.attribute_groups.length).to be 1
 
-        expect(type.attribute_groups[0].class).to eql Type::QueryGroup
-        expect(type.attribute_groups[0].key).to eql "some group"
-        expect(type.attribute_groups[0].query).to eql query
+        expect(variant.attribute_groups[0].class).to eql Type::QueryGroup
+        expect(variant.attribute_groups[0].key).to eql "some group"
+        expect(variant.attribute_groups[0].query).to eql query
       end
 
       it "removes the former query if a new one is assigned" do
         new_query = build(:global_query, user_id: 0)
-        type.attribute_groups[0].attributes = new_query
-        type.save!
-        type.reload
+        variant.attribute_groups[0].attributes = new_query
+        variant.save!
+        variant.reload
 
-        expect(type.attribute_groups.length).to be 1
+        expect(variant.attribute_groups.length).to be 1
 
-        expect(type.attribute_groups[0].class).to eql Type::QueryGroup
-        expect(type.attribute_groups[0].key).to eql "some group"
-        expect(type.attribute_groups[0].query).to eql new_query
+        expect(variant.attribute_groups[0].class).to eql Type::QueryGroup
+        expect(variant.attribute_groups[0].key).to eql "some group"
+        expect(variant.attribute_groups[0].query).to eql new_query
 
         expect(Query.count).to be 1
       end
@@ -129,7 +129,7 @@ RSpec.describe TypeVariant do
   end
 
   describe "#default_attribute_groups" do
-    subject { type.default_attribute_groups }
+    subject { variant.default_attribute_groups }
 
     it "returns an array" do
       expect(subject).to be_any
@@ -161,17 +161,17 @@ RSpec.describe TypeVariant do
     context "when the multiple versions feature is inactive",
             with_settings: { work_package_multiple_versions: false } do
       it "offers the deprecated version in the default configuration" do
-        members = type.default_attribute_groups.to_h
+        members = variant.default_attribute_groups.to_h
 
         expect(members[:details]).to include("version")
         expect(members[:details]).not_to include("target_versions")
       end
 
       it "renders a persisted target_versions key as the deprecated version" do
-        type[:attribute_groups] = [["details", %w[category target_versions]]]
-        type.unset_attribute_groups_objects
+        variant[:attribute_groups] = [["details", %w[category target_versions]]]
+        variant.unset_attribute_groups_objects
 
-        details = type.attribute_groups.detect { |group| group.key == "details" }
+        details = variant.attribute_groups.detect { |group| group.key == "details" }
 
         expect(details.attributes).to include("version")
         expect(details.attributes).not_to include("target_versions")
@@ -181,27 +181,27 @@ RSpec.describe TypeVariant do
     context "when the multiple versions feature is active",
             with_settings: { work_package_multiple_versions: true } do
       it "offers target_versions in the default configuration" do
-        members = type.default_attribute_groups.to_h
+        members = variant.default_attribute_groups.to_h
 
         expect(members[:details]).to include("target_versions")
         expect(members[:details]).not_to include("version")
       end
 
       it "renders a persisted legacy version key as target_versions" do
-        type[:attribute_groups] = [["details", %w[category version]]]
-        type.unset_attribute_groups_objects
+        variant[:attribute_groups] = [["details", %w[category version]]]
+        variant.unset_attribute_groups_objects
 
-        details = type.attribute_groups.detect { |group| group.key == "details" }
+        details = variant.attribute_groups.detect { |group| group.key == "details" }
 
         expect(details.attributes).to include("target_versions")
         expect(details.attributes).not_to include("version")
       end
 
       it "keeps the display name of a renamed group while normalizing it" do
-        type[:attribute_groups] = [["details", %w[category version], "Custom Details"]]
-        type.unset_attribute_groups_objects
+        variant[:attribute_groups] = [["details", %w[category version], "Custom Details"]]
+        variant.unset_attribute_groups_objects
 
-        details = type.attribute_groups.detect { |group| group.key == "details" }
+        details = variant.attribute_groups.detect { |group| group.key == "details" }
 
         expect(details.attributes).to include("target_versions")
         expect(details.display_name).to eq("Custom Details")
@@ -210,9 +210,9 @@ RSpec.describe TypeVariant do
 
     it "leaves query group members untouched" do
       query_member = :"#{Type::QueryGroup::MEMBER_PREFIX}1"
-      type[:attribute_groups] = [["Related", [query_member]]]
+      variant[:attribute_groups] = [["Related", [query_member]]]
 
-      expect(type.send(:custom_attribute_groups)).to eq([["Related", [query_member]]])
+      expect(variant.send(:custom_attribute_groups)).to eq([["Related", [query_member]]])
     end
   end
 
@@ -232,9 +232,9 @@ RSpec.describe TypeVariant do
       OpenProject::Cache.clear
 
       # Can be enabled
-      type.attribute_groups = [["foo", [cf_identifier]]]
-      expect(type.save).to be_truthy
-      expect(type.read_attribute(:attribute_groups)).not_to be_empty
+      variant.attribute_groups = [["foo", [cf_identifier]]]
+      expect(variant.save).to be_truthy
+      expect(variant.read_attribute(:attribute_groups)).not_to be_empty
     end
 
     context "with multiple CFs" do
@@ -253,17 +253,17 @@ RSpec.describe TypeVariant do
         OpenProject::Cache.clear
 
         # Can be enabled
-        type.attribute_groups = [["foo", [cf_identifier2, cf_identifier]]]
-        expect(type.save).to be_truthy
-        expect(type.read_attribute(:attribute_groups)).not_to be_empty
+        variant.attribute_groups = [["foo", [cf_identifier2, cf_identifier]]]
+        expect(variant.save).to be_truthy
+        expect(variant.read_attribute(:attribute_groups)).not_to be_empty
 
-        cf_group = type.attribute_groups[0]
+        cf_group = variant.attribute_groups[0]
         expect(cf_group.members).to eq([cf_identifier2, cf_identifier])
       end
     end
   end
 
-  describe "custom field added implicitly to type" do
+  describe "custom field added implicitly to variant" do
     let(:custom_field) do
       create(
         :work_package_custom_field,
@@ -271,23 +271,23 @@ RSpec.describe TypeVariant do
         is_for_all: true
       )
     end
-    let!(:type) { create(:type).default_variant.tap { it.update!(custom_fields: [custom_field]) } }
+    let!(:variant) { create(:type).default_variant.tap { it.update!(custom_fields: [custom_field]) } }
 
     it "has the custom field in the default group" do
       OpenProject::Cache.clear
-      type.reload
+      variant.reload
 
-      expect(type.custom_field_ids).to eq([custom_field.id])
+      expect(variant.custom_field_ids).to eq([custom_field.id])
 
-      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      other_group = variant.attribute_groups.detect { |g| g.key == :other }
       expect(other_group).to be_present
       expect(other_group.attributes).to eq(%w[position] + [custom_field.attribute_name])
 
       # It is removed again when resetting it
-      type.reset_attribute_groups
-      expect(type.custom_field_ids).to be_empty
+      variant.reset_attribute_groups
+      expect(variant.custom_field_ids).to be_empty
 
-      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      other_group = variant.attribute_groups.detect { |g| g.key == :other }
       expect(other_group).to be_present
       expect(other_group.attributes).to eq(%w[position])
     end
@@ -298,10 +298,10 @@ RSpec.describe TypeVariant do
 
     before do
       login_as(admin)
-      type.attribute_groups = [["some name", [query]]]
-      type.save!
-      type.reload
-      type.destroy
+      variant.attribute_groups = [["some name", [query]]]
+      variant.save!
+      variant.reload
+      variant.destroy
     end
 
     it "destroys all queries references by query groups" do

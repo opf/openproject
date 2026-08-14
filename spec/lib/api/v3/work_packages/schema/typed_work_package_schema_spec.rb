@@ -141,7 +141,7 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     let!(:source_cf) do
       create(:integer_wp_custom_field).tap do |cf|
         project.work_package_custom_fields << cf
-        source_type.custom_fields << cf
+        source_type.default_variant.custom_fields << cf
       end
     end
 

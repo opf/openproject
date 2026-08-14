@@ -113,15 +113,15 @@ module ::TypesHelper
 
   ##
   # Collect active and inactive form configuration groups for editing.
-  def form_configuration_groups(type)
-    available = type.work_package_attributes
+  def form_configuration_groups(variant)
+    available = variant.work_package_attributes
     # First we create a complete list of all attributes.
     # Later we will remove those that are members of an attribute group.
     # This way attributes that were created after the las group definitions
     # will fall back into the inactives group.
     inactive = available.clone
 
-    active_form = get_active_groups(type, available, inactive)
+    active_form = get_active_groups(variant, available, inactive)
     inactive_form = inactive
                       .map { |key, attribute| attr_form_map(key, attribute) }
                       .sort_by { |attr| attr[:translation] }
@@ -161,8 +161,8 @@ module ::TypesHelper
   # Collect active attributes from the current form configuration.
   # Using the available attributes from +work_package_attributes+,
   # determines which attributes are not used
-  def get_active_groups(type, available, inactive)
-    type.attribute_groups.map do |group|
+  def get_active_groups(variant, available, inactive)
+    variant.attribute_groups.map do |group|
       {
         key: group.key,
         type: group.group_type,

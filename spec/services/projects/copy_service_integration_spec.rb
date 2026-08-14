@@ -1149,7 +1149,7 @@ RSpec.describe(
           let(:custom_field) do
             create(:user_wp_custom_field).tap do |cf|
               source.work_package_custom_fields << cf
-              work_package.type.custom_fields << cf
+              work_package.type.default_variant.custom_fields << cf
             end
           end
 

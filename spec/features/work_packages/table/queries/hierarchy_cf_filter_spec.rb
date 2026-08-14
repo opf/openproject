@@ -38,7 +38,7 @@ RSpec.describe "Work package filtering by hierarchy custom field", :js, with_ee:
   let(:hierarchy_root) { create(:hierarchy_item) }
   let!(:hierarchy_cf) do
     create(:hierarchy_wp_custom_field, hierarchy_root:).tap do |cf|
-      type.custom_fields << cf
+      type.default_variant.custom_fields << cf
       project.work_package_custom_fields << cf
     end
   end
