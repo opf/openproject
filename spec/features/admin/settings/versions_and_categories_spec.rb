@@ -69,8 +69,10 @@ RSpec.describe "Versions and categories admin settings" do
     it "shows the planned changes for target versions" do
       expect(page).to have_text("The “Version” field will be renamed “Target versions”.")
       expect(page).to have_text(
-        "This field is currently single-value. It will also be converted to allow multiple values.",
-        count: 2
+        "This field is currently single-value. It will be converted to allow multiple values."
+      )
+      expect(page).to have_text(
+        "This field is currently single-value. It will also be converted to allow multiple values."
       )
       expect(page).to have_text(
         "You can choose to manually run the conversion to enable multiple values before this automatic migration happens."
