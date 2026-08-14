@@ -32,10 +32,11 @@ require "spec_helper"
 require_module_spec_helper
 
 module Wikis
-  RSpec.describe BrowsePagesService do
+  RSpec.describe BrowsePagesService, :webmock do
     shared_let(:internal_provider) { create(:internal_wiki_provider) }
     shared_let(:project) { create(:project, :with_internal_wiki, name: "DS Maintenance Shaft") }
     shared_let(:user) { create(:user, member_with_permissions: { project => [:view_wiki_pages] }) }
+    shared_let(:xwiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
 
     subject(:service) { described_class.new(provider:, user:) }
 
@@ -65,16 +66,46 @@ module Wikis
           expect(wiki_entry.children.map(&:children)).to contain_exactly([], [])
         end
       end
+
+      context "when using the XWiki provider", vcr: "services/browse_pages_xwiki_nil_identifier" do
+        let(:provider) { xwiki_provider }
+
+        it "returns also a wiki node with the root pages project name" do
+          page_tree = service.call(parent_identifier).value!
+
+          expect(page_tree.size).to eq(1)
+          expect(page_tree[0].type).to eq(:wiki)
+          expect(page_tree[0].name).to eq("xwiki")
+        end
+
+        # The wiki structure here was
+        # - xwiki
+        #   - Cheesy Info
+        #   - Help
+        #   - Home
+        #   - Sandbox
+        it "returns only the root pages" do
+          page_tree = service.call(parent_identifier).value!
+          wiki_entry = page_tree[0]
+
+          expect(wiki_entry.children.size).to eq(4)
+          expect(wiki_entry.children.map(&:type)).to all(eq(:page))
+          expect(wiki_entry.children.map(&:children)).to all(eq([]))
+        end
+      end
     end
 
     context "when the identifier is a valid" do
-      let(:parent_identifier) { pages.last.id.to_s }
-
       context "when using the internal provider" do
+        let(:parent_identifier) { pages.last.id.to_s }
         let(:pages) { create_list(:wiki_page, 2, wiki: project.wiki) }
         let(:provider) { internal_provider }
 
         before { pages }
+
+        it "succeeds" do
+          expect(service.call(parent_identifier)).to be_success
+        end
 
         it "returns the identified page children entries" do
           create(:wiki_page, wiki: project.wiki, parent: pages.last)
@@ -84,9 +115,26 @@ module Wikis
           expect(page_tree.map(&:type)).to eq(%i[page])
         end
       end
+
+      context "when using the XWiki provider", vcr: "services/browse_pages_xwiki_valid_identifier" do
+        # This is a page stable id that has at least 1 child page
+        let(:parent_identifier) { "31778" }
+        let(:provider) { xwiki_provider }
+
+        it "succeeds" do
+          expect(service.call(parent_identifier)).to be_success
+        end
+
+        it "returns the identified page children entries" do
+          page_tree = service.call(parent_identifier).value!
+
+          expect(page_tree.size).to eq(1)
+          expect(page_tree.map(&:type)).to eq(%i[page])
+        end
+      end
     end
 
-    describe "error handling", :webmock, vcr: "services/browse_pages_xwiki_not_found" do
+    describe "error handling", vcr: "services/browse_pages_xwiki_not_found" do
       let(:parent_identifier) { "matte-banana-blue" }
       let(:provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
 
