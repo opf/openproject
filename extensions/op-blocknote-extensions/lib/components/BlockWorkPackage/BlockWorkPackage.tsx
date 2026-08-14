@@ -15,6 +15,7 @@ import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { SearchContainer, SearchLabel } from '../Search/SearchContainer';
 import { SearchDropdown } from '../Search/SearchDropdown';
+import { CreateWorkPackageModal } from '../CreateWorkPackage';
 import { defaultWpVariables } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
@@ -59,6 +60,7 @@ export const BlockWorkPackageComponent = ({
 }) => {
   const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
+  const [blockEl, setBlockEl] = useState<HTMLDivElement | null>(null);
   // Fetch and cache colors.
   // The hook handles triggering re-renders when data arrives.
   useColors();
@@ -95,16 +97,35 @@ export const BlockWorkPackageComponent = ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const displayId = block.props.displayId || String(block.props.wpid);
 
+  // Read once into state: the registry entry is dropped on unmount, which
+  // StrictMode simulates, and a remount must not lose a filled form.
+  const [pendingMode, setPendingMode] = useState(() => pendingBlockRegistry.mode(block.id));
+
   useEffect(() => {
     return () => { pendingBlockRegistry.delete(block.id); };
   }, [block.id]);
 
-  const handleSelectWorkPackage = (wp:WorkPackage) => {
+  const resolvePending = () => {
     pendingBlockRegistry.delete(block.id);
+    setPendingMode(undefined);
+  };
+
+  const handleSelectWorkPackage = (wp:WorkPackage) => {
+    resolvePending();
     editor.updateBlock(block, {
       props: { ...block.props, wpid: wp.id, displayId: wp.displayId },
     });
     requestAnimationFrame(() => moveCursorAfterBlock(editor, block.id));
+  };
+
+  const handleCancelPending = () => {
+    resolvePending();
+    // The slash command consumed the paragraph the cursor was in, so cancelling
+    // has to put one back and leave the caret where it started.
+    const [restored] = editor.insertBlocks([{ type: 'paragraph' }], block, 'before');
+    editor.removeBlocks([block]);
+    editor.focus();
+    if (restored?.id) editor.setTextCursorPosition(restored.id, 'end');
   };
 
   // Delegate the drag to the same mechanism the side menu uses internally,
@@ -143,7 +164,9 @@ export const BlockWorkPackageComponent = ({
     editor.removeBlocks([block]);
   };
 
-  const isPending = pendingBlockRegistry.has(block.id);
+  const trackBlockElement = (node:HTMLDivElement | null) => {
+    if (pendingMode === 'create' || node === null) setBlockEl(node);
+  };
 
   const optionsPopover = (
     <WpOptionsPopover
@@ -162,9 +185,17 @@ export const BlockWorkPackageComponent = ({
   );
 
   return (
-    <Block $pending={isPending} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
+    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
       <div contentEditable={false} style={{ userSelect: 'none' }}>
-        {isPending && (
+        {pendingMode === 'create' && blockEl && (
+          <CreateWorkPackageModal
+            anchorEl={blockEl}
+            onCreated={handleSelectWorkPackage}
+            onCancel={handleCancelPending}
+          />
+        )}
+
+        {pendingMode === 'link' && (
           <SearchContainer $floating>
             <SearchLabel>
               {t('search.label')}
@@ -172,11 +203,7 @@ export const BlockWorkPackageComponent = ({
             <SearchDropdown
               autoFocus
               onSelect={handleSelectWorkPackage}
-              onCancel={() => {
-                pendingBlockRegistry.delete(block.id);
-                editor.removeBlocks([block]);
-                editor.focus();
-              }}
+              onCancel={handleCancelPending}
               renderItem={(wp) => <BlockCard workPackage={wp} inDropdown />}
             />
           </SearchContainer>

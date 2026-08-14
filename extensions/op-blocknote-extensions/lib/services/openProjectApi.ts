@@ -1,5 +1,15 @@
 
-import type {OpenProjectResponse, StatusCollection, TypeCollection, WorkPackage} from '../openProjectTypes';
+import type {
+  HalCollection,
+  HalResource,
+  OpenProjectApiErrorBody,
+  OpenProjectResponse,
+  StatusCollection,
+  TypeCollection,
+  WorkPackage,
+  WorkPackageForm,
+  WorkPackagePayload,
+} from '../openProjectTypes';
 
 let baseUrl = 'https://openproject.local';
 let proxyUrl = 'https://openproject.local';
@@ -7,10 +17,12 @@ let proxyUrl = 'https://openproject.local';
 
 export class OpenProjectApiError extends Error {
   responseStatus?:number;
+  attributeErrors:Record<string, string>;
 
-  constructor(message:string, responseStatus?:number) {
+  constructor(message:string, responseStatus?:number, attributeErrors:Record<string, string> = {}) {
     super(message);
     this.responseStatus = responseStatus;
+    this.attributeErrors = attributeErrors;
     this.name = 'OpenProjectApiError';
   }
 }
@@ -44,8 +56,59 @@ async function get<T>(endpoint:string):Promise<T> {
   return response.json() as Promise<T>;
 }
 
+interface ApiError {
+  message:string;
+  attributeErrors:Record<string, string>;
+}
+
+async function readError(response:Response):Promise<ApiError> {
+  const statusLine = `HTTP error! status: ${response.status} - ${response.statusText}`;
+
+  try {
+    const body = await response.json() as OpenProjectApiErrorBody;
+    // A lone violation is the error itself; several are nested under a summary.
+    const entries = body._embedded?.errors ?? [body];
+    const messages = entries.flatMap((entry) => (entry.message ? [entry.message] : []));
+
+    const attributeErrors:Record<string, string> = {};
+    for (const entry of entries) {
+      const attribute = entry._embedded?.details?.attribute;
+      if (attribute && entry.message && !attributeErrors[attribute]) attributeErrors[attribute] = entry.message;
+    }
+
+    if (messages.length > 0) return { message: messages.join(' '), attributeErrors };
+
+    return { message: body.message ?? statusLine, attributeErrors };
+  } catch { /* no JSON body */ }
+
+  return { message: statusLine, attributeErrors: {} };
+}
+
+async function post<T>(endpoint:string, body:unknown):Promise<T> {
+  const response = await fetch(`${proxyUrl}${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // The API refuses a session authenticated write without it over plain HTTP.
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    const { message, attributeErrors } = await readError(response);
+    throw new OpenProjectApiError(message, response.status, attributeErrors);
+  }
+  return response.json() as Promise<T>;
+}
+
 export function linkToWorkPackage(displayId:string):string {
   return `${baseUrl}/wp/${encodeURIComponent(displayId)}`;
+}
+
+export function linkToNewWorkPackage(projectId?:string):string {
+  return projectId
+    ? `${baseUrl}/projects/${encodeURIComponent(projectId)}/work_packages/new`
+    : `${baseUrl}/work_packages/new`;
 }
 
 const WP_ID_URL_PATTERN = '\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+';
@@ -96,11 +159,71 @@ export function fetchTypes():Promise<TypeCollection> {
   });
 }
 
-export async function searchWorkPackages(query:string):Promise<WorkPackage[]> {
-  const filters = encodeURIComponent(`[{"typeahead":{"operator":"**","values":["${query}"]}}]`);
-  const sortBy = encodeURIComponent('[["exactMatch","desc"],["updatedAt","desc"]]');
+const ALLOWED_VALUES_PAGE_SIZE = 20;
 
-  const endpoint = `/api/v3/work_packages?filters=${filters}&sortBy=${sortBy}`;
-  const data = await get<OpenProjectResponse>(endpoint);
+/**
+ * Asks the API which attributes a new work package needs: an empty payload yields
+ * the bare schema, sending the project back its types, the type its statuses.
+ */
+export function fetchWorkPackageCreateForm(payload:WorkPackagePayload = {}):Promise<WorkPackageForm> {
+  return post<WorkPackageForm>('/api/v3/work_packages/form', payload);
+}
+
+export function createWorkPackage(payload:WorkPackagePayload):Promise<WorkPackage> {
+  return post<WorkPackage>('/api/v3/work_packages', payload);
+}
+
+function withTypeaheadFilter(href:string, query:string):string {
+  const separator = href.indexOf('?');
+  const path = separator === -1 ? href : href.slice(0, separator);
+  const params = new URLSearchParams(separator === -1 ? '' : href.slice(separator + 1));
+
+  let filters:unknown[] = [];
+  try {
+    const parsed = JSON.parse(params.get('filters') ?? '[]') as unknown;
+    if (Array.isArray(parsed)) filters = parsed;
+  } catch { /* not our filters to interpret */ }
+  filters.push({ typeahead: { operator: '**', values: [query] } });
+
+  params.set('filters', JSON.stringify(filters));
+  if (!params.has('pageSize')) params.set('pageSize', String(ALLOWED_VALUES_PAGE_SIZE));
+
+  return `${path}?${params.toString()}`;
+}
+
+/**
+ * Follows the `allowedValues` link of a schema attribute, narrowed by a typeahead
+ * term. An endpoint that rejects the filter answers 400 and is retried unfiltered.
+ */
+export async function fetchAllowedValues(
+  href:string,
+  query = ''
+):Promise<{ resources:HalResource[]; filtered:boolean }> {
+  if (!href.startsWith('/api/v3/')) {
+    throw new OpenProjectApiError(`Unexpected allowed values href: ${href}`);
+  }
+
+  const trimmedQuery = query.trim();
+  if (trimmedQuery) {
+    try {
+      const filtered = await get<HalCollection<HalResource>>(withTypeaheadFilter(href, trimmedQuery));
+      return { resources: filtered._embedded?.elements ?? [], filtered: true };
+    } catch (error) {
+      if (!(error instanceof OpenProjectApiError) || error.responseStatus !== 400) throw error;
+      console.warn('[OpenProjectApi] typeahead filter rejected, retrying unfiltered:', error);
+    }
+  }
+
+  const data = await get<HalCollection<HalResource>>(href);
+  return { resources: data._embedded?.elements ?? [], filtered: false };
+}
+
+export async function searchWorkPackages(query:string):Promise<WorkPackage[]> {
+  const params = new URLSearchParams({
+    filters: JSON.stringify([{ typeahead: { operator: '**', values: [query] } }]),
+    sortBy: JSON.stringify([['exactMatch', 'desc'], ['updatedAt', 'desc']]),
+  });
+
+  const data = await get<OpenProjectResponse>(`/api/v3/work_packages?${params.toString()}`);
   return data?._embedded?.elements as unknown as WorkPackage[] ?? [];
 }

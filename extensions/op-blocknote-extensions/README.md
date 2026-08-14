@@ -71,7 +71,10 @@ Build the slash and hash menus:
 const getSlashItems = useCallback(
   async (query: string) =>
     filterSuggestionItems(
-      [...getDefaultReactSlashMenuItems(editor), workPackageSlashMenu(editor)],
+      [
+        ...getDefaultReactSlashMenuItems(editor),
+        ...getOpenProjectSlashMenuItems(editor),
+      ],
       query
     ),
   [editor]
@@ -79,6 +82,10 @@ const getSlashItems = useCallback(
 
 const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 ```
+
+`getOpenProjectSlashMenuItems` returns every item this library offers: linking an existing work package, and creating a new one through a form and linking it. Both insert a card on an empty line and an inline chip within a line of text.
+
+The create form is built from the work package form endpoint of the API, so the attributes it asks for - and their labels - come from the OpenProject instance: subject, project, type, assignee, plus every other attribute the selected type requires. Attributes the API already has a default for (status and priority, for instance) are left to it and are not shown, required or not.
 
 Include everything in a `BlockNoteView`:
 
@@ -129,10 +136,11 @@ Step 3: Start the development server — `npm run dev`.
 
 ## Components in this library
 
-| Component         | Description                                     |
-| ----------------- | ----------------------------------------------- |
-| WorkPackage block | Search and display elegantly work package links |
-| ...               | ...                                             |
+| Component            | Description                                        |
+| -------------------- | -------------------------------------------------- |
+| WorkPackage block    | Search and display elegantly work package links    |
+| Create work package  | Create a work package from the document and link it |
+| ...                  | ...                                                |
 
 ## Build
 

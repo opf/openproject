@@ -2,7 +2,7 @@ import './services/i18n.ts';
 export {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
-  workPackageSlashMenu,
+  getOpenProjectSlashMenuItems,
   ShadowDomWrapper,
 } from './components';
 export { initializeOpBlockNoteExtensions } from './initialize';

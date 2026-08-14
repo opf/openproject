@@ -13,7 +13,7 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
-  workPackageSlashMenu,
+  getOpenProjectSlashMenuItems,
   useHashWpMenu,
 } from '../lib';
 import './fetchOverride';
@@ -38,7 +38,7 @@ function buildSlashMenuItems(editor:EditorType) {
   return [
     ...getDefaultReactSlashMenuItems(editor),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    workPackageSlashMenu(editor as any),
+    ...getOpenProjectSlashMenuItems(editor as any),
   ];
 }
 

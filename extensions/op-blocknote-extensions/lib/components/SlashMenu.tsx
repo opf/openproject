@@ -1,5 +1,5 @@
 import type { BlockNoteEditor } from '@blocknote/core';
-import { LinkIcon } from '@primer/octicons-react';
+import { LinkIcon, PlusIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
@@ -7,6 +7,7 @@ import { findPendingInlineChip } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { isCurrentBlockEmpty } from '../utils/blockContent.ts';
 import type { AnyEditor } from '../editorTypes';
+import type { PendingMode } from './WorkPackage/types';
 
 function buildOnSelect(
   editor:AnyEditor,
@@ -41,6 +42,7 @@ function buildOnCancel(
   return () => {
     const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid);
     if (found) {
+      editor.focus();
       editor.transact((tr) => {
         tr.delete(found.position, found.position + found.node.nodeSize);
       });
@@ -49,7 +51,7 @@ function buildOnCancel(
   };
 }
 
-function insertBlockWorkPackage(editor:AnyEditor):void {
+function insertBlockWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   const blockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
   if (!blockId) return;
 
@@ -61,17 +63,17 @@ function insertBlockWorkPackage(editor:AnyEditor):void {
   const [insertedBlock] = editor.insertBlocks([block], blockId, 'after');
   if (!insertedBlock?.id) return;
 
-  pendingBlockRegistry.add(insertedBlock.id);
+  pendingBlockRegistry.add(insertedBlock.id, mode);
   editor.removeBlocks([blockId]);
 }
 
-function insertInlineWorkPackage(editor:AnyEditor):void {
+function insertInlineWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   const pendingWpid = makePendingWpid();
 
   const onSelect = buildOnSelect(editor, pendingWpid);
   const onCancel = buildOnCancel(editor, pendingWpid);
 
-  registerInlineWpCallbacks(pendingWpid, onSelect, onCancel);
+  registerInlineWpCallbacks(pendingWpid, onSelect, onCancel, mode);
 
   try {
     (editor.insertInlineContent as (content:unknown[]) => void)([
@@ -84,18 +86,36 @@ function insertInlineWorkPackage(editor:AnyEditor):void {
   }
 }
 
+function insertPendingWorkPackage(editor:AnyEditor, mode:PendingMode):void {
+  if (isCurrentBlockEmpty(editor)) {
+    insertBlockWorkPackage(editor, mode);
+  } else {
+    insertInlineWorkPackage(editor, mode);
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const workPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
+const workPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
   title: i18n.t('slashMenu.title'),
-  onItemClick: () => {
-    if (isCurrentBlockEmpty(editor)) {
-      insertBlockWorkPackage(editor);
-    } else {
-      insertInlineWorkPackage(editor);
-    }
-  },
-  aliases: [...getAliases()],
+  onItemClick: () => insertPendingWorkPackage(editor, 'link'),
+  aliases: [...getAliases('link')],
   group: 'OpenProject',
   icon: <LinkIcon size={18} />,
   subtext: i18n.t('slashMenu.subtext'),
 });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const createWorkPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
+  title: i18n.t('slashMenu.create.title'),
+  onItemClick: () => insertPendingWorkPackage(editor, 'create'),
+  aliases: [...getAliases('create')],
+  group: 'OpenProject',
+  icon: <PlusIcon size={18} />,
+  subtext: i18n.t('slashMenu.create.subtext'),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getOpenProjectSlashMenuItems = (editor:BlockNoteEditor<any>) => [
+  workPackageSlashMenu(editor),
+  createWorkPackageSlashMenu(editor),
+];

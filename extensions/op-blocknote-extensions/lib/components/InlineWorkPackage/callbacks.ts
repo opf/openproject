@@ -1,3 +1,5 @@
+import type { PendingMode } from '../WorkPackage/types';
+
 // Global registry that bridges the slash-menu insertion flow with the
 // pending-chip React component.
 
@@ -12,6 +14,8 @@ type WpCancelCallback = () => void;
 export interface PendingCallbacks {
   onSelect:WpSelectedCallback;
   onCancel:WpCancelCallback;
+  // Kept here rather than in the node props, so it never reaches the document.
+  mode:PendingMode;
 }
 
 export const PENDING_PREFIX = 'pending:' as const;
@@ -38,11 +42,12 @@ export function registerInlineWpCallbacks(
   key:string,
   onSelect:WpSelectedCallback,
   onCancel:WpCancelCallback,
+  mode:PendingMode = 'link',
 ):void {
   if (!import.meta.env.PROD && registry.has(key)) {
     console.warn(`[inline-wp] Overwriting existing callbacks for key "${key}". This is likely a bug.`);
   }
-  registry.set(key, { onSelect, onCancel });
+  registry.set(key, { onSelect, onCancel, mode });
 }
 
 export function clearInlineWpCallbacks(key:string):void {
