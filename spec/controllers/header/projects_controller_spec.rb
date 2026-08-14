@@ -69,6 +69,27 @@ RSpec.describe Header::ProjectsController do
       expect(response).to render_template(layout: false)
     end
 
+    context "when an invisible project is between two visible projects" do
+      shared_let(:invisible_project) { create(:private_project, name: "Invisible", parent: parent_project) }
+      shared_let(:visible_grandchild) { create(:project, name: "Visible Grandchild", parent: invisible_project) }
+
+      before do
+        create(:member, principal: current_user, project: visible_grandchild, roles: [role])
+      end
+
+      it "nests the grandchild below its nearest visible ancestor", :aggregate_failures do
+        make_request
+
+        tree = assigns(:tree)
+        parent_node = tree.find { |node| node[:project] == parent_project }
+
+        expect(assigns(:projects)).to include(visible_grandchild)
+        expect(assigns(:projects)).not_to include(invisible_project)
+        expect(tree.pluck(:project)).not_to include(visible_grandchild)
+        expect(parent_node[:children].pluck(:project)).to include(visible_grandchild)
+      end
+    end
+
     context "when searching by query" do
       subject(:make_request) { get :index, params: { query: "Beta" } }
 
