@@ -200,21 +200,6 @@ Open the [Risk management demo board](https://pm2.openproject.com/projects/pm2-t
 
 Finally, include the `Risk` type, fields, permissions and board in a [project template](../../user-guide/projects/project-templates/) so new projects start with the same risk management structure.
 
-## 3. Configuration activities
-
-Configure risk management in the following order:
-
-1. Define the terminology, risk categories and the 1 to 5 scales for likelihood and impact.
-2. Create the custom fields `Risk category`, `Identified by`, `Likelihood`, `Impact`, `Risk owner` and `Escalation`.
-3. Create the statuses `New`, `Evaluated`, `Mitigation planned`, `Mitigation done`, `Occured` and `Rejected`.
-4. Configure the allowed status transitions for the roles that manage risks.
-5. Configure the `Risk` type and arrange its form into `Risk details`, `Risk assessment` and `Risk response`.
-6. Add the built-in `Assignee` field and the embedded related work packages table named `Risk response` to the form.
-7. Configure role permissions for creating, editing, assigning, viewing and transitioning risks and their mitigation actions.
-8. Create the shared Risk Register table and board views with the required columns, filters and grouping.
-9. Add the type, fields, workflow and views to the project template used for new projects.
-10. Test the configuration with representative users and a sample risk before making the template available.
-
 ## Continuous product improvements
 
 OpenProject already provides the building blocks for transparent and repeatable risk management. Product development continues to make this experience more integrated, efficient and intuitive. The following roadmap items show potential next steps; their scope and delivery dates may evolve as the solutions are refined:
