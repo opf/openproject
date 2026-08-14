@@ -16,7 +16,7 @@ import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { SearchContainer, SearchLabel } from '../Search/SearchContainer';
 import { SearchDropdown } from '../Search/SearchDropdown';
 import { CreateWorkPackageModal } from '../CreateWorkPackage';
-import { defaultWpVariables } from '../WorkPackage/atoms';
+import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
 import { hideSafariPhantomSelection } from '../../utils/selection';
@@ -26,8 +26,7 @@ import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingT
 const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
   ${defaultWpVariables}
   background-color: ${({ $pending }) => ($pending ? 'transparent' : 'var(--op-chip-bg)')};
-  user-select: none;
-  -webkit-touch-callout: none;
+  ${nonSelectableStyles}
   border-radius: var(--bn-border-radius);
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
   ${({ $pending }) => $pending && 'position: relative;'}
@@ -186,7 +185,7 @@ export const BlockWorkPackageComponent = ({
 
   return (
     <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
-      <div contentEditable={false} style={{ userSelect: 'none' }}>
+      <div contentEditable={false}>
         {pendingMode === 'create' && blockEl && (
           <CreateWorkPackageModal
             anchorEl={blockEl}

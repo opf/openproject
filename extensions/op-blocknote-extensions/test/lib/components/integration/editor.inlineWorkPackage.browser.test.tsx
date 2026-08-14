@@ -133,3 +133,14 @@ describe('Inline chip - remove', () => {
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
   });
 });
+
+describe('Inline chip - selection', () => {
+  it('the chip is not text-selectable', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaHash('#');
+
+    const chip = page.getByText('#123').first().element().closest('.op-bn-inline-wp')!;
+
+    expect(getComputedStyle(chip).userSelect).toBe('none');
+  });
+});

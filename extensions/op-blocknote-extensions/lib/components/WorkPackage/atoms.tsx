@@ -32,6 +32,16 @@ export const defaultWpVariables = css`
   }
 `;
 
+// The -webkit- prefix is not redundant: Safari (including iOS) implements only the prefixed
+// property and styled-components v6 no longer auto-prefixes, so unprefixed alone leaves the
+// chip text selectable there. Belongs on the container only: `user-select` is not inherited,
+// but `auto` on a descendant resolves to `none` under a non-selectable parent.
+export const nonSelectableStyles = css`
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+`;
+
 export const WorkPackageId = styled.span.attrs({
   className: 'op-bn-work-package--id',
 })<{ $compact?:boolean }>`
