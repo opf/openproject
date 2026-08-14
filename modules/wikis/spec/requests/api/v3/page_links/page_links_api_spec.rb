@@ -81,6 +81,26 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
         let(:elements) { Wikis::PageLink.where(linkable: work_package, provider: internal_wiki).order(id: :desc).all }
       end
     end
+
+    context "when paginated with an offset beyond the first page" do
+      # Regression test: the offset param used to be silently dropped
+      # (never forwarded into the collection representer's page: option),
+      # so every page request rendered page 1 regardless of offset.
+      let(:all_ids) { Wikis::PageLink.where(linkable: work_package).order(id: :desc).pluck(:id) }
+
+      before { get "#{path}?pageSize=2&offset=2" }
+
+      it "returns the second page, distinct from the first page" do
+        expect(last_response.status).to eq(200)
+
+        body = JSON.parse(last_response.body)
+        expect(body["offset"]).to eq(2)
+
+        returned_ids = body["_embedded"]["elements"].pluck("id")
+        expect(returned_ids).to eq(all_ids[2, 2])
+        expect(returned_ids).not_to eq(all_ids[0, 2])
+      end
+    end
   end
 
   describe "GET /api/v3/wiki_page_links" do
@@ -108,6 +128,32 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
 
       it_behaves_like "API V3 collection response", 6, 6, "WikiPageLink", "WikiPageLinkCollection" do
         let(:elements) { Wikis::PageLink.where(provider: internal_wiki).order(id: :desc).all }
+      end
+    end
+
+    context "when paginated with an offset beyond the first page" do
+      # Regression test, independent of the work-package-scoped endpoint's
+      # own analogous coverage above -- the same bug existed in this
+      # global handler too.
+      let(:all_ids) do
+        ids = unaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
+        Wikis::PageLink.where.not(id: ids).order(id: :desc).pluck(:id)
+      end
+
+      before do
+        unaccessible_links
+        get "#{path}?pageSize=2&offset=2"
+      end
+
+      it "returns the second page, distinct from the first page" do
+        expect(last_response.status).to eq(200)
+
+        body = JSON.parse(last_response.body)
+        expect(body["offset"]).to eq(2)
+
+        returned_ids = body["_embedded"]["elements"].pluck("id")
+        expect(returned_ids).to eq(all_ids[2, 2])
+        expect(returned_ids).not_to eq(all_ids[0, 2])
       end
     end
 
