@@ -44,7 +44,7 @@ Project members use the shared risk register to identify, assess, respond to and
 - Assess probability and impact using the agreed scale.
 - Select a response strategy and assign dated response actions.
 - Set the next review date and document review decisions.
-- Escalate or close the risk when appropriate.
+- Escalate, complete or reject the risk when appropriate.
 
 ### 1.1 Identify and record a risk
 
@@ -54,7 +54,7 @@ Complete the `Cause`, `Risk event`, `Impact` and `Early warning indicators` sect
 
 ### 1.2 Assess the risk
 
-The risk owner and relevant specialists agree on probability and impact using the scale defined in the Risk Management Plan. Add supporting evidence in the description or as an attachment, and move the risk to `Assessed` when the assessment is complete.
+The risk owner and relevant specialists agree on probability and impact using the scale defined in the Risk Management Plan. Add supporting evidence in the description or as an attachment, and move the risk to `Evaluated` when the assessment is complete.
 
 Prioritize risks consistently. A high score should trigger a timely response and, where defined by the organization's thresholds, escalation to the project manager, Project Owner or steering body.
 
@@ -75,17 +75,17 @@ Review active risks regularly in a project meeting or dedicated risk review. For
 3. Update the next review date.
 4. Reassess probability and impact based on current information and the effectiveness of response actions.
 5. Escalate when a threshold is exceeded or a decision is required.
-6. Close risks that no longer require active monitoring.
+6. Move risks to `Mitigation done` once the response is complete, or to `Rejected` when they no longer qualify for active management.
 
 Use comments for decisions and concise review notes. The work package activity provides a chronological audit trail. See [edit work packages](../../user-guide/work-packages/edit-work-package/) for updating fields, status and comments.
 
 ### 1.5 Handle an occurred risk
 
-When the uncertain event happens, it is no longer only a risk. Mark it as `Risk occured`, create or link an issue or task, and carry over the relevant owner, impact, response and due dates. Keep the relation between the original risk and the resulting issue so the decision trail remains visible.
+When the uncertain event happens, it is no longer only a risk. Mark it as `Occured`, create or link an issue or task, and carry over the relevant owner, impact, response and due dates. Keep the relation between the original risk and the resulting issue so the decision trail remains visible.
 
 ### 1.6 Report and learn
 
-Use the active register and attention view for status reporting. At phase gates and project closure, review closed and occurred risks to identify recurring causes, effective responses and improvements for future project templates or the Risk Management Plan.
+Use the active register and attention view for status reporting. At phase gates and project closure, review risks with completed mitigation, rejected risks and occurred risks to identify recurring causes, effective responses and improvements for future project templates or the Risk Management Plan.
 
 ## 2. System-wide configuration
 
@@ -142,19 +142,18 @@ Use one consistent scale across projects. If the organization uses a 1–5 scale
 
 The example configuration uses the following statuses:
 
-1. `New` – the risk has been recorded but not yet evaluated.
-2. `Risk evaluated` – likelihood, impact and ownership have been assessed.
-3. `Risk mitigation planned` – the response and its concrete actions have been defined.
-4. `Risk mitigation done` – the planned mitigation actions have been completed and their effectiveness can be reviewed.
-5. `Risk occured` – the uncertain event has happened and a related issue or task should be created for its resolution.
-6. `Closed` – the risk no longer requires active monitoring.
-7. `Rejected` – the entry was determined not to be a relevant project risk or is not pursued further.
+1. `New` – the risk has been recorded and awaits an initial assessment.
+2. `Evaluated` – likelihood, impact and ownership have been assessed and documented.
+3. `Mitigation planned` – the response strategy and concrete mitigation actions have been defined and assigned.
+4. `Mitigation done` – the planned mitigation actions have been completed and their effectiveness has been reviewed.
+5. `Occured` – the uncertain event has happened; create or link an issue for resolution and execute the applicable contingency actions.
+6. `Rejected` – the entry is a duplicate, is outside the project scope or was determined not to represent a relevant project risk.
 
 Configure these statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and the permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
 
 ![Workflow transition configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_workflow.png)
 
-Restrict sensitive transitions where appropriate. For example, only the project manager or risk manager may accept a high risk or close an escalated risk. Configure the corresponding rights under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
+Restrict sensitive transitions where appropriate. For example, only the project manager or risk manager may mark a risk as `Mitigation done`, `Occured` or `Rejected`. Configure the corresponding rights under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
 
 ### 2.4 Prepare reusable views and a project template
 
