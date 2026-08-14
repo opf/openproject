@@ -113,12 +113,18 @@ module Admin
     end
 
     def apply_attributes(llm_model)
-      llm_model.assign_attributes(llm_model_params.except(:external_id, *capability_param_names))
+      attributes = llm_model_params.except(*capability_param_names)
+      # A discovered model is named by the server; only a hand-entered one may be
+      # renamed here, and everything referencing the old name follows it.
+      attributes = attributes.except(:external_id) unless llm_model.new_record? || llm_model.manual?
+
+      previous_external_id = llm_model.external_id
+      llm_model.assign_attributes(attributes)
       llm_model.save!
+      llm_model.cascade_rename!(previous_external_id)
     end
 
-    # external_id is only accepted when creating: verdicts and bindings reference
-    # a model by that string, so renaming one would orphan both.
+    # external_id is accepted on create, and on update for manually added models.
     def llm_model_params
       params.expect(llm_model: [:external_id, :display_name, :admin_context_window, *capability_param_names])
     end

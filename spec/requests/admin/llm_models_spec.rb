@@ -285,4 +285,72 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
       expect(llm_model.reload).not_to be_deactivated
     end
   end
+
+  describe "renaming a manually added model" do
+    let!(:llm_model) do
+      create(:llm_model, :manual, llm_connection: connection, external_id: "qwen/qwen3.6-35b-a3b")
+    end
+
+    before do
+      connection.update!(default_chat_model_id: "qwen/qwen3.6-35b-a3b")
+      connection.feature_bindings.create!(feature_key: "description_assistant",
+                                          model_id: "qwen/qwen3.6-35b-a3b")
+      connection.capability_verdicts.create!(model_id: "qwen/qwen3.6-35b-a3b", capability: "embeddings",
+                                             state: "unsupported", source: "probe", checked_at: Time.current)
+    end
+
+    it "offers the identifier field on the edit page" do
+      get edit_llm_model_path(llm_model)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("llm_model[external_id]")
+    end
+
+    it "does not offer it for a discovered model" do
+      discovered = create(:llm_model, llm_connection: connection, external_id: "server-named")
+
+      get edit_llm_model_path(discovered)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("llm_model[external_id]")
+    end
+
+    # A typo in a hand-typed identifier was previously only fixable by deleting
+    # the model, which threw away everything asserted about it.
+    it "renames it and carries every reference along" do
+      patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+      expect(llm_model.reload.external_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      expect(connection.reload.default_chat_model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      expect(connection.feature_bindings.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      expect(connection.capability_verdicts.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+    end
+
+    it "keeps the feature resolving afterwards", with_flag: { llm_connection: true } do
+      connection.update!(enabled: true)
+
+      patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+      expect(Llm::Runtime.for(:description_assistant).model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+    end
+
+    it "follows a model a locked binding depends on" do
+      binding = connection.feature_bindings.first
+      binding.update!(locked_at: Time.current)
+
+      patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+      expect(binding.reload.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+    end
+
+    # The server names its own models; renaming one here would only be undone by
+    # the next refresh.
+    it "refuses to rename a discovered model" do
+      discovered = create(:llm_model, llm_connection: connection, external_id: "server-named")
+
+      patch llm_model_path(discovered), params: { llm_model: { external_id: "renamed" } }
+
+      expect(discovered.reload.external_id).to eq("server-named")
+    end
+  end
 end

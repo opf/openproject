@@ -31,9 +31,12 @@
 module LlmModels
   class Form < ApplicationForm
     form do |f|
-      # The identity of the model, and immutable once saved: verdicts and
-      # bindings reference it by this string.
-      if new_record?
+      # A discovered model is named by the server, so its identifier is not ours
+      # to change -- the next refresh would only put it back. One entered by hand
+      # is editable, because a typo in it is otherwise unfixable except by
+      # deleting the model and losing everything asserted about it. Renaming
+      # cascades; see LlmModel#cascade_rename!.
+      if new_record? || model.manual?
         f.text_field(
           name: :external_id,
           label: LlmModel.human_attribute_name(:external_id),

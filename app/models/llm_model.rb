@@ -51,6 +51,21 @@ class LlmModel < ApplicationRecord
 
   def deactivated? = deactivated_at.present?
 
+  # Everything that points at a model does so by its identifier string, so a
+  # rename has to carry them along or it silently orphans them.
+  #
+  # Renaming is a correction of the name, not a change of model, which is why
+  # this writes directly: a locked binding must not refuse to follow the model
+  # it is locked to, and the connection defaults are pointing at this very row.
+  def cascade_rename!(previous_external_id)
+    return if previous_external_id.blank? || previous_external_id == external_id
+
+    llm_connection.capability_verdicts.where(model_id: previous_external_id).update_all(model_id: external_id)
+    llm_connection.feature_bindings.where(model_id: previous_external_id).update_all(model_id: external_id)
+
+    rename_connection_defaults(previous_external_id)
+  end
+
   # Offerable in a picker. Note that this is *not* what decides whether a model
   # still resolves: a feature already bound to a deactivated model keeps working,
   # and is surfaced as a warning instead. Switching a row off must never silently
@@ -58,6 +73,14 @@ class LlmModel < ApplicationRecord
   def selectable? = active? && !deactivated?
 
   def name = display_name.presence || external_id
+
+  def rename_connection_defaults(previous_external_id)
+    defaults = %i[default_chat_model_id default_embedding_model_id]
+                 .select { |attribute| llm_connection.public_send(attribute) == previous_external_id }
+                 .index_with { external_id }
+
+    llm_connection.update_columns(defaults) if defaults.any?
+  end
 
   # Precedence: what an administrator set, then what the server reported (vLLM
   # and SGLang publish the operator's actual --max-model-len), then what a
