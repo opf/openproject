@@ -77,8 +77,11 @@ class CostReport < PersistedView
     query.group_bys = (pivot_columns + pivot_rows).map { |name| query.group_by_for(name) }
   end
 
-  # Deliberately without an exception for admins: they cannot read somebody
-  # else's private report either.
+  # Mirrors the CostReportsController: any of the four permissions that grant
+  # access to the report pages is enough to read a report, and a report is
+  # readable if it is public or the user's own. Note that there is deliberately
+  # no exception for admins - they cannot read somebody else's private report
+  # either.
   def visible?(user)
     return false unless public? || principal == user
 
