@@ -42,6 +42,9 @@ Rails.application.configure do
   config.lookbook.project_logo = Rails.root.join("app/assets/images/icon_logo_white.svg").read
   config.lookbook.ui_favicon = Rails.root.join("app/assets/images/icon_logo.svg").read
   config.lookbook.ui_theme = "blue"
+  config.lookbook.ui_theme_overrides = {
+    header_bg: "#1A67A3"
+  }
 
   # Previews: ours, plus the ones shipped by Primer
   config.lookbook.component_paths << Primer::ViewComponents::Engine.root.join("app/components").to_s
