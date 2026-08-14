@@ -112,7 +112,10 @@ Do not use `Rejected` merely because mitigation has been completed; use `Mitigat
 
 ### 1.7 Review and report
 
-Review risks in `New`, `Evaluated` and `Mitigation planned` regularly. Check assumptions and early warning indicators, update likelihood and impact when evidence changes, follow up overdue actions and update the next review date.
+Review risks in `New`, `Evaluated` and `Mitigation planned` regularly. Check assumptions and early warning indicators, update likelihood and impact when evidence changes, follow up overdue actions and schedule the next review.
+
+> [!TIP]
+> OpenProject does not provide a dedicated `Next review date` field. To schedule a risk review, use the risk's finish date as the review date and enable [date alerts](../../user-guide/notifications/notification-settings/#date-alerts-enterprise-add-on). OpenProject will then notify participating users as the date approaches. Date alerts are an Enterprise add-on.
 
 Use comments for review notes and decisions. The activity history provides a chronological audit trail. For status reporting and lessons learned, include risks in `Mitigation done`, `Occured` and `Rejected` as separate outcome groups.
 
@@ -162,7 +165,6 @@ Create the required fields under **Administration → Custom fields → Work pac
 | Risk owner | User | Makes one person responsible for monitoring and coordinating the response |
 | Response strategy | List | Records the chosen approach, for example avoid, reduce, transfer/share or accept |
 | Response description | Long text | Summarizes the intended response; concrete mitigation actions are managed as separate related work packages in the `Risk response` table |
-| Next review date | Date | Ensures that the risk is reconsidered at an agreed time |
 | Escalation required | Boolean | Flags risks that require a governance decision |
 
 See [custom fields](../../system-admin-guide/custom-fields/) for the available field types and configuration options.
