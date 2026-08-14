@@ -32,7 +32,19 @@ This guide separates the system-wide configuration maintained by administrators 
 | Review trail | Work package activity, comments and status history |
 | Standard setup | A reusable [project template](../../user-guide/projects/project-templates/) |
 
-![Risk Register grouped by status with impact and likelihood columns in OpenProject](openproject_use_case_risk_log.png)
+The same Risk Register can be presented in different views without duplicating its risks. Both views use the same underlying items, so changes to a risk remain visible everywhere.
+
+### Table view
+
+The table view provides a detailed overview with assessment fields such as impact and likelihood. It supports filtering, sorting and grouping for reporting and review meetings.
+
+[![Risk Register grouped by status with impact and likelihood columns in OpenProject](openproject_use_case_risk_log.png)](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91)
+
+### Board view
+
+The board view organizes the same risks by lifecycle status. It provides a visual overview and lets project members update a status by moving a card between columns.
+
+[![Risk management board with risks organized by lifecycle status in OpenProject](openproject_use_case_risk_management_board.png)](https://pm2.openproject.com/projects/pm2-test/boards/26)
 
 ## 1. Risk lifecycle
 
@@ -176,13 +188,11 @@ Restrict sensitive transitions where appropriate. For example, only the project 
 
 ### 2.4 Create a Risk management board and project template
 
-Create one shared board named `Risk management` and filter it by type `Risk`. Configure the board columns by status so that they reflect the risk lifecycle. The board provides one common view for the project team and makes the current state of every risk visible without maintaining separate views.
+Create one shared board named `Risk management` and filter it by type `Risk`. Configure the board columns by status so that they reflect the risk lifecycle. The board complements the table view of the Risk Register and uses the same underlying risk items.
 
 Project members can open a risk from its card and move the card to another column when its status changes. The example board shows the lifecycle from `New` through `Occured`. Items with the status `Rejected` can remain excluded from day to day monitoring.
 
 Open the [Risk management demo board](https://pm2.openproject.com/projects/pm2-test/boards/26) to explore the configuration.
-
-[![Risk management board with risks organized by lifecycle status in OpenProject](openproject_use_case_risk_management_board.png)](https://pm2.openproject.com/projects/pm2-test/boards/26)
 
 Finally, include the `Risk` type, fields, permissions and board in a [project template](../../user-guide/projects/project-templates/) so new projects start with the same risk management structure.
 
