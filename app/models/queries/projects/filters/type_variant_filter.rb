@@ -28,20 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
+class Queries::Projects::Filters::TypeVariantFilter < Queries::Projects::Filters::Base
   include Queries::Projects::Filters::FilterOnProjectType
 
   def self.key
-    :type_id
+    :type_variant_id
   end
 
   def allowed_values
-    @allowed_values ||= Type.order(:position).pluck(:name, :id)
+    @allowed_values ||= TypeVariant
+                          .eager_load(:type)
+                          .order(Type.arel_table[:position].asc)
+                          .in_display_order
+                          .map { |variant| [variant.composite_name, variant.id] }
   end
 
   private
 
   def project_type_column
-    :type_id
+    :variant_id
   end
 end
