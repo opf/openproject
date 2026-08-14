@@ -28,7 +28,7 @@ This guide separates the system-wide configuration maintained by administrators 
 | Risk Register | A saved and shared [work package table](../../user-guide/work-packages/work-package-views/) filtered by type `Risk`; see the [demo Risk Register](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) |
 | Individual risk | A [work package](../../user-guide/work-packages/) of type `Risk`; see an [example risk](https://pm2.openproject.com/projects/pm2-test/work_packages/517/activity?query_id=91) |
 | Risk owner | Assignee or a user custom field |
-| Response action | A child or related work package with an assignee and due date |
+| Response action | A separate related work package with its own assignee, due date and status, displayed in the embedded `Risk response` table |
 | Review trail | Work package activity, comments and status history |
 | Standard setup | A reusable [project template](../../user-guide/projects/project-templates/) |
 
@@ -58,39 +58,41 @@ stateDiagram-v2
     MitigationPlanned --> Rejected: No longer relevant
 ```
 
-### 1.1 Record a new risk — `New`
+### 1.1 Record a new risk: `New`
 
-Create an item of type `Risk` as soon as an uncertain event is identified. Write the subject as a concise cause–event–effect statement, for example: “Because the supplier has not confirmed capacity, hardware delivery may be delayed, which could move the pilot date.”
+Create an item of type `Risk` as soon as an uncertain event is identified. Write the subject as a concise cause, event and effect statement, for example: “Because the supplier has not confirmed capacity, hardware delivery may be delayed, which could move the pilot date.”
 
 Complete the `Cause`, `Risk event`, `Impact` and `Early warning indicators` sections in the description. Select a category and assign a risk owner. Keep the status as `New` until the initial assessment is complete. The [create work package guide](../../user-guide/work-packages/create-work-package/) describes the available creation flows.
 
-### 1.2 Evaluate the risk — `Evaluated`
+### 1.2 Evaluate the risk: `Evaluated`
 
 The risk owner and relevant specialists assess likelihood and impact using the scale defined in the Risk Management Plan. Add the supporting evidence, confirm ownership and change the status to `Evaluated` when the assessment is complete.
 
 Prioritize risks consistently. If a high assessment requires authority beyond the project team, escalate the required decision and responsibility to the project manager, Project Owner or steering body.
 
-### 1.3 Plan the mitigation — `Mitigation planned`
+### 1.3 Plan the mitigation: `Mitigation planned`
 
-Choose the response strategy and define the intended outcome. Create concrete preventive and contingency actions as child or related items, assign each action and give it a due date. Preventive actions reduce likelihood or impact before the event; contingency actions define what to do if it occurs.
+Choose the response strategy and define the intended outcome. Record every concrete mitigation as a separate work package and link it to the risk. Use one work package for each independently assignable action and give it an assignee, due date and status.
 
-Change the status to `Mitigation planned` once the response has been agreed and all required actions have an owner. Relations preserve traceability between the risk and the work needed to address it; see [work package relations and hierarchies](../../user-guide/work-packages/work-package-relations-hierarchies/).
+The embedded `Risk response` table in the risk details displays these related work packages. It keeps the risk assessment separate from the execution of preventive and contingency actions while preserving traceability. Preventive actions reduce likelihood or impact before the event; contingency actions define what to do if it occurs.
+
+Change the risk status to `Mitigation planned` once the response has been agreed and all required mitigation work packages have been created and assigned. See [work package relations and hierarchies](../../user-guide/work-packages/work-package-relations-hierarchies/) for more information about linking items.
 
 ![Risk work package with a structured description, risk assessment and related response action in OpenProject](openproject_use_case_risk_work_package.png)
 
-### 1.4 Complete the mitigation — `Mitigation done`
+### 1.4 Complete the mitigation: `Mitigation done`
 
-Monitor the assigned mitigation actions and document progress through their own statuses and comments. When all planned actions have been completed, reassess likelihood and impact and record whether the response achieved its intended effect.
+Monitor the mitigation work packages in the embedded `Risk response` table and document their progress through their own statuses and comments. When all planned actions have been completed, reassess likelihood and impact and record whether the response achieved its intended effect.
 
 Change the risk status to `Mitigation done` only after the actions and their effectiveness have been reviewed. This status records completion of the planned response; it does not mean that the risk event occurred.
 
-### 1.5 Handle an occurred risk — `Occured`
+### 1.5 Handle an occurred risk: `Occured`
 
 When the uncertain event happens, change the risk status to `Occured`. Create or link a separate issue for resolution, carry over the relevant owner, actual impact, contingency actions and due dates, and keep the relation to the original risk for traceability.
 
 The issue is managed through its own workflow while the original risk retains the assessment and response history.
 
-### 1.6 Reject an entry — `Rejected`
+### 1.6 Reject an entry: `Rejected`
 
 Use `Rejected` when the entry is a duplicate, outside the project scope or does not represent a relevant project risk. Document the reason in a comment before changing the status so that the decision remains understandable.
 
@@ -111,6 +113,8 @@ The following configuration is normally created once and then reused across proj
 Create a work package type named `Risk` under **Administration → Work packages → Types**. Add the fields needed for assessment, response and review to its form. See [work package types](../../system-admin-guide/manage-work-packages/work-package-types/) for configuration details.
 
 ![Form configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_type_form.png)
+
+Add a form section named `Risk response` and place a **Related work packages table** in it. The embedded table displays the separate work packages used to implement the risk mitigation. Each action can therefore have its own type, assignee, dates and workflow while remaining visible from the risk.
 
 Configure the following default description for the `Risk` type so every new risk uses the same structure:
 
@@ -141,28 +145,28 @@ Create the required fields under **Administration → Custom fields → Work pac
 | Field | Suggested type | Purpose |
 | --- | --- | --- |
 | Risk category | List | Groups risks such as schedule, cost, scope, quality, security or external dependency |
-| Probability | List | Records likelihood on a shared scale, for example 1–5 |
-| Impact | List | Records the effect on project objectives on the same 1–5 scale |
+| Probability | List | Records likelihood on a shared scale, for example 1 to 5 |
+| Impact | List | Records the effect on project objectives on the same 1 to 5 scale |
 | Risk owner | User | Makes one person responsible for monitoring and coordinating the response |
 | Response strategy | List | Records the chosen approach, for example avoid, reduce, transfer/share or accept |
-| Response description | Long text | Describes the concrete preventive and contingency actions |
+| Response description | Long text | Summarizes the intended response; concrete mitigation actions are managed as separate related work packages in the `Risk response` table |
 | Next review date | Date | Ensures that the risk is reconsidered at an agreed time |
 | Escalation required | Boolean | Flags risks that require a governance decision |
 
 See [custom fields](../../system-admin-guide/custom-fields/) for the available field types and configuration options.
 
-Use one consistent scale across projects. If the organization uses a 1–5 scale, define in the Risk Management Plan what each probability and impact value means. Until calculated fields are available, record the score explicitly or group/filter the register by probability and impact; do not imply that OpenProject calculates `probability × impact` automatically.
+Use one consistent scale across projects. If the organization uses a 1 to 5 scale, define in the Risk Management Plan what each probability and impact value means. Until calculated fields are available, record the score explicitly or group/filter the register by probability and impact; do not imply that OpenProject calculates `probability × impact` automatically.
 
 ### 2.3 Configure statuses and workflows
 
 The example configuration uses the following statuses:
 
-1. `New` – the risk has been recorded and awaits an initial assessment.
-2. `Evaluated` – likelihood, impact and ownership have been assessed and documented.
-3. `Mitigation planned` – the response strategy and concrete mitigation actions have been defined and assigned.
-4. `Mitigation done` – the planned mitigation actions have been completed and their effectiveness has been reviewed.
-5. `Occured` – the uncertain event has happened; create or link an issue for resolution and execute the applicable contingency actions.
-6. `Rejected` – the entry is a duplicate, is outside the project scope or was determined not to represent a relevant project risk.
+1. `New`: the risk has been recorded and awaits an initial assessment.
+2. `Evaluated`: likelihood, impact and ownership have been assessed and documented.
+3. `Mitigation planned`: the response strategy and concrete mitigation actions have been defined and assigned.
+4. `Mitigation done`: the planned mitigation actions have been completed and their effectiveness has been reviewed.
+5. `Occured`: the uncertain event has happened; create or link an issue for resolution and execute the applicable contingency actions.
+6. `Rejected`: the entry is a duplicate, is outside the project scope or was determined not to represent a relevant project risk.
 
 Configure these statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and the permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
 
@@ -212,6 +216,6 @@ OpenProject already provides the building blocks for transparent and repeatable 
 | [Calculated custom fields](https://community.openproject.org/projects/FND/work_packages/FND-2/activity) | Derives risk scores automatically from likelihood and impact, improving consistency and reducing manual effort. |
 | [Dynamic and status-based field validation](https://community.openproject.org/work_packages/68886) | Guides users through the lifecycle by requesting the right information for each status and transition. |
 | [Workflow automation](https://community.openproject.org/work_packages/37473) | Automates recurring reminders, assignments, follow-up changes and notifications when defined conditions are met. |
-| [Two-dimensional boards with configurable axes](https://community.openproject.org/work_packages/75445) | Enables an interactive likelihood–impact matrix in which visual planning remains connected to the underlying risk assessment. |
+| [Two-dimensional boards with configurable axes](https://community.openproject.org/work_packages/75445) | Enables an interactive likelihood and impact matrix in which visual planning remains connected to the underlying risk assessment. |
 | [Built-in types](https://community.openproject.org/wp/OP-17679) | Supports consistent standard types that can be identified across installations and protected from accidental deletion. |
 
