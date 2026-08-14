@@ -61,6 +61,14 @@ module WorkPackageTypes
       public_send(name, **scoped_variant_path_scope_args, **args)
     end
 
+    # What to call the place these screens are rendered in, for the page title. Administration
+    # for the global ones; the project's settings for a variant a project owns.
+    def variant_scope_title
+      return I18n.t(:label_administration) if variant_scope_project.nil?
+
+      I18n.t("label_project_settings")
+    end
+
     def scoped_variant_route?(helper) = respond_to?(scoped_variant_path_helper_name(helper))
 
     # For a control that simply is not offered outside administration: nil rather than a raise,

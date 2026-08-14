@@ -40,6 +40,10 @@ module Projects::Settings::WorkPackages::Types::Variants
     include ::WorkPackageTypes::TypeVariantsFeature
 
     included do
+      # The tabs are inherited from administration, whose layout renders its menu. Inside a
+      # project the surrounding chrome is the project's own.
+      layout "base"
+
       menu_item :settings_work_packages
 
       skip_before_action :require_admin

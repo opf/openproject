@@ -48,9 +48,7 @@ module Types
     end
 
     def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-       { href: types_path, text: t(:label_type_plural) },
+      [*helpers.variant_scope_breadcrumb_roots,
        *variant_breadcrumb_item,
        *own_breadcrumb_item,
        *@additional_breadcrumb_items]
@@ -71,8 +69,18 @@ module Types
     def variant_breadcrumb_item
       return [] unless named_variant?
 
-      [{ href: edit_type_details_path(type_id: @type.id), text: @type.name }]
+      [{ href: variant_breadcrumb_href, text: @type.name }]
     end
+
+    # The type's own screen is administration's, so from a project this leads to that project's
+    # list of types instead.
+    def variant_breadcrumb_href
+      return edit_type_details_path(type_id: @type.id) if scope_project.nil?
+
+      project_settings_work_packages_types_path(scope_project)
+    end
+
+    def scope_project = helpers.variant_scope_project
 
     def own_breadcrumb_item
       text = variant_or_type_name

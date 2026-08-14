@@ -73,6 +73,18 @@ RSpec.describe "Project-scoped variant controllers' callback order" do # rubocop
     describe controller.name do
       let(:filters) { before_filters(controller) }
 
+      # The tabs are inherited from administration, whose layout draws its menu; rendering that
+      # inside a project left the page with administration's chrome and no project menu.
+      it "wears the project's chrome, not administration's" do
+        expect(controller._layout).to eq("base")
+      end
+
+      it "highlights the project's work package settings in the menu" do
+        registered = controller.menu_items[controller.controller_path.to_sym][:default]
+
+        expect(registered).to eq(:settings_work_packages)
+      end
+
       it "looks the type up only once the current user is known" do
         expect(filters.index(:find_type)).to be > filters.index(:user_setup)
       end
