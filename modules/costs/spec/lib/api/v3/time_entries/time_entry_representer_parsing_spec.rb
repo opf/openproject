@@ -211,6 +211,29 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
       end
     end
 
+    describe "endTime" do
+      # Regression test: end_time is purely derived (start_time + hours) and
+      # has no setter of its own on TimeEntry. Representable used to fall
+      # through to a raw `send(:end_time=, value)` when a client sent
+      # endTime on write, crashing with NoMethodError instead of silently
+      # ignoring the unwritable field.
+      context "when tracking start and end time" do
+        before do
+          allow(TimeEntry).to receive_messages(
+            can_track_start_and_end_time?: true,
+            must_track_start_and_end_time?: false
+          )
+
+          hash["endTime"] = "2017-07-28T17:30:00Z"
+        end
+
+        it "does not raise and does not set end_time as its own attribute" do
+          expect { representer.from_hash(hash) }.not_to raise_error
+          expect(time_entry).not_to respond_to(:end_time=)
+        end
+      end
+    end
+
     describe "hours" do
       it "updates hours" do
         time_entry = representer.from_hash(hash)
