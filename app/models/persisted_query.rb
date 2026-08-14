@@ -53,6 +53,7 @@ class PersistedQuery < ApplicationRecord
     subclass.serialize :filters, coder: Queries::Serialization::Filters.new(subclass)
     subclass.serialize :orders, coder: Queries::Serialization::Orders.new(subclass)
     subclass.serialize :selects, coder: Queries::Serialization::Selects.new(subclass)
+    subclass.serialize :group_bys, coder: Queries::Serialization::GroupBys.new(subclass)
   end
 
   def self.register_query(&)
