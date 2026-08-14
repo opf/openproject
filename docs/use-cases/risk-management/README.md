@@ -119,7 +119,7 @@ Review risks in `New`, `Evaluated` and `Mitigation planned` regularly. Check ass
 
 Use comments for review notes and decisions. The activity history provides a chronological audit trail. For status reporting and lessons learned, include risks in `Mitigation done`, `Occured` and `Rejected` as separate outcome groups.
 
-## Step-by-step configuration
+## Step-by-step configuration guide
 
 The following configuration is normally created once and then reused across projects. Administrators should agree the terminology, scales and workflow with the organization's project management office before configuring them.
 
