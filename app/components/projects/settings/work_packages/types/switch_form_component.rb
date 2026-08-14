@@ -38,8 +38,6 @@ module Projects
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
 
-          # Two places switch a project's variant through the same service, so each names the
-          # route it posts to rather than one of them being the default.
           def initialize(project:, source:, url:, selected: source, validation_message: nil)
             super()
 

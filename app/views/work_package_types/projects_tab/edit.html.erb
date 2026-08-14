@@ -31,13 +31,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
-<%= render(WorkPackageTypes::ProjectsTab::SubHeaderComponent.new(variant: @variant)) %>
+<%= render(sub_header_component) %>
 
-<%=
-  render(
-    WorkPackageTypes::ProjectsTab::TableComponent.new(
-      query: @query,
-      params: params.merge(variant: @variant, url_for_action: :edit)
-    )
-  )
-%>
+<%= render(projects_table_component) %>

@@ -34,15 +34,44 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(variant:)
+      def initialize(type:, variant:, query:)
         super()
 
+        @type = type
         @variant = variant
+        @query = query
+      end
+
+      def filters_form_attributes
+        {
+          controller: "filter--filters-form",
+          "filter--filters-form-perform-turbo-requests-value": true,
+          "filter--filters-form-clear-button-id-value": clear_button_id
+        }
+      end
+
+      def name_filter_attributes
+        {
+          "filter-name": name_filter_key,
+          "filter-type": "string",
+          "filter-operator": "~",
+          "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+        }
+      end
+
+      def name_filter_key = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
+
+      def name_filter_value = query.find_active_filter(name_filter_key.to_sym)&.values&.first
+
+      def clear_button_id = "type-projects-filters-clear-button"
+
+      def variant_filter_component
+        VariantFilterComponent.new(type:, variant:, query:)
       end
 
       private
 
-      attr_reader :variant
+      attr_reader :type, :variant, :query
 
       def add_path = url_helpers.new_link_type_projects_path(**variant.path_args)
 
