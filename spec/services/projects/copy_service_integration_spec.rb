@@ -165,14 +165,14 @@ RSpec.describe(
       context "when the caller names the types itself" do
         shared_let(:other_type) { create(:type, name: "Chosen type") }
 
-        let(:target_project_params) { { "name" => "Copy", "identifier" => "copy", "type_ids" => [other_type.id] } }
+        let(:target_project_params) do
+          { "name" => "Copy", "identifier" => "copy", "project_types" => [ProjectType.new(type: other_type)] }
+        end
 
-        # project_types and type_ids write the same rows, so the source's must stand aside
-        # rather than compete with what the caller asked for.
         it "uses the caller's types instead of the source's" do
           expect(subject).to be_success
 
-          expect(project_copy.types).to contain_exactly(other_type)
+          expect(project_copy.enabled_types).to contain_exactly(other_type)
         end
       end
     end
@@ -475,7 +475,7 @@ RSpec.describe(
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
         expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
-        expect(project_copy.types).to eq source.types
+        expect(project_copy.enabled_types.to_a).to eq source.enabled_types.to_a
 
         # Default attributes
         expect(project_copy).to be_active
@@ -1320,7 +1320,7 @@ RSpec.describe(
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
         expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
-        expect(project_copy.types).to eq source.types
+        expect(project_copy.enabled_types.to_a).to eq source.enabled_types.to_a
 
         # Default attributes
         expect(project_copy).to be_active

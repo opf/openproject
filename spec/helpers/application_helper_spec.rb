@@ -42,7 +42,7 @@ RSpec.describe ApplicationHelper do
       create(:work_package,
              project:,
              author: project_member,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
 
     context "if user is authorized" do

@@ -169,8 +169,10 @@ module IncomingEmails::Handlers
     end
 
     def wp_type_from_keywords(work_package)
-      lookup_case_insensitive_key(work_package.project.types, :type) ||
-        (work_package.new_record? && work_package.project.types.first.try(:id))
+      enabled_types = work_package.project.enabled_types
+
+      lookup_case_insensitive_key(enabled_types, :type) ||
+        (work_package.new_record? && enabled_types.first.try(:id))
     end
 
     def wp_status_from_keywords

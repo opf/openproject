@@ -1830,11 +1830,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           .with(name: category.name)
           .and_return nil
         allow(new_project)
-          .to receive_messages(shared_versions: new_versions, types: new_types)
-        allow(new_types)
-          .to receive(:order)
-          .with(:position)
-          .and_return(new_types)
+          .to receive_messages(shared_versions: new_versions, enabled_types: new_types)
       end
     end
 

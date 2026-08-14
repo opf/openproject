@@ -236,6 +236,7 @@ ko:
         project_creation_wizard_status_when_submitted: 제출 시 상태
         project_creation_wizard_work_package_comment: 작업 패키지 코멘트
         project_creation_wizard_work_package_type: 작업 패키지 유형
+        project_types: Types
         public_value:
           false: 비공개
           title: 표시 여부
@@ -275,6 +276,8 @@ ko:
         start_gate_name: 시작 단계 게이트 이름
       project_custom_field:
         custom_field_section: 섹션
+      project_type:
+        variant: Variant
       query:
         child_work_packages: 자식 작업 패키지
         column_names: 컬럼
@@ -342,18 +345,26 @@ ko:
       token/named:
         token_name: 토큰 이름
       type:
-        attribute_groups: 양식 구성
-        children: 변형
         color: 색상
-        dependent_configuration_links: 연결된 유형
-        description: 설명의 기본 텍스트
-        is_default: 새 프로젝트에 대해 기본적으로 활성화됨
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_milestone: 마일스톤
-        parent: 부모 유형
-        patterns: 패턴
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: 소스 유형
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: 관리자
         auth_source: 인증 소스
@@ -548,6 +559,7 @@ ko:
         regex_match_failed: "%{expression} 정규 표현식과 일치하지 않습니다."
         smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
         ssrf_filtered: "- 이 OpenProject 인스턴스의 SSRF 정책을 위반합니다."
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: "- 이 날짜의 기존 시스템 전체 휴무일과 충돌합니다."
         taken: 은(는) 이미 존재합니다.
         too_long: 은(는) 너무 깁니다 (최대 %{count}자까지 가능합니다)
@@ -717,8 +729,6 @@ ko:
               blank: 프로젝트를 선택하세요.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -809,26 +819,35 @@ ko:
               blank: 토큰 이름을 입력하세요
               format: "%{message}"
               in_use: 이 토큰 이름은 이미 사용 중입니다. 다른 이름을 선택하세요
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: 잘못된 작업 패키지 특성이 사용되었습니다.
-              attribute_unknown_name: '잘못된 작업 패키지 특성이 사용되었습니다: %{attribute}'
-              duplicate_group: "'%{group}'(이)라는 그룹 이름이 두 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다."
-              group_without_name: 그룹 이름은 비워둘 수 없습니다.
-              query_invalid: 포함된 쿼리 '%{group}'이(가) 잘못되었습니다. %{details}
-            parent:
-              cannot_be_self: "- 해당 유형 자체일 수는 없습니다."
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: "- 이 유형에는 이미 변형이 있으므로 설정할 수 없습니다."
-              must_be_a_root: "- 그 자체로 최상위 유형이어야 합니다. 유형은 한 수준까지만 중첩될 수 있습니다."
-              standard_type_must_be_root: "- 표준 유형에 대해 설정할 수 없습니다."
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: 필드 내의 특성이 하나 이상의 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
-        type/configuration_link:
-          attributes:
-            source_id:
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -932,6 +951,9 @@ ko:
             start_date:
               cannot_be_null: 완료 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다.
               violates_relationships: 은(는) %{soonest_start} 이상으로만 설정할 수 있습니다. 작업 패키지의 관계를 위반하지 않도록 하기 위해서입니다.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: "- 유효하지 않습니다. 현재 상태가 이 유형에서 존재하지 않기 때문입니다."
               status_transition_invalid: 현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음
@@ -990,6 +1012,8 @@ ko:
         other: RSS 토큰
       type:
         other: 유형
+      type_variant:
+        other: Variants
       user: 사용자
       version: 버전
       wiki: 위키
@@ -1770,6 +1794,7 @@ ko:
     start_date: 시작 날짜
     state: 상태
     status: 상태
+    status_id: Status
     subject: 제목
     summary: 요약
     template: 템플릿
@@ -2526,7 +2551,6 @@ ko:
   error_can_not_delete_entry: 항목을 삭제할 수 없습니다.
   error_can_not_delete_in_use_archived_undisclosed: 보관된 프로젝트에는 작업 패키지도 있습니다. 어떤 프로젝트가 영향을 받는지 확인하려면 관리자에게 삭제를 수행하도록 요청해야 합니다.
   error_can_not_delete_in_use_archived_work_packages: '보관된 프로젝트에 작업 패키지도 있습니다. 해당 작업 패키지의 특성을 변경하려면 먼저 다음 프로젝트를 다시 활성화해야 합니다: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: 표준 유형은 삭제할 수 없습니다.
   error_can_not_delete_type:
     explanation: 이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다. 영향을 받는 모든 작업 패키지는 <a target="_blank" href="%{url}">이 보기</a>에서 볼 수 있습니다.
   error_can_not_find_all_resources: 이 요청 관련 리소스 일부를 찾을 수 없습니다.
@@ -4230,7 +4254,6 @@ ko:
   notice_auth_stage_error: 인증 단계 '%{stage}'이(가) 실패했습니다.
   notice_auth_stage_verification_error: 단계 '%{stage}'을(를) 확인할 수 없습니다.
   notice_auth_stage_wrong_stage: 인증 단계 '%{expected}'을(를) 마쳐야 하지만, '%{actual}'이(가) 반환되었습니다.
-  notice_automatic_set_of_standard_type: 자동으로 표준 유형을 설정합니다.
   notice_bad_request: 잘못된 요청입니다.
   notice_can_t_change_password: 이 계정은 외부 인증 소스를 사용합니다. 암호를 변경할 수 없습니다.
   notice_custom_options_deleted: 옵션 '%{option_value}'와 그것의 %{num_deleted} 항목은 삭제 되었습니다.
@@ -5875,10 +5898,11 @@ ko:
   total_progress: 총 진행률
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: 유형 만들기
       create_variant: 변형 만들기
       fields:
-        inherited_from_parent_html: 부모 유형 <b>%{parent}</b>에서 상속되었습니다.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: 완료
       placeholder_description: 이 단계는 곧 사용 가능하게 됩니다.
       progress_label: "%{number}/%{total}단계"
@@ -5890,7 +5914,7 @@ ko:
         project_attributes: 프로젝트 특성
         projects: 프로젝트
         workflows: 워크플로
-      success: 변형이 생성되었습니다.
+      success: Created successfully.
     edit:
       breadcrumb_variant: '변형: %{name}'
       defaults:
@@ -5915,6 +5939,7 @@ ko:
             work_package: 작업 패키지
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: 세부 정보
         type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
       export_configuration:
@@ -6568,16 +6593,16 @@ ko:
           label: 소스 역할
         target_role_ids:
           label: 대상 역할
-        target_type_ids:
-          label: 대상 유형
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
             other: 워크플로를 %{count}개 역할에 복사했습니다.
-      from_types:
+      from_variants:
         create:
           notice:
-            other: 워크플로를 %{count}개 유형에 복사했습니다.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: '"%{source_type}"의 워크플로 복사'
     form:

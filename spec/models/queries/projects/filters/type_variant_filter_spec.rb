@@ -30,12 +30,12 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Projects::Filters::TypeFilter do
+RSpec.describe Queries::Projects::Filters::TypeVariantFilter do
   it_behaves_like "basic query filter" do
-    let(:class_key) { :type_id }
+    let(:class_key) { :type_variant_id }
     let(:type) { :list }
     let(:model) { Project }
-    let(:attribute) { :type_id }
+    let(:attribute) { :type_variant_id }
     let(:values) { ["3"] }
   end
 
@@ -44,38 +44,44 @@ RSpec.describe Queries::Projects::Filters::TypeFilter do
   end
 
   describe "#allowed_values" do
-    let!(:first) { create(:type, name: "Alpha") }
-    let!(:second) { create(:type, name: "Beta") }
+    let!(:bug) { create(:type, name: "Bug") }
+    let!(:hardware) { create(:type_variant, type: bug, variant_name: "Hardware") }
+    let!(:task) { create(:type, name: "Task") }
 
-    it "is a list of the types in their configured order" do
+    it "lists the variants by composite name, base variant first within each type" do
       expect(filter("=", []).allowed_values)
-        .to eq [["Alpha", first.id], ["Beta", second.id]]
+        .to eq [["Bug", bug.default_variant.id],
+                ["Bug: Hardware", hardware.id],
+                ["Task", task.default_variant.id]]
     end
   end
 
   describe "#apply_to" do
     let(:bug) { create(:type) }
     let(:task) { create(:type) }
-    let(:milestone) { create(:type) }
+    let(:hardware) { create(:type_variant, type: bug) }
+    let(:software) { create(:type_variant, type: bug) }
+    let(:recurring) { create(:type_variant, type: task) }
 
-    let!(:bug_project) { create(:project, types: [bug]) }
-    let!(:task_project) { create(:project, types: [task]) }
-    let!(:both_project) { create(:project, types: [bug, task]) }
-    let!(:milestone_project) { create(:project, types: [milestone]) }
+    let!(:hardware_project) { create(:project, types: [hardware]) }
+    let!(:software_project) { create(:project, types: [software]) }
+    let!(:both_project) { create(:project, types: [hardware, recurring]) }
+    let!(:base_project) { create(:project, types: [bug]) }
+    let!(:other_project) { create(:project, types: [task]) }
 
-    let(:values) { [bug.id.to_s, task.id.to_s] }
+    let(:values) { [hardware.id.to_s, software.id.to_s, recurring.id.to_s] }
 
     context 'for "="' do
-      it "returns every project having one of the types, without duplicating those having several" do
+      it "returns every project the variants are enabled in, without duplicating those enabling several" do
         expect(filter("=", values).apply_to(Project))
-          .to contain_exactly(bug_project, task_project, both_project)
+          .to contain_exactly(hardware_project, software_project, both_project)
       end
     end
 
     context 'for "!"' do
-      it "returns only the projects having none of the types" do
+      it "returns the projects using another variant of the same type as well as those on other types" do
         expect(filter("!", values).apply_to(Project))
-          .to contain_exactly(milestone_project)
+          .to contain_exactly(base_project, other_project)
       end
     end
   end

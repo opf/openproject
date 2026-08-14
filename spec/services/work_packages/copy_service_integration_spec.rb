@@ -245,7 +245,7 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
 
       describe "#attributes" do
         before do
-          target_project.types << work_package.type
+          target_project.project_types.create!(type: work_package.type)
         end
 
         context "assigned_to" do
@@ -430,7 +430,7 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
     context "with a type auto-generating subjects" do
       let(:type_with_pattern) do
         create(:type, patterns: { subject: { blueprint: "{{type}} {{id}} {{project_name}}", enabled: true } }) do |type|
-          project.types << type
+          project.project_types.create!(type:)
         end
       end
 

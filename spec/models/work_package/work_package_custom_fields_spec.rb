@@ -257,7 +257,7 @@ RSpec.describe WorkPackage do
 
       before do
         project.work_package_custom_fields << custom_field_2
-        project.types << type_feature
+        project.project_types.create!(type: type_feature)
       end
 
       context "with initial type" do

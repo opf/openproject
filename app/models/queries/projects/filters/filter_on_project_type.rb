@@ -28,20 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
-  include Queries::Projects::Filters::FilterOnProjectType
-
-  def self.key
-    :type_id
+module Queries::Projects::Filters::FilterOnProjectType
+  def type
+    :list
   end
 
-  def allowed_values
-    @allowed_values ||= Type.order(:position).pluck(:name, :id)
+  def where
+    exists = enabled_project_types.arel.exists
+
+    operator_strategy == Queries::Operators::NotEquals ? exists.not : exists
+  end
+
+  def autocomplete_options
+    all_items = allowed_values.map { |name, id| { name:, id: id.to_s } }
+    {
+      component: "opce-autocompleter",
+      bindValue: "id",
+      bindLabel: "name",
+      hideSelected: true,
+      defaultData: false,
+      items: all_items,
+      model: all_items.select { |item| values.include?(item[:id]) }
+    }
   end
 
   private
 
   def project_type_column
-    :type_id
+    raise SubclassResponsibilityError
+  end
+
+  def enabled_project_types
+    ProjectType
+      .where(ProjectType.arel_table[:project_id].eq(Project.arel_table[:id]))
+      .where(Queries::Operators::Equals.sql_for_field(values, ProjectType.table_name, project_type_column))
   end
 end

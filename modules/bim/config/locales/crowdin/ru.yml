@@ -7,7 +7,10 @@ ru:
         bim_snippet: Сниппет BIM
         reference_links: Референсные ссылки
         stage: Этап
+        status_id: Status
         viewpoint: Точка просмотра
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Файл IFC
         ifc_attachment: Файл IFC

@@ -94,7 +94,7 @@ RSpec.describe WorkPackage do
       let(:type2) { create(:type) }
 
       before do
-        project.types << type2
+        project.project_types.create!(type: type2)
       end
 
       context "when no project chosen" do

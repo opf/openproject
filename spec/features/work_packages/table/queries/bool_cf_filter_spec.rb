@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Work package filtering by bool custom field", :js do
   let(:project) { create(:project) }
-  let(:type) { project.types.first }
+  let(:type) { project.enabled_types.first }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
   let!(:bool_cf) do
@@ -67,7 +67,7 @@ RSpec.describe "Work package filtering by bool custom field", :js do
   let!(:work_package_other_type) do
     # Does not have the custom field at all
     create(:work_package,
-           type: project.types.last,
+           type: project.enabled_types.last,
            project:)
   end
 

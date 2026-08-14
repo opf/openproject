@@ -113,7 +113,7 @@ class WorkPackages::BulkController < ApplicationController
   def setup_edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
     @assignables = @responsibles = Principal.possible_assignee(@projects)
-    @types = @projects.map(&:types).inject(&:&)
+    @types = @projects.map { |project| project.enabled_types.to_a }.inject(&:&)
     @custom_fields = editable_custom_fields
   end
 

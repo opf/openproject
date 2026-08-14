@@ -7,7 +7,10 @@ sv:
         bim_snippet: BIM snippet
         reference_links: Referenslänkar
         stage: Skede
+        status_id: Status
         viewpoint: Utsiktspunkt
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC-fil
         ifc_attachment: IFC-fil

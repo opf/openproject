@@ -64,7 +64,7 @@ RSpec.describe UpdateProjectsTypesService do
 
     it "enables exactly those types, each on its base variant" do
       expect(service_call).to be_truthy
-      expect(project.reload.types).to match_array(types)
+      expect(project.enabled_types).to match_array(types)
       expect(project.project_types.map(&:variant)).to match_array(types.map(&:default_variant))
     end
 
@@ -77,7 +77,7 @@ RSpec.describe UpdateProjectsTypesService do
 
     it "leaves the project without any type" do
       expect(service_call).to be_truthy
-      expect(project.reload.types).to be_empty
+      expect(project.enabled_types).to be_empty
     end
   end
 
@@ -87,7 +87,7 @@ RSpec.describe UpdateProjectsTypesService do
 
     it "leaves the project without any type" do
       expect(service_call).to be_truthy
-      expect(project.reload.types).to be_empty
+      expect(project.enabled_types).to be_empty
     end
   end
 
@@ -118,7 +118,7 @@ RSpec.describe UpdateProjectsTypesService do
     it "returns false and sets an error message" do
       expect(service_call).to be_falsey
       expect(project.errors.symbols_for(:types)).to contain_exactly(:in_use_by_work_packages)
-      expect(project.reload.types).to contain_exactly(used_type, other_type)
+      expect(project.enabled_types).to contain_exactly(used_type, other_type)
     end
   end
 end

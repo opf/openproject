@@ -353,7 +353,7 @@ RSpec.describe "API v3 Work package resource",
 
         context "valid type" do
           before do
-            project.types << target_type
+            project.project_types.create!(type: target_type)
           end
 
           include_context "patch request"
@@ -374,7 +374,7 @@ RSpec.describe "API v3 Work package resource",
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
-            project.types << target_type
+            project.project_types.create!(type: target_type)
             project.work_package_custom_fields << custom_field
             target_type.default_variant.custom_fields << custom_field
           end

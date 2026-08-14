@@ -80,7 +80,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
   let(:other_type) do
     type = create(:type)
 
-    other_project.types << type
+    other_project.project_types.create!(type:)
 
     type
   end

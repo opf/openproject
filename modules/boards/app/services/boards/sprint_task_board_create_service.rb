@@ -98,7 +98,7 @@ module Boards
 
     def statuses_from_sprint_work_packages
       type_ids = params[:sprint].work_packages.distinct.pluck(:type_id)
-      type_ids = params[:project].type_ids if type_ids.empty?
+      type_ids = params[:project].project_types.pluck(:type_id) if type_ids.empty?
 
       # Workflows are configuration, so the columns come from whichever family member the
       # project resolves to rather than from the root the work packages store.

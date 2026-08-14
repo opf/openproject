@@ -349,16 +349,14 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
 
       before do
-        project.types << other_type
+        project.project_types.create!(type: other_type)
 
-        target_project.project_types.delete_all
-        target_project.types.reset
+        target_project.project_types.destroy_all
       end
 
       context "with the type existing in the target project" do
         before do
-          target_project.types << type
-          target_project.types.reset
+          target_project.project_types.create!(type:)
         end
 
         it "keeps the type" do
@@ -372,8 +370,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "with a default type existing in the target project" do
         before do
-          target_project.types << default_type
-          target_project.types.reset
+          target_project.project_types.create!(type: default_type)
         end
 
         it "uses the default type" do
@@ -387,8 +384,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "with only non default types" do
         before do
-          target_project.types << other_type
-          target_project.types.reset
+          target_project.project_types.create!(type: other_type)
         end
 
         it "is unsuccessful" do
@@ -399,8 +395,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "with an invalid type being provided" do
         before do
-          target_project.types << type
-          target_project.types.reset
+          target_project.project_types.create!(type:)
         end
 
         let(:attributes) do
@@ -1855,7 +1850,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     shared_let(:linked_type) do
       create(:type, name: "Linked").tap do |t|
         link_configuration(t, source: autosubject_type, aspect: TypeVariant::DEFAULTS)
-        project.types << t
+        project.project_types.create!(type: t)
       end
     end
 
@@ -1961,7 +1956,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:attributes) { { type: new_type } }
 
     before do
-      project.types << new_type
+      project.project_types.create!(type: new_type)
     end
 
     context "when the work package does NOT have default status" do
@@ -1998,20 +1993,20 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     # the dates, inherited from its children (and then the only remaining child), will have to be updated.
     let!(:parent) do
       create(:work_package,
-             type: project.types.first,
+             type: project.enabled_types.first,
              schedule_manually: false,
              start_date: Time.zone.today - 1.day,
              due_date: Time.zone.today + 5.days)
     end
     let!(:custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-        project.types.first.default_variant.custom_fields << cf
+        project.enabled_variants.first.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
     let!(:sibling) do
       create(:work_package,
-             type: project.types.first,
+             type: project.enabled_types.first,
              parent:,
              start_date: Time.zone.today + 1.day,
              due_date: Time.zone.today + 5.days,
@@ -2024,7 +2019,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       work_package.update(
         start_date: Time.zone.today - 1.day,
         due_date: Time.zone.today + 1.day,
-        type: project.types.first,
+        type: project.enabled_types.first,
         parent:,
         custom_field.attribute_name => 8
       )
@@ -2078,7 +2073,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     # The work package does not have a required custom field set.
     let(:mandatory_custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-        project.types.first.default_variant.custom_fields << cf
+        project.enabled_variants.first.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
@@ -2087,7 +2082,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     before do
       work_package.update(
         subject: "The old subject",
-        type: project.types.first
+        type: project.enabled_types.first
       )
       # Creating the mandatory custom field after the work package is already saved.
       # That turns the work package invalid as the mandatory custom field is not set.
@@ -2132,7 +2127,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     before do
-      project.types << new_type
+      project.project_types.create!(type: new_type)
       work_package.update(
         type: type,
         custom_field_of_current_type.attribute_name => 5

@@ -32,6 +32,17 @@ module Projects::EnabledTypes
   extend ActiveSupport::Concern
 
   included do
+    def enabled_types
+      ::Type.enabled_in(self)
+    end
+
+    def enabled_variants
+      ::TypeVariant
+        .where(id: project_types.select(:variant_id))
+        .joins(:type)
+        .order(::Type.arel_table[:position].asc)
+    end
+
     def type_variant(type)
       return if type.nil?
 
