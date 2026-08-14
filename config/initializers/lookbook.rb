@@ -52,6 +52,8 @@ Rails.application.configure do
 
   # Pages
   config.lookbook.page_paths = [Rails.root.join("lookbook/docs").to_s]
+  # Previews ship with a filter box (preview_nav_filter), pages do not
+  config.lookbook.page_nav_filter = true
 
   # Inspector
   # Show pages first, then previews
