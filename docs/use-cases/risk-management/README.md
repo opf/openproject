@@ -21,7 +21,7 @@ This guide separates the system-wide configuration maintained by administrators 
 >
 > OpenProject does not yet provide a dedicated risk module with automatically calculated inherent and residual risk scores. The setup described here uses currently available configuration options. Planned product improvements are linked in [Continuous product improvements](#continuous-product-improvements).
 
-## How risk management looks in OpenProject
+## Risk management in OpenProject at a glance
 
 | Risk management concept | OpenProject entity |
 | --- | --- |
