@@ -15,7 +15,7 @@ Risk management helps a project team identify uncertain events early, assess the
 
 OpenProject can support this process with existing features such as work package types, custom fields, workflows, saved work package views, relations and project templates. In this setup, each risk is a work package and the filtered work package table is the project's risk register.
 
-This guide separates the one-time setup performed by an administrator from the recurring work performed by project members.
+This guide separates the system-wide configuration maintained by administrators from the recurring work performed by project members.
 
 > [!NOTE]
 >
@@ -58,7 +58,7 @@ Project members use the shared risk register to identify, assess, respond to and
 
 Create a work package of type `Risk`. Write the subject as a concise cause–event–effect statement, for example: “Because the supplier has not confirmed capacity, hardware delivery may be delayed, which could move the pilot date.”
 
-In the description, record the context, assumptions and affected objectives. Select a category and assign a risk owner. The [create work package guide](../../user-guide/work-packages/create-work-package/) describes the available creation flows.
+Complete the `Cause`, `Risk event`, `Impact` and `Early warning indicators` sections in the description. Select a category and assign a risk owner. The [create work package guide](../../user-guide/work-packages/create-work-package/) describes the available creation flows.
 
 ### 1.2 Assess the risk
 
@@ -93,13 +93,33 @@ When the uncertain event happens, it is no longer only a risk. Mark it as `Occur
 
 Use the active register and attention view for status reporting. At phase gates and project closure, review closed and occurred risks to identify recurring causes, effective responses and improvements for future project templates or the Risk Management Plan.
 
-## 2. Administrator setup
+## 2. System-wide configuration
 
 The following configuration is normally created once and then reused across projects. Administrators should agree the terminology, scales and workflow with the organization's project management office before configuring them.
 
 ### 2.1 Create and activate the `Risk` work package type
 
 Create a work package type named `Risk` under **Administration → Work packages → Types**. Add the fields needed for assessment, response and review to its form. See [work package types](../../system-admin-guide/manage-work-packages/work-package-types/) for configuration details.
+
+Configure the following default description for the `Risk` type so every new risk uses the same structure:
+
+```markdown
+## Cause
+
+Describe the existing condition, dependency, assumption or external influence that gives rise to the risk.
+
+## Risk event
+
+Describe the uncertain event that may occur. Do not describe an event that has already happened.
+
+## Impact
+
+Describe which project objectives, deliverables, costs, dates, benefits or quality criteria would be affected if the event occurred.
+
+## Early warning indicators
+
+List observable signs or thresholds indicating that the risk is becoming more likely or more urgent.
+```
 
 Activate the type for the relevant projects under **Project settings → Work packages → Types**. The same project settings also control which custom fields are active in a project; see [project work package settings](../../user-guide/projects/project-settings/work-packages/).
 
