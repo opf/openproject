@@ -8,24 +8,30 @@
   display: block
 
 .op-wp-single-card
+  // The card background is stated once per state and inherited by everything
+  // that has to sit flush against it — the icon wrappers and the shadow that
+  // fades the inline buttons out over the card.
+  --op-wp-single-card-bg-color: var(--box-list-item-bg-color)
   display: flex
   user-select: none
   // Leave space for the shadow to be displayed
   width: calc(100% - 2px)
-  border: 1px solid var(--borderColor-default)
+  border: 1px solid var(--box-list-item-border-color)
   border-radius: 2px
   padding: 10px
   position: relative
   box-shadow: 1px 1px 3px 0px var(--borderColor-default)
-  background: var(--body-background)
+  background: var(--op-wp-single-card-bg-color)
   color: var(--body-font-color)
   font-size: var(--body-font-size)
 
   &:hover
+    --op-wp-single-card-bg-color: var(--box-list-item-bg-hover-color)
+
     .op-wp-single-card--inline-buttons
       opacity: 1
       z-index: 2
-      box-shadow: -4px -4px 10px 4px var(--body-background)
+      box-shadow: -4px -4px 10px 4px var(--op-wp-single-card-bg-color)
 
   &_new
     padding-right: 25px
@@ -33,21 +39,21 @@
   &_ghosted
     opacity: 0.5
 
+  // Some state selectors below need to override the base :hover rule above.
+  // Keep them after `&:hover` so equal-specificity selectors (e.g. `&_selected:hover`)
+  // and the closed selector can win via source order.
   &_selected
-    background-color: var(--selection-bgColor)
-    .op-icon--wrapper
-      background: var(--selection-bgColor)
+    --op-wp-single-card-bg-color: var(--box-list-item-selected-bg-color)
+    border-color: var(--box-list-item-selected-border-color)
+
     &:hover
-      .op-wp-single-card--inline-buttons
-        box-shadow: none
+      --op-wp-single-card-bg-color: var(--box-list-item-selected-bg-hover-color)
 
   &_closed:not(&_selected)
-    background-color: var(--display-gray-bgColor-muted)
-    .op-icon--wrapper
-      background: var(--display-gray-bgColor-muted)
+    --op-wp-single-card-bg-color: var(--display-gray-bgColor-muted)
+
     &:hover
-      .op-wp-single-card--inline-buttons
-        box-shadow: -4px -4px 10px 4px var(--display-gray-bgColor-muted)
+      --op-wp-single-card-bg-color: hsl(from var(--display-gray-bgColor-muted) h s calc(l - 3.5))
 
   &_horizontal
     height: 100%
@@ -74,8 +80,8 @@
   // Keep the picked-up card visible in place, dimmed, rather than leaving a
   // dashed hole behind — matching the Backlogs list and the WP table row.
   wp-single-card:host([data-dragging='source']) &
+    --op-wp-single-card-bg-color: var(--bgColor-inset)
     opacity: 0.4
-    background-color: var(--bgColor-inset)
     pointer-events: none
 
   &--content
@@ -178,8 +184,8 @@
     .op-wp-single-card_selected &
       padding-left: 15px
 
-    .op-icon--wrapper:not(&_selected)
-      background: var(--body-background)
+    .op-icon--wrapper
+      background: var(--op-wp-single-card-bg-color)
 
     &.-show
       opacity: 1
