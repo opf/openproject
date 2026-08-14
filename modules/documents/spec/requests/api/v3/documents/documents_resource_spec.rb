@@ -163,6 +163,29 @@ RSpec.describe "API v3 documents resource" do
         .at_path("contentBinary")
     end
 
+    context "when updating the description" do
+      # Regression test: the request body was previously passed unfiltered
+      # to Documents::UpdateService, so the raw {format:, raw:, html:} hash
+      # ended up stored verbatim as the description's raw text instead of
+      # extracting just the raw string, corrupting it into a literal
+      # hash-shaped string on every update.
+      let(:request_body) do
+        {
+          description: { format: "markdown", raw: "An updated description" }
+        }
+      end
+
+      it "stores and returns the plain description text, not the raw HAL hash" do
+        expect(subject.status).to be(200)
+
+        expect(subject.body)
+          .to be_json_eql("An updated description".to_json)
+          .at_path("description/raw")
+
+        expect(document.reload.description).to eq("An updated description")
+      end
+    end
+
     context "when lacking edit permissions" do
       let(:permissions) { %i(view_documents) }
 
