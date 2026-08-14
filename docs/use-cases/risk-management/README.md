@@ -31,7 +31,7 @@ Use these official sources alongside this OpenProject configuration guide:
 - [PM² artefacts, including the Risk Management Plan and Risk Log](https://pm2.europa.eu/pm2-artefacts_en)
 - [PM² and PMflex project management with OpenProject](../project-management-pm2-pmflex/)
 
-## Recommended structure
+## How risk management looks in OpenProject
 
 | Risk management concept | OpenProject entity |
 | --- | --- |
@@ -42,17 +42,68 @@ Use these official sources alongside this OpenProject configuration guide:
 | Review trail | Work package activity, comments and status history |
 | Standard setup | A reusable [project template](../../user-guide/projects/project-templates/) |
 
-## 1. Administrator setup
+## 1. Project member workflow
+
+Project members use the shared risk register to identify, assess, respond to and monitor risks throughout the project. The following checklist gives a quick overview before the detailed workflow.
+
+### Quick checklist for each risk
+
+- Describe the risk clearly and assign one owner.
+- Assess probability and impact using the agreed scale.
+- Select a response strategy and assign dated response actions.
+- Set the next review date and document review decisions.
+- Escalate or close the risk when appropriate.
+
+### 1.1 Identify and record a risk
+
+Create a work package of type `Risk`. Write the subject as a concise cause–event–effect statement, for example: “Because the supplier has not confirmed capacity, hardware delivery may be delayed, which could move the pilot date.”
+
+In the description, record the context, assumptions and affected objectives. Select a category and assign a risk owner. The [create work package guide](../../user-guide/work-packages/create-work-package/) describes the available creation flows.
+
+### 1.2 Assess the risk
+
+The risk owner and relevant specialists agree on probability and impact using the scale defined in the Risk Management Plan. Add supporting evidence in the description or as an attachment, and move the risk to `Assessed` when the assessment is complete.
+
+Prioritize risks consistently. A high score should trigger a timely response and, where defined by the organization's thresholds, escalation to the project manager, Project Owner or steering body.
+
+### 1.3 Plan and assign the response
+
+Select the response strategy and document the intended outcome. Turn concrete actions into child or related work packages, assign each action and give it a due date. Relations preserve traceability between the risk and the work needed to address it; see [work package relations and hierarchies](../../user-guide/work-packages/work-package-relations-hierarchies/).
+
+Record both preventive actions and contingency actions where useful. Preventive actions reduce probability or impact before the event; contingency actions define what to do if it occurs.
+
+### 1.4 Monitor and review
+
+Review active risks regularly in a project meeting or dedicated risk review. For each risk:
+
+1. Check whether probability, impact and assumptions have changed.
+2. Review the progress and effectiveness of response actions.
+3. Update the next review date.
+4. Reassess probability and impact based on current information and the effectiveness of response actions.
+5. Escalate when a threshold is exceeded or a decision is required.
+6. Close risks that no longer require active monitoring.
+
+Use comments for decisions and concise review notes. The work package activity provides a chronological audit trail. See [edit work packages](../../user-guide/work-packages/edit-work-package/) for updating fields, status and comments.
+
+### 1.5 Handle an occurred risk
+
+When the uncertain event happens, it is no longer only a risk. Mark it as `Occurred` if that status is part of the workflow, create or link an issue or task, and carry over the relevant owner, impact, response and due dates. Keep the relation between the original risk and the resulting issue so the decision trail remains visible.
+
+### 1.6 Report and learn
+
+Use the active register and attention view for status reporting. At phase gates and project closure, review closed and occurred risks to identify recurring causes, effective responses and improvements for future project templates or the Risk Management Plan.
+
+## 2. Administrator setup
 
 The following configuration is normally created once and then reused across projects. Administrators should agree the terminology, scales and workflow with the organization's project management office before configuring them.
 
-### 1.1 Create and activate the `Risk` work package type
+### 2.1 Create and activate the `Risk` work package type
 
 Create a work package type named `Risk` under **Administration → Work packages → Types**. Add the fields needed for assessment, response and review to its form. See [work package types](../../system-admin-guide/manage-work-packages/work-package-types/) for configuration details.
 
 Activate the type for the relevant projects under **Project settings → Work packages → Types**. The same project settings also control which custom fields are active in a project; see [project work package settings](../../user-guide/projects/project-settings/work-packages/).
 
-### 1.2 Define risk fields
+### 2.2 Define risk fields
 
 Create the required fields under **Administration → Custom fields → Work packages**. The following baseline works well for many teams:
 
@@ -65,15 +116,13 @@ Create the required fields under **Administration → Custom fields → Work pac
 | Response strategy | List | Records the chosen approach, for example avoid, reduce, transfer/share or accept |
 | Response description | Long text | Describes the concrete preventive and contingency actions |
 | Next review date | Date | Ensures that the risk is reconsidered at an agreed time |
-| Residual probability | List | Records likelihood expected after the response |
-| Residual impact | List | Records impact expected after the response |
 | Escalation required | Boolean | Flags risks that require a governance decision |
 
 See [custom fields](../../system-admin-guide/custom-fields/) for the available field types and configuration options.
 
 Use one consistent scale across projects. If the organization uses a 1–5 scale, define in the Risk Management Plan what each probability and impact value means. Until calculated fields are available, record the score explicitly or group/filter the register by probability and impact; do not imply that OpenProject calculates `probability × impact` automatically.
 
-### 1.3 Configure statuses and workflows
+### 2.3 Configure statuses and workflows
 
 A small workflow is usually easier to maintain than a highly detailed one. For example:
 
@@ -87,7 +136,7 @@ Optionally add `Occurred` when a realized risk must be handed over to issue mana
 
 Restrict sensitive transitions where appropriate. For example, only the project manager or risk manager may accept a high risk or close an escalated risk. Configure the corresponding rights under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
 
-### 1.4 Prepare reusable views and a project template
+### 2.4 Prepare reusable views and a project template
 
 Create and save at least these shared work package views:
 
@@ -98,47 +147,6 @@ Create and save at least these shared work package views:
 The [work package table configuration](../../user-guide/work-packages/work-package-table-configuration/) explains how to add columns, filters, grouping and sorting. A [work package table widget](../../user-guide/projects/project-home/project-widgets/#work-package-table-widget) can also place the active risk register on the project overview.
 
 Finally, include the type, fields, permissions and saved views in a [project template](../../user-guide/projects/project-templates/) so new projects start with the same risk management structure.
-
-## 2. Project member workflow
-
-### 2.1 Identify and record a risk
-
-Create a work package of type `Risk`. Write the subject as a concise cause–event–effect statement, for example: “Because the supplier has not confirmed capacity, hardware delivery may be delayed, which could move the pilot date.”
-
-In the description, record the context, assumptions and affected objectives. Select a category and assign a risk owner. The [create work package guide](../../user-guide/work-packages/create-work-package/) describes the available creation flows.
-
-### 2.2 Assess the risk
-
-The risk owner and relevant specialists agree on probability and impact using the scale defined in the Risk Management Plan. Add supporting evidence in the description or as an attachment, and move the risk to `Assessed` when the assessment is complete.
-
-Prioritize risks consistently. A high score should trigger a timely response and, where defined by the organization's thresholds, escalation to the project manager, Project Owner or steering body.
-
-### 2.3 Plan and assign the response
-
-Select the response strategy and document the intended outcome. Turn concrete actions into child or related work packages, assign each action and give it a due date. Relations preserve traceability between the risk and the work needed to address it; see [work package relations and hierarchies](../../user-guide/work-packages/work-package-relations-hierarchies/).
-
-Record both preventive actions and contingency actions where useful. Preventive actions reduce probability or impact before the event; contingency actions define what to do if it occurs.
-
-### 2.4 Monitor and review
-
-Review active risks regularly in a project meeting or dedicated risk review. For each risk:
-
-1. Check whether probability, impact and assumptions have changed.
-2. Review the progress and effectiveness of response actions.
-3. Update the next review date.
-4. Reassess residual probability and impact.
-5. Escalate when a threshold is exceeded or a decision is required.
-6. Close risks that no longer require active monitoring.
-
-Use comments for decisions and concise review notes. The work package activity provides a chronological audit trail. See [edit work packages](../../user-guide/work-packages/edit-work-package/) for updating fields, status and comments.
-
-### 2.5 Handle an occurred risk
-
-When the uncertain event happens, it is no longer only a risk. Mark it as `Occurred` if that status is part of the workflow, create or link an issue or task, and carry over the relevant owner, impact, response and due dates. Keep the relation between the original risk and the resulting issue so the decision trail remains visible.
-
-### 2.6 Report and learn
-
-Use the active register and attention view for status reporting. At phase gates and project closure, review closed and occurred risks to identify recurring causes, effective responses and improvements for future project templates or the Risk Management Plan.
 
 ## 3. Governance checklist
 
