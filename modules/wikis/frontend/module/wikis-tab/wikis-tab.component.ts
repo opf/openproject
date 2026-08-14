@@ -55,12 +55,9 @@ export class WikisTabComponent extends UntilDestroyedMixin implements OnInit, Ta
 
   ngOnInit():void {
     const tabPath = `${this.PathHelper.projectWorkPackagePath(this.workPackage.project.id as string, this.workPackage.id as string)}/wikis/tab`;
+    const refreshUrl = `${tabPath}/inline_page_links`;
     this.turboFrameSrc = tabPath;
 
-    // The mentioned pages are derived server-side from the description, so
-    // refresh that section whenever a description edit was persisted.
-    // Events pushed outside the editing service carry no commit, so we cannot
-    // tell which attributes changed and refresh rather than miss an update.
     this
       .halEvents
       .aggregated$('WorkPackage')
@@ -71,7 +68,18 @@ export class WikisTabComponent extends UntilDestroyedMixin implements OnInit, Ta
         this.untilDestroyed(),
       )
       .subscribe(() => {
-        void this.turboRequests.requestStream(`${tabPath}/inline_page_links`);
+        // Deliberately not `requestStream`, which flashes Turbo's page-load
+        // progress bar — misleading for a background refresh of one section.
+        void this.turboRequests.request(
+          refreshUrl,
+          {
+            method: 'GET',
+            headers: { Accept: 'text/vnd.turbo-stream.html' },
+            credentials: 'same-origin',
+          },
+          false,
+          refreshUrl,
+        );
       });
   }
 }
