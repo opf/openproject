@@ -19,7 +19,7 @@ module WorkPackageTypes::TypeDeactivationErrorMessage
 
   def type_deactivation_error_message(variant, project:)
     helpers.sanitize(
-      I18n.t(:error_can_not_deactivate_type,
+      I18n.t(:error_can_not_remove_type_from_project,
              name: variant.composite_name,
              project: project.name,
              work_packages_link: helpers.link_to(
