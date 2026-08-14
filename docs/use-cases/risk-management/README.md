@@ -168,7 +168,6 @@ The configuration above uses existing OpenProject features. The following roadma
 | --- | --- |
 | Dedicated risk management module, including inherent and residual assessment, treatments, visualization, workflow and auditability | [#38012 – Risk management](https://community.openproject.org/work_packages/38012) |
 | Project-level risk dashboard | [#66721 – Dashboard for Risks](https://community.openproject.org/work_packages/66721) |
-| Risk overview widget | [#66489 – Overview widget for Risk module](https://community.openproject.org/work_packages/66489) |
 | Calculated custom fields as a basis for automatically calculated risk values | [#28704 – Calculated custom fields from existing fields](https://community.openproject.org/work_packages/28704) |
 | Status-dependent required fields and validation rules | [#68886 – Dynamic validation](https://community.openproject.org/work_packages/68886) |
 | Automatically triggered custom actions | [#37473 – Workflow automation](https://community.openproject.org/work_packages/37473) |
