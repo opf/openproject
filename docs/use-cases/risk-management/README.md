@@ -119,11 +119,11 @@ Review risks in `New`, `Evaluated` and `Mitigation planned` regularly. Check ass
 
 Use comments for review notes and decisions. The activity history provides a chronological audit trail. For status reporting and lessons learned, include risks in `Mitigation done`, `Occured` and `Rejected` as separate outcome groups.
 
-## System-wide configuration
+## Step-by-step configuration
 
 The following configuration is normally created once and then reused across projects. Administrators should agree the terminology, scales and workflow with the organization's project management office before configuring them.
 
-### Create and activate the `Risk` work package type
+### Step 1: Create and activate the `Risk` work package type
 
 Create a work package type named `Risk` under **Administration → Work packages → Types**. Add the fields needed for assessment, response and review to its form. See [work package types](../../system-admin-guide/manage-work-packages/work-package-types/) for configuration details.
 
@@ -153,7 +153,7 @@ List observable signs or thresholds indicating that the risk is becoming more li
 
 Activate the type for the relevant projects under **Project settings → Work packages → Types**. The same project settings also control which custom fields are active in a project; see [project work package settings](../../user-guide/projects/project-settings/work-packages/).
 
-### Configure the risk form
+### Step 2: Configure the risk form
 
 Create the required custom fields under **Administration → Custom fields → Work packages**. Then open **Administration → Work packages → Types → Risk → Form configuration** and arrange the attributes as shown below:
 
@@ -173,7 +173,7 @@ Create the required custom fields under **Administration → Custom fields → W
 
 Use one consistent scale across projects. If the organization uses a 1 to 5 scale, define in the Risk Management Plan what each likelihood and impact value means. Until calculated fields are available, record the score explicitly or group/filter the register by likelihood and impact; do not imply that OpenProject calculates `likelihood × impact` automatically.
 
-### Configure statuses and workflows
+### Step 3: Configure statuses and workflows
 
 The example configuration uses the following statuses:
 
@@ -190,7 +190,7 @@ Configure these statuses under [work package statuses](../../system-admin-guide/
 
 Restrict sensitive transitions where appropriate. For example, allow only the project manager or risk manager to transition a risk to `Mitigation done`, `Occured` or `Rejected`. Configure the corresponding transition permissions under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
 
-### Create a Risk management board and project template
+### Step 4: Create a Risk management board and project template
 
 Create one shared board named `Risk management` and filter it by type `Risk`. Configure the board columns by status so that they reflect the risk lifecycle. The board complements the table view of the Risk Register and uses the same underlying risk items.
 
