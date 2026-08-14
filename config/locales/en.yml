@@ -3941,7 +3941,6 @@ en:
         invalid_type: "No type found with name '%{type}' in project '%{project}'."
         no_project_context: "Calling create_work_package_link macro from outside project context."
       link_name: "New work package"
-      link_name_type: "New %{type_name}"
     errors:
       missing_or_invalid_parameter: "Missing or invalid macro parameter."
     include_wiki_page:
