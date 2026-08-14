@@ -188,14 +188,14 @@ Finally, include the type, fields, permissions and saved views in a [project tem
 
 ## Planned product improvements
 
-The configuration above uses existing OpenProject features. The following roadmap work packages describe possible future enhancements; scope and delivery dates may change:
+The configuration above uses existing OpenProject features. The following roadmap items address limitations of this setup; scope and delivery dates may change:
 
-| Roadmap topic | Work package |
+| Planned feature | Problem addressed |
 | --- | --- |
-| Dedicated risk management module, including inherent and residual assessment, treatments, visualization, workflow and auditability | [#38012 – Risk management](https://community.openproject.org/work_packages/38012) |
-| Project-level risk dashboard | [#66721 – Dashboard for Risks](https://community.openproject.org/work_packages/66721) |
-| Calculated custom fields as a basis for automatically calculated risk values | [#28704 – Calculated custom fields from existing fields](https://community.openproject.org/work_packages/28704) |
-| Status-dependent required fields and validation rules | [#68886 – Dynamic validation](https://community.openproject.org/work_packages/68886) |
-| Automatically triggered custom actions | [#37473 – Workflow automation](https://community.openproject.org/work_packages/37473) |
-| Two-dimensional boards as a possible basis for matrix-style views | [#75445 – 2D boards](https://community.openproject.org/work_packages/75445) |
+| [Risk management module](https://community.openproject.org/work_packages/38012) | Risk assessment, scoring, treatments, permissions and auditability currently have to be assembled from general-purpose configuration options. |
+| [Calculated custom fields](https://community.openproject.org/projects/FND/work_packages/FND-2/activity) | Likelihood and impact cannot currently be combined into an automatically calculated risk score, so teams must calculate or record the result manually. |
+| [Dynamic and status-based field validation](https://community.openproject.org/work_packages/68886) | Required information cannot currently vary by workflow status, making it difficult to enforce complete assessments, response plans or closure data before a transition. |
+| [Workflow automation](https://community.openproject.org/work_packages/37473) | Reviews, reminders, escalations, assignments and follow-up changes depend on manual action even when clear trigger conditions exist. |
+| [Two-dimensional boards with configurable axes](https://community.openproject.org/work_packages/75445) | Teams cannot maintain an interactive likelihood–impact matrix in which moving a risk also updates its underlying assessment data. |
+| [Built-in types](https://community.openproject.org/wp/OP-17679) | Standard types have to be created and maintained manually and cannot be identified consistently across installations, increasing the risk of divergent configuration or accidental deletion. |
 
