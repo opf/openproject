@@ -44,7 +44,7 @@ module Backlogs
     end
 
     # Every sortable card drags: a read-only one stays a drag source too, only
-    # confined to its own list (see {#confined?}).
+    # confined to its own list (see {#mobility}).
     def draggable?
       sortable?
     end
@@ -75,7 +75,7 @@ module Backlogs
     end
 
     def card_data
-      data = {
+      {
         story: true,
         # Non-movable cards opt in too: they have no move actions, but their
         # singular menu is still worth reaching contextually.
@@ -83,12 +83,10 @@ module Backlogs
         backlogs__work_package_id_value: work_package.id,
         backlogs__work_package_display_id_value: work_package.display_id,
         backlogs__work_package_split_url_value: split_url,
-        backlogs__work_package_full_url_value: full_url
+        backlogs__work_package_full_url_value: full_url,
+        # The card, not the row, carries the tab stop.
+        sortable_lists__item_target: "preview handle focus"
       }
-
-      return data unless draggable?
-
-      data.merge(sortable_lists__item_target: "preview handle")
     end
 
     # @return [Hash] ARIA wiring announcing the card's Enter activation and its
@@ -103,31 +101,20 @@ module Backlogs
       }
     end
 
-    # An unmovable card registers as a sortable item like any other: it keeps
-    # its drag and its positional moves, stays a drop target and keeps counting
-    # as a row of its list. The confined value is what pins it to that list.
+    # Every card row is a sortable item, movable or not: a non-movable row is
+    # still an addressable position its neighbours anchor drops on.
     def row_data
-      sortable? ? sortable_item_data : {}
-    end
-
-    def sortable_item_data
       {
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
         sortable_lists__item_label_value: work_package.to_fs(:caption),
         sortable_lists__item_type_value: "work_package",
-        sortable_lists__item_confined_value: confined?,
+        sortable_lists__item_mobility_value: mobility,
         # Native drag payload for external consumers; the same absolute URL
         # as the card menu's "Copy URL to clipboard" item. The label above
         # doubles as the link text of the text/html flavour.
         sortable_lists__item_external_url_value: url_helpers.work_package_url(work_package)
       }
-    end
-
-    # Whether the card's drag is pinned to its own list: it may reorder in
-    # place, but no other container accepts it.
-    def confined?
-      sortable? && !movable?
     end
 
     public

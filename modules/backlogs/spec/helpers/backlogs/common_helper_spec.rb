@@ -62,6 +62,39 @@ RSpec.describe Backlogs::CommonHelper do
     end
   end
 
+  describe "#batch_selection_allowed?" do
+    let(:project) { build_stubbed(:project) }
+
+    before do
+      # The helper resolves the actor through `current_user`, which a bare
+      # helper object does not define; the describe above stubs it the same
+      # way.
+      without_partial_double_verification do
+        allow(helper).to receive_messages(current_user:)
+      end
+
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project(*permissions, project:)
+      end
+    end
+
+    context "when the user may manage sprint items" do
+      let(:permissions) { %i[manage_sprint_items] }
+
+      it "offers batch selection" do
+        expect(helper.batch_selection_allowed?(project)).to be true
+      end
+    end
+
+    context "when the user may only view" do
+      let(:permissions) { %i[view_sprints view_work_packages] }
+
+      it "does not offer batch selection" do
+        expect(helper.batch_selection_allowed?(project)).to be false
+      end
+    end
+  end
+
   describe "#backlog_filters" do
     context "with no params" do
       let(:params) { {} }

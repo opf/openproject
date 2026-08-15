@@ -342,6 +342,31 @@ module Pages
       find(work_package_card_selector(work_package))
     end
 
+    # The row wrapper, not the card: it carries the item id and, once
+    # selected, `data-batch-selected`. The description lives on the card,
+    # which is the focus host, so it is checked through {#work_package_card}.
+    def work_package_row(work_package)
+      find(work_package_selector(work_package))
+    end
+
+    # The row's resolved background colour. Read it twice around one isolated
+    # change, never across two rows and never around a gesture that also
+    # focuses or navigates: the background depends on focus and `aria-current`
+    # too, so anything else makes the difference unattributable.
+    def row_background_color(work_package)
+      work_package_row(work_package).style("background-color").fetch("background-color")
+    end
+
+    # Moves focus onto the card without a pointer and without any event a
+    # Backlogs controller listens for. Establishes focus before a
+    # background-colour control read, so a later keyboard gesture on the same
+    # card does not change it a second time.
+    def focus_work_package_card(work_package)
+      work_package_card(work_package).execute_script(
+        "this.focus({ focusVisible: true, preventScroll: true })"
+      )
+    end
+
     # Right-clicks near the card's top-left corner: the offset keeps the
     # pointer off the subject link and the actions menu button, both of which
     # keep their native context menu on purpose.
@@ -383,6 +408,20 @@ module Pages
     def expect_work_package_card_focused(work_package)
       expect(page)
         .to have_css(work_package_card_selector(work_package), focused: true)
+    end
+
+    # The *computed* accessible description, not the raw `aria-describedby`
+    # token: an id that resolves to nothing, or an element the browser
+    # declines to traverse into, leaves this empty while the attribute reads
+    # exactly as intended.
+    def expect_work_package_card_described_as(work_package, description)
+      expect(page)
+        .to have_css(work_package_card_selector(work_package), accessible_description: description)
+    end
+
+    def expect_work_package_card_not_described(work_package)
+      expect(page)
+        .to have_css(work_package_card_selector(work_package), accessible_description: "")
     end
 
     # The presenter takes the overlay's `anchor` idref away for the duration of
@@ -536,12 +575,26 @@ module Pages
       end
     end
 
+    # Opening details morphs the row into its "current work package" state, so
+    # a reference captured beforehand can go stale mid-morph. `retry_block`
+    # spaces the attempts out and finds the button, menu and view fresh on
+    # each one.
     def open_work_package_details(work_package)
-      within_work_package(work_package) do
-        button = find(:button, accessible_name: "Work package actions")
-        open_controlled_menu(button).find(:menuitem, text: I18n.t(:"js.button_open_details")).click
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        within_work_package(work_package) do
+          button = find(:button, accessible_name: "Work package actions")
+          open_controlled_menu(button).find(:menuitem, text: I18n.t(:"js.button_open_details")).click
+        end
+        expect_details_view(work_package)
       end
-      expect_details_view(work_package)
     end
 
     def expect_details_view(work_package)
@@ -606,9 +659,24 @@ module Pages
       end
     end
 
+    # Every row carries the item id whether or not the user may move it, so
+    # the id no longer distinguishes an orderable row. `draggable` and
+    # `mobility` are set independently and read by separate consumers, so
+    # both are checked.
+    def expect_work_package_draggable(work_package)
+      selector = work_package_selector(work_package)
+      expect(page).to have_css("#{selector}[draggable='true']")
+      expect(page).to have_no_css("#{selector}[data-sortable-lists--item-mobility-value='fixed']")
+    end
+
+    # Both assertions are negative, so they also pass against a page that
+    # never rendered the card — including the rack-session page a racing
+    # Selenium login can strand the browser on. Asserting the row exists first
+    # is blocked on fix/selenium-rack-session-login-flake.
     def expect_work_package_not_draggable(work_package)
-      expect(page)
-        .to have_no_css(draggable_work_package_selector(work_package))
+      selector = work_package_selector(work_package)
+      expect(page).to have_no_css("#{selector}[draggable='true']")
+      expect(page).to have_no_css("#{selector}[data-sortable-lists--item-mobility-value='free']")
     end
 
     # A read-only card keeps its drag but is confined to its own list: it can
@@ -616,8 +684,8 @@ module Pages
     # confined value is what the foreign drop targets read.
     def expect_work_package_confined(work_package)
       expect(page)
-        .to have_css("#{draggable_work_package_selector(work_package)}" \
-                     "[data-sortable-lists--item-confined-value='true']")
+        .to have_css("#{work_package_selector(work_package)}" \
+                     "[data-sortable-lists--item-mobility-value='confined']")
       expect(page)
         .to have_css("#{work_package_selector(work_package)}[draggable]")
     end
@@ -637,6 +705,47 @@ module Pages
       end
     end
 
+    # An unmodified click: narrows the batch to this card and opens its
+    # details pane. Offset near the top-left corner because the card's centre
+    # sits on the subject link or the actions menu button, both of which the
+    # selection root ignores as interactive descendants.
+    def select_card(work_package)
+      work_package_card(work_package).click(x: 6, y: 6, offset: :position)
+    end
+
+    # Toggles membership without navigating, and re-bases the anchor to this
+    # card even when the toggle deselects it.
+    def toggle_card(work_package)
+      modified_click(work_package, :meta)
+    end
+
+    # Selects the contiguous range from the anchor to this card. Repeated
+    # calls resize one range rather than walking it.
+    def extend_selection_to(work_package)
+      modified_click(work_package, :shift)
+    end
+
+    # Asserted directly because an empty batch proves nothing: a root that
+    # opted in and refused every gesture looks identical from outside, yet
+    # differs in whether the browser still gets the keystroke.
+    def expect_batch_selection_disabled
+      expect(page).to have_css("[data-controller~='sortable-lists'][data-sortable-lists-selection-enabled-value='false']",
+                               visible: :all)
+    end
+
+    # Live batch membership, in document order.
+    def selected_card_ids
+      all("[data-batch-selected]").pluck("data-sortable-lists--item-id-value")
+    end
+
+    # The shared description every selected card's `aria-describedby` points
+    # at. Rendered once, permanently `hidden` — screen readers still reach it
+    # through the reference despite that — so `visible: :all` is required.
+    def expect_selection_description_present
+      expect(page).to have_css("##{Backlogs::SelectionDescriptionComponent::DESCRIPTION_ID}",
+                               visible: :all, count: 1)
+    end
+
     def pick_up_and_release_work_package(work_package)
       # A mid-drag list refresh can detach the grabbed row, so retry a bounded
       # number of times on a stale node. retry_block no-ops under
@@ -652,7 +761,7 @@ module Pages
           ]
         }
       ) do
-        moved_element = find(draggable_work_package_selector(work_package))
+        moved_element = find(work_package_selector(work_package))
         install_backlogs_move_request_probe
         begin
           pick_up_and_release_backlogs_item(moved_element)
@@ -756,7 +865,7 @@ module Pages
         raise ArgumentError, "You must specify exactly one of before, after or into"
       end
 
-      moved_element = find(draggable_work_package_selector(moved))
+      moved_element = find(work_package_selector(moved))
       target_element, edge =
         if before
           [find(work_package_selector(before)), :top]
@@ -788,7 +897,7 @@ module Pages
           ]
         }
       ) do
-        moved_element = find(draggable_work_package_selector(moved))
+        moved_element = find(work_package_selector(moved))
         target_element = find(list_body_selector(sprint_selector(into)))
         install_backlogs_move_request_probe
         begin
@@ -838,7 +947,7 @@ module Pages
     end
 
     def drag_work_package_to_backlog_inbox(work_package)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       inbox = find(backlog_inbox_selector)
       target_item = inbox.all("[data-sortable-lists--item-id-value]", minimum: 0).last
       target_element = target_item || inbox.find("[data-empty-list-item]")
@@ -853,7 +962,7 @@ module Pages
     end
 
     def drag_work_package_to_backlog_bucket(work_package, bucket)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       target_element = find(list_body_selector(bucket_selector(bucket)))
 
       wait_for_backlogs_turbo_stream(frame_reload: true) do
@@ -865,7 +974,7 @@ module Pages
     end
 
     def drag_work_package_to_sprint(work_package, sprint)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       target_element = find(list_body_selector(sprint_selector(sprint)))
       wait_for_backlogs_turbo_stream(frame_reload: true) do
         drag_backlogs_item(source: moved_element, target: target_element)
@@ -946,6 +1055,15 @@ module Pages
 
     private
 
+    # Node::Element#click takes the held key and positional options, so no
+    # action chain is needed. The offset avoids the card's centre, where the
+    # subject link or actions menu button sits: the selection root ignores a
+    # gesture starting on either, and which one lands dead centre varies with
+    # the card's content.
+    def modified_click(work_package, key)
+      work_package_card(work_package).click(key, x: 6, y: 6, offset: :position)
+    end
+
     def within_sprint(sprint, &)
       within(sprint_selector(sprint), &)
     end
@@ -1018,10 +1136,6 @@ module Pages
     # is the one place that convention lives.
     def menu_owner_overlay_selector(menu_owner)
       "##{ActionView::RecordIdentifier.dom_target(menu_owner, :menu)}-overlay"
-    end
-
-    def draggable_work_package_selector(work_package)
-      "#{work_package_selector(work_package)}[data-sortable-lists--item-id-value]"
     end
 
     # Located by the lock's accessible name so the expectation fails if the
