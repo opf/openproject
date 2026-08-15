@@ -79,34 +79,15 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     // Bookmarks and external links may still carry a numeric ID after the
     // switch to semantic mode, so accept either form here.
     if (id !== undefined && (id === this.idValue.toString() || id === this.displayIdValue)) {
-      this.markAsSelected();
       this.markAsCurrent();
     } else {
-      this.unmarkAsSelected();
       this.unmarkAsCurrent();
     }
   }
 
-  // Selection is applied synchronously on activation, before the split screen
-  // has loaded, so the list reacts immediately. With single selection any
-  // previously selected work package is cleared right away instead of waiting
-  // for its own URL sync.
-  markAsSelected():void {
-    document
-      .querySelectorAll('[data-controller~="backlogs--work-package"][data-selected]')
-      .forEach((other) => {
-        if (other !== this.element) {
-          other.removeAttribute('data-selected');
-        }
-      });
-
-    this.element.setAttribute('data-selected', '');
-  }
-
-  unmarkAsSelected():void {
-    this.element.removeAttribute('data-selected');
-  }
-
+  // Not set optimistically: activation waits out the double-click delay below
+  // and may resolve to the full view instead, so asserting a current work
+  // package here would announce a navigation that may never happen.
   markAsCurrent():void {
     this.element.setAttribute('aria-current', 'true');
   }
@@ -136,8 +117,6 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     if (this.shouldIgnoreMouseTarget(target)) return;
 
     if (this.clickTimeout !== null) return;
-
-    this.markAsSelected();
 
     this.clickTimeout = window.setTimeout(() => {
       this.clickTimeout = null;
@@ -172,7 +151,6 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     if (event.shiftKey) {
       this.openFullPane();
     } else {
-      this.markAsSelected();
       this.openSplitPane();
     }
   }
