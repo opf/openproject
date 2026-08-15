@@ -121,7 +121,81 @@ module Backlogs
       render_update_turbo_streams(call)
     end
 
+    def move_collection
+      work_packages = load_collection_work_packages
+      return if performed?
+
+      # Snapshot before the call: move_after reloads mid-method and destroys
+      # dirty tracking, exactly as the member action's comment explains.
+      source_targets = work_packages.to_h { |wp| [wp.id, Backlogs::Target.for_work_package(wp)] }
+
+      call = ::Backlogs::WorkPackages::BatchUpdateService
+        .new(user: current_user, work_packages:)
+        .call(**collection_move_service_params)
+
+      if optimistic_same_list_batch_move?(call, source_targets)
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_ids: call.result.map(&:id) }
+        )
+        return respond_with_turbo_streams(status: call)
+      end
+
+      render_update_collection_turbo_streams(call)
+    end
+
     private
+
+    def render_update_collection_turbo_streams(call)
+      if call.success?
+        reload_frame_via_turbo_stream("backlogs_container")
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_ids: call.result.map(&:id) }
+        )
+        render_invisible_after_move_batch_flash(call.result)
+      else
+        render_error_flash_message_via_turbo_stream(
+          message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
+        )
+      end
+
+      respond_with_turbo_streams(status: call)
+    end
+
+    def optimistic_same_list_batch_move?(call, source_targets)
+      return false unless optimistic_move? && call.success? && call.result.any?
+
+      destination = Backlogs::Target.for_work_package(call.result.first)
+      call.result.all? { |wp| source_targets[wp.id] == destination } &&
+        requested_block_honored?(call.result)
+    end
+
+    # Generalizes requested_anchor_honored? to the batch: the first member must
+    # sit exactly where the request anchored it, and every further member must
+    # sit directly below its predecessor in request order. Only then is the
+    # persisted state the client's optimistic block, and only then may the
+    # reload be skipped.
+    def requested_block_honored?(results) # rubocop:disable Metrics/AbcSize
+      return false unless move_collection_params.key?(:prev_id)
+
+      # One anchor query; the rest of the block is checked in memory.
+      # BatchUpdateService reloads every moved member (inside its own lock
+      # and transaction) before returning, and the caller has already pinned
+      # all members to one target scope, so adjacent positions prove
+      # adjacency. The batch's own writes leave the block gapless; a gap
+      # from elsewhere can only fail this check falsely, degrading to the
+      # full frame reload — never skipping a reload that was needed.
+      prev_id = move_collection_params[:prev_id].presence
+      first = results.first
+      anchor_honored = prev_id ? first.higher_item&.id == prev_id.to_i : first.higher_item.nil?
+
+      anchor_honored && results.each_cons(2).all? { |above, below| below.position == above.position + 1 }
+    end
+
+    def collection_move_service_params
+      move_collection_params.to_h.symbolize_keys.except(:ids).compact
+    end
 
     def render_update_turbo_streams(call)
       if call.success?
@@ -151,6 +225,26 @@ module Backlogs
       render_flash_message_via_turbo_stream(
         message: I18n.t(:notice_work_package_invisible_after_move, backlog: target_list_name(work_package))
       )
+    end
+
+    # The whole batch shares one destination, but backlog type/status
+    # exclusion (see work_package_invisible_after_move?) is evaluated per
+    # member — a member's own type or status can hide it independently of
+    # its list-mates, so the first member alone cannot answer this for the
+    # batch.
+    def render_invisible_after_move_batch_flash(results)
+      invisible = results.select { |wp| work_package_invisible_after_move?(wp) }
+      return if invisible.empty?
+
+      render_flash_message_via_turbo_stream(message: invisible_after_move_batch_message(invisible))
+    end
+
+    def invisible_after_move_batch_message(invisible)
+      if invisible.one?
+        I18n.t(:notice_work_package_invisible_after_move, backlog: target_list_name(invisible.first))
+      else
+        I18n.t(:notice_work_packages_invisible_after_move, count: invisible.size, backlog: target_list_name(invisible.first))
+      end
     end
 
     # A dialog move (never flagged optimistic) is announced by the server; the
@@ -203,6 +297,61 @@ module Backlogs
     def load_work_package
       @work_packages = WorkPackage.visible.where(project: @project).order_by_position
       @work_package = @work_packages.find(params.expect(:id))
+    end
+
+    # The exact ordered batch: every submitted id must resolve to a distinct,
+    # visible work package of this project, in the submitted order. Blank ids,
+    # duplicates and unresolvable ids reject the whole request — silently
+    # dropping members would break the client's optimistic block.
+    # (An absent or empty ids array never reaches here: params.expect raises
+    # ParameterMissing, which Rails renders as 400.)
+    def load_collection_work_packages # rubocop:disable Metrics/AbcSize
+      ids = move_collection_params[:ids]
+
+      # Checked before the lookup below: the oversized id list must not
+      # reach the database at all.
+      if ids.length > Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE
+        return render_move_collection_error(
+          t("backlogs.work_packages.move_collection.too_many_work_packages",
+            max: Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE)
+        )
+      end
+
+      if invalid_ids?(ids)
+        return render_move_collection_error(
+          t("backlogs.work_packages.move_collection.invalid_ids")
+        )
+      end
+
+      found = WorkPackage.visible.where(project: @project, id: ids).index_by { |wp| wp.id.to_s }
+      ordered = ids.map { |id| found[id.to_s] }
+
+      if ordered.any?(&:nil?)
+        return render_move_collection_error(
+          t("backlogs.work_packages.move_collection.work_packages_not_found")
+        )
+      end
+
+      ordered
+    end
+
+    def invalid_ids?(ids)
+      ids.any?(&:blank?) || ids.uniq.length != ids.length
+    end
+
+    def render_move_collection_error(reason)
+      render_error_flash_message_via_turbo_stream(
+        message: I18n.t(:notice_unsuccessful_update_with_reason, reason:)
+      )
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
+
+    # params.expect guarantees ids is a present, non-empty array of scalars
+    # (raising ParameterMissing → 400 otherwise); the placement and target
+    # fields stay optional, so they go through permit and are merged in.
+    def move_collection_params
+      ids = params.expect(ids: [])
+      params.permit(:prev_id, :list_type, :list_id).merge(ids:)
     end
 
     def move_path
