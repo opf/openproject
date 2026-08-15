@@ -4,14 +4,14 @@ ru:
     attributes:
       ldap_departments/synchronized_department:
         dn: DN
-        group: Department
-        ldap_auth_source: LDAP connection
-        users_count: Members
+        group: Подразделение
+        ldap_auth_source: LDAP-подключение
+        users_count: Участники
       ldap_departments/synchronized_tree:
-        base_dn: Base DN
-        guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
+        base_dn: Базовый DN
+        guid_attribute: Атрибут уникального идентификатора
+        ldap_auth_source: LDAP-подключение
+        name: Имя
         ou_name_attribute: Атрибут OU
         structure_filter_string: Фильтр по подразделениям
         sync_users: Синхронизировать пользователей
