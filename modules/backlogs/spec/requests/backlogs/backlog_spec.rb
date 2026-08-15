@@ -79,6 +79,12 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
       )
       expect(response.body).to include(
+        %(data-sortable-lists-collection-move-url-value="/projects/#{project.identifier}/backlogs/work_packages/move")
+      )
+      expect(response.body).to include(
+        'data-sortable-lists-move-announcement-scope-value="js.backlogs.announcements"'
+      )
+      expect(response.body).to include(
         "data-sortable-lists-sortable-lists--list-outlet=" \
         "\"#backlogs_container [data-controller~=&#39;sortable-lists--list&#39;]\""
       )
