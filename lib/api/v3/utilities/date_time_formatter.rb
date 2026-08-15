@@ -108,7 +108,11 @@ module API
         def format_duration_from_days(days, allow_nil: false)
           return nil if days.nil? && allow_nil
 
-          Duration.new(seconds: days * 3600 * 24).iso8601
+          # Duration.new truncates its :seconds argument via Float#to_i
+          # (ruby-duration gem) rather than rounding -- round explicitly
+          # here first, same as format_duration_from_hours above, so a
+          # fractional-day value doesn't silently lose up to ~1s of precision.
+          Duration.new(seconds: (days * 3600 * 24).round).iso8601
         end
 
         def parse_duration_to_days(duration, property_name, allow_nil: false)

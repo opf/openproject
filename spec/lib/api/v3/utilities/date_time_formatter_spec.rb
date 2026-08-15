@@ -232,6 +232,12 @@ RSpec.describe API::V3::Utilities::DateTimeFormatter do
       expect(subject.format_duration_from_days(5.501)).to eq("P5DT12H1M26S")
     end
 
+    it "rounds rather than truncates seconds" do
+      # 5.5006 days == 475251.84s -- rounds up to 475252s (P5DT12H52S), not
+      # truncated down to 475251s (P5DT12H51S).
+      expect(subject.format_duration_from_days(5.5006)).to eq("P5DT12H52S")
+    end
+
     it "formats ints" do
       expect(subject.format_duration_from_days(5)).to eq("P5D")
     end
