@@ -105,6 +105,7 @@ describe('Sortable lists item controller', () => {
       moveAvailability: vi.fn(() => null),
       ownerListElementOf: vi.fn(() => ownerListElement),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
+      collapseSelectionForDrag: vi.fn(),
     };
   }
 
@@ -113,15 +114,15 @@ describe('Sortable lists item controller', () => {
     {
       handle = null,
       root = fakeRoot(),
-      confinedValue = false,
       externalUrl = null,
       label = null,
+      mobility = 'free',
     }:{
       handle?:HTMLElement|null;
       root?:SortableListsRoot|null;
-      confinedValue?:boolean;
       externalUrl?:string|null;
       label?:string|null;
+      mobility?:string;
     } = {},
   ) {
     const controller = Object.create(ItemController.prototype) as InstanceType<typeof ItemControllerType>;
@@ -131,11 +132,14 @@ describe('Sortable lists item controller', () => {
     Object.defineProperty(controller, 'hasIdValue', { value: true });
     Object.defineProperty(controller, 'typeValue', { value: 'item' });
     Object.defineProperty(controller, 'hasTypeValue', { value: true });
-    Object.defineProperty(controller, 'confinedValue', { value: confinedValue });
     Object.defineProperty(controller, 'externalUrlValue', { value: externalUrl ?? '' });
     Object.defineProperty(controller, 'hasExternalUrlValue', { value: externalUrl !== null });
     Object.defineProperty(controller, 'labelValue', { value: label ?? '' });
     Object.defineProperty(controller, 'hasLabelValue', { value: label !== null });
+    // Written to the element, not stubbed as a controller property: the
+    // controller reads mobility through list-dom's parser, which stubbing
+    // would bypass.
+    element.setAttribute('data-sortable-lists--item-mobility-value', mobility);
     Object.defineProperty(controller, 'hasHandleTarget', { value: handle !== null });
     if (handle) {
       Object.defineProperty(controller, 'handleTarget', { value: handle });
@@ -177,6 +181,15 @@ describe('Sortable lists item controller', () => {
         element.removeAttribute('data-drop-target-for-element');
       });
     });
+    // Mirrors the real adapter's addAttribute side effect, so movability tests
+    // can assert on the same `draggable` attribute Pragmatic marks in production.
+    vi.mocked(draggable).mockImplementation(({ element }) => {
+      element.setAttribute('draggable', 'true');
+
+      return vi.fn(() => {
+        element.removeAttribute('draggable');
+      });
+    });
   });
 
   function connectItem({ id, type }:{ id:string; type:string }) {
@@ -188,7 +201,7 @@ describe('Sortable lists item controller', () => {
     Object.defineProperty(controller, 'hasIdValue', { value: id !== '' });
     Object.defineProperty(controller, 'typeValue', { value: type });
     Object.defineProperty(controller, 'hasTypeValue', { value: type !== '' });
-    Object.defineProperty(controller, 'confinedValue', { value: false });
+
     Object.defineProperty(controller, 'hasHandleTarget', { value: false });
 
     controller.connect();
@@ -498,7 +511,7 @@ describe('Sortable lists item controller', () => {
     it('still registers a drag source', () => {
       const element = document.createElement('li');
 
-      connectedControllerFor(element, { confinedValue: true });
+      connectedControllerFor(element, { mobility: 'confined' });
 
       expect(draggable).toHaveBeenCalledWith(expect.objectContaining({ element }));
     });
@@ -740,7 +753,7 @@ describe('Sortable lists item controller', () => {
     const element = document.createElement('article');
     connectedControllerFor(element, {
       root: fakeRoot(root, { ownerListElement: sourceList }),
-      confinedValue: true,
+      mobility: 'confined',
     });
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
@@ -1225,6 +1238,114 @@ describe('Sortable lists item controller', () => {
 
       expect(() => controller.move(moveEvent)).not.toThrow();
       expect(moveInDirection).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('movability and focus', () => {
+    let ctx:StimulusTestContext;
+
+    afterEach(() => {
+      ctx?.dispose();
+    });
+
+    // Mounts a minimal item row through the real Stimulus lifecycle, so
+    // mobility and the focus target come from real value/target wiring.
+    // Omitting `mobility` renders no attribute at all, exercising the free
+    // default; the root's tabindex stands in for a consumer that makes the
+    // row itself focusable.
+    async function renderItem(
+      { mobility, withFocusTarget = false }:{ mobility?:string; withFocusTarget?:boolean } = {},
+    ):Promise<HTMLElement> {
+      ctx = await setupStimulusTest({
+        controllers: {
+          'sortable-lists--item': ItemController,
+        },
+      });
+
+      const mobilityAttr = mobility === undefined ? '' : ` data-sortable-lists--item-mobility-value="${mobility}"`;
+      const focusTargetHtml = withFocusTarget
+        ? '<button type="button" data-sortable-lists--item-target="focus">Focus me</button>'
+        : '';
+
+      await ctx.mount(`
+        <li
+          tabindex="0"
+          data-controller="sortable-lists--item"
+          data-sortable-lists--item-id-value="1"
+          data-sortable-lists--item-type-value="work_package"${mobilityAttr}
+        >${focusTargetHtml}</li>
+      `);
+
+      return ctx.container.querySelector<HTMLElement>('[data-controller="sortable-lists--item"]')!;
+    }
+
+    function controllerFor(element:HTMLElement) {
+      return ctx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', element);
+    }
+
+    it('registers a draggable when the item takes part in ordering', async () => {
+      const item = await renderItem({ mobility: 'free' });
+
+      expect(item.hasAttribute('draggable')).toBe(true);
+    });
+
+    it('does not register a draggable when the item is fixed', async () => {
+      const item = await renderItem({ mobility: 'fixed' });
+
+      expect(item.hasAttribute('draggable')).toBe(false);
+    });
+
+    // A fixed row is still an ordered participant: it anchors drops for its
+    // orderable neighbours, so its drop target must stay registered.
+    it('still registers a drop target when the item is fixed', async () => {
+      const item = await renderItem({ mobility: 'fixed' });
+
+      expect(item.hasAttribute('data-drop-target-for-element')).toBe(true);
+    });
+
+    it('treats a missing mobility attribute as free', async () => {
+      const item = await renderItem({});
+
+      expect(item.hasAttribute('draggable')).toBe(true);
+    });
+
+    it('focuses its focus target', async () => {
+      const item = await renderItem({ mobility: 'free', withFocusTarget: true });
+      const controller = controllerFor(item);
+
+      controller.focusItem();
+
+      expect(document.activeElement).toBe(item.querySelector('[data-sortable-lists--item-target~="focus"]'));
+    });
+
+    it('focuses itself when it has no focus target', async () => {
+      const item = await renderItem({ mobility: 'free' });
+      const controller = controllerFor(item);
+
+      controller.focusItem();
+
+      expect(document.activeElement).toBe(item);
+    });
+
+    it('collapses the batch onto the dragged item when a drag starts', async () => {
+      const item = await renderItem({ mobility: 'free' });
+      const controller = controllerFor(item);
+      const collapseSelectionForDrag = vi.fn();
+      const root:SortableListsRoot = {
+        element: item,
+        busy: false,
+        moveInDirection: vi.fn(),
+        moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
+        ownerRowsContainer: vi.fn(() => null),
+        collapseSelectionForDrag,
+      };
+
+      controller.connectRoot(root);
+
+      vi.mocked(draggable).mock.lastCall?.[0].onDragStart?.(dragEventPayload(item));
+
+      expect(collapseSelectionForDrag).toHaveBeenCalledWith(item);
     });
   });
 });
