@@ -83,5 +83,13 @@ RSpec.describe Backlogs::WorkPackagesController do
         project_id: "project_42"
       )
     }
+
+    it {
+      expect(put("/projects/project_42/backlogs/work_packages/move")).to route_to(
+        controller: "backlogs/work_packages",
+        action: "move_collection",
+        project_id: "project_42"
+      )
+    }
   end
 end

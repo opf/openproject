@@ -99,6 +99,7 @@ Rails.application.routes.draw do
         collection do
           get :add_existing_dialog
           post :add_existing
+          put :move, action: :move_collection
         end
 
         member do
