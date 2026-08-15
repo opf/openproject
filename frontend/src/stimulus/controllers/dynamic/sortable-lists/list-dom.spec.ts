@@ -28,7 +28,11 @@
 
 import {
   captureRowPositions,
+  isConfinedItem,
+  isOrderableItem,
+  itemMobility,
   reorderRows,
+  sortableItemMobilityAttribute,
   resolveDirectionalPreviousItemId,
   resolveMoveAvailability,
   resolveListAppendPreviousItemId,
@@ -355,6 +359,47 @@ describe('sortable lists DOM helpers', () => {
 
       expect(rowsRemainAt(optimistic)).toBe(false);
     });
+  });
+});
+
+describe('itemMobility', () => {
+  function itemWith(mobility?:string):HTMLElement {
+    const item = document.createElement('li');
+    item.setAttribute('data-sortable-lists--item-id-value', '1');
+
+    if (mobility !== undefined) {
+      item.setAttribute(sortableItemMobilityAttribute, mobility);
+    }
+
+    return item;
+  }
+
+  it('defaults a missing attribute to free', () => {
+    expect(itemMobility(itemWith())).toBe('free');
+  });
+
+  it.each(['fixed', 'confined', 'free'])('reads the recognised value %s', (value) => {
+    expect(itemMobility(itemWith(value))).toBe(value);
+  });
+
+  // A typo must not hand the user a draggable, selectable card that only
+  // fails once the request comes back.
+  it('falls back to fixed for an unrecognised value', () => {
+    expect(itemMobility(itemWith('movable'))).toBe('fixed');
+  });
+
+  it('treats an empty attribute as unrecognised', () => {
+    expect(itemMobility(itemWith(''))).toBe('fixed');
+  });
+
+  it('derives orderable and confined from the union', () => {
+    expect(isOrderableItem(itemWith('free'))).toBe(true);
+    expect(isOrderableItem(itemWith('confined'))).toBe(true);
+    expect(isOrderableItem(itemWith('fixed'))).toBe(false);
+
+    expect(isConfinedItem(itemWith('confined'))).toBe(true);
+    expect(isConfinedItem(itemWith('free'))).toBe(false);
+    expect(isConfinedItem(itemWith('fixed'))).toBe(false);
   });
 });
 

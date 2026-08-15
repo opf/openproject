@@ -26,9 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+
 // Sortable lists use a DOM contract shared by the root and item controllers:
 // the root has data-controller~="sortable-lists"; lists are sortable-lists--list
-// controllers wired to the root via outlets; items expose sortable-lists--item values;
+// controllers wired to the root via outlets; items expose sortable-lists--item
+// values and a mobility, which says what ordering the item takes part in; an
+// item that takes none still participates in list order and accepts drops;
 // sparse non-item rows may expose data-sortable-lists-prev-item-id.
 //
 // This module holds the drag-and-drop-agnostic half of that contract: reading
@@ -41,6 +45,18 @@ export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
 export const sortableListSelector = '[data-controller~="sortable-lists--list"]';
 export const sortablePreviousItemIdAttribute = 'data-sortable-lists-prev-item-id';
 export const sortableOmittedCountAttribute = 'data-sortable-lists-omitted-count';
+export const sortableItemMobilityAttribute = 'data-sortable-lists--item-mobility-value';
+
+/**
+ * What ordering an item takes part in.
+ *
+ * `fixed` takes no part at all: no drag, no positional move, no selection.
+ * `confined` reorders within its own list but is refused by every other
+ * container. `free` may move to any list that accepts its type.
+ */
+export type ItemMobility = 'fixed'|'confined'|'free';
+
+const recognisedMobilities = new Set<string>(['fixed', 'confined', 'free']);
 
 // Rows are the direct children of the list's resolved rows container. The
 // rows container itself (a nested <ul>, the list element, ...) is decided by the list
@@ -70,6 +86,37 @@ export function resolveItemId(element:Element):string|null {
 }
 
 export const sortableItemTypeAttribute = 'data-sortable-lists--item-type-value';
+
+/**
+ * The item's mobility.
+ *
+ * An absent attribute means `free`, so a consumer that renders no mobility
+ * keeps working. A present but unrecognised value fails closed to `fixed`: a
+ * typo must not hand the user a draggable card, live move actions and a
+ * selectable row that only fail once the request comes back.
+ */
+export function itemMobility(itemElement:Element):ItemMobility {
+  const value = itemElement.getAttribute(sortableItemMobilityAttribute);
+
+  if (value === null) {
+    return 'free';
+  }
+
+  if (!recognisedMobilities.has(value)) {
+    debugLog(`sortable-lists: unrecognised mobility "${value}", treating the item as fixed`);
+    return 'fixed';
+  }
+
+  return value as ItemMobility;
+}
+
+export function isOrderableItem(itemElement:Element):boolean {
+  return itemMobility(itemElement) !== 'fixed';
+}
+
+export function isConfinedItem(itemElement:Element):boolean {
+  return itemMobility(itemElement) === 'confined';
+}
 
 export function resolveItemType(element:Element):string|null {
   const type = element.getAttribute(sortableItemTypeAttribute);
