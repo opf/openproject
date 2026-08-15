@@ -101,6 +101,9 @@ export interface SortableListsRoot {
   // The rows container of the item's innermost owning list, or null when the
   // item is not (yet) inside a list the root knows about.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
+  // A drag moves exactly one item until AGILE-278 lands, so it collapses any
+  // wider batch onto the dragged card.
+  collapseSelectionForDrag(itemElement:HTMLElement):void;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
