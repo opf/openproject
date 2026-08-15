@@ -343,7 +343,7 @@ fr:
         token_name: Nom du jeton
       type:
         attribute_groups: Configuration du formulaire
-        children: Variants
+        children: Variantes
         color: Couleur
         dependent_configuration_links: Types liés
         description: Texte par défaut pour la description
@@ -1029,7 +1029,7 @@ fr:
           heading: Rendre ce commentaire public ?
           title: Rendre ce commentaire public ?
         internal_journal: Les commentaires internes sont visibles pour un groupe limité de membres.
-        label_activity_hide_meetings: Hide meetings updates
+        label_activity_hide_meetings: Masquer les mises à jour relatives aux réunions
         label_activity_show_all: Tout afficher
         label_activity_show_only_changes: Afficher uniquement les modifications
         label_activity_show_only_comments: Afficher uniquement les commentaires
@@ -1517,22 +1517,22 @@ fr:
           error: La section n'a pas pu être réordonnée.
       versions_and_categories:
         banner:
-          button_more_information: More information
-          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+          button_more_information: Plus d'informations
+          message: Des changements importants vont prochainement être apportés aux versions et aux catégories. Veuillez examiner attentivement les paramètres suivants.
         categories:
-          heading: Categories
+          heading: Catégories
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Category” field will be renamed “Categories”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
-            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+            heading: Modifications prévues dans une prochaine version
+            renamed: Le champ « Catégorie » sera renommé « Catégories ».
+            single_value: Ce champ n'accepte actuellement qu'une seule valeur. Il sera également modifié pour permettre la saisie de plusieurs valeurs.
+            upcoming_choice: Vous pourrez choisir d'activer plusieurs valeurs avant que cette conversion automatique n'ait lieu.
         dialog:
-          checkbox_label: I understand that this action is not reversible
-          confirm_button: Enable
-          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
-          heading: Enable multiple target versions?
-          irreversible_notice: Once enabled, it will not be possible to go back to single values.
-          title: Enable multiple target versions
+          checkbox_label: Je comprends que cette action n'est pas réversible
+          confirm_button: Activer
+          description_html: Cette opération permettra de transformer le champ « Version », qui n'accepte actuellement qu'une seule valeur, en un champ pouvant accepter plusieurs valeurs. Aucune donnée ne sera perdue, mais cela pourrait avoir une incidence sur les intégrations personnalisées. Veuillez consulter la <a href="%{link}" target="_blank" rel="noopener">documentation</a> avant de poursuivre.
+          heading: Activer plusieurs versions cibles ?
+          irreversible_notice: Une fois cette option activée, il ne sera plus possible de revenir à l'affichage des valeurs individuelles.
+          title: Activer plusieurs versions cibles
         target_versions:
           action_required:
             button: Enable multiple values
@@ -1545,7 +1545,7 @@ fr:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -4772,8 +4772,8 @@ fr:
   project:
     archive:
       archived: Archivé
-      confirmation_heading: Are you sure you want to continue?
-      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
+      confirmation_heading: Voulez-vous vraiment continuer ?
+      confirmation_message: L'archivage de ce projet rendra celui-ci, ainsi que tous ses descendants, inaccessibles à tous les utilisateurs de cette instance. Les projets archivés peuvent être restaurés.
       title: Archiver le projet
     count:
       one: 1 projet
@@ -5394,7 +5394,7 @@ fr:
   setting_work_package_done_ratio_status_caption_html: Chaque statut est associé à une valeur de <i>% d'achèvement</i>. Le changement de statut modifie le <i>% d'achèvement</i>.
   setting_work_package_list_default_highlighted_attributes: Attributs en ligne mis en surbrillance par défaut
   setting_work_package_list_default_highlighting_mode: Mode de surbrillance par défaut
-  setting_work_package_multiple_versions: Multiple target versions
+  setting_work_package_multiple_versions: Plusieurs versions cibles
   setting_work_package_properties: Propriétés du lot de travaux
   setting_work_package_startdate_is_adddate: Utiliser la date actuelle comme date de début des nouveaux lots de travaux
   setting_work_packages_identifier_classic: Séquence numérique à l'échelle de l'instance (par défaut)
@@ -5814,7 +5814,7 @@ fr:
   text_journal_file_link_deleted: Lien %{label} vers %{old} (%{storage}) supprimé
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
-  text_journal_permission_denied: You do not have permission to see this journal activity.
+  text_journal_permission_denied: Vous n'êtes pas autorisé(e) à consulter cette activité du journal.
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_set_with_diff: "%{label} mis (%{link})"
   text_latest_note: 'Le dernier commentaire est : %{note}'
