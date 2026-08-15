@@ -88,7 +88,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'), showMoreRow(), itemRow('2'), itemRow('3'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '3', rowsContainer: list })).toEqual('2');
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['3']) }, rowsContainer: list })).toEqual('2');
     });
 
     it('returns null when the list has no other items', () => {
@@ -96,7 +96,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '1', rowsContainer: list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['1']) }, rowsContainer: list })).toBeNull();
     });
 
     it('returns null for an empty list nested inside an outer item, not the outer item\'s id', () => {
@@ -112,7 +112,19 @@ describe('sortable lists DOM helpers', () => {
       list.append(placeholder);
       outerItem.append(list);
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: 'field-1', rowsContainer: list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['field-1']) }, rowsContainer: list })).toBeNull();
+    });
+
+    it('appends after the last row not in the excluded set', () => {
+      // rows: A, B, C — excluded {B, C} → append lands after A.
+      const rowsContainer = listElement();
+
+      rowsContainer.append(itemRow('A'), itemRow('B'), itemRow('C'));
+
+      expect(resolveListAppendPreviousItemId({
+        excludedItems: { type: 'work_package', ids: new Set(['B', 'C']) },
+        rowsContainer,
+      })).toBe('A');
     });
   });
 
