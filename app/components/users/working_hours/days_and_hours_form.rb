@@ -135,7 +135,9 @@ class Users::WorkingHours::DaysAndHoursForm < ApplicationForm
   end
 
   def day_hours(day)
-    "#{model.public_send("#{day}_hours").round(2)}h"
+    # #{day}_hours is nil for a day with no minutes value at all (e.g. omitted from a create
+    # payload that failed validation) -- render it as 0h rather than crashing on nil.round.
+    "#{(model.public_send("#{day}_hours") || 0).round(2)}h"
   end
 
   def all_same_hours?
