@@ -48,5 +48,35 @@ RSpec.describe Storages::Storages::UpdateContract do
 
       include_examples "contract is valid"
     end
+
+    context "when host is unchanged from an already-persisted insecure value" do
+      let(:storage_host) { "http://nc.openproject.com" }
+
+      before { storage.clear_changes_information }
+
+      context "when only name changes" do
+        before { storage.name = "Renamed storage" }
+
+        include_examples "contract is valid"
+
+        it "does not perform metadata discovery requests" do
+          contract.validate
+
+          expect(WebMock).not_to have_requested(:get, "http://nc.openproject.com/ocs/v2.php/cloud/capabilities")
+        end
+      end
+
+      context "when host is also changed to a new insecure value" do
+        before { storage.host = "http://another-unsafe-host.example" }
+
+        include_examples "contract is invalid", host: :url_not_secure_context
+
+        it "does not perform metadata discovery requests" do
+          contract.validate
+
+          expect(WebMock).not_to have_requested(:get, "http://another-unsafe-host.example/ocs/v2.php/cloud/capabilities")
+        end
+      end
+    end
   end
 end

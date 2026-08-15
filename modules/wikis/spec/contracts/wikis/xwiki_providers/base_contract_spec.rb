@@ -75,5 +75,24 @@ RSpec.describe Wikis::XWikiProviders::BaseContract do
 
       include_examples "contract is invalid", url: :too_long
     end
+
+    context "when unchanged from an already-persisted insecure value" do
+      let(:current_user) { build_stubbed(:admin) }
+      let(:wiki_provider) { build_stubbed(:xwiki_provider, url: "http://xwiki.example.com") }
+
+      before { wiki_provider.clear_changes_information }
+
+      context "when only name changes" do
+        before { wiki_provider.name = "Renamed provider" }
+
+        include_examples "contract is valid"
+      end
+
+      context "when url is also changed to a new insecure value" do
+        before { wiki_provider.url = "http://another-unsafe-host.example" }
+
+        include_examples "contract is invalid", url: :url_not_secure_context
+      end
+    end
   end
 end

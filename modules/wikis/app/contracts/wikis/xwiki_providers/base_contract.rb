@@ -39,7 +39,10 @@ module Wikis
       validates :name, presence: true, length: { maximum: 255 }
       validates :url, presence: true, length: { maximum: 255 }
       validates :url, url: true, unless: -> { url.blank? || errors.include?(:url) }
-      validates :url, secure_context_uri: true, unless: -> { url.blank? || errors.include?(:url) }
+      # Only re-check secure_context_uri when url is actually changing -- otherwise an unrelated
+      # update (e.g. renaming the provider) re-rejects an already-accepted url.
+      validates :url, secure_context_uri: true,
+                       unless: -> { url.blank? || errors.include?(:url) || !model.url_changed? }
 
       validate :not_configured_from_env
 
