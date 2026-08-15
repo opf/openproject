@@ -25,33 +25,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++%>
 
-<%# Attributes on this frame tag are ignored; only its children are reconciled — set them in show.html.erb. %>
-<%= turbo_frame_tag "backlogs_container" do %>
-  <%# Rendered once for the whole page: every selected card in either column
-      points its `aria-describedby` at this one element. %>
-  <%= render(Backlogs::SelectionDescriptionComponent.new) %>
-
-  <div class="op-sprint-planning-container">
-    <div id="owner_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
-      <%=
-        render Backlogs::BacklogComponent.new(
-          buckets: @backlog_buckets,
-          work_packages_by_backlog_id: @work_packages_by_backlog_id,
-          project: @project
-        )
-      %>
-    </div>
-    <div id="sprint_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
-      <%=
-        render Backlogs::SprintsComponent.new(
-          sprints: @sprints,
-          project: @project,
-          work_packages_by_sprint_id: @work_packages_by_sprint_id,
-          active_sprints: @active_sprints
-        )
-      %>
-    </div>
-  </div>
+<%# Permanently hidden: `aria-describedby` reaches it regardless, and the
+    planning columns keep their geometry. %>
+<%= render(Primer::Box.new(tag: :span, id: DESCRIPTION_ID, hidden: true)) do %>
+  <%= I18n.t("js.backlogs.selection.card_state") %>
 <% end %>

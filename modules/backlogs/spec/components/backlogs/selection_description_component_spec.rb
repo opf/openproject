@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,25 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
----
-en:
-  js:
-    backlogs:
-      selection:
-        card_state: "Selected"
-        cleared: "Selection cleared."
-        not_selectable: "Selection unchanged. This work package takes no part in this list's ordering."
-        range_blocked: "Selection unchanged. That range contains a work package that takes no part in this list's ordering."
-        range_restarted:
-          one: "Could not extend the range. 1 work package selected."
-          other: "Could not extend the range. %{count} work packages selected."
-        range_unavailable: "Selection unchanged. Expand this list to select that range."
-        selected:
-          one: "1 work package selected."
-          other: "%{count} work packages selected."
-    burndown:
-      day: "Day"
-      points: "Points"
-    work_packages:
-      properties:
-        storyPoints: "Story Points"
+require "rails_helper"
+
+RSpec.describe Backlogs::SelectionDescriptionComponent, type: :component do
+  subject(:rendered_component) { render_inline(described_class.new) && page }
+
+  # `visible: :all` because the element is permanently `hidden`, which is the
+  # one form of invisibility Capybara::Node::Simple does honour.
+
+  it "renders the description every selected card points at" do
+    expect(rendered_component)
+      .to have_css("##{described_class::DESCRIPTION_ID}", text: I18n.t("js.backlogs.selection.card_state"),
+                                                          visible: :all)
+  end
+
+  # `hidden` keeps this out of the planning columns' layout: reserving space
+  # above two independently scrolling columns moved the cards under the user's
+  # cursor mid-drag.
+  it "keeps the description hidden, since only aria-describedby reaches it" do
+    expect(rendered_component).to have_css("##{described_class::DESCRIPTION_ID}[hidden]", visible: :all)
+  end
+end
