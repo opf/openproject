@@ -228,9 +228,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
       },
       getInitialData: () => this.getItemData(),
       onDragStart: () => {
-        // One drag moves one item until AGILE-278 lands, so a wider batch
-        // collapses onto it rather than appearing to come along.
-        this.root?.collapseSelectionForDrag(this.element);
+        // Frozen at drag start, so nothing later in the drag changes what
+        // gets moved.
+        this.root?.beginDragBatch(this.element);
         // Cancels drops landing outside registered drop targets. This also
         // guards the external data channel: a misdropped card carrying
         // text/uri-list would otherwise navigate the current tab to that URL.
@@ -243,20 +243,43 @@ export default class ItemController extends Controller<HTMLElement> implements R
         this.element.removeAttribute('data-dragging');
       },
       onGenerateDragPreview: ({ location, nativeSetDragImage }) => {
+        // Pragmatic dispatches this before onDragStart, so the batch has to
+        // be frozen by the time the preview renders. beginDragBatch is
+        // idempotent, and onDragStart keeps its own call for items that skip
+        // this callback entirely.
+        this.root?.beginDragBatch(this.element);
+
         if (!this.hasPreviewTarget) {
           return;
         }
 
+        const frozenBatchCount = this.root?.activeDragBatchCount() ?? 0;
+        const batchSize = frozenBatchCount > 0 ? frozenBatchCount : 1;
+
         setCustomNativeDragPreview({
           nativeSetDragImage,
-          getOffset: preserveOffsetOnSource({
-            element: this.previewTarget,
-            input: location.current.input,
-          }),
+          // preserveOffsetOnSource assumes the card sits at the container's
+          // origin, but a batch preview pads the container's top for the
+          // badge overhang and shifts the card down by it. Measured off the
+          // container, so the stylesheet stays the single source of the
+          // geometry; a single-card preview measures 0.
+          getOffset: (args) => {
+            const offset = preserveOffsetOnSource({
+              element: this.previewTarget,
+              input: location.current.input,
+            })(args);
+
+            return {
+              x: offset.x,
+              // A detached container's computed style resolves empty.
+              y: offset.y + (parseFloat(getComputedStyle(args.container).paddingTop) || 0),
+            };
+          },
           render: ({ container }) => renderDragPreview({
             previewTarget: this.previewTarget,
             sourceElement: this.element,
             container,
+            batchSize,
           }),
         });
       },
@@ -367,7 +390,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
       sourceListElement: this.root?.ownerListElementOf(this.element) ?? null,
-      confined: isConfinedItem(this.element),
+      // A rootless item can carry no batch, so its own mobility is the
+      // whole answer.
+      confined: this.root?.dragConfined(this.element) ?? isConfinedItem(this.element),
     });
   }
 

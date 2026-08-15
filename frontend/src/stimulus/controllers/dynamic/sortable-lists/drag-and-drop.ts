@@ -40,12 +40,15 @@ import {
 import { getElementFromPointWithoutHoneypot } from '@atlaskit/pragmatic-drag-and-drop/private/get-element-from-point-without-honey-pot';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
+  isExcludedItem,
   resolveClosestItemElement,
   resolveItemElement,
   resolveItemId,
+  resolveItemType,
   resolveListAppendPreviousItemId,
-  resolvePreviousItemId,
+  resolvePreviousItem,
   rowOf,
+  type ExcludedItems,
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
@@ -66,7 +69,9 @@ export interface SortableItemData extends Record<string|symbol, unknown> {
   // the payload so drop targets can decide without walking the DOM.
   sourceListElement:HTMLElement|null;
   // A confined item may only land in sourceListElement or one of its rows;
-  // every other container refuses it. See confinementAllowsDrop.
+  // every other container refuses it. See confinementAllowsDrop. Batch-aware:
+  // a free item dragging confined batch-mates is itself confined, since the
+  // whole batch either lands together or not at all.
   confined:boolean;
 }
 
@@ -101,9 +106,16 @@ export interface SortableListsRoot {
   // The rows container of the item's innermost owning list, or null when the
   // item is not (yet) inside a list the root knows about.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
-  // A drag moves exactly one item until AGILE-278 lands, so it collapses any
-  // wider batch onto the dragged card.
-  collapseSelectionForDrag(itemElement:HTMLElement):void;
+  // Freezes the batch this drag represents: the full selection when the
+  // dragged item belongs to it, otherwise that item alone.
+  beginDragBatch(itemElement:HTMLElement):void;
+  // The size of the batch frozen by the most recent beginDragBatch call, for
+  // the drag preview's count badge; 0 before any drag has begun.
+  activeDragBatchCount():number;
+  // Asked while the drag payload is built, which Pragmatic dispatches before
+  // beginDragBatch freezes the batch, so the answer comes from the live
+  // selection in the same synchronous dragstart turn.
+  dragConfined(itemElement:HTMLElement):boolean;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
@@ -181,13 +193,16 @@ export function buildMoveFormData({
   listId,
   previousItemId,
   type,
+  itemIds = null,
 }:{
   listId:string|null;
   previousItemId:string|null;
   type:string;
+  itemIds?:string[]|null;
 }):FormData {
   const data = new FormData();
 
+  itemIds?.forEach((id) => data.append('ids[]', id));
   data.append('list_type', type);
   data.append('list_id', listId ?? '');
   data.append('prev_id', previousItemId ?? '');
@@ -229,12 +244,12 @@ export function confinementAllowsDrop(
 }
 
 export function resolvePreviousSortableItemId({
-  sourceItemId,
+  excludedItems,
   targetItem,
   closestEdge,
   rowsContainer,
 }:{
-  sourceItemId:string;
+  excludedItems:ExcludedItems;
   targetItem:HTMLElement;
   closestEdge:Edge|null;
   rowsContainer:Element;
@@ -242,7 +257,8 @@ export function resolvePreviousSortableItemId({
   const targetItemElement = resolveItemElement(targetItem, rowsContainer);
   const targetItemId = targetItemElement ? resolveItemId(targetItemElement) : null;
 
-  if (closestEdge === 'bottom' && targetItemId !== sourceItemId) {
+  if (closestEdge === 'bottom' && targetItemElement && targetItemId !== null
+    && !isExcludedItem(excludedItems, { id: targetItemId, type: resolveItemType(targetItemElement) })) {
     return targetItemId;
   }
 
@@ -250,9 +266,9 @@ export function resolvePreviousSortableItemId({
   let row = targetRow?.previousElementSibling ?? null;
 
   while (row) {
-    const itemId = resolvePreviousItemId(row, rowsContainer);
-    if (itemId && itemId !== sourceItemId) {
-      return itemId;
+    const item = resolvePreviousItem(row, rowsContainer);
+    if (item && !isExcludedItem(excludedItems, item)) {
+      return item.id;
     }
 
     row = row.previousElementSibling;
@@ -265,11 +281,11 @@ export function resolvePreviousSortableItemId({
 // the position the target list declares: 'start' inserts before the first row
 // (null previous item), 'end' appends after the last.
 function resolveListOnlyPreviousItemId({
-  sourceItemId,
+  excludedItems,
   rowsContainer,
   dropPosition,
 }:{
-  sourceItemId:string;
+  excludedItems:ExcludedItems;
   rowsContainer:HTMLElement;
   dropPosition:SortableListDropPosition;
 }):string|null {
@@ -277,7 +293,7 @@ function resolveListOnlyPreviousItemId({
     return null;
   }
 
-  return resolveListAppendPreviousItemId({ sourceItemId, rowsContainer });
+  return resolveListAppendPreviousItemId({ excludedItems, rowsContainer });
 }
 
 export interface DropIntent {
@@ -297,10 +313,12 @@ export function resolveDropIntent({
   location,
   root,
   sourceData,
+  excludedItems = { type: sourceData.type, ids: new Set([sourceData.itemId]) },
 }:{
   location:DragLocationHistory;
   root:HTMLElement;
   sourceData:SortableItemData;
+  excludedItems?:ExcludedItems;
 }):DropIntent|null {
   const targetItem = location.current.dropTargets.find(
     (target):target is typeof target & { data:SortableItemData; element:HTMLElement } => (
@@ -346,13 +364,13 @@ export function resolveDropIntent({
 
   const previousItemId = targetItem
     ? resolvePreviousSortableItemId({
-      sourceItemId: sourceData.itemId,
+      excludedItems,
       targetItem: targetItem.element,
       closestEdge: extractClosestEdge(targetItem.data),
       rowsContainer,
     })
     : resolveListOnlyPreviousItemId({
-      sourceItemId: sourceData.itemId,
+      excludedItems,
       rowsContainer,
       dropPosition: listData.dropPosition,
     });

@@ -26,6 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { html, render } from 'lit-html';
+
 // Builds the custom native drag preview for a sortable item: a sanitised clone
 // of the item's preview target, sized to match and carrying the originating
 // Box's density so its card styling survives being mounted outside the Box.
@@ -54,14 +56,32 @@ const PREVIEW_STRIPPED_ATTRIBUTES = [
 // `.Box--condensed .Box-card`) would not apply to it otherwise.
 const BOX_DENSITY_VARIANT_CLASSES = ['Box--condensed', 'Box--spacious'] as const;
 
+// The count badge on a multi-card drag's preview, styled on Primer's Counter
+// contract plus this class for the positioning Counter does not own. The
+// native drag snapshot is taken synchronously at dragstart, before an Angular
+// element would have painted, so it cannot be a custom element.
+const BATCH_BADGE_CLASS = 'op-sortable-lists-drag-preview-batch-badge';
+
+// The badge's overhang as container padding, so nothing paints past the
+// border box: Firefox folds such overflow into the drag snapshot and shifts
+// its origin off the grab offset. Inline because Pragmatic inline-resets the
+// popover container (padding: 0 among others) before handing it to render(),
+// and only a later inline write outranks that. The item controller reads the
+// padding back off the container to compensate the grab offset.
+const BATCH_BADGE_OVERHANG_PX = 8;
+
 export function renderDragPreview({
   previewTarget,
   sourceElement,
   container,
+  batchSize = 1,
 }:{
   previewTarget:HTMLElement;
   sourceElement:HTMLElement;
   container:HTMLElement;
+  // A batch larger than one card adds a count badge, so a multi-card drag
+  // reads differently from a single one.
+  batchSize?:number;
 }):void {
   const previewWidth = previewTarget.getBoundingClientRect().width;
   const preview = previewTarget.cloneNode(true) as HTMLElement;
@@ -86,6 +106,25 @@ export function renderDragPreview({
   });
 
   container.append(preview);
+
+  if (batchSize > 1) {
+    // Anchors the badge to the container rather than whatever ancestor
+    // Pragmatic mounts it under, and pads it for the overhang.
+    container.style.position = 'relative';
+    container.style.paddingTop = `${BATCH_BADGE_OVERHANG_PX}px`;
+    container.style.paddingRight = `${BATCH_BADGE_OVERHANG_PX}px`;
+    renderBatchBadge(container, batchSize);
+  }
+}
+
+// Absolutely positioned over the card clone's top-right corner; the
+// container's padding is the overhang it sits in (drag_and_drop.sass).
+//
+// render() is safe on a container that already holds the preview clone: it
+// inserts a marker before its own end node and manages content from there
+// on, rather than clearing pre-existing children.
+function renderBatchBadge(container:HTMLElement, batchSize:number):void {
+  render(html`<span class="Counter Counter--primary ${BATCH_BADGE_CLASS}">${batchSize}</span>`, container);
 }
 
 export function sanitizePreview(element:HTMLElement):void {

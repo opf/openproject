@@ -168,5 +168,97 @@ describe('sortable lists drag preview', () => {
       expect(container.classList.contains('Box--condensed')).toBe(false);
       expect(container.classList.contains('Box--spacious')).toBe(false);
     });
+
+    describe('batch count badge', () => {
+      const badgeSelector = '.op-sortable-lists-drag-preview-batch-badge';
+
+      it('adds no badge for a single-card drag (the default)', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({ previewTarget: target, sourceElement: target, container });
+
+        expect(container.querySelector(badgeSelector)).toBeNull();
+        expect(container.style.paddingTop).toEqual('');
+        expect(container.style.paddingRight).toEqual('');
+      });
+
+      it('adds no badge when batchSize is explicitly 1', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 1,
+        });
+
+        expect(container.querySelector(badgeSelector)).toBeNull();
+      });
+
+      it('adds a badge with the batch count inside the container for a multi-card drag', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const badge = container.querySelector(badgeSelector);
+
+        expect(badge).not.toBeNull();
+        expect(badge?.textContent).toEqual('3');
+        expect(container.contains(badge)).toBe(true);
+      });
+
+      it('carries the Primer Counter classes and the batch-badge class', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const badge = container.querySelector(badgeSelector);
+
+        expect(badge?.classList.contains('Counter')).toBe(true);
+        expect(badge?.classList.contains('Counter--primary')).toBe(true);
+        expect(badge?.classList.contains('op-sortable-lists-drag-preview-batch-badge')).toBe(true);
+      });
+
+      it('anchors the badge to the container without disturbing the already-appended preview clone', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const preview = container.querySelector('[data-preview]');
+        const badge = container.querySelector(badgeSelector);
+
+        // The preview clone survives lit-html's render() alongside the badge:
+        // both are present in the container at once.
+        expect(preview).not.toBeNull();
+        expect(badge).not.toBeNull();
+        expect(container.contains(preview)).toBe(true);
+        expect(container.contains(badge)).toBe(true);
+      });
+
+      // The padding holds the badge's overhang inside the container's border
+      // box. It has to be written inline and after Pragmatic's own popover
+      // reset (padding: 0), which the pre-zeroed padding here reproduces.
+      it('pads the container inline past Pragmatic popover reset for a multi-card drag', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+        container.style.padding = '0';
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(container.style.position).toEqual('relative');
+        expect(container.style.paddingTop).toEqual('8px');
+        expect(container.style.paddingRight).toEqual('8px');
+      });
+    });
   });
 });

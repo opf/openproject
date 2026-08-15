@@ -650,4 +650,131 @@ describe('SelectionOrchestrator', () => {
     expect(orchestrator.selectedIds()).toEqual(['2']);
     expect(announceSpy).toHaveBeenCalled();
   });
+
+  describe('batchForDrag', () => {
+    it('returns the frozen ordered selection when the dragged item is selected', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+
+      expect(orchestrator.batchForDrag(item('1'))).toEqual([
+        { type: 'work_package', id: '1' },
+        { type: 'work_package', id: '3' },
+      ]);
+      // the selection itself is untouched:
+      expect(orchestrator.selectedIds()).toEqual(['1', '3']);
+    });
+
+    it('collapses onto an unselected dragged item and returns it alone', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+
+      expect(orchestrator.batchForDrag(item('2'))).toEqual([{ type: 'work_package', id: '2' }]);
+      expect(orchestrator.selectedIds()).toEqual(['2']);
+    });
+
+    it('returns the dragged item alone when nothing is selected, without selecting it', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+
+      expect(orchestrator.batchForDrag(item('2'))).toEqual([{ type: 'work_package', id: '2' }]);
+      expect(orchestrator.selectedIds()).toEqual([]);
+    });
+
+    it('returns empty for a non-orderable item', () => {
+      item('2').setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+
+      expect(orchestrator.batchForDrag(item('2'))).toEqual([]);
+    });
+
+    // Both onGenerateDragPreview and onDragStart call beginDragBatch, so the
+    // second call for one drag must freeze the same batch.
+    it('is idempotent for a selected item: repeated calls freeze the same batch', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+
+      expect(orchestrator.batchForDrag(item('1'))).toEqual([
+        { type: 'work_package', id: '1' },
+        { type: 'work_package', id: '3' },
+      ]);
+      expect(orchestrator.batchForDrag(item('1'))).toEqual([
+        { type: 'work_package', id: '1' },
+        { type: 'work_package', id: '3' },
+      ]);
+    });
+
+    // The first call collapses the wider selection onto the unselected item;
+    // the second finds it selected and returns the same one-id batch.
+    it('is idempotent for an unselected item: the collapse from the first call sticks', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+
+      expect(orchestrator.batchForDrag(item('2'))).toEqual([{ type: 'work_package', id: '2' }]);
+      expect(orchestrator.batchForDrag(item('2'))).toEqual([{ type: 'work_package', id: '2' }]);
+    });
+  });
+
+  // Consulted while the drag payload is built, so it reads the live
+  // selection without freezing or collapsing.
+  describe('prospectiveDragMates', () => {
+    it('returns the ordered selection for a selected member without touching it', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+
+      expect(orchestrator.prospectiveDragMates(item('1'))).toEqual([
+        { type: 'work_package', id: '1' },
+        { type: 'work_package', id: '3' },
+      ]);
+      expect(orchestrator.selectedIds()).toEqual(['1', '3']);
+    });
+
+    it('returns nothing for an unselected item and does not collapse the selection', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+
+      expect(orchestrator.prospectiveDragMates(item('2'))).toEqual([]);
+      expect(orchestrator.selectedIds()).toEqual(['1', '3']);
+    });
+
+    it('returns nothing for a non-orderable item', () => {
+      item('2').setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+
+      expect(orchestrator.prospectiveDragMates(item('2'))).toEqual([]);
+    });
+  });
+
+  describe('clearAfterMove', () => {
+    it('clears model, anchor and presentation without an announcement', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+      announceSpy.mockClear();
+
+      orchestrator.clearAfterMove();
+
+      expect(orchestrator.selectedIds()).toEqual([]);
+      expect(root.querySelectorAll(`[${batchSelectedAttribute}]`)).toHaveLength(0);
+      // silent: no "cleared" announcement
+      expect(announceSpy).not.toHaveBeenCalledWith(
+        expect.stringContaining('cleared'), expect.anything(),
+      );
+
+      // anchor gone: a following Shift-range starts fresh from the next
+      // click, selecting only the clicked card rather than extending.
+      orchestrator.handleClick(clickOn(item('2'), { shiftKey: true }));
+      expect(orchestrator.selectedIds()).toEqual(['2']);
+    });
+
+    it('is a no-op with nothing selected', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+
+      expect(() => orchestrator.clearAfterMove()).not.toThrow();
+    });
+  });
 });

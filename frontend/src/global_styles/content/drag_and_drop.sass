@@ -45,3 +45,32 @@
 
   &:active
     cursor: grabbing
+
+// Multi-card batch count badge on a drag preview, on Primer's Counter
+// contract plus the positioning Counter does not own and the accent skin the
+// drop indicator uses.
+//
+// top/right 0 places it in the container padding renderDragPreview writes
+// inline: the badge overlaps the card's corner while staying inside the
+// container's border box, which Firefox needs — it folds any paint past that
+// box into the drag snapshot and shifts its origin off the grab offset.
+.op-sortable-lists-drag-preview-batch-badge
+  position: absolute
+  top: 0
+  right: 0
+  min-width: 20px
+  height: 20px
+  padding: 0 6px
+  border-radius: 999px
+  background-color: var(--bgColor-accent-emphasis)
+  color: var(--fgColor-onEmphasis)
+  font-size: 12px
+  font-weight: 600
+  line-height: 20px
+  text-align: center
+  box-shadow: var(--shadow-floating-medium)
+
+  // The blur past the container's border box would shift Firefox's snapshot
+  // origin like the overhang above.
+  .-browser-firefox &
+    box-shadow: none
