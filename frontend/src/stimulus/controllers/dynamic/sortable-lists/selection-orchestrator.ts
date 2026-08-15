@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BatchSelection, type SelectionAnchor, type SelectionKey } from 'core-common/batch-selection';
+import { BatchSelection, type SelectionAnchor, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
 import { announce } from '@primer/live-region-element';
 import { resolveItemId, resolveItemType } from './list-dom';
 import {
@@ -88,9 +88,29 @@ export class SelectionOrchestrator {
 
   constructor(private readonly host:SelectionHost) {}
 
-  // Live ordered membership, for AGILE-278's batch move.
+  // Live ordered membership, for the batch move. Full (type, id) pairs:
+  // ids collide across source tables.
+  selectedItems():SelectionItem[] {
+    return orderedSelectedItems(this.host.rootElement, this.selection.keys);
+  }
+
   selectedIds():string[] {
-    return orderedSelectedItems(this.host.rootElement, this.selection.keys).map((item) => item.id);
+    return this.selectedItems().map((item) => item.id);
+  }
+
+  // Resolved without freezing or collapsing anything: it runs while the drag
+  // payload is built, before beginDragBatch freezes the batch.
+  prospectiveDragMates(itemElement:HTMLElement):SelectionItem[] {
+    const candidate = resolveCandidate(this.host.rootElement, itemElement);
+    if (!candidate?.orderable) {
+      return [];
+    }
+
+    if (this.selection.size > 0 && this.selection.has({ type: candidate.type, id: candidate.id })) {
+      return orderedSelectedItems(this.host.rootElement, this.selection.keys);
+    }
+
+    return [];
   }
 
   // A menu move relocates exactly one card, so it collapses like a drag.
@@ -119,6 +139,37 @@ export class SelectionOrchestrator {
   // Ctrl on Apple is the secondary click, never multi-select.
   private multiSelectModifier(event:MouseEvent|KeyboardEvent):boolean {
     return isApplePlatform() ? event.metaKey : event.ctrlKey;
+  }
+
+  // Dragging a selected item carries the whole live-ordered selection;
+  // dragging an unselected one collapses any wider selection onto it. The
+  // result is a snapshot: re-reading the selection at drop time would let
+  // Escape or a morph change what gets submitted.
+  batchForDrag(itemElement:HTMLElement):SelectionItem[] {
+    const candidate = resolveCandidate(this.host.rootElement, itemElement);
+    if (!candidate?.orderable) {
+      return [];
+    }
+
+    if (this.selection.size > 0 && this.selection.has({ type: candidate.type, id: candidate.id })) {
+      return this.selectedItems();
+    }
+
+    this.collapseForDrag(itemElement);
+    return [{ type: candidate.type, id: candidate.id }];
+  }
+
+  // Silent: the move announcement is the feedback, and "Selection cleared."
+  // on top of it would be noise. renderSelection has no silent mode for a
+  // size change, so presentation and baseline are synced directly.
+  clearAfterMove():void {
+    if (this.selection.size === 0) {
+      return;
+    }
+
+    this.selection.clear();
+    this.syncSelectionPresentation();
+    this.lastRenderedKeys = this.selection.keys;
   }
 
   readonly handleClick = (event:MouseEvent):void => {
