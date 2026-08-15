@@ -118,16 +118,13 @@ module API
                            },
                            if: ->(*) { TimeEntry.can_track_start_and_end_time? }
 
+        # end_time is derived (start_time + hours), never its own column.
         date_time_property :end_time,
                            exec_context: :decorator,
                            getter: ->(*) {
                              datetime_formatter.format_datetime(represented.end_timestamp, allow_nil: true)
                            },
-                           setter: ->(*) {
-                             # end_time is derived (start_time + hours), never its own column --
-                             # silently accept a write attempt without touching the record, same
-                             # as any other purely-computed read-only API property.
-                           },
+                           setter: ->(*) {}, # ignored
                            if: ->(*) { TimeEntry.can_track_start_and_end_time? }
 
         associated_resource :activity,
