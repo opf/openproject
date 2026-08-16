@@ -414,6 +414,11 @@ export class SelectionOrchestrator {
       return;
     }
 
+    if (this.host.busy) {
+      event.preventDefault();
+      return;
+    }
+
     event.preventDefault();
     escapesClearedBySelection.add(event);
     this.selection.clear();
