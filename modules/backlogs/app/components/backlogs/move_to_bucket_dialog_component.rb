@@ -35,22 +35,21 @@ module Backlogs
 
     DIALOG_ID = "move-to-backlog-bucket-dialog"
     FORM_ID = "move-to-backlog-bucket-dialog-form"
+    SELECTION_LABEL_ID = "move-to-backlog-bucket-dialog-selection"
 
-    attr_reader :work_package, :project, :buckets, :move_action
+    attr_reader :work_packages, :buckets, :move_action
 
-    def initialize(work_package:, project:, move_action:)
+    def initialize(work_packages:, buckets:, move_action:)
       super()
 
-      @work_package = work_package
-      @project = project
+      @work_packages = work_packages
+      @buckets = buckets
       @move_action = move_action
-      @buckets = BacklogBucket.where(project:).order_alphabetically
-      @buckets = @buckets.where.not(id: work_package.backlog_bucket_id) if work_package.backlog_bucket_id
     end
 
     private
 
-    def list_type
+    def destination_list_type
       Backlogs::Target::BucketId.new(nil).list_type
     end
   end
