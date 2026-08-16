@@ -745,65 +745,6 @@ describe('SelectionOrchestrator', () => {
     });
   });
 
-  // A menu action relocates one card, so it collapses the batch onto that
-  // card rather than leaving a wider selection to outlive the move.
-  describe('collapseForAction', () => {
-    it('collapses a wider batch onto a member', () => {
-      const orchestrator = new SelectionOrchestrator(hostFor(root));
-      orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
-
-      expect(orchestrator.collapseForAction(item('1'))).toEqual({ kind: 'batch', items: [item('1')] });
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
-    });
-
-    it('collapses a wider batch onto a card outside it', () => {
-      const orchestrator = new SelectionOrchestrator(hostFor(root));
-      orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('2'), { ctrlKey: true }));
-
-      expect(orchestrator.collapseForAction(item('3')).items).toEqual([item('3')]);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['3']);
-    });
-
-    it('leaves an empty selection empty', () => {
-      const orchestrator = new SelectionOrchestrator(hostFor(root));
-
-      expect(orchestrator.collapseForAction(item('2')).items).toEqual([item('2')]);
-      expect(orchestrator.selectedItems()).toEqual([]);
-    });
-
-    it('refuses a fixed card without disturbing the batch', () => {
-      item('3').setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
-      const orchestrator = new SelectionOrchestrator(hostFor(root));
-      orchestrator.handleClick(clickOn(item('1')));
-
-      expect(orchestrator.collapseForAction(item('3'))).toEqual({ kind: 'refused', items: [] });
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
-    });
-
-    it('announces the collapse of a wider batch', () => {
-      const orchestrator = new SelectionOrchestrator(hostFor(root));
-      orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
-      announceSpy.mockClear();
-
-      orchestrator.collapseForAction(item('1'));
-
-      expect(announceSpy.mock.calls.map((call) => call[0])).toEqual(['[selected:1]']);
-    });
-
-    it('stays silent collapsing a single selection onto itself', () => {
-      const orchestrator = new SelectionOrchestrator(hostFor(root));
-      orchestrator.handleClick(clickOn(item('1')));
-      announceSpy.mockClear();
-
-      orchestrator.collapseForAction(item('1'));
-
-      expect(announceSpy).not.toHaveBeenCalled();
-    });
-  });
-
   describe('clearSilently', () => {
     it('clears model, anchor and presentation without an announcement', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));

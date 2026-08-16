@@ -130,13 +130,6 @@ export class SelectionOrchestrator {
     return this.resolveActionScope(itemElement, 'join');
   }
 
-  // A menu action relocates exactly this card, so a wider batch collapses
-  // onto it rather than outliving the move. It must not manufacture a
-  // selection where the user made none: a failed move would otherwise leave
-  // that card selected.
-  collapseForAction(itemElement:HTMLElement):ActionScope {
-    return this.resolveActionScope(itemElement, this.hasSelection ? 'collapse' : 'none');
-  }
 
   private resolveActionScope(itemElement:HTMLElement, mutation:ScopeMutation):ActionScope {
     const candidate = resolveCandidate(this.host.rootElement, itemElement);
