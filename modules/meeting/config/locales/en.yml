@@ -71,6 +71,8 @@ en:
         position: "Position"
         lock_version: "Lock version"
         notes: "Notes"
+      meeting_outcome:
+        kind: "Kind"
       meeting_section:
         title: "Title"
         position: "Position"
