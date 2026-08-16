@@ -53,6 +53,22 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
         headers: { "Accept" => "text/vnd.turbo-stream.html" }
   end
 
+  def load_move_to_sprint_dialog(ids:)
+    post move_to_sprint_dialog_project_backlogs_work_packages_path(project),
+         params: { ids: },
+         headers: { "Accept" => "text/vnd.turbo-stream.html" }
+  end
+
+  def expect_moved_event(ids)
+    expect(response.body).to have_turbo_stream(action: "dispatchEvent") do |streams|
+      expect(streams.size).to eq(1)
+      expect(streams.first["event-name"])
+        .to eq(Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT)
+      expect(JSON.parse(streams.first["detail"]))
+        .to eq("work_package_ids" => ids)
+    end
+  end
+
   context "without the manage_sprint_items permission" do
     let(:permissions) { %i[view_work_packages edit_work_packages view_sprints] }
 
@@ -135,6 +151,65 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
   end
 
   describe "successful moves" do
+    context "with one visible member" do
+      it "reuses the singular move announcement", :aggregate_failures do
+        move_collection(ids: [bucket_wp1.id], list_type: "sprint", list_id: sprint.id)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(
+          ERB::Util.html_escape(
+            I18n.t("backlogs.work_packages.move.moved_announcement",
+                   label: bucket_wp1.to_fs(:caption), list: sprint.name, position: 2, total: 2)
+          )
+        )
+        expect_moved_event([bucket_wp1.id])
+      end
+    end
+
+    context "with two visible members" do
+      it "announces their count, destination, contiguous range, and total", :aggregate_failures do
+        moved_ids = [bucket_wp2.id, bucket_wp1.id]
+
+        move_collection(ids: moved_ids, list_type: "sprint", list_id: sprint.id)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(
+          ERB::Util.html_escape(
+            I18n.t("backlogs.work_packages.move_collection.moved_announcement",
+                   count: 2, list: sprint.name, first: 2, last: 3, total: 3)
+          )
+        )
+        expect(sprint.work_packages_for(project).pluck(:id)).to eq [sprint_wp1.id, *moved_ids]
+        expect_moved_event(moved_ids)
+      end
+    end
+
+    context "with members already persisted at the requested append placement" do
+      it "treats the stale-state submission as success and announces the ordered batch", :aggregate_failures do
+        frozen_ids = [bucket_wp2.id, bucket_wp1.id]
+        load_move_to_sprint_dialog(ids: frozen_ids)
+        expect(response).to have_http_status(:ok)
+
+        concurrently_moved = Backlogs::WorkPackages::BatchUpdateService
+          .new(user:, work_packages: frozen_ids.map { |id| WorkPackage.find(id) })
+          .call(list_type: "sprint", list_id: sprint.id)
+        expect(concurrently_moved).to be_success
+        expect(sprint.work_packages_for(project).pluck(:id)).to eq [sprint_wp1.id, *frozen_ids]
+
+        move_collection(ids: frozen_ids, list_type: "sprint", list_id: sprint.id)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(
+          ERB::Util.html_escape(
+            I18n.t("backlogs.work_packages.move_collection.moved_announcement",
+                   count: 2, list: sprint.name, first: 2, last: 3, total: 3)
+          )
+        )
+        expect(sprint.work_packages_for(project).pluck(:id)).to eq [sprint_wp1.id, *frozen_ids]
+        expect_moved_event(frozen_ids)
+      end
+    end
+
     context "with an optimistic same-list reorder whose block is honored" do
       it "responds with the moved event only, no frame reload", :aggregate_failures do
         move_collection(ids: [sprint_wp1.id], list_type: "sprint", list_id: sprint.id,
@@ -228,6 +303,25 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include(ERB::Util.html_escape(sprint_wp3.reload.to_fs(:caption)))
     end
+
+    it "rejects a destination that becomes unavailable after the dialog loads", :aggregate_failures do
+      frozen_ids = [bucket_wp2.id, bucket_wp1.id]
+      load_move_to_sprint_dialog(ids: frozen_ids)
+      expect(response).to have_http_status(:ok)
+
+      positions_before = WorkPackage.order(:id).pluck(:id, :sprint_id, :backlog_bucket_id, :position)
+      sprint.update!(status: "completed")
+
+      move_collection(ids: frozen_ids, list_type: "sprint", list_id: sprint.id)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include(
+        ERB::Util.html_escape(I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
+      )
+      expect(WorkPackage.order(:id).pluck(:id, :sprint_id, :backlog_bucket_id, :position))
+        .to eq(positions_before)
+      expect(response.body).not_to have_turbo_stream(action: "dispatchEvent")
+    end
   end
 
   describe "invisibility after move" do
@@ -252,6 +346,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
         expect(response.body).to include(
           ERB::Util.html_escape(I18n.t(:notice_work_package_invisible_after_move, count: 1, backlog: bucket.name))
         )
+        expect(response.body).not_to have_turbo_stream(action: "liveRegion")
       end
     end
 
@@ -283,6 +378,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
             I18n.t(:notice_work_package_invisible_after_move, count: 2, backlog: bucket.name)
           )
         )
+        expect(response.body).not_to have_turbo_stream(action: "liveRegion")
       end
     end
   end
