@@ -109,7 +109,8 @@ class Backlogs::WorkPackages::BatchUpdateService
     return stale_batch_failure unless cohort_intact?
 
     lock_destination_row!(destination)
-    return unavailable_target_failure unless target_available?(target)
+    destination_failure = revalidate_destination(target)
+    return destination_failure if destination_failure
 
     anchor_failure = revalidate_anchor(placement, target)
     return anchor_failure if anchor_failure
@@ -267,17 +268,30 @@ class Backlogs::WorkPackages::BatchUpdateService
   # The contract only revalidates a sprint or bucket target when the
   # corresponding column changes, so a same-list reorder never triggers it
   # and a sprint completed after the page loaded stays an accepted
-  # destination. Mirrors the contract's own assignable_sprints and
-  # backlog_bucket_belongs_to_project checks for every placement mode alike.
+  # destination. Judged on freshly loaded rows rather than the batch's
+  # loaded instances: a member's status, and so its mobility, may have
+  # changed since the controller loaded it, which is exactly what this check
+  # under the lock exists to catch.
+  def revalidate_destination(target)
+    return unavailable_target_failure unless target_available?(target)
+
+    refused = destination_availability.refusing(target)
+    refused_members_failure(refused) if refused.any?
+  end
+
   def target_available?(target)
-    case target
-    in Backlogs::Target::SprintId
-      Sprint.assignable(project: batch_project, user:).exists?(id: target.list_id)
-    in Backlogs::Target::BucketId
-      BacklogBucket.for_project(batch_project).exists?(id: target.list_id)
-    in Backlogs::Target::InboxId
-      true
-    end
+    destination_availability.candidate?(target)
+  end
+
+  # Freshly loaded rows, not the batch's loaded instances: a member's status,
+  # and so its mobility, may have changed since the controller loaded it,
+  # which is exactly what this check under the lock exists to catch.
+  def destination_availability
+    @destination_availability ||= Backlogs::WorkPackages::DestinationAvailability.new(
+      project: batch_project,
+      user:,
+      work_packages: WorkPackage.where(id: work_packages.map(&:id)).to_a
+    )
   end
 
   def last_non_batch_member(target)
@@ -316,6 +330,21 @@ class Backlogs::WorkPackages::BatchUpdateService
 
   def unavailable_target_failure
     ServiceResult.failure(message: I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
+  end
+
+  # Refused whole, before any member moves, but naming the members that
+  # refused rather than leaving the caller to guess.
+  def refused_members_failure(members)
+    failure = unavailable_target_failure
+    members.each do |member|
+      failure.add_dependent!(
+        ServiceResult.failure(
+          result: member,
+          message: I18n.t("backlogs.work_packages.batch_update_service.unavailable_target")
+        )
+      )
+    end
+    failure
   end
 
   def mixed_projects_failure
