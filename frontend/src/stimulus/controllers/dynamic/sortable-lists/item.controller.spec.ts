@@ -1750,6 +1750,31 @@ describe('Sortable lists item controller', () => {
       expect(form.querySelectorAll('[data-sortable-lists-generated-id]')).toHaveLength(2);
     });
 
+    it('cancels dialog loading without resolving or mutating the action scope while the root is busy', () => {
+      const element = document.createElement('div');
+      const selectForAction = vi.fn(():ActionScope => ({ kind: 'batch', items: [element] }));
+      const controller = connectedControllerFor(element, {
+        root: { ...fakeRoot(), busy: true, selectForAction },
+      });
+      const form = document.createElement('form');
+      form.innerHTML = '<input name="ids[]" value="stale" data-sortable-lists-generated-id><input name="kept" value="yes">';
+      const staleInput = form.querySelector('[data-sortable-lists-generated-id]');
+      const event = new CustomEvent<{ form:HTMLFormElement|null }>('async-dialog:beforeLoad', {
+        cancelable: true,
+        detail: { form },
+      });
+
+      controller.prepareDialog(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(selectForAction).not.toHaveBeenCalled();
+      expect(form.querySelector('[data-sortable-lists-generated-id]')).toBe(staleInput);
+      expect(Array.from(form.elements).map((input) => [(input as HTMLInputElement).name, (input as HTMLInputElement).value])).toEqual([
+        ['ids[]', 'stale'],
+        ['kept', 'yes'],
+      ]);
+    });
+
     it('cancels dialog loading for a fixed invoker with no batch action scope', () => {
       const element = document.createElement('div');
       element.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');

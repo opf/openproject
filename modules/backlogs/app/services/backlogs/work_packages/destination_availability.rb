@@ -92,7 +92,15 @@ class Backlogs::WorkPackages::DestinationAvailability
   end
 
   def free?(work_package)
-    !work_package.readonly_status?
+    readonly_status_ids.exclude?(work_package.status_id)
+  end
+
+  def readonly_status_ids
+    @readonly_status_ids ||= if Status.can_readonly?
+                               Status.where(id: work_packages.map(&:status_id), is_readonly: true).ids
+                             else
+                               []
+                             end
   end
 
   def current_target(work_package)

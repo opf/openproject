@@ -294,6 +294,29 @@ class Backlogs::WorkPackages::BatchUpdateService
     )
   end
 
+  # Unscoped by policy so completion, deletion and reassignment all resolve
+  # to the same advisory identity. DestinationAvailability stays the
+  # authority once the locks have refreshed state.
+  def raw_destination(target)
+    case target
+    in Backlogs::Target::SprintId
+      Sprint.find_by(id: target.list_id)
+    in Backlogs::Target::BucketId
+      BacklogBucket.find_by(id: target.list_id)
+    in Backlogs::Target::InboxId
+      nil
+    end
+  end
+
+  # lock! reloads under FOR UPDATE, so a concurrent completion, deletion or
+  # reassignment commits before the candidate query above runs. Inbox has no
+  # destination row; its append is serialized by the advisory lock alone.
+  def lock_destination_row!(destination)
+    destination&.lock!
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
   def last_non_batch_member(target)
     WorkPackage
       .visible(user)

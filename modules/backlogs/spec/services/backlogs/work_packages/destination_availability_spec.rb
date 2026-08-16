@@ -100,6 +100,27 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
       expect(result.sprints).to eq [later_sprint]
       expect(result.permitted?(current_target)).to be true
     end
+
+    it "loads read-only status identity in one query for the whole batch",
+       with_ee: %i[readonly_work_packages] do
+      work_packages = create_list(:work_package, 5, project:, type:, status: readonly_status)
+      work_packages.each(&:reload)
+
+      recorder = ActiveRecord::QueryRecorder.new do
+        availability(work_packages).permitted?(Backlogs::Target::InboxId)
+      end
+
+      status_queries = recorder.log.grep(/FROM "statuses"/)
+      expect(status_queries.size).to eq 1
+    end
+
+    it "ignores persisted read-only flags when the feature is unavailable" do
+      persisted_readonly_status = create(:status)
+      persisted_readonly_status.update_column(:is_readonly, true)
+      work_package = create(:work_package, project:, type:, status: persisted_readonly_status)
+
+      expect(availability([work_package]).permitted?(Backlogs::Target.for(alpha_bucket))).to be true
+    end
   end
 
   describe "authoritative candidates" do

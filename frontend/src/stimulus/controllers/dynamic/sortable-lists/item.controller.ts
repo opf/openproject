@@ -180,7 +180,13 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   prepareDialog(event:CustomEvent<{ form:HTMLFormElement|null }>):void {
-    const scope = this.root?.selectForAction(this.element);
+    const root = this.root;
+    if (!root || root.busy) {
+      event.preventDefault();
+      return;
+    }
+
+    const scope = root.selectForAction(this.element);
     const form = event.detail.form;
     if (!form || !scope || scope.kind === 'refused') {
       event.preventDefault();
