@@ -295,6 +295,10 @@ en:
         unexpected_failure: "The work packages could not be moved. Please try again."
       move:
         moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: "There are no available backlog buckets for these work packages."
+      move_to_sprint_dialog:
+        no_available_destinations: "There are no available sprints for these work packages."
       move_collection:
         invalid_ids: "The list of work packages to move is invalid."
         member_failed: "%{work_package}: %{reason}"

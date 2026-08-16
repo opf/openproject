@@ -36,7 +36,7 @@ module Backlogs
     # split view open on the moved work package (see split-view-sync.controller.ts).
     WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
 
-    before_action :load_work_package, only: %i[menu move_to_sprint_dialog move_to_bucket_dialog move]
+    before_action :load_work_package, only: %i[menu move]
 
     # Deferred ActionMenu items (Primer include-fragment).
     def menu
@@ -69,18 +69,32 @@ module Backlogs
     end
 
     def move_to_sprint_dialog
-      respond_with_dialog Backlogs::MoveToSprintDialogComponent.new(
-        work_package: @work_package,
+      work_packages = load_collection_work_packages
+      return if performed?
+
+      sprints = destination_availability(work_packages).sprints
+      return render_move_collection_error(t(".no_available_destinations")) if sprints.empty?
+
+      respond_with_dialog build_move_to_sprint_dialog(
+        work_packages:,
         project: @project,
-        move_action: move_path
+        sprints:,
+        move_action: move_collection_path
       )
     end
 
     def move_to_bucket_dialog
-      respond_with_dialog Backlogs::MoveToBucketDialogComponent.new(
-        work_package: @work_package,
+      work_packages = load_collection_work_packages
+      return if performed?
+
+      buckets = destination_availability(work_packages).buckets
+      return render_move_collection_error(t(".no_available_destinations")) if buckets.empty?
+
+      respond_with_dialog build_move_to_bucket_dialog(
+        work_packages:,
         project: @project,
-        move_action: move_path
+        buckets:,
+        move_action: move_collection_path
       )
     end
 
@@ -305,6 +319,29 @@ module Backlogs
       @work_package = @work_packages.find(params.expect(:id))
     end
 
+    # The dialogs validate the id list alone: they open before a destination
+    # is chosen, so BatchMoveParamsContract, which also requires a resolvable
+    # target, cannot speak for them. Renders its own error and returns nil,
+    # so callers test `performed?`.
+    def load_collection_work_packages
+      ids = move_collection_params[:ids]
+
+      # Before the lookup: an oversized id list must not reach the database.
+      if ids.length > Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE
+        return render_move_collection_error(
+          t("backlogs.work_packages.move_collection.too_many_work_packages",
+            max: Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE)
+        )
+      end
+
+      if ids.any?(&:blank?) || ids.uniq.length != ids.length
+        return render_move_collection_error(t("backlogs.work_packages.move_collection.invalid_ids"))
+      end
+
+      find_collection_work_packages(ids) ||
+        render_move_collection_error(t("backlogs.work_packages.move_collection.work_packages_not_found"))
+    end
+
     # Every submitted id must resolve to a distinct, visible work package of
     # this project, in the submitted order: silently dropping a member would
     # break the client's optimistic block. Nil when any id does not resolve.
@@ -322,6 +359,22 @@ module Backlogs
       respond_with_turbo_streams(status: :unprocessable_entity)
     end
 
+    def destination_availability(work_packages)
+      Backlogs::WorkPackages::DestinationAvailability.new(
+        project: @project,
+        user: current_user,
+        work_packages:
+      )
+    end
+
+    def build_move_to_sprint_dialog(**args)
+      Backlogs::MoveToSprintDialogComponent.new(**args)
+    end
+
+    def build_move_to_bucket_dialog(**args)
+      Backlogs::MoveToBucketDialogComponent.new(**args)
+    end
+
     # params.expect guarantees a present, non-empty array of scalar ids; the
     # optional placement and target fields go through permit instead.
     def move_collection_params
@@ -331,8 +384,8 @@ module Backlogs
       end
     end
 
-    def move_path
-      move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
+    def move_collection_path
+      move_project_backlogs_work_packages_path(@project, backlog_filter_params)
     end
 
     # After a move the work package might no longer be visible: the page's active
