@@ -487,7 +487,9 @@ export function resolveBlockMove({
 
   const rows = listRows(rowsContainer);
   const selectedRows = itemElements.map((item) => rowOf(rowsContainer, item));
-  if (selectedRows.some((row) => row === null)) {
+  if (selectedRows.some((row, index) => (
+    row === null || resolveItemElement(row, rowsContainer) !== itemElements[index]
+  ))) {
     return unavailable('cross-list');
   }
 

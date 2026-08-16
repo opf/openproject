@@ -731,6 +731,26 @@ describe('block move helpers', () => {
       .toEqual({ available: false, reason: 'cross-list' });
   });
 
+  it('rejects an inner-list item that resolves to its outer host row', () => {
+    const rowsContainer = document.createElement('ul');
+    const outerHost = document.createElement('li');
+    outerHost.setAttribute('data-sortable-lists--item-id-value', 'outer-1');
+    const nestedRows = document.createElement('ul');
+    const inner = document.createElement('li');
+    inner.setAttribute('data-sortable-lists--item-id-value', 'inner-1');
+    nestedRows.append(inner);
+    outerHost.append(nestedRows);
+
+    const outerSecond = document.createElement('li');
+    outerSecond.setAttribute('data-sortable-lists--item-id-value', 'outer-2');
+    const outerThird = document.createElement('li');
+    outerThird.setAttribute('data-sortable-lists--item-id-value', 'outer-3');
+    rowsContainer.append(outerHost, outerSecond, outerThird);
+
+    expect(resolveBlockMove({ itemElements: [inner, outerSecond], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: false, reason: 'cross-list' });
+  });
+
   it('rejects sparse, reverse-order, and duplicate input', () => {
     const { rowsContainer, items: [first, second, third] } = fixture();
 
@@ -760,6 +780,17 @@ describe('block move helpers', () => {
       .toEqual({ available: false, reason: 'unaddressable-gap' });
     expect(resolveBlockMove({ itemElements: [third], direction: 'up', rowsContainer }))
       .toEqual({ available: false, reason: 'unaddressable-gap' });
+  });
+
+  it('keeps fixed rows addressable as up and down neighbours', () => {
+    const { rowsContainer, items: [first, second, third] } = fixture();
+    first.setAttribute(sortableItemMobilityAttribute, 'fixed');
+    third.setAttribute(sortableItemMobilityAttribute, 'fixed');
+
+    expect(resolveBlockMove({ itemElements: [second], direction: 'up', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: '3' });
   });
 
   it('keeps top and bottom available across loaded sparse-list boundaries', () => {
