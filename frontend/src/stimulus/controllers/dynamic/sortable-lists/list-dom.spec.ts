@@ -33,6 +33,8 @@ import {
   itemMobility,
   permittedDestinations,
   reorderRows,
+  resolveBlockMove,
+  resolveBlockMoveAvailability,
   sortableItemMobilityAttribute,
   resolveDirectionalPreviousItemId,
   resolveMoveAvailability,
@@ -658,6 +660,144 @@ describe('directional move helpers', () => {
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'a'), direction: 'bottom' })).toBe('d');
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'd'), direction: 'top' })).toBeNull();
     });
+  });
+});
+
+describe('block move helpers', () => {
+  function fixture():{
+    rowsContainer:HTMLUListElement;
+    items:HTMLLIElement[];
+    marker:HTMLLIElement;
+    divider:HTMLLIElement;
+  } {
+    const rowsContainer = document.createElement('ul');
+    const items = ['1', '2', '3', '4'].map((id) => {
+      const row = document.createElement('li');
+      row.setAttribute('data-sortable-lists--item-id-value', id);
+      return row;
+    });
+    const marker = document.createElement('li');
+    marker.setAttribute('data-sortable-lists-prev-item-id', 'last-hidden');
+    marker.setAttribute('data-sortable-lists-omitted-count', '3');
+    const divider = document.createElement('li');
+    divider.classList.add('divider');
+
+    rowsContainer.append(...items, marker, divider);
+
+    return { rowsContainer, items, marker, divider };
+  }
+
+  it('resolves one card in all four directions', () => {
+    const { rowsContainer, items: [, second] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [second], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'up', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: '3' });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: '4' });
+  });
+
+  it('resolves an adjacent block in all four directions and excludes selected predecessors', () => {
+    const { rowsContainer, items: [, second, third] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [second, third], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second, third], direction: 'up', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second, third], direction: 'down', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: '4' });
+    expect(resolveBlockMove({ itemElements: [second, third], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: '4' });
+  });
+
+  it('rejects an empty or fixed selection as not orderable', () => {
+    const { rowsContainer, items: [first, second] } = fixture();
+    second.setAttribute(sortableItemMobilityAttribute, 'fixed');
+
+    expect(resolveBlockMove({ itemElements: [], direction: 'top', rowsContainer }))
+      .toEqual({ available: false, reason: 'not-orderable' });
+    expect(resolveBlockMove({ itemElements: [first, second], direction: 'top', rowsContainer }))
+      .toEqual({ available: false, reason: 'not-orderable' });
+  });
+
+  it('rejects selected elements from different containers', () => {
+    const { rowsContainer, items: [first] } = fixture();
+    const { items: [foreign] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [first, foreign], direction: 'top', rowsContainer }))
+      .toEqual({ available: false, reason: 'cross-list' });
+  });
+
+  it('rejects sparse, reverse-order, and duplicate input', () => {
+    const { rowsContainer, items: [first, second, third] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [first, third], direction: 'top', rowsContainer }))
+      .toEqual({ available: false, reason: 'non-contiguous' });
+    expect(resolveBlockMove({ itemElements: [third, second], direction: 'top', rowsContainer }))
+      .toEqual({ available: false, reason: 'non-contiguous' });
+    expect(resolveBlockMove({ itemElements: [second, second], direction: 'top', rowsContainer }))
+      .toEqual({ available: false, reason: 'non-contiguous' });
+  });
+
+  it('rejects up and down across an adjacent truncation marker', () => {
+    const { rowsContainer, items: [, second, third], marker } = fixture();
+
+    second.after(marker);
+    expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
+      .toEqual({ available: false, reason: 'truncation-boundary' });
+    expect(resolveBlockMove({ itemElements: [third], direction: 'up', rowsContainer }))
+      .toEqual({ available: false, reason: 'truncation-boundary' });
+  });
+
+  it('rejects up and down across an unaddressable gap', () => {
+    const { rowsContainer, items: [, second, third], divider } = fixture();
+
+    second.after(divider);
+    expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
+      .toEqual({ available: false, reason: 'unaddressable-gap' });
+    expect(resolveBlockMove({ itemElements: [third], direction: 'up', rowsContainer }))
+      .toEqual({ available: false, reason: 'unaddressable-gap' });
+  });
+
+  it('keeps top and bottom available across loaded sparse-list boundaries', () => {
+    const { rowsContainer, items: [, second, third, fourth], marker } = fixture();
+
+    second.after(marker);
+    expect(resolveBlockMove({ itemElements: [third], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [third], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: '4' });
+    expect(resolveBlockMove({ itemElements: [third], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: true, rows: [third], previousItemId: '4' });
+    expect(resolveBlockMove({ itemElements: [fourth], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [fourth], previousItemId: null });
+  });
+
+  it('rejects every move that returns the block to its effective placement', () => {
+    const { rowsContainer, items: [first, second, third, fourth] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [first], direction: 'top', rowsContainer }))
+      .toEqual({ available: false, reason: 'no-op' });
+    expect(resolveBlockMove({ itemElements: [first, second], direction: 'up', rowsContainer }))
+      .toEqual({ available: false, reason: 'no-op' });
+    expect(resolveBlockMove({ itemElements: [fourth], direction: 'down', rowsContainer }))
+      .toEqual({ available: false, reason: 'no-op' });
+    expect(resolveBlockMove({ itemElements: [third, fourth], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: false, reason: 'no-op' });
+  });
+
+  it('derives availability by resolving all four directions', () => {
+    const { rowsContainer, items: [first, second, third, fourth] } = fixture();
+
+    expect(resolveBlockMoveAvailability({ itemElements: [first, second], rowsContainer }))
+      .toEqual({ top: false, up: false, down: true, bottom: true });
+    expect(resolveBlockMoveAvailability({ itemElements: [second, third], rowsContainer }))
+      .toEqual({ top: true, up: true, down: true, bottom: true });
+    expect(resolveBlockMoveAvailability({ itemElements: [third, fourth], rowsContainer }))
+      .toEqual({ top: true, up: true, down: false, bottom: false });
   });
 });
 

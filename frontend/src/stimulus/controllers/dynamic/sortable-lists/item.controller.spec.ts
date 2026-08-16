@@ -105,8 +105,8 @@ describe('Sortable lists item controller', () => {
     return {
       element,
       busy,
-      actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
-      selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
       availableDestinations: vi.fn(() => []),
       moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),
@@ -1124,8 +1124,8 @@ describe('Sortable lists item controller', () => {
       controller.connectRoot({
         element: row,
         busy: false,
-        actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
-        selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
         availableDestinations: vi.fn(() => []),
         moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
@@ -1222,8 +1222,8 @@ describe('Sortable lists item controller', () => {
       controller.connectRoot({
         element: row,
         busy: false,
-        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
-        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
         availableDestinations: vi.fn(() => []),
         moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
@@ -1415,8 +1415,8 @@ describe('Sortable lists item controller', () => {
     ) => ({
       element: el,
       busy: false,
-      actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
-      selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
       availableDestinations: vi.fn(() => []),
       moveToDestination: vi.fn(),
       moveAvailability: () => availability,
@@ -1424,7 +1424,7 @@ describe('Sortable lists item controller', () => {
     } as unknown as SortableListsRoot);
 
     function stubMenuRoot(el:HTMLElement, position:{ isFirst:boolean; isLast:boolean }) {
-      const actionScopeFor = vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] }));
+      const actionScopeFor = vi.fn(():ActionScope => ({ kind: 'refused', items: [] }));
       const availableDestinations = vi.fn((_scope:ActionScope, _candidates:DestinationIdentity[]):DestinationIdentity[] => []);
       const root = { ...stubRoot(el, position), actionScopeFor, availableDestinations };
 
@@ -1909,8 +1909,8 @@ describe('Sortable lists item controller', () => {
       const root:SortableListsRoot = {
         element: item,
         busy: false,
-        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
-        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
         availableDestinations: vi.fn(() => []),
         moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
@@ -1942,8 +1942,8 @@ describe('Sortable lists item controller', () => {
       const root:SortableListsRoot = {
         element: item,
         busy: false,
-        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
-        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
         availableDestinations: vi.fn(() => []),
         moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
