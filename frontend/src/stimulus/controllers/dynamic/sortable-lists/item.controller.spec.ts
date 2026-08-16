@@ -58,6 +58,7 @@ import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-
 import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
+import type { ActionScope } from './selection-orchestrator';
 import type { DestinationIdentity } from './list-dom';
 import { type SelectionItem } from 'core-common/batch-selection';
 import { DragSession, type DragSessionHost } from './drag-session';
@@ -145,6 +146,9 @@ describe('Sortable lists item controller', () => {
     return {
       element,
       busy,
+      actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      availableDestinations: vi.fn(() => []),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(ownerRowsContainer),

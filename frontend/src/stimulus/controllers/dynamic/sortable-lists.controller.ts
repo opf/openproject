@@ -60,12 +60,14 @@ import {
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
+  permittedDestinations,
+  sameDestination,
   sortableListsBusyAttribute,
   type DestinationIdentity,
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
-import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
 import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';
 
@@ -235,6 +237,33 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     } else {
       target.focus();
     }
+  }
+
+  actionScopeFor(itemElement:HTMLElement):ActionScope {
+    return this.selection?.actionScopeFor(itemElement) ?? { kind: 'refused', items: [] };
+  }
+
+  selectForAction(itemElement:HTMLElement):ActionScope {
+    if (this.busy) {
+      return this.actionScopeFor(itemElement);
+    }
+
+    return this.selection?.selectForAction(itemElement) ?? { kind: 'refused', items: [] };
+  }
+
+  // Where the batch may move: the candidates every member accepts, minus the
+  // one they all already occupy, which would be a move to nowhere.
+  availableDestinations(scope:ActionScope, candidates:DestinationIdentity[]):DestinationIdentity[] {
+    if (scope.kind === 'refused') {
+      return [];
+    }
+
+    const ownerDestinationOf = (item:HTMLElement) => this.ownerDestinationOf(item);
+    const permitted = permittedDestinations({ items: scope.items, candidates, ownerDestinationOf });
+
+    return permitted.filter((target) => (
+      !scope.items.every((item) => sameDestination(ownerDestinationOf(item), target))
+    ));
   }
 
   // The drag in flight, or the prospective session of a press that did not

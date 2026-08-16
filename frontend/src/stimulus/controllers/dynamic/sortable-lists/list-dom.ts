@@ -142,6 +142,24 @@ export function itemAcceptsDestination(
   }
 }
 
+export function permittedDestinations({
+  items,
+  candidates,
+  ownerDestinationOf,
+}:{
+  items:HTMLElement[];
+  candidates:DestinationIdentity[];
+  ownerDestinationOf:(item:HTMLElement) => DestinationIdentity|null;
+}):DestinationIdentity[] {
+  if (items.length === 0 || items.some((item) => itemMobility(item) === 'fixed')) {
+    return [];
+  }
+
+  return candidates.filter((target) => (
+    items.every((item) => itemMobility(item) === 'free' || sameDestination(ownerDestinationOf(item), target))
+  ));
+}
+
 export function resolveItemType(element:Element):string|null {
   const type = element.getAttribute(sortableItemTypeAttribute);
 

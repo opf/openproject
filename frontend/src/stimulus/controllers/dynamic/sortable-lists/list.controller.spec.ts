@@ -38,6 +38,7 @@ import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-
 import type ListControllerType from './list.controller';
 import type { sortableDragSourceData as sortableDragSourceDataFn, SortableListsRoot } from './drag-and-drop';
 import type { DestinationIdentity } from './list-dom';
+import type { ActionScope } from './selection-orchestrator';
 
 // The list controller is tested in ISOLATION: the root drives the outlet
 // hand-over in production (sortable-lists.controller.ts), so here we render only
@@ -76,6 +77,9 @@ describe('Sortable lists list controller', () => {
     return {
       element,
       busy,
+      actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      availableDestinations: vi.fn(() => []),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
