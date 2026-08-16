@@ -365,6 +365,8 @@ export class SelectionOrchestrator {
       event,
       () => this.selection.size > 0 || this.selection.anchor !== null,
       () => {
+        if (this.host.busy) return;
+
         this.selection.clear();
         this.renderSelection('selection');
       },
