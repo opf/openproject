@@ -42,7 +42,7 @@ module Wikis
       # Only re-check secure_context_uri when url is actually changing -- otherwise an unrelated
       # update (e.g. renaming the provider) re-rejects an already-accepted url.
       validates :url, secure_context_uri: true,
-                       unless: -> { url.blank? || errors.include?(:url) || !model.url_changed? }
+                      unless: -> { url.blank? || errors.include?(:url) || !model.url_changed? }
 
       validate :not_configured_from_env
 
