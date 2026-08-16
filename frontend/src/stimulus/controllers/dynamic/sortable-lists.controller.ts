@@ -255,6 +255,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.selection?.selectForAction(itemElement) ?? { kind: 'refused', items: [] };
   }
 
+  // Consumer-owned non-optimistic forms do not call performMove, so their
+  // successful move event is the shared boundary at which the live batch is
+  // cleared. Failed requests emit no completion event and keep the selection.
+  clearSelectionAfterMove():void {
+    this.selection?.clearSilently();
+  }
+
   // Where the batch may move: the candidates every member accepts, minus the
   // one they all already occupy, which would be a move to nowhere.
   availableDestinations(scope:ActionScope, candidates:DestinationIdentity[]):DestinationIdentity[] {

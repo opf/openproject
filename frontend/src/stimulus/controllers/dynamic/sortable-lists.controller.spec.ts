@@ -1662,6 +1662,21 @@ describe('Sortable lists controller', () => {
     expect(row.hasAttribute('data-batch-selected')).toBe(false);
   });
 
+  it('clears the live selection when a consumer reports a completed move', async () => {
+    const { root, items } = renderSelectableRoot();
+    root.setAttribute(
+      'data-action',
+      'sortable-lists:test-move-completed@document->sortable-lists#clearSelectionAfterMove',
+    );
+    await ctx.nextFrame();
+    click(items[0]);
+    click(items[1], { metaKey: true });
+
+    document.dispatchEvent(new CustomEvent('sortable-lists:test-move-completed'));
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
   it('selects only the clicked card on a plain click', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
