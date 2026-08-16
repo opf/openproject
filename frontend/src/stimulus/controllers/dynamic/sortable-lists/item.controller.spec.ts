@@ -57,6 +57,7 @@ import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-
 import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
+import type { ActionScope } from './selection-orchestrator';
 import type { DestinationIdentity } from './list-dom';
 
 describe('Sortable lists item controller', () => {
@@ -104,6 +105,9 @@ describe('Sortable lists item controller', () => {
     return {
       element,
       busy,
+      actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      availableDestinations: vi.fn(() => []),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
@@ -1118,6 +1122,9 @@ describe('Sortable lists item controller', () => {
       controller.connectRoot({
         element: row,
         busy: false,
+        actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        availableDestinations: vi.fn(() => []),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
@@ -1211,6 +1218,9 @@ describe('Sortable lists item controller', () => {
       controller.connectRoot({
         element: row,
         busy: false,
+        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        availableDestinations: vi.fn(() => []),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
@@ -1621,6 +1631,9 @@ describe('Sortable lists item controller', () => {
       const root:SortableListsRoot = {
         element: item,
         busy: false,
+        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        availableDestinations: vi.fn(() => []),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
@@ -1649,6 +1662,9 @@ describe('Sortable lists item controller', () => {
       const root:SortableListsRoot = {
         element: item,
         busy: false,
+        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        availableDestinations: vi.fn(() => []),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
