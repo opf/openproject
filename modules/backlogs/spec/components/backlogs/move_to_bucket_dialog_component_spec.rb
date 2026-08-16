@@ -35,11 +35,14 @@ RSpec.describe Backlogs::MoveToBucketDialogComponent, type: :component do
   current_user { admin }
 
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project:) }
-  let(:move_path) { Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package) }
+  let(:first) { create(:work_package, project:) }
+  let(:second) { create(:work_package, project:) }
+  let(:work_packages) { [second, first] }
+  let(:move_path) { Rails.application.routes.url_helpers.move_project_backlogs_work_packages_path(project) }
+  let(:buckets) { [create(:backlog_bucket, project:, name: "Passed Bucket")] }
 
   def render_component
-    render_inline(described_class.new(work_package:, project:, move_action: move_path))
+    render_inline(described_class.new(work_packages:, buckets:, move_action: move_path))
   end
 
   it "renders the dialog with the correct title" do
@@ -48,23 +51,31 @@ RSpec.describe Backlogs::MoveToBucketDialogComponent, type: :component do
     expect(page).to have_text(I18n.t(:"backlogs.move_to_bucket_dialog_component.title"))
   end
 
-  it "renders a form targeting the move path via PUT" do
+  it "renders an ordered collection form targeting the move path via PUT", :aggregate_failures do
     render_component
 
+    expect(page).to have_text(I18n.t(:label_x_work_packages, count: 2))
+    expect(page.all("input[name='ids[]']", visible: :all).map(&:value))
+      .to eq([second.id.to_s, first.id.to_s])
     expect(page).to have_element(:form, action: move_path, method: "post")
-    expect(page).to have_element(:input, name: "_method", value: "put", visible: :all)
+    expect(page).to have_css("form[action='#{move_path}'] input[name='_method'][value='put']", visible: :all)
+    expect(page).to have_css(
+      "input[name='list_type'][value='#{Backlogs::Target::BucketId.new(nil).list_type}']",
+      visible: :all
+    )
   end
 
-  context "when params[:all] is true" do
-    let(:move_path) do
-      Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package, all: "true")
-    end
+  # The count sits in its own paragraph above the select, so it only reaches a
+  # screen reader as the field's context through this reference.
+  it "describes the bucket select by the selected-count label" do
+    render_component
 
-    it "submits the move form with the all query preserved" do
-      render_component
-
-      expect(page).to have_element(:form, action: /all=true/)
-    end
+    label = page.find_css("p##{described_class::SELECTION_LABEL_ID}").first
+    expect(label.text).to include(I18n.t(:label_x_work_packages, count: 2))
+    expect(page).to have_css(
+      "select[name='list_id'][aria-describedby~='#{described_class::SELECTION_LABEL_ID}']",
+      visible: :all
+    )
   end
 
   it "renders Cancel and Move buttons" do
@@ -74,42 +85,14 @@ RSpec.describe Backlogs::MoveToBucketDialogComponent, type: :component do
     expect(page).to have_button(I18n.t(:button_move))
   end
 
-  context "when buckets exist" do
-    let!(:bucket_a) { create(:backlog_bucket, project:, name: "Alpha") }
-    let!(:bucket_b) { create(:backlog_bucket, project:, name: "Beta") }
+  context "when other bucket records exist" do
+    let!(:omitted_bucket) { create(:backlog_bucket, project:, name: "Omitted Bucket") }
 
-    it "submits backlog_bucket list data" do
+    it "renders only the destinations supplied by the controller" do
       render_component
 
-      expect(page).to have_css(
-        "input[name='list_type'][value='#{Backlogs::Target::BucketId.new(nil).list_type}']",
-        visible: :all
-      )
-      expect(page).to have_element(:option, value: bucket_a.id, text: "Alpha")
-      expect(page).to have_element(:option, value: bucket_b.id, text: "Beta")
-    end
-  end
-
-  context "when a bucket belongs to a different project" do
-    let!(:other_bucket) { create(:backlog_bucket, project: create(:project), name: "Other") }
-
-    it "does not list buckets from other projects" do
-      render_component
-
-      expect(page).to have_no_css(:option, text: "Other")
-    end
-  end
-
-  context "when the work package is already in a bucket" do
-    let!(:current_bucket) { create(:backlog_bucket, project:, name: "Current") }
-    let!(:target_bucket) { create(:backlog_bucket, project:, name: "Target") }
-    let(:work_package) { create(:work_package, project:, backlog_bucket: current_bucket) }
-
-    it "excludes the current bucket from the options" do
-      render_component
-
-      expect(page).to have_no_css(:option, text: "Current")
-      expect(page).to have_element(:option, value: target_bucket.id, text: "Target")
+      expect(page).to have_css("option[value='#{buckets.first.id}']", text: "Passed Bucket")
+      expect(page).to have_no_css("option[value='#{omitted_bucket.id}']")
     end
   end
 end
