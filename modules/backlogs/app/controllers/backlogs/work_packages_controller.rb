@@ -168,7 +168,8 @@ module Backlogs
           WORK_PACKAGE_MOVED_EVENT,
           detail: { work_package_ids: call.result.map(&:id) }
         )
-        render_invisible_after_move_batch_flash(call.result)
+        invisible_feedback_rendered = render_invisible_after_move_batch_flash(call.result)
+        render_collection_move_announcement(call.result) unless optimistic_move? || invisible_feedback_rendered
       else
         render_error_flash_message_via_turbo_stream(
           message: I18n.t(:notice_unsuccessful_update_with_reason, reason: batch_failure_reason(call))
@@ -253,11 +254,12 @@ module Backlogs
 
     # A member's own type or status can hide it independently of its
     # list-mates, so the first member cannot answer this for the batch.
-    def render_invisible_after_move_batch_flash(results)
+    def render_invisible_after_move_batch_flash(results) # rubocop:disable Naming/PredicateMethod
       invisible = results.select { |wp| work_package_invisible_after_move?(wp) }
-      return if invisible.empty?
+      return false if invisible.empty?
 
       render_flash_message_via_turbo_stream(message: invisible_after_move_batch_message(invisible))
+      true
     end
 
     def invisible_after_move_batch_message(invisible)
@@ -284,12 +286,35 @@ module Backlogs
 
       render_live_region_update_message(
         message: t(
-          ".moved_announcement",
+          "backlogs.work_packages.move.moved_announcement",
           label: work_package.to_fs(:caption),
           list: target_list_name(work_package),
           position: index + 1,
           total: ids.size
         )
+      )
+    end
+
+    def render_collection_move_announcement(work_packages)
+      return render_move_announcement(work_packages.first) if work_packages.one?
+
+      scope_ids = announcement_list_scope(work_packages.first).pluck(:id)
+      first = scope_ids.index(work_packages.first.id)
+      return unless first
+
+      render_live_region_update_message(
+        message: collection_move_announcement_message(work_packages, first:, total: scope_ids.size)
+      )
+    end
+
+    def collection_move_announcement_message(work_packages, first:, total:)
+      t(
+        ".moved_announcement",
+        count: work_packages.size,
+        list: target_list_name(work_packages.first),
+        first: first + 1,
+        last: first + work_packages.size,
+        total:
       )
     end
 
