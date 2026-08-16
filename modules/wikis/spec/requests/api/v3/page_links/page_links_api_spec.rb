@@ -91,7 +91,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       before { get "#{path}?pageSize=2&offset=2" }
 
       it "returns the second page, distinct from the first page" do
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(200)
 
         body = JSON.parse(last_response.body)
         expect(body["offset"]).to eq(2)
@@ -146,7 +146,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       end
 
       it "returns the second page, distinct from the first page" do
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(200)
 
         body = JSON.parse(last_response.body)
         expect(body["offset"]).to eq(2)
