@@ -58,7 +58,7 @@ import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
 import type { DestinationIdentity } from './list-dom';
-import type { ActionScope } from './selection-orchestrator';
+import { scopeIds, type ActionScope } from './selection-orchestrator';
 
 describe('Sortable lists item controller', () => {
   let draggable:typeof draggableFn;
@@ -1430,6 +1430,170 @@ describe('Sortable lists item controller', () => {
 
       return { root, actionScopeFor, availableDestinations };
     }
+
+    async function mountActionMenuInvocationFixture() {
+      const { el } = renderItemWithMenu(1);
+      const card = document.createElement('article');
+      card.setAttribute('data-sortable-lists--item-target', 'focus');
+      const actionMenu = el.querySelector<HTMLElement>('action-menu')!;
+      const popover = document.createElement('anchored-position');
+      popover.setAttribute('popover', '');
+      Object.assign(actionMenu, { popoverElement: popover });
+      actionMenu.append(popover);
+      card.append(actionMenu);
+      el.append(card);
+      destinationFor(el, [{ type: 'inbox', id: null }]);
+      document.body.appendChild(el);
+
+      const controller = await mountItemController(el);
+      const scope:ActionScope = { kind: 'batch', items: [el] };
+      const sequence:string[] = [];
+      const selectForAction = vi.fn(() => {
+        sequence.push('prepare');
+        return scope;
+      });
+      const availableDestinations = vi.fn((projectedScope:ActionScope, candidates:DestinationIdentity[]) => {
+        sequence.push(`project:${scopeIds(projectedScope).join(',')}`);
+        return candidates;
+      });
+      const root = {
+        ...stubRoot(el, { isFirst: true, isLast: true }),
+        selectForAction,
+        availableDestinations,
+      };
+      controller.connectRoot(root);
+      await menuCtx!.nextFrame();
+      sequence.length = 0;
+      selectForAction.mockClear();
+      availableDestinations.mockClear();
+
+      return {
+        el,
+        card,
+        popover,
+        controller,
+        root,
+        scope,
+        sequence,
+        selectForAction,
+        availableDestinations,
+      };
+    }
+
+    it.each([
+      ['pointer context menu', 'pointer'],
+      ['Context Menu key', 'keyboard'],
+      ['Shift+F10', 'keyboard'],
+    ])('settles action scope before projecting a %s invocation', async (_label, origin) => {
+      const {
+        el, card, scope, sequence, selectForAction, availableDestinations,
+      } = await mountActionMenuInvocationFixture();
+
+      card.dispatchEvent(new CustomEvent('contextual-action-menu:beforeOpen', {
+        bubbles: true,
+        cancelable: true,
+        detail: { origin },
+      }));
+
+      expect(selectForAction).toHaveBeenCalledWith(el);
+      expect(availableDestinations).toHaveBeenCalledWith(scope, [{ type: 'inbox', id: null }]);
+      expect(sequence).toEqual(['prepare', 'project:1']);
+    });
+
+    it.each([
+      'More button pointer invocation',
+      'More button keyboard invocation',
+    ])('settles action scope before projecting a %s', async () => {
+      const {
+        el, popover, scope, sequence, selectForAction, availableDestinations,
+      } = await mountActionMenuInvocationFixture();
+
+      popover.dispatchEvent(new ToggleEvent('beforetoggle', {
+        oldState: 'closed',
+        newState: 'open',
+      }));
+
+      expect(selectForAction).toHaveBeenCalledWith(el);
+      expect(availableDestinations).toHaveBeenCalledWith(scope, [{ type: 'inbox', id: null }]);
+      expect(sequence).toEqual(['prepare', 'project:1']);
+    });
+
+    it('ignores closing and unrelated popover pre-toggle events', async () => {
+      const { card, popover, selectForAction } = await mountActionMenuInvocationFixture();
+      const tooltip = document.createElement('div');
+      tooltip.setAttribute('popover', '');
+      card.append(tooltip);
+
+      popover.dispatchEvent(new ToggleEvent('beforetoggle', {
+        oldState: 'open',
+        newState: 'closed',
+      }));
+      tooltip.dispatchEvent(new ToggleEvent('beforetoggle', {
+        oldState: 'closed',
+        newState: 'open',
+      }));
+
+      expect(selectForAction).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when a pre-open event arrives after its root disconnects', async () => {
+      const {
+        controller, card, popover, selectForAction,
+      } = await mountActionMenuInvocationFixture();
+      controller.disconnectRoot();
+
+      card.dispatchEvent(new CustomEvent('contextual-action-menu:beforeOpen', {
+        bubbles: true,
+        cancelable: true,
+        detail: { origin: 'pointer' },
+      }));
+      popover.dispatchEvent(new ToggleEvent('beforetoggle', {
+        oldState: 'closed',
+        newState: 'open',
+      }));
+
+      expect(selectForAction).not.toHaveBeenCalled();
+    });
+
+    it('projects one stable scope when contextual and popover pre-open events both arrive', async () => {
+      const {
+        card, popover, scope, selectForAction, availableDestinations,
+      } = await mountActionMenuInvocationFixture();
+
+      card.dispatchEvent(new CustomEvent('contextual-action-menu:beforeOpen', {
+        bubbles: true,
+        cancelable: true,
+        detail: { origin: 'pointer' },
+      }));
+      popover.dispatchEvent(new ToggleEvent('beforetoggle', {
+        oldState: 'closed',
+        newState: 'open',
+      }));
+
+      expect(selectForAction).toHaveBeenCalledTimes(2);
+      expect(availableDestinations).toHaveBeenCalledTimes(2);
+      expect(availableDestinations.mock.calls.map(([projectedScope]) => projectedScope)).toEqual([scope, scope]);
+    });
+
+    it('handles a contextual pre-open from the item itself when no focus target exists', async () => {
+      const { el } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const scope:ActionScope = { kind: 'batch', items: [el] };
+      const selectForAction = vi.fn(() => scope);
+      controller.connectRoot({
+        ...stubRoot(el, { isFirst: true, isLast: true }),
+        selectForAction,
+      });
+
+      el.dispatchEvent(new CustomEvent('contextual-action-menu:beforeOpen', {
+        bubbles: true,
+        cancelable: true,
+        detail: { origin: 'pointer' },
+      }));
+
+      expect(selectForAction).toHaveBeenCalledWith(el);
+    });
 
     it('hides up/top for a first item and shows the rest', async () => {
       const { el, menu } = renderItemWithMenu(1);
