@@ -76,7 +76,6 @@ module Backlogs
 
       respond_with_dialog build_move_to_sprint_dialog(
         work_packages:,
-        project: @project,
         sprints:,
         move_action: move_collection_path
       )
@@ -91,7 +90,6 @@ module Backlogs
 
       respond_with_dialog build_move_to_bucket_dialog(
         work_packages:,
-        project: @project,
         buckets:,
         move_action: move_collection_path
       )

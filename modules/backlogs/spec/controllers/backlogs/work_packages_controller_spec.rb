@@ -1163,7 +1163,6 @@ RSpec.describe Backlogs::WorkPackagesController do
         .to have_received(:build_move_to_sprint_dialog)
         .with(
           work_packages: [second, first],
-          project:,
           sprints: [available_sprint],
           move_action: move_project_backlogs_work_packages_path(project)
         )
@@ -1254,7 +1253,6 @@ RSpec.describe Backlogs::WorkPackagesController do
         .to have_received(:build_move_to_bucket_dialog)
         .with(
           work_packages: [second, first],
-          project:,
           buckets: [available_bucket],
           move_action: move_project_backlogs_work_packages_path(project)
         )
