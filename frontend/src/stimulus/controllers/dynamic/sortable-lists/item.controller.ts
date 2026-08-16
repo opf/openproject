@@ -57,14 +57,27 @@ import {
   resolveItemExternalUrl,
   resolveItemLabel,
   sortableItemSelector,
+  type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
 import { renderDragPreview } from './preview';
+import type { ActionScope } from './selection-orchestrator';
 
 type CleanupFn = () => void;
 
+function isDestinationIdentity(candidate:unknown):candidate is DestinationIdentity {
+  if (typeof candidate !== 'object' || candidate === null) {
+    return false;
+  }
+
+  return 'type' in candidate
+    && 'id' in candidate
+    && typeof candidate.type === 'string'
+    && (typeof candidate.id === 'string' || candidate.id === null);
+}
+
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
+  static targets = ['handle', 'preview', 'destinationItem', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -89,6 +102,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly hasHandleTarget:boolean;
   declare readonly previewTarget:HTMLElement;
   declare readonly hasPreviewTarget:boolean;
+  declare readonly destinationItemTargets:HTMLElement[];
   declare readonly moveItemTargets:HTMLElement[];
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
@@ -114,7 +128,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // `instanceof ToggleEvent` so a browser without the ToggleEvent global
     // cannot throw.
     if ((event as ToggleEvent).newState === 'open') {
-      this.refreshMoveMenuAvailability();
+      this.refreshActionAvailability();
     }
   };
 
@@ -135,15 +149,19 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.disconnectRoot();
   }
 
-  // A move item entering the DOM (inline or via a deferred fragment) triggers
-  // an availability refresh here, but `this.root` is usually still unset at
+  // An action item entering the DOM (inline or via a deferred fragment)
+  // triggers an availability refresh here, but `this.root` is usually unset at
   // this point (the outlet's connectRoot callback runs later), so this call
   // typically no-ops. The menu-open toggle handler is what actually
   // establishes correct availability, refreshing on every open once the root
   // is connected and after any reorder has shifted siblings. No
   // include-fragment knowledge, so both hooks work for any menu.
   moveItemTargetConnected():void {
-    this.refreshMoveMenuAvailability();
+    this.refreshActionAvailability();
+  }
+
+  destinationItemTargetConnected():void {
+    this.refreshActionAvailability();
   }
 
   move(event:ActionEvent):void {
@@ -463,9 +481,44 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.dropIndicatorElement = undefined;
   }
 
-  private refreshMoveMenuAvailability():void {
+  private refreshActionAvailability():void {
     const root = this.root;
     if (!root || !this.hasMenuElement) {
+      return;
+    }
+
+    const scope = root.actionScopeFor(this.element);
+    this.refreshDestinationAvailability(root, scope);
+    this.refreshMoveMenuAvailability(root, scope);
+    this.refreshMoveDivider();
+  }
+
+  private refreshDestinationAvailability(root:SortableListsRoot, scope:ActionScope):void {
+    for (const item of this.destinationItemTargets) {
+      const candidates = this.destinationCandidates(item);
+      this.setAvailability(item, candidates.length > 0 && root.availableDestinations(scope, candidates).length > 0);
+    }
+  }
+
+  private destinationCandidates(item:HTMLElement):DestinationIdentity[] {
+    try {
+      const candidates:unknown = JSON.parse(item.dataset.sortableListsDestinations ?? '');
+      if (!Array.isArray(candidates)) {
+        return [];
+      }
+
+      const destinations = candidates.filter(isDestinationIdentity);
+      return destinations.length === candidates.length ? destinations : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private refreshMoveMenuAvailability(root:SortableListsRoot, scope:ActionScope):void {
+    if (scope.kind === 'batch' && scope.items.length > 1) {
+      if (this.hasMoveMenuTarget) {
+        this.setAvailability(this.moveMenuTarget, false);
+      }
       return;
     }
 
@@ -491,8 +544,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
     if (this.hasMoveMenuTarget) {
       this.setAvailability(this.moveMenuTarget, available > 0);
     }
-
-    this.refreshMoveDivider();
   }
 
   // The divider that opens the move group is rendered server-side from a

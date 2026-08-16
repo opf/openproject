@@ -36,15 +36,15 @@ module Backlogs
     include CommonHelper
     include Concerns::WorkPackageMovability
 
-    attr_reader :work_package, :project, :open_sprints_exist, :other_buckets_exist, :current_user
+    attr_reader :work_package, :project, :sprint_ids, :bucket_ids, :current_user
 
-    def initialize(work_package:, project:, open_sprints_exist:, other_buckets_exist:, current_user: User.current)
+    def initialize(work_package:, project:, sprint_ids:, bucket_ids:, current_user: User.current)
       super()
 
       @work_package = work_package
       @project = project
-      @open_sprints_exist = open_sprints_exist
-      @other_buckets_exist = other_buckets_exist
+      @sprint_ids = sprint_ids
+      @bucket_ids = bucket_ids
       @current_user = current_user
     end
 
@@ -62,15 +62,15 @@ module Backlogs
     end
 
     def show_move_to_inbox?
-      movable? && (work_package.sprint_id? || work_package.backlog_bucket_id?)
+      sortable?
     end
 
     def show_move_to_backlog_bucket?
-      movable? && other_buckets_exist
+      sortable? && bucket_ids.any?
     end
 
     def show_move_to_sprint?
-      movable? && open_sprints_exist
+      sortable? && sprint_ids.any?
     end
 
     def show_move_submenu?
@@ -105,6 +105,24 @@ module Backlogs
 
     def inbox_list_type
       Backlogs::Target::InboxId.list_type
+    end
+
+    def sprint_list_type
+      Backlogs::Target::SprintId[nil].list_type
+    end
+
+    def bucket_list_type
+      Backlogs::Target::BucketId[nil].list_type
+    end
+
+    def destination_data(type, ids)
+      candidates = ids.map { |id| { type:, id: id.to_s } }
+      candidates = [{ type:, id: nil }] if type == Backlogs::Target::InboxId.list_type
+
+      {
+        sortable_lists__item_target: "destinationItem",
+        sortable_lists_destinations: candidates.to_json
+      }
     end
   end
 end
