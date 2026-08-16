@@ -26,82 +26,102 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationController } from 'stimulus-use';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { Controller } from '@hotwired/stimulus';
+import { FetchRequest } from '@rails/request.js';
 import { TurboHelpers } from 'core-turbo/helpers';
 
-export default class AsyncDialogController extends ApplicationController {
+export default class AsyncDialogController extends Controller {
   static values = { disableDuringLoad: { type: Boolean, default: true } };
 
   declare disableDuringLoadValue:boolean;
 
   private loading = false;
 
-  connect() {
-    // Only bind events if we have an href to work with
-    if (this.href) {
-      this.bindEventListeners();
+  private readonly handleClick = (event:Event):void => {
+    event.preventDefault();
+    void this.triggerTurboStream();
+  };
+
+  private readonly handleKeydown = (event:Event):void => {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
+      event.preventDefault();
+      void this.triggerTurboStream();
+    }
+  };
+
+  connect():void {
+    if (this.href || (this.element instanceof HTMLButtonElement && this.element.form)) {
+      this.element.addEventListener('click', this.handleClick);
+      this.element.addEventListener('keydown', this.handleKeydown);
     }
   }
 
-  private bindEventListeners() {
-    this.element.addEventListener('click', (event:MouseEvent) => {
-      event.preventDefault();
-      this.triggerTurboStream(this.href);
-    });
-
-    this.element.addEventListener('keydown', (event:KeyboardEvent) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        this.triggerTurboStream(this.href);
-      }
-    });
+  disconnect():void {
+    this.element.removeEventListener('click', this.handleClick);
+    this.element.removeEventListener('keydown', this.handleKeydown);
   }
 
-  private triggerTurboStream(url:string):void {
+  private async triggerTurboStream(urlOverride?:string):Promise<void> {
     if (this.disableDuringLoadValue && this.loading) return;
 
-    if (this.disableDuringLoadValue) {
-      this.loading = true;
-      (this.element as HTMLElement).setAttribute('aria-disabled', 'true');
-    }
+    const form = urlOverride
+      ? null
+      : this.element instanceof HTMLButtonElement ? this.element.form : null;
+    const event = this.dispatch('beforeLoad', { cancelable: true, detail: { form } });
+    if (event.defaultPrevented) return;
+
+    const method = form?.method ?? this.method;
+    const url = urlOverride ?? form?.action ?? this.href;
+    const body = form ? new FormData(form) : undefined;
+
+    this.setLoading(true);
     TurboHelpers.showProgressBar();
 
-    void fetch(url, {
-      method: this.method,
-      headers: {
-        Accept: 'text/vnd.turbo-stream.html',
-      },
-    }).then((response) => {
-      const contentType = response.headers.get('Content-Type') ?? '';
-      const isTurboStream = contentType.includes('text/vnd.turbo-stream.html');
+    try {
+      const response = await new FetchRequest(method, url, {
+        body,
+        responseKind: 'turbo-stream',
+      }).perform();
 
-      if (!isTurboStream) {
-        return Promise.reject(new Error('Response is not a Turbo Stream'));
+      if (!response.isTurboStream) {
+        throw new Error('Response is not a Turbo Stream');
       }
 
-      return response.text();
-    }).then((html) => {
-      renderStreamMessage(html);
-    }).finally(() => {
-      if (this.disableDuringLoadValue) {
-        this.loading = false;
-        (this.element as HTMLElement).removeAttribute('aria-disabled');
+      // request.js renders successful and 422 streams automatically. Preserve
+      // async-dialog's existing any-status stream behavior for every other
+      // response until #AGILE-393 defines an application-wide policy.
+      if (!response.ok && !response.unprocessableEntity) {
+        await response.renderTurboStream();
       }
+    } finally {
+      this.setLoading(false);
       TurboHelpers.hideProgressBar();
-    });
+    }
   }
 
   handleOpenDialog(event:CustomEvent<{ url:string }>):void {
     // Trigger the dialog with custom URL
-    this.triggerTurboStream(event.detail.url);
+    void this.triggerTurboStream(event.detail.url);
   }
 
-  get href() {
+  get href():string {
     return (this.element as HTMLLinkElement).href;
   }
 
-  get method() {
+  get method():string {
     return (this.element as HTMLLinkElement).dataset.turboMethod ?? 'GET';
+  }
+
+  private setLoading(loading:boolean):void {
+    this.loading = loading;
+
+    if (this.disableDuringLoadValue) {
+      if (loading) {
+        this.element.setAttribute('aria-disabled', 'true');
+      } else {
+        this.element.removeAttribute('aria-disabled');
+      }
+    }
   }
 }
