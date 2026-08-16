@@ -450,6 +450,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return null;
     }
 
+    if (!this.resolveCollectionMoveUrl()) {
+      return { top: false, up: false, down: false, bottom: false };
+    }
+
     const list = this.ownerListOf(itemElement);
 
     return list
@@ -488,7 +492,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    if (this.selection && this.hasCollectionMoveUrlValue) {
+    if (this.selection) {
+      const moveUrl = this.resolveCollectionMoveUrl();
+      if (!moveUrl) {
+        return;
+      }
+
       // Resolved without mutating: every check below can still refuse the
       // move, and a stale menu must not replace the user's batch with the
       // invoker for a move that then never runs.
@@ -507,8 +516,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
         direction,
         rowsContainer: list.rowsContainer,
       });
-      const moveUrl = this.resolveCollectionMoveUrl();
-      if (!resolution.available || !moveUrl) {
+      if (!resolution.available) {
         return;
       }
 
@@ -560,8 +568,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     if (!moveUrl || !sourceRow) {
       return;
     }
-
-    this.selection?.collapseForAction(itemElement);
 
     void this.performMove({
       rows: [sourceRow],
