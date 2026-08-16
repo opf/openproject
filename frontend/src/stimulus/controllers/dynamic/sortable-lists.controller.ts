@@ -53,8 +53,9 @@ import {
   isOrderableItem,
   itemAcceptsDestination,
   reorderRows,
-  resolveDirectionalPreviousItemId,
+  resolveBlockMove,
   resolveBlockMoveAvailability,
+  resolveDirectionalPreviousItemId,
   resolveItemId,
   resolveItemLabel,
   resolveItemPosition,
@@ -539,6 +540,58 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     // know about per-work-package movability, so a stale or over-permissive
     // menu must not execute a move the server will refuse.
     if (this.busy || !isOrderableItem(itemElement)) {
+      return;
+    }
+
+    if (this.selection && this.hasCollectionMoveUrlValue) {
+      // Resolved without mutating: every check below can still refuse the
+      // move, and a stale menu must not replace the user's batch with the
+      // invoker for a move that then never runs.
+      const scope = this.actionScopeFor(itemElement);
+      if (scope.kind === 'refused') {
+        return;
+      }
+
+      const list = this.ownerListOf(itemElement);
+      if (!list) {
+        return;
+      }
+
+      const resolution = resolveBlockMove({
+        itemElements: scope.items,
+        direction,
+        rowsContainer: list.rowsContainer,
+      });
+      const moveUrl = this.resolveCollectionMoveUrl();
+      if (!resolution.available || !moveUrl) {
+        return;
+      }
+
+      // Scope members are resolved candidates, so both identity attributes
+      // exist; refusing on a mismatch keeps the moved rows and the submitted
+      // ids from ever diverging.
+      const items = scope.items.flatMap((element):SelectionItem[] => {
+        const type = resolveItemType(element);
+        const id = resolveItemId(element);
+        return type && id ? [{ type, id }] : [];
+      });
+      if (items.length !== scope.items.length) {
+        return;
+      }
+
+      // Committed only now the move is known executable: invoking a position
+      // action on an unselected card selects it, and a failed request keeps
+      // that selection for the retry.
+      this.selectForAction(itemElement);
+
+      void this.performMove({
+        rows: resolution.rows,
+        items,
+        rowsContainer: list.rowsContainer,
+        listData: list.listData,
+        previousItemId: resolution.previousItemId,
+        moveUrl,
+      });
       return;
     }
 

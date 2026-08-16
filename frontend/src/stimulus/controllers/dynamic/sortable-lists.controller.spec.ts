@@ -1195,6 +1195,201 @@ describe('Sortable lists controller', () => {
     expect(body.body.get('prev_id')).toBe('2');
   });
 
+  describe('batch menu moves', () => {
+    function renderBatchMenuFixture() {
+      const elements = renderSelectableRoot({
+        optimistic: true,
+        collectionMoveUrl: '/projects/demo/backlogs/work_packages/move',
+      });
+      elements.sourceList.setAttribute('data-sortable-lists--list-type-value', 'sprint');
+      elements.sourceList.setAttribute('data-sortable-lists--list-id-value', '8');
+      elements.sourceList.append(elements.items[3]);
+
+      return elements;
+    }
+
+    function selectItems(...items:HTMLElement[]):void {
+      items.forEach((item, index) => {
+        item.dispatchEvent(new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          ctrlKey: index > 0,
+        }));
+      });
+    }
+
+    function selectedIds(root:HTMLElement):string[] {
+      return Array.from(root.querySelectorAll<HTMLElement>('[data-batch-selected]'))
+        .map((item) => item.getAttribute('data-sortable-lists--item-id-value')!);
+    }
+
+    function controllerFor(root:HTMLElement):SortableListsControllerType {
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    it('moves the ordered selection immediately and excludes it from the predecessor', async () => {
+      let resolveMove!:(response:Response) => void;
+      fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+        resolveMove = resolve;
+      }));
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+
+      expect(itemIds(sourceList)).toEqual(['1', '4', '2', '3']);
+      const [url, options] = fetchMock.mock.lastCall as [string, { body:FormData }];
+      expect(url).toBe('/projects/demo/backlogs/work_packages/move?optimistic=true');
+      expect([...options.body.entries()]).toEqual([
+        ['ids[]', '2'],
+        ['ids[]', '3'],
+        ['list_type', 'sprint'],
+        ['list_id', '8'],
+        ['prev_id', '4'],
+      ]);
+
+      resolveMove(new Response('', { status: 200 }));
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+    });
+
+    it('clears the selection after a successful collection move', async () => {
+      const { root, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+      expect(selectedIds(root)).toEqual([]);
+    });
+
+    it('rolls a rejected collection move back and preserves the selection', async () => {
+      fetchMock.mockResolvedValueOnce(new Response('', { status: 422 }));
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(selectedIds(root)).toEqual(['2', '3']);
+    });
+
+    it('warns when a rejected collection move cannot be rolled back safely', async () => {
+      let resolveMove!:(response:Response) => void;
+      fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+        resolveMove = resolve;
+      }));
+      const { root, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+      items[2].remove();
+      resolveMove(new Response('', { status: 422 }));
+
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+      expect(announceSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Check the items'),
+        expect.objectContaining({ politeness: 'assertive' }),
+      );
+    });
+
+    it('does not request a move when the invoker has no owned list', async () => {
+      const { root } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+
+      controllerFor(root).moveInDirection(itemRow('99'), 'down');
+      await flushPromises();
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('does not request a move when the live selection is unavailable', async () => {
+      const { root, sourceList, targetList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[4]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(itemIds(targetList)).toEqual(['5']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    // A menu opened on an unselected card can go stale: by the time the item
+    // is activated its direction may be a no-op. The refusal must leave the
+    // batch the user built alone rather than replacing it with the invoker.
+    it('leaves the selection alone when an unselected invoker cannot move', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[0], 'top');
+      await flushPromises();
+
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(selectedIds(root)).toEqual(['2', '3']);
+    });
+
+    it('does not request a no-op block move', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[0], items[1]);
+
+      controllerFor(root).moveInDirection(items[0], 'top');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('uses the collection contract for an unselected one-card invoker', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['2', '1', '3', '4']);
+      const [url, options] = fetchMock.mock.lastCall as [string, { body:FormData }];
+      expect(url).toBe('/projects/demo/backlogs/work_packages/move?optimistic=true');
+      expect(options.body.getAll('ids[]')).toEqual(['1']);
+    });
+
+    it('preserves the selection and refuses the action while busy', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+      root.setAttribute('data-sortable-lists-busy', 'true');
+
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(selectedIds(root)).toEqual(['2', '3']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+  });
+
+  it('retains the singular member contract without collection capability', async () => {
+    const { root, sourceList, firstSourceItem } = renderFixture({ optimistic: true });
+    await ctx.nextFrame();
+
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    controller.moveInDirection(firstSourceItem, 'down');
+    await flushPromises();
+
+    expect(itemIds(sourceList)).toEqual(['2', '1', '3']);
+    const [url, options] = fetchMock.mock.lastCall as [string, { body:FormData }];
+    expect(url).toBe('/move/1?optimistic=true');
+    expect(options.body.getAll('ids[]')).toEqual([]);
+  });
+
   it('refuses a directional move for a non-movable item', async () => {
     const { root, sourceList, firstSourceItem } = renderFixture();
     firstSourceItem.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
