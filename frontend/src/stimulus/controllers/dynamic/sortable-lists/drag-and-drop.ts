@@ -55,6 +55,7 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
+import type { ActionScope } from './selection-orchestrator';
 
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
 // item controllers, built on top of the DOM contract in list-dom.ts.
@@ -102,6 +103,9 @@ export interface SortableListData extends Record<string|symbol, unknown> {
 export interface SortableListsRoot {
   readonly element:HTMLElement;
   readonly busy:boolean;
+  actionScopeFor(itemElement:HTMLElement):ActionScope;
+  selectForAction(itemElement:HTMLElement):ActionScope;
+  availableDestinations(scope:ActionScope, candidates:DestinationIdentity[]):DestinationIdentity[];
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
