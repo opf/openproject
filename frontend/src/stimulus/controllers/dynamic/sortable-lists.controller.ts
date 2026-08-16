@@ -66,7 +66,7 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
-import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
 import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';
 
@@ -236,6 +236,18 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     } else {
       target.focus();
     }
+  }
+
+  actionScopeFor(itemElement:HTMLElement):ActionScope {
+    return this.selection?.actionScopeFor(itemElement) ?? { kind: 'refused', items: [] };
+  }
+
+  selectForAction(itemElement:HTMLElement):ActionScope {
+    if (this.busy) {
+      return this.actionScopeFor(itemElement);
+    }
+
+    return this.selection?.selectForAction(itemElement) ?? { kind: 'refused', items: [] };
   }
 
   // The drag in flight, or the prospective session of a press that did not
