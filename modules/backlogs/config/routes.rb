@@ -99,14 +99,14 @@ Rails.application.routes.draw do
         collection do
           get :add_existing_dialog
           post :add_existing
+          post :move_to_sprint_dialog
+          post :move_to_bucket_dialog
           put :move, action: :move_collection
         end
 
         member do
           get :menu
           put :move
-          get :move_to_sprint_dialog
-          get :move_to_bucket_dialog
         end
       end
 
