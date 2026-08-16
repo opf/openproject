@@ -54,11 +54,11 @@ import {
   itemAcceptsDestination,
   reorderRows,
   resolveDirectionalPreviousItemId,
+  resolveBlockMoveAvailability,
   resolveItemId,
   resolveItemLabel,
   resolveItemPosition,
   resolveItemType,
-  resolveMoveAvailability,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
@@ -496,14 +496,19 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // gating; the click path re-resolves the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
     if (!isOrderableItem(itemElement)) {
-      return {
-        top: false, up: false, down: false, bottom: false,
-      };
+      return null;
+    }
+
+    const scope = this.actionScopeFor(itemElement);
+    if (scope.kind === 'refused') {
+      return null;
     }
 
     const list = this.ownerListOf(itemElement);
 
-    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+    return list
+      ? resolveBlockMoveAvailability({ itemElements: scope.items, rowsContainer: list.rowsContainer })
+      : null;
   }
 
   moveToDestination(itemElement:HTMLElement, target:DestinationIdentity):void {

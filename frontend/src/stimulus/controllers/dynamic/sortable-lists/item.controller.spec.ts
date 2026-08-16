@@ -1546,7 +1546,7 @@ describe('Sortable lists item controller', () => {
       expect(menu.showItem).toHaveBeenCalledWith(moveToInbox);
     });
 
-    it('hides destination actions and the position submenu for a true multi-card scope', async () => {
+    it('shows available batch position directions when every destination action is hidden', async () => {
       const { el, menu } = renderItemWithMenu(1, true);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
@@ -1556,6 +1556,7 @@ describe('Sortable lists item controller', () => {
       const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
       actionScopeFor.mockReturnValue(scope);
       availableDestinations.mockReturnValue([]);
+      root.moveAvailability = () => ({ top: false, up: true, down: true, bottom: false });
       controller.connectRoot(root);
 
       const moveToSprint = destinationFor(el, [{ type: 'sprint', id: '1' }]);
@@ -1566,8 +1567,35 @@ describe('Sortable lists item controller', () => {
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
       expect(menu.hideItem).toHaveBeenCalledWith(moveToInbox);
+      expect(menu.showItem).toHaveBeenCalledWith(moveMenu);
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'up'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
+      expect(divider.hasAttribute('hidden')).toBe(false);
+    });
+
+    it('hides an all-unavailable batch position submenu and its directions', async () => {
+      const { el, menu } = renderItemWithMenu(1, true);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const scope:ActionScope = { kind: 'batch', items: [el] };
+      const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      actionScopeFor.mockReturnValue(scope);
+      availableDestinations.mockReturnValue([]);
+      root.moveAvailability = () => ({ top: false, up: false, down: false, bottom: false });
+      controller.connectRoot(root);
+
+      const moveToSprint = destinationFor(el, [{ type: 'sprint', id: '1' }]);
+      await menuCtx!.nextFrame();
+
+      const moveMenu = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
+      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+      expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
       expect(menu.hideItem).toHaveBeenCalledWith(moveMenu);
-      expect(menu.hideItem).not.toHaveBeenCalledWith(liFor(el, 'top'));
+      for (const direction of ['top', 'up', 'down', 'bottom']) {
+        expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, direction));
+      }
       expect(divider.hasAttribute('hidden')).toBe(true);
     });
 
