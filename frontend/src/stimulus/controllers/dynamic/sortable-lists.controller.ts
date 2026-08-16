@@ -36,6 +36,7 @@ import { announce } from '@primer/live-region-element';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
+import { performTurboStreamRequest } from 'core-stimulus/helpers/request-helpers';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
@@ -699,18 +700,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
     this.startMoveRequest();
     try {
-      const response = await request.perform();
-
-      if (!response.isTurboStream) {
-        throw new Error('Response is not a Turbo Stream');
-      }
-
-      // request.js renders successful and 422 streams automatically. Match
-      // async-dialog's existing any-status stream behavior for every other
-      // response until #AGILE-393 defines an application-wide policy.
-      if (!response.ok && !response.unprocessableEntity) {
-        await response.renderTurboStream();
-      }
+      await performTurboStreamRequest(request);
     } catch (error) {
       // Only a request that never produced a stream lands here — a rejection
       // streams its own flash. Without the toast the busy state would simply

@@ -26,10 +26,60 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import type { FetchResponse } from '@rails/request.js';
+import type { FetchRequest, FetchResponse } from '@rails/request.js';
 import { TurboHelpers } from 'core-turbo/helpers';
 
-import { withLoadingIndicator, withProgressBar } from './request-helpers';
+import { performTurboStreamRequest, withLoadingIndicator, withProgressBar } from './request-helpers';
+
+describe('performTurboStreamRequest', () => {
+  function requestFor(response:Partial<FetchResponse>):FetchRequest {
+    return {
+      perform: vi.fn().mockResolvedValue(response),
+    } as unknown as FetchRequest;
+  }
+
+  it.each([
+    ['successful', { ok: true, unprocessableEntity: false }],
+    ['unprocessable', { ok: false, unprocessableEntity: true }],
+  ])('leaves request.js to render a %s stream', async (_name, status) => {
+    const renderTurboStream = vi.fn();
+    const response = {
+      ...status,
+      isTurboStream: true,
+      renderTurboStream,
+    } as unknown as FetchResponse;
+
+    await expect(performTurboStreamRequest(requestFor(response))).resolves.toBe(response);
+    expect(renderTurboStream).not.toHaveBeenCalled();
+  });
+
+  it('renders another unsuccessful Turbo Stream exactly once', async () => {
+    const renderTurboStream = vi.fn().mockResolvedValue(undefined);
+    const response = {
+      ok: false,
+      unprocessableEntity: false,
+      isTurboStream: true,
+      renderTurboStream,
+    } as unknown as FetchResponse;
+
+    await performTurboStreamRequest(requestFor(response));
+    expect(renderTurboStream).toHaveBeenCalledOnce();
+  });
+
+  it('rejects a non-Turbo response without rendering it', async () => {
+    const renderTurboStream = vi.fn();
+    const response = {
+      ok: true,
+      unprocessableEntity: false,
+      isTurboStream: false,
+      renderTurboStream,
+    } as unknown as FetchResponse;
+
+    await expect(performTurboStreamRequest(requestFor(response)))
+      .rejects.toThrow('Response is not a Turbo Stream');
+    expect(renderTurboStream).not.toHaveBeenCalled();
+  });
+});
 
 describe('withLoadingIndicator', () => {
   let indicator:HTMLElement|null;
