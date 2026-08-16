@@ -108,8 +108,10 @@ describe('Sortable lists item controller', () => {
       actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
       selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
       availableDestinations: vi.fn(() => []),
+      moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
+      ownerListElementOf: vi.fn(() => null),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
       freezeDragBatch: vi.fn(() => 1),
       markDragBatch: vi.fn(),
@@ -1125,8 +1127,10 @@ describe('Sortable lists item controller', () => {
         actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
         selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
         availableDestinations: vi.fn(() => []),
+        moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
         freezeDragBatch: vi.fn(() => 3),
         markDragBatch: vi.fn(),
@@ -1221,8 +1225,10 @@ describe('Sortable lists item controller', () => {
         actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
         selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
         availableDestinations: vi.fn(() => []),
+        moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
         freezeDragBatch: vi.fn(() => 3),
         markDragBatch: vi.fn(),
@@ -1412,6 +1418,7 @@ describe('Sortable lists item controller', () => {
       actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
       selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
       availableDestinations: vi.fn(() => []),
+      moveToDestination: vi.fn(),
       moveAvailability: () => availability,
       moveInDirection,
     } as unknown as SortableListsRoot);
@@ -1702,6 +1709,88 @@ describe('Sortable lists item controller', () => {
     });
   });
 
+  describe('destination activation', () => {
+    it('exposes direct destination movement as a required root capability', () => {
+      const moveToDestination = vi.fn();
+      const root:SortableListsRoot = { ...fakeRoot(), moveToDestination };
+      const item = document.createElement('div');
+
+      root.moveToDestination(item, { type: 'inbox', id: null });
+
+      expect(moveToDestination).toHaveBeenCalledWith(item, { type: 'inbox', id: null });
+    });
+
+    it('replaces stale generated inputs with the current action scope in document order', () => {
+      const element = document.createElement('div');
+      const [first, second] = ['2', '1'].map((id) => {
+        const member = document.createElement('div');
+        member.setAttribute('data-sortable-lists--item-id-value', id);
+        return member;
+      });
+      const selectForAction = vi.fn(():ActionScope => ({ kind: 'batch', items: [first, second] }));
+      const controller = connectedControllerFor(element, {
+        root: { ...fakeRoot(), selectForAction },
+      });
+      const form = document.createElement('form');
+      form.innerHTML = '<input name="ids[]" value="stale" data-sortable-lists-generated-id><input name="kept" value="yes">';
+      const event = new CustomEvent('async-dialog:beforeLoad', {
+        cancelable: true,
+        detail: { form },
+      });
+
+      controller.prepareDialog(event);
+
+      expect(selectForAction).toHaveBeenCalledWith(element);
+      expect(event.defaultPrevented).toBe(false);
+      expect(Array.from(form.elements).map((input) => [(input as HTMLInputElement).name, (input as HTMLInputElement).value])).toEqual([
+        ['kept', 'yes'],
+        ['ids[]', '2'],
+        ['ids[]', '1'],
+      ]);
+      expect(form.querySelectorAll('[data-sortable-lists-generated-id]')).toHaveLength(2);
+    });
+
+    it('cancels dialog loading for a fixed invoker with no batch action scope', () => {
+      const element = document.createElement('div');
+      element.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      const selectForAction = vi.fn(():ActionScope => ({ kind: 'refused', items: [] }));
+      const controller = connectedControllerFor(element, {
+        root: { ...fakeRoot(), selectForAction },
+      });
+      const form = document.createElement('form');
+      const event = new CustomEvent('async-dialog:beforeLoad', {
+        cancelable: true,
+        detail: { form },
+      });
+
+      controller.prepareDialog(event);
+
+      expect(selectForAction).toHaveBeenCalledWith(element);
+      expect(event.defaultPrevented).toBe(true);
+      expect(form.querySelector('[name="ids[]"]')).toBeNull();
+    });
+
+    it('delegates direct destination metadata to the root', () => {
+      const element = document.createElement('div');
+      const moveToDestination = vi.fn();
+      const controller = connectedControllerFor(element, {
+        root: { ...fakeRoot(), moveToDestination },
+      });
+      Object.defineProperty(controller, 'hasMenuElement', { value: true });
+      Object.defineProperty(controller, 'menuElement', {
+        value: { isItemDisabled: vi.fn(() => false), isItemHidden: vi.fn(() => false) },
+      });
+      const item = document.createElement('li');
+      item.dataset.sortableListsDestinations = '[{"type":"inbox","id":null}]';
+      const event = new Event('click') as ActionEvent;
+      Object.defineProperty(event, 'currentTarget', { value: item });
+
+      controller.moveToDestination(event);
+
+      expect(moveToDestination).toHaveBeenCalledWith(element, { type: 'inbox', id: null });
+    });
+  });
+
   describe('movability and focus', () => {
     let ctx:StimulusTestContext;
 
@@ -1798,8 +1887,10 @@ describe('Sortable lists item controller', () => {
         actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
         selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
         availableDestinations: vi.fn(() => []),
+        moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
         freezeDragBatch: vi.fn(() => 1),
         markDragBatch,
@@ -1829,8 +1920,10 @@ describe('Sortable lists item controller', () => {
         actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
         selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
         availableDestinations: vi.fn(() => []),
+        moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
         freezeDragBatch,
         markDragBatch: vi.fn(),

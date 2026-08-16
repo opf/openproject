@@ -60,7 +60,7 @@ import {
   type DestinationIdentity,
 } from './list-dom';
 import { renderDragPreview } from './preview';
-import type { ActionScope } from './selection-orchestrator';
+import { scopeIds, type ActionScope } from './selection-orchestrator';
 
 type CleanupFn = () => void;
 
@@ -176,6 +176,41 @@ export default class ItemController extends Controller<HTMLElement> implements R
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
       this.root?.moveInDirection(this.element, direction);
+    }
+  }
+
+  prepareDialog(event:CustomEvent<{ form:HTMLFormElement|null }>):void {
+    const scope = this.root?.selectForAction(this.element);
+    const form = event.detail.form;
+    if (!form || !scope || scope.kind === 'refused') {
+      event.preventDefault();
+      return;
+    }
+
+    form.querySelectorAll('[data-sortable-lists-generated-id]').forEach((input) => input.remove());
+    scopeIds(scope).forEach((id) => {
+      const input = form.ownerDocument.createElement('input');
+      input.type = 'hidden';
+      input.name = 'ids[]';
+      input.value = id;
+      input.dataset.sortableListsGeneratedId = '';
+      form.append(input);
+    });
+  }
+
+  moveToDestination(event:ActionEvent):void {
+    const item = event.currentTarget;
+    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
+      return;
+    }
+
+    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+      return;
+    }
+
+    const candidates = this.destinationCandidates(item);
+    if (candidates.length === 1) {
+      this.root?.moveToDestination(this.element, candidates[0]);
     }
   }
 

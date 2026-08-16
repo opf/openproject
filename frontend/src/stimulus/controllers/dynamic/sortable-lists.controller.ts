@@ -68,7 +68,7 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
-import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { SelectionOrchestrator, scopeIds, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemIdentity, orderedItemElements } from './sortable-lists/selection';
 
 type CleanupFn = () => void;
@@ -119,8 +119,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
   private reconcileScheduled = false;
+  private inFlightMoveRequests = 0;
 
   connect():void {
+    // Busy belongs to in-flight controller work, not to cached DOM markup.
+    // Reconnecting before settlement keeps the root blocked; reconnecting a
+    // stale cached root after settlement clears the marker.
+    this.syncBusyState();
     this.monitorCleanupFn = monitorForElements({
       canMonitor: ({ source }) => !this.busy
         && isItemFromRoot(this.element, source.data),
@@ -493,6 +498,29 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
   }
 
+  moveToDestination(itemElement:HTMLElement, target:DestinationIdentity):void {
+    if (this.busy) {
+      return;
+    }
+
+    const moveUrl = this.resolveCollectionMoveUrl(false);
+    if (!moveUrl) {
+      return;
+    }
+
+    const scope = this.selectForAction(itemElement);
+    if (scope.kind === 'refused') {
+      return;
+    }
+
+    const body = new FormData();
+    scopeIds(scope).forEach((id) => body.append('ids[]', id));
+    body.append('list_type', target.type);
+    body.append('list_id', target.id ?? '');
+
+    void this.submitDestinationMove(moveUrl, body);
+  }
+
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
     // The menu is rendered server-side from a permission check that does not
     // know about per-work-package movability, so a stale or over-permissive
@@ -542,6 +570,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     const containing = this.sortableListsListOutlets.filter((list) => list.element.contains(itemElement));
 
     return containing.find((list) => !containing.some((other) => other !== list && list.element.contains(other.element))) ?? null;
+  }
+
+  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null {
+    return this.ownerListOf(itemElement)?.element ?? null;
   }
 
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null {
@@ -632,18 +664,55 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.hasCollectionMoveUrlValue && this.collectionMoveUrlValue !== '' ? this.collectionMoveUrlValue : null;
   }
 
-  private resolveCollectionMoveUrl():string|null {
+  private resolveCollectionMoveUrl(optimistic = this.optimisticValue):string|null {
     const collectionMoveUrl = this.collectionMoveUrl;
     if (!collectionMoveUrl) {
       return null;
     }
 
     const url = new URL(collectionMoveUrl, window.location.href);
-    if (this.optimisticValue) {
+    if (optimistic) {
       url.searchParams.set('optimistic', 'true');
+    } else {
+      url.searchParams.delete('optimistic');
     }
 
     return relativeUrl(url);
+  }
+
+  private async submitDestinationMove(moveUrl:string, body:FormData):Promise<void> {
+    const request = new FetchRequest(
+      'put',
+      moveUrl,
+      {
+        body,
+        responseKind: 'turbo-stream',
+      },
+    );
+
+    this.startMoveRequest();
+    try {
+      const response = await request.perform();
+
+      if (!response.isTurboStream) {
+        throw new Error('Response is not a Turbo Stream');
+      }
+
+      // request.js renders successful and 422 streams automatically. Match
+      // async-dialog's existing any-status stream behavior for every other
+      // response until #AGILE-393 defines an application-wide policy.
+      if (!response.ok && !response.unprocessableEntity) {
+        await response.renderTurboStream();
+      }
+    } catch (error) {
+      // Only a request that never produced a stream lands here — a rejection
+      // streams its own flash. Without the toast the busy state would simply
+      // clear and the batch would look moved.
+      debugLog('Failed to move sortable list items to destination', error);
+      this.dispatchErrorToast();
+    } finally {
+      this.finishMoveRequest();
+    }
   }
 
   // Refused whole when a row is missing: a member that vanished mid-drag
@@ -800,7 +869,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       },
     );
 
-    this.setBusy(true);
+    this.startMoveRequest();
     try {
       const response = await request.perform();
 
@@ -815,7 +884,26 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       debugLog('Failed to move sortable list item due to request error', error);
       return { ok: false, showToast: true };
     } finally {
-      this.setBusy(false);
+      this.finishMoveRequest();
+    }
+  }
+
+  private startMoveRequest():void {
+    this.inFlightMoveRequests += 1;
+    this.syncBusyState();
+  }
+
+  private finishMoveRequest():void {
+    this.inFlightMoveRequests = Math.max(0, this.inFlightMoveRequests - 1);
+    this.syncBusyState();
+  }
+
+  private syncBusyState():void {
+    // A successful frame stream may already have replaced this root. Avoid
+    // mutating detached cached DOM; connect() will project the current count
+    // if this element is restored later.
+    if (this.element.isConnected) {
+      this.setBusy(this.inFlightMoveRequests > 0);
     }
   }
 
