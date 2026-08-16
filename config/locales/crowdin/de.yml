@@ -1542,15 +1542,15 @@ de:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
       versions_and_categories:
         banner:
-          button_more_information: More information
+          button_more_information: Weitere Informationen
           message: Es stehen wichtige Änderungen der Versionen und Kategorien bevor. Bitte überprüfen Sie die folgenden Einstellungen sorgfältig.
         categories:
           heading: Kategorien
           planned_changes:
-            heading: 'In zukünftigen Releases wird es folgende Änderungen geben:'
+            heading: Änderungen in zukünftigen Releases
             renamed: Das Feld „Kategorie“ wird in „Kategorien“ umbenannt.
             single_value: Dieses Feld ist derzeit auf einen einzelnen Wert beschränkt. Es wird ebenfalls so angepasst, dass mehrere Werte möglich sind.
-            upcoming_choice: Sie haben die Möglichkeit, die Mehrfachauswahl zu aktivieren, bevor diese automatische Umwandlung erfolgt.
+            upcoming_choice: Schon bevor die automatische Umwandlung erfolgt, werden Sie die Möglichkeit erhalten, die Mehrfachauswahl manuell zu aktivieren.
         dialog:
           checkbox_label: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
           confirm_button: Aktivieren
@@ -1566,11 +1566,11 @@ de:
             not_writable_hint: Diese Einstellungen werden über Umgebungsvariablen konfiguriert. Wenn Sie die Konvertierung zur Mehrfachauswahl manuell ausführen möchten, um diese vor der automatischen Migration zu aktivieren, passen Sie bitte Ihre „configuration.yml“ Datei an.
           heading: Zielversionen
           in_progress:
-            heading: Mehrfachauswahl für Versionen aktivieren
+            heading: Mehrfachauswahl für Versionen wird aktiviert
           planned_changes:
-            heading: 'In zukünftigen Releases wird es folgende Änderungen geben:'
+            heading: Änderungen in zukünftigen Releases
             renamed: Das Feld „Version“ wird in „Zielversionen“ umbenannt.
-            single_value: Dieses Feld ist derzeit auf einen einzelnen Wert beschränkt. Es wird ebenfalls so angepasst, dass mehrere Werte möglich sind.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: Weitere Informationen zu dieser Änderung und zur Aktualisierung von API-Clients finden Sie in <a href="%{link}" target="_blank" rel="noopener">unserer Dokumentation</a>.
             heading: Aktuelle Änderungen
@@ -2924,16 +2924,11 @@ de:
         field_updated: "%{field} aktualisiert"
         header: Änderungen durch %{author}
         set_with_diff: "%{field} gesetzt (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(abgesagt)"
       meeting_deleted: "(gelöscht)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: Backlog der Terminserie %{link}
-      meeting_series_template: Vorlage der Terminserie %{link}
-      meeting_template: Besprechungsvorlage %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
@@ -2970,14 +2965,14 @@ de:
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
       import: Importiert
-      meeting_agenda_item_added: Zur Besprechung hinzugefügt
-      meeting_agenda_item_added_template: Hinzugefügt zu
-      meeting_agenda_item_discussed: In Besprechung diskutiert
-      meeting_agenda_item_moved: Verschoben zu Besprechung
-      meeting_agenda_item_moved_template: Verschoben zu
-      meeting_agenda_item_removed: Entfernt aus Meeting
-      meeting_agenda_item_removed_template: Entfernt von
-      meeting_outcome_recorded: Als Ergebnis hinzugefügt in Besprechung
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Fortschrittsberechnung aktualisiert
       status_changed: Status '%{status_name}'
       system_update: 'OpenProject-Systemaktualisierung:'

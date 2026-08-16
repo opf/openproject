@@ -277,7 +277,7 @@ fr:
       project_custom_field:
         custom_field_section: Section
       project_type:
-        variant: Variant
+        variant: Variante
       query:
         child_work_packages: Lots de travaux enfants
         column_names: Colonnes
@@ -348,23 +348,23 @@ fr:
         color: Couleur
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_milestone: Est un jalon
-        project_types: Projects
-        variants: Variants
+        project_types: Projets
+        variants: Variantes
       type/configuration_link:
         source: Type source
       type_variant:
-        attribute_groups: Form configuration
-        default_work_package_description: Default text for description
-        defaults_source: Defaults source
-        enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form configuration source
-        patterns: Patterns
-        pdf_export_source: PDF export source
-        project_attributes_source: Project attributes source
-        project_types: Projects using this variant
-        variant: Variant
-        variant_name: Name
-        workflows_source: Workflows source
+        attribute_groups: Configuration du formulaire
+        default_work_package_description: Texte par défaut pour la description
+        defaults_source: Source par défaut
+        enabled_in_new_projects: Activer dans les nouveaux projets
+        form_configuration_source: Source de configuration du formulaire
+        patterns: Modèles
+        pdf_export_source: Source d'exportation au format PDF
+        project_attributes_source: Source des attributs du projet
+        project_types: Projets utilisant cette variante
+        variant: Variante
+        variant_name: Nom
+        workflows_source: Source des workflows
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
@@ -559,7 +559,7 @@ fr:
         regex_match_failed: ne correspond pas à l'expression régulière %{expression}.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
         ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
-        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
+        status_transition_invalid: n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel.
         system_wide_non_working_day_exists: entre en conflit avec un jour chômé existant dans le système pour cette date.
         taken: a déjà été pris.
         too_long: est trop long (le maximum est de %{count} caractères).
@@ -823,32 +823,32 @@ fr:
         type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              attribute_unknown: Attribut du lot de travaux invalide utilisé.
+              attribute_unknown_name: 'Attribut du lot de travaux invalide : %{attribute}'
+              duplicate_group: Le nom de groupe "%{group}" est utilisé plus d'une fois. Les noms de groupe doivent être uniques.
+              group_without_name: Le nom du groupe ne peut pas être vide.
+              query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
             base:
-              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
-              is_default_variant: The default configuration of a type cannot be deleted.
+              borrowed_by_variants: Ne peut pas être supprimé tant que sa configuration est réutilisée par %{names}.
+              is_default_variant: La configuration par défaut d'un type ne peut pas être supprimée.
               restrict_dependent_destroy:
-                has_many: Cannot be deleted while projects are still using it.
+                has_many: Il ne peut pas être supprimé tant que des projets l'utilisent encore.
             defaults_source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: créerait une boucle entre ces configurations.
             enabled_in_new_projects:
-              taken: is already set for another configuration of this type.
+              taken: est déjà configuré pour une autre configuration de ce type.
             form_configuration_source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: créerait une boucle entre ces configurations.
             patterns:
-              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+              invalid_tokens: Un ou plusieurs attributs dans le champ ne sont pas valides. Veuillez corriger les attributs avant d'enregistrer.
             pdf_export_source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: créerait une boucle entre ces configurations.
             project_attributes_source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: créerait une boucle entre ces configurations.
             variant:
-              must_belong_to_the_type: must be a variant of this type.
+              must_belong_to_the_type: doit s'agir d'une variante de ce type.
             workflows_source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: créerait une boucle entre ces configurations.
         user:
           attributes:
             base:
@@ -954,8 +954,8 @@ fr:
               cannot_be_null: ne peut pas être définie à NULL car la date de fin et la durée sont connues.
               violates_relationships: peut uniquement valoir %{soonest_start} ou une date ultérieure afin de ne pas violer les relations du lot de travaux.
             status:
-              status_invalid_in_type: is invalid because the current status does not exist in this type.
-              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
+              status_invalid_in_type: est invalide car le statut actuel n'existe pas dans ce type.
+              status_transition_invalid: n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel.
             status_id:
               status_invalid_in_type: est invalide car le statut actuel n'existe pas dans ce type.
               status_transition_invalid: n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel.
@@ -1029,8 +1029,8 @@ fr:
         one: Type
         other: Types
       type_variant:
-        one: Variant
-        other: Variants
+        one: Variante
+        other: Variantes
       user: Utilisateur
       version: Version
       wiki: Wiki
@@ -1054,7 +1054,7 @@ fr:
           heading: Rendre ce commentaire public ?
           title: Rendre ce commentaire public ?
         internal_journal: Les commentaires internes sont visibles pour un groupe limité de membres.
-        label_activity_hide_meetings: Hide meetings updates
+        label_activity_hide_meetings: Masquer les mises à jour relatives aux réunions
         label_activity_show_all: Tout afficher
         label_activity_show_only_changes: Afficher uniquement les modifications
         label_activity_show_only_comments: Afficher uniquement les commentaires
@@ -1542,22 +1542,22 @@ fr:
           error: La section n'a pas pu être réordonnée.
       versions_and_categories:
         banner:
-          button_more_information: More information
-          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+          button_more_information: Plus d'informations
+          message: Des changements importants vont prochainement être apportés aux versions et aux catégories. Veuillez examiner attentivement les paramètres suivants.
         categories:
-          heading: Categories
+          heading: Catégories
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Category” field will be renamed “Categories”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
-            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+            heading: Modifications prévues dans une prochaine version
+            renamed: Le champ « Catégorie » sera renommé « Catégories ».
+            single_value: Ce champ n'accepte actuellement qu'une seule valeur. Il sera également modifié pour permettre la saisie de plusieurs valeurs.
+            upcoming_choice: Vous pourrez choisir d'activer plusieurs valeurs avant que cette conversion automatique n'ait lieu.
         dialog:
-          checkbox_label: I understand that this action is not reversible
-          confirm_button: Enable
-          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
-          heading: Enable multiple target versions?
-          irreversible_notice: Once enabled, it will not be possible to go back to single values.
-          title: Enable multiple target versions
+          checkbox_label: Je comprends que cette action n'est pas réversible
+          confirm_button: Activer
+          description_html: Cette opération permettra de transformer le champ « Version », qui n'accepte actuellement qu'une seule valeur, en un champ pouvant accepter plusieurs valeurs. Aucune donnée ne sera perdue, mais cela pourrait avoir une incidence sur les intégrations personnalisées. Veuillez consulter la <a href="%{link}" target="_blank" rel="noopener">documentation</a> avant de poursuivre.
+          heading: Activer plusieurs versions cibles ?
+          irreversible_notice: Une fois cette option activée, il ne sera plus possible de revenir à l'affichage des valeurs individuelles.
+          title: Activer plusieurs versions cibles
         target_versions:
           action_required:
             button: Enable multiple values
@@ -1570,7 +1570,7 @@ fr:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2926,16 +2926,11 @@ fr:
         field_updated: "%{field} mis à jour"
         header: modifications par %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Le calcul de la progression est désormais basé sur le statut
       status_excluded_from_totals_set_to_false_message: désormais inclus dans les totaux de la hiérarchie
       status_excluded_from_totals_set_to_true_message: désormais exclus des totaux de la hiérarchie
@@ -2972,14 +2967,14 @@ fr:
       dates_changed: Dates modifiées
       default_attribute_written: Attributs en lecture seule écrits
       import: Importé
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Mise à jour du calcul de la progression
       status_changed: Statut « %{status_name} »
       system_update: 'Mise à jour du système OpenProject :'
@@ -4801,8 +4796,8 @@ fr:
   project:
     archive:
       archived: Archivé
-      confirmation_heading: Are you sure you want to continue?
-      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
+      confirmation_heading: Voulez-vous vraiment continuer ?
+      confirmation_message: L'archivage de ce projet rendra celui-ci, ainsi que tous ses descendants, inaccessibles à tous les utilisateurs de cette instance. Les projets archivés peuvent être restaurés.
       title: Archiver le projet
     count:
       one: 1 projet
@@ -5423,7 +5418,7 @@ fr:
   setting_work_package_done_ratio_status_caption_html: Chaque statut est associé à une valeur de <i>% d'achèvement</i>. Le changement de statut modifie le <i>% d'achèvement</i>.
   setting_work_package_list_default_highlighted_attributes: Attributs en ligne mis en surbrillance par défaut
   setting_work_package_list_default_highlighting_mode: Mode de surbrillance par défaut
-  setting_work_package_multiple_versions: Multiple target versions
+  setting_work_package_multiple_versions: Plusieurs versions cibles
   setting_work_package_properties: Propriétés du lot de travaux
   setting_work_package_startdate_is_adddate: Utiliser la date actuelle comme date de début des nouveaux lots de travaux
   setting_work_packages_identifier_classic: Séquence numérique à l'échelle de l'instance (par défaut)
@@ -5843,7 +5838,7 @@ fr:
   text_journal_file_link_deleted: Lien %{label} vers %{old} (%{storage}) supprimé
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
-  text_journal_permission_denied: You do not have permission to see this journal activity.
+  text_journal_permission_denied: Vous n'êtes pas autorisé(e) à consulter cette activité du journal.
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_set_with_diff: "%{label} mis (%{link})"
   text_latest_note: 'Le dernier commentaire est : %{note}'
