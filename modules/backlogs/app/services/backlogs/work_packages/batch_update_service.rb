@@ -247,6 +247,16 @@ class Backlogs::WorkPackages::BatchUpdateService
     end
   end
 
+  def cohort_intact?
+    current = WorkPackage
+      .where(id: work_packages.map(&:id), project_id: batch_project_id)
+      .select(:id, :sprint_id, :backlog_bucket_id)
+
+    current.size == work_packages.size && current.all? do |work_package|
+      Backlogs::Target.for_work_package(work_package) == batch_source_targets.fetch(work_package.id)
+    end
+  end
+
   # Under lock the anchor must still be what placement resolution saw: same
   # project, same list, and for append still the last non-batch member. A
   # concurrently moved anchor would otherwise fall through to move_after's
