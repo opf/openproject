@@ -28,6 +28,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
+import { performTurboStreamRequest } from 'core-stimulus/helpers/request-helpers';
 import { TurboHelpers } from 'core-turbo/helpers';
 
 export default class AsyncDialogController extends Controller {
@@ -79,21 +80,10 @@ export default class AsyncDialogController extends Controller {
     TurboHelpers.showProgressBar();
 
     try {
-      const response = await new FetchRequest(method, url, {
+      await performTurboStreamRequest(new FetchRequest(method, url, {
         body,
         responseKind: 'turbo-stream',
-      }).perform();
-
-      if (!response.isTurboStream) {
-        throw new Error('Response is not a Turbo Stream');
-      }
-
-      // request.js renders successful and 422 streams automatically. Preserve
-      // async-dialog's existing any-status stream behavior for every other
-      // response until #AGILE-393 defines an application-wide policy.
-      if (!response.ok && !response.unprocessableEntity) {
-        await response.renderTurboStream();
-      }
+      }));
     } finally {
       this.setLoading(false);
       TurboHelpers.hideProgressBar();
