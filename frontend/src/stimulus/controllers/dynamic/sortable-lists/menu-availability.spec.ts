@@ -44,6 +44,7 @@ function fixture(hideUnavailable = true) {
   const input:Parameters<typeof refreshMenuAvailability>[0] = {
     menu,
     scope: { kind: 'batch', items: [document.createElement('div'), document.createElement('div')] },
+    itemOrderable: true,
     destinationItems: [destination],
     moveItems: [moveItem],
     moveMenu,

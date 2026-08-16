@@ -34,6 +34,7 @@ import { isMoveDirection, parseDestinationCandidates, type DestinationIdentity }
 interface MenuAvailabilityInput {
   menu:Pick<ActionMenuElement, 'showItem'|'hideItem'|'enableItem'|'disableItem'>;
   scope:ActionScope;
+  itemOrderable:boolean;
   destinationItems:HTMLElement[];
   moveItems:HTMLElement[];
   moveMenu:HTMLElement|null;
@@ -53,12 +54,15 @@ export function refreshMenuAvailability(input:MenuAvailabilityInput):void {
     }
   };
 
+  const refused = input.scope.kind === 'refused' && !input.itemOrderable;
   for (const item of input.destinationItems) {
     const candidates = parseDestinationCandidates(item.dataset.sortableListsDestinations);
-    setAvailability(item, candidates.length > 0 && input.availableDestinations(input.scope, candidates).length > 0);
+    setAvailability(item, !refused && candidates.length > 0 && input.availableDestinations(input.scope, candidates).length > 0);
   }
 
-  const availability = input.moveAvailability();
+  const availability = refused
+    ? { top: false, up: false, down: false, bottom: false }
+    : input.moveAvailability();
   if (availability) {
     let available = 0;
     for (const item of input.moveItems) {
