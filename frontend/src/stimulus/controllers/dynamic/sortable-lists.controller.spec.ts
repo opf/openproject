@@ -1614,7 +1614,7 @@ describe('Sortable lists controller', () => {
       selectItem(items[1], { ctrlKey: true });
       announceSpy.mockClear();
 
-      expect(controller.selectForAction(items[2])).toMatchObject({ kind: 'refused', items: [] });
+      expect(controller.selectForAction(items[2])).toEqual({ kind: 'refused', items: [] });
       expect(controller.selectedItems().map((item) => item.id)).toEqual(['1', '2']);
       expect(announcedMessages()).toEqual([]);
     });

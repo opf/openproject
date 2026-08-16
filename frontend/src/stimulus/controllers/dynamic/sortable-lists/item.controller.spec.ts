@@ -1425,10 +1425,26 @@ describe('Sortable lists item controller', () => {
 
     function stubMenuRoot(el:HTMLElement, position:{ isFirst:boolean; isLast:boolean }) {
       const actionScopeFor = vi.fn(():ActionScope => ({ kind: 'refused', items: [] }));
+      const selectForAction = vi.fn(():ActionScope => ({ kind: 'refused', items: [] }));
       const availableDestinations = vi.fn((_scope:ActionScope, _candidates:DestinationIdentity[]):DestinationIdentity[] => []);
-      const root = { ...stubRoot(el, position), actionScopeFor, availableDestinations };
+      const moveToDestination = vi.fn();
+      const moveInDirection = vi.fn();
+      const root = {
+        ...stubRoot(el, position, moveInDirection),
+        actionScopeFor,
+        selectForAction,
+        availableDestinations,
+        moveToDestination,
+      };
 
-      return { root, actionScopeFor, availableDestinations };
+      return {
+        root,
+        actionScopeFor,
+        selectForAction,
+        availableDestinations,
+        moveToDestination,
+        moveInDirection,
+      };
     }
 
     async function mountActionMenuInvocationFixture() {
@@ -1795,8 +1811,45 @@ describe('Sortable lists item controller', () => {
       const moveToSprint = destinationFor(el, [{ type: 'sprint', id: '12' }]);
       await menuCtx!.nextFrame();
 
-      expect(availableDestinations).toHaveBeenCalledWith(scope, [{ type: 'sprint', id: '12' }]);
+      expect(availableDestinations).not.toHaveBeenCalled();
       expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
+    });
+
+    it('hides a stale batch action skeleton for a fixed singular invoker', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      el.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const {
+        root,
+        actionScopeFor,
+        selectForAction,
+        availableDestinations,
+        moveToDestination,
+        moveInDirection,
+      } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      const scope:ActionScope = { kind: 'refused', items: [] };
+      actionScopeFor.mockReturnValue(scope);
+      // Keep the collaborators deliberately permissive: the item controller
+      // must project the already-settled singular scope, not let stale batch
+      // markup look actionable while the root's defences would reject it.
+      availableDestinations.mockImplementation((_scope, candidates) => candidates);
+      controller.connectRoot(root);
+
+      const destination = destinationFor(el, [{ type: 'sprint', id: '1' }]);
+      await menuCtx!.nextFrame();
+
+      expect(destination).toHaveAttribute('hidden');
+      expect(el.querySelector('[data-sortable-lists--item-target="moveMenu"]')).toHaveAttribute('hidden');
+
+      liFor(el, 'down').click();
+      const destinationEvent = new Event('click') as ActionEvent;
+      Object.defineProperty(destinationEvent, 'currentTarget', { value: destination });
+      controller.moveToDestination(destinationEvent);
+
+      expect(moveInDirection).not.toHaveBeenCalled();
+      expect(moveToDestination).not.toHaveBeenCalled();
+      expect(selectForAction).not.toHaveBeenCalled();
     });
 
     it.each([

@@ -553,14 +553,19 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     const scope = preparedScope ?? root.actionScopeFor(this.element);
     this.refreshDestinationAvailability(root, scope);
-    this.refreshMoveMenuAvailability(root);
+    this.refreshMoveMenuAvailability(root, scope);
     this.refreshMoveDivider();
   }
 
   private refreshDestinationAvailability(root:SortableListsRoot, scope:ActionScope):void {
     for (const item of this.destinationItemTargets) {
       const candidates = this.destinationCandidates(item);
-      this.setAvailability(item, candidates.length > 0 && root.availableDestinations(scope, candidates).length > 0);
+      this.setAvailability(
+        item,
+        !(scope.kind === 'refused' && !isOrderableItem(this.element))
+          && candidates.length > 0
+          && root.availableDestinations(scope, candidates).length > 0,
+      );
     }
   }
 
@@ -578,7 +583,17 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
   }
 
-  private refreshMoveMenuAvailability(root:SortableListsRoot):void {
+  private refreshMoveMenuAvailability(root:SortableListsRoot, scope:ActionScope):void {
+    if (scope.kind === 'refused' && !isOrderableItem(this.element)) {
+      for (const item of this.moveItemTargets) {
+        this.setAvailability(item, false);
+      }
+      if (this.hasMoveMenuTarget) {
+        this.setAvailability(this.moveMenuTarget, false);
+      }
+      return;
+    }
+
     // Null availability means the item is not in a list yet; leave the menu
     // alone until the outlet wiring settles.
     const availability = root.moveAvailability(this.element);
