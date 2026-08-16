@@ -203,18 +203,19 @@ RSpec.describe "Backlogs batch destination menus",
     end
   end
 
-  context "with a multi-card action scope" do
+  context "with a contiguous multi-card action scope" do
     let!(:sprint) { create(:sprint, project:, name: "Sprint") }
     let!(:destination_bucket) { create(:backlog_bucket, project:, name: "Destination bucket") }
     let!(:first_story) { create(:work_package, project:, type:, sprint:, position: 1) }
     let!(:second_story) { create(:work_package, project:, type:, sprint:, position: 2) }
+    let!(:third_story) { create(:work_package, project:, type:, sprint:, position: 3) }
 
-    it "omits Move to position from a multi-card action scope" do
+    it "offers Move to position for a contiguous multi-card action scope" do
       backlogs_page.visit!
 
       backlogs_page.select_cards(first_story, second_story)
 
-      backlogs_page.expect_no_work_package_action(first_story, "Move to position")
+      backlogs_page.expect_move_to_position_available(first_story, action: "Move down")
       backlogs_page.expect_work_package_action(first_story, "Move to backlog bucket")
     end
   end

@@ -745,14 +745,48 @@ module Pages
 
     def select_cards(*work_packages)
       work_packages.each { |work_package| toggle_card(work_package) }
+      expect(page).to have_css("[data-batch-selected]", count: work_packages.size)
+    end
+
+    # Settles on the range's own endpoints rather than a card count, which
+    # only the caller knows for a span wider than a pair.
+    def select_contiguous_cards(first, last)
+      toggle_card(first)
+      extend_selection_to(last)
+      expect(page).to have_css("#{work_package_selector(first)}[data-batch-selected]")
+      expect(page).to have_css("#{work_package_selector(last)}[data-batch-selected]")
     end
 
     def expect_selected_cards_in_order(*work_packages)
+      expect(page).to have_css("[data-batch-selected]", count: work_packages.size)
       expect(selected_card_ids).to eq(work_packages.map { |work_package| work_package.id.to_s })
     end
 
     def expect_no_selected_cards
+      expect(page).to have_no_css("[data-batch-selected]")
       expect(selected_card_ids).to be_empty
+    end
+
+    def move_selected_cards(invoker:, action:, wait: false)
+      click_in_work_package_move_submenu(invoker, action, wait:)
+    end
+
+    def expect_move_to_position_available(work_package, action: nil)
+      within_work_package_move_submenu(work_package) do |submenu|
+        next unless action
+
+        expect(submenu).to have_selector(:menuitem, text: action, exact_text: true)
+      end
+    end
+
+    def expect_move_to_position_unavailable(work_package, action: nil)
+      if action
+        within_work_package_move_submenu(work_package) do |submenu|
+          expect(submenu).to have_no_selector(:menuitem, text: action, exact_text: true)
+        end
+      else
+        expect_no_work_package_action(work_package, "Move to position")
+      end
     end
 
     def clear_card_selection(work_package)
