@@ -573,6 +573,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     refreshMenuAvailability({
       menu: this.menuElement,
       scope: preparedScope ?? root.actionScopeFor(this.element),
+      itemOrderable: isOrderableItem(this.element),
       destinationItems: this.destinationItemTargets,
       moveItems: this.moveItemTargets,
       moveMenu: this.hasMoveMenuTarget ? this.moveMenuTarget : null,

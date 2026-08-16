@@ -1604,7 +1604,7 @@ describe('Sortable lists controller', () => {
       selectItem(items[1], { ctrlKey: true });
       announceSpy.mockClear();
 
-      expect(controller.selectForAction(items[2])).toMatchObject({ kind: 'refused', items: [] });
+      expect(controller.selectForAction(items[2])).toEqual({ kind: 'refused', items: [] });
       expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[0], items[1]]);
       expect(announcedMessages()).toEqual([]);
     });
