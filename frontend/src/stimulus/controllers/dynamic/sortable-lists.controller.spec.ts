@@ -1258,6 +1258,24 @@ describe('Sortable lists controller', () => {
       await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
     });
 
+    it('serializes a top block move with an explicit blank predecessor', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'top');
+
+      expect(itemIds(sourceList)).toEqual(['2', '3', '1', '4']);
+      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      expect([...options.body.entries()]).toEqual([
+        ['ids[]', '2'],
+        ['ids[]', '3'],
+        ['list_type', 'sprint'],
+        ['list_id', '8'],
+        ['prev_id', ''],
+      ]);
+    });
+
     it('clears the selection after a successful collection move', async () => {
       const { root, items } = renderBatchMenuFixture();
       await ctx.nextFrame();
@@ -1437,8 +1455,8 @@ describe('Sortable lists controller', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('reports per-direction move availability for gating', async () => {
-    const { root, firstSourceItem } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+  it('reports per-direction availability for a plain sortable root', async () => {
+    const { root, firstSourceItem } = renderFixture();
     await ctx.nextFrame();
     const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
 
