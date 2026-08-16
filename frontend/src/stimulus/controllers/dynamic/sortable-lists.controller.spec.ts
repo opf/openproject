@@ -1197,11 +1197,16 @@ describe('Sortable lists controller', () => {
   });
 
   describe('batch menu moves', () => {
-    function renderBatchMenuFixture() {
+    function renderBatchMenuFixture({
+      collectionMoveUrl = '/projects/demo/backlogs/work_packages/move',
+    }:{ collectionMoveUrl?:string|null } = {}) {
       const elements = renderSelectableRoot({
         optimistic: true,
-        collectionMoveUrl: '/projects/demo/backlogs/work_packages/move',
+        collectionMoveUrl,
       });
+      if (collectionMoveUrl === '') {
+        elements.root.setAttribute('data-sortable-lists-collection-move-url-value', '');
+      }
       elements.sourceList.setAttribute('data-sortable-lists--list-type-value', 'sprint');
       elements.sourceList.setAttribute('data-sortable-lists--list-id-value', '8');
       elements.sourceList.append(elements.items[3]);
@@ -1375,6 +1380,35 @@ describe('Sortable lists controller', () => {
       expect(selectedIds(root)).toEqual(['2', '3']);
       expect(fetchMock).not.toHaveBeenCalled();
     });
+
+    it.each([
+      ['missing', null],
+      ['blank', ''],
+    ])('reports every direction unavailable when the collection URL is %s', async (_state, collectionMoveUrl) => {
+      const { root, items } = renderBatchMenuFixture({ collectionMoveUrl });
+      await ctx.nextFrame();
+      selectItems(items[0], items[1]);
+
+      expect(controllerFor(root).moveAvailability(items[0])).toEqual({
+        top: false, up: false, down: false, bottom: false,
+      });
+    });
+
+    it.each([
+      ['missing', null],
+      ['blank', ''],
+    ])('preserves a selected block without requesting when the collection URL is %s', async (_state, collectionMoveUrl) => {
+      const { root, sourceList, items } = renderBatchMenuFixture({ collectionMoveUrl });
+      await ctx.nextFrame();
+      selectItems(items[0], items[1]);
+
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(selectedIds(root)).toEqual(['1', '2']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
   });
 
   it('retains the singular member contract without collection capability', async () => {
@@ -1405,7 +1439,7 @@ describe('Sortable lists controller', () => {
   });
 
   it('reports per-direction move availability for gating', async () => {
-    const { root, firstSourceItem } = renderSelectableRoot();
+    const { root, firstSourceItem } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
     await ctx.nextFrame();
     const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
 
@@ -1422,7 +1456,7 @@ describe('Sortable lists controller', () => {
     };
 
     it('reports the available directions for a selected contiguous block', async () => {
-      const { root, items } = renderSelectableRoot();
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
       await ctx.nextFrame();
       const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
       select(items[1]);
@@ -1434,7 +1468,7 @@ describe('Sortable lists controller', () => {
     });
 
     it('reports every direction unavailable for a sparse selection', async () => {
-      const { root, items } = renderSelectableRoot();
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
       await ctx.nextFrame();
       const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
       select(items[0]);
@@ -1444,7 +1478,7 @@ describe('Sortable lists controller', () => {
     });
 
     it('reports every direction unavailable for a cross-list selection', async () => {
-      const { root, items } = renderSelectableRoot();
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
       await ctx.nextFrame();
       const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
       select(items[2]);
@@ -1454,7 +1488,7 @@ describe('Sortable lists controller', () => {
     });
 
     it('reports one-card availability for an unselected invoker without changing the selection', async () => {
-      const { root, items } = renderSelectableRoot();
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
       await ctx.nextFrame();
       const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
       select(items[0]);
@@ -1467,7 +1501,7 @@ describe('Sortable lists controller', () => {
     });
 
     it('reports normal within-list availability for a confined contiguous block', async () => {
-      const { root, items } = renderSelectableRoot();
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
       items[0].setAttribute('data-sortable-lists--item-mobility-value', 'confined');
       items[1].setAttribute('data-sortable-lists--item-mobility-value', 'confined');
       await ctx.nextFrame();
@@ -1862,18 +1896,6 @@ describe('Sortable lists controller', () => {
     controller.moveInDirection(firstSourceItem, 'down');
 
     expect(document.querySelectorAll('[data-batch-selected]')).toHaveLength(0);
-  });
-
-  it('collapses a wider batch onto the card a menu move names', async () => {
-    const { root, items } = renderSelectableRoot();
-    await ctx.nextFrame();
-    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
-    items[1].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-    items[2].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
-
-    controller.moveInDirection(items[0], 'down');
-
-    expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[0]]);
   });
 
   // A card that is not part of the batch collapses it onto itself, which is
