@@ -36,6 +36,20 @@ export function post(url:string|URL, options?:Options) {
   return withLoadingIndicator(request.perform());
 }
 
+export async function performTurboStreamRequest(request:FetchRequest):Promise<FetchResponse> {
+  const response = await request.perform();
+
+  if (!response.isTurboStream) {
+    throw new Error('Response is not a Turbo Stream');
+  }
+
+  if (!response.ok && !response.unprocessableEntity) {
+    await response.renderTurboStream();
+  }
+
+  return response;
+}
+
 export function withLoadingIndicator(request:Promise<FetchResponse>) {
   const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator');
   invariant(loadingIndicator, 'Expected an Element with id global-loading-indicator to be present');
