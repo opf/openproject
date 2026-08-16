@@ -69,7 +69,7 @@ RSpec.describe "Open a backlog card's action menu contextually",
   end
 
   it "opens the lazily loaded menu on right-click and focuses its first action" do
-    backlogs_page.right_click_work_package_card(sprint_wp)
+    backlogs_page.open_card_menu(sprint_wp, via: :right_click)
 
     backlogs_page.within_work_package_context_menu(sprint_wp) do |menu|
       expect(menu).to have_selector(:menuitem, text: I18n.t(:"js.button_open_details"), focused: true)
@@ -123,7 +123,7 @@ RSpec.describe "Open a backlog card's action menu contextually",
   # position of its own: same menu, same card, so the two ways of asking for it
   # have no reason to disagree. Only the focus return stays contextual.
   it "opens the same menu from the keyboard with Shift+F10" do
-    backlogs_page.send_work_package_card_keys(sprint_wp, %i[shift f10])
+    backlogs_page.open_card_menu(sprint_wp, via: :shift_f10)
 
     backlogs_page.within_work_package_context_menu(sprint_wp) do |menu|
       expect(menu).to have_selector(:menuitem, text: I18n.t(:"js.button_open_details"), focused: true)
@@ -180,9 +180,8 @@ RSpec.describe "Open a backlog card's action menu contextually",
     # Enough cards for the page to actually overflow. Without them the scroll
     # below is a no-op and the assertion would hold against any implementation,
     # which is what the `moved` guard makes impossible to do silently.
-    # rubocop:disable FactoryBot/ExcessiveCreateList
+    # rubocop:disable-next FactoryBot/ExcessiveCreateList
     let!(:extra_sprint_wps) { create_list(:work_package, 25, sprint:, type:, project:) }
-    # rubocop:enable FactoryBot/ExcessiveCreateList
 
     let(:scroll_distance) { 120 }
 
