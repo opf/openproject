@@ -680,55 +680,31 @@ RSpec.describe Backlogs::WorkPackagesController do
       expect(body).to include(I18n.t(:"js.button_open_details"))
     end
 
-    context "when another open sprint exists" do
+    context "when assignable sprints exist" do
       let!(:other_open_sprint) { create(:sprint, name: "Sprint 2", project:) }
 
       before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
 
-      it "passes open_sprints_exist: true to the menu component" do
+      it "passes ordered project sprint candidates to the menu component" do
         response
 
         expect(Backlogs::WorkPackageCardMenuComponent)
           .to have_received(:new)
-          .with(hash_including(open_sprints_exist: true))
+          .with(hash_including(sprint_ids: Sprint.assignable(project:, user:).order_by_date.ids))
       end
     end
 
-    context "when no other open sprints exist" do
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes open_sprints_exist: false to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(open_sprints_exist: false))
-      end
-    end
-
-    context "when other backlog buckets exist" do
+    context "when backlog buckets exist" do
       let!(:buckets) { create_list(:backlog_bucket, 2, project:) }
 
       before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
 
-      it "passes other_buckets_exist: true to the menu component" do
+      it "passes alphabetically ordered project bucket candidates to the menu component" do
         response
 
         expect(Backlogs::WorkPackageCardMenuComponent)
           .to have_received(:new)
-          .with(hash_including(other_buckets_exist: true))
-      end
-    end
-
-    context "when no backlog buckets exist" do
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes other_buckets_exist: false to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(other_buckets_exist: false))
+          .with(hash_including(bucket_ids: buckets.sort_by(&:name).map(&:id)))
       end
     end
 

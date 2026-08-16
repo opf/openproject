@@ -43,8 +43,8 @@ module Backlogs
       render(Backlogs::WorkPackageCardMenuComponent.new(
                project: @project,
                work_package: @work_package,
-               open_sprints_exist: target_open_sprints.exists?,
-               other_buckets_exist: target_buckets.exists?,
+               sprint_ids: Sprint.assignable(project: @project, user: current_user).order_by_date.ids,
+               bucket_ids: BacklogBucket.for_project(@project).order_alphabetically.ids,
                current_user:
              ),
              layout: false)
@@ -333,17 +333,6 @@ module Backlogs
 
     def move_path
       move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
-    end
-
-    def target_open_sprints
-      Sprint.for_project(@project)
-        .visible.not_completed
-        .where.not(id: @work_package.sprint_id)
-    end
-
-    def target_buckets
-      BacklogBucket.where(project: @project)
-        .where.not(id: @work_package.backlog_bucket_id)
     end
 
     # After a move the work package might no longer be visible: the page's active
