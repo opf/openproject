@@ -32,8 +32,10 @@ See COPYRIGHT and LICENSE files for more details.
     d.with_header(variant: :large)
 
     d.with_body do
+      selected_work_packages = work_packages
+      selected_work_packages_label = t(:label_x_work_packages, count: selected_work_packages.size)
       available_buckets = buckets
-      bucket_list_type = list_type
+      bucket_list_type = destination_list_type
 
       primer_form_with(
         url: move_action,
@@ -42,11 +44,18 @@ See COPYRIGHT and LICENSE files for more details.
         data: { turbo_stream: true }
       ) do |f|
         render_inline_form(f) do |form|
+          form.html_content do
+            render(Primer::Beta::Text.new(tag: :p, id: SELECTION_LABEL_ID, mb: 3)) { selected_work_packages_label }
+          end
+          selected_work_packages.each do |work_package|
+            form.hidden(name: "ids[]", value: work_package.id)
+          end
           form.hidden(name: "list_type", value: bucket_list_type)
           form.select_list(
             name: "list_id",
             label: BacklogBucket.human_attribute_name(:name),
-            visually_hide_label: true
+            visually_hide_label: true,
+            aria: { describedby: SELECTION_LABEL_ID }
           ) do |select|
             available_buckets.each do |bucket|
               select.option(label: bucket.name, value: bucket.id)
