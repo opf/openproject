@@ -62,7 +62,7 @@ import {
 } from './list-dom';
 import { webLinkHref } from './external-data';
 import { renderDragPreview } from './preview';
-import { scopeIds } from './action-scope';
+import { scopeIds, type ActionScope } from './action-scope';
 import { refreshMenuAvailability } from './menu-availability';
 
 type CleanupFn = () => void;
@@ -126,9 +126,28 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
   };
 
+  private readonly onContextualBeforeOpen = (event:Event):void => {
+    const focusTarget = this.hasFocusTarget ? this.focusTarget : null;
+    if (event.target === this.element || event.target === focusTarget) {
+      this.prepareActionMenu();
+    }
+  };
+
+  private readonly onMenuBeforeToggle = (event:Event):void => {
+    if (
+      (event as ToggleEvent).newState === 'open'
+      && this.hasMenuElement
+      && event.target === this.menuElement.popoverElement
+    ) {
+      this.prepareActionMenu();
+    }
+  };
+
   connect():void {
     this.warnOnMissingValues();
     this.register();
+    this.element.addEventListener('contextual-action-menu:beforeOpen', this.onContextualBeforeOpen);
+    this.element.addEventListener('beforetoggle', this.onMenuBeforeToggle, true);
     this.element.addEventListener('toggle', this.onMenuToggle, true);
   }
 
@@ -140,6 +159,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.clearDropIndicator();
     this.cleanupFn?.();
     this.cleanupFn = undefined;
+    this.element.removeEventListener('contextual-action-menu:beforeOpen', this.onContextualBeforeOpen);
+    this.element.removeEventListener('beforetoggle', this.onMenuBeforeToggle, true);
     this.element.removeEventListener('toggle', this.onMenuToggle, true);
     this.disconnectRoot();
   }
@@ -515,7 +536,14 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.dropIndicatorElement = undefined;
   }
 
-  private refreshActionAvailability():void {
+  private prepareActionMenu():void {
+    const scope = this.root?.selectForAction(this.element);
+    if (scope) {
+      this.refreshActionAvailability(scope);
+    }
+  }
+
+  private refreshActionAvailability(preparedScope?:ActionScope):void {
     this.refreshToken = undefined;
     const root = this.root;
     if (!root || !this.hasMenuElement || (this.destinationItemTargets.length === 0 && this.moveItemTargets.length === 0)) {
@@ -524,7 +552,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     refreshMenuAvailability({
       menu: this.menuElement,
-      scope: root.actionScopeFor(this.element),
+      scope: preparedScope ?? root.actionScopeFor(this.element),
       destinationItems: this.destinationItemTargets,
       moveItems: this.moveItemTargets,
       moveMenu: this.hasMoveMenuTarget ? this.moveMenuTarget : null,
