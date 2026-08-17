@@ -66,8 +66,8 @@ module Backlogs
 
         def graph_filters
           [
-            { sprint: { operator: "=", values: [@sprint.id] } },
-            { project: { operator: "=", values: [@project.id] } }
+            { sprint: { operator: "=", values: [sprint.id] } },
+            { project: { operator: "=", values: [project.id] } }
           ]
         end
       end
