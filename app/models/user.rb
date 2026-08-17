@@ -185,6 +185,8 @@ class User < Principal
 
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
+  # Only on change so that blocking a domain does not make its existing users unsaveable
+  validates :mail, blocked_email_domain: true, if: Proc.new { |user| user.mail_changed? }
 
   validates :password,
             confirmation: {
