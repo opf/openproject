@@ -40,8 +40,6 @@ module WorkPackageTypes
       :types
     end
 
-    helper_method :enabled_everywhere?, :enable_all_label
-
     def edit; end
 
     def update
@@ -122,22 +120,13 @@ module WorkPackageTypes
                end
 
       refresh_table
+      replace_via_turbo_stream(component: ProjectsTab::SubHeaderComponent.new(variant: @variant))
       result.on_failure { render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result)) }
 
       respond_to_with_turbo_streams(status: result)
     end
 
     private
-
-    def enabled_everywhere?
-      return @enabled_everywhere unless @enabled_everywhere.nil?
-
-      @enabled_everywhere = @variant.projects.count == ::Project.count
-    end
-
-    def enable_all_label
-      enabled_everywhere? ? I18n.t("types.edit.projects.disable_all") : I18n.t("types.edit.projects.enable_all")
-    end
 
     def load_query
       @query = ProjectQuery.new(name: "work-package-type-variant-projects-#{@variant.id}") do |query|

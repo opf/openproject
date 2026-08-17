@@ -68,4 +68,25 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
 
     expect(parent.reload.type_variant(type)).to eq(hardware)
   end
+  describe "enabling the type in all projects" do
+    shared_let(:elsewhere) { create(:project, name: "Warehouse") }
+
+    # The button posts the action derived from the current state, so if it is not repainted the
+    # next click offers to redo what just happened rather than undo it.
+    it "flips the button between enable and disable as it is clicked" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      click_link_or_button I18n.t("types.edit.projects.enable_all")
+
+      expect(page).to have_test_selector("type-projects-enable-all",
+                                         text: I18n.t("types.edit.projects.disable_all"))
+      within("#project-table") { expect(page).to have_text(elsewhere.name) }
+
+      click_link_or_button I18n.t("types.edit.projects.disable_all")
+
+      expect(page).to have_test_selector("type-projects-enable-all",
+                                         text: I18n.t("types.edit.projects.enable_all"))
+      within("#project-table") { expect(page).to have_no_text(elsewhere.name) }
+    end
+  end
 end
