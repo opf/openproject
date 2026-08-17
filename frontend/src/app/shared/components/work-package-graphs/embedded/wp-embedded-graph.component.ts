@@ -55,7 +55,7 @@ interface ChartDataSet {
     BaseChartDirective
   ],
   providers: [
-    provideCharts(withDefaultRegisterables(ChartDataLabels, PrimerColorsPlugin)),
+    provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
   ],
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
@@ -84,6 +84,8 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   public internalChartOptions:ChartOptions;
 
   public initialized = false;
+
+  public readonly chartPlugins = [ChartDataLabels];
 
   public text = {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
