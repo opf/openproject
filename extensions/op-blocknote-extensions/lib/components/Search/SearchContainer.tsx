@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { defaultWpVariables } from '../WorkPackage/atoms';
-import { FLOATING_Z_INDEX } from '../WorkPackage/tokens';
+import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 
 export const SEARCH_INPUT_ID = 'op-bn-wp-search-input';
 

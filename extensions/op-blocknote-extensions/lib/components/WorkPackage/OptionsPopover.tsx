@@ -6,7 +6,7 @@ import type { InlineWpSize, BlockWpSize } from './types';
 import styled from 'styled-components';
 import { defaultWpVariables } from './atoms';
 import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
-import { FLOATING_Z_INDEX } from './tokens';
+import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 import {
   LinkExternalIcon,
   TrashIcon,

@@ -163,13 +163,20 @@ export const useAnchoredPopover = ({
       frame = requestAnimationFrame(() => { frame = 0; update(); });
     };
 
+    const handleScroll = () => {
+      const popover = popoverRef.current;
+      if (popover && getComputedStyle(popover).position === 'fixed') scheduleUpdate();
+    };
+
     update();
+    window.addEventListener('scroll', handleScroll, true);
     window.addEventListener('resize', scheduleUpdate);
     return () => {
       if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', handleScroll, true);
       window.removeEventListener('resize', scheduleUpdate);
     };
-  }, [anchorEl]);
+  }, [anchorEl, popoverRef]);
 
   // Position before paint so the popover never flashes at its CSS fallback spot.
   useLayoutEffect(() => {

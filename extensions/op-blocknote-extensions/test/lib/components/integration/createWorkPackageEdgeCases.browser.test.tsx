@@ -7,6 +7,9 @@ import { worker } from '../../../mocks/browser';
 
 afterEach(() => worker.resetHandlers());
 
+const SCROLL_STEP = 40;
+const MAX_LIST_GAP = 4;
+
 describe('Create work package - form and editor boundaries', () => {
   it('loads the form once and puts the cursor into the subject', async () => {
     let formRequests = 0;
@@ -62,6 +65,44 @@ describe('Create work package - form and editor boundaries', () => {
     expect(list.getBoundingClientRect().top).toBeGreaterThanOrEqual(input.getBoundingClientRect().bottom);
     expect(Math.round(list.getBoundingClientRect().width))
       .toBe(Math.round(input.getBoundingClientRect().width));
+  });
+
+  it('keeps the suggestions on their field while the form scrolls beneath them', async () => {
+    await page.viewport(390, 420);
+
+    try {
+      renderEditor();
+      await openCreateModal();
+
+      // A filled form is what brings in enough fields to make the body scroll.
+      await fillRequiredFields('Fix the header alignment');
+      const body = page.getByTestId('create-wp-modal').element().querySelector('form > div')!;
+
+      await userEvent.click(page.getByLabelText('Supervisor *'));
+      await expect.element(page.getByRole('option', { name: 'Anna Kovalenko' })).toBeVisible();
+
+      const input = page.getByLabelText('Supervisor *').element();
+      const list = page.getByRole('listbox', { name: 'Supervisor' }).element();
+      // Distance to whichever side of the field the list sits on.
+      const gapToField = () => {
+        const field = input.getBoundingClientRect();
+        const suggestions = list.getBoundingClientRect();
+        return Math.round(Math.min(
+          Math.abs(suggestions.top - field.bottom),
+          Math.abs(field.top - suggestions.bottom),
+        ));
+      };
+
+      expect(getComputedStyle(list).position).toBe('fixed');
+      expect(gapToField()).toBeLessThanOrEqual(MAX_LIST_GAP);
+
+      expect(body.scrollHeight).toBeGreaterThan(body.clientHeight + SCROLL_STEP);
+      body.scrollTop += body.scrollTop >= SCROLL_STEP ? -SCROLL_STEP : SCROLL_STEP;
+
+      await expect.poll(gapToField).toBeLessThanOrEqual(MAX_LIST_GAP);
+    } finally {
+      await page.viewport(800, 600);
+    }
   });
 
   it('keeps a filled form when the overlay is clicked, and drops an untouched one', async () => {

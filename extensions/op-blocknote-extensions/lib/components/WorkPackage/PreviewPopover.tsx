@@ -2,7 +2,7 @@ import { useRef, type ReactNode } from 'react';
 import styled from 'styled-components';
 import { defaultWpVariables } from './atoms';
 import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
-import { FLOATING_Z_INDEX } from './tokens';
+import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 
 const PreviewContainer = styled.div.attrs({
   className: 'op-bn-wp-preview',
