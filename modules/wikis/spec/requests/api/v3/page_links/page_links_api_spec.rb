@@ -83,9 +83,6 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     end
 
     context "when paginated with an offset beyond the first page" do
-      # Regression test: the offset param used to be silently dropped
-      # (never forwarded into the collection representer's page: option),
-      # so every page request rendered page 1 regardless of offset.
       let(:all_ids) { Wikis::PageLink.where(linkable: work_package).order(id: :desc).pluck(:id) }
 
       before { get "#{path}?pageSize=2&offset=2" }
@@ -132,9 +129,6 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     end
 
     context "when paginated with an offset beyond the first page" do
-      # Regression test, independent of the work-package-scoped endpoint's
-      # own analogous coverage above -- the same bug existed in this
-      # global handler too.
       let(:all_ids) do
         ids = unaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
         Wikis::PageLink.where.not(id: ids).order(id: :desc).pluck(:id)
