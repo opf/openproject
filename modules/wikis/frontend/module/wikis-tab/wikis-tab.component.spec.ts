@@ -34,18 +34,14 @@ import { vi, type Mock } from 'vitest';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WikisTabComponent } from 'core-app/features/plugins/linked/openproject-wikis/wikis-tab/wikis-tab.component';
-
-const TAB_PATH = '/projects/1/work_packages/42/wikis/tab';
-const REFRESH_URL = `${TAB_PATH}/inline_page_links`;
 
 describe('WikisTabComponent', () => {
   let component:WikisTabComponent;
   let fixture:ComponentFixture<WikisTabComponent>;
   let events$:Subject<HalEvent[]>;
-  let request:Mock;
+  let reload:Mock;
 
   const workPackage = { id: '42', project: { id: '1' } } as WorkPackageResource;
   const descriptionEdit = {
@@ -57,7 +53,6 @@ describe('WikisTabComponent', () => {
 
   beforeEach(async () => {
     events$ = new Subject<HalEvent[]>();
-    request = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
 
     await TestBed
       .configureTestingModule({
@@ -66,7 +61,6 @@ describe('WikisTabComponent', () => {
           { provide: I18nService, useValue: { t: (key:string) => key } },
           { provide: PathHelperService, useValue: { projectWorkPackagePath: () => '/projects/1/work_packages/42' } },
           { provide: HalEventsService, useValue: { aggregated$: () => events$.asObservable() } },
-          { provide: TurboRequestsService, useValue: { request } },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
@@ -77,51 +71,45 @@ describe('WikisTabComponent', () => {
     component.workPackage = workPackage;
 
     fixture.detectChanges();
+
+    // `turbo-frame` is an unknown element here, so it has no `reload` of its own.
+    reload = vi.fn();
+    (component.frameElement.nativeElement as unknown as { reload:Mock }).reload = reload;
   });
 
-  it('points the tab frame at the wikis tab', () => {
-    expect(component.turboFrameSrc).toEqual(TAB_PATH);
+  it('points the frame at the wikis tab', () => {
+    expect(component.turboFrameSrc).toEqual('/projects/1/work_packages/42/wikis/tab');
   });
 
-  it('refreshes only the mentioned pages when a description edit is persisted', () => {
+  it('reloads the tab when a description edit is persisted', () => {
     events$.next([descriptionEdit]);
 
-    expect(request).toHaveBeenCalledTimes(1);
-    expect(request.mock.calls[0][0]).toEqual(REFRESH_URL);
-  });
-
-  it('asks for a turbo stream, so that the section is swapped in place', () => {
-    events$.next([descriptionEdit]);
-
-    expect(request.mock.calls[0][1]).toMatchObject({
-      method: 'GET',
-      headers: { Accept: 'text/vnd.turbo-stream.html' },
-    });
+    expect(reload).toHaveBeenCalledTimes(1);
   });
 
   it('ignores edits that did not touch the description', () => {
     events$.next([{ ...descriptionEdit, commit: { changes: { subject: {} } } } as unknown as HalEvent]);
 
-    expect(request).not.toHaveBeenCalled();
+    expect(reload).not.toHaveBeenCalled();
   });
 
   it('ignores edits of other work packages', () => {
     events$.next([{ ...descriptionEdit, id: '43' } as HalEvent]);
 
-    expect(request).not.toHaveBeenCalled();
+    expect(reload).not.toHaveBeenCalled();
   });
 
-  it('refreshes on updates pushed without a commit, which do not name their changed attributes', () => {
+  it('ignores updates pushed without a commit, which cannot have changed the description', () => {
     events$.next([{ id: '42', eventType: 'updated', resourceType: 'WorkPackage' } as HalEvent]);
 
-    expect(request).toHaveBeenCalledTimes(1);
+    expect(reload).not.toHaveBeenCalled();
   });
 
-  it('stops refreshing once the tab is closed', () => {
+  it('stops reloading once the tab is closed', () => {
     fixture.destroy();
 
     events$.next([descriptionEdit]);
 
-    expect(request).not.toHaveBeenCalled();
+    expect(reload).not.toHaveBeenCalled();
   });
 });

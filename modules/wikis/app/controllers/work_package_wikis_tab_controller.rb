@@ -46,12 +46,6 @@ class WorkPackageWikisTabController < ApplicationController
     end
   end
 
-  def inline_page_links
-    replace_via_turbo_stream(component: Wikis::InlinePageLinksComponent.new(@work_package))
-
-    respond_to_with_turbo_streams
-  end
-
   private
 
   def set_work_package

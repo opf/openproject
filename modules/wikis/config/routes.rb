@@ -58,9 +58,7 @@ Rails.application.routes.draw do
     resources :work_packages, only: %i[] do
       resources :wikis, only: %i[] do
         collection do
-          resources :tab, only: %i[index], controller: "work_package_wikis_tab", as: "wikis_tab" do
-            get :inline_page_links, on: :collection
-          end
+          resources :tab, only: %i[index], controller: "work_package_wikis_tab", as: "wikis_tab"
         end
       end
     end

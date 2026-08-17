@@ -26,7 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import type { FrameElement } from '@hotwired/turbo';
 import { filter } from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -34,7 +35,6 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
@@ -46,40 +46,28 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 export class WikisTabComponent extends UntilDestroyedMixin implements OnInit, TabComponent {
   private elementRef = inject(ElementRef);
   private halEvents = inject(HalEventsService);
-  private turboRequests = inject(TurboRequestsService);
   readonly PathHelper = inject(PathHelperService);
   readonly I18n = inject(I18nService);
 
   @Input() public workPackage:WorkPackageResource;
+
+  @ViewChild('frameElement') readonly frameElement:ElementRef<FrameElement>;
+
   turboFrameSrc:string;
 
   ngOnInit():void {
-    const tabPath = `${this.PathHelper.projectWorkPackagePath(this.workPackage.project.id as string, this.workPackage.id as string)}/wikis/tab`;
-    const refreshUrl = `${tabPath}/inline_page_links`;
-    this.turboFrameSrc = tabPath;
-
+    this.turboFrameSrc = `${this.PathHelper.projectWorkPackagePath(this.workPackage.project.id as string, this.workPackage.id as string)}/wikis/tab`;
     this
       .halEvents
       .aggregated$('WorkPackage')
       .pipe(
         filter((events) => events.some((event) => event.eventType === 'updated'
           && event.id === this.workPackage.id
-          && (!event.commit || 'description' in event.commit.changes))),
+          && 'description' in (event.commit?.changes ?? {}))),
         this.untilDestroyed(),
       )
       .subscribe(() => {
-        // Deliberately not `requestStream`, which flashes Turbo's page-load
-        // progress bar — misleading for a background refresh of one section.
-        void this.turboRequests.request(
-          refreshUrl,
-          {
-            method: 'GET',
-            headers: { Accept: 'text/vnd.turbo-stream.html' },
-            credentials: 'same-origin',
-          },
-          false,
-          refreshUrl,
-        );
+        void this.frameElement?.nativeElement.reload();
       });
   }
 }
