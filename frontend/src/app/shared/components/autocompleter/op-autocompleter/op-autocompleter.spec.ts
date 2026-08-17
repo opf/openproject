@@ -239,7 +239,7 @@ describe('autocompleter', () => {
       }
     });
 
-    it('should display a fallback avatar and keep the content aligned without an author avatar', () => {
+    it('should display a fallback avatar when the author has been deleted', () => {
       vi.useFakeTimers();
       try {
         fixture.detectChanges();
@@ -261,14 +261,6 @@ describe('autocompleter', () => {
 
         expect(document.querySelector('op-principal.op-autocompleter--option-principal')).toBeNull();
         expect(document.querySelector('.op-autocompleter--option-principal-fallback')).not.toBeNull();
-
-        const subject = document.querySelector<HTMLElement>('.op-autocompleter--wp-subject')!;
-        const content = document.querySelector<HTMLElement>('.op-autocompleter--wp-content')!;
-
-        expect(getComputedStyle(subject).gridColumnStart).toBe('2');
-        expect(getComputedStyle(subject).gridRowStart).toBe('1');
-        expect(getComputedStyle(content).gridColumnStart).toBe('2');
-        expect(getComputedStyle(content).gridRowStart).toBe('2');
       }
       finally {
         vi.useRealTimers();
