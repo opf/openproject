@@ -181,8 +181,6 @@ RSpec.describe API::V3::Utilities::DateTimeFormatter do
     end
 
     it "includes seconds, rounded rather than truncated" do
-      # 5.501h == 19803.6s -- rounds up to 19804s (PT5H30M4S), not
-      # truncated down to 19803s (PT5H30M3S).
       expect(subject.format_duration_from_hours(5.501)).to eq("PT5H30M4S")
     end
 
@@ -233,8 +231,6 @@ RSpec.describe API::V3::Utilities::DateTimeFormatter do
     end
 
     it "rounds rather than truncates seconds" do
-      # 5.5006 days == 475251.84s -- rounds up to 475252s (P5DT12H52S), not
-      # truncated down to 475251s (P5DT12H51S).
       expect(subject.format_duration_from_days(5.5006)).to eq("P5DT12H52S")
     end
 

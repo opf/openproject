@@ -85,10 +85,8 @@ module API
         def format_duration_from_hours(hours, allow_nil: false)
           return nil if hours.nil? && allow_nil
 
-          # Duration.new truncates its :seconds argument via Float#to_i
-          # (ruby-duration gem) rather than rounding -- round explicitly
-          # here first so e.g. 3600.9 seconds (1h 0.9s) serializes as
-          # PT1H1S, not silently dropped to PT1H.
+          # Duration.new (ruby-duration gem) truncates :seconds via Float#to_i rather than
+          # rounding -- round explicitly first.
           Duration.new(seconds: (hours * 3600).round).iso8601
         end
 
@@ -108,10 +106,7 @@ module API
         def format_duration_from_days(days, allow_nil: false)
           return nil if days.nil? && allow_nil
 
-          # Duration.new truncates its :seconds argument via Float#to_i
-          # (ruby-duration gem) rather than rounding -- round explicitly
-          # here first, same as format_duration_from_hours above, so a
-          # fractional-day value doesn't silently lose up to ~1s of precision.
+          # Same Duration.new truncation caveat as format_duration_from_hours above.
           Duration.new(seconds: (days * 3600 * 24).round).iso8601
         end
 
