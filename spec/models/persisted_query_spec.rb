@@ -54,4 +54,32 @@ RSpec.describe PersistedQuery do
       expect(persisted_query.errors[:base]).to include("Cannot delete record because dependent views exist")
     end
   end
+
+  describe "group_bys" do
+    it "defaults to none" do
+      expect(persisted_query.group_bys).to eq([])
+    end
+
+    it "is stored as an empty array" do
+      persisted_query.save!
+
+      raw = described_class.connection.select_value(
+        "SELECT group_bys FROM persisted_queries WHERE id = #{persisted_query.id}"
+      )
+
+      expect(JSON.parse(raw)).to eq([])
+    end
+
+    # The base class gets no serializers - the `inherited` hook only installs
+    # them on subclasses.
+    it "installs a group by serializer on subclasses" do
+      expect(UserQuery.type_for_attribute(:group_bys).coder)
+        .to be_a(Queries::Serialization::GroupBys)
+    end
+
+    # TODO: round trip actual group bys through the column once a PersistedQuery
+    # subclass registers some. UserQuery registers none, so anything it could be
+    # grouped by is a NotExistingGroupBy, which only tests the degraded path.
+    # CostReportQuery will be the first real one.
+  end
 end
