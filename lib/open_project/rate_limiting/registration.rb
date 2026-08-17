@@ -8,14 +8,13 @@ module OpenProject
     # Default bucket is the client IP
     # Set registration_rate_limit_per_ip to false to count per instance instead
     class Registration < Base
-      # Optional format suffix: Rails routes include (.:format), so
-      # POST /account/register.json still hits AccountController#register.
-      # No \A anchor: OpenProject may run under rails_relative_url_root.
-      REGISTER_PATH = %r{/account/register(?:\.\w+)?\z}
-
       class << self
         def enabled?
           Setting.registration_rate_limit.to_i.positive?
+        end
+
+        def registration_request?(req)
+          req.post? && RecognizedRoute.matches?(req, controller: "account", action: "register")
         end
       end
 
@@ -38,7 +37,7 @@ module OpenProject
       protected
 
       def discriminator(req)
-        return unless req.post? && req.path.match?(REGISTER_PATH)
+        return unless self.class.registration_request?(req)
 
         per_ip? ? client_ip(req) : Setting.host_name
       end

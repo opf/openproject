@@ -75,12 +75,18 @@ RSpec.describe OpenProject::RateLimiting::Registration do
       expect(rule.send(:discriminator, request_for("/account/register.json"))).to eq "192.0.2.1"
     end
 
-    it "matches under a relative URL root" do
-      expect(rule.send(:discriminator, request_for("/openproject/account/register"))).to eq "192.0.2.1"
+    context "with a relative URL root", with_config: { rails_relative_url_root: "/openproject" } do
+      it "matches the register path under that prefix" do
+        expect(rule.send(:discriminator, request_for("/openproject/account/register"))).to eq "192.0.2.1"
+      end
     end
 
     it "does not match other paths" do
       expect(rule.send(:discriminator, request_for("/account/lost_password"))).to be_nil
+    end
+
+    it "does not match a path that merely ends with /account/register" do
+      expect(rule.send(:discriminator, request_for("/evil/account/register"))).to be_nil
     end
 
     it "does not match GET" do

@@ -70,9 +70,9 @@ RSpec.describe "Rate limiting registration",
     end
 
     it "does not block a different IP" do
-      3.times { register!(ip: "192.0.2.1") }
+      3.times { register!(ip_address: "192.0.2.1") }
 
-      register!(ip: "198.51.100.1")
+      register!(ip_address: "198.51.100.1")
       expect(response).not_to have_http_status(:too_many_requests)
     end
   end
@@ -87,7 +87,7 @@ RSpec.describe "Rate limiting registration",
         expect(response).not_to have_http_status(:too_many_requests)
       end
 
-      register!(ip: "198.51.100.1")
+      register!(ip_address: "198.51.100.1")
       expect(response).to have_http_status(:too_many_requests)
       expect(response.body).to include "Too many registration attempts"
     end
