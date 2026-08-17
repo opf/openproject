@@ -49,8 +49,7 @@ class CustomActions::Actions::Type < CustomActions::Actions::Base
 
   def associated
     ::Type
-      .select(:id, :name)
       .order(:position)
-      .map { |u| [u.id, u.name] }
+      .map { |type| [type.id, type.name] }
   end
 end

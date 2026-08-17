@@ -38,8 +38,9 @@ module DemoData
 
     def seed_data!
       text = project_data.lookup("wiki")
-
       return if text.blank?
+
+      create_project_wiki!
 
       if text.is_a? String
         text = [{ title: "Wiki", content: text }]
@@ -53,6 +54,12 @@ module DemoData
           project:
         )
       end
+    end
+
+    def create_project_wiki!
+      Wiki.create!(project: project, start_page: "Wiki") unless Wiki.exists?(project:)
+
+      project.reload
     end
 
     def create_wiki_page!(data, project:, parent: nil)

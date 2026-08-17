@@ -34,13 +34,18 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(type:)
+    def initialize(variant:, readonly: false)
       super
 
-      @type = type
+      @variant = variant
+      @readonly = readonly
     end
 
+    def readonly? = @readonly
+
     def wrapper_data_attributes
+      return {} if @readonly
+
       {
         controller: "generic-drag-and-drop"
       }
@@ -49,17 +54,17 @@ module WorkPackageTypes
     def drag_and_drop_target_config
       {
         generic_drag_and_drop_target: "container",
-        "target-container-accessor": ":scope > ul",
-        "target-allowed-drag-type": "template",
+        target_container_accessor: ":scope > ul",
+        target_allowed_drag_type: "template",
         test_selector: "pdf-export-template-rows"
       }
     end
 
     def draggable_item_config(template)
       {
-        "draggable-id": template.id,
-        "draggable-type": "template",
-        "drop-url": drop_type_pdf_export_template_path(type_id: @type.id, id: template.id),
+        draggable_id: template.id,
+        draggable_type: "template",
+        drop_url: drop_type_pdf_export_template_path(**@variant.path_args, id: template.id),
         test_selector: "pdf-export-template-row-#{template.id}"
       }
     end

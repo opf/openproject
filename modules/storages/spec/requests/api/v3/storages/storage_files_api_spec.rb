@@ -123,7 +123,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
       before do
         Storages::Adapters::Registry.stub(
           "nextcloud.queries.files",
-          ->(_) { Failure(Storages::Adapters::Results::Error.new(source: self, code: error)) }
+          ->(_) { Failure(SimpleError.new(source: self, code: error)) }
         )
       end
 
@@ -196,7 +196,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
       before do
         Storages::Adapters::Registry
           .stub("#{storage}.queries.file_info",
-                ->(_) { Failure(Storages::Adapters::Results::Error.new(code: error, source: self)) })
+                ->(_) { Failure(SimpleError.new(code: error, source: self)) })
       end
 
       context "with authorization failure" do
@@ -251,7 +251,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
         expect(subject).to be_json_eql("post".to_json).at_path("_links/destination/method")
         expect(subject).to be_json_eql("Upload File".to_json).at_path("_links/destination/title")
 
-        href = MultiJson.load(subject).dig("_links", "destination", "href")
+        href = MultiJSON.load(subject).dig("_links", "destination", "href")
         expect(href).to match(destination)
       end
     end
@@ -260,7 +260,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
       before do
         Storages::Adapters::Registry.stub(
           "nextcloud.queries.upload_link",
-          ->(_) { Failure(Storages::Adapters::Results::Error.new(code: error, source: self)) }
+          ->(_) { Failure(SimpleError.new(code: error, source: self)) }
         )
       end
 
@@ -276,7 +276,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
         it "fails with an internal error" do
           expect(last_response).to have_http_status(:internal_server_error)
 
-          body = MultiJson.load(last_response.body, symbolize_keys: true)
+          body = MultiJSON.load(last_response.body, symbolize_keys: true)
           expect(body[:message]).to eq(I18n.t("services.errors.messages.error"))
           expect(body[:errorIdentifier]).to eq("urn:openproject-org:api:v3:errors:InternalServerError")
         end

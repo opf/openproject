@@ -3,58 +3,66 @@ tr:
   js:
     grid:
       add_widget: Bileşen ekle
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Bileşeni kaldır
       configure: Bileşeni yapılandır
+      remove: Bileşeni kaldır
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: Bu bileşeni görüntülemek için gerekli izinlere sahip değilsiniz.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Özel metin
         documents:
-          title: Belgeler
           no_results: Henüz belge yok.
+          title: Belgeler
         members:
           title: Üyeler
+        missing_permission: Bu bileşeni görüntülemek için gerekli izinlere sahip değilsiniz.
         news:
           title: Haberler
+        not_available: This widget is currently unavailable.
         project_description:
           title: Açıklama
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favori projeler
         project_status:
-          title: Durum
-          not_started: Başlatılmadı
-          on_track: Takipte
-          off_track: Hedeften uzaklaşmış
           at_risk: Riskli
-          not_set: Ayarlanmadı
-          finished: Tamamlandı
           discontinued: Durduruldu
+          finished: Tamamlandı
+          not_set: Ayarlanmadı
+          not_started: Başlatılmadı
+          off_track: Hedeften uzaklaşmış
+          on_track: Takipte
+          title: Durum
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Alt öğeler
-        project_favorites:
-          title: Favori projeler
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: Geçirdiğim zaman
           displayed_days: 'Widget''te görüntülenen günler:'
+          title: Geçirdiğim zaman
         time_entries_list:
-          title: Harcanan zaman (son 7 gün)
           no_results: Son 7 gündür zaman girişi yapılmadı.
+          title: Harcanan zaman (son 7 gün)
         work_packages_accountable:
           title: Sorumlusu olduğum iş paketleri
         work_packages_assigned:
           title: Bana atanan iş paketleri
-        work_packages_created:
-          title: Oluşturduğum iş paketleri
-        work_packages_watched:
-          title: Takip ettiğim iş paketleri
-        work_packages_table:
-          title: İş paketleri tablosu
-        work_packages_graph:
-          title: İş paketleri grafiği
-          summary: "%{chartType} %{description}olan iş paketlerini gösteren grafik."
         work_packages_calendar:
           title: Takvim
+        work_packages_created:
+          title: Oluşturduğum iş paketleri
+        work_packages_graph:
+          summary: "%{chartType} %{description}olan iş paketlerini gösteren grafik."
+          title: İş paketleri grafiği
         work_packages_overview:
-          title: İş paketlerine genel bakış
           placeholder: Düzenlemek için tıkla ...
+          title: İş paketlerine genel bakış
+        work_packages_table:
+          title: İş paketleri tablosu
+        work_packages_watched:
+          title: Takip ettiğim iş paketleri

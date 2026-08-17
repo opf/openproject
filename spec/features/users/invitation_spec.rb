@@ -39,8 +39,8 @@ RSpec.describe "invitations", :js do
 
       visit user_path(user)
       click_on I18n.t(:label_send_invitation)
-      expect(page).to have_text "An invitation has been sent to holly@openproject.com."
       expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(user) : user_path(user)
+      expect(page).to have_text "An invitation has been sent to holly@openproject.com."
 
       # Logout admin
       visit signout_path
@@ -52,7 +52,7 @@ RSpec.describe "invitations", :js do
       # Visit invitation link with correct token
       visit account_activate_path(token: Token::Invitation.last.value)
 
-      expect(page).to have_css(".spot-modal--header", text: "Welcome to OpenProject")
+      expect(page).to have_test_selector("registration-form")
     end
   end
 
@@ -75,5 +75,25 @@ RSpec.describe "invitations", :js do
     let(:current_user) { global_create_user }
 
     include_examples "resending invitations", redirect_to_edit_page: true
+  end
+
+  describe "activating the invitation" do
+    let(:token) { Token::Invitation.create!(user:) }
+
+    before do
+      visit account_activate_path(token: token.value)
+    end
+
+    context "when users may change their email", with_settings: { user_can_change_email: true } do
+      it "allows choosing a different email" do
+        expect(page).to have_field("user[mail]", with: "holly@openproject.com", readonly: false)
+      end
+    end
+
+    context "when users may not change their email", with_settings: { user_can_change_email: false } do
+      it "pins the account to the invited email" do
+        expect(page).to have_field("user[mail]", with: "holly@openproject.com", readonly: true)
+      end
+    end
   end
 end

@@ -32,21 +32,37 @@ module ResourcePlannerViews
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
-    # `filters`/`filter_mode` are not view attributes; pull them out before
-    # `super` runs `model.attributes=`, then apply them to the query.
+    # `filters`/`filter_mode`/`card_fields` are not contract-permitted view
+    # attributes; pull them out before `super` runs `model.attributes=`, then
+    # apply them to the query / view options.
     def set_attributes(params)
       filters = params.delete(:filters)
       filter_mode = params.delete(:filter_mode)
+      card_fields = params.delete(:card_fields)
 
       super
 
       configure_query(filters:, filter_mode:)
+      apply_card_fields(card_fields)
     end
 
     def set_default_attributes(_params)
       model.change_by_system do
         model.principal ||= user
       end
+    end
+
+    # Persists the ordered card-field selection on the view, filtered to the
+    # known catalog so unknown/forged identifiers are dropped. Only user card
+    # views carry this; absence of the param (other view types) is a no-op.
+    def apply_card_fields(value)
+      return unless model.respond_to?(:card_fields=)
+      return if value.nil?
+
+      ids = value.is_a?(String) ? value.split : Array(value)
+      allowed = UserCardList::CardFieldCatalog.allowed_ids(user:)
+
+      model.card_fields = ids.select { allowed.include?(it) }
     end
 
     def configure_query(filters:, filter_mode:)

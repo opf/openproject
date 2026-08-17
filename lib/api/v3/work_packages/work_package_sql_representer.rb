@@ -61,7 +61,7 @@ module API
              join: {
                table: :types,
                condition: "types.id = work_packages.type_id",
-               select: ["types.name type_name"]
+               select: "types.name type_name"
              }
 
         associated_user_link :author

@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { groupBy } from 'lodash-es';
 import { Injectable, Injector, inject } from '@angular/core';
 import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, mapTo, switchMap, take, tap } from 'rxjs/operators';
 import { forkJoin, from, Observable, Subject } from 'rxjs';
@@ -116,7 +117,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     .selectNotifications$
     .pipe(
       map((notifications) => (
-        _.groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
+        groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
       )),
       distinctUntilChanged(),
     );
@@ -325,7 +326,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     const promise = this
       .apiV3Service
       .work_packages
-      .requireAll(_.compact(wpIds));
+      .requireAll(wpIds.filter(Boolean));
 
     wpIds.forEach((id) => {
       cache.clearAndLoad(

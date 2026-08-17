@@ -42,10 +42,6 @@ module ResourcePlanners
       false
     end
 
-    def paginated?
-      false
-    end
-
     def has_actions?
       true
     end

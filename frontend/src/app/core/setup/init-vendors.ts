@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,9 +29,6 @@
 // 'Global' dependencies
 //
 // dependencies required by classic (Rails) and Angular application.
-
-// Lodash
-import lodash from 'lodash';
 
 import moment from 'moment';
 import './init-moment-locales';
@@ -42,12 +39,5 @@ import '@openproject/primer-view-components/app/assets/javascripts/primer_view_c
 import URI from 'urijs';
 import 'urijs/src/URITemplate';
 
-declare global {
-  interface Window {
-    _:typeof lodash;
-  }
-}
-
-window._ = lodash;
 window.moment = moment;
 window.URI = URI;

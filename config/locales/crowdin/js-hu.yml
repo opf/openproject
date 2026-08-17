@@ -22,6 +22,19 @@
 ---
 hu:
   js:
+    admin:
+      type_form:
+        edit_query: Lekérdezés módosítása
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+      working_days:
+        add_non_working_day: Non-working day
+        already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
+        calendar:
+          empty_state_description: No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.
+          empty_state_header: Non-working days
+          new_date: "(new)"
     ajax:
       hide: Elrejt
       loading: Betöltés…
@@ -42,151 +55,189 @@ hu:
       not_found: Nem található elem
       type_to_search: Gépeljen a kereséshez
     autocomplete_select:
+      active: "%{label} %{name} aktiválása"
       placeholder:
         multi: '"%{name}" hozzáadása'
         single: '"%{name}" kiválasztása'
       remove: "%{name} törlése"
-      active: "%{label} %{name} aktiválása"
+    autocompleter:
+      notFoundText: Nem található elem
+      placeholder: Gépeljen a kereséshez
+      project:
+        placeholder: Select project
+      search: Keresés
     backup:
       attachments_disabled: 'A mellékletek nem tartozhatnak bele, mivel meghaladják a megengedett maximális méretet. Ezt a konfiguráción keresztül módosíthatja (szerver újraindítását igényli).
+
+        '
+      download_backup: Biztonsági mentés letöltése
+      include_attachments: 'Mellékletek csatolása
 
         '
       info: 'Itt indíthat biztonsági mentést. A folyamat a rendelkezésre álló adatmennyiségtől (különösen a mellékletektől) függően eltarthat egy ideig. Ha elkészült, kapni fog egy e -mailt.
 
         '
+      last_backup: 'Utolsó biztonsági mentés:'
+      last_backup_from: 'Legutóbbi biztonsági mentés: '
       note: 'Egy új biztonsági mentés felülír minden előzőt. Naponta csak korlátozott számú biztonsági mentés kérhető.
 
         '
-      last_backup: 'Utolsó biztonsági mentés:'
-      last_backup_from: 'Legutóbbi biztonsági mentés: '
+      options: Beállítások
+      request_backup: Biztonsági mentés kérés
       title: 'Az OpenProject biztonsági mentése
 
         '
-      options: Beállítások
-      include_attachments: 'Mellékletek csatolása
-
-        '
-      download_backup: Biztonsági mentés letöltése
-      request_backup: Biztonsági mentés kérés
-    close_popup_title: Előugró ablak bezárása
-    close_filter_title: Szűrő bezárása
-    close_form_title: Űrlap bezárása
-    button_add_watcher: Megfigyelő hozzáadása
+    baseline:
+      apply: Alkalmaz
+      clear: Törlés
+      drop_down:
+        a_specific_date: a specific date
+        between_two_specific_dates: between two specific dates
+        last_month: A múlt hónap
+        last_week: múlt héten
+        last_working_day: last working day
+        none: "-"
+        yesterday: tegnap
+      from: tól
+      header_description: Highlight changes made to this list since any point in the past.
+      help_description: Reference time zone for the baseline.
+      icon_tooltip:
+        added: Added to view within the comparison time period
+        changed: Maintained with modifications
+        removed: Removed from view within the comparison time period
+      legends:
+        changes_between: Changes between
+        changes_since: Changes since
+        in_your_timezone: 'In your local timezone:'
+        maintained_with_changes: Maintained with changes
+        no_longer_meets_filter_criteria: No longer meets filter criteria
+        now_meets_filter_criteria: Now meets filter criteria
+      show_changes_since: Show changes since
+      time: Idő
+      time_description: 'In your local time: %{datetime}'
+      to: címzett
+      toggle_title: Baseline
+    breadcrumb: Breadcrumb
     button_add: Hozzáadás
+    button_add_watcher: Megfigyelő hozzáadása
+    button_advanced_filter: Speciális szűrő
     button_back: Vissza
     button_back_to_list_view: Vissza a lista nézethez
     button_cancel: Mégsem
-    button_close: Bezár
     button_change_project: Move to another project
     button_check_all: Az összes kijelölése
+    button_clear: Clear
+    button_close: Bezár
+    button_close_details: Részletes nézet bezárása
+    button_collapse_all: Az összes bezárása
     button_configure-form: Űrlap beállítás
     button_confirm: Jóváhagy
     button_continue: Folytatás
     button_copy: Másol
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Hivatkozás másolása a vágólapra
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Másolás a vágólapra
     button_copy_to_other_project: Duplicate in another project
+    button_create: Létrehoz
     button_custom-fields: Választható mezők
     button_delete: Törlés
     button_delete_watcher: Megfigyelő törlése
     button_details_view: Részletek megtekintése
     button_duplicate: Másolás ide
     button_edit: Szerkesztés
-    button_filter: Szűrő
-    button_collapse_all: Az összes bezárása
     button_expand_all: Az összes kibontása
-    button_advanced_filter: Speciális szűrő
+    button_export-atom: Atom letöltés
+    button_filter: Szűrő
+    button_generate_pdf: Generate PDF
     button_list_view: Lista nézet
-    button_show_view: Teljes képernyős nézet
     button_log_time: Eltöltött idő rögzítése
-    button_start_timer: Start timer
-    button_stop_timer: Időzítő leállítása
     button_more: További
-    button_open_details: Részletes nézet megnyitása
-    button_close_details: Részletes nézet bezárása
-    button_open_fullscreen: Teljes képernyős nézet
-    button_show_cards: Mutatsd a card nézetet
-    button_show_list: Mutatsd a lista nézetet
-    button_show_table: Show table view
-    button_show_gantt: Show Gantt view
-    button_show_fullscreen: Show fullscreen view
     button_more_actions: More actions
+    button_open_details: Részletes nézet megnyitása
+    button_open_fullscreen: Teljes képernyős nézet
     button_quote: Idéz
     button_save: Mentés
     button_settings: Beállítások
+    button_show_cards: Mutatsd a card nézetet
+    button_show_fullscreen: Show fullscreen view
+    button_show_gantt: Show Gantt view
+    button_show_list: Mutatsd a lista nézetet
+    button_show_table: Show table view
+    button_show_view: Teljes képernyős nézet
+    button_start_timer: Start timer
+    button_stop_timer: Időzítő leállítása
     button_uncheck_all: Az összes kijelölés megszüntetése
     button_update: Frissítés
-    button_export-atom: Atom letöltés
-    button_generate_pdf: Generate PDF
-    button_create: Létrehoz
+    caption_rate_history: Díj előzmények
     card:
       add_new: Új kártya hozzáadása
       highlighting:
+        entire_card_by: Egész sor alapján
         inline: 'Kiemelés soron belül:
 
           '
-        entire_card_by: Egész sor alapján
       remove_from_list: Kártya eltávolítása a listából
-    caption_rate_history: Díj előzmények
-    clipboard:
-      browser_error: 'Your browser doesn''t support copying to clipboard. Please copy it manually: %{content}'
-      copied_successful: A vágólapra másolás sikeres!
     chart:
-      type: Diagram típus
       axis_criteria: Tengely kritérium
+      errors:
+        could_not_load: A grafikon megjelenítéséhez szükséges adatokat nem lehetett betölteni. Hiányozhatnak a szükséges engedélyek.
       modal_title: Munkacsomag grafikon beállítás
+      tabs:
+        dataset: Adatbeállítás %{number}
+        graph_settings: Általános
+      type: Diagram típus
       types:
-        line: vonal
-        horizontal_bar: Vízszintes oszlop
         bar: 'oszlop
 
           '
-        pie: pie
         doughnut: Fánk
-        radar: Radar
+        horizontal_bar: Vízszintes oszlop
+        line: vonal
+        pie: pie
         polar_area: Poláris terület
-      tabs:
-        graph_settings: Általános
-        dataset: Adatbeállítás %{number}
-      errors:
-        could_not_load: A grafikon megjelenítéséhez szükséges adatokat nem lehetett betölteni. Hiányozhatnak a szükséges engedélyek.
+        radar: Radar
+    clipboard:
+      browser_error: 'Your browser doesn''t support copying to clipboard. Please copy it manually: %{content}'
+      copied_successful: A vágólapra másolás sikeres!
+    close_filter_title: Szűrő bezárása
+    close_form_title: Űrlap bezárása
+    close_popup_title: Előugró ablak bezárása
+    custom_actions:
+      date:
+        current_date: Aktuális dátum
+        specific: be
     description_available_columns: Elérhető oszlopok
     description_current_position: 'Itt vagy:'
     description_select_work_package: 'Munkacsomag kiválasztás #%{id}'
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
-      revisions: Show local modifications
-      no_revisions: No local modifications found
-      preview: Váltás az előnézeti módra
-      source_code: Váltás Markdown forrás módra
-      error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
       ckeditor_error: 'Hiba történt a CKEditorban
 
         '
-      mode:
-        manual: Váltás Markdown forrásra
-        wysiwyg: Váltás a WYSIWYG szerkesztőre
+      error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
       macro:
         attribute_reference:
-          macro_help_tooltip: Ezt a szövegrészt dinamikusan megjeleníti egy makró.
-          not_found: A kért erőforrás nem található.
-          nested_macro: This macro is recursively referencing %{model} %{id}.
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: A kiválasztott "%{name}" attribútum nem létezik.
+          nested_macro: This macro is recursively referencing %{model} %{id}.
+          not_found: A kért erőforrás nem található.
         child_pages:
           button: List of sub-pages
-          include_parent: Tartalmazza a szülőt
-          text: "[Placeholder] List of sub-pages of"
-          page: Wiki oldal
-          this_page: ez az oldal
           hint: 'Hagyja üresen ezt a mezőt az aktuális oldal összes gyermekoldalának felsorolásához. Ha másik oldalra szeretne hivatkozni, adja meg a címét vagy a sorközöket.
 
             '
+          include_parent: Tartalmazza a szülőt
+          page: Wiki oldal
+          text: "[Placeholder] List of sub-pages of"
+          this_page: ez az oldal
         code_block:
           button: Kódrészlet beszúrása
-          title: Kódrészlet beszúrás / szerkesztés
           language: Formázási nyelvek
           language_hint: Adja meg a kiemeléshez használt formázási nyelvet (ha támogatott).
+          title: Kódrészlet beszúrás / szerkesztés
         embedded_calendar:
           text: "[Placeholder] Beágyazott naptár"
         embedded_table:
@@ -199,120 +250,188 @@ hu:
         toolbar_help: Kattintson a widget kiválasztásához és az eszköztár megjelenítéséhez. Kattintson duplán a widget szerkesztéséhez
         wiki_page_include:
           button: Tartalmaz egy másik wiki oldal tartalmát
-          text: "[Placeholder] tartalmazza a wiki oldalt"
-          page: Wiki oldal
-          not_set: "(Nincs beállítva oldal)"
           hint: 'Adja meg egy másik wiki oldal tartalmát annak címének vagy elérési út megadásával. A másik projekt wiki oldalát úgy is elhelyezheti, hogy elválasztja őket egy kettősponttal, mint a következő példa.
 
             '
+          not_set: "(Nincs beállítva oldal)"
+          page: Wiki oldal
+          text: "[Placeholder] tartalmazza a wiki oldalt"
         work_package_button:
           button: Feladatcsoport létrehozása gomb beszúrása
-          type: Feladatcsoport típusok
           button_style: Stílus gomb használata
           button_style_hint: 'Lehetőség: Ellenőrizze, hogy a makró gombként jelenik meg, nem pedig linkként.'
-          without_type: Feladatcsoport létrehozása
+          type: Feladatcsoport típusok
           with_type: 'Feladatcsoport létrehozása (típus: %{typename})'
-    admin:
-      type_form:
-        edit_query: Lekérdezés módosítása
-      working_days:
-        calendar:
-          empty_state_header: Non-working days
-          empty_state_description: No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.
-          new_date: "(new)"
-        add_non_working_day: Non-working day
-        already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-      work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
-        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
-    custom_actions:
-      date:
-        specific: be
-        current_date: Aktuális dátum
-    error:
-      internal: Belső hiba történt.
-      cannot_save_changes_with_message: 'A következő hiba miatt nem sikerült menteni a módosításokat: %{error}'
-      query_saving: A nézetet nem sikerült menteni.
-      embedded_table_loading: 'A beágyazott nézet betöltése nem sikerült: %{message}'
+          without_type: Feladatcsoport létrehozása
+      mode:
+        manual: Váltás Markdown forrásra
+        wysiwyg: Váltás a WYSIWYG szerkesztőre
+      no_revisions: No local modifications found
+      preview: Váltás az előnézeti módra
+      revisions: Show local modifications
+      source_code: Váltás Markdown forrás módra
     enumeration_activities: Tevékenységek (időkövetés)
     enumeration_doc_categories: Dokumentum kategóriák
     enumeration_work_package_priorities: Feladatcsoport fontosság
+    error:
+      cannot_save_changes_with_message: 'A következő hiba miatt nem sikerült menteni a módosításokat: %{error}'
+      embedded_table_loading: 'A beágyazott nézet betöltése nem sikerült: %{message}'
+      internal: Belső hiba történt.
+      query_saving: A nézetet nem sikerült menteni.
+    error_attachment_upload: 'A fájlt nem sikerült feltölteni: %{error}'
+    error_attachment_upload_permission: 'Nincs jogosultsága fájlok feltöltésére ezen az erőforráson.
+
+      '
+    error_could_not_resolve_user_name: Nem sikerült a felhasználó visszafejtése
+    error_could_not_resolve_version_name: Nem sikerült a verziószám visszafejtése
+    exclusion_info:
+      modal:
+        content: The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+        title: Status excluded from hierarchy totals
+    favorite_projects:
+      no_results: You have no favorite projects
+      no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
+    field_value_enter_prompt: Adja meg az értéket a %{field} mezőhöz
     filter:
-      more_values_not_shown: There are %{total} more results, search to filter results.
       description:
-        text_open_filter: A szűrő megnyitásához nyomja meg az "ALT" és a nyíl gombokat.
         text_close_filter: A bejegyzés kiválasztáshoz pl. nyomjon Entert. Kiválasztás elmulasztásához válassza az első bejegyzést.
+        text_open_filter: A szűrő megnyitásához nyomja meg az "ALT" és a nyíl gombokat.
+      more_values_not_shown: There are %{total} more results, search to filter results.
       noneElement: "(nincs)"
-      time_zone_converted:
-        two_values: "%{from} - %{to} helyi idő szerint."
-        only_start: "%{from}-tól helyi idő szerint."
-        only_end: "%{to}-ig helyi idő szerint."
-      value_spacer: "-"
       sorting:
         criteria:
           one: Első rendezési feltétel
-          two: Második rendezési feltétel
           three: Harmadik rendezési feltétel
-    gantt_chart:
-      label: Gantt-diagram
-      quarter_label: Q%{quarter_number}
-      labels:
-        title: Címke konfiguráció
-        bar: Oszlop címkék
-        left: Bal
-        right: Jobb
-        farRight: Jobb szélen
-        description: 'Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          two: Második rendezési feltétel
+      time_zone_converted:
+        only_end: "%{to}-ig helyi idő szerint."
+        only_start: "%{from}-tól helyi idő szerint."
+        two_values: "%{from} - %{to} helyi idő szerint."
+      value_spacer: "-"
+    forms:
+      advanced_settings: Speciális beállítások
+      load_error_message: Hiba történt az eredmény betöltésekor.
+      submit_success_message: Jelentés sikeresen elküldve
+      validation_error_message: 'Kérjük, javítsa ki az űrlapon található hibákat
 
-          '
+        '
+    gantt_chart:
       button_activate: Gannt diagramm megtekintése
       button_deactivate: Gannt diagramm elrejtése
       filter:
         noneSelection: "(nincs)"
+      label: Gantt-diagram
+      labels:
+        bar: Oszlop címkék
+        description: 'Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+
+          '
+        farRight: Jobb szélen
+        left: Bal
+        right: Jobb
+        title: Címke konfiguráció
+      quarter_label: Q%{quarter_number}
       selection_mode:
         notification: Klikkeljen valamelyik feladatcsoportra a kapcsolat létrehozásához. Visszavonás az Esc megnyomásával.
       zoom:
-        in: Nagyítás
-        out: Kicsinyítés
         auto: Automatikus nagyítás
         days: Nap
-        weeks: Hetek
-        months: Hónap
-        quarters: Negyedek
-        years: Évek
         description: 'Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
 
           '
-    general_text_no: nem
-    general_text_yes: igen
+        in: Nagyítás
+        months: Hónap
+        out: Kicsinyítés
+        quarters: Negyedek
+        weeks: Hetek
+        years: Évek
     general_text_No: Nem
     general_text_Yes: Igen
+    general_text_no: nem
+    general_text_yes: igen
+    global_search:
+      all_projects: Az összes projektben
+      close_search: Keresés bezárása
+      current_project: Ebben a projektben
+      current_project_and_all_descendants: Ebben a projektben + alprojektekben
+      direct_hit_available: Work package with exact ID found. Press Enter to open it.
+      items_available: "%{count} items available"
+      recently_viewed: Recently viewed
+      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
+      title:
+        all_projects: minden projekt
+        project_and_subprojects: az összes alprojektben
+        search_for: Keresés
     hal:
       error:
-        update_conflict_refresh: Kattintson ide, hogy a Feladatcsoportot legújabb verzióra történő frissítéséhez.
         edit_prohibited: A (z) %{attribute} attribútum nem szerkeszthető. Vagy azért mert ez valamelyik kapcsolatból származik (gyerekektől), vagy más okból nem módosítható.
         format:
           date: A(z) %{attribute} nem felel meg az -ÉÉÉÉ-HH-NN- dátumformátumnak.
         general: Hiba történt.
+        update_conflict_refresh: Kattintson ide, hogy a Feladatcsoportot legújabb verzióra történő frissítéséhez.
+    help_texts:
+      show_modal: Show help text
     ical_sharing_modal:
-      title: Feliratkozás az iCalendars-ra
-      inital_setup_error_message: An error occured while fetching data.
+      copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      warning: Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
+      ical_generation_error_text: An error occured while generating the calendar URL.
+      inital_setup_error_message: An error occured while fetching data.
+      success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
+      title: Feliratkozás az iCalendars-ra
+      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
       token_name_label: Where will you be using this?
       token_name_placeholder: Type a name, e.g. "Phone"
-      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
-      copy_url_label: Copy URL
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
+      warning: Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
+    include_projects:
+      apply: Alkalmaz
+      clear_selection: Kijelölés törlése
+      include_subprojects: Összes alprojekt bevonása
+      no_results: No project matches your search criteria.
+      search_placeholder: Projektek keresése...
+      selected_filter:
+        all: Minden projekt
+        selected: Csak a kijelölt
+      title: Projektek
+      toggle_title: Projekteket tartalmaz
+      tooltip:
+        current_project: Ez a jelenlegi projekt, amiben vagyunk.
+        does_not_match_search: Project does not match the search criteria.
+        include_all_selected: Project already included since Include all sub-projects is enabled.
+    include_workspaces:
+      types:
+        portfolio: Portfolio
+        program: Program
+    inplace:
+      btn_preview_disable: Előnézet kikapcsolása
+      btn_preview_enable: Előnézet
+      button_cancel: "%{attribute}: Mégse"
+      button_cancel_all: Mégsem
+      button_edit: "%{attribute}: szerkesztés"
+      button_save: "%{attribute}: mentés"
+      button_save_all: Mentés
+      clear_value_label: "-"
+      errors:
+        maxlength: "%{field} nem tartalmazhat több számjegyet mint %{maxLength}"
+        messages_on_field: 'Ez a mező érvénytelen: %{messages}'
+        minlength: "%{field} nem tartalmazhat kevesebb számjegyet mint %{minLength}"
+        number: "%{field} nem egy érvényes szám"
+        required: "%{field} nem lehet üres"
+      link_formatting_help: Szöveg formázás súgó
+      null_value_label: Nincs érték
+    invalid_job_response: Invalid response from server.
+    invite_user_modal:
+      invite: Meghívás
+      placeholder_add_tag: Create placeholder user
     label_activate: Aktivál
-    label_assignee: Megbízott
-    label_assignee_alt_text: This work package is assigned to %{name}
+    label_activity_show_all: Minden tevékenység mutatása
+    label_activity_show_only_comments: Hozzászólással rendelkező tevékenységek mutatása
+    label_add_attachments: Attach files
     label_add_column_after: Oszlop hozzáadása utána
     label_add_column_before: Oszlop hozzáadása előtte
     label_add_columns: Oszlopok hozzáadása
     label_add_comment: Megjegyzés hozzáadása
     label_add_comment_title: "@név beírásával értesíthetsz másokat a hozzászólásodról"
+    label_add_description: Adjon meg leírást a %{file} fájlhoz
     label_add_row_after: Sor hozzáadása utána
     label_add_row_before: Sor hozzáadása előtte
     label_add_selected_columns: A kiválasztott oszlopok hozzáadása
@@ -325,6 +444,9 @@ hu:
     label_all_work_packages: minden feladatcsoport
     label_and: és
     label_ascending: Növekvő
+    label_assignee: Megbízott
+    label_assignee_alt_text: This work package is assigned to %{name}
+    label_attachments: Csatolmány
     label_author: 'Szerző: %{user}'
     label_avatar: Profilkép
     label_between: között
@@ -332,42 +454,52 @@ hu:
     label_board_locked: Zárolt
     label_board_plural: Táblák
     label_board_sticky: Kiemelt
+    label_cancel_comment: Megjegyzés törlése
     label_change: Változtat
+    label_children_derived_duration: A munkacsomag gyermekeinek időtartama
+    label_closed_work_packages: lezárt
+    label_collapse: Collapse
+    label_collapse_all: Az összes bezárása
+    label_collapse_text: Collapse text
+    label_collapsed: összecsukott
+    label_columns: Oszlopok
+    label_comment: Vélemény
+    label_contains: tartalmaznak
     label_create: Létrehoz
     label_create_work_package: Új munkacsomag létrehozása
     label_created_by: Létrehozta
+    label_created_on: létrehozva
     label_current: current
+    label_custom_queries: Private
     label_date: dátum
     label_date_with_format: 'Adja meg a %{date_attribute}, a következő formátumban: %{format}'
     label_deactivate: Kikapcsol
+    label_default_queries: alapértelmezett
     label_descending: Csökkenő
     label_description: Leírás
     label_details: Részletek
     label_display: Megjelenítés
-    label_cancel_comment: Megjegyzés törlése
-    label_closed_work_packages: lezárt
-    label_collapse: Collapse
-    label_collapsed: összecsukott
-    label_collapse_all: Az összes bezárása
-    label_collapse_text: Collapse text
-    label_comment: Vélemény
-    label_contains: tartalmaznak
-    label_created_on: létrehozva
+    label_drop_files: Drop files here to attach files.
+    label_drop_folders_hint: Nem tölthet fel mappákat mellékletként. Válasszon egyetlen fájlt.
+    label_drop_or_click_files: Drop files here or click to attach files.
     label_edit_comment: Hozzászólás szerkesztése
     label_edit_status: A feladatcsoport állapotának módosítása
     label_email: Email
     label_equals: van
     label_expand: Kibont
-    label_expanded: kibontott
     label_expand_all: Az összes kibontása
-    label_expand_text: Show full text
     label_expand_project_menu: Project menü kibontása
+    label_expand_text: Show full text
+    label_expanded: kibontott
     label_export: Exportálás
     label_export_preparing: Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül.
     label_favorites: Favorites
     label_filename: File
+    label_files_to_upload: 'Ezek a fájlok kerülnek feltöltésre:'
     label_filesize: Méret
+    label_formattable_attachment_hint: Fájl hozzárendelése mellékletként a fájl "ideejtésével" vagy vágólapról beillesztésével.
     label_general: Általános
+    label_global_queries: Nyilvános
     label_greater_or_equal: ">="
     label_group: Csoport
     label_group_by: Csoportosítás a következők szerint
@@ -375,16 +507,16 @@ hu:
     label_hide_attributes: Kevesebb mutatása
     label_hide_column: Oszlop elrejtése
     label_hide_project_menu: Projekt menü összecsukás
+    label_import: Importálás
     label_in: in
     label_in_less_than: kevesebb, mint
     label_in_more_than: több mint
     label_incoming_emails: Bejövő e-mailek
-    label_information_plural: Információk
     label_infinity: Infinity
+    label_information_plural: Információk
     label_invalid: Invalid
-    label_import: Importálás
-    label_latest_activity: Utolsó aktivitás
     label_last_updated_on: Utolsó frissítés
+    label_latest_activity: Utolsó aktivitás
     label_learn_more_link: További információ
     label_less_or_equal: "<="
     label_less_than_ago: kevesebb, nappal ezelött
@@ -394,39 +526,45 @@ hu:
     label_me: Nekem
     label_meeting_agenda: Napirend
     label_meeting_minutes: Jegyzőkönyv
-    label_more_than_ago: több, nappal ezelőtt
     label_moderate_comment: Moderate comment
+    label_more_than_ago: több, nappal ezelőtt
     label_next: " Következő"
     label_no_color: Nincs szín
     label_no_data: Nincs megjelenítendő adat
+    label_no_date: no date
     label_no_due_date: nincs befejezési dátum
     label_no_start_date: nincs kezdő dátuma
-    label_no_date: no date
     label_no_value: Nincs érték
     label_none: Egyik sem
-    label_not_contains: nem tartalmaz
     label_not_available: Not available
+    label_not_contains: nem tartalmaz
     label_not_equals: nem
     label_on: be
-    label_open_menu: Menü megnyitása
     label_open_context_menu: Context menü megnyitása
+    label_open_menu: Menü megnyitása
     label_open_work_packages: nyitott
     label_password: Jelszó
-    label_previous: Korábbi
     label_per_page: 'Oldalanként:'
     label_please_wait: Kérem várjon
+    label_press_enter_to_save: Nyomjon Entert a mentéshez
+    label_previous: Korábbi
     label_project: Projekt
     label_project_plural: Projektek
-    label_visibility_settings: Láthatósági beállítások
+    label_public_query: Nyilvános
     label_quote_comment: Hozzászólás idézése
     label_recent: Friss
-    label_reset: Visszaállít, reset
+    label_rejected_files: 'Ezeket a fájlokat nem lehet felölteni:'
+    label_rejected_files_reason: Ezeket a fájlokat nem lehet feltölteni, mert a méretük nagyobb, mint %{maximumFilesize}
     label_remove: Eltávolítás
+    label_remove_all_files: Összes fájl törlése
     label_remove_column: Oszlop eltávolítása
     label_remove_columns: Eltávolítja a kijelölt oszlopokat
+    label_remove_file: "%{fileName} törlése"
     label_remove_row: Sor eltávolítása
+    label_remove_watcher: 'Megfigyelő törlése: %{name}'
     label_report: Jelentés
     label_repository_plural: Csomagtárolók
+    label_reset: Visszaállít, reset
     label_resize_project_menu: Resize project menu
     label_save_as: Mentés másként
     label_search_columns: Search a column
@@ -435,186 +573,192 @@ hu:
     label_show_attributes: Minden attribútum megjelenítése
     label_show_in_menu: Nézet megjelenítése a Menüben
     label_sort_by: Rendezés a következő szerint
-    label_sorted_by: rendezve
     label_sort_higher: Mozgatás felfelé
     label_sort_lower: Mozgás lefelé
+    label_sorted_by: rendezve
     label_sorting: Rendezés
     label_spent_time: Eltöltött idő
     label_star_query: Favorited
-    label_press_enter_to_save: Nyomjon Entert a mentéshez
-    label_public_query: Nyilvános
+    label_starred_queries: Favorite
+    label_subject: Tárgy
     label_sum: Össz.
     label_sum_for: Összeg
-    label_total_sum: 'Teljes összeg:'
-    label_subject: Tárgy
     label_this_week: ezen a héten
-    label_today: Ma
     label_time_entry_plural: Eltöltött idő
-    label_up: Fel
-    label_user_plural: Felhasználók
-    label_activity_show_only_comments: Hozzászólással rendelkező tevékenységek mutatása
-    label_activity_show_all: Minden tevékenység mutatása
-    label_total_progress: "%{percent}% a teljes folyamatban"
+    label_today: Ma
     label_total_amount: 'Teljes: %{amount}'
+    label_total_progress: "%{percent}% a teljes folyamatban"
+    label_total_sum: 'Teljes összeg:'
+    label_unwatch: Megfigyelés leállítása
+    label_unwatch_work_package: Nem megfigyelt feladatcsoport
+    label_up: Fel
     label_updated_on: frissítve
+    label_upload_counter: "%{done}/%{count} fájl feltöltve"
+    label_upload_notification: Fájl feltöltése folyamatban
+    label_uploaded_by: Által feltöltött
+    label_user_plural: Felhasználók
+    label_validation_error: 'A feladatcsoport a következő hibák miatt nem menthető:'
     label_value_derived_from_children: "(érték származik a gyermekektől)"
-    label_children_derived_duration: A munkacsomag gyermekeinek időtartama
+    label_version_plural: Verzió
+    label_view_has_changed: Ez a nézet nem mentett változtatásokat tartalmaz. Kattintson a mentéshez.
+    label_visibility_settings: Láthatósági beállítások
+    label_wait: Kérem, várjon a konfigurációra...
     label_warning: Figyelem
-    label_work_package: Feladatcsoport
-    label_work_package_parent: Szülő munkacsomag
-    label_work_package_plural: Munkacsomagok
     label_watch: Megfigyelés
     label_watch_work_package: Megfigyelő munkacsomag
     label_watcher_added_successfully: Megfigyelő sikeresen hozzáadva!
     label_watcher_deleted_successfully: Megfigyelő sikeresen törölve!
-    label_work_package_details_you_are_here: You are on the %{tab} tab for %{type} %{subject}.
+    label_work_package: Feladatcsoport
     label_work_package_context_menu: Work package context menu
-    label_unwatch: Megfigyelés leállítása
-    label_unwatch_work_package: Nem megfigyelt feladatcsoport
-    label_uploaded_by: Által feltöltött
-    label_default_queries: alapértelmezett
-    label_starred_queries: Favorite
-    label_global_queries: Nyilvános
-    label_custom_queries: Private
-    label_columns: Oszlopok
-    label_attachments: Csatolmány
-    label_drop_files: Drop files here to attach files.
-    label_drop_or_click_files: Drop files here or click to attach files.
-    label_drop_folders_hint: Nem tölthet fel mappákat mellékletként. Válasszon egyetlen fájlt.
-    label_add_attachments: Attach files
-    label_formattable_attachment_hint: Fájl hozzárendelése mellékletként a fájl "ideejtésével" vagy vágólapról beillesztésével.
-    label_remove_file: "%{fileName} törlése"
-    label_remove_watcher: 'Megfigyelő törlése: %{name}'
-    label_remove_all_files: Összes fájl törlése
-    label_add_description: Adjon meg leírást a %{file} fájlhoz
-    label_upload_notification: Fájl feltöltése folyamatban
+    label_work_package_details_you_are_here: You are on the %{tab} tab for %{type} %{subject}.
+    label_work_package_parent: Szülő munkacsomag
+    label_work_package_plural: Munkacsomagok
     label_work_package_upload_notification: 'Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz'
     label_wp_id_added_by: "%{id} hozzáadva %{author} által"
-    label_files_to_upload: 'Ezek a fájlok kerülnek feltöltésre:'
-    label_rejected_files: 'Ezeket a fájlokat nem lehet felölteni:'
-    label_rejected_files_reason: Ezeket a fájlokat nem lehet feltölteni, mert a méretük nagyobb, mint %{maximumFilesize}
-    label_wait: Kérem, várjon a konfigurációra...
-    label_upload_counter: "%{done}/%{count} fájl feltöltve"
-    label_validation_error: 'A feladatcsoport a következő hibák miatt nem menthető:'
-    label_version_plural: Verzió
-    label_view_has_changed: Ez a nézet nem mentett változtatásokat tartalmaz. Kattintson a mentéshez.
-    help_texts:
-      show_modal: Show help text
-    onboarding:
-      buttons:
-        skip: Kihagyás
-        next: " Következő"
-        got_it: Rendben
-      steps:
-        help_menu: The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!
-        members: Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.
-        quick_add_button: Kattintson a fejlécben található (+) ikonra hogy   <b>create a new project</b> vagy  <b>invite coworkers</b>.
-        sidebar_arrow: Használja a vissza nyilat bal felül hogy visszatérjen a projektekhez <b>main menu</b>..
-        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
-        wiki: A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.
-        boards:
-          overview: 'Válassza a <b>táblák</b> lehetőséget a nézetváltáshoz, és kezelje projektjét az agilis táblák nézetben.
+    modals:
+      button_apply: Alkalmaz
+      button_cancel: Mégsem
+      button_delete: Törlés
+      button_save: Mentés
+      button_submit: Küldés
+      destroy_time_entry:
+        text: Biztosan törölni akarja a következő időbejegyzést?
+        title: Időbejegyzés törlésének jóváhagyása
+      form_submit:
+        text: Biztosan végre szeretné hajtani ezt a műveletet?
+        title: Megerősítés a folytatáshoz
+      label_delete_page: Aktuális oldal törlése
+      label_name: Név
+    no_job_id: No job ID returned from server.
+    notice_bad_request: Rossz kérés.
+    notice_job_started: 'elkezdődött a munka.
 
-            '
-          lists_kanban: 'Itt több listát (oszlopot) hozhat létre a táblán belül. Ezzel a funkcióval például <b> Kanban táblát </b> hozhat létre.
-
-            '
-          lists_basic: Here you can create multiple lists (columns) within your agile board.
-          add: 'Kattintson a plusz (+) ikonra, ha <b> új kártyát szeretne létrehozni </b>, vagy <b> hozzáadni egy meglévő kártyát </b> a táblán lévő listához.
-
-            '
-          drag: Egy adott listán belül húzza a kártyákat, hogy átrendezze őket, vagy áthelyezze őket egy másik listába. <br> A jobb felső sarokban található információs (i) ikonra kattintva vagy egy kártyára duplán kattintva megnyithatja annak részleteit.
-        wp:
-          toggler: Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására, amely részletesebb képet ad a munkáról.
-          list: 'Ez a <b> munkacsomag  </b> áttekintés a projekt összes munkájának listáját tartalmazza, például feladatokat, mérföldköveket, fázisokat és egyebeket. <br> A munkacsomagok közvetlenül ebből a nézetből hozhatók létre és szerkeszthetők. Egy adott munkacsomag részleteinek eléréséhez egyszerűen kattintson duplán a sorára.
-
-            '
-          full_view: 'A <b> munkacsomag részleteit </b> a nézet tartalmazza. Az adott munkacsomaggal kapcsolatos minden lényeges információt, például annak leírását, állapotát, prioritását, tevékenységeit, függőségeit és megjegyzéseit.
-
-            '
-          back_button: 'A bal felső sarokban lévő visszatérési nyíllal lépjen ki és térjen vissza a munkacsomagok listájához.
-
-            '
-          create_button: A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.
-          gantt_menu: Create project schedules and timelines effortlessly using the Gantt chart module.
-          timeline: 'Itt <b> szerkesztheti projekttervét </b>, új munkacsomagokat hozhat létre, például feladatokat, mérföldköveket, fázisokat és egyebeket, valamint <b> hozzáadhat függőségeket </b>. A csapat minden tagja bármikor láthatja és frissítheti a legújabb tervet.
-
-            '
-        team_planner:
-          overview: The team planner lets you visually assign tasks to team members and get an overview of who is working on what.
-          calendar: The weekly or biweekly planning board displays all work packages assigned to your team members.
-          add_assignee: To get started, add assignees to the team planner.
-          add_existing: Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.
-          card: Húzza a munkacsomagokat vízszintesen az időben vissza vagy előre mozgatáshoz. Az élek megragadásával a kezdő és a befejezési dátum változtathatók. Más sorba való függőleges mozgatással más projekttaghoz rendelhető a munkacsomag.
+      '
+    notice_no_results_to_display: Nincs megjeleníthető eredmény.
+    notice_successful_create: Sikeres létrehozás.
+    notice_successful_delete: Sikeres törlés.
+    notice_successful_update: Sikeres frissítés.
     notifications:
-      title: Értesítések
-      no_unread: Nincs olvasatlan értesítés
-      reasons:
-        mentioned: Megemlített
-        watched: Megfigyelő
-        assigned: Megbízott
-        responsible: Felelős
-        created: Létrehoz
-        scheduled: Beütemezve
-        commented: Hozzászólás
-        processed: Processed
-        prioritized: Prioritized
-        dateAlert: Date alert
-        shared: Megosztva
-        reminder: Reminder
-      date_alerts:
-        milestone_date: Milestone date
-        overdue: Overdue
-        overdue_since: for %{difference_in_days}.
-        property_today: ma van.
-        property_is: "%{difference_in_days} napon belül."
-        property_was: "%{difference_in_days} napja volt."
-        property_is_deleted: törölve.
       center:
-        label_actor_and: és
         and_more_users:
           one: 'és 1 másik
 
             '
           other: és %{count} egyéb
+        empty_state:
+          no_notification: Looks like you are all caught up.
+          no_notification_for_filter: Looks like you are all caught up for this filter.
+          no_notification_with_current_filter: Looks like you are all caught up for %{filter} filter.
+          no_notification_with_current_project_filter: Looks like you are all caught up with the selected project.
+          no_selection: Click on a notification to view all activity details.
+        label_actor_and: és
+        mark_all_read: Mindegyik megjelölése olvasottként
+        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
+        mark_as_read: Megjelölés olvasottként
+        new_notifications:
+          link_text: Click here to load them.
+          message: Új értesítések érkeztek.
         no_results:
           at_all: New notifications will appear here when there is activity that concerns you.
           with_current_filter: Ebben a nézetben jelenleg nincsenek értesítések
-        mark_all_read: Mindegyik megjelölése olvasottként
-        mark_as_read: Megjelölés olvasottként
-        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
         text_update_date_by: "%{date} szerint"
         total_count_warning: 'A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.
 
           '
-        empty_state:
-          no_notification: Looks like you are all caught up.
-          no_notification_with_current_project_filter: Looks like you are all caught up with the selected project.
-          no_notification_with_current_filter: Looks like you are all caught up for %{filter} filter.
-          no_notification_for_filter: Looks like you are all caught up for this filter.
-          no_selection: Click on a notification to view all activity details.
-        new_notifications:
-          message: Új értesítések érkeztek.
-          link_text: Click here to load them.
+      date_alerts:
+        milestone_date: Milestone date
+        overdue: Overdue
+        overdue_since: "%{difference_in_days} napja."
+        property_is: "%{difference_in_days} napon belül."
+        property_is_deleted: törölve.
+        property_today: ma van.
+        property_was: "%{difference_in_days} napja volt."
+      no_unread: Nincs olvasatlan értesítés
+      reasons:
+        assigned: Megbízott
+        commented: Hozzászólás
+        created: Létrehoz
+        dateAlert: Date alert
+        mentioned: Megemlített
+        prioritized: Prioritized
+        processed: Processed
+        reminder: Reminder
+        responsible: Felelős
+        scheduled: Beütemezve
+        shared: Megosztva
+        watched: Megfigyelő
       reminders:
         note: 'Note: “%{note}”'
       settings:
         change_notification_settings: You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.
         title: Értesítési beállítások
+      title: Értesítések
+    onboarding:
+      buttons:
+        got_it: Rendben
+        next: " Következő"
+        skip: Kihagyás
+      steps:
+        boards:
+          add: 'Kattintson a plusz (+) ikonra, ha <b> új kártyát szeretne létrehozni </b>, vagy <b> hozzáadni egy meglévő kártyát </b> a táblán lévő listához.
+
+            '
+          drag: Egy adott listán belül húzza a kártyákat, hogy átrendezze őket, vagy áthelyezze őket egy másik listába. <br> A jobb felső sarokban található információs (i) ikonra kattintva vagy egy kártyára duplán kattintva megnyithatja annak részleteit.
+          lists_basic: Here you can create multiple lists (columns) within your agile board.
+          lists_kanban: 'Itt több listát (oszlopot) hozhat létre a táblán belül. Ezzel a funkcióval például <b> Kanban táblát </b> hozhat létre.
+
+            '
+          overview: 'Válassza a <b>táblák</b> lehetőséget a nézetváltáshoz, és kezelje projektjét az agilis táblák nézetben.
+
+            '
+        help_menu: The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!
+        members: Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.
+        quick_add_button: Kattintson a fejlécben található (+) ikonra hogy   <b>create a new project</b> vagy  <b>invite coworkers</b>.
+        sidebar_arrow: Használja a vissza nyilat bal felül hogy visszatérjen a projektekhez <b>main menu</b>..
+        team_planner:
+          add_assignee: To get started, add assignees to the team planner.
+          add_existing: Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.
+          calendar: The weekly or biweekly planning board displays all work packages assigned to your team members.
+          card: Húzza a munkacsomagokat vízszintesen az időben vissza vagy előre mozgatáshoz. Az élek megragadásával a kezdő és a befejezési dátum változtathatók. Más sorba való függőleges mozgatással más projekttaghoz rendelhető a munkacsomag.
+          overview: The team planner lets you visually assign tasks to team members and get an overview of who is working on what.
+        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
+        wiki: A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.
+        wp:
+          back_button: 'A bal felső sarokban lévő visszatérési nyíllal lépjen ki és térjen vissza a munkacsomagok listájához.
+
+            '
+          create_button: A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.
+          full_view: 'A <b> munkacsomag részleteit </b> a nézet tartalmazza. Az adott munkacsomaggal kapcsolatos minden lényeges információt, például annak leírását, állapotát, prioritását, tevékenységeit, függőségeit és megjegyzéseit.
+
+            '
+          gantt_menu: Create project schedules and timelines effortlessly using the Gantt chart module.
+          list: 'Ez a <b> munkacsomag  </b> áttekintés a projekt összes munkájának listáját tartalmazza, például feladatokat, mérföldköveket, fázisokat és egyebeket. <br> A munkacsomagok közvetlenül ebből a nézetből hozhatók létre és szerkeszthetők. Egy adott munkacsomag részleteinek eléréséhez egyszerűen kattintson duplán a sorára.
+
+            '
+          timeline: 'Itt <b> szerkesztheti projekttervét </b>, új munkacsomagokat hozhat létre, például feladatokat, mérföldköveket, fázisokat és egyebeket, valamint <b> hozzáadhat függőségeket </b>. A csapat minden tagja bármikor láthatja és frissítheti a legújabb tervet.
+
+            '
+          toggler: Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására, amely részletesebb képet ad a munkáról.
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: There is a network problem.
+        network_on: Network is back. We are trying.
+      waiting_title:
+        timeout: Időtúllépés
     pagination:
       no_other_page: Csak egyetlen oldalon tartózkodik.
-      pages_skipped: Pages skipped.
-      page_navigation: Pagination navigation
-      per_page_navigation: Items per page selection
+      page_navigation: Oldalszámozásos navigáció
       pages:
         page_number: Page %{number}
         show_per_page: Show %{number} per page
+      pages_skipped: Pages skipped.
+      per_page_navigation: Oldalankénti tételek száma
     placeholders:
       default: "-"
-      subject: Itt adja meg a témát
-      selection: Kérem válasszon
       description: 'Description: Click to edit...'
       relation_description: Kapcsolat leírásának hozzáadása ide kattintva
+      selection: Kérem válasszon
+      subject: Itt adja meg a témát
     project:
       autocompleter:
         label: Projektnevek automatikus kiegészítése
@@ -624,214 +768,285 @@ hu:
       required_outside_context: 'Kérjük, válasszon egy projektet a munkacsomag létrehozásához az összes attribútum megtekintéséhez. Csak olyan projekteket választhat ki, amelyek aktiválták a fenti típust.
 
         '
-    text_are_you_sure: Biztos vagy benne?
-    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
-    breadcrumb: Breadcrumb
-    text_data_lost: Az összes adat elveszhet
-    text_user_wrote: "%{value} írta:"
-    time_entry:
-      work_package_required: Először ki kell választania egy munkacsomagot.
-      title: Eltöltött idő rögzítése
-      tracking: Munkaidő követése
-      stop: Stop
-    timer:
-      start_new_timer: Start new timer
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: No active timer for this work package, have you stopped it in another window?
-      tracking_time: Tracking time
-      button_stop: Stop current timer
-    two_factor_authentication:
-      label_two_factor_authentication: Kétlépcsős hitelesítés
-    watchers:
-      label_loading: megfigyelők betöltése...
-      label_error_loading: Hiba történt a megfigyelők betöltése közben
-      label_search_watchers: Megfigyelők keresése
-      label_add: Megfigyelő hozzáadása
-      label_discard: Kiválasztás elvetése
-      typeahead_placeholder: Lehetséges megfigyelők keresése
-    relation_labels:
-      parent: Szülő
-      child: Child
-      children: Gyermekek
-      relates: Kapcsolódóan
-      duplicates: Duplikátumok
-      duplicated: Duplikálta (a)z
-      blocks: Akadályoz
-      blocked: Blokkolta a(z)
-      precedes: Megelőzi
-      follows: Követi ezt
-      includes: Tartalmazza
-      partof: Része
-      requires: Kötelező
-      required: Által megkövetelt
-      relation_type: kapcsolat típusa
-    relations_hierarchy:
-      parent_headline: Szülő
-      hierarchy_headline: Hierarchia
-      children_headline: Gyermekek
+    project_menu_details: Részletek
+    projects:
+      identifier_suggestion:
+        loading: Loading suggestion...
+        set_name_first: Please set the name first.
     relation_buttons:
-      set_parent: Szülő kapcsolat beállítása
-      change_parent: Szülő módosítása
-      remove_parent: Szülő eltávolítása
-      hierarchy_indent: Behúzási hierarchia
-      hierarchy_outdent: Kihúzási hierarchia
-      group_by_wp_type: Rendezés feladatcsoport típusai szerint
-      group_by_relation_type: Rendezés kapcsolati típusok szerint
-      add_parent: Meglévő szülő kapcsolat hozzáadása
-      add_new_child: Új gyermek kapcsolat hozzáadása
-      create_new: Új létrehozása
+      abort: Megszakít
       add_existing: Létező tartalom hozzáadása
       add_existing_child: Gyermek hozzáadása
-      remove_child: Gyermek kapcsolat törlése
-      add_new_relation: Új kapcsolat hozzáadása
       add_existing_relation: Létező kapcsolat hozzáadása
-      update_description: Kapcsolat részleteinek beállítása vagy frissítése
-      toggle_description: Kapcsolat leírás kapcsolása
-      update_relation: Klikk a kapcsolat típus módosításához
-      show_relations: Show relations
+      add_new_child: Új gyermek kapcsolat hozzáadása
+      add_new_relation: Új kapcsolat hozzáadása
+      add_parent: Meglévő szülő kapcsolat hozzáadása
       add_predecessor: Előző hozzáadása
       add_successor: Folyatató hozzáadása
+      change_parent: Szülő módosítása
+      create_new: Új létrehozása
+      group_by_relation_type: Rendezés kapcsolati típusok szerint
+      group_by_wp_type: Rendezés feladatcsoport típusai szerint
+      hierarchy_indent: Behúzási hierarchia
+      hierarchy_outdent: Kihúzási hierarchia
       remove: Kapcsolat eltávolítása
+      remove_child: Gyermek kapcsolat törlése
+      remove_parent: Szülő eltávolítása
       save: Kapcsolat mentése
-      abort: Megszakít
+      set_parent: Szülő kapcsolat beállítása
+      show_relations: Show relations
+      toggle_description: Kapcsolat leírás kapcsolása
+      update_description: Kapcsolat részleteinek beállítása vagy frissítése
+      update_relation: Klikk a kapcsolat típus módosításához
+    relation_labels:
+      blocked: Blokkolta a(z)
+      blocks: Akadályoz
+      child: Child
+      children: Gyermekek
+      duplicated: Duplikálta (a)z
+      duplicates: Duplikátumok
+      follows: Követi ezt
+      includes: Tartalmazza
+      parent: Szülő
+      partof: Része
+      precedes: Megelőzi
+      relates: Kapcsolódóan
+      relation_type: kapcsolat típusa
+      required: Által megkövetelt
+      requires: Kötelező
+    relations:
+      empty: Nincs kapcsolata
+      remove: Kapcsolat eltávolítása
     relations_autocomplete:
-      placeholder: Gépeljen a kereséshez
       parent_placeholder: Válassz egy szülő objektumot vagy nyomd meg az ESC gombot  kilépéshez
-    autocompleter:
       placeholder: Gépeljen a kereséshez
-      notFoundText: Nem található elem
-      search: Keresés
-      project:
-        placeholder: Select project
+    relations_hierarchy:
+      children_headline: Gyermekek
+      hierarchy_headline: Hierarchia
+      parent_headline: Szülő
     repositories:
-      select_tag: Címke kiválasztása
       select_branch: Branch kiválasztása
-    field_value_enter_prompt: Adja meg az értéket a %{field} mezőhöz
-    project_menu_details: Részletek
+      select_tag: Címke kiválasztása
+    sharing:
+      selected_count: "%{count} selected"
+      selection:
+        mixed: Mixed
+      share: Megosztás
     sort:
+      activate_asc: aktiválja a növekvő sorrendhez
+      activate_dsc: aktiválja a csökkenő sorrendhez
+      activate_no: aktiválva a rendezés törlése
       sorted_asc: 'Növekvő sorrend alkalmazása, '
       sorted_dsc: 'Csökkenő rendezés alkalmazva, '
       sorted_no: 'Ne rendezze alkalmazva, '
       sorting_disabled: rendezés kikapcsolva
-      activate_asc: aktiválja a növekvő sorrendhez
-      activate_dsc: aktiválja a csökkenő sorrendhez
-      activate_no: aktiválva a rendezés törlése
-    text_work_packages_destroy_confirmation: Biztosan törli a kijelölt feladatcsoportot?
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+    spot:
+      drop_modal:
+        close: Close modal
+        focus_grab: This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.
+      filter_chip:
+        remove: Eltávolítás
+    text_are_you_sure: Biztos vagy benne?
+    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
+    text_data_lost: Az összes adat elveszhet
     text_query_destroy_confirmation: Biztosan törli a kijelölt megjelenítést?
+    text_user_wrote: "%{value} írta:"
+    text_work_packages_destroy_confirmation: Biztosan törli a kijelölt feladatcsoportot?
+    time_entry:
+      stop: Stop
+      title: Eltöltött idő rögzítése
+      tracking: Munkaidő követése
+      work_package_required: Először ki kell választania egy munkacsomagot.
+    timer:
+      button_stop: Stop current timer
+      start_new_timer: Start new timer
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: No active timer for this work package, have you stopped it in another window?
+      tracking_time: Tracking time
     tl_toolbar:
-      zooms: Nagyítási szint
       outlines: Hierarchia szint
+      zooms: Nagyítási szint
+    toolbar:
+      filter: Szűrő
+      search_query_label: Mentett nézetek keresése...
+      settings:
+        columns: Oszlopok
+        configure_view: Configure view
+        delete: Törlés
+        display_hierarchy: Hierarchia megjelenítése
+        display_sums: Megjelenítendő összegek
+        export: Exportálás
+        group_by: Csoportosítás a következők szerint
+        hide_hierarchy: Hierarchia elrejtése
+        hide_sums: Összegek elrejtése
+        page_settings: Nézet átnevezése
+        save: Mentés
+        save_as: Mentés másként
+        share_calendar: Feliratkozás az iCalendars-ra
+        sort_by: Rendezés a következő szerint
+        visibility_settings: Láthatósági beállítások
+      unselected_title: Feladatcsoport
+    two_factor_authentication:
+      label_two_factor_authentication: Kétlépcsős hitelesítés
+    units:
+      child_work_packages:
+        one: egy gyermek munkacsomag
+        other: "%{count} gyermek feladatcsoport"
+      day:
+        one: 1 nap
+        other: "%{count} nap"
+        zero: 0 days
+      hour:
+        one: 1 óra
+        other: "%{count} ó"
+        zero: 0 óra
+      hour_string: "%{hours} h"
+      word:
+        one: 1 word
+        other: "%{count} words"
+      workPackage:
+        one: munkacsomag
+        other: feladatcsoport
     upsell:
       ee_only: Enterprise edition add-on
+    views:
+      card: Kártyák
+      list: Tábla
+      timeline: Gantt
+    watchers:
+      label_add: Megfigyelő hozzáadása
+      label_discard: Kiválasztás elvetése
+      label_error_loading: Hiba történt a megfigyelők betöltése közben
+      label_loading: megfigyelők betöltése...
+      label_search_watchers: Megfigyelők keresése
+      typeahead_placeholder: Lehetséges megfigyelők keresése
     wiki_formatting:
-      strong: Erős
-      italic: Dőlt betű
-      underline: Aláhúzott
-      deleted: Törölve
       code: Beágyazott kód
+      deleted: Törölve
       heading1: Címsor 1
       heading2: Címsor 2
       heading3: Címsor 3
-      unordered_list: Rendezetlen lista
-      ordered_list: Rendezett lista
-      quote: Idéz
-      unquote: nem jegyzett
-      preformatted_text: Előre formázott szöveg
-      wiki_link: Linket egy Wiki oldalhoz
       image: Kép
-    sharing:
-      share: Megosztás
-      selected_count: "%{count} selected"
-      selection:
-        mixed: Mixed
+      italic: Dőlt betű
+      ordered_list: Rendezett lista
+      preformatted_text: Előre formázott szöveg
+      quote: Idéz
+      strong: Erős
+      underline: Aláhúzott
+      unordered_list: Rendezetlen lista
+      unquote: nem jegyzett
+      wiki_link: Linket egy Wiki oldalhoz
     work_packages:
+      baseline:
+        addition_label: Added to view within the comparison time period
+        column_incompatible: This column does not show changes in Baseline mode.
+        modification_label: Modified within the comparison time period
+        removal_label: Removed from view within the comparison time period
       bulk_actions:
-        edit: Tömeges szerkesztés
         delete: Tömeges törlés
-        duplicate: Bulk duplicate
+        duplicate: Tömeges duplikátumok
+        edit: Tömeges szerkesztés
         move: A projekt tömeges megváltoztatása
       button_clear: Törlés
       comment_added: Megjegyzés sikeresen hozzáadva.
       comment_send_failed: Hiba történt. A megjegyzés elküldése meghiúsult.
       comment_updated: A megjegyzés sikeresen frissítve.
       confirm_edit_cancel: Biztosan meg kívánja szakítani a munkacsomag szerkesztést?
-      description_filter: Szűrő
+      create:
+        button: Létrehoz
+        header: Új %{type}
+        header_no_type: Új feladatcsoport (a típus még nem meghatározott)
+        header_with_parent: 'Új %{type} (%{parent_type} #%{id} gyermek)'
+        title: Új munkacsomag
+      default_queries:
+        all_open: Nyitottak
+        assigned_to_me: Hozzám rendelt
+        created_by_me: Általam készített
+        latest_activity: Utolsó aktivitás
+        manually_sorted: New manually sorted query
+        overdue: Overdue
+        recently_created: Nemrégiben létrehozott
+        shared_with_me: Shared with me
+        shared_with_users: Megosztás felhasználókkal
+        summary: Összegzés
       description_enter_text: Írjon szöveget
+      description_filter: Szűrő
       description_options_hide: Beállítások elrejtése
       description_options_show: Beállítások megjelenítése
+      duplicate:
+        title: Ismétlődő munkacsomag
       edit_attribute: "%{attribute} - szerkesztés"
+      faulty_query:
+        description: A nézet hibás, és nem sikerült feldolgozni.
+        title: A munkacsomag nem tölthető be.
+      filters:
+        baseline_incompatible: This filter attribute is not taken into consideration in Baseline mode.
+        baseline_warning: Baseline mode is on but some of your active filters are not included in the comparison.
+        title: A feladatcsoportok szűrése
+      hierarchy:
+        children_collapsed: A hierarchia szintje %{level} szűkült. Kattintson a szűrt gyermek-objektum megjelenítéséhez
+        children_expanded: A hierarchia szintje %{level} bővült. Kattintson a szűrt gyermek-objektum megjelenítéséhez
+        hide: Hierarchikus mód elrejtése
+        leaf: Munkacsomag ezen %{level} a szinten.
+        show: Hierarchikus mód megjelenítése
+        toggle_button: Kattintson a hierarchia mód váltásához.
+      inline_create:
+        title: Ide kattintva adhatsz új munkacsomagot a listához
+      jump_marks:
+        content: Ugrás a tartalomhoz
+        label_content: Kattintson ide a menü átugrásához és a tartalom megtekintéséhez
+        label_pagination: Kattints ide, hogy átugorj a munkacsomag táblán és a lapszámozáshoz menj
+        pagination: Ugrás a táblázat lapszámozásához
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: Többszörös kijelölés engedélyezése
+      label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki, enter-el hagyja jóvá, és backspace-vel töröljön'
       label_disable_multi_select: Többszörös kijelölés tiltása
+      label_enable_multi_select: Többszörös kijelölés engedélyezése
       label_filter_add: Szűrő hozzáadása
       label_filter_by_text: Szöveg szűrése
       label_options: Beállítások
-      label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki, enter-el hagyja jóvá, és backspace-vel töröljön'
+      limited_results: Csak %{count} munkacsomag jeleníthető meg kézi rendezés módban. Kérjük, szűréssel csökkentse az eredményeket vagy váltson automatikus rendezésre.
       message_error_during_bulk_delete: Hiba történt a feladatcsoport törlése közben.
       message_successful_bulk_delete: Sikerült törölni a feladatcsoportokat.
       message_successful_show_in_fullscreen: Ide kattintva a munkacsomag részletei teljes képernyős nézeten jeleníthetőek meg.
       message_view_spent_time: Feladatcsoporttal töltött idő megjelenítése
       message_work_package_read_only: Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni.
       message_work_package_status_blocked: A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték.
+      no_results:
+        description: Vagy nincs még ilyen munkacsomag, vagy a szűrők miatt nem jeleníthető meg.
+        title: Nincs megjelenítendő munkacsomag.
       placeholder_filter_by_text: Tárgy, leírás, kommentek
+      placeholders:
+        date: Dátum kiválasztása
+        default: "-"
       progress:
         title: Work estimates and progress
-      baseline:
-        addition_label: Added to view within the comparison time period
-        removal_label: Removed from view within the comparison time period
-        modification_label: Modified within the comparison time period
-        column_incompatible: This column does not show changes in Baseline mode.
-      filters:
-        title: A feladatcsoportok szűrése
-        baseline_incompatible: This filter attribute is not taken into consideration in Baseline mode.
-        baseline_warning: Baseline mode is on but some of your active filters are not included in the comparison.
-      inline_create:
-        title: Ide kattintva adhatsz új munkacsomagot a listához
-      create:
-        title: Új munkacsomag
-        header: Új %{type}
-        header_no_type: Új feladatcsoport (a típus még nem meghatározott)
-        header_with_parent: 'Új %{type} (%{parent_type} #%{id} gyermek)'
-        button: Létrehoz
-      duplicate:
-        title: Ismétlődő munkacsomag
-      hierarchy:
-        show: Hierarchikus mód megjelenítése
-        hide: Hierarchikus mód elrejtése
-        toggle_button: Kattintson a hierarchia mód váltásához.
-        leaf: Munkacsomag ezen %{level} a szinten.
-        children_collapsed: A hierarchia szintje %{level} szűkült. Kattintson a szűrt gyermek-objektum megjelenítéséhez
-        children_expanded: A hierarchia szintje %{level} bővült. Kattintson a szűrt gyermek-objektum megjelenítéséhez
-      faulty_query:
-        title: A munkacsomag nem tölthető be.
-        description: A nézet hibás, és nem sikerült feldolgozni.
-      no_results:
-        title: Nincs megjelenítendő munkacsomag.
-        description: Vagy nincs még ilyen munkacsomag, vagy a szűrők miatt nem jeleníthető meg.
-      limited_results: Csak %{count} munkacsomag jeleníthető meg kézi rendezés módban. Kérjük, szűréssel csökkentse az eredményeket vagy váltson automatikus rendezésre.
-      property_groups:
-        details: Részletek
-        people: Személyek
-        estimatesAndTime: Becslések & időpontok
-        other: Egyéb
       properties:
         assignee: Megbízott
         author: Szerző
+        category: Kategória
         createdAt: Létrehozva
-        description: Leírás
         date: dátum
-        percentComplete: "%-ban kész"
-        percentCompleteAlternative: Progress
+        description: Leírás
         dueDate: Befejezési dátum
         duration: Időtartam
-        spentTime: Eltöltött idő
-        category: Kategória
+        percentComplete: "%-ban kész"
+        percentCompleteAlternative: Progress
         percentageDone: Százalékosan elkészült
         priority: Fontosság
         projectName: Projekt
+        remainingTime: Fennmaradó órák
         remainingWork: Fennmaradó órák
         remainingWorkAlternative: Fennmaradó órák
         responsible: Felelős
+        spentTime: Eltöltött idő
         startDate: Indulási dátum
         status: Állapot
         subject: Tárgy
@@ -839,316 +1054,114 @@ hu:
         title: Cím
         type: Típus
         updatedAt: Frissítve
-        versionName: Verzió
         version: Verzió
+        versionName: Verzió
         work: Munka
         workAlternative: Becsült idő (óra)
-        remainingTime: Fennmaradó órák
-      default_queries:
-        manually_sorted: New manually sorted query
-        latest_activity: Utolsó aktivitás
-        created_by_me: Általam készített
-        assigned_to_me: Hozzám rendelt
-        recently_created: Nemrégiben létrehozott
-        all_open: Nyitottak
-        overdue: Overdue
-        summary: Összegzés
-        shared_with_users: Megosztás felhasználókkal
-        shared_with_me: Shared with me
-      jump_marks:
-        pagination: Ugrás a táblázat lapszámozásához
-        label_pagination: Kattints ide, hogy átugorj a munkacsomag táblán és a lapszámozáshoz menj
-        content: Ugrás a tartalomhoz
-        label_content: Kattintson ide a menü átugrásához és a tartalom megtekintéséhez
-      placeholders:
-        default: "-"
-        date: Dátum kiválasztása
+      property_groups:
+        details: Részletek
+        estimatesAndTime: Becslések & időpontok
+        other: Egyéb
+        people: Személyek
       query:
+        click_to_edit_query_name: Kattints a nézet címének szerkesztéséhez
         column_names: Oszlopok
-        group_by: Csoport szintű eredmények
+        confirm_edit_cancel: Biztosan meg kívánod szakítani a nézet nevének szerkesztését? Cím vissza lesz állítva a korábbi értékre.
+        display_sums: Megjelenitendő összegek
+        errors:
+          duplicate_query_title: A nézet neve már létezik. Biztos megváltoztatod?
+          not_found: Nincs ilyen nézet
+          unretrievable_query: Nem érhető el a nézet az URL-ből
+        filters: Szürő
         group: Csoportosítás a következők szerint
+        group_by: Csoport szintű eredmények
         group_by_disabled_by_hierarchy: A csoportosítás le van tiltva, mivel a hierarchia mód aktív.
+        hide_column: Oszlop elrejtése
         hierarchy_disabled_by_group_by: A hierarchia mód le van tiltva az eredmények csoportosítása e-szerint %{column}.
-        sort_ascending: Növekvő sorrend
-        sort_descending: Csökkenő sorrend
+        insert_columns: Insert columns
         move_column_left: Oszlop mozgatása balra
         move_column_right: Oszlop mozgatása jobbra
-        hide_column: Oszlop elrejtése
-        insert_columns: Insert columns
-        filters: Szürő
-        display_sums: Megjelenitendő összegek
-        confirm_edit_cancel: Biztosan meg kívánod szakítani a nézet nevének szerkesztését? Cím vissza lesz állítva a korábbi értékre.
-        click_to_edit_query_name: Kattints a nézet címének szerkesztéséhez
-        rename_query_placeholder: A nézet neve
-        star_text: Jelölje meg ezt a nézetet kedvencként, és adja hozzá a bal oldalon a mentett nézetek oldalsávjához.
         public_text: 'Tegye közzé ezt a nézetet, lehetővé téve más felhasználók számára, hogy hozzáférjenek a nézethez. A „Nyilvános nézetek kezelése” engedéllyel rendelkező felhasználók módosíthatják vagy eltávolíthatják a nyilvános lekérdezéseket. Ez nem befolyásolja a munkacsomag-eredmények láthatóságát abban a nézetben, és engedélyüktől függően a felhasználók eltérő eredményeket láthatnak.
 
           '
-        errors:
-          unretrievable_query: Nem érhető el a nézet az URL-ből
-          not_found: Nincs ilyen nézet
-          duplicate_query_title: A nézet neve már létezik. Biztos megváltoztatod?
+        rename_query_placeholder: A nézet neve
+        sort_ascending: Növekvő sorrend
+        sort_descending: Csökkenő sorrend
+        star_text: Jelölje meg ezt a nézetet kedvencként, és adja hozzá a bal oldalon a mentett nézetek oldalsávjához.
         text_no_results: Nem található egyező nézet
       reminders:
         button_label: Set reminder
-        title:
-          new: Set a reminder
-          edit: Edit reminder
-        subtitle: You will receive a notification for this work package at the chosen time.
         presets:
-          tomorrow: Tomorrow
-          three_days: In 3 days
-          week: In a week
-          month: In a month
           custom: At a particular date/time
+          month: In a month
+          three_days: In 3 days
+          tomorrow: Tomorrow
+          week: In a week
+        subtitle: You will receive a notification for this work package at the chosen time.
+        title:
+          edit: Edit reminder
+          new: Set a reminder
       scheduling:
         is_parent: A munkacsomag dátumait automatikusan levezetik a gyermekeiből. A dátumok beállításához aktiválja a „Kézi ütemezést”
         is_switched_from_manual_to_automatic: 'Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.
 
           '
       sharing:
-        title: Share work package
         show_all_users: Minden felhasználó mutatása, akivel a munkacsomag megosztásra került
+        title: Share work package
       table:
         configure_button: Feladatcsoport táblázat beállítása
         summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
         text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja a soron belüli szerkesztését az attribútumnak.
-        text_sort_hint: A táblázat fejlécében található hivatkozásokkal rendezhet, csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat.
         text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT" és nyílgombokat.
+        text_sort_hint: A táblázat fejlécében található hivatkozásokkal rendezhet, csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat.
       table_configuration:
         button: Ennek a feladatcsoportnak a beállítása
         choose_display_mode: Feladatcsoportok megjelenése
-        modal_title: Feladatcsoport táblázat beállítás
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
+        columns_help_text: A fenti bevitellel oszlopokat adhat hozzá a táblázatnézethez. A "Húzd és Dobd" módszerrel újra rendezheti az oszlopokat
         default: alapértelmezett
-        display_settings: Megjelenítési beállítások
         default_mode: Sima lista
-        hierarchy_mode: Hierarchia
-        hierarchy_hint: 'Minden szűrt táblázat eredményei kiegészülnek az őseikkel. A hierarchiák kiterjeszthetők és összecsukhatók.
-
-          '
+        display_settings: Megjelenítési beállítások
         display_sums_hint: 'Az összes összegezhető attribútum összegének megjelenítése a táblázat eredményei alatti sorban.
 
           '
-        show_timeline_hint: 'Mutasson egy interaktív gantt-diagramot a táblázat jobb oldalán. Szélességét a táblázat és a gantt-diagram közötti elválasztóvonal húzásával változtathatja.
+        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
+        hierarchy_hint: 'Minden szűrt táblázat eredményei kiegészülnek az őseikkel. A hierarchiák kiterjeszthetők és összecsukhatók.
 
           '
+        hierarchy_mode: Hierarchia
         highlighting: Kiemelés
         highlighting_mode:
           description: Kiemelés szinnel
-          none: Kiemelés nélkül
+          entire_row_by: Egész sor alapján
           inline: Kiemelt attribútum(ok)
           inline_all: Minden attribútum
-          entire_row_by: Egész sor alapján
-          status: Állapot
+          none: Kiemelés nélkül
           priority: Fontosság
+          status: Állapot
           type: Típus
-        sorting_mode:
-          description: 'Válassza ki a munkacsomagok rendezésének módját:'
-          automatic: Automatikus
-          manually: Kézi
-          warning: Az automatikus válogatás üzemmód aktiválásakor elveszíti korábbi rendezését.
-        columns_help_text: A fenti bevitellel oszlopokat adhat hozzá a táblázatnézethez. A "Húzd és Dobd" módszerrel újra rendezheti az oszlopokat
+        modal_title: Feladatcsoport táblázat beállítás
         relation_filters:
           filter_work_packages_by_relation_type: A munkacsomagok szűrése relációs típus szerint
+        show_timeline_hint: 'Mutasson egy interaktív gantt-diagramot a táblázat jobb oldalán. Szélességét a táblázat és a gantt-diagram közötti elválasztóvonal húzásával változtathatja.
+
+          '
+        sorting_mode:
+          automatic: Automatikus
+          description: 'Válassza ki a munkacsomagok rendezésének módját:'
+          manually: Kézi
+          warning: Az automatikus válogatás üzemmód aktiválásakor elveszíti korábbi rendezését.
       tabs:
-        overview: Áttekintés
         activity: Tevékenység
+        files: Fájlok
+        overview: Áttekintés
+        project_attributes: Project attributes
         relations: Kapcsolatok
         watchers: Megfigyelők
-        files: Fájlok
       time_relative:
         days: nap
-        weeks: Hetek
         months: hónap
-    toolbar:
-      settings:
-        configure_view: Configure view
-        columns: Oszlopok
-        sort_by: Rendezés a következő szerint
-        group_by: Csoportosítás a következők szerint
-        display_sums: Megjelenítendő összegek
-        display_hierarchy: Hierarchia megjelenítése
-        hide_hierarchy: Hierarchia elrejtése
-        hide_sums: Összegek elrejtése
-        save: Mentés
-        save_as: Mentés másként
-        export: Exportálás
-        visibility_settings: Láthatósági beállítások
-        share_calendar: Feliratkozás az iCalendars-ra
-        page_settings: Nézet átnevezése
-        delete: Törlés
-      filter: Szűrő
-      unselected_title: Feladatcsoport
-      search_query_label: Mentett nézetek keresése...
-    modals:
-      label_name: Név
-      label_delete_page: Aktuális oldal törlése
-      button_apply: Alkalmaz
-      button_save: Mentés
-      button_submit: Küldés
-      button_cancel: Mégsem
-      button_delete: Törlés
-      form_submit:
-        title: Megerősítés a folytatáshoz
-        text: Biztosan végre szeretné hajtani ezt a műveletet?
-      destroy_time_entry:
-        title: Időbejegyzés törlésének jóváhagyása
-        text: Biztosan törölni akarja a következő időbejegyzést?
-    notice_no_results_to_display: Nincs megjeleníthető eredmény.
-    notice_successful_create: Sikeres létrehozás.
-    notice_successful_delete: Sikeres törlés.
-    notice_successful_update: Sikeres frissítés.
-    notice_job_started: 'elkezdődött a munka.
-
-      '
-    no_job_id: No job ID returned from server.
-    invalid_job_response: Invalid response from server.
-    notice_bad_request: Rossz kérés.
-    relations:
-      empty: Nincs kapcsolata
-      remove: Kapcsolat eltávolítása
-    inplace:
-      button_edit: "%{attribute}: szerkesztés"
-      button_save: "%{attribute}: mentés"
-      button_cancel: "%{attribute}: Mégse"
-      button_save_all: Mentés
-      button_cancel_all: Mégsem
-      link_formatting_help: Szöveg formázás súgó
-      btn_preview_enable: Előnézet
-      btn_preview_disable: Előnézet kikapcsolása
-      null_value_label: Nincs érték
-      clear_value_label: "-"
-      errors:
-        required: "%{field} nem lehet üres"
-        number: "%{field} nem egy érvényes szám"
-        maxlength: "%{field} nem tartalmazhat több számjegyet mint %{maxLength}"
-        minlength: "%{field} nem tartalmazhat kevesebb számjegyet mint %{minLength}"
-        messages_on_field: 'Ez a mező érvénytelen: %{messages}'
-    error_could_not_resolve_version_name: Nem sikerült a verziószám visszafejtése
-    error_could_not_resolve_user_name: Nem sikerült a felhasználó visszafejtése
-    error_attachment_upload: 'A fájlt nem sikerült feltölteni: %{error}'
-    error_attachment_upload_permission: 'Nincs jogosultsága fájlok feltöltésére ezen az erőforráson.
-
-      '
-    units:
-      workPackage:
-        one: munkacsomag
-        other: feladatcsoport
-      child_work_packages:
-        one: egy gyermek munkacsomag
-        other: "%{count} gyermek feladatcsoport"
-      hour_string: "%{hours} h"
-      hour:
-        one: 1 óra
-        other: "%{count} ó"
-        zero: 0 óra
-      day:
-        one: 1 nap
-        other: "%{count} nap"
-        zero: 0 days
-      word:
-        one: 1 word
-        other: "%{count} words"
+        weeks: Hetek
     zen_mode:
       button_activate: Zen mód aktiválása
       button_deactivate: Zen mód kikapcsolása
-    global_search:
-      all_projects: Az összes projektben
-      close_search: Keresés bezárása
-      items_available: "%{count} items available"
-      direct_hit_available: Work package with exact ID found. Press Enter to open it.
-      current_project_and_all_descendants: Ebben a projektben + alprojektekben
-      current_project: Ebben a projektben
-      recently_viewed: Recently viewed
-      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
-      title:
-        all_projects: minden projekt
-        project_and_subprojects: az összes alprojektben
-        search_for: Keresés
-    views:
-      card: Kártyák
-      list: Tábla
-      timeline: Gantt
-    invite_user_modal:
-      invite: Meghívás
-      placeholder_add_tag: Create placeholder user
-    exclusion_info:
-      modal:
-        title: Status excluded from hierarchy totals
-        content: The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
-    favorite_projects:
-      no_results: You have no favorite projects
-      no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
-    include_projects:
-      toggle_title: Projekteket tartalmaz
-      title: Projektek
-      clear_selection: Kijelölés törlése
-      apply: Alkalmaz
-      selected_filter:
-        all: Minden projekt
-        selected: Csak a kijelölt
-      search_placeholder: Projektek keresése...
-      include_subprojects: Összes alprojekt bevonása
-      tooltip:
-        include_all_selected: Project already included since Include all sub-projects is enabled.
-        current_project: Ez a jelenlegi projekt, amiben vagyunk.
-        does_not_match_search: Project does not match the search criteria.
-      no_results: No project matches your search criteria.
-    include_workspaces:
-      types:
-        program: Program
-        portfolio: Portfolio
-    baseline:
-      toggle_title: Baseline
-      clear: Törlés
-      apply: Alkalmaz
-      header_description: Highlight changes made to this list since any point in the past.
-      show_changes_since: Show changes since
-      help_description: Reference time zone for the baseline.
-      time_description: 'In your local time: %{datetime}'
-      time: Idő
-      from: tól
-      to: címzett
-      drop_down:
-        none: "-"
-        yesterday: tegnap
-        last_working_day: last working day
-        last_week: múlt héten
-        last_month: A múlt hónap
-        a_specific_date: a specific date
-        between_two_specific_dates: between two specific dates
-      legends:
-        changes_since: Changes since
-        changes_between: Changes between
-        now_meets_filter_criteria: Now meets filter criteria
-        no_longer_meets_filter_criteria: No longer meets filter criteria
-        maintained_with_changes: Maintained with changes
-        in_your_timezone: 'In your local timezone:'
-      icon_tooltip:
-        added: Added to view within the comparison time period
-        removed: Removed from view within the comparison time period
-        changed: Maintained with modifications
-    forms:
-      submit_success_message: Jelentés sikeresen elküldve
-      load_error_message: Hiba történt az eredmény betöltésekor.
-      validation_error_message: 'Kérjük, javítsa ki az űrlapon található hibákat
-
-        '
-      advanced_settings: Speciális beállítások
-    spot:
-      filter_chip:
-        remove: Eltávolítás
-      drop_modal:
-        focus_grab: This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.
-        close: Close modal
-    open_project_storage_modal:
-      waiting_title:
-        timeout: Időtúllépés
-      waiting_subtitle:
-        network_off: There is a network problem.
-        network_on: Network is back. We are trying.
-    projects:
-      identifier_suggestion:
-        loading: Loading suggestion...
-        set_name_first: Please set the name first.

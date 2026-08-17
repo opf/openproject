@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -84,7 +84,7 @@ export class KeyboardShortcutService {
   public register():void {
     void this.configurationService.initialize().then(() => {
       if (!this.configurationService.disableKeyboardShortcuts()) {
-        _.each(this.shortcuts, (action:() => void, key:string) => Mousetrap.bind(key, action));
+        Object.entries(this.shortcuts).forEach(([key, action]) => Mousetrap.bind(key, action));
       }
     });
   }

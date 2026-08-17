@@ -30,7 +30,7 @@ First, you have to make sure the backlog module is active within a project.
 - An admin needs to add the field to existing work package forms. 
 - Once added, the sprint field becomes visible on the work package details page and can be edited there as well.
 
-## Where are my backlog buckets and sprint buckets now?
+## Where are my backlog buckets and sprints now?
 
 All buckets have been migrated as sprints, which are now visible on the right-hand side. Starting with version 17.4, there are backlog buckets on the left-hand side, allowing you to sort and organize your backlog in a better way.
 
@@ -46,11 +46,10 @@ The backlog can be sorted manually:
 - The work packages are sorted by creation date.
 - When you add a new work package to the project, it is automatically placed at the bottom of the backlog. 
 
+## How are sprint containers sorted?
 
-## How are sprint buckets sorted?
-
-- Sprint buckets with start/completion dates are sorted by date showing the latest one on the top. 
-- Sprint buckets without dates are sorted in an alphanumeric way.
+- Sprint containers with start/completion dates are sorted by date showing the latest one on the top. 
+- Sprint containers without dates are sorted in an alphanumeric way.
 
 ## My task board is gone, where can I get another board?
 
@@ -58,10 +57,10 @@ You can use the automated sprint boards, which show the entire sprint scope.
 
 - Define sprint dates and start your sprint. You will be automatically forwarded to your board.
 - For an active sprint you will find a shortcut to the board in the sprint menu. 
-- Click the menu in the sprint bucket and select the option "Sprint board".
+- Click the menu of an active sprint and select the option "Sprint board".
 
 Additionally, if you would like to see the parent/child relationships, please use the parent-child boards.
 
 ## Where is my Burndown chart?
 
-Nothing has changed with the Burndown chart. It is synced with the sprint object and can be accessed from the sprint bucket menu when a sprint is active.
+Nothing has changed with the Burndown chart. It is synced with the sprint object and can be accessed from the menu of an active sprint.

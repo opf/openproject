@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { upperFirst } from 'lodash-es';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -112,7 +113,7 @@ export class CompoundProgressDisplayField extends DisplayField {
   }
 
   private get derivedPropertyName():string {
-    return `derived${_.upperFirst(this.name)}`;
+    return `derived${upperFirst(this.name)}`;
   }
 
   private get derivedValue():number|null {

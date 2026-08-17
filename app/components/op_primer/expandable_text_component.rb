@@ -62,7 +62,7 @@ module OpPrimer
 
     # @param truncate [Symbol] truncation style. `:single_line` clips a
     #   single line; `:multi_line` clamps to `lines` rows.
-    # @param lines [Integer] number of visible rows in `:multi_line` mode, clamped to `2..8`.
+    # @param lines [Integer] number of visible rows in `:multi_line` mode (at least 2).
     # @param expansion [Symbol] `:inline` reveals the text in place; `:dialog`
     #   opens the component's `dialog` slot (the expander button is wired to it
     #   automatically) and the controller only manages the expander's visibility.

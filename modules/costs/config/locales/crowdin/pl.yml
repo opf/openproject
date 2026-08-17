@@ -21,26 +21,42 @@
 #++
 ---
 pl:
-  plugin_costs:
-    name: Czas i koszty
-    description: Moduł ten dodaje funkcje planowania i śledzenia kosztów projektów.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Zestaw zadań
+        entity: Zalogowano przez
+        entity_gid: Zalogowano przez
+        entity_id: Zalogowano przez
+        logged_by: 'W dzienniku zarejestrował:'
         overridden_costs: Koszty zastąpione
         spent: Wydatki
         spent_on: Data
-        logged_by: 'W dzienniku zarejestrował:'
-        entity: Zalogowano przez
-        entity_id: Zalogowano przez
-        entity_gid: Zalogowano przez
+        work_package: Zestaw zadań
       cost_type:
-        unit: Nazwa jednostki
-        unit_plural: Liczba mnoga jednostki
         default: Domyślny typ kosztu
         for_all_projects: Dla wszystkich projektów
         rates: Stawki
+        unit: Nazwa jednostki
+        unit_plural: Liczba mnoga jednostki
+      rate:
+        rate: Stawka
+      time_entry:
+        activity: Działanie
+        comments: Komentarz
+        end_time: Czas zakończenia
+        entity: Zalogowano przez
+        entity_gid: Zalogowano przez
+        entity_id: Zalogowano przez
+        hours: Godziny
+        project: Projekt
+        spent_on: Data
+        start_time: Czas rozpoczęcia
+        subject: Temat
+        time: Godzina
+        user: Użytkownik
+        work_package: Pakiet roboczy
+      user:
+        default_rates: Domyślna stawka
       work_package:
         costs_by_type: Zużyte jednostki
         labor_costs: Koszty pracy
@@ -48,31 +64,27 @@ pl:
         overall_costs: Koszt całkowity
         spent_costs: Zużyte koszty
         spent_units: Zużyte jednostki
-      rate:
-        rate: Stawka
-      user:
-        default_rates: Domyślna stawka
-      time_entry:
-        project: Projekt
-        user: Użytkownik
-        work_package: Pakiet roboczy
-        subject: Temat
-        hours: Godziny
-        comments: Komentarz
-        activity: Działanie
-        spent_on: Data
-        start_time: Czas rozpoczęcia
-        end_time: Czas zakończenia
-        time: Godzina
-        entity: Zalogowano przez
-        entity_id: Zalogowano przez
-        entity_gid: Zalogowano przez
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: nie można wyłączyć, ponieważ odpowiednie koszty zostały już zarejestrowane w tym projekcie.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Wybierz projekt.
+        time_entry:
+          cannot_log_for_this_work_package: Nie można zarejestrować czasu dla tego pakietu roboczego.
+          duplicate_ongoing: Wpis bieżącej godziny już istnieje dla tego użytkownika.
+          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
+          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
+          invalid_time: musi zawierać się między 00:00 a 23:59.
+          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
+          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
+          not_a_working_day: is not a working day for the user.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Zestaw zadań #%{id} nie jest poprawnym celem do ponownego rozpisania kosztów.'
+          nullify_is_not_valid_for_cost_entries: Pozycje kosztów nie mogą być przypisane do projektu.
     models:
-      time_entry:
-        one: Wpis czasu
-        few: Wpisy czasu
-        many: Wpisy czasu
-        other: Wpisy czasu
       cost_entry:
         one: Wpis kosztu
         few: Wpisy kosztów
@@ -83,46 +95,43 @@ pl:
         few: Rodzaje kosztów
         many: Rodzaje kosztów
         other: Rodzaje kosztów
+      rate: Stawka
+      time_entry:
+        one: Wpis czasu
+        few: Wpisy czasu
+        many: Wpisy czasu
+        other: Wpisy czasu
       time_entry_activity:
         one: Działanie śledzenia czasu
         few: Działania śledzenia czasu
         many: Działania śledzenia czasu
         other: Działania śledzenia czasu
-      rate: Stawka
+  api_v3:
     errors:
-      messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
-      models:
-        time_entry:
-          invalid_time: musi zawierać się między 00:00 a 23:59.
-          cannot_log_for_this_work_package: Nie można zarejestrować czasu dla tego pakietu roboczego.
-          duplicate_ongoing: Wpis bieżącej godziny już istnieje dla tego użytkownika.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Zestaw zadań #%{id} nie jest poprawnym celem do ponownego rozpisania kosztów.'
-          nullify_is_not_valid_for_cost_entries: Pozycje kosztów nie mogą być przypisane do projektu.
-        cost_types_project:
-          attributes:
-            project_ids:
-              blank: Wybierz projekt.
+      validation:
+        start_time_different_date: Część daty startTime (%{start_time}) musi być taka sama jak data spentOn (%{spent_on}).
   attributes:
     comment: Typ kosztu
     cost_type: Jednostki
     costs: Koszty
     current_rate: Aktualna stawka
+    fixed_date: Przypisana data
     hours: Godziny
     units: Jednostki
     valid_from: Ważny od
-    fixed_date: Przypisana data
+  button_add_activity: Aktywność
   button_add_rate: Dodaj stawkę
+  button_add_time_entry: Rejestruj czas pracy
   button_log_costs: Rejestruj koszty jednostkowe
   button_log_time: Dziennik
-  button_add_activity: Aktywność
-  button_add_time_entry: Rejestruj czas pracy
   button_stop_timer: Zatrzymaj zegar
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Zarezerwowano na projekt
   caption_default: Domyślny
   caption_default_rate_history_for: Domyślna stawka historii dla %{user}
   caption_locked_on: Zablokowane dnia
+  caption_log_time_dialog: Czas wykonania wpisu
   caption_materials: Jednostki
   caption_rate_history: Historia stawek
   caption_rate_history_for: Historia stawek dla %{user}
@@ -130,20 +139,62 @@ pl:
   caption_save_rate: Zapisz stawkę
   caption_set_rate: Ustaw domyślną stawkę
   caption_show_locked: Pokaż zamknięte typy kosztów
-  caption_log_time_dialog: Czas wykonania wpisu
-  description_date_for_new_rate: Data nowej stawki
+  cost_types:
+    admin:
+      columns:
+        active_projects: Aktywne projekty
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Wyczyść opcję „Dla wszystkich projektów” na karcie szczegółów, aby ograniczyć ten typ kosztów do określonych projektów.
+          heading: Ten typ kosztów jest włączony we wszystkich projektach
+        no_projects:
+          description: Dodaj projekty, aby ten typ kosztu mógł być w nich używany.
+          heading: Nie przydzielono żadnych projektów
+      rates:
+        title: Historia stawek
+    errors:
+      no_cost_types_available: W tym projekcie nie są dostępne żadne typy kosztów. Skontaktuj się z administratorem.
+    settings:
+      cost_types:
+        for_all_projects_hint: Ten typ kosztów jest włączony we wszystkich projektach.
+        heading: Typy kosztów
+        in_use_hint: Tego typu kosztu nie można wyłączyć, ponieważ odpowiednie koszty zostały już zarejestrowane w tym projekcie.
+        none_active: Żadne typy kosztów nie są obecnie aktywne w tym projekcie.
+      time_and_costs: Czas i koszty
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Rejestruj czas pracy
+          description: Uzyskaj przegląd kosztów i zarejestrowanego czasu, aby monitorować postęp projektu. Upewnij się, że pakiety robocze są powiązane z właściwym budżetem.
+          heading: Zacznij śledzić swój czas i koszty
+        title: Rzeczywiste koszty według miesięcy
+        view_details: Wyświetl szczegóły rzeczywistych kosztów
   description_costs_settings: Zdefiniuj żądany format kosztów we wszystkich projektach.
-  description_time_settings: Określ pola, które trzeba wypełnić w razie rejestrowania czasu we wszystkich projektach.
+  description_date_for_new_rate: Data nowej stawki
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  ee:
+    features:
+      time_entry_time_restrictions: Time entry restrictions
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
   group_by_others: nie w każdej grupie
+  label_available_cost_types_projects: Dostępne projekty typów kosztów
   label_between: pomiędzy
+  label_cost: Koszt
   label_cost_filter_add: Dodaj filtr kosztów
-  label_costlog: Zarejestrowane koszty jednostkowe
   label_cost_plural: Koszty
   label_cost_type_plural: Rodzaje kosztów
   label_cost_type_specific: 'Typ kosztu #%{id}: %{name}'
+  label_costlog: Zarejestrowane koszty jednostkowe
+  label_costs: Koszty
   label_costs_per_page: Kosztów na stronę
   label_current_default_rate: Aktualne stawki domyślne
   label_date_on: na
+  label_day: Dzień
+  label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Usunięte typy kosztów
   label_display_cost_entries: Pokaż koszty jednostkowe
   label_display_time_entries: Wyświetl zgłoszone godziny
@@ -155,58 +206,55 @@ pl:
   label_group_by_add: Dodaj pole grupowania
   label_hourly_rate: Stawka godzinowa
   label_include_deleted: Uwzględnij usunięte
-  label_work_package_filter_add: Dodaj filtr Zestawu zadań
   label_kind: Typ
   label_less_or_equal: "≤"
+  label_list: Lista
   label_log_costs: Rejestruj koszty jednostkowe
-  label_new_time_entry_activity: Nowa aktywność wprowadzania czasu
-  label_time_entry_activity_form_description: Zmiany tej aktywności wprowadzania czasu zostaną odzwierciedlone we wszystkich projektach, w których jest ona włączona.
-  label_no: Nie
-  label_option_plural: Opcje
-  label_overall_costs: Koszt całkowity
-  label_rate: Stawka
-  label_rate_plural: Taryfy
-  label_status_finished: Zakończone
-  label_show: Pokaż
-  label_units: Koszt jednostki
-  label_user: Użytkownik
-  label_until: do
-  label_valid_from: Ważny od
-  label_yes: Tak
-  label_time: Czas
-  label_cost: Koszt
-  label_costs: Koszty
-  label_mandatory_fields: Pole obowiązkowe
+  label_month: Miesiąc
   label_my_time_tracking: Moje śledzenie czasu
-  label_no_time: Brak śledzonego czasu
+  label_new_time_entry_activity: Nowa aktywność wprowadzania czasu
   label_next_day: Następny dzień
+  label_next_month: Następny miesiąc
   label_next_week: Następny tydzień
   label_next_workweek: Następny tydzień pracy
-  label_next_month: Następny miesiąc
+  label_no: Nie
+  label_no_time: Brak śledzonego czasu
+  label_option_plural: Opcje
+  label_overall_costs: Koszt całkowity
   label_previous_day: Poprzedni dzień
-  label_previous_workweek: Poprzedni tydzień pracy
-  label_previous_week: Poprzedni tygodzień
   label_previous_month: Poprzedni miesiąc
+  label_previous_week: Poprzedni tygodzień
+  label_previous_workweek: Poprzedni tydzień pracy
+  label_rate: Stawka
+  label_rate_plural: Taryfy
+  label_show: Pokaż
   label_specific_day: Dzień %{day}
   label_specific_month: Miesiąc %{month}
-  label_list: Lista
-  label_month: Miesiąc
-  label_workweek: Tydzień roboczy
-  label_day: Dzień
-  label_today_capitalized: Dzisiaj
-  label_view_mode_switcher: Zmień widok
+  label_start_and_finished: Start and finish times
+  label_status_finished: Zakończone
+  label_time: Czas
+  label_time_entry_activity_form_description: Zmiany tej aktywności wprowadzania czasu zostaną odzwierciedlone we wszystkich projektach, w których jest ona włączona.
+  label_time_entry_restrictions: Limits
   label_timer_since: Rozpoczęto o %{time}
-  placeholder_activity_select_work_package_first: W pierwszej kolejności wymagany jest wybór pakietu roboczego
-  notice_something_wrong: Coś poszło nie tak. Proszę spróbuj ponownie.
-  notice_successful_restore: Przywracanie się powiodło.
-  notice_successful_lock: Zablokowano.
+  label_today_capitalized: Dzisiaj
+  label_units: Koszt jednostki
+  label_until: do
+  label_user: Użytkownik
+  label_valid_from: Ważny od
+  label_view_mode_switcher: Zmień widok
+  label_work_package_filter_add: Dodaj filtr Zestawu zadań
+  label_workweek: Tydzień roboczy
+  label_yes: Tak
   notice_cost_logged_successfully: Koszt jednostkowy zarejestrowano pomyślnie.
   notice_different_time_zones: Ten użytkownik ma inną strefę czasową (%{tz}). Godzina będzie rejestrowana przy użyciu tej strefy czasowej.
-  notice_time_entry_update_failed: 'Nie można zaktualizować wpisu czasu. Błędy: %{errors}'
+  notice_something_wrong: Coś poszło nie tak. Proszę spróbuj ponownie.
+  notice_successful_lock: Zablokowano.
+  notice_successful_restore: Przywracanie się powiodło.
   notice_time_entry_delete_failed: 'Nie udało się usunąć wpisu czasu. Błędy: %{errors}'
+  notice_time_entry_update_failed: 'Nie można zaktualizować wpisu czasu. Błędy: %{errors}'
   permission_edit_cost_entries: Edytuj zapisane koszty jednostkowe
-  permission_edit_own_cost_entries: Edytuj zarejestrowane własne koszty jednostkowe
   permission_edit_hourly_rates: Edycja stawek godzinowych
+  permission_edit_own_cost_entries: Edytuj zarejestrowane własne koszty jednostkowe
   permission_edit_own_hourly_rate: Edycja własnych stawek godzinowych
   permission_edit_rates: Edycja stawek/cen
   permission_log_costs: Zarejestruj koszty jednostkowe
@@ -217,68 +265,42 @@ pl:
   permission_view_own_cost_entries: Zobacz samodzielnie zarejestrowane koszty
   permission_view_own_hourly_rate: Zobacz własne stawki godzinowe
   permission_view_own_time_entries: Zobacz swój poświęcony czas
+  placeholder_activity_select_work_package_first: W pierwszej kolejności wymagany jest wybór pakietu roboczego
+  plugin_costs:
+    description: Moduł ten dodaje funkcje planowania i śledzenia kosztów projektów.
+    name: Czas i koszty
   project_module_costs: Czas i koszty
   setting_allow_tracking_start_and_end_times: Zezwól na czasy rozpoczęcia i zakończenia
+  setting_allow_tracking_start_and_end_times_caption: Umożliwia wprowadzenie czasów rozpoczęcia i zakończenia w razie rejestrowania czasu.
   setting_costs_currency: Waluta
   setting_costs_currency_caption: Jest to jednostka waluty. Może to być trzyliterowy kod ISO, taki jak EUR, USD lub JPY albo symbol, taki jak €, $ lub ¥.
   setting_costs_currency_format: Format waluty
   setting_costs_currency_format_prefix: Przed liczbą (np. EUR 100)
   setting_costs_currency_format_suffix: Po liczbie (np. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Wymagaj czasów rozpoczęcia i zakończenia
-  setting_enforce_without_allow: Nie można wymagać czasów rozpoczęcia i zakończenia bez zezwolenia na nie
-  setting_allow_tracking_start_and_end_times_caption: Umożliwia wprowadzenie czasów rozpoczęcia i zakończenia w razie rejestrowania czasu.
   setting_enforce_tracking_start_and_end_times_caption: Wymusza wprowadzenie czasów rozpoczęcia i zakończenia w razie rejestrowania czasu.
+  setting_enforce_without_allow: Nie można wymagać czasów rozpoczęcia i zakończenia bez zezwolenia na nie
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
   text_assign_time_and_cost_entries_to_project: Przypisz zgłoszone godziny i koszty do projektu
   text_destroy_cost_entries_question: "%{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
   text_destroy_time_and_cost_entries: Usuń zgłoszone godziny i koszty
   text_destroy_time_and_cost_entries_question: "%{hours} godzin, %{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
   text_reassign_time_and_cost_entries: 'Ponownie przypisz zgłoszone godziny i koszty do tego Zestawu zadań:'
   text_warning_hidden_elements: Niektóre wpisy mogą zostać wyłączone ze zbioru.
-  week: tydzień
   total_times:
-    workweek: 'Łącznie tydzień pracy: %{hours}'
-    week: 'Łącznie tydzień: %{hours}'
-    month: 'Łącznie miesiąc: %{hours}'
     day: 'Łącznie dzień: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Część daty startTime (%{start_time}) musi być taka sama jak data spentOn (%{spent_on}).
-  label_available_cost_types_projects: Dostępne projekty typów kosztów
-  cost_types:
-    errors:
-      no_cost_types_available: W tym projekcie nie są dostępne żadne typy kosztów. Skontaktuj się z administratorem.
-    admin:
-      columns:
-        active_projects: Aktywne projekty
-      cost_type_projects:
-        for_all_projects_blank_slate:
-          heading: Ten typ kosztów jest włączony we wszystkich projektach
-          description: Wyczyść opcję „Dla wszystkich projektów” na karcie szczegółów, aby ograniczyć ten typ kosztów do określonych projektów.
-        no_projects:
-          heading: Nie przydzielono żadnych projektów
-          description: Dodaj projekty, aby ten typ kosztu mógł być w nich używany.
-      rates:
-        title: Historia stawek
-    settings:
-      time_and_costs: Czas i koszty
-      cost_types:
-        for_all_projects_hint: Ten typ kosztów jest włączony we wszystkich projektach.
-        heading: Typy kosztów
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
-        none_active: Żadne typy kosztów nie są obecnie aktywne w tym projekcie.
-  costs:
-    widgets:
-      actual_costs:
-        title: Rzeczywiste koszty według miesięcy
-        blankslate:
-          heading: Zacznij śledzić swój czas i koszty
-          description: Uzyskaj przegląd kosztów i zarejestrowanego czasu, aby monitorować postęp projektu. Upewnij się, że pakiety robocze są powiązane z właściwym budżetem.
-          action: Rejestruj czas pracy
-        view_details: Wyświetl szczegóły rzeczywistych kosztów
-  ee:
-    features:
-      time_entry_time_restrictions: Wymagaj dokładnego śledzenia czasu
-    upsell:
-      time_entry_time_restrictions:
-        description: Usprawnij śledzenie czasu pracy, wymagając rejestracji dokładnego czasu rozpoczęcia i czasu zakończenia pracy.
+    month: 'Łącznie miesiąc: %{hours}'
+    week: 'Łącznie tydzień: %{hours}'
+    workweek: 'Łącznie tydzień pracy: %{hours}'
+  week: tydzień

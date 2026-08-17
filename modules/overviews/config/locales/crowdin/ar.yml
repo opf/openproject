@@ -1,6 +1,6 @@
 ---
 ar:
   overviews:
-    label_home: "%{workspace_type} home"
     label_dashboard: " لوحة القيادة"
+    label_home: "%{workspace_type} home"
     label_overview: نظرة عامة

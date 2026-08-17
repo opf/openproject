@@ -13,9 +13,6 @@ Work package identifiers are used throughout OpenProject to uniquely reference w
 
 By default, OpenProject uses an instance-wide numerical sequence (for example, `#12345`). Starting with OpenProject 17.5, administrators can choose between instance-wide numerical identifiers and project-based identifiers. Project-based identifiers combine a project identifier with a sequential number, such as `PROJ-123`.
 
-> [!NOTE]
-> Project-based identifiers are currently available as a Beta feature (starting with OpenProject 17.5). If you notice any inconsistencies or unexpected behavior, we welcome your feedback.
-
 ## Overview
 
 OpenProject supports two identifier modes:
@@ -23,7 +20,7 @@ OpenProject supports two identifier modes:
 | Mode                                       | Example    |
 | ------------------------------------------ | ---------- |
 | Instance-wide numerical sequence (default) | `#12345`   |
-| Project-based identifiers (Beta)           | `PROJ-123` |
+| Project-based semantic identifiers         | `PROJ-123` |
 
 Project-based identifiers make it easier to identify the project a work package belongs to and can help organizations migrating from Jira preserve familiar issue references.
 
@@ -33,7 +30,7 @@ To configure work package identifiers navigate to **Administration** → **Work 
 
 - **Instance-wide numerical sequence (default)**
      Every work package receives a unique sequential number (for example, `#1234`). The identifier remains unchanged even if the work package is moved to another project.
-- **Project-based semantic identifiers (Beta)**
+- **Project-based semantic identifiers**
     Every work package receives an identifier consisting of the project identifier and a sequential number (for example, `PROJ-11`). Numbering starts at 1 for each project. If a work package is moved to another project, it receives a new project-based identifier while previous identifiers continue to resolve correctly.
 
  ![Administration settings for work package identifiers in OpenProject](openproject_system_guide_wp_identifiers_settings.png)
@@ -81,6 +78,37 @@ Existing work package identifiers remain valid after the change. Previously assi
 > [!TIP]
 > Before enabling project-based identifiers in a production environment, inform users about the change so they understand the new identifier format they will encounter.
 > We also recommend implementing the switch outside of main working hours, to avoid any possible conflicts with ongoing user activity.
+
+## Project identifier visibility
+
+> [!WARNING]
+> A project's identifier is not restricted to its members and should not be treated as
+> confidential, even if the project itself is private.
+
+Work packages can be referenced in rich text editors anywhere in OpenProject — for example wiki pages,
+documents, forum posts, meeting agendas, or work package descriptions and comments — using the work
+package's identifier (e.g. `PROJ-123`) or a rich link inserted via the editor. If such content
+becomes visible to users outside the project, the project identifier is exposed along with it. No
+other information about the referenced work package is exposed to users who lack permission to view
+it.
+
+This can happen in a few ways:
+
+- **Public projects**: If a project is set to public, its enabled modules (such as Documents, Wiki,
+  or Forums) are visible to other users of the instance according to their **Non member** role
+  permissions, without requiring project membership.
+- **Anonymous access**: If the instance permits access without authentication, a public project's
+  content may additionally be visible to unauthenticated visitors, governed by the **Anonymous**
+  role.
+- **Cross-project references**: Rich text in one project can reference a work package from another
+  project. If that content's own project is public (or otherwise accessible to a wider audience),
+  the identifier of the referenced project becomes visible too — even if the referenced project
+  itself is private.
+
+Because of these paths, a project identifier should be treated as potentially visible to any user
+of the instance, and in some configurations, the general public. If the identifier itself could
+reveal sensitive information (e.g. a client name or project codename), choose a nondescript
+identifier when creating the project.
 
 ## Reserved project identifiers
 

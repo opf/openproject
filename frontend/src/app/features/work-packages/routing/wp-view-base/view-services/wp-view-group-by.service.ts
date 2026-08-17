@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
 import { Injectable, inject } from '@angular/core';
@@ -45,7 +46,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   public hasChanged(query:QueryResource) {
     const comparer = (groupBy:QueryColumn|HalResource|null|undefined) => (groupBy ? groupBy.href : null);
 
-    return !_.isEqual(
+    return !isEqual(
       comparer(query.groupBy),
       comparer(this.current),
     );
@@ -58,7 +59,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   }
 
   public isGroupable(column:QueryColumn):boolean {
-    return !!_.find(this.available, (candidate) => candidate.id === column.id);
+    return this.available.some((candidate) => candidate.id === column.id);
   }
 
   public disable() {
@@ -66,7 +67,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   }
 
   public setBy(column:QueryColumn) {
-    const groupBy = _.find(this.available, (candidate) => candidate.id === column.id);
+    const groupBy = this.available.find((candidate) => candidate.id === column.id);
 
     if (groupBy) {
       this.update(groupBy);

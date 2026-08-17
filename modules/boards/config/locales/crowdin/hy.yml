@@ -1,47 +1,46 @@
-#English strings go here
 ---
 hy:
-  plugin_openproject_boards:
-    name: OpenProject Boards
-    description: Provides board views.
-  permission_show_board_views: View boards
-  permission_manage_board_views: Manage boards
-  project_module_board_view: Boards
+  boards:
+    board_type_attributes:
+      assignee: Պատասխանատու
+      basic: Հիմնական
+      status: Kanban
+      subproject: Ենթանախագիծ
+      subtasks: Ծնող-ենթատարր
+      version: Տարբերակ
+    board_type_descriptions:
+      assignee: 'Ավտոմատացված սյունակներով տախտակ՝ ըստ նշանակված օգտատերերի։ Իդեալական է աշխատանքային փաթեթները բաշխելու համար։
+
+        '
+      basic: 'Սկսեք զրոյից՝ դատարկ տախտակով։ Ձեռքով ավելացրեք քարտեր և սյունակներ այս տախտակին։
+
+        '
+      status: 'Հիմնական kanban ոճի տախտակ՝ կարգավիճակների սյունակներով, ինչպիսիք են Անելիք, Ընթացքում, Ավարտված։
+
+        '
+      subproject: 'Ավտոմատացված սյունակներով տախտակ՝ ենթանախագծերի համար։ Աշխատանքային փաթեթներն այլ ցանկեր տեղափոխելը համապատասխանաբար թարմացնում է (ենթա)նախագիծը։
+
+        '
+      subtasks: 'Ավտոմատացված սյունակներով տախտակ՝ ենթատարրերի համար։ Աշխատանքային փաթեթներն այլ ցանկեր տեղափոխելը համապատասխանաբար թարմացնում է ծնող տարրը։
+
+        '
+      version: 'Ավտոմատացված սյունակներով տախտակ՝ ըստ տարբերակի հատկանիշի։ Իդեալական է արտադրանքի մշակումը պլանավորելու համար։
+
+        '
+    board_types:
+      action: Գործողությունների տախտակ (%{attribute})
+      free: Հիմնական
+    label_board: Տախտակ
+    label_board_type: Տախտակի տեսակ
+    label_boards: Տախտակներ
+    label_create_new_board: Ստեղծել նոր տախտակ
   ee:
     upsell:
       board_view:
-        description: Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.
-  boards:
-    label_board: Board
-    label_boards: Boards
-    label_create_new_board: Create new board
-    label_board_type: Board type
-    board_types:
-      free: Basic
-      action: Action board (%{attribute})
-    board_type_attributes:
-      assignee: Assignee
-      status: Kanban
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
-    board_type_descriptions:
-      basic: 'Start from scratch with a blank board. Manually add cards and columns to this board.
-
-        '
-      status: 'Basic kanban style board with columns for status such as To Do, In Progress, Done.
-
-        '
-      assignee: 'Board with automated columns based on assigned users. Ideal for dispatching work packages.
-
-        '
-      version: 'Board with automated columns based on the version attribute. Ideal for planning product development.
-
-        '
-      subproject: 'Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
-
-        '
-      subtasks: 'Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
-
-        '
+        description: Ցանկանո՞ւմ եք ավտոմատացնել Ձեր աշխատանքային հոսքերը Տախտակների միջոցով։ Ընդլայնված տախտակները Enterprise հավելում են։ Խնդրում ենք անցնել վճարովի փաթեթի։
+  permission_manage_board_views: Կառավարել տախտակները
+  permission_show_board_views: Դիտել տախտակները
+  plugin_openproject_boards:
+    description: Ապահովում է տախտակի տեսքեր։
+    name: OpenProject-ի տախտակներ
+  project_module_board_view: Տախտակներ

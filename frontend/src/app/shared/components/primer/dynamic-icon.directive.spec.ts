@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -155,7 +155,7 @@ describe('DynamicIconDirective', () => {
   });
 
   it('should warn when rendering unknown icon', () => {
-    vi.spyOn(console, 'warn');
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
     component.iconName = 'unknown-icon';
     fixture.detectChanges();
@@ -164,7 +164,7 @@ describe('DynamicIconDirective', () => {
   });
 
   it('should not render anything for unknown icon', () => {
-    vi.spyOn(console, 'warn');
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
     component.iconName = 'unknown-icon';
     fixture.detectChanges();
@@ -180,7 +180,7 @@ describe('DynamicIconDirective', () => {
   });
 
   it('should handle empty icon name', () => {
-    vi.spyOn(console, 'warn');
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
     component.iconName = '';
     fixture.detectChanges();
@@ -195,7 +195,7 @@ describe('DynamicIconDirective', () => {
   });
 
   it('should only render once when loaded', () => {
-    vi.spyOn(console, 'warn');
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const directive = fixture.debugElement.children[0].injector.get(DynamicIconDirective);
     vi.spyOn(directive as any, 'renderIcon');
 

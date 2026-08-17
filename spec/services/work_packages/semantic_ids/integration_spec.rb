@@ -69,7 +69,7 @@ RSpec.describe "SemanticIds registry integration",
       {
         subject: "A new task",
         project:,
-        type: project.types.first,
+        type: project.enabled_types.first,
         status: create(:default_status),
         priority: create(:default_priority)
       }
@@ -257,7 +257,7 @@ RSpec.describe "SemanticIds registry integration",
       {
         subject: "A task",
         project:,
-        type: project.types.first,
+        type: project.enabled_types.first,
         status: create(:default_status),
         priority: create(:default_priority)
       }
@@ -278,6 +278,21 @@ RSpec.describe "SemanticIds registry integration",
         wp = WorkPackages::CreateService.new(user:).call(**attributes).result
         result = WorkPackages::UpdateService.new(user:, model: wp).call(subject: "Updated subject")
         expect(result).to be_success
+      end
+
+      it "UpdateService clears stale identifier fields on a project move" do
+        wp = WorkPackages::CreateService.new(user:).call(**attributes).result
+        # Simulate a WP that received a semantic id before the instance was
+        # switched (back) to classic mode.
+        wp.update_columns(identifier: "OLDPROJ-7", sequence_number: 7)
+
+        result = WorkPackages::UpdateService.new(user:, model: wp).call(project: target_project)
+
+        expect(result).to be_success
+        expect(wp.identifier).to be_nil
+        expect(wp.sequence_number).to be_nil
+        expect(wp.reload.identifier).to be_nil
+        expect(wp.sequence_number).to be_nil
       end
     end
 

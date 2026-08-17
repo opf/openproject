@@ -1,69 +1,21 @@
-#English strings go here
 ---
 fr:
   js:
     storages:
       authentication_error: L'authentification avec %{storageType} a échoué
-      link_files_in_storage: Lier des fichiers dans %{storageType}
-      link_existing_files: Lier des fichiers existants
-      upload_files: Charger des fichiers
+      choose_location: Choisir emplacement
       drop_files: Déposez les fichiers ici pour les télécharger sur %{name}.
       drop_or_click_files: Déposez des fichiers ici ou cliquez pour les télécharger sur %{name}.
-      login: Connexion à %{storageType}
-      login_to: Connexion à %{storageType}
-      no_connection: Aucune connexion à %{storageType}
-      open_storage: Ouvrir %{storageType}
-      select_location: Sélectionnez l'emplacement
-      choose_location: Choisir emplacement
-      new_folder: Nouveau dossier
-      types:
-        nextcloud: Nextcloud
-        one_drive: OneDrive
-        sharepoint: SharePoint
-        default: Stockage
-      information:
-        authentication_error: 'Erreur : la requête à %{storageType} n''a pas pu être authentifiée.'
-        connection_error: 'Certains paramètres de %{storageType} ne fonctionnent pas. Veuillez contacter votre administrateur %{storageType}.
-
-          '
-        live_data_error: Erreur lors de la récupération des détails du fichier
-        live_data_error_description: 'Certaines données de %{storageType} n''ont pas pu être récupérées. Essayez de recharger cette page ou contactez votre administrateur %{storageType}.
-
-          '
-        no_file_links: Afin de lier des fichiers à ce lot de travaux, veuillez le faire via %{storageType}.
-        not_logged_in: 'Pour ajouter un lien, voir ou importer des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
-
-          '
-        suggest_logout: Vous pouvez essayer de vous déconnecter et de revenir pour tenter de résoudre le problème.
-        suggest_relink: Vous pouvez essayer de réassocier votre compte via le bouton de connexion ci-dessous pour résoudre ce problème.
-      files:
-        already_existing_header: Ce fichier existe déjà
-        already_existing_body: 'Un fichier avec le nom « %{fileName} » existe déjà à l''emplacement où vous essayez de importer ce fichier. Que voulez-vous faire ?
-
-          '
-        directory_not_writeable: Vous n'avez pas la permission d'ajouter des fichiers à ce dossier.
-        dragging_many_files: L'importation vers %{storageType} ne prend en charge qu'un seul fichier à la fois.
-        dragging_folder: L'importation vers %{storageType} ne prend pas en charge les dossiers.
-        empty_folder: Ce dossier est vide.
-        empty_folder_location_hint: Cliquez sur le bouton ci-dessous pour importer le fichier à cet endroit.
-        file_not_selectable_location: La sélection d'un fichier est impossible pendant le processus de sélection d'un emplacement.
-        project_folder_no_access: 'Vous n''avez pas accès au dossier du projet. Veuillez contacter votre administrateur pour avoir accès ou importer le fichier vers un autre endroit.
-
-          '
-        managed_project_folder_not_available: 'Le dossier de projet géré automatiquement n''a pas encore été trouvé. Veuillez patienter, rechargez la page pour récupérer les données les plus récentes, puis réessayez.
-
-          '
-        managed_project_folder_no_access: 'Vous n''avez pas encore accès au dossier de projet géré. Veuillez patienter un peu avant de réessayer.
-
-          '
-        cannot_create_folder: Échec de la création du dossier. Évitez d'utiliser des caractères spéciaux et des symboles, et assurez-vous que le dossier n'existe pas déjà.
-        upload_keep_both: Garder les deux
-        upload_replace: Remplacer
       file_links:
+        already_linked_directory: Ce répertoire est déjà lié à ce lot de travaux.
+        already_linked_file: Ce fichier est déjà lié à ce lot de travaux.
+        download: Télécharger %{fileName}
         empty: 'Il n''y a actuellement aucun fichier lié à ce lot de travaux. Commencez à lier les fichiers avec l''action ci-dessous ou à partir de %{storageType}.
 
           '
-        download: Télécharger %{fileName}
+        link_uploaded_file_error: 'Une erreur s''est produite lors de la liaison du fichier ''%{fileName}'' récemment déposé sur le lot de travaux %{workPackageId}.
+
+          '
         open: Ouvrir le fichier sur le stockage
         open_location: Ouvrir le fichier à l'emplacement
         remove: Supprimer le lien de fichier
@@ -80,10 +32,11 @@ fr:
         success_create:
           one: Un lien de fichier a été créé avec succès.
           other: "%{count} liens de fichier ont été créés avec succès."
+        tooltip:
+          not_found: Impossible de trouver ce fichier.
+          not_logged_in: Veuillez vous connecter au stockage pour accéder à ce fichier.
+          view_not_allowed: Vous n'avez pas la permission de voir ce fichier.
         upload_error:
-          default: 'Votre fichier (%{fileName}) n''a pas pu être téléchargé.
-
-            '
           403: 'Votre fichier (%{fileName}) n''a pas pu être importé en raison de restrictions du système. Veuillez contacter votre administrateur pour obtenir plus d''informations.
 
             '
@@ -93,16 +46,62 @@ fr:
           507: 'Votre fichier (%{fileName}) a une taille supérieure au quota de stockage autorisé. Contactez votre administrateur pour modifier ce quota.
 
             '
+          default: 'Votre fichier (%{fileName}) n''a pas pu être téléchargé.
+
+            '
           detail:
             nextcloud: 'Veuillez vérifier que la dernière version de l''application Nextcloud "OpenProject Integration" est installée et contactez votre administrateur pour plus d''informations.
 
               '
-        link_uploaded_file_error: 'Une erreur s''est produite lors de la liaison du fichier ''%{fileName}'' récemment déposé sur le lot de travaux %{workPackageId}.
+      files:
+        already_existing_body: 'Un fichier avec le nom « %{fileName} » existe déjà à l''emplacement où vous essayez de importer ce fichier. Que voulez-vous faire ?
 
           '
-        tooltip:
-          not_logged_in: Veuillez vous connecter au stockage pour accéder à ce fichier.
-          view_not_allowed: Vous n'avez pas la permission de voir ce fichier.
-          not_found: Impossible de trouver ce fichier.
-        already_linked_file: Ce fichier est déjà lié à ce lot de travaux.
-        already_linked_directory: Ce répertoire est déjà lié à ce lot de travaux.
+        already_existing_header: Ce fichier existe déjà
+        cannot_create_folder: Échec de la création du dossier. Évitez d'utiliser des caractères spéciaux et des symboles, et assurez-vous que le dossier n'existe pas déjà.
+        directory_not_writeable: Vous n'avez pas la permission d'ajouter des fichiers à ce dossier.
+        dragging_folder: L'importation vers %{storageType} ne prend pas en charge les dossiers.
+        dragging_many_files: L'importation vers %{storageType} ne prend en charge qu'un seul fichier à la fois.
+        empty_folder: Ce dossier est vide.
+        empty_folder_location_hint: Cliquez sur le bouton ci-dessous pour importer le fichier à cet endroit.
+        file_not_selectable_location: La sélection d'un fichier est impossible pendant le processus de sélection d'un emplacement.
+        managed_project_folder_no_access: 'Vous n''avez pas encore accès au dossier de projet géré. Veuillez patienter un peu avant de réessayer.
+
+          '
+        managed_project_folder_not_available: 'Le dossier de projet géré automatiquement n''a pas encore été trouvé. Veuillez patienter, rechargez la page pour récupérer les données les plus récentes, puis réessayez.
+
+          '
+        project_folder_no_access: 'Vous n''avez pas accès au dossier du projet. Veuillez contacter votre administrateur pour avoir accès ou importer le fichier vers un autre endroit.
+
+          '
+        upload_keep_both: Garder les deux
+        upload_replace: Remplacer
+      information:
+        authentication_error: 'Erreur : la requête à %{storageType} n''a pas pu être authentifiée.'
+        connection_error: 'Certains paramètres de %{storageType} ne fonctionnent pas. Veuillez contacter votre administrateur %{storageType}.
+
+          '
+        live_data_error: Erreur lors de la récupération des détails du fichier
+        live_data_error_description: 'Certaines données de %{storageType} n''ont pas pu être récupérées. Essayez de recharger cette page ou contactez votre administrateur %{storageType}.
+
+          '
+        no_file_links: Afin de lier des fichiers à ce lot de travaux, veuillez le faire via %{storageType}.
+        not_logged_in: 'Pour ajouter un lien, voir ou importer des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
+
+          '
+        suggest_logout: Vous pouvez essayer de vous déconnecter et de revenir pour tenter de résoudre le problème.
+        suggest_relink: Vous pouvez essayer de réassocier votre compte via le bouton de connexion ci-dessous pour résoudre ce problème.
+      link_existing_files: Lier des fichiers existants
+      link_files_in_storage: Lier des fichiers dans %{storageType}
+      login: Connexion à %{storageType}
+      login_to: Connexion à %{storageType}
+      new_folder: Nouveau dossier
+      no_connection: Aucune connexion à %{storageType}
+      open_storage: Ouvrir %{storageType}
+      select_location: Sélectionnez l'emplacement
+      types:
+        default: Stockage
+        nextcloud: Nextcloud
+        one_drive: OneDrive
+        sharepoint: SharePoint
+      upload_files: Charger des fichiers

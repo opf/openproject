@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -85,7 +85,7 @@ describe('HalResource', () => {
 
       getStub = vi.spyOn(halResourceService, 'request').mockImplementation((verb:string, path:string) => {
         if (verb === 'get' && path === '/api/hello') {
-          return of(halResourceService.createHalResource(source)) as any;
+          return of(halResourceService.createHalResource(source));
         }
         return false as any;
       });
@@ -377,7 +377,7 @@ describe('HalResource', () => {
     it('should have a callable self link', () => {
       vi.spyOn(halResourceService, 'request').mockImplementation((verb:string, path:string) => {
         if (verb === 'get' && path === 'unicorn/69') {
-          return of(halResourceService.createHalResource({})) as any;
+          return of(halResourceService.createHalResource({}));
         }
         return null as any;
       });
@@ -388,7 +388,7 @@ describe('HalResource', () => {
     it('should have a callable beaver', () => {
       vi.spyOn(halResourceService, 'request').mockImplementation((verb:string, path:string) => {
         if (verb === 'get' && path === 'justin/420') {
-          return of(halResourceService.createHalResource({})) as any;
+          return of(halResourceService.createHalResource({}));
         }
         return null as any;
       });
@@ -726,7 +726,7 @@ describe('HalResource', () => {
 
             getStub = vi.spyOn(halResourceService, 'request').mockImplementation((verb:string, path:string) => {
               if (verb === 'get' && path === '/api/property') {
-                return of(result) as any;
+                return of(result);
               }
               return false as any;
             });

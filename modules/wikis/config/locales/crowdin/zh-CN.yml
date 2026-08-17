@@ -26,7 +26,8 @@ zh-CN:
     models:
       wikis/inline_page_link:
         other: 内联页面链接
-      wikis/internal_provider: 内部 Wiki
+      wikis/internal_provider:
+        other: Project wikis
       wikis/provider:
         other: |-
           One
@@ -43,11 +44,14 @@ zh-CN:
           XWiki 提供商
   menus:
     admin:
-      external_wiki_providers: Wiki 提供商
-      internal_wiki_provider: 内部 Wiki
+      external_wiki_providers: External wiki providers
+      internal_wiki_provider: Project wikis
       wikis: Wiki
-  permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_platforms: Wiki 提供商
+  permission_manage_wiki_page_links: 管理 Wiki 页面链接
+  project_module_wiki_internal: 项目 Wiki
+  project_module_wiki_platforms: External wiki providers
+  projects_settings_wiki:
+    title: 项目 Wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -76,11 +80,11 @@ zh-CN:
           no_health_report_description: 立即运行检查，以获取此 wiki 提供商的完整健康状态报告。
           title: 健康报告
       internal_provider_form:
-        checkbox_caption: 允许项目使用内部 OpenProject Wiki 和外部 Wiki 提供商
-        checkbox_label: 启用内部 OpenProject Wiki
+        checkbox_caption: Allow projects to use project wikis along with external wiki providers
+        checkbox_label: Enable OpenProject project wikis
       internal_wiki_provider:
         show:
-          description: 选择启用或禁用内部 OpenProject Wiki
+          description: Choose to enable or disable project wikis
       oauth_application_info_component:
         confirm_replace_oauth_application: 此操作将重置当前的 OAuth 凭据。确认后，您必须在 XWiki 实例中重新输入凭据，所有用户都必须重新授权。确定要继续吗？
         label_oauth_client_id: OAuth 客户端 ID
@@ -133,6 +137,8 @@ zh-CN:
       wiki_page: Wiki 页面
     create_new_wiki_page_dialog:
       title: 新建 Wiki 页面
+    deferred_inline_page_link_macro_component:
+      loading: 正在加载…
     delete_relation_page_link_confirmation_dialog:
       heading: 是否删除相关 wiki 页面链接？
       title: 删除相关 wiki 页面链接
@@ -151,15 +157,34 @@ zh-CN:
       base_configuration:
         header: 配置
         provider_configured: 配置完成
+        universal_id_known: 提供商认可
       errors:
+        connection_error: OpenProject 无法连接到 Wiki 提供商。
         not_configured: 无法验证关联。请先完成配置。
+        uid_mismatch: Wiki 提供商报告的通用标识符与 OpenProject 在设置过程中记录的标识符不匹配。
         xwiki_oauth_connection_error: OpenProject 无法关联到已配置的 XWiki 实例。
-        xwiki_oauth_request_error: 尝试与 XWiki 实例通信时发生意外错误。
+        xwiki_oauth_request_error: 尝试与 XWiki 实例通信时意外出错。
         xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
         xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
+    index:
+      column_last_edited: 上次编辑
+      column_name: Wiki 页面
+      column_parent: Parent
+      column_project: 项目
+      column_sub_pages: 子页面
+      filter_by_name: 按页面名称筛选
+      filter_placeholder: 按名称搜索
+      menu_title: Wiki
+      no_results_description: 没有可用的 Wiki 页面。
+      no_results_title: 暂无 Wiki 页面
+      queries:
+        all: 所有 Wiki 页面
+        main: 主 Wiki 页面
+      sub_pages_count:
+        other: "%{count} 个子页面"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: 添加现有 Wiki 页面
+      title_create: 新建 Wiki 页面
     instructions:
       xwiki:
         integration: XWiki 管理
@@ -171,20 +196,30 @@ zh-CN:
       description: 登录 %{provider} ，查看和管理此 OpenProject 实例的相关Wiki页面。
       heading: 未连接至 %{provider}
     page_link_component:
+      add_to_related_pages: 添加到相关页面
       remove: 删除页面链接
     page_link_forms:
       labels:
         page_title: 标题
-        parent: 父 Wiki 页面
+        parent: Parent
         wiki_page: Wiki 页面
       search:
         no_results: 找不到 Wiki 页面
         placeholder: 搜索 Wiki 页面（或输入其 URL）
     page_links:
+      aria_label: 通过宏放置的指向某个 Wiki 页面的动态链接。
       errors:
         page_access_forbidden: 您无权访问此 wiki 页面
         page_not_found: 关联的 wiki 页面不再可用
         unexpected: 发生意外错误
+      source:
+        parent: 作为父项
+    project_settings:
+      project_internal_wiki_component:
+        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
+        blankslate_title: Project wikis are disabled globally
+        caption: 这会为此项目启用原生 Wiki 功能。成员将能够创建和阅读存储在 OpenProject 中的 Wiki 页面。
+        enable: Enable the OpenProject wiki for this project
     provider_types:
       xwiki:
         name: XWiki

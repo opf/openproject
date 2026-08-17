@@ -60,8 +60,8 @@ module Primer
           }
           @attachments_upload_url = attachments_upload_url
           @attachments_collection_key = attachments_collection_key
-          @blocknote_stylesheet_url = variable_asset_path("blocknote.css")
-          @shadow_dom_stylesheet_url = variable_asset_path("styles.css")
+          @blocknote_stylesheet_url = raw_variable_asset_path("blocknote.css")
+          @shadow_dom_stylesheet_url = raw_variable_asset_path("styles.css")
 
           @collaboration_enabled = Setting.real_time_text_collaboration_enabled?
         end

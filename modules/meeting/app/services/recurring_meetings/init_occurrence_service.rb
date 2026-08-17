@@ -31,18 +31,23 @@
 module RecurringMeetings
   class InitOccurrenceService < ::BaseServices::BaseCallable
     include ::Shared::ServiceContext
+    include ::Contracted
 
     attr_reader :user, :recurring_meeting
 
-    def initialize(user:, recurring_meeting:)
+    def initialize(user:, recurring_meeting:, contract_class: RecurringMeetings::InitOccurrenceContract)
       super()
       @user = user
       @recurring_meeting = recurring_meeting
+      self.contract_class = contract_class
     end
 
     protected
 
     def perform
+      contract_result = validate_contract
+      return contract_result unless contract_result.success?
+
       start_time = params.fetch(:start_time)
       return draft_template_failure if recurring_meeting.template.draft?
 
@@ -57,7 +62,15 @@ module RecurringMeetings
     end
 
     def draft_template_failure
-      ServiceResult.failure(message: I18n.t("recurring_meeting.occurrence.error_template_draft"))
+      recurring_meeting.errors.add(:base, I18n.t("recurring_meeting.occurrence.error_template_draft"))
+      ServiceResult.failure(errors: recurring_meeting.errors)
+    end
+
+    def validate_contract
+      success, errors = validate(recurring_meeting, user)
+      return ServiceResult.failure(errors:) unless success
+
+      ServiceResult.success
     end
 
     def instantiate(start_time)

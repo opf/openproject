@@ -150,29 +150,22 @@ module Import
     end
 
     def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
-      existing_cf_ids = type.custom_field_ids
-      cfs = custom_field_registry.filter_map do |entry|
-        field_key = entry[:jira_field].jira_field_id
-        raw_value = jira_issue.payload["fields"][field_key]
-        next if raw_value.blank?
-
-        context = find_context_for_issue(entry, jira_issue)
-        context&.dig(:custom_field)
-      end
-      cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
+      existing_cf_ids = type.default_variant.custom_field_ids
+      custom_fields_for_issue(custom_field_registry, jira_issue).reject { |cf| existing_cf_ids.include?(cf.id) }
     end
 
     def update_custom_fields_in_type(type, new_custom_fields)
-      type.custom_fields << new_custom_fields
+      variant = type.default_variant
+      variant.custom_fields << new_custom_fields
       new_cf_keys = new_custom_fields.map(&:attribute_name)
-      groups = type.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
+      groups = variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
 
       remove_custom_fields_from_other_groups(groups, new_cf_keys)
       add_or_update_jira_import_group(groups, new_cf_keys)
 
-      type.attribute_groups = groups
-      type.save!
-      type.reload
+      variant.attribute_groups = groups
+      variant.save!
+      variant.reload
     end
 
     def remove_custom_fields_from_other_groups(groups, cf_keys)
@@ -193,12 +186,9 @@ module Import
     end
 
     def update_custom_fields_in_project(project, jira_project, custom_field_registry)
-      project_key = jira_project.payload["key"]
-      applicable_cfs = custom_field_registry.flat_map do |entry|
-        entry[:contexts]
-          .select { |ctx| context_applies_to_project?(ctx, project_key) }
-          .map { |ctx| ctx[:custom_field] }
-      end
+      applicable_cfs = Import::JiraIssue
+                         .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
+                         .flat_map { |jira_issue| custom_fields_for_issue(custom_field_registry, jira_issue) }
       existing_cf_ids = project.work_package_custom_fields.pluck(:id).to_set
       new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
       project.work_package_custom_fields << new_cfs if new_cfs.any?
@@ -212,17 +202,24 @@ module Import
       if type.blank?
         service_call = WorkPackageTypes::CreateService
                          .new(user: @system_user)
-                         .call(name: issue_type["name"], description: issue_type["description"], is_default: false)
+                         .call(name: issue_type["name"])
         raise service_call.message unless service_call.success?
 
         type = service_call.result
         uses_existing = false
       end
 
-      type.projects << project unless type.projects.include?(project)
+      enable_type(project, type)
       jira_issue_type = Import::JiraIssueType.find_by!(jira_issue_type_id: issue_type["id"], jira_id: @jira_id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
+    end
+
+    def enable_type(project, type)
+      service_call = Projects::Types::AddService
+                       .new(user: @system_user, model: project)
+                       .call(variant: type.default_variant)
+      raise service_call.message if service_call.failure?
     end
 
     def import_status(jira_issue)
@@ -257,14 +254,13 @@ module Import
       statuses = Status.all
       row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
       status_params = statuses.to_h { |status| [status.id.to_s, row] }
-      call = Workflows::BulkUpdateService.new(role: @project_role, type:, tab: "always").call(status_params)
+      call = Workflows::BulkUpdateService
+                .new(role: @project_role, variant: type.default_variant, tab: "always")
+                .call(status_params)
       raise call.message if call.failure?
     end
 
     def import_work_package(jira_issue, project, type, status, priority, custom_field_registry) # rubocop:disable Metrics/PerceivedComplexity
-      # required because otherwise project.types does not include type and then wp creation fails.
-      project.reload
-
       author_key = jira_issue.payload.dig("fields", "creator", "key")
       author = find_user(author_key)
       assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
@@ -297,7 +293,7 @@ module Import
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
-      _, sequence_number = identifier.split("-")
+      sequence_number = WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier)
       work_package.update_columns(sequence_number:, identifier:)
       work_package_id = work_package.id
       aliases_from_history = jira_issue
@@ -332,18 +328,20 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        author = find_user(comment["author"]["key"])
-        import_member(project, author)
-        journal_service.add_comment(comment:, user: author)
+        key = comment.dig("author", "key")
+        author = find_user(key)
+        import_member(project, author) if author.present?
+        journal_service.add_comment(comment:, user: author || User.system)
       end
 
       journal_service.call
 
       attachments = jira_issue.payload.dig("fields", "attachment") || []
       attachments.each do |attachment|
-        author = find_user(attachment["author"]["key"])
-        import_member(project, author)
-        import_attachment(work_package, attachment, author)
+        key = attachment.dig("author", "key")
+        author = find_user(key)
+        import_member(project, author) if author.present?
+        import_attachment(work_package, attachment, author || User.system)
       end
     end
 

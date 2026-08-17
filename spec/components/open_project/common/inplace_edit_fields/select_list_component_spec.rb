@@ -47,7 +47,7 @@ RSpec.describe OpenProject::Common::InplaceEditFields::SelectListComponent,
 
     expect(rendered_content).to have_css("opce-autocompleter")
     expect(rendered_content).to have_button(I18n.t(:button_save))
-    expect(rendered_content).to have_button(I18n.t(:button_cancel))
+    expect(rendered_content).to have_link(I18n.t(:button_cancel))
   end
 
   it "omits action buttons when show_action_buttons is false" do
@@ -62,6 +62,6 @@ RSpec.describe OpenProject::Common::InplaceEditFields::SelectListComponent,
 
     expect(rendered_content).to have_css("opce-autocompleter")
     expect(rendered_content).to have_no_button(I18n.t(:button_save))
-    expect(rendered_content).to have_no_button(I18n.t(:button_cancel))
+    expect(rendered_content).to have_no_link(I18n.t(:button_cancel))
   end
 end

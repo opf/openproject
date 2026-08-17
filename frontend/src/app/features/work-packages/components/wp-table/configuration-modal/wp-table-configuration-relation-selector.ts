@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -77,7 +105,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit {
   private setSelectedRelationFilter():void {
     const currentRelationFilters:QueryFilterInstanceResource[] = this.relationFiltersOf(this.wpTableFilters.current) as QueryFilterInstanceResource[];
     if (currentRelationFilters.length > 0) {
-      this.selectedRelationFilter = _.find(this.availableRelationFilters, { id: currentRelationFilters[0].id })!;
+      this.selectedRelationFilter = this.availableRelationFilters.find((relationFilter) => relationFilter.id === currentRelationFilters[0].id)!;
     } else {
       this.selectedRelationFilter = this.availableRelationFilters[0];
     }
@@ -97,7 +125,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit {
   }
 
   private relationFiltersOf(filters:QueryFilterResource[]|QueryFilterInstanceResource[]):QueryFilterResource[]|QueryFilterInstanceResource[] {
-    return _.filter(filters, (filter:QueryFilterResource|QueryFilterInstanceResource) => _.includes(this.relationFilterIds, filter.id));
+    return filters.filter((filter:QueryFilterResource|QueryFilterInstanceResource) => this.relationFilterIds.includes(filter.id));
   }
 
   private addFilterToCurrentState(filter:QueryFilterResource):void {
@@ -110,7 +138,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit {
   }
 
   private getOperatorForId(filter:QueryFilterResource, id:string):QueryOperatorResource {
-    return _.find(this.schemaCache.of(filter).availableOperators, { id }) as QueryOperatorResource;
+    return (this.schemaCache.of(filter).availableOperators as QueryOperatorResource[]).find((operator:QueryOperatorResource) => operator.id === id)!;
   }
 
   public compareRelationFilters(f1:undefined|QueryFilterResource, f2:undefined|QueryFilterResource):boolean {

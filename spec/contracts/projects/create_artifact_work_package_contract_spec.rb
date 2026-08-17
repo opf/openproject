@@ -113,7 +113,7 @@ RSpec.describe Projects::CreateArtifactWorkPackageContract, :check_errors_i18n d
   context "with unset work package type" do
     before do
       project.update!(project_creation_wizard_work_package_type_id: nil)
-      project.project_creation_wizard_default_work_package_type.destroy!
+      project.project_types.destroy_all
     end
 
     it_behaves_like "contract is invalid", project_creation_wizard_work_package_type_id: :blank
@@ -150,10 +150,37 @@ RSpec.describe Projects::CreateArtifactWorkPackageContract, :check_errors_i18n d
     context "with unset work_package_type" do
       before do
         project.update!(project_creation_wizard_work_package_type_id: nil)
-        project.project_creation_wizard_default_work_package_type.destroy!
+        project.project_types.destroy_all
       end
 
       it_behaves_like "contract is invalid", project_creation_wizard_work_package_type_id: :blank
+    end
+  end
+
+  context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+    shared_let(:variant) { create(:type_variant, type:, variant_name: "Project initiation variant") }
+    shared_let(:variant_only_status) { create(:status, name: "Variant only") }
+
+    before do
+      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
+      create(:workflow, type: variant, role: role_for_assignee,
+                        old_status: variant_only_status, new_status: variant_only_status)
+
+      # The type is already used, so switching the resolved variant is an update of that row
+      # rather than adding a second one.
+      project.project_types.find_by(type:).update!(variant:)
+    end
+
+    # status_new is in the root's workflow but not the variant's, so following the stored root
+    # would wrongly accept it.
+    it_behaves_like "contract is invalid", project_creation_wizard_status_when_submitted_id: :inclusion
+
+    context "with a status from the variant's own workflow" do
+      before do
+        project.update!(project_creation_wizard_status_when_submitted_id: variant_only_status.id)
+      end
+
+      it_behaves_like "contract is valid"
     end
   end
 

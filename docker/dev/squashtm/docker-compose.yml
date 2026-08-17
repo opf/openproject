@@ -1,0 +1,37 @@
+services:
+  web:
+    image: squashtest/squash
+    restart: unless-stopped
+    networks:
+      - default
+      - gateway
+    environment:
+      SPRING_PROFILES_ACTIVE: postgresql
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/squashtm
+      SPRING_DATASOURCE_USERNAME: ${SQUASH_DB_USER:-squashtm}
+      SPRING_DATASOURCE_PASSWORD: ${SQUASH_DB_PASSWORD:-AVeryS3cureP4ssw0rd}
+      SQUASH_REST_API_JWT_SECRET: Ym9uam91cmplc3Vpc2RldmVsb3BwZXVzZXN1cnNxdWFzaHRtZXRub3Vzc29tbWVzZW5sYW5uZWUyMDI0ISEhIS
+      VIRTUAL_HOST: squashtm.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.squashtm.rule=Host(`squashtm.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
+      - "traefik.http.routers.squashtm.entrypoints=websecure"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: squashtm
+      POSTGRES_USER: ${SQUASH_DB_USER:-squashtm}
+      POSTGRES_PASSWORD: ${SQUASH_DB_PASSWORD:-AVeryS3cureP4ssw0rd}
+    volumes:
+      - "pg_data:/var/lib/postgresql/data"
+
+networks:
+  gateway:
+    external: true
+    name: gateway
+
+volumes:
+  pg_data:

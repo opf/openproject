@@ -268,6 +268,18 @@ RSpec.describe "MeetingParticipants requests",
 
       expect(response).to have_http_status(:ok)
     end
+
+    context "when the participant was already removed (e.g. rapid double-click)" do
+      before { participant.destroy }
+
+      it "responds gracefully instead of a 404" do
+        expect do
+          delete project_meeting_participant_path(project, meeting, participant), as: :turbo_stream
+        end.not_to change { meeting.participants.count }
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
   end
 
   describe "GET /meetings/:meeting_id/participants/manage_participants_dialog" do

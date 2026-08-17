@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { StateService } from '@uirouter/core';
@@ -71,6 +99,25 @@ describe('WpTabsService', () => {
 
       expect(displayableTabs).toHaveLength(1);
       expect(displayableTabs[0].id).toEqual(notDisplayableTab.id);
+    });
+  });
+
+  describe('project_attributes tab', () => {
+    beforeEach(() => {
+      // Reset to default tabs so the built-in project_attributes tab is present
+      (service as any).registeredTabs = (service as any).buildDefaultTabs();
+    });
+
+    it('is hidden when hasProjectAttributes is false', () => {
+      const wp:any = { hasProjectAttributes: false };
+      const tabs = service.getDisplayableTabs(wp);
+      expect(tabs.find((t) => t.id === 'project_attributes')).toBeUndefined();
+    });
+
+    it('is visible when hasProjectAttributes is true', () => {
+      const wp:any = { hasProjectAttributes: true };
+      const tabs = service.getDisplayableTabs(wp);
+      expect(tabs.find((t) => t.id === 'project_attributes')).toBeDefined();
     });
   });
 });

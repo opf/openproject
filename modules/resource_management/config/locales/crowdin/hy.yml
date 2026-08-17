@@ -3,167 +3,296 @@ hy:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
-        allocated_time: Allocated time
-        end_date: Finish date
-        entity: Entity
-        filter_name: Resource filter name
-        principal: Assignee
-        start_date: Start date
-        state: State
-        user_filter: User filter
+        allocated_hours: Ժամեր
+        allocated_time: Հատկացված ժամանակ
+        date_range: Ամսաթվեր
+        end_date: Ավարտի ամսաթիվ
+        entity: Էություն
+        filter_name: Ռեսուրսի զտիչի անվանում
+        principal: Պատասխանատու
+        start_date: Սկզբի ամսաթիվ
+        state: Վիճակ
+        user_filter: Օգտատերերի զտիչ
       resource_planner:
-        default_view_class_name: Default view
-        end_date: Finish date
-        favorite: Favorite
-        name: Name
-        public: Public
-        start_date: Start date
+        date_range: Ամսաթվեր
+        default_view_class_name: Կանխադրված տեսք
+        end_date: Ավարտի ամսաթիվ
+        favorite: Ընտրանի
+        name: Անվանում
+        public: Հանրային
+        start_date: Սկզբի ամսաթիվ
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
-              greater_than_start_date: must be after the start date.
+              greater_than_start_date: պետք է լինի սկզբի ամսաթվից հետո։
         resource_planner:
           attributes:
             end_date:
-              greater_than_start_date: must be after the start date.
+              greater_than_start_date: պետք է լինի սկզբի ամսաթվից հետո։
+              required_with_start_date: պետք է նշվի, երբ նշված է սկզբի ամսաթիվը։
+            start_date:
+              required_with_end_date: պետք է նշվի, երբ նշված է ավարտի ամսաթիվը։
         resource_work_package_list:
           attributes:
             query:
-              must_be_work_package_query: must be a work package query.
+              must_be_work_package_query: պետք է լինի աշխատանքային փաթեթների հարցում։
     models:
-      resource_allocation: Resource Allocation
-      resource_planner: Resource Planner
-      resource_work_package_list: Work packages list
-      user_card: User cards
-  button_next: Next
-  label_resource_management: Resource planning
-  permission_allocate_user_resources: Allocate user resources
-  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
-  permission_manage_public_resource_planners: Manage public resource planners
-  permission_manage_public_resource_planners_explanation: Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
-  permission_view_resource_planners: View resource planners
-  permission_view_resource_planners_explanation: Allows users to access resource planners. It allows them to create and manage their own resource planners and view public resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
+      resource_allocation: Ռեսուրսի հատկացում
+      resource_planner: Ռեսուրսների պլանավորիչ
+      resource_user_card: Օգտատերերի քարտեր
+      resource_work_package_list: Աշխատանքային փաթեթների ցուցակ
+  button_next: Հաջորդ
+  ee:
+    features:
+      resource_management: Ռեսուրսների կառավարում
+    upsell:
+      resource_management:
+        description: Պլանավորեք և հավասարակշռեք Ձեր թիմի ծանրաբեռնվածությունը ռեսուրսների պլանավորիչների միջոցով։ Հատկացրեք մարդկանց աշխատանքային փաթեթներին, հետևեք հզորությանը ժամանակի ընթացքում և մեկ հայացքով նկատեք գերհատկացումն ու թերհատկացումը։
+        title: Ռեսուրսների կառավարում
+  label_resource_management: Ռեսուրսների կառավարում
+  permission_allocate_user_resources: Հատկացնել օգտատերերի ռեսուրսները
+  permission_allocate_user_resources_explanation: Թույլ է տալիս օգտատերերին ստեղծել, թարմացնել և ջնջել ռեսուրսների հատկացումները ռեսուրսների պլանավորիչի ներսում։ Սա ներառում է օգտատերերի (կամ օգտատերերի զտիչների) նշանակումը պլանավորիչին և հատկացված ժամանակի ու ամսաթվերի միջակայքի ճշգրտումը։
+  permission_assign_users_to_generic_allocations: Նշանակել օգտատերերին ընդհանրական հատկացումներին
+  permission_assign_users_to_generic_allocations_explanation: Թույլ է տալիս օգտատերերին օգտագործել Կադրերի համալրման տեսքը՝ իրական օգտատերերին նշանակելու այն ընդհանրական (զտիչի վրա հիմնված) ռեսուրսների հատկացումներին, որոնք դեռ օգտատեր չունեն։ Այն թույլ չի տալիս ստեղծել կամ խմբագրել հատկացումներ։
+  permission_manage_public_resource_planners: Կառավարել հանրային ռեսուրսների պլանավորիչները
+  permission_manage_public_resource_planners_explanation: Թույլ է տալիս օգտատերերին ստեղծել և կառավարել հանրային ռեսուրսների պլանավորիչներ։ Այն թույլ է տալիս նրանց դիտել, ստեղծել, կառավարել և հրապարակել իրենց սեփական ռեսուրսների պլանավորիչները։ Այն թույլ չի տալիս օգտատերերին դիտել այլ օգտատերերի ստեղծած ռեսուրսների պլանավորիչները, որոնք հանրորեն համօգտագործված չեն։
+  permission_view_resource_planners: Դիտել ռեսուրսների պլանավորիչները
+  permission_view_resource_planners_explanation: Թույլ է տալիս օգտատերերին հասանելիություն ունենալ ռեսուրսների պլանավորիչներին։ Այն թույլ է տալիս նրանց ստեղծել և կառավարել իրենց սեփական ռեսուրսների պլանավորիչները և դիտել հանրային ռեսուրսների պլանավորիչները։ Այն թույլ չի տալիս օգտատերերին դիտել այլ օգտատերերի ստեղծած ռեսուրսների պլանավորիչները, որոնք հանրորեն համօգտագործված չեն։
   plugin_openproject_resource_management:
-    description: Provides resource management and capacity planning.
-    name: OpenProject Resource Management
-  project_module_resource_management: Resource management
+    description: Ապահովում է ռեսուրսների կառավարում և հզորությունների պլանավորում։
+    name: OpenProject-ի ռեսուրսների կառավարում
+  project_module_resource_management: Ռեսուրսների կառավարում
   resource_management:
     action:
-      delete: Delete
-      favorite: Add to favorites
-      make_private: Make private
-      make_public: Make public
-      unfavorite: Remove from favorites
-    allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
-      summary: "%{allocated} / %{scheduled}"
+      delete: Ջնջել
+      edit: Խմբագրել
+      favorite: Ավելացնել ընտրյալներում
+      make_private: Դարձնել մասնավոր
+      make_public: Դարձնել հրապարակային
+      unfavorite: Հեռացնել ընտրյալներից
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Սահմանեք զտիչի չափանիշներ՝ հիմնված օգտատիրոջ հատկանիշների վրա, տեղապահ ռեսուրս ստեղծելու համար։
+          label: Զտիչի չափանիշներ
+        label: Հատկացման տեսակ
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Հատկացրեք ժամեր կոնկրետ օգտատիրոջ համար։
+          label: Օգտատեր
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Ընտրված ռեսուրսի ամսաթվերը՝ %{resource_dates}, դուրս են աշխատանքային փաթեթի ամսաթվերից՝ %{work_package_dates}։
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} հասանելի · %{scheduled} պլանավորված"
+        description: Ընտրված օգտատիրոջ՝ %{user}-ի հատկացումն այս ժամանակահատվածում կգերազանցի նրա աշխատանքային ժամերը։
+        hidden_work: Այլ հատկացումներ
+        schedule_availability: "%{schedule} (%{factor}% հասանելի է նախագծային աշխատանքի համար)"
+        schedule_change: մինչև %{date}, ապա %{schedule}
+        schedule_note: Այս օգտատերն աշխատում է %{schedule}։
+        submit: Հատկացնել արտաժամյա աշխատանք
+        title: Ցանկանո՞ւմ եք օգտատիրոջը հատկացնել արտաժամյա աշխատանք։
+      submit: Հատկացնել
+      success_message: Ռեսուրսը հատկացվել է։
+      title: Հատկացնել ռեսուրս
+    allocation:
+      hours: "%{value}ժ"
+      no_work: Այս աշխատանքային փաթեթի համար աշխատանք պլանավորված չէ
+      summary: "%{allocated} / %{scheduled}"
+    assignment_dialog:
+      available: "%{hours} հասանելի"
+      confirm_overtime: Այնուամենայնիվ նշանակել
+      filter_criteria: Զտիչի չափանիշներ
+      no_candidates:
+        description: Նախագծի ոչ մի անդամ չի համապատասխանում այս հատկացման զտիչի չափանիշներին։
+        title: Համապատասխան անդամներ չկան
+      no_schedule: Այս օգտատերը սահմանված աշխատանքային ժամանակացույց չունի, ուստի հնարավոր չէ որոշել՝ արդյոք այս հատկացումը տեղավորվում է։
+      overbooked_detail: Այս օգտատերն այս ժամանակահատվածում ունի %{available} հասանելի ժամանակ, իսկ աշխատանքային փաթեթը պահանջում է %{requested}։
+      requested_for: Հայցված է՝
+      select_user: Խնդրում ենք ընտրել նշանակվող օգտատիրոջը։
+      submit: Նշանակել
+      title: Նշանակել %{filter_name}
     blankslate:
-      desc: Create a resource planner to start planning capacity for this project.
-      title: No resource planners yet
+      desc: Ստեղծեք ռեսուրսների պլանավորիչ՝ այս նախագծի հզորությունների պլանավորումը սկսելու համար։
+      title: Դեռ ռեսուրսների պլանավորիչներ չկան
     configure_view_dialog:
-      delete_confirmation: Are you sure you want to delete this view? This cannot be undone.
+      delete_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս տեսքը։ Սա անշրջելի է։
       filter_mode:
         automatic:
-          caption: An automatically-generated list that displays items that meet criteria you define.
-          label: Automatically filtered
-        label: Item selection
+          caption: Ինքնաշխատ ստեղծվող ցուցակ, որը ցուցադրում է Ձեր սահմանած չափանիշներին համապատասխանող տարրերը։
+          label: Ինքնաշխատ զտված
+        label: Տարրերի ընտրություն
         manual:
-          caption: A custom list of items you manually add and remove. Filtering is not possible.
-          label: Manually hand-picked
-      title: Configure view
+          caption: Տարրերի հատուկ ցուցակ, որոնք Դուք ձեռքով եք ավելացնում և հեռացնում։ Զտումը հնարավոր չէ։
+          label: Ձեռքով ընտրված
+      title: Կազմաձևել տեսքը
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
-    favorite_caption: Make this view a favorite to add it on the top section of the sidebar menu.
-    label_new_resource_planner: New resource planner
-    label_resource_planner: Resource planner
-    label_resource_planner_plural: Resource planners
+      submit: Պահպանել
+      success_message: Ռեսուրսի հատկացումը թարմացվել է։
+      title: Խմբագրել հատկացումը
+    favorite_caption: Ավելացրեք այս տեսքն ընտրանիում՝ այն կողային ցանկի վերին բաժնում ցուցադրելու համար։
+    label_edit_resource_planner: Խմբագրել ռեսուրսների պլանավորիչը
+    label_new_resource_planner: Նոր ռեսուրսների պլանավորիչ
+    label_resource_planner: Ռեսուրսների պլանավորիչ
+    label_resource_planner_plural: Ռեսուրսների պլանավորիչներ
     new_view_dialog:
-      title: Add View
-    public_caption: Make this view public to all members of the project. This does not affect the visibility of work packages which still depends on each user permission.
+      title: Ավելացնել տեսք
+    public_caption: Դարձրեք այս տեսքը հանրային նախագծի բոլոր անդամների համար։ Սա չի ազդում աշխատանքային փաթեթների տեսանելիության վրա, որը շարունակում է կախված լինել յուրաքանչյուր օգտատիրոջ թույլտվությունից։
     show:
-      placeholder: The detailed view for this resource planner is coming soon.
+      placeholder: Այս ռեսուրսների պլանավորիչի մանրամասն տեսքը շուտով հասանելի կլինի։
     sidebar:
-      private: Private
-      public: Public
-    sub_views: Views in this resource planner
+      private: Մասնավոր
+      public: Հանրային
+    staffing:
+      assign: Նշանակել օգտատեր
+      blank:
+        description: Այս նախագծի բոլոր ընդհանրական հատկացումներն ունեն նշանակված օգտատեր։
+        title: Համալրելու ոչինչ չկա
+      columns:
+        dates: Ամսաթվեր
+        requested_time: Պահանջվող ժամանակ
+        resource: Ռեսուրս
+        work_package: Աշխատանքային փաթեթ
+      context_menu_label: Հատկացման գործողություններ
+      delete_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս հատկացումը։
+      menu_item: Կադրերի համալրում
+      starts_in_past: Այս հատկացումն արդեն սկսվել է և դեռ նշանակված օգտատեր չունի։
+      success_message: Օգտատերը նշանակվել է։
+      title: Կադրերի համալրում
+    sub_views: Տեսքերն այս ռեսուրսների պլանավորիչում
+    timeframe:
+      full: "%{start}-ից մինչև %{end}"
+    timeline:
+      granularity:
+        day: Օր
+        month: Ամիս
+        week: Օրացուցային շաբաթ
+      navigation:
+        next: Հաջորդ ժամանակահատված
+        previous: Նախորդ ժամանակահատված
+        today: Այսօր
+      subheader:
+        add: Ավելացնել
+        allocate: Հատկացնել
+        settings: Կազմաձևել տեսքը
+    user_allocations_dialog:
+      allocate_work_package: Հատկացնել աշխատանքային փաթեթ
+      blank: Այս օգտատերը հատկացված աշխատանքային փաթեթներ չունի։
+      other_work_packages:
+        one: ևս 1 աշխատանքային փաթեթ
+        other: ևս %{count} աշխատանքային փաթեթ
+      title: Բեռնվածություն
+    user_card_list:
+      add_user_dialog:
+        title: Ավելացնել օգտատեր
+      blank:
+        description: Այս տեսքի զտիչներին համապատասխանող օգտատերեր դեռ չկան։
+        manual_description: Այս տեսքին դեռ օգտատերեր չեն ավելացվել։
+        title: Ցուցադրելու օգտատերեր չկան
+      card:
+        multi_value_more: "+%{count} ևս"
+        remove: Հեռացնել օգտատիրոջը
+        remove_confirmation: Հեռացնե՞լ այս օգտատիրոջը տեսքից։
+      fields:
+        drag_area_label: Ցուցադրվող դաշտեր
+        input_caption: Ընտրեք այն դաշտերը, որոնք կցուցադրվեն այս տեսքի օգտատիրոջ քարտում
+        input_label: Դաշտեր
+        input_placeholder: Ավելացնել դաշտ
+        working_times: Աշխատանքային ժամեր
+      subheader:
+        resource: Ռեսուրս
+        settings: Կազմաձևել տեսքը
+      utilization:
+        label: Բեռնվածություն
+      working_hours:
+        blank: Աշխատանքային ժամեր կազմաձևված չեն
+        schedule_availability_compact: "%{schedule} (%{factor}% հասանելի)"
+        schedule_change_compact: մինչև %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Ավելացնել օգտատեր
+        configure_view: Կազմաձևել տեսքը
+        description: Այս տեսքի զտիչներին համապատասխանող օգտատերեր դեռ չկան։
+        manual_description: Ավելացրեք օգտատերեր այս տեսքին՝ ժամանակի ընթացքում նրանց հատկացումը տեսնելու համար։
+        title: Ցուցադրելու օգտատերեր չկան
+      no_work_schedule: Այս օգտատիրոջ համար աշխատանքային ժամանակացույց պլանավորված չէ
+      overbooked: Այս օգտատերն ընտրված ժամանակահատվածում գերբեռնված է։
+      overbooked_tooltip:
+        range: "%{dates}՝ %{scheduled} պլանավորված, %{available} հասանելի"
+      subheader:
+        add_user: Ավելացնել օգտատեր
     view_types:
+      resource_user_card:
+        caption: Ստեղծեք օգտատերերի վրա հիմնված տեսք և օգտատերերի քարտերի ցուցակում դիտեք նրանց մանրամասներն ու հատկացումը
+        label: Օգտատերերի քարտերի ցուցակ
+      resource_user_timeline:
+        caption: Ստեղծեք օգտատերերի վրա հիմնված տեսք և ժամանակագծի վրա դիտեք նրանց հատկացումները ժամանակի ընթացքում
+        label: Օգտատերերի ժամանակագիծ
       resource_work_package_list:
-        caption: Create a view based on work packages and see its details and allocation in a list
-        label: Work packages list
+        caption: Ստեղծեք աշխատանքային փաթեթների վրա հիմնված տեսք և ցուցակում դիտեք դրանց մանրամասներն ու հատկացումը
+        label: Աշխատանքային փաթեթների ցուցակ
+      resource_work_package_timeline:
+        caption: Ստեղծեք աշխատանքային փաթեթների վրա հիմնված տեսք և ժամանակագծի վրա դիտեք դրանց հատկացումները ժամանակի ընթացքում
+        label: Աշխատանքային փաթեթների ժամանակագիծ
       user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Ստեղծեք օգտատերերի վրա հիմնված տեսք և օգտատերերի քարտերի ցուցակում դիտեք նրանց մանրամասներն ու հատկացումը
+        label: Օգտատերերի քարտերի ցուցակ
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Հատկացնել ռեսուրս
+      context_menu_label: Հատկացման գործողություններ
+      delete_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս հատկացումը։ Դա անշրջելի է։
+      delete_success: Ռեսուրսի հատկացումը ջնջվել է։
+      hidden_user: Թաքնված օգտատեր
+      overbooked: Այս ժամանակահատվածում օգտատերը հատկացված է իր աշխատանքային ժամերից ավելի։
+      title: Հատկացում
     work_package_list:
       add_work_package_dialog:
-        title: Add work package
+        title: Ավելացնել աշխատանքային փաթեթ
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} օգտատեր"
+          other: "%{count} օգտատեր"
+        unassigned: Չնշանակված
       allocation_placeholder: "—"
       blank:
-        description: There are no work packages matching this view's filters yet.
-        title: No work packages to display
+        description: Այս տեսքի զտիչներին համապատասխանող աշխատանքային փաթեթներ դեռ չկան։
+        title: Ցուցադրելու աշխատանքային փաթեթներ չկան
       columns:
-        allocated_members: Allocated members
-        allocation: Allocation
-        dates: Dates
+        allocated_members: Հատկացված անդամներ
+        allocation: Հատկացում
+        dates: Ամսաթվեր
       context_menu:
-        add_filter_criteria: Add filter criteria
-        add_user_group: Add user group
-        edit_total_work: Edit total work
-        label: More actions
-        move: Move
-        move_down: Move down
-        move_to_bottom: Move to bottom
-        move_to_top: Move to top
-        move_up: Move up
-        remove: Remove
-        remove_confirmation: Remove this work package from the view?
-        see_allocation: See allocation
-      mobile_title: Work packages
-      query_name: 'Resource management work packages: %{name}'
+        add_filter_criteria: Ավելացնել զտիչի չափանիշներ
+        add_user_group: Ավելացնել օգտատերերի խումբ
+        edit_total_work: Խմբագրել ընդհանուր աշխատանքը
+        label: Այլ գործողություններ
+        move: Տեղափոխել
+        move_down: Տեղափոխել ներքև
+        move_to_bottom: Տեղափոխել վերջ
+        move_to_top: Տեղափոխել սկիզբ
+        move_up: Տեղափոխել վերև
+        remove: Հեռացնել
+        remove_confirmation: Հեռացնե՞լ այս աշխատանքային փաթեթը տեսքից։
+        see_allocation: Տեսնել հատկացումը
+      mobile_title: Աշխատանքային փաթեթներ
+      query_name: Ռեսուրսների կառավարման աշխատանքային փաթեթներ՝ %{name}
       subheader:
-        add: Add
-        add_work_package: Add work package
-        allocate: Allocate
-        settings: Configure view
+        add: Ավելացնել
+        add_work_package: Ավելացնել աշխատանքային փաթեթ
+        allocate: Հատկացնել
+        settings: Կազմաձևել տեսքը
+    work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
+      blank:
+        add_work_package: Ավելացնել աշխատանքային փաթեթ
+        configure_view: Կազմաձևել տեսքը
+        description: Այս տեսքի զտիչներին համապատասխանող աշխատանքային փաթեթներ դեռ չկան։
+        manual_description: Ավելացրեք աշխատանքային փաթեթներ այս տեսքին՝ ժամանակի ընթացքում դրանց հատկացումը պլանավորելու համար։
+        title: Ցուցադրելու աշխատանքային փաթեթներ չկան
+      query_name: Ռեսուրսների կառավարման աշխատանքային փաթեթների ժամանակագիծ՝ %{name}
+      subheader:
+        add_work_package: Ավելացնել աշխատանքային փաթեթ

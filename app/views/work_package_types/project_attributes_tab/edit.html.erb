@@ -1,0 +1,27 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
+
+<%= render(
+      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+        reload_url: edit_type_project_attributes_path(**@variant.path_args)
+      )
+    ) do %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::PROJECT_ATTRIBUTES)) %>
+
+  <%= render WorkPackageTypes::ProjectAttributes::IndexComponent.new(
+        variant: @variant,
+        project_custom_field_sections: @project_custom_field_sections
+      ) %>
+<% end %>

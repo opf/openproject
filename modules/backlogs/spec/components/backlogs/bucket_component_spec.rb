@@ -73,6 +73,11 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
       it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
 
+      it "parks the empty-state prototype in a template for the dynamic controller" do
+        expect(rendered_component)
+          .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
+      end
+
       it "renders the bucket box id derived from the bucket" do
         expect(rendered_component).to have_css(".Box#backlog_bucket_#{backlog_bucket.id}")
       end
@@ -104,11 +109,23 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       end
 
       it "renders the bucket menu actions" do
-        expect(rendered_component.to_html).to include("Edit backlog bucket", "Delete backlog bucket")
+        expect(rendered_component).to have_selector(:menuitem, "Edit backlog bucket") do |link|
+          expect(link[:href]).to eq edit_dialog_project_backlogs_bucket_path(project, backlog_bucket)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket") do |link|
+          expect(link[:href]).to eq destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+          expect(link[:href]).to eq new_project_work_packages_dialog_path(project, backlog_bucket_id: backlog_bucket.id)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+          expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(
+            project, list_type: "backlog_bucket", list_id: backlog_bucket.id
+          )
+        end
       end
 
       it "renders one shared-card row per work package" do
-        expect(rendered_component).to have_css(".Box-row", count: 1)
         expect(rendered_component).to have_text("Bucket Work Package")
         expect(rendered_component).to have_text("##{work_package.id}")
       end
@@ -118,11 +135,15 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
         expect(rendered_component).to have_css(".sr-only", text: "3 story points")
       end
 
-      it "wires the bucket drop-target data on the box" do
+      it "wires the list controller and value attributes for the bucket" do
+        list_type = Backlogs::Target::BucketId.new(backlog_bucket.id).list_type
+
         expect(rendered_component).to have_css(".Box") do |box|
-          expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-          expect(box["data-target-id"]).to eq("backlog_bucket:#{backlog_bucket.id}")
-          expect(box["data-target-allowed-drag-type"]).to eq("story")
+          expect(box["data-controller"]).to include("sortable-lists--list")
+          expect(box["data-sortable-lists--list-type-value"]).to eq(list_type)
+          expect(box["data-sortable-lists--list-id-value"]).to eq(backlog_bucket.id.to_s)
+          expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("work_package")
+          expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
         end
       end
 
@@ -133,27 +154,32 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
         )
       end
 
-      it "wires draggable row data through the shared card" do
+      it "wires draggable data through the shared row" do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-          expect(row["data-controller"]).to eq("backlogs--story")
-          expect(row["data-draggable-id"]).to eq(work_package.id.to_s)
-          expect(row["data-draggable-type"]).to eq("story")
-          expect(row["data-drop-url"]).to end_with(move_project_backlogs_work_package_path(project, work_package))
-          expect(row["data-backlogs--story-split-url-value"])
+          expect(row["data-controller"]).to eq("sortable-lists--item")
+          expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
+          expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+          expect(row["draggable"]).to eq("true")
+        end
+
+        expect(rendered_component).to have_css(".op-work-package-card") do |card|
+          expect(card["data-controller"].split).to include("backlogs--work-package")
+          expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+          expect(card["data-backlogs--work-package-split-url-value"])
             .to end_with(project_backlogs_backlog_details_path(project, work_package))
-          expect(row["data-backlogs--story-full-url-value"])
+          expect(card["data-backlogs--work-package-full-url-value"])
             .to end_with(work_package_path(work_package))
         end
       end
     end
 
     context "without work packages" do
-      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
+      it_behaves_like "rendering Box", row_count: 0, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Backlog bucket is empty"
 
       it "renders the bucket empty-state blankslate" do
         expect(rendered_component).to have_text("Backlog bucket is empty")
-        expect(rendered_component).to have_text("Drag items here to add them.")
+        expect(rendered_component).to have_text("Drag items here to add them")
       end
     end
   end
@@ -170,23 +196,10 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
              position: 1)
     end
 
-    it "includes all=1 in the split-view URL" do
-      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-backlogs--story-split-url-value"]).to include("all=1")
+    it "includes all=true in the split-view URL" do
+      expect(rendered_component).to have_css(".op-work-package-card") do |card|
+        expect(card["data-backlogs--work-package-split-url-value"]).to include("all=true")
       end
-    end
-
-    it "includes all=1 in the drop URL" do
-      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-drop-url"]).to include("all=1")
-      end
-    end
-
-    it "includes all=1 in the action-menu src" do
-      expect(rendered_component).to have_element(
-        "include-fragment",
-        src: menu_project_backlogs_work_package_path(project, work_package, all: "1")
-      )
     end
   end
 
@@ -203,16 +216,15 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
              position: 1)
     end
 
-    it "does not render the bucket header menu" do
-      expect(rendered_component).to have_no_button(accessible_name: "Backlog bucket actions")
+    it "still renders the add work package menu actions" do
+      expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
+      expect(rendered_component).to have_selector(:menuitem, "Add new work package")
+      expect(rendered_component).to have_selector(:menuitem, "Add existing work package")
     end
-  end
 
-  context "when the bucket is not persisted" do
-    let(:backlog_bucket) { BacklogBucket.new(project:, name: "Ready for development") }
-
-    it "does not render the bucket header menu" do
-      expect(rendered_component).to have_no_button(accessible_name: "Backlog bucket actions")
+    it "does not render the edit or delete bucket menu items" do
+      expect(rendered_component).to have_no_selector(:menuitem, "Edit backlog bucket")
+      expect(rendered_component).to have_no_selector(:menuitem, "Delete backlog bucket")
     end
   end
 
@@ -231,9 +243,24 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
     it "does not mark work package rows as draggable" do
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}")
-      expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}.Box-row--draggable")
-      expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[data-draggable-id]")
-      expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[data-drop-url]")
+      expect(rendered_component)
+        .to have_no_css(".Box-row#work_package_#{work_package.id}[data-sortable-lists--item-id-value]")
+      expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[draggable='true']")
+      expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-id-value]")
+      expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-target]")
+      expect(rendered_component).to have_no_css(".op-work-package-card[draggable='true']")
+      expect(rendered_component).to have_no_css(".op-work-package-card.Box-card--draggable")
+    end
+
+    it "still renders the edit and delete bucket menu items" do
+      expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
+      expect(rendered_component).to have_selector(:menuitem, "Edit backlog bucket")
+      expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket")
+    end
+
+    it "does not render the add work package menu actions" do
+      expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
+      expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
     end
   end
 end

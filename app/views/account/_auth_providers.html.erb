@@ -40,7 +40,7 @@ no_pwd = OpenProject::Configuration.disable_password_login?
 pclass = no_pwd ? "no-pwd" : ""
 wclass = local_assigns[:wide] ? "wide" : ""
 %>
-<% if auth_provider_html.strip != '' %>
+<% if auth_provider_html.present? %>
   <div class="login-auth-providers <%= pclass %> <%= wclass %>">
     <% unless no_pwd %>
       <h3 class="login-auth-providers-title mb-3">

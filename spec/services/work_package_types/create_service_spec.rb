@@ -45,8 +45,7 @@ RSpec.describe WorkPackageTypes::CreateService, type: :model do
         name: "Order 66",
         copy_workflow_from: existing_type.id.to_s,
         is_milestone: false,
-        is_in_roadmap: true,
-        is_default: false
+        is_in_roadmap: true
       }
     end
 
@@ -55,7 +54,7 @@ RSpec.describe WorkPackageTypes::CreateService, type: :model do
       result = service.call(params)
 
       expect(result).to be_success
-      expect(result.result.workflows).not_to be_empty
+      expect(result.result.default_variant.workflows).not_to be_empty
     end
   end
 end

@@ -109,6 +109,7 @@ module Backlogs
       if call.success?
         render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
         update_sprint_component_via_turbo_stream(sprint: call.result)
+        notify_sprint_updated(call.result)
       else
         update_sprint_form_component_via_turbo_stream(sprint: call.result, base_errors: call.errors[:base])
       end
@@ -120,11 +121,7 @@ module Backlogs
       result = start_sprint
 
       if result.success?
-        @sprint = result.result
-        flash[:notice] = I18n.t(:notice_successful_start)
-        render turbo_stream: turbo_stream.redirect_to(
-          project_work_package_board_path(@project, @sprint.task_board_for(@project))
-        )
+        respond_with_start_success(sprint: result.result)
       else
         respond_with_start_finish_failure(message: start_finish_failure_message(:start, result.message))
       end
@@ -135,7 +132,7 @@ module Backlogs
 
       if result.success?
         flash[:notice] = I18n.t(:notice_successful_finish)
-        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, helpers.all_backlogs_params))
+        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, backlog_filter_params))
       elsif result.includes_error?(:base, :unfinished_work_packages)
         show_finish_sprint_dialog
       else
@@ -144,6 +141,23 @@ module Backlogs
     end
 
     private
+
+    def notify_sprint_updated(sprint)
+      dispatch_event_via_turbo_stream("op-dispatched:backlogs:sprint-updated", detail: { sprint_id: sprint.id })
+    end
+
+    def respond_with_start_success(sprint:)
+      flash[:notice] = I18n.t(:notice_successful_start)
+
+      # Update sprint component so that it shows the correct state for users
+      # that navigate back via the browser's back button:
+      update_sprint_component_via_turbo_stream(sprint:)
+
+      turbo_streams << turbo_stream.redirect_to(
+        project_work_package_board_path(@project, sprint.task_board_for(@project))
+      )
+      respond_with_turbo_streams
+    end
 
     def update_sprint_component_via_turbo_stream(sprint:)
       update_via_turbo_stream(
@@ -187,7 +201,7 @@ module Backlogs
 
     def respond_with_create_success
       flash[:notice] = I18n.t(:notice_successful_create)
-      render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, helpers.all_backlogs_params))
+      render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, backlog_filter_params))
     end
 
     def sprint_params

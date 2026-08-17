@@ -1,22 +1,21 @@
-#English strings go here
 ---
 hy:
-  plugin_openproject_team_planner:
-    name: OpenProject Team Planner
-    description: Provides team planner views.
-  permission_view_team_planner: View team planner
-  permission_manage_team_planner: Manage team planner
-  project_module_team_planner_view: Team planners
   ee:
     feature_names:
-      team_planner_view: Team planner
+      team_planner_view: Թիմային պլանավորիչ
     upsell:
       team_planner_view:
-        title: Team planner
-        description: Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees.
+        description: Թիմային պլանավորիչի միջոցով ստացեք Ձեր թիմի պլանավորման ամբողջական պատկերը։ Ձգեք, կրճատեք և քարշ տարեք աշխատանքային փաթեթները՝ ամսաթվերը փոփոխելու, դրանք տեղափոխելու կամ պատասխանատուներին փոխելու համար։
+        title: Թիմային պլանավորիչ
+  permission_manage_team_planner: Կառավարել թիմային պլանավորիչը
+  permission_view_team_planner: Դիտել թիմային պլանավորիչը
+  plugin_openproject_team_planner:
+    description: Ապահովում է թիմային պլանավորչի տեսքեր։
+    name: OpenProject-ի թիմային պլանավորիչ
+  project_module_team_planner_view: Թիմային պլանավորիչներ
   team_planner:
-    label_team_planner: Team planner
-    label_new_team_planner: New team planner
-    label_create_new_team_planner: Create new team planner
-    label_team_planner_plural: Team planners
-    label_assignees: Assignees
+    label_assignees: Պատասխանատուներ
+    label_create_new_team_planner: Ստեղծել նոր թիմային պլանավորիչ
+    label_new_team_planner: Նոր թիմային պլանավորիչ
+    label_team_planner: Թիմային պլանավորիչ
+    label_team_planner_plural: Թիմային պլանավորիչներ

@@ -1,0 +1,138 @@
+@import "vis-timeline/styles/vis-timeline-graph2d.css"
+@import "helpers"
+
+.op-project-timeline-graph--wrapper
+  position: relative
+  min-height: 7.5rem
+
+  &_loading
+    height: 7.5rem
+    overflow: hidden
+
+.op-project-timeline-graph
+  width: 100%
+
+  // Timeline border and grid lines
+  .vis-timeline
+    border-color: transparent
+  .vis-grid.vis-minor,
+  .vis-grid.vis-major,
+  .vis-panel,
+  .vis-foreground .vis-group
+    border-color: var(--borderColor-default)
+
+  .vis-text
+    color: var(--body-font-color)
+
+  // Hide the group label column — groups are for layout only
+  .vis-labelset
+    display: none
+
+  // Tooltip
+  .vis-tooltip
+    background: var(--body-background)
+    color: var(--fgColor-default)
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-default)
+    box-shadow: var(--shadow-floating-small)
+    padding: var(--base-size-12)
+    max-width: 350px
+    @include text-shortener(false)
+    white-space: normal
+
+  .op-timeline-tooltip--meta-row
+    display: inline-flex
+    align-items: center
+    column-gap: var(--base-size-4)
+    font-size: var(--text-body-size-small)
+
+    i
+      display: flex
+      margin-left: var(--base-size-4)
+
+  .op-timeline-tooltip--type
+    color: var(--fgColor-muted)
+
+  .op-timeline-tooltip--name
+    font-weight: var(--base-text-weight-semibold)
+    margin-top: var(--base-size-4)
+
+  // Phase bars
+  .vis-item.vis-range
+    border-width: 0
+    border-radius: var(--borderRadius-default)
+    font-size: var(--text-body-size-small)
+    overflow: hidden
+
+    .vis-item-content
+      display: block
+      max-width: 100%
+      padding: 0 var(--base-size-6)
+      @include text-shortener
+      line-height: inherit
+
+  // Gates: show the gate SVG icon instead of the default vis-timeline dot.
+  // vis-timeline applies className to both .vis-point and .vis-dot, so we
+  // suppress the background highlight and dot on the container/dot elements
+  // and let the icon in .vis-item-content carry the color via __hl_inline_*.
+  .vis-item.vis-point.op-timeline-gate
+    background: none !important
+    border-color: transparent !important
+
+    .vis-item-content
+      display: flex
+      align-items: center
+      padding: 0
+
+  .vis-item.vis-dot.op-timeline-gate
+    display: none
+
+  // Finish gate: shift the icon left so its right edge aligns with the phase end date,
+  // matching the right edge of the phase bar.
+  .vis-item.vis-point.op-timeline-gate--finish
+    .vis-item-content
+      transform: translateX(-100%)
+
+  // Gates group row: we override the height so that the gates appear visually closer to the phases
+  .vis-group.op-timeline-group--gates:has(.vis-item)
+    border-bottom-color: transparent
+    height: 2.25rem !important
+    overflow: visible
+
+  // Cluster items
+  .vis-item.vis-cluster
+    background: var(--body-background)
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-large)
+    color: var(--fgColor-default)
+    font-size: var(--text-body-size-small)
+    font-weight: var(--base-text-weight-semibold)
+    cursor: default
+    padding: 0 var(--base-size-6)
+
+  // Milestones: diamond shape via CSS rotate on the vis-dot
+  .vis-item.vis-point.op-timeline-milestone
+    background: none !important
+    border-color: transparent !important
+    cursor: pointer
+
+  .vis-item.vis-dot.op-timeline-milestone
+    width: 10px
+    height: 10px
+    border-width: 0
+    border-radius: 0
+    rotate: 45deg
+
+  .op-timeline-sprint-icon
+    color: var(--fgColor-accent)
+
+  // Sprints
+  .vis-item.vis-range.op-timeline-sprint
+    background-color: var(--bgColor-accent-muted)
+    color: var(--fgColor-accent)
+    border: 1px solid var(--borderColor-accent-muted)
+
+    &.op-timeline-sprint--active
+      background-color: var(--bgColor-accent-emphasis)
+      color: var(--fgColor-onEmphasis)
+      border-color: var(--bgColor-accent-emphasis)

@@ -56,6 +56,7 @@ class CustomStylesController < ApplicationController
     @custom_style = CustomStyle.current || CustomStyle.new
     @current_theme = @custom_style.theme
     @theme_options = options_for_theme_select
+    @colors = Color.all.sort_by(&:name)
 
     if params[:tab].blank?
       redirect_to tab: "interface"

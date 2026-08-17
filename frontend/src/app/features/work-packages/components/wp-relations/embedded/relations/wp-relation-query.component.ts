@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -109,7 +109,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     // When relations have changed, refresh this table
     this.wpRelations.observe(this.workPackage.id!)
       .pipe(
-        filter((val) => !_.isEmpty(val)),
+        filter((val) => !(val == null || (Array.isArray(val) ? val.length === 0 : Object.keys(val).length === 0))),
         this.untilDestroyed(),
       )
       .subscribe(() => this.refreshTable());

@@ -1,0 +1,20 @@
+<%= render OpenProject::Common::BorderBoxListComponent.new(
+      container: "border-box-list-header-drag-handle-preview",
+      padding:,
+      header_padding:,
+      collapsible:
+    ) do |list| %>
+  <% list.with_header(title: "Reorderable section", count: true, show_drag_handle: true) %>
+  <% list.with_item do %>
+    <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, ml: -2)) do |row| %>
+      <% row.with_column(style: "width: 1.5rem") { render(Primer::OpenProject::DragHandle.new) } %>
+      <% row.with_column(flex: 1) { "one" } %>
+    <% end %>
+  <% end %>
+  <% list.with_item do %>
+    <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, ml: -2)) do |row| %>
+      <% row.with_column(style: "width: 1.5rem") { render(Primer::OpenProject::DragHandle.new) } %>
+      <% row.with_column(flex: 1) { "two" } %>
+    <% end %>
+  <% end %>
+<% end %>

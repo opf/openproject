@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { Injectable, inject } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
@@ -148,7 +149,7 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
   }
 
   public hasChanged(query:QueryResource) {
-    return !_.isEqual(query.timestamps, this.current);
+    return !isEqual(query.timestamps, this.current);
   }
 
   public applyToQuery(query:QueryResource):boolean {

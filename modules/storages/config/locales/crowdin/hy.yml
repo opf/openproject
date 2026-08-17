@@ -3,566 +3,566 @@ hy:
   activerecord:
     attributes:
       oauth_client:
-        client_id: Client ID
-        client_secret: Client secret
+        client_id: Հաճախորդի ID
+        client_secret: Հաճախորդի գաղտնիք
       project:
-        project_folder_type: Project folder type
+        project_folder_type: Նախագծի պանակի տեսակ
       storages/file_link:
-        origin: Origin
-        storage: Storage
+        origin: Ծագում
+        storage: Պահեստ
       storages/nextcloud_storage:
         authentication_methods:
-          oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
-          oauth2_sso_with_two_way_oauth2_fallback: Single-Sign-On with Two-Way OAuth 2.0 as fallback
-          two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        storage_audience: Storage Audience
-        token_exchange_scope: Storage Scope
+          oauth2_sso: Single-Sign-On OpenID Connect ինքնության մատակարարի միջոցով
+          oauth2_sso_with_two_way_oauth2_fallback: Single-Sign-On՝ երկկողմանի OAuth 2.0-ը որպես պահուստային եղանակ
+          two_way_oauth2: Երկկողմանի OAuth 2.0 լիազորման կոդի հոսք
+        storage_audience: Պահեստի Audience
+        token_exchange_scope: Պահեստի շրջանակ
       storages/project_storage:
-        project_folder: Project folder
-        project_folder_mode: Project folder mode
-        storage: Storage
-        storage_url: Storage URL
+        project_folder: Նախագծի պանակ
+        project_folder_mode: Նախագծի պանակի ռեժիմ
+        storage: Պահեստ
+        storage_url: Պահեստի URL
       storages/sharepoint_storage:
-        host: Sharepoint Site URL
-        library: Library ID
-        name: Name
-        site: Site ID
+        host: Sharepoint կայքի URL
+        library: Գրադարանի ID
+        name: Անվանում
+        site: Կայքի ID
       storages/storage:
-        authentication_method: Authentication Method
-        creator: Creator
-        drive: Drive ID
-        file_link_origin: File link origin ID
-        host: Host
-        linkable_to_storage: Linkable to storage
-        linkable_to_storage_url: Linkable to storage URL
-        name: Name
-        password: Application password
-        provider_type: Provider type
-        storage: Storage
-        storage_url: Storage URL
-        tenant: Directory (tenant) ID
+        authentication_method: Նույնականացման եղանակ
+        creator: Ստեղծող
+        drive: Կրիչի ID
+        file_link_origin: Նիշքի հղման ծագման ID
+        host: Հոսթ
+        linkable_to_storage: Հղելի է պահեստին
+        linkable_to_storage_url: Հղելի է պահեստի URL-ին
+        name: Անվանում
+        password: Հավելվածի գաղտնաբառ
+        provider_type: Մատակարարի տեսակ
+        storage: Պահեստ
+        storage_url: Պահեստի URL
+        tenant: Գրացուցակի (tenant) ID
       work_package:
-        file_links: File links
+        file_links: Նիշքերի հղումներ
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
-        invalid_sharepoint_url: is not a valid SharePoint site, library, or document URL.
-        not_linked_to_project: is not linked to project.
+        invalid_host_url: վավեր URL չէ։
+        invalid_sharepoint_url: վավեր SharePoint կայքի, գրադարանի կամ փաստաթղթի URL չէ։
+        not_linked_to_project: կապակցված չէ նախագծին։
       models:
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: can only be numeric or uuid.
+              only_numeric_or_uuid: կարող է լինել միայն թվային կամ uuid։
         storages/project_storage:
           attributes:
             project_folder_id:
-              blank: Please select a folder.
+              blank: Խնդրում ենք ընտրել պանակ։
             project_folder_mode:
-              mode_unavailable: is not available for this storage.
+              mode_unavailable: հասանելի չէ այս պահեստի համար։
             project_ids:
-              blank: Please select a project.
+              blank: Խնդրում ենք ընտրել նախագիծ։
         storages/storage:
           attributes:
             host:
-              authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
-              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
-              minimal_nextcloud_version_unmet: does not meet minimal version requirements (must be Nextcloud 23 or higher)
-              not_nextcloud_server: is not a Nextcloud server
-              op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+              authorization_header_missing: ամբողջությամբ կարգավորված չէ։ Nextcloud համակարգը չի ստանում "Authorization" վերնագիրը, որն անհրաժեշտ է API հարցումների՝ Bearer թոքենի վրա հիմնված լիազորման համար։ Խնդրում ենք կրկնակի ստուգել Ձեր HTTP սերվերի կազմաձևումը։
+              cannot_be_connected_to: անհասանելի է։ Խնդրում ենք համոզվել, որ հոսթը հասանելի է և OpenProject-ի ինտեգրացիայի հավելվածը տեղադրված է։
+              minimal_nextcloud_version_unmet: չի բավարարում նվազագույն տարբերակի պահանջները (պետք է լինի Nextcloud 23 կամ ավելի բարձր)
+              not_nextcloud_server: Nextcloud սերվեր չէ
+              op_application_not_installed: ըստ երևույթին չունի տեղադրված "OpenProject integration" հավելվածը։ Խնդրում ենք նախ տեղադրել այն և ապա կրկին փորձել։
             password:
-              invalid_password: is not valid.
-              unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
+              invalid_password: վավեր չէ։
+              unknown_error: չհաջողվեց վավերացնել նիշքերի պահեստի մատակարարի մոտ։ Խնդրում ենք ստուգել, որ միացումը պատշաճ աշխատում է։
     models:
-      file_link: File
-      storages/storage: Storage
+      file_link: Նիշք
+      storages/storage: Պահեստ
   api_v3:
     errors:
-      too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  external_file_storages: External file storages
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
-  permission_header_for_project_module_storages: Automatically managed project folders
-  permission_manage_file_links: Manage file links
-  permission_manage_files_in_project: Manage files in project
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
-  permission_view_file_links: View file links
-  permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+      too_many_elements_created_at_once: Միանգամից ստեղծվել են չափազանց շատ տարրեր։ Ակնկալվում էր առավելագույնը %{max}, ստացվել է %{actual}։
+  external_file_storages: Արտաքին նիշքերի պահեստներ
+  permission_create_files: Ավտոմատ կառավարվող նախագծի պանակներ՝ Ստեղծել նիշքեր
+  permission_create_files_explanation: Այս թույլտվությունը հասանելի է միայն Nextcloud պահեստների համար
+  permission_delete_files: Ավտոմատ կառավարվող նախագծի պանակներ՝ Ջնջել նիշքեր
+  permission_delete_files_explanation: Այս թույլտվությունը հասանելի է միայն Nextcloud պահեստների համար
+  permission_header_for_project_module_storages: Ավտոմատ կառավարվող նախագծի պանակներ
+  permission_manage_file_links: Կառավարել նիշքերի հղումները
+  permission_manage_files_in_project: Կառավարել նիշքերը նախագծում
+  permission_read_files: Ավտոմատ կառավարվող նախագծի պանակներ՝ Ընթերցել նիշքեր
+  permission_share_files: Ավտոմատ կառավարվող նախագծի պանակներ՝ Համօգտագործել նիշքեր
+  permission_share_files_explanation: Այս թույլտվությունը հասանելի է միայն Nextcloud պահեստների համար
+  permission_view_file_links: Դիտել նիշքերի հղումները
+  permission_write_files: Ավտոմատ կառավարվող նախագծի պանակներ՝ Գրել նիշքեր
+  project_module_storages: Նիշքեր
   project_storages:
     edit_project_folder:
-      label: Edit project folder
+      label: Խմբագրել նախագծի պանակը
     open:
-      contact_admin: Please contact your administrator to resolve this error.
-      remote_identity_error: An unexpected error occurred while connecting to the storage.
+      contact_admin: Այս սխալը լուծելու համար խնդրում ենք դիմել Ձեր ադմինիստրատորին։
+      remote_identity_error: Պահեստին միանալիս անսպասելի սխալ է տեղի ունեցել։
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: No specific folder
-      manual: Existing folder manually managed
+      automatic: Ավտոմատ կառավարվող
+      inactive: Առանց կոնկրետ պանակի
+      manual: Առկա պանակ՝ ձեռքով կառավարվող
     remove_project:
-      deletion_failure_flash: Failed to remove the project from the storage. %{error}
-      label: Remove project
+      deletion_failure_flash: Չհաջողվեց հեռացնել նախագիծը պահեստից։ %{error}
+      label: Հեռացնել նախագիծը
   services:
     attributes:
       nextcloud_sync_service:
-        add_user_to_group: 'Add User to Group:'
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the team folder:'
-        remove_user_from_group: 'Remove User from Group:'
-        rename_project_folder: 'Rename managed project Folder:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        add_user_to_group: Օգտատիրոջ ավելացում խմբին՝
+        create_folder: Կառավարվող նախագծի պանակի ստեղծում՝
+        ensure_root_folder_permissions: Բազային պանակի թույլտվությունների սահմանում՝
+        hide_inactive_folders: Ոչ ակտիվ պանակների թաքցման քայլ՝
+        remote_folders: Թիմային պանակի բովանդակության ընթերցում՝
+        remove_user_from_group: Օգտատիրոջ հեռացում խմբից՝
+        rename_project_folder: Կառավարվող նախագծի պանակի վերանվանում՝
+        set_folder_permission: Կառավարվող նախագծի պանակի թույլտվությունների սահմանում՝
       one_drive_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the drive root folder:'
-        rename_project_folder: 'Rename managed project Folder:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        create_folder: Կառավարվող նախագծի պանակի ստեղծում՝
+        ensure_root_folder_permissions: Բազային պանակի թույլտվությունների սահմանում՝
+        hide_inactive_folders: Ոչ ակտիվ պանակների թաքցման քայլ՝
+        remote_folders: Կրիչի արմատային պանակի բովանդակության ընթերցում՝
+        rename_project_folder: Կառավարվող նախագծի պանակի վերանվանում՝
+        set_folder_permission: Կառավարվող նախագծի պանակի թույլտվությունների սահմանում՝
       sharepoint_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the drive root folder:'
-        rename_project_folder: 'Rename managed project Folder:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        create_folder: Կառավարվող նախագծի պանակի ստեղծում՝
+        ensure_root_folder_permissions: Բազային պանակի թույլտվությունների սահմանում՝
+        hide_inactive_folders: Ոչ ակտիվ պանակների թաքցման քայլ՝
+        remote_folders: Կրիչի արմատային պանակի բովանդակության ընթերցում՝
+        rename_project_folder: Կառավարվող նախագծի պանակի վերանվանում՝
+        set_folder_permission: Կառավարվող նախագծի պանակի թույլտվությունների սահմանում՝
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
-        forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Անսպասելի սխալ է տեղի ունեցել։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել OpenProject-ի մատյանները կամ դիմել ադմինիստրատորին
+        folder_id_collision: Մի քանի նախագծի պահեստներ փորձում են կառավարել %{folder} նախագծի պանակը։ Դրա համաժամացումը բաց է թողնվել։
+        forbidden: OpenProject-ը չկարողացավ մուտք գործել պահանջվող ռեսուրսը։ Խնդրում ենք ստուգել Ձեր թույլտվությունների կազմաձևումը պահեստի մատակարարի մոտ։
+        unauthorized: OpenProject-ը չկարողացավ նույնականացվել պահեստի մատակարարի մոտ։ Խնդրում ենք համոզվել, որ Դուք ունեք դրա հասանելիությունը։
       models:
         copy_project_folders_service:
-          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
-          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
-          not_found: The source template location %{source_path} wasn't found.
-          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+          conflict: "%{destination_path} պանակն արդեն գոյություն ունի։ Գործընթացն ընդհատվում է՝ վերագրանցումներից խուսափելու համար։"
+          error: Անսպասելի սխալ է տեղի ունեցել։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել OpenProject-ի մատյանները կամ դիմել ադմինիստրատորին
+          forbidden: OpenProject-ը չկարողացավ մուտք գործել ելակետային պանակը։ Խնդրում ենք ստուգել Ձեր թույլտվությունների կազմաձևումը պահեստի մատակարարի մոտ
+          not_found: "%{source_path} ձևանմուշի ելակետային տեղադրությունը չի գտնվել։"
+          unauthorized: OpenProject-ը չկարողացավ նույնականացվել պահեստի մատակարարի մոտ։ Խնդրում ենք ստուգել Ձեր պահեստի կազմաձևումը
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
-              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
-              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              conflict: "%{user} օգտատիրոջը չհաջողվեց ավելացնել %{group} խմբին հետևյալ պատճառով՝ %{reason}"
+              failed_to_add: "%{user} օգտատիրոջը չհաջողվեց ավելացնել %{group} խմբին հետևյալ պատճառով՝ %{reason}"
             create_folder:
-              conflict: The folder %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: "%{folder_name} պանակն արդեն գոյություն ունի %{parent_location}-ում։"
+              not_found: "%{parent_location}-ը չի գտնվել։"
             ensure_root_folder_permissions:
-              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Team Folder setup."
-              permission_not_set: could not set permissions on %{group_folder}.
+              not_found: "%{group_folder}-ը չի գտնվել։ Խնդրում ենք ստուգել Ձեր Nextcloud թիմային պանակի կազմաձևումը։"
+              permission_not_set: չհաջողվեց սահմանել թույլտվություններ %{group_folder}-ի վրա։
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: չհաջողվեց սահմանել թույլտվություններ %{path}-ի վրա։
             remote_folders:
-              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
-              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
+              not_allowed: "%{username}-ը չունի %{group_folder} պանակի հասանելիությունը։ Խնդրում ենք ստուգել պանակի թույլտվությունները Nextcloud-ում։"
+              not_found: "%{group_folder} պանակը չի գտնվել։ Խնդրում ենք ստուգել Ձեր Nextcloud-ի կարգավորումը։"
             remove_user_from_group:
-              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
-              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              conflict: "%{user} օգտատիրոջը չհաջողվեց հեռացնել %{group} խմբից հետևյալ պատճառով՝ %{reason}"
+              failed_to_remove: "%{user} օգտատիրոջը չհաջողվեց հեռացնել %{group} խմբից հետևյալ պատճառով՝ %{reason}"
             rename_project_folder:
-              conflict: OpenProject could not rename the project folder to %{current_path} as a folder with the same name already exists
-              forbidden: OpenProject user does not have access to %{current_path} folder.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject-ը չկարողացավ նախագծի պանակին տալ %{current_path} անվանումը, քանի որ նույն անունով պանակ արդեն գոյություն ունի
+              forbidden: OpenProject-ի օգտատերը չունի %{current_path} պանակի հասանելիությունը։
+              not_found: "%{current_path}-ը չի գտնվել։"
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that your Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
-          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
-          not_allowed: Nextcloud block the request.
-          not_found: OpenProject could not find the file on the Nextcloud Storage Provider. Please check if it wasn't deleted.
-          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: չհաջողվեց սահմանել թույլտվություններ %{path}-ի վրա։
+          error: Անսպասելի սխալ է տեղի ունեցել։ Խնդրում ենք համոզվել, որ Ձեր Nextcloud համակարգը հասանելի է, և լրացուցիչ տեղեկությունների համար ստուգել OpenProject-ի ֆոնային աշխատանքների մատյանները
+          group_does_not_exist: "%{group}-ը գոյություն չունի։ Ստուգեք Ձեր Nextcloud համակարգի կազմաձևումը։"
+          insufficient_privileges: OpenProject-ը չունի բավարար արտոնություններ՝ %{user}-ը %{group}-ին ավելացնելու համար։ Ստուգեք Ձեր խմբի կարգավորումները Nextcloud-ում։
+          not_allowed: Nextcloud-ն արգելափակել է հարցումը։
+          not_found: OpenProject-ը չկարողացավ գտնել նիշքը Nextcloud պահեստի մատակարարի մոտ։ Խնդրում ենք ստուգել՝ արդյոք այն չի ջնջվել։
+          unauthorized: OpenProject-ը չկարողացավ համաժամացվել Nextcloud-ի հետ։ Խնդրում ենք ստուգել Ձեր պահեստի և Nextcloud-ի կազմաձևումը։
+          user_does_not_exist: "%{user}-ը գոյություն չունի Nextcloud-ում։"
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: "%{folder_name}-ն արդեն գոյություն ունի %{parent_location}-ում։"
+              not_found: "%{parent_location}-ը չի գտնվել։"
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: չհաջողվեց սահմանել թույլտվություններ %{path}-ի վրա։
             remote_folders:
-              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+              request_error: OpenProject-ը չկարողացավ մուտք գործել Ձեր %{drive_id} կրիչը։ Խնդրում ենք ստուգել՝ արդյոք Ձեր պահեստի կազմաձևումը ճիշտ է։
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists.
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject-ը չկարողացավ %{current_path} պանակին տալ %{project_folder_name} անվանումը, քանի որ նույն անունով պանակ արդեն գոյություն ունի։
+              forbidden: OpenProject-ը չունի %{current_path}-ի հասանելիությունը՝ այն վերանվանելու համար։
+              not_found: "%{current_path}-ը չի գտնվել։"
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information.
-          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
-          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: չհաջողվեց սահմանել թույլտվություններ %{path}-ի վրա։
+          error: Անսպասելի սխալ է տեղի ունեցել։ Խնդրում ենք համոզվել, որ OneDrive-ը հասանելի է, և լրացուցիչ տեղեկությունների համար ստուգել OpenProject-ի ֆոնային աշխատանքների մատյանները։
+          not_allowed: OpenProject-ին թույլ չտրվեց մուտք գործել Ձեր OneDrive կրիչը։ Խնդրում ենք ստուգել Azure հավելվածում սահմանված թույլտվությունները։
+          unauthorized: OpenProject-ը չկարողացավ համաժամացվել OneDrive-ի հետ։ Խնդրում ենք ստուգել Ձեր պահեստի և Azure հավելվածի կազմաձևումը։
+          user_does_not_exist: "%{user}-ը գոյություն չունի Nextcloud-ում։"
         sharepoint_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: "%{folder_name}-ն արդեն գոյություն ունի %{parent_location}-ում։"
+              not_found: "%{parent_location}-ը չի գտնվել։"
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: չհաջողվեց սահմանել թույլտվություններ %{path}-ի վրա։
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject-ը չկարողացավ %{current_path} պանակին տալ %{project_folder_name} անվանումը, քանի որ նույն անունով պանակ արդեն գոյություն ունի
+              forbidden: OpenProject-ը չունի %{current_path}-ի հասանելիությունը՝ այն վերանվանելու համար։
+              not_found: "%{current_path}-ը չի գտնվել։"
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information
-          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
-          not_found: OpenProject could not access your library %{drive_name}. Please check you Sharepoint site document libraries.
-          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: չհաջողվեց սահմանել թույլտվություններ %{path}-ի վրա։
+          error: Անսպասելի սխալ է տեղի ունեցել։ Խնդրում ենք համոզվել, որ OneDrive-ը հասանելի է, և լրացուցիչ տեղեկությունների համար ստուգել OpenProject-ի ֆոնային աշխատանքների մատյանները
+          not_allowed: OpenProject-ին թույլ չտրվեց մուտք գործել Ձեր OneDrive կրիչը։ Խնդրում ենք ստուգել Azure հավելվածում սահմանված թույլտվությունները։
+          not_found: OpenProject-ը չկարողացավ մուտք գործել Ձեր %{drive_name} գրադարանը։ Խնդրում ենք ստուգել Ձեր Sharepoint կայքի փաստաթղթերի գրադարանները։
+          unauthorized: OpenProject-ը չկարողացավ համաժամացվել OneDrive-ի հետ։ Խնդրում ենք ստուգել Ձեր պահեստի և Azure հավելվածի կազմաձևումը։
+          user_does_not_exist: "%{user}-ը գոյություն չունի Nextcloud-ում։"
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: "%{folder} նպատակային պանակը չի գտնվել %{storage_name}-ում։"
   storages:
     admin:
       side_panel:
         health_notifications_component:
-          sync_now: Sync now
-          sync_queued: Synchronization queued.
+          sync_now: Համաժամացնել այժմ
+          sync_queued: Համաժամացումը հերթագրվել է։
     buttons:
-      done_continue: Done, continue
-      open_storage: Open file storage
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
-      save_and_continue: Save and continue
-      select_folder: Select folder
+      done_continue: Պատրաստ է, շարունակել
+      open_storage: Բացել նիշքերի պահեստը
+      replace_oauth_application: Փոխարինել OpenProject OAuth-ը
+      replace_oauth_client: Փոխարինել %{provider_type} OAuth-ը
+      save_and_continue: Պահպանել և շարունակել
+      select_folder: Ընտրել պանակը
     configuration_checks:
       oauth_client_incomplete:
-        nextcloud: Allow OpenProject to access Nextcloud data using OAuth.
-        one_drive: Allow OpenProject to access Azure data using OAuth to connect OneDrive.
-        sharepoint: Allow OpenProject to access SharePoint data using OAuth.
+        nextcloud: Թույլատրեք OpenProject-ին OAuth-ի միջոցով մուտք գործել Nextcloud-ի տվյալներին։
+        one_drive: Թույլատրեք OpenProject-ին OAuth-ի միջոցով մուտք գործել Azure-ի տվյալներին՝ OneDrive-ը միացնելու համար։
+        sharepoint: Թույլատրեք OpenProject-ին OAuth-ի միջոցով մուտք գործել SharePoint-ի տվյալներին։
       redirect_uri_incomplete:
-        one_drive: Complete the setup with the correct URI redirection.
-        sharepoint: Complete the setup with the correct URI redirection.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+        one_drive: Ավարտեք կարգավորումը՝ ճիշտ URI վերահղմամբ։
+        sharepoint: Ավարտեք կարգավորումը՝ ճիշտ URI վերահղմամբ։
+    confirm_replace_oauth_application: Այս գործողությունը կվերակայի ընթացիկ OAuth հավատարմագրերը։ Հաստատելուց հետո Դուք պետք է կրկին մուտքագրեք հավատարմագրերը պահեստի մատակարարի մոտ, և բոլոր հեռավոր օգտատերերը պետք է կրկին լիազորվեն OpenProject-ում։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
+    confirm_replace_oauth_client: Այս գործողությունը կվերակայի ընթացիկ OAuth հավատարմագրերը։ Հաստատելուց հետո Դուք պետք է մուտքագրեք պահեստի մատակարարից ստացված նոր հավատարմագրեր, իսկ բոլոր օգտատերերը պետք է կրկին անցնեն լիազորում %{provider_type}-ում։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
     delete_warning:
-      project_storage_delete_result_1: All links to corresponding files and folders will be removed
-      project_storage_delete_result_2: The automatically-managed project folder and all files in it will be deleted
-      project_storage_html: Are you sure you want to remove %{file_storage} from this project?
-      storage_delete_result_1: The storage will be removed from all projects currently using it
-      storage_delete_result_2: All links to corresponding files and folders will be removed
-      storage_delete_result_3: The automatically-managed project folder and all files in it will be deleted
-      storage_html: Are you sure you want to delete %{file_storage} as an external file storage?
+      project_storage_delete_result_1: Համապատասխան նիշքերին և պանակներին տանող բոլոր հղումները կհեռացվեն
+      project_storage_delete_result_2: Ավտոմատ կառավարվող նախագծի պանակը և դրանում առկա բոլոր նիշքերը կջնջվեն
+      project_storage_html: Համոզվա՞ծ եք, որ ցանկանում եք հեռացնել %{file_storage}-ն այս նախագծից։
+      storage_delete_result_1: Պահեստը կհեռացվի բոլոր այն նախագծերից, որոնք ներկայումս օգտագործում են այն
+      storage_delete_result_2: Համապատասխան նիշքերին և պանակներին տանող բոլոր հղումները կհեռացվեն
+      storage_delete_result_3: Ավտոմատ կառավարվող նախագծի պանակը և դրանում առկա բոլոր նիշքերը կջնջվեն
+      storage_html: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել %{file_storage}-ը որպես արտաքին նիշքերի պահեստ։
     dependencies:
       nextcloud:
         group_folders_app: Team Folders
         integration_app: Integration OpenProject
     enabled_in_projects:
-      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
-      setup_incomplete_header: Storage setup incomplete
-    error_invalid_provider_type: Please select a valid storage provider.
+      setup_incomplete_description: Այս պահեստի կարգավորումն ամբողջական չէ։ Խնդրում ենք ավարտել կարգավորումը՝ նախքան այն մի քանի նախագծում միացնելը։
+      setup_incomplete_header: Պահեստի կարգավորումն ամբողջական չէ
+    error_invalid_provider_type: Խնդրում ենք ընտրել վավեր պահեստի մատակարար։
     file_storage_view:
       access_management:
-        automatic_management: Enable automatically-managed access and folders
-        automatic_management_description: Each project will be able to decide, when a storage is added to it, whether they want the automatically-managed or the manual approach to folder and access management.
-        description: OpenProject can automatically create and manage project folders when a file storage is added to a project. This can result in a more organized folder structure and straightforward access management that guarantees access to all relevant users.
-        manual_management: Only allow manually-managed access and folders
-        manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Folder and access management
-      access_management_section: Access and project folders
-      automatically_managed_folders: Automatically managed folders
-      general_information: General information
-      oauth_configuration: OAuth configuration
+        automatic_management: Միացնել ավտոմատ կառավարվող հասանելիությունը և պանակները
+        automatic_management_description: Յուրաքանչյուր նախագիծ պահեստ ավելացնելիս կկարողանա որոշել՝ արդյոք ցանկանում է պանակների և հասանելիության կառավարման ավտոմատ, թե ձեռքով մոտեցումը։
+        description: OpenProject-ը կարող է ավտոմատ կերպով ստեղծել և կառավարել նախագծի պանակները, երբ նախագծին ավելացվում է նիշքերի պահեստ։ Դա կարող է հանգեցնել պանակների ավելի կազմակերպված կառուցվածքի և հասանելիության պարզ կառավարման, որը երաշխավորում է հասանելիություն բոլոր առնչվող օգտատերերին։
+        manual_management: Թույլատրել միայն ձեռքով կառավարվող հասանելիությունը և պանակները
+        manual_management_description: Այս պահեստն օգտագործող նախագծերին չի առաջարկվի ավտոմատ կառավարվող մոտեցման ընտրանքը։ Պանակները և հասանելիությունը պետք է կառավարվեն ձեռքով։
+        setup_incomplete: Ընտրեք օգտատերերի հասանելիության և պանակների ստեղծման կառավարման տեսակը։
+        subtitle: Պանակների և հասանելիության կառավարում
+      access_management_section: Հասանելիություն և նախագծի պանակներ
+      automatically_managed_folders: Ավտոմատ կառավարվող պանակներ
+      general_information: Ընդհանուր տեղեկություններ
+      oauth_configuration: OAuth կազմաձևում
       one_drive:
         access_management:
-          automatic_management: Enable automatically-managed access and folders
-          automatic_management_description: Each project using this file storage will necessarily have to use the automatically-managed approach to folder and access management. They cannot do it manually.
-          manual_management: Only allow manually-managed access and folders
-          manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
+          automatic_management: Միացնել ավտոմատ կառավարվող հասանելիությունը և պանակները
+          automatic_management_description: Այս նիշքերի պահեստն օգտագործող յուրաքանչյուր նախագիծ պարտադիր կերպով պետք է օգտագործի պանակների և հասանելիության կառավարման ավտոմատ կառավարվող մոտեցումը։ Դրանք հնարավոր չէ կառավարել ձեռքով։
+          manual_management: Թույլատրել միայն ձեռքով կառավարվող հասանելիությունը և պանակները
+          manual_management_description: Այս պահեստն օգտագործող նախագծերին չի առաջարկվի ավտոմատ կառավարվող մոտեցման ընտրանքը։ Պանակները և հասանելիությունը պետք է կառավարվեն ձեռքով։
       one_drive_oauth: Azure OAuth
       openproject_oauth: OpenProject OAuth
-      project_folders: Project folders
-      redirect_uri: Redirect URI
+      project_folders: Նախագծի պանակներ
+      redirect_uri: Վերահղման URI
       sharepoint_oauth: Azure OAuth
-      storage_audience_blank: No audience has been configured.
-      storage_audience_description: Exchanging tokens for audience "%{audience}".
-      storage_audience_idp: Using access token obtained by identity provider during login, regardless of audience.
-      storage_oauth: Storage OAuth
-      storage_provider: Storage provider
-      token_exchange: Token Exchange
+      storage_audience_blank: Հասցեատեր կազմաձևված չէ։
+      storage_audience_description: Թոքենների փոխանակում "%{audience}" հասցեատիրոջ համար։
+      storage_audience_idp: Օգտագործվում է մուտք գործելիս ինքնության մատակարարից ստացված մուտքի թոքենը՝ անկախ հասցեատիրոջից։
+      storage_oauth: Պահեստի OAuth
+      storage_provider: Պահեստի մատակարար
+      token_exchange: Թոքենների փոխանակում
     health:
       actions:
-        download_report: Download
-        rerun_checks: Re-run all checks
-        run_checks: Run checks now
-      checked: 'Last check: %{datetime}'
+        download_report: Ներբեռնել
+        rerun_checks: Կրկին գործարկել բոլոր ստուգումները
+        run_checks: Գործարկել ստուգումներն այժմ
+      checked: Վերջին ստուգումը՝ %{datetime}
       checks:
         ampf_configuration:
-          client_folder_creation: Automatic folder creation
-          client_folder_removal: Automatic folder deletion
-          drive_contents: Drive content
-          files_request: Fetching team folder files
-          header: Automatically managed project folders
-          project_folders_exist: Project folders exist
-          project_folders_linked: Project folders linked
-          team_folder_app: 'Dependency: Team Folders'
-          team_folder_contents: Team folder content
-          team_folder_presence: Team folder exists
-          userless_access: Server-side request authentication
+          client_folder_creation: Պանակների ավտոմատ ստեղծում
+          client_folder_removal: Պանակների ավտոմատ ջնջում
+          drive_contents: Սկավառակի բովանդակություն
+          files_request: Թիմային պանակի նիշքերի ստացում
+          header: Ավտոմատ կառավարվող նախագծի պանակներ
+          project_folders_exist: Նախագծի պանակները գոյություն ունեն
+          project_folders_linked: Նախագծի պանակները կապակցված են
+          team_folder_app: Կախվածություն՝ Team Folders
+          team_folder_contents: Թիմային պանակի բովանդակություն
+          team_folder_presence: Թիմային պանակը գոյություն ունի
+          userless_access: Սերվերի կողմից կատարվող հարցման նույնականացում
         authentication:
-          existing_token: User token
-          header: Authentication
-          non_provisioned_user: User provisioned by IDP
-          offline_access: Configured OIDC offline_access scope
-          provider_capabilities: Provider capabilities
-          provisioned_user_provider: User provisioned by OIDC
-          token_negotiable: User token capabilities
-          user_bound_request: User-based request authentication
+          existing_token: Օգտատիրոջ թոքեն
+          header: Նույնականացում
+          non_provisioned_user: IDP-ի կողմից ստեղծված օգտատեր
+          offline_access: Կազմաձևված OIDC offline_access շրջանակ
+          provider_capabilities: Մատակարարի հնարավորություններ
+          provisioned_user_provider: OIDC-ի կողմից ստեղծված օգտատեր
+          token_negotiable: Օգտատիրոջ թոքենի հնարավորություններ
+          user_bound_request: Օգտատիրոջ անունից կատարվող հարցման նույնականացում
         base_configuration:
-          capabilities_request: Remote file storage capabilities
-          client_id: Client ID
-          client_secret: Client secret
-          dependencies_check: Dependencies
-          dependencies_versions: Dependencies (version)
-          diagnostic_request: Diagnostic request
-          drive_id_exists: Drive exists
-          drive_id_format: Drive ID format
-          header: Configuration
-          host: Host URL
-          host_url_accessible: Host URL accessible
-          storage_configured: Configuration complete
+          capabilities_request: Հեռավոր նիշքերի պահեստի հնարավորություններ
+          client_id: Հաճախորդի ID
+          client_secret: Հաճախորդի գաղտնիք
+          dependencies_check: Կախվածություններ
+          dependencies_versions: Կախվածություններ (տարբերակ)
+          diagnostic_request: Ախտորոշիչ հարցում
+          drive_id_exists: Սկավառակը գոյություն ունի
+          drive_id_format: Drive ID-ի ձևաչափ
+          header: Կազմաձևում
+          host: Հոսթի URL
+          host_url_accessible: Հոսթի URL-ը հասանելի է
+          storage_configured: Կազմաձևումն ամբողջական է
           tenant_id: Tenant ID
         errors:
-          client_id_invalid: The configured OAuth 2 client id is invalid. Please check the configuration.
-          client_secret_invalid: The configured OAuth 2 client secret is invalid. Please check the configuration.
-          nc_dependency_missing: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
-          nc_dependency_version_mismatch: The %{dependency} app version is not supported. Please update your Nextcloud server.
-          nc_host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
-          nc_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
-          nc_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          nc_oauth_token_missing: OpenProject cannot test the user level communication with Nextcloud as the user did not yet link their Nextcloud account.
-          nc_project_folder_missing: The previously created project folder for project "%{project}" could not be found.
-          nc_team_folder_not_found: The team folder could not be found.
-          nc_unexpected_files: 'Unexpected files found in the managed team folder. For example: %{sample}'
-          nc_unlinked_project_folders: Not all project folders have been created yet (%{actual} / %{expected}). This can indicate errors during the AMPF background synchronization.
-          nc_userless_access_denied: The configured app password is invalid.
-          not_configured: The connection could not be validated. Please finish configuration first.
-          od_client_cant_delete_folder: The client is having trouble deleting folders. Please check the setup documentation for your storage.
-          od_client_write_permission_missing: The client seems to have write permissions missing. Please check the setup documentation for your storage.
-          od_drive_id_invalid: The configured drive id seems invalid. Please check the configuration.
-          od_drive_id_not_found: The configured drive id could not be found. Please check the configuration.
-          od_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
-          od_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          od_oauth_token_missing: OpenProject cannot test the user level communication with OneDrive as the user did not yet link their Microsoft account.
-          od_tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-          od_test_folder_exists: The folder %{folder_name} needed for testing already exists. Please delete it and try again.
-          od_unexpected_content: Unexpected content found in the drive.
-          offline_access_scope_missing: It is recommended to configure the OpenID Connect provider to request the offline_access scope. The integration may still work anyways, but make sure that refresh tokens do not expire.
-          oidc_cant_refresh_token: There was an error while trying to check your access to the storage. Please check the server logs for further information.
-          oidc_non_oidc_user: The current user, while provisioned, wasn't provisioned by an OpenID Connect (OIDC) Identity Provider. Please re-run the check with an OIDC provisioned user.
-          oidc_non_provisioned_user: The current user isn't provided by an OpenID Connect Identity Provider. Please re-run the check with a provided user.
-          oidc_provider_cant_exchange: The OpenID Connect provider does not seem to support token exchange, but token exchange was configured for the storage.
-          oidc_token_acquisition_failed: Your OpenID Connect setup doesn't provide the necessary audience, nor does it provide token exchange capabilities. Please check out our documentation for more information.
-          oidc_token_exchange_failed: There seems to be a problem with the Token Exchange setup on your OpenID Connect Provider. Please check its configuration and try again.
-          oidc_token_refresh_failed: There was an error while trying to check your access to the storage. Please check the server logs for further information.
-          sp_client_cant_delete_folder: The client is having trouble deleting folders in SharePoint. Please check the setup documentation for your storage.
-          sp_client_id_missing: The configured OAuth 2 client id is missing for SharePoint. Please check the configuration.
-          sp_client_secret_missing: The configured OAuth 2 client secret is missing for SharePoint. Please check the configuration.
-          sp_client_write_permission_missing: The client seems to have write permissions missing in SharePoint. Please check the setup documentation for your storage.
-          sp_existing_test_folder: The folder %{folder_name} needed for testing already exists in SharePoint. Please delete it and try again.
-          sp_oauth_request_error: The user-bound request to SharePoint failed. Please check the server logs for further information.
-          sp_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          sp_oauth_token_missing: OpenProject cannot test the user level communication with SharePoint as the user did not yet link their SharePoint account.
-          sp_tenant_id_missing: The configured directory (tenant) id is missing for SharePoint. Please check the configuration.
-          sp_unexpected_content: Unexpected content found in the SharePoint Document Library.
-          unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
-      label_error: Error
-      label_healthy: Healthy
-      label_pending: Pending
-      no_report: No report available
-      no_report_description: Run the checks now for a full health status report for this file storage.
-      open_report: Open full health report
+          client_id_invalid: Կազմաձևված OAuth 2 հաճախորդի ID-ն անվավեր է։ Խնդրում ենք ստուգել կազմաձևումը։
+          client_secret_invalid: Կազմաձևված OAuth 2 հաճախորդի գաղտնիքն անվավեր է։ Խնդրում ենք ստուգել կազմաձևումը։
+          nc_dependency_missing: Նիշքերի պահեստում բացակայում է պարտադիր կախվածություն։ Խնդրում ենք ավելացնել հետևյալ կախվածությունը՝ %{dependency}։
+          nc_dependency_version_mismatch: "%{dependency} հավելվածի տարբերակը չի աջակցվում։ Խնդրում ենք թարմացնել Ձեր Nextcloud սերվերը։"
+          nc_host_not_found: Կազմաձևված հոսթի URL-ով Nextcloud սերվեր չի գտնվել։ Խնդրում ենք ստուգել կազմաձևումը։
+          nc_oauth_request_not_found: Ընթացիկ միացված օգտատիրոջը ստանալու վերջնակետը չի գտնվել։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+          nc_oauth_request_unauthorized: Ընթացիկ օգտատերը լիազորված չէ մուտք գործել հեռավոր նիշքերի պահեստ։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+          nc_oauth_token_missing: OpenProject-ը չի կարող ստուգել Nextcloud-ի հետ օգտատիրոջ մակարդակի հաղորդակցությունը, քանի որ օգտատերը դեռ չի կապակցել իր Nextcloud հաշիվը։
+          nc_project_folder_missing: '"%{project}" նախագծի համար նախկինում ստեղծված պանակը չհաջողվեց գտնել։'
+          nc_team_folder_not_found: Թիմային պանակը չհաջողվեց գտնել։
+          nc_unexpected_files: Կառավարվող թիմային պանակում հայտնաբերվել են անսպասելի նիշքեր։ Օրինակ՝ %{sample}
+          nc_unlinked_project_folders: Դեռ ոչ բոլոր նախագծի պանակներն են ստեղծվել (%{actual} / %{expected})։ Սա կարող է վկայել AMPF ֆոնային համաժամացման ընթացքում սխալների մասին։
+          nc_userless_access_denied: Կազմաձևված հավելվածի գաղտնաբառն անվավեր է։
+          not_configured: Կապը չհաջողվեց վավերացնել։ Խնդրում ենք նախ ավարտել կազմաձևումը։
+          od_client_cant_delete_folder: Հաճախորդը դժվարանում է պանակներ ջնջել։ Խնդրում ենք ստուգել Ձեր պահեստի կարգավորման փաստաթղթերը։
+          od_client_write_permission_missing: Հաճախորդը, ըստ երևույթին, չունի գրառման թույլտվություններ։ Խնդրում ենք ստուգել Ձեր պահեստի կարգավորման փաստաթղթերը։
+          od_drive_id_invalid: Կազմաձևված Drive ID-ն անվավեր է թվում։ Խնդրում ենք ստուգել կազմաձևումը։
+          od_drive_id_not_found: Կազմաձևված Drive ID-ն չհաջողվեց գտնել։ Խնդրում ենք ստուգել կազմաձևումը։
+          od_oauth_request_not_found: Ընթացիկ միացված օգտատիրոջը ստանալու վերջնակետը չի գտնվել։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+          od_oauth_request_unauthorized: Ընթացիկ օգտատերը լիազորված չէ մուտք գործել հեռավոր նիշքերի պահեստ։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+          od_oauth_token_missing: OpenProject-ը չի կարող ստուգել OneDrive-ի հետ օգտատիրոջ մակարդակի հաղորդակցությունը, քանի որ օգտատերը դեռ չի կապակցել իր Microsoft հաշիվը։
+          od_tenant_id_wrong: Կազմաձևված Directory (tenant) ID-ն անվավեր է։ Խնդրում ենք ստուգել կազմաձևումը։
+          od_test_folder_exists: Փորձարկման համար անհրաժեշտ %{folder_name} պանակն արդեն գոյություն ունի։ Խնդրում ենք ջնջել այն և կրկին փորձել։
+          od_unexpected_content: Սկավառակում հայտնաբերվել է անսպասելի բովանդակություն։
+          offline_access_scope_missing: Խորհուրդ է տրվում կազմաձևել OpenID Connect մատակարարը՝ offline_access շրջանակը հարցելու համար։ Ինտեգրացիան, այնուամենայնիվ, կարող է աշխատել, սակայն համոզվեք, որ թարմացման թոքենների ժամկետը չի լրանում։
+          oidc_cant_refresh_token: Պահեստին Ձեր հասանելիությունը ստուգելիս սխալ առաջացավ։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+          oidc_non_oidc_user: Ընթացիկ օգտատերը ստեղծված է, սակայն ոչ OpenID Connect (OIDC) ինքնության մատակարարի կողմից։ Խնդրում ենք կրկին գործարկել ստուգումը OIDC-ի կողմից ստեղծված օգտատիրոջ միջոցով։
+          oidc_non_provisioned_user: Ընթացիկ օգտատերը ստեղծված չէ OpenID Connect ինքնության մատակարարի կողմից։ Խնդրում ենք կրկին գործարկել ստուգումը մատակարարի կողմից ստեղծված օգտատիրոջ միջոցով։
+          oidc_provider_cant_exchange: OpenID Connect մատակարարը, ըստ երևույթին, չի աջակցում թոքենների փոխանակմանը, սակայն պահեստի համար կազմաձևվել է թոքենների փոխանակում։
+          oidc_token_acquisition_failed: Ձեր OpenID Connect կարգավորումը չի տրամադրում անհրաժեշտ հասցեատերը, ինչպես նաև չունի թոքենների փոխանակման հնարավորություններ։ Լրացուցիչ տեղեկությունների համար խնդրում ենք դիտել մեր փաստաթղթերը։
+          oidc_token_exchange_failed: Ձեր OpenID Connect մատակարարում Թոքենների փոխանակման կարգավորման հետ կապված, ըստ երևույթին, խնդիր կա։ Խնդրում ենք ստուգել դրա կազմաձևումը և կրկին փորձել։
+          oidc_token_refresh_failed: Պահեստին Ձեր հասանելիությունը ստուգելիս սխալ առաջացավ։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+          sp_client_cant_delete_folder: Հաճախորդը դժվարանում է SharePoint-ում պանակներ ջնջել։ Խնդրում ենք ստուգել Ձեր պահեստի կարգավորման փաստաթղթերը։
+          sp_client_id_missing: SharePoint-ի համար կազմաձևված OAuth 2 հաճախորդի ID-ն բացակայում է։ Խնդրում ենք ստուգել կազմաձևումը։
+          sp_client_secret_missing: SharePoint-ի համար կազմաձևված OAuth 2 հաճախորդի գաղտնիքը բացակայում է։ Խնդրում ենք ստուգել կազմաձևումը։
+          sp_client_write_permission_missing: Հաճախորդը, ըստ երևույթին, SharePoint-ում չունի գրառման թույլտվություններ։ Խնդրում ենք ստուգել Ձեր պահեստի կարգավորման փաստաթղթերը։
+          sp_existing_test_folder: Փորձարկման համար անհրաժեշտ %{folder_name} պանակն արդեն գոյություն ունի SharePoint-ում։ Խնդրում ենք ջնջել այն և կրկին փորձել։
+          sp_oauth_request_error: Օգտատիրոջ անունից SharePoint-ին ուղղված հարցումը ձախողվեց։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+          sp_oauth_request_unauthorized: Ընթացիկ օգտատերը լիազորված չէ մուտք գործել հեռավոր նիշքերի պահեստ։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+          sp_oauth_token_missing: OpenProject-ը չի կարող ստուգել SharePoint-ի հետ օգտատիրոջ մակարդակի հաղորդակցությունը, քանի որ օգտատերը դեռ չի կապակցել իր SharePoint հաշիվը։
+          sp_tenant_id_missing: SharePoint-ի համար կազմաձևված Directory (tenant) ID-ն բացակայում է։ Խնդրում ենք ստուգել կազմաձևումը։
+          sp_unexpected_content: SharePoint-ի փաստաթղթերի գրադարանում հայտնաբերվել է անսպասելի բովանդակություն։
+          unknown_error: Կապը չհաջողվեց վավերացնել։ Անհայտ սխալ է տեղի ունեցել։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել սերվերի մատյանները։
+      label_error: Սխալ
+      label_healthy: Առողջ
+      label_pending: Սպասման մեջ
+      no_report: Հաշվետվություն հասանելի չէ
+      no_report_description: Գործարկեք ստուգումներն այժմ՝ այս նիշքերի պահեստի առողջության կարգավիճակի ամբողջական հաշվետվությունը ստանալու համար։
+      open_report: Բացել առողջության ամբողջական հաշվետվությունը
       project_folders:
-        subtitle: Automatically managed project folders
-      since: since %{datetime}
-      synced: 'Last sync: %{datetime}'
-      title: Health status report
+        subtitle: Ավտոմատ կառավարվող նախագծի պանակներ
+      since: "%{datetime}-ից սկսած"
+      synced: Վերջին համաժամացումը՝ %{datetime}
+      title: Առողջության կարգավիճակի հաշվետվություն
     health_email_notifications:
-      description_disabled: Admins will not receive updates by email when there are important updates.
-      description_enabled: Admins will receive updates by email when there are important updates.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      title: Email updates to admins
+      description_disabled: Կարևոր թարմացումների դեպքում ադմինիստրատորները էլ. փոստով թարմացումներ չեն ստանա։
+      description_enabled: Կարևոր թարմացումների դեպքում ադմինիստրատորները էլ. փոստով թարմացումներ կստանան։
+      error_could_not_be_saved: Էլ. փոստի ծանուցումների կարգավորումները չհաջողվեց պահպանել։ Խնդրում ենք կրկին փորձել։
+      title: Էլ. փոստով թարմացումներ ադմինիստրատորներին
     help_texts:
-      project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
-      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder: Նախագծի պանակն այս նախագծում նիշքերի վերբեռնման կանխադրված պանակն է։ Այնուամենայնիվ, օգտատերերը կարող են նիշքեր վերբեռնել նաև այլ տեղադրություններում։
+      project_folder_bulk: Նախագծի պանակն ընտրված բոլոր նախագծերի համար նիշքերի վերբեռնման կանխադրված պանակն է։ Դուք կարող եք դա փոփոխել առանձին՝ յուրաքանչյուր նախագծի կարգավորումներում։ Այնուամենայնիվ, օգտատերերը կարող են նիշքեր վերբեռնել նաև այլ տեղադրություններում։
     instructions:
-      all_available_storages_already_added: All available storages are already added to the project.
-      authentication_method: The way that requests between OpenProject and the Storage are authenticated.
-      automatic_folder: This will automatically create a root folder for this project and manage the access permissions for each project member.
-      empty_project_folder_validation: Selecting a folder is mandatory to proceed.
-      existing_manual_folder: You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
-      host: Please add the host address of your storage including the https://. It should not be longer than 255 characters.
-      managed_project_folders_application_password_caption: 'Enable automatic managed folders by copying this value from: %{provider_type_link}.'
-      name: Give your storage a name so that users can differentiate between multiple storages.
-      new_storage_html: Read our documentation on [setting up a %{provider_name} file storage](docs_url) integration for more information.
+      all_available_storages_already_added: Բոլոր հասանելի պահեստներն արդեն ավելացված են նախագծին։
+      authentication_method: Այն եղանակը, որով նույնականացվում են OpenProject-ի և պահեստի միջև հարցումները։
+      automatic_folder: Սա ավտոմատ կերպով կստեղծի արմատային պանակ այս նախագծի համար և կկառավարի նախագծի յուրաքանչյուր անդամի մուտքի թույլտվությունները։
+      empty_project_folder_validation: Շարունակելու համար պանակի ընտրությունը պարտադիր է։
+      existing_manual_folder: Դուք կարող եք առկա պանակը նշանակել որպես այս նախագծի արմատային պանակ։ Սակայն թույլտվությունները չեն կառավարվում ավտոմատ կերպով, և ադմինիստրատորը պետք է ձեռքով ապահովի, որ համապատասխան օգտատերերն ունենան հասանելիություն։ Ընտրված պանակը կարող է օգտագործվել մի քանի նախագծի կողմից։
+      host: Խնդրում ենք ավելացնել Ձեր պահեստի հոսթի հասցեն՝ ներառյալ https://։ Այն չպետք է լինի 255 նշանից երկար։
+      managed_project_folders_application_password_caption: Ավտոմատ կառավարվող պանակները միացնելու համար պատճենեք այս արժեքը հետևյալից՝ %{provider_type_link}։
+      name: Տվեք Ձեր պահեստին անվանում, որպեսզի օգտատերերը կարողանան տարբերել մի քանի պահեստ միմյանցից։
+      new_storage_html: Լրացուցիչ տեղեկությունների համար կարդացեք մեր փաստաթղթերը [%{provider_name} նիշքերի պահեստի ինտեգրացիայի կարգավորման](docs_url) վերաբերյալ։
       nextcloud:
-        application_link_text: application “Integration OpenProject”
-        integration: Nextcloud Administration / OpenProject
-        oauth_configuration: Copy these values from %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
-        storage_audience: The client ID that the Nextcloud instance uses to communicate with the identity provider.
-        storage_audience_placeholder: e.g. nextcloud
-        token_exchange_scope: The scopes that should be requested during token exchange, each one separated by a space.
-      no_specific_folder: By default, each user will start at their own home folder when they upload a file.
-      no_storage_set_up: There are no file storages set up yet.
-      not_logged_into_storage: To select a project folder, please first login
-      oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
+        application_link_text: "“Integration OpenProject” հավելվածը"
+        integration: Nextcloud-ի ադմինիստրավորում / OpenProject
+        oauth_configuration: Պատճենեք այս արժեքները հետևյալից՝ %{application_link_text}։
+        provider_configuration: Խնդրում ենք նախքան կարգավորումը համոզվել, որ Ձեր Nextcloud համակարգում ունեք ադմինիստրատորի արտոնություններ և տեղակայված է %{application_link_text}։
+        storage_audience: Հաճախորդի ID-ն, որը Nextcloud համակարգն օգտագործում է ինքնության մատակարարի հետ հաղորդակցվելու համար։
+        storage_audience_placeholder: օրինակ՝ nextcloud
+        token_exchange_scope: Շրջանակները, որոնք պետք է պահանջվեն թոքենի փոխանակման ընթացքում՝ յուրաքանչյուրը բաժանված բացատով։
+      no_specific_folder: Ըստ կանխադրման՝ նիշք վերբեռնելիս յուրաքանչյուր օգտատեր կսկսի իր տնային պանակից։
+      no_storage_set_up: Դեռ կարգավորված նիշքերի պահեստներ չկան։
+      not_logged_into_storage: Նախագծի պանակ ընտրելու համար խնդրում ենք նախ մտնել
+      oauth_application_details_html: Հաճախորդի գաղտնիքի արժեքն այլևս հասանելի չի լինի այս պատուհանը փակելուց հետո։ Խնդրում ենք պատճենել այս արժեքները [Nextcloud OpenProject Integration-ի կարգավորումներում](oauth_application_details_link)։
       one_drive:
         application_link_text: Azure portal
-        copy_redirect_uri: Copy redirect URI
-        documentation_link_text: OneDrive file storages documentation
-        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        copy_redirect_uri: Պատճենել վերահղման URI-ը
+        documentation_link_text: OneDrive-ի նիշքերի պահեստների փաստաթղթեր
+        drive_id: Խնդրում ենք պատճենել ID-ն ցանկալի կրիչից՝ հետևելով %{drive_id_link_text}-ում նշված քայլերին։
         integration: OneDrive
-        missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
-        oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
-        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
-        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-        tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
-        tenant_id_placeholder: Name or UUID
-      setting_up_additional_storages: For setting up additional file storages, please visit
-      setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File storages.
-      setting_up_storages: For setting up file storages, please visit
-      setting_up_storages_non_admin: Administrators can set up file storages in Administration / File storages.
+        missing_client_id_for_redirect_uri: Խնդրում ենք լրացնել OAuth արժեքները՝ URI ստեղծելու համար
+        oauth_client_redirect_uri: Խնդրում ենք պատճենել այս արժեքը Redirect URIs բաժնի նոր Web redirect URI դաշտում։
+        oauth_client_secret: Եթե Client credentials բաժնում հավելվածի client secret չկա, խնդրում ենք ստեղծել նորը։
+        oauth_configuration: Պատճենեք այս արժեքները ցանկալի հավելվածից՝ %{application_link_text}։
+        provider_configuration: Խնդրում ենք նախքան կարգավորումը համոզվել, որ ադմինիստրատորի արտոնություններ ունեք հետևյալում՝ %{application_link_text}, կամ դիմել Ձեր Microsoft ադմինիստրատորին։ Պորտալում անհրաժեշտ է նաև գրանցել Azure հավելված կամ նույնականացման համար օգտագործել առկա հավելվածը։
+        tenant_id: Խնդրում ենք պատճենել Directory (tenant) ID-ն ցանկալի հավելվածից և App registrations բաժնից՝ %{application_link_text}-ում։
+        tenant_id_placeholder: Անվանում կամ UUID
+      setting_up_additional_storages: Լրացուցիչ նիշքերի պահեստներ կարգավորելու համար խնդրում ենք այցելել
+      setting_up_additional_storages_non_admin: Ադմինիստրատորները կարող են լրացուցիչ նիշքերի պահեստներ կարգավորել Ադմինիստրավորում / Նիշքերի պահեստներ բաժնում։
+      setting_up_storages: Նիշքերի պահեստներ կարգավորելու համար խնդրում ենք այցելել
+      setting_up_storages_non_admin: Ադմինիստրատորները կարող են նիշքերի պահեստներ կարգավորել Ադմինիստրավորում / Նիշքերի պահեստներ բաժնում։
       sharepoint:
-        application_link_text: SharePoint site
-        integration: SharePoint Administration / OpenProject
-        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-      type: 'Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:'
+        application_link_text: SharePoint կայք
+        integration: SharePoint-ի ադմինիստրավորում / OpenProject
+        oauth_configuration: Պատճենեք այս արժեքները ցանկալի հավելվածից՝ %{application_link_text}։
+        provider_configuration: Խնդրում ենք նախքան կարգավորումը համոզվել, որ ադմինիստրատորի արտոնություններ ունեք հետևյալում՝ %{application_link_text}, կամ դիմել Ձեր Microsoft ադմինիստրատորին։ Պորտալում անհրաժեշտ է նաև գրանցել Azure հավելված կամ նույնականացման համար օգտագործել առկա հավելվածը։
+      type: Խնդրում ենք նախքան կարգավորումը համոզվել, որ Ձեր Nextcloud համակարգում ունեք ադմինիստրատորի արտոնություններ և տեղակայված է հետևյալ հավելվածը՝
       type_link_text: "“Integration OpenProject”"
-    label_active: Active
-    label_add_new_storage: Add new storage
-    label_automatic_folder: New folder with automatically managed permissions
-    label_creation_time: Creation time
-    label_creator: Creator
-    label_delete_storage: Delete storage
-    label_edit_storage_access_management: Edit storage access management
-    label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
-    label_edit_storage_host: Edit storage host
-    label_edit_token_exchange: Edit token exchange configuration
-    label_existing_manual_folder: Existing folder with manually managed permissions
-    label_file_storage: File storage
-    label_host: Host URL
-    label_inactive: Inactive
+    label_active: Ակտիվ
+    label_add_new_storage: Ավելացնել նոր պահեստ
+    label_automatic_folder: Նոր պանակ՝ ավտոմատ կառավարվող թույլտվություններով
+    label_creation_time: Ստեղծման ժամանակ
+    label_creator: Ստեղծող
+    label_delete_storage: Ջնջել պահեստը
+    label_edit_storage_access_management: Խմբագրել պահեստի հասանելիության կառավարումը
+    label_edit_storage_automatically_managed_folders: Խմբագրել պահեստի ավտոմատ կառավարվող պանակները
+    label_edit_storage_host: Խմբագրել պահեստի հոսթը
+    label_edit_token_exchange: Խմբագրել թոքենների փոխանակման կազմաձևումը
+    label_existing_manual_folder: Առկա պանակ՝ ձեռքով կառավարվող թույլտվություններով
+    label_file_storage: Նիշքերի պահեստ
+    label_host: Հոսթի URL
+    label_inactive: Ոչ ակտիվ
     label_managed_project_folders:
-      application_password: Application password
-      automatically_managed_folders: Automatically managed folders
-    label_name: Name
-    label_new_file_storage: New %{provider} storage
-    label_new_storage: New storage
-    label_no_selected_folder: No selected folder
-    label_no_specific_folder: No specific folder
-    label_oauth_client_id: OAuth Client ID
-    label_openproject_oauth_application_id: OpenProject OAuth Client ID
-    label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
-    label_project_folder: Project folder
-    label_provider: Provider
-    label_redirect_uri: Redirect URI
-    label_show_storage_redirect_uri: Show redirect URI
-    label_status: Status
-    label_storage: Storage
+      application_password: Հավելվածի գաղտնաբառ
+      automatically_managed_folders: Ավտոմատ կառավարվող պանակներ
+    label_name: Անվանում
+    label_new_file_storage: Նոր %{provider} պահեստ
+    label_new_storage: Նոր պահեստ
+    label_no_selected_folder: Ընտրված պանակ չկա
+    label_no_specific_folder: Առանց կոնկրետ պանակի
+    label_oauth_client_id: OAuth հաճախորդի ID
+    label_openproject_oauth_application_id: OpenProject OAuth հաճախորդի ID
+    label_openproject_oauth_application_secret: OpenProject OAuth հաճախորդի գաղտնիք
+    label_project_folder: Նախագծի պանակ
+    label_provider: Մատակարար
+    label_redirect_uri: Վերահղման URI
+    label_show_storage_redirect_uri: Ցուցադրել վերահղման URI-ն
+    label_status: Կարգավիճակ
+    label_storage: Պահեստ
     label_uri: URI
     member_connection_status:
-      connected: Connected
-      connected_no_permissions: User role has no storages permissions
-      not_connectable: Not connectable. The storage requires login through an SSO provider, but the user is not logging in through SSO.
-      not_connected: Not connected. The user should login to the storage via the following %{link}.
-      not_connected_sso: Not yet connected, SSO should automatically connect them, once looking at files.
-    members_no_results: No members to display.
-    no_results: No storages set up yet.
+      connected: Միացված է
+      connected_no_permissions: Օգտատիրոջ դերը չունի պահեստների թույլտվություններ
+      not_connectable: Միացումը հնարավոր չէ։ Պահեստը պահանջում է մուտք գործել SSO մատակարարի միջոցով, սակայն օգտատերը չի մտնում SSO-ի միջոցով։
+      not_connected: Միացված չէ։ Օգտատերը պետք է մտնի պահեստ հետևյալի միջոցով՝ %{link}։
+      not_connected_sso: Դեռ միացված չէ, SSO-ն ավտոմատ կերպով կմիացնի նրան, երբ նա դիտի նիշքերը։
+    members_no_results: Ցուցադրելու անդամներ չկան։
+    no_results: Դեռ պահեստներ կարգավորված չեն։
     oauth_access_granted_modal:
-      access_granted: Access granted
+      access_granted: Հասանելիությունը տրված է
       project_settings:
-        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
-        storage_ready: You are now ready to use %{storage}
+        access_granted_screen_reader: Հասանելիությունը տրված է։ Այժմ կարող եք օգտագործել %{storage}-ը
+        storage_ready: Այժմ կարող եք օգտագործել %{storage}-ը
       storage_admin:
-        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
-        storage_ready: You are now ready to add projects to %{storage}
+        access_granted_screen_reader: Հասանելիությունը տրված է։ Այժմ կարող եք նախագծեր ավելացնել %{storage}-ում
+        storage_ready: Այժմ կարող եք նախագծեր ավելացնել %{storage}-ում
     oauth_grant_nudge_modal:
-      cancel_button_label: I will do it later
-      heading: Login to %{provider_type} required
-      login_button_aria_label: Login to %{storage}
-      login_button_label: "%{provider_type} log in"
+      cancel_button_label: Կանեմ ավելի ուշ
+      heading: Պահանջվում է մուտք %{provider_type}-ում
+      login_button_aria_label: Մտնել %{storage}-ում
+      login_button_label: Մուտք %{provider_type}-ում
       project_settings:
-        description: To get access to the project folder you need to login to %{storage}.
-      requesting_access_to: Requesting access to %{storage}
+        description: Նախագծի պանակին հասանելիություն ստանալու համար անհրաժեշտ է մտնել %{storage}-ում։
+      requesting_access_to: "%{storage}-ին հասանելիություն է հայցվում"
       storage_admin:
-        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
+        description: Այս պահեստին նախագծեր ավելացնելու համար անհրաժեշտ է մուտք գործած լինել %{provider_type}-ում։ Խնդրում ենք մտնել և կրկին փորձել։
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: Դուք վերահղվում եք
+        title: Ինտեգրացիայի կարգավորումն ավարտված է
       timeout:
-        link_text: health status of the file storage setup
-        subtitle: OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check %{storages_health_link}.
+        link_text: նիշքերի պահեստի կարգավորման առողջական վիճակ
+        subtitle: OpenProject-ը չկարողացավ Ձեզ տրամադրել նախագծի պանակի հասանելիությունը սպասվող ժամանակահատվածում։ Խնդրում ենք կրկին փորձել։<br><br> Եթե խնդիրը շարունակվի, խնդրում ենք դիմել Ձեր OpenProject-ի ադմինիստրատորին՝ ստուգելու համար %{storages_health_link}։
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: Խնդրում ենք սպասել, սա կարող է որոշ ժամանակ տևել...
+        title: Մենք կարգավորում ենք նախագծի պանակի Ձեր թույլտվությունները։
     page_titles:
       file_storages:
-        delete: Delete file storage?
-        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+        delete: Ջնջե՞լ նիշքերի պահեստը։
+        subtitle: Ավելացրեք արտաքին նիշքերի պահեստ՝ աշխատանքային փաթեթներում նիշքեր վերբեռնելու, հղելու և կառավարելու համար։
       managed_project_folders:
         subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
-        subtitle_short: Let OpenProject create folders per project automatically.
-        title: Automatically managed project folders
+          Թույլ տվեք OpenProject-ին ավտոմատ կերպով ստեղծել պանակներ յուրաքանչյուր նախագծի համար։ Խորհուրդ է տրվում, քանի որ դա ապահովում է, որ թիմի յուրաքանչյուր
+          անդամ միշտ ունենա մուտքի ճիշտ թույլտվություններ։
+        subtitle_short: Թույլ տվեք OpenProject-ին ավտոմատ կերպով ստեղծել պանակներ յուրաքանչյուր նախագծի համար։
+        title: Ավտոմատ կառավարվող նախագծի պանակներ
       project_settings:
-        edit: Edit the file storage to this project
-        members_connection_status: Members connection status
-        new: Add a file storage to this project
+        edit: Խմբագրել այս նախագծի նիշքերի պահեստը
+        members_connection_status: Անդամների միացման կարգավիճակ
+        new: Ավելացնել նիշքերի պահեստ այս նախագծին
       project_storage_members:
-        subtitle_html: Check the connection status for the storage %{storage_name_link} of all project members.
-        title: Members connection status
+        subtitle_html: Ստուգեք %{storage_name_link} պահեստի միացման կարգավիճակը նախագծի բոլոր անդամների համար։
+        title: Անդամների միացման կարգավիճակ
       project_storages:
-        delete: Remove file storage from project?
-    permission_header_explanation: File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>file storage permissions</a> for more information.
+        delete: Հեռացնե՞լ նիշքերի պահեստը նախագծից։
+    permission_header_explanation: Արտաքին պահեստներում նիշքերի թույլտվությունները կիրառվում են միայն ավտոմատ կառավարվող նախագծի պանակների ներսում գտնվող պանակների և նիշքերի նկատմամբ։ Նկատի ունեցեք, որ ոչ բոլոր նիշքային թույլտվություններն են աջակցվում բոլոր պահեստի մատակարարների կողմից։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ծանոթանալ <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>նիշքերի պահեստի թույլտվությունների</a> վերաբերյալ փաստաթղթերին։
     provider_types:
-      label: Provider type
+      label: Մատակարարի տեսակ
       nextcloud:
-        label_oauth_client_id: Nextcloud OAuth Client ID
-        label_oauth_client_secret: Nextcloud OAuth Client Secret
+        label_oauth_client_id: Nextcloud OAuth հաճախորդի ID
+        label_oauth_client_secret: Nextcloud OAuth հաճախորդի գաղտնիք
         name: Nextcloud
-        name_placeholder: e.g. Nextcloud
+        name_placeholder: օրինակ՝ Nextcloud
       one_drive:
-        label_oauth_client_id: Azure OAuth Application (client) ID
-        label_oauth_client_secret: Azure OAuth Client Secret Value
+        label_oauth_client_id: Azure OAuth հավելվածի (հաճախորդի) ID
+        label_oauth_client_secret: Azure OAuth հաճախորդի գաղտնիքի արժեք
         name: OneDrive
-        name_placeholder: e.g. OneDrive
+        name_placeholder: օրինակ՝ OneDrive
       sharepoint:
-        drive_description: OpenProject access-managed document library
-        label_oauth_client_id: Azure OAuth Application (client) ID
-        label_oauth_client_secret: Azure OAuth Client Secret Value
+        drive_description: OpenProject-ի կողմից կառավարվող հասանելիությամբ փաստաթղթերի գրադարան
+        label_oauth_client_id: Azure OAuth հավելվածի (հաճախորդի) ID
+        label_oauth_client_secret: Azure OAuth հաճախորդի գաղտնիքի արժեք
         name: SharePoint
-        name_placeholder: e.g. SharePoint
+        name_placeholder: օրինակ՝ SharePoint
     show_attachments_toggle:
-      description: Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
-      label: Show attachments in the work packages files tab
+      description: Այս ընտրանքի անջատումը կթաքցնի կցորդների ցուցակն աշխատանքային փաթեթների նիշքերի ներդիրում։ Աշխատանքային փաթեթի նկարագրությանը կցված նիշքերը կշարունակեն վերբեռնվել ներքին կցորդների պահեստում։
+      label: Ցուցադրել կցորդները աշխատանքային փաթեթների նիշքերի ներդիրում
     storage_audience:
-      documentation_intro: Please read our documentation for details on the following options and configuration of the identity provider.
+      documentation_intro: Խնդրում ենք կարդալ մեր փաստաթղթերը՝ հետևյալ ընտրանքների և ինքնության մատակարարի կազմաձևման մանրամասների համար։
       idp:
-        helptext: OpenProject will use the access token received by the identity provider during log in to authenticate requests to the storage. It will not try to obtain another token.
-        label: Use access token obtained during user log in
+        helptext: OpenProject-ը կօգտագործի մուտքի ժամանակ ինքնության մատակարարից ստացված մուտքի թոքենը՝ պահեստին ուղղված հարցումները նույնականացնելու համար։ Այն չի փորձի ստանալ այլ թոքեն։
+        label: Օգտագործել օգտատիրոջ մուտքի ժամանակ ստացված մուտքի թոքենը
       manual:
-        helptext: OpenProject will exchange a token with the identity provider for the given audience.
-        label: Manually specify audience for which to exchange access token (Recommended)
+        helptext: OpenProject-ն ինքնության մատակարարի հետ կփոխանակի թոքեն տվյալ audience-ի համար։
+        label: Ձեռքով նշել audience-ը, որի համար պետք է փոխանակվի մուտքի թոքենը (Խորհուրդ է տրվում)
     storage_list_blank_slate:
-      description: Add a storage to see them here.
-      heading: You don't have any storages yet.
-    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
+      description: Ավելացրեք պահեստ՝ դրանք այստեղ տեսնելու համար։
+      heading: Դուք դեռ չունեք որևէ պահեստ։
+    successful_storage_connection: Պահեստը հաջողությամբ միացվել է։ Հիշեք ակտիվացնել պահեստը Նախագծեր ներդիրում՝ յուրաքանչյուր ցանկալի նախագծի համար այն օգտագործելու համար։
     upsell:
       one_drive:
         description: |-
-          Integrate your OneDrive drive as a file storage with OpenProject. Upload files and link them directly to
-          work packages in a project.
-        title: OneDrive integration
+          Ինտեգրեք Ձեր OneDrive կրիչը OpenProject-ի հետ որպես նիշքերի պահեստ։ Վերբեռնեք նիշքեր և ուղղակիորեն հղեք դրանք
+          նախագծի աշխատանքային փաթեթներին։
+        title: OneDrive-ի ինտեգրացիա
       sharepoint:
         description: |-
-          Integrate your SharePoint site as a file storage with OpenProject. Upload files and link them directly to
-          work packages in a project.
-        title: SharePoint integration
+          Ինտեգրեք Ձեր SharePoint կայքը OpenProject-ի հետ որպես նիշքերի պահեստ։ Վերբեռնեք նիշքեր և ուղղակիորեն հղեք դրանք
+          նախագծի աշխատանքային փաթեթներին։
+        title: SharePoint-ի ինտեգրացիա

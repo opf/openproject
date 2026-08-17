@@ -60,7 +60,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
   end
 
   describe "GET /api/v3/work_packages/:id/wiki_page_links" do
-    let(:path) { api_v3_paths.work_package_page_links(work_package.id) }
+    let(:path) { api_v3_paths.work_package_wiki_page_links(work_package.id) }
 
     context "with all preconditions met (happy path)" do
       before { get path }
@@ -79,6 +79,75 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
 
       it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
         let(:elements) { Wikis::PageLink.where(linkable: work_package, provider: internal_wiki).order(id: :desc).all }
+      end
+    end
+  end
+
+  describe "POST /api/v3/work_packages/:id/wiki_page_links" do
+    let(:user) { create(:user, member_with_permissions: { project => %i(view_work_packages manage_wiki_page_links) }) }
+
+    let(:path) { api_v3_paths.work_package_wiki_page_links(work_package.id) }
+    let(:author) { create(:user, member_with_permissions: { project => %i(view_work_packages) }) }
+
+    let(:params) do
+      { _type: "Collection", _embedded: { elements: embedded_elements } }
+    end
+
+    let(:external_wiki_element) do
+      {
+        identifier: "/wiki/path/to/kiwi",
+        wiki_page_link_type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
+        author: { href: api_v3_paths.user(author.id) },
+        provider: { href: api_v3_paths.wiki_provider(xwiki_provider.universal_identifier) }
+      }
+    end
+
+    let(:other_work_package) { create(:work_package, project:) }
+    let(:internal_wiki_element) do
+      {
+        identifier: "/wiki/anotherWiki/Waka/Waka",
+        wiki_page_link_type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
+        author: { href: api_v3_paths.user(author.id) },
+        provider: { href: api_v3_paths.wiki_provider(internal_wiki.universal_identifier) }
+      }
+    end
+
+    let(:embedded_elements) { [external_wiki_element, internal_wiki_element] }
+
+    let(:response_body) { last_response.body }
+
+    before do
+      post path, params.to_json
+    end
+
+    context "when all embedded elements are valid" do
+      it_behaves_like "API V3 collection response", 2, 2, "WikiPageLink", "WikiPageLinkCollection" do
+        let(:elements) { Wikis::PageLink.order(created_at: :asc).last(2) }
+        let(:expected_status_code) { 201 }
+      end
+    end
+
+    context "when some embedded elements are invalid" do
+      let(:embedded_elements) do
+        [
+          internal_wiki_element,
+          { identifier: "/wiki/path/to/invalid_page",
+            provider: { href: "/api/v3/wiki_providers/-100" },
+            author: { href: api_v3_paths.user(user.id) } }
+        ]
+      end
+
+      it "does not create any records" do
+        expect(last_response).to have_http_status(422)
+
+        page_link = Wikis::PageLink.where(identifier: [internal_wiki_element["identifier"], "/wiki/path/to/invalid_page"])
+        expect(page_link).to be_empty
+      end
+
+      it "contains the error" do
+        json = MultiJson.load(response_body)
+
+        expect(json["message"]).to match("Wiki Provider does not exist")
       end
     end
   end
@@ -127,7 +196,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       end
 
       it "only returns the filtered type" do
-        json = MultiJson.load(last_response.body, symbolize_keys: true)
+        json = MultiJSON.load(last_response.body, symbolize_keys: true)
 
         expect(json.dig(:_embedded, :elements))
           .to all(include(wikiPageLinkType: API::V3::PageLinks::URN_PAGE_LINK_TYPE["Wikis::RelationPageLink"]))
@@ -143,8 +212,18 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
         get "#{path}?filters=#{CGI.escape(filter.to_json)}"
       end
 
-      it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
-        let(:elements) { Wikis::PageLink.where(identifier: "shared_identifier").order(id: :desc).all }
+      context "when a link with the requested identifier exists" do
+        it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
+          let(:elements) { Wikis::PageLink.where(identifier: "shared_identifier").order(id: :desc).all }
+        end
+      end
+
+      context "when a page link with the requested identifier does not exist" do
+        let(:filter) { [{ identifier: { operator: "=", values: "non_existent_identifier" } }] }
+
+        it_behaves_like "API V3 collection response", 0, 0, "WikiPageLink", "WikiPageLinkCollection" do
+          let(:elements) { [] }
+        end
       end
     end
   end
@@ -162,7 +241,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     let(:external_wiki_element) do
       {
         identifier: "/wiki/path/to/kiwi",
-        type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
+        wiki_page_link_type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
         author: { href: api_v3_paths.user(author.id) },
         linkable: { href: api_v3_paths.work_package(work_package.id) },
         provider: { href: api_v3_paths.wiki_provider(xwiki_provider.universal_identifier) }
@@ -173,7 +252,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     let(:internal_wiki_element) do
       {
         identifier: "/wiki/anotherWiki/Waka/Waka",
-        type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
+        wiki_page_link_type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
         author: { href: api_v3_paths.user(author.id) },
         linkable: { href: api_v3_paths.work_package(other_work_package.id) },
         provider: { href: api_v3_paths.wiki_provider(internal_wiki.universal_identifier) }
@@ -214,9 +293,9 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       end
 
       it "contains the error" do
-        json = MultiJson.load(response_body)
+        json = MultiJSON.load(response_body)
 
-        expect(json["message"]).to match(/Wiki Provider does not exist/)
+        expect(json["message"]).to match("Wiki Provider does not exist")
       end
     end
 

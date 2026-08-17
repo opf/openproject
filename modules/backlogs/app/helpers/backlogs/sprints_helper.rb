@@ -32,16 +32,20 @@ module Backlogs
   module SprintsHelper
     # Returns the appropriate path for a sprint based on its status, or nil if no link applies.
     def href_for_sprint(sprint, project)
-      if sprint.active? && (board = sprint.task_board_for(project))
-        project_work_package_board_path(project, board)
+      if sprint.active? && sprint_board.present?
+        project_backlogs_sprint_taskboard_path(project, sprint)
       elsif sprint.in_planning?
-        project_backlogs_backlog_path(project)
+        project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
       elsif sprint.completed?
         sprint_work_packages_path(sprint, project)
       end
     end
 
     private
+
+    def sprint_board
+      @sprint_board ||= sprint.task_board_for(project)
+    end
 
     def sprint_work_packages_path(sprint, project)
       default_columns = Setting.work_package_list_default_columns.map(&:to_s)

@@ -26,7 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::TimeEntryNamedAssociation < JournalFormatter::NamedAssociation
+class OpenProject::JournalFormatter::TimeEntryNamedAssociation <
+  OpenProject::JournalFormatter::PublicNamedAssociation
   private
 
   def format_details(key, values, cache:)

@@ -38,6 +38,9 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Ancestors
   include WorkPackage::CustomActioned
   include WorkPackage::Hooks
+  # Must stay above WorkPackage::Journalized: its after_save persists the
+  # version rows that the journal snapshot then reads.
+  include WorkPackage::Versions
   include WorkPackages::DerivedDates
   include WorkPackages::SpentTime
   include WorkPackages::Costs
@@ -57,12 +60,13 @@ class WorkPackage < ApplicationRecord
   belongs_to :author, class_name: "User"
   belongs_to :assigned_to, class_name: "Principal", optional: true
   belongs_to :responsible, class_name: "Principal", optional: true
-  belongs_to :version, optional: true
   belongs_to :project_phase_definition, class_name: "Project::PhaseDefinition", optional: true
   belongs_to :priority, class_name: "IssuePriority"
   belongs_to :category, class_name: "Category", optional: true
 
   has_many :time_entries, dependent: :delete_all, inverse_of: :entity, as: :entity
+  has_many :file_links, dependent: :delete_all, class_name: "Storages::FileLink", as: :container
+  has_many :storages, through: :project
 
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
@@ -113,10 +117,6 @@ class WorkPackage < ApplicationRecord
   scope :on_active_project, -> {
     includes(:status, :project, :type)
       .where(projects: { active: true })
-  }
-
-  scope :without_version, -> {
-    where(version_id: nil)
   }
 
   scope :with_query, ->(query) {
@@ -200,7 +200,7 @@ class WorkPackage < ApplicationRecord
 
   associated_to_ask_before_destruction TimeEntry,
                                        ->(work_packages) {
-                                         TimeEntry.on_work_packages(work_packages).count > 0
+                                         TimeEntry.on_work_packages(work_packages).any?
                                        },
                                        method(:cleanup_time_entries_before_destruction_of)
 
@@ -255,31 +255,20 @@ class WorkPackage < ApplicationRecord
     time_entries.build(attributes)
   end
 
-  # Versions that the work_package can be assigned to
-  # A work_package can be assigned to:
-  #   * any open, shared version of the project the wp belongs to
-  #   * the version it was already assigned to
-  #     (to make sure, that you can still update closed tickets)
-  #   * for custom fields only_open: false can be used, if the CF is configured so
-  def assignable_versions(only_open: true)
-    if only_open
-      @assignable_versions ||= begin
-        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-        ((project&.assignable_versions || []) + [current_version]).compact.uniq
-      end
-    else
-      # The called method memoizes the result, no need to memoize it here.
-      project&.assignable_versions(only_open: false)
+  def to_s = to_fs
+
+  # Human-readable label composed from the work package's type, id and subject.
+  #
+  # @param style [Symbol]
+  #   :heading => "Bug #42: Fix login"
+  #   :caption => "Bug: Fix login (#42)"
+  # @return [String]
+  def to_fs(style = :heading)
+    case style
+    when :heading then "#{type&.name} #{formatted_id}: #{subject}"
+    when :caption then "#{"#{type.name}: " if type}#{subject} (#{formatted_id})"
+    else raise ArgumentError, "unknown format style: #{style.inspect}"
     end
-  end
-
-  def to_s
-    "#{type.name unless type.is_standard} #{formatted_id}: #{subject}"
-  end
-
-  def infoline(show_standard_type: true)
-    type_name = show_standard_type || !type.is_standard ? type.name : ""
-    "#{type_name}: #{subject} (#{formatted_id})"
   end
 
   # Return true if the work_package is closed, otherwise false
@@ -303,6 +292,14 @@ class WorkPackage < ApplicationRecord
   end
 
   alias_method :is_milestone?, :milestone?
+
+  # The configuration to read from. A type carries has no config of its own: this work package stores
+  # its type, and its project decides which of that type's variants applies
+  def type_variant
+    return type&.default_variant if project.nil?
+
+    project.type_variant(type)
+  end
 
   def included_in_totals_calculation?
     !status.excluded_from_totals
@@ -418,24 +415,6 @@ class WorkPackage < ApplicationRecord
     Project.allowed_to(user, :add_work_packages)
   end
 
-  # Unassigns issues from +version+ if it's no longer shared with issue's project
-  def self.update_versions_from_sharing_change(version)
-    # Update issues assigned to the version
-    update_versions(["#{WorkPackage.table_name}.version_id = ?", version.id])
-  end
-
-  # Unassigns issues from versions that are no longer shared
-  # after +project+ was moved
-  def self.update_versions_from_hierarchy_change(project)
-    moved_project_ids = project.self_and_descendants.reload.map(&:id)
-    # Update issues of the moved projects and issues assigned to a version of a moved project
-    update_versions(
-      ["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)",
-       moved_project_ids,
-       moved_project_ids]
-    )
-  end
-
   # Extracted from the ReportsController.
   def self.by_type(project)
     count_and_group_by project:,
@@ -444,9 +423,23 @@ class WorkPackage < ApplicationRecord
   end
 
   def self.by_version(project)
-    count_and_group_by project:,
-                       field: "version_id",
-                       joins: Version.table_name
+    # Counts via the target version associations rather than the deprecated
+    # version_id column, so a work package assigned to several versions is
+    # counted under each of them.
+    sql = sanitize_sql_array(
+      ["SELECT s.id AS status_id,
+               s.is_closed AS closed,
+               wpv.version_id AS version_id,
+               COUNT(i.id) AS total
+          FROM #{WorkPackage.table_name} i
+          INNER JOIN #{Status.table_name} s ON i.status_id = s.id
+          INNER JOIN #{WorkPackageVersion.table_name} wpv
+             ON wpv.work_package_id = i.id AND wpv.kind = :kind
+         WHERE i.project_id = :project_id
+         GROUP BY s.id, s.is_closed, wpv.version_id",
+       { kind: WorkPackageVersion.kinds[:target], project_id: project.id }]
+    )
+    ActiveRecord::Base.connection.select_all(sql).to_a
   end
 
   def self.by_priority(project)
@@ -519,35 +512,97 @@ class WorkPackage < ApplicationRecord
   end
 
   def self.preload_available_custom_fields(work_packages)
+    type_variant_ids = type_variant_ids_by_pair(work_packages)
+
     custom_fields = available_custom_fields_from_db(work_packages)
                     .select("array_agg(projects.id) available_project_ids",
-                            "array_agg(types.id) available_type_ids",
+                            "array_agg(wp_variants.own_id) available_type_ids",
                             "custom_fields.*")
                     .group("custom_fields.id")
 
     work_packages.each do |work_package|
-      RequestStore.store[available_custom_field_key(work_package)] = custom_fields
-                                                                       .select do |cf|
-        (cf.available_project_ids.include?(work_package.project_id) || cf.is_for_all?) &&
-        cf.available_type_ids.include?(work_package.type_id)
-      end
+      type_variant_id = type_variant_ids[custom_field_pair(work_package)]
+
+      RequestStore.store[available_custom_field_key(work_package)] =
+        custom_fields.select { |cf| available_for?(cf, work_package, type_variant_id) }
     end
   end
 
+  def self.available_for?(custom_field, work_package, type_variant_id)
+    (custom_field.available_project_ids.include?(work_package.project_id) || custom_field.is_for_all?) &&
+      custom_field.available_type_ids.include?(type_variant_id)
+  end
+  private_class_method :available_for?
+
+  # A work package stores its type, while its project may apply a variant resulting in a different
+  # form configuration. The fields available therefore depend on the (project, type) pair
+  # rather than the type alone.
+  def self.type_variant_ids_by_pair(work_packages) # rubocop:disable Metrics/AbcSize
+    pairs = work_packages.filter_map { |work_package| custom_field_pair(work_package) }.uniq
+    return {} if pairs.empty?
+
+    resolved = ProjectType
+                 .where(project_id: pairs.map(&:first), type_id: pairs.map(&:last))
+                 .pluck(:project_id, :type_id, :variant_id)
+                 .to_h { |project_id, type_id, variant_id| [[project_id, type_id], variant_id] }
+
+    # A pair with no row means the project does not use the type, so its base variant applies.
+    base = TypeVariant.default_variant.where(type_id: pairs.map(&:last)).pluck(:type_id, :id).to_h
+    pairs.index_with { |pair| resolved[pair] || base[pair.last] }
+  end
+  private_class_method :type_variant_ids_by_pair
+
+  def self.custom_field_pair(work_package)
+    return if work_package.project_id.nil? || work_package.type_id.nil?
+
+    [work_package.project_id, work_package.type_id]
+  end
+  private_class_method :custom_field_pair
+
   def self.available_custom_fields_from_db(work_packages)
-    WorkPackageCustomField
-      .left_joins(:projects, :types)
-      .where(projects: { id: work_packages.map(&:project_id).uniq },
-             types: { id: work_packages.map(&:type_id).uniq })
-      .or(WorkPackageCustomField
-            .left_joins(:projects, :types)
-            .references(:projects, :types)
-            .where(is_for_all: true)
-            .where(types: { id: work_packages.map(&:type_id).uniq }))
+    # Drop unresolved pairs (e.g. stubbed types with no base variant in the DB): an empty
+    # VALUES list is invalid SQL, and those work packages have no available custom fields.
+    type_ids = type_variant_ids_by_pair(work_packages).values.compact.uniq
+    return WorkPackageCustomField.none if type_ids.empty?
+
+    project_ids = work_packages.map(&:project_id).uniq
+    type_join = form_configuration_custom_fields_join(type_ids)
+
+    custom_fields_activated_in(type_join, project_ids)
+      .or(custom_fields_for_all(type_join))
       .distinct
   end
-
   private_class_method :available_custom_fields_from_db
+
+  def self.custom_fields_activated_in(type_join, project_ids)
+    WorkPackageCustomField
+      .joins(type_join)
+      .left_joins(:projects)
+      .where(projects: { id: project_ids })
+  end
+  private_class_method :custom_fields_activated_in
+
+  def self.custom_fields_for_all(type_join)
+    WorkPackageCustomField
+      .joins(type_join)
+      .left_joins(:projects)
+      .references(:projects)
+      .where(is_for_all: true)
+  end
+  private_class_method :custom_fields_for_all
+
+  # Match custom fields on the variant that owns the form configuration,
+  # excluding fields that are hidden somewhere in the source
+  def self.form_configuration_custom_fields_join(variant_ids)
+    source_table, source_variant_id, excluded = TypeVariant::FormConfigurationSql.source_table(variant_ids)
+    exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
+
+    "#{source_table} " \
+      "JOIN custom_fields_types cft " \
+      "ON cft.custom_field_id = custom_fields.id AND cft.type_variant_id = #{source_variant_id} " \
+      "AND #{exclusion}"
+  end
+  private_class_method :form_configuration_custom_fields_join
 
   def self.available_custom_field_key(work_package)
     :"work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
@@ -615,36 +670,6 @@ class WorkPackage < ApplicationRecord
 
     default_id && attributes.except(key).values.all?(&:blank?)
   end
-
-  def self.having_version_from_other_project
-    where(
-      "#{WorkPackage.table_name}.version_id IS NOT NULL" +
-      " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
-      " AND #{Version.table_name}.sharing <> 'system'"
-    )
-  end
-
-  private_class_method :having_version_from_other_project
-
-  # Update issues so their versions are not pointing to a
-  # version that is not shared with the issue's project
-  def self.update_versions(conditions = nil)
-    # Only need to update issues with a version from
-    # a different project and that is not systemwide shared
-    having_version_from_other_project
-      .where(conditions)
-      .includes(:project, :version)
-      .references(:versions).find_each do |issue|
-      next if issue.project.nil? || issue.version.nil?
-
-      unless issue.project.shared_versions.include?(issue.version)
-        issue.version = nil
-        issue.save
-      end
-    end
-  end
-
-  private_class_method :update_versions
 
   # Default assignment based on category
   def default_assign

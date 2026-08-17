@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { merge } from 'lodash-es';
 import { Injectable, Injector, inject } from '@angular/core';
 import {
   firstValueFrom,
@@ -264,7 +265,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this
       .withFiltersPayload(projectIdentifier, defaults)
       .then((filterDefaults) => {
-        const mergedPayload = _.merge({ _links: {} }, filterDefaults, defaults);
+        const mergedPayload = merge({ _links: {} }, filterDefaults, defaults);
 
         return this.createNewWorkPackage(projectIdentifier, mergedPayload).then((change:WorkPackageChangeset) => {
           if (!change) {
@@ -366,6 +367,10 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       const value = payload[attribute];
       if (value === undefined) {
         // nothing
+      } else if (Array.isArray(value)) {
+        // Collection links (e.g. targetVersions) take a list of link objects.
+        (payload._links as Record<string, unknown>)[attribute] = (value as unknown[])
+          .map((entry) => (entry instanceof HalResource ? { href: entry.href } : entry));
       } else if (value instanceof HalResource) {
         payload._links[attribute] = { href: value.$links.self.href };
       } else if (!value) {

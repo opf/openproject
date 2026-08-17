@@ -55,4 +55,30 @@ RSpec.describe "Work Package table group headers", :js do
     group_by.expect_grouped_by_value "Foo", 2
     group_by.expect_grouped_by_value "Bar", 1
   end
+
+  context "with multiple versions active",
+          with_settings: { work_package_multiple_versions: true } do
+    let(:version_one) { create(:version, project:, name: "1.0") }
+    let(:version_two) { create(:version, project:, name: "2.0") }
+
+    let!(:wp_cat1) do
+      create(:work_package, project:, category:, version: version_one)
+    end
+    let!(:wp_cat2) do
+      create(:work_package, project:, category: category2, version: version_one).tap do |wp|
+        create(:work_package_version, work_package: wp, version: version_two)
+      end
+    end
+
+    it "shows one group header per target version set" do
+      group_by.enable_via_menu "Target versions"
+
+      # The version set is the group key: {1.0} and {1.0, 2.0} are separate
+      # groups, work packages without target versions are grouped under "-"
+      group_by.expect_number_of_groups 3
+      group_by.expect_grouped_by_value "1.0", 1
+      group_by.expect_grouped_by_value "1.0, 2.0", 1
+      group_by.expect_grouped_by_value "-", 1
+    end
+  end
 end

@@ -1,20 +1,28 @@
 ---
 ru:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Количество столбцов
+        page: Страница
+        row_count: Количество строк
+        scope: Область применения
+        widgets: Виджеты
+    errors:
+      models:
+        grids/grid:
+          end_before_start: конечное значение должно быть больше начального.
+          outside: за пределами сетки.
+          overlaps: перекрытие.
   grids:
     label_widget_in_grid: Виджет содержится в Сетке %{grid_name}
     widgets:
       empty: В настоящее время этот виджет пуст.
-      not_available: Этот виджет недоступен.
-      subitems:
-        title: Подпроекты
-        no_results: Нет видимых потомков.
-        view_all_subitems: Отобразить все подпроекты
-        button_text: Подпроект
       members:
-        title: Участники
         no_results: Нет видимых участников.
-        view_all_members: Просмотреть всех участников
         show_members_count: Показать всех %{count} участников
+        title: Участники
+        view_all_members: Просмотреть всех участников
         x_more:
           one: и еще один участник.
           few: и еще %{count} участника.
@@ -22,17 +30,17 @@ ru:
           other: и еще %{count} участников.
       news:
         no_results: Ничего нового для отчета.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Страница
-        row_count: Количество строк
-        column_count: Количество столбцов
-        widgets: Виджеты
-        scope: Область применения
-    errors:
-      models:
-        grids/grid:
-          overlaps: перекрытие.
-          outside: за пределами сетки.
-          end_before_start: конечное значение должно быть больше начального.
+      not_available: Этот виджет недоступен.
+      project_timeline:
+        footer_actions_label: Подробнее
+        gantt_link: Диаграмма Ганта с этапами
+        no_results_title: Параметры сроков реализации проекта не настроены
+        sprints_link: Обзор спринтов
+        title: График проекта
+        title_portfolio: График портфолио
+        title_program: График программы
+      subitems:
+        button_text: Подпроект
+        no_results: Нет видимых потомков.
+        title: Подпроекты
+        view_all_subitems: Отобразить все подпроекты

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -73,7 +73,7 @@ export class WorkPackageViewAdditionalElementsService {
       this.requireWorkPackageShares(workPackageIds),
       this.requireSumsSchema(results),
     ]).then((wpResults:string[][]) => {
-      this.loadAdditional(_.flatten(wpResults));
+      this.loadAdditional(wpResults.flat());
     });
   }
 
@@ -103,7 +103,7 @@ export class WorkPackageViewAdditionalElementsService {
       .requireAll(rows)
       .then(() => {
         const ids = this.getInvolvedWorkPackages(rows.map((id) => this.wpRelations.state(id).value!));
-        return _.flatten(ids);
+        return ids.flat();
       });
   }
 
@@ -116,9 +116,7 @@ export class WorkPackageViewAdditionalElementsService {
       return Promise.resolve([]);
     }
 
-    const ids = _.flatten(
-      rows.map((el) => el.children?.map((child) => child.id!) || []),
-    );
+    const ids = rows.map((el) => el.children?.map((child) => child.id!) || []).flat();
 
     return Promise.resolve(ids);
   }
@@ -134,7 +132,7 @@ export class WorkPackageViewAdditionalElementsService {
     }
 
     const resultIds = rows.map((el:WorkPackageResource) => (el.id as string | number).toString());
-    const ids = _.flatten(rows.map((el) => el.ancestorIds))
+    const ids = rows.map((el) => el.ancestorIds).flat()
       .filter((id) => !resultIds.includes(id));
 
     return Promise.resolve(ids);
@@ -147,8 +145,8 @@ export class WorkPackageViewAdditionalElementsService {
    */
   private getInvolvedWorkPackages(states:RelationsStateValue[]) {
     const ids:string[] = [];
-    _.each(states, (relations:RelationsStateValue) => {
-      _.each(relations, (resource:RelationResource) => {
+    states.forEach((relations:RelationsStateValue) => {
+      Object.values(relations).forEach((resource:RelationResource) => {
         ids.push(resource.ids.from, resource.ids.to);
       });
     });
@@ -184,7 +182,7 @@ export class WorkPackageViewAdditionalElementsService {
         map((elements) => {
           const shares = elements as ShareResource[];
 
-          const sharedWpIds = _.uniq(shares.map((share) => share.entity.id!));
+          const sharedWpIds = Array.from(new Set(shares.map((share) => share.entity.id!)));
 
           sharedWpIds.forEach((wpId) => {
             this

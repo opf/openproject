@@ -7,728 +7,728 @@ hy:
     bim:
       priorities:
         item_0:
-          name: Low
+          name: Ցածր
         item_1:
-          name: Normal
+          name: Նորմալ
         item_2:
-          name: High
+          name: Բարձր
         item_3:
-          name: Critical
+          name: Կրիտիկական
       statuses:
         item_0:
-          name: New
+          name: Նոր
         item_1:
-          name: In progress
+          name: Ընթացքի մեջ
         item_2:
-          name: Resolved
+          name: Լուծված
         item_3:
-          name: Closed
+          name: Փակված
       time_entry_activities:
         item_0:
-          name: Management
+          name: Կառավարում
         item_1:
-          name: Specification
+          name: Բնութագիր
         item_2:
-          name: Other
+          name: Այլ
       types:
         item_0:
-          name: Task
+          name: Առաջադրանք
         item_1:
-          name: Milestone
+          name: Հանգրվան
         item_2:
-          name: Phase
+          name: Փուլ
         item_3:
-          name: Issue
+          name: Խնդիր
         item_4:
-          name: Remark
+          name: Դիտողություն
         item_5:
-          name: Request
+          name: Հարցում
         item_6:
-          name: Clash
+          name: Բախում
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: Ներդրված աղյուսակ՝ ենթատարրեր
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: Children
+              group_name: Ենթատարրեր
       groups:
         item_0:
-          name: Architects
+          name: Ճարտարապետներ
         item_1:
-          name: BIM Coordinators
+          name: BIM համակարգողներ
         item_2:
-          name: BIM Managers
+          name: BIM ղեկավարներ
         item_3:
-          name: BIM Modellers
+          name: BIM մոդելավորողներ
         item_4:
-          name: Lead BIM Coordinators
+          name: Գլխավոր BIM համակարգողներ
         item_5:
-          name: MEP Engineers
+          name: MEP ինժեներներ
         item_6:
-          name: Planners
+          name: Պլանավորողներ
         item_7:
-          name: Structural Engineers
+          name: Կոնստրուկտոր ինժեներներ
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Բարի գալուստ OpenProject BIM edition։
         text: |
-          Checkout the demo projects to get started with some examples.
+          Ծանոթացեք ցուցադրական նախագծերին՝ որոշ օրինակներով աշխատանքը սկսելու համար։
 
-          * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
-              * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
-              * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
-                  * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
+          * [(Ցուցադրական) Շինարարական նախագիծ]({{opSetting:base_url}}/projects/demo-construction-project)՝ պլանավորում, BIM գործընթաց, BCF կառավարում և շինարարություն՝ ամբողջը մեկ հայացքով։
+              * [(Ցուցադրական) Պլանավորում և շինարարություն]({{opSetting:base_url}}/projects/demo-planning-constructing-project)՝ դասական պլանավորում և շինարարության կառավարում։
+              * [(Ցուցադրական) BIM նախագիծ]({{opSetting:base_url}}/projects/demo-bim-project)՝ BIM գործընթաց և համակարգում։
+                  * [(Ցուցադրական) BCF կառավարում]({{opSetting:base_url}}/projects/demo-bcf-management-project)՝ BCF կառավարում։
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Կարող եք նաև ստեղծել դատարկ [նոր նախագիծ]({{opSetting:base_url}}/projects/new)։
 
-          Never stop collaborating. With open source and open mind.
+          Երբեք չդադարեք համագործակցել։ Բաց ելակետային կոդով և բաց մտածելակերպով։
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Այս ողջույնի տեքստը կարող եք փոփոխել [այստեղ]({{opSetting:base_url}}/admin/settings/general)։
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Ցուցադրական) Շինարարական նախագիծ"
+          status_explanation: Բոլոր առաջադրանքները և ենթանախագծերը ընթանում են ըստ ժամանակացույցի։ Ներգրավված անձինք գիտեն իրենց առաջադրանքները։ Համակարգը լիովին կարգավորված է։
+          description: Սա այս ցուցադրական շինարարական նախագծի նպատակների համառոտ ամփոփումն է։
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Բարի գալուստ Ձեր դեմո նախագիծ
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ուրախ ենք, որ միացել եք։
+                Այս մոդուլում կարող եք Ձեր թիմի անդամներին հաղորդել նախագծի նորությունները։
+              description: Բուն նորությունը
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Կատեգորիա 1 (ենթակա է փոփոխման նախագծի կարգավորումներում)
           queries:
             item_0:
-              name: Project plan
+              name: Նախագծի պլան
             item_1:
-              name: Milestones
+              name: Հանգրվաններ
             item_2:
-              name: Tasks
+              name: Առաջադրանքներ
             item_3:
-              name: Team planner
+              name: Թիմային պլանավորիչ
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Պարզ քաշել-թողնել աշխատանքային հոսք
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Բարի գալուստ
               item_1:
                 options:
-                  name: Getting started
+                  name: Ինչպես սկսել
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ուրախ ենք, որ միացել եք։ Առաջարկում ենք փորձել մի քանի բան՝ OpenProject-ում աշխատանքը սկսելու համար։
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    Սակայն նախքան անմիջապես գործին անցնելը, պետք է իմանաք, որ այս ցուցադրական նախագիծը բաժանված է երկու տարբեր նախագծի՝
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    1.  [Շինարարական նախագիծ]({{opSetting:base_url}}/projects/demo-planning-constructing-project)՝ այստեղ կգտնեք դասական դերերը, որոշ աշխատանքային հոսքեր և աշխատանքային փաթեթներ Ձեր շինարարական նախագծի համար։
+                    2.  [BIM մոդելի ստեղծում]({{opSetting:base_url}}/projects/demo-bim-project)՝ այս նախագիծը նույնպես առաջարկում է դերեր, աշխատանքային հոսքեր և աշխատանքային փաթեթներ, սակայն հատկապես BIM համատեքստում։
 
-                    _Try the following steps:_
+                    _Փորձեք հետևյալ քայլերը՝_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1.  _Հրավիրեք նոր անդամներ Ձեր նախագիծ_՝ → անցեք նախագծի նավիգացիայի [Անդամներ]({{opSetting:base_url}}/projects/demo-construction-project/members) բաժին։
+                    2.  _Դիտեք Ձեր նախագծերի աշխատանքը_՝ → անցեք նախագծի նավիգացիայի [Աշխատանքային փաթեթներ]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) բաժին։
+                    3.  _Ստեղծեք նոր աշխատանքային փաթեթ_՝ → անցեք [Աշխատանքային փաթեթներ → Ստեղծել]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11)։
+                    4.  _Ստեղծեք և թարմացրեք Գանտի գծապատկեր_՝ → անցեք նախագծի նավիգացիայի [Գանտի գծապատկեր]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) բաժին։
+                    5.  _Ակտիվացրեք լրացուցիչ մոդուլներ_՝ → անցեք [Նախագծի կարգավորումներ → Մոդուլներ]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules)։
+                    6.  _Ձեր BCF խնդիրների ընդհանուր պատկերը ստանալու համար ծանոթացեք սալիկային տեսքին՝_ → անցեք [Աշխատանքային փաթեթներ]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Ճկո՞ւն մեթոդաբանությամբ եք աշխատում։ Ծանոթացեք մեր բոլորովին նոր տախտակներին՝_ → անցեք [Տախտակներ]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Այստեղ կգտնեք մեր [Օգտատերի ուղեցույցները](https://www.openproject.org/docs/user-guide/)։
+                    Խնդրում ենք տեղեկացնել մեզ, եթե հարցեր ունեք կամ աջակցության կարիք։ Կապվեք մեզ հետ՝ [support\[at\]openproject.com](mailto:support@openproject.com)։
               item_4:
                 options:
-                  name: Members
+                  name: Անդամներ
               item_5:
                 options:
-                  name: Work packages
+                  name: Աշխատանքային փաթեթներ
               item_6:
                 options:
-                  name: Milestones
+                  name: Հանգրվաններ
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Ցուցադրական) Պլանավորում և շինարարություն"
+          status_explanation: Բոլոր առաջադրանքները ընթանում են ըստ ժամանակացույցի։ Ներգրավված անձինք գիտեն իրենց առաջադրանքները։ Համակարգը լիովին կարգավորված է։
+          description: Սա այս ցուցադրական պլանավորման և շինարարության նախագծի նպատակների համառոտ ամփոփումն է։
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Բարի գալուստ Ձեր դեմո նախագիծ
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ուրախ ենք, որ միացել եք։
+                Այս մոդուլում կարող եք Ձեր թիմի անդամներին հաղորդել նախագծի նորությունները։
+              description: Բուն նորությունը
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Կատեգորիա 1 (ենթակա է փոփոխման նախագծի կարգավորումներում)
           queries:
             item_0:
-              name: Project plan
+              name: Նախագծի պլան
             item_1:
-              name: Milestones
+              name: Հանգրվաններ
             item_2:
-              name: Tasks
+              name: Առաջադրանքներ
             item_3:
-              name: Team planner
+              name: Թիմային պլանավորիչ
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Բարի գալուստ
               item_1:
                 options:
-                  name: Getting started
+                  name: Ինչպես սկսել
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ուրախ ենք, որ միացել եք։ Առաջարկում ենք փորձել մի քանի բան՝ OpenProject-ում աշխատանքը սկսելու համար։
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    Այստեղ կգտնեք դասական դերերը, որոշ աշխատանքային հոսքեր և աշխատանքային փաթեթներ Ձեր շինարարական նախագծի համար։
 
-                    _Try the following steps:_
+                    _Փորձեք հետևյալ քայլերը՝_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Հրավիրեք նոր անդամներ Ձեր նախագիծ՝_ → անցեք նախագծի նավիգացիայի [Անդամներ]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) բաժին։
+                    2.  _Դիտեք Ձեր նախագծերի աշխատանքը՝_ → անցեք նախագծի նավիգացիայի [Աշխատանքային փաթեթներ]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) բաժին։
+                    3.  _Ստեղծեք նոր աշխատանքային փաթեթ՝_ → անցեք [Աշխատանքային փաթեթներ → Ստեղծել]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11)։
+                    4.  _Ստեղծեք և թարմացրեք Գանտի գծապատկեր՝_ → անցեք նախագծի նավիգացիայի [Գանտի գծապատկեր]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) բաժին։
+                    5.  _Ակտիվացրեք լրացուցիչ մոդուլներ՝_ → անցեք [Նախագծի կարգավորումներ → Մոդուլներ]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules)։
+                    6.  _Ճկո՞ւն մեթոդաբանությամբ եք աշխատում։ Ստեղծեք նոր տախտակ՝_ → անցեք [Տախտակներ]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Այստեղ կգտնեք մեր [Օգտատերի ուղեցույցները](https://www.openproject.org/docs/user-guide/)։
+                    Խնդրում ենք տեղեկացնել մեզ, եթե հարցեր ունեք կամ աջակցության կարիք։ Կապվեք մեզ հետ՝ [support\[at\]openproject.com](mailto:support@openproject.com)։
               item_4:
                 options:
-                  name: Members
+                  name: Անդամներ
               item_5:
                 options:
-                  name: Work packages
+                  name: Աշխատանքային փաթեթներ
               item_6:
                 options:
-                  name: Milestones
+                  name: Հանգրվաններ
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Շինարարական նախագծի մեկնարկ
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Նախագծի մեկնարկը սկիզբ է դնում Ձեր ընկերությունում նախագծի իրականացմանը։ Այս նախագծի բոլոր մասնակիցները պետք է հրավիրվեն մեկնարկային հանդիպմանը՝ առաջին տեղեկատվական քննարկման համար։
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Հաջորդ քայլը կարող է լինել ժամանակացույցի ուսումնասիրումը և հանդիպումների ժամերի ճշգրտումը՝ դիտելով [Գանտի գծապատկերը]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D)։
             item_1:
-              subject: Basic evaluation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Հիմնական գնահատում
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Նախագծի առաջին տեղեկությունների հավաքագրում
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    *   Սահմանել առաջադրանքները՝ ելնելով պատվիրատուի կարիքներից
+                    *   Պետք է սահմանվեն ժամանակային շրջանակը և ծախսերի գնահատականը
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    *   Բացահայտել պատվիրատուի կարիքները՝ նրա հետ աշխատաժողով անցկացնելով
+                    *   Յուրաքանչյուր կարիք պետք է ներկայացնի առաջադրանք՝ իր համապատասխան աշխատանքային փաթեթներով
+                    *   Դուրս բերել ծախսերի գնահատականը և ժամանակային շրջանակը
                 item_1:
-                  subject: Summarize the results
+                  subject: Ամփոփել արդյունքները
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Ստեղծել արդյունքների օգտակար ընդհանուր պատկեր
+                    *   Ստուգել կատարվածը և ամփոփել արդյունքները
+                    *   Բոլոր համապատասխան արդյունքները հաղորդել պատվիրատուին
+                    *   Բացահայտել նախագծի հիմնարար սահմանային պայմանները
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Յուրաքանչյուր թեմա ստանում է իր ընդհանուր պատկերը, որը կօգտագործվի որպես արդյունքների կատալոգ
+                    *   Այս ընդհանուր պատկերը տեղեկացնում է բոլոր մասնակիցներին ընդունված որոշումների մասին
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Հիմնական գնահատման ավարտ
+                  description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_2:
-              subject: Preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Նախնական պլանավորում
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
-                  subject: Developing first draft
+                  subject: Առաջին էսքիզի մշակում
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Ստեղծել արդյունքների օգտակար ընդհանուր պատկեր
+                    *   Ստուգել կատարվածը և ամփոփել արդյունքները
+                    *   Բոլոր համապատասխան արդյունքները հաղորդել պատվիրատուին
+                    *   Բացահայտել նախագծի հիմնարար սահմանային պայմանները
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Յուրաքանչյուր թեմա ստանում է իր ընդհանուր պատկերը, որը կօգտագործվի որպես արդյունքների կատալոգ
+                    *   Այս ընդհանուր պատկերը տեղեկացնում է բոլոր մասնակիցներին ընդունված որոշումների մասին
                     *   ...
                 item_1:
-                  subject: Summarize results
+                  subject: Ամփոփել արդյունքները
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Ստեղծել արդյունքների օգտակար ընդհանուր պատկեր
+                    *   Ստուգել կատարվածը և ամփոփել արդյունքները
+                    *   Բոլոր համապատասխան արդյունքները հաղորդել պատվիրատուին
+                    *   Բացահայտել նախագծի հիմնարար սահմանային պայմանները
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Յուրաքանչյուր թեմա ստանում է իր ընդհանուր պատկերը, որը կօգտագործվի որպես արդյունքների կատալոգ
+                    *   Այս ընդհանուր պատկերը տեղեկացնում է բոլոր մասնակիցներին ընդունված որոշումների մասին
                     *   ...
             item_3:
-              subject: Passing of preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Նախնական պլանավորման հաստատում
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_4:
-              subject: Design planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Նախագծային պլանավորում
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
-                  subject: Finishing design
+                  subject: Նախագծի ավարտ
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    *   Նախագիծը պատրաստ է
+                    *   Բոլոր կողմերը գոհ են նախագծային պլանավորման փուլի արդյունքներից
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
+                    *   Նախագծի մշակումը կավարտվի
+                    *   Բոլոր կողմերը համաձայնության են գալիս նախագծի շուրջ
+                    *   Սեփականատերը գոհ է արդյունքներից
                     *   ...
                 item_1:
-                  subject: Design freeze
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Նախագծի ամրագրում
+                  description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_5:
-              subject: Construction phase
+              subject: Շինարարության փուլ
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: Շինարարության մեկնարկ
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Ground breaking ceremony
-                    *   Setting up the construction site
+                    *   Շինարարության մեկնարկի արարողություն
+                    *   Շինհրապարակի կազմակերպում
                     *   ...
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Preparing the site for the project
-                    *   Get the team together
+                    *   Տարածքի նախապատրաստում նախագծի համար
+                    *   Թիմի համախմբում
                     *   ...
                 item_1:
-                  subject: Foundation
+                  subject: Հիմք
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Laying of the foundation stone
+                    *   Հիմնաքարի տեղադրում
                     *   ...
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Setting up the concrete mixer
-                    *   Setting up the supply chain for the concrete
+                    *   Բետոնախառնիչի տեղակայում
+                    *   Բետոնի մատակարարման շղթայի կազմակերպում
                     *   ...
                 item_2:
-                  subject: Building construction
+                  subject: Շենքի կառուցում
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Topping out ceremony
-                    *   Walls and ceilings are done
+                    *   Կառուցվածքի ավարտի արարողություն
+                    *   Պատերն ու առաստաղները պատրաստ են
                     *   ...
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Creating all structural levels of the building
-                    *   Installing doors and windows
-                    *   Finishing the roof structure
+                    *   Շենքի բոլոր հարկերի կրող կառուցվածքների ստեղծում
+                    *   Դռների և պատուհանների տեղադրում
+                    *   Տանիքի կառուցվածքի ավարտ
                     *   ...
                 item_3:
-                  subject: Finishing the facade
+                  subject: Ճակատի ավարտ
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Facade is done
-                    *   Whole building is waterproof
+                    *   Ճակատը պատրաստ է
+                    *   Ողջ շենքը ջրակայուն է
                     *   ...
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Install all elements for the facade
-                    *   Finish the roof
+                    *   Տեղադրել ճակատի բոլոր տարրերը
+                    *   Ավարտել տանիքը
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Շենքի ինժեներական համակարգերի տեղադրում
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   All building service systems are ready to be used
+                    *   Շենքի բոլոր ինժեներական համակարգերը պատրաստ են օգտագործման
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Installing the heating system
-                    *   Installing the climate system
-                    *   Electrical installation
+                    *   Ջեռուցման համակարգի տեղադրում
+                    *   Օդորակման համակարգի տեղադրում
+                    *   Էլեկտրամոնտաժային աշխատանքներ
                     *   ...
                 item_5:
-                  subject: Final touches
+                  subject: Վերջնական հարդարումներ
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Handover of the keys
-                    *   The customer is happy with his building
+                    *   Բանալիների հանձնում
+                    *   Պատվիրատուն գոհ է իր շենքից
                     *   ...
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Finishing the installation of the building service systems
-                    *   Finishing the interior construction
-                    *   Finishing the facade
+                    *   Շենքի ինժեներական համակարգերի տեղադրման ավարտ
+                    *   Ներքին հարդարման աշխատանքների ավարտ
+                    *   Ճակատի ավարտ
                     *   ...
                 item_6:
-                  subject: House warming party
+                  subject: Տնամուտի խնջույք
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Have a blast!
+                    *   Հիանալի ժամանակ անցկացրե՜ք
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    *   Հրավիրեք շինարարական թիմին
+                    *   Հրավիրեք Ձեր ընկերներին
+                    *   Բերեք ըմպելիքներ, խորտիկներ և Ձեր ժպիտը
         demo-bim-project:
-          name: "(Demo) BIM project"
-          status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          name: "(Ցուցադրական) BIM նախագիծ"
+          status_explanation: Բոլոր առաջադրանքներն ու ենթանախագծերն ընթանում են ըստ ժամանակացույցի։ Ներգրավված անձինք գիտեն իրենց առաջադրանքները։ Համակարգը լիովին կարգավորված է։
+          description: Սա այս ցուցադրական BIM նախագծի նպատակների կարճ ամփոփումն է։
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Բարի գալուստ Ձեր դեմո նախագիծ
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ուրախ ենք, որ միացել եք։
+                Այս մոդուլում կարող եք Ձեր թիմի անդամներին հաղորդել նախագծի նորությունները։
+              description: Բուն նորությունը
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Կատեգորիա 1 (ենթակա է փոփոխման նախագծի կարգավորումներում)
           queries:
             item_0:
-              name: Project plan
+              name: Նախագծի պլան
             item_1:
-              name: Milestones
+              name: Հանգրվաններ
             item_2:
-              name: Tasks
+              name: Առաջադրանքներ
             item_3:
-              name: Team planner
+              name: Թիմային պլանավորիչ
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Բարի գալուստ
               item_1:
                 options:
-                  name: Getting started
+                  name: Ինչպես սկսել
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ուրա՜խ ենք, որ միացել եք։ Առաջարկում ենք փորձել մի քանի բան, որպեսզի սկսեք աշխատել OpenProject-ում։
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    Այս ցուցադրական նախագիծը առաջարկում է դերեր, աշխատանքային հոսքեր և աշխատանքային փաթեթներ, որոնք մասնագիտացված են BIM-ի համար։
 
-                    _Try the following steps:_
+                    _Փորձեք հետևյալ քայլերը՝_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _Հրավիրեք նոր անդամներ ձեր նախագիծ՝_ → Նախագծի նավիգացիայում անցեք [Անդամներ]({{opSetting:base_url}}/projects/demo-bim-project/members)։
+                    2.  _Վերբեռնեք և դիտեք 3D-մոդելներ IFC ձևաչափով՝_ → Նախագծի նավիգացիայում անցեք [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf)։
+                    3.  _Ստեղծեք և կառավարեք ուղղակիորեն IFC մոդելին կապված BCF խնդիրներ՝_ → Անցեք [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Ստեղծել։
+                    4.  _Դիտեք աշխատանքը ձեր նախագծերում՝_ → Նախագծի նավիգացիայում անցեք [Աշխատանքային փաթեթներ]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D)։
+                    5.  _Ստեղծեք նոր աշխատանքային փաթեթ՝_ → Անցեք [Աշխատանքային փաթեթներ → Ստեղծել]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11)։
+                    6.  _Ստեղծեք և թարմացրեք Գանտի գծապատկեր՝_ → Նախագծի նավիգացիայում անցեք [Գանտի գծապատկեր]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D)։
+                    7.  _Ակտիվացրեք լրացուցիչ մոդուլներ՝_ → Անցեք [Նախագծի կարգավորումներ → Մոդուլներ]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules)։
+                    8.  _Ձեր BCF խնդիրների ընդհանուր պատկերը ստանալու համար դիտեք սալիկային տեսքը՝_ → Նախագծի նավիգացիայում անցեք [Աշխատանքային փաթեթներ]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Աշխատու՞մ եք ճկուն մեթոդաբանությամբ։ Ստեղծեք նոր տախտակ՝_ → Անցեք [Տախտակներ]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Այստեղ Դուք կգտնեք մեր [Օգտատիրոջ ուղեցույցները](https://www.openproject.org/docs/user-guide/)։
+                    Խնդրում ենք տեղեկացնել մեզ, եթե ունեք հարցեր կամ աջակցության կարիք։ Կապվեք մեզ հետ՝ [support\[at\]openproject.com](mailto:support@openproject.com)։
               item_4:
                 options:
-                  name: Members
+                  name: Անդամներ
               item_5:
                 options:
-                  name: Work packages
+                  name: Աշխատանքային փաթեթներ
               item_6:
                 options:
-                  name: Milestones
+                  name: Հանգրվաններ
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: BIM մոդելի ստեղծման նախագծի մեկնարկ
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                Նախագծի մեկնարկը սկիզբ է դնում Ձեր ընկերությունում նախագծի իրականացմանը։ Ողջ նախագծային թիմը պետք է հրավիրվի մեկնարկային հանդիպմանը՝ առաջին տեղեկատվական քննարկման համար։
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Հաջորդ քայլը կարող է լինել ժամանակացույցի ուսումնասիրումը և հանդիպումների ժամերի ճշգրտումը՝ դիտելով [Գանտի գծապատկերը]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D)։
             item_1:
-              subject: Project preparation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Նախագծի նախապատրաստում
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: BIM մոդելի համար նախագծին առնչվող տվյալների և տեղեկությունների հավաքագրում
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    *   Բացահայտել պատվիրատուի տեղեկատվական ռազմավարությունը (օր. պարզ լեզվով հարցերի միջոցով)
+                    *   Առկայության դեպքում վերլուծել BIM մոդելի վերաբերյալ պատվիրատուի տեղեկատվական պահանջները
+                    *   Սահմանել տեղեկատվության տրամադրման ռազմավարություն՝ ըստ պատվիրատուի կարիքների
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
+                    *   BIM մեթոդաբանության կիրառման համար պատվիրատուի կարիքների և նպատակների վերլուծություն
+                    *   Այս առաջադրանքի արդյունքները պետք է լինեն՝
+                    *   Նախագծի պահանջները
+                    *   Հանձնման փուլի ռազմավարություն
                     *   ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: BIM իրականացման պլանի ստեղծում
                   description: |-
-                    # Goal
+                    # Նպատակ
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    *   BIM իրականացման պլանը կսահմանվի ըստ փոխանակման պահանջների բնութագրերի (ERS)
+                    *   Թիմի բոլոր անդամներն ու գործընկերները ունեն պլան, թե ինչպես հասնել նախագծի յուրաքանչյուր նպատակին
 
-                    # Description
+                    # Նկարագրություն
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
+                    *   Կախված բացահայտված կիրառման դեպքերից՝ կսահմանվեն տեղեկատվության տրամադրման առանձին ձեռնարկները
+                    *   Տեխնոլոգիական միջերեսները կառավարելու համար կսահմանվի ծրագրային տոպոլոգիա, որը կվերլուծվի և կստուգվի
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: BIM իրականացման պլանի ավարտ
+                  description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_2:
-              subject: End of preparation phase
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Նախապատրաստման փուլի ավարտ
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_3:
-              subject: Creating initial BIM model
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Նախնական BIM մոդելի ստեղծում
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Նախնական BIM մոդելի մոդելավորում
                   description: |-
-                    # Goal
+                    # Նպատակ
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    *   Նախնական BIM մոդելի մոդելավորում
+                    *   BIM մոդելի ստեղծում ողջ նախագծային թիմի համար
 
-                    # Description
+                    # Նկարագրություն
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   Պատվիրատուից հավաքագրված տվյալներին համապատասխան կմոդելավորվի նախնական մոդելը
+                    *   Մոդելը պետք է մոդելավորվի ըստ LOD մատրիցների և պարունակի անհրաժեշտ տեղեկությունները
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Նախնական, ներքին մոդելի ստուգում և վերանայում
                   description: |-
-                    # Goal
+                    # Նպատակ
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   BIM մոդելի ներկայացում՝ ըստ սահմանված ստանդարտների
 
-                    # Description
+                    # Նկարագրություն
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
+                    *   Մոդելը պետք է ստուգվի ըստ սահմանված ստանդարտների (պայմանավորվածություններ, LOD, ...) և վերանայվի
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Նախնական BIM մոդելի ներկայացում
+                  description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_4:
-              subject: Modelling, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Մոդելավորում, առաջին ցիկլ
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
-                  subject: Referencing external BIM models
+                  subject: Արտաքին BIM մոդելների հղում
                   description: |-
-                    # Goal
+                    # Նպատակ
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    *   Ներքին մոդելի մշակման/ պատասխանների տրամադրման հիմքի ապահովում
+                    *   Արտաքին մոդելի օգտագործում ներքին մոդելը մշակելու համար
 
-                    # Description
+                    # Նկարագրություն
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   Արտաքին մոդելը կհղվի BIM հարթակում և այդպիսով կօգտագործվի ներքին մոդելի մոդելավորման համար
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: BIM մոդելի մոդելավորում
                   description: |-
-                    # Goal
+                    # Նպատակ
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    *   Նախագծի համար BIM մոդելի ստեղծում
+                    *   BIM մոդելի ստեղծում ողջ նախագծային թիմի համար
 
-                    # Description
+                    # Նկարագրություն
 
-                    *   The model will be created according to the BIM execution plan
+                    *   Մոդելը կստեղծվի ըստ BIM իրականացման պլանի
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: Առաջին ցիկլ, ներքին մոդելի ստուգում և վերանայում
                   description: |-
-                    # Goal
+                    # Նպատակ
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   BIM մոդելի ներկայացում՝ ըստ սահմանված ստանդարտների
 
-                    # Description
+                    # Նկարագրություն
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
+                    *   Մոդելը պետք է ստուգվի ըստ սահմանված ստանդարտների (պայմանավորվածություններ, LOD, ...) և վերանայվի։
                     *   ...
                 item_3:
-                  subject: Submitting BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: BIM մոդելի ներկայացում
+                  description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_5:
-              subject: Coordination, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Համակարգում, առաջին ցիկլ
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
-                  subject: Coordinate the different BIM models
+                  subject: Համակարգել տարբեր BIM մոդելները
                   description: |-
-                    # Goal
+                    # Նպատակ
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    *   Համատեղել ողջ նախագծային թիմի տարբեր BIM մոդելները
+                    *   Համակարգել բացահայտված խնդիրները
 
-                    # Description
+                    # Նկարագրություն
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
+                    *   Տարբեր BIM մոդելները կհամատեղվեն և կստուգվեն
+                    *   Մոդելին առնչվող բացահայտված խնդիրները կհաղորդվեն BCF նիշքերի միջոցով
                     *   ...
                 item_1:
-                  subject: Issue management, first cycle
+                  subject: Խնդիրների կառավարում, առաջին ցիկլ
                 item_2:
-                  subject: Finishing coordination, first cycle
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Համակարգման ավարտ, առաջին ցիկլ
+                  description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_6:
-              subject: Modelling & coordinating, second cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Մոդելավորում և համակարգում, երկրորդ ցիկլ
+              description: "## Նպատակ\r\n\r\n*   ...\r\n\r\n## Նկարագրություն\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Մոդելավորում և համակարգում, ... ցիկլ
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Մոդելավորում և համակարգում, (n-րդ հանած 1) ցիկլ
+              description: "## Նպատակ\r\n\r\n*   ...\r\n\r\n## Նկարագրություն\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Մոդելավորում և համակարգում n-րդ ցիկլ
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Մոդելավորման և համակարգման ավարտ, n-րդ ցիկլ
+              description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_11:
-              subject: Use model for construction phase
+              subject: Մոդելի օգտագործում շինարարության փուլում
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Մոդելի հանձնում շինարարական խմբին
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
+                    *   Բոլորը գիտեն մոդելը և իրենց առաջադրանքները
+                    *   Բոլորը ստանում են ողջ համապատասխան տեղեկությունը՝ մոդելի հիմքով
                     *   ...
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
+                    *   Շինհրապարակում կայացող մեկնարկային հանդիպումը ներառում է մոդելի ներկայացումը
+                    *   Բոլոր օբյեկտները պետք է ունենան նշանակված առաջադրանքների համար անհրաժեշտ տեղեկությունը։ Հակառակ դեպքում անհրաժեշտ է իրականացնել մոդելի տվյալների հարստացում
                     *   ...
                 item_1:
-                  subject: Construct the building
+                  subject: Կառուցել շենքը
                   description: |-
-                    ## Goal
+                    ## Նպատակ
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    *   Շինհրապարակում ի հայտ եկած նոր խնդիրները կլուծվեն մոդելի հիմքով
+                    *   Խնդիրները կփաստագրվեն BCF նիշքերի և BIM մոդելի միջոցով
 
-                    ## Description
+                    ## Նկարագրություն
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
+                    *   Նոր խնդիրները կփաստագրվեն BCF նիշքերի միջոցով՝ որպես մոդելի կպչուն նշումներ
+                    *   BCF նիշքերը կօգտագործվեն խնդիրները նշանակելու, հետագծելու և ուղղելու համար
                     *   ...
                 item_2:
-                  subject: Finish construction
+                  subject: Շինարարության ավարտ
             item_12:
-              subject: Issue management, construction phase
+              subject: Խնդիրների կառավարում, շինարարության փուլ
             item_13:
-              subject: Handover for Facility Management
+              subject: Հանձնում օբյեկտի կառավարման համար
               description: |-
-                ## Goal
+                ## Նպատակ
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
+                *   BIM մոդելը կօգտագործվի օբյեկտի կառավարման համար
+                *   Մոդելը տրամադրում է շենքը շահագործման հանձնելու և շահագործելու համար անհրաժեշտ ողջ տեղեկությունը
                 *   ...
 
-                ## Description
+                ## Նկարագրություն
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
+                *   Մոդելը պարունակում է օբյեկտի կառավարչի համար անհրաժեշտ տեղեկությունը
+                *   Մոդելը կարող է օգտագործվել շենքի շահագործման համակարգի համար
                 *   ...
             item_14:
-              subject: Asset Management
-              description: Enjoy your building :)
+              subject: Ակտիվների կառավարում
+              description: Վայելեք Ձեր շենքը :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BCF management project.
+          name: "(Ցուցադրական) BCF կառավարում"
+          status_explanation: Բոլոր առաջադրանքները ընթանում են ըստ ժամանակացույցի։ Ներգրավված անձինք գիտեն իրենց առաջադրանքները։ Համակարգը լիովին կարգավորված է։
+          description: Սա այս ցուցադրական BCF կառավարման նախագծի նպատակների կարճ ամփոփումն է։
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Հիվանդանոց - Ճարտարապետություն (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: Հիվանդանոց - Կոնստրուկցիաներ (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Հիվանդանոց - Մեխանիկական (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Կատեգորիա 1 (ենթակա է փոփոխման նախագծի կարգավորումներում)
           queries:
             item_0:
-              name: Issues
+              name: Խնդիրներ
             item_1:
-              name: Clashes
+              name: Բախումներ
             item_2:
-              name: Requests
+              name: Հարցումներ
             item_3:
-              name: Remarks
+              name: Դիտողություններ
             item_4:
-              name: Project plan
+              name: Նախագծի պլան
             item_5:
-              name: Milestones
+              name: Հանգրվաններ
             item_6:
-              name: Tasks
+              name: Առաջադրանքներ
             item_7:
-              name: Team planner
+              name: Թիմային պլանավորիչ
           boards:
             bcf:
-              name: BCF issues
+              name: BCF խնդիրներ
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Բարի գալուստ
               item_1:
                 options:
-                  name: Getting started
+                  name: Ինչպես սկսել
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ուրա՜խ ենք, որ միացել եք։ Առաջարկում ենք փորձել մի քանի բան, որպեսզի սկսեք աշխատել OpenProject-ում։
 
-                    This demo project shows BCF management functionalities.
+                    Այս ցուցադրական նախագիծը ցույց է տալիս BCF կառավարման հնարավորությունները։
 
-                    _Try the following steps:_
+                    _Փորձեք հետևյալ քայլերը՝_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _Հրավիրեք նոր անդամներ ձեր նախագիծ՝_ → Նախագծի նավիգացիայում անցեք [Անդամներ]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true)։
+                    2.  _Վերբեռնեք և դիտեք 3D-մոդելներ IFC ձևաչափով՝_ → Նախագծի նավիգացիայում անցեք [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf)։
+                    3.  _Ստեղծեք և կառավարեք ուղղակիորեն IFC մոդելին կապված BCF խնդիրներ՝_ → Անցեք [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Ստեղծել։
+                    4.  _Դիտեք ձեր նախագծի BCF նիշքերը՝_ → Նախագծի նավիգացիայում անցեք [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)։
+                    5.  _Բեռնեք ձեր BCF նիշքերը՝_ → Անցեք [BCF → Ներմուծել։]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+                    6.  _Ստեղծեք և թարմացրեք Գանտի գծապատկեր՝_ → Նախագծի նավիգացիայում անցեք [Գանտի գծապատկեր]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D)։
+                    7.  _Ակտիվացրեք լրացուցիչ մոդուլներ՝_ → Անցեք [Նախագծի կարգավորումներ → Մոդուլներ։]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+                    8.  _Սիրու՞մ եք ճկուն մոտեցումը։ Ստեղծեք տախտակ՝_ → Անցեք [Տախտակներ]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards)։
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Այստեղ Դուք կգտնեք մեր [Օգտատիրոջ ուղեցույցները](https://www.openproject.org/docs/user-guide/)։
+                    Խնդրում ենք տեղեկացնել մեզ, եթե ունեք հարցեր կամ աջակցության կարիք։ Կապվեք մեզ հետ՝ [support\[at\]openproject.com](mailto:support@openproject.com)։
               item_4:
                 options:
-                  name: Members
+                  name: Անդամներ
               item_5:
                 options:
-                  name: Work packages
+                  name: Աշխատանքային փաթեթներ

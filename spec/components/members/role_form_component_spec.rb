@@ -63,7 +63,7 @@ RSpec.describe Members::RoleFormComponent, type: :component do
 
       expect(form.first("input[type='submit']").value).to eq "Change"
 
-      expect(form).to have_no_css "input[name='member[user_ids][]']", visible: :hidden # rubocop:disable Capybara/SpecificMatcher
+      expect(form).to have_no_css "input[name='member[user_ids][]']", visible: :hidden # rubocop:disable Capybara/RSpec/SpecificMatcher
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe Members::RoleFormComponent, type: :component do
 
       expect(form.first("input[type='submit']").value).to eq "Add"
 
-      expect(form).to have_css "input[name='member[user_ids][]']", visible: :hidden # rubocop:disable Capybara/SpecificMatcher
+      expect(form).to have_css "input[name='member[user_ids][]']", visible: :hidden # rubocop:disable Capybara/RSpec/SpecificMatcher
 
       expect(form.first("input[name='member[user_ids][]']", visible: :hidden).value).to eq "42"
     end

@@ -49,6 +49,12 @@ As CKEditor5 currently does not provide support for code blocks, OpenProject can
 
 The GFM extension of the CommonMark specs adds a definition for table syntax, which the CKEditor of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
 
+### Emojis
+
+You can add emojis to all text editors in OpenProject. Type a colon and a letter, e.g. **:a** into the wiki editor and get a suggested list of emojis you can use.
+
+![Insert an emoji into a WYSIWIG editor in OpenProject](openproject_user_guide_wysiwig_emoji.png)
+
 ### Autoformatting
 
 CKEditor5 allows certain CommonMark-like [autoformatting keyboard strokes](https://ckeditor5.github.io/docs/nightly/ckeditor5/latest/features/autoformat.html):
@@ -86,6 +92,10 @@ OpenProject has supported macros on textile formatted pages and continues to do 
 
 You can find the macros here in the text editor:
 ![Macros text editor](openproject_user_guide_macros.png)
+
+### Full vs constrained editor
+
+In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
 
 ### Table of contents
 
@@ -213,6 +223,24 @@ Example:
 
 **Linking to the current project's status**: `projectValue:status`
 
+### Control how multiple values are displayed
+
+Some attributes can contain multiple values, such as **Target versions** or **multi-select custom fields**. These values are displayed one value per line in the application and are separated by a comma in PDF exports. 
+
+You can choose whether these values are displayed on separate lines or on a single line within the CKEditor.
+
+Add one of the following layout options to the macro:
+
+- `workPackageValue:1234:targetVersions:multiline` displays each value on a separate line.
+- `workPackageValue:1234:targetVersions:singleline` displays all values on a single line, separated by commas.
+
+The layout option also works with custom fields (for example, `workPackageValue:1234:"My custom field":singleline`), project attributes (`projectValue:...`), and relative references (`workPackageValue:targetVersions:singleline`).
+
+The layout option only affects attributes that can contain multiple values. For single-value attributes, such as `subject`, it has no effect.
+
+> [!NOTE]
+> The deprecated `version` attribute displays the work package's target versions on a single line by default.
+
 ### Embedding attribute help texts
 
 You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` or `projectLabel`.
@@ -255,7 +283,8 @@ where `1234` stands for the [work package ID](../work-packages).
 | Start date          | `workPackageValue:1234:startDate`                               |
 | Status              | `workPackageValue:1234:status`                                  |
 | Subject / Title     | `workPackageValue:1234:subject`                                 |
-| Version             | `workPackageValue:1234:version`                                 |
+| Target versions     | `workPackageValue:1234:targetVersions`                          |
+| Version _(deprecated)_ | `workPackageValue:1234:version`                              |
 | Work                | `workPackageValue:8415:estimatedTime`                           |
 | Work package type   | `workPackageValue:1234:type`                                    |
 
@@ -268,7 +297,7 @@ The following list contains all supported attribute names for the `projectValue`
 
 | **Attribute**             | Usage example                                     |
 |---------------------------|---------------------------------------------------|
-| *Custom Fields*           | `projectValue:"Name of the project custom field"` |
+| _Custom Fields_           | `projectValue:"Name of the project custom field"` |
 | Project active? (boolean) | `projectValue:active`                             |
 | Description               | `projectValue:description`                        |
 | Identifier of the project | `projectValue:identifier`                         |

@@ -99,9 +99,7 @@
                 render(RecurringMeeting::EndAfter.new(f))
               end
 
-              frequency_row.with_column(
-                flex: 1
-              ) do
+              frequency_row.with_column(flex: 1) do
                 flex_layout do |end_after|
                   end_after.with_row(
                     hidden: !@meeting.end_after_specific_date?,

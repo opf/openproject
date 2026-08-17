@@ -45,7 +45,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   end
 
   def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
+    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, key)
   end
 
   private

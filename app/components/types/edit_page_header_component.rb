@@ -34,9 +34,10 @@ module Types
     include ApplicationHelper
     include TabsHelper
 
-    def initialize(type:, tabs: nil)
+    def initialize(type:, variant: nil, tabs: nil)
       super
       @type = type
+      @variant = variant
       @tabs = tabs
     end
 
@@ -44,7 +45,28 @@ module Types
       [{ href: admin_index_path, text: t("label_administration") },
        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
        { href: types_path, text: t(:label_type_plural) },
-       @type.name]
+       *type_breadcrumb_item,
+       breadcrumb_leaf]
+    end
+
+    def title
+      return @type.name unless named_variant?
+
+      t("types.edit.breadcrumb_variant", name: @variant.variant_name)
+    end
+
+    private
+
+    def named_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
+
+    def type_breadcrumb_item
+      return [] unless named_variant?
+
+      [{ href: edit_type_details_path(type_id: @type.id), text: @type.name }]
+    end
+
+    def breadcrumb_leaf
+      title
     end
   end
 end

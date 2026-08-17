@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import ObservableArray from 'observable-array';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
@@ -6,14 +34,14 @@ import { OpenprojectHalModuleHelpers } from 'core-app/features/hal/helpers/lazy-
 import { HalSource } from 'core-app/features/hal/interfaces';
 
 export function cloneHalResourceCollection<T extends HalResource>(values:T[]|undefined):T[] {
-  if (_.isNil(values)) {
+  if (values == null) {
     return [];
   }
   return values.map((v) => v.$copy<T>());
 }
 
 export function cloneHalResource<T extends HalResource>(value:T|undefined):T|undefined {
-  if (_.isNil(value)) {
+  if (value == null) {
     return value;
   }
   return value.$copy<T>();
@@ -38,7 +66,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
   }
 
   function asHalResource(value?:HalSource, loaded = true):HalResource|HalSource|undefined|null {
-    if (_.isNil(value)) {
+    if (value == null) {
       return value;
     }
 
@@ -122,7 +150,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     const sourceName = `_${name}`;
     const sourceObj:any = halResource.$source[sourceName];
 
-    if (_.isObject(sourceObj)) {
+    if (typeof sourceObj === 'object' && sourceObj !== null) {
       Object.keys(sourceObj).forEach((propName) => {
         OpenprojectHalModuleHelpers.lazy((halResource)[instanceName],
           propName,
@@ -147,8 +175,8 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
         return element.map((source) => asHalResource(source, true));
       }
 
-      if (_.isObject(element)) {
-        _.each(element, (child:any, name:string) => {
+      if (typeof element === 'object' && element !== null) {
+        Object.entries(element as Record<string, HalSource>).forEach(([name, child]) => {
           if (child && (child._embedded || child._links)) {
             OpenprojectHalModuleHelpers.lazy(element as any,
               name,
@@ -184,7 +212,8 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       if (isArray) {
         halResource.$source._embedded[linkName] = (val).map((el) => el.$source);
       } else {
-        halResource.$source._embedded[linkName] = _.get(val, '$source', val);
+        const source:unknown = (val as HalResource | undefined)?.$source;
+        (halResource.$source as { _embedded:Record<string, unknown> })._embedded[linkName] = source === undefined ? val : source;
       }
     }
 

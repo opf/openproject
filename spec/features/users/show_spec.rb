@@ -69,4 +69,28 @@ RSpec.describe "index users", :js do
       expect(page).to have_no_text group.name
     end
   end
+
+  describe "built-in and custom field attributes in the side panel" do
+    shared_let(:section) { create(:user_custom_field_section, name: "Public profile") }
+    shared_let(:custom_field) do
+      create(:user_custom_field, :string, name: "Job title", user_custom_field_section: section)
+    end
+    shared_let(:profile_user) do
+      create(:user, firstname: "Sarah", mail: "s.chen@example.com",
+                    custom_values: [build(:custom_value, custom_field:, value: "Developer")])
+    end
+
+    before do
+      section.update_column(:attribute_order, ["firstname", "mail", custom_field.column_name])
+      visit user_path(profile_user)
+    end
+
+    it "shows built-in attributes alongside custom fields" do
+      expect(page).to have_text(User.human_attribute_name("firstname"))
+      expect(page).to have_text("Sarah")
+      expect(page).to have_text("s.chen@example.com")
+      expect(page).to have_text("Job title")
+      expect(page).to have_text("Developer")
+    end
+  end
 end

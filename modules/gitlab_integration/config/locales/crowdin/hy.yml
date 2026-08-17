@@ -22,61 +22,61 @@
 #++
 ---
 hy:
-  attributes:
-    commit: Commit
-    gitlab: GitLab identifier
-    gitlab_avatar_url: Avatar URL
-    gitlab_email: GitLab Email
-    gitlab_html_url: GitLab HTML URL
-    gitlab_merge_request: Merge Request
-    gitlab_name: GitLab name
-    gitlab_updated_at: Updated at
-    gitlab_user_avatar_url: GitLab avatar URL
-    gitlab_username: GitLab username
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: CI Details
       gitlab_merge_request:
-        labels: Labels
+        labels: Պիտակներ
+      gitlab_pipeline:
+        ci_details: CI-ի մանրամասներ
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: 'must be an array of hashes with keys: color, title'
+              invalid_schema: պետք է լինի հեշերի զանգված հետևյալ բանալիներով՝ color, title
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: 'must be an array of hashes with keys: color, title'
-  label_gitlab_integration: GitLab Integration
-  label_gitlab_actor: GitLab actor
-  label_gitlab_webhook_secret: Webhook secret
-  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
-
-    '
-  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
-
-    '
-  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
-
-    '
-  project_module_gitlab: GitLab
-  permission_show_gitlab_content: Show GitLab content
+              invalid_schema: պետք է լինի հեշերի զանգված հետևյալ բանալիներով՝ color, title
+  attributes:
+    commit: Կոմիտ
+    gitlab: GitLab-ի նույնացուցիչ
+    gitlab_avatar_url: Ավատարի URL
+    gitlab_email: GitLab-ի էլ. փոստ
+    gitlab_html_url: GitLab-ի HTML URL
+    gitlab_merge_request: Միաձուլման հարցում
+    gitlab_name: GitLab-ի անուն
+    gitlab_updated_at: Թարմացվել է
+    gitlab_user_avatar_url: GitLab-ի ավատարի URL
+    gitlab_username: GitLab-ի օգտանուն
   gitlab_integration:
-    merge_request_opened_comment: "**MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    note_commit_referenced_comment: "**Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}\n"
-    note_mr_referenced_comment: "**Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_mr_commented_comment: "**Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_issue_referenced_comment: "**Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_issue_commented_comment: "**Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
-    issue_opened_referenced_comment: "**Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_closed_referenced_comment: "**Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_reopened_referenced_comment: "**Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    push_single_commit_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_multiple_commits_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+    issue_closed_referenced_comment: "**Խնդիրը փակված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) փակվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    issue_opened_referenced_comment: "**Խնդիրը բացված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) բացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    issue_reopened_referenced_comment: "**Խնդիրը վերաբացված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) վերաբացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    merge_request_closed_comment: "**MR-ը փակված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) փակվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    merge_request_merged_comment: "**MR-ը միաձուլված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) միաձուլվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    merge_request_opened_comment: "**MR-ը բացված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) բացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    merge_request_reopened_comment: "**MR-ը վերաբացված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) վերաբացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    note_commit_referenced_comment: "**Հղված է կոմիտում՝** [%{gitlab_user}](%{gitlab_user_url})-ն հղում է կատարել այս աշխատանքային փաթեթին [%{repository}](%{repository_url})-ի [%{commit_id}](%{commit_url}) կոմիտի նշման մեջ՝ %{commit_note}\n"
+    note_issue_commented_comment: "**Մեկնաբանված է խնդրում՝** [%{gitlab_user}](%{gitlab_user_url})-ն մեկնաբանել է այս աշխատանքային փաթեթը [%{repository}](%{repository_url})-ի %{issue_number} խնդրում [%{issue_title}](%{issue_url})՝ %{issue_note}\n"
+    note_issue_referenced_comment: "**Հղված է խնդրում՝** [%{gitlab_user}](%{gitlab_user_url})-ն հղում է կատարել այս աշխատանքային փաթեթին [%{repository}](%{repository_url})-ի %{issue_number} խնդրում [%{issue_title}](%{issue_url})՝ %{issue_note}\n"
+    note_mr_commented_comment: "**Մեկնաբանված է MR-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն մեկնաբանել է այս աշխատանքային փաթեթը [%{repository}](%{repository_url})-ի %{mr_number} միաձուլման հարցումում [%{mr_title}](%{mr_url})՝ %{mr_note}\n"
+    note_mr_referenced_comment: "**Հղված է MR-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն հղում է կատարել այս աշխատանքային փաթեթին [%{repository}](%{repository_url})-ի %{mr_number} միաձուլման հարցումում [%{mr_title}](%{mr_url})՝ %{mr_note}\n"
+    note_snippet_referenced_comment: "**Հղված է հատվածում՝** [%{gitlab_user}](%{gitlab_user_url})-ն հղում է կատարել այս աշխատանքային փաթեթին [%{repository}](%{repository_url})-ի %{snippet_number} հատվածում [%{snippet_title}](%{snippet_url})՝ %{snippet_note}\n"
+    push_multiple_commits_comment: "**Ուղարկված է MR-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն %{commit_timestamp}-ին մի քանի կոմիտ [%{commit_number}](%{commit_url}) ուղարկեց դեպի [%{repository}](%{repository_url})՝ %{commit_note}\n"
+    push_single_commit_comment: "**Ուղարկված է MR-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն %{commit_timestamp}-ին ուղարկեց [%{commit_number}](%{commit_url}) կոմիտը դեպի [%{repository}](%{repository_url})՝ %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Ուղարկված է %{reference}-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն %{commit_timestamp}-ին ուղարկեց [%{commit_number}](%{commit_url}) կոմիտը դեպի [%{repository}](%{repository_url})՝ %{commit_note}\n"
+  label_gitlab_actor: GitLab-ի կատարող
+  label_gitlab_integration: GitLab-ի ինտեգրացիա
+  label_gitlab_webhook_secret: Վեբհուկի գաղտնիք
+  permission_show_gitlab_content: Ցուցադրել GitLab-ի բովանդակությունը
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'OpenProject-ի օգտատերը, որի API բանալին պետք է օգտագործվի մուտքային վեբհուկի հարցումները նույնականացնելու համար։ Երբ սահմանված է, ցանկացած այլ օգտատիրոջ հավատարմագրերով նույնականացված հարցումները մերժվում են։ Այս օգտատերը նաև ավտոմատ մեկնաբանություններ է հրապարակում աշխատանքային փաթեթներում։ Երբ սահմանված չէ, կանխադրված կիրառվում է համակարգային օգտատերը։
+
+    '
+  text_gitlab_webhook_secret_info: 'Գաղտնի թոքեն, որը համօգտագործվում է GitLab-ի հետ վեբհուկը կազմաձևելիս։ Երբ սահմանված է, OpenProject-ը ստուգում է X-Gitlab-Token վերնագիրը յուրաքանչյուր մուտքային հարցումում՝ մերժելով չհամապատասխանող տվյալները։ Թողեք դատարկ՝ ստուգումը բաց թողնելու համար (խորհուրդ չի տրվում)։
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'Վեբհուկի գաղտնիք կազմաձևված չէ։ GitLab-ի վեբհուկի վերջնակետին ուղղված ցանկացած հարցում կընդունվի առանց ստուգման, ինչը կարող է թույլ տալ չլիազորված անձանց կեղծել իրադարձությունները։ Խստորեն խորհուրդ է տրվում սահմանել գաղտնիք։
+
+    '

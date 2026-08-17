@@ -28,33 +28,34 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= with_enterprise_banner_guard(
-  :define_custom_style,
-  variant: :large,
-  video: "enterprise/custom-design.mp4"
-) do %>
+      :define_custom_style,
+      inactive_guard: default_colors_tab?,
+      variant: :large,
+      video: "enterprise/custom-design.mp4"
+    ) do %>
   <%= render(Admin::DesignHeaderComponent.new(tabs: design_tabs)) %>
   <%= error_messages_for "custom_style" %>
-  <% unless pdf_tab? %>
-  <%= form_tag update_design_themes_path, method: :post, class: "form" do %>
-    <section class="form--section">
-      <fieldset class="form--fieldset">
-        <legend class="form--fieldset-legend"><%= I18n.t("admin.custom_styles.color_theme") %></legend>
-        <div class="form--field">
-          <div class="form--field-container">
-            <%= styled_select_tag "theme",
-                                  options_for_select(@theme_options, @current_theme),
-                                  container_class: "-slim" %>
+  <% if show_theme_selector? %>
+    <%= form_tag update_design_themes_path, method: :post, class: "form" do %>
+      <section class="form--section">
+        <fieldset class="form--fieldset">
+          <legend class="form--fieldset-legend"><%= I18n.t("admin.custom_styles.color_theme") %></legend>
+          <div class="form--field">
+            <div class="form--field-container">
+              <%= styled_select_tag "theme",
+                                    options_for_select(@theme_options, @current_theme),
+                                    container_class: "-slim" %>
+            </div>
           </div>
-        </div>
 
-        <%= styled_button_tag t(:button_save),
-                              data: {
-                                test_selector: "color-theme-button",
-                                turbo_confirm: (t("admin.custom_styles.theme_warning") if @current_theme.blank?)
-                              } %>
-      </fieldset>
-    </section>
-  <% end %>
+          <%= styled_button_tag t(:button_save),
+                                data: {
+                                  test_selector: "color-theme-button",
+                                  turbo_confirm: (t("admin.custom_styles.theme_warning") if @current_theme.blank?)
+                                } %>
+        </fieldset>
+      </section>
+    <% end %>
   <% end %>
 
   <%= render_tabs design_tabs %>

@@ -6,13 +6,13 @@ release_version: 17.2.2
 release_date: 2026-03-17
 ---
 
- # OpenProject 17.2.2
+# OpenProject 17.2.2
 
- Release date: 2026-03-17
+Release date: 2026-03-17
 
- We released OpenProject [OpenProject 17.2.2](https://community.openproject.org/versions/2284).
- The release contains several bug fixes and we recommend updating to the newest version.
- Below you will find a complete list of all changes and bug fixes.
+We released OpenProject [OpenProject 17.2.2](https://community.openproject.org/versions/2284).
+The release contains several bug fixes and we recommend updating to the newest version.
+Below you will find a complete list of all changes and bug fixes.
 
 <!-- BEGIN CVE AUTOMATED SECTION -->
 

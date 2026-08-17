@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -94,7 +94,7 @@ export class QueryFilterInstanceResource extends HalResource {
   }
 
   public findOperator(operatorSymbol:string):QueryOperatorResource|undefined {
-    return _.find(this.schemaCache.of(this).availableOperators, (operator:QueryOperatorResource) => operator.id === operatorSymbol) as QueryOperatorResource|undefined;
+    return (this.schemaCache.of(this).availableOperators as QueryOperatorResource[]|undefined)?.find((operator:QueryOperatorResource) => operator.id === operatorSymbol);
   }
 
   public isTemplated() {

@@ -22,9 +22,9 @@
 ---
 ko:
   js:
-    work_packages:
-      properties:
-        storyPoints: 스토리 포인트
     burndown:
       day: 일
       points: 포인트
+    work_packages:
+      properties:
+        storyPoints: 스토리 포인트

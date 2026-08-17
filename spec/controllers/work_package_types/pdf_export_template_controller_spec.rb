@@ -34,6 +34,7 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::PdfExportTemplateController do
   let(:user) { create(:admin) }
   let(:wp_type) { create(:type) }
+  let(:variant) { wp_type.default_variant }
 
   current_user { user }
 
@@ -58,47 +59,97 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
   context "when an admin" do
     def put_reload(endpoint, params = {})
       put endpoint, params: { type_id: wp_type.id }.merge(params), as: :turbo_stream
-      wp_type.reload
+      variant.reload
     end
 
     def post_reload(endpoint, params = {})
       post endpoint, params: { type_id: wp_type.id }.merge(params), as: :turbo_stream
-      wp_type.reload
+      variant.reload
     end
 
     context "with no enabled templates" do
       before do
-        wp_type.pdf_export_templates.disable_all
-        wp_type.save!
+        variant.pdf_export_templates.disable_all
+        variant.save!
       end
 
       it "enables all templates" do
         put_reload :enable_all
-        expect(wp_type.export_templates_disabled.length).to eq(0)
+        expect(variant.export_templates_disabled.length).to eq(0)
       end
 
       it "reorder a template" do
-        first = wp_type.pdf_export_templates.list.first
+        first = variant.pdf_export_templates.list.first
         put_reload :drop, { id: first.id, position: 2 } # drop index starts at 1
-        wp_type.pdf_export_templates.list[1].id == first.id
+        variant.pdf_export_templates.list[1].id == first.id
       end
 
       it "toggles enabled/disabled for a template" do
-        first = wp_type.pdf_export_templates.list.first
+        first = variant.pdf_export_templates.list.first
         post_reload :toggle, { id: first.id }
-        expect(wp_type.pdf_export_templates.find(first.id).enabled).to be(true)
+        expect(variant.pdf_export_templates.find(first.id).enabled).to be(true)
       end
     end
 
     context "with all enabled templates" do
       before do
-        wp_type.pdf_export_templates.enable_all
-        wp_type.save!
+        variant.pdf_export_templates.enable_all
+        variant.save!
       end
 
       it "disables all templates" do
         put_reload :disable_all
-        expect(wp_type.export_templates_disabled.length).to eq(2)
+        expect(variant.export_templates_disabled.length).to eq(variant.pdf_export_templates.list.length)
+      end
+    end
+
+    describe "#edit" do
+      render_views
+
+      it "renders the export configuration page including the artefact export form" do
+        get :edit, params: { type_id: wp_type.id }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(I18n.t("types.edit.export_configuration.artefact_export.section_title"))
+      end
+
+      context "when no automatically-managed Nextcloud storage is configured" do
+        it "marks the file link option as unavailable" do
+          get :edit, params: { type_id: wp_type.id }
+
+          expect(response.body).to include(I18n.t("types.edit.export_configuration.artefact_export.unavailable"))
+        end
+      end
+
+      context "when an automatically-managed Nextcloud storage is configured" do
+        before { create(:nextcloud_storage, :as_automatically_managed) }
+
+        it "offers the file link option without the unavailable hint" do
+          get :edit, params: { type_id: wp_type.id }
+
+          expect(response.body).not_to include(I18n.t("types.edit.export_configuration.artefact_export.unavailable"))
+        end
+      end
+    end
+
+    describe "#update_artefact_export" do
+      it "stores a valid artefact export mode and responds with a turbo stream" do
+        put :update_artefact_export,
+            params: { type_id: wp_type.id, type: { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::FILE_LINK)
+      end
+
+      it "rejects an invalid mode" do
+        put :update_artefact_export,
+            params: { type_id: wp_type.id, type: { artefact_export_mode: "bogus" } },
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
       end
     end
   end

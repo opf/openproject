@@ -21,108 +21,108 @@
 #++
 ---
 hy:
-  plugin_budgets_engine:
-    name: Budgets
   activerecord:
     attributes:
       budget:
-        author: Author
-        available: Available
-        budget: Planned
-        budget_ratio: Spent (ratio)
-        description: Description
-        spent: Spent
-        status: Status
-        subject: Subject
-        type: Cost type
-        labor_budget: Planned labor costs
-        labor_budget_items: Planned labor costs
-        material_budget: Planned unit costs
-        base_amount: Base amount
+        author: Հեղինակ
+        available: Հասանելի
+        base_amount: Բազային գումար
+        budget: Պլանավորված
+        budget_ratio: Ծախսված (հարաբերակցություն)
+        description: Նկարագրություն
+        labor_budget: Պլանավորված աշխատուժի ծախսեր
+        labor_budget_items: Պլանավորված աշխատուժի ծախսեր
+        material_budget: Պլանավորված միավորի ծախսեր
+        spent: Ծախսված
+        status: Կարգավիճակ
+        subject: Վերնագիր
+        type: Ծախսի տեսակ
       work_package:
-        budget_subject: Budget title
+        budget_subject: Բյուջեի վերնագիր
     errors:
       models:
         labor_budget_item:
           attributes:
             principal:
-              not_a_member_of_budget_project: is not a member of the budget's project
+              not_a_member_of_budget_project: բյուջեի նախագծի անդամ չէ
     models:
-      budget: Budget
-      labor_budget_item: Planned labor cost
-      material_budget_item: Unit
+      budget: Բյուջե
+      labor_budget_item: Պլանավորված աշխատուժի ծախս
+      material_budget_item: Միավոր
   activity:
     filter:
-      budget: Budgets
+      budget: Բյուջեներ
   attributes:
-    budget: Budget
-  button_add_budget_item: Add planned costs
-  button_add_budget: Add budget
-  button_add_cost_type: Add cost type
-  button_cancel_edit_budget: Cancel editing budget
-  button_cancel_edit_costs: Cancel editing costs
-  caption_labor: Labor
-  caption_labor_costs: Actual labor costs
-  caption_material_costs: Actual unit costs
-  budgets_title: Budgets
+    budget: Բյուջե
   budgets:
     widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
       budget_by_cost_type:
-        title: Budget by cost type
         blankslate:
-          heading: Start project controlling
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          description: Ստացեք Ձեր բյուջեների և ծախսերի ընդհանուր պատկերը՝ նախագծի վիճակին արդյունավետ կերպով հետևելու համար
+          heading: Սկսեք նախագծի վերահսկողությունը
         blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
+          description: Ավելացրեք Ձեր պլանավորված բյուջեի մանրամասները՝ այստեղ տվյալներ տեսնելու համար
+          heading: Բյուջեի մանրամասները բացակայում են
         count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
+          one: Տվյալներն ամփոփված են %{count} բյուջեից
+          other: Տվյալներն ամփոփված են %{count} բյուջեից
+          zero: Բյուջեի տվյալներ չկան։
         count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
           portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: View budget details
+            one: Տվյալներն ամփոփված են այս պորտֆոլիոյում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            other: Տվյալներն ամփոփված են այս պորտֆոլիոյում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            zero: Բյուջեի տվյալներ չկան։
+          program:
+            one: Տվյալներն ամփոփված են այս ծրագրում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            other: Տվյալներն ամփոփված են այս ծրագրում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            zero: Բյուջեի տվյալներ չկան։
+          project:
+            one: Տվյալներն ամփոփված են այս նախագծում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            other: Տվյալներն ամփոփված են այս նախագծում և դրա ենթատարրերում ներառված %{count} բյուջեից։
+            zero: Բյուջեի տվյալներ չկան։
+        title: Բյուջեն ըստ ծախսի տեսակի
+        view_details: Դիտել բյուջեի մանրամասները
+      budget_totals:
+        remaining_budget: Մնացած բյուջե
+        spent_budget: Ծախսված բյուջե
+        title: Բյուջեի հանրագումարներ
+        total_actual_costs: Ընդհանուր փաստացի ծախսեր
+        total_planned_budget: Ընդհանուր պլանավորված բյուջե
+  budgets_title: Բյուջեներ
+  button_add_budget: Ավելացնել բյուջե
+  button_add_budget_item: Ավելացնել պլանավորված ծախսեր
+  button_add_cost_type: Ավելացնել ծախսի տեսակ
+  button_cancel_edit_budget: Չեղարկել բյուջեի խմբագրումը
+  button_cancel_edit_costs: Չեղարկել ծախսերի խմբագրումը
+  caption_labor: Աշխատուժ
+  caption_labor_costs: Փաստացի աշխատուժի ծախսեր
+  caption_material_costs: Փաստացի միավորի ծախսեր
   events:
-    budget: Budget edited
-  help_click_to_edit: Click here to edit.
-  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.
-  help_override_rate: Enter a value here to override the default rate.
-  label_budget: Budget
-  label_budget_available: Budget available
-  label_budget_id: 'Budget #%{id}'
-  label_budget_new: New budget
-  label_budget_planned: Budget planned
-  label_budget_plural: Budgets
-  label_budget_spent: Budget spent
-  label_budget_spent_ratio: Budget spent ratio
-  label_deliverable: Budget
-  label_example_placeholder: e.g., %{decimal}
-  label_view_all_budgets: View all budgets
-  label_yes: 'Yes'
-  label_budget_totals: Totals
-  label_budget_details: Budget details
-  notice_budget_conflict: Work packages must be of the same project.
-  notice_no_budgets_available: No budgets available.
-  permission_edit_budgets: Edit budgets
-  permission_view_budgets: View budgets
-  project_module_budgets: Budgets
-  text_budget_reassign_to: 'Reassign them to this budget:'
-  text_budget_delete: Delete the budget from all work packages
-  text_budget_destroy_assigned_wp: There are %{count} work packages assigned to this budget. What do you want to do?
+    budget: Բյուջեն խմբագրվել է
+  help_click_to_edit: Սեղմեք այստեղ խմբագրելու համար։
+  help_currency_format: Ցուցադրվող արժույթի արժեքների ձևաչափը։ %n-ը փոխարինվում է արժույթի արժեքով, %u-ը՝ արժույթի միավորով։
+  help_override_rate: Մուտքագրեք այստեղ արժեք՝ կանխադրված դրույքը վերասահմանելու համար։
+  label_budget: Բյուջե
+  label_budget_available: Հասանելի բյուջե
+  label_budget_details: Բյուջեի մանրամասներ
+  label_budget_id: 'Բյուջե #%{id}'
+  label_budget_new: Նոր բյուջե
+  label_budget_planned: Պլանավորված բյուջե
+  label_budget_plural: Բյուջեներ
+  label_budget_spent: Ծախսված բյուջե
+  label_budget_spent_ratio: Ծախսված բյուջեի հարաբերակցություն
+  label_budget_totals: Ընդհանուր գումարներ
+  label_deliverable: Բյուջե
+  label_example_placeholder: օրինակ՝ %{decimal}
+  label_view_all_budgets: Դիտել բոլոր բյուջեները
+  label_yes: Այո
+  notice_budget_conflict: Աշխատանքային փաթեթները պետք է լինեն նույն նախագծից։
+  notice_no_budgets_available: Հասանելի բյուջեներ չկան։
+  permission_edit_budgets: Խմբագրել բյուջեները
+  permission_view_budgets: Դիտել բյուջեները
+  plugin_budgets_engine:
+    name: Բյուջեներ
+  project_module_budgets: Բյուջեներ
+  text_budget_delete: Ջնջել բյուջեն բոլոր աշխատանքային փաթեթներից
+  text_budget_destroy_assigned_wp: Այս բյուջեին նշանակված է %{count} աշխատանքային փաթեթ։ Ի՞նչ եք ցանկանում անել։
+  text_budget_reassign_to: Վերանշանակել դրանք այս բյուջեին՝

@@ -1,32 +1,31 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
 
 import ExpandableTextController from './expandable-text.controller';
@@ -47,7 +46,7 @@ const singleLineTemplate = `
 
 const multiLineTemplate = `
   <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="true">
-    <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+    <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
       <p>Line one of a multi-line block of text.</p>
       <p>Line two with more content.</p>
       <p>Line three extends beyond the clamp limit.</p>
@@ -61,7 +60,7 @@ const multiLineTemplate = `
 
 const dialogTemplate = `
   <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="false">
-    <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+    <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
       <p>Content that opens in a dialog.</p>
     </div>
     <div data-expandable-text-target="expander">
@@ -425,7 +424,7 @@ describe('ExpandableTextController', () => {
       // should not advertise a disclosure state, so the controller strips it.
       const dialogWithAriaTemplate = `
         <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="false">
-          <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+          <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
             <p>Content that opens in a dialog.</p>
           </div>
           <div data-expandable-text-target="expander">
@@ -472,7 +471,7 @@ describe('ExpandableTextController', () => {
     it('preserves server-rendered expander when content fits but has omitted paragraphs', async () => {
       const serverVisibleTemplate = `
         <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="false">
-          <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+          <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
             <span>Short first paragraph that fits.</span>
           </div>
           <div data-expandable-text-target="expander">
@@ -500,7 +499,7 @@ describe('ExpandableTextController', () => {
     it('toggles a server-hidden expander based on truncation', async () => {
       const serverHiddenTemplate = `
         <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="false">
-          <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+          <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
             <span>Single paragraph.</span>
           </div>
           <div data-expandable-text-target="expander" hidden>

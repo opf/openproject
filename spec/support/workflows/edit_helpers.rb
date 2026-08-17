@@ -38,7 +38,12 @@ module Workflows
       params = {}
       params[:role_ids] = roles.map(&:id) if roles.any?
       params[:tab] = tab if tab
-      visit edit_workflow_path(type, **params)
+      visit edit_type_workflow_path(type, **params)
+    end
+
+    def switch_transition_tab(label)
+      page.find_test_selector("workflow-transitions-menu").click
+      click_link label
     end
 
     def switch_role_via_panel(from_role, to_role)
@@ -69,6 +74,14 @@ module Workflows
       end
     end
 
+    def toggle_select_all_in_column(to_index)
+      find(:button, accessible_name: "Toggle transitions from all old statuses to #{statuses[to_index].name}").click
+    end
+
+    def toggle_select_all_in_row(from_index)
+      find(:button, accessible_name: "Toggle transitions from #{statuses[from_index].name} to all new statuses").click
+    end
+
     def indeterminate?(checkbox_id)
       page.evaluate_script("document.getElementById('#{checkbox_id}')?.indeterminate ?? false")
     end
@@ -84,7 +97,7 @@ module Workflows
     end
 
     def expect_transition(role, from_index, to_index, exist:, author: false, assignee: false)
-      expect(Workflow.exists?(role_id: role.id, type_id: type.id,
+      expect(Workflow.exists?(role_id: role.id, type_variant_id: type.default_variant.id,
                               old_status_id: statuses[from_index].id,
                               new_status_id: statuses[to_index].id,
                               author:, assignee:)).to be exist

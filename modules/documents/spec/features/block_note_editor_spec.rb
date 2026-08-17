@@ -78,6 +78,24 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     end
   end
 
+  context "when running with a relative_url_root and non-proxied frontend assets",
+          js: false,
+          with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => "1" } do
+    before do
+      allow(Rails.application.config).to receive(:relative_url_root).and_return("/openproject")
+    end
+
+    it "renders the BlockNote shadow-DOM stylesheet urls prefixed with the relative url root" do
+      visit document_path(document)
+
+      block_note_element = find("op-block-note", visible: false)
+      expect(block_note_element["blocknote-stylesheet-url"])
+        .to match(%r{\A/openproject/assets/frontend/blocknote(.*)\.css\z})
+      expect(block_note_element["shadow-dom-stylesheet-url"])
+        .to match(%r{\A/openproject/assets/frontend/styles(.*)\.css\z})
+    end
+  end
+
   describe "with op-blocknote-extensions" do
     it "renders the BlockNote editor with custom menu entries for work package linking" do
       visit document_path(document)
@@ -179,6 +197,29 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
           .to end_with("/wp/#{work_package.id}")
 
         editor.wait_for_autosave { document.reload.description&.include?("####{work_package.id}") }
+      end
+
+      it "allows deleting text with Backspace after inserting an inline work package link (bugfix STC-806)" do
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.element.send_keys("#tiger")
+        editor.wait_for_shadow_content("pet a tiger")
+        send_keys(:enter)
+        expect(editor.element).to have_no_text("#tiger")
+        expect(editor.element).to have_no_text("…")
+        expect(editor.element).to have_text(/##{work_package.display_id}/)
+
+        # Type right after the chip and delete it again with Backspace. Do NOT click / move the caret
+        # first — the bug only manifested when typing immediately after insertion (moving the caret
+        # elsewhere "fixed" it). send_keys (session-level) targets the already-focused editor.
+        send_keys("abc")
+        expect(editor.element).to have_text("abc")
+
+        send_keys(:backspace, :backspace, :backspace)
+
+        expect(editor.element).to have_no_text("abc")
+        expect(editor.element).to have_text(/##{work_package.display_id}/)
       end
 
       describe "CTRL-Z undo behavior" do

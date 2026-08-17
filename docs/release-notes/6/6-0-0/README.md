@@ -48,7 +48,7 @@ The help menu in OpenProject has been extended. As a result, it now
 includes references to user guides, shortcuts and other relevant
 information.
 
-Additionally, a *First steps* video makes it easier for new users to
+Additionally, a _First steps_ video makes it easier for new users to
 start working with OpenProject.
 
 ## Usability improvements

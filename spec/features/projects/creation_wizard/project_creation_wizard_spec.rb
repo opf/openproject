@@ -132,6 +132,13 @@ RSpec.describe "Project creation wizard",
     create(:project_custom_field_project_mapping, project:, project_custom_field: string_custom_field)
     create(:project_custom_field_project_mapping, project:, project_custom_field: list_custom_field)
     create(:project_custom_field_project_mapping, project:, project_custom_field: int_custom_field)
+
+    # Activating a project attribute no longer enables it for the creation
+    # wizard (PIR) automatically. Explicitly enable everything mapped so far
+    # (including user_custom_field, mapped via the project factory above) -
+    # the dedicated "disabled" contexts below turn specific ones back off
+    # afterwards, in their own before/let! hooks, which run after this one.
+    project.project_custom_field_project_mappings.update_all(creation_wizard: true)
   end
 
   it "can visit the wizard path manually and navigate through sections" do
@@ -260,7 +267,7 @@ RSpec.describe "Project creation wizard",
     fill_in "Team Size", with: "5"
 
     click_button "Complete"
-    expect(page).to have_text("Project attributes saved and artifact work package created successfully.")
+    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
 
     project.reload
     expect(page).to have_current_path("/projects/#{project.identifier}/" \
@@ -389,7 +396,7 @@ RSpec.describe "Project creation wizard",
 
       click_button "Complete"
 
-      expect(page).to have_text("Project attributes saved and artifact work package created successfully.")
+      expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
 
       project.reload
       expect(page).to have_current_path("/projects/#{project.identifier}/" \

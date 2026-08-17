@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { truncate } from 'lodash-es';
 import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
@@ -65,7 +66,8 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     );
 
     const title = document.createElement('span');
-    title.textContent = ` ${_.truncate(this.title, { length: 40 })}`;
+    const titleText = typeof this.title === 'string' ? this.title : '';
+    title.textContent = ` ${truncate(titleText, { length: 40 })}`;
 
     element.innerHTML = '';
     element.appendChild(link);

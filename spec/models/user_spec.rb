@@ -43,7 +43,7 @@ RSpec.describe User do
   let(:status) { create(:status) }
   let(:issue) do
     build(:work_package,
-          type: project.types.first,
+          type: project.enabled_types.first,
           author: user,
           project:,
           status:)
@@ -492,6 +492,33 @@ RSpec.describe User do
       end
 
       it { expect(user.watches).to eq([]) }
+    end
+  end
+
+  describe "#department" do
+    subject(:member) { create(:user) }
+
+    it "returns nil when the user belongs to no department" do
+      expect(member.department).to be_nil
+    end
+
+    it "returns the organizational unit the user belongs to" do
+      department = create(:department, members: [member])
+      expect(member.department).to eq(department)
+    end
+
+    it "ignores regular (non-organizational-unit) group memberships" do
+      create(:group, members: [member])
+      expect(member.department).to be_nil
+    end
+
+    it "can be eager-loaded to avoid N+1 queries" do
+      department = create(:department, members: [member])
+
+      preloaded = described_class.where(id: member.id).includes(:departments).first
+
+      expect(preloaded.departments).to be_loaded
+      expect(preloaded.department).to eq(department)
     end
   end
 

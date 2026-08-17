@@ -70,7 +70,7 @@ RSpec.describe "Reset form configuration",
       end
 
       wait_for do
-        type.reload.attribute_groups.reject { |group| group.key == :__empty }.map(&:translated_key)
+        type.reload.default_variant.attribute_groups.reject { |group| group.key == :__empty }.map(&:translated_key)
       end.to eq([
                   "People",
                   "Estimates and progress",
@@ -91,12 +91,12 @@ RSpec.describe "Reset form configuration",
         ]
       )
 
-      expect(type.custom_field_ids).to be_empty
+      expect(type.default_variant.custom_field_ids).to be_empty
 
-      new_group = type.attribute_groups.detect { |g| g.key == "New Group" }
+      new_group = type.default_variant.attribute_groups.detect { |g| g.key == "New Group" }
       expect(new_group).not_to be_present
 
-      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      other_group = type.default_variant.attribute_groups.detect { |g| g.key == :other }
       expect(other_group).to be_present
       expect(other_group.attributes).to eq(%w[position])
     end

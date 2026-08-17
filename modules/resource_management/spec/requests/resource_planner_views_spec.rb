@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "ResourcePlannerViews requests",
-               :skip_csrf,
-               type: :rails_request do
+               :skip_csrf, type: :rails_request, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_resource_planners view_work_packages] })
@@ -66,6 +65,66 @@ RSpec.describe "ResourcePlannerViews requests",
       get project_resource_planner_path(project, resource_planner)
 
       expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET show with an automatic list larger than a page" do
+    let(:query) do
+      Query.new_default(project:, user:).tap do |q|
+        q.name = "List"
+        q.save!
+      end
+    end
+    let(:paginated_view) do
+      ResourceWorkPackageList.create!(name: "Automatic", parent: resource_planner, project:, principal: user, query:)
+    end
+
+    let!(:work_packages) { create_list(:work_package, 2, project:) }
+
+    before { allow(Setting).to receive(:per_page_options_array).and_return([1, 100]) }
+
+    def subjects_on(**query_params)
+      get project_resource_planner_view_path(project, resource_planner, paginated_view, **query_params)
+      work_packages.map(&:subject).select { |subject| response.body.include?(subject) }
+    end
+
+    it "renders the pagination controls and splits the work packages across pages" do
+      first_page = subjects_on(per_page: 1)
+      expect(response.body).to include("op-pagination--pages")
+      expect(first_page.size).to eq(1)
+
+      second_page = subjects_on(per_page: 1, page: 2)
+      expect(second_page.size).to eq(1)
+
+      expect(first_page + second_page).to match_array(work_packages.map(&:subject))
+    end
+  end
+
+  describe "GET show for a manually-picked list" do
+    let(:query) do
+      Query.new_default(project:, user:).tap do |q|
+        q.name = "List"
+        q.add_filter("manual_sort", "ow", [])
+        q.sort_criteria = [%w[manual_sorting asc]]
+        q.save!
+      end
+    end
+    let(:manual_view) do
+      ResourceWorkPackageList.create!(name: "Hand-picked", parent: resource_planner, project:, principal: user, query:)
+    end
+
+    let!(:work_packages) { create_list(:work_package, 2, project:) }
+
+    before do
+      allow(Setting).to receive(:per_page_options_array).and_return([1, 100])
+      work_packages.each_with_index { |wp, i| query.ordered_work_packages.create!(work_package: wp, position: i + 1) }
+    end
+
+    it "stays unpaginated so drag-and-drop keeps the full list" do
+      get project_resource_planner_view_path(project, resource_planner, manual_view, per_page: 1)
+
+      expect(response.body).not_to include("op-pagination--pages")
+      work_packages.each { |wp| expect(response.body).to include(wp.subject) }
     end
   end
 
@@ -167,12 +226,9 @@ RSpec.describe "ResourcePlannerViews requests",
     it "closes the dialog and replaces the tab nav and content in place" do
       perform
 
-      expect(response.body).to include('action="closeDialog"')
-      expect(response.body).to include('target="#edit-resource-planner-view-dialog"')
-
-      expect(response.body).to include('action="replace"')
-      expect(response.body).to include('target="resource-planners-sub-views-component"')
-      expect(response.body).to include('target="resource-planner-views-content-component"')
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "#edit-resource-planner-view-dialog")
+      expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planners-show-page-header-component")
+      expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planner-views-content-component")
 
       expect(response.body).to include("Renamed view")
     end
@@ -231,7 +287,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
         expect(response).to have_http_status(:ok)
         expect(manual_view.query.ordered_work_packages.map(&:work_package)).to include(work_package)
-        expect(response.body).to include('target="resource-planner-views-content-component"')
+        expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planner-views-content-component")
       end
 
       it "does not add the same work package twice" do
@@ -323,7 +379,7 @@ RSpec.describe "ResourcePlannerViews requests",
         expect { perform }.to change { manual_view.query.ordered_work_packages.count }.by(-1)
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('target="resource-planner-views-content-component"')
+        expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planner-views-content-component")
       end
     end
 
@@ -400,6 +456,140 @@ RSpec.describe "ResourcePlannerViews requests",
             delete project_resource_planner_view_path(project, resource_planner, manual_view), as: :turbo_stream
           end.not_to change(ResourceWorkPackageList, :count)
         end
+      end
+    end
+  end
+
+  describe "ResourceUserCard views" do
+    shared_let(:member) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners] })
+    end
+    shared_let(:cf_section) { create(:user_custom_field_section) }
+    shared_let(:skills_cf) do
+      create(:user_custom_field, name: "Skills", field_format: "string", user_custom_field_section: cf_section)
+    end
+
+    let(:resource_user_card) do
+      ResourceUserCard.create!(name: "People", parent: resource_planner, project:, principal: user,
+                               query: UserQuery.new(name: "q", project:, principal: user).tap(&:save!))
+    end
+
+    describe "POST create" do
+      it "persists a ResourceUserCard" do
+        post project_resource_planner_views_path(project, resource_planner),
+             params: {
+               view_class_name: "ResourceUserCard",
+               view: { name: "People", filter_mode: "automatic" },
+               filters: [{ status: { operator: "=", values: ["active"] } }].to_json
+             },
+             as: :turbo_stream
+
+        view = ResourceUserCard.last
+        expect(view.name).to eq("People")
+        expect(view.query).to be_a(UserQuery)
+        expect(view.query.filters.map(&:name)).to contain_exactly(:status)
+        expect(view).not_to be_manually_picked
+      end
+
+      it "sets the manual flag for a manual view" do
+        post project_resource_planner_views_path(project, resource_planner),
+             params: {
+               view_class_name: "ResourceUserCard",
+               view: { name: "People", filter_mode: "manual" },
+               filters: [{ status: { operator: "=", values: ["active"] } }].to_json
+             },
+             as: :turbo_stream
+
+        expect(ResourceUserCard.last).to be_manually_picked
+      end
+    end
+
+    describe "PATCH update" do
+      it "persists filter changes" do
+        patch project_resource_planner_view_path(project, resource_planner, resource_user_card),
+              params: {
+                view: { name: "People", filter_mode: "automatic" },
+                filters: [{ status: { operator: "=", values: ["active"] } }].to_json
+              },
+              as: :turbo_stream
+
+        expect(resource_user_card.reload.query.filters.map(&:name)).to contain_exactly(:status)
+      end
+    end
+
+    describe "card field selection" do
+      it "persists the ordered card_fields on create, dropping unknown ids" do
+        post project_resource_planner_views_path(project, resource_planner),
+             params: {
+               view_class_name: "ResourceUserCard",
+               view: { name: "People", filter_mode: "automatic" },
+               card_fields: "working_times #{skills_cf.column_name} bogus department"
+             },
+             as: :turbo_stream
+
+        expect(ResourceUserCard.last.card_fields).to eq(["working_times", skills_cf.column_name, "department"])
+      end
+
+      it "updates the card_fields on an existing view" do
+        patch project_resource_planner_view_path(project, resource_planner, resource_user_card),
+              params: {
+                view: { name: "People", filter_mode: "automatic" },
+                card_fields: "department"
+              },
+              as: :turbo_stream
+
+        expect(resource_user_card.reload.card_fields).to eq(["department"])
+      end
+
+      it "renders the draggable field selector in the configure dialog" do
+        get edit_project_resource_planner_view_path(project, resource_planner, resource_user_card),
+            as: :turbo_stream
+
+        expect(response.body).to include("opce-draggable-autocompleter")
+      end
+    end
+
+    describe "work package list views ignore card fields" do
+      it "does not render the field selector" do
+        get edit_project_resource_planner_view_path(project, resource_planner, view), as: :turbo_stream
+
+        expect(response.body).not_to include("opce-draggable-autocompleter")
+      end
+
+      it "ignores a submitted card_fields param" do
+        patch project_resource_planner_view_path(project, resource_planner, view),
+              params: { view: { name: "Original" }, card_fields: "department" },
+              as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(view.reload.options).not_to have_key("card_fields")
+      end
+    end
+
+    describe "POST add_user / DELETE remove_user" do
+      it "adds a project member to the view" do
+        expect do
+          post users_project_resource_planner_view_path(project, resource_planner, resource_user_card),
+               params: { user_id: member.id }, as: :turbo_stream
+        end.to change { resource_user_card.query.ordered_entities.count }.by(1)
+      end
+
+      it "does not add the same user twice" do
+        resource_user_card.query.ordered_entities.create!(entity: member, position: 1)
+
+        expect do
+          post users_project_resource_planner_view_path(project, resource_planner, resource_user_card),
+               params: { user_id: member.id }, as: :turbo_stream
+        end.not_to(change { resource_user_card.query.ordered_entities.count })
+      end
+
+      it "removes a previously added user" do
+        resource_user_card.query.ordered_entities.create!(entity: member, position: 1)
+
+        expect do
+          delete remove_user_project_resource_planner_view_path(project, resource_planner, resource_user_card,
+                                                                user_id: member.id), as: :turbo_stream
+        end.to change { resource_user_card.query.ordered_entities.count }.by(-1)
       end
     end
   end

@@ -53,6 +53,19 @@ module OpenProject::Wikis
       end
     end
 
+    initializer "openproject_wikis.configuration" do
+      ::Settings::Definition.add :internal_wiki_provider,
+                                 description: "Overwrite settings of the internal wiki provider through environment variables",
+                                 writable: false,
+                                 default: {},
+                                 format: :hash
+      ::Settings::Definition.add :wiki_providers,
+                                 description: "Configure external wiki providers through environment variables",
+                                 writable: false,
+                                 default: [],
+                                 format: :array
+    end
+
     config.to_prepare do
       API::V3::Configuration::ConfigurationRepresenter.property(
         :wikisAvailable,
@@ -67,11 +80,42 @@ module OpenProject::Wikis
         filter ::Queries::Wikis::PageLinks::Filter::ProviderFilter
         filter ::Queries::Wikis::PageLinks::Filter::WikiPageLinkTypeFilter
       end
+
+      ::Queries::Register.register(::Queries::Wikis::WikiPages::WikiPageQuery) do
+        filter ::Queries::Wikis::WikiPages::Filter::NameFilter
+      end
     end
 
     replace_principal_references "Wikis::PageLink" => %i[author_id]
 
     register "openproject-wikis", author_url: "https://openproject.org" do
+      project_module nil do
+        permission :view_wiki_pages,
+                   { wiki: %i[index show special menu menu_tree export] },
+                   permissible_on: :project
+
+        permission :view_wiki_edits,
+                   { wiki: %i[history diff annotate] },
+                   dependencies: :view_wiki_pages,
+                   permissible_on: :project
+
+        permission :edit_wiki_pages,
+                   { wiki: %i[edit update preview add_attachment new new_child create rename] },
+                   dependencies: :view_wiki_pages,
+                   permissible_on: :project
+
+        permission :manage_wiki,
+                   {
+                     wiki: %i[destroy protect edit_parent_page update_parent_page],
+                     wikis: %i[edit destroy],
+                     wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item],
+                     "wikis/project_settings/wiki": %i[show create]
+                   },
+                   dependencies: :edit_wiki_pages,
+                   permissible_on: :project,
+                   require: :member
+      end
+
       project_module :work_package_tracking do
         permission :manage_wiki_page_links,
                    {
@@ -85,6 +129,34 @@ module OpenProject::Wikis
                    dependencies: %i[edit_work_packages],
                    contract_actions: { wiki_page_links: %i[manage] }
       end
+
+      should_render_wiki_index = ->(_) {
+        User.current.allowed_in_any_project?(:view_wiki_pages)
+      }
+
+      menu :top_menu,
+           :wikis,
+           { controller: "/wikis/wiki_pages", action: "index" },
+           context: :modules,
+           caption: :"wikis.index.menu_title",
+           after: :cost_reports_global,
+           icon: :book,
+           if: should_render_wiki_index
+
+      menu :global_menu,
+           :wikis,
+           { controller: "/wikis/wiki_pages", action: "index" },
+           caption: :"wikis.index.menu_title",
+           after: :cost_reports_global,
+           icon: :book,
+           if: should_render_wiki_index
+
+      menu :global_menu,
+           :wikis_query_select,
+           { controller: "/wikis/wiki_pages", action: "index" },
+           parent: :wikis,
+           partial: "wikis/wiki_pages/menus/menu",
+           if: should_render_wiki_index
 
       menu :work_package_split_view,
            :wikis,
@@ -117,6 +189,13 @@ module OpenProject::Wikis
            parent: :wiki_providers,
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
            caption: :"menus.admin.external_wiki_providers"
+
+      menu :project_menu,
+           :settings_project_wiki,
+           { controller: "/wikis/project_settings/wiki", action: :show },
+           parent: :settings,
+           after: :settings_backlogs,
+           caption: :project_module_wiki_internal
     end
 
     patch_with_namespace :WikiPages, :CreateService
@@ -127,7 +206,7 @@ module OpenProject::Wikis
     add_api_path(:wiki_page_links) { "#{root}/wiki_page_links" }
     add_api_path(:wiki_page_link) { |page_link_id| "#{wiki_page_links}/#{page_link_id}" }
     add_api_path(:wiki_provider) { |provider_universal_identifier| "#{root}/wiki_providers/#{provider_universal_identifier}" }
-    add_api_path(:work_package_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
+    add_api_path(:work_package_wiki_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
 
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::PageLinks::PageLinksAPI

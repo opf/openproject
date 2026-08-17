@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/wikis
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Tue, 11 Aug 2026 13:39:48 GMT
+      Set-Cookie:
+      - JSESSIONID=A6EF15F9E3D40EC03334718740B0FD13; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - o1RpT5v1zoLNs9kAEBGG7Q
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '837'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/query","rel":"http://www.xwiki.org/rel/query","type":null,"hrefLang":null}],"wikis":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces","rel":"http://www.xwiki.org/rel/spaces","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes","rel":"http://www.xwiki.org/rel/classes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/modifications","rel":"http://www.xwiki.org/rel/modifications","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/search","rel":"http://www.xwiki.org/rel/search","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/query","rel":"http://www.xwiki.org/rel/query","type":null,"hrefLang":null}],"id":"xwiki","name":"xwiki","description":null,"owner":null}]}'
+  recorded_at: Tue, 11 Aug 2026 13:39:48 GMT
+recorded_with: VCR 6.4.0

@@ -77,7 +77,7 @@ You can make basic date modifications simply by manipulating the work package st
 
 ### Filters
 
-You can filter the work packages displayed in a calendar by adding any number of [filters](../work-packages/work-package-table-configuration/#filter-work-packages "Learn more about work package filters"), e.g. *Author*, *Due Date*, *Priority*, *Assignee*, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
+You can filter the work packages displayed in a calendar by adding any number of [filters](../work-packages/work-package-table-configuration/#filter-work-packages "Learn more about work package filters"), e.g. _Author_, _Due Date_, _Priority_, _Assignee_, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
 
 Click the **Filter** button on the top right above the calendar to open the filter details.  To add another filter criteria, select the drop down next to **+ Add filter** and choose a filter criteria. The number of different filter criteria is displayed on the filter button.
 
@@ -113,7 +113,7 @@ To subscribe to a calendar:
 
 1. Click on the **\[⋮\] more button** on the toolbar and select **Subscribe to calendar**.
 2. In the modal that appears, give this calendar a unique name (you can only use it once). We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).  
-3. Click on **Copy URL**. This creates the a [calendar token](../../user-guide/account-settings/#access-tokens) and copies the calendar URL to your clipboard.
+3. Click on **Copy URL**. This creates the a [calendar token](../../user-guide/account-settings/access-tokens) and copies the calendar URL to your clipboard.
 4. Paste this URL in your desired calendar client to subscribe.
 
 ![Subscribe to calendar modal](openproject_user_guide_calendar_subscribe.png)

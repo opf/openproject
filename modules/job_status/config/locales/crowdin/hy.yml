@@ -1,21 +1,21 @@
 ---
 hy:
-  label_job_status_plural: Job statuses
-  plugin_openproject_job_status:
-    name: OpenProject Job status
-    description: Listing and status of background jobs.
   job_status_dialog:
-    download_starts: The download should start automatically.
-    click_to_download: Or [click here](download_url) to download.
-    title: Background job status
-    redirect: You are being redirected.
-    redirect_link: Please click here to continue.
-    redirect_errors: Due to these errors, you will not be redirected automatically.
-    errors: Something went wrong
+    click_to_download: Կամ ներբեռնելու համար [սեղմեք այստեղ](download_url)։
+    download_starts: Ներբեռնումը պետք է սկսվի ավտոմատ կերպով։
+    errors: Ինչ-որ բան սխալ ընթացավ
     generic_messages:
-      not_found: This job could not be found.
-      in_queue: The job has been queued and will be processed shortly.
-      in_process: The job is currently being processed.
-      error: The job has failed to complete.
-      cancelled: The job has been cancelled due to an error.
-      success: The job completed successfully.
+      cancelled: Աշխատանքը չեղարկվել է սխալի պատճառով։
+      error: Աշխատանքը չհաջողվեց ավարտել։
+      in_process: Աշխատանքը ներկայումս մշակվում է։
+      in_queue: Աշխատանքը հերթագրվել է և շուտով կմշակվի։
+      not_found: Այս աշխատանքը չի գտնվել։
+      success: Աշխատանքը հաջողությամբ ավարտվել է։
+    redirect: Դուք վերահղվում եք։
+    redirect_errors: Այս սխալների պատճառով Դուք ավտոմատ կերպով չեք վերահղվի։
+    redirect_link: Խնդրում ենք սեղմել այստեղ՝ շարունակելու համար։
+    title: Ֆոնային աշխատանքի կարգավիճակ
+  label_job_status_plural: Աշխատանքների կարգավիճակներ
+  plugin_openproject_job_status:
+    description: Ֆոնային աշխատանքների ցուցակ և կարգավիճակ։
+    name: OpenProject-ի աշխատանքի կարգավիճակ

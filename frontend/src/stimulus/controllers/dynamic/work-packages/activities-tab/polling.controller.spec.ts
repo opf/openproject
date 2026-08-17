@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,6 +29,7 @@
 import { vi, type Mock } from 'vitest';
 
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { TurboRequestError } from 'core-turbo/turbo-request-error';
 import type PollingControllerType from './polling.controller';
 import type IndexController from './index.controller';
 
@@ -94,11 +95,6 @@ describe('Activities tab polling controller', () => {
       },
       configurable: true,
     });
-    Object.defineProperty(controller, 'workPackagesActivitiesTabStemsOutlet', {
-      value: { handleStemVisibility: vi.fn() },
-      configurable: true,
-    });
-
     return controller;
   }
 
@@ -138,5 +134,43 @@ describe('Activities tab polling controller', () => {
     await vi.advanceTimersByTimeAsync(30000);
 
     expect(request).toHaveBeenCalledTimes(1);
+  });
+
+  describe('circuit breaker', () => {
+    it('halts polling after a not-found poll response', async () => {
+      await renderPolling();
+      request.mockRejectedValue(new TurboRequestError(404, ''));
+
+      resolveContext(pluginContext());
+      await vi.advanceTimersByTimeAsync(10000);
+      expect(request).toHaveBeenCalledTimes(1);
+
+      await vi.advanceTimersByTimeAsync(30000);
+      expect(request).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not resume polling on visibility change once halted', async () => {
+      await renderPolling();
+      request.mockRejectedValue(new TurboRequestError(404, ''));
+
+      resolveContext(pluginContext());
+      await vi.advanceTimersByTimeAsync(10000);
+      expect(request).toHaveBeenCalledTimes(1);
+
+      document.dispatchEvent(new Event('visibilitychange'));
+      await vi.advanceTimersByTimeAsync(30000);
+
+      expect(request).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps polling after an error without an HTTP status', async () => {
+      await renderPolling();
+      request.mockRejectedValue(new Error('network hiccup'));
+
+      resolveContext(pluginContext());
+      await vi.advanceTimersByTimeAsync(20000);
+
+      expect(request).toHaveBeenCalledTimes(2);
+    });
   });
 });

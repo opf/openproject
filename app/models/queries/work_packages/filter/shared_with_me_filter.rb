@@ -44,16 +44,11 @@ class Queries::WorkPackages::Filter::SharedWithMeFilter < Queries::WorkPackages:
   end
 
   def where
-    if positive?
+    if filtering_for_true?
       "work_packages.id IN (#{shared_work_packages.to_sql})"
     else
       "work_packages.id NOT IN (#{shared_work_packages.to_sql})"
     end
-  end
-
-  def positive?
-    (operator == "=" && values == [OpenProject::Database::DB_VALUE_TRUE]) ||
-      (operator == "!" && values == [OpenProject::Database::DB_VALUE_FALSE])
   end
 
   def human_name

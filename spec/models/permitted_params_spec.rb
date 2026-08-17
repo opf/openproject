@@ -539,7 +539,7 @@ RSpec.describe PermittedParams do
     describe "version_id" do
       let(:hash) { { "version_id" => "1" } }
 
-      it_behaves_like "allows params"
+      it_behaves_like "forbids params"
     end
 
     describe "estimated_hours" do
@@ -574,12 +574,6 @@ RSpec.describe PermittedParams do
 
     describe "budget_id" do
       let(:hash) { { "budget_id" => "1" } }
-
-      it_behaves_like "allows params"
-    end
-
-    describe "sprint_id" do
-      let(:hash) { { "sprint_id" => "1" } }
 
       it_behaves_like "allows params"
     end
@@ -701,7 +695,7 @@ RSpec.describe PermittedParams do
         start_date: "2026-07-01",
         due_date: "2026-07-31",
         status_id: "3",
-        version_id: "4",
+        target_version_ids: ["4"],
         priority_id: "5",
         budget_id: "6",
         custom_field_values: { "7" => "Keep me" },
@@ -719,7 +713,7 @@ RSpec.describe PermittedParams do
         "start_date" => "2026-07-01",
         "due_date" => "2026-07-31",
         "status_id" => "3",
-        "version_id" => "4",
+        "target_version_ids" => ["4"],
         "priority_id" => "5",
         "budget_id" => "6",
         "custom_field_values" => { "7" => "Keep me" },

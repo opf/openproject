@@ -46,12 +46,18 @@ module WorkPackages
     attribute :type_id
     attribute :priority_id
     attribute :category_id
-    attribute :version_id,
+    attribute :target_versions,
               permission: :assign_versions do
-      validate_version_is_assignable
+      validate_target_versions_are_assignable
+    end
+    attribute :observed_in_versions,
+              permission: :assign_versions do
+      validate_observed_in_versions_are_assignable
     end
 
     validate :validate_no_reopen_on_closed_version
+    validate :validate_versions_permission
+    validate :validate_target_versions_length
 
     attribute :project_id
 
@@ -133,7 +139,7 @@ module WorkPackages
 
     validates :subject,
               presence: true,
-              unless: -> { model.type&.replacement_pattern_defined_for?(:subject) }
+              unless: -> { model.type_variant&.replacement_pattern_defined_for?(:subject) }
     validates :subject, length: { maximum: 255 }
 
     validates :due_date,
@@ -195,11 +201,7 @@ module WorkPackages
     end
 
     def assignable_types
-      scope = if model.project.nil?
-                Type
-              else
-                model.project.types.includes(:color)
-              end
+      scope = model.project&.enabled_types || Type
 
       scope.includes(:color)
     end
@@ -227,6 +229,9 @@ module WorkPackages
     def assignable_versions(only_open: true)
       model.try(:assignable_versions, only_open:) if model.project
     end
+
+    def assignable_target_versions = assignable_versions
+    def assignable_observed_in_versions = assignable_versions(only_open: false)
 
     def assignable_budgets
       model.project&.budgets
@@ -271,7 +276,7 @@ module WorkPackages
 
     def validate_enabled_type
       # Checks that the issue can not be added/moved to a disabled type
-      if type_context_changed? && model.project.types.exclude?(model.type)
+      if type_context_changed? && model.project.project_types.none? { |pt| pt.type_id == model.type_id }
         errors.add :type_id, :inclusion
       end
     end
@@ -357,7 +362,9 @@ module WorkPackages
 
     def validate_status_transition
       if status_changed? && status_exists? && !(model.type_id_changed? || status_transition_exists?)
-        errors.add :status_id, :status_transition_invalid
+        # Use :status (not :status_id) so human_attribute_name matches en.attributes.status
+        # and nested API error rendering (e.g. BCF topics) does not look up a missing status_id key.
+        errors.add :status, :status_transition_invalid
       end
     end
 
@@ -379,9 +386,60 @@ module WorkPackages
       end
     end
 
-    def validate_version_is_assignable
-      if model.version_id && model.assignable_versions.map(&:id).exclude?(model.version_id)
-        errors.add :version_id, :inclusion
+    # Only user-requested overrides need the permission; system-initiated
+    # overrides (e.g. clearing versions not shared with the project the work
+    # package is moved to) are exempt, like change_by_system attributes.
+    def validate_versions_permission
+      target_override = user_target_versions_override?
+      observed_in_override = user_observed_in_versions_override?
+
+      return unless target_override || observed_in_override
+      return if user.allowed_in_project?(:assign_versions, model.project)
+
+      errors.add(:target_versions, :error_readonly) if target_override
+      errors.add(:observed_in_versions, :error_readonly) if observed_in_override
+    end
+
+    def user_target_versions_override?
+      model.override_target_versions? && !model.system_version_override?("target")
+    end
+
+    def user_observed_in_versions_override?
+      model.override_observed_in_versions? && !model.system_version_override?("observed_in")
+    end
+
+    # target_versions behaves as a single value while the multiple-versions feature is disabled
+    def validate_target_versions_length
+      return if Setting::WorkPackageMultipleVersions.active?
+      return unless model.override_target_versions?
+
+      if model.target_version_ids_replacements.length > 1
+        errors.add :base, :target_versions_only_allow_single_value
+      end
+    end
+
+    def validate_target_versions_are_assignable
+      return if model.target_version_ids_replacements.nil?
+
+      validate_version_ids_assignable(model.target_version_ids_replacements,
+                                      :target_versions,
+                                      assignable_target_versions)
+    end
+
+    def validate_observed_in_versions_are_assignable
+      return if model.observed_in_version_ids_replacements.nil?
+
+      validate_version_ids_assignable(model.observed_in_version_ids_replacements,
+                                      :observed_in_versions,
+                                      assignable_observed_in_versions)
+    end
+
+    def validate_version_ids_assignable(ids, error_field, assignable)
+      return if ids.nil?
+
+      assignable_ids = assignable&.map(&:id) || []
+      if (ids - assignable_ids).any?
+        errors.add error_field, :inclusion
       end
     end
 
@@ -505,7 +563,9 @@ module WorkPackages
     end
 
     def validate_no_reopen_on_closed_version
-      if model.version_id && model.reopened? && model.version.closed?
+      return unless model.effective_target_versions.any?(&:closed?)
+
+      if model.reopened?
         errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version)
       end
     end
@@ -676,16 +736,18 @@ module WorkPackages
     end
 
     def closed_version_and_status?(status = model.status)
-      model.version&.closed? && status.is_closed?
+      status&.is_closed? && model.effective_target_versions.any?(&:closed?)
     end
 
     def new_statuses_by_workflow(status)
-      workflows = Workflow
-                  .from_status(status.id,
-                               model.type_id,
-                               user_roles.map(&:id),
-                               user_is_author?,
-                               user_was_or_is_assignee?)
+      return Status.none unless model.type_variant
+
+      workflows = model.type_variant
+                       .workflows
+                       .from_status(status.id,
+                                    user_roles.map(&:id),
+                                    author: user_is_author?,
+                                    assignee: user_was_or_is_assignee?)
 
       Status.where(id: workflows.select(:new_status_id))
     end
@@ -718,7 +780,7 @@ module WorkPackages
     def auto_generated_attributes_writable? = false
 
     def auto_generated_attribute_names
-      (model.type && model.type.enabled_patterns&.keys&.map(&:to_s)) || []
+      model.type_variant&.enabled_patterns.to_h.keys.map(&:to_s)
     end
   end
 end

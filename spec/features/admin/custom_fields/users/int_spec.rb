@@ -29,8 +29,8 @@
 # ++
 
 require "spec_helper"
-require_relative "../shared_custom_field_expectations"
+require_relative "format_field_expectations"
 
 RSpec.describe "user int custom fields", :js do
-  it_behaves_like "expected fields for the custom field's format", "Users", "Integer"
+  it_behaves_like "expected fields for the User custom field's format", "Integer"
 end

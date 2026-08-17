@@ -39,7 +39,7 @@ module API
           end
 
           get do
-            types = Type.includes(:color).visible
+            types = Type.includes(:color, :variants).visible
             TypeCollectionRepresenter
               .new(types,
                    self_link: api_v3_paths.types,

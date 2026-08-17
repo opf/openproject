@@ -16,6 +16,7 @@ The Documents module allows you to write or upload documents directly to the pro
 > [!IMPORTANT]
 >
 > With 17.0 release, real-time documents collaboration was introduced. It is automatically available for the following installation types: 
+>
 > - Containerized installations
 > - Cloud-hosted installations
 >
@@ -25,7 +26,7 @@ The Documents module allows you to write or upload documents directly to the pro
 
 To use the Documents module, make sure it is enabled in the Project settings of your project (Project settings → Modules). 
 
-Once it is enabled, you can navigate to the *Documents* module in the sidebar of your project to get to the Documents index that lists all available documents:
+Once it is enabled, you can navigate to the _Documents_ module in the sidebar of your project to get to the Documents index that lists all available documents:
 
 ![Documents index lists of all available documents in an OpenProject project](openproject_user_guide_real_documents_overview.png)
 
@@ -36,15 +37,15 @@ The Documents index page lets you:
 2. Filter by document type
 
 > [!TIP]
-> If no document types were specified by you yet, default document types are seeded. They include: *Note, Idea, Proposal, Specification, Report and Documentation*.
+> If no document types were specified by you yet, default document types are seeded. They include: _Note, Idea, Proposal, Specification, Report and Documentation_.
 
 3. Quick-filter the list of documents based on the document title
 
 4. Add a new document
 
-5. View a list of all available documents, including their type and the date they were last edited. Documents created prior to 17.0 release will be marked by *Legacy* label. 
+5. View a list of all available documents, including their type and the date they were last edited. Documents created prior to 17.0 release will be marked by _Legacy_ label. 
 
-   ![An example of a document marked by a legacy label in OpenProject *Documents* module](openproject-documents-legacy.png)
+   ![An example of a document marked by a legacy label in OpenProject _Documents_ module](openproject-documents-legacy.png)
 
 A document in OpenProject can be:
 
@@ -61,13 +62,13 @@ To view a document, simply click on the name of a document in the index. You wil
 A document has:
 
 1. A title, a category, number of active editors and last saved date
-2. *More* menu with with options to edit, copy link and delete a document
+2. _More_ menu with with options to edit, copy link and delete a document
 3. The document text itself
 4. Attachments
 
 ## Add a new document to the project 
 
-To create a new document, click on the *+ Document* button. 
+To create a new document, click on the _+ Document_ button. 
 
 ![Create a new document in OpenProject Documents module](openproject_user_guide_documents_create_new.png)
 
@@ -84,7 +85,7 @@ The uploaded documents are visible to all project members who have the necessary
 
 You can edit a document anytime. 
 
-To edit a document title, click on the *More (three dots)* menu and select *Edit title*. 
+To edit a document title, click on the _More (three dots)_ menu and select _Edit title_. 
 
 ![Edit a document title in OpenProject Documents module](openproject_user_guide_documents_edit_title.png)
 
@@ -102,7 +103,7 @@ Take a look at this example for an illustration.
 
 ### Link work packages to documents
 
-You can link existing work packages to a document in two ways:
+You can link existing work packages to a document in three ways:
 
 1. **Using the slash menu**
 
@@ -137,12 +138,26 @@ Click the work package title to open it in a new browser tab. To change the disp
 
 ![Context menu to change display options for a linked work package in OpenProject Documents module](openproject_user_guide_documents_link_wp_inline_menu.png)
 
+> [!TIP]
+> If you are working with tiny work package links, you can hover over the linked work package identifier to see a preview with additional details, such as type, status and subject. For the mobile screens use a long tap instead.
+
+3. **Pasting a work package URL**
+
+Copy a work package URL ad paste directly into a document. You can use either the browser URL or **Copy link to clipboard**:
+
+- Open a work package, click the **More (three dots)** menu 
+- Select **Copy link to clipboard**, then paste the link into your document.
+
+![Pasting a work package link into a document in OpenProject](openproject_user_guide_documents_wp_url.png)
+
+> [!NOTE]
+> The way you paste the link determines how it is displayed. If you paste into an empty paragraph, the work package is linked as a card. If its pasted into an existing paragraph, the work package is linked as a regular size ( same as when using ###).
 
 ## Delete a project document
 
 You can easily delete a document in OpenProject. 
 
-To delete a document, click on the *More (three dots)* menu and select *Delete*. 
+To delete a document, click on the _More (three dots)_ menu and select _Delete_. 
 
 ![Delete a document in OpenProject Documents module](openproject_user_guide_documents_delete.png)
 
@@ -155,4 +170,3 @@ Real-time document collaboration is available in OpenProject starting with versi
 ### Is there a size limit for uploading documents to the OpenProject Enterprise cloud edition?
 
 There is no limit in OpenProject in terms of the number of files that you can upload and work with in OpenProject. There is only a restriction in terms of the maximum file size: A file can have a size up to 256 MB.
-

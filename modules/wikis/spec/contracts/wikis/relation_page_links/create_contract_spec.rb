@@ -59,6 +59,17 @@ module Wikis
 
         include_examples "contract is invalid", provider: :does_not_exist
       end
+
+      context "when an identical relation link already exists for the linkable" do
+        let(:provider) { create(:internal_wiki_provider) }
+        let(:relation_page_link) do
+          build_stubbed(:relation_wiki_page_link, author: current_user, linkable:, provider:, identifier: "/duplicate")
+        end
+
+        before { create(:relation_wiki_page_link, linkable:, provider:, identifier: "/duplicate") }
+
+        include_examples "contract is invalid", identifier: :taken
+      end
     end
   end
 end

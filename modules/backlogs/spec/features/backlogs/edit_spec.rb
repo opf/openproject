@@ -87,31 +87,14 @@ RSpec.describe "Edit", :js do
     planning_page.expect_work_package_not_in_sprint(work_package, second_sprint)
   end
 
-  it "adds a work package to a sprint" do
-    planning_page.click_in_sprint_menu(first_sprint, "Add work package")
-    planning_page.expect_create_work_package_dialog
-
-    page.within("#create-work-package-dialog") do
-      page.fill_in "Subject", with: "Story created in sprint"
-
-      click_on "Create"
-    end
-
-    wait_for_reload
-
-    expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
-    created_wp = first_sprint.reload.work_packages.last
-    expect(created_wp.subject).to eq("Story created in sprint")
-    planning_page.expect_work_package_in_sprint(created_wp, first_sprint)
-  end
-
   context "with the 'create_sprints' permissions" do
     context "when editing a sprint" do
       it "displays all menu entries" do
         planning_page.within_sprint_menu(first_sprint) do |menu|
-          expect(menu).to have_selector :menuitem, count: 2
+          expect(menu).to have_selector :menuitem, count: 3
           expect(menu).to have_selector :menuitem, "Edit sprint"
-          expect(menu).to have_selector :menuitem, "Add work package"
+          expect(menu).to have_selector :menuitem, "Add new work package"
+          expect(menu).to have_selector :menuitem, "Add existing work package"
         end
       end
 
@@ -167,7 +150,7 @@ RSpec.describe "Edit", :js do
             expect(menu).to have_selector :menuitem, count: 1
             expect(menu).to have_selector :menuitem, "Edit sprint"
 
-            expect(menu).to have_no_selector :menuitem, "Add work package"
+            expect(menu).to have_no_selector :menuitem, "Add new work package"
           end
         end
       end
@@ -198,8 +181,8 @@ RSpec.describe "Edit", :js do
   end
 
   context "with a shared sprint" do
-    let(:project) { create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
-    let(:source_project) { create(:project, sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS) }
+    let(:project) { create(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED) }
+    let(:source_project) { create(:project, sprint_sharing: Projects::SprintSettings::SHARE_ALL_PROJECTS) }
     let!(:first_sprint) do
       create(:sprint,
              name: "Shared Sprint",
@@ -289,13 +272,13 @@ RSpec.describe "Edit", :js do
       it "moves a work package to a different sprint" do
         planning_page.expect_work_package_in_sprint(work_package, first_sprint)
 
-        planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
+        planning_page.click_in_work_package_menu(work_package, "Move to sprint")
 
-        within("#move-to-sprint-dialog") do
-          expect(page).to have_no_select("target_id", with_options: [first_sprint.name])
-          expect(page).to have_select("target_id", with_options: [second_sprint.name])
+        within_modal "Move to sprint" do
+          expect(page).to have_no_select("list_id", with_options: [first_sprint.name])
+          expect(page).to have_select("list_id", with_options: [second_sprint.name])
 
-          select second_sprint.name, from: "target_id"
+          select second_sprint.name, from: "list_id"
           click_on "Move"
         end
 

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -266,7 +266,7 @@ describe('WorkPackage', () => {
     });
 
     it('when the work package has an `addAttachment` link', () => {
-      workPackage.$links.addAttachment = _.noop as any;
+      workPackage.$links.addAttachment = () => Promise.resolve();
 
       expect(workPackage.canAddAttachments).toEqual(true);
     });

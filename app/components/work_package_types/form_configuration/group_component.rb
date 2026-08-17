@@ -34,16 +34,18 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(group:, type: nil, ee_available: false, first: false, last: false, edit_mode: false,
-                     form_model: nil)
+      def initialize(group:, variant: nil, ee_available: false, first: false, last: false, edit_mode: false,
+                     form_model: nil, readonly: false, exclusions: nil)
         super(group)
         @group = group
-        @type = type
+        @variant = variant
         @ee_available = ee_available
         @first = first
         @last = last
         @edit_mode = edit_mode
         @form_model = form_model
+        @readonly = readonly
+        @exclusions = exclusions
         @instance_uid = SecureRandom.hex(4)
       end
 
@@ -53,6 +55,10 @@ module WorkPackageTypes
 
       def edit_mode?
         @edit_mode
+      end
+
+      def readonly?
+        @readonly
       end
 
       def query_group?
@@ -95,17 +101,18 @@ module WorkPackageTypes
       end
 
       def draggable_item_config
-        return {} if @group[:key].blank? || temporary_group?
+        return {} if readonly? || @group[:key].blank? || temporary_group?
 
         {
           "draggable-id": @group[:key],
           "draggable-type": "group",
-          "drop-url": drop_type_form_configuration_group_path(@type, @group[:key])
+          "drop-url": drop_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
+                                                              key: @group[:key])
         }
       end
 
       def row_drop_target_config
-        return {} if query_group? || @group[:key].blank? || temporary_group?
+        return {} if readonly? || query_group? || @group[:key].blank? || temporary_group?
 
         {
           "admin--type-form-configuration--rows-drag-and-drop-target": "container",
@@ -116,27 +123,27 @@ module WorkPackageTypes
       end
 
       def edit_path
-        edit_type_form_configuration_group_path(@type, @group[:key])
+        edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def update_path
-        type_form_configuration_group_path(@type, @group[:key])
+        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def cancel_edit_path
-        cancel_edit_type_form_configuration_group_path(@type, @group[:key])
+        cancel_edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def move_path(move_to)
-        move_type_form_configuration_group_path(@type, @group[:key], move_to:)
+        move_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key], move_to:)
       end
 
       def destroy_path
-        type_form_configuration_group_path(@type, @group[:key])
+        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def row_drop_path(attribute)
-        drop_type_form_configuration_row_path(@type, attribute[:key])
+        drop_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id, row_key: attribute[:key])
       end
     end
   end

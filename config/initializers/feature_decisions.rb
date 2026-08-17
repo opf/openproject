@@ -49,13 +49,13 @@ OpenProject::FeatureDecisions.add :minutes_styling_meeting_pdf,
                                   description: "Allow exporting a meeting with FITKO styling. " \
                                                "See #65124 for details."
 
-OpenProject::FeatureDecisions.add :user_working_times,
-                                  description: "Enables tracking of user working hours and non-working days."
-
 OpenProject::FeatureDecisions.add :wiki_enhancements,
                                   description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :departments,
-                                  description: "Enables the management of departments within the organization."
+OpenProject::FeatureDecisions.add :type_variants,
+                                  description: "Enables work package type variants."
 
+OpenProject::FeatureDecisions.add :sprint_reports,
+                                  description: "Enables sprint reporting within the backlogs module. " \
+                                               "It shows a dashboard with various widgets regarding the sprint progress."

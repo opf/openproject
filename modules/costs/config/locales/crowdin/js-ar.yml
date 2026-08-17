@@ -22,15 +22,15 @@
 ---
 ar:
   js:
-    text_are_you_sure: هل أنت متأكد؟
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: التكاليف
-      properties:
-        overallCosts: التكاليف الإجمالية
-        spentUnits: الوحدات المستهلكة
     button_log_costs: سجل تكاليف الوحدة
     label_hour: الساعة
     label_hours: الساعات
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: هل أنت متأكد؟
+    work_packages:
+      properties:
+        overallCosts: التكاليف الإجمالية
+        spentUnits: الوحدات المستهلكة
+      property_groups:
+        costs: التكاليف

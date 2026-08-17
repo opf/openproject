@@ -57,13 +57,13 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
 
   context "when params[:all] is true" do
     let(:move_path) do
-      Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package, all: "1")
+      Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package, all: "true")
     end
 
     it "submits the move form with the all query preserved" do
       render_component
 
-      expect(page).to have_css("form[action*='all=1']", visible: :all)
+      expect(page).to have_css("form[action*='all=true']", visible: :all)
     end
   end
 
@@ -78,11 +78,15 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
     let!(:planning_sprint) { create(:sprint, project:, name: "Planning Sprint", status: "in_planning") }
     let!(:active_sprint) { create(:sprint, project:, name: "Active Sprint", status: "active") }
 
-    it "lists them as select options with sprint: prefix values" do
+    it "submits sprint list data" do
       render_component
 
-      expect(page).to have_css("option[value='sprint:#{planning_sprint.id}']", text: "Planning Sprint")
-      expect(page).to have_css("option[value='sprint:#{active_sprint.id}']", text: "Active Sprint")
+      expect(page).to have_css(
+        "input[name='list_type'][value='#{Backlogs::Target::SprintId.new(nil).list_type}']",
+        visible: :all
+      )
+      expect(page).to have_css("option[value='#{planning_sprint.id}']", text: "Planning Sprint")
+      expect(page).to have_css("option[value='#{active_sprint.id}']", text: "Active Sprint")
     end
   end
 
@@ -115,7 +119,7 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
       render_component
 
       expect(page).to have_no_css("option", text: "Current Sprint")
-      expect(page).to have_css("option[value='sprint:#{target_sprint.id}']", text: "Target Sprint")
+      expect(page).to have_css("option[value='#{target_sprint.id}']", text: "Target Sprint")
     end
   end
 

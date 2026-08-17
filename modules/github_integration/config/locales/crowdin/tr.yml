@@ -23,47 +23,47 @@
 tr:
   attributes:
     additions_count: Ekleme sayısı
-    deletions_count: Silinme sayısı
+    changed_files_count: Değişen dosyalar
     comments_count: Yorum sayısı
-    github_html_url: Çekme İsteği Adresi
-    github_app_owner_avatar_url: Sahip avatar adresi
-    review_comments_count: İnceleme yorumlarının sayısı
+    deletions_count: Silinme sayısı
     github: GitHub tanımlayıcı
+    github_app_owner_avatar_url: Sahip avatar adresi
     github_avatar_url: Avatar adresi
-    github_updated_at: Güncellenme tarihi
+    github_html_url: Çekme İsteği Adresi
     github_login: GitHub girişi
+    github_updated_at: Güncellenme tarihi
     host: Sunucu
     labels: Etiketler
     repository: Depo
-    changed_files_count: Değişen dosyalar
+    review_comments_count: İnceleme yorumlarının sayısı
   button_add_deploy_target: Dağıtım hedefi ekle
   label_deploy_target: Hedefi dağıt
   label_deploy_target_new: Yeni dağıtım hedefi
   label_deploy_target_plural: Hedefleri dağıt
+  label_github_comment_user: GitHub actor
   label_github_integration: GitHub Entegrasyonu
+  label_github_webhook_secret: Webhook secret
   notice_deploy_target_created: Dağıtım hedefi oluşturuldu
   notice_deploy_target_destroyed: Dağıtım hedefi silindi
-  label_github_comment_user: GitHub actor
-  label_github_webhook_secret: Webhook secret
-  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
+  permission_introspection: Çalışan OpenProject çekirdek sürümünü okuyun ve SHA oluşturun
+  permission_show_github_content: Github içeriğini göster
+  plugin_openproject_github_integration:
+    description: OpenProject'i ve GitHub'ı daha iyi iş akışları için birleştirir
+    name: OpenProject GitHub Entegrasyonu
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'Global iç gözlem iznine sahip bir kullanıcıya ait bir OpenProject [API anahtarı](docs_url).
 
     '
-  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+  text_deploy_target_type_info: 'Şimdiye kadar sadece OpenProject''in kendisini destekliyoruz.
+
+    '
+  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
 
     '
   text_github_webhook_secret_info: 'A secret token shared with GitHub when configuring the webhook. When set, OpenProject verifies the X-Hub-Signature-256 header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
 
     '
-  plugin_openproject_github_integration:
-    name: OpenProject GitHub Entegrasyonu
-    description: OpenProject'i ve GitHub'ı daha iyi iş akışları için birleştirir
-  project_module_github: GitHub
-  permission_show_github_content: Github içeriğini göster
-  permission_introspection: Çalışan OpenProject çekirdek sürümünü okuyun ve SHA oluşturun
-  text_deploy_target_type_info: 'Şimdiye kadar sadece OpenProject''in kendisini destekliyoruz.
-
-    '
-  text_deploy_target_api_key_info: 'Global iç gözlem iznine sahip bir kullanıcıya ait bir OpenProject [API anahtarı](docs_url).
+  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
 
     '
   text_pull_request_deployed_to: "%{pr_link} %{deploy_target_link} adresine yüklendi"

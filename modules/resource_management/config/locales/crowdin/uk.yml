@@ -5,6 +5,7 @@ uk:
       resource_allocation:
         allocated_hours: Години
         allocated_time: Виділений час
+        date_range: Дати
         end_date: Дата завершення
         entity: Сутність
         filter_name: Назва фільтра ресурсів
@@ -13,6 +14,7 @@ uk:
         state: Стан
         user_filter: Фільтр користувачів
       resource_planner:
+        date_range: Дати
         default_view_class_name: Типове подання
         end_date: Дата завершення
         favorite: Вибране
@@ -29,19 +31,31 @@ uk:
           attributes:
             end_date:
               greater_than_start_date: не має передувати даті початку.
+              required_with_start_date: має визначатися разом із датою початку.
+            start_date:
+              required_with_end_date: має визначатися разом із датою завершення.
         resource_work_package_list:
           attributes:
             query:
               must_be_work_package_query: має бути запитом до робочого пакету.
     models:
-      resource_allocation: Призначення ресурсів
+      resource_allocation: Виділення ресурсів
       resource_planner: Планувальник ресурсів
+      resource_user_card: Картки користувачів
       resource_work_package_list: Список пакетів робіт
-      user_card: Картки користувачів
   button_next: Далі
-  label_resource_management: Планування ресурсів
+  ee:
+    features:
+      resource_management: Керування ресурсами
+    upsell:
+      resource_management:
+        description: Плануйте й збалансовуйте робоче навантаження команди за допомогою інструментів планування ресурсів. Виділяйте кадри для пакетів робіт, відстежуйте завантаження в динаміці й виявляйте випадки надмірного або недостатнього виділення ресурсів із першого погляду.
+        title: Керування ресурсами
+  label_resource_management: Керування ресурсами
   permission_allocate_user_resources: Призначати ресурси користувачів
-  permission_allocate_user_resources_explanation: Дозволяє користувачам створювати, оновлювати й видаляти призначення ресурсів у планувальнику ресурсів. Це, зокрема, стосується призначення користувачів (або фільтрів користувачів) планувальнику й коригування виділеного часу й діапазону дат.
+  permission_allocate_user_resources_explanation: Дозволяє користувачам створювати, оновлювати й видаляти виділення ресурсів у планувальнику ресурсів. Це, зокрема, стосується призначення користувачів (або фільтрів користувачів) планувальнику й коригування виділеного часу й діапазону дат.
+  permission_assign_users_to_generic_allocations: Призначити користувачів для загальних виділень ресурсів
+  permission_assign_users_to_generic_allocations_explanation: Дає змогу використовувати подання «Забезпечення кадрами», щоб призначати реальних користувачів для загальних (на основі фільтрів) виділень ресурсів, яким ще не призначено користувачів. Ця функція не дозволяє створювати або редагувати виділення.
   permission_manage_public_resource_planners: Керувати загальнодоступними планувальниками ресурсів
   permission_manage_public_resource_planners_explanation: Дає змогу користувачам створювати загальнодоступні планувальники ресурсів і керувати ними. Дозволяє їм переглядати, створювати й публікувати власні планувальники ресурсів, а також керувати ними. Не дозволяє переглядати планувальники ресурсів інших користувачів, які не є загальнодоступними.
   permission_view_resource_planners: Переглядати планувальники ресурсів
@@ -53,14 +67,11 @@ uk:
   resource_management:
     action:
       delete: Видалити
+      edit: Редагувати
       favorite: Додати у вибране
       make_private: Зробити приватним
       make_public: Зробити загальнодоступним
       unfavorite: Вилучити з вибраного
-    allocation:
-      hours: "%{value} год"
-      no_work: Немає запланованих робіт для цього пакета робіт
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -84,6 +95,23 @@ uk:
       submit: Виділити
       success_message: Ресурси виділено.
       title: Виділити ресурс
+    allocation:
+      hours: "%{value} год"
+      no_work: Немає запланованих робіт для цього пакета робіт
+      summary: "%{allocated} / %{scheduled}"
+    assignment_dialog:
+      available: Доступно %{hours}
+      confirm_overtime: Усе одно призначити
+      filter_criteria: Критерії фільтрування
+      no_candidates:
+        description: Немає учасників проєкту, які відповідають критеріям фільтрування, вибраним для цього виділення ресурсів.
+        title: Не знайдено відповідних учасників
+      no_schedule: У цього користувача немає розкладу роботи, тому ми не можемо визначити, чи впишеться в нього це виділення ресурсів.
+      overbooked_detail: 'Користувач має в цей період стільки вільних годин: %{available}. Однак пакет робіт вимагає %{requested}.'
+      requested_for: Запитано для
+      select_user: Виберіть користувача, щоб призначити.
+      submit: Призначити
+      title: "%{filter_name} — призначити"
     blankslate:
       desc: Створіть планувальник ресурсів, щоб почати планувати завантаження для цього проєкту.
       title: Ще немає планувальників ресурсів
@@ -103,6 +131,7 @@ uk:
       success_message: Виділення ресурсів оновлено.
       title: Редагувати виділення ресурсів
     favorite_caption: Якщо додати це подання у вибране, воно з’явиться у верхній частині меню бічної панелі.
+    label_edit_resource_planner: Редагувати планування ресурсів
     label_new_resource_planner: Новий планувальник ресурсів
     label_resource_planner: Планувальник ресурсів
     label_resource_planner_plural: Планувальники ресурсів
@@ -114,13 +143,101 @@ uk:
     sidebar:
       private: Приватні
       public: Загальнодоступні
+    staffing:
+      assign: Призначити користувача
+      blank:
+        description: Для всіх загальних виділень ресурсів у цьому проєкті призначено користувача.
+        title: Кадри не потрібні
+      columns:
+        dates: Дати
+        requested_time: Запитаний час
+        resource: Ресурс
+        work_package: Пакет робіт
+      context_menu_label: Дії з виділення ресурсів
+      delete_confirmation: Справді видалити це виділення ресурсів?
+      menu_item: Забезпечення кадрами
+      starts_in_past: Для цього виділення ресурсів уже минув час початку, однак його досі не призначено.
+      success_message: Користувача призначено.
+      title: Забезпечення кадрами
     sub_views: Подання в цьому планувальнику ресурсів
+    timeframe:
+      full: З %{start} до %{end}
+    timeline:
+      granularity:
+        day: День
+        month: Місяць
+        week: Календарний тиждень
+      navigation:
+        next: Наступний період
+        previous: Попередній період
+        today: Сьогодні
+      subheader:
+        add: Додати
+        allocate: Призначити
+        settings: Налаштувати подання
+    user_allocations_dialog:
+      allocate_work_package: Виділити пакет робіт
+      blank: Цьому користувачу не призначено жодних пакетів робіт.
+      other_work_packages:
+        one: Ще 1 пакет робіт
+        few: Ще %{count} пакети робіт
+        many: Ще %{count} пакетів робіт
+        other: Ще %{count} пакета робіт
+      title: Використання
+    user_card_list:
+      add_user_dialog:
+        title: Додати користувача
+      blank:
+        description: Поки немає пакетів робіт, які відповідають фільтрам цього подання.
+        manual_description: До цього подання поки не додано жодного користувача.
+        title: Немає користувачів
+      card:
+        multi_value_more: і ще %{count}
+        remove: Вилучити користувача
+        remove_confirmation: Вилучити цього користувача з подання?
+      fields:
+        drag_area_label: Відображувані поля
+        input_caption: Виберіть поля, які відображатимуться на картці користувача в цьому режимі перегляду
+        input_label: Поля
+        input_placeholder: Додати поле
+        working_times: Робочий час
+      subheader:
+        resource: Ресурс
+        settings: Налаштувати подання
+      utilization:
+        label: Використання
+      working_hours:
+        blank: Робочі години не налаштовано
+        schedule_availability_compact: "%{schedule} (доступно %{factor}%)"
+        schedule_change_compact: до %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Додати користувача
+        configure_view: Налаштувати подання
+        description: Ще немає користувачів, які відповідають фільтрам цього подання.
+        manual_description: Додайте користувачів у це подання, щоб переглянути призначені їм виділення ресурсів за певний період.
+        title: Немає користувачів для відображення
+      no_work_schedule: Для цього користувача не створено жодного розкладу роботи
+      overbooked: На вибраний період цьому користувачу призначено більше годин, ніж доступно.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} заплановано, %{available} доступно"
+      subheader:
+        add_user: Додати користувача
     view_types:
+      resource_user_card:
+        caption: Створюйте списки користувачів, щоб переглядати інформацію про них і обсяг виділених їм ресурсів за певний період на часовій шкалі
+        label: Список карток користувачів
+      resource_user_timeline:
+        caption: Створіть подання на основі користувачів, щоб переглядати призначені їм виділення ресурсів за певний період на часовій шкалі
+        label: Часова шкала користувачів
       resource_work_package_list:
-        caption: Створіть подання на основі пакетів робіт, щоб переглядати інформацію про них і дані про призначення в списку
+        caption: Створіть подання на основі пакетів робіт, щоб переглядати інформацію про них і дані про виділення ресурсів у списку
         label: Список пакетів робіт
+      resource_work_package_timeline:
+        caption: Створюйте списки пакетів робіт, щоб переглядати обсяг виділених їм ресурсів за певний період на часовій шкалі
+        label: Часова шкала пакетів робіт
       user_card:
-        caption: Створіть подання на основі користувачів, щоб переглядати інформацію про них і дані про призначення в списку карток користувачів
+        caption: Створіть подання на основі користувачів, щоб переглядати інформацію про них і дані про виділення ресурсів у списку карток користувачів
         label: Список карток користувачів
     work_package_allocations_dialog:
       allocate_resource: Виділити ресурс
@@ -147,7 +264,7 @@ uk:
         title: Немає пакетів робіт для відображення
       columns:
         allocated_members: Призначені учасники
-        allocation: Призначення
+        allocation: Виділення ресурсів
         dates: Дати
       context_menu:
         add_filter_criteria: Додати критерії фільтрації
@@ -161,7 +278,7 @@ uk:
         move_up: Перемістити вгору
         remove: Вилучити
         remove_confirmation: Вилучити цей пакет робіт із подання?
-        see_allocation: Переглянути призначення
+        see_allocation: Переглянути виділення ресурсів
       mobile_title: Пакети робіт
       query_name: 'Пакети робіт з управління ресурсами: %{name}'
       subheader:
@@ -169,3 +286,19 @@ uk:
         add_work_package: Додати пакет робіт
         allocate: Призначити
         settings: Налаштувати подання
+    work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          few: "%{count} members of this project match the allocation's filter criteria."
+          many: "%{count} members of this project match the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
+      blank:
+        add_work_package: Додати пакет робіт
+        configure_view: Налаштувати подання
+        description: Ще немає пакетів робіт, які відповідають фільтрам цього подання.
+        manual_description: Додайте пакети робіт до цього режиму перегляду, щоб планувати обсяг виділених їм ресурсів за певний період.
+        title: Немає пакетів робіт
+      query_name: 'Управління ресурсами — часова шкала пакетів робіт: %{name}'
+      subheader:
+        add_work_package: Додати пакет робіт

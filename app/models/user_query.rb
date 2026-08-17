@@ -44,6 +44,7 @@ class UserQuery < PersistedQuery
     filter Queries::Users::Filters::NameFilter
     filter Queries::Users::Filters::AnyNameAttributeFilter
     filter Queries::Users::Filters::GroupFilter
+    filter Queries::Users::Filters::MemberFilter
     filter Queries::Users::Filters::StatusFilter
     filter Queries::Users::Filters::LoginFilter
     filter Queries::Users::Filters::BlockedFilter

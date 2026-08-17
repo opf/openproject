@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -122,7 +122,10 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
             enableMeasurements: false,
           },
           this.ifcData.projects,
-        );
+        ).catch((error:unknown) => {
+          // The viewer chunk is loaded on demand; surface a download/init failure.
+          console.error('Failed to initialize the IFC viewer:', error);
+        });
       });
 
     this.insertXeokitToolbarIcons();

@@ -50,8 +50,20 @@ module Wikis
             module ClassMethods
               include Dry::Monads[:result]
 
-              def fetch_json(json_hash, key)
-                json_hash.fetch(key) { throw :xwiki_error, Failure(Results::Error.new(source: self, code: :invalid_response)) }
+              def fetch_json(json_hash, *keys)
+                failure = Failure(SimpleError.new(source: self, code: :invalid_response))
+
+                keys.inject(json_hash) do |json, key|
+                  case json
+                  in Hash
+                    json.fetch(key) { throw :xwiki_error, failure }
+                  in Array
+                    throw :xwiki_error, failure unless key.is_a?(Integer)
+                    json[key]
+                  else
+                    throw :xwiki_error, failure
+                  end
+                end
               end
             end
 
@@ -78,7 +90,7 @@ module Wikis
               in { status: 200..299 }
                 begin
                   json = response.json
-                rescue MultiJson::ParseError
+                rescue MultiJSON::ParseError
                   return failure(code: :invalid_response)
                 end
 

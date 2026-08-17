@@ -1,20 +1,28 @@
 ---
 lt:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Stulpelių skaičius
+        page: Puslapis
+        row_count: Eilučių skaičius
+        scope: Apimtis
+        widgets: Valdikliai
+    errors:
+      models:
+        grids/grid:
+          end_before_start: pabaigos reikšmė turi būti didesnė už pradžios reikšmę.
+          outside: yra už tinklelio.
+          overlaps: persidengia.
   grids:
     label_widget_in_grid: Valdiklis, esantis Tinklelyje %{grid_name}
     widgets:
       empty: This widget is currently empty.
-      not_available: This widget is not available.
-      subitems:
-        title: Subitems
-        no_results: There are no visible children.
-        view_all_subitems: View all subitems
-        button_text: Subitem
       members:
-        title: Members
         no_results: Nėra matomų narių.
-        view_all_members: Rodyti visus narius
         show_members_count: Show all %{count} members
+        title: Members
+        view_all_members: Rodyti visus narius
         x_more:
           one: and one more member.
           few: and %{count} more members.
@@ -22,17 +30,17 @@ lt:
           other: and %{count} more members.
       news:
         no_results: Nėra jokių ataskaitų.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Puslapis
-        row_count: Eilučių skaičius
-        column_count: Stulpelių skaičius
-        widgets: Valdikliai
-        scope: Apimtis
-    errors:
-      models:
-        grids/grid:
-          overlaps: persidengia.
-          outside: yra už tinklelio.
-          end_before_start: pabaigos reikšmė turi būti didesnė už pradžios reikšmę.
+      not_available: This widget is not available.
+      project_timeline:
+        footer_actions_label: See more details
+        gantt_link: Milestones Gantt
+        no_results_title: No project timeline content configured
+        sprints_link: Sprints overview
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitems
+        view_all_subitems: View all subitems

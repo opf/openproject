@@ -71,6 +71,8 @@ module CustomFields
         AttributeHelpText::Project
       when WorkPackageCustomField
         AttributeHelpText::WorkPackage
+      when UserCustomField
+        AttributeHelpText::User
       else
         raise ArgumentError, "Unsupported custom field type: #{@custom_field.class}"
       end

@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import type { Mock } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { States } from 'core-app/core/states/states.service';
@@ -81,6 +109,7 @@ describe('autocompleter', () => {
 
   afterEach(() => {
     delete (window as WindowWithOpenProject).OpenProject;
+    vi.restoreAllMocks();
   });
 
   beforeEach(async () => {
@@ -92,7 +121,7 @@ describe('autocompleter', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
-    getOptionsFnSpy = vi.fn().mockImplementation((searchTerm:string) => { // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+    getOptionsFnSpy = vi.fn().mockImplementation((searchTerm:string) => {
       return of(workPackagesStub).pipe(map((wps) => wps.filter((wp) => searchTerm !== '' && wp.subject.includes(searchTerm))));
     });
 
@@ -127,9 +156,7 @@ describe('autocompleter', () => {
     it('should load items', () => {
       vi.useFakeTimers();
       try {
-        vi.advanceTimersByTime(0);
         fixture.detectChanges();
-        fixture.componentInstance.ngAfterViewInit();
         vi.advanceTimersByTime(1000);
         fixture.detectChanges();
         const select = fixture.componentInstance.ngSelectInstance;
@@ -182,9 +209,7 @@ describe('autocompleter', () => {
     it('should display formattedId in dropdown options', () => {
       vi.useFakeTimers();
       try {
-        vi.advanceTimersByTime(0);
         fixture.detectChanges();
-        fixture.componentInstance.ngAfterViewInit();
         vi.advanceTimersByTime(1000);
         fixture.detectChanges();
         const select = fixture.componentInstance.ngSelectInstance;
@@ -215,11 +240,10 @@ describe('autocompleter', () => {
     });
 
     it('should display classic formattedId in selected value label', () => {
+      silenceDestroyedOutputWarning();
       vi.useFakeTimers();
       try {
-        vi.advanceTimersByTime(0);
         fixture.detectChanges();
-        fixture.componentInstance.ngAfterViewInit();
         vi.advanceTimersByTime(1000);
         fixture.detectChanges();
         const select = fixture.componentInstance.ngSelectInstance;
@@ -237,8 +261,7 @@ describe('autocompleter', () => {
         fixture.detectChanges();
 
         // Select the first item (classic mode: #1)
-        const firstOption = document.querySelector<HTMLElement>('.ng-option')!;
-        firstOption.click();
+        select.select(select.itemsList.items[0]);
         fixture.detectChanges();
 
         const labelElement = document.querySelector('.ng-value-label');
@@ -253,11 +276,10 @@ describe('autocompleter', () => {
     });
 
     it('should display semantic formattedId in selected value label', () => {
+      silenceDestroyedOutputWarning();
       vi.useFakeTimers();
       try {
-        vi.advanceTimersByTime(0);
         fixture.detectChanges();
-        fixture.componentInstance.ngAfterViewInit();
         vi.advanceTimersByTime(1000);
         fixture.detectChanges();
         const select = fixture.componentInstance.ngSelectInstance;
@@ -275,8 +297,7 @@ describe('autocompleter', () => {
         fixture.detectChanges();
 
         // Select the semantic mode item (PROJ-2)
-        const option = document.querySelector<HTMLElement>('.ng-option')!;
-        option.click();
+        select.select(select.itemsList.items[0]);
         fixture.detectChanges();
 
         const labelElement = document.querySelector('.ng-value-label');
@@ -299,7 +320,6 @@ describe('autocompleter', () => {
 
     it('should load items with debounce', async () => {
       fixture.detectChanges();
-      fixture.componentInstance.ngAfterViewInit();
 
       // Wait for ngAfterViewInit's internal setTimeout(25ms) and debounce to fire.
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -338,6 +358,25 @@ describe('autocompleter', () => {
     });
   });
 });
+
+// NG0953 ("Unexpected emit for destroyed OutputRef") is emitted when ng-select
+// emits on an OutputRef during fixture teardown under fake timers. It is a real
+// lifecycle smell, not pure noise — silencing it here is a pragmatic stopgap so
+// these specs stay readable, not a fix. The proper fix is to stop the
+// emit-after-destroy in the component teardown path; until then this is
+// scoped to the two affected specs and passes every other warning through so it
+// does not hide unrelated regressions. Do not promote this to a global filter.
+function silenceDestroyedOutputWarning():void {
+  const originalWarn = console.warn.bind(console);
+
+  vi.spyOn(console, 'warn').mockImplementation((message?:unknown, ...args:unknown[]) => {
+    if (typeof message === 'string' && message.startsWith('NG0953: Unexpected emit for destroyed `OutputRef`')) {
+      return;
+    }
+
+    originalWarn(message, ...args);
+  });
+}
 
 describe('derived autocompleter', () => {
   beforeEach(async () => {

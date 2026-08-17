@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -59,6 +59,7 @@ import {
 import {
   workPackageFilesCount,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
+import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/project-attributes-tab/op-project-attributes-tab.component';
 
 @Injectable({
   providedIn: 'root',
@@ -145,6 +146,12 @@ export class WorkPackageTabsService {
         name: I18n.t('js.work_packages.tabs.activity'),
         count: workPackageNotificationsCount,
         showCountAsBubble: true,
+      },
+      {
+        id: 'project_attributes',
+        component: WorkPackageProjectAttributesTabComponent,
+        name: I18n.t('js.work_packages.tabs.project_attributes'),
+        displayable: (workPackage) => !!workPackage.hasProjectAttributes,
       },
       {
         id: 'files',

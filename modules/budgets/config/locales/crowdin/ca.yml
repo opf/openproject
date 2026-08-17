@@ -21,24 +21,22 @@
 #++
 ---
 ca:
-  plugin_budgets_engine:
-    name: Pressupostos
   activerecord:
     attributes:
       budget:
         author: Autor/a
         available: Disponible
+        base_amount: Base amount
         budget: Planificat
         budget_ratio: Utilitzat (proporció)
         description: Descripció
+        labor_budget: Costs de treball planejats
+        labor_budget_items: Planned labor costs
+        material_budget: Costs d'unitat planejats
         spent: Utilitzat
         status: Estat
         subject: Assumpte
         type: Estil de cost
-        labor_budget: Costs de treball planejats
-        labor_budget_items: Planned labor costs
-        material_budget: Costs d'unitat planejats
-        base_amount: Base amount
       work_package:
         budget_subject: Títol del pressupost
     errors:
@@ -56,49 +54,49 @@ ca:
       budget: Pressupostos
   attributes:
     budget: Pressupost
-  button_add_budget_item: Afegeix costs planejats
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: Pressupostos
   button_add_budget: Afegeix pressupost
+  button_add_budget_item: Afegeix costs planejats
   button_add_cost_type: Afegeix estil de cost
   button_cancel_edit_budget: Cancel·la l'edició del pressupost
   button_cancel_edit_costs: Cancel·la l'edició dels costs
   caption_labor: Treball
   caption_labor_costs: Costs de treball actuals
   caption_material_costs: Costs d'unitat actual
-  budgets_title: Pressupostos
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
-      budget_by_cost_type:
-        title: Budget by cost type
-        blankslate:
-          heading: Start project controlling
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-        blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: View budget details
   events:
     budget: Pressupost editat
   help_click_to_edit: Feu clic per editar.
@@ -106,23 +104,25 @@ ca:
   help_override_rate: Entra un valor aquí per substituir la ràtio per defecte.
   label_budget: Pressupost
   label_budget_available: Budget available
+  label_budget_details: Budget details
   label_budget_id: 'Pressupost #%{id}'
   label_budget_new: Nou pressupost
   label_budget_planned: Budget planned
   label_budget_plural: Pressupostos
   label_budget_spent: Budget spent
   label_budget_spent_ratio: Budget spent ratio
+  label_budget_totals: Totals
   label_deliverable: Pressupost
   label_example_placeholder: ex. %{decimal}
   label_view_all_budgets: Mostra tots els pressupostos
   label_yes: Si
-  label_budget_totals: Totals
-  label_budget_details: Budget details
   notice_budget_conflict: Els paquets de treball han de ser del mateix projecte.
   notice_no_budgets_available: No hi ha pressupostos disponibles.
   permission_edit_budgets: Editar pressupost
   permission_view_budgets: Mostrar pressupost
+  plugin_budgets_engine:
+    name: Pressupostos
   project_module_budgets: Pressupostos
-  text_budget_reassign_to: 'Torna a assignar-los a aquest pressupost:'
   text_budget_delete: Elimina el pressupost de tots els paquets de treball
   text_budget_destroy_assigned_wp: Hi han %{count} paquets de treball assignats a aquest pressupost. Que vols fer?
+  text_budget_reassign_to: 'Torna a assignar-los a aquest pressupost:'

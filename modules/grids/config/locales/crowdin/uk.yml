@@ -1,20 +1,28 @@
 ---
 uk:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Кількість стовпців
+        page: Сторінка
+        row_count: Кількість рядків
+        scope: Область
+        widgets: Віджети
+    errors:
+      models:
+        grids/grid:
+          end_before_start: кінцеве значення має бути більше початкового значення.
+          outside: знаходиться за межами сітки.
+          overlaps: перекриваються.
   grids:
     label_widget_in_grid: Віджет, що міститься в сітці %{grid_name}
     widgets:
       empty: Наразі цей віджет порожній.
-      not_available: Цей віджет недоступний.
-      subitems:
-        title: Піделементи
-        no_results: Немає видимих дочірніх об’єктів.
-        view_all_subitems: Переглянути всі піделементи
-        button_text: Підпункт
       members:
-        title: Учасники
         no_results: Немає видимих учасників.
-        view_all_members: Переглянути всіх учасників
         show_members_count: Показати всі %{count} користувачів
+        title: Учасники
+        view_all_members: Переглянути всіх учасників
         x_more:
           one: і ще один учасник.
           few: і ще %{count} учасники.
@@ -22,17 +30,17 @@ uk:
           other: і ще %{count} учасника.
       news:
         no_results: Нічого нового для звітування.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Сторінка
-        row_count: Кількість рядків
-        column_count: Кількість стовпців
-        widgets: Віджети
-        scope: Область
-    errors:
-      models:
-        grids/grid:
-          overlaps: перекриваються.
-          outside: знаходиться за межами сітки.
-          end_before_start: кінцеве значення має бути більше початкового значення.
+      not_available: Цей віджет недоступний.
+      project_timeline:
+        footer_actions_label: Дізнатися більше
+        gantt_link: Віхи (діаграма Ґанта)
+        no_results_title: Вміст часової шкали проєкту не налаштовано
+        sprints_link: Огляд спринтів
+        title: Часова шкала проєкту
+        title_portfolio: Часова шкала портфеля
+        title_program: Часова шкала програми
+      subitems:
+        button_text: Підпункт
+        no_results: Немає видимих дочірніх об’єктів.
+        title: Піделементи
+        view_all_subitems: Переглянути всі піделементи

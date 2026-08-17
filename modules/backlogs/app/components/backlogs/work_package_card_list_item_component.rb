@@ -31,15 +31,22 @@
 module Backlogs
   class WorkPackageCardListItemComponent < OpenProject::Common::BorderBoxListComponent::WorkPackageItem
     include CommonHelper
+    include Concerns::WorkPackageMovability
 
     private
 
     def build_card
-      WorkPackageCardComponent.new(work_package:, menu_src:)
+      WorkPackageCardComponent.new(
+        work_package:,
+        menu_src:,
+        **card_arguments
+      )
     end
 
+    # Every sortable card drags: a read-only one stays a drag source too, only
+    # confined to its own list (see {#confined?}).
     def draggable?
-      user_allowed?(:manage_sprint_items)
+      sortable?
     end
 
     def split_url
@@ -50,34 +57,85 @@ module Backlogs
       url_helpers.work_package_path(work_package)
     end
 
-    def drop_url
-      url_helpers.move_project_backlogs_work_package_path(project, work_package, params)
-    end
-
     def menu_src
-      url_helpers.menu_project_backlogs_work_package_path(project, work_package, params)
+      url_helpers.menu_project_backlogs_work_package_path(project, work_package)
     end
 
-    # `story` data attrs match the live Stimulus controller and Dragula
-    # drag-type; renaming requires coordinated JS changes (separate PR).
-    def row_data
-      super.merge(
+    # @return [Hash] card arguments carrying the Backlogs-only keyboard wiring.
+    #   `tabindex` lives here rather than in the base because only this subclass
+    #   attaches the `backlogs--work-package` Enter handler; a focusable base card
+    #   would be a dead tab stop. The `:has(> .Box-card:focus-visible)` row rule
+    #   depends on this focusability.
+    def card_arguments
+      arguments = super
+      arguments[:tabindex] = 0
+      arguments[:data] = merge_data(arguments, { data: card_data })
+      arguments[:aria] = merge_aria(arguments, { aria: card_aria })
+      arguments
+    end
+
+    def card_data
+      data = {
         story: true,
-        controller: "backlogs--story",
-        backlogs__story_id_value: work_package.id,
-        backlogs__story_display_id_value: work_package.display_id,
-        backlogs__story_split_url_value: split_url,
-        backlogs__story_full_url_value: full_url,
-        backlogs__story_selected_class: "Box-row--blue"
-      )
+        # Non-movable cards opt in too: they have no move actions, but their
+        # singular menu is still worth reaching contextually.
+        controller: "backlogs--work-package contextual-action-menu",
+        backlogs__work_package_id_value: work_package.id,
+        backlogs__work_package_display_id_value: work_package.display_id,
+        backlogs__work_package_split_url_value: split_url,
+        backlogs__work_package_full_url_value: full_url
+      }
+
+      return data unless draggable?
+
+      data.merge(sortable_lists__item_target: "preview handle")
     end
 
-    def draggable_data
+    # @return [Hash] ARIA wiring announcing the card's Enter activation and its
+    #   context-menu shortcut without claiming button or draggable semantics.
+    #   Shift+F10 is the conventional context-menu command in the WAI-ARIA APG
+    #   and is worth announcing; the dedicated Context Menu key is left out
+    #   because it needs no discovery — pressing it is its own affordance.
+    def card_aria
       {
-        draggable_id: work_package.id,
-        draggable_type: "story",
-        drop_url:
+        keyshortcuts: "Enter Shift+F10",
+        label: work_package.to_fs(:caption)
       }
+    end
+
+    # An unmovable card registers as a sortable item like any other: it keeps
+    # its drag and its positional moves, stays a drop target and keeps counting
+    # as a row of its list. The confined value is what pins it to that list.
+    def row_data
+      sortable? ? sortable_item_data : {}
+    end
+
+    def sortable_item_data
+      {
+        controller: "sortable-lists--item",
+        sortable_lists__item_id_value: work_package.id,
+        sortable_lists__item_label_value: work_package.to_fs(:caption),
+        sortable_lists__item_type_value: "work_package",
+        sortable_lists__item_confined_value: confined?,
+        # Native drag payload for external consumers; the same absolute URL
+        # as the card menu's "Copy URL to clipboard" item. The label above
+        # doubles as the link text of the text/html flavour.
+        sortable_lists__item_external_url_value: url_helpers.work_package_url(work_package)
+      }
+    end
+
+    # Whether the card's drag is pinned to its own list: it may reorder in
+    # place, but no other container accepts it.
+    def confined?
+      sortable? && !movable?
+    end
+
+    public
+
+    def row_args
+      arguments = super
+      arguments[:draggable] = true if draggable?
+      arguments
     end
   end
 end

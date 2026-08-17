@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -172,7 +172,7 @@ describe('UrlParamsHelper', () => {
         pageSize: 100,
       };
 
-      expect(_.isEqual(decodedQueryParams, expected)).toBeTruthy();
+      expect(decodedQueryParams).toEqual(expected);
     });
   });
 
@@ -264,7 +264,7 @@ describe('UrlParamsHelper', () => {
         timestamps: 'PT0S',
       };
 
-      expect(_.isEqual(v3Params, expected)).toBeTruthy();
+      expect(v3Params).toEqual(expected);
     });
 
     it('decodes custom options filters', () => {
@@ -324,7 +324,7 @@ describe('UrlParamsHelper', () => {
         timestamps: 'PT0S',
       };
 
-      expect(_.isEqual(v3Params, expected)).toBeTruthy();
+      expect(v3Params).toEqual(expected);
     });
   });
 });

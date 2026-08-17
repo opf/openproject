@@ -133,11 +133,11 @@ RSpec.describe Backlogs::SprintsController do
         expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
       end
 
-      context "when all=1 is passed" do
+      context "when all=true is passed" do
         it "redirects to backlogs preserving the all param" do
           post :create, format: :turbo_stream, params: params.merge(all: 1)
 
-          expect(response.body).to include(project_backlogs_backlog_path(project, all: 1))
+          expect(response.body).to include(project_backlogs_backlog_path(project, all: true))
         end
       end
 
@@ -242,8 +242,9 @@ RSpec.describe Backlogs::SprintsController do
         expect(response).to be_successful
         expect(response).to have_http_status :ok
         expect(response.body).to have_turbo_stream action: "flash"
-        expect(response.body).to have_turbo_stream action: "update", target: "backlogs-sprint-component-#{sprint.id}"
-        assert_select %(turbo-stream[action="update"][target="backlogs-sprint-component-#{sprint.id}"][method="morph"])
+        expect(response.body).to have_turbo_stream(
+          action: "update", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
+        )
         expect(response.body).to include("Successful update.")
         expect(controller.controller_path).to eq("backlogs/sprints")
         expect(controller.action_name).to eq("update")
@@ -446,6 +447,9 @@ RSpec.describe Backlogs::SprintsController do
 
           expect(response).to be_successful
           expect(response).to have_turbo_stream(action: "redirect_to")
+          expect(response.body).to have_turbo_stream(
+            action: "update", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
+          )
           expect(flash[:notice]).to eq(I18n.t(:notice_successful_start))
           expect(service).to have_received(:call)
         end
@@ -550,7 +554,7 @@ RSpec.describe Backlogs::SprintsController do
         end
 
         it "finishes the sprint and redirects to the backlog", :aggregate_failures do
-          post :finish, params: request_params
+          post :finish, format: :turbo_stream, params: request_params
 
           expect(response).to be_successful
           expect(response.body).to have_turbo_stream(

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -129,7 +129,7 @@ export class HalResourceNotificationService {
     }
 
     // Some older response may have a data attribute
-    if (_.get(response, 'data._type') === 'Error') {
+    if ((response as { data?:{ _type?:string } } | null)?.data?._type === 'Error') {
       errorBody = (response as any).data;
     }
 
@@ -163,7 +163,7 @@ export class HalResourceNotificationService {
   public showGeneralError(message?:unknown) {
     let error = this.I18n.t('js.error.internal');
 
-    if (typeof (message) === 'string' || _.has(message, 'toString')) {
+    if (typeof (message) === 'string' || (message != null && Object.hasOwn(message, 'toString'))) {
       error += ` ${(message as any).toString()}`;
     }
 

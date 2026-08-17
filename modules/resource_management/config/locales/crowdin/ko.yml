@@ -5,6 +5,7 @@ ko:
       resource_allocation:
         allocated_hours: 시간
         allocated_time: 할당된 시간
+        date_range: 날짜
         end_date: 완료 날짜
         entity: 엔티티
         filter_name: 리소스 필터 이름
@@ -13,6 +14,7 @@ ko:
         state: 상태
         user_filter: 사용자 필터
       resource_planner:
+        date_range: 날짜
         default_view_class_name: 기본 보기
         end_date: 완료 날짜
         favorite: 즐겨찾기
@@ -29,6 +31,9 @@ ko:
           attributes:
             end_date:
               greater_than_start_date: "- 시작 날짜 후여야 합니다."
+              required_with_start_date: "- 시작 날짜가 설정된 경우 설정해야 합니다."
+            start_date:
+              required_with_end_date: "- 완료 날짜가 설정된 경우 설정해야 합니다."
         resource_work_package_list:
           attributes:
             query:
@@ -36,31 +41,37 @@ ko:
     models:
       resource_allocation: 리소스 할당
       resource_planner: 리소스 플래너
+      resource_user_card: 사용자 카드
       resource_work_package_list: 작업 패키지 목록
-      user_card: 사용자 카드
   button_next: 다음
-  label_resource_management: 리소스 계획
+  ee:
+    features:
+      resource_management: 리소스 관리
+    upsell:
+      resource_management:
+        description: 리소스 플래너를 사용하여 팀의 작업량을 계획하고 균형을 맞추세요. 사람들을 작업 패키지에 할당하고, 시간 경과에 따른 업무량을 추적하며, 할당 과다 및 할당 부족 상황을 한눈에 파악하세요.
+        title: 리소스 관리
+  label_resource_management: 리소스 관리
   permission_allocate_user_resources: 사용자 리소스 할당
   permission_allocate_user_resources_explanation: 사용자가 리소스 플래너 내에서 리소스 할당을 만들고, 업데이트하고, 삭제할 수 있습니다. 여기에는 플래너에 사용자(또는 사용자 필터)를 할당하고 할당된 시간 및 날짜 범위를 조정하는 것이 포함됩니다.
+  permission_assign_users_to_generic_allocations: 사용자를 일반 할당에 배정
+  permission_assign_users_to_generic_allocations_explanation: 사용자가 스태핑 보기를 사용하여 아직 사용자가 없는 일반(필터 기반) 리소스 할당에 실제 사용자를 할당할 수 있습니다. 할당 생성 또는 편집은 허용되지 않습니다.
   permission_manage_public_resource_planners: 공개 리소스 플래너 관리
   permission_manage_public_resource_planners_explanation: 사용자가 리소스 플래너를 만들고 관리하도록 허용합니다. 사용자는 고유한 리소스 플래너를 보고 만들고 관리하며 게시할 수 있습니다. 다른 사용자가 만든 공개적으로 공유되지 않은 리소스 플래너는 볼 수 없습니다.
   permission_view_resource_planners: 리소스 플래너 보기
   permission_view_resource_planners_explanation: 사용자가 리소스 플래너에 액세스하도록 허용합니다. 사용자는 고유한 리소스 플래너를 만들고 관리하며 공개 리소스 플래너를 볼 수 있습니다. 다른 사용자가 만든 공개적으로 공유되지 않은 리소스 플래너는 볼 수 없습니다.
   plugin_openproject_resource_management:
-    description: 리소스 관리 및 용량 계획을 제공합니다.
+    description: 리소스 관리 및 업무량 계획을 제공합니다.
     name: OpenProject 리소스 관리
   project_module_resource_management: 리소스 관리
   resource_management:
     action:
       delete: 삭제
+      edit: 편집
       favorite: 즐겨찾기에 추가
       make_private: 비공개로 설정
       make_public: 공개로 설정
       unfavorite: 즐겨찾기에서 제거
-    allocation:
-      hours: "%{value}시간"
-      no_work: 이 작업 패키지에 대해 계획된 작업이 없습니다
-      summary: "%{allocated}/%{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -84,8 +95,25 @@ ko:
       submit: 할당
       success_message: 리소스가 할당되었습니다.
       title: 리소스 할당
+    allocation:
+      hours: "%{value}시간"
+      no_work: 이 작업 패키지에 대해 계획된 작업이 없습니다
+      summary: "%{allocated}/%{scheduled}"
+    assignment_dialog:
+      available: "%{hours} 사용 가능"
+      confirm_overtime: 그래도 할당
+      filter_criteria: 필터 기준
+      no_candidates:
+        description: 이 할당의 필터 기준에 맞는 프로젝트 멤버가 없습니다.
+        title: 일치하는 멤버 없음
+      no_schedule: 이 사용자에게는 근무 스케줄이 설정되어 있지 않으므로, 이 할당이 적합한지 여부를 확인할 수 없습니다.
+      overbooked_detail: 이 사용자는 해당 기간 동안 %{available}을(를) 사용할 수 있으며, 작업 패키지에는 %{requested}이(가) 필요합니다.
+      requested_for: 요청함 -
+      select_user: 할당할 사용자를 선택하세요.
+      submit: 할당
+      title: "%{filter_name} 할당"
     blankslate:
-      desc: 리소스 플래너를 만들어 이 프로젝트의 용량 계획을 시작하세요.
+      desc: 리소스 플래너를 만들어 이 프로젝트의 업무량 계획을 시작하세요.
       title: 아직 리소스 플래너 없음
     configure_view_dialog:
       delete_confirmation: 이 보기를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.
@@ -103,6 +131,7 @@ ko:
       success_message: 리소스 할당이 업데이트되었습니다.
       title: 할당 편집
     favorite_caption: 이 보기를 즐겨찾기로 지정하여 사이드바 메뉴의 상단 섹션에 추가합니다.
+    label_edit_resource_planner: 리소스 플래너 편집
     label_new_resource_planner: 새로운 리소스 플래너
     label_resource_planner: 리소스 플래너
     label_resource_planner_plural: 리소스 플래너
@@ -114,11 +143,96 @@ ko:
     sidebar:
       private: 비공개
       public: 공개
+    staffing:
+      assign: 사용자 할당
+      blank:
+        description: 이 프로젝트의 모든 일반 할당에는 사용자가 할당되어 있습니다.
+        title: 스태핑할 사항 없음
+      columns:
+        dates: 날짜
+        requested_time: 요청된 시간
+        resource: 리소스
+        work_package: 작업 패키지
+      context_menu_label: 액션 할당
+      delete_confirmation: 이 할당을 삭제하시겠습니까?
+      menu_item: 스태핑
+      starts_in_past: 이 할당은 이미 시작되었으며 아직 할당되지 않았습니다.
+      success_message: 사용자가 할당되었습니다.
+      title: 스태핑
     sub_views: 이 리소스 플래너의 보기
+    timeframe:
+      full: "%{start} ~ %{end}"
+    timeline:
+      granularity:
+        day: 일
+        month: 월
+        week: 달력 주
+      navigation:
+        next: 다음 기간
+        previous: 이전 기간
+        today: 오늘
+      subheader:
+        add: 추가
+        allocate: 할당
+        settings: 보기 구성
+    user_allocations_dialog:
+      allocate_work_package: 작업 패키지 할당
+      blank: 이 사용자에게는 할당된 작업 패키지가 없습니다.
+      other_work_packages:
+        other: "%{count}개 기타 작업 패키지"
+      title: 이용
+    user_card_list:
+      add_user_dialog:
+        title: 사용자 추가
+      blank:
+        description: 아직 이 보기의 필터와 일치하는 사용자가 없습니다.
+        manual_description: 아직 이 보기에 추가된 사용자가 없습니다.
+        title: 표시할 사용자 없음
+      card:
+        multi_value_more: "+%{count}개 더 보기"
+        remove: 사용자 제거
+        remove_confirmation: 보기에서 이 사용자를 제거하시겠습니까?
+      fields:
+        drag_area_label: 표시된 필드
+        input_caption: 이 보기의 사용자 카드에 표시할 필드 선택
+        input_label: 필드
+        input_placeholder: 필드 추가
+        working_times: 작업 시간
+      subheader:
+        resource: 리소스
+        settings: 보기 구성
+      utilization:
+        label: 이용
+      working_hours:
+        blank: 구성된 근무 시간 없음
+        schedule_availability_compact: "%{schedule}(%{factor}% 사용 가능)"
+        schedule_change_compact: "%{date}까지, %{schedule}"
+    user_timeline:
+      blank:
+        add_user: 사용자 추가
+        configure_view: 보기 구성
+        description: 아직 이 보기의 필터와 일치하는 사용자가 없습니다.
+        manual_description: 이 보기에 사용자를 추가하여 시간 경과에 따른 할당을 확인합니다.
+        title: 표시할 사용자 없음
+      no_work_schedule: 이 사용자에 대해 계획된 근무 스케줄 없음
+      overbooked: 이 사용자는 선택한 기간에 초과 할당되었습니다.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} 예약됨, %{available} 사용 가능"
+      subheader:
+        add_user: 사용자 추가
     view_types:
+      resource_user_card:
+        caption: 사용자에 기반한 보기를 만들고 사용자 카드 목록에서 해당 세부 정보 및 할당 현황을 확인합니다
+        label: 사용자 카드 목록
+      resource_user_timeline:
+        caption: 사용자에 기반하여 보기를 생성하고, 타임라인에서 시간 경과에 따른 할당 현황을 확인합니다
+        label: 사용자 타임라인
       resource_work_package_list:
         caption: 작업 패키지를 기반으로 보기를 만들고 목록에서 해당 세부 정보 및 할당을 확인하세요
         label: 작업 패키지 목록
+      resource_work_package_timeline:
+        caption: 작업 패키지에 기반하여 보기를 생성하고, 타임라인에서 시간 경과에 따른 할당 현황을 확인합니다
+        label: 작업 패키지 타임라인
       user_card:
         caption: 사용자에 기반한 보기를 만들고 사용자 카드 목록에서 해당 세부 정보 및 할당 현황을 확인합니다
         label: 사용자 카드 목록
@@ -166,3 +280,16 @@ ko:
         add_work_package: 작업 패키지 추가
         allocate: 할당
         settings: 보기 구성
+    work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          other: "%{count} members of this project match the allocation's filter criteria."
+      blank:
+        add_work_package: 작업 패키지 추가
+        configure_view: 보기 구성
+        description: 아직 이 보기의 필터와 일치하는 작업 패키지가 없습니다.
+        manual_description: 이 보기에 작업 패키지를 추가하여 시간 경과에 따른 할당을 계획합니다.
+        title: 표시할 작업 패키지 없음
+      query_name: '리소스 관리 작업 패키지 타임라인: %{name}'
+      subheader:
+        add_work_package: 작업 패키지 추가

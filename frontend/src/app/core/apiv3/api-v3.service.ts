@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -56,7 +56,6 @@ import { ApiV3GroupsPaths } from 'core-app/core/apiv3/endpoints/groups/apiv3-gro
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3NotificationsPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notifications-paths';
 import { ApiV3ViewsPaths } from 'core-app/core/apiv3/endpoints/views/apiv3-views-paths';
-import { Apiv3BackupsPath } from 'core-app/core/apiv3/endpoints/backups/apiv3-backups-path';
 import { ApiV3DaysPaths } from 'core-app/core/apiv3/endpoints/days/api-v3-days-paths';
 import { ApiV3StoragesPaths } from 'core-app/core/apiv3/endpoints/storages/api-v3-storages-paths';
 import {
@@ -70,9 +69,6 @@ export class ApiV3Service {
 
   // /api/v3/attachments
   public readonly attachments = this.apiV3CollectionEndpoint('attachments');
-
-  // /api/v3/backups
-  public readonly backups = this.apiV3CustomEndpoint(Apiv3BackupsPath);
 
   // /api/v3/configuration
   public readonly configuration = this.apiV3CustomEndpoint(ApiV3ConfigurationPath);
@@ -97,6 +93,12 @@ export class ApiV3Service {
 
   // /api/v3/principals
   public readonly principals = this.apiV3CollectionEndpoint('principals');
+
+  // /api/v3/portfolios
+  public readonly portfolios = this.apiV3CollectionEndpoint('portfolios');
+
+  // /api/v3/programs
+  public readonly programs = this.apiV3CollectionEndpoint('programs');
 
   // /api/v3/root
   public readonly root = this.apiV3SingularEndpoint<RootResource>('');
@@ -186,7 +188,7 @@ export class ApiV3Service {
    * @param projectIdentifier
    */
   public withOptionalProject(projectIdentifier:string|number|null|undefined):ApiV3ProjectPaths|this {
-    if (_.isNil(projectIdentifier)) {
+    if (projectIdentifier == null) {
       return this;
     }
     return this.projects.id(projectIdentifier);

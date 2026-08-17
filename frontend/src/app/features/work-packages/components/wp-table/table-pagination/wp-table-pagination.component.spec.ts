@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -85,7 +85,9 @@ describe('wpTablePagination Directive', () => {
         WorkPackageViewPaginationService,
         HalResourceService,
         { provide: WeekdayService, useValue: WeekdayServiceStub },
-        ConfigurationService,
+        // PaginationService reads perPageOptions from ConfigurationService in its
+        // constructor; in production the service is initialized before injection.
+        { provide: ConfigurationService, useValue: { perPageOptions: [10, 50] } as unknown as ConfigurationService },
         IsolatedQuerySpace,
         I18nService,
         provideHttpClient(withXhr(), withInterceptorsFromDi()),

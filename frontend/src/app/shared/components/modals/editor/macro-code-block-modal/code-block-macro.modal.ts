@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { debounce } from 'lodash-es';
 import {
   AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject,
 } from '@angular/core';
@@ -60,7 +61,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
 
   private pendingMode:string|undefined;
 
-  public debouncedLanguageLoader = _.debounce(() => this.loadLanguageAsMode(this.language), 300);
+  public debouncedLanguageLoader = debounce(() => this.loadLanguageAsMode(this.language), 300);
 
   @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef<HTMLTextAreaElement>;
 

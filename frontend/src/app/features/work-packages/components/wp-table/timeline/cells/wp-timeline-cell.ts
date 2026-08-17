@@ -21,10 +21,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { Injector } from '@angular/core';
@@ -92,10 +93,10 @@ export class WorkPackageTimelineCell {
   canConnectRelations():boolean {
     const wp = this.latestRenderInfo.workPackage;
     if (this.schemaCache.of(wp).isMilestone) {
-      return !_.isNil(wp.date);
+      return wp.date != null;
     }
 
-    return !_.isNil(wp.startDate) || !_.isNil(wp.dueDate);
+    return wp.startDate != null || wp.dueDate != null;
   }
 
   public clear() {

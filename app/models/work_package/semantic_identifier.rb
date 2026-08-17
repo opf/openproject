@@ -58,6 +58,14 @@ module WorkPackage::SemanticIdentifier
   # specifically when needed.
   class UnsupportedLookup < ArgumentError; end
 
+  # Validation context that permits deliberate changes to identifier/sequence_number
+  # on a persisted work package:
+  #
+  #   work_package.save(context: WorkPackage::SemanticIdentifier::IDENTIFIER_REWRITE_CONTEXT)
+  #
+  # See #semantic_identifier_fields_not_accidentally_changed.
+  IDENTIFIER_REWRITE_CONTEXT = :identifier_rewrite
+
   included do
     has_many :semantic_aliases,
              class_name: "WorkPackageSemanticAlias",
@@ -94,7 +102,7 @@ module WorkPackage::SemanticIdentifier
 
     after_create :allocate_and_register_semantic_id, if: -> { Setting::WorkPackageIdentifier.semantic? && !skip_semantic_id_allocation }
 
-    validate :semantic_identifier_fields_consistent
+    validate :validate_semantic_identifier_fields
   end
 
   class_methods do
@@ -167,6 +175,22 @@ module WorkPackage::SemanticIdentifier
     format_display_id(display_id_for(id, identifier))
   end
 
+  # Extracts the sequence number from a semantic identifier ("PROJ-42" → 42).
+  # The inverse of the "<project identifier>-<sequence number>" composition used
+  # when allocating identifiers.
+  #
+  # Raises ArgumentError unless the identifier is of the expected
+  # "<prefix>-<digits>" shape, rather than silently coercing garbage or a blank
+  # value to 0 ("PROJ-abc".split("-").last.to_i would return 0). Callers that may
+  # legitimately hold a blank identifier must guard before calling.
+  def self.sequence_number_from_identifier(identifier)
+    unless /\A#{SEMANTIC_ID_PATTERN.source}\z/.match?(identifier)
+      raise ArgumentError, "#{identifier.inspect} is not a valid semantic identifier"
+    end
+
+    identifier.split("-").last.to_i
+  end
+
   # Returns the user-facing identifier for this work package.
   # In semantic mode: the project-based identifier (e.g. "PROJ-42")
   # In classic mode: the numeric database ID
@@ -176,6 +200,16 @@ module WorkPackage::SemanticIdentifier
 
   def formatted_id
     WorkPackage::SemanticIdentifier.format_display_id(display_id)
+  end
+
+  # Identifier attributes are cleared for the project move. If validation
+  # fails and moving is not possible, they need to be restored to show
+  # correct error messages.
+  def restore_identifier_after_failed_move
+    return unless cleared_for_project_move?
+
+    self.identifier = identifier_was
+    self.sequence_number = sequence_number_was
   end
 
   # Override ActiveRecord's default `to_param` so Rails URL helpers
@@ -219,11 +253,42 @@ module WorkPackage::SemanticIdentifier
 
   private
 
+  def validate_semantic_identifier_fields
+    semantic_identifier_fields_consistent
+    semantic_identifier_fields_not_accidentally_changed
+  end
+
   # Ensures identifier and sequence_number are always written together.
   # One field set without the other indicates a partial write and is never valid.
   def semantic_identifier_fields_consistent
     return unless identifier.present? ^ sequence_number.present?
 
     errors.add(:identifier, :semantic_identifier_incomplete)
+  end
+
+  # Guards against accidental edits, e.g. from a Rails console: identifiers are
+  # allocated automatically and resolved through the alias table, so a
+  # hand-written change silently breaks links and identifier history.
+  # Deliberate changes must be saved with the IDENTIFIER_REWRITE_CONTEXT
+  # validation context.
+  def semantic_identifier_fields_not_accidentally_changed
+    return unless persisted?
+    return if Array(validation_context).include?(IDENTIFIER_REWRITE_CONTEXT)
+    return if cleared_for_project_move?
+
+    %w[identifier sequence_number].each do |attribute|
+      next unless attribute_changed?(attribute)
+
+      errors.add(attribute, :must_not_be_changed, context: IDENTIFIER_REWRITE_CONTEXT)
+    end
+  end
+
+  # Clearing both fields while moving to another project is part of the move
+  # operation itself: the identifier belongs to the source project and must be
+  # cleared in the same UPDATE that changes project_id (unique index on
+  # project_id/sequence_number). A fresh identifier is allocated after the move.
+  # See WorkPackages::SetAttributesService#clear_semantic_identifier.
+  def cleared_for_project_move?
+    project_id_changed? && identifier.nil? && sequence_number.nil?
   end
 end

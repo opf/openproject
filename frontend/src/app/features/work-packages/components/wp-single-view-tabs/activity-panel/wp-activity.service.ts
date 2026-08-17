@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Injectable, inject } from '@angular/core';
@@ -69,7 +70,7 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
   }
 
   protected sortedActivityList(activities:HalResource[], attr = 'createdAt'):HalResource[] {
-    const sorted = _.sortBy(_.flatten(activities), attr);
+    const sorted = sortBy(activities.flat(), attr);
 
     if (this.isReversed) {
       return sorted.reverse();

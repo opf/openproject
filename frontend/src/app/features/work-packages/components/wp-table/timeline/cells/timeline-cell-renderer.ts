@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import moment, { Moment } from 'moment';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DisplayFieldRenderer } from 'core-app/shared/components/fields/display/display-field-renderer';
@@ -85,7 +113,7 @@ export class TimelineCellRenderer {
   public isEmpty(wp:WorkPackageResource) {
     const start = moment(wp.startDate);
     const due = moment(wp.dueDate);
-    const noStartAndDueValues = _.isNaN(start.valueOf()) && _.isNaN(due.valueOf());
+    const noStartAndDueValues = Number.isNaN(start.valueOf()) && Number.isNaN(due.valueOf());
     return noStartAndDueValues;
   }
 
@@ -246,21 +274,21 @@ export class TimelineCellRenderer {
     let start = moment(change.projectedResource.startDate);
     let due = moment(change.projectedResource.dueDate);
 
-    if (_.isNaN(start.valueOf()) && _.isNaN(due.valueOf())) {
+    if (Number.isNaN(start.valueOf()) && Number.isNaN(due.valueOf())) {
       element.style.visibility = 'hidden';
     } else {
       element.style.visibility = 'visible';
     }
 
     // only start date, fade out bar to the right
-    if (_.isNaN(due.valueOf()) && !_.isNaN(start.valueOf())) {
+    if (Number.isNaN(due.valueOf()) && !Number.isNaN(start.valueOf())) {
       // Set due date to today
       due = moment();
       bar.setAttribute('style', 'background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%) !important');
     }
 
     // only finish date, fade out bar to the left
-    if (_.isNaN(start.valueOf()) && !_.isNaN(due.valueOf())) {
+    if (Number.isNaN(start.valueOf()) && !Number.isNaN(due.valueOf())) {
       start = due.clone();
       bar.setAttribute('style', 'background-image: linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%) !important');
     }
@@ -336,7 +364,7 @@ export class TimelineCellRenderer {
 
     let start = moment(projection.startDate);
     const due = moment(projection.dueDate);
-    start = _.isNaN(start.valueOf()) ? due.clone() : start;
+    start = Number.isNaN(start.valueOf()) ? due.clone() : start;
 
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, 'days');
 
@@ -349,8 +377,8 @@ export class TimelineCellRenderer {
     let start = moment(projection.startDate);
     let due = moment(projection.dueDate);
 
-    start = _.isNaN(start.valueOf()) ? due.clone() : start;
-    due = _.isNaN(due.valueOf()) ? start.clone() : due;
+    start = Number.isNaN(start.valueOf()) ? due.clone() : start;
+    due = Number.isNaN(due.valueOf()) ? start.clone() : due;
 
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, 'days');
     const duration = due.diff(start, 'days') + 1;
@@ -461,8 +489,8 @@ export class TimelineCellRenderer {
     element.style.width = calculatePositionValueForDayCount(viewParams, duration);
 
     // ensure minimum width
-    if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
-      const minWidth = _.max([renderInfo.viewParams.pixelPerDay, 2]);
+    if (!Number.isNaN(start.valueOf()) || !Number.isNaN(due.valueOf())) {
+      const minWidth = Math.max(renderInfo.viewParams.pixelPerDay, 2);
       element.style.minWidth = `${minWidth}px`;
     }
   }

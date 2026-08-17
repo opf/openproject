@@ -93,6 +93,21 @@ eo:
           name: Alta
         item_3:
           name: Tuja
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Demo project
@@ -182,21 +197,23 @@ eo:
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Konferenco
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Sekvaj taskoj
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Alŝutu prezentaĵojn al la retejo
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Festo por konferencaj subtenantoj :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    *   [ ] Biero
-                    *   [ ] Manĝetoj
-                    *   [ ] Muziko
-                    *   [ ] Eĉ pli da biero
-            item_4:
-              subject: Fino de projekto
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
 
@@ -487,6 +504,20 @@ eo:
           name: Historio de la uzanto
         item_6:
           name: Cimo
+      global_queries:
+        item_0:
+          name: 'Epic children: User stories and bugs'
+        item_1:
+          name: 'User story children: Tasks'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: User stories and bugs
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Tasks
       welcome:
         title: Welcome to OpenProject!
         text: |

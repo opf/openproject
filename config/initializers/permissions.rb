@@ -60,7 +60,7 @@ Rails.application.reloader.to_prepare do
       map.permission :create_backup,
                      {
                        admin: %i[index],
-                       "admin/backups": %i[delete_token perform_token_reset reset_token show]
+                       "admin/backups": %i[delete_token perform_token_reset request_backup reset_token_dialog show]
                      },
                      permissible_on: :global,
                      require: :loggedin,
@@ -239,7 +239,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_types,
                      {
-                       "projects/settings/work_packages/types": %i[show update]
+                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update],
+                       "projects/settings/work_packages/types/switches": %i[new create]
                      },
                      permissible_on: :project,
                      require: :member
@@ -314,7 +315,8 @@ Rails.application.reloader.to_prepare do
                        "work_packages/menus": %i[show],
                        "work_packages/hover_card": %i[show],
                        work_package_relations_tab: %i[index],
-                       "work_packages/reminders": %i[modal_body create update destroy]
+                       "work_packages/reminders": %i[modal_body create update destroy],
+                       "work_packages/project_attributes_tab": %i[index]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }
@@ -534,32 +536,6 @@ Rails.application.reloader.to_prepare do
       news.permission :comment_news,
                       { "news/comments": :create },
                       permissible_on: :project
-    end
-
-    map.project_module :wiki do |wiki|
-      wiki.permission :view_wiki_pages,
-                      { wiki: %i[index show special menu export] },
-                      permissible_on: :project
-
-      wiki.permission :view_wiki_edits,
-                      { wiki: %i[history diff annotate] },
-                      dependencies: :view_wiki_pages,
-                      permissible_on: :project
-
-      wiki.permission :edit_wiki_pages,
-                      { wiki: %i[edit update preview add_attachment new new_child create rename] },
-                      dependencies: :view_wiki_pages,
-                      permissible_on: :project
-
-      wiki.permission :manage_wiki,
-                      {
-                        wiki: %i[destroy protect edit_parent_page update_parent_page],
-                        wikis: %i[edit destroy],
-                        wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item]
-                      },
-                      dependencies: :edit_wiki_pages,
-                      permissible_on: :project,
-                      require: :member
     end
 
     map.project_module :repository do |repo|

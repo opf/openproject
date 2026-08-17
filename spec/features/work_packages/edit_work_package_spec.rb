@@ -117,7 +117,7 @@ RSpec.describe "edit work package", :js do
     end
   end
 
-  it "allows updating and seeing the results" do
+  it "allows updating and seeing the results", with_settings: { work_package_multiple_versions: false } do
     wp_page.update_attributes subject: "a new subject",
                               type: type2.name,
                               combinedDate: ["2013-03-04", "2013-03-20"],
@@ -126,7 +126,7 @@ RSpec.describe "edit work package", :js do
                               estimatedTime: "10",
                               remainingTime: "7",
                               priority: priority2.name,
-                              version: version.name,
+                              targetVersions: version.name,
                               category: category.name,
                               status: status2.name,
                               description: "a new description"
@@ -142,7 +142,7 @@ RSpec.describe "edit work package", :js do
                               description: "a new description",
                               priority: priority2.name,
                               status: status2.name,
-                              version: version.name,
+                              targetVersions: version.name,
                               category: category.name
 
     activity_tab.expect_journal_changed_attribute(

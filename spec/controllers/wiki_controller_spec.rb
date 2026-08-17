@@ -33,14 +33,10 @@ require "spec_helper"
 RSpec.describe WikiController do
   shared_let(:admin) { create(:admin) }
 
-  shared_let(:project) do
-    create(:project).tap(&:reload)
-  end
+  shared_let(:project) { create(:project, :with_internal_wiki).reload }
   shared_let(:wiki) { project.wiki }
 
-  shared_let(:existing_page) do
-    create(:wiki_page, wiki_id: project.wiki.id, title: "ExistingPage", author: admin)
-  end
+  shared_let(:existing_page) { create(:wiki_page, wiki_id: wiki.id, title: "ExistingPage", author: admin) }
 
   describe "actions" do
     before do
@@ -67,6 +63,46 @@ RSpec.describe WikiController do
       it "assigns pages" do
         expect(assigns[:pages])
           .to eq project.wiki.pages
+      end
+    end
+
+    describe "menu" do
+      let!(:parent_page) { create(:wiki_page, wiki:, title: "Parent page", author: admin) }
+      let!(:child_page) { create(:wiki_page, wiki:, title: "Child page", parent: parent_page, author: admin) }
+
+      it "renders the lazy frame shell" do
+        get :menu, params: { project_id: project.identifier, current_page_id: child_page.id }
+
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:menu)
+        expect(assigns(:page)).to eq(child_page)
+      end
+
+      it "loads the tree data" do
+        get :menu_tree, params: { project_id: project.identifier, current_page_id: child_page.id, query: "Child" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:menu_tree)
+        expect(assigns(:page)).to eq(child_page)
+        expect(assigns(:query)).to eq("Child")
+        expect(assigns(:query_terms)).to eq(["child"])
+        expect(assigns(:tree)).to all(be_a(OpenProject::Sidemenu::TreeNode))
+      end
+
+      context "with a user without permission to view wiki pages" do
+        current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+        it "is forbidden" do
+          get :menu, params: { project_id: project.identifier }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "is forbidden from loading the tree" do
+          get :menu_tree, params: { project_id: project.identifier }
+
+          expect(response).to have_http_status(:forbidden)
+        end
       end
     end
 
@@ -968,9 +1004,7 @@ RSpec.describe WikiController do
   describe "view related stuff" do
     render_views
 
-    shared_let(:project) do
-      create(:public_project).tap(&:reload)
-    end
+    shared_let(:project) { create(:public_project, :with_internal_wiki).reload }
 
     # creating pages
     let!(:page_with_content) do

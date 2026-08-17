@@ -1,0 +1,26 @@
+<%=
+  render(Primer::OpenProject::SidePanel::Section.new) do |section|
+    section.with_title { section_title }
+
+    flex_layout do |container|
+      attributes.each do |attribute|
+        container.with_row(mt: 2, font_weight: :bold, test_selector: "user-profile-attribute") do
+          attribute.label
+        end
+
+        container.with_row do
+          if attribute.multi_value?
+            safe_join(attribute.value.map { |item| render(Primer::Beta::Label.new(scheme: :accent, mr: 1)) { item } }, " ")
+          elsif attribute.icon
+            flex_layout(align_items: :center) do |value_row|
+              value_row.with_column(mr: 1) { render(Primer::Beta::Octicon.new(icon: attribute.icon, color: :muted)) }
+              value_row.with_column { attribute.value }
+            end
+          else
+            attribute.value
+          end
+        end
+      end
+    end
+  end
+%>

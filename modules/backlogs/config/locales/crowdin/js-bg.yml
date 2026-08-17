@@ -22,9 +22,9 @@
 ---
 bg:
   js:
-    work_packages:
-      properties:
-        storyPoints: Точки на история
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Точки на история

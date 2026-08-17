@@ -19,8 +19,4 @@ module WorkingTimesAuthorization
 
     deny_access
   end
-
-  def check_working_times_feature_flag_is_active
-    render_403 unless OpenProject::FeatureDecisions.user_working_times_active?
-  end
 end

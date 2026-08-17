@@ -3,58 +3,66 @@ nl:
   js:
     grid:
       add_widget: Widget toevoegen
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Widget verwijderen
       configure: Widget configureren
+      remove: Widget verwijderen
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: U hebt niet de vereiste rechten om deze widget te bekijken.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Aangepaste tekst
         documents:
-          title: Documenten
           no_results: Geen documenten.
+          title: Documenten
         members:
           title: Leden
+        missing_permission: U hebt niet de vereiste rechten om deze widget te bekijken.
         news:
           title: Nieuws
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favoriete projecten
         project_status:
-          title: Status
-          not_started: Nog niet gestart
-          on_track: Op schema
-          off_track: Buiten schema
           at_risk: In gevaar
-          not_set: Niet ingesteld
-          finished: Afgewerkt
           discontinued: Stopgezet
+          finished: Afgewerkt
+          not_set: Niet ingesteld
+          not_started: Nog niet gestart
+          off_track: Buiten schema
+          on_track: Op schema
+          title: Status
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Favoriete projecten
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: Mijn bestede tijd
           displayed_days: 'Dagen weergegeven in de widget:'
+          title: Mijn bestede tijd
         time_entries_list:
-          title: Besteed tijd (laatste 7 dagen)
           no_results: Geen tijd items voor de afgelopen 7 dagen.
+          title: Besteed tijd (laatste 7 dagen)
         work_packages_accountable:
           title: Werkpakketten waar ik verantwoordelijk voor ben
         work_packages_assigned:
           title: Werkpakketten toegewezen aan mij
-        work_packages_created:
-          title: Werkpakketten gemaakt door mij werk werk
-        work_packages_watched:
-          title: Werkpakketten bekeken door mij
-        work_packages_table:
-          title: Werkpakketten tabel
-        work_packages_graph:
-          title: Werkpakketten grafiek
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Kalender
+        work_packages_created:
+          title: Werkpakketten gemaakt door mij werk werk
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Werkpakketten grafiek
         work_packages_overview:
-          title: Werkpakketten Overzicht
           placeholder: Klik om te bewerken ...
+          title: Werkpakketten Overzicht
+        work_packages_table:
+          title: Werkpakketten tabel
+        work_packages_watched:
+          title: Werkpakketten bekeken door mij

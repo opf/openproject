@@ -37,8 +37,9 @@ module API
         DECOMPRESS_CHUNK_SIZE = 16 * 1024
 
         def raise_invalid_eprops(error, i18n_key)
-          mapped_error = OpenStruct.new(params: [:eprops], message: I18n.t(i18n_key, message: error.message))
-          raise ::Grape::Exceptions::ValidationErrors.new errors: [mapped_error]
+          mapped_error = ::Grape::Exceptions::Validation.new(params: [:eprops],
+                                                             message: I18n.t(i18n_key, message: error.message))
+          raise ::Grape::Exceptions::ValidationErrors.new(exceptions: [mapped_error])
         end
 
         def transform_eprops

@@ -33,7 +33,7 @@ require "spec_helper"
 module WorkPackageTypes
   RSpec.describe UpdateFormConfigurationContract do
     let(:user) { create(:admin) }
-    let(:model) { create(:type, name: "O-Negative") }
+    let(:model) { create(:type, name: "O-Negative").default_variant }
 
     subject(:contract) { described_class.new(model, user, options: {}) }
 
@@ -233,6 +233,42 @@ module WorkPackageTypes
             expect(contract).not_to be_valid
             expect(contract.errors.details[:attribute_groups]).to include(
               error: "Invalid work package attribute used: unknown_attribute"
+            )
+          end
+        end
+
+        context "when the multiple versions feature is inactive",
+                with_settings: { work_package_multiple_versions: false } do
+          it "accepts the deprecated version" do
+            model.attribute_groups = [["foo", ["version"]]]
+
+            expect(contract).to be_valid
+          end
+
+          it "rejects target_versions as an unknown attribute" do
+            model.attribute_groups = [["foo", ["target_versions"]]]
+
+            expect(contract).not_to be_valid
+            expect(contract.errors.details[:attribute_groups]).to include(
+              error: "Invalid work package attribute used: target_versions"
+            )
+          end
+        end
+
+        context "when the multiple versions feature is active",
+                with_settings: { work_package_multiple_versions: true } do
+          it "accepts target_versions" do
+            model.attribute_groups = [["foo", ["target_versions"]]]
+
+            expect(contract).to be_valid
+          end
+
+          it "rejects the deprecated version as an unknown attribute" do
+            model.attribute_groups = [["foo", ["version"]]]
+
+            expect(contract).not_to be_valid
+            expect(contract.errors.details[:attribute_groups]).to include(
+              error: "Invalid work package attribute used: version"
             )
           end
         end

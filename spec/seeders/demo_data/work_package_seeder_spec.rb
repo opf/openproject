@@ -196,6 +196,34 @@ RSpec.describe DemoData::WorkPackageSeeder do
     end
   end
 
+  context "with work package data with remaining_hours and done_ratio" do
+    let(:work_packages_data) do
+      [
+        work_package_data(estimated_hours: 8, remaining_hours: 4, done_ratio: 50)
+      ]
+    end
+
+    it "sets remaining_hours and done_ratio to the given values" do
+      work_package = WorkPackage.first
+      expect(work_package.remaining_hours).to eq(4)
+      expect(work_package.done_ratio).to eq(50)
+    end
+  end
+
+  context "with work package data without remaining_hours and done_ratio" do
+    let(:work_packages_data) do
+      [
+        work_package_data(estimated_hours: 8)
+      ]
+    end
+
+    it "does not set remaining_hours or done_ratio" do
+      work_package = WorkPackage.first
+      expect(work_package.remaining_hours).to be_nil
+      expect(work_package.done_ratio).to be_nil
+    end
+  end
+
   context "with work package data with schedule_manually" do
     let(:work_packages_data) do
       [
@@ -358,6 +386,55 @@ RSpec.describe DemoData::WorkPackageSeeder do
     it "creates link to the sprint with the right id" do
       expect(WorkPackage.last.description)
         .to eq("The [sprint](/projects/#{project.identifier}/backlogs/sprints/#{sprint.id}/taskboard) of id #{sprint.id}.")
+    end
+  end
+
+  describe "target_versions" do
+    let(:version_alpha) { create(:version, project:, name: "Alpha") }
+    let(:version_beta) { create(:version, project:, name: "Beta") }
+    let(:seed_data) do
+      seed_data = basic_seed_data.merge(Source::SeedData.new("work_packages" => work_packages_data))
+      seed_data.store_reference(:version_alpha, version_alpha)
+      seed_data.store_reference(:version_beta, version_beta)
+      seed_data
+    end
+
+    context "without target_versions" do
+      let(:work_packages_data) do
+        [work_package_data(subject: "no versions")]
+      end
+
+      it "creates no work_package_versions rows" do
+        wp = WorkPackage.find_by(subject: "no versions")
+        expect(wp.work_package_versions).to be_empty
+        expect(wp.target_versions).to be_empty
+      end
+    end
+
+    context "with a single target_versions reference" do
+      let(:work_packages_data) do
+        [work_package_data(subject: "single", target_versions: [:version_alpha])]
+      end
+
+      it "creates one kind: 'target' associated version row" do
+        wp = WorkPackage.find_by(subject: "single")
+        expect(wp.work_package_versions.pluck(:kind, :version_id))
+          .to contain_exactly(["target", version_alpha.id])
+        expect(wp.target_versions).to contain_exactly(version_alpha)
+      end
+    end
+
+    context "with multiple target_versions references" do
+      let(:work_packages_data) do
+        [work_package_data(subject: "multi", target_versions: %i[version_alpha version_beta])]
+      end
+
+      it "creates one kind: 'target' row per resolved version" do
+        wp = WorkPackage.find_by(subject: "multi")
+        expect(wp.work_package_versions.pluck(:kind, :version_id))
+          .to contain_exactly(["target", version_alpha.id], ["target", version_beta.id])
+        expect(wp.target_versions).to contain_exactly(version_alpha, version_beta)
+      end
     end
   end
 

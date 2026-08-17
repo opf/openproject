@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -86,7 +86,7 @@ export class WorkPackageBreadcrumbParentComponent {
   public updateParent(newParent:WorkPackageResource|null) {
     this.close();
     const newParentId = newParent ? newParent.id : null;
-    if (_.get(this.parent, 'id', null) === newParentId) {
+    if ((this.parent?.id ?? null) === newParentId) {
       return;
     }
 

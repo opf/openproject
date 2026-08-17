@@ -22,15 +22,15 @@
 ---
 fil:
   js:
-    text_are_you_sure: Sigurado ka ba?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Costs
-      properties:
-        overallCosts: Kabuuang gastos
-        spentUnits: Ginugol na yunit
     button_log_costs: Log unit costs
     label_hour: oras
     label_hours: mga oras
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Sigurado ka ba?
+    work_packages:
+      properties:
+        overallCosts: Kabuuang gastos
+        spentUnits: Ginugol na yunit
+      property_groups:
+        costs: Costs

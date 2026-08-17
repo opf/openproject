@@ -120,7 +120,8 @@ class WorkPackages::UpdateService < BaseServices::Update
     work_packages.each do |wp|
       next unless (identifier = assignments[wp.id])
 
-      wp.assign_attributes(identifier:, sequence_number: identifier.split("-").last.to_i)
+      wp.assign_attributes(identifier:,
+                           sequence_number: WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier))
       wp.clear_attribute_changes(%i[identifier sequence_number])
     end
   end
@@ -177,11 +178,11 @@ class WorkPackages::UpdateService < BaseServices::Update
     service_calls
       .group_by { |sc| sc.result.id }
       .map do |(_, same_work_package_calls)|
-        same_work_package_calls.pop.tap do |master|
-          same_work_package_calls.each do |sc|
-            master.result.attributes = sc.result.changes.transform_values(&:last)
-          end
+      same_work_package_calls.pop.tap do |master|
+        same_work_package_calls.each do |sc|
+          master.result.attributes = sc.result.changes.transform_values(&:last)
         end
+      end
     end
   end
 end

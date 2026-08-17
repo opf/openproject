@@ -3,58 +3,66 @@ fr:
   js:
     grid:
       add_widget: Ajouter un widget
-      widget_menu_label: Afficher le menu des options pour le widget %{widgetName}
-      remove: Supprimer le widget
       configure: Configurer le widget
+      remove: Supprimer le widget
+      widget_menu_label: Afficher le menu des options pour le widget %{widgetName}
       widgets:
-        missing_permission: Vous n'avez pas les autorisations nécessaires pour voir ce widget.
-        not_available: Ce widget est actuellement indisponible.
         custom_text:
           title: Texte personnalisé
         documents:
-          title: Documents
           no_results: Encore aucun document.
+          title: Documents
         members:
           title: Membres
+        missing_permission: Vous n'avez pas les autorisations nécessaires pour voir ce widget.
         news:
           title: Actualités
+        not_available: Ce widget est actuellement indisponible.
         project_description:
           title: Description
+        project_favorites:
+          no_results: Vous n'avez actuellement aucun projet favori. Ajoutez un ou plusieurs projets comme favoris dans leur aperçu ou dans une liste de projets.
+          title: Projets favoris
         project_status:
-          title: Statut
-          not_started: Non démarré
-          on_track: Sur la bonne voie
-          off_track: Sur la mauvaise voie
           at_risk: À risque
-          not_set: Non défini
-          finished: Terminé
           discontinued: Interrompu
+          finished: Terminé
+          not_set: Non défini
+          not_started: Non démarré
+          off_track: Sur la mauvaise voie
+          on_track: Sur la bonne voie
+          title: Statut
+        project_timeline:
+          accessible_date_range: Du %{start} au %{end}
+          accessible_gate: 'Porte de phase %{name} : %{date}'
+          accessible_phase: 'Phase %{name} : %{date}'
+          tooltip_type_gate: Porte de phase
+          tooltip_type_milestone: Jalon
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Sous-éléments
-        project_favorites:
-          title: Projets favoris
-          no_results: Vous n'avez actuellement aucun projet favori. Ajoutez un ou plusieurs projets comme favoris dans leur aperçu ou dans une liste de projets.
         time_entries_current_user:
-          title: Mon temps passé
           displayed_days: 'Jours affichés dans le widget :'
+          title: Mon temps passé
         time_entries_list:
-          title: Temps passé (7 derniers jours)
           no_results: Aucune entrée de temps pour les 7 derniers jours.
+          title: Temps passé (7 derniers jours)
         work_packages_accountable:
           title: Lots de travaux dont je suis responsable
         work_packages_assigned:
           title: Lots de travaux m'étant assignés
-        work_packages_created:
-          title: Lots de travaux que j'ai créés
-        work_packages_watched:
-          title: Lots de travaux que j'ai observés
-        work_packages_table:
-          title: Tableau des lots de travaux
-        work_packages_graph:
-          title: Graphique des lots de travaux
-          summary: "%{chartType} graphique montrant les lots de travaux qui sont %{description}."
         work_packages_calendar:
           title: Calendrier
+        work_packages_created:
+          title: Lots de travaux que j'ai créés
+        work_packages_graph:
+          summary: "%{chartType} graphique montrant les lots de travaux qui sont %{description}."
+          title: Graphique des lots de travaux
         work_packages_overview:
-          title: Aperçu des lots de travaux
           placeholder: Cliquez pour éditer...
+          title: Aperçu des lots de travaux
+        work_packages_table:
+          title: Tableau des lots de travaux
+        work_packages_watched:
+          title: Lots de travaux que j'ai observés

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -102,8 +102,8 @@ export class HalLink implements HalLinkInterface {
       throw new Error(`The link ${this.href} is not templated.`);
     }
 
-    let href = _.clone(this.href) || '';
-    _.each(templateValues, (value:string, key:string) => {
+    let href = this.href ?? '';
+    Object.entries(templateValues).forEach(([key, value]) => {
       const regexp = new RegExp(`{${key}}`);
       href = href.replace(regexp, value);
     });
@@ -129,7 +129,7 @@ export class HalLink implements HalLinkInterface {
   public $callable():CallableHalLink {
     const linkFunc:any = (...params:any[]) => this.$fetch(...params);
 
-    _.extend(linkFunc, {
+    Object.assign(linkFunc, {
       $link: this,
       href: this.href,
       title: this.title,

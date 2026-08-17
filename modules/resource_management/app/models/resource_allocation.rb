@@ -29,6 +29,8 @@
 #++
 
 class ResourceAllocation < ApplicationRecord
+  include ResourceManagement::DateRangeAttribute
+
   ALLOWED_ENTITY_TYPES = %w[WorkPackage].freeze
 
   # How to reach a project from each polymorphic entity type. Must have one entry for each ALLOWED_ENTITY_TYPES
@@ -48,6 +50,7 @@ class ResourceAllocation < ApplicationRecord
   belongs_to :principal, class_name: "User", optional: true, inverse_of: :resource_allocations
   belongs_to :requested_by, class_name: "User", optional: true
   belongs_to :reviewed_by, class_name: "User", optional: true
+  belongs_to :principal_assigned_by, class_name: "User", optional: true
 
   serialize :user_filter, coder: Queries::Serialization::Filters.new(UserQuery)
 
@@ -56,8 +59,10 @@ class ResourceAllocation < ApplicationRecord
   register_journal_formatted_fields "state", formatter_key: :plaintext
   register_journal_formatted_fields "start_date", "end_date", formatter_key: :datetime
   register_journal_formatted_fields "allocated_time", formatter_key: :allocated_time
-  register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id",
-                                    formatter_key: :named_association
+  # An allocation is about these people, so naming them does not depend on the
+  # reader sharing a project with them.
+  register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id", "principal_assigned_by_id",
+                                    formatter_key: :public_named_association
   register_journal_formatted_fields "entity_gid", formatter_key: :polymorphic_association
   register_journal_formatted_fields "filter_name", formatter_key: :plaintext
 
@@ -79,9 +84,8 @@ class ResourceAllocation < ApplicationRecord
     joins(joins.join(" ")).where(conditions.join(" OR "), project_id: project_id)
   }
 
-  # The `allocated` allocations for the given work packages, grouped by work
-  # package id and with principals eager-loaded. Loaded once per page so the
-  # allocation columns (progress bar and members) share a single query.
+  # Loaded once per page so the allocation columns (progress bar and members)
+  # share a single query.
   def self.allocated_for_work_packages(work_packages)
     allocated
       .where(entity_type: "WorkPackage", entity_id: work_packages.map(&:id))
@@ -90,8 +94,16 @@ class ResourceAllocation < ApplicationRecord
       .group_by(&:entity_id)
   end
 
-  # The subset of the given allocations' principal ids that `user` may see.
-  # Used to anonymise members the current user is not allowed to know about.
+  # Loaded once per page so the user-timeline resource cells (overbooking) and
+  # bars share a single query.
+  def self.allocated_for_principals(principals)
+    allocated
+      .where(principal_id: principals.map(&:id))
+      .includes(:entity, :principal)
+      .order(:id)
+      .group_by(&:principal_id)
+  end
+
   def self.visible_principal_ids(allocations, user)
     principal_ids = allocations.filter_map(&:principal_id).uniq
     return Set.new if principal_ids.empty?
@@ -99,12 +111,26 @@ class ResourceAllocation < ApplicationRecord
     Principal.visible(user).where(id: principal_ids).pluck(:id).to_set
   end
 
-  # The ids of the given allocations that fall into a range in which their
-  # assigned user is overbooked. Users without configured working hours are
-  # skipped — their capacity is unknown, not zero (mirroring the check made
-  # when an allocation is created). The users' working hours and booked
-  # allocations are each fetched in one query; only the per-user capacity
-  # calendar still queries per checked user.
+  # Counts the candidates each filter-based allocation selects, keyed by
+  # allocation id. Allocations commonly share a stored filter, so the candidate
+  # pool is resolved once per distinct filter rather than once per allocation.
+  def self.candidate_counts(allocations, project:)
+    return {} if project.nil?
+
+    counts_by_filter = {}
+
+    allocations.select(&:filter_based?).to_h do |allocation|
+      signature = allocation.user_filter.map { |filter| [filter.name, filter.operator, filter.values] }
+      count = counts_by_filter.fetch(signature) { counts_by_filter[signature] = allocation.candidate_count(project:) }
+
+      [allocation.id, count]
+    end
+  end
+
+  # Users without configured working hours are skipped — their capacity is
+  # unknown, not zero (mirroring the check made when an allocation is created).
+  # The users' working hours and booked allocations are each fetched in one
+  # query; only the per-user capacity calendar still queries per checked user.
   def self.overbooked_ids(allocations)
     checkable = overbooking_checkable_principals(allocations)
     return Set.new if checkable.empty?
@@ -115,8 +141,6 @@ class ResourceAllocation < ApplicationRecord
     overbooked.to_set & allocations.map(&:id)
   end
 
-  # The ids of all allocations falling into a range in which the user is
-  # overbooked, given the user's booked allocations.
   def self.overbooked_ids_of(principal, booked)
     ResourceAllocations::Availability
       .new(user: principal, allocations: booked)
@@ -125,8 +149,6 @@ class ResourceAllocation < ApplicationRecord
   end
   private_class_method :overbooked_ids_of
 
-  # The given allocations' assigned users whose capacity is known, i.e. who
-  # have working hours configured, fetched in a single query.
   def self.overbooking_checkable_principals(allocations)
     principals = allocations.filter_map(&:principal).uniq
     checkable_ids = UserWorkingHours.for_user(principals).distinct.pluck(:user_id).to_set
@@ -186,12 +208,27 @@ class ResourceAllocation < ApplicationRecord
     !principal_explicit? && principal_id.blank?
   end
 
-  def candidate_query
+  # Only project members can be allocated, so the stored criteria are always
+  # narrowed to the project's members. Callers that already hold the project pass
+  # it in to avoid loading the entity. Applying the membership filter last means a
+  # `member` value smuggled into the stored filter is overwritten, not honoured.
+  def candidate_query(project: self.project)
     UserQuery.new.tap do |query|
       user_filter.each do |filter|
         query.where(filter.field, filter.operator, filter.values)
       end
+
+      query.where(:member, "=", [project.id.to_s]) if project
     end
+  end
+
+  # Resolving the query can fail for an incompletely configured filter; a single
+  # broken filter must not take down the whole view it is rendered in.
+  def candidate_count(project: self.project)
+    candidate_query(project:).results.count
+  rescue StandardError => e
+    Rails.logger.warn("Candidate count for resource allocation #{id} failed: #{e.class}: #{e.message}")
+    0
   end
 
   def allocated_hours
@@ -215,9 +252,8 @@ class ResourceAllocation < ApplicationRecord
     entity.try(:due_date)
   end
 
-  # Describes how the allocation falls outside the schedule of its entity,
-  # comparing only the bounds the entity actually defines. Returns nil when the
-  # allocation fits within those bounds or there is nothing to compare against.
+  # Compares only the bounds the entity actually defines; nil when there is
+  # nothing to compare against.
   def schedule_violation
     if starts_before_entity? && ends_after_entity?
       :before_and_after

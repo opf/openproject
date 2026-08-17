@@ -1,0 +1,573 @@
+page:
+  page_size: "A4"
+  margin_top: 80
+  margin_bottom: 80
+  margin_left: 60
+  margin_right: 60
+  page_break_threshold: 120
+  link_color: "175A8E"
+
+page_header:
+  offset: 20
+  size: 8
+
+page_footer:
+  offset: -40
+  size: 8
+  spacing: 6
+
+page_logo:
+  height: 20
+  align: "right"
+  offset: 10
+
+page_heading:
+  size: 16
+  styles: [ "bold" ]
+  margin_bottom: 8
+  color: "008080"
+
+page_subheading:
+  size: 10
+  styles: []
+  margin_bottom: 8
+
+page_head_margin:
+  margin_bottom: 18
+
+cover:
+  header:
+    logo_height: 45
+  heading:
+    size: 12
+    color: '000000'
+    margin_top: 100
+    border_color: '000000'
+    border_width: 1
+    padding_right: 0
+    padding_left: 0
+    padding_top: 10
+    padding_bottom: 8
+    no_border_right: true
+    no_border_left: true
+  badge:
+    size: 9
+    offset: 1
+  title:
+    margin_top: 30
+    no_border: true
+    color: "008080"
+    size: 30
+  footer:
+    margin_bottom: 20
+    size: 12
+    leading: 3
+    styles: [ "bold" ]
+    color: '000000'
+
+section:
+  margin_bottom: 8
+  title:
+    size: 12
+    color: "008080"
+    margin_bottom: 8
+    styles: [ "bold" ]
+    hr:
+      color: "FFFFFF"
+      height: 0
+
+toc:
+  margins:
+    margin_bottom: 12
+  heading:
+    size: 16
+    color: "008080"
+    styles: [ "bold" ]
+    margin_bottom: 12
+  item:
+    size: 10
+    margin_bottom: 6
+
+project:
+  title:
+    size: 12
+    color: "000000"
+    margin_bottom: 8
+    styles: [ "bold" ]
+  badge:
+    size: 10
+    offset: 0
+  markdown_label:
+    size: 10
+    color: "000000"
+    styles: [ "bold" ]
+    margin_bottom: 3
+  attribute_value:
+    size: 10
+    leading: 3
+  markdown_margins:
+    margin_bottom: 4
+  markdown:
+    font:
+      size: 10
+      leading: 3
+    header:
+      size: 8
+      styles: [ "bold" ]
+      padding_top: 4
+      padding_bottom: 4
+    header_1:
+      size: 10
+    header_2:
+      size: 10
+    header_3:
+      size: 9
+    paragraph:
+      align: "left"
+      padding_bottom: 6
+    unordered_list:
+      spacing: 1
+      padding_top: 6
+      padding_bottom: 6
+      padding_left: 20
+      padding_right: 20
+    unordered_list_point:
+      spacing: 4
+    ordered_list:
+      spacing: 1
+      padding_top: 6
+      padding_bottom: 6
+      padding_left: 20
+      padding_right: 20
+    ordered_list_point:
+      spacing: 4
+      spanning: true
+      list_style_type: decimal
+    ordered_list_point_2:
+      list_style_type: lower-latin
+    ordered_list_point_3:
+      list_style_type: lower-roman
+    ordered_list_point_4:
+      list_style_type: upper-latin
+    ordered_list_point_5:
+      list_style_type: upper-roman
+    task_list:
+      spacing: 1
+      padding_top: 6
+      padding_bottom: 6
+      padding_left: 20
+      padding_right: 20
+    task_list_point:
+      spacing: 4
+      checked: "☑"
+      unchecked: "☐"
+    link:
+      color: "175A8E"
+      styles: [ ]
+    code:
+      color: "880000"
+      size: 9
+      font: "SpaceMono"
+    blockquote:
+      background_color: "f4f9ff"
+      size: 10
+      styles: [ "italic" ]
+      color: "0f3b66"
+      border_color: "b8d6f4"
+      border_width: 1
+      padding: 4
+      padding_left: 6
+      margin_bottom: 6
+      no_border_left: false
+      no_border_right: true
+      no_border_bottom: true
+      no_border_top: true
+    image:
+      align: "center"
+      margin_bottom: 4
+      caption:
+        size: 8
+        align: "center"
+    codeblock:
+      background_color: "F5F5F5"
+      color: "880000"
+      padding: 10
+      padding_top: 6
+      size: 8
+      margin_top: 2
+      margin_bottom: 10
+      font: "SpaceMono"
+    table:
+      auto_width: true
+      margin_top: 4
+      margin_bottom: 10
+      header:
+        size: 9
+        styles: [ "bold" ]
+        background_color: "F0F0F0"
+      cell:
+        size: 8
+        border_width: 0.25
+        padding: 5
+    html_table:
+      auto_width: true
+      margin_top: 4
+      margin_bottom: 10
+      header:
+        size: 9
+        styles: [ "bold" ]
+        border_width: 0.25
+        border_color: '000000'
+        no_border: true
+      cell:
+        size: 8
+        padding: 5
+        border_width: 0.25
+        border_color: '000000'
+        no_border: true
+        valign: middle
+    alerts:
+      NOTE:
+        border_color: '0969da'
+        alert_color: '0969da'
+        padding: '4mm'
+        size: 10
+        styles: [ ]
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+      TIP:
+        border_color: '1a7f37'
+        alert_color: '1a7f37'
+        padding: '4mm'
+        size: 10
+        styles: [ ]
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+      IMPORTANT:
+        border_color: '8250df'
+        alert_color: '8250df'
+        padding: '4mm'
+        size: 10
+        styles: [ ]
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+      WARNING:
+        border_color: 'bf8700'
+        alert_color: 'bf8700'
+        padding: '4mm'
+        size: 10
+        styles: [ ]
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+      CAUTION:
+        border_color: 'd1242f'
+        alert_color: 'd1242f'
+        size: 10
+        styles: [ ]
+        padding: '4mm'
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+  attributes_group:
+    size: 11
+    styles: [ "bold" ]
+    margin_top: 0
+    margin_bottom: 4
+    hr:
+      color: "1F2328"
+      height: 0.25
+  attributes_table:
+    cell:
+      size: 10
+      color: "000000"
+      padding_left: 0
+      padding_right: 5
+      padding_top: 0
+      padding_bottom: 8
+      border_color: "4B4B4B"
+      border_width: 0.25
+      no_border: true
+    cell_label:
+      styles: [ "bold" ]
+      size: 10
+
+wp_table:
+  group_heading:
+    size: 11
+    styles: [ "bold" ]
+    margin_bottom: 10
+  table:
+    subject_indent: 0
+    margin_bottom: 20
+    cell:
+      size: 9
+      color: "000000"
+      padding_left: 0
+      padding_right: 5
+      padding_top: 0
+      padding_bottom: 5
+      border_width: 0.25
+      no_border: true
+    cell_header:
+      size: 9
+      styles: [ "bold" ]
+    cell_sums:
+      size: 8
+      styles: [ "bold" ]
+
+work_package:
+  margin_bottom: 14
+  subject:
+    size: 10
+    styles: [ "bold" ]
+    margin_bottom: 4
+  subject_level_1:
+    size: 14
+    styles: [ "bold" ]
+  subject_level_2:
+    size: 13
+    styles: [ "bold" ]
+  subject_level_3:
+    size: 12
+    styles: [ "bold" ]
+  subject_level_4:
+    size: 11
+    styles: [ "bold" ]
+  subject_level_5:
+    styles: [ "bold" ]
+  subject_level_6:
+    styles: [ "bold" ]
+  subject_level_7:
+    styles: [ "bold" ]
+  subject_level_8:
+    styles: [ "bold" ]
+  subject_level_9:
+    styles: [ "bold" ]
+  subject_level_10:
+    styles: [ "bold" ]
+  attributes_group:
+    size: 11
+    styles: [ "bold" ]
+    margin_top: 0
+    margin_bottom: 4
+    hr:
+      color: "1F2328"
+      height: 0.25
+  attributes_table:
+    margin_bottom: 16
+    cell:
+      size: 9
+      color: "000000"
+      padding_left: 0
+      padding_right: 5
+      padding_top: 0
+      padding_bottom: 5
+      no_border: true
+    cell_label:
+      size: 9
+      color: "000000"
+      styles: [ "bold" ]
+  markdown_label:
+    size: 12
+    styles: [ "bold" ]
+    margin_top: 0
+    margin_bottom: 4
+  markdown_margin:
+    margin_top: 4
+    margin_bottom: 16
+  markdown:
+    font:
+      size: 10
+      leading: 3
+    header:
+      size: 8
+      styles: [ "bold" ]
+      padding_top: 4
+      padding_bottom: 4
+    header_1:
+      size: 10
+    header_2:
+      size: 10
+    header_3:
+      size: 9
+    paragraph:
+      align: "left"
+      padding_bottom: 6
+    unordered_list:
+      spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
+    unordered_list_point:
+      spacing: 4
+    ordered_list:
+      spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
+    ordered_list_point:
+      spacing: 4
+      spanning: true
+      list_style_type: decimal
+    ordered_list_point_2:
+      list_style_type: lower-latin
+    ordered_list_point_3:
+      list_style_type: lower-roman
+    ordered_list_point_4:
+      list_style_type: upper-latin
+    ordered_list_point_5:
+      list_style_type: upper-roman
+    task_list:
+      spacing: 1
+      padding_left: 10
+      padding_right: 10
+      padding_bottom: 6
+    task_list_point:
+      spacing: 4
+      checked: "☑"
+      unchecked: "☐"
+    link:
+      color: "175A8E"
+      styles: [ ]
+    code:
+      color: "880000"
+      size: 9
+      font: "SpaceMono"
+    blockquote:
+      background_color: "f4f9ff"
+      size: 10
+      styles: [ "italic" ]
+      color: "0f3b66"
+      border_color: "b8d6f4"
+      border_width: 1
+      padding: 4
+      padding_left: 6
+      margin_bottom: 6
+      no_border_left: false
+      no_border_right: true
+      no_border_bottom: true
+      no_border_top: true
+    image:
+      align: "center"
+      margin_bottom: 4
+      caption:
+        size: 8
+        align: "center"
+    codeblock:
+      background_color: "F5F5F5"
+      color: "880000"
+      padding: 10
+      padding_top: 6
+      size: 8
+      margin_top: 2
+      margin_bottom: 10
+      font: "SpaceMono"
+    table:
+      auto_width: true
+      margin_top: 4
+      margin_bottom: 10
+      header:
+        size: 9
+        styles: [ "bold" ]
+        background_color: "F0F0F0"
+      cell:
+        size: 8
+        border_width: 0.25
+        padding: 5
+    html_table:
+      auto_width: true
+      margin_top: 4
+      margin_bottom: 10
+      header:
+        size: 9
+        styles: [ "bold" ]
+        border_width: 0.25
+        border_color: '000000'
+        no_border: true
+      cell:
+        size: 8
+        padding: 5
+        border_width: 0.25
+        border_color: '000000'
+        no_border: true
+        valign: middle
+    alerts:
+      NOTE:
+        border_color: '0969da'
+        alert_color: '0969da'
+        padding: '4mm'
+        size: 10
+        styles: [ ]
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+      TIP:
+        border_color: '1a7f37'
+        alert_color: '1a7f37'
+        padding: '4mm'
+        size: 10
+        styles: [ ]
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+      IMPORTANT:
+        border_color: '8250df'
+        alert_color: '8250df'
+        padding: '4mm'
+        size: 10
+        styles: [ ]
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+      WARNING:
+        border_color: 'bf8700'
+        alert_color: 'bf8700'
+        padding: '4mm'
+        size: 10
+        styles: [ ]
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+      CAUTION:
+        border_color: 'd1242f'
+        alert_color: 'd1242f'
+        size: 10
+        styles: [ ]
+        padding: '4mm'
+        border_width: 2
+        no_border_right: true
+        no_border_left: false
+        no_border_bottom: true
+        no_border_top: true
+
+inline_error:
+  size: 8
+  color: "FF0000"
+  styles: [ ]
+
+inline_hint:
+  size: 8
+  color: "4F4F4F"
+  styles: [ ]

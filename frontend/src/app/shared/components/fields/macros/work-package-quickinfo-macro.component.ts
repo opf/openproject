@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
-//++    Ng1FieldControlsWrapper,
+//++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -66,10 +66,12 @@ export class WorkPackageQuickinfoMacroComponent implements OnInit {
 
   text = {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    aria_label: (name:string) => this.I18n.t('js.editor.macro.attribute_reference.aria_label_with_name', {
+      name,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      description: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_link'),
+    }),
   };
-
-  @HostBinding('title') hostTitle = this.text.help;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;

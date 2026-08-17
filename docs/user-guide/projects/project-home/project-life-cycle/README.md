@@ -8,7 +8,6 @@ keywords: project life cycle, project home, life cycle, lifecycle, project phase
 
 # Project life cycle
 
-
 ## Project life cycle overview
 
 **Project life cycle** is an overview of project phases and phase gates, which offers a clear view of where each project stands within its defined timeline. 
@@ -21,7 +20,7 @@ On each project's **home page**, you can find a section called **project life cy
 >
 > If all phases and gates are disabled for a project, the project lifecycle section is hidden from the home page.
 
-![Project life cycle phases displayed on a project home page in OpenProject](openproject_user_guide_project_home_page_project_life_cycle.png)
+![Project life cycle phases displayed on a project home page in OpenProject](openproject_user_guide_project_home_page_project_lifecycle.png)
 
 ## Schedule project phases
 
@@ -31,8 +30,8 @@ For each of the active project phases, you can define a date range. To set or ma
 
 > [!NOTE]
 >
-> Keep in mind that editing the date range of project phases requires the *Edit project phases* permission. 
-> Viewing the project life cycle is also permission-controlled: without the *View project phases* permission, phases won't appear on the project home page, project list, work package filters, or on the work package view itself.
+> Keep in mind that editing the date range of project phases requires the _Edit project phases_ permission. 
+> Viewing the project life cycle is also permission-controlled: without the _View project phases_ permission, phases won't appear on the project home page, project list, work package filters, or on the work package view itself.
 
 ![Edit date range for project phase on a project home page in OpenProject](openproject_user_guide_project_home_page_project_life_cycle_edit_date_range.png)
 
@@ -56,7 +55,7 @@ Use the guidelines below to understand how phase and gate scheduling behaves.
     - Phase gates are never placed inside the phase duration but always at its borders.
     - Phase gates never overlap or share the same date with other gates.
 
-  - **Phases and phase gates will follow the order predefined in the system administration** (e.g., *Initiating* must come before *Closing*). Dates for a subsequent phase cannot be before those of any preceding phase. The automatic scheduling enforces this as well.
+  - **Phases and phase gates will follow the order predefined in the system administration** (e.g., _Initiating_ must come before _Closing_). Dates for a subsequent phase cannot be before those of any preceding phase. The automatic scheduling enforces this as well.
 
 - Project phases not activated in a project will not be considered at all with regards to constraints. 
   - **Child projects** are **not restricted** by the lifecycle dates of their parent project.
@@ -95,7 +94,7 @@ Use the guidelines below to understand how phase and gate scheduling behaves.
   - Scheduling will skip this phase and move directly to the next active phase.
 
 > [!NOTE]
-> Activating or deactivating phases requires the *Select project phases* permission.
+> Activating or deactivating phases requires the _Select project phases_ permission.
 
 ### Other scheduling triggers
 

@@ -32,11 +32,19 @@ module Wikis
   class InternalProvider < Provider
     class << self
       def registry_prefix = "internal"
+
+      def enabled?
+        first&.enabled
+      end
     end
 
     def user_connected?(_user) = true
 
     def configured? = true
+
+    def configured_from_env?
+      Setting.internal_wiki_provider.present?
+    end
 
     def name
       model_name.human

@@ -36,18 +36,15 @@ module OpenProject::ResourceManagement
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    initializer "openproject-resource_management.feature_decisions" do
-      OpenProject::FeatureDecisions.add :resource_management, allow_enabling: Rails.env.local?
-    end
-
-    replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id]
+    replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
+                                                            principal_assigned_by_id]
 
     register "openproject-resource_management",
              author_url: "https://www.openproject.org",
              bundled: true,
              settings: {} do
       project_module :resource_management,
-                     if: -> { OpenProject::FeatureDecisions.resource_management_active? } do
+                     enterprise_feature: "resource_management" do
         # `view_resource_planners` gates access to all CRUD actions. The
         # per-record rules (only owners can change their own private planner;
         # only manage_public users can change public ones) live in the
@@ -59,8 +56,14 @@ module OpenProject::ResourceManagement
                      "resource_management/resource_planner_views": %i[show new create edit update destroy
                                                                       new_work_package add_work_package
                                                                       remove_work_package move_work_package
-                                                                      reorder_work_package],
+                                                                      reorder_work_package
+                                                                      new_user add_user remove_user],
                      "resource_management/work_package_resource_allocations": %i[index],
+                     "resource_management/work_package_timeline/resources": %i[index],
+                     "resource_management/work_package_timeline/events": %i[index],
+                     "resource_management/user_timeline/resources": %i[index],
+                     "resource_management/user_timeline/events": %i[index],
+                     "resource_management/user_resource_allocations": %i[index],
                      "resource_management/menus": %i[show]
                    },
                    permissible_on: :project
@@ -79,13 +82,20 @@ module OpenProject::ResourceManagement
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners],
                    contract_actions: { resource_allocation: %i[create update destroy] }
+
+        # Assigning a real user to a generic (filter-based) allocation in the
+        # Staffing view. Independent of `allocate_user_resources`: a user may be
+        # allowed to staff without being allowed to create or edit allocations.
+        permission :assign_users_to_generic_allocations,
+                   { "resource_management/staffing": %i[index assign_form assign] },
+                   permissible_on: :project,
+                   dependencies: %i[view_resource_planners]
       end
 
       # TODO: Add those menus when global overview will be implemented
       #    should_render_global_menu_item = Proc.new do
       #      (User.current.logged? || !Setting.login_required?) &&
-      #        User.current.allowed_in_any_project?(:view_resources) &&
-      #        OpenProject::FeatureDecisions.resource_management_active?
+      #        User.current.allowed_in_any_project?(:view_resources)
       #    end
 
       #    menu :global_menu,
@@ -110,7 +120,8 @@ module OpenProject::ResourceManagement
            { controller: "/resource_management/resource_planners", action: :index },
            caption: :label_resource_management,
            after: :work_packages,
-           icon: "people"
+           icon: "people",
+           enterprise_feature: "resource_management"
 
       menu :project_menu,
            :resource_planners_menu,

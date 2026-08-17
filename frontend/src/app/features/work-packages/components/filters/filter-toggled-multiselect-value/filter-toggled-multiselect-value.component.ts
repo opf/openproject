@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -87,7 +87,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   public setValues(val:HalResource[]|string[]|string|HalResource):void {
-    this.filter.values = _.castArray(val) as HalResource[]|string[];
+    this.filter.values = (Array.isArray(val) ? val : [val]) as HalResource[]|string[];
     this.filterChanged.emit(this.filter);
     this.cdRef.detectChanges();
   }

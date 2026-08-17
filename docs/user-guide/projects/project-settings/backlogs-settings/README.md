@@ -9,7 +9,6 @@ keywords: backlogs settings, backlogs, types and statuses, statuses considered c
 
 In OpenProject, you can configure your Backlogs settings specific to each project. Navigate to **Project settings -> Backlogs**. 
 
-
 ## Types and statuses
 
 Under the tab **Types and statuses** you can configure which work package statuses are considered closed and which work package types are excluded from backlog views.
@@ -53,7 +52,6 @@ Press the **Save** button to apply your changes.
 
 ![Configure statuses considered closed and excluded work package types in Backlogs settings](openproject_user_guide_project_settings_backlogs_types_statuses.png)
 
-
 ## Sharing sprints 
 
 [feature: sprint_sharing ]
@@ -94,11 +92,24 @@ This ensures that all participating projects work with the same sprint definitio
 ### What is not shared
 
 The following remain project-specific:
--  Work packages remain in their respective projects 
--  Backlogs and their structure remain project-specific 
--  Sprint goals remain project-specific
--  Permissions and visibility are still managed per project
+
+- Work packages remain in their respective projects 
+- Backlogs and their structure remain project-specific 
+- Sprint goals remain project-specific
+- Permissions and visibility are still managed per project
 
 Even when using shared sprints, each project keeps its own work items and configuration.
 
 Read more on [how to work with Backlogs in OpenProject](../../../backlogs-scrum/).
+
+## Multiple active sprints
+
+[feature: multiple_active_sprints ]
+
+Multiple active sprints is a **project-level setting** that allows you to enable more than one active sprint within a project. To enable this setting, toggle the **Allow multiple active sprints** switch to **On**.
+
+> [!NOTE] 
+>
+> Having multiple active sprints is only possible when the project is neither sharing nor receiving sprints. To activate this setting, **Don't share** option in the sprint sharing tab must be selected. 
+
+![Activate multiple active sprints under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_allow_multiple_active_sprints.png)

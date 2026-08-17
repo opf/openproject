@@ -21,26 +21,42 @@
 #++
 ---
 ro:
-  plugin_costs:
-    name: Timp și costuri
-    description: This module adds features for planning and tracking costs of projects.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Pachet de lucru
+        entity: Logat pentru
+        entity_gid: Logat pentru
+        entity_id: Logat pentru
+        logged_by: Logat ca
         overridden_costs: Costuri anulate
         spent: Cheltuit
         spent_on: Dată
-        logged_by: Logat ca
-        entity: Logat pentru
-        entity_id: Logat pentru
-        entity_gid: Logat pentru
+        work_package: Pachet de lucru
       cost_type:
-        unit: Denumirea unității
-        unit_plural: Numele unității pluralizate
         default: Tip cost implicit
         for_all_projects: For all projects
         rates: Rates
+        unit: Denumirea unității
+        unit_plural: Numele unității pluralizate
+      rate:
+        rate: Tarif
+      time_entry:
+        activity: Activitate
+        comments: Comentariu
+        end_time: Dată finalizare
+        entity: Logat pentru
+        entity_gid: Logat pentru
+        entity_id: Logat pentru
+        hours: Ore
+        project: Proiect
+        spent_on: Dată
+        start_time: Dată început
+        subject: Subiect
+        time: Timp
+        user: Utilizator
+        work_package: Pachet de lucru
+      user:
+        default_rates: Tarife
       work_package:
         costs_by_type: Unități consumate
         labor_costs: Costurile cu forța de muncă
@@ -48,30 +64,27 @@ ro:
         overall_costs: Costuri totale
         spent_costs: Costuri
         spent_units: Unități consumate
-      rate:
-        rate: Tarif
-      user:
-        default_rates: Tarife
-      time_entry:
-        project: Proiect
-        user: Utilizator
-        work_package: Pachet de lucru
-        subject: Subiect
-        hours: Ore
-        comments: Comentariu
-        activity: Activitate
-        spent_on: Dată
-        start_time: Dată început
-        end_time: Dată finalizare
-        time: Timp
-        entity: Logat pentru
-        entity_id: Logat pentru
-        entity_gid: Logat pentru
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Nu se poate înregistra timpul pentru acest pachet de lucru.
+          duplicate_ongoing: Există deja o intrare în curs de desfășurare pentru acest utilizator.
+          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
+          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
+          invalid_time: trebuie să fie între 00:00 și 23:59.
+          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
+          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
+          not_a_working_day: is not a working day for the user.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru.'
+          nullify_is_not_valid_for_cost_entries: Înregistrările de costuri nu pot fi atribuite unui proiect.
     models:
-      time_entry:
-        one: Înregistrarea timpului
-        few: Înregistrările timpului
-        other: Înregistrările timpului
       cost_entry:
         one: Poziție cost
         few: Poziții cost
@@ -80,45 +93,41 @@ ro:
         one: Tipul de cost
         few: Tipuri de costuri
         other: Tipuri de costuri
+      rate: Evaluează
+      time_entry:
+        one: Înregistrarea timpului
+        few: Înregistrările timpului
+        other: Înregistrările timpului
       time_entry_activity:
         one: Activitatea de urmărire a timpului
         few: Activități de urmărire timp
         other: Activități de urmărire timp
-      rate: Evaluează
+  api_v3:
     errors:
-      messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
-      models:
-        time_entry:
-          invalid_time: trebuie să fie între 00:00 și 23:59.
-          cannot_log_for_this_work_package: Nu se poate înregistra timpul pentru acest pachet de lucru.
-          duplicate_ongoing: Există deja o intrare în curs de desfășurare pentru acest utilizator.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru.'
-          nullify_is_not_valid_for_cost_entries: Înregistrările de costuri nu pot fi atribuite unui proiect.
-        cost_types_project:
-          attributes:
-            project_ids:
-              blank: Please select a project.
+      validation:
+        start_time_different_date: Partea de dată din startTime (%{start_time}) trebuie să fie aceeași cu data spentOn (%{spent_on}).
   attributes:
     comment: Comentariu
     cost_type: Tip cost
     costs: Costuri
     current_rate: Impozit
+    fixed_date: Dată fixă
     hours: Ore
     units: Unități
     valid_from: Valabil de la
-    fixed_date: Dată fixă
+  button_add_activity: Activitate
   button_add_rate: Adaugă preț
+  button_add_time_entry: Consum timp
   button_log_costs: Costurile unitare ale buștenilor
   button_log_time: Jurnal
-  button_add_activity: Activitate
-  button_add_time_entry: Consum timp
   button_stop_timer: Oprește cronometrul
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Rezervat pe proiect
   caption_default: Implicit
   caption_default_rate_history_for: Istoricul ratei de neplată pentru %{user}
   caption_locked_on: Blocat
+  caption_log_time_dialog: Registru timp
   caption_materials: Unități
   caption_rate_history: Istoricul ratei
   caption_rate_history_for: Istoric al ratei pentru %{user}
@@ -126,20 +135,62 @@ ro:
   caption_save_rate: Salvează tarif
   caption_set_rate: Setează tarif curent
   caption_show_locked: Afișați tipurile blocate
-  caption_log_time_dialog: Registru timp
-  description_date_for_new_rate: Dată pentru noul tarif
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Înregistrare timp
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: Definește formatul dorit pentru costurile din toate proiectele.
-  description_time_settings: Definește ce câmpuri sunt obligatorii de completat la logarea timpului în toate proiectele.
+  description_date_for_new_rate: Dată pentru noul tarif
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  ee:
+    features:
+      time_entry_time_restrictions: Time entry restrictions
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
   group_by_others: nici într-un grup
+  label_available_cost_types_projects: Available cost types projects
   label_between: între
+  label_cost: Cost
   label_cost_filter_add: Adaugă un filtru de intrare a costurilor
-  label_costlog: Costuri unitare înregistrate
   label_cost_plural: Costuri
   label_cost_type_plural: Tipuri de costuri
   label_cost_type_specific: 'Tipul de cost #%{id}: %{name}'
+  label_costlog: Costuri unitare înregistrate
+  label_costs: Costuri
   label_costs_per_page: Costuri pe pagină
   label_current_default_rate: Tarif implicit actual
   label_date_on: pe
+  label_day: Zi
+  label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Tipuri de costuri șterse
   label_display_cost_entries: Afișarea costurilor unitare
   label_display_time_entries: Afișarea orelor raportate
@@ -151,58 +202,55 @@ ro:
   label_group_by_add: Adaugă un câmp de grupare
   label_hourly_rate: Tarif orar
   label_include_deleted: Includeți șters
-  label_work_package_filter_add: Adaugă un filtru pentru pachetul de lucru
   label_kind: Tip
   label_less_or_equal: "<="
+  label_list: Listă
   label_log_costs: Înregistrare costuri unitare
-  label_new_time_entry_activity: Activitate nouă de înregistrare a timpului
-  label_time_entry_activity_form_description: Modificările acestei activități de intrare în timp se vor reflecta în toate proiectele în care este activată.
-  label_no: Nu
-  label_option_plural: Opțiuni
-  label_overall_costs: Costuri totale
-  label_rate: Evaluează
-  label_rate_plural: Tarife
-  label_status_finished: Finalizat
-  label_show: Arată
-  label_units: Unități de cost
-  label_user: Utilizator
-  label_until: până la
-  label_valid_from: Valabil de la
-  label_yes: Da
-  label_time: Timp
-  label_cost: Cost
-  label_costs: Costuri
-  label_mandatory_fields: Câmpuri obligatorii
+  label_month: Luna
   label_my_time_tracking: Urmărirea timpului meu
-  label_no_time: Nici un timp urmărit
+  label_new_time_entry_activity: Activitate nouă de înregistrare a timpului
   label_next_day: Ziua următoare
+  label_next_month: Luna următoare
   label_next_week: Săptămâna viitoare
   label_next_workweek: Următoarea săptămână de lucru
-  label_next_month: Luna următoare
+  label_no: Nu
+  label_no_time: Nici un timp urmărit
+  label_option_plural: Opțiuni
+  label_overall_costs: Costuri totale
   label_previous_day: Ziua precedentă
-  label_previous_workweek: Săptămâna lucru anterioară
-  label_previous_week: Săptămâna trecută
   label_previous_month: Luna anterioară
+  label_previous_week: Săptămâna trecută
+  label_previous_workweek: Săptămâna lucru anterioară
+  label_rate: Evaluează
+  label_rate_plural: Tarife
+  label_show: Arată
   label_specific_day: Ziua %{day}
   label_specific_month: Luna %{month}
-  label_list: Listă
-  label_month: Luna
-  label_workweek: Săptămână de lucru
-  label_day: Zi
-  label_today_capitalized: Azi
-  label_view_mode_switcher: Schimbă vizualizarea
+  label_start_and_finished: Start and finish times
+  label_status_finished: Finalizat
+  label_time: Timp
+  label_time_entry_activity_form_description: Modificările acestei activități de intrare în timp se vor reflecta în toate proiectele în care este activată.
+  label_time_entry_restrictions: Limits
   label_timer_since: Început la %{time}
-  placeholder_activity_select_work_package_first: Selecția pachetului de lucru este necesară mai întâi
-  notice_something_wrong: Ceva n-a mers bine. Vă rugăm să încercați din nou.
-  notice_successful_restore: Restaurare reușită.
-  notice_successful_lock: Blocat cu succes.
+  label_today_capitalized: Azi
+  label_units: Unități de cost
+  label_until: până la
+  label_user: Utilizator
+  label_valid_from: Valabil de la
+  label_view_mode_switcher: Schimbă vizualizarea
+  label_work_package_filter_add: Adaugă un filtru pentru pachetul de lucru
+  label_workweek: Săptămână de lucru
+  label_yes: Da
   notice_cost_logged_successfully: Costul unitar a fost înregistrat cu succes.
   notice_different_time_zones: Acest utilizator are un alt fus orar (%{tz}). Timpul va fi înregistrat folosind fusul orar.
-  notice_time_entry_update_failed: 'Nu s-a reușit actualizarea intrării orare. Eroări: %{errors}'
+  notice_something_wrong: Ceva n-a mers bine. Vă rugăm să încercați din nou.
+  notice_successful_lock: Blocat cu succes.
+  notice_successful_restore: Restaurare reușită.
   notice_time_entry_delete_failed: 'Eroare la ștergerea intrării orare. Erori: %{errors}'
+  notice_time_entry_update_failed: 'Nu s-a reușit actualizarea intrării orare. Eroări: %{errors}'
   permission_edit_cost_entries: Editarea costurilor unitare înregistrate
-  permission_edit_own_cost_entries: Editați propriile costuri unitare contabilizate
   permission_edit_hourly_rates: Editați tarifele orare
+  permission_edit_own_cost_entries: Editați propriile costuri unitare contabilizate
   permission_edit_own_hourly_rate: Editați propriile tarife orare
   permission_edit_rates: Editează tarife
   permission_log_costs: Costurile unitare ale cărților
@@ -213,68 +261,42 @@ ro:
   permission_view_own_cost_entries: Vizualizează propriile costuri înregistrate
   permission_view_own_hourly_rate: Vezi propriul tarif orar
   permission_view_own_time_entries: Vizualizează propriul timp consumat
+  placeholder_activity_select_work_package_first: Selecția pachetului de lucru este necesară mai întâi
+  plugin_costs:
+    description: This module adds features for planning and tracking costs of projects.
+    name: Timp și costuri
   project_module_costs: Timp și costuri
   setting_allow_tracking_start_and_end_times: Permite orele de început și de sfârșit
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_costs_currency: Monedă
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Cere orele de început și de sfârșit
-  setting_enforce_without_allow: Solicitarea orelor de început și de sfârșit nu este posibilă fără a le permite
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Solicitarea orelor de început și de sfârșit nu este posibilă fără a le permite
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
   text_assign_time_and_cost_entries_to_project: Atribuiți orele și costurile raportate la proiect
   text_destroy_cost_entries_question: "%{cost_entries} au fost raportate pe pachetele de lucru pe care urmează să le ștergeți. Ce doriți să faceți?"
   text_destroy_time_and_cost_entries: Ștergeți orele și costurile raportate
   text_destroy_time_and_cost_entries_question: "%{hours} ore, %{cost_entries} au fost raportate la pachetele de lucru pe care urmează să le ștergeți. Ce doriți să faceți?"
   text_reassign_time_and_cost_entries: 'Reatribuiți orele și costurile raportate la acest pachet de lucru:'
   text_warning_hidden_elements: Este posibil ca unele intrări să fi fost excluse din agregare.
-  week: săptămână
   total_times:
-    workweek: 'Totalul săptămânii de lucru: %{hours}'
-    week: 'Totalul săptămânii: %{hours}'
-    month: 'Totalul lunii de lucru: %{hours}'
     day: 'Totalul zilei: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Partea de dată din startTime (%{start_time}) trebuie să fie aceeași cu data spentOn (%{spent_on}).
-  label_available_cost_types_projects: Available cost types projects
-  cost_types:
-    errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
-    admin:
-      columns:
-        active_projects: Active projects
-      cost_type_projects:
-        for_all_projects_blank_slate:
-          heading: This cost type is enabled in all projects
-          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
-        no_projects:
-          heading: No projects assigned
-          description: Add projects so this cost type can be used in them.
-      rates:
-        title: Rate history
-    settings:
-      time_and_costs: Time and costs
-      cost_types:
-        for_all_projects_hint: This cost type is enabled in all projects.
-        heading: Cost types
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
-        none_active: No cost types are currently active in this project.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Înregistrare timp
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Necesită urmărirea exactă a timpului
-    upsell:
-      time_entry_time_restrictions:
-        description: Îmbunătățește urmărirea timpului prin solicitarea orelor exacte de început și de sfârșit la înregistrarea timpului.
+    month: 'Totalul lunii de lucru: %{hours}'
+    week: 'Totalul săptămânii: %{hours}'
+    workweek: 'Totalul săptămânii de lucru: %{hours}'
+  week: săptămână

@@ -93,6 +93,21 @@ ru:
           name: Высокое
         item_3:
           name: Срочно
+      departments:
+        item_0:
+          name: Маркетинг и коммуникации
+        item_1:
+          name: Связи с общественностью
+        item_2:
+          name: Дизайн и контент
+        item_3:
+          name: Мероприятия и операционная деятельность
+        item_4:
+          name: Веб и ИТ
+        item_5:
+          name: Финансы и администрация
+        item_6:
+          name: Контроль качества
       projects:
         demo-project:
           name: Демо-проект
@@ -182,12 +197,14 @@ ru:
                 item_2:
                   subject: Настройка сайта конференции
             item_2:
-              subject: Конференция
+              subject: Протестировать и оценить качество веб-сайта конференции
             item_3:
+              subject: Конференция
+            item_4:
               subject: Последующие задачи
               children:
                 item_0:
-                  subject: Загрузите презентации на веб-сайт
+                  subject: Загрузить презентации на сайт
                 item_1:
                   subject: Вечеринка для сторонников конференции :-)
                   description: |-
@@ -195,8 +212,8 @@ ru:
                     *  [ ] Закуски
                     *  [ ] Музыка
                     *  [ ] Еще больше пива
-            item_4:
-              subject: Окончание проекта
+            item_5:
+              subject: Завершение проекта
           wiki: |
             _В этой вики Вы можете совместно создавать и редактировать страницы и подстраницы для создания вики-проекта._
 
@@ -487,6 +504,20 @@ ru:
           name: Описание пользователя
         item_6:
           name: Ошибка
+      global_queries:
+        item_0:
+          name: 'Epic children: пользовательские истории и ошибки'
+        item_1:
+          name: 'Пользовательская история: Задачи'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: Пользовательские истории и ошибки
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Задачи
       welcome:
         title: Добро пожаловать в OpenProject!
         text: |

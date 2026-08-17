@@ -175,7 +175,7 @@ module OpenProject::Meeting
 
     activity_provider :meetings, class_name: "Activities::MeetingActivityProvider", default: false
 
-    patches [:Project]
+    patches %i[Project Journal]
     patch_with_namespace :BasicData, :SettingSeeder
 
     replace_principal_references "Meeting" => %i[author_id],
@@ -189,6 +189,10 @@ module OpenProject::Meeting
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Meetings::MeetingsAPI
       mount ::API::V3::RecurringMeetings::RecurringMeetingsAPI
+    end
+
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
+      mount ::API::V3::MeetingAgendaItems::MeetingAgendaItemsByWorkPackageAPI
     end
 
     config.to_prepare do
@@ -246,6 +250,10 @@ module OpenProject::Meeting
       else
         "#{root}/meeting_agenda_items"
       end
+    end
+
+    add_api_path :meeting_agenda_items_by_work_package do |work_package_id|
+      "#{work_package(work_package_id)}/meeting_agenda_items"
     end
 
     add_api_path :meeting_agenda_item do |id, meeting_id: nil|

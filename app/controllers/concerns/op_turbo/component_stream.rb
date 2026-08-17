@@ -50,7 +50,7 @@ module OpTurbo
 
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_streams, status: resolved_status
+          render turbo_stream: resolve_turbo_streams, status: resolved_status
         end
 
         yield(format) if format_block
@@ -60,7 +60,7 @@ module OpTurbo
     alias_method :respond_with_turbo_streams, :respond_to_with_turbo_streams
 
     def respond_with_dialog(dialog_component, status: :ok, &format_block)
-      modify_via_turbo_stream(component: dialog_component, action: :dialog, status:)
+      dialog_via_turbo_stream(component: dialog_component, status:)
 
       respond_to_with_turbo_streams(&format_block)
     end
@@ -77,13 +77,13 @@ module OpTurbo
       modify_via_turbo_stream(component:, action: :remove, status:, **)
     end
 
+    def dialog_via_turbo_stream(component:, status: :ok, **)
+      modify_via_turbo_stream(component:, action: :dialog, status:, **)
+    end
+
     def modify_via_turbo_stream(component:, action:, status:, **)
       @turbo_status = status
-      turbo_streams << component.render_as_turbo_stream(
-        view_context:,
-        action:,
-        **
-      )
+      turbo_streams << -> { component.render_as_turbo_stream(view_context:, action:, **) }
     end
 
     def insert_via_turbo_stream(action:, component:, target_component:)
@@ -96,15 +96,15 @@ module OpTurbo
     end
 
     def append_via_turbo_stream(component:, target_component:)
-      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :append)
+      turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :append) }
     end
 
     def prepend_via_turbo_stream(component:, target_component:)
-      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :prepend)
+      turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :prepend) }
     end
 
     def add_before_via_turbo_stream(component:, target_component:)
-      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :before)
+      turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :before) }
     end
 
     def render_success_flash_message_via_turbo_stream(message:, **)
@@ -125,7 +125,7 @@ module OpTurbo
       return if message.blank?
 
       instance = component.new(**).with_content(message)
-      turbo_streams << instance.render_as_turbo_stream(view_context:, action: :flash)
+      turbo_streams << -> { instance.render_as_turbo_stream(view_context:, action: :flash) }
     end
 
     def scroll_into_view_via_turbo_stream(target, behavior: :auto, block: :start)
@@ -158,10 +158,29 @@ module OpTurbo
       turbo_streams << OpTurbo::StreamComponent.new(action: :reloadPage, target: nil).render_in(view_context)
     end
 
+    def reload_frame_via_turbo_stream(target)
+      turbo_streams << turbo_stream.turbo_frame_reload(target)
+    end
+
+    def set_frame_src_via_turbo_stream(target, src)
+      turbo_streams << turbo_stream.turbo_frame_set_src(target, src)
+    end
+
+    # Prefix required for all events dispatched via the `dispatchEvent` turbo
+    # stream action. The client-side action refuses any event without it; see
+    # `frontend/src/turbo/dispatch-event-stream-action.ts` for the rationale.
+    DISPATCHED_EVENT_PREFIX = "op-dispatched:"
+
     # Dispatches a `CustomEvent` on `document` from a turbo stream, letting the
     # server signal a client-side change without knowing which listeners (if
     # any) react to it. `detail` is serialized and exposed as the event's detail.
+    # The event name must start with `op-dispatched:` to keep injected turbo
+    # streams from forging arbitrary `document` events.
     def dispatch_event_via_turbo_stream(name, detail: {})
+      unless name.to_s.start_with?(DISPATCHED_EVENT_PREFIX)
+        raise ArgumentError, "dispatched event name must start with #{DISPATCHED_EVENT_PREFIX.inspect}, got #{name.inspect}"
+      end
+
       turbo_streams << OpTurbo::StreamComponent
         .new(action: :dispatchEvent, target: nil, "event-name": name, detail: detail.to_json)
         .render_in(view_context)
@@ -169,6 +188,15 @@ module OpTurbo
 
     def turbo_streams
       @turbo_streams ||= []
+    end
+
+    ##
+    # Resolves the content that shall be rendered in each queued up stream.
+    # turbo_streams supports directly adding content to it via a rendering method,
+    # but also doing so through a callable. Using a callable has the advantage that rendering
+    # is only executed in case the response is served with format turbo_stream
+    def resolve_turbo_streams
+      turbo_streams.map { |s| s.respond_to?(:call) ? s.call : s }
     end
 
     def turbo_status

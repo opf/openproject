@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -67,18 +67,37 @@ describe('Date picker preview controller', () => {
 
   async function renderDialog() {
     await ctx.mount(`
-      <div data-controller="work-packages--date-picker--preview">
-        <form action="/work_packages/dialog" data-work-packages--date-picker--preview-target="form">
-          <input type="text" id="work_package_start_date" name="work_package[start_date]" value=""
-                 data-work-packages--date-picker--preview-target="fieldInput">
-        </form>
-      </div>
+      <turbo-frame id="content-frame" disabled>
+        <div data-controller="work-packages--date-picker--preview">
+          <form action="/work_packages/dialog" data-work-packages--date-picker--preview-target="form">
+            <input type="text" id="work_package_start_date" name="work_package[start_date]" value=""
+                   data-work-packages--date-picker--preview-target="fieldInput">
+          </form>
+        </div>
+      </turbo-frame>
     `);
     return ctx.getController<PreviewControllerType>('work-packages--date-picker--preview');
   }
 
   function flatpickrDatesChanged(dates:Date[]) {
     document.dispatchEvent(new CustomEvent('date-picker:flatpickr-dates-changed', { detail: { dates } }));
+  }
+
+  async function morphFrame(src:string) {
+    await renderDialog();
+    const turboFrame = ctx.container.querySelector('turbo-frame')!;
+    turboFrame.setAttribute('src', src);
+
+    const currentElement = document.createElement('turbo-frame');
+    currentElement.innerHTML = '<opce-test-marker data-marker="old"></opce-test-marker><div data-marker="old">old</div>';
+    const newElement = document.createElement('turbo-frame');
+    newElement.innerHTML = '<opce-test-marker data-marker="new"></opce-test-marker><div data-marker="new">new</div>';
+
+    const detail:{ render?:(current:Element, next:Element) => void } = {};
+    turboFrame.dispatchEvent(new CustomEvent('turbo:before-frame-render', { detail }));
+    detail.render!(currentElement, newElement);
+
+    return currentElement;
   }
 
   it('binds the declared timezone service after connect', async () => {
@@ -121,5 +140,21 @@ describe('Date picker preview controller', () => {
 
     expect(input.value).toBe('');
     expect(utcDateToISODateString).not.toHaveBeenCalled();
+  });
+
+  it('skips morphing an OPCE-* node when scheduling has not changed', async () => {
+    const currentElement = await morphFrame('/work_packages/123/dialog/preview');
+
+    expect(currentElement.querySelector('opce-test-marker')!.getAttribute('data-marker')).toBe('old');
+    expect(currentElement.querySelector('div')!.getAttribute('data-marker')).toBe('new');
+  });
+
+  it('replaces an OPCE-* node when scheduling has changed', async () => {
+    const currentElement = await morphFrame('/work_packages/123/dialog/preview?schedule_manually=true');
+
+    // The `<div>` sibling is NOT expected to morph here: oldNode.replaceWith()
+    // detaches the OPCE node from the DOM, which breaks idiomorph's sibling walk
+    // for anything that follows it. Pre-existing bug, tracked as OP-19669.
+    expect(currentElement.querySelector('opce-test-marker')!.getAttribute('data-marker')).toBe('new');
   });
 });

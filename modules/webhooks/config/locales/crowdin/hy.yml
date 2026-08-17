@@ -1,75 +1,75 @@
 ---
 hy:
-  plugin_openproject_webhooks:
-    name: OpenProject Webhooks
-    description: Provides a plug-in API to support OpenProject webhooks for better 3rd party integration.
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: Payload URL
-        secret: Signature secret
-        events: Events
-        enabled: Enabled
-        projects: Enabled projects
       webhooks/log:
-        event_name: Event name
-        url: Payload URL
-        response_code: Response code
-        response_body: Response
+        event_name: Իրադարձության անվանում
+        response_body: Պատասխան
+        response_code: Պատասխանի կոդ
+        url: Տվյալների URL
+      webhooks/webhook:
+        enabled: Միացված
+        events: Իրադարձություններ
+        projects: Միացված նախագծեր
+        secret: Ստորագրության գաղտնիք
+        url: Տվյալների URL
     models:
-      webhooks/outgoing_webhook: Outgoing webhook
+      webhooks/outgoing_webhook: Ելքային վեբհուկ
+  plugin_openproject_webhooks:
+    description: Ապահովում է հավելումների API՝ OpenProject-ի վեբհուկներին աջակցելու համար՝ երրորդ կողմերի հետ ավելի լավ ինտեգրացիայի նպատակով։
+    name: OpenProject-ի վեբհուկներ
   webhooks:
-    singular: Webhook
-    plural: Webhooks
-    resources:
-      time_entry:
-        name: Time entry
     outgoing:
-      no_results_table: No webhooks have been defined yet.
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
-      label_x_events:
-        one: 1 event
-        other: "%{count} events"
-        zero: No events
+      deliveries:
+        no_results_table: Վերջին օրերին այս վեբհուկի համար առաքումներ չեն կատարվել։
+        time: Առաքման ժամանակ
+        title: Վերջին առաքումներ
       events:
-        created: Created
-        updated: Updated
-        comment: Comment
-        internal_comment: Internal comment
-      explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
+        comment: Մեկնաբանություն
+        created: Ստեղծված
+        internal_comment: Ներքին մեկնաբանություն
+        updated: Թարմացված
+      explanation_html: 'Իրադարձության դեպքում, ինչպիսին է աշխատանքային փաթեթի ստեղծումը կամ նախագծի թարմացումը, OpenProject-ը POST հարցում կուղարկի կազմաձևված վեբ վերջնակետերին։ Հաճախ իրադարձությունն ուղարկվում է [կազմաձևված համախմբման ժամանակահատվածի](aggregation_path) ավարտից հետո։
 
         '
-      status:
-        enabled: Webhook is enabled
-        disabled: Webhook is disabled
-        enabled_text: The webhook will emit payloads for the defined events below.
-        disabled_text: Click the edit button to activate the webhook.
-      deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
-        title: Recent deliveries
-        time: Delivery time
       form:
-        introduction: 'Send a POST request to the payload URL below for any event in the project you''re subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
-
-          '
-        apiv3_doc_url: For more information, visit the API documentation
+        apiv3_doc_url: Լրացուցիչ տեղեկությունների համար այցելեք API փաստաթղթերը
         description:
-          placeholder: Optional description for the webhook.
+          placeholder: Վեբհուկի ոչ պարտադիր նկարագրություն։
         enabled:
-          description: 'When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+          description: 'Երբ ընտրված է, վեբհուկը կգործարկվի ընտրված իրադարձությունների դեպքում։ Հանեք նշումը՝ վեբհուկն անջատելու համար։
 
             '
         events:
-          title: Enabled events
+          title: Միացված իրադարձություններ
+        introduction: 'Ուղարկեք POST հարցում ստորև նշված տվյալների URL-ին՝ այն նախագծի ցանկացած իրադարձության համար, որին բաժանորդագրված եք։ Տվյալները կհամապատասխանեն փոփոխվող օբյեկտի APIv3 ներկայացմանը։
+
+          '
         project_ids:
-          title: Enabled projects
-          description: Select for which projects this webhook should be executed for.
-          all: All projects
-          selected: Selected projects only
-        selected_project_ids:
-          title: Selected projects
+          all: Բոլոր նախագծերը
+          description: Ընտրեք, թե որ նախագծերի համար պետք է կատարվի այս վեբհուկը։
+          selected: Միայն ընտրված նախագծերը
+          title: Միացված նախագծեր
         secret:
-          description: 'If set, this secret value is used by OpenProject to sign the webhook payload.
+          description: 'Եթե սահմանված է, OpenProject-ն օգտագործում է այս գաղտնի արժեքը՝ վեբհուկի տվյալները ստորագրելու համար։
 
             '
+        selected_project_ids:
+          title: Ընտրված նախագծեր
+      label_add_new: Ավելացնել նոր վեբհուկ
+      label_edit: Խմբագրել վեբհուկը
+      label_x_events:
+        one: 1 իրադարձություն
+        other: "%{count} իրադարձություն"
+        zero: Իրադարձություններ չկան
+      no_results_table: Վեբհուկներ դեռ սահմանված չեն։
+      status:
+        disabled: Վեբհուկն անջատված է
+        disabled_text: Սեղմեք խմբագրման կոճակը՝ վեբհուկն ակտիվացնելու համար։
+        enabled: Վեբհուկը միացված է
+        enabled_text: Վեբհուկը կուղարկի տվյալներ ստորև սահմանված իրադարձությունների համար։
+    plural: Վեբհուկներ
+    resources:
+      time_entry:
+        name: Ժամանակի գրառում
+    singular: Վեբհուկ

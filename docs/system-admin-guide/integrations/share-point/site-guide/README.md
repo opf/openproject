@@ -43,6 +43,7 @@ Then you will need to grant access to the Azure Application by sending the follo
   }]
 }
 ```
+
 To the same URL above but as a POST request
 
 ```shell

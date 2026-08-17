@@ -38,7 +38,7 @@ RSpec.describe "API v3 Work package resource",
   shared_let(:project) do
     create(:project, identifier: "test_project", public: false)
   end
-  shared_let(:type) { project.types.first }
+  shared_let(:type) { project.enabled_types.first }
 
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[add_work_packages view_project view_work_packages] + extra_permissions }
@@ -167,7 +167,7 @@ RSpec.describe "API v3 Work package resource",
           bogus: "bogus",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -279,7 +279,7 @@ RSpec.describe "API v3 Work package resource",
           subject: nil,
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -294,6 +294,109 @@ RSpec.describe "API v3 Work package resource",
 
       it "does not create a work package" do
         expect(WorkPackage.count).to eq(0)
+      end
+    end
+
+    describe "targetVersions" do
+      let(:target_version) { create(:version, project:) }
+      let(:extra_permissions) { %i[assign_versions] }
+      let(:target_versions_links) { [{ href: api_v3_paths.version(target_version.id) }] }
+      let(:parameters) do
+        super().deep_merge(_links: { targetVersions: target_versions_links })
+      end
+      let(:created_work_package) { WorkPackage.find_by(subject: "new work packages") }
+
+      context "with a single version" do
+        it "returns Created(201)" do
+          expect(last_response).to have_http_status(:created)
+        end
+
+        it "assigns the target version" do
+          expect(created_work_package.target_versions).to contain_exactly(target_version)
+        end
+
+        it "responds with the target version link" do
+          expect(last_response.body)
+            .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
+                  .at_path("_links/targetVersions/0/href")
+        end
+      end
+
+      context "with an empty collection" do
+        let(:target_versions_links) { [] }
+
+        it "returns Created(201)" do
+          expect(last_response).to have_http_status(:created)
+        end
+
+        it "creates the work package without target versions" do
+          expect(created_work_package.target_versions).to be_empty
+        end
+      end
+
+      context "with more than one version while multiple versions is disabled",
+              with_settings: { work_package_multiple_versions: false } do
+        let(:other_version) { create(:version, project:) }
+        let(:target_versions_links) do
+          [{ href: api_v3_paths.version(target_version.id) },
+           { href: api_v3_paths.version(other_version.id) }]
+        end
+
+        it "returns 422" do
+          expect(last_response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "rejects the creation with a single-value error" do
+          expect(last_response.body).to include("Target Versions can only hold a single value")
+        end
+
+        it "does not create a work package" do
+          expect(WorkPackage.count).to eq(0)
+        end
+      end
+
+      context "with more than one version while multiple versions is enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        let(:other_version) { create(:version, project:) }
+        let(:target_versions_links) do
+          [{ href: api_v3_paths.version(target_version.id) },
+           { href: api_v3_paths.version(other_version.id) }]
+        end
+
+        it "returns Created(201)" do
+          expect(last_response).to have_http_status(:created)
+        end
+
+        it "assigns all target versions" do
+          expect(created_work_package.target_versions)
+            .to contain_exactly(target_version, other_version)
+        end
+
+        it "responds with a link per target version" do
+          hrefs = parse_json(last_response.body, "_links/targetVersions").pluck("href")
+
+          expect(hrefs)
+            .to contain_exactly(api_v3_paths.version(target_version.id),
+                                api_v3_paths.version(other_version.id))
+        end
+      end
+
+      context "for a user lacking the assign_versions permission" do
+        let(:extra_permissions) { [] }
+
+        it "returns 422" do
+          expect(last_response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "has a readonly error" do
+          expect(last_response.body)
+            .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                  .at_path("errorIdentifier")
+        end
+
+        it "does not create a work package" do
+          expect(WorkPackage.count).to eq(0)
+        end
       end
     end
 
@@ -403,7 +506,7 @@ RSpec.describe "API v3 Work package resource",
           subject: "subject",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -440,7 +543,7 @@ RSpec.describe "API v3 Work package resource",
           subject: "subject",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)

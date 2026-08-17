@@ -50,26 +50,45 @@
 
   <% dialog.with_additional_details(display: :block) do %>
     <% if multiple_projects? %>
+      <%= render(Primer::Alpha::Banner.new(mb: 2, icon: :info)) do %>
+        <%= helpers.t("work_packages.bulk_delete_dialog.cross_project_warning_html", projects: project_links) %>
+      <% end %>
+    <% end %>
+    <% if variant == :hidden %>
       <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
-        <%= I18n.t("work_packages.bulk_delete_dialog.cross_project_warning", projects: project_names) %>
+        <%= I18n.t("work_packages.bulk_delete_dialog.#{hidden_warning_key}", count: undeletable_count) %>
+      <% end %>
+    <% end %>
+    <% if variant == :undeletable %>
+      <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
+        <%# helpers.t, not I18n.t: only the Rails helper honours the _html suffix %>
+        <%= helpers.t(
+              "work_packages.bulk_delete_dialog.#{undeletable_warning_key}",
+              count: undeletable_count,
+              projects: undeletable_project_links
+            ) %>
       <% end %>
     <% end %>
     <%= render(OpPrimer::InsetBoxComponent.new) do %>
       <% work_packages.each do |wp| %>
-        <%= render WorkPackages::InfoLineComponent.new(work_package: wp,
-                                                       show_subject: true,
-                                                       show_status: false,
-                                                       show_project: multiple_projects?) %>
+        <%= render WorkPackages::InfoLineComponent.new(
+              work_package: wp,
+              show_subject: true,
+              show_status: false,
+              show_project: multiple_projects?
+            ) %>
         <% if descendants_for(wp).any? %>
           <%= render(Primer::Box.new(pl: 2, my: 1)) do %>
             <%= render(Primer::Beta::Text.new(mt: 1, font_size: :small, font_weight: :bold, display: :block, mb: 1)) do %>
               <%= I18n.t("work_packages.bulk_delete_dialog.children_label") %>
             <% end %>
             <% descendants_for(wp).each do |descendant| %>
-              <%= render WorkPackages::InfoLineComponent.new(work_package: descendant,
-                                                             show_subject: true,
-                                                             show_status: false,
-                                                             show_project: descendant.project != wp.project) %>
+              <%= render WorkPackages::InfoLineComponent.new(
+                    work_package: descendant,
+                    show_subject: true,
+                    show_status: false,
+                    show_project: descendant.project != wp.project
+                  ) %>
             <% end %>
           <% end %>
         <% end %>

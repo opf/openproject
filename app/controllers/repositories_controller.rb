@@ -41,9 +41,10 @@ end
 class RepositoriesController < ApplicationController
   include PaginationHelper
   include RepositoriesHelper
+  include OpTurbo::ComponentStream
 
   menu_item :repository
-  menu_item :settings, only: %i[edit destroy_info]
+  menu_item :settings, only: [:edit]
   default_search_scope :changesets
 
   before_action :find_project_by_project_id
@@ -119,7 +120,7 @@ class RepositoriesController < ApplicationController
 
   def destroy_info
     @repository = @project.repository
-    project_settings_repository_path(@project)
+    respond_with_dialog Repositories::DestroyDialogComponent.new(project: @project, repository: @repository)
   end
 
   def destroy

@@ -281,11 +281,20 @@ class RecurringMeeting < ApplicationRecord
            time:)
   end
 
+  # Attributes that affect the recurrence schedule itself (not template-only fields like location).
+  SCHEDULE_ATTRIBUTES = %w[frequency monthly_day monthly_ordinal monthly_weekday start_date start_time
+                           start_time_hour iterations interval end_after end_date].freeze
+
   def reschedule_required?(previous: false)
     (previous ? previous_changes : changes)
       .keys
-      .intersect?(%w[frequency monthly_day monthly_ordinal monthly_weekday start_date start_time start_time_hour
-                     iterations interval end_after end_date location])
+      .intersect?(SCHEDULE_ATTRIBUTES + %w[location])
+  end
+
+  def schedule_changed?(previous: false)
+    (previous ? previous_changes : changes)
+      .keys
+      .intersect?(SCHEDULE_ATTRIBUTES)
   end
 
   def scheduled_occurrences(limit:, from_time: Time.current)
@@ -391,6 +400,22 @@ class RecurringMeeting < ApplicationRecord
     return false if first_occurrence.blank?
 
     first_occurrence != start_time
+  end
+
+  def occurrence_count_until_end_date
+    return unless end_after_specific_date?
+    return if end_date.blank? || start_time.blank?
+    return if parsed_start_date.present? && end_date < parsed_start_date
+
+    schedule.next_occurrences(MAX_ITERATIONS + 1, Time.current).size
+  end
+
+  def end_date_for_iterations
+    return unless end_after_iterations?
+    return if iterations.blank? || start_time.blank?
+    return unless iterations.between?(1, MAX_ITERATIONS)
+
+    last_occurrence
   end
 
   private

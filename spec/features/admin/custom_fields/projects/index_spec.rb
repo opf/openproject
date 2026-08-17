@@ -358,6 +358,20 @@ RSpec.describe "List project custom fields", :js do
                                             custom_field_section_id: section_for_multi_select_fields.id
                                           ))
       end
+
+      it "allows adding an attribute to a non-empty section via the section actions menu" do
+        # section_for_input_fields already has custom fields (non-empty),
+        # so the empty-state button is not shown here — the submenu must be.
+        within_project_custom_field_section_menu(section_for_input_fields) do
+          page.find_test_selector("new-project-custom-field-in-section-submenu").click
+          page.find_test_selector("new-project-custom-field-in-section-button-int").click
+        end
+
+        expect(page).to have_current_path(new_admin_settings_project_custom_field_path(
+                                            field_format: "int",
+                                            custom_field_section_id: section_for_input_fields.id
+                                          ))
+      end
     end
   end
 

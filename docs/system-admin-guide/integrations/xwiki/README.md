@@ -23,18 +23,18 @@ keywords: XWiki, file storage, integration
 
 ### 1. Install the OpenProject plugin in XWiki
 
-Start by opening the XWiki instance as an administrator. Click on the *Drawer* icon in the top right corner and select
-*Administer Wiki*.
+Start by opening the XWiki instance as an administrator. Click on the _Drawer_ icon in the top right corner and select
+_Administer Wiki_.
 
 ![XWiki administration menu with "Administer Wiki" selected](openproject_system_guide_xwiki_administration.png)
 
-Click on *Extensions*, search for **OpenProject Integration (Pro)**, and install the plugin.
+Click on _Extensions_, search for **OpenProject Integration (Pro)**, and install the plugin.
 
 ![XWiki Extensions page showing the OpenProject Integration (Pro) extension](openproject_system_guide_xwiki_administration_extensions.png)
 
 ### 2. Create the XWiki provider in OpenProject
 
-Navigate to the OpenProject administration settings page. In the left hand menu select *Wikis → Wiki providers*.
+Navigate to the OpenProject administration settings page. In the left hand menu select _Wikis → Wiki providers_.
 Click the **+ Wiki provider** button and select **XWiki**.
 
 ![OpenProject Wiki providers page with the "+ Wiki provider" button](openproject_system_guide_xwiki_add_wiki_button.png)
@@ -75,7 +75,7 @@ you can change them. The generated secret fulfills all requirements to be consid
 including the **Redirect URI**, to your clipboard and insert them in the corresponding form at the XWiki instance. A
 link to the correct XWiki form will be displayed again above the form.
 
-![OpenProject administration showing condiguration for XWiki OAuth client ID, secret and Redirect URI](openproject_system_guide_xwiki_add_wiki_new_form_wiki_oauth_id_secret.png)
+![OpenProject administration showing configuration for XWiki OAuth client ID, secret and Redirect URI](openproject_system_guide_xwiki_add_wiki_new_form_wiki_oauth_id_secret.png)
 
 Once this is done, click on **Save and continue**. This will conclude the configuration of the XWiki provider and the
 details page will be shown.
@@ -98,3 +98,37 @@ new values over to the corresponding XWiki forms.
 > reconnected.
 
 To learn how to link a wiki to a work package or create a new one, refer to [this user guide](../../../user-guide/work-packages/edit-work-package/#link-to-or-create-a-wiki-page).
+
+## Configuration using environment variables
+
+For some deployment scenarios, it might be desirable to configure a provider through environment variables. These variables follow the rules defined in the [documentation about using environment variables](../../../installation-and-operations/configuration/environment/).
+
+The configuration `OPENPROJECT_WIKI__PROVIDERS` accepts an array of JSON objects to configure external wiki providers, such as XWiki.
+For each XWiki provider you can define the following attributes:
+
+- `type`: Must be set to `xwiki`
+- `name`: Defines the user-visible name of the wiki provider.
+- `url`: The wiki provider's base URL.
+- `uid` (optional): The XWiki installation id of the related XWiki instance. If not provided, this will be asynchronously fetched later.
+- `openproject_oauth`
+    - `client_id`: The client ID that XWiki will be able to use to authenticate towards OpenProject via OAuth.
+    - `client_secret`: The client secret that XWiki will be able to use to authenticate towards OpenProject via OAuth. Make sure to pick a strong password.
+- `xwiki_oauth`
+    - `client_id`: The client ID that OpenProject shall use to authenticate towards XWiki via OAuth.
+   - `client_secret`: The client secret that OpenProject shall use to authenticate towards XWiki via OAuth.
+
+The following is a configuration example for a single XWiki provider:
+
+```
+[{ "type": "xwiki", "name": "XWiki knowledge base", "url": "https://xwiki.example.com", "openproject_oauth": { "client_id": "xwiki", "client_secret": "secret" }, "xwiki_oauth": { "client_id": "openproject", "client_secret": "secret" } }]
+```
+
+### Applying the configuration
+
+To apply the configuration after changes, you need to run the `db:seed` rake task. In all installations, this command is run automatically when you upgrade or install your application. Use the following commands based on your installation method:
+
+- **Packaged installation**: `sudo openproject run bundle exec rake db:seed`
+- **Docker**: `docker exec -it <container of all-in-one or web> bundle exec rake db:seed`.
+
+Changes will also be applied to existing wiki providers this way. Existing wiki providers will be matched to the ones defined in environment variables preferably
+by their `uid` (if one was defined) and otherwise by their human-readable name.

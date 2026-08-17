@@ -116,13 +116,9 @@ You will be asked to confirm your decision.
 >
 > A project member can be a part of the project either individually, as a member of a group, or both. The role removal will only affect the member's individual roles. All those roles obtained via a group will not be removed. To remove those group roles you can either remove the member from the group or remove the entire group from the project.
 
-
-
 If the project member you are removing is also part of a group that is also a member of the project, you will be notified that they will keep the access to the project as a member of the group.
 
 ![A message when removing an OpenProject project member who is also a member of a project group](openproject_user_guide_members_remove_user_group_member.png)
-
-
 
 If the project member you are removing has shared work packages, you will also be asked whether these sharing rights also need to be removed.
 

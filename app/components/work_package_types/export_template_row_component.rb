@@ -34,11 +34,27 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(type:, template:)
+    def initialize(variant:, template:, readonly: false)
       super
 
       @template = template
-      @type = type
+      @variant = variant
+      @readonly = readonly
+    end
+
+    def readonly? = @readonly
+
+    def wrapper_uniq_by
+      @template.id
+    end
+
+    private
+
+    def toggle_label
+      I18n.t(
+        "types.edit.export_configuration.pdf_export_templates.actions.label_toggle_template",
+        template: @template.label
+      )
     end
   end
 end

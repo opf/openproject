@@ -29,35 +29,21 @@
 #++
 
 class Type < ApplicationRecord
-  # Work Package attributes for this type
-  # and constraints to specific attributes (by plugins).
-  include ::Type::Attributes
-  include ::Type::AttributeGroups
-
   include ::Scopes::Scoped
 
-  attribute :patterns, WorkPackageTypes::Patterns::CollectionType.new
-
-  store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
-  store_attribute :pdf_export_templates_config, :export_templates_order, :json
-
+  before_validation :ensure_base_variant, on: :create
   before_destroy :check_integrity
 
   belongs_to :color, optional: true, class_name: "Color"
 
-  has_many :work_packages
-  has_many :workflows, dependent: :delete_all do
-    def copy_from_type(source_type)
-      Workflow.copy(source_type, nil, proxy_association.owner, nil)
-    end
-  end
+  has_many :work_packages, dependent: nil
 
-  has_and_belongs_to_many :projects
+  # Every type has a base variant plus any number of named ones.
+  has_many :variants, class_name: "TypeVariant", dependent: :destroy, autosave: true, inverse_of: :type
 
-  has_and_belongs_to_many :custom_fields,
-                          class_name: "WorkPackageCustomField",
-                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          association_foreign_key: "custom_field_id"
+  # Projects using this type. Which variant each of them applies is on the join row.
+  has_many :project_types, dependent: :delete_all
+  has_many :projects, through: :project_types
 
   acts_as_list
 
@@ -68,10 +54,8 @@ class Type < ApplicationRecord
 
   scopes :milestone
 
-  default_scope { order("position ASC") }
+  default_scope { order(:position) }
 
-  scope :without_standard, -> { where(is_standard: false).order(:position) }
-  scope :default, -> { where(is_default: true) }
   scope :visible, ->(user = User.current) {
     if user.allowed_in_any_project?(:view_work_packages) || user.allowed_in_any_project?(:manage_types)
       all
@@ -82,70 +66,35 @@ class Type < ApplicationRecord
 
   delegate :to_s, to: :name
 
+  # Read from the collection rather than through an association of its own, so a base variant
+  # that #ensure_base_variant has only built is visible before it is saved. Preload `:variants`
+  # to ask this of many types at once.
+  def default_variant
+    variants.detect(&:is_default_variant?)
+  end
+
   def <=>(other)
     name <=> other.name
   end
 
-  def self.statuses(types, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
-    workflow_table, status_table = [Workflow, Status].map(&:arel_table)
-    old_id_subselect, new_id_subselect = %i[old_status_id new_status_id].map do |foreign_key|
-      subquery = workflow_table.project(workflow_table[foreign_key]).where(workflow_table[:type_id].in(types))
-      subquery = subquery.where(workflow_table[:role_id].eq(role.id)) if role
-      subquery = apply_tab_condition(subquery, workflow_table, tab) if tab
-      subquery
-    end
-    Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
-  end
-
-  def self.apply_tab_condition(subquery, workflow_table, tab)
-    case tab
-    when "author"
-      subquery.where(workflow_table[:author].eq(true))
-    when "assignee"
-      subquery.where(workflow_table[:assignee].eq(true))
-    else
-      subquery.where(workflow_table[:author].eq(false).and(workflow_table[:assignee].eq(false)))
-    end
-  end
-
-  def self.standard_type
-    where(is_standard: true).first
-  end
-
+  # The types the given project(s) use.
+  #
+  # Resolved as a subquery rather than a join so a type used by several projects yields one
+  # row: a join would duplicate it, which the eager load only hid from callers reading records
+  # and not from those plucking ids.
   def self.enabled_in(project)
-    includes(:projects).where(projects: { id: project })
-  end
-
-  def statuses(include_default: false, role: nil, tab: nil)
-    if new_record?
-      Status.none
-    elsif include_default
-      self.class.statuses([id], role:, tab:).or(Status.where_default)
-    else
-      self.class.statuses([id], role:, tab:)
-    end
-  end
-
-  def enabled_in?(object)
-    object.types.include?(self)
-  end
-
-  def replacement_pattern_defined_for?(attribute)
-    enabled_patterns.key?(attribute)
-  end
-
-  def enabled_patterns
-    patterns.all_enabled
-  end
-
-  def pdf_export_templates
-    @pdf_export_templates ||= ::Type::PdfExportTemplates.new(self)
+    where(id: ProjectType.where(project_id: project).select(:type_id))
   end
 
   private
 
-  def check_integrity
-    throw :abort if is_standard?
+  def ensure_base_variant
+    return if variants.any?(&:is_default_variant?)
+
+    variants.build(is_default_variant: true, variant_name: nil)
+  end
+
+  def check_integrity # rubocop:disable Naming/PredicateMethod
     throw :abort if WorkPackage.exists?(type_id: id)
 
     true
