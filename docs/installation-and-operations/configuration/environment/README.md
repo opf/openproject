@@ -162,6 +162,7 @@ OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS (default=true) Allow inclusion of attac
 OPENPROJECT_BACKUP__INITIAL__WAITING__PERIOD (default=86400) Wait time before newly created backup tokens are usable
 OPENPROJECT_BCC__RECIPIENTS (default=true) Blind carbon copy recipients (bcc)
 OPENPROJECT_BLACKLISTED__ROUTES (default=[]) Blocked routes to prevent access to certain modules or pages
+OPENPROJECT_BLOCKED__EMAIL__DOMAINS (default=[]) Email domains that may not be used for user accounts. Subdomains are blocked as well. Recipients on these domains are also skipped when sending emails.
 OPENPROJECT_BOARDS__DEMO__DATA__AVAILABLE (default=false) Internal setting determining availability of demo seed data
 OPENPROJECT_BRUTE__FORCE__BLOCK__AFTER__FAILED__LOGINS (default=20) Number of login attempts per user before assuming brute force attack
 OPENPROJECT_BRUTE__FORCE__BLOCK__MINUTES (default=30) Number of minutes to block users after presumed brute force attack
