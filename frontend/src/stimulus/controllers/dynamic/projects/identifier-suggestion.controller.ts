@@ -87,10 +87,14 @@ export default class extends ApplicationController {
     if (!this.hasIdentifierTarget) return;
 
     const pattern = ALLOWED_CHARS[this.modeValue] ?? ALLOWED_CHARS.classic;
-    const current = this.identifierTarget.value;
+    // In semantic mode the identifier must be uppercase. Autocapitalise
+    // lowercase input instead of deleting it, so the user sees what they type.
+    const current = this.modeValue === 'semantic'
+      ? this.identifierTarget.value.toUpperCase()
+      : this.identifierTarget.value;
     const filtered = current.replace(pattern, '');
 
-    if (filtered !== current) {
+    if (filtered !== this.identifierTarget.value) {
       const pos = this.identifierTarget.selectionStart ?? filtered.length;
       this.identifierTarget.value = filtered;
       const newPos = Math.min(pos, filtered.length);
