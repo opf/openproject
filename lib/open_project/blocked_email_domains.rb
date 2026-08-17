@@ -28,11 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+module OpenProject
+  # Email domains that may not be used for user accounts, configured through the
+  # `blocked_email_domains` setting. Setting it in configuration.yml or through an
+  # environment variable makes it read only for administrators.
+  module BlockedEmailDomains
+    class << self
+      # Pass `domains:` to check many addresses against one read of the setting.
+      def blocked?(email, domains: self.domains)
+        domain = domain_of(email)
+
+        return false if domain.blank?
+
+        domains.any? { |blocked| domain == blocked || domain.end_with?(".#{blocked}") }
+      end
+
+      def domains
+        normalize Setting.blocked_email_domains
+      end
+
+      def domain_of(email)
+        local, domain = email.to_s.rpartition("@").values_at(0, 2)
+
+        domain.strip.downcase.presence if local.present?
+      end
+
+      private
+
+      def normalize(domains)
+        list = domains.is_a?(String) ? domains.split(/[\s,]+/) : Array(domains)
+
+        list.filter_map do |domain|
+          domain.to_s.strip.downcase.delete_prefix("@").delete_prefix(".").presence
+        end
+      end
+    end
+  end
 end

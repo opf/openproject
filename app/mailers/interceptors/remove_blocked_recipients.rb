@@ -28,11 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+module Interceptors
+  # Removes recipients on a domain listed in the `blocked_email_domains` setting.
+  # The validation on User only applies to addresses as they are entered, so this
+  # covers users whose domain was blocked after their account already existed.
+  #
+  # Mails left without any recipient are dropped by DoNotSendMailsWithoutRecipient,
+  # which is why this has to run before it.
+  module RemoveBlockedRecipients
+    FIELDS = %i[to cc bcc].freeze
+
+    module_function
+
+    def delivering_email(mail)
+      domains = ::OpenProject::BlockedEmailDomains.domains
+
+      return if domains.empty?
+
+      FIELDS.each { |field| remove_blocked(mail, field, domains) }
+    end
+
+    def remove_blocked(mail, field, domains)
+      addresses = Array(mail.send(field))
+      allowed = addresses.reject { |address| ::OpenProject::BlockedEmailDomains.blocked?(address, domains:) }
+
+      return if allowed.size == addresses.size
+
+      Rails.logger.info do
+        "Removed blocked #{field} recipients from '#{mail.subject}': #{(addresses - allowed).join(', ')}"
+      end
+
+      mail.send(:"#{field}=", allowed)
+    end
+  end
 end
