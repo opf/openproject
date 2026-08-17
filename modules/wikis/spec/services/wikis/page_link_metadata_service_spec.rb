@@ -75,10 +75,6 @@ module Wikis
     end
 
     context "when every page link fails to resolve" do
-      # Regression test: when every link's identifier fails to resolve,
-      # metadata ends up empty, and building a `LEFT JOIN (VALUES )` (no
-      # placeholders) is invalid SQL that used to raise a Postgres syntax
-      # error instead of returning the links with a nil title.
       before do
         build_inputs.each do |input|
           allow(query_double).to receive(:call).with(input_data: input, auth_strategy: anything)
