@@ -95,19 +95,19 @@ ru:
           name: Срочно
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Маркетинг и коммуникации
         item_1:
-          name: Public Relations
+          name: Связи с общественностью
         item_2:
-          name: Design & Content
+          name: Дизайн и контент
         item_3:
-          name: Events & Operations
+          name: Мероприятия и операционная деятельность
         item_4:
-          name: Web & IT
+          name: Веб и ИТ
         item_5:
-          name: Finance & Administration
+          name: Финансы и администрация
         item_6:
-          name: Quality Assurance
+          name: Контроль качества
       projects:
         demo-project:
           name: Демо-проект
@@ -197,23 +197,23 @@ ru:
                 item_2:
                   subject: Настройка сайта конференции
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Протестировать и оценить качество веб-сайта конференции
             item_3:
-              subject: Conference
+              subject: Конференция
             item_4:
-              subject: Follow-up tasks
+              subject: Последующие задачи
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Загрузить презентации на сайт
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Вечеринка для сторонников конференции :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *  [ ] Пиво
+                    *  [ ] Закуски
+                    *  [ ] Музыка
+                    *  [ ] Еще больше пива
             item_5:
-              subject: End of project
+              subject: Завершение проекта
           wiki: |
             _В этой вики Вы можете совместно создавать и редактировать страницы и подстраницы для создания вики-проекта._
 
@@ -506,18 +506,18 @@ ru:
           name: Ошибка
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Epic children: пользовательские истории и ошибки'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'Пользовательская история: Задачи'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: Пользовательские истории и ошибки
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Задачи
       welcome:
         title: Добро пожаловать в OpenProject!
         text: |

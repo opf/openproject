@@ -69,7 +69,7 @@ RSpec.describe "SemanticIds registry integration",
       {
         subject: "A new task",
         project:,
-        type: project.types.first,
+        type: project.enabled_types.first,
         status: create(:default_status),
         priority: create(:default_priority)
       }
@@ -257,7 +257,7 @@ RSpec.describe "SemanticIds registry integration",
       {
         subject: "A task",
         project:,
-        type: project.types.first,
+        type: project.enabled_types.first,
         status: create(:default_status),
         priority: create(:default_priority)
       }

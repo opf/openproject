@@ -416,7 +416,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     it "adds the list custom field to the work package type" do
       type = Type.find_by!(name: "Task")
-      expect(type.custom_fields.pluck(:name)).to include("CF Booleans")
+      expect(type.default_variant.custom_fields.pluck(:name)).to include("CF Booleans")
     end
   end
 
@@ -622,7 +622,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     it "adds the list custom field to the work package type" do
       type = Type.find_by!(name: "Task")
-      expect(type.custom_fields.pluck(:name)).to include("CF Radio")
+      expect(type.default_variant.custom_fields.pluck(:name)).to include("CF Radio")
     end
   end
 
@@ -1016,7 +1016,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       it "activates the fallback custom field in the project and keeps the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
         expect(imported_wp.project.work_package_custom_fields).to include(cf)
-        expect(imported_wp.type.custom_fields).to include(cf)
+        expect(imported_wp.type.default_variant.custom_fields).to include(cf)
         expect(cf_value("CF List")).to eq("Cat")
       end
     end

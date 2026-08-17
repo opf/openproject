@@ -193,17 +193,10 @@ RSpec.describe Projects::SetAttributesService, type: :model do
       end
 
       describe "types default value" do
-        let(:other_types) do
-          [build_stubbed(:type)]
-        end
-        let(:default_types) do
-          [build_stubbed(:type)]
-        end
-
-        before do
-          allow(Type)
-            .to receive(:default)
-                  .and_return default_types
+        # Persisted rather than stubbed: the service resolves what new projects start with by
+        # querying TypeVariant.enabled_in_new_projects, so the flag has to be in the database.
+        let!(:default_types) do
+          [create(:type, default_variant_enabled_in_all_projects: true)]
         end
 
         shared_examples "setting custom field defaults" do
@@ -218,32 +211,41 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
         end
 
-        context "with a value for types provided" do
+        context "with a value for project_types provided" do
+          let(:other_types) { [create(:type)] }
           let(:call_attributes) do
             {
-              types: other_types
+              project_types: other_types.map { |type| ProjectType.new(type:) }
             }
           end
 
           it "does not alter the types" do
-            expect(subject.result.types)
+            expect(subject.result.project_types.map(&:type))
               .to match_array other_types
           end
 
           include_examples "setting custom field defaults" do
-            let(:other_types) { [create(:type)] }
             let(:types) { other_types }
           end
         end
 
         context "with no value for types provided" do
           it "sets the default types" do
-            expect(subject.result.types)
-              .to match_array default_types
+            expect(subject.result.project_types.map(&:type_id))
+              .to match_array default_types.map(&:id)
+          end
+
+          it "leaves each row on the type's base variant" do
+            project_types = subject.result.project_types
+            # ProjectType names the base variant on validation, which the service does not run.
+            project_types.each(&:validate)
+
+            expect(project_types.map(&:variant_id))
+              .to match_array(default_types.map { |type| type.default_variant.id })
           end
 
           include_examples "setting custom field defaults" do
-            let(:default_types) { [create(:type)] }
+            let(:default_types) { [create(:type, default_variant_enabled_in_all_projects: true)] }
             let(:types) { default_types }
           end
         end
@@ -252,11 +254,12 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           let(:types) { [build(:type, name: "lorem")] }
 
           before do
-            project.types = types
+            project.association(:project_types).target = types.map { |type| ProjectType.new(type:) }
+            project.association(:project_types).loaded!
           end
 
           it "does not alter the types modules" do
-            expect(subject.result.types.map(&:name))
+            expect(subject.result.project_types.map { |pt| pt.type.name })
               .to match_array %w(lorem)
           end
 

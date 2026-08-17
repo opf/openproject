@@ -41,7 +41,7 @@ RSpec.describe Wikis::PageLinkViewModel do
       href: "https://wiki.example.com/test"
     )
   end
-  let(:failure_result) { Failure(Wikis::Adapters::Results::Error.new(source: nil, code: :not_found)) }
+  let(:failure_result) { Failure(SimpleError.new(source: nil, code: :not_found)) }
 
   describe ".from_page_reference_result" do
     subject(:view_model) { described_class.from_page_reference_result(result) }

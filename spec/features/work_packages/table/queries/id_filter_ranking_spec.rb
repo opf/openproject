@@ -65,7 +65,7 @@ RSpec.describe "Work package filtering by id ranks exact matches first", :js, :s
 
   it "shows the exact identifier match first in the dropdown, despite being older" do
     dropdown = search_autocomplete(page.find_by_id("values-id"),
-                                   query: "IDFILTER-5",
+                                   query: "#IDFILTER-5",
                                    results_selector: "body")
 
     within(dropdown) do

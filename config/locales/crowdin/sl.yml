@@ -236,6 +236,7 @@ sl:
         project_creation_wizard_status_when_submitted: Status when submitted
         project_creation_wizard_work_package_comment: Work package comment
         project_creation_wizard_work_package_type: Work package type
+        project_types: Types
         public_value:
           false: private
           title: Vidljivost
@@ -275,6 +276,8 @@ sl:
         start_gate_name: Start phase gate name
       project_custom_field:
         custom_field_section: Section
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Child work packages
         column_names: Stolpci
@@ -342,18 +345,26 @@ sl:
       token/named:
         token_name: Token name
       type:
-        attribute_groups: Konfiguracija obrazca
-        children: Variants
         color: Barva
-        dependent_configuration_links: Linked types
-        description: Privzeto besedilo za opis
-        is_default: Aktivirano za nov projekt po privzetem
         is_in_roadmap: Prikazano v časovnem načrtu je privzeto
         is_milestone: Mejnik
-        parent: Parent type
-        patterns: Patterns
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Source type
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Aministrator
         auth_source: Authentication source
@@ -548,6 +559,7 @@ sl:
         regex_match_failed: does not match the regular expression %{expression}.
         smaller_than_or_equal_to_max_length: mora biti manjše ali enako največji dolžini.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: je že zasedeno.
         too_long: je predolgo (največ %{count} znakov).
@@ -720,8 +732,6 @@ sl:
               blank: Please select a project.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -814,25 +824,34 @@ sl:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Neveljaven atribut delovnega paketa je bil uporabljen.
-              attribute_unknown_name: 'Neveljaven atribut delovnega paketa je bil uporabljen: %{attribute}'
-              duplicate_group: Ime skupine '%{group}' je uporabljeno več kot enkrat. Ime skupine mora biti unikatno.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               group_without_name: Group name can't be blank.
-              query_invalid: 'Poizvedba ''%{group}'' je neveljavna: %{details}'
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -944,6 +963,9 @@ sl:
             start_date:
               cannot_be_null: ne more biti nastavljeno na null, ker sta znana končni datum in trajanje.
               violates_relationships: lahko nastavite samo na %{soonest_start} ali pozneje, da ne bi kršili razmerij delovnih paketov.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: je neveljavne, ker trenuten status ne obstaja v tem tipu.
               status_transition_invalid: je neveljaven, ker ne obstaja veljavna transakcija iz starega v nov status za trenutne uporabnikove vloge.
@@ -952,7 +974,6 @@ sl:
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} is not a valid target for reassigning the time entries.'
           readonly_status: The work package is in a readonly status so its attributes cannot be changed.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Preverite naslednja polja:'
         header:
@@ -1045,6 +1066,11 @@ sl:
         two: Types
         few: Types
         other: Types
+      type_variant:
+        one: Variant
+        two: Variants
+        few: Variants
+        other: Variants
       user: Uporabnik
       version: Različica
       wiki: Wiki
@@ -1068,6 +1094,7 @@ sl:
           heading: Make this comment public?
           title: Make this comment public?
         internal_journal: Internal comments are visible to a limited group of members.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Show everything
         label_activity_show_only_changes: Show changes only
         label_activity_show_only_comments: Show comments only
@@ -1575,6 +1602,42 @@ sl:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -1835,6 +1898,7 @@ sl:
     start_date: Datum začetka
     state: State
     status: Stanje
+    status_id: Status
     subject: Zadeva
     summary: Povzetek
     template: Template
@@ -2636,7 +2700,6 @@ sl:
   error_can_not_delete_entry: Izbris poizvedbe ni mogoč
   error_can_not_delete_in_use_archived_undisclosed: There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.
   error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Standardnih vrst ni mogoče izbrisati.
   error_can_not_delete_type:
     explanation: This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.
   error_can_not_find_all_resources: Za to zahtevo ni bilo mogoče najti vseh povezanih virov.
@@ -2989,6 +3052,11 @@ sl:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
@@ -3001,6 +3069,7 @@ sl:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: Child work packages without Work are ignored.
@@ -3024,6 +3093,14 @@ sl:
       dates_changed: Dates changed
       default_attribute_written: Read-only attributes written
       import: Imported
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Progress calculation updated
       status_changed: Status '%{status_name}'
       system_update: 'OpenProject system update:'
@@ -3552,7 +3629,7 @@ sl:
   label_project_hide_details: Skrij podrobnosti projekta
   label_project_hierarchy: Struktura projekta
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Export PDF for %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Zadnji projekti
   label_project_life_cycle: Project life cycle
   label_project_list_plural: Project lists
@@ -3664,7 +3741,7 @@ sl:
   label_subitems: Subitems
   label_subject_or_id: Predmet ali ID
   label_subproject: Podprojekt
-  label_subproject_new: Nov podprojekt
+  label_subproject_add: Add subproject
   label_subproject_plural: Podprojekti
   label_subtask_plural: Podnaloge
   label_summary: Povzetek
@@ -3728,6 +3805,7 @@ sl:
   label_version_sharing_none: Ni deljeno
   label_version_sharing_system: Z vsemi projekti
   label_version_sharing_tree: Z drevesom projekta
+  label_versions_and_categories: Versions and categories
   label_videos: Videi
   label_view_all_revisions: Poglej vse revizije
   label_view_diff: Preglej razlike
@@ -4372,7 +4450,6 @@ sl:
   notice_auth_stage_error: Faza overjanja '%{stage}' ni uspela.
   notice_auth_stage_verification_error: Faze ni bilo mogoče preveriti '%{stage}'.
   notice_auth_stage_wrong_stage: Pričakovano je, da bo faza preverjanja pristnosti končana '%{expected}', vendar se je vrnil '%{actual}'.
-  notice_automatic_set_of_standard_type: Avtomatično nastavite standardni tip.
   notice_bad_request: Napačen zahtevek.
   notice_can_t_change_password: Ta račun za overjanje uporablja zunanji vir. Nemogoče je zamenjati geslo.
   notice_custom_options_deleted: Opcija '%{option_value}' in njeni %{num_deleted} dogodki so bili izbrisani.
@@ -4886,7 +4963,8 @@ sl:
   project:
     archive:
       archived: Arhiviran
-      are_you_sure: Are you sure you want to archive the project '%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
       one: 1 projekt
@@ -5515,6 +5593,7 @@ sl:
   setting_work_package_done_ratio_status_caption_html: Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_list_default_highlighted_attributes: Privzeti atributi, označeni s črto
   setting_work_package_list_default_highlighting_mode: Privzeti način osvetlitve
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Lastnosti delovnega paketa
   setting_work_package_startdate_is_adddate: |-
     52/5000
@@ -5941,6 +6020,7 @@ sl:
   text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} nastavljeno na %{value}"
   text_journal_set_with_diff: "%{label} nastavljen (%{link})"
   text_latest_note: 'Zadnji komentar je: %{note}'
@@ -6053,10 +6133,11 @@ sl:
   total_progress: Skupni napredek
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -6068,7 +6149,7 @@ sl:
         project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -6093,6 +6174,7 @@ sl:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
@@ -6116,6 +6198,7 @@ sl:
           actions:
             label_disable_all: Disable all
             label_enable_all: Enable all
+            label_toggle_template: Toggle %{template}
           label: PDF Export templates
         tab: Generate PDF
         templates:
@@ -6790,7 +6873,7 @@ sl:
           label: Source role
         target_role_ids:
           label: Target roles
-        target_type_ids:
+        target_variant_ids:
           label: Target types
       from_roles:
         create:
@@ -6799,10 +6882,10 @@ sl:
             two: Successfully copied workflow to %{count} roles.
             few: Successfully copied workflow to %{count} roles.
             other: Successfully copied workflow to %{count} roles.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}' type.
+            one: Successfully copied workflow to '%{type_name}'.
             two: Successfully copied workflow to %{count} types.
             few: Successfully copied workflow to %{count} types.
             other: Successfully copied workflow to %{count} types.

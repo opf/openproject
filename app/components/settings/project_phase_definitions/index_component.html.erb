@@ -72,46 +72,36 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       flex.with_row do
-        render(border_box_container(mb: 3, data: drop_target_config)) do |component|
-          component.with_header(font_weight: :bold) do
-            flex_layout(justify_content: :space_between, align_items: :center) do |header_container|
-              header_container.with_column do
-                render(Primer::Beta::Text.new(font_weight: :bold)) do
-                  I18n.t("settings.project_phase_definitions.section_header")
-                end
-              end
-            end
-          end
-          if definitions.empty?
-            component.with_row do
-              render(Primer::Beta::Text.new(color: :subtle)) do
-                t("settings.project_phase_definitions.non_defined")
-              end
-            end
-          else
-            definitions.each do |definition|
-              component.with_row(
-                data: {
-                  "projects--settings--border-box-filter-target": "searchItem",
-                  test_selector: "project-phase-definition",
-                  **draggable_item_config(definition)
-                }
-              ) do
-                render(
-                  Settings::ProjectPhaseDefinitions::RowComponent.new(
-                    definition,
-                    first?: definition == definitions.first,
-                    last?: definition == definitions.last
-                  )
+        render(
+          OpenProject::Common::BorderBoxListComponent.new(
+            container: "project-phase-definitions",
+            position: :relative,
+            mb: 3,
+            empty_state_behavior: :dynamic,
+            data: drop_target_config
+          )
+        ) do |list|
+          list.with_header(title: I18n.t("settings.project_phase_definitions.section_header"))
+
+          definitions.each do |definition|
+            list.with_item(
+              test_selector: "project-phase-definition",
+              data: {
+                "projects--settings--border-box-filter-target": "searchItem",
+                **draggable_item_config(definition)
+              }
+            ) do
+              render(
+                Settings::ProjectPhaseDefinitions::RowComponent.new(
+                  definition,
+                  first?: definition == definitions.first,
+                  last?: definition == definitions.last
                 )
-              end
+              )
             end
           end
-        end
-      end
-      flex.with_row(display: :none, data: { "projects--settings--border-box-filter-target": "noResultsText" }) do
-        render Primer::Beta::Text.new do
-          I18n.t("js.autocompleter.notFoundText")
+
+          list.with_empty_state(title: t("settings.project_phase_definitions.non_defined"))
         end
       end
     end

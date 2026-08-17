@@ -412,6 +412,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_status_plural,
             parent: :admin_work_packages
 
+  menu.push :versions_and_categories,
+            { controller: "/admin/settings/versions_and_categories", action: :show },
+            if: ->(_) { User.current.admin? },
+            caption: :label_versions_and_categories,
+            parent: :admin_work_packages
+
   menu.push :priorities,
             { controller: "/admin/settings/work_package_priorities" },
             if: ->(_) { User.current.admin? },

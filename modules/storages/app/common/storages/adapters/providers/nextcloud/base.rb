@@ -34,7 +34,7 @@ module Storages
       module Nextcloud
         class Base
           include TaggedLogging
-          include Dry::Monads::Result(Results::Error)
+          include Dry::Monads::Result(SimpleError)
 
           def self.call(storage:, auth_strategy:, input_data:)
             new(storage).call(auth_strategy:, input_data:)
@@ -50,7 +50,7 @@ module Storages
           def depth_header(depth) = { headers: { "Depth" => depth.to_s } }
 
           def origin_user_id(auth_strategy:)
-            error = Results::Error.new(source: self.class, code: :error)
+            error = SimpleError.new(source: self.class, code: :error)
 
             auth_strategy.bind do |strategy|
               case strategy.key

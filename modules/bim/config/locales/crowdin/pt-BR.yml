@@ -7,7 +7,10 @@ pt-BR:
         bim_snippet: Trecho BIM
         reference_links: Links de referência
         stage: Fase
+        status_id: Status
         viewpoint: Ponto de vista
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Arquivo IFC
         ifc_attachment: Arquivo IFC

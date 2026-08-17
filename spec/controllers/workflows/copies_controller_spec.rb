@@ -31,92 +31,68 @@
 require "spec_helper"
 
 RSpec.describe Workflows::CopiesController do
-  let!(:source_type) do
-    build_stubbed(:type) do |stub|
-      allow(Type)
-        .to receive(:find)
-              .with(stub.id.to_s)
-              .and_return(stub)
-    end
-  end
+  shared_let(:admin) { create(:admin) }
+  shared_let(:source_type) { create(:type, name: "Bug") }
+  shared_let(:other_type) { create(:type, name: "Feature") }
+  shared_let(:other_variant) { create(:type_variant, type: other_type, variant_name: "Mobile") }
 
-  let!(:other_types) do
-    build_stubbed_list(:type, 2).tap do |stubs|
-      where_double = instance_double(ActiveRecord::QueryMethods::WhereChain)
-      not_double = instance_double(ActiveRecord::Relation)
-
-      allow(Type).to receive(:where).and_return(where_double)
-      allow(where_double).to receive(:not).and_return(not_double)
-      allow(not_double).to receive(:order).and_return(stubs)
-    end
-  end
-
-  let!(:eligible_roles) do
-    instance_double(ActiveRecord::Relation, to_a: all_roles).tap do |relation|
-      allow(Role)
-        .to receive(:where)
-              .with(type: ProjectRole.name)
-              .and_return(relation)
-    end
-  end
-
-  let!(:all_roles) do
-    build_stubbed_list(:project_role, 2)
-  end
-
-  let!(:source_role) { nil }
-
-  before do
-    allow(eligible_roles).to receive(:find_by).and_return(source_role)
-  end
-
-  current_user { build_stubbed(:admin) }
+  current_user { admin }
 
   describe "#new" do
-    let(:params) do
-      { type_id: source_type.id.to_s, source_role_id: source_role&.id }
-    end
+    let(:source_role) { nil }
+    let(:params) { { type_id: source_type.id.to_s, source_role_id: source_role&.id } }
 
     before do
       get :new, params:, format: :turbo_stream
     end
 
     it "is a success" do
-      expect(response)
-        .to have_http_status(:ok)
+      expect(response).to have_http_status(:ok)
     end
 
     it "renders the correct template" do
-      expect(response)
-        .to render_template :new
+      expect(response).to render_template :new
     end
 
-    it "assigns the source type" do
-      expect(assigns[:source_type])
-        .to eq source_type
-    end
-
-    it "assigns the other types" do
-      expect(assigns[:other_types])
-      .to match_array(other_types)
+    it "assigns the type's base variant as the source" do
+      expect(assigns[:source_variant]).to eq(source_type.default_variant)
     end
 
     it "does not assign any source role" do
-      expect(assigns[:source_role])
-        .to be_nil
+      expect(assigns[:source_role]).to be_nil
     end
 
     it "assigns the eligible roles" do
-      expect(assigns[:all_roles])
-        .to match_array(all_roles)
+      expect(assigns[:all_roles]).to match_array(Workflow.eligible_roles)
     end
 
-    describe "when the source role is specified" do
-      let!(:source_role) { all_roles.sample }
+    context "with variants switched off", with_flag: { type_variants: false } do
+      it "offers only base variants, excluding the source" do
+        expect(assigns[:other_variants]).to contain_exactly(other_type.default_variant)
+      end
+    end
+
+    context "with variants switched on", with_flag: { type_variants: true } do
+      it "offers every variant, excluding the source" do
+        expect(assigns[:other_variants])
+          .to contain_exactly(other_type.default_variant, other_variant)
+      end
+    end
+
+    context "when a variant is addressed directly", with_flag: { type_variants: true } do
+      let(:params) { { type_id: other_type.id.to_s, variant_id: other_variant.id.to_s } }
+
+      it "assigns that variant as the source and leaves it out of the targets" do
+        expect(assigns[:source_variant]).to eq(other_variant)
+        expect(assigns[:other_variants]).not_to include(other_variant)
+      end
+    end
+
+    context "when the source role is specified" do
+      let(:source_role) { Workflow.eligible_roles.first }
 
       it "assigns the source role" do
-        expect(assigns[:source_role])
-          .to eq source_role
+        expect(assigns[:source_role]).to eq(source_role)
       end
     end
   end

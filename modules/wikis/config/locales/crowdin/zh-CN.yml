@@ -26,7 +26,8 @@ zh-CN:
     models:
       wikis/inline_page_link:
         other: 内联页面链接
-      wikis/internal_provider: 内部 Wiki
+      wikis/internal_provider:
+        other: Project wikis
       wikis/provider:
         other: |-
           One
@@ -43,12 +44,12 @@ zh-CN:
           XWiki 提供商
   menus:
     admin:
-      external_wiki_providers: Wiki 提供商
-      internal_wiki_provider: 内部 Wiki
+      external_wiki_providers: External wiki providers
+      internal_wiki_provider: Project wikis
       wikis: Wiki
   permission_manage_wiki_page_links: 管理 Wiki 页面链接
   project_module_wiki_internal: 项目 Wiki
-  project_module_wiki_platforms: Wiki 提供商
+  project_module_wiki_platforms: External wiki providers
   projects_settings_wiki:
     title: 项目 Wiki
   wikis:
@@ -79,11 +80,11 @@ zh-CN:
           no_health_report_description: 立即运行检查，以获取此 wiki 提供商的完整健康状态报告。
           title: 健康报告
       internal_provider_form:
-        checkbox_caption: 允许项目使用内部 OpenProject Wiki 和外部 Wiki 提供商
-        checkbox_label: 启用内部 OpenProject Wiki
+        checkbox_caption: Allow projects to use project wikis along with external wiki providers
+        checkbox_label: Enable OpenProject project wikis
       internal_wiki_provider:
         show:
-          description: 选择启用或禁用内部 OpenProject Wiki
+          description: Choose to enable or disable project wikis
       oauth_application_info_component:
         confirm_replace_oauth_application: 此操作将重置当前的 OAuth 凭据。确认后，您必须在 XWiki 实例中重新输入凭据，所有用户都必须重新授权。确定要继续吗？
         label_oauth_client_id: OAuth 客户端 ID
@@ -200,7 +201,7 @@ zh-CN:
     page_link_forms:
       labels:
         page_title: 标题
-        parent: 父 Wiki 页面
+        parent: Parent
         wiki_page: Wiki 页面
       search:
         no_results: 找不到 Wiki 页面
@@ -215,8 +216,10 @@ zh-CN:
         parent: 作为父项
     project_settings:
       project_internal_wiki_component:
+        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
+        blankslate_title: Project wikis are disabled globally
         caption: 这会为此项目启用原生 Wiki 功能。成员将能够创建和阅读存储在 OpenProject 中的 Wiki 页面。
-        enable: 为此父项启用内部 Wiki
+        enable: Enable the OpenProject wiki for this project
     provider_types:
       xwiki:
         name: XWiki

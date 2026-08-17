@@ -75,7 +75,7 @@ When using docker-compose you can simply dump the database from the database con
 docker exec -it db_1 pg_dump -U postgres -d openproject -x -O > openproject.sql
 ```
 
-This assumes that the database container is called `db_1`. Find out the actual name on your host using `docker ps | postgres`.
+This assumes that the database container is called `db_1`. Find out the actual name on your host using `docker ps | grep postgres`.
 
 #### All-in-one container
 

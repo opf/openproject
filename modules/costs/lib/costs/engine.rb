@@ -122,7 +122,7 @@ module Costs
       # Menu extensions
       menu :admin_menu,
            :admin_costs,
-           { controller: "/admin/costs_settings", action: :show },
+           { controller: "/admin/time_settings", action: :show },
            if: Proc.new { User.current.admin? },
            caption: :project_module_costs,
            after: :enterprise,
@@ -130,7 +130,7 @@ module Costs
 
       menu :admin_menu,
            :costs_settings,
-           { controller: "/admin/costs_settings", action: :show },
+           { controller: "/admin/time_settings", action: :show },
            if: Proc.new { User.current.admin? },
            caption: :label_defaults_and_limits,
            parent: :admin_costs
@@ -356,8 +356,8 @@ module Costs
       ##
       # Add a new group
       cost_attributes = %i(costs_by_type labor_costs material_costs overall_costs)
-      ::Type.add_default_group(:costs, :label_cost_plural)
-      ::Type.add_default_mapping(:costs, *cost_attributes)
+      ::TypeVariant.add_default_group(:costs, :label_cost_plural)
+      ::TypeVariant.add_default_mapping(:costs, *cost_attributes)
 
       # Unit costs (and the overall total they feed into) are meaningless without a
       # cost type, so they are hidden when none is available in the project.
@@ -369,9 +369,9 @@ module Costs
         project.nil? || project.costs_enabled?
       }
 
-      ::Type.add_constraint :labor_costs, costs_constraint
+      ::TypeVariant.add_constraint :labor_costs, costs_constraint
       %i(costs_by_type material_costs overall_costs).each do |attribute|
-        ::Type.add_constraint attribute, unit_costs_constraint
+        ::TypeVariant.add_constraint attribute, unit_costs_constraint
       end
 
       ::Queries::Register.register(::Query) do

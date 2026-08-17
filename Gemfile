@@ -154,7 +154,7 @@ gem "structured_warnings", "~> 0.5.0"
 gem "airbrake", "~> 13.0.0", require: false
 
 gem "markly", "~> 0.15" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "0cb4597becd2243b810e7ce53bbbbf28b5f05844"
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "a0c4345367e4b9fc869e0da191ec56bcc24bd877"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
@@ -224,7 +224,7 @@ gem "dry-monads"
 gem "dry-validation"
 
 # ActiveRecord extension which adds typecasting to store accessors
-gem "store_attribute", "~> 2.0"
+gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
 gem "appsignal", "~> 4.9", require: false
@@ -238,7 +238,7 @@ gem "yabeda-rails"
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
-gem "opentelemetry-sdk", "~> 1.10", require: false
+gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.12.0"
 # Lookbook
@@ -385,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.3"
+gem "grape", "~> 3.3.5"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 

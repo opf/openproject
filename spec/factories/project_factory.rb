@@ -111,9 +111,10 @@ FactoryBot.define do
       with_types
 
       factory :valid_project do
-        callback(:after_build) do |project|
-          project.types << build(:type_with_workflow)
-        end
+        # Named through the workspace factory's `types` transient so the type is
+        # persisted (and gets its base variant) before the project_types join row
+        # is built — `types << build(...)` would leave the join without a variant.
+        types { [build(:type_with_workflow)] }
       end
     end
   end

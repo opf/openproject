@@ -37,10 +37,6 @@ module Workflows
     end
 
     form do |f|
-      f.hidden(name: :type_id, value: context.type.id)
-      f.hidden(name: :tab, value: context.tab)
-      # The baseline the submit measures its removals against, echoed back because the
-      # dialog is rendered fresh on every open and the POST cannot see the page's state.
       current_statuses.each { |status| f.hidden(name: "displayed_status_ids[]", value: status.id) }
 
       f.autocompleter(

@@ -128,7 +128,7 @@ RSpec.describe "API v3 Work package resource",
           {
             typeahead: {
               operator: "**",
-              values: "COM-5"
+              values: "#COM-5"
             }
           }
         ]
@@ -323,7 +323,7 @@ RSpec.describe "API v3 Work package resource",
       let(:custom_field) do
         create(:string_wp_custom_field,
                name: "String CF",
-               types: project.types,
+               types: project.enabled_types,
                projects: [project])
       end
 
@@ -449,7 +449,7 @@ RSpec.describe "API v3 Work package resource",
         let(:custom_field) do
           create(:user_wp_custom_field,
                  name: "User CF",
-                 types: project.types,
+                 types: project.enabled_types,
                  projects: [project])
         end
 

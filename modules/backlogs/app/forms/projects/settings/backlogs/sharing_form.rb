@@ -79,6 +79,11 @@ module Projects
         def initialize(only_fallback_allowed: false)
           super()
           @only_fallback_allowed = only_fallback_allowed
+
+          # The controller already surfaces contract failures via a flash banner, so clear
+          # any :sprint_sharing errors here to avoid also showing Primer's inline validation
+          # message underneath the radio buttons.
+          model.errors.delete(:sprint_sharing)
         end
 
         private

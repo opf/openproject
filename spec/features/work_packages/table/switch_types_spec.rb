@@ -117,6 +117,9 @@ RSpec.describe "Switching types in work package table", :js do
     end
 
     it "can switch back from an open required CF (Regression test #28099)" do
+      # The required field is not a column, so opening it makes the table load its query form and
+      # add the required field. we need to make sure the type is editable before we try it to prevent a race condition
+      expect(type_field).to be_editable
       wait_for_network_idle
 
       # Switch type

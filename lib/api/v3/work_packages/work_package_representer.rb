@@ -496,7 +496,9 @@ module API
                  writable: false,
                  uncacheable: true,
                  getter: ->(*) do
-                   project&.available_custom_fields_for_type(type_id)&.any? || false
+                   variant = type_variant
+
+                   (variant.present? && project&.available_custom_fields_for_variant(variant.id)&.any?) || false
                  end
 
         associated_resource :category
@@ -582,15 +584,32 @@ module API
         associated_resource :version,
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter,
-                            # representable evaluates the getter before `skip_render`, so we manually
-                            # check if we *can* render the result here before actually doing it
+                            show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
                             getter: ->(*) {
-                              next if Setting::WorkPackageMultipleVersions.active?
-                              next unless embed_link?(:version) && represented.version
+                              next unless embed_link?(:version)
 
-                              ::API::V3::Versions::VersionRepresenter.create(represented.version, current_user:)
+                              version = represented.effective_target_versions.first
+                              next unless version
+
+                              ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
                             },
-                            skip_render: ->(*) { Setting::WorkPackageMultipleVersions.active? }
+                            link: ->(*) {
+                              next if Setting::WorkPackageMultipleVersions.active?
+
+                              version = represented.effective_target_versions.first
+                              next({ href: nil }) if version.nil?
+
+                              ::API::Decorators::LinkObject
+                                .new(version,
+                                     property_name: :itself,
+                                     path: :version,
+                                     getter: :id,
+                                     title_attribute: :name)
+                                .to_hash
+                            },
+                            setter: ->(fragment:, **) do
+                              represented.target_version_ids = parse_link_ids_from_fragment([fragment], :version).compact
+                            end
 
         associated_resources :target_versions,
                              v3_path: :version,
@@ -857,7 +876,8 @@ module API
            Setting.work_package_done_ratio,
            Setting.show_work_package_attachments,
            Setting.feeds_enabled?,
-           Setting::WorkPackageIdentifier.semantic?]
+           Setting::WorkPackageIdentifier.semantic?,
+           Setting::WorkPackageMultipleVersions.active?]
         end
 
         def load_complete_model(model)

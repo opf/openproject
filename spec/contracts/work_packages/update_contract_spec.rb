@@ -318,7 +318,7 @@ RSpec.describe WorkPackages::UpdateContract do
 
           before do
             persisted_project.work_package_custom_fields << cf1
-            persisted_type.custom_fields << cf1
+            persisted_type.default_variant.custom_fields << cf1
             work_package.custom_field_values = { cf1.id => "test" }
             contract.validate
           end
@@ -467,21 +467,21 @@ RSpec.describe WorkPackages::UpdateContract do
     context "for a user having only the edit_work_packages permission" do
       let(:permissions) { %i[edit_work_packages] }
 
-      it "includes all attributes except version_id" do
+      it "includes all attributes except the version ones" do
         expect(subject)
           .to include("subject", "start_date", "description")
 
         expect(subject)
-          .not_to include("version_id", "version")
+          .not_to include("target_versions", "observed_in_versions")
       end
     end
 
     context "for a user having only the assign_versions permission" do
       let(:permissions) { %i[assign_versions] }
 
-      it "includes version_id only" do
+      it "includes the version attributes only" do
         expect(subject)
-          .to include("version_id", "version", "lock_version_id", "lock_version")
+          .to include("target_versions", "observed_in_versions", "lock_version_id", "lock_version")
 
         expect(subject)
           .not_to include("subject", "start_date", "description")

@@ -29,17 +29,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_pdf_export_template_index_path(type_id: @type.id)
+        reload_url: edit_type_pdf_export_template_index_path(**@variant.path_args)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::PDF_EXPORT)) %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::PDF_EXPORT)) %>
 
   <%= render WorkPackageTypes::ExportConfigurationComponent.new(
-        @type,
-        readonly: @type.linked?(Type::ConfigurationLink::PDF_EXPORT)
+        @variant,
+        readonly: @variant.linked?(TypeVariant::PDF_EXPORT)
       ) %>
 <% end %>

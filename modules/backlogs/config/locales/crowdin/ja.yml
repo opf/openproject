@@ -24,94 +24,97 @@ ja:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
-        backlog_excluded_types: Excluded work package types
-        sprint_sharing: Sprint sharing
-        statuses_considered_closed: Statuses considered closed
+        allow_multiple_active_sprints: 複数のスプリントを同時に実行できるようにする
+        backlog_excluded_types: 除外されるワークパッケージの種類
+        sprint_sharing: スプリントの共有
+        statuses_considered_closed: "「完了」とみなされるステータス"
       sprint:
-        duration: Duration
-        finish_date: Finish date
-        goal: Sprint goal
-        name: Sprint name
-        sharing: Sharing
+        duration: 期間
+        finish_date: 終了日
+        goal: スプリントゴール
+        name: スプリント名
+        sharing: 共有
         statuses:
-          active: Active
-          completed: Completed
-          in_planning: In planning
-        work_packages: Work packages
+          active: アクティブ
+          completed: 完了しました
+          in_planning: 計画中
+        work_packages: ワークパッケージ
       sprint_goal:
-        text: Sprint goal
+        text: スプリントゴール
       work_package:
-        backlog_bucket: Backlog bucket
-        backlog_inbox: Backlog inbox
+        backlog_bucket: バックログ・バケット
+        backlog_inbox: 未処理の受信トレイ
         backlogs_work_package_type: バックログの種類
         position: 位置
-        sprint: Sprint
+        sprint: スプリント
         story_points: ストーリーポイント
     errors:
       messages:
-        dates_required: Start and finish dates are required in order to start the sprint.
-        must_be_in_planning: must be in planning to start.
-        only_one_active_sprint_allowed: only one active sprint is allowed per project.
+        cannot_start_while_receiving_shared_sprints: プロジェクトが共有スプリントを受信している間は、開始できません。
+        dates_required: スプリントを開始するには、開始日と終了日の指定が必要です。
+        must_be_in_planning: 開始に向けた計画が立てられているに違いない。
+        only_one_active_sprint_allowed: 1つのプロジェクトにつき、アクティブなスプリントは1つまでです。
       models:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: 複数のスプリントがアクティブな状態では、変更することはできません。
+              requires_no_sharing: スプリントの共有設定が「共有しない」に設定されている場合にのみ有効にできます。
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
-              share_all_projects_already_taken: cannot be set because project "%{name}" is already sharing with all projects.
-              share_all_projects_already_taken_anonymous: cannot be set because another project is already sharing with all projects.
-          receiving_sprints: is receiving shared sprints. Own sprints cannot be created.
+              active_or_borrowed_sprint_blocks_receiving: プロジェクトにアクティブなスプリントまたは借用中のスプリントがあるため、受信設定にすることはできません。まず、ワークパッケージを終了するか、割り当てを解除してください。
+              locked_by_multiple_active_sprints: 複数のアクティブなスプリントが有効になっている間は、変更できません。
+              share_all_projects_already_taken: プロジェクト「%{name}」はすでにすべてのプロジェクトと共有されているため、設定できません。
+              share_all_projects_already_taken_anonymous: 別のプロジェクトがすでに「すべてのプロジェクト」と共有しているため、設定できません。
+              work_packages_still_linked_to_shared_sprints: ワークパッケージは依然として共有スプリントにリンクされているため、変更できません。まず、それらの割り当てを解除してください。
+          receiving_sprints: 共有スプリントを受信しています。独自のスプリントを作成することはできません。
         sprint:
           attributes:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                other: There are %{count} work packages that were not completed in this sprint.
+                other: 今回のスプリントで完了しなかったワークパッケージが %{count} 個あります。
             status:
-              not_active: is not active so it cannot be closed.
+              not_active: アクティブではないため、閉じることができません。
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: このスプリントの目標はすでに決まっています。
         work_package:
           attributes:
             backlog_bucket:
-              backlog_bucket_from_another_project: must belong to the same project as the work package.
+              backlog_bucket_from_another_project: ワークパッケージと同じプロジェクトに属している必要があります。
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: 現在のスプリント内のワークパッケージIDのみを含めることができます。
               must_block_at_least_one_work_package: は少なくとも 1つのチケットIDを含める必要があります。
             sprint:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
-              not_eligible_for_moving: is not an active sprint in the project which holds the sprint the work package is moved out of.
+              not_eligible_for_moving: そのワークパッケージが移動元のプロジェクトにおいて、現在アクティブなスプリントではない。
             version_id:
               task_version_must_be_the_same_as_story_version: 親ストーリーのバージョンと同じでなければなりません。
-          backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
+          backlog_bucket_xor_sprint: スプリントとバックログ・バケットの両方に割り当てることはできません。
     models:
       sprint:
-        other: Sprints
+        other: スプリント
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
     administration_blankslate:
-      text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
-      title: Backlog admin settings are evolving
+      text: 現在、「バックログ」モジュールの再設計を進めています。スプリントおよびバックログに関する管理設定は、近いうちにこちらで表示されるようになります。プロジェクトレベルの設定については、引き続きご利用いただけます。
+      title: バックログの管理設定は進化を続けています
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: 新しいバックログ・バケット
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: バックログ・バケット
+        other: バックログ・バケット
+        zero: すべてのバックログ・バケット
       label_sprint_filter:
-        one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        one: スプリント
+        other: スプリント
+        zero: すべてのスプリント
+      select_panel_title: アイテムの選択
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: 既存のワークパッケージを追加する
+        add_new_work_package: 新しいワークパッケージを追加する
         delete_backlog_bucket: Delete backlog bucket
         edit_backlog_bucket: Edit backlog bucket
       blankslate_description: Drag items here to add them
@@ -181,6 +184,7 @@ ja:
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Another sprint is already active.
       start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.

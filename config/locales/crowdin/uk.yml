@@ -236,6 +236,7 @@ uk:
         project_creation_wizard_status_when_submitted: Статус на момент подання
         project_creation_wizard_work_package_comment: Коментар до пакета робіт
         project_creation_wizard_work_package_type: Тип пакета робіт
+        project_types: Types
         public_value:
           false: приватний
           title: Видимість
@@ -275,6 +276,8 @@ uk:
         start_gate_name: Назва початкової контрольної точки етапу
       project_custom_field:
         custom_field_section: Розділ
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Дочірні пакети робіт
         column_names: Стовпці
@@ -342,18 +345,26 @@ uk:
       token/named:
         token_name: Ім’я маркера
       type:
-        attribute_groups: Конфігурація форми
-        children: Варіанти
         color: Колір
-        dependent_configuration_links: Зв’язані типи
-        description: Текст за умовчанням для опису
-        is_default: Активовано для нових проектів за замовчуванням
         is_in_roadmap: За умовчанням відображається в дорожній карті
         is_milestone: Це віха
-        parent: Батьківський тип
-        patterns: Шаблони
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Вихідний тип
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
@@ -548,6 +559,7 @@ uk:
         regex_match_failed: не збігається з регулярним виразом %{expression}.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
         taken: вже прийнято.
         too_long: 'занадто довгий (максимум - %{count} characters).
@@ -724,8 +736,6 @@ uk:
               blank: Виберіть проєкт.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -816,26 +826,35 @@ uk:
               blank: Укажіть ім’я маркера
               format: "%{message}"
               in_use: Це ім’я маркера вже використовується; виберіть інше
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Використовується недійсний атрибут робочого пакету.
-              attribute_unknown_name: Недійсний атрибут робочого пакета:%{attribute}
-              duplicate_group: Назва групи %{group} використовується більше одного разу. Назви груп повинні бути унікальними.
-              group_without_name: Ім’я групи не може бути порожнім.
-              query_invalid: 'Вбудований запит %{group} недійсний: %{details}'
-            parent:
-              cannot_be_self: не може бути самим типом.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: не можна встановити, оскільки цей тип уже має варіанти.
-              must_be_a_root: має бути типом верхнього рівня. Типи можуть бути вкладеними лише на один рівень углиб.
-              standard_type_must_be_root: не може встановлюватися для стандартного типу.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
-        type/configuration_link:
-          attributes:
-            source_id:
-              would_create_cycle: зв’яже ці конфігурації в цикл.
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -942,6 +961,9 @@ uk:
             start_date:
               cannot_be_null: не може мати нульове значення, оскільки задано дату початку й тривалість.
               violates_relationships: може бути встановлено лише для %{soonest_start} або пізнішої версії, щоб не порушувати зв'язки робочого пакету.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: недійсний, оскільки поточного стану не існує в цьому типі.
               status_transition_invalid: є недійсним оскільки немає дійсного переходу від старого до нового статусу ролей поточного користувача.
@@ -950,7 +972,6 @@ uk:
           is_not_a_valid_target_for_time_entries: 'Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу.'
           readonly_status: Пакет робіт перебуває в стані лише для читання, тому його атрибути не можна змінити.
           target_versions_only_allow_single_value: Для цільових версій можна вказати лише одне значення.
-          version_and_target_versions_mutually_exclusive: Неможливо одночасно змінити поточну версію і цільові.
       template:
         body: 'Перевірте наступні поля:'
         header:
@@ -1043,6 +1064,11 @@ uk:
         few: Типи
         many: Типи
         other: Типи
+      type_variant:
+        one: Variant
+        few: Variants
+        many: Variants
+        other: Variants
       user: Користувач
       version: Версія
       wiki: Wiki
@@ -1066,6 +1092,7 @@ uk:
           heading: Зробити цей коментар загальнодоступним?
           title: Зробити цей коментар загальнодоступним?
         internal_journal: Внутрішні коментарі видимі для визначеної групи учасників.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Показати все
         label_activity_show_only_changes: Показувати лише зміни
         label_activity_show_only_comments: Показувати лише коментарі
@@ -1571,6 +1598,42 @@ uk:
           error: Не вдалося перевпорядкувати цей розділ.
         move:
           error: Не вдалося перевпорядкувати цей розділ.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Має починатися з великої літери
@@ -1827,6 +1890,7 @@ uk:
     start_date: Початок
     state: Стан
     status: Статус
+    status_id: Status
     subject: Тема
     summary: Резюме
     template: Шаблон
@@ -2628,7 +2692,6 @@ uk:
   error_can_not_delete_entry: Неможливо видалити запис
   error_can_not_delete_in_use_archived_undisclosed: Пакети робіт також містяться в архівних проєктах. Попросіть адміністратора виконати операцію видалення, щоб дізнатися, яких проєктів це стосується.
   error_can_not_delete_in_use_archived_work_packages: 'Пакети робіт також містяться в архівних проєктах. Спочатку потрібно повторно активувати ці проєкти, а потім – змінити атрибут відповідних пакетів робіт: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Стандартні типи неможливо видалити.
   error_can_not_delete_type:
     explanation: Цей тип містить пакети робіт, і його не можна видалити. Переглянути всі пошкоджені пакети робіт можна в <a target="_blank" href="%{url}">цьому поданні</a>.
   error_can_not_find_all_resources: Не вдалося знайти всі відповідні ресурси для цього запиту.
@@ -2979,6 +3042,11 @@ uk:
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
         set_with_diff: Поле «%{field}» налаштовано (%{link})
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_excluded_from_totals_set_to_false_message: тепер включено в підсумки ієрархії
       status_excluded_from_totals_set_to_true_message: тепер виключено з підсумків ієрархії
@@ -2991,6 +3059,7 @@ uk:
         progress_calculation_adjusted_from_disabled_mode: Обчислення прогресу автоматично <a href="%{href}" target="_blank">переведено в режим на основі робіт</a>, і його результати скориговано відповідно до оновленої версії</a>.
         scheduling_mode_adjusted: Режим планування автоматично змінюється з оновленням версії.
         sprint_migration: Версію «%{version_name}» скопійовано як спринт.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Результати обчислення обсягу й прогресу виконання роботи автоматично вилучено з небатьківських пакетів робіт з <a href="%{href}" target="_blank">оновленням версії</a>. Це завдання з технічного обслуговування, і його можна ігнорувати.
       total_percent_complete_mode_changed_to_simple_average: Значення атрибута «Робота» дочірніх пакетів робіт ігноруються.
       total_percent_complete_mode_changed_to_work_weighted_average: Дочірні пакети робіт без атрибута «Робота» ігноруються.
@@ -3014,6 +3083,14 @@ uk:
       dates_changed: Дати змінено
       default_attribute_written: Атрибути лише для читання записано
       import: Імпортовано
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Обчислення прогресу оновлено
       status_changed: Статус «%{status_name}»
       system_update: Оновлення системи OpenProject
@@ -3540,7 +3617,7 @@ uk:
   label_project_hide_details: Приховати деталі проекту
   label_project_hierarchy: Ієрархія проектів
   label_project_identifier: Ідентифікатор проєкту
-  label_project_initiation_export_pdf: Експорт PDF для проєкту «%{project_creation_name}»
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Останні проекти
   label_project_life_cycle: Життєвий цикл проєкту
   label_project_list_plural: Списки проєкту
@@ -3652,7 +3729,7 @@ uk:
   label_subitems: Піделементи
   label_subject_or_id: Тема або ідентифікатор
   label_subproject: Підпроєкт
-  label_subproject_new: Новий підпроект
+  label_subproject_add: Add subproject
   label_subproject_plural: Підпроекти
   label_subtask_plural: Підзадачі
   label_summary: Резюме
@@ -3716,6 +3793,7 @@ uk:
   label_version_sharing_none: Без сумісного доступу
   label_version_sharing_system: З усіма проектами
   label_version_sharing_tree: З деревом проекту
+  label_versions_and_categories: Versions and categories
   label_videos: Відео
   label_view_all_revisions: Переглянути всі зміни
   label_view_diff: Переглянути відмінності
@@ -4356,7 +4434,6 @@ uk:
   notice_auth_stage_error: Етап автентифікації %{stage} не вдався.
   notice_auth_stage_verification_error: Не вдалося підтвердити етап %{stage}.
   notice_auth_stage_wrong_stage: Передбачається завершити етап аутентифікації%{expected}, але %{actual} returned.
-  notice_automatic_set_of_standard_type: Встановіть стандартний тип автоматично.
   notice_bad_request: Неправильний Запит.
   notice_can_t_change_password: Для даного облікового запису використовується джерело зовнішньої аутентифікації. Неможливо змінити пароль.
   notice_custom_options_deleted: Варіант %{option_value}  і його %{num_deleted} вилучень було видалено.
@@ -4860,7 +4937,8 @@ uk:
   project:
     archive:
       archived: Архівований
-      are_you_sure: Дійсно архівувати проект %{name} ?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Архівування проєкту
     count:
       one: 1 проєкт
@@ -5485,6 +5563,7 @@ uk:
   setting_work_package_done_ratio_status_caption_html: Кожен статус <i>% Завершення</i> має пов'язане з ним значення. Зміна статусу змінить <i>% Завершення</i>.
   setting_work_package_list_default_highlighted_attributes: Стандартні вбудовані виділені атрибути
   setting_work_package_list_default_highlighting_mode: Режим виділення за умовчанням
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Властивості робочого пакета
   setting_work_package_startdate_is_adddate: Використовувати поточну дату в якості дати початку роботи для нових пакетів
   setting_work_packages_identifier_classic: Числова послідовність для всього екземпляра (за умовчанням)
@@ -5906,6 +5985,7 @@ uk:
   text_journal_file_link_deleted: Вилучено посилання %{label} на значення %{old} (%{storage})
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: Параметр %{label} змінився на %{value}
   text_journal_set_with_diff: "%{label} встановлено (%{link})"
   text_latest_note: 'Останній коментар: %{note}'
@@ -6016,10 +6096,11 @@ uk:
   total_progress: Загальний прогрес
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Створити тип
       create_variant: Створити варіант
       fields:
-        inherited_from_parent_html: Успадковано від батьківського типу <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Завершити
       placeholder_description: Цей крок стане доступним незабаром.
       progress_label: Крок %{number} з %{total}
@@ -6031,7 +6112,7 @@ uk:
         project_attributes: Атрибути проєкту
         projects: Проєкти
         workflows: Робочі процеси
-      success: Варіант успішно створено.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Варіант: «%{name}»'
       defaults:
@@ -6056,6 +6137,7 @@ uk:
             work_package: Пакет робіт
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Деталі
         type_color_text: Вибраний колір використовується для виділення різних типів на діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений.
       export_configuration:
@@ -6079,6 +6161,7 @@ uk:
           actions:
             label_disable_all: Вимкнути все
             label_enable_all: Увімкнути все
+            label_toggle_template: Toggle %{template}
           label: Шаблони експорту PDF
         tab: Згенерувати PDF
         templates:
@@ -6745,8 +6828,8 @@ uk:
           label: Вихідна роль
         target_role_ids:
           label: Цільові ролі
-        target_type_ids:
-          label: Цільові типи
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
@@ -6754,13 +6837,13 @@ uk:
             few: Робочий процес успішно скопійовано в %{count} ролі.
             many: Робочий процес успішно скопійовано в %{count} ролей.
             other: Робочий процес успішно скопійовано в %{count} ролі.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Робочий процес успішно скопійовано в тип «%{type_name}».
-            few: Робочий процес успішно скопійовано в %{count} типи.
-            many: Робочий процес успішно скопійовано в %{count} типів.
-            other: Робочий процес успішно скопійовано в %{count} типу.
+            one: Successfully copied workflow to '%{type_name}'.
+            few: Successfully copied workflow to %{count} types.
+            many: Successfully copied workflow to %{count} types.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Скопіювати робочий процес типу «%{source_type}»
     form:

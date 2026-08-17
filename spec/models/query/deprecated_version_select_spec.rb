@@ -42,7 +42,6 @@ RSpec.describe Query::DeprecatedVersionSelect do
 
   describe ".normalize_name" do
     context "with multiple versions active",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       it "translates the version name to target_versions" do
         expect(described_class.normalize_name(:version)).to eq "target_versions"
@@ -54,9 +53,7 @@ RSpec.describe Query::DeprecatedVersionSelect do
       end
     end
 
-    context "with multiple versions inactive",
-            with_flag: { work_package_multiple_versions: false },
-            with_settings: { work_package_multiple_versions: false } do
+    context "with multiple versions inactive", with_settings: { work_package_multiple_versions: false } do
       it "translates the target_versions name to version" do
         expect(described_class.normalize_name(:target_versions)).to eq "version"
         expect(described_class.normalize_name("target_versions")).to eq "version"
@@ -74,9 +71,7 @@ RSpec.describe Query::DeprecatedVersionSelect do
     end
   end
 
-  context "with multiple versions active",
-          with_flag: { work_package_multiple_versions: true },
-          with_settings: { work_package_multiple_versions: true } do
+  context "with multiple versions active", with_settings: { work_package_multiple_versions: true } do
     it "reads the stored version name as target_versions" do
       expect(query.column_names).to eq %i[id subject target_versions]
       expect(query.group_by).to eq "target_versions"
@@ -114,9 +109,7 @@ RSpec.describe Query::DeprecatedVersionSelect do
     end
   end
 
-  context "with multiple versions inactive",
-          with_flag: { work_package_multiple_versions: false },
-          with_settings: { work_package_multiple_versions: false } do
+  context "with multiple versions inactive", with_settings: { work_package_multiple_versions: false } do
     subject(:query) do
       build(:query,
             column_names: %i[id subject target_versions],
@@ -139,7 +132,6 @@ RSpec.describe Query::DeprecatedVersionSelect do
   end
 
   context "with default columns and multiple versions active",
-          with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true,
                            work_package_list_default_columns: %w[id subject version] } do
     subject(:query) { build(:query, column_names: []) }

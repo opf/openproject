@@ -66,12 +66,13 @@ See COPYRIGHT and LICENSE files for more details.
             I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_import")
           end
         end
-        box.with_row(mb: 1) do
+        box.with_row(mb: 1, display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
                 size: :medium,
                 tag: :a,
+                mr: 2,
                 href: admin_import_jira_run_select_projects_path(jira_id: model.jira.id, run_id: model.id),
                 data: { controller: "async-dialog" }
               )
@@ -87,6 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
                   scheme: :primary,
                   size: :medium,
                   tag: :a,
+                  mr: 2,
                   href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "fetch_projects_meta"),
                   data: { turbo_stream: true },
                   disabled: model.projects.blank?
@@ -114,11 +116,12 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       elsif model.in_state?(:projects_meta_fetching)
-        box.with_row(mt: 3) do
+        box.with_row(mt: 3, display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
                 size: :medium,
+                mr: 2,
                 disabled: true
               )
             ) do |component|
@@ -129,7 +132,6 @@ See COPYRIGHT and LICENSE files for more details.
           concat(
             render(
               Primer::Beta::Button.new(
-                tag: :a,
                 size: :medium
               )
             ) do |button|

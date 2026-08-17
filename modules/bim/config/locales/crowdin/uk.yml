@@ -7,7 +7,10 @@ uk:
         bim_snippet: Фрагмент BIM
         reference_links: Посилання на джерела
         stage: Етап
+        status_id: Status
         viewpoint: Точка огляду
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Файл IFC
         ifc_attachment: Файл IFC

@@ -236,6 +236,7 @@ pt-BR:
         project_creation_wizard_status_when_submitted: Status ao enviar
         project_creation_wizard_work_package_comment: Comentário do pacote de trabalho
         project_creation_wizard_work_package_type: Tipo de pacote de trabalho
+        project_types: Types
         public_value:
           false: privado
           title: Visibilidade
@@ -275,6 +276,8 @@ pt-BR:
         start_gate_name: Nome do controle de fase inicial
       project_custom_field:
         custom_field_section: Seção
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Pacotes de trabalho filhos
         column_names: Colunas
@@ -342,18 +345,26 @@ pt-BR:
       token/named:
         token_name: Nome do token
       type:
-        attribute_groups: Configuração do formulário
-        children: Variantes
         color: Cor
-        dependent_configuration_links: Tipos vinculados
-        description: Texto padrão para descrição
-        is_default: Ativado para novos projetos por padrão
         is_in_roadmap: Exibido no planejamento como padrão
         is_milestone: É marco
-        parent: Tipo pai
-        patterns: Padrões
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Tipo de fonte
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Administrador
         auth_source: Fonte de autenticação
@@ -548,6 +559,7 @@ pt-BR:
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflita com um dia não útil já existente em todo o sistema para esta data.
         taken: já está sendo utilizado.
         too_long: é muito longo (o máximo é %{count} caracteres).
@@ -718,8 +730,6 @@ pt-BR:
               blank: Selecione um projeto.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -810,26 +820,35 @@ pt-BR:
               blank: Forneça um nome para o token
               format: "%{message}"
               in_use: Este nome de token já está em uso, escolha outro
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Atributo de pacote de trabalho inválido usado.
-              attribute_unknown_name: 'Atributo de pacote de trabalho inválido: %{attribute}'
-              duplicate_group: O nome de grupo %{group} foi usado mais de uma vez. Nomes de grupos devem ser únicos.
-              group_without_name: O nome do grupo não pode estar em branco.
-              query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
-            parent:
-              cannot_be_self: não pode ser o próprio tipo.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: não pode ser definido porque este tipo já possui variantes.
-              must_be_a_root: deve ser um tipo de nível superior. Os tipos só podem ser aninhados em um único nível.
-              standard_type_must_be_root: não pode ser definido para o tipo padrão.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de salvar.
-        type/configuration_link:
-          attributes:
-            source_id:
-              would_create_cycle: criaria um loop ao vincular estas configurações.
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -934,6 +953,9 @@ pt-BR:
             start_date:
               cannot_be_null: 'não pode ser definido como nulo já que a data de conclusão e a duração são conhecidas. '
               violates_relationships: somente pode ser definida como %{soonest_start} ou posterior para não violar as relações de trabalho do pacote.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: é inválido porque não existe a situação atual neste tipo.
               status_transition_invalid: é inválido, pois não existe uma transição válida do status antigo para o novo status para as funções do usuário atual.
@@ -942,7 +964,6 @@ pt-BR:
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não é válido para re-atribuir os registros de horas gastas.'
           readonly_status: O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados.
           target_versions_only_allow_single_value: Versões de destino podem conter apenas um único valor.
-          version_and_target_versions_mutually_exclusive: Versão e versões de destino não podem ser alteradas ao mesmo tempo.
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:
@@ -1007,6 +1028,9 @@ pt-BR:
       type:
         one: Tipo
         other: Tipos
+      type_variant:
+        one: Variant
+        other: Variants
       user: Usuário
       version: Versão
       wiki: Wiki
@@ -1030,6 +1054,7 @@ pt-BR:
           heading: Tornar este comentário público?
           title: Tornar este comentário público?
         internal_journal: Comentários internos são visíveis apenas para um grupo restrito de membros.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Exibir tudo
         label_activity_show_only_changes: Exibir apenas alterações
         label_activity_show_only_comments: Exibir apenas comentários
@@ -1515,6 +1540,42 @@ pt-BR:
           error: Não foi possível reordenar a seção.
         move:
           error: Não foi possível reordenar a seção.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Deve começar com uma letra maiúscula
@@ -1765,6 +1826,7 @@ pt-BR:
     start_date: Data de início
     state: Estado
     status: Status
+    status_id: Status
     subject: Assunto
     summary: Sumário
     template: Modelo
@@ -2522,7 +2584,6 @@ pt-BR:
   error_can_not_delete_entry: Não é possível excluir a entrada
   error_can_not_delete_in_use_archived_undisclosed: Também existem pacotes de trabalho em projetos arquivados. Você precisa pedir a um administrador para executar a exclusão para visualizar quais projetos são afetados.
   error_can_not_delete_in_use_archived_work_packages: 'Também há pacotes de trabalho em projetos arquivados. Primeiro, você precisa reativar os seguintes projetos, antes de poder alterar o atributo dos respectivos pacotes de trabalho: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Tipos padrão não podem ser excluídos.
   error_can_not_delete_type:
     explanation: Este tipo contém pacotes de trabalho e não pode ser excluído. Você pode ver todos os pacotes de trabalho afetados em <a target="_blank" href="%{url}">esta visão</a>.
   error_can_not_find_all_resources: Não foi possível encontrar todos os recursos relacionados a esta solicitação.
@@ -2865,6 +2926,11 @@ pt-BR:
         field_updated: "%{field} atualizado"
         header: alterações por %{author}
         set_with_diff: "%{field} definido (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Modo de cálculo de progresso definido como com base no status
       status_excluded_from_totals_set_to_false_message: agora incluído nos totais da hierarquia
       status_excluded_from_totals_set_to_true_message: agora excluído dos totais da hierarquia
@@ -2877,6 +2943,7 @@ pt-BR:
         progress_calculation_adjusted_from_disabled_mode: Cálculo de progresso automaticamente <a href="%{href}" target="_blank">definido para o modo com base em trabalho e ajustado com a atualização de versão</a>.
         scheduling_mode_adjusted: Modo de agendamento ajustado automaticamente com a atualização da versão.
         sprint_migration: A versão "%{version_name}" foi copiada como um sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Os totais de trabalho e progresso foram removidos automaticamente para pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização de versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
       total_percent_complete_mode_changed_to_simple_average: Os valores de trabalho dos pacotes de trabalho filhos são ignorados.
       total_percent_complete_mode_changed_to_work_weighted_average: Pacotes de trabalho infantil sem Trabalho são ignorados.
@@ -2900,6 +2967,14 @@ pt-BR:
       dates_changed: Datas alteradas
       default_attribute_written: Atributos de somente leitura escritos
       import: Importado
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Cálculo de progresso atualizado
       status_changed: Status '%{status_name}'
       system_update: 'Atualização do sistema OpenProject:'
@@ -3426,7 +3501,7 @@ pt-BR:
   label_project_hide_details: Ocultar detalhes do projeto
   label_project_hierarchy: Hierarquia de projeto
   label_project_identifier: Identificador do projeto
-  label_project_initiation_export_pdf: Exportar PDF para %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Últimos projetos
   label_project_life_cycle: Ciclo de vida do projeto
   label_project_list_plural: Listas de projeto
@@ -3538,7 +3613,7 @@ pt-BR:
   label_subitems: Subitens
   label_subject_or_id: Assunto ou ID
   label_subproject: Subprojeto
-  label_subproject_new: Novo subprojeto
+  label_subproject_add: Add subproject
   label_subproject_plural: Subprojetos
   label_subtask_plural: Subtarefas
   label_summary: Sumário
@@ -3602,6 +3677,7 @@ pt-BR:
   label_version_sharing_none: Não compartilhado
   label_version_sharing_system: Com todos os projetos
   label_version_sharing_tree: Com a árvore de projetos
+  label_versions_and_categories: Versions and categories
   label_videos: Vídeos
   label_view_all_revisions: Ver todas as revisões
   label_view_diff: Ver diferenças
@@ -4222,7 +4298,6 @@ pt-BR:
   notice_auth_stage_error: Estágio de autenticação '%{stage}' falhou.
   notice_auth_stage_verification_error: Não foi possível verificar o estágio '%{stage}'.
   notice_auth_stage_wrong_stage: Esperava-se que terminasse o estágio de autenticação '%{expected}', mas retornou '%{actual}'.
-  notice_automatic_set_of_standard_type: Defina o tipo padrão automaticamente.
   notice_bad_request: Requisição Inválida.
   notice_can_t_change_password: Esta conta usa autenticação externa. Impossível alterar a senha neste modo.
   notice_custom_options_deleted: A opção '%{option_value}' e suas %{num_deleted} ocorrências foram excluídas.
@@ -4720,7 +4795,8 @@ pt-BR:
   project:
     archive:
       archived: Arquivado
-      are_you_sure: Tem certeza de que deseja arquivar o projeto '%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Arquivar projeto
     count:
       one: 1 projeto
@@ -5335,6 +5411,7 @@ pt-BR:
   setting_work_package_done_ratio_status_caption_html: Cada status tem um valor de <i>% de conclusão</i> associado. Ao mudar o status, o <i>% de conclusão</i> será atualizado automaticamente.
   setting_work_package_list_default_highlighted_attributes: Atributos embutidos com destaque padrão
   setting_work_package_list_default_highlighting_mode: Modo de destaque padrão
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Propriedades do pacote de trabalho
   setting_work_package_startdate_is_adddate: Usar a data atual como data para início dos novos pacotes de trabalho
   setting_work_packages_identifier_classic: Sequência numérica global da instância (padrão)
@@ -5756,6 +5833,7 @@ pt-BR:
   text_journal_file_link_deleted: Link de %{label} para %{old} (%{storage}) removido
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} definido como %{value}"
   text_journal_set_with_diff: "%{label} definido (%{link})"
   text_latest_note: 'O comentário mais recente é: %{note}'
@@ -5860,10 +5938,11 @@ pt-BR:
   total_progress: Progresso total
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Criar tipo
       create_variant: Criar variante
       fields:
-        inherited_from_parent_html: Herdado do <b>%{parent}</b> tipo pai.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Concluir
       placeholder_description: Esta etapa estará disponível em breve.
       progress_label: Etapa %{number} de %{total}
@@ -5875,7 +5954,7 @@ pt-BR:
         project_attributes: Atributos do projeto
         projects: Projetos
         workflows: Fluxos de trabalho
-      success: Variante criada com sucesso.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:
@@ -5900,6 +5979,7 @@ pt-BR:
             work_package: Pacote de trabalho
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Detalhes
         type_color_text: A cor selecionada distingue diferentes tipos nos gráficos de Gantt ou nas tabelas de pacotes de trabalho. Portanto, recomenda-se usar uma cor forte.
       export_configuration:
@@ -5923,6 +6003,7 @@ pt-BR:
           actions:
             label_disable_all: Desabilitar todos
             label_enable_all: Habilitar todos
+            label_toggle_template: Toggle %{template}
           label: Modelos de exportação de PDF
         tab: Gerar PDF
         templates:
@@ -6565,18 +6646,18 @@ pt-BR:
           label: Função de origem
         target_role_ids:
           label: Funções alvo
-        target_type_ids:
-          label: Tipos alvo
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
             one: Fluxo de trabalho copiado com sucesso para a função "%{role_name}".
             other: Fluxo de trabalho copiado com sucesso para %{count} funções.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Fluxo de trabalho copiado com sucesso para o tipo "%{type_name}".
-            other: Fluxo de trabalho copiado com sucesso para %{count} tipos.
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Copiar fluxo de trabalho de “%{source_type}”
     form:

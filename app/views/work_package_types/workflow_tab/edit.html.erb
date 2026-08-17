@@ -28,25 +28,25 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_administration), t(:label_type_plural), @type.name -%>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_workflow_path(type_id: @type.id)
+        reload_url: edit_type_workflow_path(**@variant.path_args)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::WORKFLOWS)) %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::WORKFLOWS)) %>
 
   <% if @type && @roles.any? %>
     <%= form_tag(
-          type_workflow_matrix_path(@type, tab: @current_tab),
+          type_workflow_matrix_path(**@variant.path_args, tab: @current_tab),
           method: :patch,
           autocomplete: "off",
           class: "workflow-table--pinned-save-bar"
         ) do %>
-      <%= turbo_frame_tag "workflow-table", src: type_workflow_matrix_path(@type, tab: @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
+      <%= turbo_frame_tag "workflow-table", src: type_workflow_matrix_path(**@variant.path_args, tab: @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
 
-      <% unless @type.linked?(Type::ConfigurationLink::WORKFLOWS) %>
+      <% unless @variant.linked?(TypeVariant::WORKFLOWS) %>
         <div class="workflow-save-bar">
           <%=
             render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do

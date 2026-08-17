@@ -143,8 +143,8 @@ RSpec.describe "Team planner",
     end
 
     before do
-      project.types << type_bug
-      project.types << type_task
+      project.project_types.create!(type: type_bug)
+      project.project_types.create!(type: type_task)
     end
 
     it "renders a team planner displaying work packages by assignee and date" do

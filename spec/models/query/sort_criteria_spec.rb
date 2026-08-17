@@ -97,7 +97,7 @@ RSpec.describe Query::SortCriteria do
       context "when a typeahead filter is active on the query" do
         let(:query) do
           build_stubbed(:query, show_hierarchies: false).tap do |q|
-            q.add_filter(:typeahead, "**", "COM-5")
+            q.add_filter(:typeahead, "**", "#COM-5")
           end
         end
 

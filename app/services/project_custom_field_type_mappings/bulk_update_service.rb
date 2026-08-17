@@ -12,10 +12,10 @@
 
 module ProjectCustomFieldTypeMappings
   class BulkUpdateService < ::BaseServices::BaseCallable
-    def initialize(user:, type:, project_custom_field_section:)
+    def initialize(user:, variant:, project_custom_field_section:)
       super()
       @user = user
-      @type = type
+      @variant = variant
       @project_custom_field_section = project_custom_field_section
     end
 
@@ -62,7 +62,7 @@ module ProjectCustomFieldTypeMappings
     end
 
     def disable_custom_fields(custom_field_ids)
-      @type.own_project_custom_field_type_mappings
+      @variant.own_project_custom_field_type_mappings
         .where(custom_field_id: custom_field_ids)
         .delete_all
 
@@ -70,24 +70,24 @@ module ProjectCustomFieldTypeMappings
     end
 
     def existing_mappings(custom_field_ids)
-      @type.own_project_custom_field_type_mappings
+      @variant.own_project_custom_field_type_mappings
         .where(custom_field_id: custom_field_ids)
         .pluck(:custom_field_id)
     end
 
     def create_mappings(custom_field_ids)
-      @type.own_project_custom_field_type_mappings
+      @variant.own_project_custom_field_type_mappings
         .insert_all(
           custom_field_ids.map { |id| { custom_field_id: id } },
-          unique_by: %i[type_id custom_field_id]
+          unique_by: %i[type_variant_id custom_field_id]
         )
 
       reset_associations
     end
 
     def reset_associations
-      @type.own_project_custom_field_type_mappings.reset
-      @type.project_custom_fields.reset
+      @variant.own_project_custom_field_type_mappings.reset
+      @variant.project_custom_fields.reset
     end
   end
 end

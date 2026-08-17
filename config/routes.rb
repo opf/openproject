@@ -155,91 +155,108 @@ Rails.application.routes.draw do
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
   resources :types, module: "work_package_types", except: [:update] do
-    resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
-      get :reset_dialog
-      resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
-        collection do
-          post :add_group
-        end
-
-        member do
-          post :cancel_edit
-          put :drop
-          put :move
-          patch :update_query
-        end
-      end
-      resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
-        member do
-          put :drop
-          put :move
-        end
-      end
-    end
-    resource :projects, controller: "projects_tab", only: %i[update edit] do
-      collection do
-        post :enable_all, to: "projects_tab#enable_all_projects"
-      end
-    end
-    resource :project_attributes, controller: "project_attributes_tab", only: %i[edit] do
-      post :toggle
-      put :enable_all_of_section
-      put :disable_all_of_section
-    end
-    resource :details, controller: "details_tab", only: %i[update edit]
-    resource :defaults, controller: "defaults_tab", only: %i[update edit]
-
-    nested do
-      scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
-        get :dialog
-        post :confirm
-        post :switch
-      end
-
-      scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
-        get :dialog
-        post :confirm
-        post :switch
-      end
-
-      scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
-        get :dialog
-        post :confirm
-        post :copy
-      end
-
-      scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
-        post :toggle
-      end
-    end
-
-    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
-
-    resource :workflow, controller: "workflow_tab", only: %i[edit] do
-      resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
-        get :status_dialog
-        post :confirm_statuses
-      end
-
-      resource :copy, only: %i[new], controller: "/workflows/copies" do
-        # TODO: Remove with type_variants feature flag
-        resource :from_type, only: %i[create], controller: "/workflows/copies/from_types"
-        resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
-      end
-    end
-
-    resources :pdf_export_template, only: %i[],
-                                    controller: "pdf_export_template",
-                                    path: "pdf_export" do
+    resources :variants, controller: "variants", only: %i[destroy] do
       member do
-        post :toggle
-        put :drop
+        get :menu
+        post :make_default
+        post :remove_default
       end
-      collection do
-        get :edit
-        put :enable_all
-        put :disable_all
-        put :update_artefact_export
+    end
+
+    # Everything below is about exactly one variant, so it is addressed by one. A scope rather
+    # than a nested resource: the path gains the variant, the helper names do not change, and
+    # every call site simply names which configuration it means. `nested` is what puts it under
+    # the type member rather than in front of it.
+    nested do
+      scope "(variants/:variant_id)" do
+        resource :projects, controller: "projects_tab", only: %i[update edit] do
+          collection do
+            post :enable_all, to: "projects_tab#enable_all_projects"
+          end
+        end
+
+        resource :details, controller: "details_tab", only: %i[update edit]
+
+        resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
+          get :reset_dialog
+          resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
+            collection do
+              post :add_group
+            end
+
+            member do
+              post :cancel_edit
+              put :drop
+              put :move
+              patch :update_query
+            end
+          end
+          resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
+            member do
+              put :drop
+              put :move
+            end
+          end
+        end
+
+        resource :project_attributes, controller: "project_attributes_tab", only: %i[edit] do
+          post :toggle
+          put :enable_all_of_section
+          put :disable_all_of_section
+        end
+
+        resource :defaults, controller: "defaults_tab", only: %i[update edit]
+
+        scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
+          get :dialog
+          post :confirm
+          post :switch
+        end
+
+        scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
+          get :dialog
+          post :confirm
+          post :switch
+        end
+
+        scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
+          get :dialog
+          post :confirm
+          post :copy
+        end
+
+        scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
+          post :toggle
+        end
+
+        resource :workflow, controller: "workflow_tab", only: %i[edit] do
+          resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
+            get :status_dialog
+            post :confirm_statuses
+          end
+
+          resource :copy, only: %i[new], controller: "/workflows/copies" do
+            resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
+            resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+          end
+        end
+
+        resources :pdf_export_template, only: %i[],
+                                        controller: "pdf_export_template",
+                                        path: "pdf_export" do
+          member do
+            post :toggle
+            put :drop
+          end
+          collection do
+            get :edit
+            put :enable_all
+            put :disable_all
+            put :update_artefact_export
+          end
+        end
+
+        resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
       end
     end
 
@@ -253,8 +270,6 @@ Rails.application.routes.draw do
     member do
       get :menu
       put :drop
-      post :make_default
-      post :remove_default
       post :duplicate
     end
   end
@@ -761,6 +776,11 @@ Rails.application.routes.draw do
       # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
       resource :work_packages_general, controller: "/admin/settings/work_packages_general", only: %i[show update]
       resource :work_packages_identifier, controller: "/admin/settings/work_packages_identifier", only: %i[show update] do
+        get :status, on: :member
+        get :confirm_dialog, on: :member, defaults: { format: :turbo_stream }
+      end
+      resource :versions_and_categories, controller: "/admin/settings/versions_and_categories", only: %i[show] do
+        post :enable_multiple_versions, on: :member
         get :status, on: :member
         get :confirm_dialog, on: :member, defaults: { format: :turbo_stream }
       end

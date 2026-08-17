@@ -30,5 +30,28 @@
 
 module MeetingOutcomes
   class CreateService < ::BaseServices::Create
+    include MeetingAgendaItems::JournalizeWorkPackageActivity
+
+    def after_perform(call)
+      super
+
+      journalize_meeting_discussion(call.result) if call.success?
+
+      call
+    end
+
+    private
+
+    def journalize_meeting_discussion(outcome)
+      meeting = outcome.meeting_agenda_item.meeting
+
+      journalize_agenda_item(outcome.meeting_agenda_item,
+                             Journal::CausedByMeetingAgendaItemDiscussed.new(meeting))
+
+      return unless outcome.work_package_kind?
+
+      journalize_work_package(outcome.work_package,
+                              Journal::CausedByMeetingOutcomeRecorded.new(meeting))
+    end
   end
 end

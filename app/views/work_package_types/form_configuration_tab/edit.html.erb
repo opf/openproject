@@ -29,19 +29,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
 <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_form_configuration_path(type_id: @type.id)
+        reload_url: edit_type_form_configuration_path(**@variant.path_args)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::FORM_CONFIGURATION)) %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::FORM_CONFIGURATION)) %>
   <%= render(
         WorkPackageTypes::FormConfigurationComponent.new(
-          type: @type,
-          form_attributes: form_configuration_groups(@type),
+          variant: @variant,
+          form_attributes: form_configuration_groups(@variant),
           no_filter_query:
         )
       ) %>

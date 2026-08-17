@@ -64,7 +64,7 @@ RSpec.describe "Work package Parent field ranks exact matches first", :js, :sele
     field = wp_table.edit_field(child_work_package, :parent)
     field.activate!
 
-    dropdown = field.autocomplete("PARENTFIELD-5", select: false)
+    dropdown = field.autocomplete("#PARENTFIELD-5", select: false)
 
     within(dropdown) do
       # The first option is always a "-" (clear/no-parent) entry, unrelated to ranking.
