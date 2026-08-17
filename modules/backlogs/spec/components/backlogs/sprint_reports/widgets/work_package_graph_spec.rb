@@ -33,8 +33,15 @@ require "rails_helper"
 RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :component do
   let(:project) { build_stubbed(:project) }
   let(:sprint) { build_stubbed(:sprint, project:) }
+  let(:user) { build_stubbed(:user) }
 
-  subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
+  subject(:rendered_component) { render_inline(described_class.new(sprint, project, current_user: user)) }
+
+  before do
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project(:view_sprints, project:)
+    end
+  end
 
   it "renders the work package graph element" do
     expect(rendered_component).to have_element(:"opce-wp-overview-graph")
@@ -51,5 +58,15 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
       { "sprint" => { "operator" => "=", "values" => [sprint.id] } },
       { "project" => { "operator" => "=", "values" => [project.id] } }
     )
+  end
+
+  context "when the user lacks view_sprints" do
+    before do
+      mock_permissions_for(user, &:forbid_everything)
+    end
+
+    it "does not render" do
+      expect(rendered_component).to have_no_element(:"opce-wp-overview-graph")
+    end
   end
 end
