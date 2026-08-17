@@ -164,11 +164,6 @@ RSpec.describe "API v3 documents resource" do
     end
 
     context "when updating the description" do
-      # Regression test: the request body was previously passed unfiltered
-      # to Documents::UpdateService, so the raw {format:, raw:, html:} hash
-      # ended up stored verbatim as the description's raw text instead of
-      # extracting just the raw string, corrupting it into a literal
-      # hash-shaped string on every update.
       let(:request_body) do
         {
           description: { format: "markdown", raw: "An updated description" }

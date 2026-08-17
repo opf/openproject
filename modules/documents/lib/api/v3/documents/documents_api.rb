@@ -71,14 +71,9 @@ module API
               doc = document
               request_body = JSON.parse(request.body.read)
 
-              # `description` arrives as the nested {format:, raw:, html:} HAL
-              # shape every formattable property uses on write -- extract only
-              # `raw` before handing off to the Service, matching how every
-              # other formattable-property-backed domain's payload representer
-              # already does this (API::Decorators::FormattableProperty's
-              # setter). Passing the raw nested hash through unfiltered
-              # corrupts the stored description into a literal, hash-shaped
-              # string.
+              # description arrives as the nested {format:, raw:, html:} HAL shape every
+              # formattable property uses on write -- extract raw, as
+              # API::Decorators::FormattableProperty's setter does for every other domain.
               if request_body["description"].is_a?(Hash)
                 request_body["description"] = request_body["description"]["raw"]
               end
