@@ -60,15 +60,15 @@ module Admin::Import::Jira::ImportRuns
               end
               concat(
                 render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |c|
-                percentage = if @job.status == :succeeded
-                               100
-                             elsif @active_job.respond_to?(:percentage)
-                               @active_job.percentage
-                             else
-                               0
-                             end
-                c.with_item(percentage:)
-              end
+                  percentage = if @job.status == :succeeded
+                                 100
+                               elsif @active_job.respond_to?(:percentage)
+                                 @active_job.percentage
+                               else
+                                 0
+                               end
+                  c.with_item(percentage:)
+                end
               )
             end)
           end

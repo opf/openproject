@@ -45,7 +45,6 @@ module Import
           @system_user = User.system
           jira_project = Import::JiraProject.find(jira_project_id)
 
-
           # Needed to avoid project.lft and project.rgt corruption due to race condition
           # when multiple projects are created at the same time.
           lock_key = "jira_import_#{jira_import_id}_create_project"

@@ -98,14 +98,16 @@ module Import
           batch.enqueue(stage: 7) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       jira_project_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_7"]).perform_later(jira_import.id, jira_project.id)
+              Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_7"])
+                                                      .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 7
           batch.enqueue(stage: 8) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       jira_project_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_8"]).perform_later(jira_import.id, jira_project.id)
+              Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_8"])
+                                                                .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 8

@@ -80,6 +80,7 @@ module Admin::Import::Jira::ImportRuns
       @batch = batch
     end
 
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def call
       return if @batch.blank?
 
@@ -158,7 +159,13 @@ module Admin::Import::Jira::ImportRuns
                                   end
                                 end
                                 flex.with_row do
-                                  render(Primer::Beta::ClipboardCopyButton.new(id: "clipboard-button1231231", aria: { label: "Copy backtrace" }, value: app_backtrace.join("\n")))
+                                  render(
+                                    Primer::Beta::ClipboardCopyButton.new(
+                                      id: "clipboard-button1231231",
+                                      aria: { label: "Copy backtrace" },
+                                      value: app_backtrace.join("\n")
+                                    )
+                                  )
                                 end
                               end
                             end
@@ -176,7 +183,13 @@ module Admin::Import::Jira::ImportRuns
                                   end
                                 end
                                 flex.with_row do
-                                  render(Primer::Beta::ClipboardCopyButton.new(id: "clipboard-button1231231", aria: { label: "Copy backtrace" }, value: full_backtrace.join("\n")))
+                                  render(
+                                    Primer::Beta::ClipboardCopyButton.new(
+                                      id: "clipboard-button1231231",
+                                      aria: { label: "Copy backtrace" },
+                                      value: full_backtrace.join("\n")
+                                    )
+                                  )
                                 end
                               end
                             end
@@ -192,5 +205,6 @@ module Admin::Import::Jira::ImportRuns
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end
