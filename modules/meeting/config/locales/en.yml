@@ -61,7 +61,7 @@ en:
         notes: "Notes"
         position: "Position"
         presenter: "Presenter"
-        title: "Title"        
+        title: "Title"
       meeting_outcome:
         kind: "Kind"
       meeting_participant:

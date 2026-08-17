@@ -160,9 +160,6 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
     end
 
     context "with an invalid kind value" do
-      # Regression test: an unrecognized enum value used to raise a raw
-      # ArgumentError (500) instead of a clean validation error, since the
-      # enum declaration had no validate: true.
       let(:body) do
         {
           kind: "not_a_real_kind",
