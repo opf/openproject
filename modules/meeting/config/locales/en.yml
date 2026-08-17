@@ -61,16 +61,13 @@ en:
         notes: "Notes"
       meeting_outcome:
         kind: "Kind"
-      meeting_section:
-        position: "Position"
-        presenter: "Presenter"
-        title: "Title"
       meeting_participant:
         attended: "Attended"
         invited: "Invited"
         participation_status: "Participation status"
       meeting_section:
         position: "Position"
+        presenter: "Presenter"
         title: "Title"
       recurring_meeting:
         duration: "Duration"
