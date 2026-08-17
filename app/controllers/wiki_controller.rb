@@ -313,14 +313,17 @@ class WikiController < ApplicationController
       when "reassign"
         # Reassign children to another parent page
         reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].presence)
-        return unless reassign_to
+        if reassign_to.nil?
+          @reassignable_to = @wiki.pages - @page.self_and_descendants
+          return render(action: :destroy, status: :unprocessable_entity)
+        end
 
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
         end
       else
         @reassignable_to = @wiki.pages - @page.self_and_descendants
-        return
+        return render(action: :destroy, status: :unprocessable_entity)
       end
     end
     @page.destroy!

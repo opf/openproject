@@ -542,14 +542,26 @@ RSpec.describe WikiController do
           { project_id: project, id: parent_page }
         end
 
-        it "responds with success" do
+        it "responds with unprocessable entity" do
           expect(subject)
-            .to have_http_status(:ok)
+            .to have_http_status(:unprocessable_entity)
         end
 
-        it "destroys the page" do
+        it "does not destroy the page" do
           expect { subject }
             .not_to change(WikiPage, :count)
+        end
+
+        it "assigns the reassignable pages" do
+          subject
+
+          expect(assigns(:reassignable_to))
+            .to match_array(@wiki.pages - parent_page.self_and_descendants)
+        end
+
+        it "renders the destroy template" do
+          expect(subject)
+            .to render_template(:destroy)
         end
       end
 
@@ -618,6 +630,34 @@ RSpec.describe WikiController do
 
           expect(child_page.parent_id)
             .to eq existing_page.id
+        end
+      end
+
+      context "when destroying a parent with reassign without a valid reassign_to_id" do
+        let(:params) do
+          { project_id: project, id: parent_page, todo: "reassign", reassign_to_id: nil }
+        end
+
+        it "responds with unprocessable entity" do
+          expect(subject)
+            .to have_http_status(:unprocessable_entity)
+        end
+
+        it "does not destroy the page" do
+          expect { subject }
+            .not_to change(WikiPage, :count)
+        end
+
+        it "assigns the reassignable pages" do
+          subject
+
+          expect(assigns(:reassignable_to))
+            .to match_array(@wiki.pages - parent_page.self_and_descendants)
+        end
+
+        it "renders the destroy template" do
+          expect(subject)
+            .to render_template(:destroy)
         end
       end
     end
