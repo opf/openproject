@@ -32,6 +32,8 @@ module Backlogs
   module SprintReports
     module Widgets
       class WorkPackageGraph < Grids::WidgetComponent
+        include Backlogs::CommonHelper
+
         param :sprint
         param :project
 
@@ -42,6 +44,8 @@ module Backlogs
         def wrapper_arguments
           { full_width: true }
         end
+
+        def render? = user_allowed?(:view_sprints)
 
         def call
           widget_wrapper do |widget|
