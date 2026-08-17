@@ -49,7 +49,7 @@ module Wikis
 
         before { pages }
 
-        it "returns also a wiki node with the root pages project name" do
+        it "returns a wiki node named after the project" do
           page_tree = service.call(parent_identifier).value!
 
           expect(page_tree.size).to eq(1)
@@ -57,7 +57,7 @@ module Wikis
           expect(page_tree[0].name).to eq("DS Maintenance Shaft")
         end
 
-        it "returns only the root pages" do
+        it "returns the root pages for the returned wiki(s)" do
           page_tree = service.call(parent_identifier).value!
           wiki_entry = page_tree[0]
 
@@ -70,7 +70,7 @@ module Wikis
       context "when using the XWiki provider", vcr: "services/browse_pages_xwiki_nil_identifier" do
         let(:provider) { xwiki_provider }
 
-        it "returns also a wiki node with the root pages project name" do
+        it "returns a wiki node" do
           page_tree = service.call(parent_identifier).value!
 
           expect(page_tree.size).to eq(1)
@@ -84,7 +84,7 @@ module Wikis
         #   - Help
         #   - Home
         #   - Sandbox
-        it "returns only the root pages" do
+        it "returns the root pages for the existing wiki" do
           page_tree = service.call(parent_identifier).value!
           wiki_entry = page_tree[0]
 
