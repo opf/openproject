@@ -47,9 +47,6 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
   end
 
   describe "a project that already applies the variant" do
-    # The case from review: adding a parent with sub-items reaches a child already on this
-    # variant. Re-applying it is nothing to do, not a conflict -- switching a project onto the
-    # variant it is already on is what SwitchVariantContract turns away as identical.
     it "is nothing to do rather than a conflict" do
       parent = create(:project)
       child = create(:project, parent:, types: [hardware])
@@ -76,8 +73,6 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
     shared_let(:blocked) { create(:project, name: "Blocked") }
     shared_let(:addable) { create(:project, name: "Addable") }
 
-    # Nothing reachable refuses an add today -- the identical-switch bug above was the way in,
-    # and it is fixed -- so the one project that must fail is made to fail directly.
     before do
       refusal = ServiceResult.failure(result: blocked)
       refusal.errors.add(:base, "Refused for a reason")
@@ -88,8 +83,6 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
         .and_return(instance_double(Projects::Types::AddService, call: refusal))
     end
 
-    # Leaving the dialog open would hide the message behind the overlay and show a list and a
-    # tree that no longer match the database, since the projects before the refusal did change.
     it "closes the dialog anyway" do
       link_projects(addable, blocked)
 

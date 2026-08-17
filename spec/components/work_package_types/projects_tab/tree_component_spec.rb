@@ -56,6 +56,16 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TreeComponent, type: :component do
     expect(page).to have_text("Child")
   end
 
+  it "lets a parent be ticked without ticking its children" do
+    parent = create(:project, name: "Parent")
+    create(:project, name: "Child", parent:)
+
+    render_tree(Project.order(:lft))
+
+    expect(page).to have_css("[data-node-id='#{parent.id}'][data-select-strategy='self']", visible: :all)
+    expect(page).to have_no_css("[data-select-strategy='descendants']", visible: :all)
+  end
+
   context "when a project applies another variant of the type" do
     let!(:project) { create(:project, name: "Bookshop", types: [other_variant]) }
 

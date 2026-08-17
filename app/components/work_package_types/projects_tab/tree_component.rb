@@ -53,7 +53,7 @@ module WorkPackageTypes
       def add_sub_tree(parent, level)
         level.each do |node|
           if node[:children].any?
-            parent.with_sub_tree(**item_options(node[:project])) do |sub_tree|
+            parent.with_sub_tree(select_strategy: :self, **item_options(node[:project])) do |sub_tree|
               add_sub_tree(sub_tree, node[:children])
             end
           else

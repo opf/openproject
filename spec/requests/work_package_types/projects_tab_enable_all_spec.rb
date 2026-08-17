@@ -72,8 +72,6 @@ RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
       create(:work_package, project: blocked, type:)
     end
 
-    # The refusal stops the sweep with the earlier projects already changed, so both the list
-    # and the button have to catch up or the next click offers to redo what just happened.
     it "still repaints the list and the button" do
       toggle("0")
 

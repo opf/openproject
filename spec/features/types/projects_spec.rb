@@ -40,18 +40,20 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
 
   current_user { admin }
 
-  def add_projects_including_sub_items(project)
+  def add_projects(project, include_sub_items:)
     find_test_selector("type-projects-add-button").click
 
     within("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}") do
-      check I18n.t("filterable_tree_view.include_sub_items")
+      check I18n.t("filterable_tree_view.include_sub_items") if include_sub_items
       find("[role='treeitem'][data-node-id='#{project.id}']").click
       click_link_or_button I18n.t(:button_add)
     end
   end
 
-  # The case from review. The child already applies this variant, so re-applying it is nothing
-  # to do; before the fix it was refused, leaving the banner behind the overlay and the list stale.
+  def add_projects_including_sub_items(project)
+    add_projects(project, include_sub_items: true)
+  end
+
   it "adds a parent with its sub-projects when one of them is already on the variant" do
     visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
 
@@ -68,11 +70,10 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
 
     expect(parent.reload.type_variant(type)).to eq(hardware)
   end
+
   describe "enabling the type in all projects" do
     shared_let(:elsewhere) { create(:project, name: "Warehouse") }
 
-    # The button posts the action derived from the current state, so if it is not repainted the
-    # next click offers to redo what just happened rather than undo it.
     it "flips the button between enable and disable as it is clicked" do
       visit edit_type_projects_path(type_id: type.id)
 
@@ -88,5 +89,24 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
                                          text: I18n.t("types.edit.projects.enable_all"))
       within("#project-table") { expect(page).to have_no_text(elsewhere.name) }
     end
+  end
+
+  it "leaves sub-projects out unless they are asked for" do
+    outside = create(:project, name: "Warehouse")
+    inside = create(:project, name: "Annex", parent: outside)
+
+    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+
+    add_projects(outside, include_sub_items: false)
+
+    expect_flash(message: I18n.t(:notice_successful_update))
+
+    within "#project-table" do
+      expect(page).to have_text(outside.name)
+      expect(page).to have_no_text(inside.name)
+    end
+
+    # Scoped to this type: the project factory enables the default types on every project.
+    expect(inside.reload.project_types.where(type_id: type.id)).to be_empty
   end
 end
