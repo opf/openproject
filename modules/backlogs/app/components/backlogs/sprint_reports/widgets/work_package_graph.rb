@@ -32,12 +32,20 @@ module Backlogs
   module SprintReports
     module Widgets
       class WorkPackageGraph < Grids::WidgetComponent
+        include Backlogs::CommonHelper
+
         param :sprint
         param :project
 
         def title
-          t("backlogs.sprint_reports.widgets.work_package_graph.title")
+          t(".title")
         end
+
+        def wrapper_arguments
+          { full_width: true }
+        end
+
+        def render? = user_allowed?(:view_sprints)
 
         def call
           widget_wrapper do |widget|
@@ -58,8 +66,8 @@ module Backlogs
 
         def graph_filters
           [
-            { sprint: { operator: "=", values: [@sprint.id] } },
-            { project: { operator: "=", values: [@project.id] } }
+            { sprint: { operator: "=", values: [sprint.id] } },
+            { project: { operator: "=", values: [project.id] } }
           ]
         end
       end
