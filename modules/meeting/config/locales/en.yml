@@ -59,6 +59,9 @@ en:
         item_type: "Type"
         lock_version: "Lock version"
         notes: "Notes"
+        position: "Position"
+        presenter: "Presenter"
+        title: "Title"        
       meeting_outcome:
         kind: "Kind"
       meeting_participant:
@@ -67,7 +70,6 @@ en:
         participation_status: "Participation status"
       meeting_section:
         position: "Position"
-        presenter: "Presenter"
         title: "Title"
       recurring_meeting:
         duration: "Duration"
