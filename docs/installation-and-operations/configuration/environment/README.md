@@ -312,6 +312,7 @@ OPENPROJECT_ONBOARDING__ENABLED (default=true) Enable or disable onboarding guid
 OPENPROJECT_OPENID__CONNECT (default={}) Provide a OIDC provider and sync its settings through ENV
 OPENPROJECT_OPENTELEMETRY__ENABLED (default=false) Enable OpenTelemetry metrics
 OPENPROJECT_ORGANIZATION__NAME (default="My Organization") Organization name
+OPENPROJECT_OUTBOUND__MAIL__LIMITS (default=0) Maximum distinct recipients an instance may send emails to per day. Mails to addresses over that limit will be dropped. 0 equals unlimited recipients.
 OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR (default=nil) Set a custom BCrypt cost factor for deriving a user's bcrypt hash.
 OPENPROJECT_PASSWORD__ACTIVE__RULES (default=["lowercase", "uppercase", "numeric", "special"]) Password requirements
 OPENPROJECT_PASSWORD__COUNT__FORMER__BANNED (default=0) Number of most recently used passwords banned for reuse

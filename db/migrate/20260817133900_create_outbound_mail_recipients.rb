@@ -28,12 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  ApplicationMailer.register_interceptor Interceptors::LimitDistinctRecipients
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+class CreateOutboundMailRecipients < ActiveRecord::Migration[8.1]
+  def change
+    create_table :outbound_mail_recipients do |t|
+      t.string :mail, null: false
+      t.date :sent_on, null: false
+      t.datetime :created_at, null: false
+
+      t.index %i[sent_on mail], unique: true
+    end
+  end
 end
