@@ -72,8 +72,7 @@ class UserWorkingHours < ApplicationRecord
 
   DAYS.each do |day|
     define_method("#{day}_hours") do
-      minutes = public_send(day)
-      minutes.nil? ? nil : (minutes / 60.0).round(2)
+      ((public_send(day) || 0) / 60.0).round(2)
     end
 
     define_method("#{day}_hours=") do |value|

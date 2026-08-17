@@ -76,10 +76,6 @@ RSpec.describe UserWorkingHours do
     end
 
     describe "with a nil weekday column (e.g. omitted from a create payload)" do
-      # Regression tests: presence/numericality validation on a `*_hours`
-      # attribute invokes the corresponding getter, which used to crash with
-      # NoMethodError on `nil / 60.0` instead of producing a clean
-      # validation error.
       it "is invalid rather than raising when a single weekday is nil" do
         subject.public_send(:wednesday=, nil)
 
@@ -89,10 +85,6 @@ RSpec.describe UserWorkingHours do
       end
 
       it "is invalid rather than raising when every weekday is nil" do
-        # Also exercises the second, independent nil-unsafe site in
-        # at_least_one_working_day_selected, only reachable once every
-        # weekday is nil (each weekday's own presence/numericality
-        # validation would otherwise short-circuit first).
         %i[monday tuesday wednesday thursday friday saturday sunday].each do |day|
           subject.public_send(:"#{day}=", nil)
         end
@@ -114,13 +106,9 @@ RSpec.describe UserWorkingHours do
           expect(working_hours.public_send("#{day}_hours")).to eq(2.5)
         end
 
-        it "returns nil rather than raising when the underlying minutes column is nil" do
-          # Regression test: a still-nil column (e.g. a weekday omitted from
-          # a create payload, no DB default) used to crash with
-          # NoMethodError on `nil / 60.0` -- both here, and via the
-          # presence/numericality validator that calls this same getter.
+        it "returns 0.0 rather than raising when the underlying minutes column is nil" do
           working_hours.public_send("#{day}=", nil)
-          expect(working_hours.public_send("#{day}_hours")).to be_nil
+          expect(working_hours.public_send("#{day}_hours")).to eq(0.0)
         end
       end
 
