@@ -6286,6 +6286,13 @@ en:
         actions:
           label_disable_all: "Disable all"
           label_enable_all: "Enable all"
+        blankslate:
+          independent:
+            description: "Once you [create project attributes](administration_url), they will be visible here and can be added to a type."
+            title: "No project attributes available"
+          linked:
+            description: "This type does not have any project attributes associated with it."
+            title: "No project attributes configured"
         description: "Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there."
         disabled: "Disabled"
         exclusions:
