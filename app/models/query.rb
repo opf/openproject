@@ -192,7 +192,7 @@ class Query < ApplicationRecord
     filter.operator = operator
     filter.values = values
 
-    filters << filter unless filters.include?(filter)
+    filters << filter if filters.none? { it.field.to_s == filter.field.to_s }
   end
 
   def filter_for(field)

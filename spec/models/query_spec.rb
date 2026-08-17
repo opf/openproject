@@ -818,6 +818,25 @@ RSpec.describe Query,
     end
   end
 
+  describe "#add_filter" do
+    it "keeps distinct filters that happen to share an operator and values" do
+      query.add_filter("assigned_to_id", "=", ["1"])
+      query.add_filter("author_id", "=", ["1"])
+
+      expect(query.filters.map { it.field.to_s })
+        .to include("assigned_to_id", "author_id")
+    end
+
+    it "updates an already active filter instead of listing it twice" do
+      query.add_filter("assigned_to_id", "=", ["1"])
+
+      expect { query.add_filter("assigned_to_id", "=", ["2"]) }
+        .not_to change { query.filters.count }
+
+      expect(query.filter_for("assigned_to_id").values).to eq(["2"])
+    end
+  end
+
   describe "#filter_for" do
     context "for a status_id filter" do
       subject { query.filter_for("status_id") }
