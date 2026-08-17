@@ -31,8 +31,7 @@ import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } f
 import { ChartData, ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
-import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 import { environment } from '../../../environments/environment';
 
 const BURNDOWN_Y_SCALE_MIN = 25;
@@ -41,7 +40,6 @@ const BURNDOWN_Y_SCALE_MIN = 25;
   selector: 'op-burndown-chart',
   templateUrl: './burndown-chart.component.html',
   imports: [BaseChartDirective, JsonPipe, NoResultsComponent],
-  providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BurndownChartComponent {
@@ -85,6 +83,9 @@ export class BurndownChartComponent {
     plugins: {
       legend: {
         position: 'top'
+      },
+      datalabels: {
+        display: false
       }
     }
   }));
