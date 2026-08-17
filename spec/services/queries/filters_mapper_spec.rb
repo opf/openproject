@@ -70,6 +70,23 @@ RSpec.describe Queries::Copy::FiltersMapper do
     end
   end
 
+  describe "with a query holding the target_versions filter",
+           with_settings: { work_package_multiple_versions: true } do
+    let(:query) do
+      build(:query).tap { it.add_filter "target_version_id", "=", ["3"] }
+    end
+
+    subject { instance.map_query!(query) }
+
+    before do
+      state.version_id_lookup = { 3 => 33 }
+    end
+
+    it "maps the filter values" do
+      expect(subject[1].values).to eq(["33"])
+    end
+  end
+
   describe "with a filter hash array" do
     let(:filters) do
       [

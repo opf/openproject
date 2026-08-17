@@ -34,6 +34,7 @@ class Query < ApplicationRecord
   include Highlighting
   include ManualSorting
   include DeprecatedVersionSelect
+  include DeprecatedVersionFilter
   include Queries::Filters::AvailableFilters
 
   belongs_to :project
@@ -191,7 +192,7 @@ class Query < ApplicationRecord
     filter.operator = operator
     filter.values = values
 
-    filters << filter
+    filters << filter unless filters.include?(filter)
   end
 
   def filter_for(field)

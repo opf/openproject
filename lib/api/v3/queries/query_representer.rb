@@ -374,8 +374,9 @@ module API
         def get_filter_name(filter_attributes)
           href = filter_attributes.dig("_links", "filter", "href")
           id = id_from_href "queries/filters", href
+          name = ::API::Utilities::QueryFiltersNameConverter.to_ar_name(id, refer_to_ids: true) if id
 
-          ::API::Utilities::QueryFiltersNameConverter.to_ar_name id, refer_to_ids: true if id
+          Query::DeprecatedVersionFilter.normalize_key(name)
         end
 
         def id_from_href(expected_namespace, href)
