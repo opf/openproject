@@ -202,6 +202,19 @@ RSpec.describe "adding a new budget", :js do
       expect(new_budget_page.overall_labor_costs).to have_text "175.00 €"
     end
 
+    it "renders a single user autocompleter per added labor row" do
+      new_budget_page.visit!
+
+      new_budget_page.add_labor_costs_row!
+
+      rows = page.all("#labor_budget_items_body tr.cost_entry")
+      expect(rows.size).to eq(2)
+
+      expect(rows).to all(have_css("opce-user-autocompleter", count: 1))
+      expect(rows).to all(have_css("opce-user-autocompleter .ng-select", count: 1, visible: :all))
+      expect(rows).to all(have_css("opce-user-autocompleter input[type='hidden']", count: 1, visible: :all))
+    end
+
     context "with labor costs given as a duration", with_settings: { hours_per_day: 8 } do
       it "resolves days through the hours per day setting" do
         new_budget_page.visit!

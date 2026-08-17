@@ -67,19 +67,13 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </td>
     <td class="user">
-      <label class="sr-only" for="<%= id_prefix %>_user_id"><%= t(:label_user) %></label>
-      <%= cost_form.select :user_id,
-                           Principal.possible_assignee(@project).sort.map { |u| [u.name, u.id] },
-                           { prompt: true },
-                           {
-                             index: id_or_index,
-                             class: "form--select budget-item-value",
-                             data: {
-                               "request-key": "user_id",
-                               action: "change->costs--budget-subform#valueChanged"
-                             }
-                           } %>
-
+      <%= angular_component_tag "opce-user-autocompleter",
+                                inputs: labor_budget_item_user_autocompleter_inputs(
+                                  labor_budget_item,
+                                  project: @project,
+                                  name: "#{name_prefix}[user_id]",
+                                  id: "#{id_prefix}_user_id"
+                                ) %>
     </td>
     <td class="comment">
       <label class="sr-only" for="<%= id_prefix %>_comments"><%= LaborBudgetItem.human_attribute_name(:comments) %></label>
