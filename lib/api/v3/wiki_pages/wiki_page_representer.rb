@@ -91,7 +91,8 @@ module API
         property :lock_version
 
         property :version,
-                 writeable: false,
+                 exec_context: :decorator,
+                 writable: false,
                  getter: ->(*) { represented.version }
 
         property :protected
