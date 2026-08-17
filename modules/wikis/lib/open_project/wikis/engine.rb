@@ -195,7 +195,7 @@ module OpenProject::Wikis
            { controller: "/wikis/project_settings/wiki", action: :show },
            parent: :settings,
            after: :settings_backlogs,
-           caption: :project_module_wiki_internal
+           caption: :"menus.project_settings.wiki"
     end
 
     patch_with_namespace :WikiPages, :CreateService

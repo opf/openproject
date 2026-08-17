@@ -27,17 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:project_module_wiki_platforms) %>
+<% html_title t(:label_administration), t("menus.admin.external_wiki_providers") %>
 
 <% content_for :content_header do %>
   <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-    <% header.with_title { t(:project_module_wiki_platforms) } %>
+    <% header.with_title { t("menus.admin.external_wiki_providers") } %>
     <% header.with_description { t("wikis.admin.wiki_providers.index_description") } %>
     <% header.with_breadcrumbs(
          [
            { href: admin_index_path, text: t(:label_administration) },
            { href: admin_settings_wiki_providers_path, text: t("menus.admin.wikis") },
-           t(:project_module_wiki_platforms)
+           t("menus.admin.external_wiki_providers")
          ]
        ) %>
   <% end %>
