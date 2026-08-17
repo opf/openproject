@@ -65,12 +65,13 @@ export function cacheColors():Promise<void> {
   return colorsPromise;
 }
 
+export function colorOfType(typeHref:string | undefined) {
+  const typeId = typeHref ? idFromHref(typeHref) : undefined;
+  return typeColors[typeId ?? ''] || FALLBACK_TYPE_COLOR;
+}
+
 export function typeColor(workPackage:WorkPackage) {
-  if (!workPackage._links?.type) {
-    return FALLBACK_TYPE_COLOR;
-  }
-  const typeId = idFromHref(workPackage._links.type.href) ?? '';
-  return typeColors[typeId] || FALLBACK_TYPE_COLOR;
+  return colorOfType(workPackage._links?.type?.href);
 }
 
 export function statusColor(workPackage:WorkPackage) {

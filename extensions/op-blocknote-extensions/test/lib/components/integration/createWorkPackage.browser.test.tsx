@@ -8,6 +8,11 @@ import { mockCreatedWorkPackage } from '../../../mocks/handlers';
 
 afterEach(() => worker.resetHandlers());
 
+function colorChannelsOf(element:Element):string[] {
+  const styles = getComputedStyle(element);
+  return ['--color-r', '--color-g', '--color-b'].map((channel) => styles.getPropertyValue(channel).trim());
+}
+
 describe('Create work package', () => {
   it('creates a card when invoked on an empty line', async () => {
     renderEditor();
@@ -122,6 +127,26 @@ describe('Create work package', () => {
 
     await expect.element(page.getByLabelText('Supervisor *')).not.toHaveAttribute('aria-invalid');
     await expect.element(page.getByLabelText('Subject *')).not.toHaveAttribute('aria-invalid');
+  });
+
+  it('shows the color of the chosen type', async () => {
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+
+    await expect.element(page.getByLabelText('Type *')).toBeVisible();
+    await expect.element(page.getByTestId('create-wp-type-color')).not.toBeInTheDocument();
+
+    await selectOptionNamed('Type *', 'Task');
+    const dot = page.getByTestId('create-wp-type-color');
+    await expect.element(dot).toBeVisible();
+    await expect.poll(() => colorChannelsOf(dot.element())).toEqual(['211', '84', '0']);
+
+    const { width, height } = getComputedStyle(dot.element());
+    expect([width, height]).toEqual(['12px', '12px']);
+
+    await selectOptionNamed('Type *', 'Bug');
+    await expect.poll(() => colorChannelsOf(dot.element())).toEqual(['39', '174', '96']);
   });
 
   it('narrows the project typeahead through the API', async () => {

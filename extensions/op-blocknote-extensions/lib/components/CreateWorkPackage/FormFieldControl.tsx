@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertIcon } from '@primer/octicons-react';
+import { colorOfType } from '../../services/colors';
 import type { FieldValue, FormField, ValueProblem } from './formSchema';
 import { AllowedValuesTypeahead } from './AllowedValuesTypeahead';
 import { PickerArrows } from './PickerArrows';
@@ -15,6 +16,7 @@ import {
   SelectWrapper,
   TextAreaControl,
   TextControl,
+  TypeColorDot,
 } from './atoms';
 
 interface FormFieldControlProps {
@@ -50,6 +52,9 @@ export const FormFieldControl = ({ field, value, onChange, autoFocus, error, pro
   const textValue = typeof value === 'string' ? value : '';
   const ownPlaceholder = PLACEHOLDERS[field.key];
   const placeholder = field.placeholder ?? (ownPlaceholder ? t(ownPlaceholder) : undefined);
+  const colorDot = field.key === 'type' && textValue
+    ? <TypeColorDot $color={colorOfType(textValue)} />
+    : null;
 
   const withError = (children:ReactNode) => (
     <FieldRow $invalid={Boolean(message)}>
@@ -90,7 +95,7 @@ export const FormFieldControl = ({ field, value, onChange, autoFocus, error, pro
   switch (field.kind) {
     case 'select':
       control = (
-        <SelectWrapper>
+        <SelectWrapper $withColorDot={Boolean(colorDot)}>
           <SelectControl
             id={id}
             value={textValue}
@@ -104,6 +109,7 @@ export const FormFieldControl = ({ field, value, onChange, autoFocus, error, pro
               <option key={allowed.href} value={allowed.href}>{allowed.label}</option>
             ))}
           </SelectControl>
+          {colorDot}
           <PickerArrows />
         </SelectWrapper>
       );

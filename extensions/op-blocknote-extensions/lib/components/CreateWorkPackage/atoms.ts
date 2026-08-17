@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import { defaultWpVariables } from '../WorkPackage/atoms';
+import { defaultColorStyles, typeTextColor } from '../../services/colors';
 
 const surfaceColor = 'var(--op-create-wp-surface)';
 const textColor = 'var(--op-create-wp-text)';
@@ -8,6 +9,8 @@ const controlBorderColor = 'var(--op-create-wp-control-border)';
 const radius = '6px';
 const radiusLarge = '12px';
 const arrowsWidth = '32px';
+const colorDotSize = '12px';
+const colorDotWidth = `calc(var(--spacer-l) + ${colorDotSize} + var(--spacer-m))`;
 
 const MODAL_WIDTH = '460px';
 
@@ -307,10 +310,30 @@ export const SelectControl = styled.select`
   }
 `;
 
-export const SelectWrapper = styled.div`
+export const SelectWrapper = styled.div<{ $withColorDot?:boolean }>`
   position: relative;
   display: flex;
   align-items: center;
+
+  ${({ $withColorDot }) => $withColorDot && css`
+    && select {
+      padding-left: ${colorDotWidth};
+    }
+  `}
+`;
+
+export const TypeColorDot = styled.span.attrs({
+  className: 'op-bn-create-wp-type-color',
+  'data-testid': 'create-wp-type-color',
+})<{ $color:string }>`
+  ${({ $color }) => defaultColorStyles($color)}
+  position: absolute;
+  left: var(--spacer-l);
+  width: ${colorDotSize};
+  height: ${colorDotSize};
+  border-radius: 50%;
+  background: ${typeTextColor};
+  pointer-events: none;
 `;
 
 export const CheckboxRow = styled.label`
