@@ -345,6 +345,8 @@ OPENPROJECT_RATE__LIMITING (default={}) Configure rate limiting for various endp
 OPENPROJECT_REAL__TIME__TEXT__COLLABORATION__ENABLED (default=false) Enable real-time collaborative editing of text fields using BlockNoteJS and Hocuspocus server.
 OPENPROJECT_RECAPTCHA__VIA__HCAPTCHA (default=false)
 OPENPROJECT_REGISTRATION__FOOTER (default={"en" => ""}) Registration footer
+OPENPROJECT_REGISTRATION__RATE__LIMIT (default=0) Maximum unauthenticated POST /account/register requests per hour. Counted per client IP by default, or per instance (host_name) when registration_rate_limit_per_ip is false. 0 disables the limit.
+OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP (default=true) Count registration rate limits per client IP. Set to false to count based on hostname itself.
 OPENPROJECT_REMOTE__STORAGE__DOWNLOAD__HOST (default=nil) Host the frontend uses to download files, which has to be added to the CSP.
 OPENPROJECT_REMOTE__STORAGE__UPLOAD__HOST (default=nil) Host the frontend uses to upload files to, which has to be added to the CSP.
 OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS (default=true) Respond to incoming mails with error details

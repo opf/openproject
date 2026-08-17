@@ -972,6 +972,21 @@ module Settings
           "en" => ""
         }
       },
+      registration_rate_limit: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Maximum unauthenticated POST /account/register requests per hour. " \
+                     "Counted per client IP by default, or per instance (host_name) when " \
+                     "registration_rate_limit_per_ip is false. 0 disables the limit."
+      },
+      registration_rate_limit_per_ip: {
+        format: :boolean,
+        default: true,
+        writable: false,
+        description: "Count registration rate limits per client IP. Set to false to count based on hostname itself."
+      },
       remote_storage_upload_host: {
         format: :string,
         default: nil,
