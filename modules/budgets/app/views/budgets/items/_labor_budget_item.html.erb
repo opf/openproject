@@ -53,15 +53,15 @@ See COPYRIGHT and LICENSE files for more details.
           <label class="sr-only" for="<%= id_prefix %>_units"><%= LaborBudgetItem.human_attribute_name(:hours) %></label>
           <%= cost_form.text_field :hours,
                                    index: id_or_index,
-                                   value: unitless_currency_number(labor_budget_item.hours),
+                                   value: DurationConverter.output(labor_budget_item.hours),
                                    # Avoid a number field due to chrome bug (OP#32232)
-                                   # but show the appearance of a decimal field on mobile
-                                   inputmode: :decimal,
-                                   placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
+                                   placeholder: t(:label_example_placeholder, decimal: "2d 10h"),
                                    class: "budget-item-value form--text-field",
                                    data: {
+                                     controller: "chronic-duration",
                                      "request-key": "hours",
-                                     action: "keyup->costs--budget-subform#valueChanged"
+                                     action: "keyup->costs--budget-subform#valueChanged",
+                                     **DurationConverter.stimulus_data_values("chronic-duration")
                                    } %>
         </div>
       </div>
