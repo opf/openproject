@@ -190,6 +190,8 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           display: this.datasets.length > 1,
         },
         datalabels: {
+          // Opt-in explicitly: render chartjs-plugin-datalabels (see init-chartjs.ts)
+          display: true,
           anchor: 'center',
           align: this.chartType === 'bar' ? 'top' : 'center',
           color: bodyFontColor,

@@ -83,9 +83,6 @@ export class BurndownChartComponent {
     plugins: {
       legend: {
         position: 'top'
-      },
-      datalabels: {
-        display: false
       }
     }
   }));

@@ -39,3 +39,6 @@ import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/p
 // any component and multiple charts on the same page do not compete for a conflicting
 // set of plugins.
 Chart.register(...registerables, ChartDataLabels, PrimerColorsPlugin);
+
+// Require charts using the data labels plugin to opt-in instead of the default opt-out:
+Chart.defaults.set('plugins.datalabels', { display: false });
