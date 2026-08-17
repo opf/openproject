@@ -219,6 +219,12 @@ module Settings
       bcc_recipients: {
         default: true
       },
+      blocked_email_domains: {
+        format: :array,
+        description: "Email domains that may not be used for user accounts. Subdomains are blocked as well. " \
+                     "Recipients on these domains are also skipped when sending emails.",
+        default: []
+      },
       boards_demo_data_available: {
         description: "Internal setting determining availability of demo seed data",
         default: false

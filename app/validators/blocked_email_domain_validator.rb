@@ -28,11 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+# Rejects email addresses whose domain is listed in the `blocked_email_domains` setting.
+class BlockedEmailDomainValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    return if value.blank?
+    return unless OpenProject::BlockedEmailDomains.blocked?(value)
+
+    record.errors.add attribute, :blocked_domain
+  end
 end
