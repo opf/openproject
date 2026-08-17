@@ -39,6 +39,10 @@ module Backlogs
           t("backlogs.sprint_reports.widgets.work_package_graph.title")
         end
 
+        def wrapper_arguments
+          { full_width: true }
+        end
+
         def call
           widget_wrapper do |widget|
             widget.with_body do
