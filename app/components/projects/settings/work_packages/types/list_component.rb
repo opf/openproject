@@ -81,15 +81,15 @@ module Projects
           # This page is the project's own, not one of the shared variant screens, so it names
           # the project rather than relying on the controller to keep it in the path.
           def add_variant_path(type)
-            new_creation_wizard_types_path(project_id: project, type_id: type.id)
+            new_creation_wizard_types_path(in_project_id: project, type_id: type.id)
           end
 
           def edit_variant_path(variant)
-            edit_type_details_path(project_id: project, type_id: variant.type_id, variant_id: variant.id)
+            edit_type_details_path(in_project_id: project, type_id: variant.type_id, variant_id: variant.id)
           end
 
           def delete_variant_path(variant)
-            type_variant_path(project_id: project, type_id: variant.type_id, id: variant.id)
+            type_variant_path(in_project_id: project, type_id: variant.type_id, id: variant.id)
           end
 
           def variant_actions(menu, variant)

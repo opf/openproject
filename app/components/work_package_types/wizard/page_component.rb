@@ -83,12 +83,17 @@ module WorkPackageTypes
       # A type still being created has no variant to address yet.
       def variant_path_args = variant&.path_args || { type_id: type.id }
 
+      # The scope has to be named here. Every other route these screens use carries the project
+      # as a segment the request already fills in, but this one is on the type collection, so
+      # nothing in the request matches it and the form would post to administration.
       def step_form_url
         return step_url if record_persisted?
 
-        return helpers.creation_wizard_types_path(type_id: type.id, back_url:) if adding_variant?
+        scope = { in_project_id: helpers.variant_scope_project, back_url: }
 
-        helpers.creation_wizard_types_path(back_url:)
+        return helpers.creation_wizard_types_path(type_id: type.id, **scope) if adding_variant?
+
+        helpers.creation_wizard_types_path(**scope)
       end
 
       def step_form_method

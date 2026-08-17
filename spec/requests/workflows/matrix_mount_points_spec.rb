@@ -47,7 +47,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
   before { login_as admin }
 
   it "renders the matrix frame with the transition menu and no form of its own" do
-    get type_workflow_matrix_path(type_id: type, tab: "always", role_ids: [role.id]),
+    get type_workflow_matrix_path(type, tab: "always", role_ids: [role.id]),
         headers: { "Turbo-Frame" => "workflow-table" }
 
     expect(response).to have_http_status(:ok)
@@ -58,18 +58,18 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
   end
 
   it "renders the type edit page shell with the form and Save around the lazy frame" do
-    get edit_type_workflow_path(type_id: type)
+    get edit_type_workflow_path(type)
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("turbo-frame")
-    expect(response.body).to include("action=\"#{type_workflow_matrix_path(type_id: type, tab: 'always')}\"")
+    expect(response.body).to include("action=\"#{type_workflow_matrix_path(type, tab: 'always')}\"")
     expect(response.body).to have_css(".workflow-save-bar button[type=submit]", text: I18n.t(:button_save))
   end
 
   it "omits the Save bar while the workflows aspect is linked to another type" do
     link_configuration(type, source: create(:type), aspect: TypeVariant::WORKFLOWS)
 
-    get edit_type_workflow_path(type_id: type)
+    get edit_type_workflow_path(type)
 
     expect(response).to have_http_status(:ok)
     expect(response.body).not_to include("workflow-save-bar")

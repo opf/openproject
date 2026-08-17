@@ -73,20 +73,20 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers to add one" do
       expect(page).to have_link(
         "Add a variant for this project",
-        href: new_creation_wizard_types_path(project_id: project, type_id: bug.id)
+        href: new_creation_wizard_types_path(in_project_id: project, type_id: bug.id)
       )
     end
 
     it "offers to configure the one it owns" do
       expect(page).to have_link(
         "Edit",
-        href: edit_type_details_path(project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
       )
     end
 
     it "offers to delete the one it owns" do
       expect(page).to have_css(
-        "form[action='#{type_variant_path(project_id: project, type_id: bug.id, id: ours.id)}']",
+        "form[action='#{type_variant_path(in_project_id: project, type_id: bug.id, id: ours.id)}']",
         visible: :all
       )
     end
@@ -95,7 +95,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers no action on a global variant" do
       expect(page).to have_no_link(
         "Edit",
-        href: edit_type_details_path(project_id: project, type_id: bug.id, variant_id: global.id)
+        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
       )
     end
   end

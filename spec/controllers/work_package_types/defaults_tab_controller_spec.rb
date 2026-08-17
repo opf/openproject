@@ -43,7 +43,7 @@ module WorkPackageTypes
 
       it "requires login" do
         get :edit, params: { type_id: wp_type.id }
-        expect(response.status).to redirect_to signin_url(back_url: edit_type_defaults_url(type_id: wp_type))
+        expect(response.status).to redirect_to signin_url(back_url: edit_type_defaults_url(wp_type))
       end
     end
 

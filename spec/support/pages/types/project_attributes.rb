@@ -22,7 +22,7 @@ module Pages
       end
 
       def path
-        edit_type_project_attributes_path(type_id: @type)
+        edit_type_project_attributes_path(@type)
       end
 
       def toggle(project_custom_field)

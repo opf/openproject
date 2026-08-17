@@ -30,40 +30,57 @@
 
 require "spec_helper"
 
-# The variant screens carry an optional project prefix, which makes :project_id the first segment
-# these routes have. A positional argument therefore fills the project rather than the type as soon
-# as the type is already a path parameter — silently, with a plausible URL naming the type's id as a
-# project. Every call site was normalised to keyword arguments for that reason; this is what keeps
-# them that way, because nothing in Ruby or Rails will complain about a positional one.
+# The variant screens carry an optional project segment, and where it sits in the path decides what
+# an argument nobody named means. Behind the type it is inert: a positional argument fills the type,
+# and a caller that says nothing about a project gets none. Ahead of the type — which is where a
+# project prefix would naturally go — it would take that positional argument for itself as soon as
+# the type is already a path parameter, and quietly produce a URL naming the type's id as a project.
 #
-# Deliberately a controller spec: the trap only exists in a request context, where path parameters
-# are there to be fallen back on. Generated from the bare url_helpers it looks correct either way.
+# So this is what allows every call site in the codebase to go on passing a type positionally, and
+# nothing in Ruby or Rails would report the difference.
+#
+# Deliberately a controller spec: both the fallback on path parameters and the project the scope
+# adds only exist in a request context. From the bare url_helpers every form here looks correct.
 module WorkPackageTypes
   RSpec.describe WorkflowTabController do
     shared_let(:type) { create(:type) }
     shared_let(:project) { create(:project) }
 
-    current_user { create(:admin) }
+    describe "from administration" do
+      current_user { create(:admin) }
 
-    before { get :edit, params: { type_id: type.id } }
+      before { get :edit, params: { type_id: type.id } }
 
-    it "puts the type in the type's segment when it is named" do
-      expect(edit_type_workflow_path(type_id: type.id)).to eq("/types/#{type.id}/workflow/edit")
+      it "fills the type from a positional argument" do
+        expect(edit_type_workflow_path(type)).to eq("/types/#{type.id}/workflow/edit")
+      end
+
+      it "generates the same path from a named one" do
+        expect(edit_type_workflow_path(type_id: type.id)).to eq(edit_type_workflow_path(type))
+      end
+
+      it "names no project" do
+        expect(edit_type_workflow_path(type)).not_to include("in-project")
+      end
     end
 
-    it "leaves the project out of an administration path" do
-      expect(edit_type_workflow_path(type_id: type.id)).not_to include("/projects/")
-    end
+    # How the project gets into a path when nobody names it — it is a segment of the route being
+    # generated, filled in from the request already being served — is a rendering fact, and lives
+    # in spec/requests/projects/settings/work_packages/types/owned_variant_url_scoping_spec.rb.
+    describe "when the project is named" do
+      current_user { create(:admin) }
 
-    it "reaches the project's copy of the same screen when the project is named" do
-      expect(edit_type_workflow_path(project_id: project.identifier, type_id: type.id))
-        .to eq("/projects/#{project.identifier}/settings/work_packages/types/#{type.id}/workflow/edit")
-    end
+      before { get :edit, params: { type_id: type.id } }
 
-    # What a positional argument does here, recorded so the surprise is on the record rather than
-    # in a URL: it fills the project, not the type.
-    it "fills the project from a positional argument, which is why call sites name their arguments" do
-      expect(edit_type_workflow_path(type)).to include("/projects/#{type.id}/")
+      it "addresses the project's copy of the screen" do
+        expect(edit_type_workflow_path(in_project_id: project, type_id: type.id))
+          .to eq("/types/#{type.id}/in-project/#{project.identifier}/workflow/edit")
+      end
+
+      it "keeps the type in its own segment" do
+        expect(edit_type_workflow_path(in_project_id: project, type_id: type.id))
+          .to include("/types/#{type.id}/")
+      end
     end
   end
 end

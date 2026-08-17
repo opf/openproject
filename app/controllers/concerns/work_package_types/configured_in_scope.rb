@@ -66,7 +66,7 @@ module WorkPackageTypes
       # ApplicationController#user_setup, so the current user is known, and before any callback a
       # controller adds of its own, which read what these resolve.
       before_action :require_admin, unless: :variant_scope_requested?
-      before_action :find_project_by_project_id, :authorize, :require_type_variants_feature,
+      before_action :find_project_by_in_project_id, :authorize, :require_type_variants_feature,
                     if: :variant_scope_requested?
     end
 
@@ -79,17 +79,15 @@ module WorkPackageTypes
       super
     end
 
-    # Keeps the project in every path these screens render, so a component names a route without
-    # knowing which of the two addresses it is answering at.
-    def default_url_options
-      return super unless variant_scope_requested?
-
-      super.merge(project_id: params[:project_id])
-    end
-
     private
 
-    def variant_scope_requested? = params[:project_id].present?
+    # Deliberately not :project_id. The projects tab already takes a project_id, naming a
+    # project in its list rather than the one asking, and the two would be indistinguishable.
+    def variant_scope_requested? = params[:in_project_id].present?
+
+    def find_project_by_in_project_id
+      @project = Project.visible.find(params.expect(:in_project_id))
+    end
 
     def variant_scope_project = @project
 

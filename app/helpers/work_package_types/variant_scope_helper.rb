@@ -31,9 +31,9 @@
 module WorkPackageTypes
   # Which of the two addresses a variant configuration screen is answering at.
   #
-  # The paths need no help: one route with an optional project prefix serves both, and the
-  # controller keeps the project in default_url_options, so a component names a route exactly as
-  # it always did. What still differs is what a page says about where it is, and the one tab a
+  # The paths need no help: one route with an optional project segment serves both, and the
+  # project is a segment of the route being generated, so it is filled in from the path already
+  # being served. What still differs is what a page says about where it is, and the one tab a
   # project has no business with.
   module VariantScopeHelper
     # rubocop:disable Rails/HelperInstanceVariable
@@ -52,11 +52,12 @@ module WorkPackageTypes
     end
 
     # Where the trail ends up when the wizard or a tab is left: a project has no screen for the
-    # type itself. types_path would take the project along as a query parameter, so it is named.
+    # type itself. This route has no in_project_id segment to absorb the one the request carries,
+    # so it has to be dropped or it rides along as a query parameter.
     def variant_scope_types_path
       return types_path if variant_scope_project.nil?
 
-      project_settings_work_packages_types_path(variant_scope_project)
+      project_settings_work_packages_types_path(variant_scope_project, in_project_id: nil)
     end
 
     # What to call the place these screens are rendered in, for the page title. The layout appends

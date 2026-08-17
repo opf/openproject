@@ -52,13 +52,13 @@ RSpec.describe "Workflow copy from type", :js do
       click_button "Copy"
 
       expect(page).to have_css(".flash-success", text: "Successfully copied workflow to 2 types.")
-      expect(page).to have_current_path(edit_type_workflow_path(type_id: types.second))
+      expect(page).to have_current_path(edit_type_workflow_path(types.second))
     end
   end
 
   describe "from the workflow tab" do
     before do
-      visit edit_type_workflow_path(type_id: type)
+      visit edit_type_workflow_path(type)
       click_link "Copy"
     end
 

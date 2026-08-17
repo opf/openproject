@@ -56,7 +56,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
         end.to change(Type, :count).by(1)
 
         type = Type.find_by!(name: "Critical")
-        expect(response).to redirect_to(type_creation_wizard_path(type_id: type, step: :defaults))
+        expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
       end
 
       context "with invalid params" do
@@ -107,7 +107,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
           patch :update, params: { type_id: type.id, step: :details, type: { name: "Blocker" } }
 
           expect(type.reload.name).to eq("Blocker")
-          expect(response).to redirect_to(type_creation_wizard_path(type_id: type, step: :defaults))
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
         end
       end
 
@@ -116,7 +116,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
         it "advances to the next step" do
           patch :update, params: { type_id: type.id, step: :workflows }
 
-          expect(response).to redirect_to(type_creation_wizard_path(type_id: type, step: :projects))
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
         end
       end
 

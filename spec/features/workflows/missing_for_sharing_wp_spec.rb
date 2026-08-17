@@ -67,7 +67,7 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
 
     # The warning links to the types administration; open the type's workflow tab from there.
     expect(page).to have_current_path(types_path)
-    visit edit_type_workflow_path(type_id: type)
+    visit edit_type_workflow_path(type)
 
     # On the copy workflow form, the source role is pre-selected from the tab;
     # copy its workflow to the work package edit role.

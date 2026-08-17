@@ -55,7 +55,7 @@ RSpec.describe "form configuration", :js, :selenium,
 
       before do
         login_as(admin)
-        visit edit_type_form_configuration_path(type_id: type)
+        visit edit_type_form_configuration_path(type)
       end
 
       def persisted_group_order
@@ -277,7 +277,7 @@ RSpec.describe "form configuration", :js, :selenium,
         let!(:custom_field) { create(:issue_custom_field, :integer, name: "MyNumber") }
 
         before do
-          visit edit_type_form_configuration_path(type_id: type)
+          visit edit_type_form_configuration_path(type)
         end
 
         it "shows field format labels beside attributes" do
@@ -312,7 +312,7 @@ RSpec.describe "form configuration", :js, :selenium,
       it "keeps a saved custom group when canceling rename" do
         form.add_attribute_group("Saved custom group")
 
-        visit edit_type_form_configuration_path(type_id: type)
+        visit edit_type_form_configuration_path(type)
 
         group_key = form.send(:find_group, "Saved custom group")["data-group-key"]
         form.send(:open_group_menu, "Saved custom group")
@@ -494,7 +494,7 @@ RSpec.describe "form configuration", :js, :selenium,
         custom_field
 
         login_as(admin)
-        visit edit_type_form_configuration_path(type_id: type)
+        visit edit_type_form_configuration_path(type)
       end
 
       it "shows the field" do
@@ -522,7 +522,7 @@ RSpec.describe "form configuration", :js, :selenium,
         custom_field
 
         login_as(admin)
-        visit edit_type_form_configuration_path(type_id: type)
+        visit edit_type_form_configuration_path(type)
 
         # Should be initially disabled
         form.expect_inactive(cf_identifier)
@@ -601,7 +601,7 @@ RSpec.describe "form configuration", :js, :selenium,
   describe "without EE token", with_ee: false do
     it "hides protected group actions" do
       login_as(admin)
-      visit edit_type_form_configuration_path(type_id: type)
+      visit edit_type_form_configuration_path(type)
 
       expect(page).to have_no_test_selector("type-form-configuration-add-button")
 
@@ -618,7 +618,7 @@ RSpec.describe "form configuration", :js, :selenium,
       variant.save!
 
       login_as(admin)
-      visit edit_type_form_configuration_path(type_id: type)
+      visit edit_type_form_configuration_path(type)
 
       expect(page).to have_no_test_selector("type-form-configuration-query-actions-Subtasks")
     end
@@ -627,7 +627,7 @@ RSpec.describe "form configuration", :js, :selenium,
   describe "with EE token", with_ee: %i[edit_attribute_groups] do
     it "shows protected group actions" do
       login_as(admin)
-      visit edit_type_form_configuration_path(type_id: type)
+      visit edit_type_form_configuration_path(type)
 
       menu_id = form.send(:open_group_menu, "Details")
       within "##{menu_id}" do
@@ -649,7 +649,7 @@ RSpec.describe "form configuration", :js, :selenium,
         end
 
       login_as(admin)
-      visit edit_type_form_configuration_path(type_id: type)
+      visit edit_type_form_configuration_path(type)
 
       form.expect_group("details", "Details")
       form.add_attribute_group("New Group")
