@@ -108,7 +108,7 @@ RSpec.describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p class="op-uc-p">
-            <a class="op-uc-link" target="_top" href="/projects/my-project/work_packages/new?type=#{type.id}">New MyTaskName</a>
+            <a class="op-uc-link" target="_top" href="/projects/my-project/work_packages/new?type=#{type.id}">+ MyTaskName</a>
           </p>
         EXPECTED
       end
@@ -125,7 +125,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              <a class="button op-uc-link" target="_top" href="/projects/my-project/work_packages/new?type=#{type.id}">New MyTaskName</a>
+              <a class="button op-uc-link" target="_top" href="/projects/my-project/work_packages/new?type=#{type.id}">+ MyTaskName</a>
             </p>
           EXPECTED
         end
