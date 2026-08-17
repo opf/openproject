@@ -71,13 +71,12 @@ module API
                                    href_callback: ->(*) { nil }
 
           schema_with_allowed_link :parent,
-                                   v3_path: :wiki_page,
-                                   title_getter: ->(*) { represented.parent&.title },
+                                   type: "WikiPage",
                                    href_callback: ->(*) { nil },
                                    required: false
 
           schema_with_allowed_link :author,
-                                   v3_path: :user,
+                                   type: "User",
                                    writable: false,
                                    required: false,
                                    href_callback: ->(*) { nil }
