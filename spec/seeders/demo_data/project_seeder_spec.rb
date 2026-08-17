@@ -131,7 +131,7 @@ RSpec.describe DemoData::ProjectSeeder do
       version = Version.find_by(name: "The product backlog")
       query = Query.find_by(name: "Product Backlog query")
       expect(query.filters)
-        .to include(a_filter(Queries::WorkPackages::Filter::VersionFilter, values: [version.id.to_s]))
+        .to include(a_filter(Queries::WorkPackages::Filter::TargetVersionsFilter, values: [version.id.to_s]))
     end
   end
 
