@@ -152,6 +152,13 @@
             [principal]="item.author"
             [hideName]="true"
            />
+        } @else {
+          <span
+            class="op-autocompleter--option-principal op-autocompleter--option-principal-fallback op-avatar op-avatar--fallback"
+            aria-hidden="true"
+          >
+            <op-icon icon-classes="icon-user" />
+          </span>
         }
         <span
           class="op-autocompleter--wp-subject"
