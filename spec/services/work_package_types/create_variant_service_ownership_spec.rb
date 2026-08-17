@@ -40,7 +40,7 @@ RSpec.describe WorkPackageTypes::CreateVariantService, "owning project" do
   end
 
   def call(user:, project: nil)
-    described_class.new(user:, type:, project:).call(variant_name: "Internal")
+    described_class.new(user:, type:).call(variant_name: "Internal", project:)
   end
 
   describe "a project administrator" do

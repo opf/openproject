@@ -38,11 +38,13 @@ module WorkPackageTypes
 
     attribute :variant_name
 
-    # Set by CreateVariantService rather than by whoever calls it: a new variant belongs to the
-    # type it was added to, is owned by the project it was created from, if any, and starts out
-    # Linked to that type's base configuration.
-    attribute :type_id
+    # The owner an :error_unauthorized is raised over, so it has to be writable for the rule in
+    # AuthorizesVariantAuthoring to be the one that decides.
     attribute :project_id
+
+    # Set by CreateVariantService rather than by whoever calls it: a new variant belongs to the
+    # type it was added to and starts out Linked to that type's base configuration.
+    attribute :type_id
     TypeVariant::ASPECTS.each { |aspect| attribute :"#{aspect}_source_id" }
   end
 end

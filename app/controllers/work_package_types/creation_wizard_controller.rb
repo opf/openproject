@@ -97,8 +97,8 @@ module WorkPackageTypes
     def create_variant
       @type = ::Type.find(params.expect(:type_id))
       service_call = WorkPackageTypes::CreateVariantService
-                       .new(user: current_user, type: @type, project: variant_scope_project)
-                       .call(variant_details_params)
+                       .new(user: current_user, type: @type)
+                       .call(new_variant_params)
       @variant = service_call.result
 
       if service_call.success?
@@ -229,6 +229,12 @@ module WorkPackageTypes
 
     def variant_details_params
       params.expect(type_variant: [:variant_name])
+    end
+
+    # The owner is the project this was routed through, merged last so that it wins over anything
+    # the body carries under that name.
+    def new_variant_params
+      variant_details_params.to_h.merge(project: variant_scope_project)
     end
 
     def defaults_params

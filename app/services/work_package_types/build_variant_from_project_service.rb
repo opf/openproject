@@ -81,8 +81,8 @@ module WorkPackageTypes
 
     def create_variant(project)
       CreateVariantService
-        .new(user:, type: source.type, project:)
-        .call(variant_name: variant_name(project))
+        .new(user:, type: source.type)
+        .call(variant_name: variant_name(project), project:)
     end
 
     # A new variant starts out linked to its type's base configuration. When the project resolved

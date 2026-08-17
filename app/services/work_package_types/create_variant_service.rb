@@ -30,24 +30,22 @@ module WorkPackageTypes
   # It starts out Linked to the type's base variant for every aspect, which is what makes it a
   # variation of that configuration rather than an empty one. Each aspect goes Independent
   # later, when someone edits it.
+  # Pass +project+ to make the variant that project's own, usable and visible nowhere else.
+  # Whoever may own it is CreateVariantContract's business, not the caller's.
   class CreateVariantService < ::BaseServices::Create
-    # +project+ makes the new variant that project's own, usable and visible nowhere else.
-    # It is a constructor argument rather than an attribute so that no request can name an
-    # owner it was not routed through.
-    def initialize(user:, type:, project: nil, contract_class: nil, contract_options: {})
+    def initialize(user:, type:, contract_class: nil, contract_options: {})
       @type = type
-      @project = project
       super(user:, contract_class:, contract_options:)
     end
 
     protected
 
-    attr_reader :type, :project
+    attr_reader :type
 
     def instance_class = TypeVariant
 
     def instance(_params)
-      type.variants.new(project:).tap do |variant|
+      type.variants.new.tap do |variant|
         TypeVariant::ASPECTS.each { |aspect| variant.public_send(:"#{aspect}_source=", type.default_variant) }
       end
     end
