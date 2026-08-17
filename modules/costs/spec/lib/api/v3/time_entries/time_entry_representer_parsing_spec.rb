@@ -212,11 +212,6 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
     end
 
     describe "endTime" do
-      # Regression test: end_time is purely derived (start_time + hours) and
-      # has no setter of its own on TimeEntry. Representable used to fall
-      # through to a raw `send(:end_time=, value)` when a client sent
-      # endTime on write, crashing with NoMethodError instead of silently
-      # ignoring the unwritable field.
       context "when tracking start and end time" do
         before do
           allow(TimeEntry).to receive_messages(
@@ -224,9 +219,8 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
             must_track_start_and_end_time?: false
           )
 
-          # Deliberately a different value than what start_time + hours would derive
-          # (12:30 + 5h = 17:30) -- proves the sent endTime is actually ignored, not
-          # coincidentally equal to the derived value.
+          # Different from the start_time + hours derived value (17:30), so a match would
+          # prove the sent endTime was actually ignored, not coincidentally equal.
           hash["endTime"] = "2017-07-28T23:00:00Z"
         end
 
@@ -234,8 +228,8 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
           parsed = nil
           expect { parsed = representer.from_hash(hash) }.not_to raise_error
 
-          # timezone would normally be set via the SetAttribute service -- set it manually here,
-          # same as the analogous startTime spec above, so end_timestamp can be computed.
+          # Normally set via the SetAttribute service; set manually here so end_timestamp
+          # can be computed, same as the analogous startTime spec above.
           parsed.time_zone = "UTC"
 
           expect(parsed.end_timestamp).to eq(DateTime.parse("2017-07-28T17:30:00Z"))
