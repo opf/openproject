@@ -64,7 +64,7 @@ module WorkPackageTypes
       {
         draggable_id: template.id,
         draggable_type: "template",
-        drop_url: helpers.drop_type_pdf_export_template_path(**@variant.path_args, id: template.id),
+        drop_url: drop_type_pdf_export_template_path(**@variant.path_args, id: template.id),
         test_selector: "pdf-export-template-row-#{template.id}"
       }
     end

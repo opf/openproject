@@ -35,7 +35,7 @@ module WorkPackageTypes
     include OpTurbo::Streamable
 
     def form_options
-      { url: helpers.type_details_path(**path_args), method: :patch, model: }
+      { url: type_details_path(**path_args), method: :patch, model: }
     end
 
     private

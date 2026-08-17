@@ -79,7 +79,7 @@ module WorkPackageTypes
         previous_step = Steps.previous_before(current_step, variant)
         return unless previous_step && record_persisted?
 
-        helpers.type_creation_wizard_path(**variant_path_args, step: previous_step, back_url:)
+        type_creation_wizard_path(**variant_path_args, step: previous_step, back_url:)
       end
 
       def variant_path_args = variant&.path_args || { type_id: type.id }
@@ -92,7 +92,7 @@ module WorkPackageTypes
         return back_url if back_url.present?
         return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
-        helpers.edit_type_details_path(type_id: type.id)
+        edit_type_details_path(type_id: type.id)
       end
     end
   end

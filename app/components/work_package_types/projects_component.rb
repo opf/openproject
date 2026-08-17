@@ -36,7 +36,7 @@ module WorkPackageTypes
 
     def form_options
       {
-        url: helpers.type_projects_path(**variant.path_args),
+        url: type_projects_path(**variant.path_args),
         method: :put,
         model:,
         data: {

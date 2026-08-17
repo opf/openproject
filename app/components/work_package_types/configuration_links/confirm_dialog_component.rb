@@ -68,7 +68,7 @@ module WorkPackageTypes
       end
 
       def switch_path
-        helpers.type_configuration_link_switch_path(**variant.path_args, aspect:)
+        type_configuration_link_switch_path(**variant.path_args, aspect:)
       end
     end
   end

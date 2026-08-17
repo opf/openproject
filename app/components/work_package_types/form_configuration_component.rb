@@ -57,14 +57,6 @@ module WorkPackageTypes
       @exclusion_state = readonly? ? WorkPackageTypes::ExclusionState.for(@variant, ASPECT) : nil
     end
 
-    def add_group_url
-      helpers.add_group_type_form_configuration_groups_path(**@variant.path_args)
-    end
-
-    def groups_url
-      helpers.type_form_configuration_groups_path(**@variant.path_args)
-    end
-
     def ee_available?
       EnterpriseToken.allows_to?(:edit_attribute_groups)
     end
@@ -87,8 +79,10 @@ module WorkPackageTypes
       {
         controller: "admin--type-form-configuration--main admin--type-form-configuration--rows-drag-and-drop",
         "admin--type-form-configuration--main-no-filter-query-value": @no_filter_query,
-        "admin--type-form-configuration--main-add-group-url-value": add_group_url,
-        "admin--type-form-configuration--main-groups-url-value": groups_url,
+        "admin--type-form-configuration--main-add-group-url-value": add_group_type_form_configuration_groups_path(
+          **@variant.path_args
+        ),
+        "admin--type-form-configuration--main-groups-url-value": type_form_configuration_groups_path(**@variant.path_args),
         "admin--type-form-configuration--rows-drag-and-drop-handle-selector-value": ".attribute-handle"
       }
     end

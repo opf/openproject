@@ -76,15 +76,13 @@ module WorkPackageTypes
       end
 
       def edit_path
-        helpers.edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                        key: @group[:key])
+        edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def update_path
         return create_path if temporary_group?
 
-        helpers.type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                   key: @group[:key])
+        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def form_method
@@ -92,18 +90,15 @@ module WorkPackageTypes
       end
 
       def cancel_edit_path
-        helpers.cancel_edit_type_form_configuration_group_path(**@variant.path_args,
-                                    key: @group[:key])
+        cancel_edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def move_path(move_to)
-        helpers.move_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                        key: @group[:key], move_to:)
+        move_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key], move_to:)
       end
 
       def destroy_path
-        helpers.type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                   key: @group[:key])
+        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def temporary_group?
@@ -111,7 +106,7 @@ module WorkPackageTypes
       end
 
       def create_path
-        helpers.type_form_configuration_groups_path(**@variant.path_args)
+        type_form_configuration_groups_path(**@variant.path_args)
       end
 
       def move_action(menu:, href:, label:, icon:)

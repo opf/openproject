@@ -71,14 +71,12 @@ module WorkPackageTypes
         return back_url if back_url.present?
         return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
-        helpers.edit_type_details_path(type_id: type.id)
+        edit_type_details_path(type_id: type.id)
       end
 
       def step_title = Steps.title(current_step)
 
-      def step_url
-        helpers.type_creation_wizard_path(**variant_path_args, step: current_step, back_url:)
-      end
+      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step, back_url:)
 
       # A type still being created has no variant to address yet.
       def variant_path_args = variant&.path_args || { type_id: type.id }
@@ -91,9 +89,9 @@ module WorkPackageTypes
 
         scope = { in_project_id: helpers.variant_scope_project, back_url: }
 
-        return helpers.creation_wizard_types_path(type_id: type.id, **scope) if adding_variant?
+        return creation_wizard_types_path(type_id: type.id, **scope) if adding_variant?
 
-        helpers.creation_wizard_types_path(**scope)
+        creation_wizard_types_path(**scope)
       end
 
       def step_form_method
