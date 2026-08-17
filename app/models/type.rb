@@ -42,6 +42,7 @@ class Type < ApplicationRecord
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
   store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
+  store_attribute :pdf_export_templates_config, :export_templates_settings, :json
 
   before_destroy :check_integrity
 
@@ -305,9 +306,6 @@ class Type < ApplicationRecord
     @pdf_export_templates ||= ::Type::PdfExportTemplates.new(self)
   end
 
-  # The store_attribute :default is not returned when the JSON key is present
-  # but nil, so mirror the getter-override pattern used elsewhere (see
-  # Projects::CreationWizard) to guarantee a value.
   def artefact_export_mode
     super.presence || Type::ArtefactExport::DEFAULT
   end

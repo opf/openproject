@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -23,29 +23,34 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackageTypes
-  class ExportTemplateRowComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module WorkPackages
+  module Exports
+    module Generate
+      module Templates
+        # The hyphenation checkbox + language select every PDF export template's settings
+        # component renders identically; only the DOM id needs disambiguating per template
+        # since all three templates' forms can be present in the same Generate PDF dialog at once.
+        class HyphenationFieldsComponent < ApplicationComponent
+          include OpPrimer::ComponentHelpers
+          include HyphenationOptions
 
-    def initialize(type:, template:, readonly: false)
-      super
+          attr_reader :template_id, :enabled, :language, :disabled
 
-      @template = template
-      @type = type
-      @readonly = readonly
-    end
+          def initialize(template_id:, enabled:, language:, disabled: false)
+            super()
 
-    def readonly? = @readonly
-
-    def edit_settings_path
-      edit_settings_type_pdf_export_template_path(type_id: @type.id, id: @template.id)
+            @template_id = template_id
+            @enabled = enabled
+            @language = language
+            @disabled = disabled
+          end
+        end
+      end
     end
   end
 end

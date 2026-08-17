@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,17 +31,43 @@
 module WorkPackageTypes
   class PdfExportTemplateController < ApplicationController
     include OpTurbo::ComponentStream
+
     layout "admin"
 
     before_action :require_admin
-    before_action :find_type, only: %i[edit toggle drop enable_all disable_all update_artefact_export]
-    before_action :find_template, only: %i[toggle drop]
+    before_action :find_type,
+                  only: %i[edit toggle drop enable_all disable_all update_artefact_export edit_settings
+                           update_settings]
+    before_action :find_template, only: %i[toggle drop edit_settings update_settings]
+
+    rescue_from Type::PdfExportTemplates::ReadonlyError, with: :render_readonly_error
 
     current_menu_item do
       :types
     end
 
     def edit; end
+
+    def edit_settings
+      return head :not_found if @template.nil?
+
+      @settings = @type.pdf_export_templates.settings_for(@template.id)
+      @readonly = @type.pdf_export_templates.readonly?
+    end
+
+    def update_settings
+      return head :not_found if @template.nil?
+
+      if params[:commit] == "reset"
+        reset_settings!
+      else
+        @type.pdf_export_templates.update_settings(@template.id, permitted_settings)
+        @type.save!
+      end
+
+      redirect_to edit_type_pdf_export_template_index_path(type_id: @type.id),
+                  notice: I18n.t(:notice_successful_update)
+    end
 
     def update_artefact_export
       mode = params.dig(:type, :artefact_export_mode)
@@ -92,6 +118,17 @@ module WorkPackageTypes
 
     protected
 
+    def permitted_settings
+      params.permit(*@template.settings_component.fields).to_h
+    end
+
+    def reset_settings!
+      @template.settings_component.fields.each do |field|
+        @type.pdf_export_templates.clear_setting(@template.id, field)
+      end
+      @type.save!
+    end
+
     def respond_section_with_turbo_streams
       replace_via_turbo_stream(
         component: ::WorkPackageTypes::ExportTemplateListComponent.new(type: @type)
@@ -101,6 +138,17 @@ module WorkPackageTypes
 
     def render_404_turbo_stream
       render_error_flash_message_via_turbo_stream(message: t(:notice_file_not_found))
+    end
+
+    def render_readonly_error
+      message = I18n.t("types.edit.export_configuration.templates.readonly_error")
+
+      if request.format.turbo_stream?
+        render_error_flash_message_via_turbo_stream(message:)
+        respond_with_turbo_streams(status: :forbidden)
+      else
+        redirect_to edit_type_pdf_export_template_index_path(type_id: @type.id), alert: message
+      end
     end
 
     def find_type

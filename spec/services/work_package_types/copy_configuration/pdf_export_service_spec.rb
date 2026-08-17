@@ -42,6 +42,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::PdfExportService do
       let(:source) do
         create(:type).tap do |t|
           t.pdf_export_templates.disable_all
+          t.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
           t.save!
         end
       end
@@ -49,6 +50,11 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::PdfExportService do
       it "copies the source's PDF export config onto the type" do
         expect(service_call).to be_success
         expect(type.reload.export_templates_disabled).to eq(source.export_templates_disabled)
+      end
+
+      it "copies the source's per-template settings onto the type" do
+        expect(service_call).to be_success
+        expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq(footer_text: "Source footer")
       end
     end
 

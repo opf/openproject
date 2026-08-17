@@ -32,7 +32,9 @@ require "rails_helper"
 
 RSpec.describe WorkPackageTypes::ExportTemplateRowComponent, type: :component do
   let(:type) { create(:type) }
-  let(:template) { Type::PdfExportTemplates::Template.new(id: 1, label: "Full", caption: "A4", enabled: true) }
+  let(:template) do
+    Type::PdfExportTemplates::Template.new(id: 1, label: "Full", caption: "A4", enabled: true, settings_component: nil)
+  end
 
   context "when readonly" do
     it "renders the toggle as a disabled, non-interactive switch", :aggregate_failures do

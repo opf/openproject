@@ -1,0 +1,110 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe "type PDF export template settings", :js do
+  shared_let(:admin) { create(:admin) }
+  let(:type) { create(:type) }
+
+  before do
+    login_as(admin)
+    visit edit_type_pdf_export_template_index_path(type)
+  end
+
+  it "edits, saves, and resets a template's settings, and can be left via Cancel" do
+    page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
+
+    fill_in "footer_text", with: "Custom footer text"
+    select "Landscape", from: "page_orientation"
+    click_link_or_button I18n.t(:button_save)
+
+    expect(page).to have_current_path(edit_type_pdf_export_template_index_path(type))
+    expect(page).to have_text(I18n.t(:notice_successful_update))
+    expect(type.reload.pdf_export_templates.settings_for("attributes"))
+      .to include(footer_text: "Custom footer text", page_orientation: "landscape")
+
+    page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
+    expect(page).to have_field("footer_text", with: "Custom footer text")
+
+    accept_confirm do
+      click_link_or_button I18n.t("types.edit.export_configuration.templates.settings.reset_to_default")
+    end
+
+    expect(page).to have_current_path(edit_type_pdf_export_template_index_path(type))
+    expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq({})
+  end
+
+  it "is reachable via the template name link (not just the edit-settings icon), with the page title and " \
+     "breadcrumb reflecting where it is" do
+    template = type.pdf_export_templates.find("attributes")
+    click_link_or_button template.label
+
+    expect(page).to have_current_path(
+      edit_settings_type_pdf_export_template_path(type_id: type.id, id: "attributes")
+    )
+    expect(page).to have_css(
+      ".PageHeader-title",
+      text: I18n.t("types.edit.export_configuration.templates.settings.title", template: template.label)
+    )
+    within(".PageHeader-breadcrumbs") do
+      expect(page).to have_link(I18n.t("types.edit.export_configuration.tab"))
+      expect(page).to have_css("[aria-current='page']", text: template.label)
+    end
+  end
+
+  it "leaves the settings unchanged when navigating away via Cancel" do
+    page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
+
+    fill_in "footer_text", with: "Unsaved footer text"
+    click_link_or_button I18n.t(:button_cancel)
+
+    expect(page).to have_current_path(edit_type_pdf_export_template_index_path(type))
+    expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq({})
+  end
+
+  context "when the type links its PDF export config to a source type", with_flag: { type_variants: true } do
+    let(:source) { create(:type) }
+
+    before do
+      source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
+      source.save!
+      type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
+      visit edit_type_pdf_export_template_index_path(type)
+    end
+
+    it "shows the inherited settings with disabled fields" do
+      page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
+
+      expect(page).to have_field("footer_text", with: "Source footer", disabled: true)
+      expect(page).to have_button(I18n.t(:button_save), disabled: true)
+    end
+  end
+end

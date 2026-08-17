@@ -234,6 +234,8 @@ Rails.application.routes.draw do
       member do
         post :toggle
         put :drop
+        get :edit_settings
+        patch :update_settings
       end
       collection do
         get :edit

@@ -34,10 +34,16 @@ module Types
     include ApplicationHelper
     include TabsHelper
 
-    def initialize(type:, tabs: nil)
+    def initialize(type:, tabs: nil, additional_breadcrumb_items: [], title: nil)
       super
       @type = type
       @tabs = tabs
+      @additional_breadcrumb_items = additional_breadcrumb_items
+      @title = title
+    end
+
+    def title
+      @title || @type.own_name
     end
 
     def breadcrumb_items
@@ -45,7 +51,8 @@ module Types
        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
        { href: types_path, text: t(:label_type_plural) },
        *parent_breadcrumb_item,
-       breadcrumb_leaf]
+       *type_breadcrumb_item,
+       *@additional_breadcrumb_items]
     end
 
     private
@@ -54,6 +61,13 @@ module Types
       return [] if @type.parent.nil?
 
       [{ href: edit_type_details_path(type_id: @type.parent_id), text: @type.parent.name }]
+    end
+
+    def type_breadcrumb_item
+      text = breadcrumb_leaf
+      return [text] if @additional_breadcrumb_items.blank?
+
+      [{ href: edit_type_details_path(type_id: @type.id), text: }]
     end
 
     def breadcrumb_leaf

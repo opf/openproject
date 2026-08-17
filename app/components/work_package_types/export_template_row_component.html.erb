@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
       end
       item_information.with_column(flex: 1, flex_layout: true) do |title_container|
         title_container.with_column(pt: 1, mr: 2) do
-          render(Primer::Beta::Text.new) do
+          render(Primer::Beta::Link.new(href: edit_settings_path, data: { "turbo-frame": "_top" })) do
             @template.label
           end
         end
@@ -64,6 +64,19 @@ See COPYRIGHT and LICENSE files for more details.
           )
         end
         render(Primer::Alpha::ToggleSwitch.new(**toggle_options))
+      end
+      item_information.with_column do
+        render(
+          Primer::Beta::IconButton.new(
+            icon: :gear,
+            tag: :a,
+            scheme: :invisible,
+            href: edit_settings_path,
+            aria: { label: I18n.t("types.edit.export_configuration.templates.settings.edit_link") },
+            test_selector: "edit-settings-pdf-export-template-row-#{@template.id}",
+            data: { "turbo-frame": "_top" }
+          )
+        )
       end
     end
   end
