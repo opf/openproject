@@ -14,7 +14,6 @@ To edit your project information in OpenProject, select a project from the **Sel
 Project settings are grouped into three sections:
 
 1. **Basic details**. Here you can edit: 
-
     - **Project name**. The name will be displayed in the project list.
     - Add a project **description**.
 2. **Project identifier**. Here you can [change project identifier](#change-project-identifier).
@@ -30,13 +29,12 @@ Project settings are grouped into three sections:
 
 Further, in the top right corner you can: 
 
-5. [Add a subproject](#create-a-subproject) 
-
 6. Click the **More (three dots)** icon, which opens a dropdown menu with the following options: 
-   - [Copy a project](#copy-a-project)
+   - [Add a subproject](#create-a-subproject)
+   - [Duplicate a project](#duplicate-a-project)
    - [Make a project public](#make-a-project-public)
-   - [Archive a project](#archive-a-project)
    - [Set a project as a template](../../project-templates) 
+   - [Archive a project](#archive-a-project)
    - [Delete a project](#delete-a-project)
 
 ![project-information](openproject_user_guide_project_settings_information.png)
@@ -46,7 +44,7 @@ Further, in the top right corner you can:
 
 ## Create a subproject
 
-To create a subproject for an existing project, navigate to [_Project settings_](../) -> _Information_ and click on the green **+ Subproject** button.
+To create a subproject for an existing project, navigate to [_Project settings_](../) -> _Information_, click on the **More (three dots)** menu and select **+Add subproject**.
 
 Then follow the instructions to [create a new project](../../../../getting-started/projects/#create-a-new-project).
 
@@ -68,17 +66,17 @@ You will then see the form to change and save the new project identifier.
 > Keep in mind that once a project identifier is changed, members of the project will have to relocate the project's repositories. 
 > Existing links using previous identifiers will continue to work.
 
-## Copy a project
+## Duplicate a project
 
-You can copy an existing project by navigating to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Copy** from the dropdown menu.
+You can duplicate an existing project by navigating to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Duplicate** from the dropdown menu.
 
 > [!NOTE]
-> Users who copy a project are assigned a **New role for users that create projects** in the copied project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
+> Users who duplicate a project are assigned a **New role for users that create projects** in the duplicated project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
 
 ![Copy a project under project settings in OpenProject](openproject_user_guide_project_settings_information_copy_project.png)
 
 > [!NOTE]
-> To access the **Copy** action from **Project settings**, users must be able to open the project settings (typically through the **Edit project** permission). Alternatively, users can create a new project from a project template if template creation is available to them.
+> To access the **Duplicate** action from **Project settings**, users must be able to open the project settings (typically through the **Edit project** permission). Alternatively, users can create a new project from a project template if template creation is available to them.
 
 Under the **Copy from project** section you can select what additional project data and settings, such as versions, work package categories, attachments, project life cycle and project members should be copied as well. 
 You can copy existing [boards](../../../agile-boards/) (apart from the Subproject board) and the [Project overview](../../project-home/#project-overview) dashboards along with your project, too. 
@@ -101,13 +99,15 @@ Give the new project a name, identifier and select a parent project if needed.
 
 Click the **Copy** button to proceed.
 
-![Form to specify copying options when copying a project in OpenProject](openproject_user_guide_project_settings_information_copy_project_form.png)
+![Form to specify copying options when copying a project in OpenProject](openproject_user_guide_project_settings_information_copy_project_form_1.png)
+
+![Continuation of form to specify copying options when copying a project in OpenProject](openproject_user_guide_project_settings_information_copy_project_form.png)
 
 ## Make a project public
 
 If you want to set a project to be public, navigate to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Make public**.
 
-![Make a project public in OpenProject](openproject_user_guide_project_settings_information_mark_public.png)
+![Make a project public in OpenProject](openproject_user_guide_project_settings_information_make_public.png)
 
 Setting a project to public will make it accessible to all people within your OpenProject instance.
 
