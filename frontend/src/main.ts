@@ -40,6 +40,7 @@ import 'core-elements/block-note-element';
 
 import 'core-app/core/setup/init-vendors';
 import 'core-app/core/setup/init-globals';
+import 'core-app/core/setup/init-chartjs';
 import './stimulus/setup';
 import './turbo/setup';
 import { platformBrowser } from '@angular/platform-browser';

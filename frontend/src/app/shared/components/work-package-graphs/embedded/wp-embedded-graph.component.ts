@@ -31,9 +31,7 @@ import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/c
 import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
-import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import PrimerColorsPlugin from './../plugin.primer-colors';
+import { BaseChartDirective } from 'ng2-charts';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -53,9 +51,6 @@ interface ChartDataSet {
   standalone: true,
   imports: [
     BaseChartDirective
-  ],
-  providers: [
-    provideCharts(withDefaultRegisterables(ChartDataLabels, PrimerColorsPlugin)),
   ],
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
