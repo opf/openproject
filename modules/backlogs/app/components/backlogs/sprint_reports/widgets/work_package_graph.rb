@@ -36,7 +36,7 @@ module Backlogs
         param :project
 
         def title
-          t("backlogs.show_work_package_graph")
+          t("backlogs.sprint_reports.widgets.work_package_graph.title")
         end
 
         def call
