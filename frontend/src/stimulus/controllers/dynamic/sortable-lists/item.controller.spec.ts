@@ -1353,23 +1353,30 @@ describe('Sortable lists item controller', () => {
       isItemHidden:ReturnType<typeof vi.fn>;
     }
 
-    function renderItemWithMenu(idNumber:number, withDivider = false):{ el:HTMLElement; menu:FakeActionMenu } {
+    function renderItemWithMenu(idNumber:number):{ el:HTMLElement; menu:FakeActionMenu } {
       const el = document.createElement('div');
       el.dataset.controller = 'sortable-lists--item';
       el.setAttribute('data-sortable-lists--item-id-value', String(idNumber));
       el.setAttribute('data-sortable-lists--item-type-value', 'work_package');
 
       const menuElement = document.createElement('action-menu');
-      // The divider opens the move group, so everything below it is what
-      // decides whether it still separates anything.
-      menuElement.innerHTML = withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '';
+      const invokerGroup = document.createElement('ul');
+      invokerGroup.setAttribute('role', 'group');
+      invokerGroup.setAttribute('data-sortable-lists--item-target', 'invokerGroup');
+      invokerGroup.innerHTML = '<li><button>Open details</button></li>';
+      const divider = document.createElement('li');
+      divider.setAttribute('data-sortable-lists--item-target', 'groupDivider');
+      const batchGroup = document.createElement('ul');
+      batchGroup.setAttribute('role', 'group');
+      batchGroup.setAttribute('data-sortable-lists--item-target', 'batchGroup');
       const parent = document.createElement('li');
       parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
       parent.innerHTML = ['top', 'up', 'down', 'bottom'].map((direction) => (
         `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
         + ' data-action="click->sortable-lists--item#move"><button></button></li>'
       )).join('');
-      menuElement.appendChild(parent);
+      batchGroup.appendChild(parent);
+      menuElement.append(invokerGroup, divider, batchGroup);
       el.appendChild(menuElement);
 
       const menu:FakeActionMenu = {
@@ -1388,11 +1395,12 @@ describe('Sortable lists item controller', () => {
     }
 
     const liFor = (el:HTMLElement, direction:string) => el.querySelector<HTMLElement>(`li[data-sortable-lists--item-direction-param="${direction}"]`)!;
+    const groupFor = (el:HTMLElement, target:string) => el.querySelector<HTMLElement>(`[data-sortable-lists--item-target="${target}"]`)!;
     const destinationWithMetadata = (el:HTMLElement, metadata:string) => {
       const item = document.createElement('li');
       item.setAttribute('data-sortable-lists--item-target', 'destinationItem');
       item.dataset.sortableListsDestinations = metadata;
-      el.querySelector('action-menu')!.append(item);
+      el.querySelector('[data-sortable-lists--item-target="batchGroup"]')!.append(item);
       return item;
     };
     const destinationFor = (el:HTMLElement, candidates:{ type:string; id:string|null }[]) => (
@@ -1447,15 +1455,21 @@ describe('Sortable lists item controller', () => {
       };
     }
 
-    async function mountActionMenuInvocationFixture() {
-      const { el } = renderItemWithMenu(1);
-      const card = document.createElement('article');
-      card.setAttribute('data-sortable-lists--item-target', 'focus');
+    const attachMenuPopover = (el:HTMLElement):HTMLElement => {
       const actionMenu = el.querySelector<HTMLElement>('action-menu')!;
       const popover = document.createElement('anchored-position');
       popover.setAttribute('popover', '');
       Object.assign(actionMenu, { popoverElement: popover });
       actionMenu.append(popover);
+      return popover;
+    };
+
+    async function mountActionMenuInvocationFixture() {
+      const { el } = renderItemWithMenu(1);
+      const card = document.createElement('article');
+      card.setAttribute('data-sortable-lists--item-target', 'focus');
+      const actionMenu = el.querySelector<HTMLElement>('action-menu')!;
+      const popover = attachMenuPopover(el);
       card.append(actionMenu);
       el.append(card);
       destinationFor(el, [{ type: 'inbox', id: null }]);
@@ -1464,6 +1478,7 @@ describe('Sortable lists item controller', () => {
       const controller = await mountItemController(el);
       const scope:ActionScope = { kind: 'batch', items: [el] };
       const sequence:string[] = [];
+      const actionScopeFor = vi.fn(() => scope);
       const selectForAction = vi.fn(() => {
         sequence.push('prepare');
         return scope;
@@ -1474,12 +1489,14 @@ describe('Sortable lists item controller', () => {
       });
       const root = {
         ...stubRoot(el, { isFirst: true, isLast: true }),
+        actionScopeFor,
         selectForAction,
         availableDestinations,
       };
       controller.connectRoot(root);
       await menuCtx!.nextFrame();
       sequence.length = 0;
+      actionScopeFor.mockClear();
       selectForAction.mockClear();
       availableDestinations.mockClear();
 
@@ -1491,6 +1508,7 @@ describe('Sortable lists item controller', () => {
         root,
         scope,
         sequence,
+        actionScopeFor,
         selectForAction,
         availableDestinations,
       };
@@ -1591,6 +1609,33 @@ describe('Sortable lists item controller', () => {
       expect(availableDestinations.mock.calls.map(([projectedScope]) => projectedScope)).toEqual([scope, scope]);
     });
 
+    it('late-refreshes only for the card menu popover, not a nested submenu', async () => {
+      const {
+        popover, actionScopeFor, availableDestinations,
+      } = await mountActionMenuInvocationFixture();
+      const nestedPopover = document.createElement('anchored-position');
+      nestedPopover.setAttribute('popover', '');
+      popover.append(nestedPopover);
+
+      popover.dispatchEvent(new ToggleEvent('toggle', {
+        oldState: 'closed',
+        newState: 'open',
+      }));
+
+      expect(actionScopeFor).toHaveBeenCalledTimes(1);
+      expect(availableDestinations).toHaveBeenCalledTimes(1);
+      actionScopeFor.mockClear();
+      availableDestinations.mockClear();
+
+      nestedPopover.dispatchEvent(new ToggleEvent('toggle', {
+        oldState: 'closed',
+        newState: 'open',
+      }));
+
+      expect(actionScopeFor).not.toHaveBeenCalled();
+      expect(availableDestinations).not.toHaveBeenCalled();
+    });
+
     it('handles a contextual pre-open from the item itself when no focus target exists', async () => {
       const { el } = renderItemWithMenu(1);
       document.body.appendChild(el);
@@ -1666,7 +1711,7 @@ describe('Sortable lists item controller', () => {
     });
 
     it('projects deferred destination items for the selected invoker', async () => {
-      const { el, menu } = renderItemWithMenu(1, true);
+      const { el, menu } = renderItemWithMenu(1);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       const scope:ActionScope = { kind: 'batch', items: [el]};
@@ -1715,9 +1760,9 @@ describe('Sortable lists item controller', () => {
       menu.showItem.mockClear();
       activeScope = prospectiveScope;
 
-      const menuElement = el.querySelector('action-menu')!;
+      const popover = attachMenuPopover(el);
       const toggle = new ToggleEvent('toggle', { newState: 'open', oldState: 'closed' });
-      menuElement.dispatchEvent(toggle);
+      popover.dispatchEvent(toggle);
 
       expect(actionScopeFor).toHaveBeenLastCalledWith(el);
       expect(availableDestinations).toHaveBeenCalledWith(prospectiveScope, [{ type: 'sprint', id: '1' }]);
@@ -1727,7 +1772,7 @@ describe('Sortable lists item controller', () => {
     });
 
     it('shows available batch position directions when every destination action is hidden', async () => {
-      const { el, menu } = renderItemWithMenu(1, true);
+      const { el, menu } = renderItemWithMenu(1);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       // Batch size is the member count: two elements, not one element with
@@ -1744,7 +1789,6 @@ describe('Sortable lists item controller', () => {
       await menuCtx!.nextFrame();
 
       const moveMenu = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
-      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
       expect(menu.hideItem).toHaveBeenCalledWith(moveToInbox);
       expect(menu.showItem).toHaveBeenCalledWith(moveMenu);
@@ -1752,14 +1796,37 @@ describe('Sortable lists item controller', () => {
       expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'up'));
       expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'down'));
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
-      expect(divider.hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(true);
+      expect(groupFor(el, 'batchGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'groupDivider').hasAttribute('hidden')).toBe(true);
+    });
+
+    // Primer's focus zone stops managing exactly the element the `hidden`
+    // attribute lands on, so a group hidden on its own leaves its items in
+    // the zone and the arrows step onto rows that cannot take focus.
+    it('hides the items of a hidden group, not just the group', async () => {
+      const { el } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const scope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+      const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      actionScopeFor.mockReturnValue(scope);
+      availableDestinations.mockReturnValue([]);
+      root.moveAvailability = () => ({ top: false, up: true, down: true, bottom: false });
+      const singularItem = groupFor(el, 'invokerGroup').querySelector<HTMLElement>('button')!;
+      singularItem.setAttribute('role', 'menuitem');
+      controller.connectRoot(root);
+      controller.moveItemTargetConnected();
+
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(true);
+      expect(singularItem.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides an all-unavailable batch position submenu and its directions', async () => {
-      const { el, menu } = renderItemWithMenu(1, true);
+      const { el, menu } = renderItemWithMenu(1);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
-      const scope:ActionScope = { kind: 'batch', items: [el] };
+      const scope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
       const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
       actionScopeFor.mockReturnValue(scope);
       availableDestinations.mockReturnValue([]);
@@ -1770,13 +1837,14 @@ describe('Sortable lists item controller', () => {
       await menuCtx!.nextFrame();
 
       const moveMenu = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
-      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
       expect(menu.hideItem).toHaveBeenCalledWith(moveMenu);
       for (const direction of ['top', 'up', 'down', 'bottom']) {
         expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, direction));
       }
-      expect(divider.hasAttribute('hidden')).toBe(true);
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'batchGroup').hasAttribute('hidden')).toBe(true);
+      expect(groupFor(el, 'groupDivider').hasAttribute('hidden')).toBe(true);
     });
 
     it('keeps only the current owner destination for a confined batch scope', async () => {
@@ -1816,7 +1884,7 @@ describe('Sortable lists item controller', () => {
     });
 
     it('hides a stale batch action skeleton for a fixed singular invoker', async () => {
-      const { el } = renderItemWithMenu(1, true);
+      const { el } = renderItemWithMenu(1);
       el.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
       document.body.appendChild(el);
       const controller = await mountItemController(el);
@@ -1870,44 +1938,316 @@ describe('Sortable lists item controller', () => {
       expect(availableDestinations).not.toHaveBeenCalled();
     });
 
-    // Regression: the divider is rendered server-side from a permission check
-    // alone, so an item with nowhere to move used to be left with a separator
-    // and nothing below it.
-    it('hides the divider when nothing below it is left visible', async () => {
-      const { el } = renderItemWithMenu(1, true);
+    // Regression: the batch group and its divider are rendered server-side
+    // from a permission check alone, so an item with nowhere to move used to
+    // be left with a separator and nothing below it.
+    it('hides the batch group and divider when it presents no action', async () => {
+      const { el } = renderItemWithMenu(1);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
       controller.moveItemTargetConnected();
 
-      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
-      expect(divider.hasAttribute('hidden')).toBe(true);
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'batchGroup').hasAttribute('hidden')).toBe(true);
+      expect(groupFor(el, 'groupDivider').hasAttribute('hidden')).toBe(true);
     });
 
-    it('keeps the divider while something below it is still visible', async () => {
-      const { el } = renderItemWithMenu(1, true);
+    it('keeps the batch group and divider while an action is presented', async () => {
+      const { el } = renderItemWithMenu(1);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
       controller.moveItemTargetConnected();
 
-      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
-      expect(divider.hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'batchGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'groupDivider').hasAttribute('hidden')).toBe(false);
     });
 
-    // A divider has no `.ActionListContent`, so routing it through
-    // `disableItem` would throw — and in this mode the group stays visible
-    // anyway, only disabled.
-    it('leaves the divider alone when hideUnavailable is off', async () => {
-      const { el } = renderItemWithMenu(1, true);
+    // With hideUnavailable off the consumer asked for unavailable items to
+    // stay on screen, only disabled — so a group whose items are all
+    // unavailable still presents them and must not disappear.
+    it('keeps the batch group when unavailable items stay presented', async () => {
+      const { el } = renderItemWithMenu(1);
       el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'false');
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
       controller.moveItemTargetConnected();
 
-      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
-      expect(divider.hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'batchGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'groupDivider').hasAttribute('hidden')).toBe(false);
+    });
+
+    it('hides the singular group for a disabled-mode batch with no available action', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'false');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor } = stubMenuRoot(el, { isFirst: true, isLast: true });
+      const scope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+      actionScopeFor.mockReturnValue(scope);
+      root.moveAvailability = () => ({ top: false, up: false, down: false, bottom: false });
+      controller.connectRoot(root);
+      controller.moveItemTargetConnected();
+
+      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(true);
+      expect(groupFor(el, 'batchGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'groupDivider').hasAttribute('hidden')).toBe(true);
+    });
+
+    it('keeps the singular group for a one-card batch scope', async () => {
+      const { el } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      const scope:ActionScope = { kind: 'batch', items: [el] };
+      actionScopeFor.mockReturnValue(scope);
+      controller.connectRoot(root);
+      controller.moveItemTargetConnected();
+
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'batchGroup').hasAttribute('hidden')).toBe(false);
+      expect(groupFor(el, 'groupDivider').hasAttribute('hidden')).toBe(false);
+    });
+
+    // Hiding the group that holds focus would fling focus to the body, and
+    // Primer closes the whole menu when focus leaves it.
+    it('parks focus on a presented batch item before hiding its group', async () => {
+      const { el } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      const scope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+      actionScopeFor.mockReturnValue(scope);
+      const singularButton = groupFor(el, 'invokerGroup').querySelector<HTMLElement>('button')!;
+      singularButton.setAttribute('role', 'menuitem');
+      const batchButton = document.createElement('button');
+      batchButton.setAttribute('role', 'menuitem');
+      groupFor(el, 'batchGroup').append(batchButton);
+      singularButton.focus();
+      expect(document.activeElement).toBe(singularButton);
+
+      controller.connectRoot(root);
+      controller.moveItemTargetConnected();
+
+      expect(groupFor(el, 'invokerGroup').hasAttribute('hidden')).toBe(true);
+      expect(document.activeElement).toBe(batchButton);
+    });
+
+    // Primer's open-time focus matches `:not([hidden]) > [role=menuitem]`,
+    // a check one level deep: the first singular item still matches when only
+    // its group <ul> is hidden, and focusing it no-ops, so reopening an
+    // already-loaded batch menu would strand focus on the invoker.
+    it('settles reopen focus on the first visible batch item', async () => {
+      const { el } = renderItemWithMenu(1);
+      const popover = attachMenuPopover(el);
+      const invokerButton = document.createElement('button');
+      el.querySelector('action-menu')!.append(invokerButton);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      const scope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+      actionScopeFor.mockReturnValue(scope);
+      const singularItem = groupFor(el, 'invokerGroup').querySelector<HTMLElement>('button')!;
+      singularItem.setAttribute('role', 'menuitem');
+      const batchButton = document.createElement('button');
+      batchButton.setAttribute('role', 'menuitem');
+      groupFor(el, 'batchGroup').append(batchButton);
+      controller.connectRoot(root);
+
+      popover.dispatchEvent(new ToggleEvent('toggle', { newState: 'open', oldState: 'closed' }));
+      await menuCtx!.nextFrame();
+      await menuCtx!.nextFrame();
+      popover.dispatchEvent(new ToggleEvent('toggle', { newState: 'closed', oldState: 'open' }));
+      invokerButton.focus();
+
+      popover.dispatchEvent(new ToggleEvent('toggle', { newState: 'open', oldState: 'closed' }));
+      await menuCtx!.nextFrame();
+      await menuCtx!.nextFrame();
+
+      expect(document.activeElement).toBe(batchButton);
+    });
+
+    describe('menu renaming', () => {
+      beforeEach(() => {
+        window.I18n.store({
+          en: {
+            js: {
+              backlogs: {
+                action_menu: {
+                  batch_menu_label: {
+                    one: 'Actions for 1 selected work package',
+                    other: 'Actions for %{count} selected work packages',
+                  },
+                },
+              },
+            },
+          },
+        });
+      });
+
+      // A Primer IconButton renders a label-type tooltip: the button carries
+      // NO aria-label — icon_button.rb deletes it and points aria-labelledby
+      // at the <tool-tip>, whose text is both the visible tooltip and the
+      // accessible name. A fixture with an aria-label would conceal a
+      // controller that wrote the inert attribute instead.
+      const attachMenuInvoker = (el:HTMLElement, label = 'Work package actions'):{ invoker:HTMLElement; tooltip:HTMLElement } => {
+        const actionMenu = el.querySelector<HTMLElement>('action-menu')!;
+        const invoker = document.createElement('button');
+        const tooltip = document.createElement('tool-tip');
+        tooltip.id = `${el.getAttribute('data-sortable-lists--item-id-value')}-menu-tooltip`;
+        tooltip.textContent = label;
+        invoker.setAttribute('aria-labelledby', tooltip.id);
+        actionMenu.append(invoker, tooltip);
+        Object.assign(actionMenu, { invokerElement: invoker });
+        return { invoker, tooltip };
+      };
+
+      async function mountRenamableMenu({
+        withKey = true,
+        withSingularLabel = true,
+        tooltipText = 'Work package actions',
+      } = {}) {
+        const { el } = renderItemWithMenu(1);
+        if (withKey) {
+          el.setAttribute(
+            'data-sortable-lists--item-batch-menu-label-key-value',
+            'js.backlogs.action_menu.batch_menu_label',
+          );
+        }
+        if (withSingularLabel) {
+          el.setAttribute(
+            'data-sortable-lists--item-singular-menu-label-value',
+            'Work package actions',
+          );
+        }
+        const { invoker, tooltip } = attachMenuInvoker(el, tooltipText);
+        const popover = attachMenuPopover(el);
+        document.body.appendChild(el);
+        const controller = await mountItemController(el);
+        const { root, actionScopeFor } = stubMenuRoot(el, { isFirst: false, isLast: false });
+
+        return {
+          el, invoker, tooltip, popover, controller, root, actionScopeFor,
+        };
+      }
+
+      const openMenu = (popover:HTMLElement) => {
+        popover.dispatchEvent(new ToggleEvent('beforetoggle', { newState: 'open', oldState: 'closed' }));
+        popover.dispatchEvent(new ToggleEvent('toggle', { newState: 'open', oldState: 'closed' }));
+      };
+
+      it('renames the invoker tooltip while an open menu presents a batch and reverts for singular', async () => {
+        const {
+          el, invoker, tooltip, popover, controller, root, actionScopeFor,
+        } = await mountRenamableMenu();
+        const batchScope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+        actionScopeFor.mockReturnValue(batchScope);
+        controller.connectRoot(root);
+        openMenu(popover);
+
+        expect(tooltip.textContent).toBe('Actions for 2 selected work packages');
+        expect(invoker.getAttribute('aria-label')).toBeNull();
+
+        const singularScope:ActionScope = { kind: 'refused', items: [] };
+        actionScopeFor.mockReturnValue(singularScope);
+        controller.moveItemTargetConnected();
+
+        expect(tooltip.textContent).toBe('Work package actions');
+      });
+
+      it('keeps the singular name for a one-card batch scope', async () => {
+        const {
+          el, tooltip, popover, controller, root, actionScopeFor,
+        } = await mountRenamableMenu();
+        const scope:ActionScope = { kind: 'batch', items: [el] };
+        actionScopeFor.mockReturnValue(scope);
+        controller.connectRoot(root);
+        openMenu(popover);
+
+        expect(tooltip.textContent).toBe('Work package actions');
+      });
+
+      it('keeps the singular name for a batch that presents no action', async () => {
+        const {
+          el, tooltip, popover, controller, root, actionScopeFor,
+        } = await mountRenamableMenu();
+        const scope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+        actionScopeFor.mockReturnValue(scope);
+        root.moveAvailability = () => ({ top: false, up: false, down: false, bottom: false });
+        controller.connectRoot(root);
+        openMenu(popover);
+
+        expect(tooltip.textContent).toBe('Work package actions');
+      });
+
+      it('restores the singular name when the menu closes', async () => {
+        const {
+          el, tooltip, popover, controller, root, actionScopeFor,
+        } = await mountRenamableMenu();
+        const batchScope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+        actionScopeFor.mockReturnValue(batchScope);
+        controller.connectRoot(root);
+        openMenu(popover);
+        expect(tooltip.textContent).toBe('Actions for 2 selected work packages');
+
+        popover.dispatchEvent(new ToggleEvent('toggle', { newState: 'closed', oldState: 'open' }));
+
+        expect(tooltip.textContent).toBe('Work package actions');
+      });
+
+      // A morph can reconnect targets while the popover is closed; the closed
+      // menu must keep presenting the singular name no matter the scope.
+      it('does not apply the batch name while the menu is closed', async () => {
+        const {
+          el, tooltip, controller, root, actionScopeFor,
+        } = await mountRenamableMenu();
+        const batchScope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+        actionScopeFor.mockReturnValue(batchScope);
+        controller.connectRoot(root);
+        controller.moveItemTargetConnected();
+
+        expect(tooltip.textContent).toBe('Work package actions');
+      });
+
+      // A Turbo back/forward restore resurrects the DOM as it was snapshotted,
+      // batch tooltip text included; the fresh controller must present the
+      // server-rendered singular name, not adopt the snapshot's text.
+      it('recovers the singular name from a snapshot carrying the batch one', async () => {
+        const { tooltip } = await mountRenamableMenu({
+          tooltipText: 'Actions for 2 selected work packages',
+        });
+
+        expect(tooltip.textContent).toBe('Work package actions');
+      });
+
+      it('leaves the name alone when no label key is configured', async () => {
+        const {
+          el, tooltip, popover, controller, root, actionScopeFor,
+        } = await mountRenamableMenu({ withKey: false });
+        const scope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+        actionScopeFor.mockReturnValue(scope);
+        controller.connectRoot(root);
+        openMenu(popover);
+
+        expect(tooltip.textContent).toBe('Work package actions');
+      });
+
+      it('leaves the name alone when no singular name is provided', async () => {
+        const {
+          el, tooltip, popover, controller, root, actionScopeFor,
+        } = await mountRenamableMenu({ withSingularLabel: false });
+        const scope:ActionScope = { kind: 'batch', items: [el] };
+        actionScopeFor.mockReturnValue(scope);
+        controller.connectRoot(root);
+        openMenu(popover);
+
+        expect(tooltip.textContent).toBe('Work package actions');
+      });
     });
 
     it('delegates an enabled click to the root and no-ops a disabled one', async () => {

@@ -76,7 +76,18 @@ function isDestinationIdentity(candidate:unknown):candidate is DestinationIdenti
 }
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'destinationItem', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
+  static targets = [
+    'handle',
+    'preview',
+    'destinationItem',
+    'moveItem',
+    'moveMenu',
+    'invokerGroup',
+    'batchGroup',
+    'groupDivider',
+    'focus',
+  ];
+
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -84,6 +95,13 @@ export default class ItemController extends Controller<HTMLElement> implements R
     type: String,
     externalUrl: String,
     hideUnavailable: { type: Boolean, default: true },
+    label: String,
+    // I18n key (with count plurals) naming the menu while it is batch-scoped.
+    batchMenuLabelKey: String,
+    // The menu's singular name, server-rendered: the invoker tooltip's own
+    // text is no restore source, since a Turbo snapshot can capture it
+    // mid-rename. Renaming only engages when both label values are present.
+    singularMenuLabel: String,
     // See ItemMobility in list-dom. A `confined` item is still a full drag
     // source; only the lists the batch's permitted set names accept it.
     mobility: { type: String, default: 'free' },
@@ -96,6 +114,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly externalUrlValue:string;
   declare readonly hasExternalUrlValue:boolean;
   declare readonly hideUnavailableValue:boolean;
+  declare readonly labelValue:string;
+  declare readonly hasLabelValue:boolean;
+  declare readonly batchMenuLabelKeyValue:string;
+  declare readonly hasBatchMenuLabelKeyValue:boolean;
+  declare readonly singularMenuLabelValue:string;
+  declare readonly hasSingularMenuLabelValue:boolean;
 
   declare readonly handleTarget:HTMLElement;
   declare readonly hasHandleTarget:boolean;
@@ -105,8 +129,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly moveItemTargets:HTMLElement[];
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
-  declare readonly moveDividerTarget:HTMLElement;
-  declare readonly hasMoveDividerTarget:boolean;
+  declare readonly invokerGroupTarget:HTMLElement;
+  declare readonly hasInvokerGroupTarget:boolean;
+  declare readonly batchGroupTarget:HTMLElement;
+  declare readonly hasBatchGroupTarget:boolean;
+  declare readonly groupDividerTarget:HTMLElement;
+  declare readonly hasGroupDividerTarget:boolean;
   declare readonly focusTarget:HTMLElement;
   declare readonly hasFocusTarget:boolean;
 
@@ -119,6 +147,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
+  private menuOpen = false;
 
   private readonly onMenuToggle = (event:Event):void => {
     // The toggle event does not bubble, so listen in capture phase; recompute
@@ -126,8 +155,18 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // shifted siblings meanwhile. Read newState by duck typing rather than
     // `instanceof ToggleEvent` so a browser without the ToggleEvent global
     // cannot throw.
-    if ((event as ToggleEvent).newState === 'open') {
+    if (!this.hasMenuElement || event.target !== this.menuElement.popoverElement) {
+      return;
+    }
+
+    const { newState } = event as ToggleEvent;
+    if (newState === 'open') {
+      this.menuOpen = true;
       this.refreshActionAvailability();
+      this.rescueOpenFocus();
+    } else if (newState === 'closed') {
+      this.menuOpen = false;
+      this.refreshMenuLabel(false, 0);
     }
   };
 
@@ -144,6 +183,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       && this.hasMenuElement
       && event.target === this.menuElement.popoverElement
     ) {
+      this.menuOpen = true;
       this.prepareActionMenu();
     }
   };
@@ -154,6 +194,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.element.addEventListener('contextual-action-menu:beforeOpen', this.onContextualBeforeOpen);
     this.element.addEventListener('beforetoggle', this.onMenuBeforeToggle, true);
     this.element.addEventListener('toggle', this.onMenuToggle, true);
+    // A Turbo restore resurrects the tooltip as snapshotted, batch name and
+    // all; a closed menu always presents the singular one.
+    this.refreshMenuLabel(false, 0);
   }
 
   disconnect():void {
@@ -552,21 +595,32 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
 
     const scope = preparedScope ?? root.actionScopeFor(this.element);
-    this.refreshDestinationAvailability(root, scope);
-    this.refreshMoveMenuAvailability(root, scope);
-    this.refreshMoveDivider();
+    const presentedDestinations = this.refreshDestinationAvailability(root, scope);
+    const presentedMoveActions = this.refreshMoveMenuAvailability(root, scope);
+
+    this.refreshActionGroups(scope, presentedDestinations + presentedMoveActions);
   }
 
-  private refreshDestinationAvailability(root:SortableListsRoot, scope:ActionScope):void {
+  // Both projections return how many actions the menu is presenting, not how
+  // many are executable: with hideUnavailable off, unavailable items stay on
+  // screen disabled, and the group toggle must count them as presented.
+  private refreshDestinationAvailability(root:SortableListsRoot, scope:ActionScope):number {
+    let available = 0;
+
     for (const item of this.destinationItemTargets) {
       const candidates = this.destinationCandidates(item);
-      this.setAvailability(
-        item,
-        !(scope.kind === 'refused' && !isOrderableItem(this.element))
-          && candidates.length > 0
-          && root.availableDestinations(scope, candidates).length > 0,
-      );
+      const enabled = !(
+        scope.kind === 'refused' && !isOrderableItem(this.element)
+      ) && candidates.length > 0
+        && root.availableDestinations(scope, candidates).length > 0;
+
+      this.setAvailability(item, enabled);
+      if (enabled) {
+        available += 1;
+      }
     }
+
+    return this.hideUnavailableValue ? available : this.destinationItemTargets.length;
   }
 
   private destinationCandidates(item:HTMLElement):DestinationIdentity[] {
@@ -583,7 +637,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
   }
 
-  private refreshMoveMenuAvailability(root:SortableListsRoot, scope:ActionScope):void {
+  private refreshMoveMenuAvailability(root:SortableListsRoot, scope:ActionScope):number {
     if (scope.kind === 'refused' && !isOrderableItem(this.element)) {
       for (const item of this.moveItemTargets) {
         this.setAvailability(item, false);
@@ -591,14 +645,14 @@ export default class ItemController extends Controller<HTMLElement> implements R
       if (this.hasMoveMenuTarget) {
         this.setAvailability(this.moveMenuTarget, false);
       }
-      return;
+      return this.hideUnavailableValue ? 0 : this.renderedMoveActionCount();
     }
 
     // Null availability means the item is not in a list yet; leave the menu
     // alone until the outlet wiring settles.
     const availability = root.moveAvailability(this.element);
     if (!availability) {
-      return;
+      return this.presentedMoveActionCount();
     }
 
     let available = 0;
@@ -615,33 +669,130 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     if (this.hasMoveMenuTarget) {
       this.setAvailability(this.moveMenuTarget, available > 0);
+      return this.hideUnavailableValue && available === 0 ? 0 : 1;
     }
+
+    return this.hideUnavailableValue ? available : this.renderedMoveActionCount();
   }
 
-  // The divider that opens the move group is rendered server-side from a
-  // permission check alone, so hiding the last entry below it would otherwise
-  // leave a separator with nothing to separate. It never goes through
-  // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
-  // which a divider does not have — and in that mode the group stays visible
-  // anyway, only disabled.
-  private refreshMoveDivider():void {
-    if (!this.hasMoveDividerTarget || !this.hideUnavailableValue) {
+  // A nested submenu presents as one action; flat move items count each.
+  private renderedMoveActionCount():number {
+    return this.hasMoveMenuTarget ? 1 : this.moveItemTargets.length;
+  }
+
+  private presentedMoveActionCount():number {
+    if (this.hasMoveMenuTarget) {
+      return this.moveMenuTarget.hasAttribute('hidden') ? 0 : 1;
+    }
+
+    return this.moveItemTargets.filter((item) => !item.hasAttribute('hidden')).length;
+  }
+
+  private refreshActionGroups(scope:ActionScope, presentedBatchActionCount:number):void {
+    const batch = scope.kind === 'batch' && scope.items.length > 1;
+    const batchActionsPresented = presentedBatchActionCount > 0;
+
+    if (this.hasInvokerGroupTarget) {
+      if (batch && batchActionsPresented) {
+        this.rescueFocusFrom(this.invokerGroupTarget);
+      }
+      this.hideGroup(this.invokerGroupTarget, batch && batchActionsPresented);
+    }
+
+    if (this.hasBatchGroupTarget) {
+      if (!batchActionsPresented) {
+        this.rescueFocusFrom(this.batchGroupTarget);
+      }
+      this.hideGroup(this.batchGroupTarget, !batchActionsPresented);
+    }
+
+    // The divider only separates anything while both groups show. It never
+    // goes through setAvailability: `disableItem` writes to the item's
+    // `.ActionListContent`, which a divider does not have.
+    if (this.hasGroupDividerTarget) {
+      this.groupDividerTarget.toggleAttribute(
+        'hidden',
+        (batch && batchActionsPresented) || !batchActionsPresented,
+      );
+    }
+
+    this.refreshMenuLabel(batch && batchActionsPresented, scope.items.length);
+  }
+
+  // Primer's focus zone stops managing exactly the element `hidden` lands on,
+  // so hiding a group alone leaves its items in the zone for the arrows to
+  // step onto. A group that comes back is repopulated by the availability
+  // pass, which sets each item's own hidden state before this runs.
+  private hideGroup(group:HTMLElement, hidden:boolean):void {
+    group.toggleAttribute('hidden', hidden);
+
+    if (!hidden) {
       return;
     }
 
-    const divider = this.moveDividerTarget;
-    let sibling = divider.nextElementSibling;
+    for (const item of group.querySelectorAll<HTMLElement>('[role="menuitem"]')) {
+      item.toggleAttribute('hidden', true);
+    }
+  }
 
-    while (sibling) {
-      if (!sibling.hasAttribute('hidden')) {
-        divider.removeAttribute('hidden');
-        return;
-      }
-
-      sibling = sibling.nextElementSibling;
+  // Hiding the group that holds focus would fling focus to the body, and
+  // Primer closes the whole menu when focus leaves it. Park focus on the
+  // first menu item that stays presented before the group disappears.
+  private rescueFocusFrom(group:HTMLElement):void {
+    const active = this.element.ownerDocument.activeElement;
+    if (!(active instanceof HTMLElement) || !group.contains(active) || !this.hasMenuElement) {
+      return;
     }
 
-    divider.setAttribute('hidden', 'hidden');
+    const fallback = Array.from(this.menuElement.querySelectorAll<HTMLElement>('[role="menuitem"]'))
+      .find((item) => !group.contains(item) && !item.closest('[hidden]'));
+    fallback?.focus();
+  }
+
+  // The invoker is a Primer IconButton whose label-type tooltip owns the
+  // accessible name — icon_button.rb drops the button's aria-label and points
+  // aria-labelledby at the <tool-tip> — so writing aria-label would be inert.
+  // The batch name shows only while the menu is open; any projection with the
+  // popover closed settles back on the server-rendered singular name.
+  private refreshMenuLabel(batch:boolean, count:number):void {
+    const invoker = this.hasMenuElement ? this.menuElement.invokerElement : null;
+    const labelId = invoker?.getAttribute('aria-labelledby');
+    const tooltip = labelId ? this.element.ownerDocument.getElementById(labelId) : null;
+    if (!tooltip || !this.hasBatchMenuLabelKeyValue || !this.hasSingularMenuLabelValue) {
+      return;
+    }
+
+    tooltip.textContent = batch && this.menuOpen
+      ? I18n.t(this.batchMenuLabelKeyValue, { count })
+      : this.singularMenuLabelValue;
+  }
+
+  // Primer's open-time focus matches `:not([hidden]) > [role=menuitem]`, one
+  // level deep: a singular item whose group alone is hidden still matches,
+  // and focusing it no-ops. Primer schedules that focus a frame after the
+  // toggle, so the correction runs a frame later still.
+  private rescueOpenFocus():void {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!this.menuOpen || !this.hasMenuElement) {
+          return;
+        }
+
+        const active = this.element.ownerDocument.activeElement;
+        if (
+          active instanceof HTMLElement
+          && this.menuElement.contains(active)
+          && active.getAttribute('role') === 'menuitem'
+          && !active.closest('[hidden]')
+        ) {
+          return;
+        }
+
+        const fallback = Array.from(this.menuElement.querySelectorAll<HTMLElement>('[role="menuitem"]'))
+          .find((item) => !item.closest('[hidden]'));
+        fallback?.focus();
+      });
+    });
   }
 
   // Availability goes through the action-menu element's API: disableItem sets the

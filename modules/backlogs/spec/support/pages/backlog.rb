@@ -339,10 +339,8 @@ module Pages
       dismiss_menu(work_package)
     end
 
-    # Opens one card's menu through the same four user entry points supported
-    # by Backlogs. Keeping the native key/pointer synthesis and deferred-menu
-    # wait here lets feature specs talk in product language and prevents each
-    # caller from encoding Primer's overlay structure.
+    # The four user entry points Backlogs supports, with the native key and
+    # pointer synthesis and the deferred-menu wait kept out of the callers.
     def open_card_menu(work_package, via:)
       case via
       when :more
@@ -370,6 +368,34 @@ module Pages
       end
 
       work_package_action_menu(work_package)
+    end
+
+    def expect_action_menu_groups(invoker:, selected_count:)
+      # The menu list arrives via a deferred fragment; a node captured before
+      # the swap goes stale, so settle the load before scoping into the menu.
+      expect_card_menu_loaded(invoker)
+      menu = work_package_action_menu(invoker)
+      singular_group = "ul[role='group'][data-sortable-lists--item-target='invokerGroup']"
+      batch_group = "ul[role='group'][data-sortable-lists--item-target='batchGroup']"
+
+      if selected_count > 1
+        expect(menu).to have_css("#{singular_group}[hidden]", visible: :all)
+        expect(menu).to have_css(batch_group)
+        expect_menu_invoker_name(
+          invoker,
+          I18n.t("js.backlogs.action_menu.batch_menu_label", count: selected_count)
+        )
+      else
+        expect(menu).to have_css(singular_group)
+        expect(menu).to have_css(batch_group)
+        expect_menu_invoker_name(invoker, "Work package actions")
+      end
+    end
+
+    def expect_menu_invoker_name(work_package, name)
+      within_work_package(work_package) do
+        expect(page).to have_button(accessible_name: name)
+      end
     end
 
     def activate_singular_menu_action(invoker:, action:, via: :more)
@@ -432,6 +458,8 @@ module Pages
     def expect_fixed_action_menu(invoker:)
       menu = work_package_action_menu(invoker)
 
+      expect(menu).to have_css("ul[role='group'][data-sortable-lists--item-target='invokerGroup']")
+      expect(menu).to have_no_css("[data-sortable-lists--item-target='batchGroup']")
       expect(menu).to have_selector(:menuitem, text: I18n.t(:"js.button_open_details"))
       expect(menu).to have_selector(:menuitem, text: I18n.t(:"js.button_open_fullscreen"))
       expect(menu).to have_no_selector(:menuitem, text: "Move to position")
@@ -1840,22 +1868,33 @@ module Pages
       page.find(:menu, id: move_item["aria-controls"])
     end
 
+    # Dismisses with Escape rather than an outside click: the compact batch
+    # menu can leave a live menuitem under the overlay's centre point, so a
+    # click there activates an action instead of closing the menu.
     def dismiss_menu(menu_owner)
       selector = menu_owner_overlay_selector(menu_owner)
 
       return unless page.has_css?(selector, visible: true, wait: 0)
       return if page.has_selector?(:modal, wait: 0)
 
-      find(selector, wait: 0).click
-    rescue Capybara::ElementNotFound,
-           Ferrum::CoordinatesNotFoundError,
-           Selenium::WebDriver::Error::ElementNotInteractableError
-      # Menu actions can close the menu or open a modal between the checks
-      # above and the click; once the menu is gone or a modal owns focus,
-      # the overlay is unclickable (Cuprite raises CoordinatesNotFoundError,
-      # Selenium ElementNotInteractableError) and dismissal is moot.
-      raise unless page.has_selector?(:modal, wait: 0) ||
-        page.has_no_css?(selector, visible: true, wait: 0)
+      press_escape
+      # Escape closes only the top-most popover; an open submenu absorbs the
+      # first press and the menu itself needs a second one.
+      press_escape if page.has_css?(selector, visible: true, wait: 0)
+
+      expect(page).to have_no_css(selector, visible: :visible)
+    end
+
+    # Neither driver may deliver the key through the focused element:
+    # Selenium's Session#send_keys refuses once a closing submenu parked focus
+    # on a hidden item, and Cuprite's clicks its receiver first. Both paths
+    # below dispatch the key without touching any element.
+    def press_escape
+      if using_cuprite?
+        page.driver.browser.keyboard.type(:escape)
+      else
+        send_keys_to_focused_element(:escape)
+      end
     end
 
     def headed_section_titles(id_prefix:)

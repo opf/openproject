@@ -82,7 +82,9 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         sortable_lists__item_id_value: work_package.id,
         sortable_lists__item_type_value: "work_package",
         sortable_lists__item_label_value: work_package.to_fs(:caption),
-        sortable_lists__item_mobility_value: "free"
+        sortable_lists__item_mobility_value: "free",
+        sortable_lists__item_batch_menu_label_key_value: "js.backlogs.action_menu.batch_menu_label",
+        sortable_lists__item_singular_menu_label_value: "Work package actions"
       )
       expect(item.row_args[:draggable]).to be(true)
       expect(item.row_args).not_to include(:tabindex)

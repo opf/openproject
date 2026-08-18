@@ -54,9 +54,6 @@ module Backlogs
 
     private
 
-    # Positional moves reorder within the card's own list, which the server
-    # allows even for a read-only work package, so they gate on the page-level
-    # permission alone. Only the cross-container moves below require movable?.
     def show_move_items?
       sortable?
     end
