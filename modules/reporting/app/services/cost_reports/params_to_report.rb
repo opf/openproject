@@ -1,41 +1,13 @@
 # frozen_string_literal: true
 
-#-- copyright
-# OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License version 3.
-#
-# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
-# Copyright (C) 2010-2013 the ChiliProject Team
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-#
-# See COPYRIGHT and LICENSE files for more details.
-#++
-
 module CostReports
-  # Translates the reporting UI's request parameters into a CostReport.
+  # Translates a request into a CostReport.
   #
-  # The parameters are the ones the reporting form posts: fields[], operators[],
-  # values[], groups[rows][], groups[columns][] and unit.
+  # Filters use the compact syntax shared with the other query based lists, e.g.
+  # `filters=spent_on >d "2026-01-01" & user_id = "me"`. The axes are given as
+  # `rows` and `columns`, the selected unit as `unit`.
   class ParamsToReport
-    INACTIVE = "<<inactive>>"
-    NULL = "<<null>>"
+    CONFIGURATION_PARAMS = %i[filters rows columns unit].freeze
 
     def initialize(params, project: nil, user: User.current)
       @params = params
@@ -64,11 +36,8 @@ module CostReports
     def apply_filters(report)
       report.query.filters = []
 
-      filter_params.each do |field, operator|
-        values = Array(values_for(field))
-        next if values == [INACTIVE]
-
-        report.query.where(field.to_s, operator, values.map { |value| value == NULL ? nil : value })
+      filter_definitions.each do |definition|
+        report.query.where(definition[:attribute].to_s, definition[:operator], Array(definition[:values]))
       end
     end
 
@@ -80,45 +49,32 @@ module CostReports
       report.unit_id = params[:unit].to_i if params[:unit].present?
     end
 
-    def filter_params
-      return default_filters unless given_filters?
+    def filter_definitions
+      return default_filters unless params.key?(:filters)
 
-      Array(params[:fields]).compact_blank.index_with { |field| params[:operators][field] }
+      ::Queries::ParamsParser.parse(filters: params[:filters])[:filters] || []
     end
 
-    def values_for(field)
-      return default_values[field.to_sym] unless given_filters?
-
-      params[:values][field]
-    end
-
+    # An axis the request does not mention is empty rather than the default, as
+    # long as the request says anything about what to show at all. That way an
+    # empty axis can be left out of the url.
     def axis(name)
-      return default_axis(name) unless given_axes?
+      return default_axis(name) unless configured?
 
-      Array(params[:groups][name.to_s])
+      params[name].to_s.split(",").compact_blank
     end
 
-    def given_filters?
-      params[:set_filter].to_i == 1
-    end
-
-    def given_axes?
-      params[:set_filter].to_i == 1 && params[:groups].present?
+    def configured?
+      CONFIGURATION_PARAMS.any? { |key| params.key?(key) }
     end
 
     def default_filters
-      filters = { spent_on: ">d" }
-      filters[:project_id] = "=" if project
-      filters[:user_id] = "=" if user.logged?
-      filters
-    end
+      definitions = [{ attribute: "spent_on", operator: ">d", values: [30.days.ago.strftime("%Y-%m-%d")] }]
 
-    def default_values
-      {
-        spent_on: [30.days.ago.strftime("%Y-%m-%d")],
-        project_id: [project&.id.to_s],
-        user_id: [::Queries::Filters::MeValue::KEY]
-      }
+      definitions << { attribute: "project_id", operator: "=", values: [project.id.to_s] } if project
+      definitions << { attribute: "user_id", operator: "=", values: [::Queries::Filters::MeValue::KEY] } if user.logged?
+
+      definitions
     end
 
     def default_axis(name)
