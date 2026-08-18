@@ -37,10 +37,6 @@ class Queries::CostReports::GroupBys::CustomField < Queries::CostReports::GroupB
     KEY
   end
 
-  def self.all_available
-    WorkPackageCustomField.groupable.map { |cf| new(:"cf_#{cf.id}") }
-  end
-
   def custom_field
     return @custom_field if defined?(@custom_field)
 
