@@ -158,8 +158,7 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
       let(:target_type) { create(:type, custom_fields: target_custom_fields) }
       let(:target_project) do
         p = create(:project,
-                   types: [target_type],
-                   work_package_custom_fields: target_custom_fields)
+                   types: [target_type])
 
         create(:member,
                project: p,

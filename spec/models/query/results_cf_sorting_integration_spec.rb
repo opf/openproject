@@ -40,8 +40,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
   let(:type) { create(:type_task, custom_fields: [custom_field]) }
   let(:project) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: [custom_field])
+           types: [type])
   end
 
   let(:query) do

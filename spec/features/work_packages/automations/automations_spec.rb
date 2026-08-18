@@ -111,7 +111,6 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
   let!(:list_custom_field) do
     cf = create(:list_wp_custom_field, multi_value: true)
 
-    project.work_package_custom_fields = [cf]
     work_package.type.default_variant.custom_fields = [cf]
 
     cf
@@ -125,14 +124,12 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
   let!(:date_custom_field) do
     cf = create(:date_wp_custom_field)
 
-    other_project.work_package_custom_fields = [cf]
     other_type.default_variant.custom_fields = [cf]
 
     cf
   end
   let!(:multi_user_custom_field) do
     create(:multi_user_wp_custom_field).tap do |cf|
-      project.work_package_custom_fields << cf
       work_package.type.default_variant.custom_field_ids |= [cf.id]
     end
   end

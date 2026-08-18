@@ -28,14 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::WorkPackageCustomFields
-  extend ActiveSupport::Concern
+require "spec_helper"
 
-  included do
-    # Custom field for the project's work_packages
-    has_and_belongs_to_many :work_package_custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
-                            -> { order("#{CustomField.table_name}.position") },
-                            join_table: :custom_fields_projects,
-                            association_foreign_key: "custom_field_id"
+RSpec.describe "Administration custom fields index", type: :rails_request do
+  shared_let(:type) { create(:type, name: "Bug") }
+  shared_let(:on_a_type) { create(:work_package_custom_field, name: "Severity", types: [type]) }
+  shared_let(:on_no_type) { create(:work_package_custom_field, name: "Orphan") }
+
+  current_user { create(:admin) }
+
+  # The work package tab is the default one, and it renders a column per custom field.
+  it "lists the work package custom fields and the types configuring them" do
+    get custom_fields_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Severity").and include("Orphan")
+    expect(response.body).to include("Bug")
   end
 end

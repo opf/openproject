@@ -59,7 +59,7 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
 
   def self.instances(context = nil)
     WorkPackageCustomField
-      .on_visible_type_and_project(User.current, project: context)
+      .on_visible_type_and_project(User.current)
       .reject { |cf| cf.field_format == "text" }
       .map { |cf| new(cf) }
   end

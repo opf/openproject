@@ -29,9 +29,6 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  has_and_belongs_to_many :projects, # rubocop:disable Rails/HasAndBelongsToMany
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          foreign_key: "custom_field_id"
   has_many :form_configuration_memberships, -> { active },
            class_name: "FormConfigurationAttribute",
            foreign_key: :custom_field_id,

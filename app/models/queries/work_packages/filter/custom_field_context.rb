@@ -44,9 +44,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
 
     def custom_fields(context)
       if context&.project
-        WorkPackageCustomField
-          .on_visible_type_and_project(User.current, project: context.project)
-          .merge(WorkPackageCustomField.filter)
+        WorkPackageCustomField.filter
       else
         custom_field_class
           .filter
@@ -69,7 +67,6 @@ module Queries::WorkPackages::Filter::CustomFieldContext
     end
 
     def where_subselect_joins(custom_field)
-      cf_projects_db_table = "custom_fields_projects"
       cv_db_table = CustomValue.table_name
       work_package_db_table = WorkPackage.table_name
 
@@ -91,14 +88,6 @@ module Queries::WorkPackages::Filter::CustomFieldContext
         #{form_join}
         #{placed_on_form_join(custom_field, form_configuration_id, exclusion)}
       SQL
-
-      unless custom_field.is_for_all
-        joins += <<~SQL.squish
-          JOIN #{cf_projects_db_table}
-            ON #{cf_projects_db_table}.project_id = #{work_package_db_table}.project_id
-           AND #{cf_projects_db_table}.custom_field_id = #{custom_field.id}
-        SQL
-      end
 
       joins
     end
