@@ -323,8 +323,7 @@ RSpec.describe "API v3 Work package resource",
       let(:custom_field) do
         create(:string_wp_custom_field,
                name: "String CF",
-               types: project.enabled_types,
-               projects: [project])
+               types: project.enabled_types)
       end
 
       let(:custom_value) do
@@ -449,8 +448,7 @@ RSpec.describe "API v3 Work package resource",
         let(:custom_field) do
           create(:user_wp_custom_field,
                  name: "User CF",
-                 types: project.enabled_types,
-                 projects: [project])
+                 types: project.enabled_types)
         end
 
         let(:custom_value) do
@@ -505,10 +503,10 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when there is a custom value in the past but not in the now" \
-              "as the custom field has been disabled for the project" do
+              "as the custom field is no longer on the type" do
         before do
           create_customizable_journal(journal: original_journal, custom_field:, value: "Original value")
-          project.update(work_package_custom_fields: [])
+          custom_field.type_variants = []
         end
 
         it "does not embed the custom fields in the attributesByTimestamp" do

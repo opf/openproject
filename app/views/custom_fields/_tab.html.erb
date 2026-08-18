@@ -89,24 +89,6 @@ See COPYRIGHT and LICENSE files for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= CustomField.human_attribute_name(:is_for_all) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= t(:label_used_in_projects) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
                       <%= t("custom_fields.contained_in_type") %>
                     </span>
                   </div>
@@ -134,16 +116,6 @@ See COPYRIGHT and LICENSE files for more details.
               <td><%= label_for_custom_field_format(custom_field.field_format) %></td>
               <td><%= checked_image custom_field.is_required? %></td>
               <% if tab[:name] == 'WorkPackageCustomField' %>
-                <td><%= checked_image custom_field.is_for_all? %></td>
-                <td>
-                  <% if custom_field.projects.count == 0 && !custom_field.is_for_all? %>
-                    <span class="icon-context icon-warning">
-                      <%= t(:label_x_projects, count: custom_field.projects.count) %>
-                    </span>
-                  <% elsif !custom_field.is_for_all? %>
-                    <%= t(:label_x_projects, count: custom_field.projects.count) %>
-                  <% end %>
-                </td>
                 <td>
                   <% type_links = custom_field.type_variants.map { |variant| link_to(variant.composite_name, edit_type_form_configuration_path(**variant.path_args)) } %>
                   <% if type_links.empty? %>

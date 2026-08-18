@@ -38,7 +38,6 @@ RSpec.describe "Work package filtering by bool custom field", :js do
   let!(:bool_cf) do
     create(:boolean_wp_custom_field) do |cf|
       type.default_variant.custom_fields << cf
-      project.work_package_custom_fields << cf
     end
   end
   let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
