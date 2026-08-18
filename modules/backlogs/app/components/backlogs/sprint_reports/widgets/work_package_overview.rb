@@ -65,12 +65,7 @@ module Backlogs
               data: breakdown.initially_planned,
               timestamps: breakdown.reference_start
             ),
-            block(
-              key: :changed_after_start,
-              data: breakdown.changed_after_start,
-              timestamps: [breakdown.reference_start, breakdown.reference_finish],
-              count_prefix: true
-            ),
+            changed_after_start_block,
             block(
               key: :completed,
               data: breakdown.completed,
@@ -115,20 +110,38 @@ module Backlogs
           @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:)
         end
 
-        def block(key:, data:, timestamps:, status_filter_operator: nil, count_color: nil, count_prefix: false)
+        def block(key:, data:, timestamps:, status_filter_operator: nil, count_color: nil)
           {
             heading: t(".blocks.#{key}.heading"),
-            count: data.work_package_count,
-            story_points: data.story_points,
+            count: data.work_package_count.to_s,
+            story_points: t("backlogs.story_points", count: data.story_points),
             count_color:,
-            count_prefix:,
-            show_all_path: sprint_work_packages_path(
-              sprint,
-              project,
-              extra_filters: status_filters(status_filter_operator),
-              timestamps: Array(timestamps).map { |date| date.in_time_zone.end_of_day.iso8601 }
-            )
+            show_all_path: show_all_path(timestamps:, status_filter_operator:)
           }
+        end
+
+        # "Changed after start" tallies additions and removals separately (e.g. "+4 / -1"), rather
+        # than the single count/story_points the other blocks show.
+        def changed_after_start_block
+          data = breakdown.changed_after_start
+
+          {
+            heading: t(".blocks.changed_after_start.heading"),
+            count: t(".blocks.changed_after_start.count_change", added: data.added_count, removed: data.removed_count),
+            story_points: t(".blocks.changed_after_start.story_points_change",
+                            added: data.added_story_points, removed: data.removed_story_points),
+            count_color: nil,
+            show_all_path: show_all_path(timestamps: [breakdown.reference_start, breakdown.reference_finish])
+          }
+        end
+
+        def show_all_path(timestamps:, status_filter_operator: nil)
+          sprint_work_packages_path(
+            sprint,
+            project,
+            extra_filters: status_filters(status_filter_operator),
+            timestamps: Array(timestamps).map { |date| date.in_time_zone.end_of_day.iso8601 }
+          )
         end
 
         def status_filters(operator)
