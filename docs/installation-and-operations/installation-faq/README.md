@@ -12,7 +12,7 @@ keywords: installation FAQ, upgrades, updates, operation faq
 
 ### Which options are there to install OpenProject?
 
-There's the package based installation (recommended), installation via Docker, using a provider (like Bitnami, IONOS) and the manual installation.
+You can find the installation options [here](../installation).
 
 ### What skills should I have for the installation of Community edition or Enterprise on-premises?
 
@@ -22,11 +22,11 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 ### My favorite Linux distribution is not listed. What can I do?
 
-You can either try the OUTDATED and OLD manual installation guide, or add a Feature request whether your operating system could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
+You can install OpenProject via Docker or Docker Compose.
 
 ### What is the better option to run OpenProject in production environments: Docker or Linux packages?
 
-We recommend the Linux packages [if you have a compatible distribution](../system-requirements/) and a separate machine for OpenProject, since it will allow for the easiest and most flexible setup. Use a Docker-based image either for quickly spinning up an environment or if you have knowledge in setting up and maintaining Docker-based installations.
+We recommend the Helm installation on a Kubernetes cluster for OpenProject, since it will allow for the most flexible setup. Or a Docker Compose for a smaller environment. The package based installation is deprecated and will only be supported until EOL of the current supported distributions.
 
 ### Are there any default ports that should be closed for security reasons?
 
@@ -179,4 +179,4 @@ It doesn't by default. There is a setting which enables this option: drop_old_se
 
 ### Can the OpenProject force password expiration and prevent users from reusing a password?
 
-There is no password expiration in OpenProject, but OpenProject can prevent the re-use of previous passwords via the password_count_former_banned setting. If you use an LDAP-Server for login that has this feature, you can archive this via your LDAP-Server. Other identity providers (e.g. KeyCloak) used via OpenID Connect or SAML can also do this. You can set up these rules in these identity providers directly and use them for authentication.
+You can find how to set up password expiration in OpenProject [here](../../system-admin-guide/authentication/login-registration-settings/#password-settings). If you use an LDAP-Server for login that has this feature, you can achieve this via your LDAP-Server. Other identity providers (e.g. KeyCloak) used via OpenID Connect or SAML can also do this. You can set up these rules in these identity providers directly and use them for authentication.
