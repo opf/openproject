@@ -26,32 +26,26 @@
 
 module ResourceAllocations
   module Forms
-    # Picks the resource an allocation asks for from the existing catalogue.
-    # Its criteria are shown read-only underneath, so an allocation never
-    # describes a resource inline.
-    class UserResourceForm < ApplicationForm
+    class PlaceholderUserForm < ApplicationForm
       form do |f|
         f.autocompleter(
-          name: :user_resource_id,
-          label: ResourceAllocation.human_attribute_name(:user_resource),
+          name: :placeholder_user_id,
+          label: ResourceAllocation.human_attribute_name(:placeholder_user),
           required: true,
           autocomplete_options: {
-            component: "opce-autocompleter",
-            url: ::API::V3::Utilities::PathHelper::ApiV3Path.user_resources,
-            resource: "user_resources",
+            component: "opce-user-autocompleter",
+            url: ::API::V3::Utilities::PathHelper::ApiV3Path.placeholder_users,
+            resource: "principals",
             searchKey: "any_name_attribute",
-            bindLabel: "name",
+            filters: [{ name: "has_user_filter", operator: "=", values: ["with_criteria"] }],
             multiple: false,
             focusDirectly: false,
             appendTo: "##{@dialog_id}",
-            # Refreshes the criteria shown below for the picked resource.
             data: { action: "change->refresh-on-form-changes#triggerTurboStream" }
           }
         ) do |list|
-          # The current selection is rendered server-side so the autocompleter
-          # does not have to resolve it before the form is usable.
-          if model.user_resource
-            list.option(value: model.user_resource.id, label: model.user_resource.name, selected: true)
+          if model.placeholder_user
+            list.option(value: model.placeholder_user.id, label: model.placeholder_user.name, selected: true)
           end
         end
 

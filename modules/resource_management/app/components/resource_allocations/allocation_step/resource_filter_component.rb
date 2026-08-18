@@ -42,7 +42,7 @@ module ResourceAllocations
 
       def call
         component_wrapper do
-          next if user_resource.nil?
+          next if placeholder_user.nil?
 
           render(Primer::Box.new(mt: 2)) do
             render(Primer::Beta::Text.new(tag: :div, font_weight: :bold, mb: 1)) do
@@ -54,12 +54,12 @@ module ResourceAllocations
 
       private
 
-      def user_resource
-        @allocation.user_resource
+      def placeholder_user
+        @allocation.placeholder_user
       end
 
       def criteria
-        @criteria ||= ::Queries::FilterSummary.new(user_resource.user_filter).phrases
+        @criteria ||= ::Queries::FilterSummary.new(placeholder_user.user_filter).phrases
       end
 
       def criteria_text

@@ -8,10 +8,10 @@ en:
         date_range: Dates
         end_date: Finish date
         entity: Entity
+        placeholder_user: Placeholder user
         principal: Assignee
         start_date: Start date
         state: State
-        user_resource: Resource
       resource_planner:
         date_range: Dates
         default_view_class_name: Default view

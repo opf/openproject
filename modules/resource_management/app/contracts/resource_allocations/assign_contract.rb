@@ -31,7 +31,7 @@
 module ResourceAllocations
   # Assigning a real user to a generic (filter-based) allocation. Only
   # `principal` and `principal_assigned_by` change; the requested
-  # `user_resource` is kept, so the allocation stays generic.
+  # `placeholder_user` is kept, so the allocation stays generic.
   class AssignContract < BaseContract
     attribute :principal_assigned_by
 
