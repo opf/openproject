@@ -30,12 +30,32 @@
 require "cost_query/operator"
 
 module OpenProject::Reporting
+  # A chain host for the engine specs. A CostReport builds its chain from its own
+  # filters and axes and injects the permission filter, where these specs want an
+  # empty chain they assemble themselves.
+  class BareChain
+    include CostReports::EngineChain
+
+    def minimal_chain!
+      engine::Filter.all && engine::GroupBy.all
+
+      @chain = engine::Filter::NoFilter.new
+    end
+
+    def build_new_chain
+      minimal_chain!
+      engine.chain_initializer.each { |block| block.call self }
+
+      self
+    end
+  end
+
   module QueryHelper
     def minimal_query
-      let(:query) { CostQuery.new }
+      let(:query) { BareChain.new }
 
       before do
-        query.send(:minimal_chain!)
+        query.minimal_chain!
       end
     end
   end
