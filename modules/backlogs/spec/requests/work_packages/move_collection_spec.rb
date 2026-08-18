@@ -191,9 +191,8 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
 
     context "when the persisted block diverges from the request" do
       it "reloads instead of skipping" do
-        # Force divergence: an optimistic same-list move whose anchor check
-        # cannot hold because prev_id is absent (append) — unverifiable, so
-        # the controller must reconcile via reload.
+        # An append has no prev_id for the anchor check to hold against, so
+        # the optimistic placement is unverifiable and must reconcile.
         move_collection(ids: [sprint_wp1.id], list_type: "sprint", list_id: sprint.id,
                         optimistic: true)
 
@@ -253,7 +252,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include(
-          ERB::Util.html_escape(I18n.t(:notice_work_package_invisible_after_move, backlog: bucket.name))
+          ERB::Util.html_escape(I18n.t(:notice_work_package_invisible_after_move, count: 1, backlog: bucket.name))
         )
       end
     end
@@ -267,7 +266,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
 
         expect(response).to have_http_status(:ok)
         expect(response.body).not_to include(
-          ERB::Util.html_escape(I18n.t(:notice_work_package_invisible_after_move, backlog: bucket.name))
+          ERB::Util.html_escape(I18n.t(:notice_work_package_invisible_after_move, count: 1, backlog: bucket.name))
         )
       end
     end
@@ -283,7 +282,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
         expect(response).to have_http_status(:ok)
         expect(response.body).to include(
           ERB::Util.html_escape(
-            I18n.t(:notice_work_packages_invisible_after_move, count: 2, backlog: bucket.name)
+            I18n.t(:notice_work_package_invisible_after_move, count: 2, backlog: bucket.name)
           )
         )
       end

@@ -34,12 +34,19 @@ en:
         fallback_item_label: "Work package"
         fallback_list_name: "another list"
         move_failed_check_position: "Move failed. Check the work package's current position."
-        move_failed_check_positions_batch: "Move failed. Check the work packages' current positions."
+        # The batch keys are plural hashes so translators can add the plural
+        # categories their locale needs; the one: branch is unreachable (a
+        # one-card move announces through the singular keys).
+        move_failed_check_positions_batch:
+          other: "Move failed. Check the work packages' current positions."
         move_failed_rolled_back: "Move failed. %{label} returned to its previous position."
-        move_failed_rolled_back_batch: "Move failed. %{count} work packages returned to their previous positions."
+        move_failed_rolled_back_batch:
+          other: "Move failed. %{count} work packages returned to their previous positions."
         moved: "%{label} moved to position %{position} of %{total}"
-        moved_batch: "%{count} work packages moved to positions %{first} through %{last} of %{total}"
-        moved_batch_to_list: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
+        moved_batch:
+          other: "%{count} work packages moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
       selection:
         card_state: "Selected"
