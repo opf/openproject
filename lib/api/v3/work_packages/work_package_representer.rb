@@ -166,17 +166,6 @@ module API
           }
         end
 
-        link :customFields,
-             cache_if: -> { current_user.allowed_in_project?(:select_custom_fields, represented.project) } do
-          next if represented.project.nil?
-
-          {
-            href: project_settings_custom_fields_path(represented.project.identifier),
-            type: "text/html",
-            title: "Custom fields"
-          }
-        end
-
         link :configureForm,
              cache_if: -> { current_user.admin? } do
           next unless represented.type_id

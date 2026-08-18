@@ -63,16 +63,6 @@ module API
           end
         end
 
-        link :customFields do
-          if represented.project && current_user.allowed_in_project?(:select_custom_fields, represented.project)
-            {
-              href: project_settings_custom_fields_path(represented.project.identifier),
-              type: "text/html",
-              title: I18n.t("label_custom_field_plural")
-            }
-          end
-        end
-
         link :configureForm do
           if current_user.admin? &&
              represented.type_id &&

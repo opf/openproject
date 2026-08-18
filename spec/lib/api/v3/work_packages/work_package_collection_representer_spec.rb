@@ -233,50 +233,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
     end
 
-    describe "customFields" do
-      let(:project) { build_stubbed(:project) }
-
-      context "with the permission to select custom fields" do
-        before do
-          mock_permissions_for(user) do |mock|
-            mock.allow_in_project :select_custom_fields, project:
-          end
-        end
-
-        it "has a link to set the custom fields for that project" do
-          expected = {
-            href: project_settings_custom_fields_path(project),
-            type: "text/html",
-            title: "Custom fields"
-          }
-
-          expect(collection)
-            .to be_json_eql(expected.to_json)
-                  .at_path("_links/customFields")
-        end
-      end
-
-      context "without the permission to select custom fields" do
-        before do
-          mock_permissions_for(user, &:forbid_everything)
-        end
-
-        it "has no link to set the custom fields for that project" do
-          expect(collection).not_to have_json_path("_links/customFields")
-        end
-      end
-
-      context "when not in a project" do
-        let(:project) { nil }
-
-        it "has no link to set the custom fields for that project" do
-          expect(collection).not_to have_json_path("_links/customFields")
-        end
-      end
-    end
-  end
-
-  describe "_embedded" do
     describe "elements" do
       context "for a work package that is not visible" do
         let(:total) { 1 }

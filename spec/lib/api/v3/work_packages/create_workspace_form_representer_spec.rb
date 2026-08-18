@@ -133,30 +133,6 @@ RSpec.describe API::V3::WorkPackages::CreateWorkspaceFormRepresenter do
       end
     end
 
-    describe "customFields" do
-      context "with the permission to select custom fields" do
-        let(:permissions) { [:select_custom_fields] }
-
-        it "has a link to set the custom fields for that project" do
-          expected = {
-            href: project_settings_custom_fields_path(work_package.project),
-            type: "text/html",
-            title: "Custom fields"
-          }
-
-          expect(generated)
-            .to be_json_eql(expected.to_json)
-                  .at_path("_links/customFields")
-        end
-      end
-
-      context "without the permission to select custom fields" do
-        it "has no link to set the custom fields for that project" do
-          expect(generated).not_to have_json_path("_links/customFields")
-        end
-      end
-    end
-
     describe "configureForm" do
       context "for an admin and with a type" do
         let(:user) { build_stubbed(:user, admin: true) }
