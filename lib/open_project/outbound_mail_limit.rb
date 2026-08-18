@@ -38,7 +38,7 @@ module OpenProject
       end
 
       def limit
-        Setting.outbound_mail_limits.to_i
+        Setting.outbound_mail_limits
       end
 
       def allow?(address)
