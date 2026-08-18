@@ -35,11 +35,13 @@ module Storages
         module Queries
           module Internal
             class ChildrenQuery < Base
-              def call(http:, folder:, fields: [])
-                query = fields.empty? ? "" : "?$select=#{fields.join(',')}"
+              MAXIMUM = 1000
 
+              def call(http:, folder:, fields: [])
+                query = fields.empty? ? { "$top" => MAXIMUM } : { "$top" => MAXIMUM, "$select" => fields.join(',') }
                 url = UrlBuilder.url(base_uri, uri_path_for(folder))
-                handle_responses(http.get(url + query))
+
+                handle_responses(http.get(url, params: query))
               end
 
               private
