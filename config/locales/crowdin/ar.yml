@@ -488,6 +488,7 @@ ar:
         before_or_equal_to: يجب أن يكون قبل أو يساوي %{date}.
         blank: لا يمكن أن يكون فارغا.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية.
         circular_dependency: ان هذه العلاقة خلق تبعية دائرية.
@@ -4064,7 +4065,6 @@ ar:
         invalid_type: No type found with name '%{type}' in project '%{project}'.
         no_project_context: Calling create_work_package_link macro from outside project context.
       link_name: مجموعة عمل جديدة
-      link_name_type: New %{type_name}
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     include_wiki_page:

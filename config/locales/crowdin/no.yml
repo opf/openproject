@@ -488,6 +488,7 @@
         before_or_equal_to: må være før eller lik %{date}.
         blank: kan ikke være blank.
         blank_nested: må ha egenskapen '%{property}' aktivert.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: er påkrevd. Kan ikke slettes.
         cant_link_a_work_package_with_a_descendant: En arbeidspakke kan ikke knyttes til en av sine deloppgaver.
         circular_dependency: En slik relasjon ville lage en sirkulær avhengighet.
@@ -3834,7 +3835,6 @@
         invalid_type: Ingen type funnet med navn '%{type}' i prosjektet '%{project}'.
         no_project_context: Kjør create_work_package_link makro fra utenfor prosjektkontekst.
       link_name: Ny arbeidspakke
-      link_name_type: Ny %{type_name}
     errors:
       missing_or_invalid_parameter: Manglende eller ugyldig makroparameter.
     include_wiki_page:

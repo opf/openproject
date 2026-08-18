@@ -488,6 +488,7 @@ fil:
         before_or_equal_to: dapat ay bago o katumbas sa %{date}.
         blank: hindi pwedeng blanko.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Ang isang package ng pagawaan ay hindi maaring mai-ugnay sa isa sa mga substak.
         circular_dependency: Itong pakikipag-ugnayan ay lilikha ng kabilugang dependecia.
@@ -3834,7 +3835,6 @@ fil:
         invalid_type: Walang uri ang natagpuan na may pangalan '%{type}'sa proyekto '%{project}'.
         no_project_context: Pagtawag ng create_work_package macro mula sa labas ng proyektong konteksto.
       link_name: Bagong work package
-      link_name_type: Bagong %{type_name}
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     include_wiki_page:

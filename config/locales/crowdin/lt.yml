@@ -488,6 +488,7 @@ lt:
         before_or_equal_to: turi eiti prieš arba būti lygu %{date}.
         blank: negali būti tuščia.
         blank_nested: reikalauja, kad savybė '%{property}' būtų nustatyta.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas su viena iš savo vidinių užduočių.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
@@ -3953,7 +3954,6 @@ lt:
         invalid_type: Tipas „%{type}“ nerastas projekte „%{project}“.
         no_project_context: Kviesti create_work_package_link makrokomandą projekto konteksto išorėje.
       link_name: Naujas darbų paketas
-      link_name_type: Naujas %{type_name}
     errors:
       missing_or_invalid_parameter: Trūkstamas arba netinkamas makro parametras.
     include_wiki_page:

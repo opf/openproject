@@ -488,6 +488,7 @@ id:
         before_or_equal_to: harus sebelum atau maksimal %{date}.
         blank: harus di isi.
         blank_nested: harus menyetel properti '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Work package tidak dapat dihubungkan dengan subtask-nya.
         circular_dependency: Relasi ini menyebabkan dependensi circular.
@@ -3782,7 +3783,6 @@ id:
         invalid_type: Tidak ditemukan tipe '%{type}' dalam paket '%{project}'.
         no_project_context: Pemanggilan makro create_work_package_link dari paket diluar konteks.
       link_name: Paket-Penugasan baru
-      link_name_type: Sesuatu yang baru %{type_name}
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     include_wiki_page:

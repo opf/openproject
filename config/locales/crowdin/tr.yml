@@ -488,6 +488,7 @@ tr:
         before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
         blank: boş bırakılamaz.
         blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: zorunlu. Silinemez.
         cant_link_a_work_package_with_a_descendant: İş paketi alt görevlerinden birine bağlanamaz.
         circular_dependency: Bu ilişki döngüsel bağımlılık oluşturacak.
@@ -3841,7 +3842,6 @@ tr:
         invalid_type: "'%{project}' projesinde '%{type}' isminde bir tür bulunamadı."
         no_project_context: Proje içeriği dışından create_work_package_link makrosu çağrılıyor.
       link_name: Yeni iş paketi
-      link_name_type: Yeni %{type_name}
     errors:
       missing_or_invalid_parameter: Eksik ya da geçersiz macro parametreleri.
     include_wiki_page:

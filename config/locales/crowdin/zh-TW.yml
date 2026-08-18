@@ -488,6 +488,7 @@ zh-TW:
         before_or_equal_to: 必須在 %{date} 以前
         blank: 不可空白
         blank_nested: '需要設置屬性  ''%{property}'' '
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: 必需項，不能刪除
         cant_link_a_work_package_with_a_descendant: 工作套件不能聯結到自己的子套件。
         circular_dependency: 這個關係會建立一個循環依賴
@@ -3780,7 +3781,6 @@ zh-TW:
         invalid_type: 在專案 "%{project}" 中找不到名稱為 "%{type}" 的類型。
         no_project_context: 從外部專案上下文呼叫 create_work_package_link 巨集。
       link_name: 新增工作套件
-      link_name_type: 新增 %{type_name}
     errors:
       missing_or_invalid_parameter: 丟失或無效的宏參數。
     include_wiki_page:

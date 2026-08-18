@@ -488,6 +488,7 @@ sk:
         before_or_equal_to: musí byť pred alebo rovné termínu %{date}.
         blank: nemôže byť prázdne.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Pracovný balíček nemôže byť previazaný na žiadny zo svojich podriadenými balíčkov.
         circular_dependency: Tento vzťah by vytvoril cyklickú závislosť.
@@ -3948,7 +3949,6 @@ sk:
         invalid_type: Nenašiel sa žiadny typ s názvom '%{type}' v projekte '%{project}".
         no_project_context: Volanie create_work_package_link makra z kontextu mimo projektu.
       link_name: Nový pracovný balíček
-      link_name_type: Nový %{type_name}
     errors:
       missing_or_invalid_parameter: Chýbajúce alebo neplatné parametre makra.
     include_wiki_page:

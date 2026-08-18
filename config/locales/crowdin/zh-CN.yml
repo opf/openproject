@@ -488,6 +488,7 @@ zh-CN:
         before_or_equal_to: 必须在早于或等于 %{date}
         blank: 不能为空。
         blank_nested: 需要设置属性“%{property}”。
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: 必需项，不能删除
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
         circular_dependency: 这种关系将创建循环依赖项。
@@ -3777,7 +3778,6 @@ zh-CN:
         invalid_type: 在项目 "%{project}" 中找不到名称为 "%{type}" 的类型。
         no_project_context: 从外部项目上下文调用 create_work_package_link 宏。
       link_name: 新工作包
-      link_name_type: 新%{type_name}
     errors:
       missing_or_invalid_parameter: 缺少或无效的宏参数。
     include_wiki_page:
