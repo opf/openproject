@@ -29,27 +29,41 @@
 #++
 
 module PlaceholderUsers
-  class PlaceholderUserFilterComponent < IndividualPrincipalBaseFilterComponent
-    options :roles, :clear_url
+  class IndexSubHeaderComponent < ApplicationComponent
+    include ApplicationHelper
 
-    class << self
-      def base_query
-        Queries::PlaceholderUsers::PlaceholderUserQuery
-      end
-
-      def apply_filters(params, query)
-        super
-
-        # Filter for active placeholders
-        # to skip to-be-deleted users
-        query.where(:status, "=", :active)
-      end
+    def initialize(query:)
+      super
+      @query = query
     end
 
-    # INSTANCE METHODS:
+    def filter_input_value
+      @query.find_active_filter(:any_name_attribute)&.values&.first
+    end
 
-    def filter_path
-      placeholder_users_path
+    def sub_header_data_attributes
+      {
+        controller: "filter--filters-form",
+        "filter--filters-form-perform-turbo-requests-value": true,
+        "filter--filters-form-clear-button-id-value": clear_button_id
+      }
+    end
+
+    def filter_input_data_attributes
+      {
+        "filter-name": "any_name_attribute",
+        "filter-type": "string",
+        "filter-operator": "~",
+        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+      }
+    end
+
+    def clear_button_id
+      "placeholder-user-filters-form-clear-button"
+    end
+
+    def collapsed_search?
+      filter_input_value.blank?
     end
   end
 end
