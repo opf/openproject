@@ -28,26 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Only return user resources that are visible to the current user.
-#
-# Unlike other principals these are a global catalogue and never project
-# members, so the membership-based rules of `Principals::Scopes::Visible` can
-# never match. Visibility hangs off the resource planner instead: anyone who
-# may look at a planner has to be able to read the names of the resources its
-# allocations ask for.
-module UserResources::Scopes
-  module Visible
-    extend ActiveSupport::Concern
+class CreatePlaceholderUserDetails < ActiveRecord::Migration[8.1]
+  def change
+    create_table :placeholder_user_details do |t|
+      t.references :principal, null: false, foreign_key: { to_table: :users }, index: { unique: true }
+      t.jsonb :user_filter, null: false, default: []
+      t.text :description
 
-    class_methods do
-      def visible(user = User.current)
-        if user.allowed_globally?(:view_all_principals) ||
-           user.allowed_in_any_project?(:view_resource_planners)
-          all
-        else
-          none
-        end
-      end
+      t.timestamps
     end
   end
 end

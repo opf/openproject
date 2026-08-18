@@ -28,14 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CreateUserResourceDetails < ActiveRecord::Migration[8.1]
+class AddPlaceholderUserToResourceAllocations < ActiveRecord::Migration[8.1]
   def change
-    create_table :user_resource_details do |t|
-      t.references :principal, null: false, foreign_key: { to_table: :users }, index: { unique: true }
-      t.jsonb :user_filter, null: false, default: []
-      t.text :description
-
-      t.timestamps
-    end
+    # No ON DELETE: a placeholder still requested by an allocation must not be
+    # removable. Enforced in the deletion service, the FK is the backstop.
+    add_reference :resource_allocations, :placeholder_user, foreign_key: { to_table: :users }, index: true
+    add_column :resource_allocation_journals, :placeholder_user_id, :bigint
   end
 end

@@ -29,33 +29,34 @@
 #++
 
 # Lifts the inline user filters of the existing generic allocations into
-# UserResource records and links the allocations to them.
+# placeholder users and links the allocations to them.
 #
-# The filter is what identifies a resource, so allocations asking for the same
-# thing are merged into one record even when they were labelled differently.
-#
-# The old columns are left in place: they are still the read path until the
-# application switches over to the association.
-class BackfillUserResourcesFromAllocations < ActiveRecord::Migration[8.1]
+# Allocations asking for the same filter are merged into one placeholder even
+# when they were labelled differently.
+class BackfillPlaceholderUsersFromAllocations < ActiveRecord::Migration[8.1]
   ACTIVE_STATUS = 1 # Principal.statuses[:active]
 
   def up
-    taken_names = select_values("SELECT lastname FROM users WHERE type = 'UserResource'").to_set
+    taken_names = select_values("SELECT lastname FROM users WHERE type = 'PlaceholderUser'").to_set
 
     merged_requests.each do |request|
       name = unique_name(request["base_name"], taken_names)
       taken_names << name
 
-      link_allocations(create_user_resource(name, request["user_filter"]), request["user_filter"])
+      link_allocations(create_placeholder_user(name, request["user_filter"]), request["user_filter"])
     end
   end
 
-  # Rolling back discards every user resource, not just the backfilled ones —
-  # at this point they have no other origin.
+  # Only the placeholders this migration created carry a filter, so those are
+  # the ones it removes again.
   def down
-    execute "UPDATE resource_allocations SET user_resource_id = NULL"
-    execute "DELETE FROM user_resource_details"
-    execute "DELETE FROM users WHERE type = 'UserResource'"
+    execute "UPDATE resource_allocations SET placeholder_user_id = NULL"
+
+    ids = select_values("SELECT principal_id FROM placeholder_user_details WHERE user_filter <> '[]'::jsonb")
+    return if ids.empty?
+
+    execute "DELETE FROM placeholder_user_details WHERE principal_id IN (#{ids.join(',')})"
+    execute "DELETE FROM users WHERE id IN (#{ids.join(',')})"
   end
 
   private
@@ -97,27 +98,27 @@ class BackfillUserResourcesFromAllocations < ActiveRecord::Migration[8.1]
     "#{base_name} (#{suffix})"
   end
 
-  def create_user_resource(name, user_filter)
+  def create_placeholder_user(name, user_filter)
     principal_id = select_value(<<~SQL.squish)
       INSERT INTO users (type, lastname, status, created_at, updated_at)
-      VALUES ('UserResource', #{quote(name)}, #{ACTIVE_STATUS}, NOW(), NOW())
+      VALUES ('PlaceholderUser', #{quote(name)}, #{ACTIVE_STATUS}, NOW(), NOW())
       RETURNING id
     SQL
 
     execute(<<~SQL.squish)
-      INSERT INTO user_resource_details (principal_id, user_filter, created_at, updated_at)
+      INSERT INTO placeholder_user_details (principal_id, user_filter, created_at, updated_at)
       VALUES (#{principal_id}, #{quote(user_filter)}::jsonb, NOW(), NOW())
     SQL
 
     principal_id
   end
 
-  # `principal_id` is deliberately left alone: an already staffed allocation
-  # keeps its user and gains the resource it was originally requested as.
+  # `principal_id` is left alone: a staffed allocation keeps its user and gains
+  # the placeholder it was originally requested as.
   def link_allocations(principal_id, user_filter)
     execute(<<~SQL.squish)
       UPDATE resource_allocations
-      SET user_resource_id = #{principal_id}
+      SET placeholder_user_id = #{principal_id}
       WHERE principal_explicit = false
         AND user_filter = #{quote(user_filter)}::jsonb
     SQL

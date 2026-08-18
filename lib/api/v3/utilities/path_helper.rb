@@ -598,9 +598,6 @@ module API
             "#{user(user_id)}/working_hours"
           end
 
-          index :user_resource
-          show :user_resource
-
           def self.user_working_hours_record(user_id, id)
             "#{user_working_hours(user_id)}/#{id}"
           end
