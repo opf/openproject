@@ -46,8 +46,10 @@ See COPYRIGHT and LICENSE files for more details.
       )
     %>
 
-    <% sub_header.with_quick_filter do %>
-      <%= render(variant_filter_component) %>
+    <% if variant_filter_available? %>
+      <% sub_header.with_quick_filter do %>
+        <%= render(variant_filter_component) %>
+      <% end %>
     <% end %>
 
     <%

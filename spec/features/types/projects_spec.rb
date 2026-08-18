@@ -195,6 +195,15 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     expect(inside.reload.project_types.where(type_id: type.id)).to be_empty
   end
 
+  it "offers the variant filter at type level but not inside a variant" do
+    visit edit_type_projects_path(type_id: type.id)
+    expect(page).to have_test_selector("quick-filter-select-panel-button")
+
+    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    expect(page).to have_no_test_selector("quick-filter-select-panel-button")
+    expect(page).to have_test_selector("type-projects-add-button")
+  end
+
   it "flips the toggle label when the add dialog completes the set" do
     lone_type = create(:type, name: "Chore")
     Project.where.not(id: parent.id).find_each { |project| create(:project_type, project:, type: lone_type) }

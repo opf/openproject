@@ -198,4 +198,24 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
                                   text: I18n.t("types.edit.projects.empty_state.description"))
     end
   end
+
+  describe "where the variant filter is offered" do
+    it "offers it at type level" do
+      get edit_type_projects_path(type_id: type.id)
+
+      expect(page).to have_css("[data-test-selector='quick-filter-select-panel-button']")
+    end
+
+    it "leaves it out inside a variant" do
+      get edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+
+      expect(page).to have_no_css("[data-test-selector='quick-filter-select-panel-button']")
+    end
+
+    it "keeps the project name search inside a variant" do
+      get edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+
+      expect(page).to have_field("name_and_identifier", visible: :all)
+    end
+  end
 end
