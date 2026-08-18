@@ -28,14 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The requested resource is now a UserResource reachable through
-# `user_resource_id`, so the inline copies of it are dropped.
+# The requested resource is now a placeholder user reachable through
+# `placeholder_user_id`, so the inline copies of it are dropped.
 #
-# Journals are carried over first: their rows predate `user_resource_id` and
+# Journals are carried over first: their rows predate `placeholder_user_id` and
 # would otherwise lose the record of what a past version asked for.
 class RemoveInlineFilterColumnsFromResourceAllocations < ActiveRecord::Migration[8.1]
   def up
-    carry_journals_over_to_user_resource
+    carry_journals_over_to_placeholder_user
 
     remove_column :resource_allocations, :user_filter
     remove_column :resource_allocations, :filter_name
@@ -55,39 +55,36 @@ class RemoveInlineFilterColumnsFromResourceAllocations < ActiveRecord::Migration
     add_column :resource_allocation_journals, :filter_name, :string
     add_column :resource_allocation_journals, :principal_explicit, :boolean
 
-    restore_inline_columns_from_user_resource(:resource_allocations)
-    restore_inline_columns_from_user_resource(:resource_allocation_journals)
+    restore_inline_columns_from_placeholder_user(:resource_allocations)
+    restore_inline_columns_from_placeholder_user(:resource_allocation_journals)
   end
 
   private
 
-  # A journal row of a generic allocation records the request as it stood at
-  # that version. The resource it now points at is the one the backfill derived
-  # from exactly those values, so it is the right thing to attribute it to.
-  def carry_journals_over_to_user_resource
+  def carry_journals_over_to_placeholder_user
     execute(<<~SQL.squish)
       UPDATE resource_allocation_journals raj
-      SET user_resource_id = ra.user_resource_id
+      SET placeholder_user_id = ra.placeholder_user_id
       FROM journals j
       JOIN resource_allocations ra ON ra.id = j.journable_id
       WHERE j.data_id = raj.id
         AND j.data_type = 'Journal::ResourceAllocationJournal'
         AND j.journable_type = 'ResourceAllocation'
         AND raj.principal_explicit = false
-        AND raj.user_resource_id IS NULL
+        AND raj.placeholder_user_id IS NULL
     SQL
   end
 
-  def restore_inline_columns_from_user_resource(table)
-    execute("UPDATE #{table} SET principal_explicit = (user_resource_id IS NULL)")
+  def restore_inline_columns_from_placeholder_user(table)
+    execute("UPDATE #{table} SET principal_explicit = (placeholder_user_id IS NULL)")
 
     execute(<<~SQL.squish)
       UPDATE #{table} t
       SET filter_name = u.lastname,
           user_filter = d.user_filter
       FROM users u
-      JOIN user_resource_details d ON d.principal_id = u.id
-      WHERE u.id = t.user_resource_id
+      JOIN placeholder_user_details d ON d.principal_id = u.id
+      WHERE u.id = t.placeholder_user_id
     SQL
   end
 end
