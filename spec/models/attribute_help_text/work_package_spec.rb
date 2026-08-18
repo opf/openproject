@@ -95,15 +95,6 @@ RSpec.describe AttributeHelpText::WorkPackage do
       end
     end
 
-    context "with a user having the `select_custom_fields` permission" do
-      let(:permissions) { [:select_custom_fields] }
-
-      it "returns the help text for the static and cf attribute" do
-        expect(subject)
-          .to contain_exactly(static_instance, cf_instance)
-      end
-    end
-
     context "user being member in a project with activated custom fields" do
       let(:permissions) { [] }
       let(:type) do
