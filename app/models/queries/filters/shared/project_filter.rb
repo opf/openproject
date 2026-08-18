@@ -46,7 +46,7 @@ module Queries::Filters::Shared::ProjectFilter
   def self.ids_by_identifier(identifiers)
     Project
       .visible
-      .where("LOWER(identifier) IN (?)", identifiers.map(&:downcase))
+      .by_identifiers_ci(identifiers)
       .pluck(:identifier, :id)
       .to_h { |identifier, id| [identifier.downcase, id.to_s] }
   end

@@ -31,12 +31,9 @@
 require "spec_helper"
 
 RSpec.describe Queries::Documents::Filters::ProjectFilter do
-  let(:project1) { create(:project) }
-  let(:project2) { create(:project) }
+  include_context "project filter with visible projects"
 
-  before do
-    allow(Project).to receive(:visible).and_return(Project.where(id: [project1, project2]))
-  end
+  let(:model) { Document }
 
   describe "#values=" do
     let(:instance) { described_class.create!(name: :project_id, operator: "=", values:) }
@@ -95,23 +92,5 @@ RSpec.describe Queries::Documents::Filters::ProjectFilter do
     end
   end
 
-  it_behaves_like "basic query filter" do
-    let(:class_key) { :project_id }
-    let(:type) { :list_optional }
-    let(:name) { Document.human_attribute_name(:project) }
-
-    describe "#allowed_values" do
-      it "is a list of the possible values" do
-        expected = [[project1.id, project1.id.to_s], [project2.id, project2.id.to_s]]
-
-        expect(instance.allowed_values).to match_array(expected)
-      end
-    end
-  end
-
-  it_behaves_like "list_optional query filter" do
-    let(:attribute) { :project_id }
-    let(:model) { Document }
-    let(:valid_values) { [project1.id.to_s] }
-  end
+  it_behaves_like "project_id list_optional filter"
 end
