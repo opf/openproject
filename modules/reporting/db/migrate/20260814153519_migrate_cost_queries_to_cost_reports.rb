@@ -109,7 +109,9 @@ class MigrateCostQueriesToCostReports < ActiveRecord::Migration[8.1]
       query_id: query.id,
       public: cost_query.is_public,
       category: "cost_report",
-      options: { "pivot_rows" => rows, "pivot_columns" => columns },
+      options: { "pivot_rows" => rows,
+                 "pivot_columns" => columns,
+                 "legacy_cost_query_id" => cost_query.id },
       created_at: cost_query.created_at,
       updated_at: cost_query.updated_at
     )
