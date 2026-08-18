@@ -37,6 +37,12 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
   describe ".visible" do
     subject { WorkPackageCustomField.visible(user) }
 
+    it "returns the fields configured on types used in projects the user can see" do
+      expect(subject).to contain_exactly(type_enabled_and_member_cf,
+                                         type_enabled_for_all_cf,
+                                         not_a_member_cf,
+                                         type_enabled_in_different_project_than_member_cf)
+    end
   end
 
   describe ".visible with a linked form configuration" do

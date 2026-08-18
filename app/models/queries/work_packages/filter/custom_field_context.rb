@@ -44,9 +44,8 @@ module Queries::WorkPackages::Filter::CustomFieldContext
 
     def custom_fields(context)
       if context&.project
-        context
-          .project
-          .all_work_package_custom_fields
+        WorkPackageCustomField
+          .on_visible_type_and_project(User.current, project: context.project)
           .merge(WorkPackageCustomField.filter)
       else
         custom_field_class
