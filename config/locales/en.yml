@@ -225,6 +225,7 @@ en:
         position: "Position"
       persisted_query:
         filters: "Filters"
+        group_bys: "Group results by"
         name: "Name"
         orders: "Orders"
         selects: "Selects"

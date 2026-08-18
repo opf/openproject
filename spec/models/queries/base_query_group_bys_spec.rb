@@ -81,14 +81,14 @@ RSpec.describe Queries::BaseQuery, "group bys" do
       instance.group(:does_not_exist)
 
       expect(instance).not_to be_valid
-      expect(instance.errors[:group_by]).to be_present
+      expect(instance.errors[:group_bys]).to be_present
     end
 
     it "reports every invalid group by" do
       instance.group(:nope, :also_nope)
       instance.valid?
 
-      expect(instance.errors[:group_by].size).to eq(2)
+      expect(instance.errors[:group_bys].size).to eq(2)
     end
   end
 
