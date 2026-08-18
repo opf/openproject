@@ -50,17 +50,14 @@ class RecurringMeetingsController < ApplicationController
     @recurring_meeting = RecurringMeeting.new(project: @project)
   end
 
-  def init # rubocop:disable Metrics/AbcSize
+  def init
     start_time = DateTime.iso8601(params[:start_time])
-    existing = @recurring_meeting.meetings.not_templated.find_by(recurrence_start_time: start_time)
-    is_restoration = existing&.cancelled?
 
     call = ::RecurringMeetings::InitOccurrenceService
       .new(user: current_user, recurring_meeting: @recurring_meeting)
       .call(start_time:)
 
     if call.success?
-      send_restoration_notifications(call.result) if is_restoration
       redirect_to project_meeting_path(call.result.project, call.result), status: :see_other
     else
       flash[:error] = call.message
@@ -267,22 +264,6 @@ class RecurringMeetingsController < ApplicationController
           participant.user,
           User.current
         ).deliver_later
-    end
-  end
-
-  def send_restoration_notifications(meeting)
-    return unless meeting.notify?
-
-    meeting
-      .participants
-      .invited
-      .find_each do |participant|
-        MeetingMailer
-          .invited(
-            meeting,
-            participant.user,
-            User.current
-          ).deliver_later
     end
   end
 
