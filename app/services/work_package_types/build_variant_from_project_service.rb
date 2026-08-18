@@ -98,14 +98,13 @@ module WorkPackageTypes
         .call(aspect: TypeVariant::FORM_CONFIGURATION, elements:)
     end
 
-    # `source.custom_fields` is the set the form configuration puts on a work package, already
-    # resolved through the source's own links and exclusions. Whatever of it the project has not
-    # enabled is exactly what disabling single fields used to hide.
+    # Reads the join table directly: nothing else consults it any more, and these rows are exactly
+    # what this converts into form configuration exclusions.
     def elements_to_exclude(project)
-      active_ids = project.all_work_package_custom_fields.pluck(:id)
+      active_ids = project.work_package_custom_field_ids
 
       source.custom_fields
-            .reject { active_ids.include?(it.id) }
+            .reject { it.is_for_all? || active_ids.include?(it.id) }
             .map(&:attribute_name)
     end
 

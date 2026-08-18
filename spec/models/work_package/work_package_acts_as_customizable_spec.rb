@@ -263,9 +263,10 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
                 .and_call_original
       end
 
-      it "returns all custom fields of the project and type for work_package" do
+      it "returns every custom field the type configures for work_package" do
         expect(work_package.available_custom_fields)
           .to contain_exactly(custom_field_of_project_and_type,
+                              custom_field_of_type_not_project,
                               custom_field_for_all_and_type,
                               custom_field_of_projects_and_types_for_all)
       end
@@ -285,9 +286,10 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     end
 
     context "when not preloading the custom fields" do
-      it "returns all custom fields of the project and type" do
+      it "returns every custom field the type configures" do
         expect(work_package.available_custom_fields)
           .to contain_exactly(custom_field_of_project_and_type,
+                              custom_field_of_type_not_project,
                               custom_field_for_all_and_type,
                               custom_field_of_projects_and_types_for_all)
       end

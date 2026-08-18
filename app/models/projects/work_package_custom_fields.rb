@@ -37,13 +37,5 @@ module Projects::WorkPackageCustomFields
                             -> { order("#{CustomField.table_name}.position") },
                             join_table: :custom_fields_projects,
                             association_foreign_key: "custom_field_id"
-
-    # Returns an AR scope of all custom fields enabled for project's work packages
-    # (explicitly associated custom fields and custom fields enabled for all projects)
-    def all_work_package_custom_fields
-      WorkPackageCustomField
-        .for_all
-        .or(WorkPackageCustomField.where(id: work_package_custom_fields))
-    end
   end
 end

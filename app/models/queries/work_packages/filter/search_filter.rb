@@ -78,9 +78,8 @@ class Queries::WorkPackages::Filter::SearchFilter <
     # as the intend of this filter is to search and it is used in the
     # search context. Thus, only the searchable flag is of interest.
     custom_fields = if context&.project
-                      context
-                        .project
-                        .all_work_package_custom_fields
+                      ::WorkPackageCustomField
+                        .on_visible_type_and_project(User.current, project: context.project)
                     else
                       ::WorkPackageCustomField
                     end
