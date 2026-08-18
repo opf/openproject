@@ -38,8 +38,6 @@ module Storages
             validates :name, presence: true, length: { maximum: 255 }
             attribute :host
             validates :host, url: { message: :invalid_host_url }, length: { maximum: 255 }
-            # Only re-check secure_context_uri when host is actually changing -- otherwise an
-            # unrelated update (e.g. renaming the storage) re-rejects an already-accepted host.
             # Must run BEFORE nextcloud_compatible_host: that validator makes a live network
             # probe to the host, which must not happen before secure_context_uri has had a
             # chance to reject an unsafe new host.

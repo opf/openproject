@@ -147,13 +147,13 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
       end
 
       context "when host is an unsafe IP" do
-        let(:storage_host) { "http://172.16.193.146" }
+        before { storage.host = "http://172.16.193.146" }
 
         include_examples "contract is invalid", host: :url_not_secure_context
       end
 
       context "when host is an unsafe hostname" do
-        let(:storage_host) { "http://nc.openproject.com" }
+        before { storage.host = "http://nc.openproject.com" }
 
         include_examples "contract is invalid", host: :url_not_secure_context
       end

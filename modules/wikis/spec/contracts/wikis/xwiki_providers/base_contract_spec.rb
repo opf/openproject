@@ -65,7 +65,7 @@ RSpec.describe Wikis::XWikiProviders::BaseContract do
     end
 
     context "when not https" do
-      let(:wiki_provider) { build_stubbed(:xwiki_provider, url: "http://xwiki.example.com") }
+      let(:wiki_provider) { build(:xwiki_provider, url: "http://xwiki.example.com") }
 
       include_examples "contract is invalid", url: :url_not_secure_context
     end
