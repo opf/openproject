@@ -135,6 +135,46 @@ describe('Require password confirmation controller', () => {
     expect(requestSubmit).toHaveBeenCalled();
   });
 
+  it('reopens the dialog after a cancelled confirmation', async () => {
+    const form = await renderForm();
+
+    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+
+    // Primer/Turbo removes the dialog during `close`, then dispatches dialog:close.
+    const dialog = document.createElement('dialog');
+    dialog.id = 'password-confirmation-dialog';
+    document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: false } }));
+
+    fetchSpy.mockClear();
+    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('ignores dialog:close events for other dialogs', async () => {
+    const form = await renderForm();
+
+    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+
+    const other = document.createElement('dialog');
+    other.id = 'some-other-dialog';
+    document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog: other, submitted: false } }));
+
+    fetchSpy.mockClear();
+    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+
+    await ctx.nextFrame();
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
   it('intercepts submits arriving before the plugin context resolves', async () => {
     let resolveContext!:(context:unknown) => void;
     window.OpenProject = {

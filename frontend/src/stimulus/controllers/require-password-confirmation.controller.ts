@@ -36,7 +36,7 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
   declare services:Promise<PickedServices<'pathHelperService'>>;
 
   private formListener:(evt:SubmitEvent) => unknown = this.onFormSubmit.bind(this);
-  private dialogCloseListener:(evt:Event) => unknown = this.onDialogClose.bind(this);
+  private dialogCloseListener:(evt:CustomEvent) => unknown = this.onDialogClose.bind(this);
   private dialogSubmitListener:(evt:CustomEvent) => unknown = this.onConfirmationSubmit.bind(this);
 
   private activeDialog = false;
@@ -56,7 +56,10 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
     // (notably CKEditor-augmented textareas), which can otherwise re-submit via
     // Turbo and bypass the confirmation dialog.
     this.element.addEventListener('submit', this.formListener, { capture: true });
-    document.addEventListener('password-confirmation-dialog:close', this.dialogCloseListener);
+    // Use the shared Primer/Turbo `dialog:close` event. The dialog's own Stimulus
+    // controller may be disconnected (DOM removed) during `close` before it can
+    // emit a custom event, which would leave activeDialog stuck true after cancel.
+    document.addEventListener('dialog:close', this.dialogCloseListener);
     document.addEventListener('password-confirmation-dialog:submit', this.dialogSubmitListener);
 
     this.submitButton = this.element.querySelector("button[type='submit']");
@@ -68,11 +71,16 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
     super.disconnect();
 
     this.element.removeEventListener('submit', this.formListener, { capture: true });
-    document.removeEventListener('password-confirmation-dialog:close', this.dialogCloseListener);
+    document.removeEventListener('dialog:close', this.dialogCloseListener);
     document.removeEventListener('password-confirmation-dialog:submit', this.dialogSubmitListener);
   }
 
-  private onDialogClose(_event:Event) {
+  private onDialogClose(event:CustomEvent) {
+    const dialog = (event.detail as { dialog?:HTMLElement }|undefined)?.dialog;
+    if (dialog?.id !== 'password-confirmation-dialog') {
+      return;
+    }
+
     this.activeDialog = false;
   }
 

@@ -174,6 +174,14 @@ RSpec.describe "my", :js do
             expect(user.mail).to eq("old@mail.com")
           end
 
+          it "allows submitting again after cancelling the confirmation dialog" do
+            dialog.cancel
+
+            click_on "Update profile"
+            dialog.confirm_flow_with(user_password)
+            expect_changed!
+          end
+
           context "as admin" do
             shared_let(:admin) { create(:admin) }
             let(:user) { admin }
