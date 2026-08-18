@@ -328,23 +328,11 @@ module API
           end
         end
 
+        # Assigned in one go: writing the filters collapses interchangeable filter
+        # keys (e.g. version and target version), so appending them one by one
+        # would list such a filter twice.
         def filters=(filters_hash)
-          represented.filters = []
-
-          filters_hash.each do |filter_attributes|
-            name = get_filter_name filter_attributes
-
-            if name
-              filter_class = Query.find_registered_filter(name) || ::Queries::Filters::NotExistingFilter
-              filter_representer = ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter
-                                     .new(filter_class.create!(name:))
-
-              filter = filter_representer.from_hash filter_attributes
-              represented.filters << filter
-            else
-              raise API::Errors::InvalidRequestBody, "Could not read filter from: #{filter_attributes}"
-            end
-          end
+          represented.filters = filters_hash.map { filter_from_hash(it) }
         end
 
         private
@@ -369,6 +357,18 @@ module API
 
         def convert_attribute(attribute)
           ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+        end
+
+        def filter_from_hash(filter_attributes)
+          name = get_filter_name(filter_attributes)
+
+          raise API::Errors::InvalidRequestBody, "Could not read filter from: #{filter_attributes}" if name.nil?
+
+          filter_class = Query.find_registered_filter(name) || ::Queries::Filters::NotExistingFilter
+
+          ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter
+            .new(filter_class.create!(name:))
+            .from_hash(filter_attributes)
         end
 
         def get_filter_name(filter_attributes)
