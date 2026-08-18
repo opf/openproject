@@ -113,17 +113,6 @@ module API
           }
         end
 
-        link :customFields do
-          if project.present? &&
-            current_user.allowed_in_project?(:select_custom_fields, project)
-            {
-              href: project_settings_custom_fields_path(project.identifier),
-              type: "text/html",
-              title: I18n.t("label_custom_field_plural")
-            }
-          end
-        end
-
         links :representations do
           if current_user.allowed_in_any_work_package?(:export_work_packages, in_project: project)
             representation_formats
