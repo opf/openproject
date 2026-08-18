@@ -241,7 +241,9 @@ en:
             heading: "No sprint data available"
           blocks:
             changed_after_start:
+              count_change: "+%{added} / -%{removed}"
               heading: "Changed after start"
+              story_points_change: "+%{added} / -%{removed} story points"
             completed:
               heading: "Completed"
             initially_planned:

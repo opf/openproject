@@ -31,9 +31,7 @@
 require "spec_helper"
 
 RSpec.describe SprintWorkPackageBreakdown do
-  # Backdates a journalized attribute change, mirroring the helper in burndown_spec.rb: after
-  # changing+saving the attribute, the newly created journal's validity is rewritten to start
-  # at `changed_at` instead of "now", so at_timestamp(...) sees the change as having happened then.
+  # Backdates a journalized attribute change, mirroring the helper in burndown_spec.rb
   def set_attribute_journalized(work_package, attribute, value, changed_at)
     work_package.reload
     work_package.send(attribute, value)
@@ -165,9 +163,12 @@ RSpec.describe SprintWorkPackageBreakdown do
 
       before { [added_work_package_one, added_work_package_two].each { |wp| backdate_creation_journal(wp) } }
 
-      it "reports a positive net change, unaffected by the unchanged stable work package" do
-        expect(breakdown.changed_after_start.work_package_count).to eq(2)
-        expect(breakdown.changed_after_start.story_points).to eq(2 + 3)
+      it "counts the additions, unaffected by the unchanged stable work package" do
+        result = breakdown.changed_after_start
+        expect(result.added_count).to eq(2)
+        expect(result.removed_count).to eq(0)
+        expect(result.added_story_points).to eq(2 + 3)
+        expect(result.removed_story_points).to eq(0)
       end
     end
 
@@ -182,13 +183,16 @@ RSpec.describe SprintWorkPackageBreakdown do
         set_attribute_journalized(removed_work_package, :sprint_id=, nil, sprint.start_date + 2.days)
       end
 
-      it "reports a negative net change" do
-        expect(breakdown.changed_after_start.work_package_count).to eq(-1)
-        expect(breakdown.changed_after_start.story_points).to eq(-4)
+      it "counts the removal" do
+        result = breakdown.changed_after_start
+        expect(result.added_count).to eq(0)
+        expect(result.removed_count).to eq(1)
+        expect(result.added_story_points).to eq(0)
+        expect(result.removed_story_points).to eq(4)
       end
     end
 
-    context "when a work package is removed and re-added within the interval" do
+    context "when a work package is removed and re-added, ending up back where it started" do
       let!(:flipping_work_package) do
         create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 1,
                               created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
@@ -200,9 +204,34 @@ RSpec.describe SprintWorkPackageBreakdown do
         set_attribute_journalized(flipping_work_package, :sprint_id=, sprint.id, sprint.start_date + 2.days)
       end
 
-      it "reports zero net change even though the work package churned in and out" do
-        expect(breakdown.changed_after_start.work_package_count).to eq(0)
-        expect(breakdown.changed_after_start.story_points).to eq(0)
+      it "reports no change at all, matching how the 'View all' baseline comparison would show it" do
+        result = breakdown.changed_after_start
+        expect(result.added_count).to eq(0)
+        expect(result.removed_count).to eq(0)
+        expect(result.added_story_points).to eq(0)
+        expect(result.removed_story_points).to eq(0)
+      end
+    end
+
+    context "when a work package flips an odd number of times, ending outside the sprint" do
+      let!(:flipping_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 6,
+                              created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+      end
+
+      before do
+        backdate_creation_journal(flipping_work_package)
+        set_attribute_journalized(flipping_work_package, :sprint_id=, nil, sprint.start_date + 1.day)
+        set_attribute_journalized(flipping_work_package, :sprint_id=, sprint.id, sprint.start_date + 2.days)
+        set_attribute_journalized(flipping_work_package, :sprint_id=, nil, sprint.start_date + 3.days)
+      end
+
+      it "counts it once as removed, based on its final state rather than its three events" do
+        result = breakdown.changed_after_start
+        expect(result.added_count).to eq(0)
+        expect(result.removed_count).to eq(1)
+        expect(result.added_story_points).to eq(0)
+        expect(result.removed_story_points).to eq(6)
       end
     end
   end
