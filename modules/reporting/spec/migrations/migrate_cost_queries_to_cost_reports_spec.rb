@@ -84,6 +84,11 @@ RSpec.describe MigrateCostQueriesToCostReports, type: :model do
       expect(report.category).to eq("cost_report")
     end
 
+    it "keeps the original id so old report links still resolve" do
+      expect(CostReport.last.legacy_cost_query_id).to eq(cost_query.id)
+      expect(CostReport.for_legacy_cost_query_id(cost_query.id)).to eq(CostReport.last)
+    end
+
     it "links the view to its query" do
       expect(CostReport.last.query).to eq(CostReportQuery.last)
     end

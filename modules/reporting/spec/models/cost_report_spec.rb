@@ -222,4 +222,26 @@ RSpec.describe CostReport do
       expect(described_class.find(instance.id).unit_id).to eq(3)
     end
   end
+
+  describe ".for_legacy_cost_query_id" do
+    it "finds the report converted from that cost query" do
+      instance.legacy_cost_query_id = 42
+      instance.save!
+
+      expect(described_class.for_legacy_cost_query_id(42)).to eq(instance)
+    end
+
+    it "accepts the id as a string" do
+      instance.legacy_cost_query_id = 42
+      instance.save!
+
+      expect(described_class.for_legacy_cost_query_id("42")).to eq(instance)
+    end
+
+    it "is nil for a report that was not converted" do
+      instance.save!
+
+      expect(described_class.for_legacy_cost_query_id(42)).to be_nil
+    end
+  end
 end
