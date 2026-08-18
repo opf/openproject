@@ -159,6 +159,40 @@ RSpec.describe Projects::SetAttributesService, type: :model do
         end
       end
 
+      describe "wiki default value" do
+        context "when enabling wikis by default", with_settings: { default_projects_wiki: true } do
+          it "enables the wiki" do
+            expect(subject.result.wiki).to be_enabled
+          end
+
+          context "and when the project already has a disabled wiki" do
+            before do
+              project.build_wiki(enabled: false)
+            end
+
+            it "keeps the wiki disabled" do
+              expect(subject.result.wiki).not_to be_enabled
+            end
+          end
+        end
+
+        context "when disabling wikis by default", with_settings: { default_projects_wiki: false } do
+          it "creates the wiki, but disabled" do
+            expect(subject.result.wiki).not_to be_enabled
+          end
+
+          context "and when the project already has an enabled wiki" do
+            before do
+              project.build_wiki(enabled: true)
+            end
+
+            it "keeps the wiki enabled" do
+              expect(subject.result.wiki).to be_enabled
+            end
+          end
+        end
+      end
+
       describe "enabled_module_names default value", with_settings: { default_projects_modules: ["lorem", "ipsum"] } do
         context "with a value for enabled_module_names provided" do
           let(:call_attributes) do

@@ -372,7 +372,7 @@ module Settings
       },
       default_projects_modules: {
         default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs wiki]
+          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
           if Setting.real_time_text_collaboration_enabled?
             base_modules + %w[documents]
           else
@@ -383,6 +383,9 @@ module Settings
       },
       default_projects_public: {
         default: false
+      },
+      default_projects_wiki: {
+        default: true
       },
       demo_projects_available: {
         default: false

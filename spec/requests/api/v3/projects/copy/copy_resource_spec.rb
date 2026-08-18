@@ -159,7 +159,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
         expect(project).to be_present
 
         expect(source_project.wiki.pages.count).to eq 1
-        expect(project.wiki).to be_nil
+        expect(project.wiki.pages.count).to eq 0
 
         expect(source_project.work_packages.count).to eq 1
         expect(project.work_packages.count).to eq 1
