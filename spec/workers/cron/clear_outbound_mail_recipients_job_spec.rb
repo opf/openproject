@@ -28,12 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  ApplicationMailer.register_interceptor Interceptors::LimitDistinctRecipients
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+require "spec_helper"
+
+RSpec.describe Cron::ClearOutboundMailRecipientsJob, type: :job do
+  it "is a no-op when the limit is disabled" do
+    create(:outbound_mail_recipient, sent_on: Date.yesterday)
+
+    expect { described_class.perform_now }.not_to change(OutboundMailRecipient, :count)
+  end
+
+  context "when the limit is enabled", with_settings: { outbound_mail_limits: 10 } do
+    it "deletes recipients from previous days and keeps today's" do
+      create(:outbound_mail_recipient, mail: "old@example.com", sent_on: Date.yesterday)
+      today = create(:outbound_mail_recipient, mail: "today@example.com", sent_on: Date.current)
+
+      described_class.perform_now
+
+      expect(OutboundMailRecipient.all).to contain_exactly(today)
+    end
+  end
 end
