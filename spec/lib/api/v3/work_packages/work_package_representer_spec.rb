@@ -1515,15 +1515,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "customFields" do
-      it_behaves_like "has a titled action link" do
-        let(:link) { "customFields" }
-        let(:permission) { :select_custom_fields }
-        let(:href) { project_settings_custom_fields_path(work_package.project.identifier) }
-        let(:title) { "Custom fields" }
-      end
-    end
-
     describe "customField" do
       let(:available_custom_fields) { [custom_field] }
       let(:custom_field_values) { [build_stubbed(:custom_value, custom_field:, value:)] }

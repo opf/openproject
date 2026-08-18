@@ -91,7 +91,7 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     type_ids = permitted_params.projects_type_ids
 
     if UpdateProjectsTypesService.new(@project).call(type_ids)
-      flash[:notice] = success_message
+      flash[:notice] = t(:notice_successful_update)
     else
       flash[:error] = type_deactivation_error_messages(variants_missing_from(type_ids), project_ids: [@project.id])
     end
@@ -112,13 +112,6 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     render_error_flash_message_via_turbo_stream(message: t("projects.settings.types.type_not_found"))
 
     respond_to_with_turbo_streams(status: :unprocessable_entity)
-  end
-
-  def success_message
-    ApplicationController.helpers.sanitize(
-      t(:notice_successful_update_custom_fields_added_to_project, url: project_settings_custom_fields_path(@project)),
-      attributes: %w(href target)
-    )
   end
 
   def variants_missing_from(type_ids)

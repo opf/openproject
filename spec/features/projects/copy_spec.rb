@@ -108,7 +108,6 @@ RSpec.describe "Projects copy", :js,
          add_subprojects
          manage_types
          view_work_packages
-         select_custom_fields
          manage_files_in_project
          manage_file_links
          work_package_assigned
@@ -437,7 +436,6 @@ RSpec.describe "Projects copy", :js,
            add_subprojects
            manage_types
            view_work_packages
-           select_custom_fields
            manage_files_in_project
            manage_file_links
            work_package_assigned

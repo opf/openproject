@@ -33,9 +33,12 @@ require "spec_helper"
 RSpec.describe "API v3 custom field items", :webmock, content_type: :json, with_ee: [:custom_field_hierarchies] do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create(:project) }
+  shared_let(:type) { create(:type) }
+  shared_let(:project) { create(:project, types: [type]) }
 
-  let(:custom_field) { create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil) }
+  let(:custom_field) do
+    create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil, types: [type], projects: [project])
+  end
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
   let!(:root) { service.generate_root(custom_field).value! }
   let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
@@ -54,14 +57,14 @@ RSpec.describe "API v3 custom field items", :webmock, content_type: :json, with_
       it_behaves_like "unauthenticated access"
     end
 
-    context "if user is logged in but lacks permissions" do
-      current_user { create(:user, member_with_permissions: { project => [] }) }
+    context "if user cannot see any project the field applies to" do
+      current_user { create(:user) }
 
       it_behaves_like "not found"
     end
 
-    context "if user is logged in with the necessary permissions" do
-      current_user { create(:user, member_with_permissions: { project => [:select_custom_fields] }) }
+    context "if user is a member of a project the field applies to" do
+      current_user { create(:user, member_with_permissions: { project => [] }) }
 
       it_behaves_like "successful response"
 
@@ -86,14 +89,14 @@ RSpec.describe "API v3 custom field items", :webmock, content_type: :json, with_
       it_behaves_like "unauthenticated access"
     end
 
-    context "if user is logged in but lacks permissions" do
-      current_user { create(:user, member_with_permissions: { project => [] }) }
+    context "if user cannot see any project the field applies to" do
+      current_user { create(:user) }
 
       it_behaves_like "not found"
     end
 
-    context "if user is logged in with the necessary permissions" do
-      current_user { create(:user, member_with_permissions: { project => [:select_custom_fields] }) }
+    context "if user is a member of a project the field applies to" do
+      current_user { create(:user, member_with_permissions: { project => [] }) }
 
       it_behaves_like "API V3 collection response", 4, 4, "HierarchyItem", "Collection" do
         let(:elements) { [root, luke, r2d2, mouse] }

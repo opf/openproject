@@ -275,13 +275,6 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
-      map.permission :select_custom_fields,
-                     {
-                       "projects/settings/work_packages/custom_fields": %i[show update]
-                     },
-                     permissible_on: :project,
-                     require: :member
-
       map.permission :add_subprojects,
                      { projects: %i[new create],
                        "projects/identifier_suggestion": %i[show] },

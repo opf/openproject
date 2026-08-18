@@ -141,38 +141,6 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
       end
     end
 
-    describe "customFields" do
-      before do
-        mock_permissions_for(current_user, &:forbid_everything)
-      end
-
-      context "with the permission to select custom fields" do
-        before do
-          mock_permissions_for(current_user) do |mock|
-            mock.allow_in_project :select_custom_fields, project:
-          end
-        end
-
-        it "has a link to set the custom fields for that project" do
-          expected = {
-            href: project_settings_custom_fields_path(work_package.project),
-            type: "text/html",
-            title: "Custom fields"
-          }
-
-          expect(generated)
-            .to be_json_eql(expected.to_json)
-                  .at_path("_links/customFields")
-        end
-      end
-
-      context "without the permission to select custom fields" do
-        it "has no link to set the custom fields for that project" do
-          expect(generated).not_to have_json_path("_links/customFields")
-        end
-      end
-    end
-
     describe "configureForm" do
       before do
         mock_permissions_for(current_user, &:allow_everything)
