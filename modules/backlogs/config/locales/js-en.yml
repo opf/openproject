@@ -30,6 +30,12 @@
 en:
   js:
     backlogs:
+      action_menu:
+        # A complete standalone string per plural form, never the singular
+        # name plus a suffix.
+        batch_menu_label:
+          one: "Actions for 1 selected work package"
+          other: "Actions for %{count} selected work packages"
       announcements:
         batch_too_large: "Cannot move %{count} work packages at once. Select no more than %{max}."
         fallback_item_label: "Work package"

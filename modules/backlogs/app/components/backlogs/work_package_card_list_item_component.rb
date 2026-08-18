@@ -110,6 +110,12 @@ module Backlogs
         sortable_lists__item_label_value: work_package.to_fs(:caption),
         sortable_lists__item_type_value: "work_package",
         sortable_lists__item_mobility_value: mobility,
+        sortable_lists__item_batch_menu_label_key_value: "js.backlogs.action_menu.batch_menu_label",
+        # The same string the card menu's invoker tooltip renders; the
+        # controller restores it from here rather than trusting the tooltip
+        # text, which a Turbo snapshot can capture mid-rename.
+        sortable_lists__item_singular_menu_label_value:
+          I18n.t(:"open_project.common.work_package_card_component.menu.label_actions"),
         # Native drag payload for external consumers; the same absolute URL
         # as the card menu's "Copy URL to clipboard" item. The label above
         # doubles as the link text of the text/html flavour.

@@ -45,7 +45,7 @@ interface MenuAvailabilityInput {
   moveAvailability:() => ReturnType<SortableListsRoot['moveAvailability']>;
 }
 
-export function refreshMenuAvailability(input:MenuAvailabilityInput):void {
+export function refreshMenuAvailability(input:MenuAvailabilityInput):number {
   const setAvailability = (item:HTMLElement, available:boolean):void => {
     if (input.hideUnavailable) {
       input.menu[available ? 'showItem' : 'hideItem'](item);
@@ -74,15 +74,23 @@ export function refreshMenuAvailability(input:MenuAvailabilityInput):void {
     if (input.moveMenu) setAvailability(input.moveMenu, available > 0);
   }
 
+  const presented = (items:HTMLElement[]):number => input.hideUnavailable
+    ? items.filter((item) => !item.hasAttribute('hidden')).length
+    : items.length;
+  const presentedActionCount = presented(input.destinationItems)
+    + presented(input.moveMenu ? [input.moveMenu] : input.moveItems);
+
   if (input.divider && input.hideUnavailable) {
     let sibling = input.divider.nextElementSibling;
     while (sibling) {
       if (sibling instanceof HTMLLIElement && !sibling.hasAttribute('hidden')) {
         input.divider.removeAttribute('hidden');
-        return;
+        return presentedActionCount;
       }
       sibling = sibling.nextElementSibling;
     }
     input.divider.setAttribute('hidden', 'hidden');
   }
+
+  return presentedActionCount;
 }
