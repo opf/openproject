@@ -61,20 +61,6 @@ RSpec.describe Projects::SettingsController do
     end
 
     it do
-      expect(get("/projects/123/settings/work_packages/custom_fields"))
-        .to route_to(
-          controller: "projects/settings/work_packages/custom_fields", action: "show", project_id: "123"
-        )
-    end
-
-    it do
-      expect(patch("/projects/123/settings/work_packages/custom_fields"))
-        .to route_to(
-          controller: "projects/settings/work_packages/custom_fields", action: "update", project_id: "123"
-        )
-    end
-
-    it do
       expect(get("/projects/123/settings/versions"))
         .to route_to(
           controller: "projects/settings/versions", action: "show", project_id: "123"

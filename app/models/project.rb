@@ -36,7 +36,6 @@ class Project < ApplicationRecord
   include Projects::Storage
   include Projects::EnabledTypes
   include Projects::Versions
-  include Projects::WorkPackageCustomFields
   include Projects::CreationWizard
   include Projects::Identifier
   include Projects::SemanticIdentifier

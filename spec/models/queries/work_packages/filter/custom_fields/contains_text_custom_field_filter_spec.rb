@@ -40,8 +40,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter,
 
   let(:project) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: [custom_field])
+           types: [type])
   end
   let(:custom_field) do
     create(:issue_custom_field, :text, name: "LongText")
