@@ -38,14 +38,12 @@ class UserWorkingHours < ApplicationRecord
   belongs_to :user, inverse_of: :working_hours
 
   validates :valid_from, presence: true, uniqueness: { scope: :user_id }
-  validates :monday_hours, :tuesday_hours, :wednesday_hours, :thursday_hours, :friday_hours, :saturday_hours, :sunday_hours,
-            presence: true,
-            numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 24 }
   validates :availability_factor,
             presence: true,
             numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   validate :at_least_one_working_day_selected
+  validate :working_day_hours_present_and_in_range
 
   scope :for_user, ->(user) { where(user:) }
 
@@ -160,6 +158,19 @@ class UserWorkingHours < ApplicationRecord
   def at_least_one_working_day_selected
     if DAYS.all? { |day| public_send(day).to_i.zero? }
       errors.add(:days, :no_working_day)
+    end
+  end
+
+  def working_day_hours_present_and_in_range
+    DAYS.each do |day|
+      minutes = public_send(day)
+      attr = :"#{day}_hours"
+
+      if minutes.nil?
+        errors.add(attr, :blank)
+      elsif minutes.negative? || minutes > 24 * 60
+        errors.add(attr, :less_than_or_equal_to, count: 24)
+      end
     end
   end
 end
