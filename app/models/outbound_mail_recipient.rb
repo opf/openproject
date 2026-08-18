@@ -28,12 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  ApplicationMailer.register_interceptor Interceptors::LimitDistinctRecipients
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+class OutboundMailRecipient < ApplicationRecord
+  scope :on, ->(date) { where(sent_on: date) }
+  scope :stale, -> { where(sent_on: ...Date.current) }
+
+  def self.cleanup!
+    stale.delete_all
+  end
 end

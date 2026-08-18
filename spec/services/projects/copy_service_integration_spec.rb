@@ -1306,7 +1306,9 @@ RSpec.describe(
         expect(project_copy.work_packages.count).to eq 0
         expect(project_copy.forums.count).to eq 0
         # Default wiki page
-        expect(project_copy.wiki).to be_nil
+        expect(project_copy.wiki).to be_present
+        expect(project_copy.wiki.enabled?).to eq(source.wiki.enabled?)
+        expect(project_copy.wiki.pages.count).to eq 0
         expect(project_copy.queries.count).to eq 0
         expect(project_copy.versions.count).to eq 0
         expect(project_copy.phases.count).to eq 0

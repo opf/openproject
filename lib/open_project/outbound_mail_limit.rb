@@ -28,12 +28,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  ApplicationMailer.register_interceptor Interceptors::LimitDistinctRecipients
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+module OpenProject
+  # Caps how many distinct recipient addresses an instance may send mail to per day.
+  # Configured in SaaS to configure it for trial instances.
+  module OutboundMailLimit
+    class << self
+      def enabled?
+        limit.positive?
+      end
+
+      def limit
+        Setting.outbound_mail_limits
+      end
+
+      def allow?(address)
+        return true unless enabled?
+
+        email = normalize(address)
+        return true if email.blank?
+
+        recorded_today?(email) || claim_slot(email)
+      end
+
+      def normalize(address)
+        email = address.to_s
+        email = email[/<([^>]+)>/, 1] || email
+        email.strip.downcase.presence
+      end
+
+      private
+
+      def recorded_today?(email)
+        todays_recipients.exists?(mail: email)
+      end
+
+      def claim_slot(email)
+        return false if todays_recipients.count >= limit
+
+        OutboundMailRecipient.create!(mail: email, sent_on: Date.current)
+        true
+      rescue ActiveRecord::RecordNotUnique
+        true
+      end
+
+      def todays_recipients
+        OutboundMailRecipient.on(Date.current)
+      end
+    end
+  end
 end
