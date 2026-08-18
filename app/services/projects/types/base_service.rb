@@ -42,10 +42,6 @@ module Projects
         model.errors.add(:types, error, **)
         ServiceResult.failure(result: model, errors: model.errors)
       end
-
-      def enable_work_package_custom_fields(variant)
-        model.work_package_custom_field_ids |= variant.custom_fields.ids
-      end
     end
   end
 end
