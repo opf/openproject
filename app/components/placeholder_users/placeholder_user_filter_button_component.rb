@@ -29,40 +29,16 @@
 #++
 
 module PlaceholderUsers
-  class RowComponent < ::RowComponent
-    def placeholder_user
-      model
-    end
+  class PlaceholderUserFilterButtonComponent < Filter::FilterButtonComponent
+    # Surfaced by the search input rather than the advanced filters.
+    HIDDEN_FILTERS = [
+      Queries::PlaceholderUsers::Filters::AnyNameAttributeFilter
+    ].freeze
 
-    def name
-      link_to h(placeholder_user.name), edit_placeholder_user_path(placeholder_user)
-    end
+    private
 
-    def criteria
-      ::Queries::FilterSummary.new(placeholder_user.user_filter).to_s
-    end
-
-    def created_at
-      helpers.format_time placeholder_user.created_at
-    end
-
-    def button_links
-      [delete_link].compact
-    end
-
-    def delete_link
-      if helpers.can_delete_placeholder_user?(placeholder_user, User.current)
-        link_to deletion_info_placeholder_user_path(placeholder_user),
-                data: { controller: "async-dialog" } do
-          helpers.tooltip_tag I18n.t("placeholder_users.delete_tooltip"), icon: "icon-delete"
-        end
-      else
-        helpers.tooltip_tag I18n.t("placeholder_users.right_to_manage_members_missing"), icon: "icon-help2"
-      end
-    end
-
-    def row_css_class
-      "placeholder_user"
+    def filters_count
+      query.filters.count { |f| HIDDEN_FILTERS.none? { |klass| f.is_a?(klass) } }
     end
   end
 end

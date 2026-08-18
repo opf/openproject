@@ -29,40 +29,16 @@
 #++
 
 module PlaceholderUsers
-  class RowComponent < ::RowComponent
-    def placeholder_user
-      model
-    end
-
-    def name
-      link_to h(placeholder_user.name), edit_placeholder_user_path(placeholder_user)
-    end
-
-    def criteria
-      ::Queries::FilterSummary.new(placeholder_user.user_filter).to_s
-    end
-
-    def created_at
-      helpers.format_time placeholder_user.created_at
-    end
-
-    def button_links
-      [delete_link].compact
-    end
-
-    def delete_link
-      if helpers.can_delete_placeholder_user?(placeholder_user, User.current)
-        link_to deletion_info_placeholder_user_path(placeholder_user),
-                data: { controller: "async-dialog" } do
-          helpers.tooltip_tag I18n.t("placeholder_users.delete_tooltip"), icon: "icon-delete"
-        end
-      else
-        helpers.tooltip_tag I18n.t("placeholder_users.right_to_manage_members_missing"), icon: "icon-help2"
-      end
-    end
-
-    def row_css_class
-      "placeholder_user"
+  class CriteriaFilterComponent < OpPrimer::QuickFilter::BooleanComponent
+    def initialize(query:)
+      super(
+        name: I18n.t(:label_criteria),
+        query:,
+        filter_key: :has_user_filter,
+        path_args: [:placeholder_users],
+        true_label: I18n.t(:label_with_criteria),
+        false_label: I18n.t(:label_without_criteria)
+      )
     end
   end
 end

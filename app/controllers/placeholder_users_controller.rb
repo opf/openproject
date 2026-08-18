@@ -44,12 +44,13 @@ class PlaceholderUsersController < ApplicationController
   before_action :authorize_deletion, only: %i[deletion_info destroy]
 
   def index
-    @placeholder_users = PlaceholderUsers::PlaceholderUserFilterComponent.query params
+    @query = index_query
 
     respond_to do |format|
       format.html do
         render layout: !request.xhr?
       end
+      format.turbo_stream { render_index_turbo_stream }
     end
   end
 
@@ -146,6 +147,27 @@ class PlaceholderUsersController < ApplicationController
   end
 
   private
+
+  # Only active placeholders are listed, so the ones queued for deletion stay
+  # out of the way.
+  def index_query
+    query = Queries::PlaceholderUsers::PlaceholderUserQuery.new
+    query.where(:status, "=", ["active"])
+
+    ::Queries::ParamsParser.parse(params).fetch(:filters, []).each do |filter|
+      query.where(filter[:attribute], filter[:operator], filter[:values])
+    end
+
+    query
+  end
+
+  def render_index_turbo_stream
+    update_via_turbo_stream(component: PlaceholderUsers::PlaceholderUserFilterButtonComponent.new(query: @query))
+    replace_via_turbo_stream(component: PlaceholderUsers::TableComponent.new(rows: @query))
+    turbo_streams << turbo_stream.push_state(url_for(params.permit(:filters, :sortBy, :page, :per_page)))
+    turbo_streams << helpers.render_flash_messages_as_turbo_streams
+    render turbo_stream: resolve_turbo_streams
+  end
 
   # The criteria fields stay in the DOM when the checkbox is off, so the
   # checkbox rather than the presence of `filters` decides whether they apply.

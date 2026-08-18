@@ -37,7 +37,7 @@ module ResourceAllocations
             url: ::API::V3::Utilities::PathHelper::ApiV3Path.placeholder_users,
             resource: "principals",
             searchKey: "any_name_attribute",
-            filters: [{ name: "has_user_filter", operator: "=", values: ["with_criteria"] }],
+            filters: [{ name: "has_user_filter", operator: "=", values: ["t"] }],
             multiple: false,
             focusDirectly: false,
             appendTo: "##{@dialog_id}",
