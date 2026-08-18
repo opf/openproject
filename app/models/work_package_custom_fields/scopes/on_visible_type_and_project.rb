@@ -66,11 +66,6 @@ module WorkPackageCustomFields::Scopes
               ON cft.type_variant_id = #{source_variant_id}
              AND cft.custom_field_id = custom_fields.id
              AND #{exclusion}
-            LEFT JOIN custom_fields_projects cfp
-              ON cfp.project_id = vp.id
-             AND cfp.custom_field_id = custom_fields.id
-            WHERE custom_fields.is_for_all = TRUE
-               OR cfp.custom_field_id IS NOT NULL
           )
         SQL
       end
