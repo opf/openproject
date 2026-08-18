@@ -78,9 +78,9 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       expect(rendered_component).to have_no_css(".blankslate")
     end
 
-    it "colors the completed count green and the unfinished count red" do
+    it "colors the completed count green and the unfinished count muted" do
       expect(rendered_component).to have_css(".color-fg-success", text: "3")
-      expect(rendered_component).to have_css(".color-fg-danger", text: "2")
+      expect(rendered_component).to have_css(".color-fg-muted", text: "2")
     end
 
     it "links each block's 'Show all' to the work packages table filtered to the sprint" do
