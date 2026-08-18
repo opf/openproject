@@ -138,21 +138,32 @@ RSpec.describe "time entry dialog", :js do
       find(".menu-item", text: "Log time").click
     end
 
-    it "normalizes the hour input" do
+    it "normalizes the hour input", with_settings: { hours_per_day: 8, days_per_month: 20 } do
       time_logging_modal.update_field("hours_display", "6h 45min")
       time_logging_modal.has_field_with_value("hours_display", "6.75h")
 
       time_logging_modal.update_field("hours_display", "4:15")
       time_logging_modal.has_field_with_value("hours_display", "4.25h")
 
+      # A day is the configured 8 hours, not 24
+      time_logging_modal.update_field("hours_display", "2d 2h")
+      time_logging_modal.has_field_with_value("hours_display", "18h")
+
+      # 2w -> 10 days -> 80h, 3d -> 24h, plus 4h and 6 minutes
       time_logging_modal.update_field("hours_display", "1m 2w 3d 4h 5m")
-      time_logging_modal.has_field_with_value("hours_display", "412.1h")
+      time_logging_modal.has_field_with_value("hours_display", "108.1h")
 
       time_logging_modal.update_field("hours_display", "1.5")
       time_logging_modal.has_field_with_value("hours_display", "1.5h")
 
       time_logging_modal.update_field("hours_display", "3,7")
       time_logging_modal.has_field_with_value("hours_display", "3.7h")
+    end
+
+    it "resolves days using the configured working day length",
+       with_settings: { hours_per_day: 6, days_per_month: 20 } do
+      time_logging_modal.update_field("hours_display", "2d 2h")
+      time_logging_modal.has_field_with_value("hours_display", "14h")
     end
 
     it "calculates the hours based on the start and end time" do
