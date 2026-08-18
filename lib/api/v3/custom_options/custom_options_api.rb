@@ -60,7 +60,9 @@ module API
 
               def authorized_work_package_option(custom_option)
                 allowed = WorkPackageCustomField
-                  .visible(current_user)
+                  .on_visible_type_and_project(
+                    current_user, projects: Project.with_visible_work_packages(current_user)
+                  )
                   .exists?(id: custom_option.custom_field_id)
 
                 unless allowed

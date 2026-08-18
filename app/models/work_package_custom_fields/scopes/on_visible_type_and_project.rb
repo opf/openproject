@@ -47,8 +47,12 @@ module WorkPackageCustomFields::Scopes
       #
       # Pass +project:+ to restrict the check to a single known project instead of
       # scanning all projects visible to the user.
-      def on_visible_type_and_project(user = User.current, project: nil)
-        visible_projects = Project.visible(user)
+      #
+      # Pass +projects:+ to substitute a narrower reach than every project the user can see,
+      # which callers exposing work package data need: seeing a project does not entail seeing
+      # its work packages.
+      def on_visible_type_and_project(user = User.current, project: nil, projects: nil)
+        visible_projects = projects || Project.visible(user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
         source_join, source_variant_id, excluded =
