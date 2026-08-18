@@ -131,7 +131,7 @@ See COPYRIGHT and LICENSE files for more details.
         ) do |move_menu|
           move_menu.with_leading_visual_icon(icon: :"op-arrow-in")
 
-          build_move_menu(move_menu)
+          move_menu_items.render_into(move_menu)
         end
       end
     end
