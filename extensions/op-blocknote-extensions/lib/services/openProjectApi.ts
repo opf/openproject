@@ -159,7 +159,8 @@ export function fetchTypes():Promise<TypeCollection> {
   });
 }
 
-const ALLOWED_VALUES_PAGE_SIZE = 20;
+/*  Large enough for a whole project tree to be browsed without typing.  */
+const ALLOWED_VALUES_PAGE_SIZE = 100;
 
 /**
  * Asks the API which attributes a new work package needs: an empty payload yields
@@ -173,42 +174,64 @@ export function createWorkPackage(payload:WorkPackagePayload):Promise<WorkPackag
   return post<WorkPackage>('/api/v3/work_packages', payload);
 }
 
-function withFilter(href:string, filter:Record<string, unknown>):string {
+type HalFilter = Record<string, { operator:string; values:string[] }>;
+
+const TYPEAHEAD_FILTER = (query:string):HalFilter => ({ typeahead: { operator: '**', values: [query] } });
+const FAVORED_FILTER:HalFilter = { favored: { operator: '=', values: ['t'] } };
+
+const HIERARCHY_ORDER = JSON.stringify([['lft', 'asc']]);
+
+function withQuery(href:string, added:HalFilter[], nested:boolean):string {
   const separator = href.indexOf('?');
   const path = separator === -1 ? href : href.slice(0, separator);
   const params = new URLSearchParams(separator === -1 ? '' : href.slice(separator + 1));
 
-  let filters:unknown[] = [];
-  try {
-    const parsed = JSON.parse(params.get('filters') ?? '[]') as unknown;
-    if (Array.isArray(parsed)) filters = parsed;
-  } catch { /* not our filters to interpret */ }
-  filters.push(filter);
+  if (added.length > 0) {
+    let filters:unknown[] = [];
+    try {
+      const parsed = JSON.parse(params.get('filters') ?? '[]') as unknown;
+      if (Array.isArray(parsed)) filters = parsed;
+    } catch { /* not our filters to interpret */ }
 
-  params.set('filters', JSON.stringify(filters));
+    params.set('filters', JSON.stringify([...filters, ...added]));
+  }
+
+  if (nested && !params.has('sortBy')) params.set('sortBy', HIERARCHY_ORDER);
   if (!params.has('pageSize')) params.set('pageSize', String(ALLOWED_VALUES_PAGE_SIZE));
 
   return `${path}?${params.toString()}`;
 }
 
-/**
- * Follows the `allowedValues` link of a schema attribute, narrowed by a typeahead
- * term. An endpoint that rejects the filter answers 400 and is retried unfiltered.
- */
-export async function fetchAllowedValues(
-  href:string,
-  query = ''
-):Promise<{ resources:HalResource[]; filtered:boolean }> {
+function assertApiHref(href:string):void {
   if (!href.startsWith('/api/v3/')) {
     throw new OpenProjectApiError(`Unexpected allowed values href: ${href}`);
   }
+}
 
+export interface AllowedValuesQuery {
+  favoredOnly?:boolean;
+  nested?:boolean;
+}
+
+/**
+ * Follows the `allowedValues` link of a schema attribute, narrowed by a typeahead
+ * term and by what the caller asks for. An endpoint that rejects the typeahead
+ * filter answers 400 and is retried without the term.
+ */
+export async function fetchAllowedValues(
+  href:string,
+  query = '',
+  { favoredOnly = false, nested = false }:AllowedValuesQuery = {}
+):Promise<{ resources:HalResource[]; filtered:boolean }> {
+  assertApiHref(href);
+
+  const kept = favoredOnly ? [FAVORED_FILTER] : [];
   const trimmedQuery = query.trim();
+
   if (trimmedQuery) {
     try {
-      const filtered = await get<HalCollection<HalResource>>(
-        withFilter(href, { typeahead: { operator: '**', values: [trimmedQuery] } })
-      );
+      const narrowing = [...kept, TYPEAHEAD_FILTER(trimmedQuery)];
+      const filtered = await get<HalCollection<HalResource>>(withQuery(href, narrowing, nested));
       return { resources: filtered._embedded?.elements ?? [], filtered: true };
     } catch (error) {
       if (!(error instanceof OpenProjectApiError) || error.responseStatus !== 400) throw error;
@@ -216,7 +239,7 @@ export async function fetchAllowedValues(
     }
   }
 
-  const data = await get<HalCollection<HalResource>>(href);
+  const data = await get<HalCollection<HalResource>>(withQuery(href, kept, nested));
   return { resources: data._embedded?.elements ?? [], filtered: false };
 }
 
@@ -225,12 +248,10 @@ export async function fetchAllowedValueById(
   href:string,
   id:string | number
 ):Promise<HalResource | undefined> {
-  if (!href.startsWith('/api/v3/')) {
-    throw new OpenProjectApiError(`Unexpected allowed values href: ${href}`);
-  }
+  assertApiHref(href);
 
   const data = await get<HalCollection<HalResource>>(
-    withFilter(href, { id: { operator: '=', values: [String(id)] } })
+    withQuery(href, [{ id: { operator: '=', values: [String(id)] } }], false)
   );
   return data._embedded?.elements?.[0];
 }

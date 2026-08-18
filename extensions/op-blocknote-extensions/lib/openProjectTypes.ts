@@ -72,7 +72,8 @@ export interface HalResource {
   name?:string;
   subject?:string;
   value?:string;
-  _links?:{ self?:HalLink };
+  favorited?:boolean;
+  _links?:{ self?:HalLink; ancestors?:HalLink[] };
 }
 
 export interface HalCollection<T> {

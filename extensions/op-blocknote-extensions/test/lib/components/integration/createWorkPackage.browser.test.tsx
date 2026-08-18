@@ -152,9 +152,10 @@ describe('Create work package', () => {
     renderEditor();
     await openCreateModal();
 
-    await userEvent.fill(page.getByLabelText('Project *'), 'Scrum');
-    await expect.element(page.getByRole('option', { name: 'Scrum project' })).toBeVisible();
-    await expect.element(page.getByRole('option', { name: 'Demo project' })).not.toBeInTheDocument();
+    await userEvent.click(page.getByLabelText('Project *'));
+    await userEvent.fill(page.getByTestId('op-bn-create-wp-project-search'), 'Scrum');
+    await expect.element(page.getByRole('treeitem', { name: 'Scrum project' })).toBeVisible();
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
   });
 
   it('keeps a match the API made on something the option does not read as', async () => {

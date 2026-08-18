@@ -174,13 +174,50 @@ function narrowed<T extends { id:number; name:string }>(elements:T[], request:Re
   return HttpResponse.json({ _embedded: { elements: matching } });
 }
 
+function hasFavoredFilter(request:Request):boolean {
+  const raw = new URL(request.url).searchParams.get('filters');
+  if (!raw) return false;
+
+  try {
+    return (JSON.parse(raw) as Record<string, unknown>[]).some((filter) => 'favored' in filter);
+  } catch { return false; }
+}
+
+function sortsByHierarchy(request:Request):boolean {
+  return (new URL(request.url).searchParams.get('sortBy') ?? '').includes('lft');
+}
+
+const demoParent = { href: '/api/v3/projects/1', title: 'Demo project' };
+
+/*  Deliberately in neither tree nor alphabetical order: the picker has to ask
+    the API for the order of the nested set, as OpenProject itself does.  */
+const availableProjects = [
+  { id: 2, lft: 6, name: 'Scrum project', favorited: true, _links: { self: { href: '/api/v3/projects/2' } } },
+  {
+    id: 4,
+    lft: 3,
+    name: 'Demo sub 2',
+    _links: { self: { href: '/api/v3/projects/4' }, ancestors: [demoParent] },
+  },
+  {
+    id: 3,
+    lft: 2,
+    name: 'Demo sub 1',
+    _links: { self: { href: '/api/v3/projects/3' }, ancestors: [demoParent] },
+  },
+  { id: 1, lft: 1, name: 'Demo project', _links: { self: { href: '/api/v3/projects/1' } } },
+];
+
 export const handlers = [
-  http.get('http://localhost:3000/api/v3/work_packages/available_projects', ({ request }) =>
-    narrowed([
-      { id: 1, name: 'Demo project', _links: { self: { href: '/api/v3/projects/1' } } },
-      { id: 2, name: 'Scrum project', _links: { self: { href: '/api/v3/projects/2' } } },
-    ], request)
-  ),
+  http.get('http://localhost:3000/api/v3/work_packages/available_projects', ({ request }) => {
+    const onlyFavored = hasFavoredFilter(request);
+    const listed = availableProjects.filter((project) => !onlyFavored || project.favorited);
+
+    return narrowed(
+      sortsByHierarchy(request) ? [...listed].sort((one, other) => one.lft - other.lft) : listed,
+      request
+    );
+  }),
 
   http.get('http://localhost:3000/api/v3/projects/:id/available_assignees', ({ request }) =>
     narrowed([

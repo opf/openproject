@@ -3,6 +3,7 @@ import { delay, http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
+  clearProject,
   openCreateModal,
   openCreateModalAtCursor,
   pickProject,
@@ -262,7 +263,7 @@ describe('Create work package - prefilled from previous selections', () => {
     await openCreateModal();
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
 
-    await userEvent.clear(page.getByLabelText('Project *'));
+    await clearProject();
 
     await expect.element(page.getByLabelText('Type *')).not.toBeInTheDocument();
     await expect.element(page.getByLabelText('Project *')).toHaveValue('');

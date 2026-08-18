@@ -4,6 +4,7 @@ import { AlertIcon } from '@primer/octicons-react';
 import { colorOfType } from '../../services/colors';
 import type { FieldValue, FormField, ValueProblem } from './formSchema';
 import { AllowedValuesTypeahead } from './AllowedValuesTypeahead';
+import { ProjectPicker } from './ProjectPicker';
 import { PickerArrows } from './PickerArrows';
 import {
   CheckboxRow,
@@ -40,8 +41,9 @@ const PLACEHOLDERS:Record<string, string> = {
   project: 'createWorkPackage.projectPlaceholder',
 };
 
-// Presented as a picker; a search for people stays plain.
-const PICKER_KEYS = ['project'];
+// Presented as OpenProject presents it, with a dropdown of its own; a search
+// for people stays plain.
+const PROJECT_KEY = 'project';
 
 export const FormFieldControl = ({
   field,
@@ -123,22 +125,23 @@ export const FormFieldControl = ({
         </SelectWrapper>
       );
       break;
-    case 'typeahead':
+    case 'typeahead': {
+      const Picker = field.key === PROJECT_KEY ? ProjectPicker : AllowedValuesTypeahead;
       control = (
-        <AllowedValuesTypeahead
+        <Picker
           id={id}
           label={field.label}
           href={field.allowedValuesHref ?? ''}
           value={textValue}
           valueLabel={valueLabel}
           placeholder={placeholder ?? t('createWorkPackage.searchPlaceholder')}
-          withArrows={PICKER_KEYS.includes(field.key)}
           invalid={Boolean(message)}
           describedBy={errorId}
           onChange={onChange}
         />
       );
       break;
+    }
     case 'textarea':
       control = (
         <TextAreaControl

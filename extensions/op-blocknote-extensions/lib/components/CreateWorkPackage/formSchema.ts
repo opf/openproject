@@ -19,6 +19,16 @@ export type FieldKind =
 export interface AllowedValue {
   href:string;
   label:string;
+  favored?:boolean;
+  ancestors?:string[];
+}
+
+export interface ListedValue extends AllowedValue {
+  depth:number;
+  hasChildren:boolean;
+  expanded:boolean;
+  position:number;
+  levelSize:number;
 }
 
 export interface FormField {
@@ -93,13 +103,65 @@ export function labelOfResource(resource:HalResource):string {
 export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
   return resources.flatMap((resource) => {
     const href = resource._links?.self?.href;
-    return href ? [{ href, label: labelOfResource(resource) }] : [];
+    if (!href) return [];
+
+    const ancestors = (resource._links?.ancestors ?? [])
+      .flatMap((link) => (typeof link.href === 'string' ? [link.href] : []));
+
+    return [{
+      href,
+      label: labelOfResource(resource),
+      ...(resource.favorited ? { favored: true } : {}),
+      ...(ancestors.length > 0 ? { ancestors } : {}),
+    }];
   });
 }
 
 export function allowedValueOf(field:FormField | undefined, href:string | undefined):AllowedValue | undefined {
   if (!field || !href) return undefined;
   return field.allowedValues?.find((value) => value.href === href);
+}
+
+export function listedValues(values:AllowedValue[], expanded:ReadonlySet<string>):ListedValue[] {
+  const present = new Set(values.map((value) => value.href));
+  const childrenOf = new Map<string, AllowedValue[]>();
+  const roots:AllowedValue[] = [];
+
+  for (const value of values) {
+    const parent = (value.ancestors ?? [])
+      .filter((ancestor) => ancestor !== value.href && present.has(ancestor))
+      .pop();
+
+    if (parent === undefined) {
+      roots.push(value);
+      continue;
+    }
+
+    const siblings = childrenOf.get(parent);
+    if (siblings) siblings.push(value);
+    else childrenOf.set(parent, [value]);
+  }
+
+  const listed:ListedValue[] = [];
+  const walk = (siblings:AllowedValue[], depth:number) => {
+    siblings.forEach((value, index) => {
+      const children = childrenOf.get(value.href) ?? [];
+      const isExpanded = children.length > 0 && expanded.has(value.href);
+
+      listed.push({
+        ...value,
+        depth,
+        hasChildren: children.length > 0,
+        expanded: isExpanded,
+        position: index + 1,
+        levelSize: siblings.length,
+      });
+      if (isExpanded) walk(children, depth + 1);
+    });
+  };
+  walk(roots, 0);
+
+  return listed;
 }
 
 export function allowedValuesOf(property:SchemaProperty):AllowedValue[] | undefined {

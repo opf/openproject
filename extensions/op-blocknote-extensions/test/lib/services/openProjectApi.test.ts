@@ -454,7 +454,7 @@ describe('openProjectApi', () => {
         expect(JSON.parse(params.get('filters')!))
           .toEqual([{ typeahead: { operator: '**', values: ['"}]&pageSize=999#x'] } }]);
         // The term stayed inside its parameter: no second pageSize, no fragment.
-        expect(params.getAll('pageSize')).toEqual(['20']);
+        expect(params.getAll('pageSize')).toEqual(['100']);
         expect(new URL(calledUrl).hash).toBe('');
       } finally {
         fetchSpy.mockRestore();
@@ -478,7 +478,7 @@ describe('openProjectApi', () => {
         expect(first.searchParams.get('select')).toBe('all');
 
         const second = new URL(fetchSpy.mock.calls[1][0] as string);
-        expect(second.searchParams.get('pageSize')).toBe('20');
+        expect(second.searchParams.get('pageSize')).toBe('100');
       } finally {
         fetchSpy.mockRestore();
       }
@@ -512,7 +512,7 @@ describe('openProjectApi', () => {
         // Unfiltered, and said to be: the caller has to narrow the answer itself.
         await expect(fetchAllowedValues('/api/v3/custom_fields/3/items', 'design'))
           .resolves.toEqual({ resources: [{ id: 1 }], filtered: false });
-        expect(fetchSpy.mock.calls[1][0]).toBe('http://localhost:3000/api/v3/custom_fields/3/items');
+        expect(fetchSpy.mock.calls[1][0]).toBe('http://localhost:3000/api/v3/custom_fields/3/items?pageSize=100');
       } finally {
         fetchSpy.mockRestore();
         consoleSpy.mockRestore();
@@ -540,6 +540,119 @@ describe('openProjectApi', () => {
     it('refuses an href outside the API', async () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
       await expect(fetchAllowedValues('https://evil.example.com/steal')).rejects.toBeInstanceOf(OpenProjectApiError);
+    });
+
+    it('asks for the order of the nested set only where there is one to read', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+
+      try {
+        await fetchAllowedValues('/api/v3/work_packages/available_projects', '', { nested: true });
+        await fetchAllowedValues('/api/v3/principals');
+
+        expect(new URL(calledUrl(fetchSpy.mock.calls)).searchParams.get('sortBy'))
+          .toBe('[["lft","asc"]]');
+        // A flat listing is left in whatever order its endpoint means it to be.
+        expect(new URL(calledUrl(fetchSpy.mock.calls, 1)).searchParams.has('sortBy')).toBe(false);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('leaves an order the href already carries alone', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+
+      try {
+        await fetchAllowedValues('/api/v3/projects?sortBy=%5B%5B%22name%22%2C%22asc%22%5D%5D', '', { nested: true });
+
+        expect(new URL(calledUrl(fetchSpy.mock.calls)).searchParams.get('sortBy'))
+          .toBe('[["name","asc"]]');
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('asks for a page large enough to browse without typing', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+
+      try {
+        await fetchAllowedValues('/api/v3/work_packages/available_projects');
+
+        const params = new URL(calledUrl(fetchSpy.mock.calls)).searchParams;
+        expect(params.get('pageSize')).toBe('100');
+        // Nothing narrows an unfiltered listing, not even an empty filter set.
+        expect(params.has('filters')).toBe(false);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+  });
+
+  describe('fetchAllowedValues, narrowed to the favorites', () => {
+    it('narrows the listing to the favored values', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [{ id: 2 }] } }),
+      }));
+
+      try {
+        await fetchAllowedValues('/api/v3/work_packages/available_projects', '', { favoredOnly: true });
+
+        const filters = new URL(calledUrl(fetchSpy.mock.calls)).searchParams.get('filters');
+        expect(JSON.parse(filters!)).toEqual([{ favored: { operator: '=', values: ['t'] } }]);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('keeps the favorites narrowed while a term narrows them further', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [] } }),
+      }));
+
+      try {
+        await fetchAllowedValues('/api/v3/work_packages/available_projects', 'demo', { favoredOnly: true });
+
+        const filters = new URL(calledUrl(fetchSpy.mock.calls)).searchParams.get('filters');
+        expect(JSON.parse(filters!)).toEqual([
+          { favored: { operator: '=', values: ['t'] } },
+          { typeahead: { operator: '**', values: ['demo'] } },
+        ]);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('drops only the term where the endpoint rejects it', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch')
+        .mockResolvedValueOnce(mockResponse({ ok: false, status: 400, statusText: 'Bad Request', json: async () => ({}) }))
+        .mockResolvedValueOnce(mockResponse({ ok: true, json: async () => ({ _embedded: { elements: [] } }) }));
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      try {
+        await fetchAllowedValues('/api/v3/work_packages/available_projects', 'demo', { favoredOnly: true });
+
+        const filters = new URL(calledUrl(fetchSpy.mock.calls, 1)).searchParams.get('filters');
+        expect(JSON.parse(filters!)).toEqual([{ favored: { operator: '=', values: ['t'] } }]);
+      } finally {
+        fetchSpy.mockRestore();
+        consoleSpy.mockRestore();
+      }
     });
   });
 

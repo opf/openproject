@@ -9,12 +9,14 @@ import {
   extraRequiredFields,
   fieldFor,
   fixedFields,
+  listedValues,
   missingProblems,
   missingRequiredFields,
   reshapesForm,
   splitAttributeErrors,
   survivingLabels,
   survivingValues,
+  toAllowedValues,
   unsupportedRequiredFields,
   valueProblems,
 } from '../../../../lib/components/CreateWorkPackage/formSchema';
@@ -528,6 +530,92 @@ describe('formSchema', () => {
       expect(payload._links?.assignee).toBeUndefined();
       expect(payload.customField4).toBeNull();
       expect(payload.percentageDone).toBeNull();
+    });
+  });
+
+  describe('toAllowedValues', () => {
+    it('carries the ancestors a nested resource names, and whether it is favored', () => {
+      expect(toAllowedValues([
+        {
+          name: 'Subproject',
+          favorited: true,
+          _links: {
+            self: { href: '/api/v3/projects/3' },
+            ancestors: [
+              { href: '/api/v3/projects/1', title: 'Root' },
+              { href: '/api/v3/projects/2', title: 'Parent' },
+            ],
+          },
+        },
+        { name: 'Flat', _links: { self: { href: '/api/v3/projects/9' } } },
+      ])).toEqual([
+        {
+          href: '/api/v3/projects/3',
+          label: 'Subproject',
+          favored: true,
+          ancestors: ['/api/v3/projects/1', '/api/v3/projects/2'],
+        },
+        // Nothing but projects is favored, and silence is not a claim to be one.
+        { href: '/api/v3/projects/9', label: 'Flat' },
+      ]);
+    });
+  });
+
+  describe('listedValues', () => {
+    const root = { href: '/api/v3/projects/1', label: 'Root' };
+    const child = {
+      href: '/api/v3/projects/2',
+      label: 'Child',
+      favored: true,
+      ancestors: ['/api/v3/projects/1'],
+    };
+    const grandchild = {
+      href: '/api/v3/projects/3',
+      label: 'Grandchild',
+      ancestors: ['/api/v3/projects/1', '/api/v3/projects/2'],
+    };
+    const sibling = {
+      href: '/api/v3/projects/4',
+      label: 'Sibling',
+      ancestors: ['/api/v3/projects/1'],
+    };
+    const all = new Set([root.href, child.href, grandchild.href, sibling.href]);
+
+    it('lists only the roots while nothing is unfolded', () => {
+      const listed = listedValues([root, child, grandchild], new Set());
+
+      expect(listed.map((value) => value.label)).toEqual(['Root']);
+      expect(listed[0]).toMatchObject({ depth: 0, hasChildren: true, expanded: false });
+    });
+
+    it('walks each unfolded parent into its children, one level in at a time', () => {
+      expect(listedValues([root, child, grandchild], all).map((value) => [value.label, value.depth]))
+        .toEqual([['Root', 0], ['Child', 1], ['Grandchild', 2]]);
+    });
+
+    it('stops where the unfolding does', () => {
+      expect(listedValues([root, child, grandchild], new Set([root.href])).map((value) => value.label))
+        .toEqual(['Root', 'Child']);
+    });
+
+    it('keeps the children of a parent together and in the order given', () => {
+      expect(listedValues([root, child, sibling, grandchild], all).map((value) => value.label))
+        .toEqual(['Root', 'Child', 'Grandchild', 'Sibling']);
+    });
+
+    it('roots a value whose ancestors are not listed', () => {
+      expect(listedValues([grandchild], all)).toMatchObject([{ depth: 0, hasChildren: false }]);
+      expect(listedValues([child, grandchild], all).map((value) => [value.label, value.depth]))
+        .toEqual([['Child', 0], ['Grandchild', 1]]);
+    });
+
+    it('marks a favorite wherever it stands in the tree', () => {
+      expect(listedValues([root, child], all).map((value) => [value.label, value.favored]))
+        .toEqual([['Root', undefined], ['Child', true]]);
+    });
+
+    it('unfolds nothing for a parent whose children are not listed', () => {
+      expect(listedValues([root], all)).toMatchObject([{ hasChildren: false, expanded: false }]);
     });
   });
 });
