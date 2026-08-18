@@ -499,6 +499,7 @@ uk:
         before_or_equal_to: має бути до або  %{date}
         blank: не може бути порожнім.
         blank_nested: "– потрібно встановити властивість «%{property}»."
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
         cant_link_a_work_package_with_a_descendant: Робочий пакет не може бути пов'язаний з одним з підзадач.
         circular_dependency: Це співвідношення створить кругову залежність.
@@ -3981,7 +3982,6 @@ uk:
         invalid_type: Не знайдено жодного типу з назвою %{type} в проекті %{project}.
         no_project_context: Виклик макросу create_work_package_link із зовнішнього контексту проекту.
       link_name: Новий пакет робіт
-      link_name_type: Новий %{type_name}
     errors:
       missing_or_invalid_parameter: Відсутній або неприпустимий параметр макросу.
     include_wiki_page:
@@ -6208,6 +6208,13 @@ uk:
         actions:
           label_disable_all: Вимкнути все
           label_enable_all: Увімкнути все
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
         disabled: Disabled
         exclusions:

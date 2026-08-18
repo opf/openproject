@@ -501,6 +501,7 @@ ms:
         before_or_equal_to: mesti sebelum atau sama dengan %{date}.
         blank: tidak boleh dibiarkan kosong.
         blank_nested: perlu ada ciri-ciri '%{property}' yang ditetapkan.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: diperlukan. Tidak boleh dipadam.
         cant_link_a_work_package_with_a_descendant: Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya.
         circular_dependency: Hubungan ini akan mencipta kebergantungan bulat.
@@ -3814,7 +3815,6 @@ ms:
         invalid_type: Tiada jenis ditemui dengan nama '%{type}' dalam projek '%{project}'.
         no_project_context: 'Memanggil makro create_work_package_link dari luar konteks projek. '
       link_name: Pakej kerja baharu
-      link_name_type: "%{type_name} baharu"
     errors:
       missing_or_invalid_parameter: Parameter makro hilang atau tidak sah.
     include_wiki_page:
@@ -6006,6 +6006,13 @@ ms:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

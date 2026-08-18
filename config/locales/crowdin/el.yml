@@ -499,6 +499,7 @@ el:
         before_or_equal_to: πρέπει να είναι πριν ή ίσο με %{date}.
         blank: δεν πρέπει να είναι κενό.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του.
         circular_dependency: Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση.
@@ -3858,7 +3859,6 @@ el:
         invalid_type: Δεν βρέθηκε τύπος με όνομα '%{type}' στο έργο '%{project}'.
         no_project_context: Κλήση της μακροεντολής create_work_package_link εκτός του πλαισίου του έργου.
       link_name: Νέο πακέτο εργασίας
-      link_name_type: Νέο %{type_name}
     errors:
       missing_or_invalid_parameter: Οι παράμετροι μακροεντολής λείπουν ή είναι λανθασμένες.
     include_wiki_page:
@@ -6063,6 +6063,13 @@ el:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

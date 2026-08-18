@@ -499,6 +499,7 @@ pl:
         before_or_equal_to: musi być przed lub równe %{date}.
         blank: nie może być puste.
         blank_nested: musi mieć ustawioną właściwość '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: jest wymagane. Nie można usunąć.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany z jego podzadaniami.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
@@ -3972,7 +3973,6 @@ pl:
         invalid_type: Nie znaleziono żadnego typu o nazwie '%{type}' w projekcie '%{project} '.
         no_project_context: Wywołanie makra create_work_package_link spoza kontekstu projektu.
       link_name: Nowy pakiet roboczy
-      link_name_type: Nowy %{type_name}
     errors:
       missing_or_invalid_parameter: Brakujący lub błędny parametr makra.
     include_wiki_page:
@@ -6193,6 +6193,13 @@ pl:
         actions:
           label_disable_all: Wyłącz wszystkie
           label_enable_all: Włącz wszystkie
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Wybierz atrybuty projektu, które chcesz włączyć dla tego typu pakietu roboczego. Włączone atrybuty projektu są wyświetlane w osobnej karcie w pakietach roboczych tego typu. Użytkownicy z niezbędnymi uprawnieniami mogą tam przeglądać i edytować owe atrybuty.
         disabled: Disabled
         exclusions:

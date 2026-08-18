@@ -499,6 +499,7 @@ hy:
         before_or_equal_to: պետք է լինի %{date}-ից առաջ կամ հավասար դրան։
         blank: չի կարող դատարկ լինել։
         blank_nested: պետք է ունենա սահմանված '%{property}' հատկություն։
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: պարտադիր է։ Հնարավոր չէ ջնջել։
         cant_link_a_work_package_with_a_descendant: Աշխատանքային փաթեթը չի կարող կապվել իր ենթաառաջադրանքներից մեկի հետ։
         circular_dependency: Այս կապը կստեղծի ցիկլային կախվածություն։
@@ -3855,7 +3856,6 @@ hy:
         invalid_type: "'%{project}' նախագծում '%{type}' անվամբ տեսակ չի գտնվել։"
         no_project_context: create_work_package_link մակրոյի կանչ նախագծի համատեքստից դուրս։
       link_name: Նոր աշխատանքային փաթեթ
-      link_name_type: Նոր %{type_name}
     errors:
       missing_or_invalid_parameter: Բացակայող կամ անվավեր մակրոյի պարամետր։
     include_wiki_page:
@@ -6060,6 +6060,13 @@ hy:
         actions:
           label_disable_all: Անջատել բոլորը
           label_enable_all: Միացնել բոլորը
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Ընտրեք նախագծի հատկանիշները, որոնք ցանկանում եք միացնել աշխատանքային փաթեթի այս տեսակի համար։ Միացված նախագծի հատկանիշները ցուցադրվում են այս տեսակի աշխատանքային փաթեթներում՝ առանձին ներդիրում։ Անհրաժեշտ թույլտվություններ ունեցող օգտատերերը կարող են այնտեղ դիտել և խմբագրել այդ հատկանիշները։
         disabled: Disabled
         exclusions:

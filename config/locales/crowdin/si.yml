@@ -499,6 +499,7 @@ si:
         before_or_equal_to: "%{date}ට පෙර හෝ සමාන විය යුතුය."
         blank: හිස් විය නොහැක.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: වැඩ පැකේජයක් එහි එක් උප කර්තව්යයකට සම්බන්ධ කළ නොහැක.
         circular_dependency: මෙම සම්බන්ධතාවය චක්රලේඛය යැපීමක් නිර්මාණය කරනු ඇත.
@@ -3859,7 +3860,6 @@ si:
         invalid_type: "'%{project}' ව්යාපෘතියේ '%{type}' නම සමඟ කිසිදු වර්ගයක් හමු නොවීය."
         no_project_context: ව්යාපෘති සන්දර්භයෙන් පිටත සිට create_work_package_link සාර්ව කැඳවීම.
       link_name: නව වැඩ පැකේජය
-      link_name_type: අලුත් %{type_name}
     errors:
       missing_or_invalid_parameter: අතුරුදහන් හෝ වලංගු නොවන සාර්ව පරාමිතිය.
     include_wiki_page:
@@ -6068,6 +6068,13 @@ si:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

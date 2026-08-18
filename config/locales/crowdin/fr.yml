@@ -499,6 +499,7 @@ fr:
         before_or_equal_to: doit être antérieur(e) ou égal(e) à %{date}.
         blank: ne peut pas être vide.
         blank_nested: doit avoir la propriété « %{property} » définie.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: est requis. Ne peut être supprimé.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches.
         circular_dependency: Cette relation créerait une dépendance circulaire.
@@ -3859,7 +3860,6 @@ fr:
         invalid_type: Aucun type trouvé avec le nom '%{type}' dans le projet '%{project}'.
         no_project_context: Appel de la macro create_work_package_link depuis un contexte de projet externe.
       link_name: Nouveau lot de travaux
-      link_name_type: Nouveau %{type_name}
     errors:
       missing_or_invalid_parameter: Paramètre macro manquante ou invalide.
     include_wiki_page:
@@ -6061,6 +6061,13 @@ fr:
         actions:
           label_disable_all: Désactiver tout
           label_enable_all: Activer tout
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
         disabled: Désactivé
         exclusions:

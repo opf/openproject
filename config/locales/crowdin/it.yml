@@ -499,6 +499,7 @@ it:
         before_or_equal_to: deve essere precedente o uguale al %{date}.
         blank: non può essere lasciato vuoto.
         blank_nested: deve avere la proprietà '%{property}' impostata.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: è necessario. Non può essere cancellato.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere collegato a una delle sue sottoattività.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
@@ -3860,7 +3861,6 @@ it:
         invalid_type: Nessun tipo trovato con nome '%{type}' nel progetto '%{project}'.
         no_project_context: Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link.
       link_name: Nuova macro-attività
-      link_name_type: Nuovo %{type_name}
     errors:
       missing_or_invalid_parameter: Parametri macro assenti o non validi.
     include_wiki_page:
@@ -6062,6 +6062,13 @@ it:
         actions:
           label_disable_all: Disabilita tutto
           label_enable_all: Abilita tutto
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Seleziona gli attributi del progetto da abilitare per questo tipo di macro-attività. Gli attributi abilitati vengono visualizzati in una scheda separata nelle macro-attività di questo tipo. Gli utenti con le autorizzazioni necessarie possono visualizzarli e modificarli in tale scheda.
         disabled: Disabled
         exclusions:
