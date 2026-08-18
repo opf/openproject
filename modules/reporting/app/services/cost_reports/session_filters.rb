@@ -30,7 +30,7 @@ module CostReports
     end
 
     def filters
-      LegacyFilters.new(operators: stored.dig(:filters, :operators),
+      CompactFilters.new(operators: stored.dig(:filters, :operators),
                         values: stored.dig(:filters, :values),
                         rows: stored.dig(:groups, :rows),
                         columns: stored.dig(:groups, :columns))

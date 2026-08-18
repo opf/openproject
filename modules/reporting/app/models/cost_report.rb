@@ -73,6 +73,20 @@ class CostReport < PersistedView
     pivot_rows.any? || pivot_columns.any?
   end
 
+  # The configuration as the url carries it, so that a report can be rebuilt
+  # elsewhere - an export job runs long after the request is gone.
+  def to_query_params
+    compact_filters.to_params.merge(unit: unit_id).compact
+  end
+
+  def uses_dimension?(attribute)
+    pivot_rows.include?(attribute) || pivot_columns.include?(attribute)
+  end
+
+  def remove_dimension(attribute)
+    apply_pivot_configuration(rows: pivot_rows - [attribute], columns: pivot_columns - [attribute])
+  end
+
   # The query's group_bys are derived from the axes so the two cannot drift apart.
   def apply_pivot_configuration(rows:, columns:)
     self.pivot_rows = Array(rows).map(&:to_s)
@@ -94,6 +108,13 @@ class CostReport < PersistedView
   end
 
   private
+
+  def compact_filters
+    ::CostReports::CompactFilters.new(operators: query.filters.to_h { |f| [f.name.to_s, f.operator] },
+                                      values: query.filters.to_h { |f| [f.name.to_s, f.values] },
+                                      rows: pivot_rows,
+                                      columns: pivot_columns)
+  end
 
   # A pivot needs a dimension on both axes to have a grid of cells at all, so an
   # empty axis gets a constant that renders as one spanning row or column.
