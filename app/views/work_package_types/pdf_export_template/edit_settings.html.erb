@@ -74,9 +74,13 @@ See COPYRIGHT and LICENSE files for more details.
               ) { t("types.edit.export_configuration.templates.settings.reset_to_default") }
             end
             buttons.with_column do
-              render(Primer::Beta::Link.new(href: edit_type_pdf_export_template_index_path(**@variant.path_args))) do
-                t(:button_cancel)
-              end
+              render(
+                Primer::Beta::Button.new(
+                  tag: :a,
+                  scheme: :default,
+                  href: edit_type_pdf_export_template_index_path(**@variant.path_args)
+                )
+              ) { t(:button_cancel) }
             end
           end
         end
