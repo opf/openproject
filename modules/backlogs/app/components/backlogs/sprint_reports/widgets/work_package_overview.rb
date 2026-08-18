@@ -83,7 +83,7 @@ module Backlogs
               data: breakdown.unfinished,
               timestamps: breakdown.reference_finish,
               status_filter_operator: "!",
-              count_color: :danger
+              count_color: :muted
             )
           ]
         end
