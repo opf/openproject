@@ -45,7 +45,7 @@ module Admin
         private
 
         def more_menu_detach_project
-          if User.current.admin?
+          if project.active? || project.being_archived?
             {
               scheme: :default,
               icon: nil,
