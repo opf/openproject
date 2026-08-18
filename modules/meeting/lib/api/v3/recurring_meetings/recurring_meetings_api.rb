@@ -50,6 +50,23 @@ module API
 
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: RecurringMeeting).mount
 
+            post "end" do
+              authorize_in_project(:edit_meetings, project: @recurring_meeting.project)
+
+              call = ::RecurringMeetings::EndService
+                       .new(@recurring_meeting, current_user:)
+                       .call
+
+              if call.success?
+                status 200
+                ::API::V3::RecurringMeetings::RecurringMeetingRepresenter.create(
+                  @recurring_meeting.reload, current_user:, embed_links: true
+                )
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              end
+            end
+
             mount ::API::V3::RecurringMeetings::OccurrencesByRecurringMeetingAPI
           end
         end

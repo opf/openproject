@@ -229,4 +229,52 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
       it_behaves_like "unauthorized access"
     end
   end
+
+  describe "POST /api/v3/recurring_meetings/:id/end" do
+    let(:recurring_meeting) do
+      create(:recurring_meeting, project:, author: current_user, start_time: 1.week.ago)
+    end
+    let(:path) { "#{api_v3_paths.recurring_meeting(recurring_meeting.id)}/end" }
+
+    subject(:response) { post path }
+
+    context "with required permissions" do
+      it "responds with 200 and the updated series" do
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to be_json_eql("RecurringMeeting".to_json).at_path("_type")
+      end
+
+      it "ends the series" do
+        response
+        expect(recurring_meeting.reload.end_date).to eq(Time.zone.yesterday)
+      end
+    end
+
+    context "with notifications enabled" do
+      let(:invited_user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+
+      before do
+        recurring_meeting.template.update!(notify: true)
+        create(:meeting_participant, meeting: recurring_meeting.template, user: invited_user, invited: true)
+        ActionMailer::Base.deliveries.clear
+      end
+
+      it "notifies the participants that the series has ended" do
+        response
+
+        expect(last_response).to have_http_status(:ok)
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(invited_user.mail)
+      end
+    end
+
+    context "without edit_meetings permission" do
+      let(:permissions) { %i[view_meetings] }
+
+      before { response }
+
+      it_behaves_like "unauthorized access"
+    end
+  end
 end
