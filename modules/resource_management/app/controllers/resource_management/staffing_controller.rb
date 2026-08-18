@@ -29,7 +29,7 @@
 #++
 module ::ResourceManagement
   # Lists generic (filter-based) allocations in the project still awaiting a
-  # user, and assigns real users to them. Keeps the requested `user_resource`
+  # user, and assigns real users to them. Keeps the requested `placeholder_user`
   # untouched — only `principal` and `principal_assigned_by` change.
   class StaffingController < BaseController
     include OpTurbo::ComponentStream
@@ -176,7 +176,7 @@ module ::ResourceManagement
     end
 
     def assignable_allocations
-      assignable_scope.includes(:entity, user_resource: :user_resource_detail).order(:start_date)
+      assignable_scope.includes(:entity, placeholder_user: :placeholder_user_detail).order(:start_date)
     end
 
     def visible_work_package_ids(allocations)

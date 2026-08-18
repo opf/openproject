@@ -110,7 +110,7 @@ module ResourceAllocations
       if allocation.principal
         visible? ? allocation.principal.name : hidden_label
       else
-        allocation.user_resource&.name.presence || unassigned_label
+        allocation.placeholder_user&.name.presence || unassigned_label
       end
     end
 

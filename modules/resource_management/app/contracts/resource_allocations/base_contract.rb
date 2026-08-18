@@ -35,7 +35,7 @@ module ResourceAllocations
     end
 
     attribute :principal
-    attribute :user_resource
+    attribute :placeholder_user
     attribute :state
     attribute :start_date
     attribute :end_date

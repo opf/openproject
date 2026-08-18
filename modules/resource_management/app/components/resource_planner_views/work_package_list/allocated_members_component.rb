@@ -127,7 +127,7 @@ module ResourcePlannerViews::WorkPackageList
     # allocation, or a generic label for an allocation that lost its principal
     # (e.g. the assigned user was deleted) — so the avatar always has a label.
     def member_name(allocation)
-      allocation.principal&.name.presence || allocation.user_resource&.name.presence || unassigned_label
+      allocation.principal&.name.presence || allocation.placeholder_user&.name.presence || unassigned_label
     end
 
     def unassigned_label

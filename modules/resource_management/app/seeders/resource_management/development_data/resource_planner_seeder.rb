@@ -175,11 +175,11 @@ module ResourceManagement
         return unless work_package && filters
 
         name = planner_config.lookup("generic_allocation.filter_name")
-        user_resource = UserResource.find_by(lastname: name) ||
-          UserResource.create!(name:, user_filter: filters)
+        placeholder_user = PlaceholderUser.find_by(lastname: name) ||
+          PlaceholderUser.create!(name:, user_filter: filters)
 
         ResourceAllocation.create!(
-          base_allocation_attributes(work_package, :full).merge(principal: nil, user_resource:)
+          base_allocation_attributes(work_package, :full).merge(principal: nil, placeholder_user:)
         )
       end
 

@@ -28,34 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  # The dialog for assigning a real user to a generic allocation. Its body and
-  # footer are swapped between the candidate-selection step and the overbooking
-  # confirmation step (the latter reuses the WarningStep components).
-  class AssignmentDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+# Selects placeholder users by whether they describe the kind of person they
+# stand for. Like the blocked filter, the operator carries the meaning: `=`
+# keeps those with criteria, `!` those without.
+class Queries::PlaceholderUsers::Filters::HasUserFilterFilter < Queries::PlaceholderUsers::Filters::PlaceholderUserFilter
+  def allowed_values
+    [[I18n.t(:label_with_criteria), :with_criteria]]
+  end
 
-    DIALOG_ID = "assign-resource-dialog"
-    FORM_ID = "assign-resource-form"
-    FOOTER_ID = "assign-resource-footer"
-    # Shared by every step so swapping the body targets the same Turbo wrapper.
-    BODY_ID = "assign-resource-dialog-body"
+  def type
+    :list
+  end
 
-    def initialize(project:, allocation:, candidates:)
-      super
+  def self.key
+    :has_user_filter
+  end
 
-      @project = project
-      @allocation = allocation
-      @candidates = candidates
+  def human_name
+    I18n.t(:label_criteria)
+  end
+
+  def apply_to(query_scope)
+    if operator == "="
+      query_scope.where(id: with_criteria)
+    else
+      query_scope.where.not(id: with_criteria)
     end
+  end
 
-    private
+  private
 
-    attr_reader :project, :allocation, :candidates
-
-    def title
-      I18n.t("resource_management.assignment_dialog.title", filter_name: allocation.placeholder_user&.name)
-    end
+  def with_criteria
+    PlaceholderUser
+      .joins(:placeholder_user_detail)
+      .where("placeholder_user_details.user_filter <> '[]'::jsonb")
+      .select(:id)
   end
 end

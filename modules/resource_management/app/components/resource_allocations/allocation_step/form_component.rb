@@ -78,7 +78,7 @@ module ResourceAllocations
       def form_list_component(form)
         prepends = if filter_based?
                      [
-                       ResourceAllocations::Forms::UserResourceForm.new(form, dialog_id: dialog_id)
+                       ResourceAllocations::Forms::PlaceholderUserForm.new(form, dialog_id: dialog_id)
                      ]
                    else
                      [
