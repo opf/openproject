@@ -701,6 +701,24 @@ Limits password-reset requests per email address to 3 per hour.
 OPENPROJECT_RATE_LIMITING_LOST__PASSWORD="true"
 ```
 
+##### Registration rate limiting (disabled by default)
+
+Limits unauthenticated `POST /account/register` requests per hour.
+`0` (the default) disables the limit. A positive value is the number of attempts allowed.
+
+The two counting modes target different attackers:
+
+- **Per client IP** (default): an unauthenticated outsider hitting the public registration form.
+  This does not stop someone who rotates addresses, and it will not freeze signups for everyone
+  behind a shared NAT.
+- **Per instance** (`host_name`): Set
+  `registration_rate_limit_per_ip` to `false` for this mode, which will restrict registrations altogether.
+
+```shell
+OPENPROJECT_REGISTRATION__RATE__LIMIT="10"
+OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP="false"
+```
+
 ##### API v3 rate limiting (disabled by default)
 
 Limits API form endpoint requests per session to 6 per 3 seconds.
