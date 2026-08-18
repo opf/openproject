@@ -35,9 +35,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render_widget Widget::Settings, @report, cost_types: @cost_types, selected_type_id: @unit_id %>
 
-<div id="result-table">
+<%# Applying a filter navigates this frame, so the filter form keeps its state. %>
+<%= turbo_frame_tag "result-table" do %>
   <%= render_widget Widget::Table, @report %>
-</div>
+<% end %>
 <p class="footnote">
   <%= t(:text_costs_are_rounded_note) %>
   <% unless User.current.admin? %>

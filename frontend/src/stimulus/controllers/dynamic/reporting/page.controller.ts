@@ -27,6 +27,7 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import * as Turbo from '@hotwired/turbo';
 import { FetchRequestError, post, ValidationError } from 'core-stimulus/helpers/request-helpers';
 import dragula from 'dragula';
 import jQuery from 'jquery';
@@ -718,7 +719,10 @@ export default class PageController extends Controller {
       document.location.href = newLocation;
     });
 
-    this.controls.attach_settings_callback(jQuery('#query-icon-apply-button'), this.controls.update_result_table);
+    this.controls.observe_click('query-icon-apply-button', (e:Event) => {
+      e.preventDefault();
+      this.applyToUrl();
+    });
 
     this.controls.observe_click('query-link-clear', this.controls.clear_query);
   }
@@ -740,11 +744,91 @@ export default class PageController extends Controller {
     });
   }
 
+  // The filters, group bys and unit make up the report being looked at, so they
+  // belong in the url rather than in the session. Only the result table is
+  // fetched; the filter form keeps its own state, autocompleters included.
+  private applyToUrl() {
+    const url = `${window.location.pathname}?${this.compactQueryParams().toString()}`;
+
+    Turbo.visit(url, { frame: 'result-table', action: 'advance' });
+  }
+
+  // Saving posts the same configuration the url carries, so the server only ever
+  // has to understand one shape. The name and publicity come from the save form.
+  private compactSettingsBody():FormData {
+    const body = new FormData();
+
+    this.compactQueryParams().forEach((value, key) => body.append(key, value));
+
+    const queryForm = document.querySelector<HTMLFormElement>('#query_form');
+    ['authenticity_token', 'query_name', 'query_is_public'].forEach((name) => {
+      const value = queryForm ? new FormData(queryForm).get(name) : null;
+
+      if (typeof value === 'string') {
+        body.append(name, value);
+      }
+    });
+
+    return body;
+  }
+
+  // The same compact syntax the other query based lists use, e.g.
+  // `filters=spent_on >d "2026-01-01" & user_id = "me"`.
+  private compactQueryParams():URLSearchParams {
+    const formData = this.serializeSettingsForm();
+    const params = new URLSearchParams();
+
+    // Always set, even when empty: it tells the server the url says what to show
+    // rather than falling back to the defaults.
+    params.set('filters', this.compactFilters(formData).join(' & '));
+
+    ['rows', 'columns'].forEach((axis) => {
+      const dimensions = this.stringValues(formData, `groups[${axis}][]`);
+
+      if (dimensions.length > 0) {
+        params.set(axis, dimensions.join(','));
+      }
+    });
+
+    const unit = formData.get('unit');
+    if (typeof unit === 'string' && unit !== '') {
+      params.set('unit', unit);
+    }
+
+    return params;
+  }
+
+  private compactFilters(formData:FormData):string[] {
+    return this.stringValues(formData, 'fields[]').map((field) => {
+      const operator = formData.get(`operators[${field}]`);
+      const values = [
+        ...this.stringValues(formData, `values[${field}][]`),
+        ...this.stringValues(formData, `values[${field}]`),
+      ].filter((value) => value !== '');
+
+      return `${field} ${typeof operator === 'string' ? operator : ''} ${this.compactValues(values)}`.trim();
+    });
+  }
+
+  private compactValues(values:string[]):string {
+    const quoted = values.map((value) => `"${value.replace(/"/g, '\\"')}"`);
+
+    if (quoted.length <= 1) {
+      return quoted.join('');
+    }
+
+    return `[${quoted.join(',')}]`;
+  }
+
+  private stringValues(formData:FormData, key:string):string[] {
+    return formData.getAll(key).filter((value):value is string => typeof value === 'string');
+  }
+
   private sendSettingsData(targetUrl:string, callback:(_result:string) => void, failureCallback?:(_error:unknown) => void) {
     const errorCallback = failureCallback ?? this.defaultFailureCallback;
     this.clearFlash();
 
-    void post(targetUrl, { body: this.serializeSettingsForm() })
+    void post(targetUrl, { body: this.compactSettingsBody() })
       .then((response) => {
         if (response.unprocessableEntity) {
           return response.text.then((errorText) => { throw new ValidationError(errorText); });

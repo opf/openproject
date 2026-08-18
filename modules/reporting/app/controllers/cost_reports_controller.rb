@@ -28,13 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Reports saved before they became CostReport records are still linked to by
-# their old cost_queries id, which the converted report carries along.
+# Links created before cost reports became CostReport records are still out
+# there - in wikis and mails, and from the work package and budget pages. They
+# address a report by its old cost_queries id and pass filters as
+# fields[]/operators[]/values[], so both are translated to the current url.
 class CostReportsController < ApplicationController
   before_action :load_and_authorize_in_optional_project
 
   def index
-    redirect_to reports_path
+    redirect_to reports_path(legacy_query)
   end
 
   def show
@@ -42,24 +44,35 @@ class CostReportsController < ApplicationController
 
     return render_404 if report.nil?
 
-    redirect_to report_path(report), status: :moved_permanently
+    redirect_to report_path(report, legacy_query), status: :moved_permanently
   end
 
   private
 
-  def reports_path
+  def legacy_query
+    filters = ::CostReports::LegacyFilters.new(operators: params[:operators],
+                                               values: params[:values],
+                                               rows: params.dig(:groups, :rows),
+                                               columns: params.dig(:groups, :columns))
+
+    return {} unless filters.any?
+
+    filters.to_params.merge(params.permit(:unit).to_h.symbolize_keys)
+  end
+
+  def reports_path(query = {})
     if @project
-      project_reporting_cost_reports_path(@project)
+      project_reporting_cost_reports_path(@project, query)
     else
-      global_reporting_cost_reports_path
+      global_reporting_cost_reports_path(query)
     end
   end
 
-  def report_path(report)
+  def report_path(report, query = {})
     if @project
-      project_reporting_cost_report_path(@project, report)
+      project_reporting_cost_report_path(@project, report, query)
     else
-      reporting_cost_report_path(report)
+      reporting_cost_report_path(report, query)
     end
   end
 end

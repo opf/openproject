@@ -43,10 +43,15 @@ module Reporting
     before_action :check_cache
     before_action :load_all
     before_action :load_and_authorize_in_optional_project
+    before_action :move_session_filters_to_url, only: %i[index]
     before_action :find_report, only: %i[show update rename destroy]
     before_action :build_report, only: %i[index create]
     before_action :narrow_values_only, only: %i[index]
     before_action :set_cost_types
+
+    # The rendering widgets reach for these through method_missing on the
+    # controller, so they have to be readable and not just instance variables.
+    attr_accessor :cost_types, :cost_type, :unit_id
 
     helper_method :cost_types, :cost_type, :unit_id, :allowed_in_report?
 
@@ -135,14 +140,29 @@ module Reporting
       JSON.parse(params.expect(:values).tr("'", '"'))
     end
 
+    def move_session_filters_to_url
+      session_filters = ::CostReports::SessionFilters.new(session)
+      return unless session_filters.any?
+
+      from_session = session_filters.take!
+
+      redirect_to url_for(from_session) unless configured_by_params?
+    end
+
     def find_report
       @report = CostReport.visible(current_user).find(params.expect(:id))
 
-      if params[:set_filter].to_i == 1
+      if configured_by_params?
         ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call(@report)
       end
     rescue ActiveRecord::RecordNotFound
       render_404
+    end
+
+    # A request carrying any part of the configuration says what to show, so the
+    # saved report's own definition is not used.
+    def configured_by_params?
+      ::CostReports::ParamsToReport::CONFIGURATION_PARAMS.any? { |key| params.key?(key) }
     end
 
     def build_report
