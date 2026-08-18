@@ -201,11 +201,6 @@ module Type::Attributes
   # If a project context is given, that context is passed
   # to the constraint validator.
   def passes_attribute_constraint?(attribute, project: nil)
-    # Check custom field constraints
-    if CustomField.custom_field_attribute?(attribute) && !project.nil?
-      return custom_field_in_project?(attribute, project)
-    end
-
     # Check other constraints (none in the core, but costs/backlogs adds constraints)
     constraint = attribute_constraints[attribute.to_sym]
     constraint.nil? || constraint.call(self, project:)
@@ -215,19 +210,5 @@ module Type::Attributes
   # Returns the active custom_field_attributes
   def active_custom_field_attributes
     custom_field_ids.map { |id| "custom_field_#{id}" }
-  end
-
-  ##
-  # Returns whether the custom field is active in the given project.
-  def custom_field_in_project?(attribute, project)
-    custom_fields_in_project = RequestStore.fetch(:"custom_field_in_project_#{project.id}") do
-      project
-        .all_work_package_custom_fields
-        .pluck(:id)
-        .map { |id| "custom_field_#{id}" }
-    end
-
-    custom_fields_in_project
-      .include? attribute
   end
 end

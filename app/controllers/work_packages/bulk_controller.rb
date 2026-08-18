@@ -114,12 +114,7 @@ class WorkPackages::BulkController < ApplicationController
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
     @assignables = @responsibles = Principal.possible_assignee(@projects)
     @types = @projects.map { |project| project.enabled_types.to_a }.inject(&:&)
-    @custom_fields = editable_custom_fields
-  end
-
-  # Only the custom fields that are enabled on the projects and on the types too.
-  def editable_custom_fields
-    @projects.map(&:all_work_package_custom_fields).inject(&:&) & custom_fields_of_type_variants
+    @custom_fields = custom_fields_of_type_variants
   end
 
   # Each project applies its own variant of a type, so the variant is resolved per project

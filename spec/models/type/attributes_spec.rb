@@ -70,4 +70,15 @@ RSpec.describe Type::Attributes do
       end
     end
   end
+
+  describe "#passes_attribute_constraint? for a custom field the project has not activated" do
+    let(:type) { create(:type) }
+    let(:project) { create(:project, types: [type]) }
+    let(:field) { create(:work_package_custom_field, is_for_all: false) }
+
+    # Project activation no longer gates attributes; the form configuration does.
+    it "passes" do
+      expect(type.default_variant.passes_attribute_constraint?(field.attribute_name, project:)).to be true
+    end
+  end
 end

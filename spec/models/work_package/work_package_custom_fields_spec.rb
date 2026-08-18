@@ -404,4 +404,18 @@ RSpec.describe WorkPackage do
       end
     end
   end
+
+  describe "#available_custom_fields for a field the project has not activated" do
+    let(:type) { create(:type_task) }
+    let(:field) { create(:work_package_custom_field, is_for_all: false) }
+    let(:project) { create(:project, types: [type]) }
+    let(:work_package) { create(:work_package, project:, type:) }
+
+    before { type.default_variant.custom_fields << field }
+
+    # The form configuration is the only thing that narrows custom fields now.
+    it "offers the field" do
+      expect(work_package.available_custom_fields).to include(field)
+    end
+  end
 end
