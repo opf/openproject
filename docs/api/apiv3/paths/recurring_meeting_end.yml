@@ -1,39 +1,34 @@
-# /api/v3/recurring_meetings/{id}/occurrences/{start_time}/init
+# /api/v3/recurring_meetings/{id}/end
 ---
 post:
-  summary: Instantiate an occurrence
-  operationId: init_recurring_meeting_occurrence
+  summary: End a meeting series
+  operationId: end_recurring_meeting
   tags:
     - Recurring Meetings
   description: |-
-    Instantiates the occurrence at the given `start_time` by creating a real meeting from
-    the recurring meeting's template. Returns the newly created `Meeting` resource.
+    Ends the recurring meeting series. The series end date is set so that no further
+    occurrences are scheduled, any future already-instantiated occurrences are cancelled
+    and removed, and participants receive cancellation and "series ended" notification emails
+    if `notify` is set to true for the series.
 
-    If a previously cancelled occurrence exists for this `start_time`, it is restored, and
-    if `notify` is set to true, its participants are notified via email.
+    Ending a series before its first occurrence is rejected.
+
+    Returns the updated `RecurringMeeting` resource.
   parameters:
-    - description: Recurring meeting identifier
+    - description: Recurring meeting ID
       example: 1
       in: path
       name: id
       required: true
       schema:
         type: integer
-    - description: The ISO 8601 start time of the occurrence to instantiate (e.g. `2025-06-02T10:00:00Z`)
-      example: "2025-06-02T10:00:00Z"
-      in: path
-      name: start_time
-      required: true
-      schema:
-        type: string
-        format: date-time
   responses:
-    '201':
-      description: Created — the occurrence was successfully instantiated as a meeting.
+    '200':
+      description: Returned if the series was ended successfully.
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/meeting_model.yml"
+            $ref: "../components/schemas/recurring_meeting_model.yml"
     '403':
       content:
         application/hal+json:
@@ -48,7 +43,7 @@ post:
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** create meetings in the recurring meeting's project
+        **Required permission:** edit meetings in the recurring meeting's project
     '404':
       content:
         application/hal+json:
@@ -66,6 +61,14 @@ post:
         **Required permission:** view meetings in the recurring meeting's project
     '422':
       description: |-
-        Returned if:
-
-        * a constraint for a property was violated (`PropertyConstraintViolation`)
+        Returned if the series could not be ended, for example because it has not started yet.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: End date must be after the series start date.
