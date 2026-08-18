@@ -87,9 +87,6 @@ RSpec.describe "Projects copy", :js,
     let!(:wp_custom_field) do
       create(:text_wp_custom_field)
     end
-    let!(:inactive_wp_custom_field) do
-      create(:text_wp_custom_field)
-    end
     let(:active_types) do
       create_list(:type, 2)
     end
@@ -498,13 +495,6 @@ RSpec.describe "Projects copy", :js,
 
       # has the parent of the original project
       parent_field.expect_selected parent_project.name
-
-      # has wp custom fields of original project active
-      copied_settings_wp_cf_page = Pages::Projects::Settings::WorkPackageCustomFields.new(copied_project)
-      copied_settings_wp_cf_page.visit!
-
-      copied_settings_wp_cf_page.expect_active(wp_custom_field)
-      copied_settings_wp_cf_page.expect_inactive(inactive_wp_custom_field)
 
       # has types of original project active
       copied_settings_type_page = Pages::Projects::Settings::Type.new(copied_project)

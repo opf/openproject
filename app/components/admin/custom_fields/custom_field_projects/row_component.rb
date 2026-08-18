@@ -44,8 +44,9 @@ module Admin
 
         private
 
+        # An archived project's mapping cannot be changed.
         def more_menu_detach_project
-          if User.current.admin?
+          if project.active? && User.current.admin?
             {
               scheme: :default,
               icon: nil,

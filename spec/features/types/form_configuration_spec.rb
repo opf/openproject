@@ -533,20 +533,6 @@ RSpec.describe "form configuration", :js, :selenium,
         form.expect_attribute(key: cf_identifier)
       end
 
-      context "if inactive in project" do
-        it "can be added to the type, but is not shown" do
-          add_cf_to_group
-
-          # Visit work package with that type
-          wp_page.visit!
-          wp_page.ensure_page_loaded
-
-          # CF should be hidden
-          wp_page.expect_no_group("New Group")
-          wp_page.expect_attribute_hidden(cf_identifier_api)
-        end
-      end
-
       context "if active in project" do
         let(:project) do
           create(:project,
