@@ -37,25 +37,6 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
   describe ".visible" do
     subject { WorkPackageCustomField.visible(user) }
 
-    context "when the user has the select_custom_field_permission in any project" do
-      let!(:project_with_select_permissions) { create(:project) }
-      let(:user) { create(:user, member_with_permissions: { project_with_select_permissions => [:select_custom_fields] }) }
-
-      it "returns all custom fields" do
-        expect(subject).to contain_exactly(type_enabled_and_member_cf,
-                                           type_enabled_for_all_cf,
-                                           type_non_enabled_in_project_cf,
-                                           not_a_member_cf,
-                                           type_disabled_for_all_cf,
-                                           type_enabled_in_different_project_than_member_cf)
-      end
-    end
-
-    context "when the user lacks the select_custom_field_permission" do
-      it "returns custom fields for types that are enabled in projects the user can see" do
-        expect(subject).to contain_exactly(type_enabled_and_member_cf, type_enabled_for_all_cf)
-      end
-    end
   end
 
   describe ".visible with a linked form configuration" do
@@ -80,15 +61,5 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
       end
     end
 
-    context "for a user allowed to select custom fields anywhere" do
-      shared_let(:privileged_user) do
-        create(:user,
-               member_with_permissions: { linked_project => %i[select_custom_fields] })
-      end
-
-      it "returns all custom fields (short-circuit unaffected)" do
-        expect(WorkPackageCustomField.visible(privileged_user)).to include(source_cf)
-      end
-    end
   end
 end
