@@ -68,6 +68,14 @@ class PersistedQuery < ApplicationRecord
     self.principal = user
   end
 
+  def uses_filter?(name)
+    filters.any? { |filter| filter.name.to_s == name.to_s }
+  end
+
+  def remove_filter(name)
+    self.filters = filters.reject { |filter| filter.name.to_s == name.to_s }
+  end
+
   # Returns the query results. A `manual_elements` query draws from its
   # explicitly-ordered `ordered_entities` instead of its filters and orders
   def results
