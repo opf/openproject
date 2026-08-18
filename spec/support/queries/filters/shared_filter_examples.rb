@@ -140,7 +140,7 @@ RSpec.shared_examples_for "list query filter" do |scope: true|
   end
 end
 
-RSpec.shared_context "project filter with visible projects" do
+RSpec.shared_context "with visible projects" do
   let(:project1) { create(:project) }
   let(:project2) { create(:project) }
 

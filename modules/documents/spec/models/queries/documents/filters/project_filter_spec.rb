@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe Queries::Documents::Filters::ProjectFilter do
-  include_context "project filter with visible projects"
+  include_context "with visible projects"
 
   let(:model) { Document }
 
