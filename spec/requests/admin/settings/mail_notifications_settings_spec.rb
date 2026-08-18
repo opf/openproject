@@ -51,6 +51,25 @@ RSpec.describe "Mail Notifications Settings",
 
         expect(page).to have_field(I18n.t(:setting_sendmail_location), disabled: true, visible: :all)
       end
+
+      it "shows the sendmail fields group and hides the smtp fields group" do
+        expect(page).to have_field(I18n.t(:setting_sendmail_location), visible: :visible)
+        expect(page).to have_field(I18n.t(:setting_smtp_address), visible: :hidden)
+      end
+    end
+
+    context "when email_delivery_method is smtp" do
+      before do
+        allow(Setting).to receive(:email_delivery_method).and_return(:smtp)
+        get "/admin/settings/mail_notifications"
+      end
+
+      it "shows the smtp fields group and hides the sendmail fields group" do
+        expect(response).to have_http_status(:success)
+
+        expect(page).to have_field(I18n.t(:setting_smtp_address), visible: :visible)
+        expect(page).to have_field(I18n.t(:setting_sendmail_location), visible: :hidden)
+      end
     end
   end
 

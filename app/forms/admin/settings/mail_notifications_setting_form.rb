@@ -68,7 +68,7 @@ module Admin
           end
 
           f.group(
-            hidden: { true => Setting.email_delivery_method != :smtp },
+            hidden: Setting.email_delivery_method != :smtp,
             data: {
               show_when_value_selected_target: "effect",
               target_name: "email_delivery_method_settings",
@@ -88,7 +88,7 @@ module Admin
           end
 
           f.group(
-            hidden: { true => Setting.email_delivery_method != :sendmail },
+            hidden: Setting.email_delivery_method != :sendmail,
             data: {
               show_when_value_selected_target: "effect",
               target_name: "email_delivery_method_settings",
