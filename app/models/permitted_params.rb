@@ -613,6 +613,7 @@ class PermittedParams
         ],
         placeholder_user: %i(
           name
+          description
         ),
         project_type: [
           :name,

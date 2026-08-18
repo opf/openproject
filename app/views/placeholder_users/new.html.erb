@@ -31,14 +31,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render PlaceholderUsers::EditPageHeaderComponent.new(placeholder_user: @placeholder_user) %>
 
-<%= labelled_tabular_form_for @placeholder_user,
-                              url: { action: "create" },
-                              html: { class: nil, autocomplete: "off" },
-                              as: :placeholder_user do |f| %>
-  <%= render partial: "form", locals: { f: f, placeholder_user: @placeholder_user } %>
+<%= error_messages_for @placeholder_user %>
 
-  <p>
-    <%= styled_button_tag t(:button_create), class: "-primary -with-icon icon-checkmark" %>
-    <%= styled_button_tag t(:button_create_and_continue), name: "continue", class: "-primary -with-icon icon-checkmark" %>
-  </p>
-<% end %>
+<%=
+  settings_primer_form_with(
+    model: @placeholder_user,
+    data: { controller: "show-when-checked", show_when_checked_visibility_class: "d-none" }
+  ) do |f|
+    render PlaceholderUsers::Form.new(f, submit_label: I18n.t(:button_create), criteria: true)
+  end
+%>

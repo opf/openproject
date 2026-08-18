@@ -28,29 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CreatePlaceholderUserDetails < ActiveRecord::Migration[8.1]
-  def change
-    create_table :placeholder_user_details do |t|
-      t.references :principal, null: false, foreign_key: { to_table: :users }, index: { unique: true }
-      # Nullable: ActiveRecord serializes an empty filter to NULL, because the
-      # coder loads NULL back as `[]`.
-      t.jsonb :user_filter, default: []
-      t.text :description
-
-      t.timestamps
-    end
-
-    # Delegation assumes a detail is always there; it is only auto-built for new
-    # records, so existing placeholder users need one.
-    reversible do |dir|
-      dir.up do
-        execute <<~SQL.squish
-          INSERT INTO placeholder_user_details (principal_id, user_filter, created_at, updated_at)
-          SELECT id, '[]'::jsonb, NOW(), NOW()
-          FROM users
-          WHERE type = 'PlaceholderUser'
-        SQL
+module PlaceholderUsers
+  class CriteriaForm < ApplicationForm
+    form do |f|
+      f.html_content do
+        # The filter builder emits its fields into the surrounding form, so it
+        # needs that form's Primer builder rather than this form object.
+        render(Filters::FilterFormComponent.new(
+                 builder: @builder,
+                 query: model.candidate_query,
+                 wrap_with_controller: true,
+                 hidden_input_name: "filters",
+                 output_format: :json
+               ))
       end
+
+      next unless submit?
+
+      f.submit(
+        name: :submit,
+        label: I18n.t(:button_save),
+        scheme: :primary
+      )
     end
+
+    def initialize(submit: true)
+      super()
+      @submit = submit
+    end
+
+    private
+
+    def submit? = @submit
   end
 end
