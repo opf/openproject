@@ -36,14 +36,14 @@ module Interceptors
     module_function
 
     def delivering_email(mail)
-      return unless OpenProject::OutboundMailLimit.enabled?
+      return unless OpenProject::MailRecipientLimit.enabled?
 
       FIELDS.each { |field| drop_over_limit(mail, field) }
     end
 
     def drop_over_limit(mail, field)
       addresses = Array(mail.send(field))
-      allowed = addresses.select { |address| OpenProject::OutboundMailLimit.allow?(address) }
+      allowed = addresses.select { |address| OpenProject::MailRecipientLimit.allow?(address) }
 
       return if allowed.size == addresses.size
 
@@ -54,12 +54,12 @@ module Interceptors
 
     def report_dropped(mail, field, dropped)
       OpenProject.logger.warn(
-        "Dropped #{field} recipients over outbound mail limit from '#{mail.subject}': #{dropped.join(', ')}",
-        reference: :outbound_mail_limit,
+        "Dropped #{field} recipients over mail recipient limit from '#{mail.subject}': #{dropped.join(', ')}",
+        reference: :mail_recipient_limit,
         payload: {
           field:,
           dropped_count: dropped.size,
-          limit: OpenProject::OutboundMailLimit.limit,
+          limit: OpenProject::MailRecipientLimit.limit,
           host_name: Setting.host_name
         }
       )
@@ -68,7 +68,7 @@ module Interceptors
         "outbound_mail.recipients_dropped",
         "openproject.mail.field" => field.to_s,
         "openproject.mail.dropped_count" => dropped.size,
-        "openproject.mail.limit" => OpenProject::OutboundMailLimit.limit
+        "openproject.mail.limit" => OpenProject::MailRecipientLimit.limit
       )
 
       OpenProject::Appsignal.increment_counter(

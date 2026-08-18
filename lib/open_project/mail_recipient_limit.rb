@@ -31,14 +31,14 @@
 module OpenProject
   # Caps how many distinct recipient addresses an instance may send mail to per day.
   # Configured in SaaS to configure it for trial instances.
-  module OutboundMailLimit
+  module MailRecipientLimit
     class << self
       def enabled?
         limit.positive?
       end
 
       def limit
-        Setting.outbound_mail_limits
+        Setting.mail_recipient_limits
       end
 
       def allow?(address)
