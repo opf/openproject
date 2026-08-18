@@ -77,30 +77,8 @@ module Backlogs
       show_move_items? || show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
     end
 
-    def build_move_menu(menu)
-      build_move_item(menu, label: :label_sort_highest, direction: "top", icon: :"move-to-top")
-      build_move_item(menu, label: :label_sort_higher, direction: "up", icon: :"chevron-up")
-      build_move_item(menu, label: :label_sort_lower, direction: "down", icon: :"chevron-down")
-      build_move_item(menu, label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom")
-    end
-
-    def build_move_item(menu, label:, icon:, direction:)
-      # The `data:` hash must live on the item level so Primer renders it on
-      # the ActionList `<li>`: the controller's `<li>` targets and the
-      # action-menu API's `disableItem`/`enableItem` both address that element,
-      # and the click action rides it via the bubbled button click.
-      menu.with_item(
-        id: dom_target(work_package, :menu, label),
-        label: I18n.t(label),
-        tag: :button,
-        data: {
-          sortable_lists__item_target: "moveItem",
-          sortable_lists__item_direction_param: direction,
-          action: "click->sortable-lists--item#move"
-        }
-      ) do |item|
-        item.with_leading_visual_icon(icon:)
-      end
+    def move_menu_items
+      SortableLists::MoveMenuItems.new(dom_key: work_package)
     end
 
     def inbox_list_type
