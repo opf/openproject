@@ -64,7 +64,8 @@
       &[data-batch-selected]
         border-top-color: var(--box-list-item-selected-border-color)
 
-      &:has(> .Box-card[aria-current="true"])
+      &:has(> .Box-card[aria-current="true"]),
+      &:has(> .Box-card[data-activating])
         border-top-color: var(--box-list-item-pressed-border-color)
 
   &.op-border-box-list_transparent
@@ -208,7 +209,13 @@
 // Current state: the card is open in the split screen. aria-current is
 // maintained by the backlogs--work-package controller once the URL reflects
 // the details pane; the strong border wins over a simultaneous batch selection.
-.Box-row:has(> .Box-card[aria-current="true"])
+//
+// data-activating is that controller's synchronous pressed state — the card
+// was just clicked or Enter-activated and its visit has not landed yet. It
+// is visual only (no ARIA) and reuses the pressed border so it hands over
+// seamlessly to aria-current once the URL reflects the details pane.
+.Box-row:has(> .Box-card[aria-current="true"]),
+.Box-row:has(> .Box-card[data-activating])
   @include op-box-list-item-edge-borders(var(--box-list-item-pressed-border-color))
 
 // Drag-and-drop row states, scoped to the border-box list. The global
