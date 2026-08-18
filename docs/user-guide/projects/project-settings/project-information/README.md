@@ -29,13 +29,14 @@ Project settings are grouped into three sections:
 
 Further, in the top right corner you can: 
 
-6. Click the **More (three dots)** icon, which opens a dropdown menu with the following options: 
-   - [Add a subproject](#create-a-subproject)
-   - [Duplicate a project](#duplicate-a-project)
-   - [Make a project public](#make-a-project-public)
-   - [Set a project as a template](../../project-templates) 
-   - [Archive a project](#archive-a-project)
-   - [Delete a project](#delete-a-project)
+5. Click the **More (three dots)** icon, which opens a dropdown menu with the following options: 
+
+- [Add a subproject](#create-a-subproject)
+- [Duplicate a project](#duplicate-a-project)
+- [Make a project public](#make-a-project-public)
+- [Set a project as a template](../../project-templates) 
+- [Archive a project](#archive-a-project)
+- [Delete a project](#delete-a-project)
 
 ![project-information](openproject_user_guide_project_settings_information.png)
 
