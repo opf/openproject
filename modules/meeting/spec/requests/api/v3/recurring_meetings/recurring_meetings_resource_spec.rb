@@ -277,4 +277,81 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
       it_behaves_like "unauthorized access"
     end
   end
+
+  describe "POST /api/v3/recurring_meetings/:id/template_completed" do
+    let(:recurring_meeting) { create(:recurring_meeting, project:, author: current_user) }
+    let(:path) { "#{api_v3_paths.recurring_meeting(recurring_meeting.id)}/template_completed" }
+    let(:invited_user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings] })
+    end
+
+    before do
+      create(:meeting_participant, meeting: recurring_meeting.template, user: invited_user, invited: true)
+      ActionMailer::Base.deliveries.clear
+    end
+
+    subject(:response) { post path, { notify: true }.to_json }
+
+    context "with required permissions" do
+      it "responds with 200 and initiates the first occurrence" do
+        first_occurrence = recurring_meeting.next_occurrence
+
+        perform_enqueued_jobs { response }
+
+        expect(last_response).to have_http_status(:ok)
+        expect(last_response.body).to be_json_eql("RecurringMeeting".to_json).at_path("_type")
+
+        occurrence = recurring_meeting.meetings.not_templated
+                                      .find_by(recurrence_start_time: first_occurrence)
+        expect(occurrence).to be_present
+        expect(occurrence).to be_open
+        expect(occurrence.start_time).to eq(first_occurrence)
+        expect(occurrence.title).to eq(recurring_meeting.template.title)
+      end
+
+      it "sends series invitations to the template participants when notify: true" do
+        perform_enqueued_jobs { response }
+
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(invited_user.mail)
+      end
+
+      it "does not send invitations when notify: false, but still initiates the first occurrence" do
+        first_occurrence = recurring_meeting.next_occurrence
+
+        perform_enqueued_jobs { post path, { notify: false }.to_json }
+
+        expect(last_response).to have_http_status(:ok)
+        expect(ActionMailer::Base.deliveries).to be_empty
+        expect(recurring_meeting.meetings.not_templated.find_by(recurrence_start_time: first_occurrence)).to be_open
+      end
+
+      it "requires notify to be passed explicitly" do
+        post path
+
+        expect(last_response).to have_http_status(:bad_request)
+      end
+    end
+
+    context "when the template has already been completed" do
+      before do
+        perform_enqueued_jobs { post path, { notify: true }.to_json }
+        ActionMailer::Base.deliveries.clear
+      end
+
+      it "is rejected and does not re-send invitations" do
+        perform_enqueued_jobs { post path, { notify: true }.to_json }
+
+        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
+    context "without edit_meetings permission" do
+      let(:permissions) { %i[view_meetings] }
+
+      before { response }
+
+      it_behaves_like "unauthorized access"
+    end
+  end
 end

@@ -171,9 +171,6 @@ class RecurringMeetingsController < ApplicationController
       .call(notify: params[:meeting][:notify] == "1", first_occurrence: @first_occurrence)
 
     if call.success?
-      init_next_occurrence_job(@first_occurrence)
-      deliver_invitation_mails
-
       flash.now[:success] = I18n.t("recurring_meeting.occurrence.first_created")
     else
       flash.now[:error] = call.message
@@ -239,16 +236,6 @@ class RecurringMeetingsController < ApplicationController
     return if @project
 
     redirect_to project_recurring_meeting_path(@recurring_meeting.project, @recurring_meeting), status: :see_other
-  end
-
-  def init_next_occurrence_job(from_time)
-    # Now we can schedule the job to create the next occurrence
-    next_occurrence = @recurring_meeting.next_occurrence(from_time:)
-    return if next_occurrence.nil?
-
-    ::RecurringMeetings::InitNextOccurrenceJob
-      .set(wait_until: from_time)
-      .perform_later(@recurring_meeting, next_occurrence)
   end
 
   def deliver_invitation_mails

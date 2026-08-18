@@ -32,6 +32,21 @@ module API
   module V3
     module RecurringMeetings
       class RecurringMeetingsAPI < ::API::OpenProjectAPI
+        helpers do
+          def represent_recurring_meeting_result(call)
+            if call.success?
+              status 200
+              ::API::V3::RecurringMeetings::RecurringMeetingRepresenter.create(
+                @recurring_meeting.reload, current_user:, embed_links: true
+              )
+            elsif call.errors.blank?
+              raise ::API::Errors::UnprocessableContent.new(call.message)
+            else
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+            end
+          end
+        end
+
         resources :recurring_meetings do
           get &::API::V3::Utilities::Endpoints::Index.new(model: RecurringMeeting).mount
 
@@ -57,14 +72,22 @@ module API
                        .new(@recurring_meeting, current_user:)
                        .call
 
-              if call.success?
-                status 200
-                ::API::V3::RecurringMeetings::RecurringMeetingRepresenter.create(
-                  @recurring_meeting.reload, current_user:, embed_links: true
-                )
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
+              represent_recurring_meeting_result(call)
+            end
+
+            params do
+              requires :notify,
+                       type: Boolean,
+                       desc: "Enable email notifications for the series"
+            end
+            post "template_completed" do
+              authorize_in_project(:edit_meetings, project: @recurring_meeting.project)
+
+              call = ::RecurringMeetings::TemplateCompletedService
+                       .new(user: current_user, recurring_meeting: @recurring_meeting)
+                       .call(notify: params[:notify])
+
+              represent_recurring_meeting_result(call)
             end
 
             mount ::API::V3::RecurringMeetings::OccurrencesByRecurringMeetingAPI
