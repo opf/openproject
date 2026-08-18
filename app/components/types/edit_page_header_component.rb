@@ -44,10 +44,7 @@ module Types
     end
 
     def title
-      return @title if @title
-      return @type.name unless named_variant?
-
-      t("types.edit.breadcrumb_variant", name: @variant.variant_name)
+      @title || variant_or_type_name
     end
 
     def breadcrumb_items
@@ -63,7 +60,13 @@ module Types
 
     def named_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
-    # Link back to the type's own page when we are on a named variant, since the leaf below
+    def variant_or_type_name
+      return @type.name unless named_variant?
+
+      t("types.edit.breadcrumb_variant", name: @variant.variant_name)
+    end
+
+    # Link back to the type's own page when we are on a named variant, since the crumb below
     # then shows the variant's name rather than the type's.
     def variant_breadcrumb_item
       return [] unless named_variant?
@@ -72,9 +75,10 @@ module Types
     end
 
     def own_breadcrumb_item
-      return [title] if @additional_breadcrumb_items.blank?
+      text = variant_or_type_name
+      return [text] if @additional_breadcrumb_items.blank?
 
-      [{ href: edit_type_details_path(type_id: @type.id), text: title }]
+      [{ href: edit_type_details_path(**(@variant&.path_args || { type_id: @type.id })), text: }]
     end
   end
 end
