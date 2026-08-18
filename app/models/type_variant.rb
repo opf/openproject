@@ -197,18 +197,6 @@ class TypeVariant < ApplicationRecord
     include_default ? scope.or(Status.where_default) : scope
   end
 
-  # A project only shows custom fields its own activation includes, so fields on this
-  # variant's form have to be activated wherever that form is in force, or the form silently
-  # omits them.
-  # TODO: This needs to be removed in the custom field form migration
-  def activate_custom_fields_in_effective_projects!
-    return if custom_field_ids.empty?
-
-    projects.each do |project|
-      project.work_package_custom_field_ids |= custom_field_ids
-    end
-  end
-
   def replacement_pattern_defined_for?(attribute)
     enabled_patterns.key?(attribute)
   end

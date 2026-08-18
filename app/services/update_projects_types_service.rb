@@ -73,13 +73,5 @@ class UpdateProjectsTypesService < BaseProjectService
     end
 
     project.reload
-    project.work_package_custom_field_ids |= custom_field_ids_of(added_ids)
-  end
-
-  # TypeVariant#custom_fields resolves the form configuration link, so a variant inheriting
-  # its configuration contributes the fields it actually shows rather than the none it owns.
-  # A type gained here runs its base variant, which is what the project resolves to.
-  def custom_field_ids_of(type_ids)
-    ::TypeVariant.default_variant.where(type_id: type_ids).flat_map { |variant| variant.custom_fields.ids }.uniq
   end
 end

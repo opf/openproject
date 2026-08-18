@@ -42,14 +42,6 @@ module Projects
         model.errors.add(:types, error, **)
         ServiceResult.failure(result: model, errors: model.errors)
       end
-
-      # TypeVariant#custom_fields resolves the form configuration link, so a variant inheriting
-      # its configuration contributes the fields it actually shows rather than the none it owns.
-      # Joining custom_fields_types on the variant's own id would activate nothing for it,
-      # leaving the work package form empty.
-      def enable_work_package_custom_fields(variant)
-        model.work_package_custom_field_ids |= variant.custom_fields.ids
-      end
     end
   end
 end

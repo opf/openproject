@@ -34,30 +34,6 @@ RSpec.describe UpdateProjectsTypesService do
 
   let(:project) { create(:project, no_types: true) }
 
-  shared_examples "activating custom fields" do
-    let!(:custom_field) { create(:text_wp_custom_field, type_variants: types.map(&:default_variant)) }
-
-    it "updates the active custom fields" do
-      expect { service_call }
-        .to change { project.reload.work_package_custom_field_ids }
-        .from([])
-        .to([custom_field.id])
-    end
-
-    it "does not activate the same custom field twice" do
-      expect { service_call }.to change { project.reload.work_package_custom_field_ids }
-      expect { described_class.new(project).call(ids) }.not_to change { project.reload.work_package_custom_field_ids }
-    end
-
-    context "for a project already using those types" do
-      let(:project) { create(:project, types:, work_package_custom_fields: [create(:text_wp_custom_field)]) }
-
-      it "does not change custom fields" do
-        expect { service_call }.not_to change { project.reload.work_package_custom_field_ids }
-      end
-    end
-  end
-
   context "with ids provided" do
     let(:types) { create_list(:type, 2) }
     let(:ids) { types.map(&:id) }
@@ -67,8 +43,6 @@ RSpec.describe UpdateProjectsTypesService do
       expect(project.enabled_types).to match_array(types)
       expect(project.project_types.map(&:variant)).to match_array(types.map(&:default_variant))
     end
-
-    include_examples "activating custom fields"
   end
 
   context "with no id passed" do
