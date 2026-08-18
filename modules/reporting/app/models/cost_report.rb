@@ -51,6 +51,11 @@ class CostReport < PersistedView
 
   scope :for_legacy_cost_query, ->(id) { where("options ->> 'legacy_cost_query_id' = ?", id.to_s) }
 
+  # A report without a project is available in every project and globally.
+  scope :in_context, ->(project) { project ? where(project_id: [nil, project.id]) : where(project_id: nil) }
+  scope :public_in, ->(project) { public_views.in_context(project) }
+  scope :private_in, ->(project, principal = User.current) { private_views(principal).in_context(project) }
+
   validates :query, presence: true
   validate :pivot_axes_match_query_group_bys
 
