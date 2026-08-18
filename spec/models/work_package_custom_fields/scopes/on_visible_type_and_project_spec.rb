@@ -182,4 +182,20 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       expect(WorkPackageCustomField.on_visible_type_and_project(member, project:)).to include(not_enabled_cf)
     end
   end
+
+  describe ".on_visible_type_and_project with a narrower reach" do
+    shared_let(:type) { create(:type) }
+    shared_let(:project) { create(:project, types: [type]) }
+    shared_let(:member) { create(:user, member_with_permissions: { project => [] }) }
+    shared_let(:custom_field) { create(:integer_wp_custom_field, type_variants: [type.default_variant]) }
+
+    it "surfaces the field for a project the user can merely see" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member)).to include(custom_field)
+    end
+
+    it "drops it when the caller supplies a scope the project is not in" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: Project.none))
+        .not_to include(custom_field)
+    end
+  end
 end
