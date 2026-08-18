@@ -55,25 +55,6 @@ class CostReportQuery < PersistedQuery
     raise NotImplementedError, "Run a CostReport, which knows how to lay the results out" # rubocop:disable OpenProject/NoNotImplementedError
   end
 
-  # Replays this definition into a reporting engine chain.
-  #
-  # Which dimension goes on which axis is view state rather than part of the
-  # query, so the axes have to be passed in - see CostReport#engine_query. The
-  # engine defaults a group by without a type to a column, so leaving them out
-  # would silently flatten a pivot into a single row of columns.
-  def engine_query(rows:, columns:)
-    CostQuery.new(project:).tap do |query|
-      filters.each do |filter|
-        query.filter(filter.name, operator: filter.operator, values: filter.values)
-      end
-
-      # Each one is prepended to the chain, so they are added in reverse of the
-      # order they should end up in, columns before rows.
-      columns.reverse_each { |attribute| query.column(attribute) }
-      rows.reverse_each { |attribute| query.row(attribute) }
-    end
-  end
-
   register_query do
     filter Queries::CostReports::Filters::ActivityIdFilter
     filter Queries::CostReports::Filters::AssignedToIdFilter

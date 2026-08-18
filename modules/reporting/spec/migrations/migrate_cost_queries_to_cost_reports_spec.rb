@@ -170,7 +170,7 @@ RSpec.describe MigrateCostQueriesToCostReports, type: :model do
     it "round trips through the engine unchanged, axes included" do
       migrate
 
-      replayed = CostReport.last.engine_query.group_bys
+      replayed = CostReport.last.group_bys
                            .map { |group_by| [group_by.class.name.demodulize, group_by.type] }
       original = cost_query.group_bys
                            .map { |group_by| [group_by.class.name.demodulize, group_by.type] }

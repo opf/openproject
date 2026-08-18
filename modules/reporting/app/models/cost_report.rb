@@ -31,6 +31,8 @@
 # The query owns which dimensions a report aggregates by; this view owns how they
 # are laid out across rows and columns.
 class CostReport < PersistedView
+  include CostReports::EngineChain
+
   PIVOT_AXES = %i[pivot_rows pivot_columns].freeze
   SINGLETON_DIMENSION = "singleton_value"
 
@@ -64,16 +66,6 @@ class CostReport < PersistedView
 
   def pivot?
     pivot_rows.any? || pivot_columns.any?
-  end
-
-  def engine_query
-    rows, columns = rendered_axes
-
-    query.engine_query(rows:, columns:)
-  end
-
-  def results
-    engine_query.result
   end
 
   # The query's group_bys are derived from the axes so the two cannot drift apart.
