@@ -488,6 +488,7 @@ sv:
         before_or_equal_to: måste vara före eller lika med %{date}.
         blank: kan inte vara tomt.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Ett arbetspaket kan inte kopplas till någon av dess underaktiviteter.
         circular_dependency: Detta förhållande skulle skapa ett cirkelberoende.
@@ -3834,7 +3835,6 @@ sv:
         invalid_type: Hittar ingen typ med namn '%{type}' i projekt '%{project}'.
         no_project_context: Ropar på create_work_package_link makro utanför projektsammanhang.
       link_name: Nytt arbetspaket
-      link_name_type: Ny %{type_name}
     errors:
       missing_or_invalid_parameter: Saknad eller ogiltig makro-parameter.
     include_wiki_page:

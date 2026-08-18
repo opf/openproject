@@ -488,6 +488,7 @@ hr:
         before_or_equal_to: mora biti prije ili jednako %{date}.
         blank: ne može biti prazan unos.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Radni paket ne može biti pridružen podređenim radnim zadacima.
         circular_dependency: Ova relacija izraditi će skupnu odnosno cirkularnu ovisnost.
@@ -3890,7 +3891,6 @@ hr:
         invalid_type: No type found with name '%{type}' in project '%{project}'.
         no_project_context: Calling create_work_package_link macro from outside project context.
       link_name: Novi radni paket
-      link_name_type: Novi %{type_name}
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     include_wiki_page:

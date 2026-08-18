@@ -488,6 +488,7 @@ nl:
         before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         blank: mag niet leeg zijn.
         blank_nested: moet de eigenschap '%{property}' ingesteld hebben.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is vereist. Kan niet worden verwijderd.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
@@ -3830,7 +3831,6 @@ nl:
         invalid_type: Geen type gevonden met de naam '%{type}' in het project '%{project}'.
         no_project_context: Create_work_package_link macro aanroepen buitenom de project context.
       link_name: Nieuw werkpakket
-      link_name_type: Nieuwe %{type_name}
     errors:
       missing_or_invalid_parameter: Ontbrekende of ongeldige parameter van de macro.
     include_wiki_page:

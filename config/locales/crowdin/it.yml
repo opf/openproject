@@ -488,6 +488,7 @@ it:
         before_or_equal_to: deve essere precedente o uguale al %{date}.
         blank: non può essere lasciato vuoto.
         blank_nested: deve avere la proprietà '%{property}' impostata.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: è necessario. Non può essere cancellato.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere collegato a una delle sue sottoattività.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
@@ -3835,7 +3836,6 @@ it:
         invalid_type: Nessun tipo trovato con nome '%{type}' nel progetto '%{project}'.
         no_project_context: Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link.
       link_name: Nuova macro-attività
-      link_name_type: Nuovo %{type_name}
     errors:
       missing_or_invalid_parameter: Parametri macro assenti o non validi.
     include_wiki_page:

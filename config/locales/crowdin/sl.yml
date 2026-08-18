@@ -488,6 +488,7 @@ sl:
         before_or_equal_to: mora biti pred ali enako %{date}.
         blank: ne sme biti prazno.
         blank_nested: mora imeti nastavljeno lastnost '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Zahtevek ne more biti povezan s svojo podnalogo
         circular_dependency: Ta povezava bi ustvarila krožno odvisnost.
@@ -3969,7 +3970,6 @@ sl:
         invalid_type: Nobenega tipa z imenom '%{type}' nismo našli v projektu '%{project}'.
         no_project_context: Kličem ustvari_delovni_paket_povezava makro izven konteksta projekta.
       link_name: Nov delovni paket
-      link_name_type: Nov %{type_name}
     errors:
       missing_or_invalid_parameter: Manjkajoč ali napačen parameter makre
     include_wiki_page:

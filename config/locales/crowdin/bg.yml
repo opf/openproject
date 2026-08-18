@@ -488,6 +488,7 @@ bg:
         before_or_equal_to: трябва да бъде преди или е равно на %{date}.
         blank: не може да бъде празно.
         blank_nested: трябва да бъде зададено свойството '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: е необходимо. Не може да бъде изтрит.
         cant_link_a_work_package_with_a_descendant: Работния пакет не може да бъде свързан с една от неговите подзадачи.
         circular_dependency: Тази връзка ще доведе до циклична зависимост.
@@ -3832,7 +3833,6 @@ bg:
         invalid_type: Не е намерен тип с име '%{type}' в проекта '%{project}'.
         no_project_context: Извикване на макроса create_work_package_link извън контекста на проекта.
       link_name: Нов работен пакет
-      link_name_type: Нов %{type_name}
     errors:
       missing_or_invalid_parameter: Липсващ или невалиден макропараметър.
     include_wiki_page:

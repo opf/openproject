@@ -490,6 +490,7 @@ ja:
         before_or_equal_to: は%{date}より以前にしてください。
         blank: は空白にすることができません。
         blank_nested: プロパティ '%{property}' が設定されている必要があります。
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: 必須です。削除できません。
         cant_link_a_work_package_with_a_descendant: 親子関係にあるワークパッケージ間で関係の設定はできません。
         circular_dependency: この関係は循環依存になります。
@@ -3778,7 +3779,6 @@ ja:
         invalid_type: プロジェクト '%{project}' に名前 '%{type}' のタイプが見つかりません。
         no_project_context: 外部プロジェクトのコンテキストから create_work_package_link マクロを呼び出します。
       link_name: 新しいワークパッケージ
-      link_name_type: 新しい %{type_name}
     errors:
       missing_or_invalid_parameter: マクロパラメータがないか無効です。
     include_wiki_page:

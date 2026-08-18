@@ -488,6 +488,7 @@ de:
         before_or_equal_to: muss vor oder gleich %{date} sein.
         blank: muss ausgefüllt werden.
         blank_nested: muss die Eigenschaft '%{property}' gesetzt haben.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: ist erforderlich. Kann nicht gelöscht werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
@@ -3831,7 +3832,6 @@ de:
         invalid_type: Es konnte kein Typ namens '%{type}' im Projekt '%{project}' gefunden werden.
         no_project_context: Rufe create_work_link Makro aus externen Projekt auf.
       link_name: Neues Arbeitspaket
-      link_name_type: Neu %{type_name}
     errors:
       missing_or_invalid_parameter: Fehlende oder ungültige Makro-Parameter.
     include_wiki_page:
