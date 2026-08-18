@@ -34,7 +34,7 @@ get:
       JSON specifying filter conditions.
       Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
 
-      + project_id: Filter news by project. Accepts project IDs and project identifiers, e.g. `SDT`.
+      + project_id: Filter news by project
     example: '[{ "project_id": { "operator": "=", "values": ["1", "2"] } }]'
     in: query
     name: filters

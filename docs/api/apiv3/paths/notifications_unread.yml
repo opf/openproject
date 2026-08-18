@@ -18,7 +18,7 @@ post:
         
         + id: Filter by primary key
         
-        + project: Filter by the project the notification was created in. Accepts project IDs and project identifiers, e.g. `SDT`.
+        + project: Filter by the project the notification was created in
         
         + reason: Filter by the reason, e.g. 'mentioned' or 'assigned' the notification was created because of
         

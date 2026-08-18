@@ -6,7 +6,7 @@ get:
         JSON specifying filter conditions.
         Currently supported filters are:
 
-        + project: filters views by the project their associated query is assigned to. Accepts project IDs and project identifiers, e.g. `SDT`. If the project filter is passed with the `!*` (not any) operator, global views are returned.
+        + project: filters views by the project their associated query is assigned to. If the project filter is passed with the `!*` (not any) operator, global views are returned.
 
         + id: filters views based on their id
 

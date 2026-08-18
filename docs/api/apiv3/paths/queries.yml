@@ -14,7 +14,7 @@ get:
       JSON specifying filter conditions.
       Currently supported filters are:
 
-      + project: filters queries by the project they are assigned to. Accepts project IDs and project identifiers, e.g. `SDT`. If the project filter is passed with the `!*` (not any) operator, global queries are returned.
+      + project: filters queries by the project they are assigned to. If the project filter is passed with the `!*` (not any) operator, global queries are returned.
 
       + id: filters queries based on their id
 
