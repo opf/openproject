@@ -172,7 +172,7 @@ module Queries::BaseQuery
     group_bys.each do |group_by|
       next if group_by.valid?
 
-      add_error(:group_by, group_by.name, group_by)
+      add_error(:group_bys, group_by.name, group_by)
     end
   end
 
