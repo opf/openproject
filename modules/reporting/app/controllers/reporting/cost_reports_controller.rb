@@ -47,7 +47,7 @@ module Reporting
     before_action :find_report, only: %i[show update rename destroy]
     before_action :build_report, only: %i[index create]
     before_action :narrow_values_only, only: %i[index]
-    before_action :set_cost_types
+    before_action :set_cost_types, except: %i[available_values]
 
     # The rendering widgets reach for these through method_missing on the
     # controller, so they have to be readable and not just instance variables.
