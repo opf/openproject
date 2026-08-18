@@ -36,7 +36,7 @@ module Storages
           module Internal
             class DriveItemQuery < Base
               def call(http:, drive_item_id:, fields: [])
-                select_url_query = fields.empty? ? {} : { "$select" => fields.join(',') }
+                select_url_query = fields.empty? ? {} : { "$select" => fields.join(",") }
 
                 make_file_request(drive_item_id, http, select_url_query)
               end

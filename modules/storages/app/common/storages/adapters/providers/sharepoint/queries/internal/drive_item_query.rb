@@ -43,8 +43,8 @@ module Storages
 
               def query(fields:, expand:)
                 query = {}
-                query["$select"] = fields.join(',') if fields.any?
-                query["$expand"] = expand.join(',') if expand.any?
+                query["$select"] = fields.join(",") if fields.any?
+                query["$expand"] = expand.join(",") if expand.any?
 
                 query
               end

@@ -38,8 +38,9 @@ module Storages
               MAXIMUM = 1000
 
               def call(http:, folder:, fields: [])
-                query = fields.empty? ? { "$top" => MAXIMUM } : { "$top" => MAXIMUM, "$select" => fields.join(',') }
                 url = UrlBuilder.url(base_uri, uri_path_for(folder))
+                query = { "$top" => MAXIMUM }
+                query["$select"] = fields.join(",") if fields.any?
 
                 handle_responses(http.get(url, params: query))
               end
