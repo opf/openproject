@@ -966,7 +966,7 @@ module Settings
         description: "Enable OpenTelemetry metrics",
         default: false
       },
-      outbound_mail_limits: {
+      mail_recipient_limits: {
         format: :integer,
         default: 0,
         writable: false,

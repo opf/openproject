@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe OpenProject::OutboundMailLimit do
+RSpec.describe OpenProject::MailRecipientLimit do
   describe ".allow?" do
     context "when the limit is 0" do
       it "allows every address without writing rows" do
@@ -41,7 +41,7 @@ RSpec.describe OpenProject::OutboundMailLimit do
       end
     end
 
-    context "when a limit is configured", with_settings: { outbound_mail_limits: 2 } do
+    context "when a limit is configured", with_settings: { mail_recipient_limits: 2 } do
       it "allows the same address repeatedly without consuming extra slots" do
         expect(described_class.allow?("one@example.com")).to be true
         expect(described_class.allow?("ONE@example.com")).to be true
