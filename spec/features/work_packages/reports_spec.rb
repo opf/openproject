@@ -36,12 +36,13 @@ RSpec.describe "work package reports", :js do
 
   let(:type_a) do
     create(:type_with_workflow, name: "Type A").tap do |t|
-      t.statuses.last.update_attribute(:is_closed, true)
+      t.default_variant.statuses.last.update_attribute(:is_closed, true)
     end
   end
+  let(:type_a_statuses) { type_a.default_variant.statuses }
 
-  let!(:wp1) { create(:work_package, project:, type: type_a, status: type_a.statuses.first) }
-  let!(:wp2) { create(:work_package, project:, type: type_a, status: type_a.statuses.last) }
+  let!(:wp1) { create(:work_package, project:, type: type_a, status: type_a_statuses.first) }
+  let!(:wp2) { create(:work_package, project:, type: type_a, status: type_a_statuses.last) }
 
   let(:wp_table_page) { Pages::WorkPackagesTable.new(project) }
 
@@ -66,9 +67,9 @@ RSpec.describe "work package reports", :js do
       .to have_content "ACCOUNTABLE"
 
     expect(page)
-      .to have_css "thead th:nth-of-type(2)", text: type_a.statuses.first.name.upcase
+      .to have_css "thead th:nth-of-type(2)", text: type_a_statuses.first.name.upcase
     expect(page)
-      .to have_css "thead th:nth-of-type(3)", text: type_a.statuses.last.name.upcase
+      .to have_css "thead th:nth-of-type(3)", text: type_a_statuses.last.name.upcase
 
     expect(page)
       .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(1)", text: type_a.name
@@ -96,9 +97,9 @@ RSpec.describe "work package reports", :js do
       .to have_no_content "ACCOUNTABLE"
 
     expect(page)
-      .to have_css "thead th:nth-of-type(2)", text: type_a.statuses.first.name.upcase
+      .to have_css "thead th:nth-of-type(2)", text: type_a_statuses.first.name.upcase
     expect(page)
-      .to have_css "thead th:nth-of-type(3)", text: type_a.statuses.last.name.upcase
+      .to have_css "thead th:nth-of-type(3)", text: type_a_statuses.last.name.upcase
 
     expect(page)
       .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(1)", text: type_a.name
@@ -127,7 +128,7 @@ RSpec.describe "work package reports", :js do
     let!(:version_a) { create(:version, project:, name: "Alpha 1.0") }
     let!(:version_b) { create(:version, project:, name: "Beta 2.0") }
     let!(:wp_multi) do
-      create(:work_package, project:, type: type_a, status: type_a.statuses.first, version: version_a)
+      create(:work_package, project:, type: type_a, status: type_a_statuses.first, version: version_a)
         .tap { |wp| wp.work_package_versions.create!(version: version_b, kind: "target") }
     end
 

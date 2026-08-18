@@ -44,7 +44,7 @@ module WorkPackageTypes
     end
 
     def dialog
-      respond_with_dialog ConfigurationCopies::DialogComponent.new(type: @type, aspect:)
+      respond_with_dialog ConfigurationCopies::DialogComponent.new(variant: @variant, aspect:)
     end
 
     # The source picker's submit: swaps the picker for the danger confirmation.
@@ -53,7 +53,7 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.copy.invalid_source"))
       else
         close_dialog_via_turbo_stream("##{ConfigurationCopies::DialogComponent::DIALOG_ID}")
-        dialog_via_turbo_stream(component: ConfigurationCopies::ConfirmDialogComponent.new(type: @type, aspect:, source:))
+        dialog_via_turbo_stream(component: ConfigurationCopies::ConfirmDialogComponent.new(variant: @variant, aspect:, source:))
       end
 
       respond_with_turbo_streams
@@ -78,7 +78,7 @@ module WorkPackageTypes
     def aspect = params[:aspect]
 
     def copy_service
-      CopyConfiguration.service_for(aspect).new(type: @type, user: current_user)
+      CopyConfiguration.service_for(aspect).new(variant: @variant, user: current_user)
     end
 
     def respond_to_copy_success
@@ -92,7 +92,7 @@ module WorkPackageTypes
     def source
       return @source if defined?(@source)
 
-      @source = Type.global.find_by(id: params[:source_id])
+      @source = TypeVariant.find_by(id: params[:source_id])
     end
 
     def require_supported_aspect

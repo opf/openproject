@@ -39,9 +39,9 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
   describe "#templates_options", with_flag: { type_variants: true } do
     it "lists the enabled templates of the type the PDF config is linked to" do
       source = create(:type)
-      source.pdf_export_templates.disable_all
-      source.save!
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
+      source.default_variant.pdf_export_templates.disable_all
+      source.default_variant.save!
+      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
 
       expect(component.templates_options).to be_empty
     end
@@ -59,11 +59,11 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
 
     context "when the type has stored defaults for this template" do
       before do
-        type.pdf_export_templates.update_settings(
+        type.default_variant.pdf_export_templates.update_settings(
           "attributes",
           "footer_text" => "Stored footer", "page_orientation" => "landscape", "hyphenation" => "true"
         )
-        type.save!
+        type.default_variant.save!
       end
 
       it "pre-fills the fields from the Type's stored settings" do
@@ -79,8 +79,8 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
     context "when the type has a stored hyphenation_language and the current locale has no match" do
       before do
         I18n.locale = :ja
-        type.pdf_export_templates.update_settings("attributes", "hyphenation_language" => "fr")
-        type.save!
+        type.default_variant.pdf_export_templates.update_settings("attributes", "hyphenation_language" => "fr")
+        type.default_variant.save!
       end
 
       after { I18n.locale = I18n.default_locale }
@@ -93,8 +93,8 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
     context "when the type has a stored hyphenation_language but the current locale has a match" do
       before do
         I18n.locale = :en
-        type.pdf_export_templates.update_settings("attributes", "hyphenation_language" => "fr")
-        type.save!
+        type.default_variant.pdf_export_templates.update_settings("attributes", "hyphenation_language" => "fr")
+        type.default_variant.save!
       end
 
       after { I18n.locale = I18n.default_locale }
@@ -116,8 +116,8 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
 
     context "when the type has a stored default for this template" do
       before do
-        type.pdf_export_templates.update_settings("contract", "footer_text_center" => "Stored center footer")
-        type.save!
+        type.default_variant.pdf_export_templates.update_settings("contract", "footer_text_center" => "Stored center footer")
+        type.default_variant.save!
       end
 
       it "pre-fills the field from the Type's stored settings" do
@@ -137,8 +137,8 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
 
     context "when the type has a stored default explicitly disabling the table of contents" do
       before do
-        type.pdf_export_templates.update_settings("artefact", "toc" => "false")
-        type.save!
+        type.default_variant.pdf_export_templates.update_settings("artefact", "toc" => "false")
+        type.default_variant.save!
       end
 
       it "resolves the stored string setting to a real boolean, not a truthy string" do

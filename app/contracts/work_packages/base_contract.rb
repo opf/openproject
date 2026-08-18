@@ -139,7 +139,7 @@ module WorkPackages
 
     validates :subject,
               presence: true,
-              unless: -> { model.effective_type&.replacement_pattern_defined_for?(:subject) }
+              unless: -> { model.type_variant&.replacement_pattern_defined_for?(:subject) }
     validates :subject, length: { maximum: 255 }
 
     validates :due_date,
@@ -201,11 +201,7 @@ module WorkPackages
     end
 
     def assignable_types
-      scope = if model.project.nil?
-                Type
-              else
-                model.project.types.includes(:color)
-              end
+      scope = model.project&.enabled_types || Type
 
       scope.includes(:color)
     end
@@ -280,7 +276,7 @@ module WorkPackages
 
     def validate_enabled_type
       # Checks that the issue can not be added/moved to a disabled type
-      if type_context_changed? && model.project.types.exclude?(model.type)
+      if type_context_changed? && model.project.project_types.none? { |pt| pt.type_id == model.type_id }
         errors.add :type_id, :inclusion
       end
     end
@@ -366,7 +362,9 @@ module WorkPackages
 
     def validate_status_transition
       if status_changed? && status_exists? && !(model.type_id_changed? || status_transition_exists?)
-        errors.add :status_id, :status_transition_invalid
+        # Use :status (not :status_id) so human_attribute_name matches en.attributes.status
+        # and nested API error rendering (e.g. BCF topics) does not look up a missing status_id key.
+        errors.add :status, :status_transition_invalid
       end
     end
 
@@ -742,9 +740,9 @@ module WorkPackages
     end
 
     def new_statuses_by_workflow(status)
-      return Status.none unless model.type
+      return Status.none unless model.type_variant
 
-      workflows = model.effective_type
+      workflows = model.type_variant
                        .workflows
                        .from_status(status.id,
                                     user_roles.map(&:id),
@@ -782,7 +780,7 @@ module WorkPackages
     def auto_generated_attributes_writable? = false
 
     def auto_generated_attribute_names
-      model.effective_type&.enabled_patterns.to_h.keys.map(&:to_s)
+      model.type_variant&.enabled_patterns.to_h.keys.map(&:to_s)
     end
   end
 end

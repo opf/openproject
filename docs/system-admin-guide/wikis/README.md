@@ -21,10 +21,7 @@ Wiki providers are configured globally and are available to all projects. Each p
 
 The **Project wikis** setting enables the built-in OpenProject wiki as a **wiki provider** for the wiki integration used in work packages.
 
-> [!NOTE]
-> As of OpenProject 17.6, this setting **does not affect the regular OpenProject Wiki module**. Projects can continue to use their project wiki as usual when the **Wiki** module is enabled under **Project settings → Modules**. This WILL CHANGE in the upcoming releases. We therefore advise to only disable project wikis if you are not planning to use them at all.
-
-When project wikis are enabled:
+When the internal wiki provider is enabled:
 
 - The OpenProject wiki is available as a wiki provider when linking to or creating wiki pages from a work package.
 - Each project's existing wiki can be selected through this integration.

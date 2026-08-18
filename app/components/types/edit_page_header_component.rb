@@ -34,46 +34,47 @@ module Types
     include ApplicationHelper
     include TabsHelper
 
-    def initialize(type:, tabs: nil, additional_breadcrumb_items: [], title: nil)
+    def initialize(type:, variant: nil, tabs: nil, additional_breadcrumb_items: [], title: nil)
       super
       @type = type
+      @variant = variant
       @tabs = tabs
       @additional_breadcrumb_items = additional_breadcrumb_items
       @title = title
     end
 
     def title
-      @title || @type.own_name
+      return @title if @title
+      return @type.name unless named_variant?
+
+      t("types.edit.breadcrumb_variant", name: @variant.variant_name)
     end
 
     def breadcrumb_items
       [{ href: admin_index_path, text: t("label_administration") },
        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
        { href: types_path, text: t(:label_type_plural) },
-       *parent_breadcrumb_item,
-       *type_breadcrumb_item,
+       *variant_breadcrumb_item,
+       *own_breadcrumb_item,
        *@additional_breadcrumb_items]
     end
 
     private
 
-    def parent_breadcrumb_item
-      return [] if @type.parent.nil?
+    def named_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
-      [{ href: edit_type_details_path(type_id: @type.parent_id), text: @type.parent.name }]
+    # Link back to the type's own page when we are on a named variant, since the leaf below
+    # then shows the variant's name rather than the type's.
+    def variant_breadcrumb_item
+      return [] unless named_variant?
+
+      [{ href: edit_type_details_path(type_id: @type.id), text: @type.name }]
     end
 
-    def type_breadcrumb_item
-      text = breadcrumb_leaf
-      return [text] if @additional_breadcrumb_items.blank?
+    def own_breadcrumb_item
+      return [title] if @additional_breadcrumb_items.blank?
 
-      [{ href: edit_type_details_path(type_id: @type.id), text: }]
-    end
-
-    def breadcrumb_leaf
-      return @type.own_name unless @type.variant?
-
-      t("types.edit.breadcrumb_variant", name: @type.own_name)
+      [{ href: edit_type_details_path(type_id: @type.id), text: title }]
     end
   end
 end

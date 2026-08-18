@@ -34,7 +34,8 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(
               OpenProject::Common::BorderBoxListComponent.new(
                 container: "op-types-group-#{root.id}",
-                collapsible: true
+                collapsible: true,
+                empty_state_behavior: :none
               )
             ) do |list| %>
           <% list.with_header(collapsed: collapsed?(root), show_drag_handle: reorderable?(root)) do |header| %>
@@ -42,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(root) } %>
               <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :semibold)) { root.name } %>
               <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_weight: :normal, ml: 2)) { t("types.index.type_label") } %>
-              <% if root.children.any? %>
+              <% if root.variants.non_default_variants.any? %>
                 <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { variants_count_label(root) } %>
               <% end %>
             <% end %>
@@ -50,20 +51,20 @@ See COPYRIGHT and LICENSE files for more details.
             <% header.with_menu(menu_id: menu_id(root), src: menu_src(root)) %>
           <% end %>
 
-          <% root.sorted_variants.each do |child| %>
+          <% root.variants.non_default_variants.in_display_order.each do |child| %>
             <% list.with_item do |item| %>
-              <% item.with_menu(menu_id: menu_id(child), src: menu_src(child)) %>
+              <% item.with_menu(menu_id: variant_menu_id(child), src: variant_menu_src(child)) %>
               <%= flex_layout(align_items: :center, justify_content: :space_between) do |variant| %>
                 <% variant.with_column(display: :inline_flex, align_items: :center) do %>
                   <%= render(
                         Primer::Beta::Link.new(
-                          href: edit_type_details_path(type_id: child.id),
+                          href: variant_path(child),
                           font_weight: :bold
                         )
-                      ) { child.own_name } %>
+                      ) { child.variant_name } %>
                   <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { t("types.index.variant_label") } %>
                 <% end %>
-                <% if child.is_default? %>
+                <% if child.enabled_in_new_projects? %>
                   <% variant.with_column(mr: 3) { render(Primer::Beta::Label.new) { t("types.index.enabled_in_new_projects") } } %>
                 <% end %>
               <% end %>
@@ -71,14 +72,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
 
           <% list.with_footer do %>
-            <%= render(
-                  Primer::Beta::Link.new(
-                    href: add_variant_path(root),
-                    muted: true,
-                    display: :inline_flex,
-                    align_items: :center
-                  )
-                ) do %>
+            <%= render(Primer::Beta::Link.new(href: add_variant_path(root), color: :muted, underline: false)) do %>
               <%= render(Primer::Beta::Octicon.new(icon: :plus, mr: 1)) %>
               <%= t("types.index.add_variant", name: root.name) %>
             <% end %>

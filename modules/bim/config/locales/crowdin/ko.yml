@@ -7,7 +7,10 @@ ko:
         bim_snippet: BIM 코드 조각
         reference_links: 참조 링크
         stage: 단계
+        status_id: Status
         viewpoint: 뷰포인트
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC 파일
         ifc_attachment: IFC 파일

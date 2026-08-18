@@ -193,7 +193,7 @@ ms:
     page_link_forms:
       labels:
         page_title: Title
-        parent: Parent wiki page
+        parent: Parent
         wiki_page: Wiki page
       search:
         no_results: No wiki pages found

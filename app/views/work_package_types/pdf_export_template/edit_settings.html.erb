@@ -31,16 +31,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render ::Types::EditPageHeaderComponent.new(
       type: @type,
+      variant: @variant,
       title: t("types.edit.export_configuration.templates.settings.title", template: @template.label),
       additional_breadcrumb_items: [
-        { href: edit_type_pdf_export_template_index_path(type_id: @type.id),
+        { href: edit_type_pdf_export_template_index_path(**@variant.path_args),
           text: t("types.edit.export_configuration.tab") },
         @template.label
       ]
     ) %>
 
 <%= primer_form_with(
-      url: update_settings_type_pdf_export_template_path(type_id: @type.id, id: @template.id),
+      url: update_settings_type_pdf_export_template_path(**@variant.path_args, id: @template.id),
       method: :patch
     ) do %>
   <%= render(@template.settings_component.new(settings: @settings, disabled: @readonly, show_default_hint: true)) %>
@@ -73,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
               ) { t("types.edit.export_configuration.templates.settings.reset_to_default") }
             end
             buttons.with_column do
-              render(Primer::Beta::Link.new(href: edit_type_pdf_export_template_index_path(type_id: @type.id))) do
+              render(Primer::Beta::Link.new(href: edit_type_pdf_export_template_index_path(**@variant.path_args))) do
                 t(:button_cancel)
               end
             end

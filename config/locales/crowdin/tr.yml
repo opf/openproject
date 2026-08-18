@@ -236,6 +236,7 @@ tr:
         project_creation_wizard_status_when_submitted: Teslim edildiğinde durum
         project_creation_wizard_work_package_comment: İş paketi yorumları
         project_creation_wizard_work_package_type: İş paketi türleri
+        project_types: Types
         public_value:
           false: özel
           title: Görünürlük
@@ -275,6 +276,8 @@ tr:
         start_gate_name: Başlangıç aşaması kapı adı
       project_custom_field:
         custom_field_section: Bölüm
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Çocuk iş paketleri
         column_names: Sütunlar
@@ -342,18 +345,26 @@ tr:
       token/named:
         token_name: Anahtar adı
       type:
-        attribute_groups: Formu yapılandırma
-        children: Variants
         color: Renk
-        dependent_configuration_links: Linked types
-        description: Açıklama için varsayılan metin
-        is_default: Yeni projelerde varsayılan olarak aktif
         is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
         is_milestone: Kilometre taşı
-        parent: Parent type
-        patterns: Desenler
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Source type
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Yönetici
         auth_source: Kimlik doğrulama kaynağı
@@ -488,6 +499,7 @@ tr:
         before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
         blank: boş bırakılamaz.
         blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: zorunlu. Silinemez.
         cant_link_a_work_package_with_a_descendant: İş paketi alt görevlerinden birine bağlanamaz.
         circular_dependency: Bu ilişki döngüsel bağımlılık oluşturacak.
@@ -552,6 +564,7 @@ tr:
         regex_match_failed: "%{expression} düzenli ifadesiyle eşleşmiyor."
         smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük olmalıdır.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: zaten alınmıştır.
         too_long: çok uzun (en fazla %{count} karakterdir).
@@ -722,8 +735,6 @@ tr:
               blank: Lütfen bir proje seçin.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -814,25 +825,34 @@ tr:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Geçersiz iş paketi özniteliği kullanıldı.
-              attribute_unknown_name: 'Geçersiz iş paketi özelliği kullanılmış: %{attribute}'
-              duplicate_group: "'%{group}' grup adı, birden fazla kez kullanıldı. Grup isimleri benzersiz olmalıdır."
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               group_without_name: Group name can't be blank.
-              query_invalid: 'Gömülü sorgu ''%{group}'' geçersiz: %{details}'
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -938,6 +958,9 @@ tr:
             start_date:
               cannot_be_null: başlangıç tarihi ve süresi bilindiğinden sıfır değerine ayarlanamaz.
               violates_relationships: yalnızca %{soonest_start} veya daha sonra iş paketi üst bağımlılık ilişkilerini ihlal etmediğinde ayarlanabilir.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: Geçerli durum bu türde bulunmadığından geçersiz.
               status_transition_invalid: geçerli kullanıcının rolleri için eski durumdan yeni duruma geçerli bir geçiş mevcut olmadığından geçersiz.
@@ -1010,6 +1033,9 @@ tr:
       type:
         one: Tip
         other: Tipler
+      type_variant:
+        one: Variant
+        other: Variants
       user: Kullanıcı
       version: Sürüm
       wiki: Viki
@@ -1033,6 +1059,7 @@ tr:
           heading: Bu yorum görünür olsun mu?
           title: Bu yorum görünür olsun mu?
         internal_journal: İç yorumlar sınırlı sayıda grup üyesine görünür.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Her şeyi göster
         label_activity_show_only_changes: Yalnızca değişiklikleri göster
         label_activity_show_only_comments: Sadece yorumları göster
@@ -1518,6 +1545,42 @@ tr:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -1770,6 +1833,7 @@ tr:
     start_date: Başlangıç tarihi
     state: Durum
     status: Durum
+    status_id: Status
     subject: Konu
     summary: Özet
     template: Template
@@ -2527,7 +2591,6 @@ tr:
   error_can_not_delete_entry: Girdi silinemiyor
   error_can_not_delete_in_use_archived_undisclosed: Arşivlenmiş projelerde de iş paketleri var. Hangi projelerin etkilendiğini görmek için bir yöneticiden silme işlemini gerçekleştirmesini istemeniz gerekir.
   error_can_not_delete_in_use_archived_work_packages: 'Arşivlenen projelerde de iş paketleri var. İlgili iş paketlerinin niteliğini değiştirebilmeniz için önce aşağıdaki projeleri yeniden etkinleştirmeniz gerekir: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Standart türler silinemez.
   error_can_not_delete_type:
     explanation: Bu tür iş paketleri içerir ve silinemez. Etkilenen tüm iş paketlerini <a target="_blank" href="%{url}">bu görünümde</a> görebilirsiniz.
   error_can_not_find_all_resources: Bu istekle ilgili tüm kaynaklar bulunamadı.
@@ -2870,6 +2933,11 @@ tr:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
@@ -2882,6 +2950,7 @@ tr:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: Child work packages without Work are ignored.
@@ -2905,6 +2974,14 @@ tr:
       dates_changed: Tarihler değişti
       default_attribute_written: Salt okunur öznitelikler yazıldı
       import: Imported
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: İlerleme hesaplaması güncellendi
       status_changed: Durum '%{status_name}'
       system_update: 'OpenProject sistem güncellemesi:'
@@ -3431,7 +3508,7 @@ tr:
   label_project_hide_details: Proje detaylarını gizle
   label_project_hierarchy: Proje hiyerarşisi
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: "%{project_creation_name} için PDF'yi dışa aktarın"
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Son projeler
   label_project_life_cycle: Proje yaşam döngüsü
   label_project_list_plural: Proje listesi
@@ -3543,7 +3620,7 @@ tr:
   label_subitems: Alt öğeler
   label_subject_or_id: Konu ya da ID
   label_subproject: Alt proje
-  label_subproject_new: Yeni alt proje
+  label_subproject_add: Add subproject
   label_subproject_plural: Alt Projeler
   label_subtask_plural: Alt görevler
   label_summary: Özet
@@ -3607,6 +3684,7 @@ tr:
   label_version_sharing_none: Paylaşılmamış
   label_version_sharing_system: Tüm projeler ile
   label_version_sharing_tree: Proje ağacı ile
+  label_versions_and_categories: Versions and categories
   label_videos: Videolar
   label_view_all_revisions: Tüm revizyonları görüntüle
   label_view_diff: Farklılıkları gör
@@ -3789,7 +3867,6 @@ tr:
         invalid_type: "'%{project}' projesinde '%{type}' isminde bir tür bulunamadı."
         no_project_context: Proje içeriği dışından create_work_package_link makrosu çağrılıyor.
       link_name: Yeni iş paketi
-      link_name_type: Yeni %{type_name}
     errors:
       missing_or_invalid_parameter: Eksik ya da geçersiz macro parametreleri.
     include_wiki_page:
@@ -4228,7 +4305,6 @@ tr:
   notice_auth_stage_error: "'%{stage}' kimlik doğrulama aşaması başarısız oldu."
   notice_auth_stage_verification_error: "'%{stage}' aşması doğrulanamadı."
   notice_auth_stage_wrong_stage: "'%{expected}' kimlik doğrulama aşamasının bitmesi bekleniyordu ama '%{actual}' ile karşılaşıldı."
-  notice_automatic_set_of_standard_type: Standart türün otomatik olarak ayarlanması.
   notice_bad_request: Hatalı istek.
   notice_can_t_change_password: Bu hesap harici bir kimlik doğrulama kaynağı kullanıyor. Parolayı değiştirmek imkansız.
   notice_custom_options_deleted: "%{option_value} ayarı ve bunun %{num_deleted} tekrarı silindi."
@@ -4726,7 +4802,8 @@ tr:
   project:
     archive:
       archived: Arşivlenen
-      are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
       one: 1 proje
@@ -5347,6 +5424,7 @@ tr:
   setting_work_package_done_ratio_status_caption_html: Her durumun kendisiyle ilişkili bir <i>tamamlanma yüzdesi</i> değeri vardır. Durumun değiştirilmesi <i>tamamlanma yüzdesi</i>ni değiştirecektir.
   setting_work_package_list_default_highlighted_attributes: Varsayılan satır içi vurgulanan özellikler
   setting_work_package_list_default_highlighting_mode: Varsayılan vurgulama modu
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: İş paketi özellikleri
   setting_work_package_startdate_is_adddate: Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5771,6 +5849,7 @@ tr:
   text_journal_file_link_deleted: "%{label} %{old} (%{storage}) bağlantısı kaldırıldı"
   text_journal_label_value: "%{value} %{label} eklendi"
   text_journal_of: "%{value} %{label} eklendi"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
   text_latest_note: En yeni yorum:% {note} %{note}
@@ -5875,10 +5954,11 @@ tr:
   total_progress: Toplam ilerleme
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5890,7 +5970,7 @@ tr:
         project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -5915,6 +5995,7 @@ tr:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
@@ -5938,6 +6019,7 @@ tr:
           actions:
             label_disable_all: Tümünü devre dışı bırak
             label_enable_all: Tümünü etkinleştir
+            label_toggle_template: Toggle %{template}
           label: PDF Dışa Aktarma şablonları
         tab: PDF oluşturma
         templates:
@@ -5984,6 +6066,13 @@ tr:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6580,17 +6669,17 @@ tr:
           label: Source role
         target_role_ids:
           label: Target roles
-        target_type_ids:
+        target_variant_ids:
           label: Target types
       from_roles:
         create:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}' type.
+            one: Successfully copied workflow to '%{type_name}'.
             other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"

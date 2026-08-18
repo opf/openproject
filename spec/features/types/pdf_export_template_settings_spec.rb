@@ -48,7 +48,7 @@ RSpec.describe "type PDF export template settings", :js do
 
     expect(page).to have_current_path(edit_type_pdf_export_template_index_path(type))
     expect(page).to have_text(I18n.t(:notice_successful_update))
-    expect(type.reload.pdf_export_templates.settings_for("attributes"))
+    expect(type.default_variant.reload.pdf_export_templates.settings_for("attributes"))
       .to include(footer_text: "Custom footer text", page_orientation: "landscape")
 
     page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
@@ -59,12 +59,12 @@ RSpec.describe "type PDF export template settings", :js do
     end
 
     expect(page).to have_current_path(edit_type_pdf_export_template_index_path(type))
-    expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq({})
+    expect(type.default_variant.reload.pdf_export_templates.settings_for("attributes")).to eq({})
   end
 
   it "is reachable via the template name link (not just the edit-settings icon), with the page title and " \
      "breadcrumb reflecting where it is" do
-    template = type.pdf_export_templates.find("attributes")
+    template = type.default_variant.pdf_export_templates.find("attributes")
     click_link_or_button template.label
 
     expect(page).to have_current_path(
@@ -87,16 +87,16 @@ RSpec.describe "type PDF export template settings", :js do
     click_link_or_button I18n.t(:button_cancel)
 
     expect(page).to have_current_path(edit_type_pdf_export_template_index_path(type))
-    expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq({})
+    expect(type.default_variant.reload.pdf_export_templates.settings_for("attributes")).to eq({})
   end
 
   context "when the type links its PDF export config to a source type", with_flag: { type_variants: true } do
     let(:source) { create(:type) }
 
     before do
-      source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
-      source.save!
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
+      source.default_variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
+      source.default_variant.save!
+      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
       visit edit_type_pdf_export_template_index_path(type)
     end
 

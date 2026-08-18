@@ -34,7 +34,7 @@ require_relative "shared_examples"
 RSpec.describe UserMailer do
   subject(:deliveries) { ActionMailer::Base.deliveries }
 
-  let(:type_standard) { build_stubbed(:type_standard) }
+  let(:type_task) { build_stubbed(:type_task) }
   let(:user) { build_stubbed(:user) }
   let(:journal) do
     build_stubbed(:work_package_journal).tap do |j|
@@ -45,7 +45,7 @@ RSpec.describe UserMailer do
   end
   let(:work_package) do
     build_stubbed(:work_package,
-                  type: type_standard)
+                  type: type_task)
   end
 
   let(:recipient) { build_stubbed(:user) }

@@ -29,30 +29,29 @@
 #++
 
 module WorkPackageTypes
-  # Switches one configuration aspect of a type to Linked. Serves both the
+  # Switches one configuration aspect of a variant to Linked. Serves both the
   # Independent -> Linked switch and re-pointing an existing link to a different
   # source ("change source"); both are the same write. The source-graph
   # invariants (present, global, not-self, acyclic) are the link record's own
   # validations.
   class SwitchToLinkedModeService
-    def initialize(type:, aspect:)
-      @type = type
+    def initialize(variant:, aspect:)
+      @variant = variant
       @aspect = aspect
     end
 
     def call(source:)
-      link = @type.configuration_links.find_or_initialize_by(aspect: @aspect)
-      link.source = source
+      @variant.public_send(:"#{TypeVariant.validated_configuration_aspect(@aspect)}_source=", source)
 
-      if link.save
-        ServiceResult.success(result: @type)
+      if @variant.save
+        ServiceResult.success(result: @variant)
       else
-        ServiceResult.failure(result: link, errors: link.errors)
+        ServiceResult.failure(result: @variant, errors: @variant.errors)
       end
     end
 
     private
 
-    attr_reader :type, :aspect
+    attr_reader :variant, :aspect
   end
 end

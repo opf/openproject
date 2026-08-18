@@ -40,7 +40,7 @@ class Type::PdfExportTemplates
   end
 
   def readonly?
-    OpenProject::FeatureDecisions.type_variants_active? && @type.linked?(Type::ConfigurationLink::PDF_EXPORT)
+    OpenProject::FeatureDecisions.type_variants_active? && @type.linked?(TypeVariant::PDF_EXPORT)
   end
 
   def list

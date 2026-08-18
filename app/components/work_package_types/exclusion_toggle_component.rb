@@ -45,8 +45,6 @@ module WorkPackageTypes
       @test_selector = test_selector
     end
 
-    # Exclusions or element_key being empty means the type owns its configuration, so there is
-    # nothing to render.
     def render?
       @exclusions.present? && @element_key.present?
     end
@@ -77,7 +75,12 @@ module WorkPackageTypes
     end
 
     def toggle_path
-      type_excluded_element_toggle_path(type_id: @exclusions.type.id, aspect: @aspect, element: @element_key)
+      type_excluded_element_toggle_path(
+        type_id: @exclusions.variant.type_id,
+        variant_id: @exclusions.variant.id,
+        aspect: @aspect,
+        element: @element_key
+      )
     end
   end
 end

@@ -236,6 +236,7 @@
         project_creation_wizard_status_when_submitted: Status when submitted
         project_creation_wizard_work_package_comment: Work package comment
         project_creation_wizard_work_package_type: Work package type
+        project_types: Types
         public_value:
           false: privat
           title: Synlighet
@@ -275,6 +276,8 @@
         start_gate_name: Start phase gate name
       project_custom_field:
         custom_field_section: Seksjon
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Child work packages
         column_names: Kolonner
@@ -342,18 +345,26 @@
       token/named:
         token_name: Token name
       type:
-        attribute_groups: Skjema konfigurering
-        children: Variants
         color: Farge
-        dependent_configuration_links: Linked types
-        description: Standardtekst for beskrivelse
-        is_default: Aktivert for nye prosjekter som standard
         is_in_roadmap: Vist i roadmap som standard
         is_milestone: Er milepæl
-        parent: Parent type
-        patterns: Patterns
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Source type
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Administrator
         auth_source: Autentiserings kilde
@@ -488,6 +499,7 @@
         before_or_equal_to: må være før eller lik %{date}.
         blank: kan ikke være blank.
         blank_nested: må ha egenskapen '%{property}' aktivert.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: er påkrevd. Kan ikke slettes.
         cant_link_a_work_package_with_a_descendant: En arbeidspakke kan ikke knyttes til en av sine deloppgaver.
         circular_dependency: En slik relasjon ville lage en sirkulær avhengighet.
@@ -548,6 +560,7 @@
         regex_match_failed: samsvarer ikke med det regulære uttrykket %{expression}.
         smaller_than_or_equal_to_max_length: må være mindre enn eller lik maksimumslengden.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: er allerede tatt.
         too_long: er for lang (maks antall tegn er %{count}).
@@ -718,8 +731,6 @@
               blank: Velg et prosjekt.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -810,25 +821,34 @@
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Ugyldig arbeidspakke-egenskap brukt.
-              attribute_unknown_name: 'Ugyldig arbeidspakke-egenskap som brukes: %{attribute}'
-              duplicate_group: Gruppenavn '%{group}' brukes mer enn én gang. Gruppenavn må være unike.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               group_without_name: Group name can't be blank.
-              query_invalid: 'Den innebygde spørringen ''%{group}'' er ugyldig: %{details}'
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -934,6 +954,9 @@
             start_date:
               cannot_be_null: kan ikke settes til null da sluttdato og varighet er kjent.
               violates_relationships: kan bare settes til %{soonest_start} eller senere, slik at den ikke bryter arbeidspakkens relasjoner.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: er ugyldig fordi gjeldende status ikke finnes i denne typen.
               status_transition_invalid: er ugyldig fordi det ikke eksisterer noen gyldige overganger fra gammel til ny status for gjeldende brukers roller
@@ -1006,6 +1029,9 @@
       type:
         one: Type
         other: Types
+      type_variant:
+        one: Variant
+        other: Variants
       user: Bruker
       version: Versjon
       wiki: Wiki
@@ -1029,6 +1055,7 @@
           heading: Make this comment public?
           title: Make this comment public?
         internal_journal: Internal comments are visible to a limited group of members.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Vis alt
         label_activity_show_only_changes: Vis endringer
         label_activity_show_only_comments: Vis kommentarer
@@ -1514,6 +1541,42 @@
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -1764,6 +1827,7 @@
     start_date: Startdato
     state: State
     status: Status
+    status_id: Status
     subject: Emne
     summary: Sammendrag
     template: Template
@@ -2521,7 +2585,6 @@
   error_can_not_delete_entry: Kan ikke slette oppføring
   error_can_not_delete_in_use_archived_undisclosed: Det finnes også arbeidspakker i arkiverte prosjekter. Du må be en administrator om å gjennomføre slettingen for å se hvilke prosjekter som blir berørt.
   error_can_not_delete_in_use_archived_work_packages: 'Det er også arbeidspakker i prosjekter som er arkivert. Du må reaktivere følgende prosjekter først, før du kan endre attributtet for de respektive arbeidspakkene: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Standardtyper kan ikke slettes.
   error_can_not_delete_type:
     explanation: Denne typen inneholder arbeidspakker og kan ikke slettes. Du kan se alle berørte arbeidspakker i <a target="_blank" href="%{url}">denne visningen</a>.
   error_can_not_find_all_resources: Kunne ikke finne alle relaterte ressurser til denne forespørselen.
@@ -2864,6 +2927,11 @@
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Framdriftsmodus satt til statusbasert
       status_excluded_from_totals_set_to_false_message: nå inkludert i hierarkiske summer
       status_excluded_from_totals_set_to_true_message: nå ekskludert fra hierarkiske summer
@@ -2876,6 +2944,7 @@
         progress_calculation_adjusted_from_disabled_mode: Fremdriftsberegning automatisk <a href="%{href}" target="_blank">satt til arbeidsbasert modus og justert med versjon</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Arbeids- og fremdriftssummer fjernet automatisk for ikke-overordnede arbeidspakker med <a href="%{href}" target="_blank">-versjon</a>. Dette er en vedlikeholdsoppgave og kan trygt ignoreres.
       total_percent_complete_mode_changed_to_simple_average: Arbeidsverdier for underordnede arbeidspakker ignoreres.
       total_percent_complete_mode_changed_to_work_weighted_average: Arbeidspakker uten arbeid blir ignorert.
@@ -2899,6 +2968,14 @@
       dates_changed: Datoer endret
       default_attribute_written: Skrivebeskyttet attributter skrevet
       import: Imported
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Fremdriftsberegning oppdatert
       status_changed: Status '%{status_name}'
       system_update: 'OpenProject system oppdatering:'
@@ -3425,7 +3502,7 @@
   label_project_hide_details: Skjul prosjektdetaljer
   label_project_hierarchy: Prosjekthierarki
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Export PDF for %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Siste prosjekter
   label_project_life_cycle: Project life cycle
   label_project_list_plural: Prosjektlister
@@ -3537,7 +3614,7 @@
   label_subitems: Subitems
   label_subject_or_id: Emne eller ID
   label_subproject: Underprosjekt
-  label_subproject_new: Nytt underprosjekt
+  label_subproject_add: Add subproject
   label_subproject_plural: Underprosjekter
   label_subtask_plural: Underoppgaver
   label_summary: Sammendrag
@@ -3601,6 +3678,7 @@
   label_version_sharing_none: Ikke delt
   label_version_sharing_system: Med alle prosjekter
   label_version_sharing_tree: Med prosjekttre
+  label_versions_and_categories: Versions and categories
   label_videos: Videoer
   label_view_all_revisions: Vis alle revisjoner
   label_view_diff: Vis forskjeller
@@ -3782,7 +3860,6 @@
         invalid_type: Ingen type funnet med navn '%{type}' i prosjektet '%{project}'.
         no_project_context: Kjør create_work_package_link makro fra utenfor prosjektkontekst.
       link_name: Ny arbeidspakke
-      link_name_type: Ny %{type_name}
     errors:
       missing_or_invalid_parameter: Manglende eller ugyldig makroparameter.
     include_wiki_page:
@@ -4222,7 +4299,6 @@
   notice_auth_stage_error: Autentiseringsstadiet '%{stage}' mislyktes.
   notice_auth_stage_verification_error: Kunne ikke verifisere stadiet '%{stage}'.
   notice_auth_stage_wrong_stage: Forventet å fullføre godkjenningsstadiet '%{expected}', men%{actual}' er returnert.
-  notice_automatic_set_of_standard_type: Sett standardtype automatisk.
   notice_bad_request: Ugyldig forespørsel.
   notice_can_t_change_password: Denne kontoen bruker en ekstern autentiseringskilde. Det er ikke mulig å endre passordet.
   notice_custom_options_deleted: Valget '%{option_value}' og %{num_deleted} forekomster ble slettet.
@@ -4720,7 +4796,8 @@
   project:
     archive:
       archived: Arkivert
-      are_you_sure: Er du sikker på at du vil arkivere prosjektet%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
       one: 1 prosjekt
@@ -5343,6 +5420,7 @@
   setting_work_package_done_ratio_status_caption_html: Hver status har en <i>% Fullstendig</i> -verdi knyttet til den. Endring av status vil endre <i>% Fullstendig</i>.
   setting_work_package_list_default_highlighted_attributes: Standard inline uthevede egenskaper
   setting_work_package_list_default_highlighting_mode: Standard utheving modus
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Egenskaper for arbeidspakke
   setting_work_package_startdate_is_adddate: Bruk gjeldende dato som startdato for nye arbeidspakker
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5765,6 +5843,7 @@
   text_journal_file_link_deleted: "%{label} link til %{old} (%{storage}) fjernet"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} satt til %{value}"
   text_journal_set_with_diff: "%{label} angitt (%{link})"
   text_latest_note: 'Siste kommentar er: %{note}'
@@ -5875,10 +5954,11 @@
   total_progress: Total fremdrift
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5890,7 +5970,7 @@
         project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -5915,6 +5995,7 @@
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
@@ -5938,6 +6019,7 @@
           actions:
             label_disable_all: Deaktiver alle
             label_enable_all: Aktiver alle
+            label_toggle_template: Toggle %{template}
           label: PDF Export templates
         tab: Generate PDF
         templates:
@@ -5984,6 +6066,13 @@
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6580,17 +6669,17 @@
           label: Source role
         target_role_ids:
           label: Target roles
-        target_type_ids:
+        target_variant_ids:
           label: Target types
       from_roles:
         create:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}' type.
+            one: Successfully copied workflow to '%{type_name}'.
             other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"

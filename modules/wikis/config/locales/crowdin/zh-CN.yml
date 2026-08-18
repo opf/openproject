@@ -201,7 +201,7 @@ zh-CN:
     page_link_forms:
       labels:
         page_title: 标题
-        parent: 父 Wiki 页面
+        parent: Parent
         wiki_page: Wiki 页面
       search:
         no_results: 找不到 Wiki 页面

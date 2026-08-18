@@ -7,7 +7,10 @@ zh-TW:
         bim_snippet: BIM 片段
         reference_links: 參考連結
         stage: 階段
+        status_id: Status
         viewpoint: 視點
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC 檔案
         ifc_attachment: IFC 檔案

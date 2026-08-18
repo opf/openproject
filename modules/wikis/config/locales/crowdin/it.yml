@@ -199,7 +199,7 @@ it:
     page_link_forms:
       labels:
         page_title: Titolo
-        parent: Pagina wiki genitore
+        parent: Parent
         wiki_page: Pagina wiki
       search:
         no_results: Nessuna pagina wiki trovata

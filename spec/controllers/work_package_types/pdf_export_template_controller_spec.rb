@@ -34,6 +34,7 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::PdfExportTemplateController do
   let(:user) { create(:admin) }
   let(:wp_type) { create(:type) }
+  let(:variant) { wp_type.default_variant }
 
   current_user { user }
 
@@ -58,54 +59,54 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
   context "when an admin" do
     def put_reload(endpoint, params = {})
       put endpoint, params: { type_id: wp_type.id }.merge(params), as: :turbo_stream
-      wp_type.reload
+      variant.reload
     end
 
     def post_reload(endpoint, params = {})
       post endpoint, params: { type_id: wp_type.id }.merge(params), as: :turbo_stream
-      wp_type.reload
+      variant.reload
     end
 
     context "with no enabled templates" do
       before do
-        wp_type.pdf_export_templates.disable_all
-        wp_type.save!
+        variant.pdf_export_templates.disable_all
+        variant.save!
       end
 
       it "enables all templates" do
         put_reload :enable_all
-        expect(wp_type.export_templates_disabled.length).to eq(0)
+        expect(variant.export_templates_disabled.length).to eq(0)
       end
 
       it "reorder a template" do
-        first = wp_type.pdf_export_templates.list.first
+        first = variant.pdf_export_templates.list.first
         put_reload :drop, { id: first.id, position: 2 } # drop index starts at 1
-        wp_type.pdf_export_templates.list[1].id == first.id
+        variant.pdf_export_templates.list[1].id == first.id
       end
 
       it "toggles enabled/disabled for a template" do
-        first = wp_type.pdf_export_templates.list.first
+        first = variant.pdf_export_templates.list.first
         post_reload :toggle, { id: first.id }
-        expect(wp_type.pdf_export_templates.find(first.id).enabled).to be(true)
+        expect(variant.pdf_export_templates.find(first.id).enabled).to be(true)
       end
     end
 
     context "with all enabled templates" do
       before do
-        wp_type.pdf_export_templates.enable_all
-        wp_type.save!
+        variant.pdf_export_templates.enable_all
+        variant.save!
       end
 
       it "disables all templates" do
         put_reload :disable_all
-        expect(wp_type.export_templates_disabled.length).to eq(wp_type.pdf_export_templates.list.length)
+        expect(variant.export_templates_disabled.length).to eq(variant.pdf_export_templates.list.length)
       end
     end
 
     context "when linked to a source type", with_flag: { type_variants: true } do
       render_views
 
-      before { wp_type.link!(Type::ConfigurationLink::PDF_EXPORT, source: create(:type)) }
+      before { link_configuration(wp_type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
 
       it "refuses enable_all with a forbidden turbo-stream flash" do
         expect { put_reload :enable_all }.not_to raise_error
@@ -119,13 +120,13 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
       end
 
       it "refuses toggle with a forbidden turbo-stream flash" do
-        first = wp_type.pdf_export_templates.list.first
+        first = variant.pdf_export_templates.list.first
         expect { post_reload :toggle, { id: first.id } }.not_to raise_error
         expect(response).to have_http_status(:forbidden)
       end
 
       it "refuses drop with a forbidden turbo-stream flash" do
-        first = wp_type.pdf_export_templates.list.first
+        first = variant.pdf_export_templates.list.first
         expect { put_reload :drop, { id: first.id, position: 2 } }.not_to raise_error
         expect(response).to have_http_status(:forbidden)
       end
@@ -164,7 +165,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
       render_views
 
       it "renders the settings page for a known template" do
-        template = wp_type.pdf_export_templates.find("attributes")
+        template = variant.pdf_export_templates.find("attributes")
 
         get :edit_settings, params: { type_id: wp_type.id, id: template.id }
 
@@ -182,7 +183,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
     end
 
     describe "#update_settings" do
-      let(:template) { wp_type.pdf_export_templates.find("attributes") }
+      let(:template) { variant.pdf_export_templates.find("attributes") }
 
       it "stores the submitted settings and redirects to the tab overview" do
         patch :update_settings,
@@ -190,17 +191,17 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
                         page_orientation: "landscape" }
 
         expect(response).to redirect_to(edit_type_pdf_export_template_index_path(type_id: wp_type.id))
-        expect(wp_type.reload.pdf_export_templates.settings_for("attributes"))
+        expect(variant.reload.pdf_export_templates.settings_for("attributes"))
           .to eq(footer_text: "Custom footer", page_orientation: "landscape")
       end
 
       it "resets the stored settings to defaults when submitted as a reset" do
-        wp_type.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom footer")
-        wp_type.save!
+        variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom footer")
+        variant.save!
 
         patch :update_settings, params: { type_id: wp_type.id, id: template.id, commit: "reset" }
 
-        expect(wp_type.reload.pdf_export_templates.settings_for("attributes")).to eq({})
+        expect(variant.reload.pdf_export_templates.settings_for("attributes")).to eq({})
       end
 
       it "404s for an unknown template id" do
@@ -210,19 +211,19 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
       end
 
       context "when the type links its PDF export config to a source type" do
-        let(:source) { create(:type) }
+        let(:source) { create(:type).default_variant }
 
         before do
           source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
           source.save!
-          wp_type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
+          link_configuration(wp_type, source:, aspect: TypeVariant::PDF_EXPORT)
         end
 
         it "does not change the effective (inherited) settings", with_flag: { type_variants: true } do
           patch :update_settings,
                 params: { type_id: wp_type.id, id: template.id, footer_text: "Attempted override" }
 
-          expect(wp_type.reload.pdf_export_templates.settings_for("attributes")[:footer_text]).to eq("Source footer")
+          expect(variant.reload.pdf_export_templates.settings_for("attributes")[:footer_text]).to eq("Source footer")
         end
 
         it "redirects with an alert instead of raising", with_flag: { type_variants: true } do
@@ -243,7 +244,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
 
         expect(response).to have_http_status(:ok)
         expect(response.media_type).to eq("text/vnd.turbo-stream.html")
-        expect(wp_type.reload.artefact_export_mode).to eq(Type::ArtefactExport::FILE_LINK)
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::FILE_LINK)
       end
 
       it "rejects an invalid mode" do
@@ -252,7 +253,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
             as: :turbo_stream
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(wp_type.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
       end
     end
   end

@@ -76,7 +76,7 @@ RSpec.describe "Board 'Add existing work package' ranks exact matches first",
     page.find(".menu-item", text: "Add existing").click
 
     dropdown = search_autocomplete(page.find("ng-select.wp-inline-create--reference-autocompleter"),
-                                   query: "BOARDRANK-5",
+                                   query: "#BOARDRANK-5",
                                    results_selector: "body")
 
     within(dropdown) do

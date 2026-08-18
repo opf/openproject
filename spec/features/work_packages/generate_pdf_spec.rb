@@ -177,8 +177,9 @@ RSpec.describe "work package generate PDF dialog", :js do
   context "when the type has a stored default footer text" do
     let(:work_package) do
       build(:work_package, project:, id: 666, assigned_to: user, responsible: user).tap do |wp|
-        wp.type.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom stored footer")
-        wp.type.save!
+        variant = wp.type_variant
+        variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom stored footer")
+        variant.save!
       end
     end
     let(:expected_params) do
@@ -211,8 +212,9 @@ RSpec.describe "work package generate PDF dialog", :js do
   context "when the type has a stored default disabling the table of contents" do
     let(:work_package) do
       build(:work_package, project:, id: 666, assigned_to: user, responsible: user).tap do |wp|
-        wp.type.pdf_export_templates.update_settings("artefact", "toc" => "false")
-        wp.type.save!
+        variant = wp.type_variant
+        variant.pdf_export_templates.update_settings("artefact", "toc" => "false")
+        variant.save!
       end
     end
     let(:expected_params) do

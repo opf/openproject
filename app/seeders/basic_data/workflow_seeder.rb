@@ -50,12 +50,12 @@ module BasicData
       project_admin = seed_data.find_reference(:default_role_project_admin)
       work_package_editor = seed_data.find_reference(:default_role_work_package_editor)
 
-      # Workflow - Each type has its own workflow
-      workflows.each do |type, statuses|
+      # Workflows belong to a type's base variant (the configuration in force by default).
+      workflows.each do |type_variant, statuses|
         statuses.each do |old_status|
           statuses.each do |new_status|
             [member, project_admin, work_package_editor].each do |role|
-              model_class.create type:,
+              model_class.create type_variant:,
                                  role:,
                                  old_status:,
                                  new_status:
@@ -69,7 +69,7 @@ module BasicData
       seed_data.lookup(seed_data_model_key).map do |workflow_data|
         type = seed_data.find_reference(workflow_data["type"])
         statuses = seed_data.find_references(workflow_data["statuses"])
-        [type, statuses]
+        [type.default_variant, statuses]
       end
     end
   end

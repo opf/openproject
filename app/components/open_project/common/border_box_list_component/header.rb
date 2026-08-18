@@ -56,14 +56,35 @@ module OpenProject
         # @!parse
         #   # Renders the header title content.
         #   #
-        #   # Block-based alternative to the `title:` string, for advanced use
-        #   # cases where the title needs more than plain text. Takes precedence
-        #   # over `title:` when both are given.
+        #   # Block-based alternative to the `title:` string, strictly for
+        #   # inline phrasing content — a link or an emphasized fragment that
+        #   # renders inside the heading element. Never nest block layouts,
+        #   # counters, or buttons here: counts belong to `count:`, actions to
+        #   # `with_action_button`/`with_action_icon_button`/`with_menu`.
+        #   # Takes precedence over `title:` when both are given.
         #   #
         #   # @return [ViewComponent::Slot]
         #   def with_title(&block)
         #   end
         renders_one :title
+
+        # @!parse
+        #   # Renders a breadcrumb trail in the title position.
+        #   #
+        #   # The trail replaces the visible title: `title:` stays mandatory
+        #   # and renders as a visually hidden heading, so the list keeps its
+        #   # accessible name and heading navigation. Compose crumbs on the
+        #   # yielded `Primer::Beta::Breadcrumbs`; the last crumb is marked as
+        #   # the current page automatically. Not available on collapsible
+        #   # headers.
+        #   #
+        #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Breadcrumbs`.
+        #   # @return [ViewComponent::Slot]
+        #   def with_breadcrumbs(**system_arguments, &block)
+        #   end
+        renders_one :breadcrumbs, ->(**system_arguments) do
+          Primer::Beta::Breadcrumbs.new(**system_arguments)
+        end
 
         # @!parse
         #   # Adds secondary content below the header title.
@@ -89,9 +110,19 @@ module OpenProject
         #   # @return [ViewComponent::Slot]
         #   def with_action_button(**system_arguments, &block)
         #   end
+        #
+        #   # Adds an icon button to the header actions area.
+        #   #
+        #   # @param system_arguments [Hash] forwarded to `Primer::Beta::IconButton`.
+        #   # @return [ViewComponent::Slot]
+        #   def with_action_icon_button(**system_arguments)
+        #   end
         renders_many :actions, types: {
           button: ->(scheme: DEFAULT_ACTION_SCHEME, **system_arguments) do
             Primer::Beta::Button.new(scheme:, **system_arguments)
+          end,
+          icon_button: ->(**system_arguments) do
+            Primer::Beta::IconButton.new(**system_arguments)
           end
         }
 
@@ -125,7 +156,8 @@ module OpenProject
 
         attr_writer :collapsible_id
 
-        # @param title [String] header title.
+        # @param title [String, nil] header title. Optional when the `title`
+        #   slot is filled.
         # @param count [Integer, Boolean, nil] count badge behavior. Pass
         #   `nil` or `false` to hide it, `true` to infer the rendered item
         #   count, or an integer to render an explicit value.
@@ -196,6 +228,7 @@ module OpenProject
 
         def before_render
           raise ArgumentError, "A header title is required: pass `title:` or use the `with_title` slot." unless title?
+          raise ArgumentError, "Breadcrumbs are not supported on collapsible headers." if breadcrumbs? && collapsible?
         end
 
         # Resolves inferred counts after the list slots have been captured.
@@ -232,6 +265,12 @@ module OpenProject
         # @return [String] classes forwarded to the non-collapsible title.
         def title_classes
           class_names("Box-title", title_arguments[:classes])
+        end
+
+        # @return [String] classes for the visually hidden title rendered
+        #   alongside header breadcrumbs.
+        def hidden_title_classes
+          class_names(title_classes, "sr-only")
         end
 
         # @return [String, nil] ids controlled by the collapsible header.

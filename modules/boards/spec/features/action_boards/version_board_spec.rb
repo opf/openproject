@@ -40,7 +40,7 @@ RSpec.describe "Version action board",
   let(:second_user) do
     create(:user, member_with_roles: { project => role_board_manager, second_project => role_board_manager })
   end
-  let(:type) { create(:type_standard) }
+  let(:type) { create(:type_task) }
   let!(:priority) { create(:default_priority) }
   let!(:status) { create(:default_status) }
   let(:role) { create(:project_role, permissions:) }

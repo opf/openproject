@@ -53,7 +53,7 @@ module WorkPackages
         end
 
         def templates_options
-          work_package.type.pdf_export_templates.list_enabled
+          work_package.type_variant.pdf_export_templates.list_enabled
         end
 
         def template_form_id(template_id)
@@ -95,7 +95,7 @@ module WorkPackages
         private
 
         def template_settings(template_id)
-          work_package.type.pdf_export_templates.settings_for(template_id)
+          work_package.type_variant.pdf_export_templates.settings_for(template_id)
         end
 
         # `stored` only ever has keys the admin explicitly saved (see

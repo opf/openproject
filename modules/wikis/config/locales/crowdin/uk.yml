@@ -211,7 +211,7 @@ uk:
     page_link_forms:
       labels:
         page_title: Заголовок
-        parent: Батьківська сторінка вікі
+        parent: Parent
         wiki_page: Сторінка вікі
       search:
         no_results: Сторінок вікі не знайдено
