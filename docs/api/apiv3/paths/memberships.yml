@@ -30,7 +30,7 @@ get:
         + name: filters memberships based on the name of the principal. Note that only the name is used which depends
           on a setting in the OpenProject instance.
         + principal: filters memberships based on the id of the principal.
-        + project: filters memberships based on the id of the project.
+        + project: filters memberships based on the project. Accepts project IDs and project identifiers, e.g. `SDT`.
         + role: filters memberships based on the id of any role assigned to the membership.
         + status: filters memberships based on the status of the principal.
         + created_at: filters memberships based on the time the membership was created.

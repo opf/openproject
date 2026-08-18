@@ -53,7 +53,7 @@ get:
 
         + entity_id: Filter time entries for the specified entity IDs.
 
-        + project_id: Filter time entries by project
+        + project_id: Filter time entries by project. Accepts project IDs and project identifiers, e.g. `SDT`.
 
         + user_id: Filter time entries by users
 

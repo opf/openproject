@@ -64,7 +64,7 @@ get:
 
         + id: Filter by primary key
 
-        + project: Filter by the project the notification was created in
+        + project: Filter by the project the notification was created in. Accepts project IDs and project identifiers, e.g. `SDT`.
 
         + readIAN: Filter by read status
 

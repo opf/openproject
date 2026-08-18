@@ -28,33 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Queries::Filters::Strategies
+  class ProjectListOptional < IntegerListOptional
+    private
 
-RSpec.describe Queries::News::Filters::ProjectFilter do
-  let(:project1) { create(:project) }
-  let(:project2) { create(:project) }
-
-  before do
-    allow(Project).to receive(:visible).and_return(Project.where(id: [project1, project2]))
-  end
-
-  it_behaves_like "basic query filter" do
-    let(:class_key) { :project_id }
-    let(:type) { :list_optional }
-    let(:name) { News.human_attribute_name(:project) }
-
-    describe "#allowed_values" do
-      it "is a list of the possible values" do
-        expected = [[project1.id, project1.id.to_s], [project2.id, project2.id.to_s]]
-
-        expect(instance.allowed_values).to match_array(expected)
-      end
+    def error_message
+      :inclusion
     end
-  end
-
-  it_behaves_like "list_optional query filter" do
-    let(:attribute) { :project_id }
-    let(:model) { News }
-    let(:valid_values) { [project1.id.to_s] }
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,14 +31,11 @@
 require "spec_helper"
 
 RSpec.describe Queries::TimeEntries::Filters::ProjectFilter do
-  let(:project1) { build_stubbed(:project) }
-  let(:project2) { build_stubbed(:project) }
+  let(:project1) { create(:project) }
+  let(:project2) { create(:project) }
 
   before do
-    allow(Project)
-      .to receive_message_chain(:visible, :pluck)
-      .with(:id)
-      .and_return([project1.id, project2.id])
+    allow(Project).to receive(:visible).and_return(Project.where(id: [project1, project2]))
   end
 
   it_behaves_like "basic query filter" do

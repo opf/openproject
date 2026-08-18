@@ -30,6 +30,21 @@ get:
     required: false
     schema:
       type: string
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+
+      + project_id: Filter documents by project. Accepts project IDs and project identifiers, e.g. `SDT`.
+
+      + type_id: Filter documents by document type
+
+      + title: Filter documents by title
+    example: '[{ "project": { "operator": "=", "values": ["SDT"] } }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
   responses:
     '200':
       content:
