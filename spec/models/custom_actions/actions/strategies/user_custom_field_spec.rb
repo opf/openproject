@@ -19,14 +19,12 @@ module CustomActions
           create(:project, members: [[users[0], role]]).tap do |project|
             [user_cf, multi_user_cf].each do |cf|
               project.enabled_variants.each { it.custom_fields << cf }
-              project.work_package_custom_fields << cf
             end
           end
         end
         shared_let(:multi_user_project) do
           create(:project, members: users[0..3].map { [it, role] }).tap do |project|
             [user_cf, multi_user_cf].each do |cf|
-              project.work_package_custom_fields << cf
             end
           end
         end

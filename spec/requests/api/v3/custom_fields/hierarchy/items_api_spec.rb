@@ -38,7 +38,7 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
     shared_let(:project) { create(:project, types: [type]) }
 
     let(:custom_field) do
-      create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil, types: [type], projects: [project])
+      create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil, types: [type])
     end
     let!(:root) { service.generate_root(custom_field).value! }
     let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }

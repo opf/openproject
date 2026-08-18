@@ -33,16 +33,16 @@ require "spec_helper"
 RSpec.describe Journal::WorkPackageJournal do
   describe "#render_detail" do
     shared_let(:type) { create(:type) }
+    shared_let(:other_type) { create(:type) }
     shared_let(:project) { create(:project, types: [type]) }
-    shared_let(:other_project) { create(:project) }
 
-    # Visible: assigned to the work package's own project and type.
+    # Visible: on the form configuration of the type the work package uses.
     shared_let(:visible_custom_field) do
-      create(:boolean_wp_custom_field, projects: [project], types: [type])
+      create(:boolean_wp_custom_field, types: [type])
     end
-    # Hidden: assigned to the type, but only mapped to a different project.
+    # Hidden: on a type the work package does not use.
     shared_let(:hidden_custom_field) do
-      create(:boolean_wp_custom_field, projects: [other_project], types: [type])
+      create(:boolean_wp_custom_field, types: [other_type])
     end
 
     shared_let(:work_package) { create(:work_package, project:, type:) }
@@ -51,14 +51,14 @@ RSpec.describe Journal::WorkPackageJournal do
 
     current_user { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
-    it "renders a custom field assigned to the work package's project/type normally" do
+    it "renders a custom field on the work package's type normally" do
       rendered = journal.render_detail(["custom_fields_#{visible_custom_field.id}", [nil, "t"]])
 
       expect(rendered).to include(visible_custom_field.name)
       expect(rendered).not_to include(I18n.t(:text_journal_permission_denied))
     end
 
-    it "hides a custom field not assigned to the work package's project/type" do
+    it "hides a custom field that is not on the work package's type" do
       rendered = journal.render_detail(["custom_fields_#{hidden_custom_field.id}", [nil, "t"]])
 
       expect(rendered).not_to include(hidden_custom_field.name)

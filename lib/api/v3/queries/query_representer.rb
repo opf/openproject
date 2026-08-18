@@ -314,9 +314,7 @@ module API
           super(model, current_user:, embed_links:)
         end
 
-        self.to_eager_load = [:user,
-                              :views,
-                              { project: :work_package_custom_fields }]
+        self.to_eager_load = %i[user views]
 
         def _type
           "Query"

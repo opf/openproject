@@ -63,8 +63,7 @@ RSpec.describe "baseline rendering",
 
   shared_let(:project) do
     create(:project,
-           types: [type_bug, type_task, type_milestone],
-           work_package_custom_fields: custom_fields)
+           types: [type_bug, type_task, type_milestone])
   end
   shared_let(:user) do
     create(:admin,

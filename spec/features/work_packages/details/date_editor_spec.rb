@@ -46,8 +46,7 @@ RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_form
     create(
       :date_wp_custom_field,
       name: "My date",
-      types: [type],
-      projects: [project]
+      types: [type]
     )
   end
 

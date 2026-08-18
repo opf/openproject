@@ -427,7 +427,6 @@ RSpec.describe Query::Results, "sorting and grouping" do
     before do
       [work_package1, work_package2, work_package3]
 
-      work_package1.project.work_package_custom_fields << string_cf
       work_package1.type.default_variant.custom_fields << string_cf
 
       work_package1.reload
@@ -488,7 +487,6 @@ RSpec.describe Query::Results, "sorting and grouping" do
     before do
       [work_package1, work_package2, work_package3]
 
-      work_package1.project.work_package_custom_fields << int_cf
       work_package1.type.default_variant.custom_fields << int_cf
 
       work_package1.reload

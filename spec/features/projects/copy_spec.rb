@@ -45,7 +45,6 @@ RSpec.describe "Projects copy", :js,
                optional_project_custom_field.id => "some optional text cf",
                optional_project_custom_field_with_default.id => "foo"
              }).tap do |p|
-        p.work_package_custom_fields << wp_custom_field
         p.enabled_variants.first.custom_fields << wp_custom_field
 
         # Enable the project custom field mappings

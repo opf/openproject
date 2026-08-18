@@ -50,7 +50,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
     shared_let(:linked_type) { create(:type) }
     shared_let(:linked_project) { create(:project, types: [linked_type]) }
     shared_let(:source_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [source_type.default_variant])
+      create(:integer_wp_custom_field, type_variants: [source_type.default_variant])
     end
 
     before do
