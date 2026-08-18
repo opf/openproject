@@ -7,7 +7,7 @@ keywords: open project, create project, projects introduction
 ---
 # Projects introduction
 
-Get an introduction how to work with projects in OpenProject. To start collaboration in OpenProject, you first have to set up a new project.
+Get an introduction to working with projects in OpenProject. To start collaboration in OpenProject, you first have to set up a new project.
 
 <div class="glossary">
 
@@ -23,7 +23,7 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 | ------------------------------------------------------- | ------------------------------------------------------------ |
 | [Open a project](#open-an-existing-project)             | Select and open an existing project.                         |
 | [Create a new project](#create-a-new-project)           | Create a project from scratch or use existing project templates. |
-| [View all projects](#view-all-projects)                 | Get an overview about all your projects.                     |
+| [View all projects](#view-all-projects)                 | Get an overview of all your projects.                     |
 | [Advanced project settings](#advanced-project-settings) | Configure further advanced settings for your project.        |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4"></video>
