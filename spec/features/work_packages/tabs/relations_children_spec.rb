@@ -17,8 +17,7 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
   shared_let(:project) do
     create(:project,
-           types: [type_task, type_risk, type_milestone],
-           work_package_custom_fields: [normal_cf, required_cf])
+           types: [type_task, type_risk, type_milestone])
   end
 
   shared_let(:work_package) { create(:work_package, type: type_task, project:, subject: "Parent") }
@@ -188,7 +187,6 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
     before do
       all_possible_custom_fields.each do |cf|
         project.enabled_variants.first.custom_fields << cf
-        project.work_package_custom_fields << cf
       end
     end
 

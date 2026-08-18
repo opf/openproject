@@ -46,21 +46,21 @@ RSpec.shared_context "given a visible setup" do
 
   # User cannot see this field: it is on no type's form configuration
   shared_let(:type_non_enabled_in_project_cf) do
-    create(:text_wp_custom_field, projects: [project_with_user_and_feature, project_without_user], types: [])
+    create(:text_wp_custom_field, types: [])
   end
   # User cannot see this field: `task` is only used in a project the user cannot see
-  shared_let(:type_disabled_for_all_cf) { create(:text_wp_custom_field, is_for_all: true, projects: [], types: [task]) }
+  shared_let(:type_disabled_for_all_cf) { create(:text_wp_custom_field, is_for_all: true, types: [task]) }
 
   # User can see this field: `feature` is used in a project the user can see
-  shared_let(:not_a_member_cf) { create(:integer_wp_custom_field, projects: [project_without_user], types: [feature, task]) }
+  shared_let(:not_a_member_cf) { create(:integer_wp_custom_field, types: [feature, task]) }
   # User can see this field: `bug` is used in a project the user can see
   shared_let(:type_enabled_in_different_project_than_member_cf) do
-    create(:text_wp_custom_field, projects: [project_with_user_and_feature], types: [bug])
+    create(:text_wp_custom_field, types: [bug])
   end
   # User can see this field: `feature` is used in a project the user can see
   shared_let(:type_enabled_and_member_cf) do
-    create(:boolean_wp_custom_field, projects: [project_with_user_and_feature], types: [feature, task])
+    create(:boolean_wp_custom_field, types: [feature, task])
   end
   # User can see this field: `feature` is used in a project the user can see
-  shared_let(:type_enabled_for_all_cf) { create(:text_wp_custom_field, is_for_all: true, projects: [], types: [feature, task]) }
+  shared_let(:type_enabled_for_all_cf) { create(:text_wp_custom_field, is_for_all: true, types: [feature, task]) }
 end

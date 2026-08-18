@@ -40,7 +40,6 @@ RSpec.describe WorkPackage do
       name: "Ingredients",
       multi_value: true,
       types: [type],
-      projects: [project],
       possible_values: ["ham", "onions", "pineapple", "mushrooms"]
     )
   end

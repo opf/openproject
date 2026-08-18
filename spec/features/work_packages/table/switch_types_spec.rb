@@ -30,8 +30,7 @@ RSpec.describe "Switching types in work package table", :js do
     let(:project) do
       create(
         :project,
-        types: [type_task, type_bug],
-        work_package_custom_fields: [cf_text, cf_req_text]
+        types: [type_task, type_bug]
       )
     end
     let(:work_package) do
@@ -197,8 +196,7 @@ RSpec.describe "Switching types in work package table", :js do
     let(:project) do
       create(
         :project,
-        types: [type_task, type_bug],
-        work_package_custom_fields: [cf_req_bool]
+        types: [type_task, type_bug]
       )
     end
     let(:work_package) do
@@ -253,8 +251,7 @@ RSpec.describe "Switching types in work package table", :js do
     let!(:project) do
       create(
         :project,
-        types: [type, type_with_cf],
-        work_package_custom_fields: [custom_field]
+        types: [type, type_with_cf]
       )
     end
     let!(:status) { create(:default_status) }

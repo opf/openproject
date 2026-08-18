@@ -77,8 +77,6 @@ module Import
         jira_entity_class: jira_project.class.to_s
       ).op_leg
 
-      update_custom_fields_in_project(@project, jira_project, @custom_field_registry)
-
       cursor ||= @jira_import.get_job_cursor(self)
       enumerator_builder.active_record_on_records(
         Import::JiraIssue.where(jira_import_id:, jira_project_id:),
@@ -148,13 +146,6 @@ module Import
       else
         groups << [JIRA_IMPORT_GROUP_KEY, cf_keys]
       end
-    end
-
-    def update_custom_fields_in_project(project, jira_project, custom_field_registry)
-      existing_cf_ids = project.work_package_custom_fields.pluck(:id).to_set
-      new_cfs = custom_fields_for_project(custom_field_registry, jira_project)
-                  .reject { |cf| existing_cf_ids.include?(cf.id) }
-      project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
 
     # rubocop:disable Metrics/AbcSize

@@ -188,8 +188,7 @@ RSpec.describe "new work package", :js do
       let(:type_task) { create(:type_task, custom_fields:) }
       let(:project) do
         create(:project,
-               types:,
-               work_package_custom_fields: custom_fields)
+               types:)
       end
 
       it "saves and validates the custom field values" do
