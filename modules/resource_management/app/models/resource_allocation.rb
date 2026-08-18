@@ -47,12 +47,10 @@ class ResourceAllocation < ApplicationRecord
   MAX_ALLOCATED_TIME = (5000.hours / 1.minute).to_i
 
   belongs_to :entity, polymorphic: true, optional: false
-  # `user_resource` is the profile that was requested, `principal` the human
-  # that was staffed for it. Both are set once a generic allocation is staffed,
-  # so the original request stays readable.
-  # Autosaved so that a resource built alongside the allocation is validated and
-  # persisted with it, and edits to an existing one are carried along.
-  belongs_to :user_resource, optional: true, inverse_of: :resource_allocations, autosave: true
+  # `placeholder_user` is what was requested, `principal` the human staffed for
+  # it. Both are set once a generic allocation is staffed, so the original
+  # request stays readable.
+  belongs_to :placeholder_user, optional: true, inverse_of: :resource_allocations, autosave: true
   belongs_to :principal, class_name: "User", optional: true, inverse_of: :resource_allocations
   belongs_to :requested_by, class_name: "User", optional: true
   belongs_to :reviewed_by, class_name: "User", optional: true
@@ -66,7 +64,7 @@ class ResourceAllocation < ApplicationRecord
   # An allocation is about these people, so naming them does not depend on the
   # reader sharing a project with them.
   register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id", "principal_assigned_by_id",
-                                    "user_resource_id",
+                                    "placeholder_user_id",
                                     formatter_key: :public_named_association
   register_journal_formatted_fields "entity_gid", formatter_key: :polymorphic_association
 
@@ -78,7 +76,7 @@ class ResourceAllocation < ApplicationRecord
     canceled: "canceled"
   }
 
-  scope :needs_principal_assignment, -> { where.not(user_resource_id: nil).where(principal_id: nil) }
+  scope :needs_principal_assignment, -> { where.not(placeholder_user_id: nil).where(principal_id: nil) }
   scope :for_principal, ->(principal) { where(principal:) }
   scope :for_project, ->(project_or_project_id) {
     project_id = project_or_project_id.is_a?(Project) ? project_or_project_id.id : project_or_project_id
@@ -93,7 +91,7 @@ class ResourceAllocation < ApplicationRecord
   def self.allocated_for_work_packages(work_packages)
     allocated
       .where(entity_type: "WorkPackage", entity_id: work_packages.map(&:id))
-      .includes(:principal, user_resource: :user_resource_detail)
+      .includes(:principal, placeholder_user: :placeholder_user_detail)
       .order(:id)
       .group_by(&:entity_id)
   end
@@ -103,7 +101,7 @@ class ResourceAllocation < ApplicationRecord
   def self.allocated_for_principals(principals)
     allocated
       .where(principal_id: principals.map(&:id))
-      .includes(:entity, :principal, user_resource: :user_resource_detail)
+      .includes(:entity, :principal, placeholder_user: :placeholder_user_detail)
       .order(:id)
       .group_by(&:principal_id)
   end
@@ -116,18 +114,18 @@ class ResourceAllocation < ApplicationRecord
   end
 
   # Counts the candidates each filter-based allocation selects, keyed by
-  # allocation id. Allocations commonly request the same user resource, so the
-  # pools are resolved once per resource and in a single round trip.
+  # allocation id. Allocations commonly request the same placeholder, so the
+  # pools are resolved once per placeholder and in a single round trip.
   def self.candidate_counts(allocations, project:)
     return {} if project.nil?
 
     filter_based = allocations.select(&:filter_based?)
-    resources = filter_based.filter_map(&:user_resource).uniq(&:id)
-    UserResource.preload_candidate_counts(resources, project:)
+    placeholders = filter_based.filter_map(&:placeholder_user).uniq(&:id)
+    PlaceholderUser.preload_candidate_counts(placeholders, project:)
 
-    counts = resources.to_h { |resource| [resource.id, resource.candidate_count(project:)] }
+    counts = placeholders.to_h { |placeholder| [placeholder.id, placeholder.candidate_count(project:)] }
 
-    filter_based.to_h { |allocation| [allocation.id, counts.fetch(allocation.user_resource_id, 0)] }
+    filter_based.to_h { |allocation| [allocation.id, counts.fetch(allocation.placeholder_user_id, 0)] }
   end
 
   # Users without configured working hours are skipped — their capacity is
@@ -198,11 +196,11 @@ class ResourceAllocation < ApplicationRecord
   # An allocation asking for a resource rather than naming a person. Staffing
   # adds a principal but leaves the resource in place, so this stays true.
   #
-  # The association is consulted as well as the key: a resource built alongside
-  # a new allocation has no id until both are saved. The key is checked first,
-  # so a persisted resource never costs a query here.
+  # The association is consulted as well as the key: a placeholder built
+  # alongside a new allocation has no id until both are saved. The key is
+  # checked first, so a persisted one never costs a query here.
   def filter_based?
-    user_resource_id.present? || user_resource.present?
+    placeholder_user_id.present? || placeholder_user.present?
   end
 
   def user_assigned?
@@ -217,11 +215,11 @@ class ResourceAllocation < ApplicationRecord
   # narrowed to the project's members. Callers that already hold the project pass
   # it in to avoid loading the entity.
   def candidate_query(project: self.project)
-    user_resource&.candidate_query(project:)
+    placeholder_user&.candidate_query(project:)
   end
 
   def candidate_count(project: self.project)
-    user_resource&.candidate_count(project:) || 0
+    placeholder_user&.candidate_count(project:) || 0
   end
 
   def allocated_hours
