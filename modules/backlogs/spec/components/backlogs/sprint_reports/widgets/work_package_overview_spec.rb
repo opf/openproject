@@ -42,8 +42,9 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13, from_date: sprint.start_date)
     end
     let(:changed) do
-      SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 3, from_date: sprint.start_date,
-                                            to_date: Time.zone.today)
+      SprintWorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
+                                                  removed_story_points: 2, from_date: sprint.start_date,
+                                                  to_date: Time.zone.today)
     end
     let(:completed) do
       SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8, from_date: Time.zone.today)
@@ -73,6 +74,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       expect(rendered_component).to have_text("Unfinished")
       expect(rendered_component).to have_text("5")
       expect(rendered_component).to have_text("13 story points")
+      expect(rendered_component).to have_text("+4 / -1")
+      expect(rendered_component).to have_text("+6 / -2 story points")
       expect(rendered_component).to have_text("Show all", count: 4)
 
       expect(rendered_component).to have_no_css(".blankslate")
@@ -137,6 +140,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         expect(block_count("Unfinished")).to eq("1")
       end
 
+      it "reports no scope change, since the work package never moved in or out of the sprint" do
+        expect(block_count("Changed after start")).to eq("+0 / -0")
+      end
+
       it "shows a counter in the title for the total number of work packages" do
         expect(title_counter_text).to eq("1")
       end
@@ -153,7 +160,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
       it "excludes the work package from every breakdown box" do
         expect(block_count("Initially planned")).to eq("0")
-        expect(block_count("Changed after start")).to eq("0")
+        expect(block_count("Changed after start")).to eq("+0 / -0")
         expect(block_count("Completed")).to eq("0")
         expect(block_count("Unfinished")).to eq("0")
       end

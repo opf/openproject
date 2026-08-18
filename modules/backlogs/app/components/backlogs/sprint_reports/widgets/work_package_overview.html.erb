@@ -101,14 +101,10 @@ See COPYRIGHT and LICENSE files for more details.
                             end
                           end
                         end,
-                        render(Primer::Beta::Text.new(tag: :p, mb: 0, font_size: 1, font_weight: :bold, color: block[:count_color])) do
-                          prefix = block[:count_prefix] && block[:count].positive? ? "+" : ""
-
-                          "#{prefix}#{block[:count]}"
-                        end,
-                        render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) do
-                          t("backlogs.story_points", count: block[:story_points])
-                        end
+                        render(
+                          Primer::Beta::Text.new(tag: :p, mb: 0, font_size: 1, font_weight: :bold, color: block[:count_color])
+                        ) { block[:count] },
+                        render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { block[:story_points] }
                       ]
                     )
                   end

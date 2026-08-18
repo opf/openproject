@@ -33,6 +33,8 @@
 # sprint_id/status_id/story_points values from work_package_journals.
 class SprintWorkPackageBreakdown
   Block = Struct.new(:work_package_count, :story_points, :from_date, :to_date, keyword_init: true)
+  ChangeBlock = Struct.new(:added_count, :removed_count, :added_story_points, :removed_story_points,
+                           :from_date, :to_date, keyword_init: true)
 
   def initialize(sprint:, project:)
     @sprint = sprint
@@ -51,35 +53,31 @@ class SprintWorkPackageBreakdown
     snapshot_block(reference_finish, done: false)
   end
 
-  # Net change in the sprint's work package set between reference_start and reference_finish.
-  def changed_after_start
-    start_snapshot = sprint_work_packages_at(reference_start)
-    finish_snapshot = sprint_work_packages_at(reference_finish)
+  def changed_after_start # rubocop:disable Metrics/AbcSize
+    start_points = sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
+    finish_points = sprint_work_packages_at(reference_finish).pluck(:id, :story_points).to_h
 
-    Block.new(
-      work_package_count: finish_snapshot.count - start_snapshot.count,
-      story_points: (finish_snapshot.sum(:story_points) || 0) - (start_snapshot.sum(:story_points) || 0),
+    added_ids = finish_points.keys - start_points.keys
+    removed_ids = start_points.keys - finish_points.keys
+
+    ChangeBlock.new(
+      added_count: added_ids.size,
+      removed_count: removed_ids.size,
+      added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
+      removed_story_points: removed_ids.sum { |id| start_points[id] || 0 },
       from_date: reference_start,
       to_date: reference_finish
     )
   end
 
-  # The sprint hasn't started yet: nothing to snapshot at a future start date, so use today.
-  # The sprint has started: the fixed start date wins over a later "today".
   def reference_start
     [@sprint.start_date, Time.zone.today].min
   end
 
-  # The sprint hasn't finished yet: nothing to snapshot at a future finish date, so use today.
-  # The sprint has already finished: the fixed finish date wins, so later report views don't
-  # pick up sprint_id/status changes that happened after the sprint was closed.
   def reference_finish
     [@sprint.finish_date, Time.zone.today].min
   end
 
-  # Same "done" definition as WorkPackages::Scopes::WithoutStatusConsideredClosed:
-  # the project's configured done statuses, or any globally closed status. Public so the
-  # widget can build a "Show all" link filtered to the same statuses used for these counts.
   def done_status_ids
     @done_status_ids ||= @project.done_status_ids | Status.where(is_closed: true).ids
   end
@@ -96,7 +94,7 @@ class SprintWorkPackageBreakdown
 
   def sprint_work_packages_at(date)
     WorkPackage
-      .where(project_id: @project.id, sprint_id: @sprint.id)
+      .where(project: @project, sprint: @sprint)
       .visible
       .at_timestamp(Timestamp.parse(date.in_time_zone.end_of_day.iso8601))
   end
