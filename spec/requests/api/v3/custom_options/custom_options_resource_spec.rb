@@ -94,6 +94,16 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
         end
       end
 
+      # The option values belong to work package data, so seeing the project is not enough.
+      context "when the user may see the project but not its work packages" do
+        let(:permissions) { [] }
+
+        it "is 404" do
+          expect(subject.status)
+            .to be(404)
+        end
+      end
+
       context "when the field is on no type" do
         let(:permissions) { [:view_work_packages] }
         let(:modification) { -> { custom_field.type_variants = [] } }
