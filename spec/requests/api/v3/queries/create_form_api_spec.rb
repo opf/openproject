@@ -156,7 +156,6 @@ RSpec.describe "POST /api/v3/queries/form",
     describe "columns", with_settings: { work_package_multiple_versions: false } do
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
-        project.work_package_custom_fields << cf
         cf.type_variants << project.enabled_variants.first
 
         cf
@@ -215,7 +214,6 @@ RSpec.describe "POST /api/v3/queries/form",
     describe "columns", with_settings: { work_package_multiple_versions: false } do
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
-        project.work_package_custom_fields << cf
         cf.type_variants << project.enabled_variants.first
 
         cf
@@ -631,7 +629,7 @@ RSpec.describe "POST /api/v3/queries/form",
       )
     end
     let!(:type) { create(:type, custom_fields: [custom_field]) }
-    let!(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+    let!(:project) { create(:project, types: [type]) }
 
     let(:path_with_cf) do
       uri = Addressable::URI.parse(path)

@@ -1027,9 +1027,8 @@ RSpec.describe Import::JiraImportProjectsJob,
 
       before { described_class.new.perform(jira_import.id) }
 
-      it "activates the fallback custom field in the project and keeps the value" do
+      it "puts the fallback custom field on the type and keeps the value" do
         cf = WorkPackageCustomField.find_by!(name: "CF List")
-        expect(imported_wp.project.work_package_custom_fields).to include(cf)
         expect(imported_wp.type.default_variant.custom_fields).to include(cf)
         expect(cf_value("CF List")).to eq("Cat")
       end

@@ -31,6 +31,12 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_variants: true } do
+  # The rows the job converts: no association exposes them any more.
+  def activate_in(project, *custom_fields)
+    custom_fields.each { |custom_field| CustomFieldsProject.create!(project:, custom_field:) }
+    project
+  end
+
   let(:kept_field) { create(:work_package_custom_field, is_for_all: false) }
   let(:dropped_field) { create(:work_package_custom_field, is_for_all: false) }
 
@@ -44,11 +50,11 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
   let(:base) { type.default_variant }
 
   let!(:narrowing_project) do
-    create(:project, name: "Website Relaunch", types: [type], work_package_custom_fields: [kept_field])
+    activate_in(create(:project, name: "Website Relaunch", types: [type]), kept_field)
   end
 
   let!(:complete_project) do
-    create(:project, name: "Intranet", types: [type], work_package_custom_fields: [kept_field, dropped_field])
+    activate_in(create(:project, name: "Intranet", types: [type]), kept_field, dropped_field)
   end
 
   def applied_variant(project)
@@ -133,7 +139,7 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
     end
 
     let!(:narrowing_project) do
-      create(:project, name: "Website Relaunch", types: [type], work_package_custom_fields: [kept_field]).tap do |project|
+      activate_in(create(:project, name: "Website Relaunch", types: [type]), kept_field).tap do |project|
         project.project_types.sole.update!(variant:)
       end
     end
@@ -151,7 +157,7 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
 
   context "when the project is archived" do
     let!(:narrowing_project) do
-      create(:project, :archived, name: "Website Relaunch", types: [type], work_package_custom_fields: [kept_field])
+      activate_in(create(:project, :archived, name: "Website Relaunch", types: [type]), kept_field)
     end
 
     it "builds the variant anyway, as an archived project cannot be configured by hand" do

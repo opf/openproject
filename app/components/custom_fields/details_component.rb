@@ -78,7 +78,7 @@ module CustomFields
     def show_top_banner?
       case custom_field.field_format
       when "hierarchy", "weighted_item_list", "list"
-        persisted_cf_has_no_items_or_projects?
+        persisted_cf_has_no_items_or_types?
       else
         false
       end
@@ -87,21 +87,21 @@ module CustomFields
     def top_banner_text
       case custom_field.field_format
       when "hierarchy", "weighted_item_list", "list"
-        I18n.t("custom_fields.admin.notice.remember_items_and_projects")
+        I18n.t("custom_fields.admin.notice.remember_items_and_types")
       end
     end
 
-    def persisted_cf_has_no_items_or_projects?
+    def persisted_cf_has_no_items_or_types?
       return false unless custom_field.persisted?
-      return false unless custom_field_has_no_projects?
+      return false unless custom_field_on_no_type?
 
       custom_field_has_no_items?
     end
 
     private
 
-    def custom_field_has_no_projects?
-      !custom_field.respond_to?(:projects) || custom_field.projects.empty?
+    def custom_field_on_no_type?
+      !custom_field.respond_to?(:type_variants) || custom_field.type_variants.empty?
     end
 
     def custom_field_has_no_items?

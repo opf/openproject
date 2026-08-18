@@ -35,7 +35,8 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create(:project) }
+  shared_let(:type) { create(:type) }
+  shared_let(:project) { create(:project, types: [type]) }
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -57,13 +58,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
     end
 
     describe "WorkPackageCustomField" do
-      shared_let(:custom_field) do
-        cf = create(:list_wp_custom_field)
-
-        project.work_package_custom_fields << cf
-
-        cf
-      end
+      shared_let(:custom_field) { create(:list_wp_custom_field, types: [type]) }
       shared_let(:custom_option) do
         create(:custom_option,
                custom_field:)
@@ -90,8 +85,8 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
         end
       end
 
-      context "when lacking permission" do
-        let(:permissions) { [] }
+      context "when the user cannot see any project the field applies to" do
+        let(:user) { create(:user) }
 
         it "is 404" do
           expect(subject.status)
@@ -99,14 +94,9 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
         end
       end
 
-      context "when custom option not in project" do
+      context "when the field is on no type" do
         let(:permissions) { [:view_work_packages] }
-        let(:modification) do
-          -> do
-            project.work_package_custom_fields = []
-            project.save!
-          end
-        end
+        let(:modification) { -> { custom_field.type_variants = [] } }
 
         it "is 404" do
           expect(subject.status)

@@ -95,7 +95,7 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
       let(:assignee) { create(:user, member_with_roles: { target => assignee_role }) }
       let(:status) { create(:status) }
       let(:custom_field) do
-        create(:string_wp_custom_field, is_required: true, types: [type], projects: [source, target])
+        create(:string_wp_custom_field, is_required: true, types: [type])
       end
 
       let(:params) do

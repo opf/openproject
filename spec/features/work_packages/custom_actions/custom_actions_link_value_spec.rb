@@ -40,7 +40,7 @@ RSpec.describe "Custom actions link cf value", :js, with_ee: %i[custom_actions] 
   end
   let(:type) { create(:type_task) }
   let(:project) { create(:project, types: [type], name: "This project") }
-  let!(:custom_field) { create(:link_wp_custom_field, types: [type], projects: [project]) }
+  let!(:custom_field) { create(:link_wp_custom_field, types: [type]) }
   let!(:work_package) do
     create(:work_package,
            type:,

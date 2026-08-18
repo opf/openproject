@@ -133,24 +133,6 @@ module WorkPackageTypes
 
         expect(type.reload.custom_field_ids).to contain_exactly(cf1.id, cf2.id)
       end
-
-      context "when a project already uses the type" do
-        before { type.type.projects = create_list(:project, 2) }
-
-        it "does not automatically enable the custom field" do
-          expect { service.call(params) }
-            .not_to change { Project.where(id: type.type.project_ids).map(&:work_package_custom_field_ids) }
-                      .from([[], []])
-        end
-
-        it "does not tries to change the project in case all custom fields are already added" do
-          type.custom_field_ids = [cf1.id, cf2.id]
-
-          expect { service.call(params) }
-            .not_to change { Project.where(id: type.type.project_ids).map(&:work_package_custom_field_ids) }
-                      .from([[], []])
-        end
-      end
     end
 
     describe "query group handling", with_ee: %i[edit_attribute_groups] do

@@ -71,11 +71,11 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
 
     # Activated on the SOURCE type and enabled in the linked type's project.
     shared_let(:source_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [source_type.default_variant])
+      create(:integer_wp_custom_field, type_variants: [source_type.default_variant])
     end
     # Activated on the linked type itself (a leftover from before it was linked).
     shared_let(:linked_own_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [linked_type.default_variant])
+      create(:integer_wp_custom_field, type_variants: [linked_type.default_variant])
     end
 
     subject { WorkPackageCustomField.on_visible_type_and_project(linked_user) }
@@ -134,10 +134,10 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
 
     shared_let(:root_cf) do
-      create(:integer_wp_custom_field, projects: [variant_project], type_variants: [root_type.default_variant])
+      create(:integer_wp_custom_field, type_variants: [root_type.default_variant])
     end
     shared_let(:variant_cf) do
-      create(:integer_wp_custom_field, projects: [variant_project], type_variants: [variant])
+      create(:integer_wp_custom_field, type_variants: [variant])
     end
 
     subject { WorkPackageCustomField.on_visible_type_and_project(variant_user) }

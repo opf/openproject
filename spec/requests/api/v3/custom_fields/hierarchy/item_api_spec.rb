@@ -37,7 +37,7 @@ RSpec.describe "API v3 custom field items", :webmock, content_type: :json, with_
   shared_let(:project) { create(:project, types: [type]) }
 
   let(:custom_field) do
-    create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil, types: [type], projects: [project])
+    create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil, types: [type])
   end
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
   let!(:root) { service.generate_root(custom_field).value! }

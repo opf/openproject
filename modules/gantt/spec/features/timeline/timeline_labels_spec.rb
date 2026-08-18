@@ -68,7 +68,6 @@ RSpec.describe "Work package timeline labels",
       name: "Ingredients",
       multi_value: true,
       types: [type],
-      projects: [project],
       possible_values: ["ham", "onions", "pineapple", "mushrooms"]
     )
   end

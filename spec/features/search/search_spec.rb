@@ -61,7 +61,6 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     create(:text_wp_custom_field,
            is_filter:,
            searchable:).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
       work_packages.first.type.default_variant.custom_fields << custom_field
 
       create(:work_package_custom_value,

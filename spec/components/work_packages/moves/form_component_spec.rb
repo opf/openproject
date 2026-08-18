@@ -146,8 +146,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       create(:string_wp_custom_field,
              name: "Risk score",
              is_required: true,
-             types: [type],
-             projects: [project, target_project])
+             types: [type])
     end
 
     it "renders the required marker as an HTML element, not escaped text" do
@@ -197,8 +196,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       create(:version_wp_custom_field,
              name: "Milestone",
              is_required: true,
-             types: [type],
-             projects: [project, target_project])
+             types: [type])
     end
 
     it "scopes the custom field options to the target project" do

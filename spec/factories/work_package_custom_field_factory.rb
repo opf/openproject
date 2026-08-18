@@ -36,7 +36,6 @@ FactoryBot.define do
 
     transient do
       default_locales { nil }
-      projects { [] }
     end
 
     sequence(:name) { |n| "Custom Field Nr. #{n}" }
@@ -49,11 +48,5 @@ FactoryBot.define do
     possible_values { "" }
     admin_only { false }
     field_format { "bool" }
-
-    after(:create) do |custom_field, evaluator|
-      evaluator.projects.each do |project|
-        project.work_package_custom_fields << custom_field
-      end
-    end
   end
 end

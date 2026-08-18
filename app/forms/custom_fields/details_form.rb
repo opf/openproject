@@ -273,7 +273,7 @@ module CustomFields
     end
 
     def show_is_for_all_field?
-      model.is_a?(WorkPackageCustomField) || model.is_a?(ProjectCustomField)
+      model.is_a?(ProjectCustomField)
     end
 
     def show_is_filter_field?

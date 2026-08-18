@@ -10,14 +10,12 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
   shared_let(:custom_field) do
     create(:string_wp_custom_field,
            name: "Text CF",
-           types: [type],
-           projects: [project])
+           types: [type])
   end
   shared_let(:custom_field_removed) do
     create(:string_wp_custom_field,
            name: "Text CF Removed",
-           types: [type],
-           projects: [project])
+           types: [type])
   end
   shared_let(:dev_role) do
     create(:project_role,
@@ -195,28 +193,24 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
         let(:boolean_cf) do
           create(:boolean_wp_custom_field,
                  name: "Bool CF",
-                 types: [type],
-                 projects: [project])
+                 types: [type])
         end
         let(:required_boolean_cf) do
           create(:boolean_wp_custom_field,
                  name: "Required Bool CF",
                  types: [type],
-                 projects: [project],
                  is_required: true)
         end
         let(:list_cf) do
           create(:list_wp_custom_field,
                  name: "List CF",
                  types: [type],
-                 projects: [project],
                  possible_values: %w[A B C])
         end
         let(:required_list_cf) do
           create(:list_wp_custom_field,
                  name: "Required List CF",
                  types: [type],
-                 projects: [project],
                  possible_values: %w[A B C],
                  is_required: true)
         end
@@ -224,20 +218,17 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
           create(:list_wp_custom_field, :multi_list,
                  name: "Multi select List CF",
                  types: [type],
-                 projects: [project],
                  possible_values: %w[A B C])
         end
         let(:user_cf) do
           create(:user_wp_custom_field,
                  name: "User CF",
-                 types: [type],
-                 projects: [project])
+                 types: [type])
         end
         let(:multi_user_cf) do
           create(:user_wp_custom_field, :multi_user,
                  name: "Multi user CF",
-                 types: [type],
-                 projects: [project])
+                 types: [type])
         end
 
         let(:default_cf_values) do

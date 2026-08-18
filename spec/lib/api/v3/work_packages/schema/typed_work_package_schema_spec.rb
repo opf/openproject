@@ -140,7 +140,6 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     let(:project) { create(:project, types: [linked_type]) }
     let!(:source_cf) do
       create(:integer_wp_custom_field).tap do |cf|
-        project.work_package_custom_fields << cf
         source_type.default_variant.custom_fields << cf
       end
     end
@@ -166,8 +165,8 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     end
     let(:project) { create(:project, types: [variant]) }
 
-    let!(:root_cf) { create(:integer_wp_custom_field, projects: [project], types: [root_type]) }
-    let!(:variant_cf) { create(:integer_wp_custom_field, projects: [project], types: [variant]) }
+    let!(:root_cf) { create(:integer_wp_custom_field, types: [root_type]) }
+    let!(:variant_cf) { create(:integer_wp_custom_field, types: [variant]) }
 
     subject { described_class.new(project:, type: root_type) }
 

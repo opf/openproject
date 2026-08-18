@@ -550,8 +550,7 @@ RSpec.describe "form configuration", :js, :selenium,
       context "if active in project" do
         let(:project) do
           create(:project,
-                 types: [type],
-                 work_package_custom_fields: custom_fields)
+                 types: [type])
         end
 
         it "can be added to type and is visible" do
