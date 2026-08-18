@@ -110,7 +110,7 @@ RSpec.describe Projects::DeleteService, type: :model do
     end
 
     context "with semantic work package identifiers (regression #COMMS-936)",
-         with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
       let!(:child) { create(:project, parent: project) }
       let!(:work_package) { create(:work_package, project: child) }
 
