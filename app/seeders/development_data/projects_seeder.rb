@@ -40,10 +40,6 @@ module DevelopmentData
 
       print_status "   -Creating versions."
       seed_versions(projects)
-
-      print_status "   -Linking custom fields."
-
-      link_custom_fields(projects.detect { |p| p.identifier == "dev-custom-fields" })
     end
 
     def applicable?
@@ -100,11 +96,6 @@ module DevelopmentData
           )
         end
       end
-    end
-
-    def link_custom_fields(cf_project)
-      cf_project.work_package_custom_field_ids = CustomField.where("name like 'CF DEV%'").pluck(:id)
-      cf_project.save!
     end
 
     def project_data(identifier)
