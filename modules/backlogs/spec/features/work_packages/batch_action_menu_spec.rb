@@ -55,18 +55,27 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
 
   %i[more right_click context_menu_key shift_f10].each do |entry_point|
     context "via #{entry_point.to_s.tr('_', ' ')}" do
-      it "preserves a selected batch across its menu lifecycle" do
+      it "preserves a selected batch and presents only its batch menu" do
         backlogs_page.select_cards(stories[1], stories[0])
 
         menu = backlogs_page.open_card_menu(stories[1], via: entry_point)
 
         backlogs_page.expect_selected_cards_in_order(stories[0], stories[1])
-        expect(menu).to have_selector(:menuitem, text: I18n.t(:"js.button_open_details"), focused: true)
-        backlogs_page.expect_card_menu_anchor(stories[1], via: entry_point)
         backlogs_page.expect_card_menu_loaded(stories[1])
+        backlogs_page.expect_action_menu_groups(invoker: stories[1], selected_count: 2)
+        expect(menu).to have_no_selector(:menuitem, text: I18n.t(:"js.button_open_details"))
+        expect(menu).to have_selector(:menuitem, text: "Move to backlog inbox", focused: true)
+        backlogs_page.expect_card_menu_anchor(stories[1], via: entry_point)
 
         backlogs_page.dismiss_card_menu(stories[1], via: entry_point)
         backlogs_page.expect_selected_cards_in_order(stories[0], stories[1])
+        backlogs_page.expect_menu_invoker_name(stories[1], "Work package actions")
+
+        # Reopening skips the deferred-fragment load, so focus must be
+        # corrected past Primer's open-time pick of the hidden singular item.
+        reopened_menu = backlogs_page.open_card_menu(stories[1], via: entry_point)
+        expect(reopened_menu).to have_selector(:menuitem, text: "Move to backlog inbox", focused: true)
+        backlogs_page.dismiss_card_menu(stories[1], via: entry_point)
       end
 
       it "replaces an old batch when an unselected card invokes the one-card menu" do
@@ -76,6 +85,7 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
 
         backlogs_page.expect_selected_cards_in_order(stories[2])
         backlogs_page.expect_card_menu_loaded(stories[2])
+        backlogs_page.expect_action_menu_groups(invoker: stories[2], selected_count: 1)
 
         backlogs_page.dismiss_card_menu(stories[2], via: entry_point)
         backlogs_page.expect_selected_cards_in_order(stories[2])
@@ -93,9 +103,7 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
     backlogs_page.expect_selected_cards_in_order(stories[0], stories[1])
   end
 
-  it "keeps every singular action bound to its invoking card without collapsing the batch", :aggregate_failures do
-    backlogs_page.select_cards(stories[0], stories[1])
-
+  it "keeps every singular action bound to its invoking card", :aggregate_failures do
     stories.first(2).each do |invoker|
       menu = backlogs_page.open_card_menu(invoker, via: :more)
 
@@ -107,7 +115,6 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
         .to end_with("/work_packages/#{invoker.id}")
       expect(menu.find(:menuitem, text: "Copy work package ID")[:value]).to eq(invoker.id.to_s)
 
-      backlogs_page.expect_selected_cards_in_order(stories[0], stories[1])
       backlogs_page.dismiss_card_menu(invoker, via: :more)
     end
   end
@@ -148,6 +155,7 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
 
     backlogs_page.open_card_menu(inbox_stories[0], via: :right_click)
 
+    backlogs_page.expect_action_menu_groups(invoker: inbox_stories[0], selected_count: 2)
     backlogs_page.expect_open_menu_actions(
       invoker: inbox_stories[0],
       present: ["Move to position"],
@@ -162,6 +170,7 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
 
     backlogs_page.open_card_menu(stories[0], via: :more)
 
+    backlogs_page.expect_action_menu_groups(invoker: stories[0], selected_count: 2)
     backlogs_page.expect_open_menu_actions(
       invoker: stories[0],
       present: ["Move to sprint"],
