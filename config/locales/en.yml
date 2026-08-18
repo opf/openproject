@@ -4879,6 +4879,9 @@ en:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholder_users:
+    criteria:
+      enable: "Match users by criteria"
+      enable_caption: "Describe the kind of user this placeholder stands for, so matching users can be suggested for it."
     delete_tooltip: "Delete placeholder user"
     deletion_info:
       data_consequences: >

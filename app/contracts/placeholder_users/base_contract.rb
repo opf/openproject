@@ -35,6 +35,8 @@ module PlaceholderUsers
     # hence we need to put "lastname" as an attribute here
     attribute :name
     attribute :lastname
+    attribute :description
+    attribute :user_filter
 
     def self.model
       PlaceholderUser
