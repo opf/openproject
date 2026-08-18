@@ -38,14 +38,14 @@ class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::F
     KEY
   end
 
-  def self.all_available
-    return [] unless CustomField.can_be_used_as_a_filter?
-
-    available_custom_fields.map { |cf| create!(name: :"cf_#{cf.id}") }
+  def self.all_for(context = nil)
+    available_custom_fields.map { |cf| create!(name: :"cf_#{cf.id}", context:) }
   end
 
+  # Only the formats the engine can generate a join for have a matching
+  # CostQuery::Filter::CustomField<id> class.
   def self.available_custom_fields
-    WorkPackageCustomField.filterable
+    WorkPackageCustomField.where(field_format: CostQuery::CustomFieldMixin::SQL_TYPES.keys)
   end
 
   def custom_field
@@ -87,9 +87,14 @@ class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::F
     end
   end
 
+  # The engine filters list custom fields on the option's value rather than its
+  # id, because the same expression also aggregates the group.
   def allowed_values
-    return nil unless custom_field&.list?
-
-    custom_field.custom_options.pluck(:value, :id).map { |value, id| [value, id.to_s] }
+    case custom_field&.field_format
+    when "bool"
+      [[I18n.t(:general_text_yes), "t"], [I18n.t(:general_text_no), "f"]]
+    when "list"
+      custom_field.possible_values.map { |option| [option.value, option.value] }
+    end
   end
 end
