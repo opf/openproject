@@ -499,6 +499,7 @@ es:
         before_or_equal_to: debe ser antes o igual a %{date}.
         blank: no puede estar en blanco.
         blank_nested: necesita tener la propiedad '%{property}' definida.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: es obligatorio. No se puede eliminar.
         cant_link_a_work_package_with_a_descendant: Un paquete de trabajo no puede ser vinculado a una de sus subtareas.
         circular_dependency: Esta relación podría crear una dependencia circular.
@@ -3852,7 +3853,6 @@ es:
         invalid_type: No se ha encontrado ningún tipo con nombre '%{type}' en el proyecto '%{project}'.
         no_project_context: Llamando a la macro create_work_package_link desde el contexto externo del proyecto.
       link_name: Nuevo paquete de trabajo
-      link_name_type: "%{type_name} nuevo"
     errors:
       missing_or_invalid_parameter: Parámetro de macro no encontrado o no válido.
     include_wiki_page:
@@ -6051,6 +6051,13 @@ es:
         actions:
           label_disable_all: Desactivar todo
           label_enable_all: Activar todo
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Selecciona los atributos del proyecto que quieras habilitar para este tipo de paquete de trabajo. Los atributos del proyecto habilitados se muestran en una pestaña aparte en los paquetes de trabajo de este tipo. Los usuarios con los permisos necesarios pueden ver y editar estos atributos desde allí.
         disabled: Disabled
         exclusions:

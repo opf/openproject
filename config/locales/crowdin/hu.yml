@@ -505,6 +505,7 @@ hu:
         blank_nested: 'be kell állítani a ''%{property}'' tulajdonságot.
 
           '
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: A feladatcsoport nem kapcsolható saját részfeladatához.
         circular_dependency: Ez a kapcsolat egy körkörös függőséget eredményezne.
@@ -3915,7 +3916,6 @@ hu:
         invalid_type: 'Nem található ''%{type}%'' nevű típus ebben a projektben: ''%{project}''.'
         no_project_context: A create_work_package_link makró hívása külső projektek környezetéből.
       link_name: Új munkacsomag
-      link_name_type: Új %{type_name}
     errors:
       missing_or_invalid_parameter: Hiányzó vagy érvénytelen makró paraméter.
     include_wiki_page:
@@ -6174,6 +6174,13 @@ hu:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

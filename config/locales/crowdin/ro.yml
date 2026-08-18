@@ -499,6 +499,7 @@ ro:
         before_or_equal_to: trebuie să fie înainte sau în %{date}.
         blank: nu poate fi gol.
         blank_nested: trebuie să aibă setul '%{property}' al proprietății.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Un pachet de lucru nu poate fi legat de una din sub-activitățile sale.
         circular_dependency: Această relație ar crea o dependință circulară.
@@ -3918,7 +3919,6 @@ ro:
         invalid_type: Nu s-a găsit nicio variabilă cu numele '%{type}' în proiectul '%{project}'.
         no_project_context: Apelarea macro-ului create_work_package_link din afara contextului proiectului.
       link_name: Pachet de lucru nou
-      link_name_type: "%{type_name} nou"
     errors:
       missing_or_invalid_parameter: Parametru macro lipsă sau invalid.
     include_wiki_page:
@@ -6132,6 +6132,13 @@ ro:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

@@ -499,6 +499,7 @@ vi:
         before_or_equal_to: phải có trước hay tương đương với %{date}
         blank: không được để trống
         blank_nested: cần phải đặt thuộc tính '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: được yêu cầu. Không thể xóa được.
         cant_link_a_work_package_with_a_descendant: Một gói công việc không thể được liên kết với một trong các nhiệm vụ con của nó.
         circular_dependency: Mối quan hệ này sẽ tạo ra sự phụ thuộc vòng tròn.
@@ -3802,7 +3803,6 @@ vi:
         invalid_type: Không tìm thấy loại nào có tên '%{type}' trong dự án '%{project}'.
         no_project_context: Gọi macro create_work_package_link từ ngữ cảnh bên ngoài dự án.
       link_name: Work package mới
-      link_name_type: Mới %{type_name}
     errors:
       missing_or_invalid_parameter: Các tham số macro thiếu hoặc không hợp lệ.
     include_wiki_page:
@@ -6006,6 +6006,13 @@ vi:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

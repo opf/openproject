@@ -287,7 +287,7 @@ ru:
   notice_unsuccessful_finish_with_reason: 'Спринт не может быть завершён: %{reason}'
   notice_unsuccessful_start: Спринт не может быть запущен.
   notice_unsuccessful_start_with_reason: 'Спринт не может быть запущен: %{reason}'
-  notice_work_package_invisible_after_move: 'Данный рабочий пакет был перемещен в раздел « %{backlog} », однако он не отображается, поскольку его тип или статус исключены из списка задач.
+  notice_work_package_invisible_after_move: 'Данный пакет работ был перемещен в раздел « %{backlog} », однако он не отображается, поскольку его тип или статус исключены из списка задач.
 
     '
   permission_create_sprints: Создание спринтов
