@@ -143,6 +143,48 @@ RSpec.describe CostReport do
     it "builds a chain that produces SQL" do
       expect(instance.engine_query.sql_statement.to_s).to be_present
     end
+
+    context "when an axis is empty" do
+      it "fills an empty row axis with the singleton dimension" do
+        instance.apply_pivot_configuration(rows: [], columns: [:week])
+
+        replayed = instance.engine_query.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
+
+        expect(replayed).to eq([["SingletonValue", :row], ["Week", :column]])
+      end
+
+      it "fills an empty column axis with the singleton dimension" do
+        instance.apply_pivot_configuration(rows: [:project_id], columns: [])
+
+        replayed = instance.engine_query.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
+
+        expect(replayed).to eq([["ProjectId", :row], ["SingletonValue", :column]])
+      end
+
+      it "does not touch the stored axes or the query's group bys" do
+        instance.apply_pivot_configuration(rows: [], columns: [:week])
+        instance.engine_query
+
+        expect(instance.pivot_rows).to eq([])
+        expect(instance.query.group_bys.map(&:name)).to eq([:week])
+      end
+
+      it "stays valid" do
+        instance.apply_pivot_configuration(rows: [], columns: [:week])
+        instance.engine_query
+
+        expect(instance).to be_valid
+      end
+    end
+
+    context "without any dimension" do
+      it "adds no singleton, because there is no pivot to render" do
+        instance.apply_pivot_configuration(rows: [], columns: [])
+
+        expect(instance.engine_query.group_bys).to eq([])
+        expect(instance).not_to be_pivot
+      end
+    end
   end
 
   describe "#build_default_query" do

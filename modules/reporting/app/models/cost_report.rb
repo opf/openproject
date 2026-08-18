@@ -32,6 +32,7 @@
 # are laid out across rows and columns.
 class CostReport < PersistedView
   PIVOT_AXES = %i[pivot_rows pivot_columns].freeze
+  SINGLETON_DIMENSION = "singleton_value"
 
   # The permissions the CostReportsController registers its view actions for.
   VIEW_PERMISSIONS = %i[
@@ -61,8 +62,14 @@ class CostReport < PersistedView
     CostReportQuery.new(project:, principal:)
   end
 
+  def pivot?
+    pivot_rows.any? || pivot_columns.any?
+  end
+
   def engine_query
-    query.engine_query(rows: pivot_rows, columns: pivot_columns)
+    rows, columns = rendered_axes
+
+    query.engine_query(rows:, columns:)
   end
 
   def results
@@ -90,6 +97,15 @@ class CostReport < PersistedView
   end
 
   private
+
+  # A pivot needs a dimension on both axes to have a grid of cells at all, so an
+  # empty axis gets a constant that renders as one spanning row or column.
+  def rendered_axes
+    return [pivot_rows, pivot_columns] unless pivot?
+
+    [pivot_rows.presence || [SINGLETON_DIMENSION],
+     pivot_columns.presence || [SINGLETON_DIMENSION]]
+  end
 
   def set_category
     self.category ||= :cost_report
