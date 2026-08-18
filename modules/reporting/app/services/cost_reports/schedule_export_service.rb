@@ -28,22 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CostQuery::PDF::Styles
-  class PDFStyles
-    include MarkdownToPDF::Common
-    include MarkdownToPDF::StyleHelper
-    include Exports::PDF::Common::Styles
-    include Exports::PDF::Components::PageStyles
-    include Exports::PDF::Components::CoverStyles
+class CostReports::ScheduleExportService
+  attr_accessor :user
+
+  def initialize(user:)
+    self.user = user
   end
 
-  def styles
-    @styles ||= PDFStyles.new(styles_asset_path)
+  def call(format:, report_name:, report_params:, project:, cost_types:)
+    export_storage = ::CostReports::Export.create
+    job = schedule_export(format, export_storage, report_name, report_params, project, cost_types)
+
+    ServiceResult.success result: job.job_id
   end
 
   private
 
-  def styles_asset_path
-    File.dirname(File.expand_path(__FILE__))
+  def schedule_export(format, export_storage, report_name, report_params, project, cost_types)
+    job = format == :pdf ? ::CostReports::PDF::ExportTimesheetJob : ::CostReports::XLS::ExportJob
+    job.perform_later(export: export_storage,
+                      user:,
+                      mime_type: format,
+                      query: report_params,
+                      options: { report_name:, project:, cost_types: })
   end
 end

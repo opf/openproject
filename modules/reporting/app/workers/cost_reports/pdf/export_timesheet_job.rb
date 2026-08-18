@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,28 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CostQuery::ScheduleExportService
-  attr_accessor :user
+require "active_storage/filename"
 
-  def initialize(user:)
-    self.user = user
+class CostReports::PDF::ExportTimesheetJob < Exports::ExportJob
+  self.model = ::CostReport
+
+  def project
+    options[:project]
   end
 
-  def call(format:, query_id:, query_name:, filter_params:, project:, cost_types:)
-    export_storage = ::CostQuery::Export.create
-    job = schedule_export(format, export_storage, query_id, query_name, filter_params, project, cost_types)
-
-    ServiceResult.success result: job.job_id
+  def title
+    I18n.t("export.timesheet.title")
   end
 
   private
 
-  def schedule_export(format, export_storage, query_id, query_name, filter_params, project, cost_types)
-    job = format == :pdf ? ::CostQuery::PDF::ExportTimesheetJob : ::CostQuery::XLS::ExportJob
-    job.perform_later(export: export_storage,
-                      user:,
-                      mime_type: format,
-                      query: filter_params,
-                      options: { query_id:, query_name:, project:, cost_types: })
+  def export!
+    handle_export_result(export, pdf_report_result)
+  end
+
+  def prepare!
+    CostQuery::Cache.check
+    self.query = ::CostReports::ParamsToReport.new(query, project:, user: current_user).call
+    query.name = options[:report_name]
+    # The timesheet lists single time entries, so the report's grouping is
+    # dropped: a grouped query aggregates in SQL and no longer yields them.
+    query.apply_pivot_configuration(rows: [], columns: [])
+  end
+
+  def pdf_report_result
+    content = generate_timesheet
+    time = Time.current.strftime("%Y-%m-%d-T-%H-%M-%S")
+    export_title = "timesheet-#{time}.pdf"
+    ::Exports::Result.new(format: :pdf,
+                          title: export_title,
+                          mime_type: "application/pdf",
+                          content:)
+  end
+
+  def generate_timesheet
+    generator = ::CostReports::PDF::TimesheetGenerator.new(query, project)
+    generator.generate!
   end
 end

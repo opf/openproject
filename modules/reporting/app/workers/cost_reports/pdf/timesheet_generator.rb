@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CostQuery::PDF::TimesheetGenerator
+class CostReports::PDF::TimesheetGenerator
   include Exports::PDF::Common::Common
   include Exports::PDF::Common::Attachments
   include Exports::PDF::Common::Logo
   include Exports::PDF::Components::Cover
   include Exports::PDF::Components::Page
-  include CostQuery::PDF::Styles
+  include CostReports::PDF::Styles
   include ReportingHelper
 
   H1_FONT_SIZE = 26

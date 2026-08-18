@@ -31,9 +31,10 @@
 require "spec_helper"
 require "pdf/inspector"
 
-RSpec.describe CostQuery::PDF::TimesheetGenerator do
+RSpec.describe CostReports::PDF::TimesheetGenerator do
   include Redmine::I18n
-  let(:query) { create(:cost_query) }
+
+  let(:query) { create(:cost_report) }
   let(:user) { create(:user, firstname: "Export", lastname: "User") }
   let(:time_entry_user) { create(:user, firstname: "TimeEntry", lastname: "User") }
   let(:project) { create(:project) }
