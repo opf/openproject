@@ -430,7 +430,7 @@ end
 
 # Set cooldown 0 for our own gems
 source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.36.0"
-  gem "openproject-octicons_helper", "~>19.36.0"
+  gem "openproject-octicons", "~>19.37.0"
+  gem "openproject-octicons_helper", "~>19.37.0"
   gem "openproject-primer_view_components", "~>0.91.1"
 end
