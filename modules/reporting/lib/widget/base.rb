@@ -49,7 +49,7 @@ module ::Widget
 
     def initialize(query)
       @subject = query
-      @engine = query.class
+      @engine = query.respond_to?(:engine) ? query.engine : query.class
       @options = {}
     end
 

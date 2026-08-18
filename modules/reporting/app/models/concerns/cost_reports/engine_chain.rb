@@ -125,14 +125,23 @@ module CostReports
     end
 
     def replay_definition
+      replay_filters
+      replay_axes
+    end
+
+    def replay_filters
       query.filters.each do |definition|
         filter(definition.name, operator: definition.operator, values: definition.values)
       end
 
+      filter(:cost_type_id, operator: "=", values: [unit_id.to_s]) if unit_id.present?
+    end
+
+    # Each one is prepended to the chain, so they are added in reverse of the
+    # order they should end up in, columns before rows.
+    def replay_axes
       rows, columns = rendered_axes
 
-      # Each one is prepended to the chain, so they are added in reverse of the
-      # order they should end up in, columns before rows.
       columns.reverse_each { |attribute| column(attribute) }
       rows.reverse_each { |attribute| row(attribute) }
     end
