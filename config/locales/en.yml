@@ -3820,6 +3820,7 @@ en:
   label_wiki_toc: "Table of Contents"
   label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_with_criteria: "With criteria"
+  label_without_criteria: "Without criteria"
   label_work: "Work"
   label_work_package: "Work package"
   label_work_package_attachments: "Work package attachments"

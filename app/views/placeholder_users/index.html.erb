@@ -40,23 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%= with_enterprise_banner_guard(:placeholder_users, variant: :large, video: "enterprise/placeholder_users.mp4") do %>
-  <%=
-    render(Primer::OpenProject::SubHeader.new) do |subheader|
-      subheader.with_action_button(
-        scheme: :primary,
-        leading_icon: :plus,
-        label: t(:label_placeholder_user_new),
-        tag: :a,
-        href: new_placeholder_user_path
-      ) do
-        t("activerecord.models.placeholder_user")
-      end
+  <%= render PlaceholderUsers::IndexSubHeaderComponent.new(query: @query) %>
 
-      subheader.with_bottom_pane_component do
-        render PlaceholderUsers::PlaceholderUserFilterComponent.new(params)
-      end
-    end
-  %>
-
-  <%= render PlaceholderUsers::TableComponent.new(rows: @placeholder_users) %>
+  <%= render PlaceholderUsers::TableComponent.new(rows: @query) %>
 <% end %>

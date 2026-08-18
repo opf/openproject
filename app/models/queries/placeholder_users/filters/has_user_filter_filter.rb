@@ -29,16 +29,9 @@
 #++
 
 # Selects placeholder users by whether they describe the kind of person they
-# stand for. Like the blocked filter, the operator carries the meaning: `=`
-# keeps those with criteria, `!` those without.
+# stand for.
 class Queries::PlaceholderUsers::Filters::HasUserFilterFilter < Queries::PlaceholderUsers::Filters::PlaceholderUserFilter
-  def allowed_values
-    [[I18n.t(:label_with_criteria), :with_criteria]]
-  end
-
-  def type
-    :list
-  end
+  include Queries::Filters::Shared::BooleanFilter
 
   def self.key
     :has_user_filter
@@ -49,7 +42,7 @@ class Queries::PlaceholderUsers::Filters::HasUserFilterFilter < Queries::Placeho
   end
 
   def apply_to(query_scope)
-    if operator == "="
+    if filtering_for_true?
       query_scope.where(id: with_criteria)
     else
       query_scope.where.not(id: with_criteria)
@@ -58,6 +51,7 @@ class Queries::PlaceholderUsers::Filters::HasUserFilterFilter < Queries::Placeho
 
   private
 
+  # A cleared filter is stored as NULL, which `<>` excludes as intended.
   def with_criteria
     PlaceholderUser
       .joins(:placeholder_user_detail)
