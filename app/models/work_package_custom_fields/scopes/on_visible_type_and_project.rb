@@ -53,13 +53,11 @@ module WorkPackageCustomFields::Scopes
             FROM (#{visible_projects.select(:id).to_sql}) vp
             JOIN project_types pt
               ON pt.project_id = vp.id
-            JOIN type_variants variant_form
-              ON variant_form.id = pt.variant_id
-            JOIN form_configuration_attributes fca
-              ON fca.form_configuration_id = variant_form.form_configuration_id
-             AND fca.custom_field_id = custom_fields.id
-             AND fca.form_configuration_group_id IS NOT NULL
-             AND ('#{TypeVariant::CUSTOM_FIELD_ELEMENT_PREFIX}' || custom_fields.id) <> ALL (variant_form.form_configuration_excluded_elements)
+            #{source_join}
+            JOIN custom_fields_types cft
+              ON cft.type_variant_id = #{source_variant_id}
+             AND cft.custom_field_id = custom_fields.id
+             AND #{exclusion}
             LEFT JOIN custom_fields_projects cfp
               ON cfp.project_id = vp.id
              AND cfp.custom_field_id = custom_fields.id
