@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) The OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,38 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::ScimClients
-  class TableComponent < OpPrimer::ResponsiveDataTableComponent
-    columns :name, :user_count, :authentication_method, :created_at
-    mobile_labels :user_count, :authentication_method, :created_at
+module OpPrimer
+  # Compatibility façade letting a +BorderBoxTableComponent+ subclass render
+  # through +Primer::OpenProject::DataTable+ by changing its superclass.
+  #
+  # Keeps the BorderBox defaults its callers rely on: not sortable, no actions
+  # column unless asked for, a required mobile title, and a blank slate rather
+  # than a one-line empty message.
+  class ResponsiveDataTableComponent < OpPrimer::BorderBoxTableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    include DataTableRendering
 
-    def mobile_title
-      ScimClient.model_name.human(count: 2)
+    def data_table_title
+      mobile_title
     end
 
-    def row_class
-      RowComponent
+    def empty_state_arguments
+      arguments = { title: blank_title, description: blank_description }
+      arguments[:icon] = blank_icon if blank_icon
+      arguments
     end
 
-    def headers
-      [
-        [:name, { caption: ScimClient.human_attribute_name(:name) }],
-        [:user_count, { caption: t(".user_count") }],
-        [:authentication_method, { caption: ScimClient.human_attribute_name(:authentication_method) }],
-        [:created_at, { caption: ScimClient.human_attribute_name(:created_at) }]
-      ]
+    def cell_classes_for(column)
+      static = class_names(
+        "op-data-table--no-mobile": mobile_columns.exclude?(column),
+        "op-data-table--main-column": main_column?(column)
+      )
+
+      ->(row) { class_names(static, row_instance_for(row).column_css_class(column)) }
     end
 
-    def blank_title
-      t(".blank_slate.title")
+    def data_table_classes
+      "op-data-table--responsive"
     end
 
-    def blank_description
-      t(".blank_slate.description")
-    end
+    def data_table_footer
+      return unless has_footer?
 
-    def blank_icon
-      :key
+      footer
     end
   end
 end

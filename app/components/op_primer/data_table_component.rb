@@ -28,38 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::ScimClients
-  class TableComponent < OpPrimer::ResponsiveDataTableComponent
-    columns :name, :user_count, :authentication_method, :created_at
-    mobile_labels :user_count, :authentication_method, :created_at
+module OpPrimer
+  # Compatibility façade letting a +TableComponent+ subclass render through
+  # +Primer::OpenProject::DataTable+ by changing its superclass.
+  #
+  # Deliberately not named +OpPrimer::TableComponent+: inside +module OpPrimer+,
+  # +BorderBoxTableComponent+ inherits from a bare +TableComponent+ reference,
+  # which such a name would silently re-resolve.
+  class DataTableComponent < ::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    include DataTableRendering
 
-    def mobile_title
-      ScimClient.model_name.human(count: 2)
-    end
-
-    def row_class
-      RowComponent
-    end
-
-    def headers
-      [
-        [:name, { caption: ScimClient.human_attribute_name(:name) }],
-        [:user_count, { caption: t(".user_count") }],
-        [:authentication_method, { caption: ScimClient.human_attribute_name(:authentication_method) }],
-        [:created_at, { caption: ScimClient.human_attribute_name(:created_at) }]
-      ]
-    end
-
-    def blank_title
-      t(".blank_slate.title")
-    end
-
-    def blank_description
-      t(".blank_slate.description")
-    end
-
-    def blank_icon
-      :key
+    # Matches +TableComponent+'s template, which always renders a trailing
+    # cell of +button_links+.
+    def has_actions?
+      true
     end
   end
 end
