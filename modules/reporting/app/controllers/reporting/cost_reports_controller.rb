@@ -180,12 +180,11 @@ module Reporting
     end
 
     def export(format)
-      job_id = ::CostQuery::ScheduleExportService
+      job_id = ::CostReports::ScheduleExportService
                  .new(user: current_user)
                  .call(format:,
-                       query_id: @report.id,
-                       query_name: @report.name,
-                       filter_params: export_filter_params,
+                       report_name: @report.name,
+                       report_params: @report.to_query_params,
                        project: @project,
                        cost_types: @cost_types)
                  .result
@@ -194,15 +193,6 @@ module Reporting
         render json: { job_id: }
       else
         redirect_to job_status_path(job_id)
-      end
-    end
-
-    # The export jobs still rebuild the report through the reporting engine, which
-    # takes the filters in the shape the reporting form posts them.
-    def export_filter_params
-      @report.query.filters.each_with_object({ operators: {}, values: {} }) do |filter, params|
-        params[:operators][filter.name] = filter.operator
-        params[:values][filter.name] = filter.values
       end
     end
 

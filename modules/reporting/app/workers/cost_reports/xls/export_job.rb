@@ -1,7 +1,7 @@
 require "active_storage/filename"
 
-class CostQuery::XLS::ExportJob < Exports::ExportJob
-  self.model = ::CostQuery
+class CostReports::XLS::ExportJob < Exports::ExportJob
+  self.model = ::CostReport
 
   def project
     options[:project]
@@ -19,12 +19,13 @@ class CostQuery::XLS::ExportJob < Exports::ExportJob
 
   def prepare!
     CostQuery::Cache.check
-    self.query = CostQuery.build_query(project, query)
+    self.query = ::CostReports::ParamsToReport.new(query, project:, user: current_user).call
+    # The export is a flat list of entries, so the report's grouping is dropped:
+    # a grouped query aggregates in SQL and no longer yields the single entries.
+    query.apply_pivot_configuration(rows: [], columns: [])
   end
 
   def export!
-    # Build an xls file from a cost report.
-    # We only support extracting a simple xls table, so grouping is ignored.
     handle_export_result(export, xls_report_result)
   end
 

@@ -23,48 +23,18 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "active_storage/filename"
+class CostReports::Export < Export
+  acts_as_attachable view_permission: :export_work_packages,
+                     add_permission: :export_work_packages,
+                     delete_permission: :export_work_packages,
+                     only_user_allowed: true
 
-class CostQuery::PDF::ExportTimesheetJob < Exports::ExportJob
-  self.model = ::CostQuery
-
-  def project
-    options[:project]
-  end
-
-  def title
-    I18n.t("export.timesheet.title")
-  end
-
-  private
-
-  def export!
-    handle_export_result(export, pdf_report_result)
-  end
-
-  def prepare!
-    CostQuery::Cache.check
-    self.query = CostQuery.build_query(project, query)
-    query.name = options[:query_name]
-  end
-
-  def pdf_report_result
-    content = generate_timesheet
-    time = Time.current.strftime("%Y-%m-%d-T-%H-%M-%S")
-    export_title = "timesheet-#{time}.pdf"
-    ::Exports::Result.new(format: :pdf,
-                          title: export_title,
-                          mime_type: "application/pdf",
-                          content:)
-  end
-
-  def generate_timesheet
-    generator = ::CostQuery::PDF::TimesheetGenerator.new(query, project)
-    generator.generate!
+  def ready?
+    attachments.any?
   end
 end
