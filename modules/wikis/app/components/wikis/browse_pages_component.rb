@@ -28,24 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "dry/core/container/stub"
-require "dry/monads"
+module Wikis
+  class BrowsePagesComponent < ApplicationComponent
+    include Components::TreeNodeHelper
 
-Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
+    attr_reader :builder, :form_name, :provider_id
 
-WIKIS_CASSETTE_LIBRARY_DIR = "modules/wikis/spec/support/fixtures/vcr_cassettes"
+    alias_method :nodes, :model
+    def initialize(model, builder, form_name, provider_id)
+      super(model)
+      @builder = builder
+      @form_name = form_name
+      @provider_id = provider_id
+    end
 
-RSpec.configure do |config|
-  config.include Dry::Monads[:result]
+    def build_tree(tree_view)
+      add_node(tree_view, nodes)
+    end
 
-  config.prepend_before do
-    Wikis::Adapters::Registry.enable_stubs!
-  end
-  config.append_after do
-    Wikis::Adapters::Registry.unstub
-  end
+    private
 
-  config.define_derived_metadata(file_path: %r{/modules/wikis/spec}) do |metadata|
-    metadata[:vcr_cassette_library_dir] = WIKIS_CASSETTE_LIBRARY_DIR
+    def add_node(parent, nodes)
+      nodes.each do |node|
+        if node.children.none?
+          add_lazy_loaded_subtree(parent, node)
+        else
+          parent.with_sub_tree(**node_options(node, expanded: true)) do |item|
+            item.with_leading_visual_icon(icon: node_icon(node))
+            add_node(item, node.children)
+          end
+        end
+      end
+    end
+
+    def add_lazy_loaded_subtree(parent, node)
+      parent.with_sub_tree(**node_options(node)) do |item|
+        item.with_leading_visual_icon(icon: node_icon(node))
+        item.with_loading_spinner(src: browse_wiki_pages_path(parent: node.identifier, provider_id:))
+      end
+    end
   end
 end

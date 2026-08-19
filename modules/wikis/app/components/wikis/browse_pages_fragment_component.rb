@@ -28,24 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "dry/core/container/stub"
-require "dry/monads"
+module Wikis
+  class BrowsePagesFragmentComponent < ApplicationComponent
+    include Components::TreeNodeHelper
 
-Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
+    attr_reader :path, :provider_id
 
-WIKIS_CASSETTE_LIBRARY_DIR = "modules/wikis/spec/support/fixtures/vcr_cassettes"
+    alias_method :nodes, :model
 
-RSpec.configure do |config|
-  config.include Dry::Monads[:result]
+    def initialize(model, path, provider_id)
+      super(model)
+      @path = path
+      @provider_id = provider_id
+    end
 
-  config.prepend_before do
-    Wikis::Adapters::Registry.enable_stubs!
-  end
-  config.append_after do
-    Wikis::Adapters::Registry.unstub
-  end
+    def build_tree(parent, nodes)
+      nodes.each do |node|
+        icon = node_icon(node)
 
-  config.define_derived_metadata(file_path: %r{/modules/wikis/spec}) do |metadata|
-    metadata[:vcr_cassette_library_dir] = WIKIS_CASSETTE_LIBRARY_DIR
+        parent.with_sub_tree(**node_options(node)) do |item|
+          item.with_leading_visual_icon(icon:)
+          item.with_loading_spinner(src: browse_wiki_pages_path(parent: node.identifier, provider_id:))
+        end
+      end
+    end
   end
 end

@@ -28,24 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "dry/core/container/stub"
-require "dry/monads"
-
-Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
-
-WIKIS_CASSETTE_LIBRARY_DIR = "modules/wikis/spec/support/fixtures/vcr_cassettes"
-
-RSpec.configure do |config|
-  config.include Dry::Monads[:result]
-
-  config.prepend_before do
-    Wikis::Adapters::Registry.enable_stubs!
-  end
-  config.append_after do
-    Wikis::Adapters::Registry.unstub
-  end
-
-  config.define_derived_metadata(file_path: %r{/modules/wikis/spec}) do |metadata|
-    metadata[:vcr_cassette_library_dir] = WIKIS_CASSETTE_LIBRARY_DIR
+module Wikis
+  module Adapters
+    module Input
+      class BrowsePagesContract < DryApplicationContract
+        params do
+          required(:parent_identifier).maybe(:string)
+        end
+      end
+    end
   end
 end

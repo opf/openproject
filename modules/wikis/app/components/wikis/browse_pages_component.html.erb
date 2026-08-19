@@ -26,12 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t("wikis.index.menu_title") %>
 
-<% content_for :content_header do %>
-  <%= render(Wikis::WikiPages::IndexPageHeaderComponent.new(query: @query)) %>
-<% end %>
-
-<%= render(Wikis::WikiPages::SubHeaderComponent.new(query: @query)) %>
-
-<%= render(Wikis::WikiPages::IndexResultsComponent.new(wiki_pages: @wiki_pages)) %>
+<%= render(
+      Primer::Alpha::TreeView.new(
+        form_arguments: { builder:, name: form_name },
+        data: { target: "filterable-tree-view.treeViewList" }
+      )
+    ) { build_tree(it) } %>

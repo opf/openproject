@@ -28,24 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "dry/core/container/stub"
-require "dry/monads"
+module Wikis
+  module Adapters
+    module Providers
+      module Internal
+        module Queries
+          class BrowsePages < BaseQuery
+            MAXIMUM_RESULTS = 1_000
 
-Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
-
-WIKIS_CASSETTE_LIBRARY_DIR = "modules/wikis/spec/support/fixtures/vcr_cassettes"
-
-RSpec.configure do |config|
-  config.include Dry::Monads[:result]
-
-  config.prepend_before do
-    Wikis::Adapters::Registry.enable_stubs!
-  end
-  config.append_after do
-    Wikis::Adapters::Registry.unstub
-  end
-
-  config.define_derived_metadata(file_path: %r{/modules/wikis/spec}) do |metadata|
-    metadata[:vcr_cassette_library_dir] = WIKIS_CASSETTE_LIBRARY_DIR
+            def call(input_data:, auth_strategy:)
+              success(
+                WikiPage.includes(wiki: :project)
+                        .visible(auth_strategy.user)
+                        .where(parent_id: input_data.parent_identifier)
+                        .limit(MAXIMUM_RESULTS)
+                        .map { PageHierarchy.wiki_page_to_page_hierarchy(it, provider:) }
+              )
+            end
+          end
+        end
+      end
+    end
   end
 end
